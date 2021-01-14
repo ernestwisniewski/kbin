@@ -96,9 +96,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.2"
     },
-    "fzaninotto/faker": {
-        "version": "v1.9.2"
-    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -122,6 +119,9 @@
     },
     "psr/log": {
         "version": "1.1.3"
+    },
+    "symfony/asset": {
+        "version": "v5.2.1"
     },
     "symfony/cache": {
         "version": "v5.2.1"
@@ -310,13 +310,64 @@
     "symfony/string": {
         "version": "v5.2.1"
     },
+    "symfony/translation-contracts": {
+        "version": "v2.3.0"
+    },
+    "symfony/twig-bridge": {
+        "version": "v5.2.1"
+    },
+    "symfony/twig-bundle": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "fab9149bbaa4d5eca054ed93f9e1b66cc500895d"
+        },
+        "files": [
+            "config/packages/test/twig.yaml",
+            "config/packages/twig.yaml",
+            "templates/base.html.twig"
+        ]
+    },
+    "symfony/twig-pack": {
+        "version": "v1.0.1"
+    },
     "symfony/var-dumper": {
         "version": "v5.2.1"
     },
     "symfony/var-exporter": {
         "version": "v5.2.1"
     },
+    "symfony/webpack-encore-bundle": {
+        "version": "1.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.6",
+            "ref": "f362ed8e8aa99a8cb216e6bdb2ac833dfb7643dd"
+        },
+        "files": [
+            "assets/app.js",
+            "assets/bootstrap.js",
+            "assets/controllers.json",
+            "assets/controllers/hello_controller.js",
+            "assets/styles/app.css",
+            "config/packages/assets.yaml",
+            "config/packages/prod/webpack_encore.yaml",
+            "config/packages/test/webpack_encore.yaml",
+            "config/packages/webpack_encore.yaml",
+            "package.json",
+            "webpack.config.js"
+        ]
+    },
     "symfony/yaml": {
         "version": "v5.2.1"
+    },
+    "twig/extra-bundle": {
+        "version": "v3.2.1"
+    },
+    "twig/twig": {
+        "version": "v3.2.1"
     }
 }
