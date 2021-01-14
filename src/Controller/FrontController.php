@@ -8,9 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FrontController extends AbstractController
 {
-    /**
-     * @Route("/", name="front")
-     */
     public function front(): Response
     {
         return $this->render('front/front.html.twig');
