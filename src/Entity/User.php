@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -35,10 +37,16 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
+     */
+    private $moderatorTokens;
+
     public function __construct($email, $username, $password)
     {
         $this->email    = $email;
         $this->password = $password;
+        $this->moderatorTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,5 +125,13 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Moderator[]
+     */
+    public function getModeratorTokens(): Collection
+    {
+        return $this->moderatorTokens;
     }
 }
