@@ -1,0 +1,14 @@
+magazine:
+  controller: App\Controller\MagazineController::front
+  path: /m/{name}
+  methods: [ GET ]
+
+magazine_create:
+  controller: App\Controller\MagazineController::createMagazine
+  path: /nowyMagazyn
+  methods: [ GET, POST ]
+
+magazine_list_all:
+  controller: App\Controller\MagazineController::listAll
+  path: /magazyny
+  methods: [ GET, POST ]

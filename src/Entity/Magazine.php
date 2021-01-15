@@ -30,13 +30,17 @@ class Magazine
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine")
+     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     private $moderators;
 
-    public function __construct()
+    public function __construct(string $name, string $title, User $user)
     {
+        $this->name = $name;
+        $this->title = $title;
         $this->moderators = new ArrayCollection();
+
+        $this->addModerator(new Moderator($this, $user, true));
     }
 
     public function getId(): ?int

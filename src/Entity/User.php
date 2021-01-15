@@ -38,6 +38,11 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
      */
     private $moderatorTokens;
@@ -46,6 +51,7 @@ class User implements UserInterface
     {
         $this->email    = $email;
         $this->password = $password;
+        $this->username = $username;
         $this->moderatorTokens = new ArrayCollection();
     }
 
@@ -64,16 +70,6 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
     }
 
     /**
@@ -110,6 +106,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
@@ -124,7 +132,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+//         $this->plainPassword = null;
     }
 
     /**

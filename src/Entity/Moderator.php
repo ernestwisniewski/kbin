@@ -32,12 +32,22 @@ class Moderator
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isOwner;
+    private $isOwner = false;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    public function __construct(Magazine $magazine, User $user, $isOwner = false)
+    {
+        $this->magazine = $magazine;
+        $this->user = $user;
+        $this->isOwner = $isOwner;
+        $this->createdAt = new \DateTimeImmutable('@'.time());
+        $magazine->getModerators()->add($this);
+        $user->getModeratorTokens()->add($this);
+    }
 
     public function getId(): ?int
     {

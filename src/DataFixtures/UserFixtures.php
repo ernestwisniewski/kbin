@@ -20,7 +20,6 @@ class UserFixtures extends BaseFixture
 
     public function loadData(ObjectManager $manager)
     {
-
         foreach ($this->provideRandomUsers(5) as $user) {
             $newUser = new User(
                 $user['email'],
@@ -31,6 +30,8 @@ class UserFixtures extends BaseFixture
             $newUser->setPassword(
                 $this->encoder->encodePassword($newUser, $user['password'])
             );
+
+            $this->addReference('user-'.$user['username'], $newUser);
 
             $manager->persist($newUser);
         }

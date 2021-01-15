@@ -1,4 +1,0 @@
-front:
-  controller: App\Controller\FrontController::front
-  path: /
-  methods: [GET]

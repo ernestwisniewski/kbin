@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MagazineController!{% endblock %}
+
+{% block body %}
+    <h1>Wszystkie magazyny:</h1>
+
+    <ul>
+        {% for magazine in magazines %}
+            <li>{{ magazine.name }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
