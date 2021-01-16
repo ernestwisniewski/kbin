@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
+use App\Factory\MagazineFactory;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
 use App\Entity\User;
@@ -10,23 +10,15 @@ use App\Entity\User;
 class MagazineManager
 {
     /**
-     * @var EntityManagerInterface
+     * @var MagazineFactory
      */
-    private $entityManager;
+    private $magazineFactory;
 
-    public function __construct(EntityManagerInterface $entityManager) {
-        $this->entityManager = $entityManager;
+    public function __construct(MagazineFactory $magazineFactory) {
+        $this->magazineFactory = $magazineFactory;
     }
 
-    public function create(MagazineDto $magazineDto, User $user): Magazine {
-        $magazine = new Magazine(
-            $magazineDto->getName(),
-            $magazineDto->getTitle(),
-            $user
-        );
-
-        $this->entityManager->persist($magazine);
-
-        return $magazine;
+    public function createMagazine(MagazineDto $magazineDto, User $user): Magazine {
+        return $this->magazineFactory->createFromDto($magazineDto, $user);
     }
 }

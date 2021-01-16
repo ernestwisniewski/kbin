@@ -6,7 +6,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
 
-class UserFixtures extends BaseFixture
+class UsersFixture extends BaseFixture
 {
     /**
      * @var UserPasswordEncoderInterface

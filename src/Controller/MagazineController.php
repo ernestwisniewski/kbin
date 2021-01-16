@@ -3,22 +3,24 @@
 namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MagazineRepository;
 use App\Service\MagazineManager;
 use App\Form\MagazineType;
+use App\Entity\Magazine;
 use App\DTO\MagazineDto;
 
 class MagazineController extends AbstractController
 {
-    public function front(): Response
+    public function front(Magazine $magazine): Response
     {
         return $this->render(
             'magazine/front.html.twig',
             [
-                'controller_name' => 'MagazineController',
+                'magazine' => $magazine,
             ]
         );
     }
@@ -34,7 +36,7 @@ class MagazineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $magazineManager->create($magazineDto, $this->getUserOrThrow());
+            $magazineManager->createMagazine($magazineDto, $this->getUserOrThrow());
             $entityManager->flush();
 
             return $this->redirectToRoute('magazine_list_all');

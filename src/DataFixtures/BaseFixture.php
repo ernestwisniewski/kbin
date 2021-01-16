@@ -2,12 +2,13 @@
 
 namespace App\DataFixtures;
 
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
 use Faker\Factory;
 
-abstract class BaseFixture extends Fixture
+abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 {
     /**
      * @var Generator $faker
@@ -23,4 +24,9 @@ abstract class BaseFixture extends Fixture
     }
 
     abstract protected function loadData(ObjectManager $manager);
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
+    }
 }
