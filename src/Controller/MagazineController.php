@@ -15,6 +15,16 @@ use App\DTO\MagazineDto;
 
 class MagazineController extends AbstractController
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function front(Magazine $magazine): Response
     {
         return $this->render(
@@ -28,7 +38,7 @@ class MagazineController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function createMagazine(Request $request, MagazineManager $magazineManager, EntityManagerInterface $entityManager): Response
+    public function createMagazine(Request $request, MagazineManager $magazineManager): Response
     {
         $magazineDto = new MagazineDto();
 
@@ -37,9 +47,9 @@ class MagazineController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $magazineManager->createMagazine($magazineDto, $this->getUserOrThrow());
-            $entityManager->flush();
+            $this->entityManager->flush();
 
-            return $this->redirectToRoute('magazine_list_all');
+            return $this->redirectToRoute('magazine', ['name' => $magazineDto->getName()]);
         }
 
         return $this->render(

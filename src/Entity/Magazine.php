@@ -34,6 +34,11 @@ class Magazine
      */
     private $moderators;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="Magazine")
+     */
+    private $entries;
+
     public function __construct(string $name, string $title, User $user)
     {
         $this->name = $name;
@@ -41,6 +46,7 @@ class Magazine
         $this->moderators = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true));
+        $this->entries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,9 +78,6 @@ class Magazine
         return $this;
     }
 
-    /**
-     * @return Collection|Moderator[]
-     */
     public function getModerators(): Collection
     {
         return $this->moderators;
@@ -90,15 +93,8 @@ class Magazine
         return $this;
     }
 
-    public function removeModerator(Moderator $moderator): self
+    public function getEntries(): Collection
     {
-        if ($this->moderators->removeElement($moderator)) {
-            // set the owning side to null (unless already changed)
-            if ($moderator->getMagazine() === $this) {
-                $moderator->setMagazine(null);
-            }
-        }
-
-        return $this;
+        return $this->entries;
     }
 }

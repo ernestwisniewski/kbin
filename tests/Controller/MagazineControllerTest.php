@@ -17,12 +17,11 @@ class MagazineControllerTest extends WebTestCase
             'magazine[title]' => 'magazyn polityczny',
         ]));
 
-        self::assertResponseRedirects('/magazyny');
+        self::assertResponseRedirects('/m/polityka');
 
         $crawler = $client->followRedirect();
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('h1', 'Wszystkie magazyny');
-        self::assertSelectorTextContains('li', 'polityka');
+        self::assertSelectorTextContains('h1', 'polityka');
     }
 }

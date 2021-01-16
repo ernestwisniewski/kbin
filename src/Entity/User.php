@@ -47,12 +47,18 @@ class User implements UserInterface
      */
     private $moderatorTokens;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="user")
+     */
+    private $entries;
+
     public function __construct($email, $username, $password)
     {
         $this->email    = $email;
         $this->password = $password;
         $this->username = $username;
         $this->moderatorTokens = new ArrayCollection();
+        $this->entries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,9 +78,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -91,9 +94,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getPassword(): string
     {
         return (string) $this->password;
@@ -118,28 +118,37 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
 //         $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection|Moderator[]
-     */
     public function getModeratorTokens(): Collection
     {
         return $this->moderatorTokens;
+    }
+
+    public function getEntries(): Collection
+    {
+        return $this->entries;
+    }
+
+    public function addEntry(Entry $entry): self
+    {
+        if($entry->getUser() !== $this) {
+            throw new \DomainException('Entry must belong to user');
+        }
+
+        if (!$this->entries->contains($entry)) {
+            $this->entries[] = $entry;
+        }
+
+        return $this;
     }
 }

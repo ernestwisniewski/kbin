@@ -20,22 +20,91 @@ class Entry
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $title;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $body = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $url = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Magazine;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entries")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+    /**
+     * @var Magazine
+     */
+    private $magazine;
+
+    public function __construct(string $title, ?string $body, ?string $url, Magazine $magazine, User $user) {
+
+        $this->title = $title;
+        $this->body = $body;
+        $this->url = $url;
+        $this->magazine = $magazine;
+        $this->user = $user;
+        $user->addEntry($this);
+    }
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTitle(): ?string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): self
+    public function setTitle(string $title): self
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
+    }
+
+    public function getBody(): ?string
+    {
+        return $this->body;
+    }
+
+    public function setBody(?string $body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getMagazine(): ?Magazine
+    {
+        return $this->Magazine;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
     }
 }
