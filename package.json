@@ -21,6 +21,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@popperjs/core": "^2.6.0",
         "vue": "^2.6.12"
     }
 }

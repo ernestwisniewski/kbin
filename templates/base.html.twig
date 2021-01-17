@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="container">
-            {% include '_layout/navbar.html.twig' %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div id="kbin">
+    {% include '_layout/topbar.html.twig' %}
+    <div class="container">
+        {% include '_layout/navbar.html.twig' %}
+        <main>
             {% block body %}{% endblock %}
-        </div>
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </body>
+        </main>
+        <footer class="footer mt-auto py-3 bg-light">
+            <ul>
+                <li><vue-test></vue-test></li>
+                <li><span data-controller="test">hh</span></li>
+            </ul>
+        </footer>
+    </div>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</div>
+</body>
 </html>

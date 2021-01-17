@@ -1,7 +1,21 @@
+import Vue from 'vue';
+import VueTest from './components/VueTest'
 import './styles/app.scss';
 
-const $ = require('jquery');
 require('bootstrap');
 
 // start the Stimulus application
 import './bootstrap';
+
+// Vuejs
+Vue.options.delimiters = ['${', '}$']
+
+new Vue({
+    el: '#kbin',
+    data: {
+        message: 'test'
+    },
+    components: {
+        VueTest
+    },
+});
