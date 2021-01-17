@@ -1,7 +1,9 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="pl">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
@@ -18,7 +20,7 @@
         <footer class="footer mt-auto py-3 bg-light">
             <ul>
                 <li><vue-test></vue-test></li>
-                <li><span data-controller="test">hh</span></li>
+                <li><span data-controller="test"></span></li>
             </ul>
         </footer>
     </div>

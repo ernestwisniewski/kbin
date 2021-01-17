@@ -9,7 +9,8 @@ class MagazineControllerTest extends WebTestCase
     public function testCanCreateMagazine()
     {
         $client  = static::createClient();
-        $client->loginUser($this->getRegularUser());
+        $client->loginUser($this->getUserByUsername('user'));
+
         $crawler = $client->request('GET', '/nowyMagazyn');
 
         $client->submit($crawler->selectButton('Zapisz')->form([

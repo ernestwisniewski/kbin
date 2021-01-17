@@ -1,9 +1,11 @@
 parameters:
-
+    html5_validation: false
 services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $html5Validation: '%html5_validation%'
 
     App\:
         resource: '../src/'

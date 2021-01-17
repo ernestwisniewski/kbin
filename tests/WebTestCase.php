@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Magazine;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,45 +11,86 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 abstract class WebTestCase extends BaseWebTestCase
 {
     /**
-     * @var $users ArrayCollection
+     * @var ArrayCollection
      */
     protected $users;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $magazines;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-
-        $this->users = new ArrayCollection();
+        $this->users     = new ArrayCollection();
+        $this->magazines = new ArrayCollection();
     }
 
-    protected function loadUsers(): void
+    protected function loadExampleUsers(): void
+    {
+        foreach ($this->provideUsers() as $data) {
+            $this->createUser($data['username'], $data['email'], $data['password']);
+        }
+    }
+
+    protected function getUserByUsername(string $username): User
+    {
+        $user = $this->users->filter(
+            static function (User $user) use ($username) {
+                return $user->getUsername() === $username;
+            }
+        )->first();
+
+        return $user ? $user : $this->createUser($username);
+    }
+
+    private function createUser($username, $email = null, $password = null): User
     {
         $manager = self::$container->get(EntityManagerInterface::class);
 
-        $this->users = new ArrayCollection();
+        $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
 
-        foreach ($this->provideUsers() as $data) {
-            $user = new User($data['email'], $data['username'], $data['password']);
-
-            $manager->persist($user);
-
-            $this->users->add($user);
-        }
-
+        $manager->persist($user);
         $manager->flush();
+
+        $this->users->add($user);
+
+        return $user;
     }
 
-    protected function getRegularUser(): User
+    protected function loadExampleMagazines(): void
     {
-        if ($this->users->isEmpty()) {
-            $this->loadUsers();
-        }
+        $this->loadExampleUsers();
 
-        return $this->users->filter(
-            static function (User $user) {
-                return $user->getUsername() === 'regularUser';
+        foreach ($this->provideMagazines() as $data) {
+            $this->createMagazine($data['name'], $data['title'], $data['user']);
+        }
+    }
+
+    protected function getMagazineByName(string $name): Magazine
+    {
+        $magazine = $this->users->filter(
+            static function (Magazine $magazine) use ($name) {
+                return $magazine->getName() === $name;
             }
         )->first();
+
+        return $magazine ? $magazine : $this->createMagazine($name);
+    }
+
+    private function createMagazine($name, $title = null, User $user = null): Magazine
+    {
+        $manager = self::$container->get(EntityManagerInterface::class);
+
+        $magazine = new Magazine($name, $title ?? 'Example magazine', $user ?? $this->getUserByUsername('regularUser'));
+
+        $manager->persist($magazine);
+        $manager->flush();
+
+        $this->magazines->add($magazine);
+
+        return $magazine;
     }
 
     private function provideUsers(): iterable
@@ -63,6 +105,21 @@ abstract class WebTestCase extends BaseWebTestCase
             'username' => 'regularUser',
             'password' => 'regularUser123',
             'email'    => 'regularUser@example.com',
+        ];
+    }
+
+    private function provideMagazines(): iterable
+    {
+        yield [
+            'name'  => 'polityka',
+            'title' => 'Magazyn polityczny',
+            'user'  => $this->getUserByUsername('regularUser'),
+        ];
+
+        yield [
+            'name'  => 'kbin',
+            'title' => 'kbin devlog',
+            'user'  => $this->getUserByUsername('adminUser'),
         ];
     }
 }

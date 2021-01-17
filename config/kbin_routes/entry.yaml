@@ -1,10 +1,10 @@
-#entry:
-#  controller: App\Controller\EntryController::front
-#  path: /m/{name}
-#  methods: [ GET ]
+entry:
+  controller: App\Controller\EntryController::front
+  path: /m/{magazine_name}/{entry_id}
+  methods: [ GET ]
 
 entry_create:
   controller: App\Controller\EntryController::createEntry
   defaults: { name: null }
-  path: /wyslij/{name}
+  path: /nowyPost/{name}
   methods: [ GET, POST ]

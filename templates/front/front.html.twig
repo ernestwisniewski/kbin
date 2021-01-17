@@ -1,5 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    hello world
+    {% for entry in entries %}
+        <article>
+            <h4>{{ entry.title }}</h4>
+            <div>
+                <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">link</a>
+            </div>
+        </article>
+    {% endfor %}
 {% endblock %}
