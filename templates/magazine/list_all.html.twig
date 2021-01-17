@@ -7,7 +7,7 @@
 
     <ul>
         {% for magazine in magazines %}
-            <li>{{ magazine.name }}</li>
+            <li><a href="{{ path('magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></li>
         {% endfor %}
     </ul>
 

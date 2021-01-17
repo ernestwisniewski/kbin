@@ -1,0 +1,10 @@
+#entry:
+#  controller: App\Controller\EntryController::front
+#  path: /m/{name}
+#  methods: [ GET ]
+
+entry_create:
+  controller: App\Controller\EntryController::createEntry
+  defaults: { name: null }
+  path: /wyslij/{name}
+  methods: [ GET, POST ]

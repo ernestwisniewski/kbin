@@ -54,11 +54,11 @@ class User implements UserInterface
 
     public function __construct($email, $username, $password)
     {
-        $this->email    = $email;
-        $this->password = $password;
-        $this->username = $username;
+        $this->email           = $email;
+        $this->password        = $password;
+        $this->username        = $username;
         $this->moderatorTokens = new ArrayCollection();
-        $this->entries = new ArrayCollection();
+        $this->entries         = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,7 +141,7 @@ class User implements UserInterface
 
     public function addEntry(Entry $entry): self
     {
-        if($entry->getUser() !== $this) {
+        if ($entry->getUser() !== $this) {
             throw new \DomainException('Entry must belong to user');
         }
 

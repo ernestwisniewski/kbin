@@ -11,7 +11,7 @@ use Faker\Factory;
 abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 {
     /**
-     * @var Generator $faker
+     * @var Generator
      */
     protected $faker;
 

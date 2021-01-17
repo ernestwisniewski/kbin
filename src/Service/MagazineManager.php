@@ -14,11 +14,13 @@ class MagazineManager
      */
     private $magazineFactory;
 
-    public function __construct(MagazineFactory $magazineFactory) {
+    public function __construct(MagazineFactory $magazineFactory)
+    {
         $this->magazineFactory = $magazineFactory;
     }
 
-    public function createMagazine(MagazineDto $magazineDto, User $user): Magazine {
+    public function createMagazine(MagazineDto $magazineDto, User $user): Magazine
+    {
         return $this->magazineFactory->createFromDto($magazineDto, $user);
     }
 }

@@ -35,18 +35,17 @@ class Magazine
     private $moderators;
 
     /**
-     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="Magazine")
+     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="magazine")
      */
     private $entries;
 
     public function __construct(string $name, string $title, User $user)
     {
-        $this->name = $name;
-        $this->title = $title;
+        $this->name       = $name;
+        $this->title      = $title;
         $this->moderators = new ArrayCollection();
-
+        $this->entries    = new ArrayCollection();
         $this->addModerator(new Moderator($this, $user, true));
-        $this->entries = new ArrayCollection();
     }
 
     public function getId(): ?int

@@ -18,16 +18,16 @@ class Moderator
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="moderators")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $magazine;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="moderatorTokens")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="moderators")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $magazine;
 
     /**
      * @ORM\Column(type="boolean")
@@ -41,9 +41,9 @@ class Moderator
 
     public function __construct(Magazine $magazine, User $user, $isOwner = false)
     {
-        $this->magazine = $magazine;
-        $this->user = $user;
-        $this->isOwner = $isOwner;
+        $this->magazine  = $magazine;
+        $this->user      = $user;
+        $this->isOwner   = $isOwner;
         $this->createdAt = new \DateTimeImmutable('@'.time());
         $magazine->getModerators()->add($this);
         $user->getModeratorTokens()->add($this);
@@ -54,18 +54,6 @@ class Moderator
         return $this->id;
     }
 
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(?Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -74,6 +62,18 @@ class Moderator
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getMagazine(): ?Magazine
+    {
+        return $this->magazine;
+    }
+
+    public function setMagazine(?Magazine $magazine): self
+    {
+        $this->magazine = $magazine;
 
         return $this;
     }

@@ -18,14 +18,21 @@ class Entry
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entries")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $magazine;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $title;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $body = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -33,33 +40,34 @@ class Entry
     private $url = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $Magazine;
+    private $body = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entries")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-    /**
-     * @var Magazine
-     */
-    private $magazine;
+    public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user)
+    {
 
-    public function __construct(string $title, ?string $body, ?string $url, Magazine $magazine, User $user) {
-
-        $this->title = $title;
-        $this->body = $body;
-        $this->url = $url;
+        $this->title    = $title;
+        $this->url      = $url;
+        $this->body     = $body;
         $this->magazine = $magazine;
-        $this->user = $user;
+        $this->user     = $user;
         $user->addEntry($this);
     }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function getMagazine(): ?Magazine
+    {
+        return $this->magazine;
     }
 
     public function getTitle(): ?string
@@ -70,18 +78,6 @@ class Entry
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setBody(?string $body): self
-    {
-        $this->body = $body;
 
         return $this;
     }
@@ -98,13 +94,15 @@ class Entry
         return $this;
     }
 
-    public function getMagazine(): ?Magazine
+    public function getBody(): ?string
     {
-        return $this->Magazine;
+        return $this->body;
     }
 
-    public function getUser(): ?User
+    public function setBody(?string $body): self
     {
-        return $this->user;
+        $this->body = $body;
+
+        return $this;
     }
 }
