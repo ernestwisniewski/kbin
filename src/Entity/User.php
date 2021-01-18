@@ -52,6 +52,11 @@ class User implements UserInterface
      */
     private $entries;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     */
+    private $comments;
+
     public function __construct($email, $username, $password)
     {
         $this->email           = $email;
@@ -59,6 +64,7 @@ class User implements UserInterface
         $this->username        = $username;
         $this->moderatorTokens = new ArrayCollection();
         $this->entries         = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +153,21 @@ class User implements UserInterface
 
         if (!$this->entries->contains($entry)) {
             $this->entries[] = $entry;
+        }
+
+        return $this;
+    }
+
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
         }
 
         return $this;

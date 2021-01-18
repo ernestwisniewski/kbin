@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Tests;
 
+use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,11 +21,17 @@ abstract class WebTestCase extends BaseWebTestCase
      */
     protected $magazines;
 
+    /**
+     * @var ArrayCollection
+     */
+    protected $entries;
+
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->users     = new ArrayCollection();
         $this->magazines = new ArrayCollection();
+        $this->entries   = new ArrayCollection();
     }
 
     protected function loadExampleUsers(): void
@@ -45,7 +52,7 @@ abstract class WebTestCase extends BaseWebTestCase
         return $user ? $user : $this->createUser($username);
     }
 
-    private function createUser($username, $email = null, $password = null): User
+    private function createUser(string $username, string $email = null, string $password = null): User
     {
         $manager = self::$container->get(EntityManagerInterface::class);
 
@@ -70,7 +77,7 @@ abstract class WebTestCase extends BaseWebTestCase
 
     protected function getMagazineByName(string $name): Magazine
     {
-        $magazine = $this->users->filter(
+        $magazine = $this->magazines->filter(
             static function (Magazine $magazine) use ($name) {
                 return $magazine->getName() === $name;
             }
@@ -79,7 +86,7 @@ abstract class WebTestCase extends BaseWebTestCase
         return $magazine ? $magazine : $this->createMagazine($name);
     }
 
-    private function createMagazine($name, $title = null, User $user = null): Magazine
+    private function createMagazine(string $name, string $title = null, User $user = null): Magazine
     {
         $manager = self::$container->get(EntityManagerInterface::class);
 
@@ -91,6 +98,35 @@ abstract class WebTestCase extends BaseWebTestCase
         $this->magazines->add($magazine);
 
         return $magazine;
+    }
+
+    protected function getEntryByTitle(string $title): Entry
+    {
+        $entry = $this->entries->filter(
+            static function (Entry $entry) use ($title) {
+                return $entry->getTitle() === $title;
+            }
+        )->first();
+
+        if (!$entry) {
+            $magazine = $this->getMagazineByName('polityka');
+            $user     = $this->getUserByUsername('regularUser');
+            $entry    = $this->createEntry($title, $magazine, $user);
+        }
+
+        return $entry;
+    }
+
+    private function createEntry(string $title, Magazine $magazine, User $user, string $url = null, string $body = null): Entry
+    {
+        $manager = self::$container->get(EntityManagerInterface::class);
+
+        $entry = new Entry($title, $url, $body, $magazine, $user);
+
+        $manager->persist($entry);
+        $manager->flush();
+
+        return $entry;
     }
 
     private function provideUsers(): iterable

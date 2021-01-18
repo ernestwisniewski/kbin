@@ -11,4 +11,4 @@ magazine_create:
 magazine_list_all:
   controller: App\Controller\MagazineController::listAll
   path: /magazyny
-  methods: [ GET, POST ]
+  methods: [ GET ]

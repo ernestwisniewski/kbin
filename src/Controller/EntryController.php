@@ -1,8 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Entry;
+use Embed\Embed;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,44 +12,39 @@ use App\Service\EntryManager;
 use App\Entity\Magazine;
 use App\Form\EntryType;
 use App\DTO\EntryDto;
+use App\Entity\Entry;
 
 class EntryController extends AbstractController
 {
-    /**
-     * @var EntryManager
-     */
-    private $entryManager;
-
     /**
      * @var EntityManagerInterface
      */
     private $entityManager;
 
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      */
-    public function front(Entry $entry, Magazine $magazine)
+    public function front(Magazine $magazine, Entry $entry)
     {
         return $this->render(
             'entry/front.html.twig',
             [
-                'entry'    => $entry,
                 'magazine' => $magazine,
+                'entry'    => $entry,
             ]
         );
-    }
-
-    public function __construct(EntryManager $entryManager, EntityManagerInterface $entityManager)
-    {
-        $this->entryManager  = $entryManager;
-        $this->entityManager = $entityManager;
     }
 
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function createEntry(Request $request, ?Magazine $magazine): Response
+    public function createEntry(?Magazine $magazine, Request $request, EntryManager $entryManager): Response
     {
         $entryDto = new EntryDto();
 
@@ -61,13 +56,16 @@ class EntryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entry = $this->entryManager->createEntry($entryDto, $this->getUserOrThrow());
+            $entry = $entryManager->createEntry($entryDto, $this->getUserOrThrow());
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('entry', [
-                'magazine_name' => $entry->getMagazine()->getName(),
-                'entry_id' => $entry->getId()
-            ]);
+            return $this->redirectToRoute(
+                'entry',
+                [
+                    'magazine_name' => $entry->getMagazine()->getName(),
+                    'entry_id'      => $entry->getId(),
+                ]
+            );
         }
 
         return $this->render(

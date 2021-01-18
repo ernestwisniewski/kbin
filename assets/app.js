@@ -19,4 +19,3 @@ let vue = new Vue({
         VueTest
     },
 });
-console.log(vue);

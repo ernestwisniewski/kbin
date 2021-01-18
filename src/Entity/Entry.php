@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\EntryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,6 +46,11 @@ class Entry
      */
     private $body = null;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="entry")
+     */
+    private $comments;
+
     public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user)
     {
 
@@ -53,6 +60,7 @@ class Entry
         $this->magazine = $magazine;
         $this->user     = $user;
         $user->addEntry($this);
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,6 +110,36 @@ class Entry
     public function setBody(?string $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setEntry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getEntry() === $this) {
+                $comment->setEntry(null);
+            }
+        }
 
         return $this;
     }

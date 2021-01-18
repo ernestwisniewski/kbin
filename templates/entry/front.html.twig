@@ -2,4 +2,16 @@
 
 {% block body %}
     <h1>{{ entry.title }}</h1>
+    <p>{{ entry.url }}</p>
+    <p>{{ entry.body }}</p>
+
+    <h2>Komentarze</h2>
+    {{ render(controller('App\\Controller\\CommentController::commentForm', {
+        'magazineName': entry.magazine.name,
+        'entryId': entry.id
+    })) }}
+
+    {% for comment in entry.comments %}
+        <blockquote>{{ comment.body }}</blockquote>
+    {% endfor %}
 {% endblock %}

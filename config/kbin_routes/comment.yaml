@@ -1,0 +1,6 @@
+comment_create:
+  controller: App\Controller\CommentController::createComment
+  defaults: { comment_id: null }
+  path: /m/{magazine_name}/{entry_id}/komentarz/{comment_id}
+  methods: [ GET, POST ]
+
