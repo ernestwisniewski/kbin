@@ -4,6 +4,11 @@ webpack_encore:
     # If multiple builds are defined (as shown below), you can disable the default build:
     # output_path: false
 
+    # Set attributes that will be rendered on all script and link tags
+    script_attributes:
+        defer: true
+    # link_attributes:
+
     # If using Encore.enableIntegrityHashes() and need the crossorigin attribute (default: false, or use 'anonymous' or 'use-credentials')
     # crossorigin: 'anonymous'
 

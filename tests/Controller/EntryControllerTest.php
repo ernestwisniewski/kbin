@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Tests\WebTestCase;
 
 class EntryControllerTest extends WebTestCase
@@ -22,7 +21,6 @@ class EntryControllerTest extends WebTestCase
             'entry[magazine]' => $magazine->getId()
         ]));
 
-        var_dump($magazine->getId());
         self::assertResponseRedirects();
 
         $crawler = $client->followRedirect();

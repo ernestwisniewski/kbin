@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<ruleset name="name-of-your-project">
+    <config name="installed_paths" value="vendor/slevomat/coding-standard"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/DeclareStrictTypesSniff.php" />
+</ruleset>
