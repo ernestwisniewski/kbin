@@ -6,8 +6,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
 
-class UsersFixture extends BaseFixture
+class UserFixtures extends BaseFixture
 {
+    const USERS_COUNT = 5;
+
     /**
      * @var UserPasswordEncoderInterface
      */
@@ -20,7 +22,7 @@ class UsersFixture extends BaseFixture
 
     public function loadData(ObjectManager $manager)
     {
-        foreach ($this->provideRandomUsers(5) as $user) {
+        foreach ($this->provideRandomUsers(self::USERS_COUNT) as $index => $user) {
             $newUser = new User(
                 $user['email'],
                 $user['username'],
@@ -31,9 +33,9 @@ class UsersFixture extends BaseFixture
                 $this->encoder->encodePassword($newUser, $user['password'])
             );
 
-            $this->addReference('user-'.$user['username'], $newUser);
-
             $manager->persist($newUser);
+
+            $this->addReference('user'.'_'.$index, $newUser);
         }
 
         $manager->flush();
@@ -41,7 +43,7 @@ class UsersFixture extends BaseFixture
 
     private function provideRandomUsers($count = 1): iterable
     {
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i <= $count; $i++) {
             yield [
                 'email'    => $this->faker->email,
                 'username' => $this->faker->userName,

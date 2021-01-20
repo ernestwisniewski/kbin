@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller;
 
@@ -74,7 +74,7 @@ class MagazineController extends AbstractController
         return $this->render(
             'magazine/_featured.html.twig',
             [
-                'magazines' => $magazineRepository->findBy([], null, 4),
+                'magazines' => $magazineRepository->findBy([], null, 30),
             ]
         );
     }

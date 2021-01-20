@@ -15,6 +15,8 @@ $link-color: #346a98;
   &-item {
     padding: 0.6rem 0.3rem;
     border-bottom: 1px solid #eaeaea;
+    position: relative;
+    display: flow-root;
 
     &:nth-child(even) {
       background-color: $kbin-grey;
@@ -52,11 +54,18 @@ $link-color: #346a98;
 
   .kbin-image {
     float: left;
-    margin-right: 0.6rem;;
+    margin-right: 0.6rem;
+    margin-bottom: 0;
+    display: table-cell;
+    height: 100%;
   }
 
   .kbin-meta {
-    float: left;
+    display: table;
+    @include media-breakpoint-down(sm) {
+      clear: both;
+      padding: 0.4rem 0 0 3.4rem;
+    }
 
     &-title {
       margin-bottom: 5px;
