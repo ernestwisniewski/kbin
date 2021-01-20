@@ -16,10 +16,17 @@
 <div id="kbin">
     {% include '_layout/topbar.html.twig' %}
     {% include '_layout/navbar.html.twig' %}
-    <section class="container mt-3 mb-3">
-        <main class="kbin-main">
-            {% block body %}{% endblock %}
-        </main>
+    <section class="kbin-container container mt-3 mb-3">
+        <div class="row">
+            <div class="col-sm-9">
+                <main class="kbin-main">
+                    {% block body %}{% endblock %}
+                </main>
+            </div>
+            <div class="col-sm-3">
+                {% include '_layout/sidebar.html.twig' %}
+            </div>
+        </div>
     </section>
     {% include '_layout/footer.html.twig' %}
     {% block javascripts %}

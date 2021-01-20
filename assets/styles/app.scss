@@ -5,7 +5,11 @@ $link-color: #346a98;
 @import "featured-magazines";
 @import "navbar";
 @import "footer";
+@import "sidebar";
 
+.kbin-container {
+  //max-width: 1440px !important;
+}
 
 .kbin-entry-list {
   &-item {
@@ -37,6 +41,10 @@ $link-color: #346a98;
           font-weight: 700;
           text-decoration: none;
           font-size: 0.8rem;
+
+          &:hover {
+            color: #656565;
+          }
         }
       }
     }

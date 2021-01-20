@@ -1,0 +1,25 @@
+.kbin-search {
+
+}
+.kbin-quick-links {
+  a {
+    color: #000;
+
+    &:hover {
+      background: $kbin-grey;
+    }
+  }
+
+  &-heading {
+    font-size: 1.1rem;
+  }
+
+  &-text {
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
