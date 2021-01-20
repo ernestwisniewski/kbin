@@ -31,7 +31,7 @@ class CommentController extends AbstractController
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
      */
-    public function createComment(Magazine $magazine, Entry $entry, ?Comment $comment, Request $request, CommentManager $commentManager)
+    public function createComment(Magazine $magazine, Entry $entry, ?Comment $comment, Request $request, CommentManager $commentManager): Response
     {
         $commentDto = new CommentDto();
         $commentDto->setEntry($entry);
@@ -74,7 +74,7 @@ class CommentController extends AbstractController
         $form = $this->createForm(CommentType::class, null, ['action' => $this->generateUrl('comment_create', $routeParams)]);
 
         return $this->render(
-            'comment/form.html.twig',
+            'comment/_form.html.twig',
             [
                 'form' => $form->createView(),
             ]

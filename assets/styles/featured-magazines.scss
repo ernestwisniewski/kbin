@@ -1,0 +1,45 @@
+.kbin-featured-magazines {
+  height: 1.2rem;
+  padding: 0;
+  background-color: $kbin-blue;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+
+  &-list {
+    position: relative;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+
+    &-item {
+      float: left;
+
+      a {
+        color: #fff;
+        font-size: 0.7rem;
+        text-decoration: none;
+        padding: 0.1rem 0.5rem;
+        display: block;
+
+        &:hover {
+          background-color: $kbin-blue-shadow;
+        }
+      }
+
+      &--active {
+        background-color: $kbin-grey;
+
+        a {
+          font-weight: bold;
+          color: #556880;
+          text-shadow: 0 0 2px #9ab4ca;
+
+          &:hover {
+            background-color: $kbin-grey;
+          }
+        }
+      }
+    }
+  }
+}

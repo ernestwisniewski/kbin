@@ -1,1 +1,67 @@
+$link-color: #346a98;
+
 @import "~bootstrap/scss/bootstrap";
+@import "variables";
+@import "featured-magazines";
+@import "navbar";
+@import "footer";
+
+
+.kbin-entry-list {
+  &-item {
+    padding: 0.6rem 0.3rem;
+    border-bottom: 1px solid #eaeaea;
+
+    &:nth-child(even) {
+      background-color: $kbin-grey;
+    }
+  }
+
+  .kbin-vote {
+    float: left;
+    margin-right: 0.3rem;
+    width: 3rem;
+
+    &-list {
+      list-style-type: none;
+      padding: 0;
+
+      &-item {
+        margin: 3px 0;
+        background: $kbin-vote-button-color;
+
+        a {
+          color: #c1c1c1;
+          display: block;
+          text-align: center;
+          font-weight: 700;
+          text-decoration: none;
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+
+  .kbin-image {
+    float: left;
+    margin-right: 0.6rem;;
+  }
+
+  .kbin-meta {
+    float: left;
+
+    &-title {
+      margin-bottom: 5px;
+      font-size: 1.2rem;
+
+      a {
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+

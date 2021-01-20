@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -68,4 +68,15 @@ class MagazineController extends AbstractController
             ]
         );
     }
+
+    public function featuredMagazines(MagazineRepository $magazineRepository): Response
+    {
+        return $this->render(
+            'magazine/_featured.html.twig',
+            [
+                'magazines' => $magazineRepository->findBy([], null, 4),
+            ]
+        );
+    }
+
 }

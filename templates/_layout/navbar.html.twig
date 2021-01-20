@@ -1,21 +1,24 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Kbin</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('magazine_create') }}">Utwórz magazyn</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('magazine_list_all') }}">Wszystkie magazyny</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('entry_create') }}">Utwórz post</a>
-                </li>
-            </ul>
+<header class="kbin-header container-fluid mt-auto">
+    <nav class="kbin-nav navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">Kbin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kbin-nav"
+                    aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="kbin-nav">
+                <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="kbin-nav-navbar-item kbin-nav-navbar-item--active">
+                        <a href="{{ path('magazine_create') }}">Utwórz magazyn</a>
+                    </li>
+                    <li class="kbin-nav-navbar-item">
+                        <a href="{{ path('magazine_list_all') }}">Wszystkie magazyny</a>
+                    </li>
+                    <li class="kbin-nav-navbar-item">
+                        <a href="{{ path('entry_create') }}">Utwórz post</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</header>
