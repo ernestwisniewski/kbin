@@ -5,8 +5,8 @@
   .kbin-nav {
     padding-top: 1.7rem;
     padding-bottom: 0;
-    background-color: $kbin-grey;
-    border-bottom: 1px solid $kbin-grey-shadow;
+    background-color: $kbin-navbar-background-color;
+    border-bottom: 1px solid $kbin-navbar-border-color;
 
     @include media-breakpoint-up(lg) {
       position: relative;
@@ -24,7 +24,7 @@
         margin-right: 2px;
 
         a {
-          color: $link-color !important;
+          color: $kbin-navbar-link-color !important;
           border: 1px solid transparent;
           display: block;
           padding: .5rem 1rem;
@@ -37,15 +37,15 @@
           }
 
           &:hover {
-            color: $kbin-link-visited-color;
-            border-color: $kbin-grey-shadow;
+            color: $kbin-navbar-link-hover-color;
+            border-color: $kbin-navbar-link-hover-border-color;
             border-radius: 2px 2px 0 0;
           }
         }
 
         &--active {
           a {
-            border: 1px solid $kbin-grey-shadow;
+            border: 1px solid $kbin-navbar-link-active-border-color;
             border-radius: 2px 2px 0 0;
           }
         }

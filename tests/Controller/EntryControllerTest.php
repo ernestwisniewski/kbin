@@ -13,7 +13,7 @@ class EntryControllerTest extends WebTestCase
         $magazine = $this->getMagazineByName('polityka');
 
         $client->loginUser($this->getUserByUsername('user'));
-        $crawler = $client->request('GET', '/nowyPost');
+        $crawler = $client->request('GET', '/nowaTresc');
 
         $client->submit($crawler->selectButton('Zapisz')->form([
             'entry[title]' => 'przykladowa tresc',

@@ -1,0 +1,9 @@
+{% from 'entry/_macros.html.twig' import entry %}
+
+<div class="kbin-entry-list">
+    {% for entry in entries %}
+        {{ entry(entry, {
+            extra_classes: 'kbin-entry-list-item'
+        }) }}
+    {% endfor %}
+</div>

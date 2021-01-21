@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EntryRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,12 +25,13 @@ class MagazineController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    public function front(Magazine $magazine): Response
+    public function front(Magazine $magazine, EntryRepository $entryRepository): Response
     {
         return $this->render(
             'magazine/front.html.twig',
             [
                 'magazine' => $magazine,
+                'entries'  => $entryRepository->findBy(['magazine' => $magazine]),
             ]
         );
     }

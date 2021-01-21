@@ -13,7 +13,7 @@ class CommentControllerTest extends WebTestCase
         $entry = $this->getEntryByTitle('title');
 
         $client->loginUser($this->getUserByUsername('user'));
-        $crawler = $client->request('GET', $entryUrl = '/m/polityka/'.$entry->getId());
+        $crawler = $client->request('GET', $entryUrl = '/m/polityka/t/'.$entry->getId());
 
         $client->submit($crawler->selectButton('Zapisz')->form([
             'comment[body]' => 'przykladowa tresc',

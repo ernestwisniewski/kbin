@@ -1,6 +1,6 @@
 .kbin-search {
   &-btn {
-    border: 1px solid #ced4da;
+    border: 1px solid $kbin-sidebar-button-border-color;
     border-radius: 0 .25rem .25rem 0;
   }
 }
@@ -10,7 +10,7 @@
     color: #000;
 
     &:hover {
-      background: $kbin-grey;
+      background: $kbin-navbar-quicklinks-hover-background-color;
     }
   }
 

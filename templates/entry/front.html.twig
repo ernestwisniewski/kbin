@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
+{% from 'entry/_macros.html.twig' import entry %}
 
 {% block body %}
-    <h1>{{ entry.title }}</h1>
-    <p>{{ entry.url }}</p>
+    {{ entry(entry) }}
+
     <p>{{ entry.body }}</p>
 
     <h2>Komentarze</h2>

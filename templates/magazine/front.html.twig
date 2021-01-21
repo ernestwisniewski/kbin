@@ -3,5 +3,8 @@
 {% block title %}Hello MagazineController!{% endblock %}
 
 {% block body %}
-<h1>{{ magazine.name }}</h1>
+    <h1 class="font-weight-bold">{{ magazine.title }}</h1>
+    <p class="lead mb-4">m/{{ magazine.name }}</p>
+
+    {% include 'entry/_list.html.twig' %}
 {% endblock %}

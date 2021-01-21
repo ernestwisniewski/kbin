@@ -6,29 +6,27 @@
 
     <title>{% block title %}Welcome!{% endblock %}</title>
 
-    <script src="https://kit.fontawesome.com/0bf79d1c11.js" crossorigin="anonymous"></script>
-
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
 <body>
 <div id="kbin">
-    {% include '_layout/topbar.html.twig' %}
-    {% include '_layout/navbar.html.twig' %}
+    {% include '_layout/_topbar.html.twig' %}
+    {% include '_layout/_navbar.html.twig' %}
     <section class="kbin-container container mt-3 mb-3">
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-lg-9">
                 <main class="kbin-main">
                     {% block body %}{% endblock %}
                 </main>
             </div>
-            <div class="col-sm-3">
-                {% include '_layout/sidebar.html.twig' %}
+            <div class="col-lg-3">
+                {% include '_layout/_sidebar.html.twig' %}
             </div>
         </div>
     </section>
-    {% include '_layout/footer.html.twig' %}
+    {% include '_layout/_footer.html.twig' %}
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}

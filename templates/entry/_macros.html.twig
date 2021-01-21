@@ -1,0 +1,11 @@
+{% use 'entry/_entry.html.twig' %}
+
+{%- macro entry(entry, options) -%}
+    {%- with {
+        entry: entry,
+        self: app.user,
+        extra_classes: options.extra_classes ?? null
+        } only -%}
+        {{ block('entry') }}
+    {%- endwith -%}
+{%- endmacro -%}

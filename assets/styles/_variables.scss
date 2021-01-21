@@ -1,13 +1,35 @@
-$kbin-link-color: #346a98;
-$kbin-link-hover-color: #23527c;
-$kbin-link-visited-color: #6a87a0;
-
+//colors
+$kbin-blue: #556880;
+$kbin-blue-shadow: #414f61;
 $kbin-grey: #f7f7f7;
 $kbin-grey-shadow: #eaeaea;
 
-$kbin-blue: #556880;
-$kbin-blue-shadow: #414f61;
+// Links
+$kbin-link-color: $link-color;
+$kbin-link-hover-color: $link-hover-color;
+$kbin-link-visited-color: #6a87a0;
+$kbin-button-border-color: #ced4da;
 
-$kbin-nav-link-color: #346a98;
+// topbar
+$kbin-topbar-background-color: $kbin-blue;
+$kbin-topbar-link-hover-background-color: $kbin-blue-shadow;
+$kbin-topbar-link-active-background-color: $kbin-grey;
+$kbin-topbar-link-active-hover-background-color: $kbin-grey;
 
-$kbin-vote-button-color: #efefef;
+// navbar
+$kbin-navbar-background-color: $kbin-grey;
+$kbin-navbar-border-color: $kbin-grey-shadow;
+$kbin-navbar-link-color: $kbin-link-color;
+$kbin-navbar-link-hover-color: $kbin-link-visited-color;
+$kbin-navbar-link-hover-border-color: $kbin-grey-shadow;
+$kbin-navbar-link-active-border-color: $kbin-grey-shadow;
+$kbin-navbar-quicklinks-hover-background-color: $kbin-grey;
+
+// sidebar
+$kbin-sidebar-button-border-color: $kbin-button-border-color;
+
+// entry-list
+$kbin-entry-list-item-border-color: #eaeaea;
+$kbin-entry-list-item-nth-background-color: $kbin-grey;
+$kbin-vote-button-background-color: #efefef;
+$kbin-vote-button-hover-background-color: #656565;

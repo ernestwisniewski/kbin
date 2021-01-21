@@ -9,26 +9,12 @@ use App\Entity\User;
 
 class CommentFactory
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     public function createFromDto(CommentDto $commentDto, User $user): Comment
     {
-        $comment = new Comment(
+        return new Comment(
             $commentDto->getBody(),
             $commentDto->getEntry(),
             $user
         );
-
-        $this->entityManager->persist($comment);
-
-        return $comment;
     }
 }

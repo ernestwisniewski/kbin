@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\CommentFactory;
 use App\DTO\CommentDto;
 use App\Entity\Comment;
@@ -14,13 +15,23 @@ class CommentManager
      */
     private $commentFactory;
 
-    public function __construct(CommentFactory $commentFactory)
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(CommentFactory $commentFactory, EntityManagerInterface $entityManager)
     {
         $this->commentFactory = $commentFactory;
+        $this->entityManager = $entityManager;
     }
 
     public function createComment(CommentDto $commentDto, User $user): Comment
     {
-        return $this->commentFactory->createFromDto($commentDto, $user);
+        $comment = $this->commentFactory->createFromDto($commentDto, $user);
+
+        $this->entityManager->persist($comment);
+
+        return $comment;
     }
 }

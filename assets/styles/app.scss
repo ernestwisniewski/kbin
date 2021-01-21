@@ -1,84 +1,17 @@
 $link-color: #346a98;
+$link-hover-color: #23527c;
 
 @import "~bootstrap/scss/bootstrap";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import "variables";
-@import "featured-magazines";
-@import "navbar";
-@import "footer";
-@import "sidebar";
+@import "components/featured-magazines";
+@import "components/navbar";
+@import "components/footer";
+@import "components/sidebar";
+@import "components/entry";
 
 .kbin-container {
   //max-width: 1440px !important;
 }
 
-.kbin-entry-list {
-  &-item {
-    padding: 0.6rem 0.3rem;
-    border-bottom: 1px solid #eaeaea;
-    position: relative;
-    display: flow-root;
-
-    &:nth-child(even) {
-      background-color: $kbin-grey;
-    }
-  }
-
-  .kbin-vote {
-    float: left;
-    margin-right: 0.3rem;
-    width: 3rem;
-
-    &-list {
-      list-style-type: none;
-      padding: 0;
-
-      &-item {
-        margin: 3px 0;
-        background: $kbin-vote-button-color;
-
-        a {
-          color: #c1c1c1;
-          display: block;
-          text-align: center;
-          font-weight: 700;
-          text-decoration: none;
-          font-size: 0.8rem;
-
-          &:hover {
-            color: #656565;
-          }
-        }
-      }
-    }
-  }
-
-  .kbin-image {
-    float: left;
-    margin-right: 0.6rem;
-    margin-bottom: 0;
-    display: table-cell;
-    height: 100%;
-  }
-
-  .kbin-meta {
-    display: table;
-    @include media-breakpoint-down(sm) {
-      clear: both;
-      padding: 0.4rem 0 0 3.4rem;
-    }
-
-    &-title {
-      margin-bottom: 5px;
-      font-size: 1.2rem;
-
-      a {
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-}
 

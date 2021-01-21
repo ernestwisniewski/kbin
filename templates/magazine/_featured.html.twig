@@ -1,5 +1,7 @@
 <ul class="kbin-featured-magazines-list">
     {% for magazine in magazines %}
-        <li class="kbin-featured-magazines-list-item"><a href="#">{{ magazine.name }}</a></li>
+        <li class="kbin-featured-magazines-list-item">
+            <a href="{{ path('magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a>
+        </li>
     {% endfor %}
 </ul>

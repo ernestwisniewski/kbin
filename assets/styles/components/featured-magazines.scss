@@ -1,7 +1,7 @@
 .kbin-featured-magazines {
   height: 1.2rem;
   padding: 0;
-  background-color: $kbin-blue;
+  background-color: $kbin-topbar-background-color;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -23,12 +23,12 @@
         display: block;
 
         &:hover {
-          background-color: $kbin-blue-shadow;
+          background-color: $kbin-topbar-link-hover-background-color;
         }
       }
 
       &--active {
-        background-color: $kbin-grey;
+        background-color: $kbin-topbar-link-active-background-color;
 
         a {
           font-weight: bold;
@@ -36,7 +36,7 @@
           text-shadow: 0 0 2px #9ab4ca;
 
           &:hover {
-            background-color: $kbin-grey;
+            background-color: $kbin-topbar-link-active-hover-background-color;
           }
         }
       }

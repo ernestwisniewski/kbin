@@ -1,0 +1,30 @@
+{% block entry %}
+    <article id="{{ entry.id }}" class="kbin-entry {{ extra_classes }}">
+        <div class="kbin-vote">
+            <ul class="kbin-vote-list">
+                <li class="kbin-vote-list-item kbin-vote-uv">
+                    <a href="#">4<span class="fa fa-arrow-up"></span>
+                    </a>
+                </li>
+
+                <li class="kbin-vote-list-item kbin-vote-dv">
+                    <a href="#">0<span class="fa fa-arrow-down"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="kbin-image">
+            <img class="lazy" src="https://picsum.photos/100/{{ random(30,130) }}?hash={{ random(1,55) }}"
+                 alt="Makigi.pl - Rozkład jazdy 2017">
+        </div>
+
+        <div class="kbin-meta">
+            <h4 class="kbin-meta-title">
+                <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">{{ entry.title }}</a>
+            </h4>
+        </div>
+
+        <div class="clearfix"></div>
+    </article>
+{% endblock entry %}
