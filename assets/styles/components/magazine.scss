@@ -1,0 +1,7 @@
+.kbin-magazine-create {
+  .kbin-magazine-create-lead {
+    @include media-breakpoint-up(lg) {
+      max-width: 45rem;
+    }
+  }
+}

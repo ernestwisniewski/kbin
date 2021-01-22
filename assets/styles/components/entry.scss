@@ -1,13 +1,11 @@
 .kbin-entry {
   padding: 0.6rem 0.3rem;
-  position: relative;
   display: flow-root;
-
-  .kbin-entry-list & {
-    border-bottom: 1px solid $kbin-entry-list-item-border-color;
-  }
+  position: relative;
 
   &:nth-child(even) {
+    border-top: 1px solid $kbin-entry-list-item-border-color;
+    border-bottom: 1px solid $kbin-entry-list-item-border-color;
     background-color: $kbin-entry-list-item-nth-background-color;
   }
 
@@ -71,5 +69,11 @@
     .kbin-entry-list &-title {
       font-size: 1rem;
     }
+  }
+}
+
+.kbin-entry-create-lead {
+  @include media-breakpoint-up(lg) {
+    max-width: 45rem;
   }
 }

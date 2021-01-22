@@ -5,6 +5,6 @@ entry:
 
 entry_create:
   controller: App\Controller\EntryController::createEntry
-  defaults: { name: null }
-  path: /nowaTresc/{name}
+  defaults: { type: null }
+  path: /nowaTresc/{type}
   methods: [ GET, POST ]

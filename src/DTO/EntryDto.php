@@ -5,6 +5,7 @@ namespace App\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Magazine;
 use App\Entity\User;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class EntryDto
 {
@@ -41,6 +42,23 @@ class EntryDto
      * @var User
      */
     private $user;
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if (null === $this->getBody() && null === $this->getUrl()) {
+            $this->buildViolation($context, 'url');
+            $this->buildViolation($context, 'body');
+        }
+    }
+
+    private function buildViolation(ExecutionContextInterface $context, $path) {
+        $context->buildViolation('This value should not be blank.')
+            ->atPath($path)
+            ->addViolation();
+    }
 
     /**
      * @return int|null

@@ -23,6 +23,6 @@ class MagazineControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('h1', 'polityka');
+        self::assertSelectorTextContains('h1', 'magazyn polityczny');
     }
 }

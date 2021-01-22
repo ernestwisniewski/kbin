@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="kbin-entry-create-link mt-lg-4">
+        <div class="kbin-magazine-background"></div>
+
+        <h1>Dodaj nowy link</h1>
+        <p class="kbin-magazine-create-lead lead mb-5">
+            Podziel się ciekawym linkiem lub fotografią.
+        </p>
+
+        {{ form_start(form) }}
+        <div class="col-lg-6">
+            <div class="kbin-magazine-create-form">
+                <div class="input-group-lg mb-3">
+                    {{ form_label(form.url) }}
+                    {{ form_widget(form.url) }}
+                </div>
+                <div class="input-group-lg mb-3">
+                    {{ form_label(form.title) }}
+                    {{ form_widget(form.title) }}
+                </div>
+                <div class="input-group-lg mb-3">
+                    {{ form_label(form.magazine) }}
+                    {{ form_widget(form.magazine) }}
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

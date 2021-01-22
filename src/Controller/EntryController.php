@@ -1,7 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Form\EntryArticleType;
+use App\Form\EntryLinkType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +17,9 @@ use App\Entity\Entry;
 
 class EntryController extends AbstractController
 {
+    const ENTRY_TYPE_ARTICLE = 'artykul';
+    const ENTRY_TYPE_LINK = 'link';
+
     /**
      * @var EntityManagerInterface
      */
@@ -43,7 +48,7 @@ class EntryController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function createEntry(?Magazine $magazine, Request $request, EntryManager $entryManager): Response
+    public function createEntry(?Magazine $magazine, ?string $type, Request $request, EntryManager $entryManager): Response
     {
         $entryDto = new EntryDto();
 
@@ -51,7 +56,16 @@ class EntryController extends AbstractController
             $entryDto->setMagazine($magazine);
         }
 
-        $form = $this->createForm(EntryType::class, $entryDto);
+        switch ($type) {
+            case self::ENTRY_TYPE_ARTICLE:
+                $form         = $this->createForm(EntryArticleType::class, $entryDto);
+                $templateName = 'create_article';
+                break;
+            default:
+                $form         = $this->createForm(EntryLinkType::class, $entryDto);
+                $templateName = 'create_link';
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,7 +82,7 @@ class EntryController extends AbstractController
         }
 
         return $this->render(
-            'entry/create.html.twig',
+            "entry/$templateName.html.twig",
             [
                 'form' => $form->createView(),
             ]
