@@ -7,11 +7,14 @@
         show_content: true
     }) }}
 
-    <h2>Komentarze</h2>
-    {{ render(controller('App\\Controller\\CommentController::commentForm', {
-        'magazineName': entry.magazine.name,
-        'entryId': entry.id
-    })) }}
+    <section class="kbin-comment-wrapper mt-4">
+        <h4 class="kbin-comment-wrapper-header pb-3 mb-0">Komentarze</h4>
 
-    {% include 'comment/_list.html.twig'  with {'comments': entry.comments} only %}
+        {% include 'comment/_list.html.twig'  with {'comments': entry.comments} only %}
+
+        {{ render(controller('App\\Controller\\CommentController::commentForm', {
+            'magazineName': entry.magazine.name,
+            'entryId': entry.id
+        })) }}
+    </section>
 {% endblock %}

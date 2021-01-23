@@ -13,6 +13,10 @@
             {{ form_label(form.magazine) }}
             {{ form_widget(form.magazine) }}
         </div>
+
+        <div class="mb-12 text-end">
+            {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+        </div>
     </div>
 </div>
 {{ form_end(form) }}

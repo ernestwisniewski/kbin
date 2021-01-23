@@ -15,7 +15,7 @@ class EntryControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('user'));
         $crawler = $client->request('GET', '/nowaTresc/artykul');
 
-        $client->submit($crawler->selectButton('Zapisz')->form([
+        $client->submit($crawler->selectButton('Gotowe')->form([
             'entry_article[title]' => 'przykladowa tresc',
             'entry_article[body]' => 'Lorem ipsum',
             'entry_article[magazine]' => $magazine->getId()
@@ -26,7 +26,7 @@ class EntryControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('.kbin-meta-title', 'przykladowa tresc');
+        self::assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
     }
 
     public function testCanCreateLink()
@@ -38,7 +38,7 @@ class EntryControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('user'));
         $crawler = $client->request('GET', '/nowaTresc');
 
-        $client->submit($crawler->selectButton('Zapisz')->form([
+        $client->submit($crawler->selectButton('Gotowe')->form([
             'entry_link[title]' => 'przykladowa tresc',
             'entry_link[url]' => 'https://example.pl',
             'entry_link[magazine]' => $magazine->getId()
@@ -49,6 +49,6 @@ class EntryControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('.kbin-meta-title', 'przykladowa tresc');
+        self::assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
     }
 }

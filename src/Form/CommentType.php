@@ -15,7 +15,7 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('body', TextareaType::class)
-            ->add('Zapisz', SubmitType::class)
+            ->add('submit', SubmitType::class)
         ;
     }
 

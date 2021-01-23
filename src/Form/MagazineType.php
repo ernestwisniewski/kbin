@@ -15,7 +15,7 @@ class MagazineType extends AbstractType
         $builder
             ->add('name')
             ->add('title')
-            ->add('Zapisz', SubmitType::class);
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -23,7 +23,7 @@ class EntryLinkType extends AbstractType
                 'class' => Magazine::class,
                 'choice_label'=> 'name'
             ])
-            ->add('Zapisz', SubmitType::class)
+            ->add('submit', SubmitType::class)
         ;
     }
 
