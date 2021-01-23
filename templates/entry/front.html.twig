@@ -2,9 +2,10 @@
 {% from 'entry/_macros.html.twig' import entry %}
 
 {% block body %}
-    {{ entry(entry) }}
-
-    <p>{{ entry.body }}</p>
+    {{ entry(entry, {
+        extra_classes: 'kbin-entry-single',
+        show_content: true
+    }) }}
 
     <h2>Komentarze</h2>
     {{ render(controller('App\\Controller\\CommentController::commentForm', {
@@ -12,7 +13,5 @@
         'entryId': entry.id
     })) }}
 
-    {% for comment in entry.comments %}
-        <blockquote>{{ comment.body }}</blockquote>
-    {% endfor %}
+    {% include 'comment/_list.html.twig'  with {'comments': entry.comments} only %}
 {% endblock %}

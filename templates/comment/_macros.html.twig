@@ -1,0 +1,11 @@
+{% use 'comment/_comment.html.twig' %}
+
+{%- macro comment(comment, options) -%}
+    {%- with {
+        comment: comment,
+        self: app.user,
+        extra_classes: options.extra_classes ?? null,
+        } only -%}
+        {{ block('comment') }}
+    {%- endwith -%}
+{%- endmacro -%}

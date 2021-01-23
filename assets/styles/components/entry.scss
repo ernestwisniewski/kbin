@@ -9,7 +9,11 @@
     background-color: $kbin-entry-list-item-nth-background-color;
   }
 
-  .kbin-vote {
+  &-content {
+    display: inline-block;
+  }
+
+  &-vote {
     float: left;
     margin-right: 0.3rem;
     width: 3rem;
@@ -20,7 +24,7 @@
 
       &-item {
         margin: 3px 0;
-        background: $kbin-vote-button-background-color;
+        background: $kbin-entry-vote-button-background-color;
 
         a {
           color: #c1c1c1;
@@ -31,14 +35,14 @@
           font-size: 0.7rem;
 
           &:hover {
-            color: $kbin-vote-button-hover-background-color;
+            color: $kbin-comment-vote-button-hover-background-color;
           }
         }
       }
     }
   }
 
-  .kbin-image {
+  &-image {
     float: left;
     margin-right: 0.6rem;
     margin-bottom: 0;
@@ -46,29 +50,24 @@
     height: 100%;
   }
 
-  .kbin-meta {
-    display: table;
-    @include media-breakpoint-down(sm) {
-      clear: both;
-      padding: 0.4rem 0 0 3.4rem;
-    }
+  &-title {
+    margin-bottom: 5px;
+    font-size: 1.6rem;
 
-    &-title {
-      margin-bottom: 5px;
-      font-size: 1.6rem;
+    a {
+      text-decoration: none;
 
-      a {
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
+      &:hover {
+        text-decoration: underline;
       }
     }
 
-    .kbin-entry-list &-title {
+    .kbin-entry-list & {
       font-size: 1rem;
     }
+  }
+
+  &-meta {
   }
 }
 

@@ -1,0 +1,27 @@
+{% block comment %}
+    <blockquote id="{{ comment.id }}" class="kbin-comment {{ extra_classes }}">
+        <div class="kbin-comment-vote">
+            <ul class="kbin-comment-vote-list">
+                <li class="kbin-comment-vote-list-item kbin-vote-uv">
+                    <a href="#">{{ random(0,240) }}<span class="fa fa-arrow-up"></span>
+                    </a>
+                </li>
+
+                <li class="kbin-comment-vote-list-item kbin-vote-dv">
+                    <a href="#">{{ random(0, 20) }}<span class="fa fa-arrow-down"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="kbin-comment-content d-flex">
+            {{ comment.body }}
+        </div>
+
+        <div class="kbin-comment-meta">
+
+        </div>
+
+        <div class="clearfix"></div>
+    </blockquote>
+{% endblock comment %}

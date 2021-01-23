@@ -1,6 +1,7 @@
 # IDEA/PhpStorm
 *.iml
 .idea/
+.DS_Store
 
 ###> symfony/framework-bundle ###
 /.env.local

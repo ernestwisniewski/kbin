@@ -1,30 +1,40 @@
 {% block entry %}
     <article id="{{ entry.id }}" class="kbin-entry {{ extra_classes }}">
-        <div class="kbin-vote">
-            <ul class="kbin-vote-list">
-                <li class="kbin-vote-list-item kbin-vote-uv">
-                    <a href="#">4<span class="fa fa-arrow-up"></span>
-                    </a>
-                </li>
+        <div class="kbin-entry-header">
+            <div class="kbin-entry-vote">
+                <ul class="kbin-entry-vote-list">
+                    <li class="kbin-entry-vote-list-item kbin-vote-uv">
+                        <a href="#">{{ random(0,240) }}<span class="fa fa-arrow-up"></span>
+                        </a>
+                    </li>
 
-                <li class="kbin-vote-list-item kbin-vote-dv">
-                    <a href="#">0<span class="fa fa-arrow-down"></span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                    <li class="kbin-entry-vote-list-item kbin-vote-dv">
+                        <a href="#">{{ random(0, 20) }}<span class="fa fa-arrow-down"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-        <div class="kbin-image">
-            <img class="lazy" src="https://picsum.photos/100/{{ random(30,130) }}?hash={{ random(1,55) }}"
-                 alt="Makigi.pl - Rozkład jazdy 2017">
-        </div>
+            <div class="kbin-entry-image">
+                <img class="lazy" src="https://picsum.photos/100/{{ random(30,130) }}?hash={{ random(1,55) }}"
+                     alt="Makigi.pl - Rozkład jazdy 2017">
+            </div>
 
-        <div class="kbin-meta">
-            <h4 class="kbin-meta-title">
+            <h4 class="kbin-entry-title">
                 <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">{{ entry.title }}</a>
             </h4>
+
+            <div class="kbin-entry-meta">
+
+            </div>
+
+            <div class="clearfix"></div>
         </div>
 
-        <div class="clearfix"></div>
+        {% if(show_content is not null) %}
+            <p class="kbin-entry-content mt-3">
+                {{ entry.body }}
+            </p>
+        {% endif %}
     </article>
 {% endblock entry %}

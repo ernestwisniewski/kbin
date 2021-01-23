@@ -10,6 +10,7 @@ $link-hover-color: #23527c;
 @import "components/sidebar";
 @import "components/magazine";
 @import "components/entry";
+@import "components/comment";
 
 .kbin-container {
   @include media-breakpoint-down(lg) {

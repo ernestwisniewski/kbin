@@ -1,1 +1,8 @@
-{{ form(form) }}
+{{ form_start(form) }}
+<div class="kbin-comment-create-form">
+    <div class="mb-3">
+        {{ form_label(form.body) }}
+        {{ form_widget(form.body) }}
+    </div>
+</div>
+{{ form_end(form) }}

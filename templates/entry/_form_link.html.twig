@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+<div class="col-lg-6">
+    <div class="kbin-magazine-create-form">
+        <div class="input-group-lg mb-3">
+            {{ form_label(form.url) }}
+            {{ form_widget(form.url) }}
+        </div>
+        <div class="input-group-lg mb-3">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+        </div>
+        <div class="input-group-lg mb-3">
+            {{ form_label(form.magazine) }}
+            {{ form_widget(form.magazine) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

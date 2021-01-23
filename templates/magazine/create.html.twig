@@ -9,25 +9,6 @@
             użytkowników o podobnych
             zainteresowaniach. Na tobie będzie spoczywać odpowiedzialność za dbanie o jego jakość.</p>
 
-        {{ form_start(form) }}
-        <div class="col-lg-6">
-            <div class="kbin-magazine-create-form">
-                <div class="input-group-lg mb-3">
-                    {{ form_label(form.title) }}
-                    {{ form_widget(form.title) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_label(form.name) }}
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text" id="magazine_name">m/</span>
-                        {{ form_widget(form.name, { 'attr': {'aria-describedby': 'magazine_name', 'id': 'magazine_name'}}) }}
-                    </div>
-                    <div class="valid-feedback">
-                        {{ form_errors(form.name) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{ form_end(form) }}
+        {% include 'magazine/_form.html.twig' %}
     </div>
 {% endblock %}
