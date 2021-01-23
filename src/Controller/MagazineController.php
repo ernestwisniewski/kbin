@@ -61,6 +61,34 @@ class MagazineController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function editMagazine(Magazine $magazine, Request $request, MagazineManager $magazineManager): Response
+    {
+        $magazineDto = $magazineManager->createMagazineDto($magazine);
+
+        $form = $this->createForm(MagazineType::class, $magazineDto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $magazineManager->editMagazine($magazine, $magazineDto);
+
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('magazine_edit', [
+                'name' => $magazine->getName(),
+            ]);
+        }
+
+        return $this->render(
+            'magazine/edit.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
     public function listAll(MagazineRepository $magazineRepository)
     {
         return $this->render(

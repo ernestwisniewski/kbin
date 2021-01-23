@@ -17,4 +17,13 @@ class MagazineFactory
             $user
         );
     }
+
+    public function createDto(Magazine $magazine): MagazineDto
+    {
+        $dto = new MagazineDto();
+        $dto->setName($magazine->getName());
+        $dto->setTitle($magazine->getTitle());
+
+        return $dto;
+    }
 }

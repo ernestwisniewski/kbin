@@ -34,4 +34,16 @@ class MagazineManager
 
         return $magazine;
     }
+
+    public function editMagazine(Magazine $magazine, MagazineDto $magazineDto): Magazine
+    {
+        $magazine->setTitle($magazineDto->getTitle());
+
+        return $magazine;
+    }
+
+    public function createMagazineDto(Magazine $magazine): MagazineDto
+    {
+        return $this->magazineFactory->createDto($magazine);
+    }
 }

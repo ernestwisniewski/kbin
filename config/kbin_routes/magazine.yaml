@@ -8,6 +8,11 @@ magazine_create:
   path: /nowyMagazyn
   methods: [ GET, POST ]
 
+magazine_edit:
+  controller: App\Controller\MagazineController::editMagazine
+  path: /m/{name}/edytuj
+  methods: [ GET, POST ]
+
 magazine_list_all:
   controller: App\Controller\MagazineController::listAll
   path: /magazyny

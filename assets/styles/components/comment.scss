@@ -2,7 +2,9 @@
   &-header {
     border-bottom: 1px solid $kbin-comment-list-item-border-color;
   }
+
   .kbin-comment {
+    font-size: 0.9rem;
     padding: 0.6rem 0.3rem;
     display: flow-root;
     position: relative;
