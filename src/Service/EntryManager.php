@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\EntryFactory;
+use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\User;
-use Webmozart\Assert\Assert;
 
 class EntryManager
 {
@@ -41,6 +41,8 @@ class EntryManager
 
     public function editEntry(Entry $entry, EntryDto $entryDto): Entry
     {
+        Assert::same($entry->getMagazine()->getId(), $entryDto->getMagazine()->getId());
+
         $entry->setTitle($entryDto->getTitle());
         $entry->setUrl($entryDto->getUrl());
         $entry->setBody($entryDto->getBody());

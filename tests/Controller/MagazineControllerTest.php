@@ -47,18 +47,16 @@ class MagazineControllerTest extends WebTestCase
             )
         );
 
-        self::assertResponseRedirects('/m/polityka/edytuj');
+        self::assertResponseRedirects('/m/polityka');
 
         $crawler = $client->followRedirect();
 
         self::assertResponseIsSuccessful();
-        self::assertFormValue('[name=magazine]', 'magazine[title]', 'Przepisy kuchenne');
-    }
+        self::assertSelectorTextContains('h1', 'Przepisy kuchenne');    }
 
     public function testCannotEditMagazineName()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Cannot change Magazine name.');
 
         $client = $this->createClient();
         $client->catchExceptions(false);

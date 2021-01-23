@@ -4,10 +4,10 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\MagazineFactory;
+use Webmozart\Assert\Assert;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
 use App\Entity\User;
-use Webmozart\Assert\Assert;
 
 class MagazineManager
 {
@@ -38,7 +38,7 @@ class MagazineManager
 
     public function editMagazine(Magazine $magazine, MagazineDto $magazineDto): Magazine
     {
-        Assert::same($magazine->getName(), $magazineDto->getName(), 'Cannot change Magazine name.');
+        Assert::same($magazine->getName(), $magazineDto->getName());
 
         $magazine->setTitle($magazineDto->getTitle());
 

@@ -2,10 +2,8 @@
 
 namespace App\DTO;
 
-use App\Entity\Entry;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Magazine;
-use App\Entity\User;
+use App\Entity\Entry;
 
 class CommentDto
 {

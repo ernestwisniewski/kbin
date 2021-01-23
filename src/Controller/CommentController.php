@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -16,14 +16,20 @@ use App\Entity\Entry;
 class CommentController extends AbstractController
 {
     /**
+     * @var CommentManager
+     */
+    private $commentManager;
+
+    /**
      * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(CommentManager $commentManager, EntityManagerInterface $entityManager)
     {
 
-        $this->entityManager = $entityManager;
+        $this->commentManager = $commentManager;
+        $this->entityManager  = $entityManager;
     }
 
     /**
@@ -31,7 +37,7 @@ class CommentController extends AbstractController
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
      */
-    public function createComment(Magazine $magazine, Entry $entry, ?Comment $comment, Request $request, CommentManager $commentManager): Response
+    public function createComment(Magazine $magazine, Entry $entry, ?Comment $comment, Request $request): Response
     {
         $commentDto = new CommentDto();
         $commentDto->setEntry($entry);
@@ -40,7 +46,7 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $commentManager->createComment($commentDto, $this->getUserOrThrow());
+            $this->commentManager->createComment($commentDto, $this->getUserOrThrow());
             $this->entityManager->flush();
 
             return $this->redirectToRoute(
@@ -54,6 +60,40 @@ class CommentController extends AbstractController
 
         return $this->render(
             'comment/create.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     */
+    public function editComment(Magazine $magazine, Entry $entry, Comment $comment, Request $request)
+    {
+        $commentDto = $this->commentManager->createCommentDto($comment);
+
+        $form = $this->createForm(CommentType::class, $commentDto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->commentManager->editComment($comment, $commentDto);
+
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute(
+                'entry',
+                [
+                    'magazine_name' => $magazine->getName(),
+                    'entry_id'      => $entry->getId(),
+                ]
+            );
+        }
+
+        return $this->render(
+            'comment/edit.html.twig',
             [
                 'form' => $form->createView(),
             ]

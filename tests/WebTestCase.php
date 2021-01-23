@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -88,8 +89,8 @@ abstract class WebTestCase extends BaseWebTestCase
 
     private function createMagazine(string $name, string $title = null, User $user = null): Magazine
     {
-        $manager = self::$container->get(EntityManagerInterface::class);
-        $magazine = new Magazine($name, $title ?? 'Example magazine', $user ?? $this->getUserByUsername('regularUser'));
+        $manager  = self::$container->get(EntityManagerInterface::class);
+        $magazine = new Magazine($name, $title ?? 'Przykładowy magazyn', $user ?? $this->getUserByUsername('regularUser'));
 
         $manager->persist($magazine);
         $manager->flush();
@@ -99,7 +100,7 @@ abstract class WebTestCase extends BaseWebTestCase
         return $magazine;
     }
 
-    protected function getEntryByTitle(string $title): Entry
+    protected function getEntryByTitle(string $title, ?string $url = null, ?string $body = null): Entry
     {
         $entry = $this->entries->filter(
             static function (Entry $entry) use ($title) {
@@ -110,13 +111,28 @@ abstract class WebTestCase extends BaseWebTestCase
         if (!$entry) {
             $magazine = $this->getMagazineByName('polityka');
             $user     = $this->getUserByUsername('regularUser');
-            $entry    = $this->createEntry($title, $magazine, $user);
+            $entry    = $this->createEntry($title, $magazine, $user, $url, $body);
         }
 
         return $entry;
     }
 
-    private function createEntry(string $title, Magazine $magazine, User $user, string $url = 'https://example.com', string $body = null): Entry
+    public function createComment(string $body, ?Entry $entry = null, ?User $user = null)
+    {
+        $manager = self::$container->get(EntityManagerInterface::class);
+
+        $entry = $entry ?? $this->getEntryByTitle('Przykladowa treść');
+        $user  = $user ?? $this->getUserByUsername('regularUser');
+
+        $comment = new Comment($body, $entry, $user);
+
+        $manager->persist($comment);
+        $manager->flush();
+
+        return $comment;
+    }
+
+    private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = 'https://example.com', ?string $body = null): Entry
     {
         $manager = self::$container->get(EntityManagerInterface::class);
 

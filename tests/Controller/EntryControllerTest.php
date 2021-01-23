@@ -79,12 +79,64 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        self::assertResponseRedirects("/m/polityka/t/{$entry->getId()}/edytuj");
+        self::assertResponseRedirects("/m/polityka/t/{$entry->getId()}");
 
         $crawler = $client->followRedirect();
 
         self::assertResponseIsSuccessful();
-        self::assertFormValue('[name=entry_link]', 'entry_link[title]', 'zmieniona treść');
-        self::assertFormValue('[name=entry_link]', 'entry_link[url]', 'https://wp.pl');
+        self::assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
+    }
+
+    public function testCanEditArticle()
+    {
+        $client = $this->createClient();
+        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+
+        $entry = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+
+        $client->submit(
+            $crawler->selectButton('Gotowe')->form(
+                [
+                    'entry_article[title]'    => 'zmieniona treść',
+                    'entry_article[body]'      => 'zmieniona treść wpisu',
+                    'entry_article[magazine]' => $entry->getMagazine()->getId(),
+                ]
+            )
+        );
+
+        self::assertResponseRedirects("/m/polityka/t/{$entry->getId()}");
+
+        $crawler = $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
+        self::assertSelectorTextContains('p', 'zmieniona treść wpisu');
+    }
+
+    public function testCannotEditMagazine()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $client = $this->createClient();
+        $client->catchExceptions(false);
+        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+
+        $entry = $this->getEntryByTitle('przykladowa tresc');
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+
+        $client->submit(
+            $crawler->selectButton('Gotowe')->form(
+                [
+                    'entry_link[title]'    => 'zmieniona treść',
+                    'entry_link[url]'      => 'https://wp.pl',
+                    'entry_link[magazine]' => $this->getMagazineByName('test')->getId(),
+                ]
+            )
+        );
+
+        $this->assertTrue($client->getResponse()->isServerError());
     }
 }

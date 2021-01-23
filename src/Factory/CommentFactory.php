@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -16,5 +16,14 @@ class CommentFactory
             $commentDto->getEntry(),
             $user
         );
+    }
+
+    public function createDto(Comment $comment): CommentDto
+    {
+        $dto = new CommentDto();
+        $dto->setEntry($comment->getEntry());
+        $dto->setBody($comment->getBody());
+
+        return $dto;
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -25,6 +25,7 @@ class EntryFactory
     {
         $entryDto = new EntryDto();
 
+        $entryDto->setMagazine($entry->getMagazine());
         $entryDto->setTitle($entry->getTitle());
         $entryDto->setBody($entry->getBody());
         $entryDto->setUrl($entry->getUrl());

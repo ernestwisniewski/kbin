@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -37,7 +37,7 @@ class EntryController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      */
-    public function front(Magazine $magazine, Entry $entry)
+    public function front(Magazine $magazine, Entry $entry): Response
     {
         return $this->render(
             'entry/front.html.twig',
@@ -59,7 +59,7 @@ class EntryController extends AbstractController
             $entryDto->setMagazine($magazine);
         }
 
-        $form = $this->getForm($entryDto, $type);
+        $form = $this->createFormByType($entryDto, $type);
 
         $form->handleRequest($request);
 
@@ -90,11 +90,11 @@ class EntryController extends AbstractController
      *
      * @IsGranted("ROLE_USER")
      */
-    public function editEntry(Magazine $magazine, Entry $entry, Request $request)
+    public function editEntry(Magazine $magazine, Entry $entry, Request $request): Response
     {
         $entryDto = $this->entryManager->createEntryDto($entry);
 
-        $form = $this->getForm($entryDto, $entryDto->getType());
+        $form = $this->createFormByType($entryDto, $entryDto->getType());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -103,7 +103,7 @@ class EntryController extends AbstractController
             $this->entityManager->flush();
 
             return $this->redirectToRoute(
-                'entry_edit',
+                'entry',
                 [
                     'magazine_name' => $magazine->getName(),
                     'entry_id'      => $entry->getId(),
@@ -121,7 +121,7 @@ class EntryController extends AbstractController
         );
     }
 
-    private function getForm(EntryDto $entryDto, ?string $type): FormInterface
+    private function createFormByType(EntryDto $entryDto, ?string $type): FormInterface
     {
         switch ($type) {
             case EntryDto::ENTRY_TYPE_ARTICLE:

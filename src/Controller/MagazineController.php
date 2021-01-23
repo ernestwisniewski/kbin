@@ -82,7 +82,7 @@ class MagazineController extends AbstractController
 
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('magazine_edit', [
+            return $this->redirectToRoute('magazine', [
                 'name' => $magazine->getName(),
             ]);
         }
