@@ -8,11 +8,11 @@ class CommentControllerTest extends WebTestCase
 {
     public function testCanCreateComment()
     {
-        $client  = static::createClient();
+        $client  = $this->createClient();
+        $client->loginUser($this->getUserByUsername('user'));
 
         $entry = $this->getEntryByTitle('title');
 
-        $client->loginUser($this->getUserByUsername('user'));
         $crawler = $client->request('GET', $entryUrl = '/m/polityka/t/'.$entry->getId());
 
         $client->submit($crawler->selectButton('Gotowe')->form([

@@ -7,6 +7,7 @@ use App\Factory\MagazineFactory;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
 use App\Entity\User;
+use Webmozart\Assert\Assert;
 
 class MagazineManager
 {
@@ -37,6 +38,8 @@ class MagazineManager
 
     public function editMagazine(Magazine $magazine, MagazineDto $magazineDto): Magazine
     {
+        Assert::same($magazine->getName(), $magazineDto->getName(), 'Cannot change Magazine name.');
+
         $magazine->setTitle($magazineDto->getTitle());
 
         return $magazine;

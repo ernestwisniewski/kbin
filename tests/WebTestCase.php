@@ -2,12 +2,12 @@
 
 namespace App\Tests;
 
-use App\Entity\Entry;
-use App\Entity\Magazine;
-use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
+use App\Entity\Magazine;
+use App\Entity\Entry;
+use App\Entity\User;
 
 abstract class WebTestCase extends BaseWebTestCase
 {
@@ -89,7 +89,6 @@ abstract class WebTestCase extends BaseWebTestCase
     private function createMagazine(string $name, string $title = null, User $user = null): Magazine
     {
         $manager = self::$container->get(EntityManagerInterface::class);
-
         $magazine = new Magazine($name, $title ?? 'Example magazine', $user ?? $this->getUserByUsername('regularUser'));
 
         $manager->persist($magazine);
@@ -117,7 +116,7 @@ abstract class WebTestCase extends BaseWebTestCase
         return $entry;
     }
 
-    private function createEntry(string $title, Magazine $magazine, User $user, string $url = null, string $body = null): Entry
+    private function createEntry(string $title, Magazine $magazine, User $user, string $url = 'https://example.com', string $body = null): Entry
     {
         $manager = self::$container->get(EntityManagerInterface::class);
 

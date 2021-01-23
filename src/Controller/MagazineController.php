@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Repository\EntryRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MagazineRepository;
+use App\Repository\EntryRepository;
 use App\Service\MagazineManager;
 use App\Form\MagazineType;
 use App\Entity\Magazine;
@@ -16,12 +16,18 @@ use App\DTO\MagazineDto;
 class MagazineController extends AbstractController
 {
     /**
+     * @var MagazineManager
+     */
+    private $magazineManager;
+
+    /**
      * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(MagazineManager $magazineManager, EntityManagerInterface $entityManager)
     {
+        $this->magazineManager = $magazineManager;
         $this->entityManager = $entityManager;
     }
 
@@ -39,7 +45,7 @@ class MagazineController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function createMagazine(Request $request, MagazineManager $magazineManager): Response
+    public function createMagazine(Request $request): Response
     {
         $magazineDto = new MagazineDto();
 
@@ -47,7 +53,7 @@ class MagazineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $magazineManager->createMagazine($magazineDto, $this->getUserOrThrow());
+            $this->magazineManager->createMagazine($magazineDto, $this->getUserOrThrow());
             $this->entityManager->flush();
 
             return $this->redirectToRoute('magazine', ['name' => $magazineDto->getName()]);
@@ -64,15 +70,15 @@ class MagazineController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function editMagazine(Magazine $magazine, Request $request, MagazineManager $magazineManager): Response
+    public function editMagazine(Magazine $magazine, Request $request): Response
     {
-        $magazineDto = $magazineManager->createMagazineDto($magazine);
+        $magazineDto = $this->magazineManager->createMagazineDto($magazine);
 
         $form = $this->createForm(MagazineType::class, $magazineDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $magazineManager->editMagazine($magazine, $magazineDto);
+            $this->magazineManager->editMagazine($magazine, $magazineDto);
 
             $this->entityManager->flush();
 

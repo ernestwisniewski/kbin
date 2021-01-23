@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\User;
+use http\Exception\InvalidArgumentException;
 
 class EntryFactory
 {
@@ -18,5 +19,16 @@ class EntryFactory
             $entryDto->getMagazine(),
             $user
         );
+    }
+
+    public function createDto(Entry $entry): EntryDto
+    {
+        $entryDto = new EntryDto();
+
+        $entryDto->setTitle($entry->getTitle());
+        $entryDto->setBody($entry->getBody());
+        $entryDto->setUrl($entry->getUrl());
+
+        return $entryDto;
     }
 }

@@ -2,13 +2,16 @@
 
 namespace App\DTO;
 
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Magazine;
 use App\Entity\User;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class EntryDto
 {
+    const ENTRY_TYPE_ARTICLE = 'artykul';
+    const ENTRY_TYPE_LINK = 'link';
+
     /**
      * @var int|null
      */
@@ -54,10 +57,20 @@ class EntryDto
         }
     }
 
-    private function buildViolation(ExecutionContextInterface $context, $path) {
+    private function buildViolation(ExecutionContextInterface $context, $path)
+    {
         $context->buildViolation('This value should not be blank.')
             ->atPath($path)
             ->addViolation();
+    }
+
+    public function getType(): string
+    {
+        if ($this->getBody()) {
+            return self::ENTRY_TYPE_ARTICLE;
+        }
+
+        return self::ENTRY_TYPE_LINK;
     }
 
     /**
