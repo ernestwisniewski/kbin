@@ -3,22 +3,22 @@
 namespace App\Factory;
 
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Comment;
+use App\Entity\EntryComment;
 use App\DTO\CommentDto;
 use App\Entity\User;
 
-class CommentFactory
+class EntryCommentFactory
 {
-    public function createFromDto(CommentDto $commentDto, User $user): Comment
+    public function createFromDto(CommentDto $commentDto, User $user): EntryComment
     {
-        return new Comment(
+        return new EntryComment(
             $commentDto->getBody(),
             $commentDto->getEntry(),
             $user
         );
     }
 
-    public function createDto(Comment $comment): CommentDto
+    public function createDto(EntryComment $comment): CommentDto
     {
         $dto = new CommentDto();
         $dto->setEntry($comment->getEntry());

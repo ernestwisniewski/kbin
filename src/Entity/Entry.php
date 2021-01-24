@@ -47,7 +47,7 @@ class Entry
     private $body = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="entry")
+     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry")
      */
     private $comments;
 
@@ -115,14 +115,14 @@ class Entry
     }
 
     /**
-     * @return Collection|Comment[]
+     * @return Collection|EntryComment[]
      */
     public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function addComment(Comment $comment): self
+    public function addComment(EntryComment $comment): self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
@@ -132,7 +132,7 @@ class Entry
         return $this;
     }
 
-    public function removeComment(Comment $comment): self
+    public function removeComment(EntryComment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)

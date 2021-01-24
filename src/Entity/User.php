@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -53,7 +53,7 @@ class User implements UserInterface
     private $entries;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="user")
      */
     private $comments;
 
@@ -163,7 +163,7 @@ class User implements UserInterface
         return $this->comments;
     }
 
-    public function addComment(Comment $comment): self
+    public function addComment(EntryComment $comment): self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;

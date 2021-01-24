@@ -6,17 +6,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Service\CommentManager;
+use App\Service\EntryCommentManager;
+use App\Entity\EntryComment;
 use App\Form\CommentType;
 use App\Entity\Magazine;
 use App\DTO\CommentDto;
-use App\Entity\Comment;
 use App\Entity\Entry;
 
-class CommentController extends AbstractController
+class EntryCommentController extends AbstractController
 {
     /**
-     * @var CommentManager
+     * @var EntryCommentManager
      */
     private $commentManager;
 
@@ -25,7 +25,7 @@ class CommentController extends AbstractController
      */
     private $entityManager;
 
-    public function __construct(CommentManager $commentManager, EntityManagerInterface $entityManager)
+    public function __construct(EntryCommentManager $commentManager, EntityManagerInterface $entityManager)
     {
 
         $this->commentManager = $commentManager;
@@ -37,7 +37,7 @@ class CommentController extends AbstractController
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
      */
-    public function createComment(Magazine $magazine, Entry $entry, ?Comment $comment, Request $request): Response
+    public function createComment(Magazine $magazine, Entry $entry, ?EntryComment $comment, Request $request): Response
     {
         $commentDto = new CommentDto();
         $commentDto->setEntry($entry);
@@ -59,7 +59,7 @@ class CommentController extends AbstractController
         }
 
         return $this->render(
-            'comment/create.html.twig',
+            'entry/comment/create.html.twig',
             [
                 'form' => $form->createView(),
             ]
@@ -71,7 +71,7 @@ class CommentController extends AbstractController
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
      */
-    public function editComment(Magazine $magazine, Entry $entry, Comment $comment, Request $request)
+    public function editComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request)
     {
         $commentDto = $this->commentManager->createCommentDto($comment);
 
@@ -93,7 +93,7 @@ class CommentController extends AbstractController
         }
 
         return $this->render(
-            'comment/edit.html.twig',
+            'entry/comment/edit.html.twig',
             [
                 'form' => $form->createView(),
             ]
@@ -114,7 +114,7 @@ class CommentController extends AbstractController
         $form = $this->createForm(CommentType::class, null, ['action' => $this->generateUrl('comment_create', $routeParams)]);
 
         return $this->render(
-            'comment/_form.html.twig',
+            'entry/comment/_form.html.twig',
             [
                 'form' => $form->createView(),
             ]
