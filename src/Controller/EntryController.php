@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -65,7 +65,6 @@ class EntryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entry = $this->entryManager->createEntry($entryDto, $this->getUserOrThrow());
-            $this->entityManager->flush();
 
             return $this->redirectToRoute(
                 'entry',
@@ -100,8 +99,6 @@ class EntryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entry = $this->entryManager->editEntry($entry, $entryDto);
 
-            $this->entityManager->flush();
-
             return $this->redirectToRoute(
                 'entry',
                 [
@@ -117,6 +114,26 @@ class EntryController extends AbstractController
                 'magazine' => $magazine,
                 'entry'    => $entry,
                 'form'     => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     */
+    public function purgeEntry(Magazine $magazine, Entry $entry, Request $request): Response
+    {
+        $this->validateCsrf('entry_purge', $request->request->get('token'));
+
+        $this->entryManager->purgeEntry($entry);
+
+        return $this->redirectToRoute(
+            'magazine',
+            [
+                'name' => $magazine->getName(),
             ]
         );
     }

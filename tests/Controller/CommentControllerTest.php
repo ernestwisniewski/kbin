@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
@@ -45,7 +45,7 @@ class CommentControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'comment[body]' => 'zmieniona treść'
+                    'comment[body]' => 'zmieniona treść',
                 ]
             )
         );
@@ -56,5 +56,28 @@ class CommentControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('blockquote', 'zmieniona treść');
+    }
+
+    public function testCanDeleteComment()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('regularUser'));
+
+        $comment  = $this->createComment('przykładowy komentarz');
+        $comment2 = $this->createComment('test', $comment->getEntry());
+
+        $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";
+
+        $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$comment->getId()}/edytuj");
+
+        $client->submit(
+            $crawler->selectButton('Usuń')->form()
+        );
+        self::assertResponseRedirects($entryUrl);
+
+        $crawler = $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextNotContains('blockquote', 'przykładowy komentarz');
     }
 }

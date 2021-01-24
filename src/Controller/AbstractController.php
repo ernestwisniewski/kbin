@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Entity\User;
 
 /**
@@ -17,5 +18,11 @@ abstract class AbstractController extends BaseAbstractController {
         }
 
         return $user;
+    }
+
+    protected function validateCsrf(string $id, $token): void {
+        if (!\is_string($token) || !$this->isCsrfTokenValid($id, $token)) {
+            throw new BadRequestHttpException('Invalid CSRF token');
+        }
     }
 }

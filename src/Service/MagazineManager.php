@@ -32,6 +32,7 @@ class MagazineManager
         $magazine = $this->magazineFactory->createFromDto($magazineDto, $user);
 
         $this->entityManager->persist($magazine);
+        $this->entityManager->flush();
 
         return $magazine;
     }
@@ -41,6 +42,8 @@ class MagazineManager
         Assert::same($magazine->getName(), $magazineDto->getName());
 
         $magazine->setTitle($magazineDto->getTitle());
+
+        $this->entityManager->flush();
 
         return $magazine;
     }

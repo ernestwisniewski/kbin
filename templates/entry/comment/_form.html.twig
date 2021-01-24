@@ -1,11 +1,13 @@
 {{ form_start(form) }}
-<div class="kbin-comment-create-form mt-3">
-    <div class="mb-3">
-        {{ form_widget(form.body) }}
-    </div>
+<div class="col-lg-6">
+    <div class="kbin-comment-create-form my-3">
+        <div class="mb-3">
+            {{ form_widget(form.body) }}
+        </div>
 
-    <div class="mb-12 text-end">
-        {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+        <div class="mb-12 text-end">
+            {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+        </div>
     </div>
 </div>
 {{ form_end(form) }}

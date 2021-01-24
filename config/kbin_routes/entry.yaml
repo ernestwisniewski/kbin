@@ -13,3 +13,8 @@ entry_edit:
   controller: App\Controller\EntryController::editEntry
   path: /m/{magazine_name}/t/{entry_id}/edytuj
   methods: [ GET, POST ]
+
+entry_purge:
+  controller: App\Controller\EntryController::purgeEntry
+  path: /m/{magazine_name}/t/{entry_id}/purge
+  methods: [ POST ]

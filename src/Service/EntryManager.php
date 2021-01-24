@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -35,6 +35,7 @@ class EntryManager
         $this->assertType($entry);
 
         $this->entityManager->persist($entry);
+        $this->entityManager->flush();
 
         return $entry;
     }
@@ -49,7 +50,15 @@ class EntryManager
 
         $this->assertType($entry);
 
+        $this->entityManager->flush();
+
         return $entry;
+    }
+
+    public function purgeEntry(Entry $entry): void
+    {
+        $this->entityManager->remove($entry);
+        $this->entityManager->flush();
     }
 
     public function createEntryDto(Entry $entry): EntryDto

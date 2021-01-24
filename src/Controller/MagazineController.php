@@ -54,7 +54,6 @@ class MagazineController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->magazineManager->createMagazine($magazineDto, $this->getUserOrThrow());
-            $this->entityManager->flush();
 
             return $this->redirectToRoute('magazine', ['name' => $magazineDto->getName()]);
         }
@@ -79,8 +78,6 @@ class MagazineController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->magazineManager->editMagazine($magazine, $magazineDto);
-
-            $this->entityManager->flush();
 
             return $this->redirectToRoute('magazine', [
                 'name' => $magazine->getName(),

@@ -1,10 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\EntryCommentFactory;
-use PHPUnit\Framework\Assert;
+use Webmozart\Assert\Assert;
 use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
 use App\Entity\User;
@@ -32,15 +32,18 @@ class EntryCommentManager
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
         $this->entityManager->persist($comment);
+        $this->entityManager->flush();
 
         return $comment;
     }
 
     public function editComment(EntryComment $comment, EntryCommentDto $commentDto): EntryComment
     {
-        Assert::assertSame($comment->getEntry()->getId(), $commentDto->getEntry()->getId());
+        Assert::same($comment->getEntry()->getId(), $commentDto->getEntry()->getId());
 
         $comment->setBody($commentDto->getBody());
+
+        $this->entityManager->flush();
 
         return $comment;
     }
@@ -48,5 +51,11 @@ class EntryCommentManager
     public function createCommentDto(EntryComment $comment): EntryCommentDto
     {
         return $this->commentFactory->createDto($comment);
+    }
+
+    public function purgeComment(EntryComment $comment): void
+    {
+        $this->entityManager->remove($comment);
+        $this->entityManager->flush();
     }
 }

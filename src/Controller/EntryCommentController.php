@@ -1,8 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,21 +48,13 @@ class EntryCommentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->commentManager->createComment($commentDto, $this->getUserOrThrow());
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute(
-                'entry',
-                [
-                    'magazine_name' => $magazine->getName(),
-                    'entry_id'      => $entry->getId(),
-                ]
-            );
         }
 
-        return $this->render(
-            'entry/comment/create.html.twig',
+        return $this->redirectToRoute(
+            'entry',
             [
-                'form' => $form->createView(),
+                'magazine_name' => $magazine->getName(),
+                'entry_id'      => $entry->getId(),
             ]
         );
     }
@@ -81,8 +74,6 @@ class EntryCommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->commentManager->editComment($comment, $commentDto);
 
-            $this->entityManager->flush();
-
             return $this->redirectToRoute(
                 'entry',
                 [
@@ -95,7 +86,32 @@ class EntryCommentController extends AbstractController
         return $this->render(
             'entry/comment/edit.html.twig',
             [
-                'form' => $form->createView(),
+                'magazine' => $magazine,
+                'entry'    => $entry,
+                'comment'  => $comment,
+                'form'     => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     */
+    public function purgeComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request)
+    {
+        $this->validateCsrf('comment_purge', $request->request->get('token'));
+
+        $this->commentManager->purgeComment($comment);
+
+        return $this->redirectToRoute(
+            'entry',
+            [
+                'magazine_name' => $magazine->getName(),
+                'entry_id'      => $entry->getId(),
             ]
         );
     }
@@ -111,7 +127,7 @@ class EntryCommentController extends AbstractController
             $routeParams['comment_id'] = $commentId;
         }
 
-        $form = $this->createForm(CommentType::class, null, ['action' => $this->generateUrl('comment_create', $routeParams)]);
+        $form = $this->createForm(CommentType::class, null, ['action' => $this->generateUrl('entry_comment_create', $routeParams)]);
 
         return $this->render(
             'entry/comment/_form.html.twig',

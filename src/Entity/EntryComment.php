@@ -25,7 +25,7 @@ class EntryComment
 
     /**
      * @ORM\ManyToOne(targetEntity=Entry::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $entry;
 
