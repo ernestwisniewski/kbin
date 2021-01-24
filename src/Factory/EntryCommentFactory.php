@@ -1,8 +1,7 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Factory;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
 use App\Entity\User;

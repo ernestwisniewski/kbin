@@ -1,3 +1,4 @@
+
 .kbin-entry {
   padding: 0.6rem 0.3rem;
   display: flow-root;
@@ -9,8 +10,13 @@
     background-color: $kbin-entry-list-item-nth-background-color;
   }
 
-  &-content {
-    display: inline-block;
+  &-main {
+    display: flow-root;
+
+    @include media-breakpoint-down(sm) {
+      clear: both;
+      padding-top: 1rem;
+    }
   }
 
   &-vote {
@@ -22,6 +28,10 @@
       list-style-type: none;
       padding: 0;
 
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 0;
+      }
+
       &-item {
         margin: 3px 0;
         background: $kbin-entry-vote-button-background-color;
@@ -31,7 +41,6 @@
           display: block;
           text-align: center;
           font-weight: 700;
-          text-decoration: none;
           font-size: 0.7rem;
 
           &:hover {
@@ -50,9 +59,13 @@
     height: 100%;
   }
 
+  &-main {
+    display: flow-root;
+  }
+
   &-title {
     margin-bottom: 5px;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
 
     a {
       text-decoration: none;
@@ -68,9 +81,35 @@
   }
 
   &-meta {
+    font-size: 0.9rem;
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &-list {
+      &-item {
+        margin-right: 0 !important;
+
+        &-links {
+          a {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: gray;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  &-content {
+    display: inline-block;
   }
 }
 
+// Create page
 .kbin-entry-create-lead {
   @include media-breakpoint-up(lg) {
     max-width: 45rem;

@@ -35,7 +35,7 @@ class Moderator
     private $isOwner = false;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetimetz_immutable")
      */
     private $createdAt;
 
@@ -93,12 +93,5 @@ class Moderator
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 }

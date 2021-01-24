@@ -23,6 +23,13 @@ $primary: #556880;
       position: relative;
     }
   }
+
+  a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .kbin-magazine-background {

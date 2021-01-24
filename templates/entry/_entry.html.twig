@@ -20,14 +20,38 @@
                      alt="Makigi.pl - Rozkład jazdy 2017">
             </div>
 
-            <{{ title_tag }} class="kbin-entry-title">
-                <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">{{ entry.title }}</a>
-            </{{ title_tag }}>
+            <div class="kbin-entry-main">
+                {% include 'entry/_entry_title.html.twig' %}
 
-            <div class="kbin-entry-meta">
+                <aside class="kbin-entry-meta">
+                    <ul class="kbin-entry-meta-list list-inline mb-0">
+                        <li class="kbin-entry-meta-list-item list-inline-item">
+                            <small class="text-muted">dodany
+                                <time>{{ entry.createdAt|date('Y-m-d') }}</time>
+                            </small>
+                        </li>
+                        <li class="kbin-entry-meta-list-item list-inline-item">
+                            <small class="text-muted">przez <a href="#">{{ entry.user.username }}</a></small>
+                        </li>
+                        <li class="kbin-entry-meta-list-item list-inline-item">
+                            <small class="text-muted">do <a href="{{ path('magazine', {'name': entry.magazine.name}) }}">m/{{ entry.magazine.name }}</a></small>
+                        </li>
+                    </ul>
+                    <ul class="kbin-entry-meta-list  list-inline mb-0">
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="text-muted"><a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">1
+                                    komentarz</a></small>
+                        </li>
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="text-muted"><a href="#">zgłoś</a></small>
+                        </li>
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="text-muted"><a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">edytuj</a></small>
+                        </li>
 
+                    </ul>
+                </aside>
             </div>
-
             <div class="clearfix"></div>
         </div>
 

@@ -12,6 +12,16 @@
       position: relative;
     }
 
+    &-brand {
+      font-weight: bold;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+        text-decoration: none;
+      }
+    }
+
     &-navbar {
       font-size: 0.82rem;
 

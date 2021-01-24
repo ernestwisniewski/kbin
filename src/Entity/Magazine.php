@@ -30,6 +30,11 @@ class Magazine
     private $title;
 
     /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    private $createdAt;
+
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     private $moderators;
@@ -43,6 +48,7 @@ class Magazine
     {
         $this->name       = $name;
         $this->title      = $title;
+        $this->createdAt = new \DateTimeImmutable('@'.time());
         $this->moderators = new ArrayCollection();
         $this->entries    = new ArrayCollection();
         $this->addModerator(new Moderator($this, $user, true));
@@ -75,6 +81,11 @@ class Magazine
         $this->title = $title;
 
         return $this;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     public function getModerators(): Collection

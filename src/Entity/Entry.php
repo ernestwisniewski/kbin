@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -50,6 +50,11 @@ class Entry
     private $body = null;
 
     /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    private $createdAt;
+
+    /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry")
      */
     private $comments;
@@ -62,8 +67,9 @@ class Entry
         $this->body     = $body;
         $this->magazine = $magazine;
         $this->user     = $user;
-        $user->addEntry($this);
+        $this->createdAt = new \DateTimeImmutable('@'.time());
         $this->comments = new ArrayCollection();
+        $user->addEntry($this);
     }
 
     public function getId(): ?int
@@ -115,6 +121,11 @@ class Entry
         $this->body = $body;
 
         return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     /**

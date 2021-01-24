@@ -34,11 +34,17 @@ class EntryComment
      */
     private $body;
 
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    private $createdAt;
+
     public function __construct(string $body, Entry $entry, User $user)
     {
         $this->body = $body;
         $this->entry = $entry;
         $this->user = $user;
+        $this->createdAt = new \DateTimeImmutable('@'.time());
     }
 
     public function getId(): ?int
@@ -80,5 +86,10 @@ class EntryComment
         $this->body = $body;
 
         return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 }

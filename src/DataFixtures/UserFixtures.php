@@ -43,6 +43,12 @@ class UserFixtures extends BaseFixture
 
     private function provideRandomUsers($count = 1): iterable
     {
+        yield [
+            'email'    => 'demo@karab.in',
+            'username' => 'demo',
+            'password' => 'demo',
+        ];
+
         for ($i = 0; $i <= $count; $i++) {
             yield [
                 'email'    => $this->faker->email,

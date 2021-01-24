@@ -28,8 +28,7 @@
         "symfony/yaml": "5.2.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "webmozart/assert": "^1.9",
-      "ext-http": "*"
+        "webmozart/assert": "^1.9"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.5",
