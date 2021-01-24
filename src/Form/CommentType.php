@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
-use App\DTO\CommentDto;
+use App\DTO\EntryCommentDto;
 
 class CommentType extends AbstractType
 {
@@ -22,7 +22,7 @@ class CommentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CommentDto::class,
+            'data_class' => EntryCommentDto::class,
         ]);
     }
 }

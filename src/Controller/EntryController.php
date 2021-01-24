@@ -124,7 +124,7 @@ class EntryController extends AbstractController
     private function createFormByType(EntryDto $entryDto, ?string $type): FormInterface
     {
         switch ($type) {
-            case EntryDto::ENTRY_TYPE_ARTICLE:
+            case Entry::ENTRY_TYPE_ARTICLE:
                 return $this->createForm(EntryArticleType::class, $entryDto);
             default:
                 return $this->createForm(EntryLinkType::class, $entryDto);
@@ -136,7 +136,7 @@ class EntryController extends AbstractController
         $prefix = $edit ? 'edit' : 'create';
 
         switch ($type) {
-            case EntryDto::ENTRY_TYPE_ARTICLE:
+            case Entry::ENTRY_TYPE_ARTICLE:
                 return "entry/{$prefix}_article.html.twig";
                 break;
             default:

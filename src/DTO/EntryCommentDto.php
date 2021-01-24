@@ -5,7 +5,7 @@ namespace App\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Entry;
 
-class CommentDto
+class EntryCommentDto
 {
     /**
      * @var int|null

@@ -10,7 +10,7 @@ use App\Service\EntryCommentManager;
 use App\Entity\EntryComment;
 use App\Form\CommentType;
 use App\Entity\Magazine;
-use App\DTO\CommentDto;
+use App\DTO\EntryCommentDto;
 use App\Entity\Entry;
 
 class EntryCommentController extends AbstractController
@@ -39,7 +39,7 @@ class EntryCommentController extends AbstractController
      */
     public function createComment(Magazine $magazine, Entry $entry, ?EntryComment $comment, Request $request): Response
     {
-        $commentDto = new CommentDto();
+        $commentDto = new EntryCommentDto();
         $commentDto->setEntry($entry);
 
         $form = $this->createForm(CommentType::class, $commentDto);

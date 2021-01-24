@@ -5,13 +5,11 @@ namespace App\DTO;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Magazine;
+use App\Entity\Entry;
 use App\Entity\User;
 
 class EntryDto
 {
-    const ENTRY_TYPE_ARTICLE = 'artykul';
-    const ENTRY_TYPE_LINK = 'link';
-
     /**
      * @var int|null
      */
@@ -67,10 +65,10 @@ class EntryDto
     public function getType(): string
     {
         if ($this->getBody()) {
-            return self::ENTRY_TYPE_ARTICLE;
+            return Entry::ENTRY_TYPE_ARTICLE;
         }
 
-        return self::ENTRY_TYPE_LINK;
+        return Entry::ENTRY_TYPE_LINK;
     }
 
     /**

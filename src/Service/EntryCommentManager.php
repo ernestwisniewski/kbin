@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\EntryCommentFactory;
 use PHPUnit\Framework\Assert;
 use App\Entity\EntryComment;
-use App\DTO\CommentDto;
+use App\DTO\EntryCommentDto;
 use App\Entity\User;
 
 class EntryCommentManager
@@ -27,7 +27,7 @@ class EntryCommentManager
         $this->entityManager  = $entityManager;
     }
 
-    public function createComment(CommentDto $commentDto, User $user): EntryComment
+    public function createComment(EntryCommentDto $commentDto, User $user): EntryComment
     {
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
@@ -36,7 +36,7 @@ class EntryCommentManager
         return $comment;
     }
 
-    public function editComment(EntryComment $comment, CommentDto $commentDto): EntryComment
+    public function editComment(EntryComment $comment, EntryCommentDto $commentDto): EntryComment
     {
         Assert::assertSame($comment->getEntry()->getId(), $commentDto->getEntry()->getId());
 
@@ -45,7 +45,7 @@ class EntryCommentManager
         return $comment;
     }
 
-    public function createCommentDto(EntryComment $comment): CommentDto
+    public function createCommentDto(EntryComment $comment): EntryCommentDto
     {
         return $this->commentFactory->createDto($comment);
     }

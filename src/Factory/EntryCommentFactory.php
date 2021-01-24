@@ -4,12 +4,12 @@ namespace App\Factory;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\EntryComment;
-use App\DTO\CommentDto;
+use App\DTO\EntryCommentDto;
 use App\Entity\User;
 
 class EntryCommentFactory
 {
-    public function createFromDto(CommentDto $commentDto, User $user): EntryComment
+    public function createFromDto(EntryCommentDto $commentDto, User $user): EntryComment
     {
         return new EntryComment(
             $commentDto->getBody(),
@@ -18,9 +18,9 @@ class EntryCommentFactory
         );
     }
 
-    public function createDto(EntryComment $comment): CommentDto
+    public function createDto(EntryComment $comment): EntryCommentDto
     {
-        $dto = new CommentDto();
+        $dto = new EntryCommentDto();
         $dto->setEntry($comment->getEntry());
         $dto->setBody($comment->getBody());
 

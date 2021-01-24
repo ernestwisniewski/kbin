@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Entry
 {
+    const ENTRY_TYPE_ARTICLE = 'artykul';
+    const ENTRY_TYPE_LINK = 'link';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
