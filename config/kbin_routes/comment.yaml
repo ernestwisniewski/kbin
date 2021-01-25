@@ -1,16 +1,16 @@
 entry_comment_create:
   controller: App\Controller\EntryCommentController::createComment
   defaults: { parent_comment_id: null }
-  path: /m/{magazine_name}/t/{entry_id}/komentarz/{parent_comment_id}
+  path: /m/{magazine_name}/t/{entry_id}/k/{parent_comment_id}
   methods: [ POST ]
 
 entry_comment_edit:
   controller: App\Controller\EntryCommentController::editComment
-  path: /m/{magazine_name}/t/{entry_id}/komentarz/{comment_id}/edytuj
+  path: /m/{magazine_name}/t/{entry_id}/k/{comment_id}/edytuj
   methods: [ GET, POST ]
 
 entry_comment_purge:
   controller: App\Controller\EntryCommentController::purgeComment
-  path: /m/{magazine_name}/t/{entry_id}/komentarz/{comment_id}/purge
+  path: /m/{magazine_name}/t/{entry_id}/k/{comment_id}/purge
   methods: [ GET, POST ]
 

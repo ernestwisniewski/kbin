@@ -40,7 +40,7 @@ class CommentControllerTest extends WebTestCase
 
         $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";
 
-        $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$comment->getId()}/edytuj");
+        $crawler = $client->request('GET', "{$entryUrl}/k/{$comment->getId()}/edytuj");
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -68,7 +68,7 @@ class CommentControllerTest extends WebTestCase
 
         $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";
 
-        $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$comment->getId()}/edytuj");
+        $crawler = $client->request('GET', "{$entryUrl}/k/{$comment->getId()}/edytuj");
 
         $client->submit(
             $crawler->selectButton('Usuń')->form()
