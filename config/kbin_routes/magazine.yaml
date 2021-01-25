@@ -13,6 +13,11 @@ magazine_edit:
   path: /m/{name}/edytuj
   methods: [ GET, POST ]
 
+magazine_purge:
+  controller: App\Controller\MagazineController::purgeMagazine
+  path: /m/{name}/purge
+  methods: [ POST ]
+
 magazine_list_all:
   controller: App\Controller\MagazineController::listAll
   path: /magazyny

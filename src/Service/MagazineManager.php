@@ -24,7 +24,7 @@ class MagazineManager
     public function __construct(MagazineFactory $magazineFactory, EntityManagerInterface $entityManager)
     {
         $this->magazineFactory = $magazineFactory;
-        $this->entityManager = $entityManager;
+        $this->entityManager   = $entityManager;
     }
 
     public function createMagazine(MagazineDto $magazineDto, User $user): Magazine
@@ -51,5 +51,11 @@ class MagazineManager
     public function createMagazineDto(Magazine $magazine): MagazineDto
     {
         return $this->magazineFactory->createDto($magazine);
+    }
+
+    public function purgeMagazine(Magazine $magazine): void
+    {
+        $this->entityManager->remove($magazine);
+        $this->entityManager->flush();
     }
 }

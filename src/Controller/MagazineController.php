@@ -28,7 +28,7 @@ class MagazineController extends AbstractController
     public function __construct(MagazineManager $magazineManager, EntityManagerInterface $entityManager)
     {
         $this->magazineManager = $magazineManager;
-        $this->entityManager = $entityManager;
+        $this->entityManager   = $entityManager;
     }
 
     public function front(Magazine $magazine, EntryRepository $entryRepository): Response
@@ -79,17 +79,30 @@ class MagazineController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->magazineManager->editMagazine($magazine, $magazineDto);
 
-            return $this->redirectToRoute('magazine', [
-                'name' => $magazine->getName(),
-            ]);
+            return $this->redirectToRoute(
+                'magazine',
+                [
+                    'name' => $magazine->getName(),
+                ]
+            );
         }
 
         return $this->render(
             'magazine/edit.html.twig',
             [
+                'magazine' => $magazine,
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    public function purgeMagazine(Magazine $magazine, Request $request)
+    {
+        $this->validateCsrf('magazine_purge', $request->request->get('token'));
+
+        $this->magazineManager->purgeMagazine($magazine);
+
+        return $this->redirectToRoute('front');
     }
 
     public function listAll(MagazineRepository $magazineRepository)

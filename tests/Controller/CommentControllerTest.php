@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Tests\Controller;
 
@@ -58,7 +58,7 @@ class CommentControllerTest extends WebTestCase
         self::assertSelectorTextContains('blockquote', 'zmieniona treść');
     }
 
-    public function testCanDeleteComment()
+    public function testCanPurgeComment()
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('regularUser'));

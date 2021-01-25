@@ -100,7 +100,7 @@ class EntryControllerTest extends WebTestCase
             $crawler->selectButton('Gotowe')->form(
                 [
                     'entry_article[title]'    => 'zmieniona treść',
-                    'entry_article[body]'      => 'zmieniona treść wpisu',
+                    'entry_article[body]'     => 'zmieniona treść wpisu',
                     'entry_article[magazine]' => $entry->getMagazine()->getId(),
                 ]
             )
@@ -138,5 +138,29 @@ class EntryControllerTest extends WebTestCase
         );
 
         $this->assertTrue($client->getResponse()->isServerError());
+    }
+
+    public function testPurgeEditArticle()
+    {
+        $client = $this->createClient();
+        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+
+        $entry  = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
+        $entry2 = $this->getEntryByTitle('test', null, 'przykładowa treść wpisu');
+
+        $this->createComment('test', $entry);
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+
+        $client->submit(
+            $crawler->selectButton('Usuń')->form()
+        );
+
+        self::assertResponseRedirects("/m/polityka");
+
+        $crawler = $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextNotContains('.kbin-entry-title', 'przykladowa tresc');
     }
 }

@@ -25,7 +25,7 @@ class Moderator
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="moderators")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $magazine;
 

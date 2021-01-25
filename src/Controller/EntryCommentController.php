@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller;
 
@@ -103,7 +103,7 @@ class EntryCommentController extends AbstractController
      */
     public function purgeComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request)
     {
-        $this->validateCsrf('comment_purge', $request->request->get('token'));
+        $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
 
         $this->commentManager->purgeComment($comment);
 

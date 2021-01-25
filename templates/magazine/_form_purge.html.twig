@@ -1,0 +1,10 @@
+<form action="{{ path('magazine_purge', {name: magazine.name}) }}" method="POST">
+    <div class="col-lg-6">
+        <div class="kbin-magazine-create-form">
+            <div class="input-group-sm mb-3 text-end">
+                <input type="hidden" name="token" value="{{ csrf_token('magazine_purge') }}">
+                <button class="btn btn-danger">Usuń</button>
+            </div>
+        </div>
+    </div>
+</form>

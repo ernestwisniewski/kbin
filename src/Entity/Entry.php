@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Entity;
 
@@ -30,7 +30,7 @@ class Entry
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $magazine;
 

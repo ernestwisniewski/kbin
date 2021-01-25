@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Tests\WebTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MagazineControllerTest extends WebTestCase
 {
@@ -52,7 +53,8 @@ class MagazineControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('h1', 'Przepisy kuchenne');    }
+        self::assertSelectorTextContains('h1', 'Przepisy kuchenne');
+    }
 
     public function testCannotEditMagazineName()
     {
@@ -69,12 +71,39 @@ class MagazineControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'magazine[name]' => 'kuchnia',
+                    'magazine[name]'  => 'kuchnia',
                     'magazine[title]' => 'Przepisy kuchenne',
                 ]
             )
         );
 
         $this->assertTrue($client->getResponse()->isServerError());
+    }
+
+    public function testCanPurgeMagazine()
+    {
+        $this->expectException(NotFoundHttpException::class);
+
+        $client = $this->createClient();
+        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->catchExceptions(false);
+
+        $magazine = $this->getMagazineByName('polityka');
+
+        $crawler = $client->request('GET', '/m/polityka/edytuj');
+
+        $client->submit(
+            $crawler->selectButton('Usuń')->form()
+        );
+
+        self::assertResponseRedirects('/');
+
+        $crawler = $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+
+        $crawler = $client->request('GET', '/m/polityka');
+
+        $this->assertTrue($client->getResponse()->isNotFound());
     }
 }
