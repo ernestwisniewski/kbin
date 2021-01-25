@@ -41,7 +41,7 @@ $primary: #556880;
   position: absolute;
 
   @include media-breakpoint-down(xxl) {
-    opacity: 0.1;
+    opacity: .1;
   }
 
   @include media-breakpoint-up(lg) {

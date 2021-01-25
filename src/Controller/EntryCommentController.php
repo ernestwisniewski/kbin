@@ -63,6 +63,9 @@ class EntryCommentController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="comment")
      */
     public function editComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request)
     {
@@ -100,6 +103,7 @@ class EntryCommentController extends AbstractController
      * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
+     * @IsGranted("purge", subject="comment")
      */
     public function purgeComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request)
     {

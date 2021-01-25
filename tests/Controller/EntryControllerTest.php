@@ -26,12 +26,12 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        self::assertResponseRedirects();
+        $this->assertResponseRedirects();
 
         $crawler = $client->followRedirect();
 
-        self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
     }
 
     public function testCanCreateLink()
@@ -53,12 +53,12 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        self::assertResponseRedirects();
+        $this->assertResponseRedirects();
 
         $crawler = $client->followRedirect();
 
-        self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
     }
 
     public function testCanEditLink()
@@ -81,12 +81,12 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        self::assertResponseRedirects("/m/polityka/t/{$entry->getId()}");
+        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}");
 
         $crawler = $client->followRedirect();
 
-        self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
     }
 
     public function testCanEditArticle()
@@ -108,13 +108,13 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        self::assertResponseRedirects("/m/polityka/t/{$entry->getId()}");
+        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}");
 
         $crawler = $client->followRedirect();
 
-        self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
-        self::assertSelectorTextContains('p', 'zmieniona treść wpisu');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
+        $this->assertSelectorTextContains('p', 'zmieniona treść wpisu');
     }
 
     public function testCannotEditEntryMagazine()
@@ -150,7 +150,7 @@ class EntryControllerTest extends WebTestCase
         $entry  = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
         $entry2 = $this->getEntryByTitle('test', null, 'przykładowa treść wpisu');
 
-        $this->createComment('test', $entry);
+        $this->createEntryComment('test', $entry);
 
         $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
 
@@ -158,12 +158,12 @@ class EntryControllerTest extends WebTestCase
             $crawler->selectButton('Usuń')->form()
         );
 
-        self::assertResponseRedirects("/m/polityka");
+        $this->assertResponseRedirects("/m/polityka");
 
         $crawler = $client->followRedirect();
 
-        self::assertResponseIsSuccessful();
-        self::assertSelectorTextNotContains('.kbin-entry-title', 'przykladowa tresc');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextNotContains('.kbin-entry-title', 'przykladowa tresc');
     }
 
     public function testUnauthorizedUserCannotEditOrPurgeEntry() {
@@ -176,6 +176,7 @@ class EntryControllerTest extends WebTestCase
         $entry = $this->getEntryByTitle('przykładowy wpis');
 
         $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}");
+
         $this->assertEmpty($crawler->filter('.kbin-entry-meta')->selectLink('edytuj'));
 
         $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");

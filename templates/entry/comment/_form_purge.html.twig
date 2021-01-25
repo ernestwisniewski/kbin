@@ -1,14 +1,16 @@
-<form action="{{ path('entry_comment_purge', {
-    magazine_name: comment.entry.magazine.name,
-    entry_id: comment.entry.id,
-    comment_id: comment.id,
-}) }}" method="POST">
-    <div class="col-xs-12">
-        <div class="kbin-magazine-create-form">
-            <div class="input-group-sm mb-3 text-end">
-                <input type="hidden" name="token" value="{{ csrf_token('entry_comment_purge') }}">
-                <button class="btn btn-danger">Usuń</button>
+{% if is_granted('purge', comment) %}
+    <form action="{{ path('entry_comment_purge', {
+        magazine_name: comment.entry.magazine.name,
+        entry_id: comment.entry.id,
+        comment_id: comment.id,
+    }) }}" method="POST">
+        <div class="col-xs-12">
+            <div class="kbin-magazine-create-form">
+                <div class="input-group-sm mb-3 text-end">
+                    <input type="hidden" name="token" value="{{ csrf_token('entry_comment_purge') }}">
+                    <button class="btn btn-danger">Usuń</button>
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+{% endif %}

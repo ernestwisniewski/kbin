@@ -114,6 +114,9 @@
     "fzaninotto/faker": {
         "version": "v1.9.2"
     },
+    "knplabs/knp-time-bundle": {
+        "version": "v1.15.0"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -399,6 +402,19 @@
     },
     "symfony/string": {
         "version": "v5.2.1"
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
+        ]
     },
     "symfony/translation-contracts": {
         "version": "v2.3.0"

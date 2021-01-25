@@ -24,12 +24,12 @@ class MagazineControllerTest extends WebTestCase
             )
         );
 
-        self::assertResponseRedirects('/m/polityka');
+        $this->assertResponseRedirects('/m/polityka');
 
         $crawler = $client->followRedirect();
 
-        self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('h1', 'magazyn polityczny');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'magazyn polityczny');
     }
 
     public function testCanEditMagazine()
@@ -49,12 +49,12 @@ class MagazineControllerTest extends WebTestCase
             )
         );
 
-        self::assertResponseRedirects('/m/polityka');
+        $this->assertResponseRedirects('/m/polityka');
 
         $crawler = $client->followRedirect();
 
-        self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('h1', 'Przepisy kuchenne');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'Przepisy kuchenne');
     }
 
     public function testCannotEditMagazineName()

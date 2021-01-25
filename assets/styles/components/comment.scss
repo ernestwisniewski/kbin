@@ -4,8 +4,8 @@
   }
 
   .kbin-comment {
-    font-size: 0.9rem;
-    padding: 0.6rem 0.3rem;
+    font-size: .9rem;
+    padding: .6rem .3rem;
     display: flow-root;
     position: relative;
 
@@ -15,18 +15,27 @@
       background-color: $kbin-comment-list-item-nth-background-color;
     }
 
-    &-content {
-      display: block;
+    &-main {
+      display: flow-root;
+
+      @include media-breakpoint-down(sm) {
+        clear: both;
+        padding-top: 1rem;
+      }
     }
 
     &-vote {
-      float: left;
-      margin-right: 0.3rem;
+      float: right;
+      margin-left: .3rem;
       width: 3rem;
 
       &-list {
         list-style-type: none;
         padding: 0;
+
+        @include media-breakpoint-down(sm) {
+          margin-bottom: 0;
+        }
 
         &-item {
           margin: 3px 0;
@@ -37,8 +46,7 @@
             display: block;
             text-align: center;
             font-weight: 700;
-            text-decoration: none;
-            font-size: 0.7rem;
+            font-size: .7rem;
 
             &:hover {
               color: $kbin-comment-vote-button-hover-background-color;
@@ -49,9 +57,51 @@
     }
 
     &-image {
+      float: left;
+      margin-right: .6rem;
+      margin-bottom: 0;
+      display: table-cell;
+      height: 100%;
+
+      @include media-breakpoint-up(sm) {
+        padding-top: .5rem;
+      }
+
+      img {
+        width: 4rem;
+      }
+    }
+
+    &-main {
+      display: flow-root;
     }
 
     &-meta {
+      font-size: .9rem;
+      opacity: .8;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &-list {
+        &-item {
+          margin-right: 0 !important;
+
+          &-links {
+            a {
+              font-size: .75rem;
+              font-weight: bold;
+              color: gray;
+              margin-right: .5rem;
+            }
+          }
+        }
+      }
+    }
+
+    &-content {
+      display: inline-block;
     }
   }
 }

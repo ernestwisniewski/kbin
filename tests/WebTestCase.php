@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests;
 
@@ -117,7 +117,7 @@ abstract class WebTestCase extends BaseWebTestCase
         return $entry;
     }
 
-    public function createComment(string $body, ?Entry $entry = null, ?User $user = null)
+    public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null): EntryComment
     {
         $manager = self::$container->get(EntityManagerInterface::class);
 

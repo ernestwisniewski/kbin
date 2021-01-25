@@ -1,6 +1,5 @@
-
 .kbin-entry {
-  padding: 0.6rem 0.3rem;
+  padding: .6rem .3rem;
   display: flow-root;
   position: relative;
 
@@ -21,7 +20,7 @@
 
   &-vote {
     float: left;
-    margin-right: 0.3rem;
+    margin-right: .3rem;
     width: 3rem;
 
     &-list {
@@ -41,7 +40,7 @@
           display: block;
           text-align: center;
           font-weight: 700;
-          font-size: 0.7rem;
+          font-size: .7rem;
 
           &:hover {
             color: $kbin-comment-vote-button-hover-background-color;
@@ -53,8 +52,9 @@
 
   &-image {
     float: left;
-    margin-right: 0.6rem;
+    margin-right: .6rem;
     margin-bottom: 0;
+    padding-top: .2rem;
     display: table-cell;
     height: 100%;
   }
@@ -81,8 +81,8 @@
   }
 
   &-meta {
-    font-size: 0.9rem;
-    opacity: 0.8;
+    font-size: .9rem;
+    opacity: .8;
 
     &:hover {
       opacity: 1;
@@ -94,10 +94,10 @@
 
         &-links {
           a {
-            font-size: 0.75rem;
+            font-size: .75rem;
             font-weight: bold;
             color: gray;
-            margin-right: 0.5rem;
+            margin-right: .5rem;
           }
         }
       }

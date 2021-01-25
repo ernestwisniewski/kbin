@@ -1,27 +1,66 @@
 {% block comment %}
     <blockquote id="{{ comment.id }}" class="kbin-comment {{ extra_classes }}">
-        <div class="kbin-comment-vote">
-            <ul class="kbin-comment-vote-list">
-                <li class="kbin-comment-vote-list-item kbin-vote-uv">
-                    <a href="#">{{ random(0,240) }}<span class="fa fa-arrow-up"></span>
-                    </a>
-                </li>
+        <div class="kbin-comment-header">
+            <div class="kbin-comment-vote">
+                <ul class="kbin-comment-vote-list">
+                    <li class="kbin-comment-vote-list-item kbin-vote-uv">
+                        <a href="#">{{ random(0,240) }}<span class="fa fa-arrow-up"></span>
+                        </a>
+                    </li>
 
-                <li class="kbin-comment-vote-list-item kbin-vote-dv">
-                    <a href="#">{{ random(0, 20) }}<span class="fa fa-arrow-down"></span>
-                    </a>
-                </li>
-            </ul>
+                    <li class="kbin-comment-vote-list-item kbin-vote-dv">
+                        <a href="#">{{ random(0, 20) }}<span class="fa fa-arrow-down"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="kbin-comment-image">
+                <img class="lazy" src="https://picsum.photos/100/{{ random(75,75) }}?hash={{ random(1,55) }}"
+                     alt="Makigi.pl - Rozkład jazdy 2017">
+            </div>
+
+            <aside class="kbin-comment-meta">
+                <ul class="kbin-comment-meta-list list-inline mb-0">
+                    <li class="kbin-comment-meta-list-item list-inline-item">
+                        <small class="text-muted">dodany
+                            <time>{{ comment.createdAt|ago }}</time>
+                        </small>
+                    </li>
+                    <li class="kbin-comment-meta-list-item list-inline-item">
+                        <small class="text-muted">przez <a href="#" class="font-weight-bold">{{ comment.user.username }}</a></small>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="kbin-comment-main">
+                <p class="kbin-comment-content mb-0">
+                    {{ comment.body }}
+                </p>
+                <aside class="kbin-comment-meta">
+                    <ul class="kbin-comment-meta-list  list-inline mb-0">
+                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                            <small class="text-muted">
+                                <a href="#">link</a>
+                            </small>
+                        </li>
+                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                            <small class="text-muted"><a href="#">zgłoś</a></small>
+                        </li>
+                        {% if is_granted('edit', comment) %}
+                            <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                                <small class="text-muted">
+                                    <a href="{{ path('entry_comment_edit', {'magazine_name': comment.entry.magazine.name,'entry_id': comment.entry.id, 'comment_id': comment.id}) }}">
+                                        edytuj
+                                    </a>
+                                </small>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </aside>
+            </div>
+
+            <div class="clearfix"></div>
         </div>
-
-        <div class="kbin-comment-content d-flex">
-            {{ comment.body }}
-        </div>
-
-        <div class="kbin-comment-meta">
-
-        </div>
-
-        <div class="clearfix"></div>
     </blockquote>
 {% endblock comment %}
