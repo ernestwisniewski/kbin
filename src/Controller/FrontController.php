@@ -9,8 +9,11 @@ class FrontController extends AbstractController
 {
     public function front(EntryRepository $entryRepository): Response
     {
-        return $this->render('front/front.html.twig', [
-            'entries' => $entryRepository->findAll()
-        ]);
+        return $this->render(
+            'front/front.html.twig',
+            [
+                'entries' => $entryRepository->findBy([], ['id' => 'DESC'], 50),
+            ]
+        );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Utils\Slugger;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -47,21 +48,13 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
     private function provideRandomMagazines($count = 1): iterable
     {
         for ($i = 0; $i <= $count; $i++) {
-            $names = [$this->faker->word, $this->getCamlcaseWords()];
-            $rand  = array_rand($names);
+            $title = $this->faker->words($this->faker->numberBetween(1, 5), true);
 
             yield [
-                'name'  => $names[$rand],
-                'title' => $this->faker->words(3, true),
+                'name'  => $this->camelCase($title),
+                'title' => $title,
                 'user'  => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
             ];
         }
-    }
-
-    private function getCamlcaseWords(): string
-    {
-        $words = $this->faker->words(2);
-
-        return $words[0].ucfirst($words[1]);
     }
 }

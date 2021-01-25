@@ -15,10 +15,12 @@
                 </ul>
             </div>
 
-            <div class="kbin-entry-image">
-                <img class="lazy" src="https://picsum.photos/100/{{ random(30,130) }}?hash={{ random(1,55) }}"
-                     alt="Makigi.pl - Rozkład jazdy 2017">
-            </div>
+            {% if (random(0,4)) %}
+                <div class="kbin-entry-image">
+                    <img class="lazy" src="https://picsum.photos/100/{{ random(30,130) }}?hash={{ random(1,55) }}"
+                         alt="Makigi.pl - Rozkład jazdy 2017">
+                </div>
+            {% endif %}
 
             <div class="kbin-entry-main">
                 {% include 'entry/_entry_title.html.twig' %}
@@ -34,28 +36,35 @@
                             <small class="text-muted">przez <a href="#">{{ entry.user.username }}</a></small>
                         </li>
                         <li class="kbin-entry-meta-list-item list-inline-item">
-                            <small class="text-muted">do <a href="{{ path('magazine', {'name': entry.magazine.name}) }}">m/{{ entry.magazine.name }}</a></small>
+                            <small class="text-muted">do <a
+                                        href="{{ path('magazine', {'name': entry.magazine.name}) }}">m/{{ entry.magazine.name }}</a></small>
                         </li>
                     </ul>
                     <ul class="kbin-entry-meta-list  list-inline mb-0">
                         <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <small class="text-muted"><a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">1
-                                    komentarz</a></small>
+                            <small class="text-muted">
+                                <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
+                                    {{ entry.comments|length }} komentarzy
+                                </a>
+                            </small>
                         </li>
                         <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                             <small class="text-muted"><a href="#">zgłoś</a></small>
                         </li>
-                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <small class="text-muted"><a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">edytuj</a></small>
-                        </li>
-
+                        {% if is_granted('edit', entry) %}
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <small class="text-muted">
+                                    <a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">edytuj</a>
+                                </small>
+                            </li>
+                        {% endif %}
                     </ul>
                 </aside>
             </div>
             <div class="clearfix"></div>
         </div>
 
-        {% if(show_content is not null) %}
+        {% if(entry.body and show_content is not null) %}
             <p class="kbin-entry-content mt-3">
                 {{ entry.body }}
             </p>

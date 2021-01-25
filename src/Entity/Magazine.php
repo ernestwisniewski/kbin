@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MagazineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,10 +49,31 @@ class Magazine
     {
         $this->name       = $name;
         $this->title      = $title;
-        $this->createdAt = new \DateTimeImmutable('@'.time());
+        $this->createdAt  = new \DateTimeImmutable('@'.time());
         $this->moderators = new ArrayCollection();
         $this->entries    = new ArrayCollection();
         $this->addModerator(new Moderator($this, $user, true));
+    }
+
+    public function userIsModerator(User $user): bool
+    {
+        $user->getModeratorTokens()->get(-1);
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $this));
+
+        return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
+    }
+
+    public function userIsOwner(User $user): bool
+    {
+        $user->getModeratorTokens()->get(-1);
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $this))
+            ->andWhere(Criteria::expr()->eq('isOwner', true));
+
+        return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
     }
 
     public function getId(): ?int

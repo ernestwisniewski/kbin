@@ -88,6 +88,7 @@ class EntryController extends AbstractController
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="entry")
      */
     public function editEntry(Magazine $magazine, Entry $entry, Request $request): Response
     {
@@ -123,6 +124,7 @@ class EntryController extends AbstractController
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
+     * @IsGranted("purge", subject="entry")
      */
     public function purgeEntry(Magazine $magazine, Entry $entry, Request $request): Response
     {
@@ -155,7 +157,6 @@ class EntryController extends AbstractController
         switch ($type) {
             case Entry::ENTRY_TYPE_ARTICLE:
                 return "entry/{$prefix}_article.html.twig";
-                break;
             default:
                 return "entry/{$prefix}_link.html.twig";
         }

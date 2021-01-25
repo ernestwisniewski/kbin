@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Tests\WebTestCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MagazineControllerTest extends WebTestCase
 {
@@ -80,30 +81,17 @@ class MagazineControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isServerError());
     }
 
-    public function testCanPurgeMagazine()
-    {
-        $this->expectException(NotFoundHttpException::class);
+    public function testUnauthorizedUserCannotEditOrPurgeMagazine() {
+        $this->expectException(AccessDeniedException::class);
 
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('secondUser'));
         $client->catchExceptions(false);
 
         $magazine = $this->getMagazineByName('polityka');
 
         $crawler = $client->request('GET', '/m/polityka/edytuj');
 
-        $client->submit(
-            $crawler->selectButton('Usuń')->form()
-        );
-
-        self::assertResponseRedirects('/');
-
-        $crawler = $client->followRedirect();
-
-        self::assertResponseIsSuccessful();
-
-        $crawler = $client->request('GET', '/m/polityka');
-
-        $this->assertTrue($client->getResponse()->isNotFound());
+        $this->assertTrue($client->getResponse()->isForbidden());
     }
 }

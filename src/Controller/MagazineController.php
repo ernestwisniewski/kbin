@@ -37,7 +37,7 @@ class MagazineController extends AbstractController
             'magazine/front.html.twig',
             [
                 'magazine' => $magazine,
-                'entries'  => $entryRepository->findBy(['magazine' => $magazine]),
+                'entries'  => $entryRepository->findBy(['magazine' => $magazine], ['id' => 'DESC'], 50),
             ]
         );
     }
@@ -68,6 +68,7 @@ class MagazineController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="magazine")
      */
     public function editMagazine(Magazine $magazine, Request $request): Response
     {
@@ -91,11 +92,15 @@ class MagazineController extends AbstractController
             'magazine/edit.html.twig',
             [
                 'magazine' => $magazine,
-                'form' => $form->createView(),
+                'form'     => $form->createView(),
             ]
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("purge", subject="magazine")
+     */
     public function purgeMagazine(Magazine $magazine, Request $request)
     {
         $this->validateCsrf('magazine_purge', $request->request->get('token'));

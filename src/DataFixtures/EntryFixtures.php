@@ -21,6 +21,13 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
         $this->encoder = $encoder;
     }
 
+    public function getDependencies()
+    {
+        return [
+            MagazineFixtures::class,
+        ];
+    }
+
     public function loadData(ObjectManager $manager)
     {
         foreach ($this->provideRandomEntries(self::ENTRIES_COUNT) as $index => $entry) {
@@ -40,24 +47,15 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
-    {
-        return [
-            MagazineFixtures::class,
-        ];
-    }
-
     private function provideRandomEntries($count = 1): iterable
     {
         for ($i = 0; $i <= $count; $i++) {
-            $url  = rand(0, 1);
-            $body = $this->faker->paragraphs(3, true);
-            if ($url) {
-                $body = rand(0, 1) ? $this->faker->paragraphs(3, true) : null;
-            }
+            $isUrl = $this->faker->numberBetween(0, 1);
+            $body  = $isUrl ? null : $this->faker->paragraphs($this->faker->numberBetween(1, 10), true);
+
             yield [
-                'title'    => $this->faker->sentence(rand(3, 25)),
-                'url'      => $url ? $this->faker->url : null,
+                'title'    => $this->faker->realText($this->faker->numberBetween(10, 250)),
+                'url'      => $isUrl ? $this->faker->url : null,
                 'body'     => $body,
                 'magazine' => $this->getReference('magazine_'.rand(1, MagazineFixtures::MAGAZINES_COUNT)),
                 'user'     => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),

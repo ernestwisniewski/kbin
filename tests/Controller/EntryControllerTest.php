@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Tests\WebTestCase;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryControllerTest extends WebTestCase
 {
@@ -67,7 +68,8 @@ class EntryControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('przykladowa tresc');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}");
+        $crawler = $client->click($crawler->filter('.kbin-entry-meta')->selectLink('edytuj')->link());
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -115,7 +117,7 @@ class EntryControllerTest extends WebTestCase
         self::assertSelectorTextContains('p', 'zmieniona treść wpisu');
     }
 
-    public function testCannotEditMagazine()
+    public function testCannotEditEntryMagazine()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -140,7 +142,7 @@ class EntryControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isServerError());
     }
 
-    public function testPurgeEditArticle()
+    public function testCanPurgeEntry()
     {
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
@@ -162,5 +164,22 @@ class EntryControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertSelectorTextNotContains('.kbin-entry-title', 'przykladowa tresc');
+    }
+
+    public function testUnauthorizedUserCannotEditOrPurgeEntry() {
+        $this->expectException(AccessDeniedException::class);
+
+        $client = $this->createClient();
+        $client->loginUser($user = $this->getUserByUsername('secondUser'));
+        $client->catchExceptions(false);
+
+        $entry = $this->getEntryByTitle('przykładowy wpis');
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}");
+        $this->assertEmpty($crawler->filter('.kbin-entry-meta')->selectLink('edytuj'));
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+
+        $this->assertTrue($client->getResponse()->isForbidden());
     }
 }
