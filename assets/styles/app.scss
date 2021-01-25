@@ -22,12 +22,12 @@ $primary: #556880;
     @include media-breakpoint-up(lg) {
       position: relative;
     }
-  }
 
-  a {
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }
