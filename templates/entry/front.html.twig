@@ -2,19 +2,25 @@
 {% from 'entry/_macros.html.twig' import entry %}
 
 {% block body %}
-    {{ entry(entry, {
-        extra_classes: 'kbin-entry-single',
-        show_content: true
-    }) }}
+    {% block entry %}
+        {{ entry(entry, {
+            extra_classes: 'kbin-entry-single',
+            show_content: true
+        }) }}
+    {% endblock %}
 
-    <section class="kbin-comment-wrapper mt-4">
-        <h4 class="kbin-comment-wrapper-header pb-3 mb-0">Komentarze</h4>
+    {% block after_entry %}{% endblock %}
 
-        {% include 'entry/comment/_list.html.twig'  with {'comments': entry.comments} only %}
+    {% block comments %}
+        <section class="kbin-comment-wrapper mt-4">
+            <h4 class="kbin-comment-wrapper-header pb-3 mb-0 font-weight-light">Komentarze</h4>
 
-        {{ render(controller('App\\Controller\\EntryCommentController::commentForm', {
-            'magazineName': entry.magazine.name,
-            'entryId': entry.id
-        })) }}
-    </section>
+            {% include 'entry/comment/_list.html.twig'  with {'comments': entry.comments} only %}
+
+            {{ render(controller('App\\Controller\\EntryCommentController::commentForm', {
+                'magazineName': entry.magazine.name,
+                'entryId': entry.id
+            })) }}
+        </section>
+    {% endblock %}
 {% endblock %}
