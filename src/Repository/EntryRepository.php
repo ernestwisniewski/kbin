@@ -54,7 +54,11 @@ class EntryRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria)
     {
-        return $qb->andWhere('e.magazine = :magazine')
-            ->setParameter('magazine', $criteria->getMagazine());
+        if ($criteria->getMagazine()) {
+            $qb->andWhere('e.magazine = :magazine')
+                ->setParameter('magazine', $criteria->getMagazine());
+        }
+
+        return $qb;
     }
 }
