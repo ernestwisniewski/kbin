@@ -19,20 +19,22 @@ use App\Entity\Entry;
  */
 class EntryRepository extends ServiceEntityRepository
 {
+    const PER_PAGE = 25;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Entry::class);
     }
 
-    public function findByCriteria(Criteria $criteria)
+    public function findByCriteria(Criteria $criteria): Pagerfanta
     {
-        $qb = $this->getEntryQueryBuilder($criteria);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter($qb)
+            new QueryAdapter(
+                $this->getEntryQueryBuilder($criteria)
+            )
         );
 
-        $pagerfanta->setMaxPerPage(10);
+        $pagerfanta->setMaxPerPage(self::PER_PAGE);
 
         try {
             $pagerfanta->setCurrentPage($criteria->getPage());
@@ -52,11 +54,16 @@ class EntryRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    private function filter(QueryBuilder $qb, Criteria $criteria)
+    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
         if ($criteria->getMagazine()) {
             $qb->andWhere('e.magazine = :magazine')
                 ->setParameter('magazine', $criteria->getMagazine());
+        }
+
+        if ($criteria->getUser()) {
+            $qb->andWhere('e.user = :user')
+                ->setParameter('user', $criteria->getUser());
         }
 
         return $qb;

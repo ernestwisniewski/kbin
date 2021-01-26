@@ -2,8 +2,8 @@
 
 {%- macro comment(comment, options) -%}
     {%- with {
-        comment: comment,
         self: app.user,
+        comment: comment,
         extra_classes: options.extra_classes ?? null,
         } only -%}
         {{ block('comment') }}

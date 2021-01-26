@@ -3,9 +3,12 @@
 <div class="kbin-comment-list mt-3">
     {% for comment in comments %}
         {{ comment(comment, {
-            comment: comment,
             self: app.user,
+            comment: comment,
             extra_classes: 'kbin-comment-list-item mb-0'
         }) }}
     {% endfor %}
+    {% if(comments.haveToPaginate) %}
+        {{ pagerfanta(comments, null, {'pageParameter':'[strona]'}) }}
+    {% endif %}
 </div>

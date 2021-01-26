@@ -9,5 +9,7 @@
             title_tag: 'h4'
         }) }}
     {% endfor %}
-    {{ pagerfanta(entries) }}
+    {% if(entries.haveToPaginate) %}
+        {{ pagerfanta(entries, null, {'pageParameter':'[strona]'}) }}
+    {% endif %}
 </div>

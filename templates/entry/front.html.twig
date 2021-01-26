@@ -15,12 +15,18 @@
         <section class="kbin-comment-wrapper mt-4">
             <h4 class="kbin-comment-wrapper-header pb-3 mb-0 font-weight-light">Komentarze</h4>
 
-            {% include 'entry/comment/_list.html.twig'  with {'comments': entry.comments} only %}
+            {% include 'entry/comment/_list.html.twig' %}
 
-            {{ render(controller('App\\Controller\\EntryCommentController::commentForm', {
-                'magazineName': entry.magazine.name,
-                'entryId': entry.id
-            })) }}
+            {% if is_granted('comment', entry) %}
+                {{ render(controller('App\\Controller\\EntryCommentController::commentForm', {
+                    'magazineName': entry.magazine.name,
+                    'entryId': entry.id
+                })) }}
+            {% else %}
+                <div class="alert alert-secondary text-muted my-3" role="alert">
+                    <a href="{{ path('app_login') }}" class="font-weight-bold">Zaloguj się</a> aby dodać komentarz.
+                </div>
+            {% endif %}
         </section>
     {% endblock %}
 {% endblock %}

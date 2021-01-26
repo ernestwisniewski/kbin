@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller;
 
@@ -27,11 +27,14 @@ class MagazineController extends AbstractController
 
     public function front(Magazine $magazine, EntryRepository $entryRepository, Request $request): Response
     {
+        $criteria = (new Criteria((int) $request->get('strona', 1)))
+            ->setMagazine($magazine);
+
         return $this->render(
             'magazine/front.html.twig',
             [
                 'magazine' => $magazine,
-                'entries'  => $entryRepository->findByCriteria(new Criteria((int) $request->get('page', 1), $magazine)),
+                'entries'  => $entryRepository->findByCriteria($criteria),
             ]
         );
     }

@@ -33,7 +33,8 @@
                             </small>
                         </li>
                         <li class="kbin-entry-meta-list-item list-inline-item">
-                            <small class="text-muted">przez <a href="#">{{ entry.user.username }}</a></small>
+                            <small class="text-muted">przez <a
+                                        href="{{ path('user', {username: entry.user.username}) }}">{{ entry.user.username }}</a></small>
                         </li>
                         <li class="kbin-entry-meta-list-item list-inline-item">
                             <small class="text-muted">do <a

@@ -28,7 +28,7 @@
                         </small>
                     </li>
                     <li class="kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">przez <a href="#" class="font-weight-bold">{{ comment.user.username }}</a></small>
+                        <small class="text-muted">przez <a href="{{ path('user', {username: comment.user.username}) }}" class="font-weight-bold">{{ comment.user.username }}</a></small>
                     </li>
                 </ul>
             </aside>

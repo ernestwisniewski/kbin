@@ -1,0 +1,4 @@
+user:
+  controller: App\Controller\UserController::front
+  path: /u/{username}
+  methods: [ GET ]

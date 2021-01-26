@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -6,10 +6,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\EntryCommentRepository;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\EntryArticleType;
 use App\Service\EntryManager;
+use App\Repository\Criteria;
 use App\Form\EntryLinkType;
 use App\Entity\Magazine;
 use App\DTO\EntryDto;
@@ -30,12 +32,18 @@ class EntryController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      */
-    public function front(Magazine $magazine, Entry $entry): Response
+    public function front(Magazine $magazine, Entry $entry, EntryCommentRepository $commentRepository, Request $request): Response
     {
+        $criteria = (new Criteria((int) $request->get('strona', 1)))
+            ->setEntry($entry);
+
+        $comments = $commentRepository->findByCriteria($criteria);
+
         return $this->render(
             'entry/front.html.twig',
             [
                 'magazine' => $magazine,
+                'comments' => $comments,
                 'entry'    => $entry,
             ]
         );

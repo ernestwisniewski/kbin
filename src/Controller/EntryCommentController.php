@@ -1,7 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\Criteria;
+use App\Repository\EntryCommentRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +31,9 @@ class EntryCommentController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("comment", subject="entry")
      */
     public function createComment(Magazine $magazine, Entry $entry, ?EntryComment $comment, Request $request): Response
     {
@@ -59,8 +64,13 @@ class EntryCommentController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="comment")
      */
-    public function editComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
-    {
+    public function editComment(
+        Magazine $magazine,
+        Entry $entry,
+        EntryComment $comment,
+        Request $request,
+        EntryCommentRepository $commentRepository
+    ): Response {
         $commentDto = $this->commentManager->createCommentDto($comment);
 
         $form = $this->createForm(CommentType::class, $commentDto);
@@ -78,11 +88,17 @@ class EntryCommentController extends AbstractController
             );
         }
 
+        $criteria = (new Criteria((int) $request->get('strona', 1)))
+            ->setEntry($entry);
+
+        $comments = $commentRepository->findByCriteria($criteria);
+
         return $this->render(
             'entry/comment/edit.html.twig',
             [
                 'magazine' => $magazine,
                 'entry'    => $entry,
+                'comments' => $comments,
                 'comment'  => $comment,
                 'form'     => $form->createView(),
             ]

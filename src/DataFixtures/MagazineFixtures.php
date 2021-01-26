@@ -9,7 +9,7 @@ use App\Entity\Magazine;
 
 class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const MAGAZINES_COUNT = 15;
+    const MAGAZINES_COUNT = 50;
 
     private UserPasswordEncoderInterface $encoder;
 

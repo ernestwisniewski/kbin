@@ -3,19 +3,22 @@
 namespace App\Repository;
 
 use App\Entity\Magazine;
+use App\Entity\Entry;
+use App\Entity\User;
 
 class Criteria
 {
-    private int $page;
-    private ?Magazine $magazine;
+    private int $page = 1;
+    private ?Magazine $magazine = null;
+    private ?Entry $entry = null;
+    private ?User $user = null;
 
-    public function __construct(int $page = 1, ?Magazine $magazine = null)
+    public function __construct(int $page)
     {
-        $this->page     = $page;
-        $this->magazine = $magazine;
+        $this->page = $page;
     }
 
-    public function getPage()
+    public function getPage(): int
     {
         return $this->page;
     }
@@ -23,5 +26,36 @@ class Criteria
     public function getMagazine(): ?Magazine
     {
         return $this->magazine;
+    }
+
+    public function setMagazine(Magazine $magazine): self
+    {
+        $this->magazine = $magazine;
+
+        return $this;
+    }
+
+    public function getEntry(): ?Entry
+    {
+        return $this->entry;
+    }
+
+    public function setEntry(Entry $entry): self
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="font-weight-bold">{{ user.username }}</h1>
+    <p class="lead mb-4">u/{{ user.username }}</p>
+
+    {% include 'entry/_list.html.twig' %}
+{% endblock %}

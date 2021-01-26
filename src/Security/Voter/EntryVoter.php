@@ -11,10 +11,11 @@ class EntryVoter extends Voter
 {
     const EDIT = 'edit';
     const PURGE = 'purge';
+    const COMMENT = 'comment';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof Entry && \in_array($attribute, [self::EDIT, self::PURGE], true);
+        return $subject instanceof Entry && \in_array($attribute, [self::EDIT, self::PURGE, self::COMMENT], true);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -30,6 +31,8 @@ class EntryVoter extends Voter
                 return $this->canEdit($subject, $user);
             case self::PURGE:
                 return $this->canPurge($subject, $user);
+            case self::COMMENT:
+                return $this->canComment($subject, $user);
         }
 
         throw new \LogicException();
@@ -59,5 +62,10 @@ class EntryVoter extends Voter
         }
 
         return false;
+    }
+
+    private function canComment($subject, User $user)
+    {
+        return true;
     }
 }

@@ -141,8 +141,23 @@
     "pagerfanta/pagerfanta": {
         "version": "v2.5.1"
     },
+    "pagerwave/doctrine-collections-extension": {
+        "version": "v1.1.0"
+    },
+    "pagerwave/doctrine-dbal-extension": {
+        "version": "v1.1.0"
+    },
+    "pagerwave/doctrine-orm-extension": {
+        "version": "v1.0.3"
+    },
+    "pagerwave/symfony-http-foundation-integration": {
+        "version": "v1.0.0"
+    },
     "phpstan/phpdoc-parser": {
         "version": "0.4.9"
+    },
+    "postmill/pagerwave": {
+        "version": "v1.3.0"
     },
     "psr/cache": {
         "version": "1.0.1"
