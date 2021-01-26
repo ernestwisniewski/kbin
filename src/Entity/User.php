@@ -19,43 +19,43 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    private string $username;
 
     /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
      */
-    private $moderatorTokens;
+    private Collection $moderatorTokens;
 
     /**
      * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="user")
      */
-    private $entries;
+    private Collection $entries;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="user")
      */
-    private $comments;
+    private Collection $comments;
 
     public function __construct($email, $username, $password)
     {
@@ -67,12 +67,12 @@ class User implements UserInterface
         $this->comments = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }

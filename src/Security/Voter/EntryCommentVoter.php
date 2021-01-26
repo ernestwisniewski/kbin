@@ -2,9 +2,9 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\EntryComment;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Entity\EntryComment;
 use App\Entity\User;
 
 class EntryCommentVoter extends Voter
@@ -12,12 +12,12 @@ class EntryCommentVoter extends Voter
     const EDIT = 'edit';
     const PURGE = 'purge';
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof EntryComment && \in_array($attribute, [self::EDIT, self::PURGE], true);
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 
@@ -32,7 +32,7 @@ class EntryCommentVoter extends Voter
                 return $this->canPurge($subject, $user);
         }
 
-        return new \LogicException();
+        throw new \LogicException();
     }
 
     private function canEdit(EntryComment $comment, User $user): bool

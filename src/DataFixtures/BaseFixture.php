@@ -2,19 +2,16 @@
 
 namespace App\DataFixtures;
 
-use App\Utils\Slugger;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use App\Utils\Slugger;
 use Faker\Generator;
 use Faker\Factory;
 
 abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 {
-    /**
-     * @var Generator
-     */
-    protected $faker;
+    protected Generator $faker;
 
     public function load(ObjectManager $manager)
     {

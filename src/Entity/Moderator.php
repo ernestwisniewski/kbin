@@ -15,29 +15,29 @@ class Moderator
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="moderatorTokens")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="moderators")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $magazine;
+    private Magazine $magazine;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isOwner = false;
+    private bool $isOwner = false;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     public function __construct(Magazine $magazine, User $user, $isOwner = false)
     {
@@ -49,29 +49,29 @@ class Moderator
         $user->getModeratorTokens()->add($this);
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getMagazine(): ?Magazine
+    public function getMagazine(): Magazine
     {
         return $this->magazine;
     }
 
-    public function setMagazine(?Magazine $magazine): self
+    public function setMagazine(Magazine $magazine): self
     {
         $this->magazine = $magazine;
 
@@ -90,7 +90,7 @@ class Moderator
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }

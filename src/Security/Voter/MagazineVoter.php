@@ -2,11 +2,10 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\Entity\Magazine;
-use Webmozart\Assert\Assert;
+use App\Entity\User;
 
 class MagazineVoter extends Voter
 {
@@ -14,12 +13,12 @@ class MagazineVoter extends Voter
     const PURGE = 'purge';
     const MODERATE = 'moderate';
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof Magazine && \in_array($attribute, [self::EDIT, self::PURGE, self::MODERATE], true);
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 
@@ -36,7 +35,7 @@ class MagazineVoter extends Voter
                 return $this->canModerate($subject, $user);
         }
 
-        return new \LogicException();
+        throw new \LogicException();
     }
 
     private function canEdit(Magazine $magazine, User $user): bool

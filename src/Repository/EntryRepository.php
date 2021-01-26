@@ -2,9 +2,14 @@
 
 namespace App\Repository;
 
-use App\Entity\Entry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
+use Pagerfanta\Pagerfanta;
+use App\Entity\Entry;
 
 /**
  * @method Entry|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +24,27 @@ class EntryRepository extends ServiceEntityRepository
         parent::__construct($registry, Entry::class);
     }
 
-    // /**
-    //  * @return Entry[] Returns an array of Entry objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByCriteria(Criteria $criteria)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->getEntryQueryBuilder();
 
-    /*
-    public function findOneBySomeField($value): ?Entry
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter($qb)
+        );
+
+        $pagerfanta->setMaxPerPage(10);
+
+        try {
+            $pagerfanta->setCurrentPage($criteria->getPage());
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
     }
-    */
+
+    private function getEntryQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('e');
+    }
 }

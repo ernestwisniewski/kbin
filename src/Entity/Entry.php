@@ -20,44 +20,44 @@ class Entry
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entries")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $magazine;
+    private Magazine $magazine;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $url = null;
+    private ?string $url = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $body = null;
+    private ?string $body = null;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry")
      */
-    private $comments;
+    private Collection $comments;
 
     public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user)
     {
@@ -72,22 +72,22 @@ class Entry
         $user->addEntry($this);
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function getMagazine(): ?Magazine
+    public function getMagazine(): Magazine
     {
         return $this->magazine;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }

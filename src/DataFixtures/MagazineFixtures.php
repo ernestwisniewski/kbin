@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Utils\Slugger;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -11,10 +10,8 @@ use App\Entity\Magazine;
 class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
     const MAGAZINES_COUNT = 15;
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
+
+    private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {

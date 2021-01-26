@@ -12,12 +12,12 @@ class EntryVoter extends Voter
     const EDIT = 'edit';
     const PURGE = 'purge';
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof Entry && \in_array($attribute, [self::EDIT, self::PURGE], true);
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 
@@ -32,7 +32,7 @@ class EntryVoter extends Voter
                 return $this->canPurge($subject, $user);
         }
 
-        return new \LogicException();
+        throw new \LogicException();
     }
 
     private function canEdit(Entry $entry, User $user): bool

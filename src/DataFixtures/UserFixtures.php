@@ -10,10 +10,7 @@ class UserFixtures extends BaseFixture
 {
     const USERS_COUNT = 5;
 
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
+    private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {

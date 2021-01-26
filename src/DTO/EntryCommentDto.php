@@ -7,59 +7,34 @@ use App\Entity\Entry;
 
 class EntryCommentDto
 {
-    /**
-     * @var int|null
-     */
-    private $id;
-
-    /**
-     * @var Entry|null
-     */
-    private $entry;
-
+    private int $id;
+    private Entry $entry;
     /**
      * @Assert\NotBlank()
-     *
-     * @var string|null
      */
-    private $body;
+    private string $body;
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Entry|null
-     */
-    public function getEntry(): ?Entry
+    public function getEntry(): Entry
     {
         return $this->entry;
     }
 
-    /**
-     * @param Entry|null $entry
-     */
-    public function setEntry(?Entry $entry): void
+    public function setEntry(Entry $entry): void
     {
         $this->entry = $entry;
     }
 
-    /**
-     * @return string|null
-     */
     public function getBody(): ?string
     {
         return $this->body;
     }
 
-    /**
-     * @param string|null $body
-     */
-    public function setBody(?string $body): void
+    public function setBody(string $body): void
     {
         $this->body = $body;
     }

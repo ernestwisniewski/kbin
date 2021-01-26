@@ -14,20 +14,23 @@ use App\DTO\EntryDto;
 
 class EntryArticleType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextareaType::class)
             ->add('body', TextareaType::class)
-            ->add('magazine', EntityType::class, [
-                'class' => Magazine::class,
-                'choice_label'=> 'name'
-            ])
-            ->add('submit', SubmitType::class)
-        ;
+            ->add(
+                'magazine',
+                EntityType::class,
+                [
+                    'class'        => Magazine::class,
+                    'choice_label' => 'name',
+                ]
+            )
+            ->add('submit', SubmitType::class);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

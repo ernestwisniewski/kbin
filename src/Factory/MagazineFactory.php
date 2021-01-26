@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
 use App\Entity\User;

@@ -11,15 +11,8 @@ use App\Entity\User;
 
 class EntryCommentManager
 {
-    /**
-     * @var EntryCommentFactory
-     */
-    private $commentFactory;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private EntryCommentFactory $commentFactory;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntryCommentFactory $commentFactory, EntityManagerInterface $entityManager)
     {

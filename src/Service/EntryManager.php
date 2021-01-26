@@ -11,15 +11,8 @@ use App\Entity\User;
 
 class EntryManager
 {
-    /**
-     * @var EntryFactory
-     */
-    private $entryFactory;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private EntryFactory $entryFactory;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntryFactory $entryFactory, EntityManagerInterface $entityManager)
     {

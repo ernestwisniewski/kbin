@@ -8,27 +8,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\EntryCommentManager;
+use App\DTO\EntryCommentDto;
 use App\Entity\EntryComment;
 use App\Form\CommentType;
 use App\Entity\Magazine;
-use App\DTO\EntryCommentDto;
 use App\Entity\Entry;
 
 class EntryCommentController extends AbstractController
 {
-    /**
-     * @var EntryCommentManager
-     */
-    private $commentManager;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private EntryCommentManager $commentManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntryCommentManager $commentManager, EntityManagerInterface $entityManager)
     {
-
         $this->commentManager = $commentManager;
         $this->entityManager  = $entityManager;
     }
@@ -67,7 +59,7 @@ class EntryCommentController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="comment")
      */
-    public function editComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request)
+    public function editComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
     {
         $commentDto = $this->commentManager->createCommentDto($comment);
 
@@ -105,7 +97,7 @@ class EntryCommentController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="comment")
      */
-    public function purgeComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request)
+    public function purgeComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
     {
         $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
 

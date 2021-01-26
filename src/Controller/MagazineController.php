@@ -15,15 +15,8 @@ use App\DTO\MagazineDto;
 
 class MagazineController extends AbstractController
 {
-    /**
-     * @var MagazineManager
-     */
-    private $magazineManager;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private MagazineManager $magazineManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(MagazineManager $magazineManager, EntityManagerInterface $entityManager)
     {
@@ -101,7 +94,7 @@ class MagazineController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="magazine")
      */
-    public function purgeMagazine(Magazine $magazine, Request $request)
+    public function purgeMagazine(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('magazine_purge', $request->request->get('token'));
 

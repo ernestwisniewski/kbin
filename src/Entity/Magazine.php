@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\MagazineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use App\Repository\MagazineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,32 +18,32 @@ class Magazine
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
-    private $moderators;
+    private Collection $moderators;
 
     /**
      * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="magazine")
      */
-    private $entries;
+    private Collection $entries;
 
     public function __construct(string $name, string $title, User $user)
     {
@@ -76,12 +76,12 @@ class Magazine
         return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -93,7 +93,7 @@ class Magazine
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -105,7 +105,7 @@ class Magazine
         return $this;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -125,6 +125,9 @@ class Magazine
         return $this;
     }
 
+    /**
+     * @return Collection|Entry[]
+     */
     public function getEntries(): Collection
     {
         return $this->entries;

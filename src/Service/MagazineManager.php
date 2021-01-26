@@ -11,15 +11,8 @@ use App\Entity\User;
 
 class MagazineManager
 {
-    /**
-     * @var MagazineFactory
-     */
-    private $magazineFactory;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private MagazineFactory $magazineFactory;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(MagazineFactory $magazineFactory, EntityManagerInterface $entityManager)
     {

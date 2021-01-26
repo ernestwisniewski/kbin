@@ -1,18 +1,21 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\EntryRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repository\EntryRepository;
+use App\Repository\Criteria;
 
 class FrontController extends AbstractController
 {
-    public function front(EntryRepository $entryRepository): Response
+    public function front(EntryRepository $entryRepository, Request $request): Response
     {
         return $this->render(
             'front/front.html.twig',
             [
-                'entries' => $entryRepository->findBy([], ['id' => 'DESC'], 50),
+//                'entries' => $entryRepository->findBy([], ['id' => 'DESC'], 50),
+                'entries' => $entryRepository->findByCriteria(new Criteria((int) $request->get('page', 1))),
             ]
         );
     }

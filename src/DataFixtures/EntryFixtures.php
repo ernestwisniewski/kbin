@@ -11,10 +11,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
 {
     const ENTRIES_COUNT = 50;
 
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
+    private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {

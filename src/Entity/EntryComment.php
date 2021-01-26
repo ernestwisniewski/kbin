@@ -15,68 +15,68 @@ class EntryComment
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Entry::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $entry;
+    private Entry $entry;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $body;
+    private string $body;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     public function __construct(string $body, Entry $entry, User $user)
     {
-        $this->body = $body;
-        $this->entry = $entry;
-        $this->user = $user;
+        $this->body      = $body;
+        $this->entry     = $entry;
+        $this->user      = $user;
         $this->createdAt = new \DateTimeImmutable('@'.time());
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getEntry(): ?Entry
+    public function getEntry(): Entry
     {
         return $this->entry;
     }
 
-    public function setEntry(?Entry $entry): self
+    public function setEntry(Entry $entry): self
     {
         $this->entry = $entry;
 
         return $this;
     }
 
-    public function getBody(): ?string
+    public function getBody(): string
     {
         return $this->body;
     }

@@ -2,11 +2,9 @@
 
 namespace App\Factory;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\User;
-use http\Exception\InvalidArgumentException;
 
 class EntryFactory
 {
