@@ -14,7 +14,6 @@ class FrontController extends AbstractController
         return $this->render(
             'front/front.html.twig',
             [
-//                'entries' => $entryRepository->findBy([], ['id' => 'DESC'], 50),
                 'entries' => $entryRepository->findByCriteria(new Criteria((int) $request->get('page', 1))),
             ]
         );

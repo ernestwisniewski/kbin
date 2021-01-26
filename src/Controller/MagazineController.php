@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\Criteria;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,13 +25,13 @@ class MagazineController extends AbstractController
         $this->entityManager   = $entityManager;
     }
 
-    public function front(Magazine $magazine, EntryRepository $entryRepository): Response
+    public function front(Magazine $magazine, EntryRepository $entryRepository, Request $request): Response
     {
         return $this->render(
             'magazine/front.html.twig',
             [
                 'magazine' => $magazine,
-                'entries'  => $entryRepository->findBy(['magazine' => $magazine], ['id' => 'DESC'], 50),
+                'entries'  => $entryRepository->findByCriteria(new Criteria((int) $request->get('page', 1), $magazine)),
             ]
         );
     }

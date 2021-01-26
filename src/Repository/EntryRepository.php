@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -26,7 +26,7 @@ class EntryRepository extends ServiceEntityRepository
 
     public function findByCriteria(Criteria $criteria)
     {
-        $qb = $this->getEntryQueryBuilder();
+        $qb = $this->getEntryQueryBuilder($criteria);
 
         $pagerfanta = new Pagerfanta(
             new QueryAdapter($qb)
@@ -43,8 +43,18 @@ class EntryRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    private function getEntryQueryBuilder(): QueryBuilder
+    private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
     {
-        return $this->createQueryBuilder('e');
+        $qb = $this->createQueryBuilder('e');
+
+        $this->filter($qb, $criteria);
+
+        return $qb;
+    }
+
+    private function filter(QueryBuilder $qb, Criteria $criteria)
+    {
+        return $qb->andWhere('e.magazine = :magazine')
+            ->setParameter('magazine', $criteria->getMagazine());
     }
 }
