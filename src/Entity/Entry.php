@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry
+class Entry implements Votable
 {
     const ENTRY_TYPE_ARTICLE = 'artykul';
     const ENTRY_TYPE_LINK = 'link';

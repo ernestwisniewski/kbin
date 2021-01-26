@@ -1,0 +1,13 @@
+<form action="{{ path('entry_vote', {
+    id: entry.id,
+    choice:1
+}) }}" method="POST">
+    <div class="col-xs-12">
+        <div class="kbin-magazine-create-form">
+            <div class="input-group-sm mb-3 text-end">
+                <input type="hidden" name="token" value="{{ csrf_token('entry_vote') }}">
+                <button class="btn btn-danger">Głosuj</button>
+            </div>
+        </div>
+    </div>
+</form>

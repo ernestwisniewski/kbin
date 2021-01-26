@@ -53,6 +53,11 @@ class User implements UserInterface
     private Collection $entries;
 
     /**
+     * @ORM\OneToMany(targetEntity="EntryVote", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    private Collection $entryVotes;
+
+    /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="user")
      */
     private Collection $comments;
@@ -64,6 +69,7 @@ class User implements UserInterface
         $this->username        = $username;
         $this->moderatorTokens = new ArrayCollection();
         $this->entries         = new ArrayCollection();
+        $this->entriesVotes         = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
 
@@ -156,6 +162,11 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function getEntryVotes(): Collection
+    {
+        return $this->entryVotes;
     }
 
     public function getComments(): Collection
