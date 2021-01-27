@@ -6,7 +6,13 @@ use App\Repository\EntryCommentVoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EntryVoteRepository")
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(
+ *         name="user_entry_comment_vote_idx",
+ *         columns={"user_id", "comment_id"}
+ *     )
+ * })
+ * @ORM\Entity(repositoryClass="App\Repository\EntryCommentVoteRepository")
  * @ORM\AssociationOverrides({
  *     @ORM\AssociationOverride(name="user", inversedBy="entryCommentVotes")
  * })
@@ -14,10 +20,10 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryCommentVote extends Vote
 {
     /**
-     * @ORM\JoinColumn(name="entry_id", nullable=false)
+     * @ORM\JoinColumn(name="comment_id", nullable=false)
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="votes")
      */
-    private EntryComment $comment;
+    private ?EntryComment $comment;
 
     public function __construct(int $choice, User $user, EntryComment $comment)
     {
@@ -31,7 +37,7 @@ class EntryCommentVote extends Vote
         return $this->comment;
     }
 
-    public function setComment(EntryComment $comment): self
+    public function setComment(?EntryComment $comment): self
     {
         $this->comment = $comment;
 

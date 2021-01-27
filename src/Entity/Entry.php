@@ -177,7 +177,7 @@ class Entry implements Votable
         return $this;
     }
 
-    public function removeVote(EntryVote $vote): self
+    public function removeVote(Vote $vote): self
     {
         if ($this->votes->removeElement($vote)) {
             if ($vote->getEntry() === $this) {

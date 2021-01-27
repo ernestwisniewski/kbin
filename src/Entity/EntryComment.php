@@ -116,7 +116,7 @@ class EntryComment implements Votable
         return $this;
     }
 
-    public function removeVote(EntryCommentVote $vote): self
+    public function removeVote(Vote $vote): self
     {
         if ($this->votes->removeElement($vote)) {
             // set the owning side to null (unless already changed)

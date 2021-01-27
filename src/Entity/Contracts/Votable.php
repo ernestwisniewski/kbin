@@ -1,14 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity\Contracts;
 
 use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
+use App\Entity\Vote;
 
 interface Votable
 {
     const VOTE_UP = 1;
     const VOTE_NONE = 0;
     const VOTE_DOWN = -1;
+
+    public function removeVote(Vote $votable): self;
 
     public function getUpVotes(): Collection;
 
@@ -17,4 +21,8 @@ interface Votable
     public function countUpVotes(): int;
 
     public function countDownVotes(): int;
+
+    public function getUserChoice(User $user): int;
+
+    public function getUserVote(User $user): ?Vote;
 }

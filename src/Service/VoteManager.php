@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -19,13 +19,55 @@ class VoteManager
         $this->entityManager = $entityManager;
     }
 
-    public function vote(int $choice, Votable $votable, User $user): Vote
+    public function vote(int $choice, Votable $votable, User $user): ?Vote
     {
-        $vote = $this->voteFactory->create($choice, $votable, $user);
+        $vote = $votable->getUserVote($user);
 
-        $this->entityManager->persist($vote);
+        if ($vote) {
+            $choice = $this->guessUserChoice($choice, $votable->getUserChoice($user));
+
+            $vote->setChoice($choice);
+
+            if ($choice === Votable::VOTE_NONE) {
+                $votable->removeVote($vote);
+
+                $this->entityManager->remove($vote);
+            }
+        } else {
+            $vote = $this->voteFactory->create($choice, $votable, $user);
+
+            $this->entityManager->persist($vote);
+        }
+
         $this->entityManager->flush();
 
         return $vote;
+    }
+
+    private function guessUserChoice(int $choice, int $vote): int
+    {
+        if ($choice === Votable::VOTE_NONE) {
+            return $choice;
+        }
+
+        if ($vote === Votable::VOTE_UP) {
+            switch ($choice) {
+                case Votable::VOTE_UP:
+                    return Votable::VOTE_NONE;
+                case Votable::VOTE_DOWN:
+                    return Votable::VOTE_DOWN;
+            }
+        }
+
+        if ($vote === Votable::VOTE_DOWN) {
+            switch ($choice) {
+                case Votable::VOTE_UP:
+                    return Votable::VOTE_UP;
+                case Votable::VOTE_DOWN:
+                    return Votable::VOTE_NONE;
+            }
+        }
+
+        throw new \LogicException();
     }
 }

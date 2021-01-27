@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -48,6 +48,13 @@ class Vote
     public function getChoice(): ?int
     {
         return $this->choice;
+    }
+
+    public function setChoice(int $choice): self
+    {
+        $this->choice = $choice;
+
+        return $this;
     }
 
     public function getUser(): ?User
