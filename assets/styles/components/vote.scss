@@ -1,0 +1,25 @@
+.kbin-vote-uv {
+  &--active {
+    button {
+      color: white !important;
+      background: $kbin-vote-up;
+
+      &:hover {
+        color: white !important;
+      }
+    }
+  }
+}
+
+.kbin-vote-dv {
+  &--active {
+    button {
+      color: white !important;
+      background: $kbin-vote-down;
+
+      &:hover {
+        color: white !important;
+      }
+    }
+  }
+}

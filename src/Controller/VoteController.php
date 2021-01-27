@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller;
 
@@ -13,7 +13,6 @@ class VoteController extends AbstractController
 
     public function __construct(VoteManager $voteManager)
     {
-
         $this->voteManager = $voteManager;
     }
 

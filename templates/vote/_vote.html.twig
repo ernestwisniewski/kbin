@@ -1,7 +1,12 @@
 {% block vote %}
+    {%- set VOTE_UP = constant('App\\Entity\\Contracts\\Votable::VOTE_UP') -%}
+    {%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\Votable::VOTE_DOWN') -%}
+    {%- set VOTE_NONE = constant('App\\Entity\\Contracts\\Votable::VOTE_NONE') -%}
+    {%- set user_choice = is_granted('ROLE_USER') ? votable.userChoice(app.user) : null -%}
+
     <div class="kbin-{{ base_class }}-vote">
         <ul class="kbin-{{ base_class }}-vote-list">
-            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote-uv">
+            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote-uv {% if(user_choice is same as(VOTE_UP)) %}kbin-vote-uv--active{% endif %}">
                 <form action="{{ path(form_dest, {id: votable.id,choice:1}) }}" method="POST">
                     <button type="submit">
                         {{ votable.countUpvotes }}<span class="fa fa-arrow-up"></span>
@@ -10,7 +15,7 @@
                 </form>
             </li>
 
-            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote-dv">
+            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote-dv {% if(user_choice is same as(VOTE_DOWN)) %}kbin-vote-dv--active{% endif %}">
                 <form action="{{ path(form_dest, {id: votable.id,choice:-1}) }}" method="POST">
                     <button type="submit">
                         {{ votable.countDownvotes }}<span class="fa fa-arrow-down"></span>

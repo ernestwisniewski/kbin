@@ -12,6 +12,7 @@ $primary: #556880;
 @import "components/magazine";
 @import "components/entry";
 @import "components/comment";
+@import "components/vote";
 
 .kbin-container {
   @include media-breakpoint-down(lg) {
