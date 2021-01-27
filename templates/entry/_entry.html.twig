@@ -1,19 +1,10 @@
 {% block entry %}
+    {% from 'vote/_macros.html.twig' import vote %}
+
     <article id="{{ entry.id }}" class="kbin-entry {{ extra_classes }}">
         <div class="kbin-entry-header">
-            <div class="kbin-entry-vote">
-                <ul class="kbin-entry-vote-list">
-                    <li class="kbin-entry-vote-list-item kbin-vote-uv">
-                        <a href="#">{{ random(0,240) }}<span class="fa fa-arrow-up"></span>
-                        </a>
-                    </li>
+            {{ vote(entry, {user: app.user, form_dest: 'entry_vote'}) }}
 
-                    <li class="kbin-entry-vote-list-item kbin-vote-dv">
-                        <a href="#">{{ random(0, 20) }}<span class="fa fa-arrow-down"></span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
 
             {% if (random(0,4)) %}
                 <div class="kbin-entry-image">
@@ -24,7 +15,6 @@
 
             <div class="kbin-entry-main">
                 {% include 'entry/_entry_title.html.twig' %}
-{% include 'vote/_vote.html.twig' %}
                 <aside class="kbin-entry-meta">
                     <ul class="kbin-entry-meta-list list-inline mb-0">
                         <li class="kbin-entry-meta-list-item list-inline-item">

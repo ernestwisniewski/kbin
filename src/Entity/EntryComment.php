@@ -2,14 +2,24 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\Votable;
+use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryCommentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=EntryCommentRepository::class)
  */
-class EntryComment
+class EntryComment implements Votable
 {
+    use VotableTrait;
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -18,7 +28,7 @@ class EntryComment
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entryComments")
      * @ORM\JoinColumn(nullable=false)
      */
     private User $user;
@@ -35,16 +45,19 @@ class EntryComment
     private string $body;
 
     /**
-     * @ORM\Column(type="datetimetz_immutable")
+     * @ORM\OneToMany(targetEntity=EntryCommentVote::class, mappedBy="comment")
      */
-    private \DateTimeImmutable $createdAt;
+    private Collection $votes;
 
     public function __construct(string $body, Entry $entry, User $user)
     {
-        $this->body      = $body;
-        $this->entry     = $entry;
-        $this->user      = $user;
-        $this->createdAt = new \DateTimeImmutable('@'.time());
+        $this->body  = $body;
+        $this->entry = $entry;
+        $this->user  = $user;
+
+        $this->createdAtTraitConstruct();
+
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): int
@@ -88,8 +101,30 @@ class EntryComment
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getVotes(): Collection
     {
-        return $this->createdAt;
+        return $this->votes;
+    }
+
+    public function addVote(EntryCommentVote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(EntryCommentVote $vote): self
+    {
+        if ($this->votes->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getComment() === $this) {
+                $vote->setComment(null);
+            }
+        }
+
+        return $this;
     }
 }

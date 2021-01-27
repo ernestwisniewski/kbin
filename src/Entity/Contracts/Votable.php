@@ -1,0 +1,20 @@
+<?php declare(strict_types = 1);
+
+namespace App\Entity\Contracts;
+
+use Doctrine\Common\Collections\Collection;
+
+interface Votable
+{
+    const VOTE_UP = 1;
+    const VOTE_NONE = 0;
+    const VOTE_DOWN = -1;
+
+    public function getUpVotes(): Collection;
+
+    public function getDownVotes(): Collection;
+
+    public function countUpVotes(): int;
+
+    public function countDownVotes(): int;
+}

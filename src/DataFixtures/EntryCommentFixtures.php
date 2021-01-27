@@ -8,7 +8,7 @@ use App\Entity\EntryComment;
 
 class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const COMMENTS_COUNT = 90000;
+    const COMMENTS_COUNT = 7000;
 
     public function getDependencies()
     {

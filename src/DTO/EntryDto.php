@@ -50,17 +50,11 @@ class EntryDto
         return Entry::ENTRY_TYPE_LINK;
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTitle(): ?string
     {
         return $this->title;

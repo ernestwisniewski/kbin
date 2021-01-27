@@ -14,3 +14,9 @@ entry_comment_purge:
   path: /m/{magazine_name}/t/{entry_id}/k/{comment_id}/purge
   methods: [ GET, POST ]
 
+entry_comment_vote:
+  controller: App\Controller\VoteController
+  defaults: { entityClass: App\Entity\EntryComment }
+  path: /ecv/{id}/{choice}
+  methods: [POST]
+

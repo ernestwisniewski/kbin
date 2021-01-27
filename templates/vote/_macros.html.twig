@@ -1,0 +1,12 @@
+{% use 'vote/_vote.html.twig' %}
+
+{%- macro vote(votable, options) -%}
+    {%- with {
+        votable: votable,
+        self: app.user,
+        form_dest: options.form_dest ?? null,
+        base_class: options.base_class ?? 'entry',
+        } only -%}
+        {{ block('vote') }}
+    {%- endwith -%}
+{%- endmacro -%}

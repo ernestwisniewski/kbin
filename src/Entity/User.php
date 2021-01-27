@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,6 +15,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User implements UserInterface
 {
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -60,17 +65,26 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="user")
      */
-    private Collection $comments;
+    private Collection $entryComments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EntryCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    private Collection $entryCommentVotes;
 
     public function __construct($email, $username, $password)
     {
-        $this->email           = $email;
-        $this->password        = $password;
-        $this->username        = $username;
-        $this->moderatorTokens = new ArrayCollection();
-        $this->entries         = new ArrayCollection();
-        $this->entriesVotes         = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        $this->email    = $email;
+        $this->password = $password;
+        $this->username = $username;
+
+        $this->moderatorTokens   = new ArrayCollection();
+        $this->entries           = new ArrayCollection();
+        $this->entryVotes        = new ArrayCollection();
+        $this->entryComments     = new ArrayCollection();
+        $this->entryCommentVotes = new ArrayCollection();
+
+        $this->createdAtTraitConstruct();
     }
 
     public function getId(): int
@@ -169,15 +183,16 @@ class User implements UserInterface
         return $this->entryVotes;
     }
 
-    public function getComments(): Collection
+
+    public function getEntryComments(): Collection
     {
-        return $this->comments;
+        return $this->entryComments;
     }
 
-    public function addComment(EntryComment $comment): self
+    public function addEntryComment(EntryComment $comment): self
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
+        if (!$this->entryComments->contains($comment)) {
+            $this->entryComments[] = $comment;
             $comment->setUser($this);
         }
 

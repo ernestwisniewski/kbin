@@ -1,19 +1,9 @@
 {% block comment %}
+    {% from 'vote/_macros.html.twig' import vote %}
+
     <blockquote id="{{ comment.id }}" class="kbin-comment {{ extra_classes }}">
         <div class="kbin-comment-header">
-            <div class="kbin-comment-vote">
-                <ul class="kbin-comment-vote-list">
-                    <li class="kbin-comment-vote-list-item kbin-vote-uv">
-                        <a href="#">{{ random(0,240) }}<span class="fa fa-arrow-up"></span>
-                        </a>
-                    </li>
-
-                    <li class="kbin-comment-vote-list-item kbin-vote-dv">
-                        <a href="#">{{ random(0, 20) }}<span class="fa fa-arrow-down"></span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 
             <div class="kbin-comment-image">
                 <img class="lazy" src="https://picsum.photos/100/{{ random(75,75) }}?hash={{ random(1,55) }}"
@@ -28,7 +18,8 @@
                         </small>
                     </li>
                     <li class="kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">przez <a href="{{ path('user', {username: comment.user.username}) }}" class="font-weight-bold">{{ comment.user.username }}</a></small>
+                        <small class="text-muted">przez <a href="{{ path('user', {username: comment.user.username}) }}"
+                                                           class="font-weight-bold">{{ comment.user.username }}</a></small>
                     </li>
                 </ul>
             </aside>

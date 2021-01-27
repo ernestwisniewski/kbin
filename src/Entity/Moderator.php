@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\ModeratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Moderator
 {
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -34,19 +39,16 @@ class Moderator
      */
     private bool $isOwner = false;
 
-    /**
-     * @ORM\Column(type="datetimetz_immutable")
-     */
-    private \DateTimeImmutable $createdAt;
-
     public function __construct(Magazine $magazine, User $user, $isOwner = false)
     {
         $this->magazine  = $magazine;
         $this->user      = $user;
         $this->isOwner   = $isOwner;
-        $this->createdAt = new \DateTimeImmutable('@'.time());
+
         $magazine->getModerators()->add($this);
         $user->getModeratorTokens()->add($this);
+
+        $this->createdAtTraitConstruct();
     }
 
     public function getId(): int
@@ -88,10 +90,5 @@ class Moderator
         $this->isOwner = $isOwner;
 
         return $this;
-    }
-
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
     }
 }

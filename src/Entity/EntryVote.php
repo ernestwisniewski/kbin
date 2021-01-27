@@ -12,11 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EntryVote extends Vote
 {
+    /**
+     * @ORM\JoinColumn(name="entry_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="votes")
+     */
     private Entry $entry;
 
-    public function __construct(int $choice, Votable $entry, User $user)
+    public function __construct(int $choice, User $user, Entry $entry)
     {
-        parent::__construct($user, $choice);
+        parent::__construct($choice, $user);
 
         $this->entry = $entry;
     }
@@ -25,4 +29,10 @@ class EntryVote extends Vote
     {
         return $this->entry;
     }
+
+    public function setEntry(Entry $entry): self
+    {
+        $this->entry = $entry;
+    }
+
 }

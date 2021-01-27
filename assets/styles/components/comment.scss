@@ -41,7 +41,9 @@
           margin: 3px 0;
           background: $kbin-comment-vote-button-background-color;
 
-          a {
+          button {
+            width:100%;
+            border:0;
             color: #c1c1c1;
             display: block;
             text-align: center;

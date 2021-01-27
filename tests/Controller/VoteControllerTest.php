@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Tests\WebTestCase;
 
-class UserControllerTest extends WebTestCase
+class VoteControllerTest extends WebTestCase
 {
     public function testCanShowPublicProfile()
     {

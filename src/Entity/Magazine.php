@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -13,6 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Magazine
 {
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -31,11 +36,6 @@ class Magazine
     private string $title;
 
     /**
-     * @ORM\Column(type="datetimetz_immutable")
-     */
-    private \DateTimeImmutable $createdAt;
-
-    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     private Collection $moderators;
@@ -49,10 +49,12 @@ class Magazine
     {
         $this->name       = $name;
         $this->title      = $title;
-        $this->createdAt  = new \DateTimeImmutable('@'.time());
         $this->moderators = new ArrayCollection();
         $this->entries    = new ArrayCollection();
+
         $this->addModerator(new Moderator($this, $user, true));
+
+        $this->createdAtTraitConstruct();
     }
 
     public function userIsModerator(User $user): bool
@@ -103,11 +105,6 @@ class Magazine
         $this->title = $title;
 
         return $this;
-    }
-
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
     }
 
     public function getModerators(): Collection

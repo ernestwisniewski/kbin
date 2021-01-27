@@ -9,7 +9,7 @@ use App\Entity\Entry;
 
 class EntryFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const ENTRIES_COUNT = 10000;
+    const ENTRIES_COUNT = 800;
 
     private UserPasswordEncoderInterface $encoder;
 

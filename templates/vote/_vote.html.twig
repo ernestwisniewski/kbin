@@ -1,13 +1,23 @@
-{#<form action="{{ path('entry_vote', {#}
-{#    id: entry.id,#}
-{#    choice:1#}
-{#}) }}" method="POST">#}
-{#    <div class="col-xs-12">#}
-{#        <div class="kbin-magazine-create-form">#}
-{#            <div class="input-group-sm mb-3 text-end">#}
-{#                <input type="hidden" name="token" value="{{ csrf_token('entry_vote') }}">#}
-{#                <button class="btn btn-danger">Głosuj</button>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</form>#}
+{% block vote %}
+    <div class="kbin-{{ base_class }}-vote">
+        <ul class="kbin-{{ base_class }}-vote-list">
+            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote-uv">
+                <form action="{{ path(form_dest, {id: votable.id,choice:1}) }}" method="POST">
+                    <button type="submit">
+                        {{ votable.countUpvotes }}<span class="fa fa-arrow-up"></span>
+                    </button>
+                    <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
+                </form>
+            </li>
+
+            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote-dv">
+                <form action="{{ path(form_dest, {id: votable.id,choice:-1}) }}" method="POST">
+                    <button type="submit">
+                        {{ votable.countDownvotes }}<span class="fa fa-arrow-down"></span>
+                    </button>
+                    <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
+                </form>
+            </li>
+        </ul>
+    </div>
+{% endblock vote %}

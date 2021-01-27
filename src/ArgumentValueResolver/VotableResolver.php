@@ -1,21 +1,25 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\ArgumentValueResolver;
 
-use App\Entity\Entry;
-use App\Entity\Votable;
+use App\Repository\EntryCommentRepository;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EntryRepository;
+use App\Entity\Contracts\Votable;
+use App\Entity\EntryComment;
+use App\Entity\Entry;
 
 class VotableResolver implements ArgumentValueResolverInterface
 {
     private EntryRepository $entryRepository;
+    private EntryCommentRepository $entryCommentRepository;
 
-    public function __construct(EntryRepository $entryRepository)
+    public function __construct(EntryRepository $entryRepository, EntryCommentRepository $entryCommentRepository)
     {
         $this->entryRepository = $entryRepository;
+        $this->entryCommentRepository = $entryCommentRepository;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
@@ -27,6 +31,7 @@ class VotableResolver implements ArgumentValueResolverInterface
                 $request->attributes->get('entityClass'),
                 [
                     Entry::class,
+                    EntryComment::class,
                 ],
                 true
             )
@@ -40,6 +45,8 @@ class VotableResolver implements ArgumentValueResolverInterface
         switch ($entityClass) {
             case Entry::class:
                 return yield $this->entryRepository->find($id);
+            case EntryComment::class:
+                return yield $this->entryCommentRepository->find($id);
         }
 
         throw new \LogicException();

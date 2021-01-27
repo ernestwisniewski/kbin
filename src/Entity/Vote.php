@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Vote
 {
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,15 +32,12 @@ class Vote
      */
     private User $user;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private \DateTimeImmutable $createdAt;
-
-    public function __construct(User $user, int $choice)
+    public function __construct(int $choice, User $user)
     {
-        $this->user = $user;
         $this->choice = $choice;
+        $this->user   = $user;
+
+        $this->createdAtTraitConstruct();
     }
 
     public function getId(): ?int
@@ -43,25 +45,13 @@ class Vote
         return $this->id;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
     public function getChoice(): ?int
     {
         return $this->choice;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getUser(): ?User
     {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        return $this->user;
     }
 }
