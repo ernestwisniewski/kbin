@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DataFixtures;
 
@@ -9,7 +9,7 @@ use App\DTO\EntryDto;
 
 class EntryFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const ENTRIES_COUNT = 800;
+    const ENTRIES_COUNT = MagazineFixtures::MAGAZINES_COUNT * 15;
 
     private EntryManager $entryManager;
 

@@ -1,17 +1,15 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DataFixtures;
 
-use App\DTO\MagazineDto;
-use App\Service\MagazineManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Magazine;
+use App\Service\MagazineManager;
+use App\DTO\MagazineDto;
 
 class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const MAGAZINES_COUNT = 30;
+    const MAGAZINES_COUNT = UserFixtures::USERS_COUNT / 5;
 
     private MagazineManager $magazineManager;
 
@@ -43,8 +41,15 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 
     private function provideRandomMagazines($count = 1): iterable
     {
+        $titles = [];
         for ($i = 0; $i <= $count; $i++) {
             $title = $this->faker->words($this->faker->numberBetween(1, 5), true);
+
+            if (in_array($title, $titles)) {
+                continue;
+            }
+
+            $titles[] = $title;
 
             yield [
                 'name'  => $this->camelCase($title),

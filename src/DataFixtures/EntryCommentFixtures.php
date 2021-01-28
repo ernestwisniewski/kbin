@@ -1,17 +1,15 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DataFixtures;
 
-use App\DTO\EntryCommentDto;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
-use App\Entity\EntryComment;
+use App\DTO\EntryCommentDto;
 
 class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const COMMENTS_COUNT = 3000;
+    const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 5;
 
     private EntryCommentManager $commentManager;
 
@@ -39,7 +37,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
 
             $manager->persist($entity);
 
-            $this->addReference('comment'.'_'.$index, $entity);
+            $this->addReference('entry_comment_'.$index, $entity);
         }
 
         $manager->flush();
