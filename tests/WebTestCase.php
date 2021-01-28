@@ -1,13 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Entity\EntryCommentVote;
+use App\Entity\EntryVote;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Entity\Entry;
+use App\Entity\Vote;
 use App\Entity\User;
 
 abstract class WebTestCase extends BaseWebTestCase
@@ -142,6 +145,30 @@ abstract class WebTestCase extends BaseWebTestCase
         $manager->flush();
 
         return $entry;
+    }
+
+    public function createEntryVote(int $choice, Entry $entry, User $user): Vote
+    {
+        $manager = self::$container->get(EntityManagerInterface::class);
+
+        $entry = new EntryVote($choice, $user, $entry);
+
+        $manager->persist($entry);
+        $manager->flush();
+
+        return $entry;
+    }
+
+    public function createEntryCommentVote(int $choice, EntryComment $comment, User $user): Vote
+    {
+        $manager = self::$container->get(EntityManagerInterface::class);
+
+        $comment = new EntryCommentVote($choice, $user, $comment);
+
+        $manager->persist($comment);
+        $manager->flush();
+
+        return $comment;
     }
 
     private function provideUsers(): iterable
