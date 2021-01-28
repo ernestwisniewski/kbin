@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -11,6 +11,7 @@ use Pagerfanta\PagerfantaInterface;
 use Doctrine\ORM\QueryBuilder;
 use Pagerfanta\Pagerfanta;
 use App\Entity\Entry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Entry|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,9 +23,13 @@ class EntryRepository extends ServiceEntityRepository
 {
     const PER_PAGE = 25;
 
-    public function __construct(ManagerRegistry $registry)
+    private Security $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Entry::class);
+
+        $this->security = $security;
     }
 
     public function findByCriteria(Criteria $criteria): PagerfantaInterface
@@ -42,6 +47,8 @@ class EntryRepository extends ServiceEntityRepository
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
+
+        $this->hydrate(...$pagerfanta);
 
         return $pagerfanta;
     }
@@ -68,5 +75,32 @@ class EntryRepository extends ServiceEntityRepository
         }
 
         return $qb;
+    }
+
+    public function hydrate(Entry ...$entries): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('PARTIAL e.{id}')
+            ->addSelect('u')
+            ->addSelect('m')
+            ->from(Entry::class, 'e')
+            ->join('e.user', 'u')
+            ->join('e.magazine', 'm')
+            ->where('e IN (?1)')
+            ->setParameter(1, $entries)
+            ->getQuery()
+            ->getResult();
+
+        if ($this->security->getUser()) {
+            $this->_em->createQueryBuilder()
+                ->select('PARTIAL e.{id}')
+                ->addSelect('ev')
+                ->from(Entry::class, 'e')
+                ->leftJoin('e.votes', 'ev')
+                ->where('e IN (?1)')
+                ->setParameter(1, $entries)
+                ->getQuery()
+                ->getResult();
+        }
     }
 }

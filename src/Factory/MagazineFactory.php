@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -19,10 +19,10 @@ class MagazineFactory
 
     public function createDto(Magazine $magazine): MagazineDto
     {
-        $dto = new MagazineDto();
-        $dto->setName($magazine->getName());
-        $dto->setTitle($magazine->getTitle());
-
-        return $dto;
+        return (new MagazineDto())->create(
+            $magazine->getName(),
+            $magazine->getTitle(),
+            $magazine->getId()
+        );
     }
 }

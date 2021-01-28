@@ -1,14 +1,24 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\DTO\EntryCommentDto;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use App\Service\EntryCommentManager;
+use App\Service\EntryManager;
 use App\Entity\EntryComment;
 
 class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const COMMENTS_COUNT = 7000;
+    const COMMENTS_COUNT = 3000;
+
+    private EntryCommentManager $commentManager;
+
+    public function __construct(EntryCommentManager $commentManager)
+    {
+        $this->commentManager = $commentManager;
+    }
 
     public function getDependencies()
     {
@@ -20,15 +30,16 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
     public function loadData(ObjectManager $manager)
     {
         foreach ($this->provideRandomComments(self::COMMENTS_COUNT) as $index => $comment) {
-            $newEntry = new EntryComment(
+            $dto = (new EntryCommentDto())->create(
                 $comment['body'],
-                $comment['entry'],
-                $comment['user']
+                $comment['entry']
             );
 
-            $manager->persist($newEntry);
+            $entity = $this->commentManager->createComment($dto, $comment['user']);
 
-            $this->addReference('comment'.'_'.$index, $newEntry);
+            $manager->persist($entity);
+
+            $this->addReference('comment'.'_'.$index, $entity);
         }
 
         $manager->flush();

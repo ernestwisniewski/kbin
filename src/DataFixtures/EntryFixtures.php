@@ -1,21 +1,21 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Entry;
+use App\Service\EntryManager;
+use App\DTO\EntryDto;
 
 class EntryFixtures extends BaseFixture implements DependentFixtureInterface
 {
     const ENTRIES_COUNT = 800;
 
-    private UserPasswordEncoderInterface $encoder;
+    private EntryManager $entryManager;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(EntryManager $entryManager)
     {
-        $this->encoder = $encoder;
+        $this->entryManager = $entryManager;
     }
 
     public function getDependencies()
@@ -28,17 +28,11 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager)
     {
         foreach ($this->provideRandomEntries(self::ENTRIES_COUNT) as $index => $entry) {
-            $newEntry = new Entry(
-                $entry['title'],
-                $entry['url'],
-                $entry['body'],
-                $entry['magazine'],
-                $entry['user']
-            );
+            $dto = (new EntryDto())->create($entry['title'], $entry['url'], $entry['body'], $entry['magazine']);
 
-            $manager->persist($newEntry);
+            $entity = $this->entryManager->createEntry($dto, $entry['user']);
 
-            $this->addReference('entry'.'_'.$index, $newEntry);
+            $this->addReference('entry'.'_'.$index, $entity);
         }
 
         $manager->flush();

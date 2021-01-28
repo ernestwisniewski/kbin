@@ -25,17 +25,14 @@ class VoteManager
 
         if ($vote) {
             $choice = $this->guessUserChoice($choice, $votable->getUserChoice($user));
-
             $vote->setChoice($choice);
 
             if ($choice === Votable::VOTE_NONE) {
                 $votable->removeVote($vote);
-
                 $this->entityManager->remove($vote);
             }
         } else {
             $vote = $this->voteFactory->create($choice, $votable, $user);
-
             $this->entityManager->persist($vote);
         }
 

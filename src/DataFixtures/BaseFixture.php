@@ -30,8 +30,6 @@ abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 
     protected function camelCase($value): string
     {
-        $slugger = new Slugger();
-
-        return $slugger->camelCase($value);
+        return (new Slugger())->camelCase($value);
     }
 }

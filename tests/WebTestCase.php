@@ -2,33 +2,28 @@
 
 namespace App\Tests;
 
-use App\Entity\EntryCommentVote;
-use App\Entity\EntryVote;
+use App\DTO\EntryCommentDto;
+use App\Service\EntryCommentManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\EntryCommentVote;
+use App\Service\MagazineManager;
+use App\Service\EntryManager;
 use App\Entity\EntryComment;
+use App\Entity\EntryVote;
+use App\DTO\MagazineDto;
 use App\Entity\Magazine;
+use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\Vote;
 use App\Entity\User;
 
 abstract class WebTestCase extends BaseWebTestCase
 {
-    /**
-     * @var ArrayCollection
-     */
-    protected $users;
-
-    /**
-     * @var ArrayCollection
-     */
-    protected $magazines;
-
-    /**
-     * @var ArrayCollection
-     */
-    protected $entries;
+    protected ArrayCollection $users;
+    protected ArrayCollection $magazines;
+    protected ArrayCollection $entries;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
@@ -92,11 +87,13 @@ abstract class WebTestCase extends BaseWebTestCase
 
     private function createMagazine(string $name, string $title = null, User $user = null): Magazine
     {
-        $manager  = self::$container->get(EntityManagerInterface::class);
-        $magazine = new Magazine($name, $title ?? 'Przykładowy magazyn', $user ?? $this->getUserByUsername('regularUser'));
+        /**
+         * @var $manager MagazineManager
+         */
+        $manager = self::$container->get(MagazineManager::class);
 
-        $manager->persist($magazine);
-        $manager->flush();
+        $dto      = (new MagazineDto())->create($name, $title ?? 'Przykładowy magazyn');
+        $magazine = $manager->createMagazine($dto, $user ?? $this->getUserByUsername('regularUser'));
 
         $this->magazines->add($magazine);
 
@@ -122,27 +119,27 @@ abstract class WebTestCase extends BaseWebTestCase
 
     public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null): EntryComment
     {
-        $manager = self::$container->get(EntityManagerInterface::class);
+        /**
+         * @var $manager EntryCommentManager
+         */
+        $manager = self::$container->get(EntryCommentManager::class);
 
-        $entry = $entry ?? $this->getEntryByTitle('Przykladowa treść');
-        $user  = $user ?? $this->getUserByUsername('regularUser');
+        $dto = (new EntryCommentDto())->create($body, $entry ?? $this->getEntryByTitle('Przykladowa treść'));
 
-        $comment = new EntryComment($body, $entry, $user);
-
-        $manager->persist($comment);
-        $manager->flush();
-
-        return $comment;
+        return $manager->createComment($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
 
     private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = 'https://example.com', ?string $body = null): Entry
     {
-        $manager = self::$container->get(EntityManagerInterface::class);
+        /**
+         * @var $manager EntryManager
+         */
+        $manager = self::$container->get(EntryManager::class);
 
-        $entry = new Entry($title, $url, $body, $magazine, $user);
+        $dto   = (new EntryDto())->create($title, $url, $body, $magazine);
+        $entry = $manager->createEntry($dto, $user ?? $this->getUserByUsername('regularUser'));
 
-        $manager->persist($entry);
-        $manager->flush();
+        $this->entries->add($entry);
 
         return $entry;
     }

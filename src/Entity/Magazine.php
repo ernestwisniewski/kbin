@@ -10,6 +10,12 @@ use App\Repository\MagazineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(
+ *         name="magazine_name_idx",
+ *         columns={"name"}
+ *     )
+ * })
  * @ORM\Entity(repositoryClass=MagazineRepository::class)
  */
 class Magazine

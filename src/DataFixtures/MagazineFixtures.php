@@ -1,7 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\DTO\MagazineDto;
+use App\Service\MagazineManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -9,27 +11,24 @@ use App\Entity\Magazine;
 
 class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const MAGAZINES_COUNT = 50;
+    const MAGAZINES_COUNT = 30;
 
-    private UserPasswordEncoderInterface $encoder;
+    private MagazineManager $magazineManager;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(MagazineManager $magazineManager)
     {
-        $this->encoder = $encoder;
+        $this->magazineManager = $magazineManager;
     }
 
     public function loadData(ObjectManager $manager)
     {
         foreach ($this->provideRandomMagazines(self::MAGAZINES_COUNT) as $index => $magazine) {
-            $newMagazine = new Magazine(
-                $magazine['name'],
-                $magazine['title'],
-                $magazine['user']
-            );
 
-            $manager->persist($newMagazine);
+            $dto = (new MagazineDto())->create($magazine['name'], $magazine['title']);
 
-            $this->addReference('magazine'.'_'.$index, $newMagazine);
+            $entity = $this->magazineManager->createMagazine($dto, $magazine['user']);
+
+            $this->addReference('magazine'.'_'.$index, $entity);
         }
 
         $manager->flush();

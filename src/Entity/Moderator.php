@@ -7,6 +7,12 @@ use App\Repository\ModeratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(
+ *         name="moderator_magazine_user_idx",
+ *         columns={"magazine_id", "user_id"}
+ *     )
+ * })
  * @ORM\Entity(repositoryClass=ModeratorRepository::class)
  */
 class Moderator

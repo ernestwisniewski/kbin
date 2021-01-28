@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -10,18 +10,28 @@ use App\Entity\User;
 
 class EntryDto
 {
-    private int $id;
+    private ?int $id = null;
     /**
      * @Assert\NotBlank()
      */
     private string $title;
-    private ?string $body = null;
     private ?string $url = null;
+    private ?string $body = null;
     /**
      * @Assert\NotBlank()
      */
     private Magazine $magazine;
-    private User $user;
+
+    public function create(string $title, ?string $url, ?string $body, Magazine $magazine, ?int $id = null): self
+    {
+        $this->id       = $id;
+        $this->title    = $title;
+        $this->url      = $url;
+        $this->body     = $body;
+        $this->magazine = $magazine;
+
+        return $this;
+    }
 
     /**
      * @Assert\Callback
@@ -41,6 +51,11 @@ class EntryDto
             ->addViolation();
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getType(): string
     {
         if ($this->getBody()) {
@@ -48,11 +63,6 @@ class EntryDto
         }
 
         return Entry::ENTRY_TYPE_LINK;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getTitle(): ?string
@@ -65,16 +75,6 @@ class EntryDto
         $this->title = $title;
     }
 
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setBody(?string $body): void
-    {
-        $this->body = $body;
-    }
-
     public function getUrl(): ?string
     {
         return $this->url;
@@ -85,6 +85,17 @@ class EntryDto
         $this->url = $url;
     }
 
+    public function getBody(): ?string
+    {
+        return $this->body;
+    }
+
+    public function setBody(?string $body): void
+    {
+        $this->body = $body;
+    }
+
+
     public function getMagazine(): ?Magazine
     {
         return $this->magazine;
@@ -93,15 +104,5 @@ class EntryDto
     public function setMagazine(Magazine $magazine): void
     {
         $this->magazine = $magazine;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): void
-    {
-        $this->user = $user;
     }
 }

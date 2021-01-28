@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -21,13 +21,12 @@ class EntryFactory
 
     public function createDto(Entry $entry): EntryDto
     {
-        $entryDto = new EntryDto();
-
-        $entryDto->setMagazine($entry->getMagazine());
-        $entryDto->setTitle($entry->getTitle());
-        $entryDto->setBody($entry->getBody());
-        $entryDto->setUrl($entry->getUrl());
-
-        return $entryDto;
+        return (new EntryDto())->create(
+            $entry->getTitle(),
+            $entry->getUrl(),
+            $entry->getBody(),
+            $entry->getMagazine(),
+            $entry->getId()
+        );
     }
 }
