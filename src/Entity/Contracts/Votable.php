@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity\Contracts;
 
@@ -11,6 +11,8 @@ interface Votable
     const VOTE_UP = 1;
     const VOTE_NONE = 0;
     const VOTE_DOWN = -1;
+
+    public function addVote(Vote $votable): self;
 
     public function removeVote(Vote $votable): self;
 
@@ -25,4 +27,6 @@ interface Votable
     public function getUserChoice(User $user): int;
 
     public function getUserVote(User $user): ?Vote;
+
+    public function updateVoteCounts(): self;
 }

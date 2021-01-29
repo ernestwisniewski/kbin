@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\DTO\EntryCommentDto;
 use App\Service\EntryCommentManager;
+use App\Service\VoteManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -146,26 +147,34 @@ abstract class WebTestCase extends BaseWebTestCase
 
     public function createEntryVote(int $choice, Entry $entry, User $user): Vote
     {
-        $manager = self::$container->get(EntityManagerInterface::class);
+        $entityManager = self::$container->get(EntityManagerInterface::class);
+        /**
+         * @var $voteManager VoteManager
+         */
+        $voteManager = self::$container->get(VoteManager::class);
 
-        $entry = new EntryVote($choice, $user, $entry);
+        $vote = $voteManager->vote($choice, $entry, $user);
 
-        $manager->persist($entry);
-        $manager->flush();
+        $entityManager->persist($vote);
+        $entityManager->flush();
 
-        return $entry;
+        return $vote;
     }
 
     public function createEntryCommentVote(int $choice, EntryComment $comment, User $user): Vote
     {
         $manager = self::$container->get(EntityManagerInterface::class);
+        /**
+         * @var $voteManager VoteManager
+         */
+        $voteManager = self::$container->get(VoteManager::class);
 
-        $comment = new EntryCommentVote($choice, $user, $comment);
+        $vote = $voteManager->vote($choice, $comment, $user);
 
-        $manager->persist($comment);
+        $manager->persist($vote);
         $manager->flush();
 
-        return $comment;
+        return $vote;
     }
 
     private function provideUsers(): iterable

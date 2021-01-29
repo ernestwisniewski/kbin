@@ -9,6 +9,7 @@ use App\Repository\EntryCommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EntryCommentRepository::class)
@@ -45,7 +46,7 @@ class EntryComment implements Votable
     private string $body;
 
     /**
-     * @ORM\OneToMany(targetEntity=EntryCommentVote::class, mappedBy="comment")
+     * @ORM\OneToMany(targetEntity=EntryCommentVote::class, mappedBy="comment",cascade={"persist"})
      */
     private Collection $votes;
 
@@ -106,8 +107,10 @@ class EntryComment implements Votable
         return $this->votes;
     }
 
-    public function addVote(EntryCommentVote $vote): self
+    public function addVote(Vote $vote): self
     {
+        Assert::isInstanceOf($vote, EntryCommentVote::class);
+
         if (!$this->votes->contains($vote)) {
             $this->votes[] = $vote;
             $vote->setComment($this);
@@ -118,6 +121,8 @@ class EntryComment implements Votable
 
     public function removeVote(Vote $vote): self
     {
+        Assert::isInstanceOf($vote, EntryCommentVote::class);
+
         if ($this->votes->removeElement($vote)) {
             // set the owning side to null (unless already changed)
             if ($vote->getComment() === $this) {

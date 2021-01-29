@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Magazine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Pagerfanta\Exception\NotValidCurrentPageException;
@@ -102,5 +103,29 @@ class EntryRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
         }
+    }
+
+    public function countEntriesByMagazine(Magazine $magazine): int
+    {
+        return intval(
+            $this->createQueryBuilder('e')
+                ->select('count(e.id)')
+                ->where('e.magazine = :magazine')
+                ->setParameter('magazine', $magazine)
+                ->getQuery()
+                ->getSingleScalarResult()
+        );
+    }
+
+    public function countCommentsByMagazine(Magazine $magazine)
+    {
+        return intval(
+            $this->createQueryBuilder('e')
+                ->select('sum(e.commentCount)')
+                ->where('e.magazine = :magazine')
+                ->setParameter('magazine', $magazine)
+                ->getQuery()
+                ->getSingleScalarResult()
+        );
     }
 }

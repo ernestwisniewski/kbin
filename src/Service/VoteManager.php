@@ -1,12 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Event\SubjectVotedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Contracts\Votable;
 use App\Factory\VoteFactory;
 use App\Entity\Vote;
 use App\Entity\User;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class VoteManager
 {
@@ -19,7 +22,7 @@ class VoteManager
         $this->entityManager = $entityManager;
     }
 
-    public function vote(int $choice, Votable $votable, User $user): ?Vote
+    public function vote(int $choice, Votable $votable, User $user): Vote
     {
         $vote = $votable->getUserVote($user);
 
@@ -28,13 +31,15 @@ class VoteManager
             $vote->setChoice($choice);
 
             if ($choice === Votable::VOTE_NONE) {
-                $votable->removeVote($vote);
+                $votable->updateVoteCounts();
                 $this->entityManager->remove($vote);
             }
         } else {
             $vote = $this->voteFactory->create($choice, $votable, $user);
             $this->entityManager->persist($vote);
         }
+
+        $votable->updateVoteCounts();
 
         $this->entityManager->flush();
 

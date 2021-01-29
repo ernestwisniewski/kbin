@@ -1,19 +1,21 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Contracts\Commentable;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryRepository;
 use App\Entity\Contracts\Votable;
 use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry implements Votable
+class Entry implements Votable, Commentable
 {
     use VotableTrait;
     use CreatedAtTrait {
@@ -58,12 +60,17 @@ class Entry implements Votable
     private ?string $body = null;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private int $commentCount = 0;
+
+    /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry")
      */
     private Collection $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry")
+     * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry", cascade={"persist"})
      */
     private Collection $votes;
 
@@ -133,9 +140,19 @@ class Entry implements Votable
         return $this;
     }
 
-    /**
-     * @return Collection|EntryComment[]
-     */
+
+    public function getCommentCount(): ?int
+    {
+        return $this->commentCount;
+    }
+
+    public function setCommentCount(int $commentCount): self
+    {
+        $this->commentCount = $commentCount;
+
+        return $this;
+    }
+
     public function getComments(): Collection
     {
         return $this->comments;
@@ -167,8 +184,10 @@ class Entry implements Votable
         return $this->votes;
     }
 
-    public function addVote(EntryVote $vote): self
+    public function addVote(Vote $vote): self
     {
+        Assert::isInstanceOf($vote, EntryVote::class);
+
         if (!$this->votes->contains($vote)) {
             $this->votes[] = $vote;
             $vote->setEntry($this);
@@ -179,6 +198,8 @@ class Entry implements Votable
 
     public function removeVote(Vote $vote): self
     {
+        Assert::isInstanceOf($vote, EntryVote::class);
+
         if ($this->votes->removeElement($vote)) {
             if ($vote->getEntry() === $this) {
                 $vote->setEntry(null);

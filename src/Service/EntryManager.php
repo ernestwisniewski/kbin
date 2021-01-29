@@ -1,9 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Event\EntryCreatedEvent;
+use App\Event\EntryUpdatedEvent;
+use App\Repository\EntryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\EntryFactory;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
@@ -12,13 +16,20 @@ use App\Entity\User;
 class EntryManager
 {
     private EntryFactory $entryFactory;
+    private EntryRepository $entryRepository;
+    private EventDispatcherInterface $eventDispatcher;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(EntryFactory $entryFactory, EntityManagerInterface $entityManager)
-    {
-
-        $this->entryFactory  = $entryFactory;
-        $this->entityManager = $entityManager;
+    public function __construct(
+        EntryFactory $entryFactory,
+        EntryRepository $entryRepository,
+        EventDispatcherInterface $eventDispatcher,
+        EntityManagerInterface $entityManager
+    ) {
+        $this->entryFactory    = $entryFactory;
+        $this->entryRepository = $entryRepository;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->entityManager   = $entityManager;
     }
 
     public function createEntry(EntryDto $entryDto, User $user): Entry
@@ -27,8 +38,14 @@ class EntryManager
 
         $this->assertType($entry);
 
+        $entry->getMagazine()->setEntryCount(
+            $this->entryRepository->countEntriesByMagazine($entry->getMagazine()) + 1
+        );
+
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new EntryCreatedEvent($entry)));
 
         return $entry;
     }
@@ -45,12 +62,19 @@ class EntryManager
 
         $this->entityManager->flush();
 
+        $this->eventDispatcher->dispatch((new EntryUpdatedEvent($entry)));
+
         return $entry;
     }
 
     public function purgeEntry(Entry $entry): void
     {
         $this->entityManager->remove($entry);
+
+        $entry->getMagazine()->setEntryCount(
+            $this->entryRepository->countEntriesByMagazine($entry->getMagazine()) - 1
+        );
+
         $this->entityManager->flush();
     }
 

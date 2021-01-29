@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -15,11 +15,17 @@ class VoteFactory
     public function create(int $choice, Votable $votable, User $user): Vote
     {
         if ($votable instanceof Entry) {
-            return new EntryVote($choice, $user, $votable);
+            $vote = new EntryVote($choice, $user, $votable);
+            $votable->addVote($vote);
+
+            return $vote;
         }
 
         if ($votable instanceof EntryComment) {
-            return new EntryCommentVote($choice, $user, $votable);
+            $vote = new EntryCommentVote($choice, $user, $votable);
+            $votable->addVote($vote);
+
+            return $vote;
         }
 
         throw new \LogicException();

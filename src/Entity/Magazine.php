@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -50,6 +50,16 @@ class Magazine
      * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="magazine")
      */
     private Collection $entries;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $entryCount = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $commentCount = 0;
 
     public function __construct(string $name, string $title, User $user)
     {
@@ -128,11 +138,39 @@ class Magazine
         return $this;
     }
 
-    /**
-     * @return Collection|Entry[]
-     */
     public function getEntries(): Collection
     {
         return $this->entries;
+    }
+
+    public function getEntryCount(): ?int
+    {
+        return $this->entryCount;
+    }
+
+    public function setEntryCount(int $entryCount): self
+    {
+        $this->entryCount = $entryCount;
+
+        return $this;
+    }
+
+    public function getCommentCount(): ?int
+    {
+        return $this->commentCount;
+    }
+
+    public function setCommentCount(int $commentCount): self
+    {
+        $this->commentCount = $commentCount;
+
+        return $this;
+    }
+
+    public function updateEntryCount(): self
+    {
+        $this->entryCount = $this->entries->count();
+
+        return $this;
     }
 }
