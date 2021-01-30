@@ -14,6 +14,7 @@
         "doctrine/orm": "^2.8",
         "embed/embed": "dev-master",
         "knplabs/knp-time-bundle": "^1.15",
+        "laminas/laminas-diactoros": "^2.5",
         "pagerfanta/pagerfanta": "^2.5",
         "sensio/framework-extra-bundle": "^5.6",
         "slevomat/coding-standard": "^6.4",

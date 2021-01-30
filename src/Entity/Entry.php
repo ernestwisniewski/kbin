@@ -60,6 +60,11 @@ class Entry implements Votable, Commentable
     private ?string $body = null;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $embed = null;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private int $commentCount = 0;
@@ -147,6 +152,18 @@ class Entry implements Votable, Commentable
         return $this;
     }
 
+
+    public function getEmbed(): ?string
+    {
+        return $this->embed;
+    }
+
+    public function setEmbed(?string $embed): self
+    {
+        $this->embed = $embed;
+
+        return $this;
+    }
 
     public function getCommentCount(): ?int
     {

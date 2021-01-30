@@ -105,7 +105,7 @@ class EntryRepository extends ServiceEntityRepository
         }
     }
 
-    public function countCommentsByMagazine(Magazine $magazine)
+    public function countCommentsByMagazine(Magazine $magazine): int
     {
         return intval(
             $this->createQueryBuilder('e')

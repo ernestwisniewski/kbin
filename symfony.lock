@@ -129,6 +129,9 @@
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
+    "laminas/laminas-diactoros": {
+        "version": "2.5.0"
+    },
     "laminas/laminas-eventmanager": {
         "version": "3.3.0"
     },

@@ -11,6 +11,7 @@ use App\Factory\EntryFactory;
 use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
+use App\Utils\Embed;
 use App\Entity\User;
 
 class EntryManager
@@ -40,6 +41,10 @@ class EntryManager
         $this->assertType($entry);
 
         $magazine->addEntry($entry);
+
+        if($entry->getUrl()) {
+            $entry->setEmbed((new Embed())->fetch($entry->getUrl())->getEmbed());
+        }
 
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
