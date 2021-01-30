@@ -105,18 +105,6 @@ class EntryRepository extends ServiceEntityRepository
         }
     }
 
-    public function countEntriesByMagazine(Magazine $magazine): int
-    {
-        return intval(
-            $this->createQueryBuilder('e')
-                ->select('count(e.id)')
-                ->where('e.magazine = :magazine')
-                ->setParameter('magazine', $magazine)
-                ->getQuery()
-                ->getSingleScalarResult()
-        );
-    }
-
     public function countCommentsByMagazine(Magazine $magazine)
     {
         return intval(

@@ -42,7 +42,7 @@ class Entry implements Votable, Commentable
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private Magazine $magazine;
+    private ?Magazine $magazine;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -102,6 +102,13 @@ class Entry implements Votable, Commentable
     public function getMagazine(): Magazine
     {
         return $this->magazine;
+    }
+
+    public function setMagazine(?Magazine $magazine): self
+    {
+        $this->magazine = $magazine;
+
+        return $this;
     }
 
     public function getTitle(): string
@@ -165,6 +172,8 @@ class Entry implements Votable, Commentable
             $comment->setEntry($this);
         }
 
+        $this->updateCounts();
+
         return $this;
     }
 
@@ -175,6 +184,17 @@ class Entry implements Votable, Commentable
                 $comment->setEntry(null);
             }
         }
+
+        $this->updateCounts();
+
+        return $this;
+    }
+
+    private function updateCounts(): self
+    {
+        $this->setCommentCount(
+            $this->getComments()->count()
+        );
 
         return $this;
     }

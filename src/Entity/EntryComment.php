@@ -38,7 +38,7 @@ class EntryComment implements Votable
      * @ORM\ManyToOne(targetEntity=Entry::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private Entry $entry;
+    private ?Entry $entry;
 
     /**
      * @ORM\Column(type="text")
@@ -50,7 +50,7 @@ class EntryComment implements Votable
      */
     private Collection $votes;
 
-    public function __construct(string $body, Entry $entry, User $user)
+    public function __construct(string $body, ?Entry $entry, User $user)
     {
         $this->body  = $body;
         $this->entry = $entry;
@@ -78,12 +78,12 @@ class EntryComment implements Votable
         return $this;
     }
 
-    public function getEntry(): Entry
+    public function getEntry(): ?Entry
     {
         return $this->entry;
     }
 
-    public function setEntry(Entry $entry): self
+    public function setEntry(?Entry $entry): self
     {
         $this->entry = $entry;
 

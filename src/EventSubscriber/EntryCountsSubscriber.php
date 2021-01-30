@@ -27,12 +27,10 @@ class EntryCountsSubscriber implements EventSubscriberInterface
 
     public function onEntryCreated(EntryCreatedEvent $event): void
     {
-        $this->updateCounts($event->getEntry());
     }
 
     public function onEntryUpdated(EntryUpdatedEvent $event): void
     {
-        $this->updateCounts($event->getEntry());
     }
 
     public function updateCounts(Entry $entry):void

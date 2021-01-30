@@ -143,6 +143,40 @@ class Magazine
         return $this->entries;
     }
 
+    public function addEntry(Entry $entry): self
+    {
+        if (!$this->entries->contains($entry)) {
+            $this->entries[] = $entry;
+            $entry->setMagazine($this);
+        }
+
+        $this->updateCounts();
+
+        return $this;
+    }
+
+    public function removeEntry(Entry $entry): self
+    {
+        if ($this->entries->removeElement($entry)) {
+            if ($entry->getMagazine() === $this) {
+                $entry->setMagazine(null);
+            }
+        }
+
+        $this->updateCounts();
+
+        return $this;
+    }
+
+    private function updateCounts(): self
+    {
+        $this->setEntryCount(
+            $this->getEntries()->count()
+        );
+
+        return $this;
+    }
+
     public function getEntryCount(): ?int
     {
         return $this->entryCount;

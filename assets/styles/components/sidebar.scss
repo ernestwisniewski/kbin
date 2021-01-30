@@ -5,25 +5,31 @@
   }
 }
 
-.kbin-quick-links {
-  a {
-    color: #000;
-
-    &:hover {
-      background: $kbin-navbar-quicklinks-hover-background-color;
+.kbin-add {
+  .kbin-quick-links {
+    &--hide {
+      display: none;
     }
-  }
 
-  &-heading {
-    font-size: 1.1rem;
-  }
+    a {
+      color: #000;
 
-  &-text {
-    font-size: .9rem;
-    line-height: 1.3;
-  }
+      &:hover {
+        background: $kbin-navbar-quicklinks-hover-background-color;
+      }
+    }
 
-  p {
-    margin-bottom: 0;
+    &-heading {
+      font-size: 1.1rem;
+    }
+
+    &-text {
+      font-size: .9rem;
+      line-height: 1.3;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
   }
 }

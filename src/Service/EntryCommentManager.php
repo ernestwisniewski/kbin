@@ -38,9 +38,7 @@ class EntryCommentManager
         $magazine = $entry->getMagazine();
 
         $entry->addComment($comment);
-        $entry->setCommentCount(
-            $entry->getComments()->count()
-        );
+
         $magazine->setCommentCount(
             $this->entryRepository->countCommentsByMagazine($magazine) + 1
         );

@@ -9,24 +9,40 @@
     </form>
 </div>
 
-<div class="kbin-quick-links list-group">
-    <a href="{{ path('entry_create', { type: 'link' }) }}" class="list-group-item">
-        <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy link</h4>
-        <p class="kbin-quick-links-text list-group-item-text text-muted">Podziel się ciekawym linkiem lub fotografią.</p>
-    </a>
+<div class="kbin-add d-grid gap-2" data-controller="sidebar-add"
+     data-sidebar-add-hide-class="visually-hidden">
+    <button type="button"
+            class="btn btn-primary btn-lg mb-1 kbin-add-btn"
+            data-sidebar-add-target="showButton"
+            data-action="click->sidebar-add#toggle">
+        Dodaj nowy
+    </button>
 
-    <a href="{{ path('entry_create', { type: 'artykul' }) }}" class="list-group-item">
-        <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy artykuł</h4>
-        <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz artykuł lub wiadomość tekstową.</p>
-    </a>
+    <button type="button" class="btn-close visually-hidden" aria-label="Close"
+            data-sidebar-add-target="closeButton"
+            data-action="click->sidebar-add#toggle"></button>
 
-    <a href="/łęcka" class="list-group-item">
-        <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj post na mikroblogu</h4>
-        <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz krótki wpis lub notatkę.</p>
-    </a>
 
-    <a href="{{ path('magazine_create') }}" class="list-group-item">
-        <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy magazyn</h4>
-        <p class="kbin-quick-links-text list-group-item-text text-muted">Utwórz i zarządzaj magazynem tematycznym.</p>
-    </a>
+    <div class="kbin-quick-links list-group visually-hidden"
+         data-sidebar-add-target="quickLinks">
+        <a href="{{ path('entry_create', { type: 'link' }) }}" class="list-group-item">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy link</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">Podziel się ciekawym linkiem lub fotografią.</p>
+        </a>
+
+        <a href="{{ path('entry_create', { type: 'artykul' }) }}" class="list-group-item">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy artykuł</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz artykuł lub wiadomość tekstową.</p>
+        </a>
+
+        <a href="/łęcka" class="list-group-item">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj post na mikroblogu</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz krótki wpis lub notatkę.</p>
+        </a>
+
+        <a href="{{ path('magazine_create') }}" class="list-group-item">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy magazyn</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">Utwórz i zarządzaj magazynem tematycznym.</p>
+        </a>
+    </div>
 </div>

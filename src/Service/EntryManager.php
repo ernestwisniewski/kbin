@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\EntryRepository;
 use App\Event\EntryCreatedEvent;
 use App\Event\EntryUpdatedEvent;
-use App\Repository\EntryRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\EntryFactory;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
@@ -34,13 +34,12 @@ class EntryManager
 
     public function createEntry(EntryDto $entryDto, User $user): Entry
     {
-        $entry = $this->entryFactory->createFromDto($entryDto, $user);
+        $entry    = $this->entryFactory->createFromDto($entryDto, $user);
+        $magazine = $entry->getMagazine();
 
         $this->assertType($entry);
 
-        $entry->getMagazine()->setEntryCount(
-            $this->entryRepository->countEntriesByMagazine($entry->getMagazine()) + 1
-        );
+        $magazine->addEntry($entry);
 
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
@@ -69,12 +68,11 @@ class EntryManager
 
     public function purgeEntry(Entry $entry): void
     {
+        $magazine = $entry->getMagazine();
+
+        $magazine->removeEntry($entry);
+
         $this->entityManager->remove($entry);
-
-        $entry->getMagazine()->setEntryCount(
-            $this->entryRepository->countEntriesByMagazine($entry->getMagazine()) - 1
-        );
-
         $this->entityManager->flush();
     }
 
