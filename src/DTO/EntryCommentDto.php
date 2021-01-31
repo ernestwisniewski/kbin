@@ -15,11 +15,11 @@ class EntryCommentDto
      */
     private ?string $body;
 
-    public function create(string $body, Entry $entry, ?int $id = null): self
+    public function create(Entry $entry, string $body, ?int $id = null): self
     {
         $this->id    = $id;
-        $this->body  = $body;
         $this->entry = $entry;
+        $this->body  = $body;
 
         return $this;
     }

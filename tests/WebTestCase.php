@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests;
 
@@ -125,7 +125,7 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = self::$container->get(EntryCommentManager::class);
 
-        $dto = (new EntryCommentDto())->create($body, $entry ?? $this->getEntryByTitle('Przykladowa treść'));
+        $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $body);
 
         return $manager->createComment($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
@@ -137,7 +137,7 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = self::$container->get(EntryManager::class);
 
-        $dto   = (new EntryDto())->create($title, $url, $body, $magazine);
+        $dto   = (new EntryDto())->create($magazine, $title, $url, $body);
         $entry = $manager->createEntry($dto, $user ?? $this->getUserByUsername('regularUser'));
 
         $this->entries->add($entry);

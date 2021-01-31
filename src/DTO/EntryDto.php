@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
+use App\Entity\Image;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Magazine;
 use App\Entity\Entry;
-use App\Entity\User;
 
 class EntryDto
 {
@@ -14,21 +14,22 @@ class EntryDto
     /**
      * @Assert\NotBlank()
      */
-    private string $title;
-    private ?string $url = null;
-    private ?string $body = null;
+    private Magazine $magazine;
     /**
      * @Assert\NotBlank()
      */
-    private Magazine $magazine;
+    private string $title;
+    private ?string $url = null;
+    private ?string $body = null;
+    private ?Image $image = null;
 
-    public function create(string $title, ?string $url, ?string $body, Magazine $magazine, ?int $id = null): self
+    public function create(Magazine $magazine, string $title, ?string $url = null, ?string $body = null, ?Image $image = null, ?int $id = null): self
     {
         $this->id       = $id;
+        $this->magazine = $magazine;
         $this->title    = $title;
         $this->url      = $url;
         $this->body     = $body;
-        $this->magazine = $magazine;
 
         return $this;
     }
@@ -70,6 +71,16 @@ class EntryDto
         return $this->title;
     }
 
+    public function getMagazine(): ?Magazine
+    {
+        return $this->magazine;
+    }
+
+    public function setMagazine(Magazine $magazine): void
+    {
+        $this->magazine = $magazine;
+    }
+
     public function setTitle(string $title): void
     {
         $this->title = $title;
@@ -95,14 +106,13 @@ class EntryDto
         $this->body = $body;
     }
 
-
-    public function getMagazine(): ?Magazine
+    public function getImage(): ?Image
     {
-        return $this->magazine;
+        return $this->image;
     }
 
-    public function setMagazine(Magazine $magazine): void
+    public function setImage(?Image $image): void
     {
-        $this->magazine = $magazine;
+        $this->image = $image;
     }
 }

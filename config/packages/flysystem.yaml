@@ -1,0 +1,10 @@
+flysystem:
+    storages:
+        temp.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/var/storage/temp'
+        default.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/var/storage/aws'

@@ -2,10 +2,15 @@
 
 namespace App\Service;
 
+use Symfony\Component\Messenger\MessageBusInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use App\Repository\EntryCommentRepository;
-use App\Repository\EntryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Event\EntryCommentCreatedEvent;
+use App\Event\EntryCommentPurgedEvent;
+use App\Event\EntryCommentUpdatedEvent;
 use App\Factory\EntryCommentFactory;
+use App\Repository\EntryRepository;
 use Webmozart\Assert\Assert;
 use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
@@ -14,17 +19,23 @@ use App\Entity\User;
 class EntryCommentManager
 {
     private EntryCommentFactory $commentFactory;
+    private EventDispatcherInterface $eventDispatcher;
+    private MessageBusInterface $messageBus;
     private EntryCommentRepository $commentRepository;
     private EntryRepository $entryRepository;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
         EntryCommentFactory $commentFactory,
+        EventDispatcherInterface $eventDispatcher,
+        MessageBusInterface $messageBus,
         EntryCommentRepository $commentRepository,
         EntryRepository $entryRepository,
         EntityManagerInterface $entityManager
     ) {
         $this->commentFactory    = $commentFactory;
+        $this->eventDispatcher   = $eventDispatcher;
+        $this->messageBus        = $messageBus;
         $this->commentRepository = $commentRepository;
         $this->entryRepository   = $entryRepository;
         $this->entityManager     = $entityManager;
@@ -34,17 +45,12 @@ class EntryCommentManager
     {
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
-        $entry    = $comment->getEntry();
-        $magazine = $entry->getMagazine();
-
-        $entry->addComment($comment);
-
-        $magazine->setCommentCount(
-            $this->entryRepository->countCommentsByMagazine($magazine) + 1
-        );
+        $comment->getEntry()->addComment($comment);
 
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new EntryCommentCreatedEvent($comment)));
 
         return $comment;
     }
@@ -57,6 +63,8 @@ class EntryCommentManager
 
         $this->entityManager->flush();
 
+        $this->eventDispatcher->dispatch((new EntryCommentUpdatedEvent($comment)));
+
         return $comment;
     }
 
@@ -67,18 +75,14 @@ class EntryCommentManager
 
     public function purgeComment(EntryComment $comment): void
     {
-        $entry    = $comment->getEntry();
-        $magazine = $entry->getMagazine();
-
-        $entry->setCommentCount(
-            $entry->getComments()->count() - 1
-        );
-        $magazine->setCommentCount(
-            $this->entryRepository->countCommentsByMagazine($magazine) - 1
-        );
+        $magazine = $comment->getEntry()->getMagazine();
+        $comment->getEntry()->removeComment($comment);
 
         $this->entityManager->remove($comment);
 
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new EntryCommentPurgedEvent($magazine)));
+
     }
 }

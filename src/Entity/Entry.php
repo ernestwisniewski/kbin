@@ -45,6 +45,12 @@ class Entry implements Votable, Commentable
     private ?Magazine $magazine;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Image $image = null;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private string $title;
@@ -112,6 +118,18 @@ class Entry implements Votable, Commentable
     public function setMagazine(?Magazine $magazine): self
     {
         $this->magazine = $magazine;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

@@ -171,7 +171,7 @@ class Magazine
     private function updateCounts(): self
     {
         $this->setEntryCount(
-            $this->getEntries()->count()
+            $this->entries->count()
         );
 
         return $this;

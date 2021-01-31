@@ -2,11 +2,15 @@
 
 namespace App\Service;
 
+use App\Message\EntryCreatedMessage;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Message\php;
 use App\Repository\EntryRepository;
 use App\Event\EntryCreatedEvent;
 use App\Event\EntryUpdatedEvent;
+use App\Event\EntryPurgedEvent;
 use App\Factory\EntryFactory;
 use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
@@ -19,17 +23,20 @@ class EntryManager
     private EntryFactory $entryFactory;
     private EntryRepository $entryRepository;
     private EventDispatcherInterface $eventDispatcher;
+    private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
         EntryFactory $entryFactory,
         EntryRepository $entryRepository,
         EventDispatcherInterface $eventDispatcher,
+        MessageBusInterface $messageBus,
         EntityManagerInterface $entityManager
     ) {
         $this->entryFactory    = $entryFactory;
         $this->entryRepository = $entryRepository;
         $this->eventDispatcher = $eventDispatcher;
+        $this->messageBus      = $messageBus;
         $this->entityManager   = $entityManager;
     }
 
@@ -42,14 +49,15 @@ class EntryManager
 
         $magazine->addEntry($entry);
 
-        if($entry->getUrl()) {
+        if ($entry->getUrl()) {
             $entry->setEmbed((new Embed())->fetch($entry->getUrl())->getEmbed());
         }
 
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new EntryCreatedEvent($entry)));
+        $this->eventDispatcher->dispatch(new EntryCreatedEvent($entry));
+        $this->messageBus->dispatch(new EntryCreatedMessage($entry->getId()));
 
         return $entry;
     }
@@ -61,6 +69,7 @@ class EntryManager
         $entry->setTitle($entryDto->getTitle());
         $entry->setUrl($entryDto->getUrl());
         $entry->setBody($entryDto->getBody());
+        $entry->setImage($entryDto->getImage());
 
         $this->assertType($entry);
 
@@ -73,11 +82,12 @@ class EntryManager
 
     public function purgeEntry(Entry $entry): void
     {
-        $magazine = $entry->getMagazine();
+        $entry->getMagazine()->removeEntry($entry);
 
-        $magazine->removeEntry($entry);
+        $this->eventDispatcher->dispatch((new EntryPurgedEvent($entry)));
 
         $this->entityManager->remove($entry);
+
         $this->entityManager->flush();
     }
 
