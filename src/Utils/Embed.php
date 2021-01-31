@@ -10,7 +10,7 @@ class Embed
 {
     private ?string $title = null;
     private ?string $image = null;
-    private ?string $embed = null;
+    private ?string $html = null;
 
     public function fetch($url): self
     {
@@ -30,10 +30,10 @@ class Embed
 
                 $this->title = $embed->title;
                 $this->image = (string) $embed->image;
-                $this->embed = $this->cleanIframe($oembed->html('html'));
+                $this->html = $this->cleanIframe($oembed->html('html'));
 
-                if (!$this->embed && $embed->code) {
-                    $this->embed = $this->cleanIframe($embed->code->html);
+                if (!$this->html && $embed->code) {
+                    $this->html = $this->cleanIframe($embed->code->html);
                 }
 
                 return $this;
@@ -51,9 +51,9 @@ class Embed
         return $this->image;
     }
 
-    public function getEmbed(): ?string
+    public function getHtml(): ?string
     {
-        return $this->embed;
+        return $this->html;
     }
 
     private function cleanIframe(?string $html): ?string

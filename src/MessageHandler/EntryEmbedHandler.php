@@ -2,6 +2,8 @@
 
 namespace App\MessageHandler;
 
+use App\Repository\ImageRepository;
+use App\Service\ImageManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Message\EntryCreatedMessage;
@@ -12,29 +14,50 @@ class EntryEmbedHandler implements MessageHandlerInterface
 {
     private EntryRepository $entryRepository;
     private Embed $embed;
-
     private EntityManagerInterface $entityManager;
+    private ImageRepository $imageRepository;
+    private ImageManager $imageManager;
 
-    public function __construct(EntryRepository $entryRepository, Embed $embed, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        EntryRepository $entryRepository,
+        Embed $embed,
+        ImageManager $imageManager,
+        ImageRepository $imageRepository,
+        EntityManagerInterface $entityManager
+    ) {
 
         $this->entryRepository = $entryRepository;
-        $this->embed = $embed;
-        $this->entityManager = $entityManager;
+        $this->embed           = $embed;
+        $this->imageManager    = $imageManager;
+        $this->imageRepository = $imageRepository;
+        $this->entityManager   = $entityManager;
     }
 
     public function __invoke(EntryCreatedMessage $entryCreatedMessage)
     {
         $entry = $this->entryRepository->find($entryCreatedMessage->getEntryId());
-
         if (!$entry || !$entry->getUrl()) {
             return;
         }
 
-        $entry->setEmbed(
-            ($this->embed->fetch($entry->getUrl()))->getEmbed()
-        );
+        $imageUrl = ($this->embed->fetch($entry->getUrl()))->getImage();
+        if (!$imageUrl) {
+            return;
+        }
 
-        $this->entityManager->flush();
+        $tempFile = $this->imageManager->download($imageUrl);
+        if (!$tempFile) {
+            return;
+        }
+
+        $image = $this->imageRepository->findOrCreateFromPath($tempFile);
+        $html  = ($this->embed->fetch($entry->getUrl()))->getHtml();
+
+        $this->entityManager->transactional(
+            static function () use ($entry, $image, $html): void {
+                $entry->setImage($image);
+                $entry->setEmbed($html);
+            }
+        );
     }
 }

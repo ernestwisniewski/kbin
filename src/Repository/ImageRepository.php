@@ -24,7 +24,7 @@ class ImageRepository extends ServiceEntityRepository
         $this->imageManager = $imageManager;
     }
 
-    public function findOrCreateFromPath(string $source): Image {
+    public function findOrCreateFromPath(string $source): ?Image {
         $fileName = $this->imageManager->getFileName($source);
         $filePath = $this->imageManager->getFilePath($source);
         $sha256 = hash_file('sha256', $source, true);
@@ -38,7 +38,12 @@ class ImageRepository extends ServiceEntityRepository
             $image->setDimensions($width, $height);
         }
 
-        $this->imageManager->store($source, $filePath);
+        try {
+            $this->imageManager->store($source, $filePath);
+        } catch (\Exception $e) {
+            $this->getEntityManager()->clear($image);
+            return null;
+        }
 
         return $image;
     }
