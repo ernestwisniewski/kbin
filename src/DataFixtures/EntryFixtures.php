@@ -1,8 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Repository\ImageRepository;
+use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Service\EntryManager;
 use App\DTO\EntryDto;
@@ -12,10 +15,21 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
     const ENTRIES_COUNT = MagazineFixtures::MAGAZINES_COUNT * 15;
 
     private EntryManager $entryManager;
+    private ImageManager $imageManager;
+    private ImageRepository $imageRepository;
 
-    public function __construct(EntryManager $entryManager)
-    {
-        $this->entryManager = $entryManager;
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(
+        EntryManager $entryManager,
+        ImageManager $imageManager,
+        ImageRepository $imageRepository,
+        EntityManagerInterface $entityManager
+    ) {
+        $this->entryManager    = $entryManager;
+        $this->imageManager    = $imageManager;
+        $this->imageRepository = $imageRepository;
+        $this->entityManager   = $entityManager;
     }
 
     public function getDependencies()
@@ -28,9 +42,19 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager)
     {
         foreach ($this->provideRandomEntries(self::ENTRIES_COUNT) as $index => $entry) {
-            $dto = (new EntryDto())->create( $entry['magazine'], $entry['title'], $entry['url'], $entry['body']);
+            $dto = (new EntryDto())->create($entry['magazine'], $entry['title'], $entry['url'], $entry['body']);
 
             $entity = $this->entryManager->createEntry($dto, $entry['user']);
+
+            $roll = rand(100, 500);
+            if (!($roll % 5)) {
+
+                $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
+                $image    = $this->imageRepository->findOrCreateFromPath($tempFile);
+
+                $entity->setImage($image);
+                $this->entityManager->flush();
+            }
 
             $this->addReference('entry'.'_'.$index, $entity);
         }
@@ -48,7 +72,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
                 'title'    => $this->faker->realText($this->faker->numberBetween(10, 250)),
                 'url'      => $isUrl ? $this->faker->url : null,
                 'body'     => $body,
-                'magazine' => $this->getReference('magazine_'.rand(1, MagazineFixtures::MAGAZINES_COUNT)),
+                'magazine' => $this->getReference('magazine_'.rand(1, intval(MagazineFixtures::MAGAZINES_COUNT))),
                 'user'     => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
             ];
         }

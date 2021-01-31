@@ -123,6 +123,9 @@
     "fzaninotto/faker": {
         "version": "v1.9.2"
     },
+    "imagine/imagine": {
+        "version": "1.2.4"
+    },
     "knplabs/knp-time-bundle": {
         "version": "v1.15.0"
     },
@@ -157,6 +160,19 @@
     "league/mime-type-detection": {
         "version": "1.7.0"
     },
+    "liip/imagine-bundle": {
+        "version": "1.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.8",
+            "ref": "5a5bdc2d0e2533ed6935d5ae562f2b318a8fc1ee"
+        },
+        "files": [
+            "config/packages/liip_imagine.yaml",
+            "config/routes/liip_imagine.yaml"
+        ]
+    },
     "liip/test-fixtures-bundle": {
         "version": "1.11.0"
     },
@@ -171,6 +187,18 @@
     },
     "nikic/php-parser": {
         "version": "v4.10.4"
+    },
+    "oneup/flysystem-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "0eb87bba411c227da027fe5f7c1dc7954b02f242"
+        },
+        "files": [
+            "config/packages/oneup_flysystem.yaml"
+        ]
     },
     "oscarotero/html-parser": {
         "version": "v0.1.6"
@@ -441,6 +469,9 @@
     "symfony/polyfill-php80": {
         "version": "v1.22.0"
     },
+    "symfony/process": {
+        "version": "v5.2.2"
+    },
     "symfony/property-access": {
         "version": "v5.2.1"
     },
@@ -499,6 +530,9 @@
     },
     "symfony/string": {
         "version": "v5.2.1"
+    },
+    "symfony/templating": {
+        "version": "v5.2.2"
     },
     "symfony/translation": {
         "version": "3.3",

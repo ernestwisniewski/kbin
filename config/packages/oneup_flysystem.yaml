@@ -1,0 +1,17 @@
+# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle/tree/master/Resources/doc/index.md
+oneup_flysystem:
+    adapters:
+        default_adapter:
+            local:
+                directory: '%kernel.project_dir%/var/storage'
+        entry_thumb:
+            local:
+                directory: '%kernel.project_dir%/var/storage'
+
+    filesystems:
+        default_filesystem:
+            adapter: default_adapter
+            alias: League\Flysystem\Filesystem
+        entry_thumb:
+            adapter: entry_thumb
+

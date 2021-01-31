@@ -6,7 +6,6 @@ use App\Message\EntryCreatedMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Message\php;
 use App\Repository\EntryRepository;
 use App\Event\EntryCreatedEvent;
 use App\Event\EntryUpdatedEvent;
@@ -48,10 +47,6 @@ class EntryManager
         $this->assertType($entry);
 
         $magazine->addEntry($entry);
-
-        if ($entry->getUrl()) {
-            $entry->setEmbed((new Embed())->fetch($entry->getUrl())->getEmbed());
-        }
 
         $this->entityManager->persist($entry);
         $this->entityManager->flush();

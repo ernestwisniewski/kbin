@@ -5,11 +5,10 @@
         <div class="kbin-entry-header">
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote'}) }}
 
+            {% if (entry.image) %}
 
-            {% if (random(0,4)) %}
                 <div class="kbin-entry-image">
-                    <img class="lazy" src="https://picsum.photos/100/{{ random(30,130) }}?hash={{ random(1,55) }}"
-                         alt="Makigi.pl - Rozkład jazdy 2017">
+                    <img class="lazy" src="{{ asset(entry.image.getFilePath()) | imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
                 </div>
             {% endif %}
 

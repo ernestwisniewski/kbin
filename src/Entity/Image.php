@@ -33,7 +33,7 @@ class Image
     /**
      * @ORM\Column(type="binary", length=32)
      */
-    private string $sha256;
+    private $sha256;
 
     /**
      * @ORM\Column(type="integer", nullable=true)

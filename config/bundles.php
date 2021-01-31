@@ -16,5 +16,6 @@ return [
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
     Knp\Bundle\TimeBundle\KnpTimeBundle::class => ['all' => true],
     BabDev\PagerfantaBundle\BabDevPagerfantaBundle::class => ['all' => true],
-    League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
+    Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
+    Oneup\FlysystemBundle\OneupFlysystemBundle::class => ['all' => true],
 ];

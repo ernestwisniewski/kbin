@@ -8,7 +8,7 @@ use App\Entity\User;
 
 class UserFixtures extends BaseFixture
 {
-    const USERS_COUNT = 80;
+    const USERS_COUNT = 35;
 
     private UserPasswordEncoderInterface $encoder;
 

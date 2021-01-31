@@ -1,0 +1,26 @@
+liip_imagine:
+    driver: "gd"
+
+    filter_sets:
+        entry_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 200, 350 ], mode: inset }
+
+    loaders:
+        entry_thumb:
+            flysystem:
+                filesystem_service: League\Flysystem\Filesystem
+
+    data_loader: entry_thumb
+
+    resolvers:
+        entry_thumb:
+            flysystem:
+                filesystem_service: oneup_flysystem.entry_thumb_filesystem
+                root_url:           "/"
+                cache_prefix:       media/cache
+                visibility:         public
+
+
+

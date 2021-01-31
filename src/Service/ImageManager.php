@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use League\Flysystem\FilesystemOperator;
+use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Mime\MimeTypesInterface;
 use Symfony\Component\Validator\Constraints\Image;
@@ -11,21 +11,18 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ImageManager
 {
-    private FilesystemOperator $tempStorage;
-    private FilesystemOperator $defaultStorage;
+    private FilesystemInterface $defaultStorage;
     private HttpClientInterface $httpClient;
     private MimeTypesInterface $mimeTypeGuesser;
     private ValidatorInterface $validator;
 
     public function __construct(
-        FilesystemOperator $tempStorage,
-        FilesystemOperator $defaultStorage,
+        FilesystemInterface $defaultFilesystem,
         HttpClientInterface $httpClient,
         MimeTypesInterface $mimeTypeGuesser,
         ValidatorInterface $validator
     ) {
-        $this->tempStorage     = $tempStorage;
-        $this->defaultStorage  = $defaultStorage;
+        $this->defaultStorage  = $defaultFilesystem;
         $this->httpClient      = $httpClient;
         $this->mimeTypeGuesser = $mimeTypeGuesser;
         $this->validator       = $validator;
