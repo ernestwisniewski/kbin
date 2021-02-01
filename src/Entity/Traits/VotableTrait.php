@@ -51,6 +51,11 @@ trait VotableTrait
         return $this->downVotes;
     }
 
+    public function countVotes(): int
+    {
+        return $this->votes->count();
+    }
+
     public function getUserChoice(User $user): int
     {
         $vote = $this->getUserVote($user);

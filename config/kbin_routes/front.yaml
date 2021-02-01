@@ -1,4 +1,6 @@
 front:
   controller: App\Controller\FrontController::front
-  path: /
+  defaults: { sortBy: ~ }
+  path: /{sortBy}
   methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }

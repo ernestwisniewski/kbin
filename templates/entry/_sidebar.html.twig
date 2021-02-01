@@ -1,0 +1,20 @@
+<div class="kbin-entry card mb-4 ">
+    <div class="card-body">
+        <h5 class="card-title">{{ entry.user.username }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">11 obserwujących</h6>
+        <ul class="list-unstyled">
+            <li>
+                <span class="text-muted">Dodano:</span> {{ entry.createdAt|date }}
+            </li>
+            <li>
+                <span class="text-muted">Głosy pozytywne:</span> {{ entry.countUpvotes }}
+                {% if(entry.countVotes) %}
+                    <small class="text-muted">({{ (entry.countUpvotes / entry.countVotes)|format_percent_number }})</small>
+                {% endif %}
+            </li>
+            <li>
+                <span class="text-muted">Głosy negatywne:</span> {{ entry.countDownvotes }}
+            </li>
+        </ul>
+    </div>
+</div>

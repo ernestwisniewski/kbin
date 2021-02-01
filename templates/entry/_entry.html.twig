@@ -59,5 +59,11 @@
                 {{ entry.body }}
             </p>
         {% endif %}
+
+        {% if(entry.embed and show_embed is not null) %}
+            <div class="ratio ratio-16x9 mt-4">
+                {{ entry.embed|raw }}
+            </div>
+        {% endif %}
     </article>
 {% endblock entry %}

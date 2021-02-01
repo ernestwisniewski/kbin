@@ -1,27 +1,29 @@
 <header class="kbin-header container-fluid mt-auto">
     <nav class="kbin-nav navbar navbar-expand-lg navbar-light">
         <div class="kbin-container container">
-            <a class="kbin-nav-brand navbar-brand" href="/">karab.in</a>
+            <a class="kbin-nav-brand navbar-brand  text-muted" href="/">karab.in</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kbin-nav"
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if magazine is defined %}
+                    <li class="kbin-nav-navbar-item text-muted me-3 pt-2">
+                        m/<span class="font-weight-bold">{{ magazine.name }}</span>
+                    </li>
+                    {% endif %}
                     <li class="kbin-nav-navbar-item kbin-nav-navbar-item--active">
-                        <a href="#">Ważne</a>
+                        <a href="{{ path('front', { 'sortBy':'wazne' }) }}">Ważne</a>
                     </li>
                     <li class="kbin-nav-navbar-item">
-                        <a href="#">Najnowsze</a>
+                        <a href="{{ path('front', { 'sortBy':'najnowsze' }) }}">Najnowsze</a>
                     </li>
                     <li class="kbin-nav-navbar-item">
-                        <a href="#">Wschodzące</a>
+                        <a href="{{ path('front', { 'sortBy':'wschodzace' }) }}">Wschodzące</a>
                     </li>
                     <li class="kbin-nav-navbar-item">
-                        <a href="#">Komentowane</a>
-                    </li>
-                    <li class="kbin-nav-navbar-item">
-                        <a href="#">Kontrowersyjne</a>
+                        <a href="{{ path('front', { 'sortBy':'komentowane' }) }}">Komentowane</a>
                     </li>
                     <li class="kbin-nav-navbar-item">
                         <a href="#">Komentarze</a>

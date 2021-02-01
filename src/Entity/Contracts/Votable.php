@@ -24,6 +24,8 @@ interface Votable
 
     public function countDownVotes(): int;
 
+    public function countVotes(): int;
+
     public function getUserChoice(User $user): int;
 
     public function getUserVote(User $user): ?Vote;

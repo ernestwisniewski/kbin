@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MagazineController!{% endblock %}
+{% block title %}test{% endblock %}
 
 {% block body %}
-    <h1 class="font-weight-bold">{{ magazine.title }}</h1>
-    <p class="lead mb-4">m/{{ magazine.name }}</p>
-
     {% include 'entry/_list.html.twig' %}
+
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
 {% endblock %}

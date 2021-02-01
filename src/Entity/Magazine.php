@@ -138,6 +138,14 @@ class Magazine
         return $this;
     }
 
+    public function getOwner(): User
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('isOwner', true));
+
+        return $this->moderators->matching($criteria)->first()->getUser();
+    }
+
     public function getEntries(): Collection
     {
         return $this->entries;

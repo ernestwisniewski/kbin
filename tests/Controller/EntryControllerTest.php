@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
@@ -40,6 +40,8 @@ class EntryControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('user'));
 
         $magazine = $this->getMagazineByName('polityka');
+        $this->getEntryByTitle('test1');
+        $this->getEntryByTitle('test2');
 
         $crawler = $client->request('GET', '/nowaTresc');
 
@@ -59,6 +61,7 @@ class EntryControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
+        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 3');
     }
 
     public function testCanEditLink()
@@ -148,7 +151,8 @@ class EntryControllerTest extends WebTestCase
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
 
         $entry  = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
-        $entry2 = $this->getEntryByTitle('test', null, 'przykładowa treść wpisu');
+        $this->getEntryByTitle('test1');
+        $this->getEntryByTitle('test2');
 
         $this->createEntryComment('test', $entry);
 
@@ -164,9 +168,11 @@ class EntryControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextNotContains('.kbin-entry-title', 'przykladowa tresc');
+        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 2');
     }
 
-    public function testUnauthorizedUserCannotEditOrPurgeEntry() {
+    public function testUnauthorizedUserCannotEditOrPurgeEntry()
+    {
         $this->expectException(AccessDeniedException::class);
 
         $client = $this->createClient();

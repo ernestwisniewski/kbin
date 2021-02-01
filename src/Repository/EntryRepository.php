@@ -75,6 +75,18 @@ class EntryRepository extends ServiceEntityRepository
                 ->setParameter('user', $criteria->getUser());
         }
 
+        switch ($criteria->getOrderBy()) {
+            case Criteria::SORT_HOT:
+                $qb->orderBy('e.upVotes', 'DESC');
+                break;
+            case Criteria::SORT_COMMENTED:
+                $qb->orderBy('e.commentCount', 'DESC');
+                break;
+            case Criteria::SORT_NEW:
+            default:
+                $qb->orderBy('e.id', 'DESC');
+        }
+
         return $qb;
     }
 
@@ -84,9 +96,11 @@ class EntryRepository extends ServiceEntityRepository
             ->select('PARTIAL e.{id}')
             ->addSelect('u')
             ->addSelect('m')
+            ->addSelect('i')
             ->from(Entry::class, 'e')
             ->join('e.user', 'u')
             ->join('e.magazine', 'm')
+            ->join('e.image', 'i')
             ->where('e IN (?1)')
             ->setParameter(1, $entries)
             ->getQuery()

@@ -1,5 +1,7 @@
 parameters:
     html5_validation: false
+    front_sort_options: wazne|najnowsze|wschodzace|komentowane
+
 services:
     _defaults:
         autowire: true

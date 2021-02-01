@@ -5,7 +5,8 @@
     {% block entry %}
         {{ entry(entry, {
             extra_classes: 'kbin-entry-single',
-            show_content: true
+            show_content: true,
+            show_embed: true
         }) }}
     {% endblock %}
 
@@ -29,4 +30,12 @@
             {% endif %}
         </section>
     {% endblock %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'entry/_sidebar.html.twig' %}
+
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
 {% endblock %}

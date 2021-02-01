@@ -4,11 +4,11 @@
     {{ parent() }}
 {% endblock %}
 
-    {% block after_entry %}
-        <div class="kbin-comment-edit-wrapper mt-4">
-            <h1 class="font-weight-bold">Edytuj komentarz</h1>
-        </div>
+{% block after_entry %}
+    <div class="kbin-comment-edit-wrapper mt-4">
+        <h1 class="font-weight-bold">Edytuj komentarz</h1>
+    </div>
 
-        {% include 'entry/comment/_form.html.twig' %}
-        {% include 'entry/comment/_form_purge.html.twig' %}
-    {% endblock %}
+    {% include 'entry/comment/_form.html.twig' %}
+    {% include 'entry/comment/_form_purge.html.twig' %}
+{% endblock %}

@@ -30,7 +30,7 @@ class Embed
 
                 $this->title = $embed->title;
                 $this->image = (string) $embed->image;
-                $this->html = $this->cleanIframe($oembed->html('html'));
+                $this->html  = $this->cleanIframe($oembed->html('html'));
 
                 if (!$this->html && $embed->code) {
                     $this->html = $this->cleanIframe($embed->code->html);
@@ -58,6 +58,12 @@ class Embed
 
     private function cleanIframe(?string $html): ?string
     {
-        return $html ? preg_replace('/(width|height)(=)"([\d]+)"/', '${1}${2}"100%"', $html) : null;
+        if (empty($html)) {
+            return null;
+        }
+
+        $html = preg_replace('/(width)(=)"([\d]+)"/', '${1}${2}"100%"', $html);
+
+        return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
     }
 }

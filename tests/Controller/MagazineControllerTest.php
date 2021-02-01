@@ -29,7 +29,8 @@ class MagazineControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'magazyn polityczny');
+        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine h2', 'magazyn polityczny');
+        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine', 'Subskrybujących: 1');
     }
 
     public function testCanEditMagazine()
@@ -54,7 +55,7 @@ class MagazineControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Przepisy kuchenne');
+        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine h2', 'Przepisy kuchenne');
     }
 
     public function testCannotEditMagazineName()

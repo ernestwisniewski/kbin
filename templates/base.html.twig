@@ -23,7 +23,9 @@
             </div>
             <div class="col-lg-3">
                 <aside class="kbin-sidebar">
-                    {% include '_layout/_sidebar.html.twig' %}
+                    {% block sidebar %}
+                        {% include '_layout/_sidebar.html.twig' %}
+                    {% endblock %}
                 </aside>
             </div>
         </div>
