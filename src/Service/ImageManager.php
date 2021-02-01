@@ -28,14 +28,17 @@ class ImageManager
         $this->validator       = $validator;
     }
 
-    public function store(string $source, string $filePath)
+    public function store(string $source, string $filePath): bool
     {
         $fh = fopen($source, 'rb');
 
         try {
             $this->validate($source);
             $this->defaultStorage->writeStream($filePath, $fh);
+
+            return $this->defaultStorage->has($filePath);
         } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
         finally {
             \is_resource($fh) and fclose($fh);

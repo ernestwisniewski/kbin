@@ -37,14 +37,13 @@ class ImageRepository extends ServiceEntityRepository
             [$width, $height] = @getimagesize($source);
             $image->setDimensions($width, $height);
         }
-
         try {
-            $this->imageManager->store($source, $filePath);
+            $isStored = $this->imageManager->store($source, $filePath);
         } catch (\Exception $e) {
-            $this->getEntityManager()->clear($image);
+            $this->getEntityManager()->remove($image);
             return null;
         }
 
-        return $image;
+        return $isStored ? $image : null;
     }
 }
