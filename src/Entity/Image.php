@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -118,6 +118,11 @@ class Image
         } else {
             throw new \InvalidArgumentException('$width and $height must both be set or NULL');
         }
+    }
+
+    public function __sleep()
+    {
+        return [];
     }
 }
 
