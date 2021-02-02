@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Twig;
 
@@ -19,7 +19,6 @@ final class PageContextExtension extends AbstractExtension
         UrlGeneratorInterface $urlGenerator
     ) {
         $this->requestStack = $requestStack;
-        $this->routeName    = $this->requestStack->getCurrentRequest()->get('_route');
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -39,12 +38,12 @@ final class PageContextExtension extends AbstractExtension
 
     public function isHomePage(): bool
     {
-        return in_array($this->routeName, ['front', 'entry_comments']);
+        return in_array($this->getRouteName(), ['front', 'entry_comments']);
     }
 
     public function isSubPage(): bool
     {
-        return str_contains($this->routeName, 'subscribed');
+        return str_contains($this->getRouteName(), 'subscribed');
     }
 
     public function isCurrentMagazinePage(Magazine $magazine): bool
@@ -67,7 +66,7 @@ final class PageContextExtension extends AbstractExtension
 
     public function isEntryCommentsPage(): bool
     {
-        return str_contains($this->routeName, 'comments');
+        return str_contains($this->getRouteName(), 'comments');
     }
 
     public function isActiveSortOption($sortOption): bool
@@ -120,5 +119,9 @@ final class PageContextExtension extends AbstractExtension
             $routeName,
             $routeParams
         );
+    }
+    
+    private function getRouteName() {
+        return $this->requestStack->getCurrentRequest()->get('_route');
     }
 }
