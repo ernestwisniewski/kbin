@@ -27,42 +27,20 @@
                         </li>
                     {% endif %}
                     {{ navbar_link('Ważne', {
-                        magazine: isMagazinePage ? magazine: null,
                         sortBy: 'wazne',
-                        isSubPage: isSubPage,
-                        isCommentsPage: isCommentsPage,
                     }) }}
                     {{ navbar_link('Najnowsze', {
-                        magazine: isMagazinePage ? magazine: null,
                         sortBy: 'najnowsze',
-                        isSubPage: isSubPage,
-                        isCommentsPage: isCommentsPage,
                     }) }}
                     {{ navbar_link('Wchodzące', {
-                        magazine: isMagazinePage ? magazine: null,
                         sortBy: 'wschodzace',
-                        isSubPage: isSubPage,
-                        isCommentsPage: isCommentsPage,
                     }) }}
                     {{ navbar_link('Komentowane', {
-                        magazine: isMagazinePage ? magazine: null,
                         sortBy: 'komentowane',
-                        isSubPage: isSubPage,
-                        isCommentsPage: isCommentsPage,
                     }) }}
 
-                    {% set requestSort = app.request.get('sortBy') ?? 'najnowsze' %}
-                    {% set pathName = 'entry_comments' %}
-                    {% set routeParams = { 'sortBy': 'najnowsze' } %}
-                    {% if isMagazinePage %}
-                        {% set pathName = 'magazine_comments' %}
-                        {% set routeParams =  { 'sortBy': 'najnowsze', 'name': magazine.name } %}
-                    {% endif %}
-                    {% if isSubPage %}
-                        {% set pathName = 'subscribed_comments' %}
-                    {% endif %}
-                    <li class="kbin-nav-navbar-item {{ isCommentsPage ? 'kbin-nav-navbar-item--active' : '' }}">
-                        <a href="{{ path(pathName, routeParams) }}">Komentarze</a>
+                    <li class="kbin-nav-navbar-item {{ is_entry_comments_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                        <a href="{{ get_active_entry_comments_page_path() }}">Komentarze</a>
                     </li>
                     <li class="kbin-nav-navbar-item">
                         <a href="#">Wpisy</a>

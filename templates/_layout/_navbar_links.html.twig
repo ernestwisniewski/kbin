@@ -1,15 +1,5 @@
 {% block navbar_link %}
-    {% set requestSort = app.request.get('sortBy') ?? 'najnowsze' %}
-    {% set pathName = 'front' %}
-    {% set routeParams = { 'sortBy': sortBy } %}
-    {% if magazine %}
-        {% set pathName = 'magazine' %}
-        {% set routeParams =  { 'sortBy': sortBy, 'name': magazine.name } %}
-    {% endif %}
-    {% if isSubPage %}
-        {% set pathName = 'subscribed' %}
-    {% endif %}
-    <li class=" kbin-nav-navbar-item {{ not isCommentsPage and requestSort is same as sortBy ? 'kbin-nav-navbar-item--active' : '' }}">
-        <a href="{{ path(pathName, routeParams) }}">{{ name }}</a>
+    <li class=" kbin-nav-navbar-item {{ is_active_sort_option(sortBy) ? 'kbin-nav-navbar-item--active' : '' }}">
+        <a href="{{ get_active_sort_option_path(sortBy) }}">{{ name }}</a>
     </li>
 {% endblock %}

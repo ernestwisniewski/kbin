@@ -1,6 +1,6 @@
 <ul class="kbin-featured-magazines-list">
     {% for mag in magazines %}
-        <li class="kbin-featured-magazines-list-item {{ magazine is defined and magazine is same as mag ? 'kbin-featured-magazines-list-item--active' : '' }} }">
+        <li class="kbin-featured-magazines-list-item {{ is_current_magazine_page(mag) ? 'kbin-featured-magazines-list-item--active' : '' }}">
             <a href="{{ path('magazine', {'name': mag.name}) }}">{{ mag.name }}</a>
         </li>
     {% endfor %}
