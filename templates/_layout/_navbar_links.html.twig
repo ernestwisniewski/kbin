@@ -1,5 +1,5 @@
 {% block navbar_link %}
-    {% set requestSort = app.request.get('sortBy') ?? 'wazne' %}
+    {% set requestSort = app.request.get('sortBy') ?? 'najnowsze' %}
     {% set pathName = 'front' %}
     {% set routeParams = { 'sortBy': sortBy } %}
     {% if magazine %}

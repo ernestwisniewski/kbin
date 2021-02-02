@@ -53,7 +53,7 @@ class Criteria
     private ?Magazine $magazine = null;
     private ?Entry $entry = null;
     private ?User $user = null;
-    private string $orderBy = self::FRONT_ALL;
+    private string $orderBy = self::SORT_NEW;
 
 
     public function __construct(int $page)

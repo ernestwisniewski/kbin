@@ -1,24 +1,3 @@
-comments:
-  controller: App\Controller\EntryCommentController::front
-  defaults: { sortBy: ~ }
-  path: /komentarze/{sortBy}
-  methods: [GET]
-  requirements: { sortBy: "%front_sort_options%" }
-
-subscribed_comments:
-  controller: App\Controller\EntryCommentController::front
-  defaults: { sortBy: ~ }
-  path: /sub/komentarze/{sortBy}
-  methods: [GET]
-  requirements: { sortBy: "%front_sort_options%" }
-
-magazine_comments:
-  controller: App\Controller\EntryCommentController::front
-  defaults: { sortBy: ~ }
-  path: /m/{name}/komentarze/{sortBy}
-  methods: [GET]
-  requirements: { sortBy: "%front_sort_options%" }
-
 entry_comment_create:
   controller: App\Controller\EntryCommentController::createComment
   defaults: { parent_comment_id: null }
@@ -41,3 +20,23 @@ entry_comment_vote:
   path: /ecv/{id}/{choice}
   methods: [POST]
 
+entry_comments:
+  controller: App\Controller\EntryCommentController::front
+  defaults: { sortBy: ~ }
+  path: /komentarze/{sortBy}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+subscribed_comments:
+  controller: App\Controller\EntryCommentController::front
+  defaults: { sortBy: ~ }
+  path: /sub/komentarze/{sortBy}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+magazine_comments:
+  controller: App\Controller\EntryCommentController::front
+  defaults: { sortBy: ~ }
+  path: /m/{name}/komentarze/{sortBy}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }

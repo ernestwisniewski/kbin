@@ -45,8 +45,7 @@ class EntryCommentControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
         $crawler = $client->request('GET', $entryUrl);
-
-        $crawler = $client->click($crawler->filter('.kbin-comment-meta-list-item')->selectLink('edytuj')->link());
+        $crawler = $client->click($crawler->filter('.kbin-comment-meta-list-item a')->selectLink('edytuj')->link());
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(

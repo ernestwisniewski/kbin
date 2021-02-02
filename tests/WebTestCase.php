@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests;
 
@@ -75,7 +75,7 @@ abstract class WebTestCase extends BaseWebTestCase
         }
     }
 
-    protected function getMagazineByName(string $name): Magazine
+    protected function getMagazineByName(string $name, ?User $user = null): Magazine
     {
         $magazine = $this->magazines->filter(
             static function (Magazine $magazine) use ($name) {
@@ -101,8 +101,13 @@ abstract class WebTestCase extends BaseWebTestCase
         return $magazine;
     }
 
-    protected function getEntryByTitle(string $title, ?string $url = null, ?string $body = null): Entry
-    {
+    protected function getEntryByTitle(
+        string $title,
+        ?string $url = null,
+        ?string $body = null,
+        ?Magazine $magazine = null,
+        ?User $user = null
+    ): Entry {
         $entry = $this->entries->filter(
             static function (Entry $entry) use ($title) {
                 return $entry->getTitle() === $title;
@@ -110,8 +115,8 @@ abstract class WebTestCase extends BaseWebTestCase
         )->first();
 
         if (!$entry) {
-            $magazine = $this->getMagazineByName('polityka');
-            $user     = $this->getUserByUsername('regularUser');
+            $magazine = $magazine ?? $this->getMagazineByName('polityka');
+            $user     = $user ?? $this->getUserByUsername('regularUser');
             $entry    = $this->createEntry($title, $magazine, $user, $url, $body);
         }
 
@@ -130,7 +135,7 @@ abstract class WebTestCase extends BaseWebTestCase
         return $manager->createComment($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
 
-    private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = 'https://example.com', ?string $body = null): Entry
+    private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
     {
         /**
          * @var $manager EntryManager

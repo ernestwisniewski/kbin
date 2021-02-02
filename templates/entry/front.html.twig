@@ -16,6 +16,9 @@
         <section class="kbin-comment-wrapper mt-4">
             <h4 class="kbin-comment-wrapper-header pb-3 mb-0 font-weight-light">Komentarze</h4>
 
+            <div class="mt-2">
+                {% include 'entry/comment/_filters.html.twig' %}
+            </div>
             {% include 'entry/comment/_list.html.twig' %}
 
             {% if is_granted('comment', entry) %}

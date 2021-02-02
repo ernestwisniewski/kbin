@@ -32,10 +32,14 @@ class EntryController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      */
-    public function front(Magazine $magazine, Entry $entry, EntryCommentRepository $commentRepository, Request $request): Response
+    public function front(Magazine $magazine, Entry $entry, ?string $sortBy, EntryCommentRepository $commentRepository, Request $request): Response
     {
         $criteria = (new Criteria((int) $request->get('strona', 1)))
             ->setEntry($entry);
+
+        if($sortBy) {
+            $criteria->orderBy($criteria->translate($sortBy));
+        }
 
         $comments = $commentRepository->findByCriteria($criteria);
 

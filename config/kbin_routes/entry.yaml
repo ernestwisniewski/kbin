@@ -1,8 +1,3 @@
-entry:
-  controller: App\Controller\EntryController::front
-  path: /m/{magazine_name}/t/{entry_id}
-  methods: [ GET ]
-
 entry_create:
   controller: App\Controller\EntryController::createEntry
   defaults: { type: null }
@@ -18,6 +13,12 @@ entry_purge:
   controller: App\Controller\EntryController::purgeEntry
   path: /m/{magazine_name}/t/{entry_id}/purge
   methods: [ POST ]
+
+entry:
+  controller: App\Controller\EntryController::front
+  defaults: { sortBy: ~ }
+  path: /m/{magazine_name}/t/{entry_id}/{sortBy}
+  methods: [ GET ]
 
 entry_vote:
   controller: App\Controller\VoteController

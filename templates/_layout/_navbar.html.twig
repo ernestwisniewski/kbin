@@ -51,8 +51,8 @@
                         isCommentsPage: isCommentsPage,
                     }) }}
 
-                    {% set requestSort = app.request.get('sortBy') ?? 'wazne' %}
-                    {% set pathName = 'comments' %}
+                    {% set requestSort = app.request.get('sortBy') ?? 'najnowsze' %}
+                    {% set pathName = 'entry_comments' %}
                     {% set routeParams = { 'sortBy': 'najnowsze' } %}
                     {% if isMagazinePage %}
                         {% set pathName = 'magazine_comments' %}
