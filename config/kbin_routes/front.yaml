@@ -4,3 +4,10 @@ front:
   path: /{sortBy}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
+
+subscribed:
+  controller: App\Controller\FrontController::subscribed
+  defaults: { sortBy: ~ }
+  path: /sub/{sortBy}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }

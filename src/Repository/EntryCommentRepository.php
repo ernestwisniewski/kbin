@@ -62,6 +62,19 @@ class EntryCommentRepository extends ServiceEntityRepository
                 ->setParameter('entry', $criteria->getEntry());
         }
 
+        if ($criteria->getMagazine()) {
+            $qb->join('c.entry', 'e', 'WITH', 'e.magazine = :magazine');
+            $qb->setParameter('magazine', $criteria->getMagazine());
+        }
+
+        switch ($criteria->getOrderBy()) {
+            case Criteria::SORT_HOT:
+                $qb->orderBy('c.upVotes', 'DESC');
+                break;
+            default:
+                $qb->orderBy('c.id', 'DESC');
+        }
+
         return $qb;
     }
 }

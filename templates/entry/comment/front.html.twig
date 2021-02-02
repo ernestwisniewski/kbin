@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}test{% endblock %}
+
+{% block body %}
+    <div class="kbin-comment-wrapper">
+        <div class="kbin-comment-filter btn-group" role="group">
+            {% set requestSort = app.request.get('sortBy') ?? 'wazne' %}
+            {% if magazine is defined %}
+                {% set isMagazinePage = true %}
+            {% endif %}
+            <a href="{{ path(app.request.get('_route'), {sortBy: 'najnowsze', name: magazine.name ?? null }) }}"
+               class="btn btn-sm {{ requestSort is same as 'najnowsze' ? 'btn-primary':'btn-light' }}" tabindex="-1" role="button">
+                Najnowsze
+            </a>
+            <a  href="{{ path(app.request.get('_route'), {sortBy: 'wazne', name: magazine.name ?? null}) }}"
+               class="btn btn-sm {{ requestSort is same as 'wazne' ? 'btn-primary':'btn-light' }}" tabindex="-1" role="button">
+                Najlepsze
+            </a>
+        </div>
+        {% include 'entry/comment/_list.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}

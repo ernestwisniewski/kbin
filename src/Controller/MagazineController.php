@@ -1,8 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
 use App\Repository\Criteria;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Pagerfanta\PagerfantaInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,24 +20,32 @@ use App\DTO\MagazineDto;
 class MagazineController extends AbstractController
 {
     private MagazineManager $magazineManager;
+    private EntryRepository $entryRepository;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(MagazineManager $magazineManager, EntityManagerInterface $entityManager)
+    public function __construct(MagazineManager $magazineManager, EntryRepository $entryRepository, EntityManagerInterface $entityManager)
     {
         $this->magazineManager = $magazineManager;
+        $this->entryRepository = $entryRepository;
         $this->entityManager   = $entityManager;
     }
 
-    public function front(Magazine $magazine, EntryRepository $entryRepository, Request $request): Response
+    public function front(Magazine $magazine, ?string $sortBy, Request $request): Response
     {
-        $criteria = (new Criteria((int) $request->get('strona', 1)))
-            ->setMagazine($magazine);
+        $criteria = (new Criteria((int) $request->get('strona', 1)))->setMagazine($magazine);
+
+        if ($sortBy) {
+            $sortBy  = $criteria->translate($sortBy);
+            $listing = $this->$sortBy($criteria);
+        } else {
+            $listing = $this->all($criteria);
+        }
 
         return $this->render(
             'magazine/front.html.twig',
             [
                 'magazine' => $magazine,
-                'entries'  => $entryRepository->findByCriteria($criteria),
+                'entries'  => $listing,
             ]
         );
     }
@@ -117,14 +128,45 @@ class MagazineController extends AbstractController
         );
     }
 
-    public function featuredMagazines(MagazineRepository $magazineRepository): Response
+    public function featuredMagazines(?Magazine $magazine, MagazineRepository $magazineRepository): Response
     {
+        $magazines = $magazineRepository->findBy([], null, 20);
+
+        if ($magazine && !in_array($magazine, $magazines)) {
+            array_unshift($magazines, $magazine);
+        }
+
         return $this->render(
             'magazine/_featured.html.twig',
             [
-                'magazines' => $magazineRepository->findBy([], null, 30),
+                'magazine'  => $magazine,
+                'magazines' => $magazines,
             ]
         );
     }
 
+    private function all(Criteria $criteria): PagerfantaInterface
+    {
+        return $this->entryRepository->findByCriteria($criteria->orderBy(Criteria::SORT_HOT));
+    }
+
+    private function hot(Criteria $criteria): PagerfantaInterface
+    {
+        return $this->entryRepository->findByCriteria($criteria->orderBy(Criteria::SORT_HOT));
+    }
+
+    private function new(Criteria $criteria): PagerfantaInterface
+    {
+        return $this->entryRepository->findByCriteria($criteria);
+    }
+
+    private function top(Criteria $criteria): PagerfantaInterface
+    {
+        return $this->entryRepository->findByCriteria($criteria->orderBy(Criteria::SORT_HOT));
+    }
+
+    private function commented(Criteria $criteria)
+    {
+        return $this->entryRepository->findByCriteria($criteria->orderBy(Criteria::SORT_COMMENTED));
+    }
 }

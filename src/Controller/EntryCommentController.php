@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -20,11 +20,33 @@ class EntryCommentController extends AbstractController
 {
     private EntryCommentManager $commentManager;
     private EntityManagerInterface $entityManager;
+    private EntryCommentRepository $commentRepository;
 
-    public function __construct(EntryCommentManager $commentManager, EntityManagerInterface $entityManager)
+    public function __construct(EntryCommentManager $commentManager, EntryCommentRepository $commentRepository, EntityManagerInterface $entityManager)
     {
-        $this->commentManager = $commentManager;
-        $this->entityManager  = $entityManager;
+        $this->commentManager    = $commentManager;
+        $this->entityManager     = $entityManager;
+        $this->commentRepository = $commentRepository;
+    }
+
+    public function front(?Magazine $magazine, ?string $sortBy, Request $request): Response
+    {
+        $params = [];
+        $criteria = (new Criteria((int) $request->get('strona', 1)));
+
+        if ($magazine) {
+            $params['magazine'] = $magazine;
+            $criteria->setMagazine($magazine);
+        }
+
+        $criteria->orderBy($criteria->translate($sortBy));
+
+        $params['comments'] = $this->commentRepository->findByCriteria($criteria);
+
+        return $this->render(
+            'entry/comment/front.html.twig',
+            $params
+        );
     }
 
     /**

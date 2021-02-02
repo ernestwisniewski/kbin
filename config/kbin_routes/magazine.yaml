@@ -1,7 +1,9 @@
 magazine:
   controller: App\Controller\MagazineController::front
-  path: /m/{name}
-  methods: [ GET ]
+  defaults: { sortBy: ~ }
+  path: /m/{name}/{sortBy}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
 
 magazine_create:
   controller: App\Controller\MagazineController::createMagazine

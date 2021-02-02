@@ -42,6 +42,16 @@ class Magazine
     private string $title;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $description = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $rules = null;
+
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     private Collection $moderators;
@@ -212,6 +222,30 @@ class Magazine
     public function updateEntryCount(): self
     {
         $this->entryCount = $this->entries->count();
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getRules(): ?string
+    {
+        return $this->rules;
+    }
+
+    public function setRules(?string $rules): self
+    {
+        $this->rules = $rules;
 
         return $this;
     }

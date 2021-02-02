@@ -1,8 +1,12 @@
+{% set routeName = app.request.get('_route') %}
 <section class="kbin-featured-magazines container-fluid fixed-top">
     <ul class="kbin-featured-magazines-list">
-        <li class="kbin-featured-magazines-list-item kbin-featured-magazines-list-item--active"><a href="/">Strona główna</a></li>
-        <li class="kbin-featured-magazines-list-item"><a href="/">Subskrybcje</a></li>
-        <li class="kbin-featured-magazines-list-item"><a href="{{ path('magazine_list_all') }}">Magazyny</a></li>
+        <li class="kbin-featured-magazines-list-item {{ routeName is same as 'front' ? 'kbin-featured-magazines-list-item--active' : '' }}"><a
+                    href="/">Strona główna</a></li>
+        <li class="kbin-featured-magazines-list-item {{ 'subscribed' in routeName ? 'kbin-featured-magazines-list-item--active' : '' }}"><a
+                    href="{{ path('subscribed') }}">Subskrybcje</a></li>
+        <li class="kbin-featured-magazines-list-item {{ routeName is same as 'magazine_list_all' ? 'kbin-featured-magazines-list-item--active' : '' }}"><a
+                    href="{{ path('magazine_list_all') }}">Magazyny</a></li>
     </ul>
-    {{ render(controller('App\\Controller\\MagazineController::featuredMagazines')) }}
+    {{ render(controller('App\\Controller\\MagazineController::featuredMagazines', {'magazine': magazine is defined ? magazine : null})) }}
 </section>

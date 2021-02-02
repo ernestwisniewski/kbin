@@ -51,7 +51,7 @@ class EntryEmbedHandler implements MessageHandlerInterface
         }
 
         $image = $this->imageRepository->findOrCreateFromPath($tempFile);
-        $html  = ($this->embed->fetch($entry->getUrl()))->getHtml();
+        $html  = ($this->embed->getHtml());
 
         $this->entityManager->transactional(
             static function () use ($entry, $image, $html): void {

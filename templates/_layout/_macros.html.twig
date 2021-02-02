@@ -1,0 +1,13 @@
+{% use '_layout/_navbar_links.html.twig' %}
+
+{%- macro navbar_link(name, options) -%}
+    {%- with {
+        name: name,
+        sortBy: options.sortBy ?? null,
+        magazine: options.magazine ?? null,
+        isSubPage: options.isSubPage ?? false,
+        isCommentsPage: options.isCommentsPage ?? false,
+        } only -%}
+        {{ block('navbar_link') }}
+    {%- endwith -%}
+{%- endmacro -%}

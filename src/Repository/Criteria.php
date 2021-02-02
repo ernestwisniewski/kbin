@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -112,5 +112,19 @@ class Criteria
         $this->orderBy = $sortBy;
 
         return $this;
+    }
+
+
+    public function translate(string $value): string
+    {
+        //@todo
+        $routes = [
+            'wazne'       => Criteria::SORT_HOT,
+            'najnowsze'   => Criteria::SORT_NEW,
+            'wschodzace'  => Criteria::SORT_TOP,
+            'komentowane' => Criteria::SORT_COMMENTED,
+        ];
+
+        return $routes[$value];
     }
 }
