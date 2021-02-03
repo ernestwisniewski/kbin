@@ -1,17 +1,19 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Twig;
 
-use App\Entity\Magazine;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
+use App\Repository\EntryCommentRepository;
 use Twig\Extension\AbstractExtension;
+use App\Repository\EntryRepository;
+use App\Entity\Magazine;
 use Twig\TwigFunction;
 
 final class PageContextExtension extends AbstractExtension
 {
     private RequestStack $requestStack;
-    private ?string $routeName = null;
     private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(
@@ -28,27 +30,30 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_homepage', [$this, 'isHomePage']),
             new TwigFunction('is_sub_page', [$this, 'isSubPage']),
             new TwigFunction('is_magazine_page', [$this, 'isMagazinePage']),
+            new TwigFunction('is_entry_page', [$this, 'isEntryPage']),
             new TwigFunction('is_current_magazine_page', [$this, 'isCurrentMagazinePage']),
-            new TwigFunction('is_entry_comments_page', [$this, 'isEntryCommentsPage']),
             new TwigFunction('is_active_sort_option', [$this, 'isActiveSortOption']),
             new TwigFunction('get_active_sort_option_path', [$this, 'getActiveSortOptionPath']),
+            new TwigFunction('is_entry_comments_page', [$this, 'isEntryCommentsPage']),
             new TwigFunction('get_active_entry_comments_page_path', [$this, 'getActiveEntryCommentsPagePath']),
+            new TwigFunction('is_active_entry_comment_filter', [$this, 'isActiveEntryCommentFilter']),
+            new TwigFunction('get_active_entry_comment_filter_path', [$this, 'getActiveEntryCommentFilterPath']),
         ];
     }
 
     public function isHomePage(): bool
     {
-        return in_array($this->getRouteName(), ['front', 'entry_comments']);
+        return in_array($this->getCurrentRouteName(), ['front', 'entry_comments']);
     }
 
     public function isSubPage(): bool
     {
-        return str_contains($this->getRouteName(), 'subscribed');
+        return str_contains($this->getCurrentRouteName(), 'subscribed');
     }
 
     public function isCurrentMagazinePage(Magazine $magazine): bool
     {
-        if (!$magazineRequest = $this->requestStack->getCurrentRequest()->get('magazine')) {
+        if (!$magazineRequest = $this->getCurrentRequest()->get('magazine')) {
             return false;
         }
 
@@ -57,7 +62,16 @@ final class PageContextExtension extends AbstractExtension
 
     public function isMagazinePage(): bool
     {
-        if (!$magazineRequest = $this->requestStack->getCurrentRequest()->get('magazine')) {
+        if (!$this->getCurrentRequest()->get('magazine')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isEntryPage(): bool
+    {
+        if (!$this->getCurrentRequest()->get('entry')) {
             return false;
         }
 
@@ -66,7 +80,7 @@ final class PageContextExtension extends AbstractExtension
 
     public function isEntryCommentsPage(): bool
     {
-        return str_contains($this->getRouteName(), 'comments');
+        return str_contains($this->getCurrentRouteName(), 'comments');
     }
 
     public function isActiveSortOption($sortOption): bool
@@ -75,16 +89,20 @@ final class PageContextExtension extends AbstractExtension
             return false;
         }
 
-        return $this->requestStack->getCurrentRequest()->get('sortBy') === $sortOption;
+        if ($this->isEntryPage()) {
+            return false;
+        }
+
+        return ($requestSort = $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT) === $sortOption;
     }
 
-    public function getActiveSortOptionPath($sortOption): string
+    public function getActiveSortOptionPath(string $sortOption): string
     {
         $routeName   = 'front';
-        $routeParams = ['sortBy' => $sortOption];
+        $routeParams = ['sortBy' => $sortOption ?? EntryRepository::SORT_DEFAULT];
 
         if ($this->isMagazinePage()) {
-            $magazine            = $this->requestStack->getCurrentRequest()->get('magazine');
+            $magazine            = $this->getCurrentRequest()->get('magazine');
             $routeName           = 'magazine';
             $routeParams['name'] = $magazine->getName();
         }
@@ -102,10 +120,10 @@ final class PageContextExtension extends AbstractExtension
     public function getActiveEntryCommentsPagePath()
     {
         $routeName   = 'entry_comments';
-        $routeParams = ['sortBy' => 'najnowsze'];
+        $routeParams = ['sortBy' => EntryCommentRepository::SORT_DEFAULT];
 
         if ($this->isMagazinePage()) {
-            $magazine = $this->requestStack->getCurrentRequest()->get('magazine');
+            $magazine = $this->getCurrentRequest()->get('magazine');
 
             $routeName           = 'magazine_comments';
             $routeParams['name'] = $magazine->getName();
@@ -120,8 +138,40 @@ final class PageContextExtension extends AbstractExtension
             $routeParams
         );
     }
-    
-    private function getRouteName() {
-        return $this->requestStack->getCurrentRequest()->get('_route');
+
+    public function getActiveEntryCommentFilterPath(string $sortOption): string
+    {
+        $routeParams = [
+            'sortBy' => $sortOption ?? EntryCommentRepository::SORT_DEFAULT,
+        ];
+
+        $routeName = str_replace('entry_comment_edit', 'entry_comments', $this->getCurrentRouteName());
+
+        if ($this->isMagazinePage()) {
+            $routeParams['name'] = $this->getCurrentRequest()->get('magazine')->getName();
+        }
+
+        if ($this->isEntryPage()) {
+            $routeParams['magazine_name'] = $this->getCurrentRequest()->get('magazine')->getName();
+            $routeParams['entry_id']      = $this->getCurrentRequest()->get('entry')->getId();
+            unset($routeParams['name']);
+        }
+
+        return $this->urlGenerator->generate($routeName, $routeParams);
+    }
+
+    public function isActiveEntryCommentFilter(string $sortOption): bool
+    {
+        return ($this->getCurrentRequest()->get('sortBy') ?? EntryCommentRepository::SORT_DEFAULT) === $sortOption;
+    }
+
+    private function getCurrentRouteName(): string
+    {
+        return $this->getCurrentRequest()->get('_route');
+    }
+
+    private function getCurrentRequest(): ?Request
+    {
+        return $this->requestStack->getCurrentRequest();
     }
 }

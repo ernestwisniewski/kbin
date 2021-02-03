@@ -38,7 +38,7 @@ class EntryController extends AbstractController
             ->setEntry($entry);
 
         if($sortBy) {
-            $criteria->orderBy($criteria->translate($sortBy));
+            $criteria->setSortOption($sortBy);
         }
 
         $comments = $commentRepository->findByCriteria($criteria);

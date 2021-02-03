@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EntryCommentRepository extends ServiceEntityRepository
 {
+    const SORT_DEFAULT = 'najnowsze';
     const PER_PAGE = 35;
 
     public function __construct(ManagerRegistry $registry)
@@ -67,7 +68,7 @@ class EntryCommentRepository extends ServiceEntityRepository
             $qb->setParameter('magazine', $criteria->getMagazine());
         }
 
-        switch ($criteria->getOrderBy()) {
+        switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('c.upVotes', 'DESC');
                 break;

@@ -41,24 +41,37 @@ class EntryComment implements Votable
     private ?Entry $entry;
 
     /**
+     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="children")
+     */
+    private ?EntryComment $parent;
+
+    /**
      * @ORM\Column(type="text")
      */
     private string $body;
 
     /**
-     * @ORM\OneToMany(targetEntity=EntryCommentVote::class, mappedBy="comment",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="parent", cascade={"remove"})
+     */
+    private Collection $children;
+
+    /**
+     * @ORM\OneToMany(targetEntity=EntryCommentVote::class, mappedBy="comment",cascade={"persist"},
+     *     fetch="EXTRA_LAZY", cascade={"persist"}, orphanRemoval=true))
      */
     private Collection $votes;
 
-    public function __construct(string $body, ?Entry $entry, User $user)
+    public function __construct(string $body, ?Entry $entry, User $user, ?EntryComment $parent = null)
     {
         $this->body  = $body;
         $this->entry = $entry;
         $this->user  = $user;
+        $this->parent = $parent;
 
         $this->createdAtTraitConstruct();
 
         $this->votes = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     public function getId(): int

@@ -19,7 +19,7 @@ class EntryCommentControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'comment[body]' => 'przykladowa tresc',
+                    'entry_comment[body]' => 'przykladowa tresc',
                 ]
             )
         );
@@ -50,7 +50,7 @@ class EntryCommentControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'comment[body]' => 'zmieniona treść',
+                    'entry_comment[body]' => 'zmieniona treść',
                 ]
             )
         );

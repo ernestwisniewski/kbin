@@ -1,22 +1,10 @@
 <div class="kbin-comment-filter btn-group" role="group">
-    {% set requestSort = app.request.get('sortBy') ?? 'najnowsze' %}
-    {% if app.request.get('_route') is same as 'entry' %}
-        <a href="{{ path(app.request.get('_route'), {sortBy: 'najnowsze', magazine_name: magazine.name, entry_id: entry.id }) }}"
-           class="btn btn-sm {{ requestSort is same as 'najnowsze' ? 'btn-primary':'btn-light' }}" tabindex="-1" role="button">
-            Najnowsze
-        </a>
-        <a  href="{{ path(app.request.get('_route'), {sortBy: 'wazne', magazine_name: magazine.name, entry_id: entry.id }) }}"
-            class="btn btn-sm {{ requestSort is same as 'wazne' ? 'btn-primary':'btn-light' }}" tabindex="-1" role="button">
-            Najlepsze
-        </a>
-    {% else %}
-    <a href="{{ path(app.request.get('_route')|replace({'entry_comment_edit': 'entry_comments'}), {sortBy: 'najnowsze', name: magazine.name ?? null }) }}"
-       class="btn btn-sm {{ requestSort is same as 'najnowsze' ? 'btn-primary':'btn-light' }}" tabindex="-1" role="button">
+    <a href="{{ get_active_entry_comment_filter_path('najnowsze') }}"
+       class="btn btn-sm {{ is_active_entry_comment_filter('najnowsze') ? 'btn-primary' : 'btn-light' }}" tabindex="-1" role="button">
         Najnowsze
     </a>
-    <a  href="{{ path(app.request.get('_route')|replace({'entry_comment_edit': 'entry_comments'}), {sortBy: 'wazne', name: magazine.name ?? null }) }}"
-        class="btn btn-sm {{ requestSort is same as 'wazne' ? 'btn-primary':'btn-light' }}" tabindex="-1" role="button">
+    <a href="{{ get_active_entry_comment_filter_path('wazne') }}"
+       class="btn btn-sm {{ is_active_entry_comment_filter('wazne') ? 'btn-primary' : 'btn-light' }}" tabindex="-1" role="button">
         Najlepsze
     </a>
-    {% endif %}
 </div>

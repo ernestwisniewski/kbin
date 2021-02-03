@@ -22,10 +22,10 @@ class FrontController extends AbstractController
         $criteria = new Criteria((int) $request->get('strona', 1));
 
         if ($sortBy) {
-            $sortBy  = $criteria->translate($sortBy);
-            $listing = $this->$sortBy($criteria);
+            $method = $criteria->translate($sortBy);
+            $listing = $this->$method($criteria);
         } else {
-            $listing = $this->all($criteria);
+            $listing = $this->new($criteria);
         }
 
         return $this->render(
@@ -41,10 +41,9 @@ class FrontController extends AbstractController
         $criteria = new Criteria((int) $request->get('strona', 1));
 
         if ($sortBy) {
-            $sortBy  = $criteria->translate($sortBy);
             $listing = $this->$sortBy($criteria);
         } else {
-            $listing = $this->all($criteria);
+            $listing = $this->new($criteria);
         }
 
         return $this->render(
@@ -55,14 +54,9 @@ class FrontController extends AbstractController
         );
     }
 
-    private function all(Criteria $criteria): PagerfantaInterface
-    {
-        return $this->entryRepository->findByCriteria($criteria->orderBy(Criteria::SORT_HOT));
-    }
-
     private function hot(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->orderBy(Criteria::SORT_HOT));
+        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_HOT));
     }
 
     private function new(Criteria $criteria): PagerfantaInterface
@@ -72,11 +66,11 @@ class FrontController extends AbstractController
 
     private function top(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->orderBy(Criteria::SORT_HOT));
+        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_HOT));
     }
 
     private function commented(Criteria $criteria)
     {
-        return $this->entryRepository->findByCriteria($criteria->orderBy(Criteria::SORT_COMMENTED));
+        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_COMMENTED));
     }
 }

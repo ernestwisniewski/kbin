@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Service\EntryCommentManager;
 use App\DTO\EntryCommentDto;
 use App\Entity\EntryComment;
-use App\Form\CommentType;
+use App\Form\EntryCommentType;
 use App\Entity\Magazine;
 use App\Entity\Entry;
 
@@ -39,7 +39,7 @@ class EntryCommentController extends AbstractController
             $criteria->setMagazine($magazine);
         }
 
-        $criteria->orderBy($criteria->translate($sortBy));
+        $criteria->setSortOption($sortBy);
 
         $params['comments'] = $this->commentRepository->findByCriteria($criteria);
 
@@ -52,17 +52,17 @@ class EntryCommentController extends AbstractController
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"parent_comment_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
      * @IsGranted("comment", subject="entry")
      */
-    public function createComment(Magazine $magazine, Entry $entry, ?EntryComment $comment, Request $request): Response
+    public function createComment(Magazine $magazine, Entry $entry, ?EntryComment $parent, Request $request): Response
     {
         $commentDto = new EntryCommentDto();
         $commentDto->setEntry($entry);
 
-        $form = $this->createForm(CommentType::class, $commentDto);
+        $form = $this->createForm(EntryCommentType::class, $commentDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -95,7 +95,7 @@ class EntryCommentController extends AbstractController
     ): Response {
         $commentDto = $this->commentManager->createCommentDto($comment);
 
-        $form = $this->createForm(CommentType::class, $commentDto);
+        $form = $this->createForm(EntryCommentType::class, $commentDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -161,7 +161,7 @@ class EntryCommentController extends AbstractController
             $routeParams['comment_id'] = $commentId;
         }
 
-        $form = $this->createForm(CommentType::class, null, ['action' => $this->generateUrl('entry_comment_create', $routeParams)]);
+        $form = $this->createForm(EntryCommentType::class, null, ['action' => $this->generateUrl('entry_comment_create', $routeParams)]);
 
         return $this->render(
             'entry/comment/_form.html.twig',

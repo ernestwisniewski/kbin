@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -53,7 +53,7 @@ class Criteria
     private ?Magazine $magazine = null;
     private ?Entry $entry = null;
     private ?User $user = null;
-    private string $orderBy = self::SORT_NEW;
+    private string $sortOption = EntryRepository::SORT_DEFAULT;
 
 
     public function __construct(int $page)
@@ -102,14 +102,14 @@ class Criteria
         return $this;
     }
 
-    public function getOrderBy(): string
+    public function getSortOption(): string
     {
-        return $this->orderBy;
+        return $this->sortOption;
     }
 
-    public function orderBy(string $sortBy): self
+    public function setSortOption(string $sortOption): self
     {
-        $this->orderBy = $sortBy;
+        $this->sortOption = $this->translate($sortOption);
 
         return $this;
     }
@@ -124,6 +124,10 @@ class Criteria
             'wschodzace'  => Criteria::SORT_TOP,
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
+
+        if (in_array($value, $routes)) {
+            return $value;
+        }
 
         return $routes[$value];
     }

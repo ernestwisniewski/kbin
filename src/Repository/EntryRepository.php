@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class EntryRepository extends ServiceEntityRepository
 {
+    const SORT_DEFAULT = 'najnowsze';
     const PER_PAGE = 25;
 
     private Security $security;
@@ -75,7 +76,7 @@ class EntryRepository extends ServiceEntityRepository
                 ->setParameter('user', $criteria->getUser());
         }
 
-        switch ($criteria->getOrderBy()) {
+        switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('e.upVotes', 'DESC');
                 break;
