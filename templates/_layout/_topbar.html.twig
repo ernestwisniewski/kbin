@@ -11,5 +11,5 @@
             <a href="{{ path('magazine_list_all') }}">Magazyny</a>
         </li>
     </ul>
-    {{ render(controller('App\\Controller\\MagazineController::featuredMagazines', {'magazine': magazine is defined ? magazine : null})) }}
+    {{ render(controller('App\\Controller\\MagazineController::featuredList', {'magazine': magazine is defined ? magazine : null})) }}
 </section>

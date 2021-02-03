@@ -57,7 +57,7 @@ class EntryCommentController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("comment", subject="entry")
      */
-    public function createComment(Magazine $magazine, Entry $entry, ?EntryComment $parent, Request $request): Response
+    public function create(Magazine $magazine, Entry $entry, ?EntryComment $parent, Request $request): Response
     {
         $commentDto = new EntryCommentDto();
         $commentDto->setEntry($entry);
@@ -86,7 +86,7 @@ class EntryCommentController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="comment")
      */
-    public function editComment(
+    public function edit(
         Magazine $magazine,
         Entry $entry,
         EntryComment $comment,
@@ -135,7 +135,7 @@ class EntryCommentController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="comment")
      */
-    public function purgeComment(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
+    public function purge(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
     {
         $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
 

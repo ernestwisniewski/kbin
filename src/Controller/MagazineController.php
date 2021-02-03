@@ -53,7 +53,7 @@ class MagazineController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function createMagazine(Request $request): Response
+    public function create(Request $request): Response
     {
         $magazineDto = new MagazineDto();
 
@@ -78,7 +78,7 @@ class MagazineController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="magazine")
      */
-    public function editMagazine(Magazine $magazine, Request $request): Response
+    public function edit(Magazine $magazine, Request $request): Response
     {
         $magazineDto = $this->magazineManager->createMagazineDto($magazine);
 
@@ -109,7 +109,7 @@ class MagazineController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="magazine")
      */
-    public function purgeMagazine(Magazine $magazine, Request $request): Response
+    public function purge(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('magazine_purge', $request->request->get('token'));
 
@@ -128,7 +128,7 @@ class MagazineController extends AbstractController
         );
     }
 
-    public function featuredMagazines(?Magazine $magazine, MagazineRepository $magazineRepository): Response
+    public function featuredList(?Magazine $magazine, MagazineRepository $magazineRepository): Response
     {
         $magazines = $magazineRepository->findBy([], null, 20);
 

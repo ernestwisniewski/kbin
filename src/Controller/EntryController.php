@@ -56,7 +56,7 @@ class EntryController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function createEntry(?Magazine $magazine, ?string $type, Request $request): Response
+    public function create(?Magazine $magazine, ?string $type, Request $request): Response
     {
         $entryDto = new EntryDto();
 
@@ -95,7 +95,7 @@ class EntryController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="entry")
      */
-    public function editEntry(Magazine $magazine, Entry $entry, Request $request): Response
+    public function edit(Magazine $magazine, Entry $entry, Request $request): Response
     {
         $entryDto = $this->entryManager->createEntryDto($entry);
 
@@ -131,7 +131,7 @@ class EntryController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="entry")
      */
-    public function purgeEntry(Magazine $magazine, Entry $entry, Request $request): Response
+    public function purge(Magazine $magazine, Entry $entry, Request $request): Response
     {
         $this->validateCsrf('entry_purge', $request->request->get('token'));
 

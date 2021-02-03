@@ -6,17 +6,17 @@ magazine:
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_create:
-  controller: App\Controller\MagazineController::createMagazine
+  controller: App\Controller\MagazineController::create
   path: /nowyMagazyn
   methods: [ GET, POST ]
 
 magazine_edit:
-  controller: App\Controller\MagazineController::editMagazine
+  controller: App\Controller\MagazineController::edit
   path: /m/{name}/edytuj
   methods: [ GET, POST ]
 
 magazine_purge:
-  controller: App\Controller\MagazineController::purgeMagazine
+  controller: App\Controller\MagazineController::purge
   path: /m/{name}/purge
   methods: [ POST ]
 

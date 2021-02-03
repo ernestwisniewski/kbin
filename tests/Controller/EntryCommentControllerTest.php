@@ -73,7 +73,7 @@ class EntryCommentControllerTest extends WebTestCase
 
         $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";
 
-        $crawler = $client->request('GET', "{$entryUrl}/k/{$comment->getId()}/edytuj");
+        $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$comment->getId()}/edytuj");
 
         $client->submit(
             $crawler->selectButton('Usuń')->form()
@@ -107,7 +107,7 @@ class EntryCommentControllerTest extends WebTestCase
         $this->assertEmpty($crawler->filter('.kbin-entry-meta')->selectLink('edytuj'));
         $this->assertSelectorTextContains('blockquote', 'przykładowy komentarz');
 
-        $crawler = $client->request('GET', "{$entryUrl}/k/{$comment->getId()}/edytuj");
+        $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$comment->getId()}/edytuj");
 
         $this->assertTrue($client->getResponse()->isForbidden());
     }

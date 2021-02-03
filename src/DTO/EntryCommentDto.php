@@ -14,6 +14,7 @@ class EntryCommentDto
      * @Assert\NotBlank()
      */
     private ?string $body;
+    private ?int $parentId;
 
     public function create(Entry $entry, string $body, ?int $id = null): self
     {
@@ -49,5 +50,10 @@ class EntryCommentDto
         $this->body = $body;
 
         return $this;
+    }
+
+    public function getParentId(): ?int
+    {
+        return $this->parentId;
     }
 }
