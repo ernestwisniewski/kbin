@@ -41,7 +41,8 @@ class FrontController extends AbstractController
         $criteria = new Criteria((int) $request->get('strona', 1));
 
         if ($sortBy) {
-            $listing = $this->$sortBy($criteria);
+            $method = $criteria->translate($sortBy);
+            $listing = $this->$method($criteria);
         } else {
             $listing = $this->new($criteria);
         }

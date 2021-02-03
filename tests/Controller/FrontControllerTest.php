@@ -22,27 +22,26 @@ class FrontControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Strona główna');
         $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
-//        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
-//        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
+        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
+        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
 
-        // Sub
-//        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Subskrybcje')->link());
-//        $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
-//
-//        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Subskrybcje');
-//        $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
-//        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
-//        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
-//
-//        // Magazine
-//        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('polityka')->link());
-//        $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
-//
-//        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'polityka');
-//        $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
-//        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
-//        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
+//      Sub
+        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Subskrybcje')->link());
+        $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
 
+        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Subskrybcje');
+        $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
+        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
+        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
+
+        // Magazine
+        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('polityka')->link());
+        $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
+
+        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'polityka');
+        $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
+        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
+        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
     }
 
     private function loadFixtures() {
