@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -50,7 +50,8 @@ class EntryCommentRepository extends ServiceEntityRepository
 
     private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('c');
+        $qb = $this->createQueryBuilder('c')
+            ->addSelect('cc');
 
         $this->filter($qb, $criteria);
 
@@ -79,6 +80,39 @@ class EntryCommentRepository extends ServiceEntityRepository
                 $qb->orderBy('c.id', 'DESC');
         }
 
+        $qb->leftJoin('c.children', 'cc');
+
         return $qb;
+    }
+
+    public function hydrate(EntryComment ...$comments): void
+    {
+        $this->createQueryBuilder('c')
+            ->select('PARTIAL c.{id}')
+            ->addSelect('u')
+            ->addSelect('e')
+            ->addSelect('v')
+            ->addSelect('em')
+            ->join('c.user', 'u')
+            ->join('c.entry', 'e')
+            ->join('c.votes', 'v')
+            ->join('e.magazine', 'em')
+            ->where('c IN (?1)')
+            ->setParameter(1, $comments)
+            ->getQuery()
+            ->execute();
+
+        $this->createQueryBuilder('c')
+            ->select('PARTIAL c.{id}')
+            ->addSelect('cc')
+            ->addSelect('ccu')
+            ->addSelect('ccv')
+            ->leftJoin('c.children', 'cc')
+            ->leftJoin('cc.user', 'ccu')
+            ->leftJoin('cc.votes', 'ccv')
+            ->where('c IN (?1)')
+            ->setParameter(1, $comments)
+            ->getQuery()
+            ->execute();
     }
 }

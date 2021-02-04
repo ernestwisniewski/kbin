@@ -150,4 +150,11 @@ class EntryComment implements Votable
     {
         return $this->children;
     }
+
+    public function getChildrenRecursive(int &$startIndex = 0): \Traversable {
+        foreach ($this->children as $child) {
+            yield $startIndex++ => $child;
+            yield from $child->getChildrenRecursive($startIndex);
+        }
+    }
 }
