@@ -62,7 +62,7 @@
     </blockquote>
 
     {% if nested %}
-        {% if comment.children|length > 0 %}
+        {% if comment.children|length %}
             {%- for reply in comment.children -%}
                 {%- with { comment: reply, level: level + 1, show_context: false, show_form: false } -%}
                     {{- block('comment') -}}

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\EntryComment;
@@ -64,7 +65,7 @@ class EntryCommentRepository extends ServiceEntityRepository
         }
 
         if ($criteria->getMagazine()) {
-            $qb->join('c.entry', 'e', 'WITH', 'e.magazine = :magazine');
+            $qb->join('c.entry', 'e', Join::WITH, 'e.magazine = :magazine');
             $qb->setParameter('magazine', $criteria->getMagazine());
         }
 
