@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -31,7 +31,7 @@ class EntryCommentController extends AbstractController
 
     public function front(?Magazine $magazine, ?string $sortBy, Request $request): Response
     {
-        $params = [];
+        $params   = [];
         $criteria = (new Criteria((int) $request->get('strona', 1)));
 
         if ($magazine) {
@@ -52,28 +52,49 @@ class EntryCommentController extends AbstractController
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     * @ParamConverter("comment", options={"mapping": {"parent_comment_id": "id"}})
+     * @ParamConverter("parent", options={"mapping": {"parent_comment_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
      * @IsGranted("comment", subject="entry")
      */
-    public function create(Magazine $magazine, Entry $entry, ?EntryComment $parent, Request $request): Response
-    {
-        $commentDto = new EntryCommentDto();
-        $commentDto->setEntry($entry);
+    public function create(
+        Magazine $magazine,
+        Entry $entry,
+        ?EntryComment $parent,
+        Request $request,
+        EntryCommentRepository $commentRepository
+    ): Response {
+        $commentDto = (new EntryCommentDto())->createWithParent($entry, $parent);
 
         $form = $this->createForm(EntryCommentType::class, $commentDto);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->commentManager->createComment($commentDto, $this->getUserOrThrow());
+
+            return $this->redirectToRoute(
+                'entry',
+                [
+                    'magazine_name' => $magazine->getName(),
+                    'entry_id'      => $entry->getId(),
+                ]
+            );
         }
 
-        return $this->redirectToRoute(
-            'entry',
+        $criteria = (new Criteria((int) $request->get('strona', 1)))
+            ->setEntry($entry);
+
+        $comments = $commentRepository->findByCriteria($criteria);
+
+        return $this->render(
+            'entry/comment/create.html.twig',
             [
-                'magazine_name' => $magazine->getName(),
-                'entry_id'      => $entry->getId(),
+                'magazine' => $magazine,
+                'entry'    => $entry,
+                'comments' => $comments,
+                'parent'   => $parent,
+                'form'     => $form->createView(),
             ]
         );
     }

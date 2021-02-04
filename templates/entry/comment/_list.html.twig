@@ -5,7 +5,8 @@
         {{ comment(comment, {
             self: app.user,
             comment: comment,
-            extra_classes: 'kbin-comment-list-item mb-0'
+            extra_classes: 'kbin-comment-list-item mb-0',
+            nested: true
         }) }}
     {% endfor %}
     {% if(comments.haveToPaginate) %}

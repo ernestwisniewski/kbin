@@ -106,5 +106,40 @@
     &-content {
       display: inline-block;
     }
+
+    &-level {
+      &--2 {
+        border-left: .15rem solid #ac5353;
+        margin-left: 3px;
+      }
+      &--3 {
+        border-left: .15rem solid #71ac53;
+        margin-left: 6px;
+      }
+      &--4 {
+        border-left: .15rem solid #53ac80;
+        margin-left: 9px;
+      }
+      &--5 {
+        border-left: .15rem solid #538eac;
+        margin-left: 12px;
+      }
+      &--6 {
+        border-left: .15rem solid #6253ac;
+        margin-left: 15px;
+      }
+      &--7 {
+        border-left: .15rem solid #6253ac;
+        margin-left: 18px;
+      }
+      &--8 {
+        border-left: .15rem solid #ac53ac;
+        margin-left: 21px;
+      }
+      &--9 {
+        border-left: .15rem solid #ac5353;
+        margin-left: 40px;
+      }
+    }
   }
 }

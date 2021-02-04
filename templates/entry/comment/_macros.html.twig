@@ -5,6 +5,8 @@
         self: app.user,
         comment: comment,
         extra_classes: options.extra_classes ?? null,
+        level: 1,
+        nested: options.nested ?? null
         } only -%}
         {{ block('comment') }}
     {%- endwith -%}

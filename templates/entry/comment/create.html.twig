@@ -1,0 +1,19 @@
+{% extends 'entry/front.html.twig' %}
+{% from 'entry/comment/_macros.html.twig' import comment %}
+
+{% block body %}
+    {{ parent() }}
+{% endblock %}
+
+{% block after_entry %}
+    <section class="kbin-comment-wrapper mt-4">
+        <h4 class="font-weight-bold">Odpowiedz:</h4>
+        {{ comment(parent, {
+            self: app.user,
+            comment: parent,
+            extra_classes: 'kbin-comment-list-item mb-0'
+        }) }}
+    </section>
+
+    {% include 'entry/comment/_form.html.twig' %}
+{% endblock %}

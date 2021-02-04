@@ -96,7 +96,6 @@ class EntryCommentControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('testUser'));
         $client->catchExceptions(false);
-
         $comment  = $this->createEntryComment('przykładowy komentarz');
 
         $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";

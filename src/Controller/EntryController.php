@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -37,7 +37,7 @@ class EntryController extends AbstractController
         $criteria = (new Criteria((int) $request->get('strona', 1)))
             ->setEntry($entry);
 
-        if($sortBy) {
+        if ($sortBy) {
             $criteria->setSortOption($sortBy);
         }
 

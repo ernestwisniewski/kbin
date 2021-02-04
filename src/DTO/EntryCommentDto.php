@@ -1,9 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Unique;
+use App\Entity\EntryComment;
 use App\Entity\Entry;
 
 class EntryCommentDto
@@ -14,13 +14,21 @@ class EntryCommentDto
      * @Assert\NotBlank()
      */
     private ?string $body;
-    private ?int $parentId;
+    private ?EntryComment $parent = null;
 
     public function create(Entry $entry, string $body, ?int $id = null): self
     {
         $this->id    = $id;
         $this->entry = $entry;
         $this->body  = $body;
+
+        return $this;
+    }
+
+    public function createWithParent(Entry $entry, ?EntryComment $parent): self
+    {
+        $this->entry  = $entry;
+        $this->parent = $parent;
 
         return $this;
     }
@@ -52,8 +60,15 @@ class EntryCommentDto
         return $this;
     }
 
-    public function getParentId(): ?int
+    public function getParent(): ?EntryComment
     {
-        return $this->parentId;
+        return $this->parent;
+    }
+
+    public function setParent(?EntryComment $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
     }
 }

@@ -13,7 +13,8 @@ class EntryCommentFactory
         return new EntryComment(
             $commentDto->getBody(),
             $commentDto->getEntry(),
-            $user
+            $user,
+            $commentDto->getParent()
         );
     }
 

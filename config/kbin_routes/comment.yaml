@@ -2,11 +2,6 @@ entry_comment_create:
   controller: App\Controller\EntryCommentController::create
   defaults: { parent_comment_id: null }
   path: /m/{magazine_name}/t/{entry_id}/komentarz/{parent_comment_id}
-  methods: [ POST ]
-
-entry_comment_reply:
-  controller: App\Controller\EntryCommentController::reply
-  path: /m/{magazine_name}/t/{entry_id}/komentarz/{comment_id}/odpowiedz
   methods: [ GET, POST ]
 
 entry_comment_edit:

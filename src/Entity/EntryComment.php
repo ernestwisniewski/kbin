@@ -145,4 +145,9 @@ class EntryComment implements Votable
 
         return $this;
     }
+
+    public function getChildren()
+    {
+        return $this->children;
+    }
 }

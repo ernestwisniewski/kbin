@@ -1,7 +1,8 @@
 {% block comment %}
     {% from 'vote/_macros.html.twig' import vote %}
 
-    <blockquote id="{{ comment.id }}" class="kbin-comment {{ extra_classes }}">
+    <blockquote id="{{ comment.id }}"
+                class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level }}">
         <div class="kbin-comment-header">
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 
@@ -32,6 +33,11 @@
                     <ul class="kbin-comment-meta-list  list-inline mb-0">
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted">
+                                <a href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">odpowiedz</a>
+                            </small>
+                        </li>
+                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                            <small class="text-muted">
                                 <a href="#">link</a>
                             </small>
                         </li>
@@ -54,4 +60,14 @@
             <div class="clearfix"></div>
         </div>
     </blockquote>
+
+    {% if nested %}
+        {% if comment.children|length > 0 %}
+            {%- for reply in comment.children -%}
+                {%- with { comment: reply, level: level + 1, show_context: false, show_form: false } -%}
+                    {{- block('comment') -}}
+                {%- endwith -%}
+            {%- endfor -%}
+        {% endif %}
+    {% endif %}
 {% endblock comment %}

@@ -68,6 +68,8 @@ class EntryCommentRepository extends ServiceEntityRepository
             $qb->setParameter('magazine', $criteria->getMagazine());
         }
 
+        $qb->andWhere('c.parent IS NULL');
+
         switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('c.upVotes', 'DESC');
