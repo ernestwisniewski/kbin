@@ -43,13 +43,7 @@ class EntryController extends AbstractController
 
         $comments = $commentRepository->findByCriteria($criteria);
 
-        $children = [];
-        foreach ($comments as $comment) {
-            $children = array_merge($children, iterator_to_array($comment->getChildrenRecursive()));
-        }
-
         $commentRepository->hydrate(...$comments);
-        $commentRepository->hydrate(...$children);
 
         return $this->render(
             'entry/front.html.twig',
