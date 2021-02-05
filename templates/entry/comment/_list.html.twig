@@ -9,7 +9,12 @@
             nested: true
         }) }}
     {% endfor %}
-    {% if(comments.haveToPaginate) %}
-        {{ pagerfanta(comments, null, {'pageParameter':'[strona]'}) }}
-    {% endif %}
+
+    {% for i in 2..8 %}
+        <div class="kbin-comment-line--{{ i }}"></div>
+    {% endfor %}
 </div>
+
+{% if(comments.haveToPaginate) %}
+    {{ pagerfanta(comments, null, {'pageParameter':'[strona]'}) }}
+{% endif %}

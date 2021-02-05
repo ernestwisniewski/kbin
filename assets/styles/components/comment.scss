@@ -1,5 +1,7 @@
-@use "sass:list";
-@use "sass:map";
+$levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353');
+$comment-margin-xl: 4.5rem;
+$comment-margin-lg: 1rem;
+$comment-margin-sm: .5rem;
 
 .kbin-comment-wrapper {
   &-header {
@@ -11,12 +13,48 @@
     padding: .6rem .3rem;
     display: flow-root;
     position: relative;
+    background: white;
 
     &:nth-child(even) {
       border-top: 1px solid $kbin-comment-list-item-border-color;
       border-bottom: 1px solid $kbin-comment-list-item-border-color;
       background-color: $kbin-comment-list-item-nth-background-color;
     }
+
+    &-mask {
+      background: red;
+      width: 20px;
+      height: 100%;
+      top: 0;
+      position: absolute;
+      left: 0;
+    }
+
+    &-list {
+      position: relative;
+    }
+
+    @for $i from 2 to 8 {
+      &-line--#{$i} {
+        bottom: 0;
+        position: absolute;
+        opacity: .2;
+        z-index: -100;
+        height: 100%;
+
+        border-left: .12rem dashed unquote(nth($levels, $i));
+        left: $comment-margin-lg * ($i - 1);
+
+        @include media-breakpoint-up(xl) {
+          left: $comment-margin-xl * ($i - 1);
+        }
+
+        @include media-breakpoint-down(sm) {
+          left: $comment-margin-sm * ($i - 1);
+        }
+      }
+    }
+
 
     &-main {
       display: flow-root;
@@ -110,23 +148,28 @@
       display: inline-block;
     }
 
-    &-level {
-      $margin-xl: 4.5rem;
-      $margin-lg: 1rem;
-      $margin-sm: .5rem;
+    .mask {
+      position: absolute;
+      width: 2px;
+      left: -4.7rem;
+      top: 0;
+      z-index: -100;
+      height: 100%;
+      border: 2px solid white;
+    }
 
-      $levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353');
+    &-level {
       @for $i from 2 to 8 {
         &--#{$i} {
           border-left: .15rem solid unquote(nth($levels, $i));
-          margin-left: $margin-lg * ($i - 1);
+          margin-left: $comment-margin-lg * ($i - 1);
 
           @include media-breakpoint-up(xl) {
-            margin-left: $margin-xl * ($i - 1);
+            margin-left: $comment-margin-xl * ($i - 1);
           }
 
           @include media-breakpoint-down(sm) {
-            margin-left: $margin-sm * ($i - 1);
+            margin-left: $comment-margin-sm * ($i - 1);
           }
         }
       }

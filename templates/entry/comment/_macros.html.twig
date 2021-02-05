@@ -6,7 +6,8 @@
         comment: comment,
         extra_classes: options.extra_classes ?? null,
         level: 1,
-        nested: options.nested ?? null
+        nested: options.nested ?? null,
+        mask_levels: options.mask_levels ?? null
         } only -%}
         {{ block('comment') }}
     {%- endwith -%}
