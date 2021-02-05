@@ -60,8 +60,8 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
         $dto = (new EntryCommentDto())->createWithParent(
             $parent->getEntry(),
             $parent,
+            $this->faker->paragraphs($this->faker->numberBetween(1, 3), true)
         );
-        $dto->setBody($this->faker->paragraphs($this->faker->numberBetween(1, 3), true));
 
         return $this->commentManager->createComment($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
     }

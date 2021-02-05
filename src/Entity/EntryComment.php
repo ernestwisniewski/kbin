@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -46,31 +46,36 @@ class EntryComment implements Votable
     private ?EntryComment $parent;
 
     /**
+     * @ORM\ManyToOne(targetEntity="EntryComment")
+     */
+    private ?EntryComment $root = null;
+
+    /**
      * @ORM\Column(type="text")
      */
     private string $body;
 
     /**
-     * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="parent", orphanRemoval=true)
      */
     private Collection $children;
 
     /**
-     * @ORM\OneToMany(targetEntity=EntryCommentVote::class, mappedBy="comment",cascade={"persist"},
+     * @ORM\OneToMany(targetEntity=EntryCommentVote::class, mappedBy="comment",
      *     fetch="EXTRA_LAZY", cascade={"persist"}, orphanRemoval=true))
      */
     private Collection $votes;
 
     public function __construct(string $body, ?Entry $entry, User $user, ?EntryComment $parent = null)
     {
-        $this->body  = $body;
-        $this->entry = $entry;
-        $this->user  = $user;
+        $this->body   = $body;
+        $this->entry  = $entry;
+        $this->user   = $user;
         $this->parent = $parent;
 
         $this->createdAtTraitConstruct();
 
-        $this->votes = new ArrayCollection();
+        $this->votes    = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
 
@@ -151,10 +156,23 @@ class EntryComment implements Votable
         return $this->children;
     }
 
-    public function getChildrenRecursive(int &$startIndex = 0): \Traversable {
+    public function getChildrenRecursive(int &$startIndex = 0): \Traversable
+    {
         foreach ($this->children as $child) {
             yield $startIndex++ => $child;
             yield from $child->getChildrenRecursive($startIndex);
         }
+    }
+
+    public function getRoot(): ?EntryComment
+    {
+        return $this->root;
+    }
+
+    public function setRoot(?EntryComment $root): self
+    {
+        $this->root = $root;
+
+        return $this;
     }
 }

@@ -15,6 +15,7 @@ class EntryCommentDto
      */
     private ?string $body;
     private ?EntryComment $parent = null;
+    private ?EntryComment $root = null;
 
     public function create(Entry $entry, string $body, ?int $id = null): self
     {
@@ -25,10 +26,15 @@ class EntryCommentDto
         return $this;
     }
 
-    public function createWithParent(Entry $entry, ?EntryComment $parent): self
+    public function createWithParent(Entry $entry, ?EntryComment $parent, ?string $body = null): self
     {
         $this->entry  = $entry;
         $this->parent = $parent;
+        $this->body   = $body;
+
+        if ($parent) {
+            $this->root = $parent->getRoot() ?? $parent;
+        }
 
         return $this;
     }
@@ -70,5 +76,10 @@ class EntryCommentDto
         $this->parent = $parent;
 
         return $this;
+    }
+
+    public function getRoot(): ?EntryComment
+    {
+        return $this->root;
     }
 }

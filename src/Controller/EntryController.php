@@ -24,7 +24,7 @@ class EntryController extends AbstractController
 
     public function __construct(EntryManager $entryManager, EntityManagerInterface $entityManager)
     {
-        $this->entryManager  = $entryManager;
+        $this->entryManager = $entryManager;
         $this->entityManager = $entityManager;
     }
 
@@ -44,6 +44,7 @@ class EntryController extends AbstractController
         $comments = $commentRepository->findByCriteria($criteria);
 
         $commentRepository->hydrate(...$comments);
+        $commentRepository->hydrateChildren(...$comments);
 
         return $this->render(
             'entry/front.html.twig',

@@ -46,6 +46,7 @@ class EntryCommentManager
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
         $comment->getEntry()->addComment($comment);
+        $comment->setRoot($commentDto->getRoot());
 
         $this->entityManager->persist($comment);
         $this->entityManager->flush();

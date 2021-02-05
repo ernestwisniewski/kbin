@@ -123,14 +123,18 @@ abstract class WebTestCase extends BaseWebTestCase
         return $entry;
     }
 
-    public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null): EntryComment
+    public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null, ?EntryComment $parent = null): EntryComment
     {
         /**
          * @var $manager EntryCommentManager
          */
         $manager = self::$container->get(EntryCommentManager::class);
 
-        $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $body);
+        if ($parent) {
+            $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, $body);
+        } else {
+            $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $body);
+        }
 
         return $manager->createComment($dto, $user ?? $this->getUserByUsername('regularUser'));
     }

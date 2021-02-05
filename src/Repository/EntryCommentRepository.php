@@ -115,4 +115,14 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function hydrateChildren(EntryComment ...$comments): void
+    {
+        $children = $this->createQueryBuilder('c')
+            ->andWhere('c.root IN (:ids)')
+            ->setParameter('ids', $comments)
+            ->getQuery()->getResult();
+
+        $this->hydrate(...$children);
+    }
 }

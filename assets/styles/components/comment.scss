@@ -1,3 +1,6 @@
+@use "sass:list";
+@use "sass:map";
+
 .kbin-comment-wrapper {
   &-header {
     border-bottom: 1px solid $kbin-comment-list-item-border-color;
@@ -42,8 +45,8 @@
           background: $kbin-comment-vote-button-background-color;
 
           button {
-            width:100%;
-            border:0;
+            width: 100%;
+            border: 0;
             color: #c1c1c1;
             display: block;
             text-align: center;
@@ -108,63 +111,18 @@
     }
 
     &-level {
-      $margin-lg: 1rem;
+      $margin-lg: 4.5rem;
       $margin-sm: .5rem;
 
-      &--2 {
-        border-left: .15rem solid #ac5353;
-        margin-left: $margin-lg;
+      $levels: ( '#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353');
+      @for $i from 2 to 8 {
+        &--#{$i} {
+          border-left: .15rem solid unquote(nth($levels, $i));
+          margin-left: $margin-lg * ($i - 1);
+        }
 
         @include media-breakpoint-down(sm) {
           margin-left: $margin-sm;
-        }
-      }
-      &--3 {
-        border-left: .15rem solid #71ac53;
-        margin-left: #{$margin-lg * 2};
-
-        @include media-breakpoint-down(sm) {
-          margin-left: #{$margin-sm * 2};
-        }
-      }
-      &--4 {
-        border-left: .15rem solid #53ac80;
-        margin-left: #{$margin-lg * 3};
-
-        @include media-breakpoint-down(sm) {
-          margin-left: #{$margin-sm * 3};
-        }
-      }
-      &--5 {
-        border-left: .15rem solid #538eac;
-        margin-left: #{$margin-lg * 4};
-
-        @include media-breakpoint-down(sm) {
-          margin-left: #{$margin-sm * 4};
-        }
-      }
-      &--6 {
-        border-left: .15rem solid #6253ac;
-        margin-left: #{$margin-lg * 5};
-
-        @include media-breakpoint-down(sm) {
-          margin-left: #{$margin-sm * 5};
-        }
-      }
-      &--7 {
-        border-left: .15rem solid #ac53ac;
-        margin-left: #{$margin-lg * 6};
-
-        @include media-breakpoint-down(sm) {
-          margin-left: #{$margin-sm * 6};
-        }
-      }
-      &--8 {
-        border-left: .15rem solid #ac5353;
-        margin-left: #{$margin-lg * 7};
-
-        @include media-breakpoint-down(sm) {
-          margin-left: #{$margin-sm * 7};
         }
       }
     }

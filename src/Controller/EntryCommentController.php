@@ -43,6 +43,9 @@ class EntryCommentController extends AbstractController
 
         $params['comments'] = $this->commentRepository->findByCriteria($criteria);
 
+        $this->commentRepository->hydrate(...$params['comments']);
+        $this->commentRepository->hydrateChildren(...$params['comments']);
+
         return $this->render(
             'entry/comment/front.html.twig',
             $params

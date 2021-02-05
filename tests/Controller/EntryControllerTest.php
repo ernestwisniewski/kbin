@@ -150,11 +150,20 @@ class EntryControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
 
+        $user1 = $this->getUserByUsername('regularUser');
+        $user2 = $this->getUserByUsername('regularUser2');
+
         $entry  = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
         $this->getEntryByTitle('test1');
         $this->getEntryByTitle('test2');
 
-        $this->createEntryComment('test', $entry);
+        $comment1 = $this->createEntryComment('test', $entry);
+        $comment2 = $this->createEntryComment('test2', $entry, $user2, $comment1);
+
+        $this->createEntryVote(1, $entry, $user2);
+        $this->createEntryCommentVote(1, $comment1, $user2);
+        $this->createEntryCommentVote(1, $comment2, $user2);
+        $this->createEntryCommentVote(1, $comment2, $user1);
 
         $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
 

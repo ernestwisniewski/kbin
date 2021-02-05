@@ -76,13 +76,13 @@ class Entry implements Votable, Commentable
     private int $commentCount = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry")
+     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
      */
     private Collection $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry", cascade={"persist"},
-     *     fetch="EXTRA_LAZY", cascade={"persist"}, orphanRemoval=true)
+     *     fetch="EXTRA_LAZY", orphanRemoval=true)
      */
     private Collection $votes;
 
