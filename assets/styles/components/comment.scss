@@ -111,18 +111,23 @@
     }
 
     &-level {
-      $margin-lg: 4.5rem;
+      $margin-xl: 4.5rem;
+      $margin-lg: 1rem;
       $margin-sm: .5rem;
 
-      $levels: ( '#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353');
+      $levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353');
       @for $i from 2 to 8 {
         &--#{$i} {
           border-left: .15rem solid unquote(nth($levels, $i));
           margin-left: $margin-lg * ($i - 1);
-        }
 
-        @include media-breakpoint-down(sm) {
-          margin-left: $margin-sm;
+          @include media-breakpoint-up(xl) {
+            margin-left: $margin-xl * ($i - 1);
+          }
+
+          @include media-breakpoint-down(sm) {
+            margin-left: $margin-sm * ($i - 1);
+          }
         }
       }
     }
