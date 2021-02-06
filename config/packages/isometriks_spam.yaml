@@ -1,6 +1,0 @@
-isometriks_spam:
-  timed:
-    min: 3
-    max: 3600
-    global: false
-    message: Odczekaj chwilę.
