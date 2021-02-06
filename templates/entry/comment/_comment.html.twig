@@ -6,8 +6,8 @@
         <div class="kbin-comment-header">
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 
-            <div class="kbin-comment-image">
-                <img class="lazy" src="https://picsum.photos/100/{{ random(75,75) }}?hash={{ random(1,55) }}"
+            <div class="kbin-comment-avatar">
+                <img class="lazy img-thumbnail" src="https://picsum.photos/100/{{ random(75,75) }}?hash={{ random(1,55) }}"
                      alt="Makigi.pl - Rozkład jazdy 2017">
             </div>
 

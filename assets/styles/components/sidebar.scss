@@ -51,5 +51,17 @@
 
   .kbin-entry {
     font-size: .9rem;
+
+    &-avatar {
+      img {
+        width: 4.5rem;
+      }
+    }
+  }
+
+  .kbin-sub {
+    .btn {
+      border: 1px solid $kbin-grey-shadow;
+    }
   }
 }
