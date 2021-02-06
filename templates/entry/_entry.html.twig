@@ -25,10 +25,13 @@
                             <small class="text-muted">przez <a
                                         href="{{ path('user', {username: entry.user.username}) }}">{{ entry.user.username }}</a></small>
                         </li>
+                        {% if not is_magazine_page() %}
                         <li class="kbin-entry-meta-list-item list-inline-item">
-                            <small class="text-muted">do <a
-                                        href="{{ path('magazine', {'name': entry.magazine.name}) }}">m/{{ entry.magazine.name }}</a></small>
+                            <small class="text-muted">
+                                do <a href="{{ path('magazine', {'name': entry.magazine.name}) }}">m/{{ entry.magazine.name }}</a>
+                            </small>
                         </li>
+                        {% endif %}
                     </ul>
                     <ul class="kbin-entry-meta-list  list-inline mb-0">
                         <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">

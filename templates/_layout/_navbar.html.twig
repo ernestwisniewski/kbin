@@ -39,8 +39,8 @@
                         sortBy: 'komentowane',
                     }) }}
 
-                    <li class="kbin-nav-navbar-item {{ is_entry_comments_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                        <a href="{{ get_active_entry_comments_page_path() }}">Komentarze</a>
+                    <li class="kbin-nav-navbar-item {{ is_comments_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                        <a href="{{ get_active_comments_page_path() }}">Komentarze</a>
                     </li>
                     <li class="kbin-nav-navbar-item">
                         <a href="#">Wpisy</a>

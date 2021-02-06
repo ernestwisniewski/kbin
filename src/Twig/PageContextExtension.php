@@ -34,10 +34,10 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_current_magazine_page', [$this, 'isCurrentMagazinePage']),
             new TwigFunction('is_active_sort_option', [$this, 'isActiveSortOption']),
             new TwigFunction('get_active_sort_option_path', [$this, 'getActiveSortOptionPath']),
-            new TwigFunction('is_entry_comments_page', [$this, 'isEntryCommentsPage']),
-            new TwigFunction('get_active_entry_comments_page_path', [$this, 'getActiveEntryCommentsPagePath']),
-            new TwigFunction('is_active_entry_comment_filter', [$this, 'isActiveEntryCommentFilter']),
-            new TwigFunction('get_active_entry_comment_filter_path', [$this, 'getActiveEntryCommentFilterPath']),
+            new TwigFunction('is_comments_page', [$this, 'isCommentsPage']),
+            new TwigFunction('get_active_comments_page_path', [$this, 'getActiveCommentsPagePath']),
+            new TwigFunction('is_active_comment_filter', [$this, 'isActiveCommentFilter']),
+            new TwigFunction('get_active_comment_filter_path', [$this, 'getActiveCommentFilterPath']),
         ];
     }
 
@@ -78,14 +78,14 @@ final class PageContextExtension extends AbstractExtension
         return true;
     }
 
-    public function isEntryCommentsPage(): bool
+    public function isCommentsPage(): bool
     {
         return str_contains($this->getCurrentRouteName(), 'comments');
     }
 
     public function isActiveSortOption($sortOption): bool
     {
-        if ($this->isEntryCommentsPage()) {
+        if ($this->isCommentsPage()) {
             return false;
         }
 
@@ -117,7 +117,7 @@ final class PageContextExtension extends AbstractExtension
         );
     }
 
-    public function getActiveEntryCommentsPagePath()
+    public function getActiveCommentsPagePath()
     {
         $routeName   = 'entry_comments';
         $routeParams = ['sortBy' => EntryCommentRepository::SORT_DEFAULT];
@@ -139,7 +139,7 @@ final class PageContextExtension extends AbstractExtension
         );
     }
 
-    public function getActiveEntryCommentFilterPath(string $sortOption): string
+    public function getActiveCommentFilterPath(string $sortOption): string
     {
         $routeParams = [
             'sortBy' => $sortOption ?? EntryCommentRepository::SORT_DEFAULT,
@@ -160,7 +160,7 @@ final class PageContextExtension extends AbstractExtension
         return $this->urlGenerator->generate($routeName, $routeParams);
     }
 
-    public function isActiveEntryCommentFilter(string $sortOption): bool
+    public function isActiveCommentFilter(string $sortOption): bool
     {
         return ($this->getCurrentRequest()->get('sortBy') ?? EntryCommentRepository::SORT_DEFAULT) === $sortOption;
     }
