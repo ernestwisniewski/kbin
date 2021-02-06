@@ -23,6 +23,7 @@ class EntryCommentType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => EntryCommentDto::class,
+                'timed_spam' => true,
             ]
         );
     }

@@ -1,8 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
@@ -15,6 +16,8 @@ class MagazineType extends AbstractType
         $builder
             ->add('name')
             ->add('title')
+            ->add('description', TextareaType::class)
+            ->add('rules', TextareaType::class)
             ->add('submit', SubmitType::class);
     }
 
@@ -23,6 +26,7 @@ class MagazineType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => MagazineDto::class,
+                'timed_spam' => true,
             ]
         );
     }

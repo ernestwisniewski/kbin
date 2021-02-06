@@ -35,6 +35,8 @@ class MagazineManager
         Assert::same($magazine->getName(), $magazineDto->getName());
 
         $magazine->setTitle($magazineDto->getTitle());
+        $magazine->setDescription($magazineDto->getDescription());
+        $magazine->setRules($magazineDto->getRules());
 
         $this->entityManager->flush();
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -71,12 +71,14 @@ class Magazine
      */
     private int $commentCount = 0;
 
-    public function __construct(string $name, string $title, User $user)
+    public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules)
     {
-        $this->name       = $name;
-        $this->title      = $title;
-        $this->moderators = new ArrayCollection();
-        $this->entries    = new ArrayCollection();
+        $this->name        = $name;
+        $this->title       = $title;
+        $this->description = $description;
+        $this->rules       = $rules;
+        $this->moderators  = new ArrayCollection();
+        $this->entries     = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true));
 

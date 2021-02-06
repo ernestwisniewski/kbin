@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -13,7 +13,9 @@ class MagazineFactory
         return new Magazine(
             $magazineDto->getName(),
             $magazineDto->getTitle(),
-            $user
+            $user,
+            $magazineDto->getDescription(),
+            $magazineDto->getRules(),
         );
     }
 
@@ -22,6 +24,8 @@ class MagazineFactory
         return (new MagazineDto())->create(
             $magazine->getName(),
             $magazine->getTitle(),
+            $magazine->getDescription(),
+            $magazine->getRules(),
             $magazine->getId()
         );
     }

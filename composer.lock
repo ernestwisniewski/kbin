@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4facc69b1f51def79c5ce541e830af3",
+    "content-hash": "565d11cc9de6109efdb9c199a68c6e5f",
     "packages": [
         {
             "name": "babdev/pagerfanta-bundle",
@@ -1847,6 +1847,53 @@
                 "source": "https://github.com/avalanche123/Imagine/tree/1.2.4"
             },
             "time": "2020-11-03T22:35:03+00:00"
+        },
+        {
+            "name": "isometriks/spam-bundle",
+            "version": "v1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/isometriks/IsometriksSpamBundle.git",
+                "reference": "dbb17cdcaa76d91b6d1b0d3c6b03fa735dfec30f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/isometriks/IsometriksSpamBundle/zipball/dbb17cdcaa76d91b6d1b0d3c6b03fa735dfec30f",
+                "reference": "dbb17cdcaa76d91b6d1b0d3c6b03fa735dfec30f",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/form": "~3.0|~4.0|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Isometriks\\Bundle\\SpamBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Craig Blanchette",
+                    "email": "craig.blanchette@gmail.com",
+                    "homepage": "http://isometriks.com"
+                },
+                {
+                    "name": "Patrik Pacin",
+                    "email": "github@exploit.cz",
+                    "homepage": "https://exploit.cz"
+                }
+            ],
+            "description": "Provides spam protection for Symfony3 forms",
+            "keywords": [
+                "spam",
+                "symfony3"
+            ],
+            "support": {
+                "issues": "https://github.com/isometriks/IsometriksSpamBundle/issues",
+                "source": "https://github.com/isometriks/IsometriksSpamBundle/tree/v1.0.7"
+            },
+            "time": "2020-09-14T15:31:16+00:00"
         },
         {
             "name": "knplabs/knp-time-bundle",

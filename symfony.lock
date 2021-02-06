@@ -126,6 +126,9 @@
     "imagine/imagine": {
         "version": "1.2.4"
     },
+    "isometriks/spam-bundle": {
+        "version": "v1.0.7"
+    },
     "knplabs/knp-time-bundle": {
         "version": "v1.15.0"
     },

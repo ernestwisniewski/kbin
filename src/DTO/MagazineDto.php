@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -19,12 +19,16 @@ class MagazineDto
      * @Assert\NotBlank()
      */
     private string $title;
+    private ?string $description = null;
+    private ?string $rules = null;
 
-    public function create(string $name, string $title, ?int $id = null): self
+    public function create(string $name, string $title, ?string $description = null, ?string $rules = null, ?int $id = null): self
     {
-        $this->id = $id;
-        $this->name  = $name;
-        $this->title = $title;
+        $this->id          = $id;
+        $this->name        = $name;
+        $this->title       = $title;
+        $this->description = $description;
+        $this->rules       = $rules;
 
         return $this;
     }
@@ -52,5 +56,25 @@ class MagazineDto
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getRules(): ?string
+    {
+        return $this->rules;
+    }
+
+    public function setRules(?string $rules): void
+    {
+        $this->rules = $rules;
     }
 }

@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class EntryCommentRepository extends ServiceEntityRepository
 {
     const SORT_DEFAULT = 'najnowsze';
-    const PER_PAGE = 35;
+    const PER_PAGE = 15;
 
     public function __construct(ManagerRegistry $registry)
     {

@@ -34,6 +34,7 @@ class EntryLinkType extends AbstractType
     {
         $resolver->setDefaults(
             [
+                'timed_spam' => true,
                 'data_class' => EntryDto::class,
             ]
         );
