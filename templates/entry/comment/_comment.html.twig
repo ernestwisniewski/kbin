@@ -19,21 +19,20 @@
                         </small>
                     </li>
                     <li class="kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">przez <a href="{{ path('user', {username: comment.user.username}) }}"
-                                                           class="font-weight-bold">{{ comment.user.username }}</a>
+                        <small class="text-muted">przez
+                            <a class="font-weight-bold" href="{{ path('user', {username: comment.user.username}) }}">
+                                {{ comment.user.username }}
+                            </a>
                         </small>
                     </li>
                     {% if level is same as 1 %}
                         {% if is_comments_page() and not is_magazine_page() %}
-                            <small class="text-muted">
-                                do <a href="{{ path('magazine', {'name': comment.entry.magazine.name}) }}">m/{{ comment.entry.magazine.name }}</a>
-                            </small>
+                            <small class="text-muted">do <a class="font-weight-bold"
+                                                           href="{{ path('magazine', {'name': comment.entry.magazine.name}) }}">m/{{ comment.entry.magazine.name }}</a></small>
                         {% endif %}
                         {% if is_comments_page() %}
-                            <small class="text-muted">
-                                w
-                                <a href="{{ path('entry', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.title }}</a>
-                            </small>
+                            <small class="text-muted">w <a class="font-weight-bold"
+                                                           href="{{ path('entry', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.title }}</a></small>
                         {% endif %}
                     {% endif %}
                 </ul>
