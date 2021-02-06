@@ -2,19 +2,19 @@
 
 namespace App\Entity;
 
-use App\Entity\Contracts\Votable;
-use App\Entity\Traits\CreatedAtTrait;
-use App\Entity\Traits\VotableTrait;
-use App\Repository\EntryCommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Repository\EntryCommentRepository;
+use App\Entity\Contracts\VoteInterface;
+use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\VotableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EntryCommentRepository::class)
  */
-class EntryComment implements Votable
+class EntryComment implements VoteInterface
 {
     use VotableTrait;
     use CreatedAtTrait {

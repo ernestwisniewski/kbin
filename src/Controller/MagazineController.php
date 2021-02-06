@@ -2,17 +2,15 @@
 
 namespace App\Controller;
 
-use App\Repository\Criteria;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Pagerfanta\PagerfantaInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MagazineRepository;
 use App\Repository\EntryRepository;
+use Pagerfanta\PagerfantaInterface;
 use App\Service\MagazineManager;
+use App\Repository\Criteria;
 use App\Form\MagazineType;
 use App\Entity\Magazine;
 use App\DTO\MagazineDto;
@@ -61,7 +59,7 @@ class MagazineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->createMagazine($magazineDto, $this->getUserOrThrow());
+            $this->magazineManager->create($magazineDto, $this->getUserOrThrow());
 
             return $this->redirectToRoute('magazine', ['name' => $magazineDto->getName()]);
         }
@@ -80,13 +78,13 @@ class MagazineController extends AbstractController
      */
     public function edit(Magazine $magazine, Request $request): Response
     {
-        $magazineDto = $this->magazineManager->createMagazineDto($magazine);
+        $magazineDto = $this->magazineManager->creeateDto($magazine);
 
         $form = $this->createForm(MagazineType::class, $magazineDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->editMagazine($magazine, $magazineDto);
+            $this->magazineManager->edit($magazine, $magazineDto);
 
             return $this->redirectToRoute(
                 'magazine',
@@ -113,7 +111,7 @@ class MagazineController extends AbstractController
     {
         $this->validateCsrf('magazine_purge', $request->request->get('token'));
 
-        $this->magazineManager->purgeMagazine($magazine);
+        $this->magazineManager->purge($magazine);
 
         return $this->redirectToRoute('front');
     }

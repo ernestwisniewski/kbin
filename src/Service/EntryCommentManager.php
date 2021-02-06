@@ -41,7 +41,7 @@ class EntryCommentManager
         $this->entityManager     = $entityManager;
     }
 
-    public function createComment(EntryCommentDto $commentDto, User $user): EntryComment
+    public function create(EntryCommentDto $commentDto, User $user): EntryComment
     {
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
@@ -56,7 +56,7 @@ class EntryCommentManager
         return $comment;
     }
 
-    public function editComment(EntryComment $comment, EntryCommentDto $commentDto): EntryComment
+    public function edit(EntryComment $comment, EntryCommentDto $commentDto): EntryComment
     {
         Assert::same($comment->getEntry()->getId(), $commentDto->getEntry()->getId());
 
@@ -69,12 +69,7 @@ class EntryCommentManager
         return $comment;
     }
 
-    public function createCommentDto(EntryComment $comment): EntryCommentDto
-    {
-        return $this->commentFactory->createDto($comment);
-    }
-
-    public function purgeComment(EntryComment $comment): void
+    public function purge(EntryComment $comment): void
     {
         $magazine = $comment->getEntry()->getMagazine();
         $comment->getEntry()->removeComment($comment);
@@ -85,5 +80,10 @@ class EntryCommentManager
 
         $this->eventDispatcher->dispatch((new EntryCommentPurgedEvent($magazine)));
 
+    }
+
+    public function createDto(EntryComment $comment): EntryCommentDto
+    {
+        return $this->commentFactory->createDto($comment);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\DataFixtures;
 
-use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use App\Repository\ImageRepository;
+use App\Service\ImageManager;
 use App\Service\EntryManager;
 use App\DTO\EntryDto;
 
@@ -44,7 +44,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
         foreach ($this->provideRandomEntries(self::ENTRIES_COUNT) as $index => $entry) {
             $dto = (new EntryDto())->create($entry['magazine'], $entry['title'], $entry['url'], $entry['body']);
 
-            $entity = $this->entryManager->createEntry($dto, $entry['user']);
+            $entity = $this->entryManager->create($dto, $entry['user']);
 
             $roll = rand(100, 500);
             if ($roll % 5) {

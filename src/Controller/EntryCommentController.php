@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
-use App\Repository\Criteria;
-use App\Repository\EntryCommentRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\EntryCommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\EntryCommentManager;
-use App\DTO\EntryCommentDto;
-use App\Entity\EntryComment;
 use App\Form\EntryCommentType;
+use App\DTO\EntryCommentDto;
+use App\Repository\Criteria;
+use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Entity\Entry;
 
@@ -74,7 +74,7 @@ class EntryCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commentManager->createComment($commentDto, $this->getUserOrThrow());
+            $this->commentManager->create($commentDto, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
                 'entry',
@@ -117,13 +117,13 @@ class EntryCommentController extends AbstractController
         Request $request,
         EntryCommentRepository $commentRepository
     ): Response {
-        $commentDto = $this->commentManager->createCommentDto($comment);
+        $commentDto = $this->commentManager->createDto($comment);
 
         $form = $this->createForm(EntryCommentType::class, $commentDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commentManager->editComment($comment, $commentDto);
+            $this->commentManager->edit($comment, $commentDto);
 
             return $this->redirectToRoute(
                 'entry',
@@ -163,7 +163,7 @@ class EntryCommentController extends AbstractController
     {
         $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
 
-        $this->commentManager->purgeComment($comment);
+        $this->commentManager->purge($comment);
 
         return $this->redirectToRoute(
             'entry',

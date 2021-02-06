@@ -72,7 +72,7 @@ class EntryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entry = $this->entryManager->createEntry($entryDto, $this->getUserOrThrow());
+            $entry = $this->entryManager->create($entryDto, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
                 'entry',
@@ -100,13 +100,13 @@ class EntryController extends AbstractController
      */
     public function edit(Magazine $magazine, Entry $entry, Request $request): Response
     {
-        $entryDto = $this->entryManager->createEntryDto($entry);
+        $entryDto = $this->entryManager->createDto($entry);
 
         $form = $this->createFormByType($entryDto, $entryDto->getType());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entry = $this->entryManager->editEntry($entry, $entryDto);
+            $entry = $this->entryManager->edit($entry, $entryDto);
 
             return $this->redirectToRoute(
                 'entry',
@@ -138,7 +138,7 @@ class EntryController extends AbstractController
     {
         $this->validateCsrf('entry_purge', $request->request->get('token'));
 
-        $this->entryManager->purgeEntry($entry);
+        $this->entryManager->purge($entry);
 
         return $this->redirectToRoute(
             'magazine',

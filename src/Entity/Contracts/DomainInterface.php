@@ -1,0 +1,8 @@
+<?php declare(strict_types=1);
+
+namespace App\Entity\Contracts;
+
+interface DomainInterface
+{
+    public function getUrl();
+}

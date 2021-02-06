@@ -1,7 +1,7 @@
 {% block vote %}
-    {%- set VOTE_UP = constant('App\\Entity\\Contracts\\Votable::VOTE_UP') -%}
-    {%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\Votable::VOTE_DOWN') -%}
-    {%- set VOTE_NONE = constant('App\\Entity\\Contracts\\Votable::VOTE_NONE') -%}
+    {%- set VOTE_UP = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_UP') -%}
+    {%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_DOWN') -%}
+    {%- set VOTE_NONE = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_NONE') -%}
     {%- set user_choice = is_granted('ROLE_USER') ? votable.userChoice(app.user) : null -%}
 
     <div class="kbin-{{ base_class }}-vote">

@@ -2,12 +2,10 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Entry;
-use App\Entity\EntryComment;
-use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Service\EntryCommentManager;
+use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
 
 class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterface
@@ -36,7 +34,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
                 $comment['body']
             );
 
-            $entity = $this->commentManager->createComment($dto, $comment['user']);
+            $entity = $this->commentManager->create($dto, $comment['user']);
 
             $manager->persist($entity);
 
@@ -63,7 +61,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             $this->faker->paragraphs($this->faker->numberBetween(1, 3), true)
         );
 
-        return $this->commentManager->createComment($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
+        return $this->commentManager->create($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
     }
 
     private function provideRandomComments($count = 1): iterable

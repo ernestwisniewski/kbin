@@ -4,7 +4,7 @@ namespace App\Entity\Traits;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use App\Entity\Contracts\Votable;
+use App\Entity\Contracts\VoteInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Vote;
 use App\Entity\User;
@@ -60,7 +60,7 @@ trait VotableTrait
     {
         $vote = $this->getUserVote($user);
 
-        return $vote ? $vote->getChoice() : Votable::VOTE_NONE;
+        return $vote ? $vote->getChoice() : VoteInterface::VOTE_NONE;
     }
 
     public function getUserVote(User $user): ?Vote

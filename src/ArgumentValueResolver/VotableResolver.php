@@ -2,12 +2,12 @@
 
 namespace App\ArgumentValueResolver;
 
-use App\Repository\EntryCommentRepository;
-use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\EntryCommentRepository;
+use App\Entity\Contracts\VoteInterface;
 use App\Repository\EntryRepository;
-use App\Entity\Contracts\Votable;
 use App\Entity\EntryComment;
 use App\Entity\Entry;
 
@@ -24,7 +24,7 @@ class VotableResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return $argument->getType() === Votable::class
+        return $argument->getType() === VoteInterface::class
             && !$argument->isVariadic()
             && $request->attributes->has('entityClass')
             && \in_array(

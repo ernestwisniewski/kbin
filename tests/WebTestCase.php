@@ -94,7 +94,7 @@ abstract class WebTestCase extends BaseWebTestCase
         $manager = self::$container->get(MagazineManager::class);
 
         $dto      = (new MagazineDto())->create($name, $title ?? 'Przykładowy magazyn');
-        $magazine = $manager->createMagazine($dto, $user ?? $this->getUserByUsername('regularUser'));
+        $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
 
         $this->magazines->add($magazine);
 
@@ -136,7 +136,7 @@ abstract class WebTestCase extends BaseWebTestCase
             $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $body);
         }
 
-        return $manager->createComment($dto, $user ?? $this->getUserByUsername('regularUser'));
+        return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
 
     private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
@@ -147,7 +147,7 @@ abstract class WebTestCase extends BaseWebTestCase
         $manager = self::$container->get(EntryManager::class);
 
         $dto   = (new EntryDto())->create($magazine, $title, $url, $body);
-        $entry = $manager->createEntry($dto, $user ?? $this->getUserByUsername('regularUser'));
+        $entry = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
 
         $this->entries->add($entry);
 

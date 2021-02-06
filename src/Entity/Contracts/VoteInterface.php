@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Entity\User;
 use App\Entity\Vote;
 
-interface Votable
+interface VoteInterface
 {
     const VOTE_UP = 1;
     const VOTE_NONE = 0;

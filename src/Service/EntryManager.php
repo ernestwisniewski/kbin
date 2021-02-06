@@ -2,10 +2,10 @@
 
 namespace App\Service;
 
-use App\Message\EntryCreatedMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Message\EntryCreatedMessage;
 use App\Repository\EntryRepository;
 use App\Event\EntryCreatedEvent;
 use App\Event\EntryUpdatedEvent;
@@ -14,7 +14,6 @@ use App\Factory\EntryFactory;
 use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
-use App\Utils\Embed;
 use App\Entity\User;
 
 class EntryManager
@@ -39,7 +38,7 @@ class EntryManager
         $this->entityManager   = $entityManager;
     }
 
-    public function createEntry(EntryDto $entryDto, User $user): Entry
+    public function create(EntryDto $entryDto, User $user): Entry
     {
         $entry    = $this->entryFactory->createFromDto($entryDto, $user);
         $magazine = $entry->getMagazine();
@@ -57,7 +56,7 @@ class EntryManager
         return $entry;
     }
 
-    public function editEntry(Entry $entry, EntryDto $entryDto): Entry
+    public function edit(Entry $entry, EntryDto $entryDto): Entry
     {
         Assert::same($entry->getMagazine()->getId(), $entryDto->getMagazine()->getId());
 
@@ -75,7 +74,7 @@ class EntryManager
         return $entry;
     }
 
-    public function purgeEntry(Entry $entry): void
+    public function purge(Entry $entry): void
     {
         $entry->getMagazine()->removeEntry($entry);
 
@@ -86,7 +85,7 @@ class EntryManager
         $this->entityManager->flush();
     }
 
-    public function createEntryDto(Entry $entry): EntryDto
+    public function createDto(Entry $entry): EntryDto
     {
         return $this->entryFactory->createDto($entry);
     }

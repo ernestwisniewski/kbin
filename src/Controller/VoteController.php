@@ -5,7 +5,7 @@ namespace App\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Entity\Contracts\Votable;
+use App\Entity\Contracts\VoteInterface;
 use App\Service\VoteManager;
 
 class VoteController extends AbstractController
@@ -20,7 +20,7 @@ class VoteController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function __invoke(Votable $votable, int $choice, Request $request): Response
+    public function __invoke(VoteInterface $votable, int $choice, Request $request): Response
     {
         $this->validateCsrf('vote', $request->request->get('token'));
 

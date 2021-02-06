@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UserRepository;
-use App\Repository\Criteria;
 use App\Entity\User;
 
 class UserController extends AbstractController

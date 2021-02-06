@@ -4,18 +4,19 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\DomainInterface;
+use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\CreatedAtTrait;
-use App\Entity\Contracts\Commentable;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryRepository;
-use App\Entity\Contracts\Votable;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry implements Votable, Commentable
+class Entry implements VoteInterface, CommentInterface, DomainInterface
 {
     use VotableTrait;
     use CreatedAtTrait {
@@ -49,6 +50,11 @@ class Entry implements Votable, Commentable
      * @ORM\JoinColumn(nullable=true)
      */
     private ?Image $image = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Domain::class, inversedBy="entries")
+     */
+    private Domain $domain;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -131,6 +137,18 @@ class Entry implements Votable, Commentable
     public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDomain(): ?Domain
+    {
+        return $this->domain;
+    }
+
+    public function setDomain(Domain $domain): self
+    {
+        $this->domain = $domain;
 
         return $this;
     }

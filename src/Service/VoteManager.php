@@ -2,14 +2,11 @@
 
 namespace App\Service;
 
-use App\Event\SubjectVotedEvent;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Contracts\Votable;
+use App\Entity\Contracts\VoteInterface;
 use App\Factory\VoteFactory;
 use App\Entity\Vote;
 use App\Entity\User;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class VoteManager
 {
@@ -22,7 +19,7 @@ class VoteManager
         $this->entityManager = $entityManager;
     }
 
-    public function vote(int $choice, Votable $votable, User $user): Vote
+    public function vote(int $choice, VoteInterface $votable, User $user): Vote
     {
         $vote = $votable->getUserVote($user);
 
@@ -30,7 +27,7 @@ class VoteManager
             $choice = $this->guessUserChoice($choice, $votable->getUserChoice($user));
             $vote->setChoice($choice);
 
-            if ($choice === Votable::VOTE_NONE) {
+            if ($choice === VoteInterface::VOTE_NONE) {
                 $votable->updateVoteCounts();
                 $this->entityManager->remove($vote);
             }
@@ -48,25 +45,25 @@ class VoteManager
 
     private function guessUserChoice(int $choice, int $vote): int
     {
-        if ($choice === Votable::VOTE_NONE) {
+        if ($choice === VoteInterface::VOTE_NONE) {
             return $choice;
         }
 
-        if ($vote === Votable::VOTE_UP) {
+        if ($vote === VoteInterface::VOTE_UP) {
             switch ($choice) {
-                case Votable::VOTE_UP:
-                    return Votable::VOTE_NONE;
-                case Votable::VOTE_DOWN:
-                    return Votable::VOTE_DOWN;
+                case VoteInterface::VOTE_UP:
+                    return VoteInterface::VOTE_NONE;
+                case VoteInterface::VOTE_DOWN:
+                    return VoteInterface::VOTE_DOWN;
             }
         }
 
-        if ($vote === Votable::VOTE_DOWN) {
+        if ($vote === VoteInterface::VOTE_DOWN) {
             switch ($choice) {
-                case Votable::VOTE_UP:
-                    return Votable::VOTE_UP;
-                case Votable::VOTE_DOWN:
-                    return Votable::VOTE_NONE;
+                case VoteInterface::VOTE_UP:
+                    return VoteInterface::VOTE_UP;
+                case VoteInterface::VOTE_DOWN:
+                    return VoteInterface::VOTE_NONE;
             }
         }
 

@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
-use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Mime\MimeTypesInterface;
-use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Mime\MimeTypesInterface;
+use League\Flysystem\FilesystemInterface;
 
 class ImageManager
 {

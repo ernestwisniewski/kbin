@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Pagerfanta\PagerfantaInterface;
 use App\Repository\EntryRepository;
 use App\Repository\Criteria;
 

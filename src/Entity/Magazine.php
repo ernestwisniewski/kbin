@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use App\Repository\MagazineRepository;
+use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace App\Entity\Contracts;
 
-interface Commentable
+interface CommentInterface
 {
 
 }

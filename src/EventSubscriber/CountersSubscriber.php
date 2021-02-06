@@ -2,15 +2,12 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Entry;
-use App\Event\EntryCommentPurgedEvent;
-use App\Event\EntryCommentCreatedEvent;
-use App\Event\EntryCommentUpdatedEvent;
-use App\Event\EntryCreatedEvent;
-use App\Event\EntryUpdatedEvent;
-use App\Repository\EntryRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Event\EntryCommentCreatedEvent;
+use App\Event\EntryCommentUpdatedEvent;
+use App\Event\EntryCommentPurgedEvent;
+use App\Repository\EntryRepository;
 
 class CountersSubscriber implements EventSubscriberInterface
 {
