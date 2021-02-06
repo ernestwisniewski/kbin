@@ -84,6 +84,16 @@
     .kbin-entry-list & {
       font-size: 1rem;
     }
+
+    &-domain {
+      font-size: .7rem;
+      position: relative;
+      bottom: .1rem;
+
+      .kbin-entry-single & {
+        bottom: .2rem;
+      }
+    }
   }
 
   &-meta {

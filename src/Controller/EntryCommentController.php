@@ -90,6 +90,9 @@ class EntryCommentController extends AbstractController
 
         $comments = $commentRepository->findByCriteria($criteria);
 
+        $commentRepository->hydrate(...$comments);
+        $commentRepository->hydrateChildren(...$comments);
+
         return $this->render(
             'entry/comment/create.html.twig',
             [
@@ -138,6 +141,9 @@ class EntryCommentController extends AbstractController
             ->setEntry($entry);
 
         $comments = $commentRepository->findByCriteria($criteria);
+
+        $commentRepository->hydrate(...$comments);
+        $commentRepository->hydrateChildren(...$comments);
 
         return $this->render(
             'entry/comment/edit.html.twig',

@@ -4,10 +4,14 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Contracts\DomainInterface;
 use App\Repository\DomainRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="domain_name_idx", columns={"name"}),
+ * })
  * @ORM\Entity(repositoryClass=DomainRepository::class)
  */
 class Domain
@@ -34,7 +38,7 @@ class Domain
      */
     private int $entryCount = 0;
 
-    public function __construct(Entry $entry, string $name)
+    public function __construct(DomainInterface $entry, string $name)
     {
         $this->name    = $name;
         $this->entries = new ArrayCollection();
@@ -47,34 +51,38 @@ class Domain
         return $this->id;
     }
 
-    /**
-     * @return Collection|Entry[]
-     */
     public function getEntries(): Collection
     {
         return $this->entries;
     }
 
-    public function addEntry(Entry $entry): self
+    public function addEntry(DomainInterface $subject): self
     {
-        if (!$this->entries->contains($entry)) {
-            $this->entries[] = $entry;
-            $entry->setDomain($this);
+        if (!$this->entries->contains($subject)) {
+            $this->entries[] = $subject;
+            $subject->setDomain($this);
         }
+
+        $this->updateCounts();
 
         return $this;
     }
 
-    public function removeEntry(Entry $entry): self
+    public function removeEntry(DomainInterface $subject): self
     {
-        if ($this->entries->removeElement($entry)) {
-            // set the owning side to null (unless already changed)
-            if ($entry->getDomain() === $this) {
-                $entry->setDomain(null);
+        if ($this->entries->removeElement($subject)) {
+            if ($subject->getDomain() === $this) {
+                $subject->setDomain(null);
             }
         }
 
+        $this->updateCounts();
+
         return $this;
+    }
+
+    public function updateCounts() {
+        $this->entryCount = $this->entries->count();
     }
 
     public function getName(): ?string
