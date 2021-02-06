@@ -26,7 +26,6 @@ class MagazineType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => MagazineDto::class,
-                'timed_spam' => true,
             ]
         );
     }

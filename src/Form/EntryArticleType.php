@@ -34,7 +34,6 @@ class EntryArticleType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => EntryDto::class,
-                'timed_spam' => true,
             ]
         );
     }
