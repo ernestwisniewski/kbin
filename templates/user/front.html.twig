@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="font-weight-bold">{{ user.username }}</h1>
-    <p class="lead mb-4">u/{{ user.username }}</p>
-
+    {% include 'user/_filters.html.twig' %}
     {% include 'entry/_list.html.twig' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' %}
+
+    {{ parent() }}
 {% endblock %}

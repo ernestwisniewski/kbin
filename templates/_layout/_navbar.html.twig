@@ -10,22 +10,6 @@
             </button>
             <div class="collapse navbar-collapse" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
-                    {% set isMagazinePage = false %}
-                    {% set isSubPage = false %}
-                    {% set isCommentsPage = false %}
-                    {% if 'subscribed' in app.request.get('_route') %}
-                        {% set isSubPage = true %}
-                    {% endif %}
-                    {% if 'comments' in app.request.get('_route') %}
-                        {% set isCommentsPage = true %}
-                    {% endif %}
-                    {% if magazine is defined %}
-                        {% set isMagazinePage = true %}
-                        <li class="text-muted me-3 pt-2">
-                            m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
-                                                                href="{{ path('magazine', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
-                        </li>
-                    {% endif %}
                     {{ navbar_link('Ważne', {
                         sortBy: 'wazne',
                     }) }}

@@ -70,7 +70,14 @@ class EntryCommentRepository extends ServiceEntityRepository
             $qb->setParameter('magazine', $criteria->getMagazine());
         }
 
-        $qb->andWhere('c.parent IS NULL');
+        if ($criteria->getUser()) {
+            $qb->andWhere('c.user = :user')
+                ->setParameter('user', $criteria->getUser());
+        }
+
+        if($criteria->isOnlyParent()) {
+            $qb->andWhere('c.parent IS NULL');
+        }
 
         switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:

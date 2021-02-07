@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}test{% endblock %}
+
+{% block body %}
+    <div class="kbin-comment-wrapper">
+        {% include 'user/_filters.html.twig' %}
+        {% include 'entry/comment/_list.html.twig' with {'nested': false} %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' %}
+
+    {{ parent() }}
+{% endblock %}

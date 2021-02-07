@@ -108,7 +108,7 @@ final class PageContextExtension extends AbstractExtension
         }
 
         if ($this->isSubPage()) {
-            $routeName = 'subscribed';
+            $routeName = 'front_subscribed';
         }
 
         return $this->urlGenerator->generate(
@@ -125,12 +125,12 @@ final class PageContextExtension extends AbstractExtension
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
 
-            $routeName           = 'magazine_comments';
+            $routeName           = 'entry_comments_magazine';
             $routeParams['name'] = $magazine->getName();
         }
 
         if ($this->isSubPage()) {
-            $routeName = 'subscribed_comments';
+            $routeName = 'entry_comments_subscribed';
         }
 
         return $this->urlGenerator->generate(

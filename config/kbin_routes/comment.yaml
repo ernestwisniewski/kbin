@@ -27,14 +27,14 @@ entry_comments:
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
-subscribed_comments:
+entry_comments_subscribed:
   controller: App\Controller\EntryCommentController::front
   defaults: { sortBy: ~ }
   path: /sub/komentarze/{sortBy}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
-magazine_comments:
+entry_comments_magazine:
   controller: App\Controller\EntryCommentController::front
   defaults: { sortBy: ~ }
   path: /m/{name}/komentarze/{sortBy}

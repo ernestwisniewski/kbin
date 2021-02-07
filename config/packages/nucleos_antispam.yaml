@@ -3,4 +3,4 @@ nucleos_antispam:
     min: 3
     global: true
   honeypot:
-    global: true
+    global: false

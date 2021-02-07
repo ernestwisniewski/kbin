@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item font-weight-bold">
+        <a class="nav-link {{ (app.request.get('_route') is same as 'user') ? 'active' : '' }}" aria-current="page"
+           href="{{ path('user', {username: user.username}) }}">Przegląd</a>
+    </li>
+    <li class="nav-item font-weight-bold">
+        <a class="nav-link {{ (app.request.get('_route') is same as 'user_entries') ? 'active' : '' }}"
+           href="{{ path('user_entries', {username: user.username}) }}">Treści</a>
+    </li>
+    <li class="nav-item font-weight-bold">
+        <a class="nav-link {{ (app.request.get('_route') is same as 'user_entry_comments') ? 'active' : '' }}"
+           href="{{ path('user_entry_comments', {username: user.username}) }}">Komentarze</a>
+    </li>
+    <li class="nav-item font-weight-bold">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Wpisy</a>
+    </li>
+</ul>

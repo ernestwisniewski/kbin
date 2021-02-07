@@ -54,7 +54,7 @@ class Criteria
     private ?Entry $entry = null;
     private ?User $user = null;
     private string $sortOption = EntryRepository::SORT_DEFAULT;
-
+    private bool $onlyParent = true;
 
     public function __construct(int $page)
     {
@@ -114,6 +114,17 @@ class Criteria
         return $this;
     }
 
+    public function isOnlyParent(): bool
+    {
+        return $this->onlyParent;
+    }
+
+    public function setOnlyParent(bool $onlyParent): self
+    {
+        $this->onlyParent = $onlyParent;
+
+        return $this;
+    }
 
     public function translate(string $value): string
     {

@@ -5,7 +5,7 @@
             <a href="/">Strona główna</a>
         </li>
         <li class="kbin-featured-magazines-list-item {{ is_sub_page() ? 'kbin-featured-magazines-list-item--active' : '' }}">
-            <a href="{{ path('subscribed') }}">Subskrybcje</a>
+            <a href="{{ path('front_subscribed') }}">Subskrybcje</a>
         </li>
         <li class="kbin-featured-magazines-list-item {{ routeName is same as 'magazine_list_all' ? 'kbin-featured-magazines-list-item--active' : '' }}">
             <a href="{{ path('magazine_list_all') }}">Magazyny</a>
