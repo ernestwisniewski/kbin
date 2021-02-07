@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Pagerfanta\PagerfantaInterface;
 use App\Repository\EntryRepository;
+use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 
 class FrontController extends AbstractController
@@ -19,10 +20,10 @@ class FrontController extends AbstractController
 
     public function front(?string $sortBy, Request $request): Response
     {
-        $criteria = new Criteria((int) $request->get('strona', 1));
+        $criteria = new EntryPageView((int) $request->get('strona', 1));
 
         if ($sortBy) {
-            $method = $criteria->translate($sortBy);
+            $method  = $criteria->translate($sortBy);
             $listing = $this->$method($criteria);
         } else {
             $listing = $this->new($criteria);
@@ -38,10 +39,10 @@ class FrontController extends AbstractController
 
     public function subscribed(?string $sortBy, Request $request): Response
     {
-        $criteria = new Criteria((int) $request->get('strona', 1));
+        $criteria = new EntryPageView((int) $request->get('strona', 1));
 
         if ($sortBy) {
-            $method = $criteria->translate($sortBy);
+            $method  = $criteria->translate($sortBy);
             $listing = $this->$method($criteria);
         } else {
             $listing = $this->new($criteria);
@@ -55,23 +56,23 @@ class FrontController extends AbstractController
         );
     }
 
-    private function hot(Criteria $criteria): PagerfantaInterface
+    private function hot(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_HOT));
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
     }
 
-    private function new(Criteria $criteria): PagerfantaInterface
+    private function new(EntryPageView $criteria): PagerfantaInterface
     {
         return $this->entryRepository->findByCriteria($criteria);
     }
 
-    private function top(Criteria $criteria): PagerfantaInterface
+    private function top(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_HOT));
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
     }
 
-    private function commented(Criteria $criteria)
+    private function commented(EntryPageView $criteria)
     {
-        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_COMMENTED));
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
     }
 }

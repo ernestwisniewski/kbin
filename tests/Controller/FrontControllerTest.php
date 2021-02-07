@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Repository\Criteria;
 use App\Tests\WebTestCase;
 
 class FrontControllerTest extends WebTestCase

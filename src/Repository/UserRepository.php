@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -48,8 +49,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findPublicActivity(int $page, User $user): PagerfantaInterface
     {
-        $criteria = (new Criteria($page))
-            ->setUser($user);
+        $criteria = (new EntryPageView($page))
+            ->showUser($user);
 
         $pagerfanta = $this->entryRepository->findByCriteria($criteria);
 

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\PageView\EntryCommentPageView;
+use App\PageView\EntryPageView;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +26,7 @@ class EntryController extends AbstractController
 
     public function __construct(EntryManager $entryManager, EntityManagerInterface $entityManager)
     {
-        $this->entryManager = $entryManager;
+        $this->entryManager  = $entryManager;
         $this->entityManager = $entityManager;
     }
 
@@ -34,11 +36,11 @@ class EntryController extends AbstractController
      */
     public function front(Magazine $magazine, Entry $entry, ?string $sortBy, EntryCommentRepository $commentRepository, Request $request): Response
     {
-        $criteria = (new Criteria((int) $request->get('strona', 1)))
-            ->setEntry($entry);
+        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))
+            ->showEntry($entry);
 
         if ($sortBy) {
-            $criteria->setSortOption($sortBy);
+            $criteria->showSortOption($sortBy);
         }
 
         $comments = $commentRepository->findByCriteria($criteria);

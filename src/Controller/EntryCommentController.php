@@ -8,10 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EntryCommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\PageView\EntryCommentPageView;
 use App\Service\EntryCommentManager;
 use App\Form\EntryCommentType;
 use App\DTO\EntryCommentDto;
-use App\Repository\Criteria;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Entity\Entry;
@@ -32,14 +32,14 @@ class EntryCommentController extends AbstractController
     public function front(?Magazine $magazine, ?string $sortBy, Request $request): Response
     {
         $params   = [];
-        $criteria = (new Criteria((int) $request->get('strona', 1)));
+        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)));
 
         if ($magazine) {
             $params['magazine'] = $magazine;
-            $criteria->setMagazine($magazine);
+            $criteria->showMagazine($magazine);
         }
 
-        $criteria->setSortOption($sortBy);
+        $criteria->showSortOption($sortBy);
 
         $params['comments'] = $this->commentRepository->findByCriteria($criteria);
 
@@ -85,8 +85,8 @@ class EntryCommentController extends AbstractController
             );
         }
 
-        $criteria = (new Criteria((int) $request->get('strona', 1)))
-            ->setEntry($entry);
+        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))
+            ->showEntry($entry);
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -137,8 +137,8 @@ class EntryCommentController extends AbstractController
             );
         }
 
-        $criteria = (new Criteria((int) $request->get('strona', 1)))
-            ->setEntry($entry);
+        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))
+            ->showEntry($entry);
 
         $comments = $commentRepository->findByCriteria($criteria);
 

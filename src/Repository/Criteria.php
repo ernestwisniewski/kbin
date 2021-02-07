@@ -6,9 +6,9 @@ use App\Entity\Magazine;
 use App\Entity\Entry;
 use App\Entity\User;
 
-class Criteria
+abstract class Criteria
 {
-    const ENTRY_TYPE_ARTICLE = 'artykul';
+    const ENTRY_TYPE_ARTICLE = 'article';
     const ENTRY_TYPE_LINK = 'link';
 
     public const FRONT_FEATURED = 'featured';
@@ -33,14 +33,6 @@ class Criteria
         self::FRONT_MODERATED,
     ];
 
-    public const SORT_OPTIONS = [
-        self::SORT_ACTIVE,
-        self::SORT_HOT,
-        self::SORT_NEW,
-        self::SORT_TOP,
-        self::SORT_COMMENTED,
-    ];
-
     public const TIME_OPTIONS = [
         self::TIME_DAY,
         self::TIME_WEEK,
@@ -51,10 +43,8 @@ class Criteria
 
     private int $page = 1;
     private ?Magazine $magazine = null;
-    private ?Entry $entry = null;
     private ?User $user = null;
     private string $sortOption = EntryRepository::SORT_DEFAULT;
-    private bool $onlyParent = true;
 
     public function __construct(int $page)
     {
@@ -71,21 +61,9 @@ class Criteria
         return $this->magazine;
     }
 
-    public function setMagazine(Magazine $magazine): self
+    public function showMagazine(Magazine $magazine): self
     {
         $this->magazine = $magazine;
-
-        return $this;
-    }
-
-    public function getEntry(): ?Entry
-    {
-        return $this->entry;
-    }
-
-    public function setEntry(Entry $entry): self
-    {
-        $this->entry = $entry;
 
         return $this;
     }
@@ -95,7 +73,8 @@ class Criteria
         return $this->user;
     }
 
-    public function setUser(User $user): self
+
+    public function showUser(User $user): self
     {
         $this->user = $user;
 
@@ -107,21 +86,9 @@ class Criteria
         return $this->sortOption;
     }
 
-    public function setSortOption(string $sortOption): self
+    public function showSortOption(string $sortOption): self
     {
         $this->sortOption = $this->translate($sortOption);
-
-        return $this;
-    }
-
-    public function isOnlyParent(): bool
-    {
-        return $this->onlyParent;
-    }
-
-    public function setOnlyParent(bool $onlyParent): self
-    {
-        $this->onlyParent = $onlyParent;
 
         return $this;
     }
@@ -142,4 +109,5 @@ class Criteria
 
         return $routes[$value];
     }
+
 }

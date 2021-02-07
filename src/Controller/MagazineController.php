@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\PageView\EntryPageView;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class MagazineController extends AbstractController
 
     public function front(Magazine $magazine, ?string $sortBy, Request $request): Response
     {
-        $criteria = (new Criteria((int) $request->get('strona', 1)))->setMagazine($magazine);
+        $criteria = (new EntryPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
 
         if ($sortBy) {
             $method = $criteria->translate($sortBy);
@@ -145,7 +146,7 @@ class MagazineController extends AbstractController
 
     private function hot(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_HOT));
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
     }
 
     private function new(Criteria $criteria): PagerfantaInterface
@@ -155,11 +156,11 @@ class MagazineController extends AbstractController
 
     private function top(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_HOT));
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
     }
 
     private function commented(Criteria $criteria)
     {
-        return $this->entryRepository->findByCriteria($criteria->setSortOption(Criteria::SORT_COMMENTED));
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
     }
 }
