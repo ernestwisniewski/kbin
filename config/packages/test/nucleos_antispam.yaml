@@ -1,0 +1,6 @@
+nucleos_antispam:
+  time:
+    min: 0
+    global: false
+  honeypot:
+    global: true

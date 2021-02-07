@@ -18,4 +18,5 @@ return [
     BabDev\PagerfantaBundle\BabDevPagerfantaBundle::class => ['all' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     Oneup\FlysystemBundle\OneupFlysystemBundle::class => ['all' => true],
+    Nucleos\AntiSpamBundle\NucleosAntiSpamBundle::class => ['all' => true],
 ];

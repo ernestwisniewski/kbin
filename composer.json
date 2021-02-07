@@ -16,6 +16,7 @@
         "knplabs/knp-time-bundle": "^1.15",
         "laminas/laminas-diactoros": "^2.5",
         "liip/imagine-bundle": "^2.4",
+        "nucleos/antispam-bundle": "^2.1",
         "oneup/flysystem-bundle": "^3.7",
         "pagerfanta/pagerfanta": "^2.5",
         "sensio/framework-extra-bundle": "^5.6",
