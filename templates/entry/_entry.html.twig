@@ -6,7 +6,6 @@
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote'}) }}
 
             {% if (entry.image) %}
-
                 <div class="kbin-entry-image">
                     <img class="lazy" src="{{ asset(entry.image.getFilePath()) | imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
                 </div>
@@ -16,37 +15,43 @@
                 {% include 'entry/_entry_title.html.twig' %}
                 <aside class="kbin-entry-meta">
                     <ul class="kbin-entry-meta-list list-inline mb-0">
-                        <li class="kbin-entry-meta-list-item list-inline-item">
+                        <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
                             <small class="text-muted">dodany
                                 <time>{{ entry.createdAt|ago }}</time>
                             </small>
                         </li>
-                        <li class="kbin-entry-meta-list-item list-inline-item">
-                            <small class="text-muted">przez <a
-                                        href="{{ path('user', {username: entry.user.username}) }}">{{ entry.user.username }}</a></small>
-                        </li>
+
+                        {% if not is_user_page() %}
+                            <li class="kbin-entry-meta-user kbin-entry-meta-list-item list-inline-item">
+                                <small class="text-muted">przez <a
+                                            href="{{ path('user', {username: entry.user.username}) }}">{{ entry.user.username }}</a></small>
+                            </li>
+                        {% endif %}
+
                         {% if not is_magazine_page() %}
-                        <li class="kbin-entry-meta-list-item list-inline-item">
-                            <small class="text-muted">
-                                do <a href="{{ path('magazine', {'name': entry.magazine.name}) }}">m/{{ entry.magazine.name }}</a>
-                            </small>
-                        </li>
+                            <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
+                                <small class="text-muted">
+                                    do <a href="{{ path('magazine', {'name': entry.magazine.name}) }}">m/{{ entry.magazine.name }}</a>
+                                </small>
+                            </li>
                         {% endif %}
                     </ul>
                     <ul class="kbin-entry-meta-list  list-inline mb-0">
-                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                        <li class="kbin-entry-meta-entry kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                             <small class="text-muted">
                                 <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
                                     {{ entry.commentCount }} komentarzy
                                 </a>
                             </small>
                         </li>
-                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+
+                        <li class="kbin-entry-meta-report kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                             <small class="text-muted"><a href="#">zgłoś</a></small>
                         </li>
+
                         {% if is_granted('edit', entry) %}
                             <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <small class="text-muted">
+                                <small class="kbin-entry-meta-edit text-muted">
                                     <a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">edytuj</a>
                                 </small>
                             </li>

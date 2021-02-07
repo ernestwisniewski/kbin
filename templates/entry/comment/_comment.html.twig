@@ -13,26 +13,37 @@
 
             <aside class="kbin-comment-meta">
                 <ul class="kbin-comment-meta-list list-inline m-0">
-                    <li class="kbin-comment-meta-list-item list-inline-item">
+                    <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
                         <small class="text-muted">dodany
                             <time>{{ comment.createdAt|ago }}</time>
                         </small>
                     </li>
-                    <li class="kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">przez
-                            <a class="font-weight-bold" href="{{ path('user', {username: comment.user.username}) }}">
-                                {{ comment.user.username }}
-                            </a>
-                        </small>
-                    </li>
+
+                    {% if not is_user_page() %}
+                        <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
+                            <small class="text-muted">przez
+                                <a class="font-weight-bold" href="{{ path('user', {username: comment.user.username}) }}">
+                                    {{ comment.user.username }}
+                                </a>
+                            </small>
+                        </li>
+                    {% endif %}
+
                     {% if level is same as 1 %}
                         {% if is_comments_page() and not is_magazine_page() %}
-                            <small class="text-muted">do <a class="font-weight-bold"
-                                                           href="{{ path('magazine', {'name': comment.entry.magazine.name}) }}">m/{{ comment.entry.magazine.name }}</a></small>
+                            <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
+
+                                <small class="text-muted">do <a class="font-weight-bold"
+                                                                href="{{ path('magazine', {'name': comment.entry.magazine.name}) }}">m/{{ comment.entry.magazine.name }}</a></small>
+                            </li>
                         {% endif %}
-                        {% if is_comments_page() %}
-                            <small class="text-muted">w <a class="font-weight-bold"
-                                                           href="{{ path('entry', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.title }}</a></small>
+
+                        {% if is_comments_page() or is_user_page() %}
+                            <li class="kbin-comment-meta-entry kbin-comment-meta-list-item list-inline-item">
+
+                                <small class="text-muted">w <a class="font-weight-bold"
+                                                               href="{{ path('entry', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.title|slice(0, 60) ~ '...' }}</a></small>
+                            </li>
                         {% endif %}
                     {% endif %}
                 </ul>
@@ -49,14 +60,17 @@
                                 <a href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">odpowiedz</a>
                             </small>
                         </li>
+
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted">
                                 <a href="#">link</a>
                             </small>
                         </li>
+
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted"><a href="#">zgłoś</a></small>
                         </li>
+
                         {% if is_granted('edit', comment) %}
                             <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                                 <small class="text-muted">

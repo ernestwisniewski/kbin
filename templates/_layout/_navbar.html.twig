@@ -10,6 +10,12 @@
             </button>
             <div class="collapse navbar-collapse" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if is_magazine_page() %}
+                        <li class="text-muted me-3 pt-2">
+                            m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
+                                                                href="{{ path('magazine', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
+                        </li>
+                    {% endif %}
                     {{ navbar_link('Ważne', {
                         sortBy: 'wazne',
                     }) }}
@@ -23,7 +29,7 @@
                         sortBy: 'komentowane',
                     }) }}
 
-                    <li class="kbin-nav-navbar-item {{ is_comments_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                    <li class="kbin-nav-navbar-item {{ is_comments_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
                         <a href="{{ get_active_comments_page_path() }}">Komentarze</a>
                     </li>
                     <li class="kbin-nav-navbar-item">

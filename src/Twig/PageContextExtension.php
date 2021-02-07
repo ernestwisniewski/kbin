@@ -31,6 +31,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_sub_page', [$this, 'isSubPage']),
             new TwigFunction('is_magazine_page', [$this, 'isMagazinePage']),
             new TwigFunction('is_entry_page', [$this, 'isEntryPage']),
+            new TwigFunction('is_user_page', [$this, 'isUserPage']),
             new TwigFunction('is_current_magazine_page', [$this, 'isCurrentMagazinePage']),
             new TwigFunction('is_active_sort_option', [$this, 'isActiveSortOption']),
             new TwigFunction('get_active_sort_option_path', [$this, 'getActiveSortOptionPath']),
@@ -38,6 +39,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('get_active_comments_page_path', [$this, 'getActiveCommentsPagePath']),
             new TwigFunction('is_active_comment_filter', [$this, 'isActiveCommentFilter']),
             new TwigFunction('get_active_comment_filter_path', [$this, 'getActiveCommentFilterPath']),
+            new TwigFunction('is_active_route', [$this, 'isActiveRoute']),
         ];
     }
 
@@ -62,25 +64,22 @@ final class PageContextExtension extends AbstractExtension
 
     public function isMagazinePage(): bool
     {
-        if (!$this->getCurrentRequest()->get('magazine')) {
-            return false;
-        }
-
-        return true;
+        return (bool) $this->getCurrentRequest()->get('magazine');
     }
 
     public function isEntryPage(): bool
     {
-        if (!$this->getCurrentRequest()->get('entry')) {
-            return false;
-        }
-
-        return true;
+        return (bool) $this->getCurrentRequest()->get('entry');
     }
 
     public function isCommentsPage(): bool
     {
         return str_contains($this->getCurrentRouteName(), 'comments');
+    }
+
+    public function isUserPage(): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), 'user');
     }
 
     public function isActiveSortOption($sortOption): bool
@@ -90,6 +89,10 @@ final class PageContextExtension extends AbstractExtension
         }
 
         if ($this->isEntryPage()) {
+            return false;
+        }
+
+        if ($this->isUserPage()) {
             return false;
         }
 
@@ -158,6 +161,11 @@ final class PageContextExtension extends AbstractExtension
         }
 
         return $this->urlGenerator->generate($routeName, $routeParams);
+    }
+
+    public function isActiveRoute(string $routeName): bool
+    {
+        return $routeName === $this->getCurrentRouteName();
     }
 
     public function isActiveCommentFilter(string $sortOption): bool
