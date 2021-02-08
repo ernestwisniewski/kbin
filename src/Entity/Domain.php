@@ -108,4 +108,9 @@ class Domain
 
         return $this;
     }
+
+    public function __sleep()
+    {
+        return [];
+    }
 }
