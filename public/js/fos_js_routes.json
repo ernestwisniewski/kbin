@@ -1,0 +1,1 @@
+{"base_url":"","routes":{"ajax_fetch_title":{"tokens":[["text","\/ajax\/fetch_title"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["POST"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]}

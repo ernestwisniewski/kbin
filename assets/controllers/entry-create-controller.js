@@ -2,6 +2,7 @@ import {Controller} from 'stimulus';
 import KChoices from "./utils/choices";
 import debounce from "./utils/debounce";
 import {fetch, ok} from './utils/http';
+import router from './utils/routing';
 
 export default class extends Controller {
     static targets = ['sendButton', 'url', 'title'];
@@ -19,11 +20,16 @@ export default class extends Controller {
             return;
         }
 
+        if(!this.urlTarget.value) {
+            return;
+        }
+
         this.loadingValue = true;
 
         try {
-            let url = Routing.generate('ajax_fetch_title');
+            let url = router().generate('ajax_fetch_title');
             let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': this.urlTarget.value})});
+
             response = await ok(response);
             response = await response.json();
 
