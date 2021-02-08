@@ -22,7 +22,8 @@ export default class extends Controller {
         this.loadingValue = true;
 
         try {
-            let response = await fetch('/ajax/fetch_title', {method: 'POST', body: JSON.stringify({'url': this.urlTarget.value})});
+            let url = Routing.generate('ajax_fetch_title');
+            let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': this.urlTarget.value})});
             response = await ok(response);
             response = await response.json();
 

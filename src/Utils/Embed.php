@@ -69,7 +69,7 @@ class Embed
         ];
 
         if (count(array_unique($types)) === 1) {
-            echo 'stop';
+            return null;
         }
 
         return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
