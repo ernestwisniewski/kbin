@@ -12,18 +12,18 @@
 <div class="kbin-add d-grid gap-2 mb-4" data-controller="sidebar-menu"
      data-sidebar-menu-hide-class="visually-hidden">
     <button type="button"
-            class="btn btn-primary btn-lg mb-1 kbin-add-btn visually-hidden"
+            class="btn btn-primary btn-lg mb-1 kbin-add-btn {{ kbin_js_enabled ? '' : 'visually-hidden' }}"
             data-sidebar-menu-target="showButton"
-            data-action="click->sidebar-menu#toggle">
+            data-action="sidebar-menu#toggle">
         Dodaj nowy
     </button>
-
-    <button type="button" class="btn-close" aria-label="Close"
+    <button type="button" class="btn-close visually-hidden"
+            aria-label="Close"
             data-sidebar-menu-target="closeButton"
-            data-action="click->sidebar-menu#toggle"></button>
+            data-action="sidebar-menu#toggle"></button>
 
 
-    <div class="kbin-quick-links list-group"
+    <div class="kbin-quick-links list-group {{ kbin_js_enabled ? 'visually-hidden' : '' }}"
          data-sidebar-menu-target="content">
         <a href="{{ path('entry_create', { type: 'link' }) }}" class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy link</h4>

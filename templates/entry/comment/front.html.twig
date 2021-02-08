@@ -11,4 +11,8 @@
 
 {% block sidebar %}
     {{ parent() }}
+
+    {% if is_magazine_page() %}
+        {% include 'magazine/_sidebar.html.twig' %}
+    {% endif %}
 {% endblock %}

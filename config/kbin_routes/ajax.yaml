@@ -1,0 +1,5 @@
+ajax_fetch_title:
+  controller: App\Controller\AjaxController::fetchTitle
+  defaults: { _format: json }
+  path: /ajax/fetch_title
+  methods: [POST]

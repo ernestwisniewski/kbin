@@ -14,7 +14,7 @@ class MagazineDto
     /**
      * @Assert\NotBlank()
      */
-    private string $name;
+    private ?string $name = null;
     /**
      * @Assert\NotBlank()
      */
@@ -38,7 +38,7 @@ class MagazineDto
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

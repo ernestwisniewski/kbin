@@ -64,11 +64,19 @@ final class PageContextExtension extends AbstractExtension
 
     public function isMagazinePage(): bool
     {
+        if (in_array($this->getCurrentRouteName(), ['magazine_create', 'magazine_purge'])) {
+            return false;
+        }
+
         return (bool) $this->getCurrentRequest()->get('magazine');
     }
 
     public function isEntryPage(): bool
     {
+        if (in_array($this->getCurrentRouteName(), ['entry_create', 'entry_purge'])) {
+            return false;
+        }
+
         return (bool) $this->getCurrentRequest()->get('entry');
     }
 

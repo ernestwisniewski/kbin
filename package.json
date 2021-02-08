@@ -23,6 +23,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",
         "@popperjs/core": "^2.6.0",
+        "choices.js": "^9.0.1",
         "vue": "^2.6.12"
     }
 }

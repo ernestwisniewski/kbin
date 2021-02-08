@@ -55,8 +55,8 @@ class EntryEmbedHandler implements MessageHandlerInterface
 
         $this->entityManager->transactional(
             static function () use ($entry, $image, $html): void {
-                $entry->setImage($image);
                 $entry->setEmbed($html);
+                $entry->setImage($image);
             }
         );
     }

@@ -4,6 +4,7 @@ $primary: #556880;
 
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "~choices.js/src/styles/choices.scss";
 @import "variables";
 @import "components/featured-magazines";
 @import "components/navbar";
@@ -57,4 +58,9 @@ $primary: #556880;
 
 .font-weight-light {
   font-weight: 200;
+}
+
+.choices__inner {
+  background: initial;
+  font-size: initial;
 }

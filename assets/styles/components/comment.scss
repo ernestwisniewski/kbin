@@ -129,6 +129,8 @@ $comment-margin-sm: .5rem;
       }
 
       &-list {
+        display: flow-root;
+
         &-item {
           margin-right: 0 !important;
 

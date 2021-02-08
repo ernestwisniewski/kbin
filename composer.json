@@ -13,6 +13,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "embed/embed": "dev-master",
+        "friendsofsymfony/jsrouting-bundle": "^2.7",
         "knplabs/knp-time-bundle": "^1.15",
         "laminas/laminas-diactoros": "^2.5",
         "liip/imagine-bundle": "^2.4",

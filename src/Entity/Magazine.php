@@ -71,6 +71,11 @@ class Magazine
      */
     private int $commentCount = 0;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="magazine", orphanRemoval=true)
+     */
+    private Collection $subscriptions;
+
     public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules)
     {
         $this->name        = $name;
@@ -79,6 +84,7 @@ class Magazine
         $this->rules       = $rules;
         $this->moderators  = new ArrayCollection();
         $this->entries     = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true));
 
@@ -248,6 +254,36 @@ class Magazine
     public function setRules(?string $rules): self
     {
         $this->rules = $rules;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MagazineSubscription[]
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    public function addSubscription(MagazineSubscription $subscription): self
+    {
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions[] = $subscription;
+            $subscription->setMagazine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscription(MagazineSubscription $subscription): self
+    {
+        if ($this->subscriptions->removeElement($subscription)) {
+            // set the owning side to null (unless already changed)
+            if ($subscription->getMagazine() === $this) {
+                $subscription->setMagazine(null);
+            }
+        }
 
         return $this;
     }

@@ -3,19 +3,19 @@
     <div class="kbin-magazine-create-form">
         <div class="input-group-lg mb-3">
             {{ form_label(form.url) }}
-            {{ form_widget(form.url) }}
+            {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle', 'data-entry-create-target': 'url' }}) }}
         </div>
         <div class="input-group-lg mb-3">
             {{ form_label(form.title) }}
-            {{ form_widget(form.title) }}
+            {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
         </div>
         <div class="input-group-lg mb-3">
             {{ form_label(form.magazine) }}
-            {{ form_widget(form.magazine) }}
+            {{ form_widget(form.magazine, {'attr': {'class': 'choices'}}) }}
         </div>
 
         <div class="mb-12 text-end">
-            {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+            {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
         </div>
     </div>
 </div>

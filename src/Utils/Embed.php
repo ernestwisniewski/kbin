@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Utils;
 
@@ -16,29 +16,29 @@ class Embed
     {
         $cache = new FilesystemAdapter();
 
-        return $cache->get(
-            'embed_'.md5($url),
-            function (ItemInterface $item) use ($url) {
-                $item->expiresAfter(3600);
+//        return $cache->get(
+//            'embed_'.md5($url),
+//            function (ItemInterface $item) use ($url) {
+//                $item->expiresAfter(3600);
 
-                try {
-                    $embed  = (new BaseEmbed())->get($url);
-                    $oembed = $embed->getOEmbed();
-                } catch (\Exception $e) {
-                    return $this;
-                }
+        try {
+            $embed  = (new BaseEmbed())->get($url);
+            $oembed = $embed->getOEmbed();
+        } catch (\Exception $e) {
+            return $this;
+        }
 
-                $this->title = $embed->title;
-                $this->image = (string) $embed->image;
-                $this->html  = $this->cleanIframe($oembed->html('html'));
+        $this->title = $embed->title;
+        $this->image = (string) $embed->image;
+        $this->html  = $this->cleanIframe($oembed->html('html'));
 
-                if (!$this->html && $embed->code) {
-                    $this->html = $this->cleanIframe($embed->code->html);
-                }
+        if (!$this->html && $embed->code) {
+            $this->html = $this->cleanIframe($embed->code->html);
+        }
 
-                return $this;
-            }
-        );
+        return $this;
+//            }
+//        );
     }
 
     public function getTitle(): ?string
@@ -62,7 +62,15 @@ class Embed
             return null;
         }
 
-        $html = preg_replace('/(width)(=)"([\d]+)"/', '${1}${2}"100%"', $html);
+        $types = [
+            str_starts_with('<iframe', $html),
+            str_starts_with('<video', $html),
+            str_starts_with('<img', $html),
+        ];
+
+        if (count(array_unique($types)) === 1) {
+            echo 'stop';
+        }
 
         return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
     }

@@ -7,7 +7,9 @@
 
             {% if (entry.image) %}
                 <div class="kbin-entry-image">
-                    <img class="lazy" src="{{ asset(entry.image.getFilePath()) | imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
+                    <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
+                        <img class="lazy" src="{{ asset(entry.image.getFilePath()) | imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
+                    </a>
                 </div>
             {% endif %}
 
@@ -37,6 +39,12 @@
                         {% endif %}
                     </ul>
                     <ul class="kbin-entry-meta-list  list-inline mb-0">
+                        {% if entry.embed %}
+                            <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
+                                <i class="kbin-preview fas fa-photo-video text-muted"></i>
+                            </li>
+                        {% endif %}
+
                         <li class="kbin-entry-meta-entry kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                             <small class="text-muted">
                                 <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">

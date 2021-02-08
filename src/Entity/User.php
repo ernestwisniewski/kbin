@@ -72,6 +72,11 @@ class User implements UserInterface
      */
     private Collection $entryCommentVotes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="user", orphanRemoval=true)
+     */
+    private Collection $subscriptions;
+
     public function __construct($email, $username, $password)
     {
         $this->email    = $email;
@@ -85,6 +90,7 @@ class User implements UserInterface
         $this->entryCommentVotes = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
+        $this->subscriptions = new ArrayCollection();
     }
 
     public function getId(): int
@@ -194,6 +200,36 @@ class User implements UserInterface
         if (!$this->entryComments->contains($comment)) {
             $this->entryComments[] = $comment;
             $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MagazineSubscription[]
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    public function addSubscription(MagazineSubscription $subscription): self
+    {
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions[] = $subscription;
+            $subscription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscription(MagazineSubscription $subscription): self
+    {
+        if ($this->subscriptions->removeElement($subscription)) {
+            // set the owning side to null (unless already changed)
+            if ($subscription->getUser() === $this) {
+                $subscription->setUser(null);
+            }
         }
 
         return $this;
