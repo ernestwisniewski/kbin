@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\MessageHandler;
 
@@ -40,18 +40,19 @@ class EntryEmbedHandler implements MessageHandlerInterface
             return;
         }
 
-        $imageUrl = ($this->embed->fetch($entry->getUrl()))->getImage();
-        if (!$imageUrl) {
+        $embed = $this->embed->fetch($entry->getUrl());
+
+        if (!$embed->getImage()) {
             return;
         }
 
-        $tempFile = $this->imageManager->download($imageUrl);
+        $tempFile = $this->imageManager->download($embed->getImage());
         if (!$tempFile) {
             return;
         }
 
         $image = $this->imageRepository->findOrCreateFromPath($tempFile);
-        $html  = ($this->embed->getHtml());
+        $html  = $embed->getHtml();
 
         $this->entityManager->transactional(
             static function () use ($entry, $image, $html): void {
