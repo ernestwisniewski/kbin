@@ -61,4 +61,9 @@ class Vote
     {
         return $this->user;
     }
+
+    public function __sleep()
+    {
+        return [];
+    }
 }

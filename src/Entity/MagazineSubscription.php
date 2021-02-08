@@ -67,4 +67,9 @@ class MagazineSubscription
 
         return $this;
     }
+
+    public function __sleep()
+    {
+        return [];
+    }
 }

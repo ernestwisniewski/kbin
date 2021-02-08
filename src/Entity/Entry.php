@@ -282,4 +282,9 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
 
         return $this;
     }
+
+    public function __sleep()
+    {
+        return [];
+    }
 }

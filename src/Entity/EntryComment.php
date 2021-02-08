@@ -175,4 +175,9 @@ class EntryComment implements VoteInterface
 
         return $this;
     }
+
+    public function __sleep()
+    {
+        return [];
+    }
 }
