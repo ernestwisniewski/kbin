@@ -52,14 +52,9 @@ class Magazine
     private ?string $rules = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
+     * @ORM\Column(type="integer")
      */
-    private Collection $moderators;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="magazine")
-     */
-    private Collection $entries;
+    private int $subscriptionsCount = 0;
 
     /**
      * @ORM\Column(type="integer")
@@ -72,18 +67,28 @@ class Magazine
     private int $commentCount = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="magazine", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
+     */
+    private Collection $moderators;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="magazine")
+     */
+    private Collection $entries;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="magazine", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private Collection $subscriptions;
 
     public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules)
     {
-        $this->name        = $name;
-        $this->title       = $title;
-        $this->description = $description;
-        $this->rules       = $rules;
-        $this->moderators  = new ArrayCollection();
-        $this->entries     = new ArrayCollection();
+        $this->name          = $name;
+        $this->title         = $title;
+        $this->description   = $description;
+        $this->rules         = $rules;
+        $this->moderators    = new ArrayCollection();
+        $this->entries       = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true));
@@ -203,6 +208,19 @@ class Magazine
         return $this;
     }
 
+
+    public function getSubscriptionsCount(): int
+    {
+        return $this->subscriptionsCount;
+    }
+
+    public function setSubscriptionsCount(int $subscriptionsCount): self
+    {
+        $this->subscriptionsCount = $subscriptionsCount;
+
+        return $this;
+    }
+
     public function getEntryCount(): ?int
     {
         return $this->entryCount;
@@ -258,34 +276,41 @@ class Magazine
         return $this;
     }
 
-    /**
-     * @return Collection|MagazineSubscription[]
-     */
     public function getSubscriptions(): Collection
     {
         return $this->subscriptions;
     }
 
-    public function addSubscription(MagazineSubscription $subscription): self
+    public function isSubscribed(User $user): bool
     {
-        if (!$this->subscriptions->contains($subscription)) {
-            $this->subscriptions[] = $subscription;
-            $subscription->setMagazine($this);
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return \count($this->subscriptions->matching($criteria)) > 0;
+    }
+
+    public function subscribe(User $user): self
+    {
+        if (!$this->isSubscribed($user)) {
+            $this->subscriptions->add($sub = new MagazineSubscription($user, $this));
+            $sub->setMagazine($this);
         }
 
         return $this;
     }
 
-    public function removeSubscription(MagazineSubscription $subscription): self
+    public function unsubscribe(User $user): void
     {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        $subscription = $this->subscriptions->matching($criteria)->first();
+
         if ($this->subscriptions->removeElement($subscription)) {
-            // set the owning side to null (unless already changed)
             if ($subscription->getMagazine() === $this) {
                 $subscription->setMagazine(null);
             }
         }
-
-        return $this;
     }
 
     public function __sleep()

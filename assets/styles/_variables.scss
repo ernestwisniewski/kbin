@@ -1,5 +1,6 @@
 //colors
 $kbin-blue: $primary;
+$kbin-green: #4e805d;
 $kbin-blue-shadow: #414f61;
 $kbin-grey: #f7f7f7;
 $kbin-grey-shadow: #eaeaea;
@@ -41,6 +42,6 @@ $kbin-comment-vote-button-background-color: #efefef;
 $kbin-comment-vote-button-hover-background-color: #656565;
 
 // vote
-$kbin-vote-up: #4e805d;
+$kbin-vote-up: $kbin-green;
 $kbin-vote-down: #b0403d;
 $kbin-vote-none: #a56b1f;

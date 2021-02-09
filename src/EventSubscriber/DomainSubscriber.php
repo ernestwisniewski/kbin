@@ -22,11 +22,11 @@ class DomainSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EntryCreatedEvent::class => 'onCommentCreated',
+            EntryCreatedEvent::class => 'onEntryCreated',
         ];
     }
 
-    public function onCommentCreated(EntryCreatedEvent $event): void
+    public function onEntryCreated(EntryCreatedEvent $event): void
     {
         $this->domainManager->extract($event->getEntry());
     }

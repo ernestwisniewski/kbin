@@ -1,0 +1,10 @@
+<div class="kbin-sub btn-group btn-group-sm mb-3" role="group">
+    <button type="button" class="btn btn-light" disabled><i class="fas fa-eye"></i> {{ magazine.subscriptionsCount }}</button>
+    {% set subscribed = is_subscribed(magazine) %}
+    <form action="{{ path('magazine_' ~ (subscribed ? 'unsubscribe' : 'subscribe'), {name: magazine.name}) }}"
+          method="POST"
+          class="kbin-magazine-subscribe {{ subscribed ? 'kbin-sub--active' : '' }}">
+        <button type="submit" class="btn btn btn-outline-light text-dark text-muted rounded-end">{{ subscribed ? 'obserwujesz' : 'obserwuj' }}</button>
+        <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
+    </form>
+</div>

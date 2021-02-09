@@ -24,3 +24,13 @@ magazine_list_all:
   controller: App\Controller\MagazineController::listAll
   path: /magazyny
   methods: [ GET ]
+
+magazine_subscribe:
+  controller: App\Controller\MagazineController::subscribe
+  path: /m/{name}/subscribe
+  methods: [ POST ]
+
+magazine_unsubscribe:
+  controller: App\Controller\MagazineController::unsubscribe
+  path: /m/{name}/unsubscribe
+  methods: [ POST ]

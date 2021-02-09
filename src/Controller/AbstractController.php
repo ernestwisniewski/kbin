@@ -1,28 +1,42 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Entity\User;
 
 /**
  * @method User|null getUser()
  */
-abstract class AbstractController extends BaseAbstractController {
-    protected function getUserOrThrow(): User {
+abstract class AbstractController extends BaseAbstractController
+{
+    protected function getUserOrThrow(): User
+    {
         $user = $this->getUser();
 
-        if(!$user) {
+        if (!$user) {
             throw new \BadMethodCallException('User is not logged in');
         }
 
         return $user;
     }
 
-    protected function validateCsrf(string $id, $token): void {
+    protected function validateCsrf(string $id, $token): void
+    {
         if (!\is_string($token) || !$this->isCsrfTokenValid($id, $token)) {
             throw new BadRequestHttpException('Invalid CSRF token');
         }
+    }
+
+    protected function redirectToRefererOrHome(Request $request): Response
+    {
+        if (!$request->headers->has('Referer')) {
+            return $this->redirectToRoute('front');
+        }
+
+        return $this->redirect($request->headers->get('Referer'));
     }
 }

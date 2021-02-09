@@ -15,11 +15,6 @@ class MagazineSubscription
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    public function __construct()
-    {
-        $this->createdAtTraitConstruct();
-    }
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -38,6 +33,13 @@ class MagazineSubscription
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Magazine $magazine;
+
+    public function __construct(User $user, Magazine $magazine)
+    {
+        $this->createdAtTraitConstruct();
+        $this->user     = $user;
+        $this->magazine = $magazine;
+    }
 
     public function getId(): ?int
     {

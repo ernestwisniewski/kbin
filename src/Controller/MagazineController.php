@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\PageView\EntryPageView;
+use App\Service\SubscriptionManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,7 @@ class MagazineController extends AbstractController
         $criteria = (new EntryPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
 
         if ($sortBy) {
-            $method = $criteria->translate($sortBy);
+            $method  = $criteria->translate($sortBy);
             $listing = $this->$method($criteria);
         } else {
             $listing = $this->new($criteria);
@@ -116,6 +117,31 @@ class MagazineController extends AbstractController
 
         return $this->redirectToRoute('front');
     }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function subscribe(Magazine $magazine, SubscriptionManager $subscriptionManager, Request $request): Response
+    {
+        $this->validateCsrf('subscribe', $request->request->get('token'));
+
+        $subscriptionManager->subscribe($magazine, $this->getUserOrThrow());
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function unsubscribe(Magazine $magazine, SubscriptionManager $subscriptionManager, Request $request): Response
+    {
+        $this->validateCsrf('subscribe', $request->request->get('token'));
+
+        $subscriptionManager->unsubscribe($magazine, $this->getUserOrThrow());
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
 
     public function listAll(MagazineRepository $magazineRepository)
     {
