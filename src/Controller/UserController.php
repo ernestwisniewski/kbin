@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use App\PageView\EntryCommentPageView;
-use App\PageView\EntryPageView;
-use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
-use App\Repository\EntryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\UserManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use App\PageView\EntryCommentPageView;
+use App\PageView\EntryPageView;
+use App\Repository\EntryRepository;
 use App\Repository\UserRepository;
 use App\Entity\User;
 
@@ -54,5 +53,23 @@ class UserController extends AbstractController
                 'comments' => $comments,
             ]
         );
+    }
+
+    public function follow(User $follower, User $following, UserManager $userManager, Request $request): Response
+    {
+        $this->validateCsrf('follow', $request->request->get('token'));
+
+        $userManager->follow($follower, $following);
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
+    public function unfollow(User $follower, User $following, UserManager $userManager, Request $request): Response
+    {
+        $this->validateCsrf('follow', $request->request->get('token'));
+
+        $userManager->unfollow($follower, $following);
+
+        return $this->redirectToRefererOrHome($request);
     }
 }

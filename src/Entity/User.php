@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -77,6 +78,16 @@ class User implements UserInterface
      */
     private Collection $subscriptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="follower", orphanRemoval=true)
+     */
+    private $follows;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="following", orphanRemoval=true)
+     */
+    private $following;
+
     public function __construct($email, $username, $password)
     {
         $this->email    = $email;
@@ -91,6 +102,8 @@ class User implements UserInterface
 
         $this->createdAtTraitConstruct();
         $this->subscriptions = new ArrayCollection();
+        $this->follows       = new ArrayCollection();
+        $this->following     = new ArrayCollection();
     }
 
     public function getId(): int
@@ -226,12 +239,54 @@ class User implements UserInterface
     public function removeSubscription(MagazineSubscription $subscription): self
     {
         if ($this->subscriptions->removeElement($subscription)) {
-            // set the owning side to null (unless already changed)
             if ($subscription->getUser() === $this) {
                 $subscription->setUser(null);
             }
         }
 
         return $this;
+    }
+
+    public function isFollowing(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return \count($this->following->matching($criteria)) > 0;
+    }
+
+    public function isFollower(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return \count($this->follows->matching($criteria)) > 0;
+    }
+
+    public function follow(User $following): self
+    {
+        if (!$this->isFollowing($following)) {
+            $this->following->add($follower = new UserFollow($this, $following));
+            $follower->setFollower($this);
+        }
+
+        return $this;
+    }
+
+    public function unfollow(User $following): void
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $following));
+
+        /**
+         * @var $following UserFollow
+         */
+        $following = $this->following->matching($criteria)->first();
+
+        if ($this->following->removeElement($following)) {
+            if ($following->getFollower() === $this) {
+                $following->setFollower(null);
+            }
+        }
     }
 }

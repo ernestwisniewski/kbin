@@ -27,7 +27,6 @@ class CountersSubscriber implements EventSubscriberInterface
             EntryCommentCreatedEvent::class => 'onCommentCreated',
             EntryCommentUpdatedEvent::class => 'onCommentUpdated',
             EntryCommentPurgedEvent::class  => 'onCommentBeforePurged',
-            MagazineSubscribedEvent::class  => 'onMagazineSubscription',
         ];
     }
 
@@ -49,15 +48,6 @@ class CountersSubscriber implements EventSubscriberInterface
     {
         $event->getMagazine()->setCommentCount(
             $this->entryRepository->countCommentsByMagazine($event->getMagazine())
-        );
-
-        $this->entityManager->flush();
-    }
-
-    public function onMagazineSubscription(MagazineSubscribedEvent $event): void
-    {
-        $event->getMagazine()->setSubscriptionsCount(
-            $event->getMagazine()->getSubscriptions()->count()
         );
 
         $this->entityManager->flush();

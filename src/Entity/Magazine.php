@@ -146,6 +146,30 @@ class Magazine
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getRules(): ?string
+    {
+        return $this->rules;
+    }
+
+    public function setRules(?string $rules): self
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
     public function getModerators(): Collection
     {
         return $this->moderators;
@@ -181,7 +205,7 @@ class Magazine
             $entry->setMagazine($this);
         }
 
-        $this->updateCounts();
+        $this->updateEntryCounts();
 
         return $this;
     }
@@ -194,29 +218,7 @@ class Magazine
             }
         }
 
-        $this->updateCounts();
-
-        return $this;
-    }
-
-    private function updateCounts(): self
-    {
-        $this->setEntryCount(
-            $this->entries->count()
-        );
-
-        return $this;
-    }
-
-
-    public function getSubscriptionsCount(): int
-    {
-        return $this->subscriptionsCount;
-    }
-
-    public function setSubscriptionsCount(int $subscriptionsCount): self
-    {
-        $this->subscriptionsCount = $subscriptionsCount;
+        $this->updateEntryCounts();
 
         return $this;
     }
@@ -233,14 +235,11 @@ class Magazine
         return $this;
     }
 
-    public function getCommentCount(): ?int
+    private function updateEntryCounts(): self
     {
-        return $this->commentCount;
-    }
-
-    public function setCommentCount(int $commentCount): self
-    {
-        $this->commentCount = $commentCount;
+        $this->setEntryCount(
+            $this->entries->count()
+        );
 
         return $this;
     }
@@ -252,26 +251,15 @@ class Magazine
         return $this;
     }
 
-    public function getDescription(): ?string
+
+    public function getCommentCount(): ?int
     {
-        return $this->description;
+        return $this->commentCount;
     }
 
-    public function setDescription(?string $description): self
+    public function setCommentCount(int $commentCount): self
     {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getRules(): ?string
-    {
-        return $this->rules;
-    }
-
-    public function setRules(?string $rules): self
-    {
-        $this->rules = $rules;
+        $this->commentCount = $commentCount;
 
         return $this;
     }
@@ -296,6 +284,8 @@ class Magazine
             $sub->setMagazine($this);
         }
 
+        $this->updateSubscriptionsCount();
+
         return $this;
     }
 
@@ -311,6 +301,28 @@ class Magazine
                 $subscription->setMagazine(null);
             }
         }
+
+        $this->updateSubscriptionsCount();
+    }
+
+    public function getSubscriptionsCount(): int
+    {
+        return $this->subscriptionsCount;
+    }
+
+    public function setSubscriptionsCount(int $subscriptionsCount): self
+    {
+        $this->subscriptionsCount = $subscriptionsCount;
+
+        return $this;
+    }
+
+    private function updateSubscriptionsCount() :self {
+        $this->setSubscriptionsCount(
+            $this->subscriptions->count()
+        );
+
+        return $this;
     }
 
     public function __sleep()
