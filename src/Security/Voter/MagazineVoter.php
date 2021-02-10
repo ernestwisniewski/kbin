@@ -12,10 +12,11 @@ class MagazineVoter extends Voter
     const EDIT = 'edit';
     const PURGE = 'purge';
     const MODERATE = 'moderate';
+    const SUBSCRIBE = 'subscribe';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof Magazine && \in_array($attribute, [self::EDIT, self::PURGE, self::MODERATE], true);
+        return $subject instanceof Magazine && \in_array($attribute, [self::EDIT, self::PURGE, self::MODERATE, self::SUBSCRIBE], true);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -33,6 +34,8 @@ class MagazineVoter extends Voter
                 return $this->canPurge($subject, $user);
             case self::MODERATE:
                 return $this->canModerate($subject, $user);
+            case self::SUBSCRIBE:
+                return $this->canSubscribe($subject, $user);
         }
 
         throw new \LogicException();
@@ -48,9 +51,16 @@ class MagazineVoter extends Voter
         return $magazine->userIsOwner($user);
     }
 
-    private function canModerate(Magazine $magazine, $user): bool
+    private function canModerate(Magazine $magazine, User $user): bool
     {
         return $magazine->userIsModerator($user);
     }
 
+    public function canSubscribe(Magazine $magazine, User $user):bool {
+        if($magazine->userIsOwner($user)) {
+            return false;
+        }
+
+        return true;
+    }
 }

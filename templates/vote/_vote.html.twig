@@ -6,7 +6,7 @@
 
     <div class="kbin-{{ base_class }}-vote">
         <ul class="kbin-{{ base_class }}-vote-list">
-            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote-uv {% if(user_choice is same as(VOTE_UP)) %}kbin-vote-uv--active{% endif %}">
+            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-uv {% if(user_choice is same as(VOTE_UP)) %}kbin-vote-uv--active{% endif %}">
                 <form action="{{ path(form_dest, {id: votable.id,choice:1}) }}" method="POST">
                     <button type="submit">
                         {{ votable.countUpvotes }}<span class="fa fa-arrow-up"></span>
@@ -15,7 +15,7 @@
                 </form>
             </li>
 
-            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote-dv {% if(user_choice is same as(VOTE_DOWN)) %}kbin-vote-dv--active{% endif %}">
+            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-dv {% if(user_choice is same as(VOTE_DOWN)) %}kbin-vote-dv--active{% endif %}">
                 <form action="{{ path(form_dest, {id: votable.id,choice:-1}) }}" method="POST">
                     <button type="submit">
                         {{ votable.countDownvotes }}<span class="fa fa-arrow-down"></span>

@@ -1,3 +1,9 @@
+.kbin-vote {
+  button {
+    background-color: $kbin-entry-vote-button-background-color;
+  }
+}
+
 .kbin-vote-uv {
   &--active {
     button {

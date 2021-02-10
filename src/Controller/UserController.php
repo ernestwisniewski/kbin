@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\EntryCommentRepository;
 use App\Service\UserManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\PageView\EntryCommentPageView;
@@ -55,6 +56,10 @@ class UserController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("follow", subject="following")
+     */
     public function follow(User $following, UserManager $userManager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
@@ -64,6 +69,10 @@ class UserController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("follow", subject="following")
+     */
     public function unfollow(User $following, UserManager $userManager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));

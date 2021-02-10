@@ -136,7 +136,7 @@ class EntryCommentControllerTest extends WebTestCase
         $this->assertCount(1, $crawler);
 
         $this->assertSelectorTextContains('.kbin-comment-level--2', 'komentarz 2');
-        $this->assertCount(1, $crawler);
+        $this->assertCount(1, $crawler->filter('.kbin-comment-level--2'));
 
         $crawler = $client->click($crawler->filter('.kbin-comment-level--2')->selectLink('odpowiedz')->link());
         $this->assertSelectorTextContains('.kbin-comment-wrapper', 'odpowiedz');
@@ -152,7 +152,7 @@ class EntryCommentControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbin-comment-level--3', 'komentarz poziomu 3');
-        $this->assertCount(1, $crawler);
+        $this->assertCount(1, $crawler->filter('.kbin-comment-level--3'));
     }
 
     public function testCanPurgeNestedComments()

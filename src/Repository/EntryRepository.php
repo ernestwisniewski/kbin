@@ -83,7 +83,9 @@ class EntryRepository extends ServiceEntityRepository
             $qb->andWhere(
                 'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
                 OR 
-                e.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)'
+                e.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
+                OR
+                e.user = :user'
             );
             $qb->setParameter('user', $this->security->getUser());
         }

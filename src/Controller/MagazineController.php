@@ -120,6 +120,7 @@ class MagazineController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
+     * @IsGranted("subscribe", subject="magazine")
      */
     public function subscribe(Magazine $magazine, SubscriptionManager $subscriptionManager, Request $request): Response
     {
@@ -132,6 +133,7 @@ class MagazineController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
+     * @IsGranted("subscribe", subject="magazine")
      */
     public function unsubscribe(Magazine $magazine, SubscriptionManager $subscriptionManager, Request $request): Response
     {

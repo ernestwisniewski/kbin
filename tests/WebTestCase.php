@@ -83,7 +83,7 @@ abstract class WebTestCase extends BaseWebTestCase
             }
         )->first();
 
-        return $magazine ? $magazine : $this->createMagazine($name);
+        return $magazine ? $magazine : $this->createMagazine($name, null, $user);
     }
 
     private function createMagazine(string $name, string $title = null, User $user = null): Magazine
