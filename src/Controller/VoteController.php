@@ -19,6 +19,7 @@ class VoteController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
+     * @isGranted("vote", subject="votable")
      */
     public function __invoke(VoteInterface $votable, int $choice, Request $request): Response
     {

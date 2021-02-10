@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Security\Voter;
 
@@ -11,10 +11,11 @@ class EntryCommentVoter extends Voter
 {
     const EDIT = 'edit';
     const PURGE = 'purge';
+    const VOTE = 'vote';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof EntryComment && \in_array($attribute, [self::EDIT, self::PURGE], true);
+        return $subject instanceof EntryComment && \in_array($attribute, [self::EDIT, self::PURGE, self::VOTE], true);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -30,6 +31,8 @@ class EntryCommentVoter extends Voter
                 return $this->canEdit($subject, $user);
             case self::PURGE:
                 return $this->canPurge($subject, $user);
+            case self::VOTE:
+                return $this->canVote($subject, $user);
         }
 
         throw new \LogicException();
@@ -59,5 +62,14 @@ class EntryCommentVoter extends Voter
         }
 
         return false;
+    }
+
+    private function canVote($subject, User $user): bool
+    {
+        if ($subject->getUser() === $user) {
+            return false;
+        }
+
+        return true;
     }
 }

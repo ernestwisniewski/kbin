@@ -8,7 +8,7 @@
         <ul class="kbin-{{ base_class }}-vote-list">
             <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-uv {% if(user_choice is same as(VOTE_UP)) %}kbin-vote-uv--active{% endif %}">
                 <form action="{{ path(form_dest, {id: votable.id,choice:1}) }}" method="POST">
-                    <button type="submit">
+                    <button type="submit" {{ is_granted('vote', votable) ? '' : 'disabled' }}>
                         {{ votable.countUpvotes }}<span class="fa fa-arrow-up"></span>
                     </button>
                     <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
@@ -17,7 +17,7 @@
 
             <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-dv {% if(user_choice is same as(VOTE_DOWN)) %}kbin-vote-dv--active{% endif %}">
                 <form action="{{ path(form_dest, {id: votable.id,choice:-1}) }}" method="POST">
-                    <button type="submit">
+                    <button type="submit" {{ is_granted('vote', votable) ? '' : 'disabled' }}>
                         {{ votable.countDownvotes }}<span class="fa fa-arrow-down"></span>
                     </button>
                     <input type="hidden" name="token" value="{{ csrf_token('vote') }}">

@@ -4,7 +4,7 @@
     <form action="{{ path('magazine_' ~ (subscribed ? 'unsubscribe' : 'subscribe'), {name: magazine.name}) }}"
           method="POST"
           class="kbin-magazine-subscribe {{ subscribed ? 'kbin-sub--active' : '' }}">
-        <button type="submit" class="btn btn btn-outline-light text-dark text-muted rounded-end">{{ subscribed ? 'obserwujesz' : 'obserwuj' }}</button>
+        <button type="submit" class="btn btn btn-outline-light text-dark text-muted rounded-end {{ is_granted('subscribe', magazine) ? '' : 'disabled' }}">{{ subscribed ? 'obserwujesz' : 'obserwuj' }}</button>
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
     </form>
 </div>
