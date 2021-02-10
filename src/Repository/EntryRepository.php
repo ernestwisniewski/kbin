@@ -1,8 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\ForumSubscription;
 use App\Entity\Magazine;
+use App\Entity\MagazineSubscription;
+use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Pagerfanta\Exception\NotValidCurrentPageException;
@@ -74,6 +77,15 @@ class EntryRepository extends ServiceEntityRepository
         if ($criteria->getUser()) {
             $qb->andWhere('e.user = :user')
                 ->setParameter('user', $criteria->getUser());
+        }
+
+        if ($criteria->isSubscribed()) {
+            $qb->andWhere(
+                'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
+                OR 
+                e.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)'
+            );
+            $qb->setParameter('user', $this->security->getUser());
         }
 
         switch ($criteria->getSortOption()) {

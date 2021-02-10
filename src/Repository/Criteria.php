@@ -45,6 +45,7 @@ abstract class Criteria
     private ?Magazine $magazine = null;
     private ?User $user = null;
     private string $sortOption = EntryRepository::SORT_DEFAULT;
+    private bool $subscribed = false;
 
     public function __construct(int $page)
     {
@@ -93,6 +94,18 @@ abstract class Criteria
         return $this;
     }
 
+    public function showSubscribed(): self
+    {
+        $this->subscribed = true;
+
+        return $this;
+    }
+
+    public function isSubscribed(): bool
+    {
+        return $this->subscribed;
+    }
+
     public function translate(string $value): string
     {
         //@todo
@@ -109,5 +122,4 @@ abstract class Criteria
 
         return $routes[$value];
     }
-
 }

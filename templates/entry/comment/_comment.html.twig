@@ -2,7 +2,7 @@
     {% from 'vote/_macros.html.twig' import vote %}
 
     <blockquote id="{{ comment.id }}"
-                class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level }} shadow-sm">
+                class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level >= 8 ? 'last' : level }} shadow-sm">
         <div class="kbin-comment-header">
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 

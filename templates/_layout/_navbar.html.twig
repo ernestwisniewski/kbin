@@ -3,7 +3,7 @@
 <header class="kbin-header container-fluid mt-auto">
     <nav class="kbin-nav navbar navbar-expand-lg navbar-light">
         <div class="kbin-container container">
-            <a class="kbin-nav-brand navbar-brand  text-muted" href="/">karab.in</a>
+            <a class="kbin-nav-brand navbar-brand  text-muted" href="{{ app.user ? path('front_subscribed') : '/' }}">karab.in</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kbin-nav"
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

@@ -41,6 +41,8 @@ class FrontController extends AbstractController
     {
         $criteria = new EntryPageView((int) $request->get('strona', 1));
 
+        $criteria->showSubscribed();
+
         if ($sortBy) {
             $method  = $criteria->translate($sortBy);
             $listing = $this->$method($criteria);
