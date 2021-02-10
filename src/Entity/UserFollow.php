@@ -7,6 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Collection;
 
 /**
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(
+ *         name="user_follows_idx",
+ *         columns={"follower_id", "following_id"}
+ *     )
+ * })
  * @ORM\Entity(repositoryClass=UserFollowRepository::class)
  */
 class UserFollow
@@ -20,13 +26,13 @@ class UserFollow
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="follows")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private ?User $follower;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="following")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="followers")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private ?User $following;
 

@@ -59,7 +59,7 @@
     }
   }
 
-  .kbin-sub {
+  .kbin-sub, .kbin-follow {
     &--active {
       .btn {
         background: $kbin-green;

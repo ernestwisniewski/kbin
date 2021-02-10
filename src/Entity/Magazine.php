@@ -310,17 +310,9 @@ class Magazine
         return $this->subscriptionsCount;
     }
 
-    public function setSubscriptionsCount(int $subscriptionsCount): self
+    private function updateSubscriptionsCount(): self
     {
-        $this->subscriptionsCount = $subscriptionsCount;
-
-        return $this;
-    }
-
-    private function updateSubscriptionsCount() :self {
-        $this->setSubscriptionsCount(
-            $this->subscriptions->count()
-        );
+        $this->subscriptionsCount = $this->subscriptions->count();
 
         return $this;
     }

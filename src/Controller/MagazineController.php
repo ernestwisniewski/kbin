@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\PageView\EntryPageView;
-use App\Service\SubscriptionManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MagazineRepository;
+use App\Service\SubscriptionManager;
 use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
 use App\Service\MagazineManager;
+use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Form\MagazineType;
 use App\Entity\Magazine;

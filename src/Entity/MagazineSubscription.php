@@ -7,6 +7,12 @@ use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(
+ *         name="magazine_subsription_idx",
+ *         columns={"user_id", "magazine_id"}
+ *     )
+ * })
  * @ORM\Entity(repositoryClass=MagazineSubscriptionRepository::class)
  */
 class MagazineSubscription

@@ -55,20 +55,20 @@ class UserController extends AbstractController
         );
     }
 
-    public function follow(User $follower, User $following, UserManager $userManager, Request $request): Response
+    public function follow(User $following, UserManager $userManager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
 
-        $userManager->follow($follower, $following);
+        $userManager->follow($this->getUserOrThrow(), $following);
 
         return $this->redirectToRefererOrHome($request);
     }
 
-    public function unfollow(User $follower, User $following, UserManager $userManager, Request $request): Response
+    public function unfollow(User $following, UserManager $userManager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
 
-        $userManager->unfollow($follower, $following);
+        $userManager->unfollow($this->getUserOrThrow(), $following);
 
         return $this->redirectToRefererOrHome($request);
     }

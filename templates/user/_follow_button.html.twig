@@ -1,0 +1,10 @@
+<div class="kbin-follow btn-group btn-group-sm mb-3" role="group">
+    <button type="button" class="btn btn-light" disabled><i class="fas fa-eye"></i> {{ user.followersCount }}</button>
+    {% set follow = is_user_follow(user) %}
+    <form action="{{ path('user_' ~ (follow ? 'unfollow' : 'follow'), {username: user.username}) }}"
+          method="POST"
+          class="kbin-user-follow {{ follow ? 'kbin-follow--active' : '' }}">
+        <button type="submit" class="btn btn btn-outline-light text-dark text-muted rounded-end">{{ follow ? 'obserwujesz' : 'obserwuj' }}</button>
+        <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
+    </form>
+</div>

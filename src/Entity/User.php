@@ -49,6 +49,11 @@ class User implements UserInterface
     private string $username;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private int $followersCount = 0;
+
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
      */
     private Collection $moderatorTokens;
@@ -79,14 +84,14 @@ class User implements UserInterface
     private Collection $subscriptions;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="follower", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="follower", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private $follows;
+    private Collection $follows;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="following", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="following", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private $following;
+    private Collection $followers;
 
     public function __construct($email, $username, $password)
     {
@@ -103,7 +108,7 @@ class User implements UserInterface
         $this->createdAtTraitConstruct();
         $this->subscriptions = new ArrayCollection();
         $this->follows       = new ArrayCollection();
-        $this->following     = new ArrayCollection();
+        $this->followers     = new ArrayCollection();
     }
 
     public function getId(): int
@@ -250,43 +255,73 @@ class User implements UserInterface
     public function isFollowing(User $user): bool
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('user', $user));
+            ->where(Criteria::expr()->eq('following', $user));
 
-        return \count($this->following->matching($criteria)) > 0;
+        return \count($this->follows->matching($criteria)) > 0;
     }
 
     public function isFollower(User $user): bool
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('user', $user));
+            ->where(Criteria::expr()->eq('follower', $this));
 
-        return \count($this->follows->matching($criteria)) > 0;
+        return \count($user->followers->matching($criteria)) > 0;
     }
 
     public function follow(User $following): self
     {
         if (!$this->isFollowing($following)) {
-            $this->following->add($follower = new UserFollow($this, $following));
-            $follower->setFollower($this);
+            $this->followers->add($follower = new UserFollow($this, $following));
+
+            if (!$following->followers->contains($follower)) {
+                $following->followers->add($follower);
+            }
         }
+
+        $this->updateFollowCounts($following);
 
         return $this;
     }
 
     public function unfollow(User $following): void
     {
+        $followingUser = $following;
+
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('user', $following));
+            ->where(Criteria::expr()->eq('following', $following));
 
         /**
          * @var $following UserFollow
          */
-        $following = $this->following->matching($criteria)->first();
+        $following = $this->follows->matching($criteria)->first();
 
-        if ($this->following->removeElement($following)) {
+        if ($this->follows->removeElement($following)) {
             if ($following->getFollower() === $this) {
                 $following->setFollower(null);
+                $followingUser->followers->removeElement($following);
             }
         }
+
+        $this->updateFollowCounts($followingUser);
+    }
+
+    public function getFollows()
+    {
+        return $this->follows;
+    }
+
+    public function getFollowers()
+    {
+        return $this->followers;
+    }
+
+    public function getFollowersCount(): int
+    {
+        return $this->followersCount;
+    }
+
+    public function updateFollowCounts(User $following)
+    {
+        $following->followersCount = $following->followers->count();
     }
 }

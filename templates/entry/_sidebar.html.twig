@@ -6,12 +6,7 @@
             </div>
             <div class="float-start ms-1">
                 <h5 class="card-title mt-2 font-weight-bold">{{ entry.user.username }}</h5>
-
-                <div class="kbin-sub btn-group btn-group-sm" role="group">
-                    <button type="button" class="btn btn-light" disabled><i class="fas fa-eye"></i> 11</button>
-                    <button type="button" class="btn btn btn-outline-light text-dark text-muted rounded-end">obserwuj</button>
-                </div>
-
+                {% include 'user/_follow_button.html.twig' with { 'user': entry.user } %}
             </div>
         </div>
 

@@ -2,11 +2,10 @@
 
 namespace App\Service;
 
-use App\Event\UserFollowedEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Event\MagazineSubscribedEvent;
-use App\Entity\Magazine;
+use App\Event\UserFollowedEvent;
 use App\Entity\User;
 
 class UserManager
@@ -20,6 +19,9 @@ class UserManager
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function follow(User $follower, User $following)
     {
         $follower->follow($following);
@@ -29,6 +31,9 @@ class UserManager
         $this->eventDispatcher->dispatch(new UserFollowedEvent($follower, $following));
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function unfollow(User $follower, User $following)
     {
         $follower->unfollow($following);
