@@ -3,3 +3,18 @@
 {% block body %}
     {% include 'entry/_list.html.twig' %}
 {% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+    <div class="kbin-instance mb-2 mt-5 mt-lg-0 px-2">
+        <h4 class="font-weight-bold">karab.in</h4>
+        <p>Instancja testowa na wczesnym etapie developmentu.</p>
+        <p>Karabin jest otwartym portalem agregującym treści oraz platformą do mikroblogowania.
+        <p>Przeznaczony jest dla sieci <a href="https://pl.wikipedia.org/wiki/Fediwersum">Fediverse.</a></p>
+        <p>Strona nie profiluje użytkowników, nie wyświetla reklam. Nie jest farmą linków.</p>
+        <p>Twórz i moderuj społeczności, poznawaj ludzi o podobnych zainteresowaniach, rozwijaj swoje pasje.</p>
+        <div class="alert alert-danger">
+            Jest to wersja demonstracyjna. Baza przywracana jest do 48h. Wszystkie dodane treści zostaną utracone.
+        </div>
+    </div>
+{% endblock %}
