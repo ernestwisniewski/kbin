@@ -131,7 +131,7 @@ class MagazineControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
 
-        $crawler = $client->request('GET', '/s');
+        $crawler = $client->request('GET', '/sub');
 
         $this->assertSelectorTextContains('.kbin-entry-title', 'treść 1');
         $this->assertCount(3, $crawler->filter('.kbin-entry-title'));
@@ -146,7 +146,7 @@ class MagazineControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
 
-        $crawler = $client->request('GET', '/s');
+        $crawler = $client->request('GET', '/sub');
 
         $this->assertSelectorTextContains('.kbin-entry-title', 'treść 1');
         $this->assertCount(2, $crawler->filter('.kbin-entry-title'));

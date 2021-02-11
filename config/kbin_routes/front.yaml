@@ -8,6 +8,6 @@ front:
 front_subscribed:
   controller: App\Controller\FrontController::subscribed
   defaults: { sortBy: ~ }
-  path: /s/{sortBy}
+  path: /sub/{sortBy}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }

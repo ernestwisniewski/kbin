@@ -114,6 +114,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "egulias/email-validator": {
+        "version": "2.1.25"
+    },
     "embed/embed": {
         "version": "dev-master"
     },
@@ -400,6 +403,27 @@
     "symfony/intl": {
         "version": "v5.2.1"
     },
+    "symfony/mailer": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "15658c2a0176cda2e7dba66276a2030b52bd81b2"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
+    },
+    "symfony/mailgun-mailer": {
+        "version": "4.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.4",
+            "ref": "addcb559b32d9dbb4843826b063565e1b15a2a57"
+        }
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -642,6 +666,9 @@
     },
     "symfony/yaml": {
         "version": "v5.2.1"
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.2.0"
     },
     "twig/extra-bundle": {
         "version": "v3.2.1"

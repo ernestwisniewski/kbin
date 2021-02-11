@@ -1,49 +1,51 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Zaloguj się!{% endblock %}
+
 {% block body %}
     <div class="kbin-login mt-lg-4">
-        {# <div class="kbin-magazine-background"></div> #}
+        <div class="kbin-magazine-background"></div>
 
-        <h1 class="font-weight-bold">Zaloguj się</h1>
-        <p class="kbin-magazine-create-lead lead mb-5">login:demo@karab.in pass:demo</p>
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                <h1 class="font-weight-bold mb-5">Zaloguj się</h1>
 
-        <div class="col-lg-6">
-            <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
 
-                {% if app.user %}
                     <div class="mb-3">
-                        Jesteś zalogowany jako {{ app.user.username }}, <a href="{{ path('app_logout') }}">Wyloguj</a>
+                        <label for="inputEmail">Email</label>
+                        <div class="input-group input-group-lg">
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                        </div>
                     </div>
-                {% endif %}
 
-                <div class="input-group-lg mb-3">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-                </div>
-                <div class="input-group-lg mb-3">
-                    <label for="inputPassword">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" required>
-                </div>
+                    <div class="mb-3">
+                        <label for="inputPassword">Password</label>
+                        <div class="input-group input-group-lg">
+                            <input type="password" name="password" id="inputPassword" class="form-control" required>
+                        </div>
+                    </div>
 
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
 
-                <div class="input-group-lg checkbox mb-3">
-                    <input class="form-check-input" type="checkbox" name="_remember_me" id="inputRemember">
-                    <label class="form-check-label" for="inputRemember">
-                        Zapamiętaj mnie
-                    </label>
-                </div>
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
 
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        Zaloguj się
+                    </button>
+                </form>
 
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Zaloguj się
-                </button>
-            </form>
+                <p class="mt-4">Nie masz konta? <a href="{{ path('register') }}">Zarejstruj się!</a></p>
+            </div>
         </div>
     </div>
 {% endblock %}
