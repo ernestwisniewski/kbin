@@ -1,0 +1,26 @@
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_front') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('user_profile_front') }}">Statystyki</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_notifications') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('user_profile_notifications') }}">Powiadomienia</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_messages') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('user_profile_messages') }}">Wiadomości</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_settings') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('user_profile_settings') }}">Ustawienia</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_edit') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('user_profile_edit') }}">Edytuj profil</a>
+    </li>
+</ul>

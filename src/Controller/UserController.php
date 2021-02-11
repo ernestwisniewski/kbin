@@ -81,4 +81,16 @@ class UserController extends AbstractController
 
         return $this->redirectToRefererOrHome($request);
     }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function profile()
+    {
+        return $this->render(
+            'profile/front.html.twig',
+            [
+            ]
+        );
+    }
 }

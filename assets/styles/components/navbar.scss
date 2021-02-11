@@ -24,8 +24,8 @@
       font-size: .82rem;
 
       @include media-breakpoint-up(lg) {
-        position: absolute;
-        bottom: 0;
+        position: relative;
+        bottom: -1px;
       }
 
       &-item {

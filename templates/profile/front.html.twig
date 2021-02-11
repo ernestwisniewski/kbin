@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+     {% include 'profile/_tabs.html.twig' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' with {user: app.user} %}
+
+    {{ parent() }}
+{% endblock %}

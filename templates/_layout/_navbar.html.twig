@@ -8,7 +8,7 @@
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="kbin-nav">
+            <div class="collapse navbar-collapse {{ kbin_js_enabled ? '' : 'show' }}" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
                     {% if is_magazine_page() %}
                         <li class="text-muted me-3 pt-2">
@@ -32,8 +32,15 @@
                     <li class="kbin-nav-navbar-item {{ is_comments_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
                         <a href="{{ get_active_comments_page_path() }}">Komentarze</a>
                     </li>
+
                     <li class="kbin-nav-navbar-item">
                         <a href="#">Wpisy</a>
+                    </li>
+                </ul>
+
+                <ul class="kbin-nav-navbar navbar-nav  mb-2 mb-lg-0 float-lg-end">
+                    <li class="kbin-nav-navbar-item {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                        <a href="{{ path('user_profile_front') }}"><i class="fas fa-user"></i> Profil</a>
                     </li>
                 </ul>
             </div>

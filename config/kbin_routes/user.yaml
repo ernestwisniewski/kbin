@@ -22,3 +22,28 @@ user_unfollow:
   controller: App\Controller\UserController::unfollow
   path: /u/{username}/unfollow
   methods: [ POST ]
+
+user_profile_front:
+  controller: App\Controller\UserController::profile
+  path: /profil
+  methods: [ GET ]
+
+user_profile_notifications:
+  controller: App\Controller\UserController::profile
+  path: /profil/notyfikacje
+  methods: [ GET ]
+
+user_profile_messages:
+  controller: App\Controller\UserController::profile
+  path: /profil/wiadomosci
+  methods: [ GET ]
+
+user_profile_settings:
+  controller: App\Controller\UserController::profile
+  path: /profil/ustawienia
+  methods: [ GET ]
+
+user_profile_edit:
+  controller: App\Controller\UserController::profile
+  path: /profil/edytuj
+  methods: [ GET ]

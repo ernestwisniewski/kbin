@@ -32,6 +32,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_magazine_page', [$this, 'isMagazinePage']),
             new TwigFunction('is_entry_page', [$this, 'isEntryPage']),
             new TwigFunction('is_user_page', [$this, 'isUserPage']),
+            new TwigFunction('is_user_profile_page', [$this, 'isUserProfilePage']),
             new TwigFunction('is_current_magazine_page', [$this, 'isCurrentMagazinePage']),
             new TwigFunction('is_active_sort_option', [$this, 'isActiveSortOption']),
             new TwigFunction('get_active_sort_option_path', [$this, 'getActiveSortOptionPath']),
@@ -88,6 +89,11 @@ final class PageContextExtension extends AbstractExtension
     public function isUserPage(): bool
     {
         return str_starts_with($this->getCurrentRouteName(), 'user');
+    }
+
+    public function isUserProfilePage(): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), 'user_profile');
     }
 
     public function isActiveSortOption($sortOption): bool
