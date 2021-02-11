@@ -12,6 +12,10 @@ class EntryCommentDto
     private Entry $entry;
     /**
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 4500
+     * )
      */
     private ?string $body;
     private ?EntryComment $parent = null;

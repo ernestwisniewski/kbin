@@ -67,7 +67,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
     private ?string $url = null;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true, length=15000)
      */
     private ?string $body = null;
 

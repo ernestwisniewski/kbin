@@ -19,6 +19,7 @@ class UserDto
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
+     * @Assert\MaxLength(35)
      */
     private ?string $email = null;
     /**

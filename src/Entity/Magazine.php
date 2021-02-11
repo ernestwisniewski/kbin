@@ -32,22 +32,22 @@ class Magazine
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=24)
      */
     private string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
     private string $title;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true, length=420)
      */
     private ?string $description = null;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true, length=420)
      */
     private ?string $rules = null;
 

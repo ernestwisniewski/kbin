@@ -17,9 +17,19 @@ class EntryDto
     private Magazine $magazine;
     /**
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 255
+     * )
      */
     private string $title;
     private ?string $url = null;
+    /**
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 15000
+     * )
+     */
     private ?string $body = null;
     private ?Image $image = null;
 

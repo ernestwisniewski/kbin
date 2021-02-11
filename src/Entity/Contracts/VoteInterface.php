@@ -29,6 +29,4 @@ interface VoteInterface
     public function getUserChoice(User $user): int;
 
     public function getUserVote(User $user): ?Vote;
-
-    public function updateVoteCounts(): self;
 }

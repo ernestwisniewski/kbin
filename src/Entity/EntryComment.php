@@ -51,7 +51,7 @@ class EntryComment implements VoteInterface
     private ?EntryComment $root = null;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", length=4500)
      */
     private string $body;
 

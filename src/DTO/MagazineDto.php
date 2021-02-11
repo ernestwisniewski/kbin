@@ -13,13 +13,33 @@ class MagazineDto
     private ?int $id = null;
     /**
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 24
+     * )
      */
     private ?string $name = null;
     /**
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 50
+     * )
      */
     private string $title;
+    /**
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 420
+     * )
+     */
     private ?string $description = null;
+    /**
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 420
+     * )
+     */
     private ?string $rules = null;
 
     public function create(string $name, string $title, ?string $description = null, ?string $rules = null, ?int $id = null): self

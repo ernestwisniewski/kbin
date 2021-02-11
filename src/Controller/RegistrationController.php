@@ -49,6 +49,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            /*
             $this->emailVerifier->sendEmailConfirmation(
                 'verify_email',
                 $user,
@@ -58,7 +59,7 @@ class RegistrationController extends AbstractController
                     ->subject('Potwierdź swój adres email')
                     ->htmlTemplate('_email/confirmation_email.html.twig')
             );
-
+            */
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
