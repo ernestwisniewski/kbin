@@ -70,4 +70,9 @@ class UserFollow
 
         return $this;
     }
+
+    public function __sleep()
+    {
+        return [];
+    }
 }
