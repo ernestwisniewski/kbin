@@ -109,6 +109,10 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userManager->edit($this->getUser(), $userDto);
 
+            if ($userDto->getPlainPassword()) {
+                return $this->redirectToRoute('app_login');
+            }
+
             return $this->redirectToRoute('user_profile_edit');
         }
 

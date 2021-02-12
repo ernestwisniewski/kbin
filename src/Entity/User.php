@@ -97,7 +97,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
+    private bool $isVerified = true;//@todo
 
     public function __construct($email, $username, $password)
     {

@@ -2,20 +2,20 @@
 
 namespace App\Service;
 
-use App\DTO\RegisterUserDto;
-use App\DTO\UserDto;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Message\UserCreatedMessage;
+use App\Message\UserUpdatedMessage;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Event\UserFollowedEvent;
+use App\DTO\RegisterUserDto;
+use App\DTO\UserDto;
 use App\Entity\User;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class UserManager
 {
@@ -67,11 +67,11 @@ class UserManager
     }
 
 
-    public function create(RegisterUserDto $userDto): User
+    public function create(RegisterUserDto $dto): User
     {
-        $user = new User($userDto->getEmail(), $userDto->getUsername(), '');
+        $user = new User($dto->getEmail(), $dto->getUsername(), '');
 
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $userDto->getPlainPassword()));
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->getPlainPassword()));
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -84,7 +84,18 @@ class UserManager
     public function edit(User $user, UserDto $dto): User
     {
         if ($dto->getPlainPassword()) {
-//            $user->setPassword($user)
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->getPlainPassword()));
+
+            $this->entityManager->flush();
+        }
+
+        if($dto->getEmail() !== $user->getEmail()) {
+            $user->setIsVerified(false);
+            $user->setEmail($dto->getEmail());
+
+            $this->entityManager->flush();
+
+            $this->messageBus->dispatch(new UserUpdatedMessage($user->getId()));
         }
 
         return $user;

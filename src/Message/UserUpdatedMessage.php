@@ -4,7 +4,7 @@ namespace App\Message;
 
 use App\Message\Contracts\SendConfirmationEmailInterface;
 
-class UserCreatedMessage implements SendConfirmationEmailInterface
+class UserUpdatedMessage implements SendConfirmationEmailInterface
 {
     private int $userId;
 

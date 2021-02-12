@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler;
 
+use App\Message\Contracts\SendConfirmationEmailInterface;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,7 +22,7 @@ class SentUserConfirmationEmail implements MessageHandlerInterface
         $this->userRepository = $userRepository;
     }
 
-    public function __invoke(UserCreatedMessage $entryCreatedMessage)
+    public function __invoke(SendConfirmationEmailInterface $entryCreatedMessage)
     {
         $user = $this->userRepository->find($entryCreatedMessage->getUserId());
 
@@ -29,6 +30,7 @@ class SentUserConfirmationEmail implements MessageHandlerInterface
             return;
         }
 
+        //@todo
         $this->emailVerifier->sendEmailConfirmation(
             'app_verify_email',
             $user,

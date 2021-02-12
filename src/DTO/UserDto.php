@@ -29,7 +29,7 @@ class UserDto implements UserDtoInterface
      *     maxMessage="Hasło powinno mieć nie więcej niż {{ limit }} znaków."
      * )
      */
-    private string $plainPassword;
+    private ?string $plainPassword = null;
     /**
      * @Assert\IsTrue()
      */
