@@ -46,7 +46,7 @@ class VoteControllerTest extends WebTestCase
         $this->assertVoteActions($client, $crawler, '.kbin-comment-list');
     }
 
-    private function assertVoteActions( $client, $crawler, string $parentClass = '')
+    private function assertVoteActions($client, $crawler, string $parentClass = '')
     {
         $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
 

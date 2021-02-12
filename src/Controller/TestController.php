@@ -24,8 +24,7 @@ class TestController extends AbstractController
 
         try {
             $mailer->send($email);
-
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             dd($e->getMessage());
         }
 

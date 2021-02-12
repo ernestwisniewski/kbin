@@ -89,7 +89,7 @@ class UserManager
             $this->entityManager->flush();
         }
 
-        if($dto->getEmail() !== $user->getEmail()) {
+        if ($dto->getEmail() !== $user->getEmail()) {
             $user->setIsVerified(false);
             $user->setEmail($dto->getEmail());
 

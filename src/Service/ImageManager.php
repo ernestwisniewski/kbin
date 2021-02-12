@@ -39,8 +39,7 @@ class ImageManager
             return $this->defaultStorage->has($filePath);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
-        }
-        finally {
+        } finally {
             \is_resource($fh) and fclose($fh);
         }
     }

@@ -75,7 +75,7 @@ class EntryCommentRepository extends ServiceEntityRepository
                 ->setParameter('user', $criteria->getUser());
         }
 
-        if($criteria->isOnlyParents()) {
+        if ($criteria->isOnlyParents()) {
             $qb->andWhere('c.parent IS NULL');
         }
 

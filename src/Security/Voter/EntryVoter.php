@@ -76,7 +76,7 @@ class EntryVoter extends Voter
     {
         if ($subject->getUser() === $user) {
             return false;
-         }
+        }
 
         return true;
     }

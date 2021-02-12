@@ -79,7 +79,6 @@ class EntryCommentManager
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch((new EntryCommentPurgedEvent($magazine)));
-
     }
 
     public function createDto(EntryComment $comment): EntryCommentDto

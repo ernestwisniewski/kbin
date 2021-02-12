@@ -43,5 +43,4 @@ class EntryCommentVote extends Vote
 
         return $this;
     }
-
 }

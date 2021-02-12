@@ -8,14 +8,17 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-final class UniqueValidator extends ConstraintValidator {
+final class UniqueValidator extends ConstraintValidator
+{
     private EntityManagerInterface $manager;
 
-    public function __construct(EntityManagerInterface $manager) {
+    public function __construct(EntityManagerInterface $manager)
+    {
         $this->manager = $manager;
     }
 
-    public function validate($value, Constraint $constraint): void {
+    public function validate($value, Constraint $constraint): void
+    {
         if (!\is_object($value)) {
             throw new UnexpectedTypeException($value, 'object');
         }

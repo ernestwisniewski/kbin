@@ -25,7 +25,6 @@ class EntryEmbedHandler implements MessageHandlerInterface
         ImageRepository $imageRepository,
         EntityManagerInterface $entityManager
     ) {
-
         $this->entryRepository = $entryRepository;
         $this->embed           = $embed;
         $this->imageManager    = $imageManager;

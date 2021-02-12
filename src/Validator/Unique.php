@@ -14,7 +14,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  * @Annotation
  * @Target({"CLASS"})
  */
-class Unique extends Constraint {
+class Unique extends Constraint
+{
     public const NOT_UNIQUE_ERROR = 'eec1b008-c55b-4d91-b5ad-f0b201eb8ada';
 
     protected static $errorNames = [
@@ -44,7 +45,8 @@ class Unique extends Constraint {
 
     public $errorPath = '';
 
-    public function __construct($options = null) {
+    public function __construct($options = null)
+    {
         parent::__construct($options);
 
         $fields = $options['fields'] ?? $options['value'];
@@ -67,15 +69,18 @@ class Unique extends Constraint {
         }
     }
 
-    public function getRequiredOptions(): array {
+    public function getRequiredOptions(): array
+    {
         return ['fields', 'entityClass'];
     }
 
-    public function getDefaultOption(): string {
+    public function getDefaultOption(): string
+    {
         return 'fields';
     }
 
-    public function getTargets(): array {
+    public function getTargets(): array
+    {
         return [Constraint::CLASS_CONSTRAINT];
     }
 }

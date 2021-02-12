@@ -15,5 +15,4 @@ class EntryCreatedMessage
     {
         return $this->entryId;
     }
-
 }

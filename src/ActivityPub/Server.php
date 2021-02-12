@@ -4,5 +4,4 @@ namespace App\ActivityPub;
 
 class Server
 {
-
 }

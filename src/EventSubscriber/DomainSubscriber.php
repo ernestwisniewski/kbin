@@ -14,7 +14,6 @@ class DomainSubscriber implements EventSubscriberInterface
 
     public function __construct(DomainRepository $domainRepository, DomainManager $domainManager)
     {
-
         $this->domainRepository = $domainRepository;
         $this->domainManager    = $domainManager;
     }

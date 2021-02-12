@@ -18,5 +18,4 @@ class CommentVoteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, EntryCommentVote::class);
     }
-
 }

@@ -36,7 +36,7 @@ final class MagazineExtension extends AbstractExtension
 
     public function isSubscribed(Magazine $magazine): bool
     {
-        if(!$this->security->getUser()) {
+        if (!$this->security->getUser()) {
             return false;
         }
 

@@ -91,7 +91,6 @@ class EntryCommentControllerTest extends WebTestCase
         $this->assertSelectorTextNotContains('blockquote', 'przykładowy komentarz');
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Komentarze 1');
         $this->assertSelectorTextContains('.kbin-entry .kbin-entry-meta', '1 komentarzy');
-
     }
 
     public function testUnauthorizedUserCannotPurgeEntryComment()

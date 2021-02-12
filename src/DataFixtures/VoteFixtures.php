@@ -35,7 +35,6 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                     $this->getReference('entry_'.$e),
                     $this->getReference('user_'.$u)
                 );
-
             }
 
             $randomNb = $this->getUniqueNb(
@@ -55,13 +54,11 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                     $this->getReference('entry_comment_'.$c),
                     $this->getReference('user_'.$u)
                 );
-
             }
         }
     }
 
-    public
-    function getDependencies()
+    public function getDependencies()
     {
         return [
             EntryFixtures::class,

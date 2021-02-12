@@ -31,14 +31,14 @@ class SentUserConfirmationEmail implements MessageHandlerInterface
         }
 
         //@todo
-        $this->emailVerifier->sendEmailConfirmation(
-            'app_verify_email',
-            $user,
-            (new TemplatedEmail())
-                ->from(new Address('noreply@karab.in', 'karab.in Bot'))
-                ->to($user->getEmail())
-                ->subject('Potwierdź swój adres email')
-                ->htmlTemplate('_email/confirmation_email.html.twig')
-        );
+//        $this->emailVerifier->sendEmailConfirmation(
+//            'app_verify_email',
+//            $user,
+//            (new TemplatedEmail())
+//                ->from(new Address('noreply@karab.in', 'karab.in Bot'))
+//                ->to($user->getEmail())
+//                ->subject('Potwierdź swój adres email')
+//                ->htmlTemplate('_email/confirmation_email.html.twig')
+//        );
     }
 }

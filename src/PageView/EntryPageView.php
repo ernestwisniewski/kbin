@@ -13,6 +13,4 @@ class EntryPageView extends Criteria
         self::SORT_TOP,
         self::SORT_COMMENTED,
     ];
-
-
 }

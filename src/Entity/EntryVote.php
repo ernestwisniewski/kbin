@@ -42,5 +42,4 @@ class EntryVote extends Vote
 
         return $this;
     }
-
 }

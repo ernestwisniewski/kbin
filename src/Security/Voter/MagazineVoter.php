@@ -56,8 +56,9 @@ class MagazineVoter extends Voter
         return $magazine->userIsModerator($user);
     }
 
-    public function canSubscribe(Magazine $magazine, User $user):bool {
-        if($magazine->userIsOwner($user)) {
+    public function canSubscribe(Magazine $magazine, User $user):bool
+    {
+        if ($magazine->userIsOwner($user)) {
             return false;
         }
 

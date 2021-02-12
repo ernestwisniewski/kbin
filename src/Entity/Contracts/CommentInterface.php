@@ -4,5 +4,4 @@ namespace App\Entity\Contracts;
 
 interface CommentInterface
 {
-
 }

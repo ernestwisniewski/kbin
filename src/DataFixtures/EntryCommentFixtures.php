@@ -41,10 +41,10 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             $this->addReference('entry_comment_'.$index, $entity);
             $manager->flush();
 
-            $roll = rand(0,4);
+            $roll = rand(0, 4);
             $children = [$entity];
-            if($roll) {
-                for ($i = 1; $i <= rand(0,20); $i++) {
+            if ($roll) {
+                for ($i = 1; $i <= rand(0, 20); $i++) {
                     $children[] = $this->createChildren($children[array_rand($children, 1)]);
                 }
             }
@@ -53,8 +53,8 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
         $manager->flush();
     }
 
-    private function createChildren(EntryComment $parent): EntryComment {
-
+    private function createChildren(EntryComment $parent): EntryComment
+    {
         $dto = (new EntryCommentDto())->createWithParent(
             $parent->getEntry(),
             $parent,

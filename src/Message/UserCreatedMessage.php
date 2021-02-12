@@ -17,5 +17,4 @@ class UserCreatedMessage implements SendConfirmationEmailInterface
     {
         return $this->userId;
     }
-
 }
