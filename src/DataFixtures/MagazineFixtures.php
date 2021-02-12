@@ -43,7 +43,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $titles = [];
         for ($i = 0; $i <= $count; $i++) {
-            $title = $this->faker->words($this->faker->numberBetween(1, 5), true);
+            $title = substr($this->faker->words($this->faker->numberBetween(1, 5), true),0, 50);
 
             if (in_array($title, $titles)) {
                 continue;
@@ -52,7 +52,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
             $titles[] = $title;
 
             yield [
-                'name'        => $this->camelCase($title),
+                'name'        => substr($this->camelCase($title), 0, 24),
                 'title'       => $title,
                 'user'        => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
                 'description' => rand(0,3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),

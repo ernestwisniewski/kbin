@@ -69,7 +69,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
             $body  = $isUrl ? null : $this->faker->paragraphs($this->faker->numberBetween(1, 10), true);
 
             yield [
-                'title'    => $this->faker->realText($this->faker->numberBetween(10, 250)),
+                'title'    => $this->faker->realText($this->faker->numberBetween(10, 255)),
                 'url'      => $isUrl ? $this->faker->url : null,
                 'body'     => $body,
                 'magazine' => $this->getReference('magazine_'.rand(1, intval(MagazineFixtures::MAGAZINES_COUNT))),
