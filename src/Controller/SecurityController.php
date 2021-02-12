@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\DTO\RegisterUserDto;
-use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginAuthenticator;
+use App\Service\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -25,10 +25,10 @@ class SecurityController extends AbstractController
     }
 
     public function register(
-        Request $request,
-        UserPasswordEncoderInterface $passwordEncoder,
         GuardAuthenticatorHandler $guardHandler,
-        LoginAuthenticator $authenticator
+        LoginAuthenticator $authenticator,
+        UserManager $userManager,
+        Request $request
     ): Response {
         if ($this->getUser()) {
             return $this->redirectToRoute('front_subscribed');
@@ -40,32 +40,9 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user = new User($userDto->getEmail(), $userDto->getUsername(), '');
-            $user->setPassword($passwordEncoder->encodePassword($user, $form->get('plainPassword')->getData()));
+            $userManager->create($userDto);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            /*
-            $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address('noreply@karab.in', 'karab.in Bot'))
-                    ->to($user->getEmail())
-                    ->subject('Potwierdź swój adres email')
-                    ->htmlTemplate('_email/confirmation_email.html.twig')
-            );
-            */
-
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main'
-            );
+            return $this->redirectToRoute('front');
         }
 
         return $this->render(
@@ -76,7 +53,7 @@ class SecurityController extends AbstractController
         );
     }
 
-    public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
+    public function verifyUserEmail(Request $request, UserRepository $userRepository, UserManager $userManager): Response
     {
         $id = $request->get('id');
 
@@ -90,18 +67,13 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
+            $userManager->verify($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
-
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', 'Twój email został poprawnie zweryfikowany.');
-
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_login');
     }
 
     public function login(AuthenticationUtils $authenticationUtils): Response

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\DTO\UserDto;
 use App\Form\UserType;
 use App\Repository\EntryCommentRepository;
 use App\Service\UserManager;

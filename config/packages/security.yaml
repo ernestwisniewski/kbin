@@ -24,7 +24,7 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-
+            user_checker: App\Security\UserChecker
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
