@@ -3,4 +3,4 @@ twig:
         kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
 
     default_path: '%kernel.project_dir%/templates'
-    form_themes: ['bootstrap_4_layout.html.twig']
+    form_themes: ['_layout/bootstrap_4_layout.html.twig']

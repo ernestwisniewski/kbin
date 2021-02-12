@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Pagerfanta\PagerfantaInterface;
@@ -37,6 +38,9 @@ class FrontController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function subscribed(?string $sortBy, Request $request): Response
     {
         $criteria = new EntryPageView((int) $request->get('strona', 1));

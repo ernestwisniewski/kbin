@@ -49,7 +49,7 @@ class MagazineManager
         $this->entityManager->flush();
     }
 
-    public function creeateDto(Magazine $magazine): MagazineDto
+    public function createDto(Magazine $magazine): MagazineDto
     {
         return $this->magazineFactory->createDto($magazine);
     }

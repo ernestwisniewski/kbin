@@ -5,7 +5,11 @@ namespace App\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Unique;
 
-class UserDto implements UserDtoInterface
+/**
+ * @Unique(entityClass="App\Entity\User", errorPath="username", fields={"username"}, idFields="id")
+ * @Unique(entityClass="App\Entity\User", errorPath="email", fields={"email"}, idFields="id")
+ */
+class RegisterUserDto implements UserDtoInterface
 {
     private ?int $id = null;
     /**
@@ -22,6 +26,7 @@ class UserDto implements UserDtoInterface
      */
     private ?string $email = null;
     /**
+     * @Assert\NotBlank()
      * @Assert\Length(
      *     min = 6,
      *     max = 4096,

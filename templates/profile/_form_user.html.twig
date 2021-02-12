@@ -1,0 +1,40 @@
+{{ form_start(form) }}
+<div class="mb-3">
+    {{ form_label(form.username) }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.username) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.email) }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.email) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.plainPassword.first) }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.plainPassword.first) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.plainPassword.second) }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.plainPassword.second) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.agreeTerms) }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.agreeTerms) }}
+    </div>
+</div>
+
+<div class="mb-12 text-end">
+    {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+</div>
+{{ form_end(form) }}

@@ -10,10 +10,11 @@ use App\Entity\User;
 class UserVoter extends Voter
 {
     const FOLLOW = 'follow';
+    const EDIT_PROFILE = 'edit_profile';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof User && \in_array($attribute, [self::FOLLOW, true]);
+        return $subject instanceof User && \in_array($attribute, [self::FOLLOW, self::EDIT_PROFILE], true);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -27,6 +28,8 @@ class UserVoter extends Voter
         switch ($attribute) {
             case self::FOLLOW:
                 return $this->canFollow($subject, $user);
+            case self::EDIT_PROFILE:
+                return $this->canEditProfile($subject, $user);
         }
 
         throw new \LogicException();
@@ -39,5 +42,10 @@ class UserVoter extends Voter
         }
 
         return true;
+    }
+
+    private function canEditProfile(User $subject, User $user): bool
+    {
+        return $subject === $user;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\DTO\UserDto;
+use App\Form\UserType;
 use App\Repository\EntryCommentRepository;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -85,11 +87,36 @@ class UserController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function profile()
+    public function profile(): Response
     {
+        $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
+
         return $this->render(
             'profile/front.html.twig',
             [
+            ]
+        );
+    }
+
+    public function edit(UserManager $userManager, Request $request)
+    {
+        $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
+
+        $userDto = $userManager->createDto($this->getUserOrThrow());
+
+        $form = $this->createForm(UserType::class, $userDto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userManager->edit($this->getUser(), $userDto);
+
+            return $this->redirectToRoute('user_profile_edit');
+        }
+
+        return $this->render(
+            'profile/edit.html.twig',
+            [
+                'form' => $form->createView(),
             ]
         );
     }

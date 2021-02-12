@@ -44,6 +44,6 @@ user_profile_settings:
   methods: [ GET ]
 
 user_profile_edit:
-  controller: App\Controller\UserController::profile
+  controller: App\Controller\UserController::edit
   path: /profil/edytuj
-  methods: [ GET ]
+  methods: [ GET, POST ]

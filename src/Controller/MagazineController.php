@@ -80,7 +80,7 @@ class MagazineController extends AbstractController
      */
     public function edit(Magazine $magazine, Request $request): Response
     {
-        $magazineDto = $this->magazineManager->creeateDto($magazine);
+        $magazineDto = $this->magazineManager->createDto($magazine);
 
         $form = $this->createForm(MagazineType::class, $magazineDto);
         $form->handleRequest($request);

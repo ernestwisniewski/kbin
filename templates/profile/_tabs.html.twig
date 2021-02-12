@@ -23,4 +23,9 @@
         <a class="nav-link {{ is_active_route('user_profile_edit') ? 'active font-weight-bold' : '' }}" aria-current="page"
            href="{{ path('user_profile_edit') }}">Edytuj profil</a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page"
+           href="{{ path('app_logout') }}">Wyloguj</a>
+    </li>
 </ul>

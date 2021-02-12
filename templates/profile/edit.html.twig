@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+     {% include 'profile/_tabs.html.twig' %}
+
+    <div class="kbin-profile-edit mt-lg-4">
+        <div class="kbin-magazine-background"></div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                {% include 'profile/_form_user.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' with {user: app.user} %}
+
+    {{ parent() }}
+{% endblock %}
