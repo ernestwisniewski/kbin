@@ -68,6 +68,13 @@ class EntryCommentRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
+        $qb->andWhere(
+            'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)
+            AND
+            cc.user NOT IN (SELECT IDENTITY(ubp.blocked) FROM '.UserBlock::class.' ubp WHERE ubp.blocker = :user)'
+        );
+        $qb->setParameter('user', $this->security->getUser());
+
         if ($criteria->getEntry()) {
             $qb->andWhere('c.entry = :entry')
                 ->setParameter('entry', $criteria->getEntry());
@@ -81,11 +88,6 @@ class EntryCommentRepository extends ServiceEntityRepository
         if ($criteria->getUser()) {
             $qb->andWhere('c.user = :user')
                 ->setParameter('user', $criteria->getUser());
-        } else {
-            $qb->andWhere(
-                'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)'
-            );
-            $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->isSubscribed()) {

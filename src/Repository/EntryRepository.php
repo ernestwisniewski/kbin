@@ -70,6 +70,11 @@ class EntryRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
+        $qb->andWhere(
+            'e.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)'
+        );
+        $qb->setParameter('user', $this->security->getUser());
+
         if ($criteria->getMagazine()) {
             $qb->andWhere('e.magazine = :magazine')
                 ->setParameter('magazine', $criteria->getMagazine());
@@ -78,11 +83,6 @@ class EntryRepository extends ServiceEntityRepository
         if ($criteria->getUser()) {
             $qb->andWhere('e.user = :user')
                 ->setParameter('user', $criteria->getUser());
-        } else {
-            $qb->andWhere(
-                'e.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)'
-            );
-            $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->isSubscribed()) {
