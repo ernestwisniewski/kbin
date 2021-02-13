@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Event\MagazineSubscribedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\MagazineFactory;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
@@ -12,11 +14,13 @@ use App\Entity\User;
 class MagazineManager
 {
     private MagazineFactory $magazineFactory;
+    private EventDispatcherInterface $eventDispatcher;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(MagazineFactory $magazineFactory, EntityManagerInterface $entityManager)
+    public function __construct(MagazineFactory $magazineFactory, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $entityManager)
     {
         $this->magazineFactory = $magazineFactory;
+        $this->eventDispatcher = $eventDispatcher;
         $this->entityManager   = $entityManager;
     }
 
@@ -52,5 +56,23 @@ class MagazineManager
     public function createDto(Magazine $magazine): MagazineDto
     {
         return ($this->magazineFactory->createDto($magazine))->setId($magazine->getId());
+    }
+
+    public function subscribe(Magazine $magazine, User $user)
+    {
+        $magazine->subscribe($user);
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
+    }
+
+    public function unsubscribe(Magazine $magazine, User $user)
+    {
+        $magazine->unsubscribe($user);
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
     }
 }

@@ -122,11 +122,11 @@ class MagazineController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("subscribe", subject="magazine")
      */
-    public function subscribe(Magazine $magazine, SubscriptionManager $subscriptionManager, Request $request): Response
+    public function subscribe(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
-        $subscriptionManager->subscribe($magazine, $this->getUserOrThrow());
+        $this->magazineManager->subscribe($magazine, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -135,11 +135,11 @@ class MagazineController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("subscribe", subject="magazine")
      */
-    public function unsubscribe(Magazine $magazine, SubscriptionManager $subscriptionManager, Request $request): Response
+    public function unsubscribe(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
-        $subscriptionManager->unsubscribe($magazine, $this->getUserOrThrow());
+        $this->magazineManager->unsubscribe($magazine, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }

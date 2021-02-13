@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -47,6 +47,7 @@ class EntryCommentManager
 
         $comment->getEntry()->addComment($comment);
         $comment->setRoot($commentDto->getRoot());
+        $comment->setMagazine($commentDto->getEntry()->getMagazine());
 
         $this->entityManager->persist($comment);
         $this->entityManager->flush();

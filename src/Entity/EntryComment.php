@@ -41,6 +41,12 @@ class EntryComment implements VoteInterface
     private ?Entry $entry;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Magazine::class)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    private ?Magazine $magazine;
+
+    /**
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="children")
      */
     private ?EntryComment $parent;
@@ -104,6 +110,18 @@ class EntryComment implements VoteInterface
     public function setEntry(?Entry $entry): self
     {
         $this->entry = $entry;
+
+        return $this;
+    }
+
+    public function getMagazine(): ?Magazine
+    {
+        return $this->magazine;
+    }
+
+    public function setMagazine(?Magazine $magazine): self
+    {
+        $this->magazine = $magazine;
 
         return $this;
     }

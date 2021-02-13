@@ -4,7 +4,9 @@
     <form action="{{ path('user_' ~ (follow ? 'unfollow' : 'follow'), {username: user.username}) }}"
           method="POST"
           class="kbin-user-follow {{ follow ? 'kbin-follow--active' : '' }}">
-        <button type="submit" class="btn btn btn-outline-light text-dark text-muted rounded-end {{ is_granted('follow', user) ? '' : 'disabled' }}">{{ follow ? 'obserwujesz' : 'obserwuj' }}</button>
+        <button type="submit"
+                class="btn btn btn-outline-light text-dark text-muted {{ is_granted('follow', user) ? '' : 'disabled' }}">obserwuj</button>
         <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
     </form>
+    {% include 'user/_block_button.html.twig' %}
 </div>

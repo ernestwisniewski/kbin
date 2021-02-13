@@ -100,6 +100,16 @@ class User implements UserInterface
     private Collection $followers;
 
     /**
+     * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocker", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private Collection $blocks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocked", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private Collection $blockers;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private bool $isVerified = false;//@todo
@@ -115,11 +125,13 @@ class User implements UserInterface
         $this->entryVotes        = new ArrayCollection();
         $this->entryComments     = new ArrayCollection();
         $this->entryCommentVotes = new ArrayCollection();
+        $this->subscriptions     = new ArrayCollection();
+        $this->follows           = new ArrayCollection();
+        $this->followers         = new ArrayCollection();
+        $this->blocks            = new ArrayCollection();
+        $this->blockers          = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
-        $this->subscriptions = new ArrayCollection();
-        $this->follows       = new ArrayCollection();
-        $this->followers     = new ArrayCollection();
     }
 
     public function getId(): int
@@ -294,6 +306,8 @@ class User implements UserInterface
 
     public function follow(User $following): self
     {
+        $this->unblock($following);
+
         if (!$this->isFollowing($following)) {
             $this->followers->add($follower = new UserFollow($this, $following));
 
@@ -329,12 +343,12 @@ class User implements UserInterface
         $this->updateFollowCounts($followingUser);
     }
 
-    public function getFollows()
+    public function getFollows(): Collection
     {
         return $this->follows;
     }
 
-    public function getFollowers()
+    public function getFollowers(): Collection
     {
         return $this->followers;
     }
@@ -347,6 +361,65 @@ class User implements UserInterface
     public function updateFollowCounts(User $following)
     {
         $following->followersCount = $following->followers->count();
+    }
+
+    public function isBlocked(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('blocked', $user));
+
+        return \count($this->blocks->matching($criteria)) > 0;
+    }
+
+    public function isBlocker(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('blocker', $this));
+
+        return \count($user->blockers->matching($criteria)) > 0;
+    }
+
+    public function block(User $blocked): self
+    {
+        $this->unfollow($blocked);
+
+        if (!$this->isBlocked($blocked)) {
+            $this->blocks->add($userBlock = new UserBlock($this, $blocked));
+
+            if (!$blocked->blockers->contains($userBlock)) {
+                $blocked->blockers->add($userBlock);
+            }
+        }
+
+        return $this;
+    }
+
+    public function unblock(User $blocked): void
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('blocked', $blocked));
+
+        /**
+         * @var $userBlock UserBlock
+         */
+        $userBlock = $this->blocks->matching($criteria)->first();
+
+        if ($this->blocks->removeElement($userBlock)) {
+            if ($userBlock->getBlocker() === $this) {
+                $userBlock->setBlocker(null);
+                $blocked->blockers->removeElement($this);
+            }
+        }
+    }
+
+    public function getBlocks(): Collection
+    {
+        return $this->blocks;
+    }
+
+    public function getBlockers(): Collection
+    {
+        return $this->blockers;
     }
 
     public function isVerified(): bool

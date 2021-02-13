@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\MagazineSubscription;
+use App\Entity\UserBlock;
+use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
@@ -12,6 +15,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method EntryComment|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,9 +28,13 @@ class EntryCommentRepository extends ServiceEntityRepository
     const SORT_DEFAULT = 'najnowsze';
     const PER_PAGE = 15;
 
-    public function __construct(ManagerRegistry $registry)
+    private Security $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, EntryComment::class);
+
+        $this->security = $security;
     }
 
     public function findByCriteria(Criteria $criteria): PagerfantaInterface
@@ -73,6 +81,22 @@ class EntryCommentRepository extends ServiceEntityRepository
         if ($criteria->getUser()) {
             $qb->andWhere('c.user = :user')
                 ->setParameter('user', $criteria->getUser());
+        } else {
+            $qb->andWhere(
+                'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)'
+            );
+            $qb->setParameter('user', $this->security->getUser());
+        }
+
+        if ($criteria->isSubscribed()) {
+            $qb->andWhere(
+                'c.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
+                OR 
+                c.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
+                OR
+                c.user = :user'
+            );
+            $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->isOnlyParents()) {

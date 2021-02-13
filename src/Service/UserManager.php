@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Event\UserBlockEvent;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -66,6 +67,29 @@ class UserManager
         $this->eventDispatcher->dispatch(new UserFollowedEvent($follower, $following));
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function block(User $blocker, User $blocked)
+    {
+        $blocker->block($blocked);
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function unblock(User $blocker, User $blocked)
+    {
+        $blocker->unblock($blocked);
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new UserFollowedEvent($blocker, $blocked));
+    }
 
     public function create(RegisterUserDto $dto): User
     {

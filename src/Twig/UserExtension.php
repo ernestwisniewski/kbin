@@ -31,6 +31,7 @@ final class UserExtension extends AbstractExtension
     {
         return [
             new TwigFunction('is_user_follow', [$this, 'isUserFollow']),
+            new TwigFunction('is_user_blocked', [$this, 'isUserBlocked']),
         ];
     }
 
@@ -41,5 +42,14 @@ final class UserExtension extends AbstractExtension
         }
 
         return $this->security->getUser()->isFollower($following);
+    }
+
+    public function isUserBlocked(User $blocked): bool
+    {
+        if (!$user = $this->security->getUser()) {
+            return false;
+        }
+
+        return $this->security->getUser()->isBlocked($blocked);
     }
 }

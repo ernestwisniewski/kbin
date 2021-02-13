@@ -28,7 +28,7 @@ entry_comments:
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_subscribed:
-  controller: App\Controller\EntryCommentController::front
+  controller: App\Controller\EntryCommentController::subscribed
   defaults: { sortBy: ~ }
   path: /sub/komentarze/{sortBy}
   methods: [GET]

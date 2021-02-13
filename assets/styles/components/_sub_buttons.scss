@@ -1,4 +1,4 @@
-.kbin-sub, .kbin-follow {
+.kbin-sub, .kbin-follow, .kbin-block {
   &--active {
     .btn {
       background: $kbin-green;
@@ -9,5 +9,14 @@
   .btn {
     border-radius: 0;
     border: 1px solid $kbin-grey-shadow;
+  }
+}
+
+.kbin-block {
+  &--active {
+    .btn {
+      background: $kbin-vote-down;
+      color: $kbin-grey !important;
+    }
   }
 }

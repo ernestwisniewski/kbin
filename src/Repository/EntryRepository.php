@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\ForumSubscription;
 use App\Entity\Magazine;
 use App\Entity\MagazineSubscription;
+use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -77,6 +78,11 @@ class EntryRepository extends ServiceEntityRepository
         if ($criteria->getUser()) {
             $qb->andWhere('e.user = :user')
                 ->setParameter('user', $criteria->getUser());
+        } else {
+            $qb->andWhere(
+                'e.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)'
+            );
+            $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->isSubscribed()) {

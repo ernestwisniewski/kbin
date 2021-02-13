@@ -86,6 +86,30 @@ class UserController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
+    public function block(User $blocked, UserManager $userManager, Request $request): Response
+    {
+        $this->validateCsrf('block', $request->request->get('token'));
+
+        $userManager->block($this->getUserOrThrow(), $blocked);
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function unblock(User $blocked, UserManager $userManager, Request $request): Response
+    {
+        $this->validateCsrf('block', $request->request->get('token'));
+
+        $userManager->unblock($this->getUserOrThrow(), $blocked);
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function profile(): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());

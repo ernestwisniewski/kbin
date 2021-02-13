@@ -3,7 +3,7 @@
 namespace App\Tests\Controller;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use App\Service\SubscriptionManager;
+use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
 class MagazineControllerTest extends WebTestCase
@@ -101,7 +101,7 @@ class MagazineControllerTest extends WebTestCase
     public function testUserCanSubscribeMagazine()
     {
         $client  = $this->createClient();
-        $manager = self::$container->get(SubscriptionManager::class);
+        $manager = self::$container->get(MagazineManager::class);
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
 
         $user2 = $this->getUserByUsername('regularUser2');

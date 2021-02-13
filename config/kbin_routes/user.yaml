@@ -23,6 +23,16 @@ user_unfollow:
   path: /u/{username}/unfollow
   methods: [ POST ]
 
+user_block:
+  controller: App\Controller\UserController::block
+  path: /u/{username}/block
+  methods: [ POST ]
+
+user_unblock:
+  controller: App\Controller\UserController::unblock
+  path: /u/{username}/unblock
+  methods: [ POST ]
+
 user_profile_front:
   controller: App\Controller\UserController::profile
   path: /profil

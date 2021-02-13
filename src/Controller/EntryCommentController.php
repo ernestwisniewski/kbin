@@ -52,6 +52,26 @@ class EntryCommentController extends AbstractController
         );
     }
 
+    public function subscribed(?string $sortBy, Request $request): Response
+    {
+        $params   = [];
+        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)));
+
+        $criteria->showSubscribed();
+
+        $criteria->showSortOption($sortBy);
+
+        $params['comments'] = $this->commentRepository->findByCriteria($criteria);
+
+        $this->commentRepository->hydrate(...$params['comments']);
+        $this->commentRepository->hydrateChildren(...$params['comments']);
+
+        return $this->render(
+            'entry/comment/front.html.twig',
+            $params
+        );
+    }
+
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
