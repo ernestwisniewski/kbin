@@ -38,6 +38,10 @@ final class UserAvatarListener implements EventSubscriberInterface
 
         $data = $event->getData();
 
+        if (!$event->getForm()->has('avatar')) {
+            return;
+        }
+
         $upload = $event->getForm()->get('avatar')->getData();
 
         if ($upload && !$data->getAvatar()) {
