@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ user.username }} - Przegląd | {{ parent() }}{% endblock %}
+
 {% block body %}
     <div class="kbin-user-front-page">
         {% include 'user/_filters.html.twig' %}

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ is_sub_page() ? 'Subskrybcje' : 'Strona główna' }} | {{ parent() }}{% endblock %}
+
 {% block body %}
     <div class="kbin-front-page">
         {% include 'entry/_list.html.twig' %}

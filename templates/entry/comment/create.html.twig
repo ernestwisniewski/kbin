@@ -1,6 +1,8 @@
 {% extends 'entry/front.html.twig' %}
 {% from 'entry/comment/_macros.html.twig' import comment %}
 
+{% block title %}Odpowiedz | {{ parent() }}{% endblock %}
+
 {% block body %}
     {{ parent() }}
 {% endblock %}
