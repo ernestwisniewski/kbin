@@ -3,9 +3,11 @@
 {% block title %}test{% endblock %}
 
 {% block body %}
-    <div class="kbin-comment-wrapper">
-        {% include 'user/_filters.html.twig' %}
-        {% include 'entry/comment/_list.html.twig' with {'nested': false} %}
+    <div class="kbin-user-comments-page">
+        <div class="kbin-comment-wrapper">
+            {% include 'user/_filters.html.twig' %}
+            {% include 'entry/comment/_list.html.twig' with {'nested': false} %}
+        </div>
     </div>
 {% endblock %}
 

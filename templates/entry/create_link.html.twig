@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="kbin-entry-create-link mt-lg-4" data-controller="entry-create">
-        <div class="kbin-magazine-background"></div>
+    <div class="kbin-entry-create-page">
+        <div class="kbin-entry-create-link mt-lg-4" data-controller="entry-create">
+            <div class="kbin-magazine-background"></div>
 
-        <h1 class="font-weight-bold">Dodaj nowy link</h1>
-        <p class="kbin-magazine-create-lead lead mb-5">
-            Podziel się ciekawym linkiem lub fotografią.
-        </p>
+            <h1 class="font-weight-bold">Dodaj nowy link</h1>
+            <p class="kbin-magazine-create-lead lead mb-5">
+                Podziel się ciekawym linkiem lub fotografią.
+            </p>
 
-        {% include 'entry/_form_link.html.twig' %}
+            {% include 'entry/_form_link.html.twig' %}
+        </div>
     </div>
 {% endblock %}

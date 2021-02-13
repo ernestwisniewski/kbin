@@ -3,12 +3,13 @@
 {% block title %}Hello MagazineController!{% endblock %}
 
 {% block body %}
-    <h1>Wszystkie magazyny:</h1>
+    <div class="kbin-magazines-page">
+        <h1>Wszystkie magazyny:</h1>
 
-    <ul>
-        {% for magazine in magazines %}
-            <li><a href="{{ path('magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></li>
-        {% endfor %}
-    </ul>
-
+        <ul>
+            {% for magazine in magazines %}
+                <li><a href="{{ path('magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

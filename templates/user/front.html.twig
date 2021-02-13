@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% include 'user/_filters.html.twig' %}
-    {% include 'entry/_list.html.twig' %}
+    <div class="kbin-user-front-page">
+        {% include 'user/_filters.html.twig' %}
+        {% include 'entry/_list.html.twig' %}
+    </div>
 {% endblock %}
 
 {% block sidebar %}

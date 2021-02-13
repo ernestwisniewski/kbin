@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="kbin-entry-create-article mt-lg-4">
-        <div class="kbin-magazine-background"></div>
+    <div class="kbin-entry-edit-page">
+        <div class="kbin-entry-create-article mt-lg-4">
+            <div class="kbin-magazine-background"></div>
 
-        <h1 class="font-weight-bold">Edytuj artykuł</h1>
-        <p class="kbin-magazine-create-lead lead mb-5">
-            Napisz artykuł lub wiadomość tekstową.
-        </p>
+            <h1 class="font-weight-bold">Edytuj artykuł</h1>
+            <p class="kbin-magazine-create-lead lead mb-5">
+                Napisz artykuł lub wiadomość tekstową.
+            </p>
 
-        {% include 'entry/_form_article.html.twig' %}
-        {% include 'entry/_form_purge.html.twig' %}
+            {% include 'entry/_form_article.html.twig' %}
+            {% include 'entry/_form_purge.html.twig' %}
+        </div>
     </div>
 {% endblock %}

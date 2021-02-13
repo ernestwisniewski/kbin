@@ -1,16 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="kbin-magazine-create mt-lg-4">
-        <div class="kbin-magazine-background"></div>
+    <div class="kbin-magazine-edit-page">
+        <div class="kbin-magazine-edit mt-lg-4">
+            <div class="kbin-magazine-background"></div>
 
-        <h1 class="font-weight-bold">Edytuj magazyn</h1>
-        <p class="kbin-magazine-create-lead lead mb-5">Magazyn jest zbiorem treści o podobnej tematyce. Twórz społeczność i gromadź wokół niej
-            użytkowników o podobnych
-            zainteresowaniach. Na tobie będzie spoczywać odpowiedzialność za dbanie o jego jakość.</p>
+            <h1 class="font-weight-bold">Edytuj magazyn</h1>
+            <p class="kbin-magazine-create-lead lead mb-5">Magazyn jest zbiorem treści o podobnej tematyce. Twórz społeczność i gromadź wokół niej
+                użytkowników o podobnych
+                zainteresowaniach. Na tobie będzie spoczywać odpowiedzialność za dbanie o jego jakość.</p>
 
-        {% include 'magazine/_form.html.twig' %}
-        {% include 'magazine/_form_purge.html.twig' %}
+            {% include 'magazine/_form.html.twig' %}
+            {% include 'magazine/_form_purge.html.twig' %}
+        </div>
     </div>
 {% endblock %}
 

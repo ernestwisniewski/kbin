@@ -3,14 +3,16 @@
 {% block title %}Zaloguj się!{% endblock %}
 
 {% block body %}
-    <div class="kbin-login mt-lg-4">
-        <div class="kbin-magazine-background"></div>
+    <div class="kbin-user-register-page">
+        <div class="kbin-login mt-lg-4">
+            <div class="kbin-magazine-background"></div>
 
-        <div class="row">
-            <div class="col-lg-6 mb-3">
-                <h1 class="font-weight-bold mb-5">Utwórz konto</h1>
-                {% include 'profile/_form_user.html.twig' %}
-                <p class="mt-4">Masz już konto? <a href="{{ path('app_login') }}">Zaloguj się!</a></p>
+            <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <h1 class="font-weight-bold mb-5">Utwórz konto</h1>
+                    {% include 'profile/_form_user.html.twig' %}
+                    <p class="mt-4">Masz już konto? <a href="{{ path('app_login') }}">Zaloguj się!</a></p>
+                </div>
             </div>
         </div>
     </div>
