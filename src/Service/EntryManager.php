@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -63,7 +63,9 @@ class EntryManager
         $entry->setTitle($entryDto->getTitle());
         $entry->setUrl($entryDto->getUrl());
         $entry->setBody($entryDto->getBody());
-        $entry->setImage($entryDto->getImage());
+        if ($entryDto->getImage()) {
+            $entry->setImage($entryDto->getImage());
+        }
 
         $this->assertType($entry);
 

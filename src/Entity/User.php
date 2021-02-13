@@ -102,7 +102,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $isVerified = true;//@todo
+    private bool $isVerified = false;//@todo
 
     public function __construct($email, $username, $password)
     {
@@ -139,7 +139,7 @@ class User implements UserInterface
 
         return $this;
     }
-    
+
     public function getEmail(): string
     {
         return $this->email;

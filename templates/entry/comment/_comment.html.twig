@@ -1,4 +1,5 @@
 {% block comment %}
+    {% from 'user/_macros.html.twig' import avatar %}
     {% from 'vote/_macros.html.twig' import vote %}
 
     <blockquote id="{{ comment.id }}"
@@ -7,11 +8,7 @@
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 
             <div class="kbin-comment-avatar">
-                {% if comment.user.avatar %}
-                    <img class="img-thumbnail" src="{{ asset(comment.user.avatar.getFilePath()) | imagine_filter('avatar_thumb') }}" alt="{{ comment.user.username }}" />
-                {% else %}
-                    <img class="img-thumbnail" src="{{ asset('build/images/avatar.jpg') }}" alt="{{ comment.user.username }}" />
-                {% endif %}
+                {{ avatar(comment.user) }}
             </div>
 
             <aside class="kbin-comment-meta">

@@ -52,11 +52,13 @@ abstract class WebTestCase extends BaseWebTestCase
         return $user ? $user : $this->createUser($username);
     }
 
-    private function createUser(string $username, string $email = null, string $password = null): User
+    private function createUser(string $username, string $email = null, string $password = null, $active = true): User
     {
         $manager = self::$container->get(EntityManagerInterface::class);
 
         $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
+
+        $user->setIsVerified($active);
 
         $manager->persist($user);
         $manager->flush();

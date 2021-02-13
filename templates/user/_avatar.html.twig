@@ -1,0 +1,7 @@
+{% block avatar %}
+    {% if user.avatar %}
+        <img class="img-thumbnail" src="{{ asset(user.avatar.getFilePath()) | imagine_filter('avatar_thumb') }}" alt="{{ user.username }}" />
+    {% else %}
+        <img class="img-thumbnail" src="{{ asset('build/images/avatar.jpg') }}" alt="{{ user.username }}" />
+    {% endif %}
+{% endblock %}

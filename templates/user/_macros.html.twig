@@ -1,0 +1,10 @@
+{% use 'user/_avatar.html.twig' %}
+
+{%- macro avatar(user, options) -%}
+    {%- with {
+        user: user,
+        width: options.width ?? null
+        } only -%}
+        {{ block('avatar') }}
+    {%- endwith -%}
+{%- endmacro -%}

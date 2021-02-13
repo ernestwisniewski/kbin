@@ -1,12 +1,10 @@
+{% from 'user/_macros.html.twig' import avatar %}
+
 <div class="kbin-entry card mb-5 shadow-lg bg-white rounded">
     <div class="kbin-entry-info card-body">
         <div class="kbin-entry-info-user">
             <div class="kbin-entry-avatar float-start">
-                {% if entry.user.avatar %}
-                    <img class="img-thumbnail" src="{{ asset(entry.user.avatar.getFilePath()) | imagine_filter('avatar_thumb') }}" alt="{{ entry.user.username }}" />
-                {% else %}
-                    <img class="img-thumbnail" src="{{ asset('build/images/avatar.jpg') }}" alt="{{ entry.user.username }}" />
-                {% endif %}
+                {{ avatar(entry.user) }}
             </div>
             <div class="float-start ms-1">
                 <h5 class="card-title font-weight-bold">{{ entry.user.username }}</h5>
