@@ -3,7 +3,7 @@
 namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Unique;
+use App\Entity\Image;
 
 class UserDto implements UserDtoInterface
 {
@@ -30,6 +30,7 @@ class UserDto implements UserDtoInterface
      * )
      */
     private ?string $plainPassword = null;
+    private ?Image $avatar = null;
     /**
      * @Assert\IsTrue()
      */
@@ -47,66 +48,54 @@ class UserDto implements UserDtoInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    /**
-     * @param string|null $username
-     */
     public function setUsername(?string $username): void
     {
         $this->username = $username;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string|null $email
-     */
     public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    /**
-     * @param string|null $plainPassword
-     */
     public function setPlainPassword(?string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
     }
 
-    /**
-     * @return bool|null
-     */
+    public function getAvatar(): ?Image
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Image $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
     public function getAgreeTerms(): ?bool
     {
         return $this->agreeTerms;
     }
 
-    /**
-     * @param bool|null $agreeTerms
-     */
-    public function setAgreeTerms(?bool $agreeTerms): void
+    public function setAgreeTerms(bool $agreeTerms): void
     {
         $this->agreeTerms = $agreeTerms;
     }

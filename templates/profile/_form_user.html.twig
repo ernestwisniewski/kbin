@@ -27,6 +27,15 @@
     </div>
 </div>
 
+{% if form.avatar is defined %}
+    <div class="mb-3">
+        {{ form_label(form.avatar) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.avatar) }}
+        </div>
+    </div>
+{% endif %}
+
 <div class="mb-3">
     {{ form_label(form.agreeTerms) }}
     <div class="input-group input-group-lg">

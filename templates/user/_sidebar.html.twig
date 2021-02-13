@@ -3,7 +3,13 @@
         <div class="kbin-entry-info card-body">
             <div class="kbin-entry-info-user">
                 <div class="kbin-entry-avatar float-start">
-                    <img src="https://picsum.photos/100/100" class="img-thumbnail" alt="{{ user.username }}"/>
+                    {% if user.avatar is not null %}
+                        <img class="img-thumbnail" src="{{ asset(user.avatar.getFilePath()) | imagine_filter('avatar_thumb') }}"
+                             alt="{{ user.username }}"/>
+                    {% else %}
+                        <img class="img-thumbnail" src="{{ asset('build/images/avatar.jpg')}}"
+                             alt="{{ user.username }}"/>
+                    {% endif %}
                 </div>
                 <div class="float-start ms-1">
                     <h5 class="card-title font-weight-bold">{{ user.username }}</h5>
@@ -25,7 +31,7 @@
                         <span class="text-muted small">Komentarze:</span> {{ user.entryComments|length }}
                     </li>
                     <li>
-                        <span class="text-muted small">Treści:</span>  {{ user.entries|length }}
+                        <span class="text-muted small">Treści:</span> {{ user.entries|length }}
                     </li>
                 </ul>
             </div>

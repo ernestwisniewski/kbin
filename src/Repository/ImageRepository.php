@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -28,8 +28,8 @@ class ImageRepository extends ServiceEntityRepository
     {
         $fileName = $this->imageManager->getFileName($source);
         $filePath = $this->imageManager->getFilePath($source);
-        $sha256 = hash_file('sha256', $source, true);
-        $image = $this->findOneBySha256($sha256);
+        $sha256   = hash_file('sha256', $source, true);
+        $image    = $this->findOneBySha256($sha256);
 
         if (!$image) {
             [$width, $height] = @getimagesize($source);
@@ -42,9 +42,15 @@ class ImageRepository extends ServiceEntityRepository
             $isStored = $this->imageManager->store($source, $filePath);
         } catch (\Exception $e) {
             $this->getEntityManager()->remove($image);
+
             return null;
         }
 
         return $isStored ? $image : null;
+    }
+
+    public function findOrCreateFromUpload($upload): Image
+    {
+        return $this->findOrCreateFromPath($upload->getPathname());
     }
 }

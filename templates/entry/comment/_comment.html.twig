@@ -7,8 +7,11 @@
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 
             <div class="kbin-comment-avatar">
-                <img class="lazy img-thumbnail" src="https://picsum.photos/100/{{ random(75,75) }}?hash={{ random(1,55) }}"
-                     alt="Makigi.pl - Rozkład jazdy 2017">
+                {% if comment.user.avatar %}
+                    <img class="img-thumbnail" src="{{ asset(comment.user.avatar.getFilePath()) | imagine_filter('avatar_thumb') }}" alt="{{ comment.user.username }}" />
+                {% else %}
+                    <img class="img-thumbnail" src="{{ asset('build/images/avatar.jpg') }}" alt="{{ comment.user.username }}" />
+                {% endif %}
             </div>
 
             <aside class="kbin-comment-meta">

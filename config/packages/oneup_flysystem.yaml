@@ -4,7 +4,7 @@ oneup_flysystem:
         default_adapter:
             local:
                 directory: '%kernel.project_dir%/var/storage'
-        entry_thumb:
+        local_images:
             local:
                 directory: '%kernel.project_dir%/var/storage'
 
@@ -12,6 +12,5 @@ oneup_flysystem:
         default_filesystem:
             adapter: default_adapter
             alias: League\Flysystem\Filesystem
-        entry_thumb:
-            adapter: entry_thumb
-
+        local_images:
+            adapter: local_images

@@ -6,21 +6,32 @@ liip_imagine:
             quality: 100
             filters:
                 thumbnail: { size: [ 200, 350 ], mode: inset }
+        avatar_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 100, 100 ], mode: fixed }
 
     loaders:
-        entry_thumb:
+        local_images:
             flysystem:
                 filesystem_service: League\Flysystem\Filesystem
 
-    data_loader: entry_thumb
+    data_loader: local_images
 
     resolvers:
         entry_thumb:
             flysystem:
-                filesystem_service: oneup_flysystem.entry_thumb_filesystem
+                filesystem_service: oneup_flysystem.local_images_filesystem
                 root_url:           "/"
                 cache_prefix:       media/cache
                 visibility:         public
+
+        avatar_thumb:
+            flysystem:
+                filesystem_service: oneup_flysystem.local_images_filesystem
+                root_url: "/"
+                cache_prefix: media/cache
+                visibility: public
 
 
 

@@ -60,8 +60,6 @@ class MagazineControllerTest extends WebTestCase
 
     public function testCannotEditMagazineName()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $client = $this->createClient();
         $client->catchExceptions(false);
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
@@ -79,7 +77,10 @@ class MagazineControllerTest extends WebTestCase
             )
         );
 
-        $this->assertTrue($client->getResponse()->isServerError());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains('.kbin-magazine-header .lead', 'polityka');
+        $this->assertSelectorTextNotContains('.kbin-magazine-header .lead', 'kuchnia');
     }
 
     public function testUnauthorizedUserCannotEditOrPurgeMagazine()

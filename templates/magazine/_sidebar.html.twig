@@ -1,6 +1,6 @@
 {% include 'magazine/_sidebar_admin.html.twig' %}
 
-<div class="kbin-magazine mb-2 mt-5 mt-lg-0">
+<div class="kbin-magazine mb-2 mt-5 mt-lg-0 pt-4">
     <div class="kbin-magazine-header px-2">
         <h2 class="font-weight-bold">{{ magazine.title }}</h2>
         <h3 class="lead mb-2"><span class="text-muted">m/</span>{{ magazine.name }}</h3>
@@ -18,7 +18,7 @@
         {% endif %}
     </div>
 
-    <div class="kbin-magazine-stats">
+    <div class="kbin-magazine-stats mb-4">
         <ul class="list-group list-group-flush mb-3">
             <li class="list-group-item"><span class="text-muted">Utworzono:</span> {{ magazine.createdAt|ago }}</li>
             <li class="list-group-item"><span class="text-muted">Autor:</span> <a href="#">{{ magazine.getOwner.username }}</a></li>
@@ -30,14 +30,36 @@
                 <a href="#">Treści</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.entryCount }}</span>
             </li>
+
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a href="#">Komentarze</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.commentCount }}</span>
             </li>
+
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a href="#">Moderatorzy</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.moderators|length }}</span>
             </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="#">Log moderatorski</a>
+                <span class="badge bg-primary rounded-pill">{{ magazine.moderators|length }}</span>
+            </li>
         </ul>
+    </div>
+
+    <div class="kbin-moderators">
+        <div class="card">
+            <div class="card-header">
+                Moderatorzy
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for moderator in magazine.moderators %}
+                    <li class="list-group-item">
+                        <a href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>

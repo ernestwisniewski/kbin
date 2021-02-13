@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -51,6 +51,6 @@ class MagazineManager
 
     public function createDto(Magazine $magazine): MagazineDto
     {
-        return $this->magazineFactory->createDto($magazine);
+        return ($this->magazineFactory->createDto($magazine))->setId($magazine->getId());
     }
 }

@@ -8,7 +8,7 @@
             {% if (entry.image) %}
                 <div class="kbin-entry-image">
                     <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
-                        <img class="lazy" src="{{ asset(entry.image.getFilePath()) | imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
+                        <img class="lazy" src="{{ asset(entry.image.getFilePath()) |imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
                     </a>
                 </div>
             {% endif %}

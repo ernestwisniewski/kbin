@@ -83,10 +83,12 @@ class UserManager
 
     public function edit(User $user, UserDto $dto): User
     {
+        if ($dto->getAvatar()) {
+            $user->setAvatar($dto->getAvatar());
+        }
+
         if ($dto->getPlainPassword()) {
             $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->getPlainPassword()));
-
-            $this->entityManager->flush();
         }
 
         if ($dto->getEmail() !== $user->getEmail()) {
@@ -97,6 +99,8 @@ class UserManager
 
             $this->messageBus->dispatch(new UserUpdatedMessage($user->getId()));
         }
+
+        $this->entityManager->flush();
 
         return $user;
     }

@@ -2,7 +2,11 @@
     <div class="kbin-entry-info card-body">
         <div class="kbin-entry-info-user">
             <div class="kbin-entry-avatar float-start">
-                <img src="https://picsum.photos/100/100" class="img-thumbnail" alt="{{ entry.user.username }}"/>
+                {% if entry.user.avatar %}
+                    <img class="img-thumbnail" src="{{ asset(entry.user.avatar.getFilePath()) | imagine_filter('avatar_thumb') }}" alt="{{ entry.user.username }}" />
+                {% else %}
+                    <img class="img-thumbnail" src="{{ asset('build/images/avatar.jpg') }}" alt="{{ entry.user.username }}" />
+                {% endif %}
             </div>
             <div class="float-start ms-1">
                 <h5 class="card-title font-weight-bold">{{ entry.user.username }}</h5>

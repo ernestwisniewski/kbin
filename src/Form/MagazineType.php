@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Form\EventListener\DisableNameFieldOnMagazineEdit;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +20,8 @@ class MagazineType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('rules', TextareaType::class)
             ->add('submit', SubmitType::class);
+
+        $builder->addEventSubscriber(new DisableNameFieldOnMagazineEdit());
     }
 
     public function configureOptions(OptionsResolver $resolver): void

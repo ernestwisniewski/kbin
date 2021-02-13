@@ -3,19 +3,33 @@
 namespace App\Form;
 
 use App\DTO\UserDtoInterface;
-use App\Form\EventListener\DisableUsernameFieldOnEdit;
+use App\Form\EventListener\AddAvatarFieldOnUserEdit;
+use App\Form\EventListener\DisableUsernameFieldOnUserEdit;
+use App\Form\EventListener\UserAvatarListener;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 
 class UserType extends AbstractType
 {
+    private UserAvatarListener $avatarListener;
+    private AddAvatarFieldOnUserEdit $addAvatarFieldOnUserEdit;
+    private DisableUsernameFieldOnUserEdit $disableUsernameFieldOnUserEdit;
+
+    public function __construct(
+        UserAvatarListener $avatarListener,
+        AddAvatarFieldOnUserEdit $addAvatarFieldOnUserEdit,
+        DisableUsernameFieldOnUserEdit $disableUsernameFieldOnUserEdit
+    ) {
+        $this->avatarListener                 = $avatarListener;
+        $this->addAvatarFieldOnUserEdit       = $addAvatarFieldOnUserEdit;
+        $this->disableUsernameFieldOnUserEdit = $disableUsernameFieldOnUserEdit;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -38,7 +52,9 @@ class UserType extends AbstractType
             )
             ->add('submit', SubmitType::class);
 
-        $builder->addEventSubscriber(new DisableUsernameFieldOnEdit());
+        $builder->addEventSubscriber($this->disableUsernameFieldOnUserEdit);
+        $builder->addEventSubscriber($this->addAvatarFieldOnUserEdit);
+        $builder->addEventSubscriber($this->avatarListener);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -29,6 +29,11 @@ class User implements UserInterface
     private int $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     */
+    private ?Image $avatar = null;
+
+    /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private string $email;
@@ -122,6 +127,19 @@ class User implements UserInterface
         return $this->id;
     }
 
+
+    public function getAvatar(): ?Image
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Image $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+    
     public function getEmail(): string
     {
         return $this->email;

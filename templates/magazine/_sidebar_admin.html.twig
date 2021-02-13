@@ -1,4 +1,5 @@
-<div class="kbin-add d-grid gap-2 mb-4" data-controller="sidebar-menu"
+{% if is_granted('edit', magazine) %}
+<div class="kbin-add d-grid gap-2" data-controller="sidebar-menu"
      data-sidebar-menu-hide-class="visually-hidden">
     <button type="button"
             class="btn btn-primary btn-lg mb-1 kbin-add-btn {{ kbin_js_enabled ? '' : 'visually-hidden' }}"
@@ -15,7 +16,7 @@
     <div class="kbin-quick-links list-group {{ kbin_js_enabled ? 'visually-hidden' : '' }}"
          data-sidebar-menu-target="content">
 
-        <a href="{{ path('magazine_create') }}" class="list-group-item">
+        <a href="{{ path('magazine_edit', {'name': magazine.name}) }}" class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Ogólne</h4>
         </a>
 
@@ -40,3 +41,4 @@
         </a>
     </div>
 </div>
+{% endif %}

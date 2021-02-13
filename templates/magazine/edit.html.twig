@@ -13,3 +13,9 @@
         {% include 'magazine/_form_purge.html.twig' %}
     </div>
 {% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
+{% endblock %}
