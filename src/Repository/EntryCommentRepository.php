@@ -68,13 +68,6 @@ class EntryCommentRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
-        $qb->andWhere(
-            'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)
-            AND
-            cc.user NOT IN (SELECT IDENTITY(ubp.blocked) FROM '.UserBlock::class.' ubp WHERE ubp.blocker = :user)'
-        );
-        $qb->setParameter('user', $this->security->getUser());
-
         if ($criteria->getEntry()) {
             $qb->andWhere('c.entry = :entry')
                 ->setParameter('entry', $criteria->getEntry());
@@ -92,18 +85,25 @@ class EntryCommentRepository extends ServiceEntityRepository
 
         if ($criteria->isSubscribed()) {
             $qb->andWhere(
-                'c.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
+                'c.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :follower) 
                 OR 
-                c.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
+                c.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :follower)
                 OR
                 c.user = :user'
             );
-            $qb->setParameter('user', $this->security->getUser());
+            $qb->setParameter('follower', $this->security->getUser());
         }
 
         if ($criteria->isOnlyParents()) {
             $qb->andWhere('c.parent IS NULL');
         }
+
+        $qb->andWhere(
+            'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)
+            AND
+            cc.user NOT IN (SELECT IDENTITY(ubp.blocked) FROM '.UserBlock::class.' ubp WHERE ubp.blocker = :blocker)'
+        );
+        $qb->setParameter('blocker', $this->security->getUser());
 
         switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:
