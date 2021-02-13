@@ -35,7 +35,7 @@ class SentUserConfirmationEmail implements MessageHandlerInterface
             'app_verify_email',
             $user,
             (new TemplatedEmail())
-                ->from(new Address('noreply@karab.in', 'karab.in Bot'))
+                ->from(new Address('noreply@mg.karab.in ', 'karab.in Bot'))
                 ->to($user->getEmail())
                 ->subject('Potwierdź swój adres email')
                 ->htmlTemplate('_email/confirmation_email.html.twig')
