@@ -3,13 +3,38 @@
 {% block title %}Hello MagazineController!{% endblock %}
 
 {% block body %}
-    <div class="kbin-magazines-page">
-        <h1>Wszystkie magazyny:</h1>
+    <div class="kbin-magazines-list-page mt-lg-4">
+        <h1 class="font-weight-bold mb-5">Magazyny</h1>
 
-        <ul>
-            {% for magazine in magazines %}
-                <li><a href="{{ path('magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></li>
-            {% endfor %}
-        </ul>
+        {% for row in magazines|batch(3) %}
+            <div class="card-group">
+                {% for magazine in row %}
+                <div class="card mb-3">
+                    <img src="https://picsum.photos/100/50?token={{ random(1,515) }}" class="card-img-top" alt="{{ magazine.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold"><span class="small font-weight-light">m/</span><a href="{{ path('magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></h5>
+                        <h5 class="card-subtitle font-weight-light mb-3">{{ magazine.title }}</h5>
+
+                        {% include 'magazine/_sub_button.html.twig' %}
+
+                        <p class="card-text">{{ magazine.description|slice(0, 250)}} {{ magazine.description|length > 250 ? '...' : '' }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Ostatnia aktualizacja: 3 minuty temu</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {% if(magazines.haveToPaginate) %}
+            {{ pagerfanta(magazines, null, {'pageParameter':'[strona]'}) }}
+        {% endif %}
     </div>
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+
+    {% include '_layout/_kbin_about.html.twig' %}
 {% endblock %}

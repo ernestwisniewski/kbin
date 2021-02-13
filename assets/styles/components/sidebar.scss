@@ -58,18 +58,4 @@
       }
     }
   }
-
-  .kbin-sub, .kbin-follow {
-    &--active {
-      .btn {
-        background: $kbin-green;
-        color: $kbin-grey !important;
-      }
-    }
-
-    .btn {
-      border-radius: 0;
-      border: 1px solid $kbin-grey-shadow;
-    }
-  }
 }

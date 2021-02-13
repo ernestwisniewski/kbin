@@ -145,12 +145,12 @@ class MagazineController extends AbstractController
     }
 
 
-    public function listAll(MagazineRepository $magazineRepository)
+    public function listAll(MagazineRepository $magazineRepository, Request $request)
     {
         return $this->render(
             'magazine/list_all.html.twig',
             [
-                'magazines' => $magazineRepository->findAll(),
+                'magazines' => $magazineRepository->findAllPaginated((int) $request->get('strona', 1)),
             ]
         );
     }

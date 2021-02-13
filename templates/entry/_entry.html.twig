@@ -70,13 +70,13 @@
             <div class="clearfix"></div>
         </div>
 
-        {% if(entry.body and show_content is not null) %}
+        {% if(entry.body and show_content) %}
             <p class="kbin-entry-content mt-3">
                 {{ entry.body }}
             </p>
         {% endif %}
 
-        {% if(entry.embed and show_embed is not null) %}
+        {% if(entry.embed and show_embed) %}
             <div class="ratio ratio-16x9 mt-4">
                 {{ entry.embed|raw }}
             </div>
