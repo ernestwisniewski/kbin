@@ -48,6 +48,16 @@ user_profile_messages:
   path: /profil/wiadomosci
   methods: [ GET ]
 
+user_profile_blocks:
+  controller: App\Controller\UserController::profile
+  path: /profil/blokady
+  methods: [ GET ]
+
+user_profile_subscriptions:
+  controller: App\Controller\UserController::profile
+  path: /profil/subskrybcje
+  methods: [ GET ]
+
 user_profile_settings:
   controller: App\Controller\UserController::profile
   path: /profil/ustawienia

@@ -93,7 +93,7 @@ class UserControllerTest extends WebTestCase
         $this->getEntryByTitle('treść 5', null, null, $magazine, $user4);
         $this->getEntryByTitle('treść 6', null, null, $magazine2, $user4);
 
-//        $manager->block($user, $user2);
+        $manager->follow($user, $user2);
 
         $crawler = $client->request('GET', '/u/regularUser2');
 
@@ -104,6 +104,7 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-user-block')->attr('class'));
+        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-follow', '0');
     }
 
     public function testUserCanChangePassword()

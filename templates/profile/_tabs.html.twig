@@ -14,6 +14,25 @@
            href="{{ path('user_profile_messages') }}">Wiadomości</a>
     </li>
 
+    {# todo: nojs #}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_blocks') ? 'active font-weight-bold' : '' }}" data-bs-toggle="dropdown"
+           role="button" aria-expanded="false" href="{{ path('user_profile_blocks') }}">Blokady</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ path('user_profile_blocks') }}">Użytkownicy</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_blocks') }}">Magazyny</a></li>
+        </ul>
+    </li>
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_subscriptions') ? 'active font-weight-bold' : '' }}" data-bs-toggle="dropdown"
+           role="button" aria-expanded="false" href="{{ path('user_profile_subscriptions') }}">Subskrybcje</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ path('user_profile_subscriptions') }}">Użytkownicy</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_subscriptions') }}">Magazyny</a></li>
+        </ul>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_settings') ? 'active font-weight-bold' : '' }}" aria-current="page"
            href="{{ path('user_profile_settings') }}">Ustawienia</a>
