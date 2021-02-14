@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\UserFollowRepository;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Collection;
@@ -17,6 +18,10 @@ use phpDocumentor\Reflection\Types\Collection;
  */
 class UserFollow
 {
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -38,6 +43,8 @@ class UserFollow
 
     public function __construct(User $follower, User $following)
     {
+        $this->createdAtTraitConstruct();
+
         $this->follower  = $follower;
         $this->following = $following;
     }

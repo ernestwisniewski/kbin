@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\UserBlockRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,6 +17,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserBlock
 {
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -37,6 +42,8 @@ class UserBlock
 
     public function __construct(User $blocker, User $blocked)
     {
+        $this->createdAtTraitConstruct();
+
         $this->blocker = $blocker;
         $this->blocked = $blocked;
     }

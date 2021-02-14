@@ -423,7 +423,7 @@ class User implements UserInterface
         return $this->blockers;
     }
 
-    public function isBlockedMagazine(Magazine $magazine)
+    public function isBlockedMagazine(Magazine $magazine): bool
     {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('magazine', $magazine));

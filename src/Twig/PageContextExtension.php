@@ -142,7 +142,7 @@ final class PageContextExtension extends AbstractExtension
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
 
-            $routeName           = 'entry_comments_magazine';
+            $routeName           = 'magazine_comments';
             $routeParams['name'] = $magazine->getName();
         }
 

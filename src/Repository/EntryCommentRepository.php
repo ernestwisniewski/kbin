@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class EntryCommentRepository extends ServiceEntityRepository
 {
-    const SORT_DEFAULT = 'najnowsze';
+    const SORT_DEFAULT = 'wazne';
     const PER_PAGE = 15;
 
     private Security $security;
