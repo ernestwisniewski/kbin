@@ -1,0 +1,8 @@
+{% set blocked = is_magazine_blocked(magazine) %}
+<form action="{{ path('magazine_' ~ (blocked ? 'unblock' : 'block'), {name: magazine.name}) }}"
+      method="POST"
+      class="kbin-magazine-block {{ blocked ? 'kbin-block--active' : '' }}">
+    <button type="submit"
+            class="btn btn btn-outline-light text-dark text-muted rounded-end {{ is_granted('block', magazine) ? '' : 'disabled' }}"><i class="fas fa-ban"></i></button>
+    <input type="hidden" name="token" value="{{ csrf_token('block') }}">
+</form>

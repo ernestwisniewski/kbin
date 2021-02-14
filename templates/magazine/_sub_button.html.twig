@@ -7,4 +7,5 @@
         <button type="submit" class="btn btn btn-outline-light text-dark text-muted rounded-end {{ is_granted('subscribe', magazine) ? '' : 'disabled' }}">{{ subscribed ? 'obserwujesz' : 'obserwuj' }}</button>
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
     </form>
+    {% include 'magazine/_block_button.html.twig' %}
 </div>

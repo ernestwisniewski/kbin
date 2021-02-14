@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Event\MagazineBlockedEvent;
 use App\Event\MagazineSubscribedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\MagazineFactory;
@@ -74,5 +75,25 @@ class MagazineManager
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
+    }
+
+    public function block(Magazine $magazine, User $user)
+    {
+        $this->unsubscribe($magazine, $user);
+
+        $user->blockMagazine($magazine);
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
+    }
+
+    public function unblock(Magazine $magazine, User $user)
+    {
+        $user->unblockMagazine($magazine);
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
     }
 }

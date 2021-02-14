@@ -24,13 +24,14 @@ final class MagazineExtension extends AbstractExtension
         RequestStack $requestStack
     ) {
         $this->requestStack = $requestStack;
-        $this->security = $security;
+        $this->security     = $security;
     }
 
     public function getFunctions(): array
     {
         return [
             new TwigFunction('is_subscribed', [$this, 'isSubscribed']),
+            new TwigFunction('is_magazine_blocked', [$this, 'isMagazineBlocked']),
         ];
     }
 
@@ -41,5 +42,14 @@ final class MagazineExtension extends AbstractExtension
         }
 
         return $magazine->isSubscribed($this->security->getUser());
+    }
+
+    public function isMagazineBlocked(Magazine $magazine): bool
+    {
+        if (!$this->security->getUser()) {
+            return false;
+        }
+
+        return $this->security->getUser()->isBlockedMagazine($magazine);
     }
 }

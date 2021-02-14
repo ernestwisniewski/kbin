@@ -72,6 +72,8 @@ class UserManager
      */
     public function block(User $blocker, User $blocked)
     {
+        $this->unfollow($blocker, $blocked);
+
         $blocker->block($blocked);
 
         $this->entityManager->flush();

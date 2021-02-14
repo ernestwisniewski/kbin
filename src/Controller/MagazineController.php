@@ -144,6 +144,31 @@ class MagazineController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("block", subject="magazine")
+     */
+    public function block(Magazine $magazine, Request $request): Response
+    {
+        $this->validateCsrf('block', $request->request->get('token'));
+
+        $this->magazineManager->block($magazine, $this->getUserOrThrow());
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("block", subject="magazine")
+     */
+    public function unblock(Magazine $magazine, Request $request): Response
+    {
+        $this->validateCsrf('block', $request->request->get('token'));
+
+        $this->magazineManager->unblock($magazine, $this->getUserOrThrow());
+
+        return $this->redirectToRefererOrHome($request);
+    }
 
     public function listAll(MagazineRepository $magazineRepository, Request $request)
     {

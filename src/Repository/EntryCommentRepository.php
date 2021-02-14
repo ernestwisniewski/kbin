@@ -91,19 +91,12 @@ class EntryCommentRepository extends ServiceEntityRepository
                 OR
                 c.user = :user'
             );
-            $qb->setParameter('follower', $this->security->getUser());
+            $qb->setParameters(['follower' => $this->security->getUser(), 'user' => $this->security->getUser()]);
         }
 
         if ($criteria->isOnlyParents()) {
             $qb->andWhere('c.parent IS NULL');
         }
-
-        $qb->andWhere(
-            'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)
-            AND
-            cc.user NOT IN (SELECT IDENTITY(ubp.blocked) FROM '.UserBlock::class.' ubp WHERE ubp.blocker = :blocker)'
-        );
-        $qb->setParameter('blocker', $this->security->getUser());
 
         switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:

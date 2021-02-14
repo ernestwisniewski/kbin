@@ -110,6 +110,11 @@ class User implements UserInterface
     private Collection $blockers;
 
     /**
+     * @ORM\OneToMany(targetEntity=MagazineBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private Collection $blockedMagazines;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private bool $isVerified = false;//@todo
@@ -130,6 +135,7 @@ class User implements UserInterface
         $this->followers         = new ArrayCollection();
         $this->blocks            = new ArrayCollection();
         $this->blockers          = new ArrayCollection();
+        $this->blockedMagazines  = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }
@@ -259,9 +265,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|MagazineSubscription[]
-     */
     public function getSubscriptions(): Collection
     {
         return $this->subscriptions;
@@ -381,8 +384,6 @@ class User implements UserInterface
 
     public function block(User $blocked): self
     {
-        $this->unfollow($blocked);
-
         if (!$this->isBlocked($blocked)) {
             $this->blocks->add($userBlock = new UserBlock($this, $blocked));
 
@@ -420,6 +421,41 @@ class User implements UserInterface
     public function getBlockers(): Collection
     {
         return $this->blockers;
+    }
+
+    public function isBlockedMagazine(Magazine $magazine)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $magazine));
+
+        return \count($this->blockedMagazines->matching($criteria)) > 0;
+    }
+
+    public function blockMagazine(Magazine $magazine): self
+    {
+        if (!$this->isBlockedMagazine($magazine)) {
+            $this->blockedMagazines->add($magazineBlock = new MagazineBlock($this, $magazine));
+        }
+
+        return $this;
+    }
+
+    public function unblockMagazine(Magazine $magazine): void
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $magazine));
+
+        /**
+         * @var $magazineBlock MagazineBlock
+         */
+        $magazineBlock = $this->blockedMagazines->matching($criteria)->first();
+
+        if ($this->blockedMagazines->removeElement($magazineBlock)) {
+            if ($magazineBlock->getUser() === $this) {
+                $magazineBlock->setMagazine(null);
+                $this->blockedMagazines->removeElement($magazineBlock);
+            }
+        }
     }
 
     public function isVerified(): bool

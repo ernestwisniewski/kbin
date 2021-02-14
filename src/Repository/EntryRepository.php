@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ForumSubscription;
 use App\Entity\Magazine;
+use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
@@ -91,10 +92,17 @@ class EntryRepository extends ServiceEntityRepository
             $qb->setParameter('user', $this->security->getUser());
         }
 
-        $qb->andWhere(
-            'e.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
-        );
-        $qb->setParameter('blocker', $this->security->getUser());
+        if ($user = $this->security->getUser()) {
+            $qb->andWhere(
+                'e.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
+            );
+            $qb->setParameter('blocker', $user);
+
+            $qb->andWhere(
+                'e.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
+            );
+            $qb->setParameter('magazineBlocker', $user);
+        }
 
         switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:

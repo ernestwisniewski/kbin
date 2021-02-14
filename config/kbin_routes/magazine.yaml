@@ -34,3 +34,13 @@ magazine_unsubscribe:
   controller: App\Controller\MagazineController::unsubscribe
   path: /m/{name}/unsubscribe
   methods: [ POST ]
+
+magazine_block:
+  controller: App\Controller\MagazineController::block
+  path: /m/{name}/block
+  methods: [ POST ]
+
+magazine_unblock:
+  controller: App\Controller\MagazineController::unblock
+  path: /m/{name}/unblock
+  methods: [ POST ]
