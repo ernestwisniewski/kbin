@@ -34,32 +34,42 @@ user_unblock:
   methods: [ POST ]
 
 user_profile_front:
-  controller: App\Controller\UserController::profile
+  controller: App\Controller\ProfileController::front
   path: /profil
   methods: [ GET ]
 
 user_profile_notifications:
-  controller: App\Controller\UserController::profile
+  controller: App\Controller\ProfileController::front
   path: /profil/notyfikacje
   methods: [ GET ]
 
 user_profile_messages:
-  controller: App\Controller\UserController::profile
+  controller: App\Controller\ProfileController::front
   path: /profil/wiadomosci
   methods: [ GET ]
 
-user_profile_blocks:
-  controller: App\Controller\UserController::profile
-  path: /profil/blokady
+user_profile_magazine_blocks:
+  controller: App\Controller\ProfileController::blockMagazines
+  path: /profil/blokady/magazyny
   methods: [ GET ]
 
-user_profile_subscriptions:
-  controller: App\Controller\UserController::profile
-  path: /profil/subskrybcje
+user_profile_user_blocks:
+  controller: App\Controller\ProfileController::blockUsers
+  path: /profil/blokady/ludzie
+  methods: [ GET ]
+
+user_profile_magazine_subscriptions:
+  controller: App\Controller\ProfileController::subMagazines
+  path: /profil/subskrybcje/magazyny
+  methods: [ GET ]
+
+user_profile_user_subscriptions:
+  controller: App\Controller\ProfileController::subUsers
+  path: /profil/subskrybcje/ludzie
   methods: [ GET ]
 
 user_profile_settings:
-  controller: App\Controller\UserController::profile
+  controller: App\Controller\ProfileController::front
   path: /profil/ustawienia
   methods: [ GET ]
 

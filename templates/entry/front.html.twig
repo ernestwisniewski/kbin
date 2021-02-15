@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from 'entry/_macros.html.twig' import entry %}
 
-{% block title %}{{ entry.title}} | {{ parent() }}{% endblock %}
+{% block title %}{{ entry.title }} | m/{{ magazine.name }} | {{ parent() }}{% endblock %}
 
     {% block body %}
         <div class="kbin-entry-page">

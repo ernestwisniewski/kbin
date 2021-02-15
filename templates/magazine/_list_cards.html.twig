@@ -1,0 +1,25 @@
+{% for row in magazines|batch(3) %}
+    <div class="card-group">
+        {% for magazine in row %}
+            <div class="card mb-3">
+                <img src="https://picsum.photos/100/50?token={{ random(1,515) }}" class="card-img-top" alt="{{ magazine.name }}">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold"><span class="small font-weight-light">m/</span><a
+                                href="{{ path('magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></h5>
+                    <h5 class="card-subtitle font-weight-light mb-3">{{ magazine.title }}</h5>
+
+                    {% include 'magazine/_sub_button.html.twig' %}
+
+                    <p class="card-text">{{ magazine.description|slice(0, 250) }} {{ magazine.description|length > 250 ? '...' : '' }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Ostatnia aktualizacja: 3 minuty temu</small>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+
+{% if(magazines.haveToPaginate) %}
+    {{ pagerfanta(magazines, null, {'pageParameter':'[strona]'}) }}
+{% endif %}

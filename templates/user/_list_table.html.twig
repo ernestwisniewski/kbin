@@ -1,0 +1,32 @@
+{% from 'user/_macros.html.twig' import avatar %}
+
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <td></td>
+            <td>Nazwa</td>
+            <td>Treści</td>
+            <td>Komentarzy</td>
+            <td>Obserwujących</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ avatar(user) }}</td>
+                <td>u/<a href="{{ path('user', {'username': user.username}) }}">{{ user.username }}</a></td>
+                <td>{{ user.entries|length }}</td>
+                <td>{{ user.entryComments|length }}</td>
+                <td>{{ user.followersCount }}</td>
+                <td>{% include 'user/_follow_button.html.twig' %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if(users.haveToPaginate) %}
+    {{ pagerfanta(users, null, {'pageParameter':'[strona]'}) }}
+{% endif %}

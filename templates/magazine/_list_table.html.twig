@@ -1,0 +1,28 @@
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <td>Nazwa</td>
+            <td>Treści</td>
+            <td>Komentarze</td>
+            <td>Wpisy</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for magazine in magazines %}
+            <tr>
+                <td>m/<a href="{{ path('magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></td>
+                <td>{{ magazine.entryCount }}</td>
+                <td>{{ magazine.commentCount }}</td>
+                <td>0</td>
+                <td>{% include 'magazine/_sub_button.html.twig' %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if(magazines.haveToPaginate) %}
+    {{ pagerfanta(magazines, null, {'pageParameter':'[strona]'}) }}
+{% endif %}

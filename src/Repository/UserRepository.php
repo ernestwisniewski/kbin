@@ -1,9 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\UserBlock;
+use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -21,7 +25,7 @@ use App\Entity\User;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    const PER_PAGE = 35;
+    const PER_PAGE = 5;
 
     private EntryRepository $entryRepository;
     private EntryCommentRepository $entryCommentRepository;
@@ -56,6 +60,58 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         try {
             $pagerfanta->setCurrentPage($criteria->getPage());
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    public function findFollowedUsers(int $page, User $user): PagerfantaInterface
+    {
+        $dql =
+            'SELECT u FROM '.User::class.' u WHERE u IN ('.
+            'SELECT IDENTITY(us.following) FROM '.UserFollow::class.' us WHERE us.follower = :user'.')';
+
+        $query = $this->getEntityManager()->createQuery($dql)
+            ->setParameter('user', $user);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        $pagerfanta->setMaxPerPage(self::PER_PAGE);
+
+        try {
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    public function findBlockedUsers(int $page, User $user)
+    {
+        $dql =
+            'SELECT u FROM '.User::class.' u WHERE u IN ('.
+            'SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user'.')';
+
+        $query = $this->getEntityManager()->createQuery($dql)
+            ->setParameter('user', $user);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        $pagerfanta->setMaxPerPage(self::PER_PAGE);
+
+        try {
+            $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }

@@ -3,7 +3,7 @@
     <div class="kbin-magazine-create-form">
         <div class="input-group-lg mb-3">
             {{ form_label(form.title) }}
-            {{ form_widget(form.title) }}
+            {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
         </div>
         <div class="mb-3">
             {{ form_label(form.body) }}
@@ -15,7 +15,7 @@
         </div>
 
         <div class="mb-12 text-end">
-            {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+            {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
         </div>
     </div>
 </div>

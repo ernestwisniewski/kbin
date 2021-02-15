@@ -15,6 +15,7 @@ $primary: #556880;
 @import "components/comment";
 @import "components/vote";
 @import "components/sub_buttons";
+@import "components/profile";
 
 .kbin-container {
   @include media-breakpoint-down(lg) {

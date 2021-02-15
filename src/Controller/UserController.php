@@ -107,20 +107,6 @@ class UserController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
-    public function profile(): Response
-    {
-        $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
-
-        return $this->render(
-            'profile/front.html.twig',
-            [
-            ]
-        );
-    }
-
     public function edit(UserManager $userManager, Request $request)
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
