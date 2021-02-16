@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\DTO\MagazineBanDto;
+use App\Event\MagazineBanEvent;
 use App\Event\MagazineBlockedEvent;
 use App\Event\MagazineSubscribedEvent;
 use Doctrine\ORM\EntityManagerInterface;
@@ -97,8 +99,12 @@ class MagazineManager
         $this->eventDispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
     }
 
-    public function ban(Magazine $magazine, User $user, User $bannedBy, ?string $reason = null)
+    public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto)
     {
-        $magazine->addBan($user, $bannedBy, $reason);
+        $magazine->addBan($user, $bannedBy, $dto->getReason(), $dto->getExpiredAt());
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new MagazineBanEvent($magazine, $user));
     }
 }

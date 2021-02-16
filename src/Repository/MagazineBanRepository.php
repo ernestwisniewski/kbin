@@ -20,7 +20,7 @@ class MagazineBanRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return MagazineBan[] Returns an array of MagazineBan objects
+    //  * @return MagazineBanDto[] Returns an array of MagazineBanDto objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class MagazineBanRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?MagazineBan
+    public function findOneBySomeField($value): ?MagazineBanDto
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')

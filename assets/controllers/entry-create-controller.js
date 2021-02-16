@@ -1,5 +1,4 @@
 import {Controller} from 'stimulus';
-import KChoices from "./utils/choices";
 import debounce from "./utils/debounce";
 import {fetch, ok} from './utils/http';
 import router from './utils/routing';
@@ -11,7 +10,6 @@ export default class extends Controller {
     };
 
     connect() {
-        const choices = new KChoices();
         this.fetchTitle = debounce(this.fetchTitle, 800).bind(this);
     }
 

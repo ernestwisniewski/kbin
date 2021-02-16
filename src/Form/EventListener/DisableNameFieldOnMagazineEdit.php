@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-class DisableNameFieldOnMagazineEdit implements EventSubscriberInterface
+final class DisableNameFieldOnMagazineEdit implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {

@@ -57,7 +57,7 @@
                             <small class="text-muted"><a href="#">zgłoś</a></small>
                         </li>
 
-                        {% if is_granted('edit', entry) %}
+                        {% if is_granted('edit', entry) or is_granted('moderate', entry.magazine) %}
                             <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <small class="kbin-entry-meta-edit text-muted">
                                     <a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">edytuj</a>
@@ -65,13 +65,13 @@
                             </li>
                         {% endif %}
 
-{#                        {% if is_granted('moderate', entry) %}#}
-{#                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">#}
-{#                            <small class="kbin-entry-meta-edit text-muted">#}
-{#                                <a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">banuj</a>#}
-{#                            </small>#}
-{#                        </li>#}
-{#                        {% endif %}#}
+                        {% if is_granted('moderate', entry.magazine) %}
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="kbin-entry-meta-edit text-muted">
+                                <a href="{{ path('magazine_ban', {'magazine_name': entry.magazine.name, 'user_username': entry.user.username}) }}">zbanuj</a>
+                            </small>
+                        </li>
+                        {% endif %}
                     </ul>
                 </aside>
             </div>

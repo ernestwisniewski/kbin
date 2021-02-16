@@ -48,4 +48,4 @@ magazine_unblock:
 magazine_ban:
   controller: App\Controller\MagazineController::ban
   path: /m/{magazine_name}/ban/{user_username}
-  methods: [ POST ]
+  methods: [ GET, POST ]

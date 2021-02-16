@@ -331,16 +331,17 @@ class Magazine
     public function isBanned(User $user): bool
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('user', $user));
+            ->andWhere(Criteria::expr()->eq('user', $user))
+            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()));
 
-        return $this->bans->matching($criteria)->first();
+        return $this->bans->matching($criteria)->count() > 0;
     }
 
-    public function addBan(User $user, User $bannedBy, ?string $reason): self
+    public function addBan(User $user, User $bannedBy, ?string $reason, ?\DateTimeInterface $expiredAt): self
     {
         $ban = $this->isBanned($user);
         if (!$ban) {
-            $this->bans->add($ban = new MagazineBan($this, $user, $bannedBy, $reason));
+            $this->bans->add($ban = new MagazineBan($this, $user, $bannedBy, $reason, $expiredAt));
             $ban->setMagazine($this);
         }
 

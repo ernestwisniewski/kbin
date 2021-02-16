@@ -18,7 +18,7 @@ class MagazineDto
      *     max = 24
      * )
      */
-    private ?string $name = null;
+    private ?string $name;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(

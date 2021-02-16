@@ -40,12 +40,18 @@ class MagazineBan
      */
     private ?string $reason = null;
 
-    public function __construct(Magazine $magazine, User $user, User $bannedBy, ?string $reason)
+    /**
+     * @ORM\Column(type="datetimetz", length=2048, nullable=true)
+     */
+    private ?\DateTimeInterface $expiredAt = null;
+
+    public function __construct(Magazine $magazine, User $user, User $bannedBy, ?string $reason = null, ?\DateTimeInterface $expiredAt = null)
     {
-        $this->magazine = $magazine;
-        $this->user     = $user;
-        $this->bannedBy = $bannedBy;
-        $this->reason   = $reason;
+        $this->magazine  = $magazine;
+        $this->user      = $user;
+        $this->bannedBy  = $bannedBy;
+        $this->reason    = $reason;
+        $this->expiredAt = $expiredAt;
     }
 
     public function getId(): ?int
@@ -99,6 +105,16 @@ class MagazineBan
         $this->reason = $reason;
 
         return $this;
+    }
+
+    public function getExpiredAt(): ?\DateTimeInterface
+    {
+        return $this->expiredAt;
+    }
+
+    public function setExpiredAt(?\DateTimeInterface $expiredAt): void
+    {
+        $this->expiredAt = $expiredAt;
     }
 
     public function __sleep()

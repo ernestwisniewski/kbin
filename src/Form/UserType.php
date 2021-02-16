@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\DTO\UserDtoInterface;
+use App\DTO\Contracts\UserDtoInterface;
 use App\Form\EventListener\AddAvatarFieldOnUserEdit;
 use App\Form\EventListener\DisableUsernameFieldOnUserEdit;
 use App\Form\EventListener\UserAvatarListener;

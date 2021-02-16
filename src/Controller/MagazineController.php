@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\DTO\MagazineBanDto;
 use App\Entity\User;
+use App\Form\MagazineBanType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,7 +100,7 @@ class MagazineController extends AbstractController
         }
 
         return $this->render(
-            'magazine/edit.html.twig',
+            'magazine/panel/edit.html.twig',
             [
                 'magazine' => $magazine,
                 'form'     => $form->createView(),
@@ -176,16 +178,28 @@ class MagazineController extends AbstractController
      * @ParamConverter("user", options={"mapping": {"user_username": "username"}})
      *
      * @IsGranted("ROLE_USER")
+     * @IsGranted("moderate", subject="magazine")
      */
     public function ban(Magazine $magazine, User $user, Request $request): Response
     {
-        $this->validateCsrf('ban', $request->request->get('token'));
+        $form = $this->createForm(MagazineBanType::class, $magazineBanDto = new MagazineBanDto());
+        $form->handleRequest($request);
 
-        $this->magazineManager->ban($magazine, $user, $this->getUserOrThrow());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->magazineManager->ban($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
 
-        return $this->redirectToRefererOrHome($request);
+            return $this->redirectToRoute('magazine', ['name' => $magazine->getName()]);
+        }
+
+        return $this->render(
+            'magazine/panel/ban.html.twig',
+            [
+                'magazine' => $magazine,
+                'user'     => $user,
+                'form'     => $form->createView(),
+            ]
+        );
     }
-
 
     public function listAll(MagazineRepository $magazineRepository, Request $request)
     {

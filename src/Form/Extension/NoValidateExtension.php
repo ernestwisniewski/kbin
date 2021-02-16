@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-class NoValidateExtension extends AbstractTypeExtension
+final class NoValidateExtension extends AbstractTypeExtension
 {
     private bool $html5Validation;
 

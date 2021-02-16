@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-class DisableUsernameFieldOnUserEdit implements EventSubscriberInterface
+final class DisableUsernameFieldOnUserEdit implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
