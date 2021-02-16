@@ -69,7 +69,7 @@ class EntryControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
 
-        $entry = $this->getEntryByTitle('przykladowa tresc');
+        $entry = $this->getEntryByTitle('przykladowa tresc', 'https://wp.pl');
 
         $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}");
         $crawler = $client->click($crawler->filter('.kbin-entry-meta')->selectLink('edytuj')->link());

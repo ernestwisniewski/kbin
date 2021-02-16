@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moderatorzy | m/{{ magazine.name }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-magazine-ban-page">
+        {% include 'magazine/panel/_tabs.html.twig' %}
+        <div class="kbin-magazine-ban mt-lg-4">
+            {% include 'magazine/panel/_bans_list_table.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
+{% endblock %}

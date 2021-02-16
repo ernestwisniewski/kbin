@@ -10,11 +10,6 @@ magazine_create:
   path: /nowyMagazyn
   methods: [ GET, POST ]
 
-magazine_edit:
-  controller: App\Controller\MagazineController::edit
-  path: /m/{name}/edytuj
-  methods: [ GET, POST ]
-
 magazine_purge:
   controller: App\Controller\MagazineController::purge
   path: /m/{name}/purge
@@ -48,4 +43,19 @@ magazine_unblock:
 magazine_ban:
   controller: App\Controller\MagazineController::ban
   path: /m/{magazine_name}/ban/{user_username}
+  methods: [ GET, POST ]
+
+magazine_panel_edit:
+  controller: App\Controller\MagazinePanelController::edit
+  path: /m/{name}/panel/edytuj
+  methods: [ GET, POST ]
+
+magazine_panel_moderators:
+  controller: App\Controller\MagazinePanelController::moderators
+  path: /m/{name}/panel/moderatorzy
+  methods: [ GET, POST ]
+
+magazine_panel_bans:
+  controller: App\Controller\MagazinePanelController::bans
+  path: /m/{name}/panel/bany
   methods: [ GET, POST ]

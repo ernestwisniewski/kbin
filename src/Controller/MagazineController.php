@@ -79,37 +79,6 @@ class MagazineController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
-     */
-    public function edit(Magazine $magazine, Request $request): Response
-    {
-        $magazineDto = $this->magazineManager->createDto($magazine);
-
-        $form = $this->createForm(MagazineType::class, $magazineDto);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->edit($magazine, $magazineDto);
-
-            return $this->redirectToRoute(
-                'magazine',
-                [
-                    'name' => $magazine->getName(),
-                ]
-            );
-        }
-
-        return $this->render(
-            'magazine/panel/edit.html.twig',
-            [
-                'magazine' => $magazine,
-                'form'     => $form->createView(),
-            ]
-        );
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="magazine")
      */
     public function purge(Magazine $magazine, Request $request): Response

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -28,6 +29,8 @@ class EntryLinkType extends AbstractType
                 ]
             )
             ->add('submit', SubmitType::class);
+
+        $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());
     }
 
     public function configureOptions(OptionsResolver $resolver): void

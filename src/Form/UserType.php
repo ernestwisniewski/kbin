@@ -3,8 +3,8 @@
 namespace App\Form;
 
 use App\DTO\Contracts\UserDtoInterface;
-use App\Form\EventListener\AddAvatarFieldOnUserEdit;
-use App\Form\EventListener\DisableUsernameFieldOnUserEdit;
+use App\Form\EventListener\AddFieldsOnUserEdit;
+use App\Form\EventListener\DisableFieldsOnUserEdit;
 use App\Form\EventListener\UserAvatarListener;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -17,13 +17,13 @@ use Symfony\Component\Form\AbstractType;
 class UserType extends AbstractType
 {
     private UserAvatarListener $avatarListener;
-    private AddAvatarFieldOnUserEdit $addAvatarFieldOnUserEdit;
-    private DisableUsernameFieldOnUserEdit $disableUsernameFieldOnUserEdit;
+    private AddFieldsOnUserEdit $addAvatarFieldOnUserEdit;
+    private DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit;
 
     public function __construct(
         UserAvatarListener $avatarListener,
-        AddAvatarFieldOnUserEdit $addAvatarFieldOnUserEdit,
-        DisableUsernameFieldOnUserEdit $disableUsernameFieldOnUserEdit
+        AddFieldsOnUserEdit $addAvatarFieldOnUserEdit,
+        DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit
     ) {
         $this->avatarListener                 = $avatarListener;
         $this->addAvatarFieldOnUserEdit       = $addAvatarFieldOnUserEdit;

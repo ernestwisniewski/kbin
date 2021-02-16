@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\MagazineBanRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MagazineBan
 {
+    use CreatedAtTrait {
+        CreatedAtTrait::__construct as createdAtTraitConstruct;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -52,6 +57,8 @@ class MagazineBan
         $this->bannedBy  = $bannedBy;
         $this->reason    = $reason;
         $this->expiredAt = $expiredAt;
+
+        $this->createdAtTraitConstruct();
     }
 
     public function getId(): ?int

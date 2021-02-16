@@ -6,8 +6,10 @@ use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Magazine;
+use Pagerfanta\Doctrine\Collections\SelectableAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -100,5 +102,27 @@ class MagazineRepository extends ServiceEntityRepository
         }
 
         return $pagerfanta;
+    }
+
+    public function getModeratorsPaginated(Magazine $magazine, ?int $page = 1)
+    {
+        $criteria = Criteria::create()->orderBy(['createdAt' => 'ASC']);
+
+        $moderators = new Pagerfanta(new SelectableAdapter($magazine->getModerators(), $criteria));
+        $moderators->setMaxPerPage(self::PER_PAGE);
+        $moderators->setCurrentPage($page);
+
+        return $moderators;
+    }
+
+    public function getBansPaginated(Magazine $magazine, ?int $page = 1)
+    {
+        $criteria = Criteria::create()->orderBy(['createdAt' => 'DESC']);
+
+        $bans = new Pagerfanta(new SelectableAdapter($magazine->getBans(), $criteria));
+        $bans->setMaxPerPage(self::PER_PAGE);
+        $bans->setCurrentPage($page);
+
+        return $bans;
     }
 }

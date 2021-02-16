@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\Image as ImageConstraint;
 
-final class AddAvatarFieldOnUserEdit implements EventSubscriberInterface
+final class AddFieldsOnUserEdit implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {

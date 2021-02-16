@@ -1,0 +1,30 @@
+{% from 'user/_macros.html.twig' import avatar %}
+
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <td></td>
+            <td>Nazwa</td>
+            <td>Utworzono</td>
+            <td>Wygasa</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ban in bans %}
+            <tr>
+                <td>{{ avatar(ban.user) }}</td>
+                <td>u/<a href="{{ path('user', {'username': ban.user.username}) }}">{{ ban.user.username }}</a></td>
+                <td>{{ ban.createdAt|ago }}</td>
+                <td>{{ ban.expiredAt|ago }}</td>
+                <td>{% include 'user/_follow_button.html.twig' with {'user': ban.user} %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if(bans.haveToPaginate) %}
+    {{ pagerfanta(users, null, {'pageParameter':'[strona]'}) }}
+{% endif %}
