@@ -59,7 +59,7 @@ class Domain
     public function addEntry(DomainInterface $subject): self
     {
         if (!$this->entries->contains($subject)) {
-            $this->entries[] = $subject;
+            $this->entries->add($subject);
             $subject->setDomain($this);
         }
 

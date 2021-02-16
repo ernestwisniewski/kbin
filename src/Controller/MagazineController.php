@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MagazineRepository;
-use App\Service\SubscriptionManager;
 use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
 use App\Service\MagazineManager;
@@ -169,6 +170,22 @@ class MagazineController extends AbstractController
 
         return $this->redirectToRefererOrHome($request);
     }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("user", options={"mapping": {"user_username": "username"}})
+     *
+     * @IsGranted("ROLE_USER")
+     */
+    public function ban(Magazine $magazine, User $user, Request $request): Response
+    {
+        $this->validateCsrf('ban', $request->request->get('token'));
+
+        $this->magazineManager->ban($magazine, $user, $this->getUserOrThrow());
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
 
     public function listAll(MagazineRepository $magazineRepository, Request $request)
     {

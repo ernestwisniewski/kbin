@@ -49,12 +49,12 @@ user_profile_messages:
   methods: [ GET ]
 
 user_profile_magazine_blocks:
-  controller: App\Controller\ProfileController::blockMagazines
+  controller: App\Controller\ProfileController::blockedMagazines
   path: /profil/blokady/magazyny
   methods: [ GET ]
 
 user_profile_user_blocks:
-  controller: App\Controller\ProfileController::blockUsers
+  controller: App\Controller\ProfileController::blockedUsers
   path: /profil/blokady/ludzie
   methods: [ GET ]
 

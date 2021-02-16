@@ -44,3 +44,8 @@ magazine_unblock:
   controller: App\Controller\MagazineController::unblock
   path: /m/{name}/unblock
   methods: [ POST ]
+
+magazine_ban:
+  controller: App\Controller\MagazineController::ban
+  path: /m/{magazine_name}/ban/{user_username}
+  methods: [ POST ]

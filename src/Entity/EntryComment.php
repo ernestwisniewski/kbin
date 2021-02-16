@@ -148,7 +148,7 @@ class EntryComment implements VoteInterface
         Assert::isInstanceOf($vote, EntryCommentVote::class);
 
         if (!$this->votes->contains($vote)) {
-            $this->votes[] = $vote;
+            $this->votes->add($vote);
             $vote->setComment($this);
         }
 

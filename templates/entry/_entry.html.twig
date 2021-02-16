@@ -64,6 +64,14 @@
                                 </small>
                             </li>
                         {% endif %}
+
+{#                        {% if is_granted('moderate', entry) %}#}
+{#                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">#}
+{#                            <small class="kbin-entry-meta-edit text-muted">#}
+{#                                <a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">banuj</a>#}
+{#                            </small>#}
+{#                        </li>#}
+{#                        {% endif %}#}
                     </ul>
                 </aside>
             </div>

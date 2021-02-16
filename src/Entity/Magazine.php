@@ -81,6 +81,11 @@ class Magazine
      */
     private Collection $subscriptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MagazineBan::class, mappedBy="magazine", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private Collection $bans;
+
     public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules)
     {
         $this->name          = $name;
@@ -90,6 +95,7 @@ class Magazine
         $this->moderators    = new ArrayCollection();
         $this->entries       = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
+        $this->bans          = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true));
 
@@ -178,7 +184,7 @@ class Magazine
     public function addModerator(Moderator $moderator): self
     {
         if (!$this->moderators->contains($moderator)) {
-            $this->moderators[] = $moderator;
+            $this->moderators->add($moderator);
             $moderator->setMagazine($this);
         }
 
@@ -201,7 +207,7 @@ class Magazine
     public function addEntry(Entry $entry): self
     {
         if (!$this->entries->contains($entry)) {
-            $this->entries[] = $entry;
+            $this->entries->add($entry);
             $entry->setMagazine($this);
         }
 
@@ -274,7 +280,7 @@ class Magazine
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('user', $user));
 
-        return \count($this->subscriptions->matching($criteria)) > 0;
+        return $this->subscriptions->matching($criteria)->count() > 0;
     }
 
     public function subscribe(User $user): self
@@ -313,6 +319,41 @@ class Magazine
     private function updateSubscriptionsCount(): self
     {
         $this->subscriptionsCount = $this->subscriptions->count();
+
+        return $this;
+    }
+
+    public function getBans(): Collection
+    {
+        return $this->bans;
+    }
+
+    public function isBanned(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return $this->bans->matching($criteria)->first();
+    }
+
+    public function addBan(User $user, User $bannedBy, ?string $reason): self
+    {
+        $ban = $this->isBanned($user);
+        if (!$ban) {
+            $this->bans->add($ban = new MagazineBan($this, $user, $bannedBy, $reason));
+            $ban->setMagazine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBan(MagazineBan $ban): self
+    {
+        if ($this->bans->removeElement($ban)) {
+            if ($ban->getMagazine() === $this) {
+                $ban->setMagazine(null);
+            }
+        }
 
         return $this;
     }

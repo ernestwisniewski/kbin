@@ -222,7 +222,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
     public function addComment(EntryComment $comment): self
     {
         if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
+            $this->comments->add($comment);
             $comment->setEntry($this);
         }
 
@@ -263,7 +263,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         Assert::isInstanceOf($vote, EntryVote::class);
 
         if (!$this->votes->contains($vote)) {
-            $this->votes[] = $vote;
+            $this->votes->add($vote);
             $vote->setEntry($this);
         }
 

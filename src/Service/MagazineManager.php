@@ -96,4 +96,9 @@ class MagazineManager
 
         $this->eventDispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
     }
+
+    public function ban(Magazine $magazine, User $user, User $bannedBy, ?string $reason = null)
+    {
+        $magazine->addBan($user, $bannedBy, $reason);
+    }
 }

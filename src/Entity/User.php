@@ -238,7 +238,7 @@ class User implements UserInterface
         }
 
         if (!$this->entries->contains($entry)) {
-            $this->entries[] = $entry;
+            $this->entries->add($entry);
         }
 
         return $this;
@@ -258,7 +258,7 @@ class User implements UserInterface
     public function addEntryComment(EntryComment $comment): self
     {
         if (!$this->entryComments->contains($comment)) {
-            $this->entryComments[] = $comment;
+            $this->entryComments->add($comment);
             $comment->setUser($this);
         }
 
@@ -273,7 +273,7 @@ class User implements UserInterface
     public function addSubscription(MagazineSubscription $subscription): self
     {
         if (!$this->subscriptions->contains($subscription)) {
-            $this->subscriptions[] = $subscription;
+            $this->subscriptions->add($subscription);
             $subscription->setUser($this);
         }
 
@@ -296,7 +296,7 @@ class User implements UserInterface
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('following', $user));
 
-        return \count($this->follows->matching($criteria)) > 0;
+        return $this->follows->matching($criteria)->count() > 0;
     }
 
     public function isFollower(User $user): bool
@@ -304,7 +304,7 @@ class User implements UserInterface
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('follower', $this));
 
-        return \count($user->followers->matching($criteria)) > 0;
+        return $user->followers->matching($criteria)->count() > 0;
     }
 
     public function follow(User $following): self
@@ -366,12 +366,24 @@ class User implements UserInterface
         $following->followersCount = $following->followers->count();
     }
 
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
     public function isBlocked(User $user): bool
     {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('blocked', $user));
 
-        return \count($this->blocks->matching($criteria)) > 0;
+        return $this->blocks->matching($criteria)->count() > 0;
     }
 
     public function isBlocker(User $user): bool
@@ -379,7 +391,7 @@ class User implements UserInterface
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('blocker', $this));
 
-        return \count($user->blockers->matching($criteria)) > 0;
+        return $user->blockers->matching($criteria)->count() > 0;
     }
 
     public function block(User $blocked): self
@@ -428,7 +440,7 @@ class User implements UserInterface
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('magazine', $magazine));
 
-        return \count($this->blockedMagazines->matching($criteria)) > 0;
+        return $this->blockedMagazines->matching($criteria)->count() > 0;
     }
 
     public function blockMagazine(Magazine $magazine): self
@@ -456,17 +468,5 @@ class User implements UserInterface
                 $this->blockedMagazines->removeElement($magazineBlock);
             }
         }
-    }
-
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
     }
 }

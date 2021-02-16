@@ -49,7 +49,7 @@ class ProfileController extends AbstractController
         );
     }
 
-    public function blockMagazines(MagazineRepository $magazineRepository, Request $request): Response
+    public function blockedMagazines(MagazineRepository $magazineRepository, Request $request): Response
     {
         $page = (int) $request->get('strona', 1);
 
@@ -61,7 +61,7 @@ class ProfileController extends AbstractController
         );
     }
 
-    public function blockUsers(UserRepository $userRepository, Request $request): Response
+    public function blockedUsers(UserRepository $userRepository, Request $request): Response
     {
         $page = (int) $request->get('strona', 1);
 
