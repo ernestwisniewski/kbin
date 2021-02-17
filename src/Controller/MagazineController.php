@@ -180,6 +180,17 @@ class MagazineController extends AbstractController
         );
     }
 
+    public function moderators(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
+    {
+        return $this->render(
+            'magazine/moderators.html.twig',
+            [
+                'magazine'   => $magazine,
+                'moderators' => $magazineRepository->findModeratorsPaginated($magazine, (int) $request->get('strona', 1))
+            ]
+        );
+    }
+
     public function featuredList(?Magazine $magazine, MagazineRepository $magazineRepository): Response
     {
         $magazines = $magazineRepository->findBy([], null, 20);

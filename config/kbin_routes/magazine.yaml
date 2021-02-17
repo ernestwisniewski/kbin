@@ -20,6 +20,11 @@ magazine_list_all:
   path: /magazyny
   methods: [ GET ]
 
+magazine_moderators:
+  controller: App\Controller\MagazineController::moderators
+  path: /m/{name}/moderatorzy
+  methods: [ GET ]
+
 magazine_subscribe:
   controller: App\Controller\MagazineController::subscribe
   path: /m/{name}/subscribe

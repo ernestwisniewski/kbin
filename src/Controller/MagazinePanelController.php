@@ -70,7 +70,7 @@ class MagazinePanelController extends AbstractController
      */
     public function moderators(Magazine $magazine, Request $request): Response
     {
-        $moderators = $this->magazineRepository->getModeratorsPaginated($magazine, (int) $request->get('strona', 1));
+        $moderators = $this->magazineRepository->findModeratorsPaginated($magazine, (int) $request->get('strona', 1));
 
         return $this->render(
             'magazine/panel/moderators.html.twig',

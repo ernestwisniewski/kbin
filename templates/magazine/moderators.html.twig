@@ -3,11 +3,8 @@
 {% block title %}Moderatorzy | m/{{ magazine.name }} | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="kbin-magazine-moderators-page">
-        {% include 'magazine/panel/_tabs.html.twig' %}
-        <div class="kbin-magazine-ban mt-lg-4">
-            {% include 'magazine/panel/_moderators_list_table.html.twig' %}
-        </div>
+    <div class="kbin-moderators-page">
+        {% include 'magazine/_moderators_list_table.html.twig' %}
     </div>
 {% endblock %}
 

@@ -104,7 +104,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    public function getModeratorsPaginated(Magazine $magazine, ?int $page = 1)
+    public function findModeratorsPaginated(Magazine $magazine, ?int $page = 1)
     {
         $criteria = Criteria::create()->orderBy(['createdAt' => 'ASC']);
 
