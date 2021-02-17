@@ -60,6 +60,12 @@ magazine_panel_moderators:
   path: /m/{name}/panel/moderatorzy
   methods: [ GET, POST ]
 
+magazine_panel_moderator_purge:
+  controller: App\Controller\MagazinePanelController::deleteModerator
+  path: /m/{magazine_name}/panel/{moderator_id}/purge
+  methods: [ POST ]
+
+
 magazine_panel_bans:
   controller: App\Controller\MagazinePanelController::bans
   path: /m/{name}/panel/bany

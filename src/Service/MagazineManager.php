@@ -124,4 +124,10 @@ class MagazineManager
 
         $this->entityManager->flush();
     }
+
+    public function removeModerator(Moderator $moderator)
+    {
+        $this->entityManager->remove($moderator);
+        $this->entityManager->flush();
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\MagazineBanDto;
 use App\DTO\ModeratorDto;
+use App\Entity\Moderator;
 use App\Entity\User;
 use App\Form\MagazineBanType;
 use App\Form\ModeratorType;
@@ -91,6 +92,22 @@ class MagazinePanelController extends AbstractController
                 'form'       => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("moderator", options={"mapping": {"moderator_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="magazine")
+     */
+    public function deleteModerator(Magazine $magazine, Moderator $moderator, Request $request): Response
+    {
+        $this->validateCsrf('remove_moderator', $request->request->get('token'));
+
+        $this->magazineManager->removeModerator($moderator);
+
+        return $this->redirectToRefererOrHome($request);
     }
 
     /**
