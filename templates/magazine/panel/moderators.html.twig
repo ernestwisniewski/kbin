@@ -5,8 +5,13 @@
 {% block body %}
     <div class="kbin-magazine-moderators-page">
         {% include 'magazine/panel/_tabs.html.twig' %}
-        <div class="kbin-magazine-ban mt-lg-4">
+
+        <div class="kbin-magazine-moderators mt-md-4">
             {% include 'magazine/panel/_moderators_list_table.html.twig' %}
+        </div>
+
+        <div class="col-lg-6">
+            {% include 'magazine/panel/_form_moderator.html.twig' %}
         </div>
     </div>
 {% endblock %}

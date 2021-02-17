@@ -143,7 +143,7 @@ class EntryController extends AbstractController
         $this->entryManager->purge($entry);
 
         return $this->redirectToRoute(
-            'magazine',
+            'magazine_front',
             [
                 'name' => $magazine->getName(),
             ]

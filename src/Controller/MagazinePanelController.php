@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\DTO\MagazineBanDto;
+use App\DTO\ModeratorDto;
 use App\Entity\User;
 use App\Form\MagazineBanType;
+use App\Form\ModeratorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +50,7 @@ class MagazinePanelController extends AbstractController
             $this->magazineManager->edit($magazine, $magazineDto);
 
             return $this->redirectToRoute(
-                'magazine',
+                'magazine_front',
                 [
                     'name' => $magazine->getName(),
                 ]
@@ -70,6 +72,15 @@ class MagazinePanelController extends AbstractController
      */
     public function moderators(Magazine $magazine, Request $request): Response
     {
+        $dto = new ModeratorDto($magazine);
+
+        $form = $this->createForm(ModeratorType::class, $dto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->magazineManager->addModerator($dto);
+        }
+
         $moderators = $this->magazineRepository->findModeratorsPaginated($magazine, (int) $request->get('strona', 1));
 
         return $this->render(
@@ -77,13 +88,14 @@ class MagazinePanelController extends AbstractController
             [
                 'moderators' => $moderators,
                 'magazine'   => $magazine,
+                'form'       => $form->createView(),
             ]
         );
     }
 
     /**
      * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
+     * @IsGranted("moderate", subject="magazine")
      */
     public function bans(Magazine $magazine, Request $request): Response
     {

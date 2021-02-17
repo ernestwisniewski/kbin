@@ -13,7 +13,7 @@
                     {% if is_magazine_page() %}
                         <li class="text-muted me-3 pt-2">
                             m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
-                                                                href="{{ path('magazine', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
+                                                                href="{{ path('magazine_front', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
                         </li>
                     {% endif %}
                     {{ navbar_link('Ważne', {

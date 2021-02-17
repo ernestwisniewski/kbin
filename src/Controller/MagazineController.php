@@ -66,7 +66,7 @@ class MagazineController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->magazineManager->create($magazineDto, $this->getUserOrThrow());
 
-            return $this->redirectToRoute('magazine', ['name' => $magazineDto->getName()]);
+            return $this->redirectToRoute('magazine_front', ['name' => $magazineDto->getName()]);
         }
 
         return $this->render(
@@ -157,7 +157,7 @@ class MagazineController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->magazineManager->ban($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
 
-            return $this->redirectToRoute('magazine', ['name' => $magazine->getName()]);
+            return $this->redirectToRoute('magazine_panel_bans', ['name' => $magazine->getName()]);
         }
 
         return $this->render(

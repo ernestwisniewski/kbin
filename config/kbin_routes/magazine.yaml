@@ -1,4 +1,4 @@
-magazine:
+magazine_front:
   controller: App\Controller\MagazineController::front
   defaults: { sortBy: ~ }
   path: /m/{name}/{sortBy}

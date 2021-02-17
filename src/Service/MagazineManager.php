@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\DTO\MagazineBanDto;
+use App\DTO\ModeratorDto;
+use App\Entity\Moderator;
 use App\Event\MagazineBanEvent;
 use App\Event\MagazineBlockedEvent;
 use App\Event\MagazineSubscribedEvent;
@@ -34,6 +36,8 @@ class MagazineManager
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();
 
+        $this->subscribe($magazine, $user);
+
         return $magazine;
     }
 
@@ -52,8 +56,12 @@ class MagazineManager
 
     public function purge(Magazine $magazine): void
     {
-        $this->entityManager->remove($magazine);
-        $this->entityManager->flush();
+        try {
+            $this->entityManager->remove($magazine);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            // @todo hide magazine
+        }
     }
 
     public function createDto(Magazine $magazine): MagazineDto
@@ -106,5 +114,14 @@ class MagazineManager
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch(new MagazineBanEvent($magazine, $user));
+    }
+
+    public function addModerator(ModeratorDto $dto)
+    {
+        $magazine = $dto->getMagazine();
+
+        $magazine->addModerator(new Moderator($magazine, $dto->getUser(), false));
+
+        $this->entityManager->flush();
     }
 }
