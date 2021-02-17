@@ -57,7 +57,7 @@ class MagazineControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/m/polityka');
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
+        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
 
         $client->submit(
             $crawler->filter('.kbin-magazine-header .kbin-sub')->selectButton('obserwuj')->form()
@@ -65,7 +65,7 @@ class MagazineControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
+        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '3');
 
         $crawler = $client->request('GET', '/sub');
 
@@ -80,7 +80,7 @@ class MagazineControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
+        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
 
         $crawler = $client->request('GET', '/sub');
 
@@ -112,7 +112,7 @@ class MagazineControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/m/polityka');
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
+        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
 
         $client->submit(
             $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block ')->selectButton('')->form()
@@ -121,6 +121,6 @@ class MagazineControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '0');
+        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
     }
 }
