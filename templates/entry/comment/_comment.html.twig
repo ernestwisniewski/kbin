@@ -50,8 +50,8 @@
             </aside>
 
             <div class="kbin-comment-main">
-                <p class="kbin-comment-content my-2">
-                    {{ comment.body }}
+                <blockquote class="kbin-comment-content my-2">
+                    {{ comment.body|striptags|markdown_to_html }}
                 </p>
                 <aside class="kbin-comment-meta">
                     <ul class="kbin-comment-meta-list  list-inline mb-0">
@@ -82,7 +82,7 @@
                         {% endif %}
                     </ul>
                 </aside>
-            </div>
+            </blockquote>
 
             <div class="clearfix"></div>
         </div>

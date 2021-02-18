@@ -7,7 +7,7 @@
         </div>
         <div class="mb-3">
             {{ form_label(form.body) }}
-            {{ form_widget(form.body) }}
+            {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
         </div>
         <div class="input-group-lg mb-3">
             {{ form_label(form.magazine) }}

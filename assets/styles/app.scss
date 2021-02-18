@@ -5,6 +5,7 @@ $primary: #556880;
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import "~choices.js/src/styles/choices.scss";
+@import "~simplemde/dist/simplemde.min.css";
 @import "variables";
 @import "components/featured-magazines";
 @import "components/navbar";
@@ -75,4 +76,9 @@ $primary: #556880;
 
 .kbin-avatar {
   max-width: 4rem;
+}
+
+.CodeMirror,
+.CodeMirror-scroll {
+  min-height: 100px !important;
 }

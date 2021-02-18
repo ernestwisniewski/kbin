@@ -66,11 +66,11 @@
                         {% endif %}
 
                         {% if is_granted('moderate', entry.magazine) %}
-                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <small class="kbin-entry-meta-edit text-muted">
-                                <a href="{{ path('magazine_ban', {'magazine_name': entry.magazine.name, 'user_username': entry.user.username}) }}">zbanuj</a>
-                            </small>
-                        </li>
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <small class="kbin-entry-meta-edit text-muted">
+                                    <a href="{{ path('magazine_ban', {'magazine_name': entry.magazine.name, 'user_username': entry.user.username}) }}">zbanuj</a>
+                                </small>
+                            </li>
                         {% endif %}
                     </ul>
                 </aside>
@@ -80,7 +80,7 @@
 
         {% if(entry.body and show_content) %}
             <p class="kbin-entry-content mt-3">
-                {{ entry.body }}
+                {{ entry.body|striptags|markdown_to_html }}
             </p>
         {% endif %}
 
