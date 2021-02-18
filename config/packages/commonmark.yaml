@@ -1,0 +1,30 @@
+parameters:
+    commonmark.configuration:
+        allow_unsafe_links: false
+        html_input: escape
+        max_nesting_level: 25
+    commonmark.allowed_schemes: [http, https]
+
+services:
+    _defaults:
+        autowire: true
+        public: false
+
+    League\CommonMark\Extension\Strikethrough\StrikethroughExtension: ~
+    League\CommonMark\Extension\Table\TableExtension: ~
+    League\CommonMark\Extension\Autolink\UrlAutolinkProcessor:
+        arguments:
+            $allowedProtocols: "%commonmark.allowed_schemes%"
+
+    League\CommonMark\ConfigurableEnvironmentInterface:
+        factory: [League\CommonMark\Environment, createCommonMarkEnvironment]
+        calls:
+            - mergeConfig: ["%commonmark.configuration%"]
+            - addExtension: ['@League\CommonMark\Extension\Strikethrough\StrikethroughExtension']
+            - addExtension: ['@League\CommonMark\Extension\Table\TableExtension']
+            - addEventListener:
+                - League\CommonMark\Event\DocumentParsedEvent
+                - '@League\CommonMark\Extension\Autolink\UrlAutolinkProcessor'
+        shared: false
+
+    League\CommonMark\EnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'

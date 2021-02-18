@@ -51,7 +51,7 @@
 
             <div class="kbin-comment-main">
                 <blockquote class="kbin-comment-content my-2">
-                    {{ comment.body|striptags|markdown_to_html }}
+                    {{ comment.body|markdown|raw  }}
                 </p>
                 <aside class="kbin-comment-meta">
                     <ul class="kbin-comment-meta-list  list-inline mb-0">

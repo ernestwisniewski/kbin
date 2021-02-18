@@ -15,7 +15,7 @@ class MagazineDto
      * @Assert\NotBlank()
      * @Assert\Length(
      *     min = 3,
-     *     max = 24
+     *     max = 25
      * )
      */
     private ?string $name;

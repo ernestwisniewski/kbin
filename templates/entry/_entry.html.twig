@@ -80,7 +80,7 @@
 
         {% if(entry.body and show_content) %}
             <p class="kbin-entry-content mt-3">
-                {{ entry.body|striptags|markdown_to_html }}
+                {{ entry.body|markdown|raw }}
             </p>
         {% endif %}
 

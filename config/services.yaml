@@ -9,6 +9,10 @@ services:
         bind:
             $html5Validation: '%html5_validation%'
 
+    _instanceof:
+        League\CommonMark\Inline\Parser\InlineParserInterface:
+            tags: [commonmark.inline_parser]
+
     App\:
         resource: '../src/'
         exclude:
@@ -20,3 +24,7 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Markdown\Factory\EnvironmentFactory:
+        $container: !service_locator
+            League\CommonMark\ConfigurableEnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
