@@ -79,9 +79,9 @@
         </div>
 
         {% if(entry.body and show_content) %}
-            <p class="kbin-entry-content mt-3">
+            <div class="kbin-entry-content mt-3">
                 {{ entry.body|markdown|raw }}
-            </p>
+            </div>
         {% endif %}
 
         {% if(entry.embed and show_embed) %}

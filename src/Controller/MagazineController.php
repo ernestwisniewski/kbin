@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\MagazineBanType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -100,6 +101,15 @@ class MagazineController extends AbstractController
 
         $this->magazineManager->subscribe($magazine, $this->getUserOrThrow());
 
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'subCount' => $magazine->getSubscriptionsCount(),
+                    'isSubscribed' => true
+                ]
+            );
+        }
+
         return $this->redirectToRefererOrHome($request);
     }
 
@@ -112,6 +122,15 @@ class MagazineController extends AbstractController
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
         $this->magazineManager->unsubscribe($magazine, $this->getUserOrThrow());
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'subCount' => $magazine->getSubscriptionsCount(),
+                    'isSubscribed' => false
+                ]
+            );
+        }
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -126,6 +145,14 @@ class MagazineController extends AbstractController
 
         $this->magazineManager->block($magazine, $this->getUserOrThrow());
 
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'isBlocked' => true
+                ]
+            );
+        }
+
         return $this->redirectToRefererOrHome($request);
     }
 
@@ -138,6 +165,14 @@ class MagazineController extends AbstractController
         $this->validateCsrf('block', $request->request->get('token'));
 
         $this->magazineManager->unblock($magazine, $this->getUserOrThrow());
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'isBlocked' => false
+                ]
+            );
+        }
 
         return $this->redirectToRefererOrHome($request);
     }

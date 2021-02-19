@@ -6,6 +6,7 @@ use App\Form\UserType;
 use App\Repository\EntryCommentRepository;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\PageView\EntryCommentPageView;
@@ -67,6 +68,15 @@ class UserController extends AbstractController
 
         $userManager->follow($this->getUserOrThrow(), $following);
 
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'subCount' => $following->getFollowersCount(),
+                    'isSubscribed' => true
+                ]
+            );
+        }
+
         return $this->redirectToRefererOrHome($request);
     }
 
@@ -80,6 +90,15 @@ class UserController extends AbstractController
 
         $userManager->unfollow($this->getUserOrThrow(), $following);
 
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'subCount' => $following->getFollowersCount(),
+                    'isSubscribed' => false
+                ]
+            );
+        }
+
         return $this->redirectToRefererOrHome($request);
     }
 
@@ -92,6 +111,14 @@ class UserController extends AbstractController
 
         $userManager->block($this->getUserOrThrow(), $blocked);
 
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'isBlocked' => true
+                ]
+            );
+        }
+
         return $this->redirectToRefererOrHome($request);
     }
 
@@ -103,6 +130,14 @@ class UserController extends AbstractController
         $this->validateCsrf('block', $request->request->get('token'));
 
         $userManager->unblock($this->getUserOrThrow(), $blocked);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'isBlocked' => false
+                ]
+            );
+        }
 
         return $this->redirectToRefererOrHome($request);
     }

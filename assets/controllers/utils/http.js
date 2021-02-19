@@ -7,9 +7,12 @@ export async function fetch(url = '', options = {}) {
         url = options.url;
     }
 
-    options = { ...options };
+    options = {...options};
     options.credentials = options.credentials || 'same-origin';
     options.redirect = options.redirect || 'error';
+    options.headers = {
+        'X-Requested-With': 'XMLHttpRequest'
+    };
 
     return window.fetch(url, options);
 }

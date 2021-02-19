@@ -46,15 +46,15 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/u/regularUser2');
 
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-follow', '1');
+        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '1');
 
         $client->submit(
-            $crawler->filter('.kbin-entry-info-user .kbin-follow button')->selectButton('obserwuj')->form()
+            $crawler->filter('.kbin-entry-info-user .kbin-sub button')->selectButton('obserwuj')->form()
         );
 
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-follow', '2');
+        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '2');
 
         $crawler = $client->request('GET', '/sub');
 
@@ -64,12 +64,12 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/u/regularUser2');
 
         $client->submit(
-            $crawler->filter('.kbin-entry-info-user .kbin-follow button')->selectButton('obserwuj')->form()
+            $crawler->filter('.kbin-entry-info-user .kbin-sub button')->selectButton('obserwuj')->form()
         );
 
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-follow', '1');
+        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '1');
     }
 
     public function testUserCanBlock() //@todo
@@ -104,7 +104,7 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-user-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-follow', '0');
+        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '0');
     }
 
     public function testUserCanChangePassword()

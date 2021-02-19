@@ -1,20 +1,81 @@
 import {Controller} from 'stimulus';
-import router from "./utils/routing";
+import {fetch, ok} from "./utils/http";
+
+const VOTE_UP = 1;
+const VOTE_DOWN = -1;
 
 export default class extends Controller {
-    static targets = ['upVote', 'downVote']
-    static classes = ['vote-dv', 'vote-dv']
+    static targets = ['upVote', 'upVoteCount', 'downVote', 'downVoteCount'];
+    static classes = ['uv', 'dv'];
     static values = {
+        alreadyVoted: Boolean,
+        choice: Number,
+        upVoteCount: Number,
+        downVoteCount: Number,
         loading: Boolean,
+        uvUrl: String,
+        dvUrl: String
     };
 
-    upVote(event) {
-        // event.preventDefault()
-        // let url = router().generate('ajax_fetch_title');
-        // console.log(this)
+    async up(event) {
+        event.preventDefault();
+        (async () => await this.vote(event, VOTE_UP))();
     }
 
-    downVote(event) {
-        // event.preventDefault()
+    async down(event) {
+        event.preventDefault();
+        (async () => await this.vote(event, VOTE_DOWN))();
+    }
+
+    async vote(event, val) {
+        this.loadingValue = true;
+        this.alreadyVotedValue = true;
+
+        try {
+            let voteUrl = this.uvUrlValue;
+            if(val === VOTE_DOWN) {
+                voteUrl = this.dvUrlValue;
+            }
+
+            let response = await fetch(voteUrl, {
+                method: 'POST',
+                body: new FormData(event.target)
+            });
+
+            response = await ok(response);
+            response = await response.json();
+
+            this.choiceValue = response.choice;
+            this.upVoteCountValue = response.upVotes;
+            this.downVoteCountValue = response.downVotes;
+        } catch (e) {
+            throw e;
+        } finally {
+            this.loadingValue = false;
+        }
+    }
+
+    loadingValueChanged(loading) {
+        if (loading) {
+        } else {
+        }
+    }
+
+    choiceValueChanged(event) {
+        if (!this.alreadyVotedValue) {
+            return;
+        }
+
+        this.upVoteTarget.classList.remove(this.uvClass);
+        this.downVoteTarget.classList.remove(this.dvClass);
+
+        if (event === VOTE_UP) {
+            this.upVoteTarget.classList.add(this.uvClass);
+        } else if (event === VOTE_DOWN) {
+            this.downVoteTarget.classList.add(this.dvClass);
+        }
+
+        this.upVoteCountTarget.innerHTML = this.upVoteCountValue
+        this.downVoteCountTarget.innerHTML = this.downVoteCountValue
     }
 }

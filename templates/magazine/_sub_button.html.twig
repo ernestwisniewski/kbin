@@ -1,10 +1,23 @@
-<div class="kbin-sub btn-group btn-group-sm mb-3" role="group">
-    <button type="button" class="btn btn-light" disabled><i class="fas fa-eye"></i> {{ magazine.subscriptionsCount }}</button>
-    {% set subscribed = is_subscribed(magazine) %}
+{% set subscribed = is_subscribed(magazine) %}
+
+<div class="kbin-sub btn-group btn-group-sm mb-3 {% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+     role="group"
+     data-controller="subscribe"
+     data-subscribe-add-url-value="{{ path('magazine_subscribe', {name: magazine.name}) }}"
+     data-subscribe-remove-url-value="{{ path('magazine_unsubscribe', {name: magazine.name}) }}"
+     data-subscribe-is-subscribed-value="{{ subscribed ? 'true' : 'false' }}"
+     data-subscribe-sub-count-value="{{ magazine.subscriptionsCount }}"
+     data-subscribe-active-class="kbin-sub--active">
+    <button type="button" class="btn btn-light" disabled>
+        <i class="fas fa-eye"></i> <span data-subscribe-target="subCount">{{ magazine.subscriptionsCount }}</span></button>
     <form action="{{ path('magazine_' ~ (subscribed ? 'unsubscribe' : 'subscribe'), {name: magazine.name}) }}"
           method="POST"
-          class="kbin-magazine-subscribe {{ subscribed ? 'kbin-sub--active' : '' }}">
-        <button type="submit" class="btn btn btn-outline-light text-dark text-muted {{ is_granted('subscribe', magazine) ? '' : 'disabled' }}">{{ subscribed ? 'obserwujesz' : 'obserwuj' }}</button>
+          class="kbin-magazine-subscribe kbin-sub-form {{ subscribed ? 'kbin-sub--active' : '' }}"
+          data-action="subscribe#subOrUnsub"
+          data-subscribe-target="form">
+        <button type="submit" class="btn btn btn-outline-light text-dark text-muted {{ is_granted('subscribe', magazine) ? '' : 'disabled' }}">
+            obserwuj
+        </button>
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
     </form>
     {% include 'magazine/_block_button.html.twig' %}

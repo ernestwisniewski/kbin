@@ -1,11 +1,25 @@
-<div class="kbin-follow btn-group btn-group-sm mb-3" role="group">
-    <button type="button" class="btn btn-light" disabled><i class="fas fa-eye"></i> {{ user.followersCount }}</button>
-    {% set follow = is_user_follow(user) %}
+{% set follow = is_user_follow(user) %}
+
+<div class="kbin-sub kbin-sub btn-group btn-group-sm mb-3 {% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+     role="group"
+     data-controller="subscribe"
+     data-subscribe-add-url-value="{{ path('user_follow', {username: user.username}) }}"
+     data-subscribe-remove-url-value="{{ path('user_unfollow', {username: user.username}) }}"
+     data-subscribe-is-subscribed-value="{{ follow ? 'true' : 'false' }}"
+     data-subscribe-sub-count-value="{{ user.followersCount }}"
+     data-subscribe-active-class="kbin-sub--active">
+    <button type="button" class="btn btn-light" disabled>
+        <i class="fas fa-eye"></i> <span data-subscribe-target="subCount">{{ user.followersCount }}</span>
+    </button>
     <form action="{{ path('user_' ~ (follow ? 'unfollow' : 'follow'), {username: user.username}) }}"
           method="POST"
-          class="kbin-user-follow {{ follow ? 'kbin-follow--active' : '' }}">
+          class="kbin-user-follow kbin-sub-form {{ follow ? 'kbin-sub--active' : '' }}"
+          data-action="subscribe#subOrUnsub"
+          data-subscribe-target="form">
         <button type="submit"
-                class="btn btn btn-outline-light text-dark text-muted {{ is_granted('follow', user) ? '' : 'disabled' }}">obserwuj</button>
+                class="btn btn btn-outline-light text-dark text-muted {{ is_granted('follow', user) ? '' : 'disabled' }}">
+            obserwuj
+        </button>
         <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
     </form>
     {% include 'user/_block_button.html.twig' %}

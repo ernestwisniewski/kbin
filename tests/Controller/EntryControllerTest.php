@@ -117,7 +117,7 @@ class EntryControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
-        $this->assertSelectorTextContains('p', 'zmieniona treść wpisu');
+        $this->assertSelectorTextContains('.kbin-entry-content p', 'zmieniona treść wpisu');
     }
 
     public function testCannotEditEntryMagazine()

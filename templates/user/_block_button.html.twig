@@ -1,8 +1,17 @@
 {% set blocked = is_user_blocked(user) %}
-<form action="{{ path('user_' ~ (blocked ? 'unblock' : 'block'), {username: user.username}) }}"
-      method="POST"
-      class="kbin-user-block {{ blocked ? 'kbin-block--active' : '' }}">
-    <button type="submit"
-            class="btn btn btn-outline-light text-dark text-muted rounded-end {{ is_granted('block', user) ? '' : 'disabled' }}"><i class="fas fa-ban"></i></button>
-    <input type="hidden" name="token" value="{{ csrf_token('block') }}">
-</form>
+<div class="kbin-block" data-controller="block"
+     data-block-add-url-value="{{ path('user_block', {username: user.username}) }}"
+     data-block-remove-url-value="{{ path('user_unblock', {username: user.username}) }}"
+     data-block-is-blocked-value="{{ blocked ? 'true' : 'false' }}"
+     data-block-active-class="kbin-block--active">
+    <form action="{{ path('user_' ~ (blocked ? 'unblock' : 'block'), {username: user.username}) }}"
+          method="POST"
+          class="kbin-user-block kbin-block-form {{ blocked ? 'kbin-block--active' : '' }}"
+          data-block-target="form"
+          data-action="block#blockOrUnblock">
+        <button type="submit"
+                class="btn btn btn-outline-light text-dark text-muted rounded-end {{ is_granted('block', user) ? '' : 'disabled' }}">
+            <i class="fas fa-ban"></i></button>
+        <input type="hidden" name="token" value="{{ csrf_token('block') }}">
+    </form>
+</div>

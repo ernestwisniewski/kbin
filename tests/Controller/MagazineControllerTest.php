@@ -75,7 +75,7 @@ class MagazineControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-entry-title a')->link());
 
         $client->submit(
-            $crawler->filter('.kbin-magazine-header .kbin-sub')->selectButton('obserwujesz')->form()
+            $crawler->filter('.kbin-magazine-header .kbin-sub')->selectButton('obserwuj')->form()
         );
 
         $crawler = $client->followRedirect();
