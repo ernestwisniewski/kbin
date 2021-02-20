@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\EntryRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Entry;
 use App\Utils\Embed;
 
 class AjaxController extends AbstractController
@@ -15,6 +17,15 @@ class AjaxController extends AbstractController
         return new JsonResponse(
             [
                 'title' => $embed->fetch($url)->getTitle(),
+            ]
+        );
+    }
+
+    public function fetchEmbed(Entry $entry, EntryRepository $entryRepository, Embed $embed, Request $request): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $entry->getEmbed()
             ]
         );
     }

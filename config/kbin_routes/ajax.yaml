@@ -3,3 +3,9 @@ ajax_fetch_title:
   defaults: { _format: json }
   path: /ajax/fetch_title
   methods: [POST]
+
+ajax_fetch_embed:
+  controller: App\Controller\AjaxController::fetchEmbed
+  defaults: { _format: json }
+  path: /ajax/fetch_embed/{id}
+  methods: [GET]

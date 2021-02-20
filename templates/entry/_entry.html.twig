@@ -1,7 +1,12 @@
 {% block entry %}
     {% from 'vote/_macros.html.twig' import vote %}
 
-    <article id="{{ entry.id }}" class="kbin-entry {{ extra_classes }}">
+    <article id="{{ entry.id }}"
+             class="kbin-entry {{ extra_classes }}"
+             data-controller="embed"
+             data-embed-id-value="{{ entry.id }}"
+             data-embed-is-visible-value="{{ show_embed ? 'true' : 'false' }}"
+             data-embed-hidden-class="display-none">
         <div class="kbin-entry-header">
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote'}) }}
 
@@ -40,7 +45,8 @@
                     </ul>
                     <ul class="kbin-entry-meta-list  list-inline mb-0">
                         {% if entry.embed %}
-                            <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
+                            <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item"
+                                data-action="click->embed#fetch">
                                 <i class="kbin-preview fas fa-photo-video text-muted"></i>
                             </li>
                         {% endif %}
@@ -84,9 +90,12 @@
             </div>
         {% endif %}
 
-        {% if(entry.embed and show_embed) %}
-            <div class="ratio ratio-16x9 mt-4">
-                {{ entry.embed|raw }}
+        {% if entry.embed %}
+            <button type="button" class="btn-close {{ show_embed ? '' : 'display-none' }}" data-embed-target="close" aria-label="Zamknij" data-action="embed#close"></button>
+            <div class="ratio ratio-16x9 mt-4 {{ show_embed ? '' : 'display-none' }}" data-embed-target="container">
+                {% if show_embed %}
+                    {{ entry.embed|raw }}
+                {% endif %}
             </div>
         {% endif %}
     </article>

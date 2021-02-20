@@ -38,7 +38,6 @@ export default class extends Controller {
             this.formTarget.classList.add(this.activeClass);
             this.element.closest('.kbin-sub').getElementsByClassName('kbin-sub-form')[0].classList.remove('kbin-sub--active')
             this.element.closest('.kbin-sub').dataset.subscribeIsSubscribedValue = false;
-            console.log(this.element.closest('.kbin-sub').dataset);
         } else {
             this.formTarget.classList.remove(this.activeClass);
         }

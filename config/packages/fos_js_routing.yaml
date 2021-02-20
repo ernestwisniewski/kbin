@@ -1,2 +1,2 @@
 fos_js_routing:
-    routes_to_expose: ['ajax_fetch_title']
+    routes_to_expose: ['ajax_fetch_title', 'ajax_fetch_embed']
