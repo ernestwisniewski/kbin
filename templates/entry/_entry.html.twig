@@ -38,7 +38,7 @@
                         {% if not is_magazine_page() %}
                             <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
                                 <small class="text-muted">
-                                    do <a href="{{ path('magazine_front', {'name': entry.magazine.name}) }}">m/{{ entry.magazine.name }}</a>
+                                    do <a href="{{ path('magazine_front', {'name': entry.magazine.name}) }}">/m/{{ entry.magazine.name }}</a>
                                 </small>
                             </li>
                         {% endif %}
@@ -93,9 +93,9 @@
         <div class="clearfix"></div>
 
         {% if entry.embed %}
+            <button type="button" class="btn-close mt-3 {{ show_embed ? '' : 'display-none' }}" data-embed-target="close" aria-label="Zamknij"
+                    data-action="embed#close"></button>
             <div class="kbin-embed">
-                <button type="button" class="btn-close mt-3 {{ show_embed ? '' : 'display-none' }}" data-embed-target="close" aria-label="Zamknij"
-                        data-action="embed#close"></button>
                 <div class="ratio ratio-16x9 mt-4 {{ show_embed ? '' : 'display-none' }}" data-embed-target="container">
                     {% if show_embed %}
                         {{ entry.embed|raw }}

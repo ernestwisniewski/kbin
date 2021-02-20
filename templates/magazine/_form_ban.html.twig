@@ -1,22 +1,16 @@
 {{ form_start(form) }}
     <div class="kbin-magazine-create-form">
         <div class="mb-3">
-            {{ form_label(form.reason) }}
+            {{ form_label(form.reason, 'Powód') }}
             <div class="input-group">
                 {{ form_widget(form.reason) }}
-            </div>
-            <div class="valid-feedback">
-                {{ form_errors(form.reason) }}
             </div>
         </div>
 
         <div class="mb-3">
-            {{ form_label(form.expiredAt) }}
+            {{ form_label(form.expiredAt, 'Wygasa') }}
             <div class="input-group">
                 {{ form_widget(form.expiredAt, { 'attr': {'class': 'kbin-date', 'autocomplete': 'off'}}) }}
-            </div>
-            <div class="valid-feedback">
-                {{ form_errors(form.expiredAt) }}
             </div>
         </div>
 

@@ -56,12 +56,8 @@ class MagazineManager
 
     public function purge(Magazine $magazine): void
     {
-        try {
             $this->entityManager->remove($magazine);
             $this->entityManager->flush();
-        } catch (\Exception $e) {
-            // @todo hide magazine
-        }
     }
 
     public function createDto(Magazine $magazine): MagazineDto

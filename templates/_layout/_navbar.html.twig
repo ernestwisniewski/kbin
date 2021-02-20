@@ -12,8 +12,17 @@
                 <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
                     {% if is_magazine_page() %}
                         <li class="text-muted me-3 pt-2">
-                            m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
+                            /m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
                                                                 href="{{ path('magazine_front', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
+                        </li>
+                    {% endif %}
+                    {% if is_user_page() %}
+                        <li class="text-muted me-3 pt-2">
+                            {% if user is not defined %}
+                                {% set user = app.user %}
+                            {% endif %}
+                            /u/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
+                                                                 href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a></span>
                         </li>
                     {% endif %}
                     {{ navbar_link('Ważne', {

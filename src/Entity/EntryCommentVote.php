@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryCommentVote extends Vote
 {
     /**
-     * @ORM\JoinColumn(name="comment_id", nullable=false)
+     * @ORM\JoinColumn(name="comment_id", nullable=false, onDelete="cascade")
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="votes")
      */
     private ?EntryComment $comment;

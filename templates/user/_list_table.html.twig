@@ -16,7 +16,7 @@
         {% for user in users %}
             <tr>
                 <td>{{ avatar(user) }}</td>
-                <td>u/<a href="{{ path('user', {'username': user.username}) }}">{{ user.username }}</a></td>
+                <td>/u/<a href="{{ path('user', {'username': user.username}) }}">{{ user.username }}</a></td>
                 <td>{{ user.entries|length }}</td>
                 <td>{{ user.entryComments|length }}</td>
                 <td>{{ user.followersCount }}</td>

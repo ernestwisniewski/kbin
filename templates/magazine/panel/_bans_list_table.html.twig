@@ -15,7 +15,7 @@
         {% for ban in bans %}
             <tr>
                 <td>{{ avatar(ban.user) }}</td>
-                <td>u/<a href="{{ path('user', {'username': ban.user.username}) }}">{{ ban.user.username }}</a></td>
+                <td>/u/<a href="{{ path('user', {'username': ban.user.username}) }}">{{ ban.user.username }}</a></td>
                 <td>{{ ban.createdAt|ago }}</td>
                 <td>{{ ban.expiredAt|ago }}</td>
                 <td>{% include 'user/_follow_button.html.twig' with {'user': ban.user} %}</td>

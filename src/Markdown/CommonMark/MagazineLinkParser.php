@@ -16,7 +16,7 @@ final class MagazineLinkParser extends AbstractLocalLinkParser {
     }
 
     public function getRegex(): string {
-        return '/^(?:\w{3,25}\+){0,70}\w{3,25}\b/';
+        return '/^(?:\w{2,25}\+){0,70}\w{2,25}\b/';
     }
 
     public function getUrl(string $suffix): string {

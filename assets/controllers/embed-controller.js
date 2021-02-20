@@ -45,14 +45,14 @@ export default class extends Controller {
     }
 
     close() {
+        this.containerTarget.innerHTML = '';
         this.containerTarget.classList.add(this.hiddenClass);
         this.closeTarget.classList.add(this.hiddenClass);
-
         this.isVisibleValue = false;
     }
 
     show() {
-        this.containerTarget.innerHTML  = this.htmlValue
+        this.containerTarget.innerHTML = this.htmlValue
         this.containerTarget.classList.remove(this.hiddenClass);
         this.closeTarget.classList.remove(this.hiddenClass);
 

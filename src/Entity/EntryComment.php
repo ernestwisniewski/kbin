@@ -47,7 +47,8 @@ class EntryComment implements VoteInterface
     private ?Magazine $magazine;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="children", cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="cascade")
      */
     private ?EntryComment $parent;
 

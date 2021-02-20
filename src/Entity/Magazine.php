@@ -32,7 +32,7 @@ class Magazine
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=24)
+     * @ORM\Column(type="string", length=25)
      */
     private string $name;
 

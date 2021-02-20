@@ -42,7 +42,7 @@
             <ul class="list-group list-group-flush">
                 {% for moderator in user.moderatorTokens %}
                     <li class="list-group-item">
-                        m/<a href="{{ path('magazine_front', {'name': moderator.magazine.name}) }}">{{ moderator.magazine.name }}</a>
+                        /m/<a href="{{ path('magazine_front', {'name': moderator.magazine.name}) }}">{{ moderator.magazine.name }}</a>
                     </li>
                 {% endfor %}
             </ul>

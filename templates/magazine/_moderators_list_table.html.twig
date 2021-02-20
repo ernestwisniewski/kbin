@@ -14,7 +14,7 @@
         {% for moderator in moderators %}
             <tr>
                 <td>{{ avatar(moderator.user) }}</td>
-                <td>u/<a href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a></td>
+                <td>/u/<a href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a></td>
                 <td>{{ moderator.createdAt|ago }}</td>
                 <td>{% include 'user/_follow_button.html.twig' with {'user': moderator.user} %}</td>
             </tr>

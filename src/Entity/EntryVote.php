@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryVote extends Vote
 {
     /**
-     * @ORM\JoinColumn(name="entry_id", nullable=false)
+     * @ORM\JoinColumn(name="entry_id", nullable=false, onDelete="cascade")
      * @ORM\ManyToOne(targetEntity="Entry", inversedBy="votes")
      */
     private ?Entry $entry;

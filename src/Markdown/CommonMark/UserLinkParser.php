@@ -22,6 +22,6 @@ final class UserLinkParser extends AbstractLocalLinkParser {
     }
 
     public function getRegex(): string {
-        return '/^\w{3,25}\b/';
+        return '/^\w{2,35}\b/';
     }
 }
