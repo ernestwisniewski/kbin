@@ -148,6 +148,11 @@ $comment-margin-sm: .5rem;
 
     &-content {
       display: inline-block;
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
     }
 
     .mask {

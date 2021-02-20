@@ -58,20 +58,18 @@ class Embed
 
     private function cleanIframe(?string $html): ?string
     {
-        if (empty($html)) {
-            return null;
-        }
+        return $html;
 
-        $types = [
-            str_starts_with($html, '<iframe'),
-            str_starts_with($html, '<video'),
-            str_starts_with($html, '<img'),
-        ];
-
-        if (count(array_unique($types)) === 1) {
-            return null;
-        }
-
-        return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
+//        $types = [
+//            str_starts_with($html, '<iframe'),
+//            str_starts_with($html, '<video'),
+//            str_starts_with($html, '<img'),
+//        ];
+//
+//        if (count(array_unique($types)) === 1) {
+//            return null;
+//        }
+//
+//        return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
     }
 }

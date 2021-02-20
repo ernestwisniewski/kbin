@@ -4,10 +4,12 @@
     <div class="kbin-entry-info card-body">
         <div class="kbin-entry-info-user">
             <div class="kbin-entry-avatar float-start">
-                {{ avatar(entry.user) }}
+                <a href="{{ path('user', {username: entry.user.username }) }}">{{ avatar(entry.user) }}</a>
             </div>
             <div class="float-start ms-1">
-                <h5 class="card-title font-weight-bold">{{ entry.user.username }}</h5>
+                <h5 class="card-title font-weight-bold">
+                    <a class="text-reset link-to-title" href="{{ path('user', {username: entry.user.username }) }}">{{ entry.user.username }}</a>
+                </h5>
                 {% include 'user/_follow_button.html.twig' with { 'user': entry.user } %}
             </div>
         </div>

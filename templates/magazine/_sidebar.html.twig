@@ -21,7 +21,7 @@
     <div class="kbin-magazine-stats mb-4">
         <ul class="list-group list-group-flush mb-3">
             <li class="list-group-item"><span class="text-muted">Utworzono:</span> {{ magazine.createdAt|ago }}</li>
-            <li class="list-group-item"><span class="text-muted">Autor:</span> <a href="#">{{ magazine.getOwner.username }}</a></li>
+            <li class="list-group-item"><span class="text-muted">Autor:</span> <a href="{{ path('user', { username: magazine.getOwner.username}) }}">{{ magazine.getOwner.username }}</a></li>
             <li class="list-group-item"><span class="text-muted">Subskrybujących:</span> 1</li>
         </ul>
 
@@ -56,7 +56,7 @@
             <ul class="list-group list-group-flush">
                 {% for moderator in magazine.moderators %}
                     <li class="list-group-item">
-                        <a href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
+                        {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<a href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
                     </li>
                 {% endfor %}
             </ul>

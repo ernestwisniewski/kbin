@@ -121,6 +121,11 @@
 
   &-content {
     display: inline-block;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   }
 }
 
@@ -128,5 +133,13 @@
 .kbin-entry-create-lead {
   @include media-breakpoint-up(lg) {
     max-width: 45rem;
+  }
+}
+
+.kbin-embed {
+  overflow: scroll;
+
+  .ratio > * {
+    position: absolute !important;
   }
 }

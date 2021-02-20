@@ -33,5 +33,20 @@
             </div>
         </div>
     </div>
+
+    <div class="kbin-moderators mb-5">
+        <div class="card">
+            <div class="card-header">
+                Moderuje
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for moderator in user.moderatorTokens %}
+                    <li class="list-group-item">
+                        m/<a href="{{ path('magazine_front', {'name': moderator.magazine.name}) }}">{{ moderator.magazine.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
 

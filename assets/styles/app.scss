@@ -75,7 +75,7 @@ $primary: #556880;
 }
 
 .kbin-avatar {
-  max-width: 4rem;
+  max-width: 4.4rem;
 }
 
 .CodeMirror,
@@ -85,4 +85,8 @@ $primary: #556880;
 
 .display-none {
   display: none !important;
+}
+
+.link-to-title {
+  text-decoration: none;
 }

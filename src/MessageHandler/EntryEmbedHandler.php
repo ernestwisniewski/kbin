@@ -41,17 +41,12 @@ class EntryEmbedHandler implements MessageHandlerInterface
 
         $embed = $this->embed->fetch($entry->getUrl());
 
-        if (!$embed->getImage()) {
-            return;
+        $image = null;
+        if ($tempFile = $this->fetchImage($embed)) {
+            $image = $this->imageRepository->findOrCreateFromPath($tempFile);
         }
 
-        $tempFile = $this->imageManager->download($embed->getImage());
-        if (!$tempFile) {
-            return;
-        }
-
-        $image = $this->imageRepository->findOrCreateFromPath($tempFile);
-        $html  = $embed->getHtml();
+        $html = $embed->getHtml();
 
         $this->entityManager->transactional(
             static function () use ($entry, $image, $html): void {
@@ -59,5 +54,19 @@ class EntryEmbedHandler implements MessageHandlerInterface
                 $entry->setImage($image);
             }
         );
+    }
+
+    private function fetchImage(Embed $embed): ?string
+    {
+        if (!$embed->getImage()) {
+            return null;
+        }
+
+        $tempFile = $this->imageManager->download($embed->getImage());
+        if (!$tempFile) {
+            return null;
+        }
+
+        return $tempFile;
     }
 }
