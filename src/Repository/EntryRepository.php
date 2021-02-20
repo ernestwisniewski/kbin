@@ -106,7 +106,10 @@ class EntryRepository extends ServiceEntityRepository
 
         switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:
-                $qb->orderBy('e.upVotes', 'DESC');
+                $qb->orderBy('e.score', 'DESC');
+                break;
+            case Criteria::SORT_TOP:
+                $qb->orderBy('e.ranking', 'DESC');
                 break;
             case Criteria::SORT_COMMENTED:
                 $qb->orderBy('e.commentCount', 'DESC');

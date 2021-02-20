@@ -54,7 +54,7 @@ class FrontControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertSelectorTextContains('.kbin-entry-meta-user', 'przez regularUser');
-        $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do m/polityka');
+        $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/polityka');
     }
 
     public function testSubPage()
@@ -68,7 +68,7 @@ class FrontControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Subskrybcje')->link());
 
         $this->assertSelectorTextContains('.kbin-entry-meta-user', 'przez regularUser');
-        $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do m/polityka');
+        $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/polityka');
     }
 
 
@@ -84,7 +84,7 @@ class FrontControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink('Komentarze')->link());
 
         $this->assertSelectorTextContains('.kbin-comment-meta-user', 'przez regularUser');
-        $this->assertSelectorTextContains('.kbin-comment-meta-magazine', 'do m/polityka');
+        $this->assertSelectorTextContains('.kbin-comment-meta-magazine', 'do /m/polityka');
     }
 
     public function testMagazinePage()
@@ -130,7 +130,7 @@ class FrontControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-main .nav-item')->selectLink('Treści')->link());
 
         $this->assertSelectorNotExists('.kbin-entry-meta-user');
-        $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do m/polityka');
+        $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/polityka');
     }
 
     public function testUserCommentsPage()
@@ -145,7 +145,7 @@ class FrontControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-main .nav-item')->selectLink('Komentarze')->link());
 
         $this->assertSelectorNotExists('.kbin-comments-meta-user');
-        $this->assertSelectorTextContains('.kbin-comment-meta-magazine', 'do m/polityka');
+        $this->assertSelectorTextContains('.kbin-comment-meta-magazine', 'do /m/polityka');
         $this->assertSelectorTextContains('.kbin-comment-meta-entry', 'w testowa treść');
     }
 

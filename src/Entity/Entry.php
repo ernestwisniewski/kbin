@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -23,6 +23,12 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    private const DOWNVOTED_CUTOFF = -5;
+    private const NETSCORE_MULTIPLIER = 1800;
+    private const COMMENT_MULTIPLIER = 5000;
+    private const COMMENT_DOWNVOTED_MULTIPLIER = 500;
+    private const MAX_ADVANTAGE = 86400;
+    private const MAX_PENALTY = 43200;
     const ENTRY_TYPE_ARTICLE = 'artykul';
     const ENTRY_TYPE_LINK = 'link';
 
@@ -80,6 +86,16 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
      * @ORM\Column(type="integer")
      */
     private int $commentCount = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $score = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $ranking = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
@@ -214,6 +230,28 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         return $this;
     }
 
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+    public function setScore(int $score): self
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+    public function getRanking(): int
+    {
+        return $this->ranking;
+    }
+
+    public function setRanking(int $ranking): void
+    {
+        $this->ranking = $ranking;
+    }
+
     public function getComments(): Collection
     {
         return $this->comments;
@@ -227,6 +265,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         }
 
         $this->updateCounts();
+        $this->updateRanking();
 
         return $this;
     }
@@ -240,6 +279,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         }
 
         $this->updateCounts();
+        $this->updateRanking();
 
         return $this;
     }
@@ -267,6 +307,9 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
             $vote->setEntry($this);
         }
 
+        $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
+        $this->updateRanking();
+
         return $this;
     }
 
@@ -279,6 +322,27 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
                 $vote->setEntry(null);
             }
         }
+
+        $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
+        $this->updateRanking();
+
+        return $this;
+    }
+
+    private function updateRanking(): self
+    {
+        $score          = $this->getScore();
+        $scoreAdvantage = $score * self::NETSCORE_MULTIPLIER;
+
+        if ($score > self::DOWNVOTED_CUTOFF) {
+            $commentAdvantage = $this->getCommentCount() * self::COMMENT_MULTIPLIER;
+        } else {
+            $commentAdvantage = $this->getCommentCount() * self::COMMENT_DOWNVOTED_MULTIPLIER;
+        }
+
+        $advantage = max(min($scoreAdvantage + $commentAdvantage, self::MAX_ADVANTAGE), -self::MAX_PENALTY);
+
+        $this->ranking = $this->getCreatedAt()->getTimestamp() + $advantage;
 
         return $this;
     }

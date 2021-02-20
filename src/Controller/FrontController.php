@@ -74,7 +74,7 @@ class FrontController extends AbstractController
 
     private function top(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
     }
 
     private function commented(EntryPageView $criteria)
