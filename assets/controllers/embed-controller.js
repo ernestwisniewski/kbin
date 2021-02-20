@@ -16,7 +16,6 @@ export default class extends Controller {
         event.preventDefault();
 
         if (this.isVisibleValue) {
-            console.log('a')
             this.close();
             return;
         }

@@ -2,15 +2,15 @@
 <div class="col-lg-6 mb-3">
     <div class="kbin-magazine-create-form">
         <div class="input-group-lg mb-3">
-            {{ form_label(form.url) }}
+            {{ form_label(form.url, 'URL') }}
             {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle', 'data-entry-create-target': 'url' }}) }}
         </div>
         <div class="input-group-lg mb-3">
-            {{ form_label(form.title) }}
+            {{ form_label(form.title, 'Tytuł') }}
             {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
         </div>
         <div class="input-group-lg mb-3">
-            {{ form_label(form.magazine) }}
+            {{ form_label(form.magazine, 'Magazyn') }}
             {{ form_widget(form.magazine, {'attr': {'class': 'kbin-choices'}}) }}
         </div>
 

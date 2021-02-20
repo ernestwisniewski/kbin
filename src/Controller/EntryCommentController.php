@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EntryCommentRepository;
@@ -89,7 +90,16 @@ class EntryCommentController extends AbstractController
     ): Response {
         $commentDto = (new EntryCommentDto())->createWithParent($entry, $parent);
 
-        $form = $this->createForm(EntryCommentType::class, $commentDto);
+        $form = $this->createForm(
+            EntryCommentType::class,
+            $commentDto,
+            [
+                'action' => $this->generateUrl(
+                    'entry_comment_create',
+                    ['magazine_name' => $magazine->getName(), 'entry_id' => $entry->getId(), 'parent_comment_id' => $parent ? $parent->getId() : null]
+                ),
+            ]
+        );
 
         $form->handleRequest($request);
 
@@ -112,6 +122,20 @@ class EntryCommentController extends AbstractController
 
         $commentRepository->hydrate(...$comments);
         $commentRepository->hydrateChildren(...$comments);
+
+        if ($request->isXmlHttpRequest()) {
+
+            return new JsonResponse(
+                [
+                    'form' => $this->renderView(
+                        'entry/comment/_form.html.twig',
+                        [
+                            'form' => $form->createView(),
+                        ]
+                    ),
+                ]
+            );
+        }
 
         return $this->render(
             'entry/comment/create.html.twig',

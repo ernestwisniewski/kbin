@@ -90,12 +90,17 @@
             </div>
         {% endif %}
 
+        <div class="clearfix"></div>
+
         {% if entry.embed %}
-            <button type="button" class="btn-close {{ show_embed ? '' : 'display-none' }}" data-embed-target="close" aria-label="Zamknij" data-action="embed#close"></button>
-            <div class="ratio ratio-16x9 mt-4 {{ show_embed ? '' : 'display-none' }}" data-embed-target="container">
-                {% if show_embed %}
-                    {{ entry.embed|raw }}
-                {% endif %}
+            <div class="kbin-embed">
+                <button type="button" class="btn-close mt-3 {{ show_embed ? '' : 'display-none' }}" data-embed-target="close" aria-label="Zamknij"
+                        data-action="embed#close"></button>
+                <div class="ratio ratio-16x9 mt-4 {{ show_embed ? '' : 'display-none' }}" data-embed-target="container">
+                    {% if show_embed %}
+                        {{ entry.embed|raw }}
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
     </article>

@@ -3,7 +3,11 @@
     {% from 'vote/_macros.html.twig' import vote %}
 
     <blockquote id="{{ comment.id }}"
-                class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level >= 8 ? 'last' : level }} shadow-sm">
+                class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level >= 8 ? 'last' : level }} shadow-sm"
+                data-controller="comment"
+                data-comment-magazine-value="{{ comment.entry.magazine.name }}"
+                data-comment-entry-value="{{ comment.entry.id }}"
+                data-comment-parent-value="{{ comment.id }}">
         <div class="kbin-comment-header">
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 
@@ -48,16 +52,16 @@
                     {% endif %}
                 </ul>
             </aside>
-
-            <div class="kbin-comment-main">
-                <blockquote class="kbin-comment-content my-2">
-                    {{ comment.body|markdown|raw  }}
+        </div>
+        <div class="kbin-comment-main">
+            <blockquote class="kbin-comment-content my-2">
+                {{ comment.body|markdown|raw }}
                 </p>
                 <aside class="kbin-comment-meta">
                     <ul class="kbin-comment-meta-list  list-inline mb-0">
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">odpowiedz</a>
+                                <a data-action="comment#reply" href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">odpowiedz</a>
                             </small>
                         </li>
 
@@ -85,6 +89,10 @@
             </blockquote>
 
             <div class="clearfix"></div>
+
+            <div data-comment-target="reply" class="">
+
+            </div>
         </div>
     </blockquote>
 
