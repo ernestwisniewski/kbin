@@ -74,7 +74,7 @@ class FrontController extends AbstractController
 
     private function active(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria);
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_ACTIVE));
     }
 
     private function new(EntryPageView $criteria): PagerfantaInterface

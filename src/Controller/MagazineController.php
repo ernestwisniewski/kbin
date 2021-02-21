@@ -248,14 +248,19 @@ class MagazineController extends AbstractController
         return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
     }
 
-    private function new(Criteria $criteria): PagerfantaInterface
-    {
-        return $this->entryRepository->findByCriteria($criteria);
-    }
-
     private function top(Criteria $criteria): PagerfantaInterface
     {
         return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
+    }
+
+    private function active(Criteria $criteria): PagerfantaInterface
+    {
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
+    }
+
+    private function new(Criteria $criteria): PagerfantaInterface
+    {
+        return $this->entryRepository->findByCriteria($criteria);
     }
 
     private function commented(Criteria $criteria)
