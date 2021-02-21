@@ -9,7 +9,7 @@ use App\DTO\MagazineDto;
 
 class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const MAGAZINES_COUNT = UserFixtures::USERS_COUNT / 5;
+    const MAGAZINES_COUNT = UserFixtures::USERS_COUNT / 3;
 
     private MagazineManager $magazineManager;
 

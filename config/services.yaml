@@ -1,6 +1,6 @@
 parameters:
     html5_validation: false
-    front_sort_options: wazne|najnowsze|wschodzace|komentowane
+    front_sort_options: wazne|wschodzace|aktywne|najnowsze|komentowane
 
 services:
     _defaults:

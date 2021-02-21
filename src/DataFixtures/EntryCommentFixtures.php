@@ -10,7 +10,7 @@ use App\DTO\EntryCommentDto;
 
 class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 5;
+    const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
 
     private EntryCommentManager $commentManager;
 

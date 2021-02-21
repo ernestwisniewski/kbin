@@ -67,14 +67,19 @@ class FrontController extends AbstractController
         return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
     }
 
-    private function new(EntryPageView $criteria): PagerfantaInterface
+    private function top(EntryPageView $criteria): PagerfantaInterface
+    {
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
+    }
+
+    private function active(EntryPageView $criteria): PagerfantaInterface
     {
         return $this->entryRepository->findByCriteria($criteria);
     }
 
-    private function top(EntryPageView $criteria): PagerfantaInterface
+    private function new(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
+        return $this->entryRepository->findByCriteria($criteria);
     }
 
     private function commented(EntryPageView $criteria)

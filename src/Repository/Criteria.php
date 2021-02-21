@@ -111,8 +111,9 @@ abstract class Criteria
         //@todo
         $routes = [
             'wazne'       => Criteria::SORT_HOT,
-            'najnowsze'   => Criteria::SORT_NEW,
             'wschodzace'  => Criteria::SORT_TOP,
+            'aktywne'     => Criteria::SORT_ACTIVE,
+            'najnowsze'   => Criteria::SORT_NEW,
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
 

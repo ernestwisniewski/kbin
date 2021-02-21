@@ -114,6 +114,9 @@ class EntryRepository extends ServiceEntityRepository
             case Criteria::SORT_COMMENTED:
                 $qb->orderBy('e.commentCount', 'DESC');
                 break;
+            case Criteria::SORT_ACTIVE:
+                $qb->orderBy('e.lastActive', 'DESC');
+                break;
             case Criteria::SORT_NEW:
             default:
                 $qb->orderBy('e.id', 'DESC');

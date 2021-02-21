@@ -10,6 +10,7 @@ use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -98,6 +99,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
     private int $ranking = 0;
 
     /**
+     * @ORM\Column(type="datetimetz")
+     */
+    private ?\DateTime $lastActive;
+
+    /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
      */
     private Collection $comments;
@@ -121,6 +127,8 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         $user->addEntry($this);
 
         $this->createdAtTraitConstruct();
+
+        $this->updateLastActive();
     }
 
     public function getId(): int
@@ -205,7 +213,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         return $this;
     }
 
-
     public function getEmbed(): ?string
     {
         return $this->embed;
@@ -252,6 +259,29 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         $this->ranking = $ranking;
     }
 
+
+    public function getLastActive(): ?\DateTime
+    {
+        return $this->lastActive;
+    }
+
+    public function updateLastActive(): void
+    {
+        $this->comments->get(-1);
+
+        $criteria = Criteria::create()
+            ->orderBy(['createdAt' => 'DESC'])
+            ->setMaxResults(1);
+
+        $lastComment = $this->comments->matching($criteria)->first();
+
+        if ($lastComment) {
+            $this->lastActive = \DateTime::createFromImmutable($lastComment->getCreatedAt());
+        } else {
+            $this->lastActive = \DateTime::createFromImmutable($this->getCreatedAt());
+        }
+    }
+
     public function getComments(): Collection
     {
         return $this->comments;
@@ -266,6 +296,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
 
         $this->updateCounts();
         $this->updateRanking();
+        $this->updateLastActive();
 
         return $this;
     }
@@ -280,6 +311,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
 
         $this->updateCounts();
         $this->updateRanking();
+        $this->updateLastActive();
 
         return $this;
     }
@@ -351,4 +383,5 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
     {
         return [];
     }
+
 }
