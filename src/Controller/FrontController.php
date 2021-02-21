@@ -27,7 +27,7 @@ class FrontController extends AbstractController
             $method  = $criteria->translate($sortBy);
             $listing = $this->$method($criteria);
         } else {
-            $listing = $this->new($criteria);
+            $listing = $this->active($criteria);
         }
 
         return $this->render(

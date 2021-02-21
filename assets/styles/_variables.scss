@@ -35,6 +35,13 @@ $kbin-entry-list-item-nth-background-color: $kbin-grey;
 $kbin-entry-vote-button-background-color: #efefef;
 $kbin-entr-vote-button-hover-background-color: #656565;
 
+$kbin-dark-entry-vote-button-background-color: #efefef;
+
+$kbin-dark-entry-list-item-border-color: #191919;
+$kbin-dark-entry-list-item-border-color: #191919;
+$kbin-dark-entry-list-item-nth-background-color: #1d1d1d;
+$kbin-dark-entry-vote-button-background-color: #1d1d1d;
+
 // comment-list
 $kbin-comment-list-item-border-color: #eaeaea;
 $kbin-comment-list-item-nth-background-color: $kbin-grey;
@@ -45,3 +52,6 @@ $kbin-comment-vote-button-hover-background-color: #656565;
 $kbin-vote-up: $kbin-green;
 $kbin-vote-down: #b0403d;
 $kbin-vote-none: #a56b1f;
+
+$kbin-dark-vote-up: #24422d;
+$kbin-dark-vote-down: #69110f;

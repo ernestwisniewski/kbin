@@ -21,7 +21,8 @@
     <div class="kbin-magazine-stats mb-4">
         <ul class="list-group list-group-flush mb-3">
             <li class="list-group-item"><span class="text-muted">Utworzono:</span> {{ magazine.createdAt|ago }}</li>
-            <li class="list-group-item"><span class="text-muted">Autor:</span> <a href="{{ path('user', { username: magazine.getOwner.username}) }}">{{ magazine.getOwner.username }}</a></li>
+            <li class="list-group-item"><span class="text-muted">Autor:</span> <a
+                        href="{{ path('user', { username: magazine.getOwner.username}) }}">{{ magazine.getOwner.username }}</a></li>
             <li class="list-group-item"><span class="text-muted">Subskrybujących:</span> 1</li>
         </ul>
 
@@ -48,18 +49,21 @@
         </ul>
     </div>
 
-    <div class="kbin-moderators">
-        <div class="card">
-            <div class="card-header">
-                Moderatorzy
+    {% if magazine.moderators|length %}
+        <div class="kbin-moderators">
+            <div class="card">
+                <div class="card-header">
+                    Moderatorzy
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for moderator in magazine.moderators %}
+                        <li class="list-group-item">
+                            {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<span class="text-muted">/u/</span><a class="text-decoration-none"
+                                    href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <ul class="list-group list-group-flush">
-                {% for moderator in magazine.moderators %}
-                    <li class="list-group-item">
-                        {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<a href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
-    </div>
+    {% endif %}
 </div>

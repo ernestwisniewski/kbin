@@ -4,6 +4,7 @@
 
 {% block body %}
     <div class="kbin-front-page">
+        {% include '_layout/_entry_list_filter.html.twig' %}
         {% include 'entry/_list.html.twig' %}
     </div>
 {% endblock %}

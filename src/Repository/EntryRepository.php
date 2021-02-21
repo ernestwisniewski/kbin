@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class EntryRepository extends ServiceEntityRepository
 {
-    const SORT_DEFAULT = 'najnowsze';
+    const SORT_DEFAULT = 'aktywne';
     const PER_PAGE = 25;
 
     private Security $security;

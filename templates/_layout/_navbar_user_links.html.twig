@@ -1,0 +1,5 @@
+{% block navbar_link %}
+    <li class=" kbin-nav-navbar-item {{ (is_active_sort_option(sortBy) and is_route_contains('front')) ? 'kbin-nav-navbar-item--active' : '' }}">
+        <a href="{{ get_active_sort_option_path(sortBy) }}">{{ name }}</a>
+    </li>
+{% endblock %}

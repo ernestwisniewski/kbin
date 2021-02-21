@@ -16,16 +16,12 @@
 
         <div class="mb-3">
             {{ form_label(form.description, 'Opis') }}
-            <div class="input-group">
-                {{ form_widget(form.description) }}
-            </div>
+            {{ form_widget(form.description, {'attr': {'class': 'kbin-editor'}}) }}
         </div>
 
         <div class="mb-3">
             {{ form_label(form.rules, 'Zasady') }}
-            <div class="input-group">
-                {{ form_widget(form.rules) }}
-            </div>
+            {{ form_widget(form.rules, {'attr': {'class': 'kbin-editor'}}) }}
         </div>
 
         <div class="mb-12 text-end">

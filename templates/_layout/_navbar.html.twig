@@ -13,10 +13,9 @@
                     {% if is_magazine_page() %}
                         <li class="text-muted me-3 pt-2">
                             /m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
-                                                                href="{{ path('magazine_front', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
+                                                                 href="{{ path('magazine_front', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
                         </li>
-                    {% endif %}
-                    {% if is_user_page() %}
+                    {% elseif is_user_page() %}
                         <li class="text-muted me-3 pt-2">
                             {% if user is not defined %}
                                 {% set user = app.user %}
@@ -24,35 +23,58 @@
                             /u/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
                                                                  href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a></span>
                         </li>
+                    {% elseif is_sub_page() %}
+                        <li class="text-muted me-3 pt-2">
+                            /<span class="font-weight-bold">
+                                <a class="text-decoration-none text-reset" href="{{ path('front_subscribed') }}">sub</a>
+                            </span>
+                        </li>
                     {% endif %}
-                    {{ navbar_link('Ważne', {
-                        sortBy: 'wazne',
-                    }) }}
-                    {{ navbar_link('Wschodzące', {
-                        sortBy: 'wschodzace',
-                    }) }}
-                    {{ navbar_link('Aktywne', {
-                        sortBy: 'aktywne',
-                    }) }}
-                    {{ navbar_link('Najnowsze', {
-                        sortBy: 'najnowsze',
-                    }) }}
-                    {{ navbar_link('Komentowane', {
-                        sortBy: 'komentowane',
-                    }) }}
 
-                    <li class="kbin-nav-navbar-item {{ is_comments_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                        <a href="{{ get_active_comments_page_path() }}">Komentarze</a>
-                    </li>
+                    {% if is_user_page() %}
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user', {username: user.username}) }}">Przegląd</a>
+                        </li>
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_entries') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user_entries', {username: user.username}) }}">Treści</a>
+                        </li>
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_entry_comments') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user_entry_comments', {username: user.username}) }}">Komentarze</a>
+                        </li>
+                        <li class=" kbin-nav-navbar-item">
+                            <a href="#">Wpisy</a>
+                        </li>
+                    {% else %}
+                        {{ navbar_link('Ważne', {
+                            sortBy: 'wazne',
+                        }) }}
+                        {{ navbar_link('Wschodzące', {
+                            sortBy: 'wschodzace',
+                        }) }}
+                        {{ navbar_link('Aktywne', {
+                            sortBy: 'aktywne',
+                        }) }}
+                        {{ navbar_link('Najnowsze', {
+                            sortBy: 'najnowsze',
+                        }) }}
+                        {{ navbar_link('Komentowane', {
+                            sortBy: 'komentowane',
+                        }) }}
 
-                    <li class="kbin-nav-navbar-item">
-                        <a href="#">Wpisy</a>
-                    </li>
+                        <li class="kbin-nav-navbar-item {{ is_comments_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ get_active_comments_page_path() }}">Komentarze</a>
+                        </li>
+
+                        <li class="kbin-nav-navbar-item">
+                            <a href="#">Wpisy</a>
+                        </li>
+                    {% endif %}
                 </ul>
 
                 <ul class="kbin-nav-navbar navbar-nav  mb-2 mb-lg-0 float-lg-end">
                     <li class="kbin-nav-navbar-item kbn-login-btn {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                        <a href="{{ path('user_profile_front') }}"><i class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'Profil' : 'Zaloguj się' }}</a>
+                        <a href="{{ path('user_profile_front') }}"><i
+                                    class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'Profil' : 'Zaloguj się' }}</a>
                     </li>
                 </ul>
             </div>
