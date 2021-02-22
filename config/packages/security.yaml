@@ -25,6 +25,10 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
             user_checker: App\Security\UserChecker
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 1814400
+                path: /
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

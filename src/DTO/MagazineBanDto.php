@@ -2,6 +2,8 @@
 
 namespace App\DTO;
 
+use App\Entity\User;
+
 class MagazineBanDto
 {
     private ?int $id = null;

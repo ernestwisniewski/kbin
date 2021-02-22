@@ -14,6 +14,8 @@
 
 {% block sidebar %}
     {% include 'user/_sidebar.html.twig' with {user: app.user} %}
-
     {{ parent() }}
+    <div class="mb-4">
+        {% include 'user/_moderator_list_card.html.twig'with {user: app.user} %}
+    </div>
 {% endblock %}

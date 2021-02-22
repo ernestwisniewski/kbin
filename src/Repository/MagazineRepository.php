@@ -115,7 +115,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $moderators;
     }
 
-    public function getBansPaginated(Magazine $magazine, ?int $page = 1)
+    public function findBansPaginated(Magazine $magazine, ?int $page = 1)
     {
         $criteria = Criteria::create()->orderBy(['createdAt' => 'DESC']);
 

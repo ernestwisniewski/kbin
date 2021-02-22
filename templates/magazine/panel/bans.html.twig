@@ -8,6 +8,19 @@
         <div class="kbin-magazine-bans mt-lg-4">
             {% include 'magazine/panel/_bans_list_table.html.twig' %}
         </div>
+        <div class="col-lg-6">
+            <form method="post" action="{{ path('magazine_panel_bans', {'name': magazine.name }) }}">
+                <div class="mb-3">
+                    <label for="user">Nazwa użytkownika</label>
+                    <input name="user" id="user" class="form-control" required>
+                </div>
+                <div class="text-end">
+                    <button class="btn btn-primary" type="submit">
+                        Dodaj
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}
 

@@ -1,4 +1,4 @@
-<div class="kbin-search mb-2 mt-lg-0">
+<div class="kbin-search mb-4 mt-lg-0">
     <form>
         <div class="input-group input-group-btn">
             <input type="text" name="szukaj" class="form-control" placeholder="Wpisz szukaną frazę...">
@@ -9,7 +9,7 @@
     </form>
 </div>
 
-<div class="kbin-add d-grid gap-2" data-controller="sidebar-menu"
+<div class="kbin-add d-grid gap-2 mb-4" data-controller="sidebar-menu"
      data-sidebar-menu-hide-class="visually-hidden">
     <button type="button"
             class="btn btn-primary btn-lg mb-1 kbin-add-btn {{ kbin_js_enabled ? '' : 'visually-hidden' }}"
@@ -46,3 +46,15 @@
         </a>
     </div>
 </div>
+
+{% if is_homepage() or is_sub_page() %}
+    {% if  app.user %}
+        <div class="mb-4">
+            {% include 'user/_moderator_list_card.html.twig' with {'user':app.user} %}
+        </div>
+    {% endif %}
+    <div class="mb-4">
+        {% include '_layout/_kbin_about.html.twig' %}
+    </div>
+{% endif %}
+

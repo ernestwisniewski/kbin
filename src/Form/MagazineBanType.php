@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\DTO\MagazineBanDto;
+use App\Form\DataTransformer\UserTransformer;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;

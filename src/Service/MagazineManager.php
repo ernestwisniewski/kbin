@@ -56,8 +56,8 @@ class MagazineManager
 
     public function purge(Magazine $magazine): void
     {
-            $this->entityManager->remove($magazine);
-            $this->entityManager->flush();
+        $this->entityManager->remove($magazine);
+        $this->entityManager->flush();
     }
 
     public function createDto(Magazine $magazine): MagazineDto
@@ -105,6 +105,8 @@ class MagazineManager
 
     public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto)
     {
+        Assert::greaterThan($dto->getExpiredAt(), new \DateTime());
+
         $magazine->addBan($user, $bannedBy, $dto->getReason(), $dto->getExpiredAt());
 
         $this->entityManager->flush();

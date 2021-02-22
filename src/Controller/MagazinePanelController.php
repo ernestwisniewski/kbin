@@ -8,6 +8,7 @@ use App\Entity\Moderator;
 use App\Entity\User;
 use App\Form\MagazineBanType;
 use App\Form\ModeratorType;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -114,15 +115,59 @@ class MagazinePanelController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("moderate", subject="magazine")
      */
-    public function bans(Magazine $magazine, Request $request): Response
+    public function bans(Magazine $magazine, UserRepository $userRepository, Request $request): Response
     {
-        $bans = $this->magazineRepository->getBansPaginated($magazine, (int) $request->get('strona', 1));
+        if ($request->isMethod('POST')) {
+            $user = $userRepository->findOneByUsername($request->get('user'));
+
+            if (!$user) {
+                return $this->redirectToRefererOrHome($request);
+            }
+
+            return $this->redirectToRoute(
+                'magazine_panel_ban',
+                [
+                    'magazine_name' => $magazine->getName(),
+                    'user_username' => $user->getUsername(),
+                ]
+            );
+        }
+
+        $bans = $this->magazineRepository->findBansPaginated($magazine, (int) $request->get('strona', 1));
 
         return $this->render(
             'magazine/panel/bans.html.twig',
             [
                 'bans'     => $bans,
                 'magazine' => $magazine,
+            ]
+        );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("user", options={"mapping": {"user_username": "username"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderate", subject="magazine")
+     */
+    public function ban(Magazine $magazine, User $user, Request $request): Response
+    {
+        $form = $this->createForm(MagazineBanType::class, $magazineBanDto = new MagazineBanDto());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->magazineManager->ban($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
+
+            return $this->redirectToRoute('magazine_panel_bans', ['name' => $magazine->getName()]);
+        }
+
+        return $this->render(
+            'magazine/panel/ban.html.twig',
+            [
+                'magazine' => $magazine,
+                'user'     => $user,
+                'form'     => $form->createView(),
             ]
         );
     }

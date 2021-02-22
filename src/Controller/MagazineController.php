@@ -177,34 +177,6 @@ class MagazineController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("user", options={"mapping": {"user_username": "username"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
-    public function ban(Magazine $magazine, User $user, Request $request): Response
-    {
-        $form = $this->createForm(MagazineBanType::class, $magazineBanDto = new MagazineBanDto());
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->ban($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
-
-            return $this->redirectToRoute('magazine_panel_bans', ['name' => $magazine->getName()]);
-        }
-
-        return $this->render(
-            'magazine/panel/ban.html.twig',
-            [
-                'magazine' => $magazine,
-                'user'     => $user,
-                'form'     => $form->createView(),
-            ]
-        );
-    }
-
     public function listAll(MagazineRepository $magazineRepository, Request $request)
     {
         return $this->render(

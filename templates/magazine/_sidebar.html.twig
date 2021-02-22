@@ -1,11 +1,13 @@
 {% include 'magazine/_sidebar_admin.html.twig' %}
 
-<div class="kbin-magazine mb-2 mt-5 mt-lg-0 pt-4">
+<div class="kbin-magazine mb-4 mt-lg-0">
     <div class="kbin-magazine-header px-2">
         <h2 class="font-weight-bold">{{ magazine.title }}</h2>
         <h3 class="lead mb-2"><span class="text-muted">/m/</span>{{ magazine.name }}</h3>
 
-        {% include 'magazine/_sub_button.html.twig' %}
+        <div class="mb-3">
+            {% include 'magazine/_sub_button.html.twig' %}
+        </div>
     </div>
 
     <div class="kbin-magazine-desc px-2">
@@ -56,12 +58,18 @@
                     Moderatorzy
                 </div>
                 <ul class="list-group list-group-flush">
-                    {% for moderator in magazine.moderators %}
+                    {% for moderator in magazine.moderators|slice(0, 5) %}
                         <li class="list-group-item">
-                            {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<span class="text-muted">/u/</span><a class="text-decoration-none"
+                            {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<span class="text-muted">/u/</span><a
+                                    class="text-decoration-none"
                                     href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
                         </li>
                     {% endfor %}
+                    {% if magazine.moderators|length > 5 %}
+                        <li class="list-group-item text-center">
+                            <a class="text-decoration-none" href="{{ path('magazine_moderators', {'name': magazine.name}) }}">więcej...</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

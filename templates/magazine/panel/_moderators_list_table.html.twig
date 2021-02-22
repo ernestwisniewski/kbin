@@ -22,7 +22,7 @@
                     {% if is_granted('edit', magazine) and not moderator.isOwner %}
                         <form action="{{ path('magazine_panel_moderator_purge', {magazine_name: magazine.name, moderator_id: moderator.id}) }}" method="post">
                             <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">
-                            <button class="btn btn-danger">usuń</button>
+                            <button class="btn btn-sm btn-danger">usuń</button>
                         </form>
                     {% endif %}
                 </td>
@@ -33,5 +33,5 @@
 </div>
 
 {% if(moderators.haveToPaginate) %}
-    {{ pagerfanta(users, null, {'pageParameter':'[strona]'}) }}
+    {{ pagerfanta(moderators, null, {'pageParameter':'[strona]'}) }}
 {% endif %}

@@ -74,7 +74,7 @@
                         {% if is_granted('moderate', entry.magazine) %}
                             <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <small class="kbin-entry-meta-edit text-muted">
-                                    <a href="{{ path('magazine_ban', {'magazine_name': entry.magazine.name, 'user_username': entry.user.username}) }}">zbanuj</a>
+                                    <a href="{{ path('magazine_panel_ban', {'magazine_name': entry.magazine.name, 'user_username': entry.user.username}) }}">zbanuj</a>
                                 </small>
                             </li>
                         {% endif %}

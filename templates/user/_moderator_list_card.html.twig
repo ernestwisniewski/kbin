@@ -1,0 +1,17 @@
+{% if user.moderatorTokens|length %}
+    <div class="kbin-moderators">
+        <div class="card">
+            <div class="card-header">
+                Moderowane
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for moderator in user.moderatorTokens %}
+                    <li class="list-group-item">
+                        <span class="text-muted">/m/</span><a class="text-decoration-none"
+                                                              href="{{ path('magazine_front', {'name': moderator.magazine.name}) }}">{{ moderator.magazine.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
