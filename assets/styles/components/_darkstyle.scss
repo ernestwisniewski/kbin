@@ -1,4 +1,4 @@
-[data-theme="dark"] {
+.kbin-dark {
   color: #d4d4d4;
   background: #222222;
 
@@ -329,7 +329,7 @@
   }
 
   .nav-tabs .nav-link:hover,
-  [data-theme="dark"].nav-tabs .nav-link:focus {
+  .kbin-dark.nav-tabs .nav-link:focus {
     border-color: #212529 #212529 #1f1f1f;
   }
 

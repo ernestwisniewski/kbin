@@ -13,13 +13,18 @@ $comment-margin-sm: .5rem;
     padding: .6rem .3rem;
     display: flow-root;
     position: relative;
+    background: white;
+
+    .kbin-dark & {
+      background: #222222;
+    }
 
     &:nth-child(even) {
       border-top: 1px solid;
       border-bottom: 1px solid $kbin-comment-list-item-border-color;
       background-color: $kbin-comment-list-item-nth-background-color;
 
-      [data-theme="dark"] & {
+      .kbin-dark & {
         border-top: 1px solid $kbin-dark-comment-list-item-border-color;
         border-bottom: 1px solid $kbin-dark-comment-list-item-border-color;
         background-color: $kbin-dark-comment-list-item-nth-background-color;
