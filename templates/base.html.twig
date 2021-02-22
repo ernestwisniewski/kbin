@@ -10,8 +10,8 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
-<body>
-<div id="kbin" data-controller="kbin">
+<body data-controller="kbin">
+<div id="kbin">
     {% include '_layout/_topbar.html.twig' %}
     {% include '_layout/_navbar.html.twig' %}
     <section class="kbin-container container pt-3 pb-3">
