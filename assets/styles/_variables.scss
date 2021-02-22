@@ -35,18 +35,20 @@ $kbin-entry-list-item-nth-background-color: $kbin-grey;
 $kbin-entry-vote-button-background-color: #efefef;
 $kbin-entr-vote-button-hover-background-color: #656565;
 
-$kbin-dark-entry-vote-button-background-color: #efefef;
-
 $kbin-dark-entry-list-item-border-color: #191919;
-$kbin-dark-entry-list-item-border-color: #191919;
-$kbin-dark-entry-list-item-nth-background-color: #1d1d1d;
-$kbin-dark-entry-vote-button-background-color: #1d1d1d;
+$kbin-dark-entry-list-item-nth-background-color: #1f1f1f;
+$kbin-dark-entry-vote-button-background-color: #1f1f1f;
 
 // comment-list
 $kbin-comment-list-item-border-color: #eaeaea;
 $kbin-comment-list-item-nth-background-color: $kbin-grey;
 $kbin-comment-vote-button-background-color: #efefef;
 $kbin-comment-vote-button-hover-background-color: #656565;
+
+$kbin-dark-comment-list-item-border-color: #191919;
+$kbin-dark-comment-list-item-nth-background-color: #1f1f1f;
+$kbin-dark-comment-vote-button-background-color: #1f1f1f;
+$kbin-dark-comment-vote-button-hover-background-color: #1f1f1f;
 
 // vote
 $kbin-vote-up: $kbin-green;

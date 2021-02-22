@@ -7,7 +7,7 @@
     border-top: 1px solid $kbin-entry-list-item-border-color;
     border-bottom: 1px solid $kbin-entry-list-item-border-color;
     background-color: $kbin-entry-list-item-nth-background-color;
-    .kbin-dark & {
+    [data-theme="dark"] & {
       border-top: 1px solid $kbin-dark-entry-list-item-border-color;
       border-bottom: 1px solid $kbin-dark-entry-list-item-border-color;
       background-color: $kbin-dark-entry-list-item-nth-background-color;

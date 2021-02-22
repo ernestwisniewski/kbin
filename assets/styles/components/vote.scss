@@ -2,7 +2,7 @@
   button {
     background-color: $kbin-entry-vote-button-background-color;
 
-    .kbin-dark & {
+    [data-theme="dark"] & {
       background-color: $kbin-dark-entry-vote-button-background-color;
     }
   }
@@ -14,7 +14,7 @@
       color: white !important;
       background: $kbin-vote-up;
 
-      .kbin-dark & {
+      [data-theme="dark"] & {
         background: $kbin-dark-vote-up;
       }
 
@@ -30,7 +30,7 @@
     button {
       color: white !important;
       background: $kbin-vote-down;
-      .kbin-dark & {
+      [data-theme="dark"] & {
         background: $kbin-dark-vote-down;
       }
       &:hover {

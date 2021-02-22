@@ -16,14 +16,14 @@
       float: left;
 
       a {
-        color: #fff;
+        color: #fff !important;
         font-size: .7rem;
         text-decoration: none;
         padding: .1rem .5rem;
         display: block;
 
         &:hover {
-          background-color: $kbin-topbar-link-hover-background-color;
+          background-color: $kbin-topbar-link-hover-background-color !important;
         }
       }
 
@@ -32,7 +32,7 @@
 
         a {
           font-weight: bold;
-          color: #556880;
+          color: #556880 !important;
           text-shadow: 0 0 2px #9ab4ca;
 
           &:hover {
