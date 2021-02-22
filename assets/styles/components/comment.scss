@@ -20,7 +20,7 @@ $comment-margin-sm: .5rem;
     }
 
     &:nth-child(even) {
-      border-top: 1px solid;
+      border-top: 1px solid $kbin-comment-list-item-border-color;
       border-bottom: 1px solid $kbin-comment-list-item-border-color;
       background-color: $kbin-comment-list-item-nth-background-color;
 
