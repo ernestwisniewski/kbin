@@ -46,7 +46,6 @@ class EntryCommentManager
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
         $comment->getEntry()->addComment($comment);
-        $comment->setRoot($commentDto->getRoot());
         $comment->setMagazine($commentDto->getEntry()->getMagazine());
 
         $this->entityManager->persist($comment);

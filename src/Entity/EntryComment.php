@@ -8,6 +8,7 @@ use App\Repository\EntryCommentRepository;
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\VotableTrait;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -63,6 +64,11 @@ class EntryComment implements VoteInterface
     private string $body;
 
     /**
+     * @ORM\Column(type="datetimetz")
+     */
+    private \DateTime $lastActive;
+
+    /**
      * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="parent", orphanRemoval=true)
      */
     private Collection $children;
@@ -80,7 +86,12 @@ class EntryComment implements VoteInterface
         $this->user   = $user;
         $this->parent = $parent;
 
+        if ($parent) {
+            $this->root = $parent->getRoot() ?? $parent;
+        }
+
         $this->createdAtTraitConstruct();
+        $this->updateLastActive();
 
         $this->votes    = new ArrayCollection();
         $this->children = new ArrayCollection();
@@ -127,6 +138,11 @@ class EntryComment implements VoteInterface
         return $this;
     }
 
+    public function getParent(): ?EntryComment
+    {
+        return $this->parent;
+    }
+
     public function getBody(): string
     {
         return $this->body;
@@ -137,6 +153,30 @@ class EntryComment implements VoteInterface
         $this->body = $body;
 
         return $this;
+    }
+
+    public function getLastActive(): ?\DateTime
+    {
+        return $this->lastActive;
+    }
+
+    public function setLastActive(\DateTime $lastActive): self
+    {
+        $this->lastActive = $lastActive;
+
+        return $this;
+    }
+
+    public function updateLastActive(): void
+    {
+        $this->setLastActive(\DateTime::createFromImmutable($this->getCreatedAt()));
+
+        $root = $this->getRoot();
+        if (!$root) {
+            return;
+        }
+
+        $root->setLastActive(\DateTime::createFromImmutable($this->getCreatedAt()));
     }
 
     public function getVotes(): Collection

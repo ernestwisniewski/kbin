@@ -103,7 +103,8 @@ class EntryCommentRepository extends ServiceEntityRepository
                 $qb->orderBy('c.upVotes', 'DESC');
                 break;
             default:
-                $qb->orderBy('c.id', 'DESC');
+                $qb->addOrderBy('c.lastActive', 'DESC')
+                    ->addOrderBy('c.id', 'DESC');
         }
 
         $qb->leftJoin('c.children', 'cc');
@@ -150,5 +151,21 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
 
         $this->hydrate(...$children);
+    }
+
+    public function hydrateParents(EntryComment ...$comments): void
+    {
+        $this->createQueryBuilder('c')
+            ->select('PARTIAL c.{id}')
+            ->addSelect('cp')
+            ->addSelect('cpu')
+            ->addSelect('cpe')
+            ->leftJoin('c.parent', 'cp')
+            ->leftJoin('cp.user', 'cpu')
+            ->leftJoin('cp.entry', 'cpe')
+            ->where('c IN (?1)')
+            ->setParameter(1, $comments)
+            ->getQuery()
+            ->execute();
     }
 }

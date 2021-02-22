@@ -127,7 +127,7 @@ class FrontControllerTest extends WebTestCase
         $this->createEntryComment('testowy komentarz', $entry, $user);
 
         $crawler = $client->request('GET', '/u/regularUser');
-        $crawler = $client->click($crawler->filter('.kbin-main .nav-item')->selectLink('Treści')->link());
+        $crawler = $client->click($crawler->filter('.kbin-nav .kbin-nav-navbar-item ')->selectLink('Treści')->link());
 
         $this->assertSelectorNotExists('.kbin-entry-meta-user');
         $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/polityka');
@@ -142,7 +142,7 @@ class FrontControllerTest extends WebTestCase
         $this->createEntryComment('testowy komentarz', $entry, $user);
 
         $crawler = $client->request('GET', '/u/regularUser');
-        $crawler = $client->click($crawler->filter('.kbin-main .nav-item')->selectLink('Komentarze')->link());
+        $crawler = $client->click($crawler->filter('.kbin-nav-navbar .kbin-nav-navbar-item')->selectLink('Komentarze')->link());
 
         $this->assertSelectorNotExists('.kbin-comments-meta-user');
         $this->assertSelectorTextContains('.kbin-comment-meta-magazine', 'do /m/polityka');
@@ -169,7 +169,8 @@ class FrontControllerTest extends WebTestCase
         return [
             ['Ważne'],
             ['Najnowsze'],
-            ['Wchodzące'],
+            ['Aktywne'],
+            ['Wschodzące'],
             ['Komentowane'],
             ['Komentarze'],
         ];

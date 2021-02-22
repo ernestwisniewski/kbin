@@ -383,5 +383,4 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
     {
         return [];
     }
-
 }

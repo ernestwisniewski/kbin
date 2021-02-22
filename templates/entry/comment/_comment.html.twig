@@ -2,6 +2,14 @@
     {% from 'user/_macros.html.twig' import avatar %}
     {% from 'vote/_macros.html.twig' import vote %}
 
+    {% if with_parent %}
+        {% if comment.parent|length %}
+                {% set level = 2 %}
+                {%- with { comment: comment.parent, level: level - 1, show_context: true, show_form: false, with_parent:false } -%}
+                    {{- block('comment') -}}
+                {%- endwith -%}
+        {% endif %}
+    {% endif %}
     <blockquote id="{{ comment.id }}"
                 class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level >= 8 ? 'last' : level }} shadow-sm"
                 data-controller="comment"
@@ -23,7 +31,6 @@
                         </small>
                     </li>
 
-                    {% if not is_user_page() %}
                         <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
                             <small class="text-muted">przez
                                 <a class="font-weight-bold" href="{{ path('user', {username: comment.user.username}) }}">
@@ -31,7 +38,6 @@
                                 </a>
                             </small>
                         </li>
-                    {% endif %}
 
                     {% if level is same as 1 %}
                         {% if is_comments_page() and not is_magazine_page() %}

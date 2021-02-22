@@ -250,7 +250,7 @@ class MagazineController extends AbstractController
 
     private function top(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
+        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
     }
 
     private function active(Criteria $criteria): PagerfantaInterface

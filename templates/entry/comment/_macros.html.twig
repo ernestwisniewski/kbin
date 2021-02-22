@@ -7,7 +7,8 @@
         extra_classes: options.extra_classes ?? null,
         level: 1,
         nested: options.nested ?? null,
-        mask_levels: options.mask_levels ?? null
+        mask_levels: options.mask_levels ?? null,
+        with_parent: options.with_parent ?? null
         } only -%}
         {{ block('comment') }}
     {%- endwith -%}
