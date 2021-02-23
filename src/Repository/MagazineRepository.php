@@ -117,7 +117,10 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findBansPaginated(Magazine $magazine, ?int $page = 1)
     {
-        $criteria = Criteria::create()->orderBy(['createdAt' => 'DESC']);
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
+            ->orWhere(Criteria::expr()->isNull('expiredAt'))
+            ->orderBy(['createdAt' => 'DESC']);
 
         $bans = new Pagerfanta(new SelectableAdapter($magazine->getBans(), $criteria));
         $bans->setMaxPerPage(self::PER_PAGE);

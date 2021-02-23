@@ -64,9 +64,13 @@ class EntryCommentVoter extends Voter
         return false;
     }
 
-    private function canVote($subject, User $user): bool
+    private function canVote(EntryComment $comment, User $user): bool
     {
-        if ($subject->getUser() === $user) {
+        if ($comment->getUser() === $user) {
+            return false;
+        }
+
+        if ($comment->getEntry()->getMagazine()->isBanned($user)) {
             return false;
         }
 

@@ -50,6 +50,11 @@ magazine_panel_ban:
   path: /m/{magazine_name}/ban/{user_username}
   methods: [ GET, POST ]
 
+magazine_panel_unban:
+  controller: App\Controller\MagazinePanelController::unban
+  path: /m/{magazine_name}/unban/{user_username}
+  methods: [ POST ]
+
 magazine_panel_edit:
   controller: App\Controller\MagazinePanelController::edit
   path: /m/{name}/panel/edytuj

@@ -20,7 +20,12 @@
                 <td>{{ ban.reason }}</td>
                 <td>{{ ban.createdAt|ago }}</td>
                 <td>{{ ban.expiredAt ? ban.expiredAt|ago : 'Nigdy' }}</td>
-                <td>{% include 'user/_follow_button.html.twig' with {'user': ban.user} %}</td>
+                <td>
+                    <form action="{{ path('magazine_panel_unban', {magazine_name: ban.magazine.name, user_username: ban.user.username}) }}" method="post">
+                        <input type="hidden" name="token" value="{{ csrf_token('magazine_unban') }}">
+                        <button class="btn btn-sm btn-danger">usuń</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

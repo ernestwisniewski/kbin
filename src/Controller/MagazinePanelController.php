@@ -171,4 +171,20 @@ class MagazinePanelController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("user", options={"mapping": {"user_username": "username"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderate", subject="magazine")
+     */
+    public function unban(Magazine $magazine, User $user, Request $request): Response
+    {
+        $this->validateCsrf('magazine_unban', $request->request->get('token'));
+
+        $this->magazineManager->unban($magazine, $user);
+
+        return $this->redirectToRefererOrHome($request);
+    }
 }

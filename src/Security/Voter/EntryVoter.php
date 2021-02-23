@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\Magazine;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\Entity\Entry;
@@ -9,6 +10,7 @@ use App\Entity\User;
 
 class EntryVoter extends Voter
 {
+    const CREATE = 'create';
     const EDIT = 'edit';
     const PURGE = 'purge';
     const COMMENT = 'comment';
@@ -16,7 +18,7 @@ class EntryVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof Entry && \in_array($attribute, [self::EDIT, self::PURGE, self::COMMENT, self::VOTE], true);
+        return $subject instanceof Entry && \in_array($attribute, [self::CREATE, self::EDIT, self::PURGE, self::COMMENT, self::VOTE], true);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -28,6 +30,8 @@ class EntryVoter extends Voter
         }
 
         switch ($attribute) {
+            case self::CREATE:
+                return $this->canCreate($subject, $user);
             case self::EDIT:
                 return $this->canEdit($subject, $user);
             case self::PURGE:
@@ -39,6 +43,11 @@ class EntryVoter extends Voter
         }
 
         throw new \LogicException();
+    }
+
+    private function canCreate(Magazine $magazine, User $user): bool
+    {
+        return !$magazine->isBanned($user);
     }
 
     private function canEdit(Entry $entry, User $user): bool
@@ -67,14 +76,18 @@ class EntryVoter extends Voter
         return false;
     }
 
-    private function canComment($subject, User $user): bool
+    private function canComment(Entry $entry, User $user): bool
     {
-        return true;
+        return !$entry->getMagazine()->isBanned($user);
     }
 
-    private function canVote($subject, User $user): bool
+    private function canVote(Entry $entry, User $user): bool
     {
-        if ($subject->getUser() === $user) {
+        if ($entry->getUser() === $user) {
+            return false;
+        }
+
+        if($entry->getMagazine()->isBanned($user)) {
             return false;
         }
 

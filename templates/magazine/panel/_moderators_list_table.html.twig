@@ -8,7 +8,9 @@
             <td>Nazwa</td>
             <td>Dodno</td>
             <td></td>
-            <td></td>
+            {% if is_granted('edit', magazine) %}
+                <td></td>
+            {% endif %}
         </tr>
         </thead>
         <tbody>

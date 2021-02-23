@@ -65,7 +65,7 @@ class MagazineManager
         return ($this->magazineFactory->createDto($magazine))->setId($magazine->getId());
     }
 
-    public function subscribe(Magazine $magazine, User $user)
+    public function subscribe(Magazine $magazine, User $user): void
     {
         $magazine->subscribe($user);
 
@@ -74,7 +74,7 @@ class MagazineManager
         $this->eventDispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
     }
 
-    public function unsubscribe(Magazine $magazine, User $user)
+    public function unsubscribe(Magazine $magazine, User $user): void
     {
         $magazine->unsubscribe($user);
 
@@ -83,7 +83,7 @@ class MagazineManager
         $this->eventDispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
     }
 
-    public function block(Magazine $magazine, User $user)
+    public function block(Magazine $magazine, User $user): void
     {
         $this->unsubscribe($magazine, $user);
 
@@ -94,7 +94,7 @@ class MagazineManager
         $this->eventDispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
     }
 
-    public function unblock(Magazine $magazine, User $user)
+    public function unblock(Magazine $magazine, User $user): void
     {
         $user->unblockMagazine($magazine);
 
@@ -103,7 +103,7 @@ class MagazineManager
         $this->eventDispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
     }
 
-    public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto)
+    public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): void
     {
         Assert::greaterThan($dto->getExpiredAt(), new \DateTime());
 
@@ -114,7 +114,21 @@ class MagazineManager
         $this->eventDispatcher->dispatch(new MagazineBanEvent($magazine, $user));
     }
 
-    public function addModerator(ModeratorDto $dto)
+
+    public function unban(Magazine $magazine, User $user): void
+    {
+        if (!$magazine->isBanned($user)) {
+            return;
+        }
+
+        $magazine->unban($user);
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new MagazineBanEvent($magazine, $user));
+    }
+
+    public function addModerator(ModeratorDto $dto): void
     {
         $magazine = $dto->getMagazine();
 
@@ -123,7 +137,7 @@ class MagazineManager
         $this->entityManager->flush();
     }
 
-    public function removeModerator(Moderator $moderator)
+    public function removeModerator(Moderator $moderator): void
     {
         $this->entityManager->remove($moderator);
         $this->entityManager->flush();

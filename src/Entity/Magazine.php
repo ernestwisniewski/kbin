@@ -331,8 +331,9 @@ class Magazine
     public function isBanned(User $user): bool
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('user', $user))
-            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()));
+            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
+            ->orWhere(Criteria::expr()->isNull('expiredAt'))
+            ->andWhere(Criteria::expr()->eq('user', $user));
 
         return $this->bans->matching($criteria)->count() > 0;
     }
@@ -355,6 +356,22 @@ class Magazine
                 $ban->setMagazine(null);
             }
         }
+
+        return $this;
+    }
+
+    public function unban(User $user)
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
+            ->orWhere(Criteria::expr()->isNull('expiredAt'))
+            ->andWhere(Criteria::expr()->eq('user', $user));
+
+        /**
+         * @var MagazineBan $ban
+         */
+        $ban = $this->bans->matching($criteria)->first();
+        $ban->setExpiredAt(new \DateTime('+10 seconds'));
 
         return $this;
     }

@@ -27,7 +27,7 @@
                 data-vote-target="upVote">
                 <form action="{{ upUrl }}" method="POST" data-action="vote#up">
                     <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
-                    <button type="submit" {{ is_granted('vote', votable)  ? '' : 'disabled' }}>
+                    <button type="submit" {{ is_granted('ROLE_USER', votable)  ? '' : 'disabled' }}>
                         <span data-vote-target="upVoteCount">{{ votable.countUpvotes }}</span>
                         <span class="fa fa-arrow-up"></span>
                     </button>
@@ -37,7 +37,7 @@
             <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-dv {% if (choice is same as VOTE_DOWN) %}kbin-vote-dv--active{% endif %}"
                 data-vote-target="downVote">
                 <form action="{{ path(form_dest, {id: votable.id,choice: VOTE_DOWN}) }}" method="POST" data-action="vote#down">
-                    <button type="submit" {{ is_granted('vote', votable) ? '' : 'disabled' }}>
+                    <button type="submit" {{ is_granted('ROLE_USER', votable) ? '' : 'disabled' }}>
                         <span data-vote-target="downVoteCount">{{ votable.countDownvotes }}</span>
                         <span class="fa fa-arrow-down"></span>
                     </button>

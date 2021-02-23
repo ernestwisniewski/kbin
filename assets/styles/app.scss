@@ -48,6 +48,10 @@ $primary: #556880;
   height: 100%;
   position: absolute;
 
+  .kbin-dark & {
+    background-image: none;
+  }
+
   @include media-breakpoint-down(xxl) {
     opacity: .1;
   }
