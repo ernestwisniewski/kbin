@@ -40,8 +40,6 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('get_active_comments_page_path', [$this, 'getActiveCommentsPagePath']),
             new TwigFunction('is_active_comment_filter', [$this, 'isActiveCommentFilter']),
             new TwigFunction('get_active_comment_filter_path', [$this, 'getActiveCommentFilterPath']),
-            new TwigFunction('is_active_front_time_filter', [$this, 'isActiveFrontTimeFilter']),
-            new TwigFunction('get_front_time_filter_path', [$this, 'getFrontTimeFilterPath']),
             new TwigFunction('is_active_route', [$this, 'isActiveRoute']),
             new TwigFunction('is_route_contains', [$this, 'isRouteContains']),
         ];
