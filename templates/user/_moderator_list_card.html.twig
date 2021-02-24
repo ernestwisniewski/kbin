@@ -8,7 +8,7 @@
                 {% for moderator in user.moderatorTokens %}
                     <li class="list-group-item">
                         <span class="text-muted">/m/</span><a class="text-decoration-none"
-                                                              href="{{ path('magazine_front', {'name': moderator.magazine.name}) }}">{{ moderator.magazine.name }}</a>
+                                                              href="{{ path('front_magazine', {'name': moderator.magazine.name}) }}">{{ moderator.magazine.name }}</a>
                     </li>
                 {% endfor %}
             </ul>

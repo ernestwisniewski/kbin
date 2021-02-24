@@ -39,7 +39,7 @@ class MagazineController extends AbstractController
         $criteria = (new EntryPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
 
         if ($sortBy) {
-            $method  = $criteria->translate($sortBy);
+            $method  = $criteria->translateSort($sortBy);
             $listing = $this->$method($criteria);
         } else {
             $listing = $this->new($criteria);
@@ -67,7 +67,7 @@ class MagazineController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->magazineManager->create($magazineDto, $this->getUserOrThrow());
 
-            return $this->redirectToRoute('magazine_front', ['name' => $magazineDto->getName()]);
+            return $this->redirectToRoute('front_magazine', ['name' => $magazineDto->getName()]);
         }
 
         return $this->render(

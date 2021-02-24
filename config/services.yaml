@@ -1,6 +1,7 @@
 parameters:
     html5_validation: false
     front_sort_options: wazne|wschodzace|aktywne|najnowsze|komentowane
+    front_time_options: 6h|12h|1d|1w|1m|1y|wszystko|∞
 
 services:
     _defaults:

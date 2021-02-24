@@ -38,7 +38,7 @@
                         {% if not is_magazine_page() %}
                             <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
                                 <small class="text-muted">
-                                    do <a href="{{ path('magazine_front', {'name': entry.magazine.name}) }}">/m/{{ entry.magazine.name }}</a>
+                                    do <a href="{{ path('front_magazine', {'name': entry.magazine.name}) }}">/m/{{ entry.magazine.name }}</a>
                                 </small>
                             </li>
                         {% endif %}

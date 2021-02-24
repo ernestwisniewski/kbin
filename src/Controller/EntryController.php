@@ -143,7 +143,7 @@ class EntryController extends AbstractController
         $this->entryManager->delete($entry);
 
         return $this->redirectToRoute(
-            'magazine_front',
+            'front_magazine',
             [
                 'name' => $magazine->getName(),
             ]
@@ -164,7 +164,7 @@ class EntryController extends AbstractController
         $this->entryManager->purge($entry);
 
         return $this->redirectToRoute(
-            'magazine_front',
+            'front_magazine',
             [
                 'name' => $magazine->getName(),
             ]

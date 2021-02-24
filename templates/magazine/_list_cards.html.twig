@@ -5,7 +5,7 @@
                 <img src="https://picsum.photos/400/240?token={{ random(1,515) }}" class="card-img-top" alt="{{ magazine.name }}">
                 <div class="card-body">
                     <h5 class="card-title font-weight-bold"><span class="small font-weight-light">/m/</span><a
-                                href="{{ path('magazine_front', {'name': magazine.name}) }}">{{ magazine.name }}</a></h5>
+                                href="{{ path('front_magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></h5>
                     <h5 class="card-subtitle font-weight-light mb-3">{{ magazine.title }}</h5>
 
                     {% include 'magazine/_sub_button.html.twig' %}

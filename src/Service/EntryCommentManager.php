@@ -69,6 +69,16 @@ class EntryCommentManager
         return $comment;
     }
 
+    public function delete(EntryComment $comment): void
+    {
+        $magazine = $comment->getEntry()->getMagazine();
+        $comment->softDelete();
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new EntryCommentPurgedEvent($magazine)));
+    }
+
     public function purge(EntryComment $comment): void
     {
         $magazine = $comment->getEntry()->getMagazine();

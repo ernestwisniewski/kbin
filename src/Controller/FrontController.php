@@ -19,12 +19,16 @@ class FrontController extends AbstractController
         $this->entryRepository = $entryRepository;
     }
 
-    public function front(?string $sortBy, Request $request): Response
+    public function front(?string $sortBy, ?string $time, Request $request): Response
     {
         $criteria = new EntryPageView((int) $request->get('strona', 1));
 
+        if($time) {
+            $criteria->setTime($criteria->translateTime($time));
+        }
+
         if ($sortBy) {
-            $method  = $criteria->translate($sortBy);
+            $method  = $criteria->translateSort($sortBy);
             $listing = $this->$method($criteria);
         } else {
             $listing = $this->active($criteria);
@@ -48,7 +52,7 @@ class FrontController extends AbstractController
         $criteria->showSubscribed();
 
         if ($sortBy) {
-            $method  = $criteria->translate($sortBy);
+            $method  = $criteria->translateSort($sortBy);
             $listing = $this->$method($criteria);
         } else {
             $listing = $this->active($criteria);

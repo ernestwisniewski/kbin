@@ -21,6 +21,8 @@ abstract class Criteria
     public const SORT_NEW = 'new';
     public const SORT_TOP = 'top';
     public const SORT_COMMENTED = 'commented';
+    public const TIME_6_HOURS = '6hours';
+    public const TIME_12_HOURS = '12hours';
     public const TIME_DAY = 'day';
     public const TIME_WEEK = 'week';
     public const TIME_MONTH = 'month';
@@ -35,6 +37,8 @@ abstract class Criteria
     ];
 
     public const TIME_OPTIONS = [
+        self::TIME_6_HOURS,
+        self::TIME_12_HOURS,
         self::TIME_DAY,
         self::TIME_WEEK,
         self::TIME_MONTH,
@@ -42,12 +46,12 @@ abstract class Criteria
         self::TIME_ALL,
     ];
 
-    private $visibility = Entry::VISIBILITY_VISIBLE;
-
     private int $page = 1;
     private ?Magazine $magazine = null;
     private ?User $user = null;
     private string $sortOption = EntryRepository::SORT_DEFAULT;
+    private string $time = EntryRepository::TIME_DEFAULT;
+    private string $visibility = Entry::VISIBILITY_VISIBLE;
     private bool $subscribed = false;
 
     public function __construct(int $page)
@@ -92,7 +96,7 @@ abstract class Criteria
 
     public function showSortOption(string $sortOption): self
     {
-        $this->sortOption = $this->translate($sortOption);
+        $this->sortOption = $this->translateSort($sortOption);
 
         return $this;
     }
@@ -109,7 +113,7 @@ abstract class Criteria
         return $this->subscribed;
     }
 
-    public function translate(string $value): string
+    public function translateSort(string $value): string
     {
         //@todo
         $routes = [
@@ -118,6 +122,27 @@ abstract class Criteria
             'aktywne'     => Criteria::SORT_ACTIVE,
             'najnowsze'   => Criteria::SORT_NEW,
             'komentowane' => Criteria::SORT_COMMENTED,
+        ];
+
+        if (in_array($value, $routes)) {
+            return $value;
+        }
+
+        return $routes[$value];
+    }
+
+    public function translateTime(string $value): string
+    {
+        //@todo
+        $routes = [
+            '6h'       => Criteria::TIME_6_HOURS,
+            '12h'      => Criteria::TIME_12_HOURS,
+            '1d'       => Criteria::TIME_DAY,
+            '1w'       => Criteria::TIME_WEEK,
+            '1m'       => Criteria::TIME_MONTH,
+            '1y'       => Criteria::TIME_YEAR,
+            '∞'        => Criteria::TIME_ALL,
+            'wszystko' => Criteria::TIME_ALL,
         ];
 
         if (in_array($value, $routes)) {
@@ -137,5 +162,17 @@ abstract class Criteria
     public function getVisibility(): string
     {
         return $this->visibility;
+    }
+
+    public function getTime(): string
+    {
+        return $this->time;
+    }
+
+    public function setTime(string $time): self
+    {
+        $this->time = $time;
+
+        return $this;
     }
 }

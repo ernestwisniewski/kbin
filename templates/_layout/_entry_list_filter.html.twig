@@ -1,11 +1,39 @@
+{{ is_active_front_time_filter('test') }}
 <ul class="nav nav-tabs justify-content-end mb-2">
     <li class="nav-item">
-        <a class="nav-link active text-decoration-none text-muted" aria-current="page" href="#"><i class="fas fa-history"></i> ∞</a>
+        <div class="dropdown">
+            <a class="nav-link active text-decoration-none text-muted"
+               aria-current="page"
+               type="button" id="dropdownMenuButton1"
+               data-bs-toggle="dropdown"
+               aria-expanded="false" href="#">
+                <i class="fas fa-history"></i> ∞</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">6h</a></li>
+                <li><a class="dropdown-item" href="#">12h</a></li>
+                <li><a class="dropdown-item" href="#">24h</a></li>
+                <li><a class="dropdown-item" href="#">tydzień</a></li>
+                <li><a class="dropdown-item" href="#">miesiąc</a></li>
+                <li><a class="dropdown-item" href="#">rok</a></li>
+                <li><a class="dropdown-item" href="#">∞</a></li>
+            </ul>
+        </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link active text-decoration-none text-muted" aria-current="page" href="#"><i class="fas fa-photo-video"></i> wszystko</a>
+        <a class="nav-link active text-decoration-none text-muted"
+           aria-current="page"
+           type="button" id="dropdownMenuButton1"
+           data-bs-toggle="dropdown"
+           aria-expanded="false" href="#">
+            <i class="fas fa-photo-video"></i> wszystko</a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">artykuły</a></li>
+            <li><a class="dropdown-item" href="#">obrazy</a></li>
+            <li><a class="dropdown-item" href="#">video</a></li>
+        </ul>
     </li>
     <li class="nav-item">
-        <a data-action="kbin#dark" class="nav-link active text-decoration-none text-muted" aria-current="page" href="#"><i class="far fa-lightbulb"></i></a>
+        <a data-action="kbin#dark" class="nav-link active text-decoration-none text-muted" aria-current="page" href="#"><i
+                    class="far fa-lightbulb"></i></a>
     </li>
 </ul>

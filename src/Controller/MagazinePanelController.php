@@ -52,7 +52,7 @@ class MagazinePanelController extends AbstractController
             $this->magazineManager->edit($magazine, $magazineDto);
 
             return $this->redirectToRoute(
-                'magazine_front',
+                'front_magazine',
                 [
                     'name' => $magazine->getName(),
                 ]

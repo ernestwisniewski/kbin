@@ -6,9 +6,12 @@ use App\Entity\ForumSubscription;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
+use App\Entity\Submission;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
@@ -28,6 +31,7 @@ use Symfony\Component\Security\Core\Security;
 class EntryRepository extends ServiceEntityRepository
 {
     const SORT_DEFAULT = 'aktywne';
+    const TIME_DEFAULT = Criteria::TIME_ALL;
     const PER_PAGE = 25;
 
     private Security $security;
@@ -69,6 +73,7 @@ class EntryRepository extends ServiceEntityRepository
             ->setParameter('e_visibility', $criteria->getVisibility())
             ->setParameter('m_visibility', Magazine::VISIBILITY_VISIBLE);
 
+        $this->addTimeClause($qb, $criteria);
         $this->filter($qb, $criteria);
 
         return $qb;
@@ -128,6 +133,40 @@ class EntryRepository extends ServiceEntityRepository
         }
 
         return $qb;
+    }
+
+
+    private function addTimeClause(QueryBuilder $qb, Criteria $criteria)
+    {
+        if ($criteria->getTime() !== EntryPageView::TIME_ALL) {
+            $since = new \DateTimeImmutable('@'.time());
+
+            switch ($criteria->getTime()) {
+                case EntryPageView::TIME_YEAR:
+                    $since = $since->modify('-1 year');
+                    break;
+                case EntryPageView::TIME_MONTH:
+                    $since = $since->modify('-1 month');
+                    break;
+                case EntryPageView::TIME_WEEK:
+                    $since = $since->modify('-1 week');
+                    break;
+                case EntryPageView::TIME_DAY:
+                    $since = $since->modify('-1 day');
+                    break;
+                case EntryPageView::TIME_12_HOURS:
+                    $since = $since->modify('-12 hours');
+                    break;
+                case EntryPageView::TIME_6_HOURS:
+                    $since = $since->modify('-6 hours');
+                    break;
+                default:
+                    throw new \LogicException();
+            }
+
+            $qb->andWhere('e.createdAt > :time')
+                ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
+        }
     }
 
     public function hydrate(Entry ...$entries): void
