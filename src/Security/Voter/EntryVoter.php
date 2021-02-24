@@ -12,13 +12,19 @@ class EntryVoter extends Voter
 {
     const CREATE = 'create';
     const EDIT = 'edit';
+    const DELETE = 'delete';
     const PURGE = 'purge';
     const COMMENT = 'comment';
     const VOTE = 'vote';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof Entry && \in_array($attribute, [self::CREATE, self::EDIT, self::PURGE, self::COMMENT, self::VOTE], true);
+        return $subject instanceof Entry
+            && \in_array(
+                $attribute,
+                [self::CREATE, self::EDIT, self::DELETE, self::PURGE, self::COMMENT, self::VOTE],
+                true
+            );
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -34,6 +40,8 @@ class EntryVoter extends Voter
                 return $this->canCreate($subject, $user);
             case self::EDIT:
                 return $this->canEdit($subject, $user);
+            case self::DELETE:
+                return $this->canDelete($subject, $user);
             case self::PURGE:
                 return $this->canPurge($subject, $user);
             case self::COMMENT:
@@ -51,6 +59,19 @@ class EntryVoter extends Voter
     }
 
     private function canEdit(Entry $entry, User $user): bool
+    {
+        if ($entry->getUser() === $user) {
+            return true;
+        }
+
+        if ($entry->getMagazine()->userIsModerator($user)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function canDelete(Entry $entry, User $user): bool
     {
         if ($entry->getUser() === $user) {
             return true;
@@ -87,7 +108,7 @@ class EntryVoter extends Voter
             return false;
         }
 
-        if($entry->getMagazine()->isBanned($user)) {
+        if ($entry->getMagazine()->isBanned($user)) {
             return false;
         }
 

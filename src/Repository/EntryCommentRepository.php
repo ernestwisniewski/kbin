@@ -59,7 +59,8 @@ class EntryCommentRepository extends ServiceEntityRepository
     private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c')
-            ->addSelect('cc');
+            ->addSelect('cc')
+            ->leftJoin('c.children', 'cc');
 
         $this->filter($qb, $criteria);
 
@@ -106,8 +107,6 @@ class EntryCommentRepository extends ServiceEntityRepository
                 $qb->addOrderBy('c.lastActive', 'DESC')
                     ->addOrderBy('c.id', 'DESC');
         }
-
-        $qb->leftJoin('c.children', 'cc');
 
         return $qb;
     }

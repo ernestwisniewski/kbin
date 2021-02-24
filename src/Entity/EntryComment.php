@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Traits\VisibilityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\EntryCommentRepository;
@@ -15,9 +17,10 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryCommentRepository::class)
  */
-class EntryComment implements VoteInterface
+class EntryComment implements VoteInterface, VisibilityInterface
 {
     use VotableTrait;
+    use VisibilityTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
@@ -233,6 +236,18 @@ class EntryComment implements VoteInterface
         $this->root = $root;
 
         return $this;
+    }
+
+    public function softDelete(): void {
+        $this->visibility = self::VISIBILITY_SOFT_DELETED;
+    }
+
+    public function trash(): void {
+        $this->visibility = self::VISIBILITY_TRASHED;
+    }
+
+    public function restore(): void {
+        $this->visibility = self::VISIBILITY_VISIBLE;
     }
 
     public function __sleep()

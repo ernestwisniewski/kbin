@@ -10,12 +10,13 @@ use App\Entity\User;
 class EntryCommentVoter extends Voter
 {
     const EDIT = 'edit';
+    const DELETE = 'delete';
     const PURGE = 'purge';
     const VOTE = 'vote';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof EntryComment && \in_array($attribute, [self::EDIT, self::PURGE, self::VOTE], true);
+        return $subject instanceof EntryComment && \in_array($attribute, [self::EDIT, self::DELETE, self::PURGE, self::VOTE], true);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -31,6 +32,8 @@ class EntryCommentVoter extends Voter
                 return $this->canEdit($subject, $user);
             case self::PURGE:
                 return $this->canPurge($subject, $user);
+            case self::DELETE:
+                return $this->canDelete($subject, $user);
             case self::VOTE:
                 return $this->canVote($subject, $user);
         }
@@ -52,6 +55,19 @@ class EntryCommentVoter extends Voter
     }
 
     private function canPurge(EntryComment $comment, User $user): bool
+    {
+        if ($comment->getUser() === $user) {
+            return true;
+        }
+
+        if ($comment->getEntry()->getMagazine()->userIsModerator($user)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function canDelete(EntryComment $comment, User $user): bool
     {
         if ($comment->getUser() === $user) {
             return true;

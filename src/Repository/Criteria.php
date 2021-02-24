@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Magazine;
 use App\Entity\Entry;
+use App\Entity\Submission;
 use App\Entity\User;
 
 abstract class Criteria
@@ -40,6 +41,8 @@ abstract class Criteria
         self::TIME_YEAR,
         self::TIME_ALL,
     ];
+
+    private $visibility = Entry::VISIBILITY_VISIBLE;
 
     private int $page = 1;
     private ?Magazine $magazine = null;
@@ -122,5 +125,17 @@ abstract class Criteria
         }
 
         return $routes[$value];
+    }
+
+    public function setVisibility(string $visibility): self
+    {
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    public function getVisibility(): string
+    {
+        return $this->visibility;
     }
 }

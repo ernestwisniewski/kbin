@@ -76,6 +76,14 @@ class EntryManager
         return $entry;
     }
 
+
+    public function delete(Entry $entry)
+    {
+        $entry->softDelete();
+
+        $this->entityManager->flush();
+    }
+
     public function purge(Entry $entry): void
     {
         $entry->getMagazine()->removeEntry($entry);

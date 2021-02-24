@@ -58,7 +58,7 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/sub');
 
-        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 2');
+        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 1');
         $this->assertCount(2, $crawler->filter('.kbin-entry-title'));
 
         $crawler = $client->request('GET', '/u/regularUser2');

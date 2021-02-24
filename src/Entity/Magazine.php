@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Traits\VisibilityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -18,8 +20,9 @@ use Doctrine\ORM\Mapping as ORM;
  * })
  * @ORM\Entity(repositoryClass=MagazineRepository::class)
  */
-class Magazine
+class Magazine implements VisibilityInterface
 {
+    use VisibilityTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
@@ -321,6 +324,18 @@ class Magazine
         $this->subscriptionsCount = $this->subscriptions->count();
 
         return $this;
+    }
+
+    public function softDelete(): void {
+        $this->visibility = self::VISIBILITY_SOFT_DELETED;
+    }
+
+    public function trash(): void {
+        $this->visibility = self::VISIBILITY_TRASHED;
+    }
+
+    public function restore(): void {
+        $this->visibility = self::VISIBILITY_VISIBLE;
     }
 
     public function getBans(): Collection

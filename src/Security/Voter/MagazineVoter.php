@@ -10,6 +10,7 @@ use App\Entity\User;
 class MagazineVoter extends Voter
 {
     const EDIT = 'edit';
+    const DELETE = 'delete';
     const PURGE = 'purge';
     const MODERATE = 'moderate';
     const SUBSCRIBE = 'subscribe';
@@ -17,7 +18,12 @@ class MagazineVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof Magazine && \in_array($attribute, [self::EDIT, self::PURGE, self::MODERATE, self::SUBSCRIBE, self::BLOCK], true);
+        return $subject instanceof Magazine
+            && \in_array(
+                $attribute,
+                [self::EDIT, self::DELETE, self::PURGE, self::MODERATE, self::SUBSCRIBE, self::BLOCK],
+                true
+            );
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -31,7 +37,9 @@ class MagazineVoter extends Voter
         switch ($attribute) {
             case self::EDIT:
                 return $this->canEdit($subject, $user);
-            case self::PURGE:
+            case self::DELETE:
+                return $this->canDelete($subject, $user);
+                case self::PURGE:
                 return $this->canPurge($subject, $user);
             case self::MODERATE:
                 return $this->canModerate($subject, $user);
@@ -45,6 +53,11 @@ class MagazineVoter extends Voter
     }
 
     private function canEdit(Magazine $magazine, User $user): bool
+    {
+        return $magazine->userIsOwner($user);
+    }
+
+    private function canDelete(Magazine $magazine, User $user): bool
     {
         return $magazine->userIsOwner($user);
     }

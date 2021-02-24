@@ -9,6 +9,11 @@ entry_edit:
   path: /m/{magazine_name}/t/{entry_id}/edytuj
   methods: [ GET, POST ]
 
+entry_delete:
+  controller: App\Controller\EntryController::delete
+  path: /m/{magazine_name}/t/{entry_id}/delete
+  methods: [ POST ]
+
 entry_purge:
   controller: App\Controller\EntryController::purge
   path: /m/{magazine_name}/t/{entry_id}/purge

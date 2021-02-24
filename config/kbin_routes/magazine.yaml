@@ -10,6 +10,11 @@ magazine_create:
   path: /nowyMagazyn
   methods: [ GET, POST ]
 
+magazine_delete:
+  controller: App\Controller\MagazineController::delete
+  path: /m/{name}/delete
+  methods: [ POST ]
+
 magazine_purge:
   controller: App\Controller\MagazineController::purge
   path: /m/{name}/purge

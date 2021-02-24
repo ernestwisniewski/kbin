@@ -54,6 +54,12 @@ class MagazineManager
         return $magazine;
     }
 
+    public function delete(Magazine $magazine): void
+    {
+        $magazine->softDelete();
+        $this->entityManager->flush();
+    }
+
     public function purge(Magazine $magazine): void
     {
         $this->entityManager->remove($magazine);

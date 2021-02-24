@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Traits\VisibilityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Contracts\CommentInterface;
@@ -17,9 +19,10 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry implements VoteInterface, CommentInterface, DomainInterface
+class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface
 {
     use VotableTrait;
+    use VisibilityTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
@@ -69,7 +72,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
     private string $title;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=2048, nullable=true)
      */
     private ?string $url = null;
 
@@ -280,6 +283,18 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface
         } else {
             $this->lastActive = \DateTime::createFromImmutable($this->getCreatedAt());
         }
+    }
+
+    public function softDelete(): void {
+        $this->visibility = self::VISIBILITY_SOFT_DELETED;
+    }
+
+    public function trash(): void {
+        $this->visibility = self::VISIBILITY_TRASHED;
+    }
+
+    public function restore(): void {
+        $this->visibility = self::VISIBILITY_VISIBLE;
     }
 
     public function getComments(): Collection

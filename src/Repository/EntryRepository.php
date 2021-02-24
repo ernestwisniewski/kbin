@@ -62,7 +62,12 @@ class EntryRepository extends ServiceEntityRepository
 
     private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('e');
+        $qb = $this->createQueryBuilder('e')
+            ->where('e.visibility = :e_visibility')
+            ->leftJoin('e.magazine', 'm')
+            ->andWhere('m.visibility = :m_visibility')
+            ->setParameter('e_visibility', $criteria->getVisibility())
+            ->setParameter('m_visibility', Magazine::VISIBILITY_VISIBLE);
 
         $this->filter($qb, $criteria);
 
