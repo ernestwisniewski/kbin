@@ -85,6 +85,11 @@ class User implements UserInterface
     private Collection $entryCommentVotes;
 
     /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
+     */
+    private Collection $posts;
+
+    /**
      * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="user", orphanRemoval=true)
      */
     private Collection $subscriptions;
@@ -130,6 +135,7 @@ class User implements UserInterface
         $this->entryVotes        = new ArrayCollection();
         $this->entryComments     = new ArrayCollection();
         $this->entryCommentVotes = new ArrayCollection();
+        $this->posts             = new ArrayCollection();
         $this->subscriptions     = new ArrayCollection();
         $this->follows           = new ArrayCollection();
         $this->followers         = new ArrayCollection();
@@ -260,6 +266,24 @@ class User implements UserInterface
         if (!$this->entryComments->contains($comment)) {
             $this->entryComments->add($comment);
             $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if ($post->getUser() !== $this) {
+            throw new \DomainException('Post must belong to user');
+        }
+
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
         }
 
         return $this;

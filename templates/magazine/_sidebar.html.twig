@@ -30,22 +30,22 @@
 
         <ul class="list-group kbin-magazine-stats-links">
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ path('front_magazine', {'name': magazine.name }) }}">Treści</a>
+                <a class="stretched-link" href="{{ path('front_magazine', {'name': magazine.name }) }}">Treści</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.entryCount }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ get_active_comments_page_path() }}">Komentarze</a>
+                <a class="stretched-link" href="{{ get_active_comments_page_path() }}">Komentarze</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.commentCount }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ path('magazine_moderators', {'name': magazine.name}) }}">Moderatorzy</a>
+                <a class="stretched-link" href="{{ path('magazine_moderators', {'name': magazine.name}) }}">Moderatorzy</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.moderators|length }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="#">Log moderatorski</a>
+                <a class="stretched-link" href="#">Log moderatorski</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.moderators|length }}</span>
             </li>
         </ul>
@@ -61,13 +61,13 @@
                     {% for moderator in magazine.moderators|slice(0, 5) %}
                         <li class="list-group-item">
                             {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<span class="text-muted">/u/</span><a
-                                    class="text-decoration-none"
+                                    class="text-decoration-none stretched-link"
                                     href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
                         </li>
                     {% endfor %}
                     {% if magazine.moderators|length > 5 %}
                         <li class="list-group-item text-center">
-                            <a class="text-decoration-none" href="{{ path('magazine_moderators', {'name': magazine.name}) }}">więcej...</a>
+                            <a class="text-decoration-none stretched-link" href="{{ path('magazine_moderators', {'name': magazine.name}) }}">więcej...</a>
                         </li>
                     {% endif %}
                 </ul>

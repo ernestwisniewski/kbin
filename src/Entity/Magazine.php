@@ -70,6 +70,11 @@ class Magazine implements VisibilityInterface
     private int $commentCount = 0;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private int $postCount = 0;
+
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     private Collection $moderators;
@@ -78,6 +83,11 @@ class Magazine implements VisibilityInterface
      * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="magazine")
      */
     private Collection $entries;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="magazine")
+     */
+    private Collection $posts;
 
     /**
      * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="magazine", orphanRemoval=true, cascade={"persist", "remove"})
@@ -97,6 +107,7 @@ class Magazine implements VisibilityInterface
         $this->rules         = $rules;
         $this->moderators    = new ArrayCollection();
         $this->entries       = new ArrayCollection();
+        $this->posts         = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
         $this->bans          = new ArrayCollection();
 
@@ -273,6 +284,60 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->entries->add($post);
+            $post->setMagazine($this);
+        }
+
+        $this->updatePostCounts();
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->removeElement($post)) {
+            if ($post->getMagazine() === $this) {
+                $post->setMagazine(null);
+            }
+        }
+
+        $this->updatePostCounts();
+
+        return $this;
+    }
+
+
+    public function setPostCount(int $postCount): self
+    {
+        $this->postCount = $postCount;
+
+        return $this;
+    }
+
+    private function updatePostCounts(): self
+    {
+        $this->setPostCount(
+            $this->posts->count()
+        );
+
+        return $this;
+    }
+
+    public function updatePostCount(): self
+    {
+        $this->postCount = $this->posts->count();
+
+        return $this;
+    }
+
     public function getSubscriptions(): Collection
     {
         return $this->subscriptions;
@@ -326,15 +391,18 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
-    public function softDelete(): void {
+    public function softDelete(): void
+    {
         $this->visibility = self::VISIBILITY_SOFT_DELETED;
     }
 
-    public function trash(): void {
+    public function trash(): void
+    {
         $this->visibility = self::VISIBILITY_TRASHED;
     }
 
-    public function restore(): void {
+    public function restore(): void
+    {
         $this->visibility = self::VISIBILITY_VISIBLE;
     }
 

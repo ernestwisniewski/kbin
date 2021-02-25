@@ -45,7 +45,8 @@ class EntryManager
 
     public function create(EntryDto $entryDto, User $user): Entry
     {
-        if (!$this->security->isGranted('create_content', $entryDto->getMagazine())) {
+        // @todo
+        if ($this->security->getUser() && !$this->security->isGranted('create_content', $entryDto->getMagazine())) {
             throw new AccessDeniedHttpException();
         }
 

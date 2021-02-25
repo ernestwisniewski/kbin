@@ -5,7 +5,7 @@
              class="kbin-entry {{ extra_classes }}"
              data-controller="embed"
              data-embed-id-value="{{ entry.id }}"
-             data-embed-is-visible-value="{{ show_embed ? 'true' : 'false' }}"
+             data-embed-is-visible-value="false"
              data-embed-hidden-class="display-none">
         <div class="kbin-entry-header">
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote'}) }}
@@ -44,7 +44,7 @@
                         {% endif %}
                     </ul>
                     <ul class="kbin-entry-meta-list  list-inline mb-0">
-                        {% if entry.embed %}
+                        {% if entry.hasEmbed %}
                             <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item"
                                 data-action="click->embed#fetch">
                                 <i class="kbin-preview fas fa-photo-video text-muted"></i>
@@ -92,14 +92,11 @@
 
         <div class="clearfix"></div>
 
-        {% if entry.embed %}
-            <button type="button" class="btn-close mt-3 {{ show_embed ? '' : 'display-none' }}" data-embed-target="close" aria-label="Zamknij"
+        {% if entry.hasEmbed %}
+            <button type="button" class="btn-close mt-3 display-none" data-embed-target="close" aria-label="Zamknij"
                     data-action="embed#close"></button>
             <div class="kbin-embed">
-                <div class="ratio ratio-16x9 mt-4 {{ show_embed ? '' : 'display-none' }}" data-embed-target="container">
-                    {% if show_embed %}
-                        {{ entry.embed|raw }}
-                    {% endif %}
+                <div class="ratio ratio-16x9 mt-4 display-none" data-embed-target="container">
                 </div>
             </div>
         {% endif %}

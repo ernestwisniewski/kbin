@@ -12,7 +12,7 @@ class AjaxController extends AbstractController
 {
     public function fetchTitle(Embed $embed, Request $request): JsonResponse
     {
-        $url  = json_decode($request->getContent())->url;
+        $url = json_decode($request->getContent())->url;
 
         return new JsonResponse(
             [
@@ -25,7 +25,7 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'html' => $entry->getEmbed()
+                'html' => $embed->fetch($entry->getUrl())->getHtml(),
             ]
         );
     }

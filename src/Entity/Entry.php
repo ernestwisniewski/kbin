@@ -47,7 +47,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private User $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
+     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private ?Magazine $magazine;
@@ -79,9 +79,9 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private ?string $body = null;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private ?string $embed = null;
+    private bool $hasEmbed = false;
 
     /**
      * @ORM\Column(type="integer")
@@ -208,16 +208,14 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this;
     }
 
-    public function getEmbed(): ?string
+    public function hasEmbed(): bool
     {
-        return $this->embed;
+        return $this->hasEmbed;
     }
 
-    public function setEmbed(?string $embed): self
+    public function setHasEmbed(bool $hasEmbed): void
     {
-        $this->embed = $embed;
-
-        return $this;
+        $this->hasEmbed = $hasEmbed;
     }
 
     public function getCommentCount(): int
