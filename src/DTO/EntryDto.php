@@ -14,7 +14,7 @@ class EntryDto
     /**
      * @Assert\NotBlank()
      */
-    private Magazine $magazine;
+    private ?Magazine $magazine = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(

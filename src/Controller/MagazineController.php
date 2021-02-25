@@ -34,15 +34,19 @@ class MagazineController extends AbstractController
         $this->entityManager   = $entityManager;
     }
 
-    public function front(Magazine $magazine, ?string $sortBy, Request $request): Response
+    public function front(Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
     {
         $criteria = (new EntryPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
+
+        if ($time) {
+            $criteria->setTime($criteria->translateTime($time));
+        }
 
         if ($sortBy) {
             $method  = $criteria->translateSort($sortBy);
             $listing = $this->$method($criteria);
         } else {
-            $listing = $this->new($criteria);
+            $listing = $this->active($criteria);
         }
 
         return $this->render(
@@ -117,8 +121,8 @@ class MagazineController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount' => $magazine->getSubscriptionsCount(),
-                    'isSubscribed' => true
+                    'subCount'     => $magazine->getSubscriptionsCount(),
+                    'isSubscribed' => true,
                 ]
             );
         }
@@ -139,8 +143,8 @@ class MagazineController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount' => $magazine->getSubscriptionsCount(),
-                    'isSubscribed' => false
+                    'subCount'     => $magazine->getSubscriptionsCount(),
+                    'isSubscribed' => false,
                 ]
             );
         }
@@ -161,7 +165,7 @@ class MagazineController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'isBlocked' => true
+                    'isBlocked' => true,
                 ]
             );
         }
@@ -182,7 +186,7 @@ class MagazineController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'isBlocked' => false
+                    'isBlocked' => false,
                 ]
             );
         }
@@ -206,7 +210,7 @@ class MagazineController extends AbstractController
             'magazine/moderators.html.twig',
             [
                 'magazine'   => $magazine,
-                'moderators' => $magazineRepository->findModeratorsPaginated($magazine, (int) $request->get('strona', 1))
+                'moderators' => $magazineRepository->findModeratorsPaginated($magazine, (int) $request->get('strona', 1)),
             ]
         );
     }

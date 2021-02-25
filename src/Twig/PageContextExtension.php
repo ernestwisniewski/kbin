@@ -35,6 +35,8 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_user_profile_page', [$this, 'isUserProfilePage']),
             new TwigFunction('is_current_magazine_page', [$this, 'isCurrentMagazinePage']),
             new TwigFunction('is_active_sort_option', [$this, 'isActiveSortOption']),
+            new TwigFunction('get_active_sort_option', [$this, 'getActiveSortOption']),
+            new TwigFunction('get_active_time_option', [$this, 'getActiveTimeOption']),
             new TwigFunction('get_active_sort_option_path', [$this, 'getActiveSortOptionPath']),
             new TwigFunction('is_comments_page', [$this, 'isCommentsPage']),
             new TwigFunction('get_active_comments_page_path', [$this, 'getActiveCommentsPagePath']),
@@ -114,10 +116,33 @@ final class PageContextExtension extends AbstractExtension
         return ($requestSort = $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT) === $sortOption;
     }
 
-    public function getActiveSortOptionPath(string $sortOption): string
+    public function getActiveSortOption()
     {
-        $routeName   = 'front';
-        $routeParams = ['sortBy' => $sortOption ?? EntryRepository::SORT_DEFAULT];
+        return $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT;
+    }
+
+    public function getActiveTimeOption()
+    {
+        return $this->getCurrentRequest()->get('time') ?? EntryRepository::TIME_DEFAULT;
+    }
+
+    public function getActiveSortOptionPath(?string $sortOption = null, ?string $time = null): string
+    {
+        $routeName = 'front';
+
+        if ($this->getCurrentRequest()->get('sortBy')) {
+            $routeParams['sortBy'] = $this->getActiveSortOption();
+        }
+        if ($sortOption) {
+            $routeParams = ['sortBy' => $sortOption];
+        }
+
+        if ($this->getCurrentRequest()->get('time')) {
+            $routeParams['time'] = $this->getCurrentRequest()->get('time');
+        }
+        if ($time) {
+            $routeParams['time'] = $time;
+        }
 
         if ($this->isMagazinePage()) {
             $magazine            = $this->getCurrentRequest()->get('magazine');
@@ -149,6 +174,10 @@ final class PageContextExtension extends AbstractExtension
 
         if ($this->isSubPage()) {
             $routeName = 'entry_comments_subscribed';
+        }
+
+        if ($time = $this->getCurrentRequest()->get('time')) {
+            $routeParams['time'] = $time;
         }
 
         return $this->urlGenerator->generate(

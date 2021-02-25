@@ -6,6 +6,7 @@ use App\Entity\Magazine;
 use App\Entity\Entry;
 use App\Entity\Submission;
 use App\Entity\User;
+use App\PageView\EntryPageView;
 
 abstract class Criteria
 {
@@ -21,13 +22,14 @@ abstract class Criteria
     public const SORT_NEW = 'new';
     public const SORT_TOP = 'top';
     public const SORT_COMMENTED = 'commented';
+
     public const TIME_6_HOURS = '6hours';
     public const TIME_12_HOURS = '12hours';
     public const TIME_DAY = 'day';
     public const TIME_WEEK = 'week';
     public const TIME_MONTH = 'month';
     public const TIME_YEAR = 'year';
-    public const TIME_ALL = 'all';
+    public const TIME_ALL = '∞';
 
     public const FRONT_PAGE_OPTIONS = [
         self::FRONT_FEATURED,
@@ -174,5 +176,27 @@ abstract class Criteria
         $this->time = $time;
 
         return $this;
+    }
+
+    public function getSince()
+    {
+        $since = new \DateTimeImmutable('@'.time());
+
+        switch ($this->getTime()) {
+            case Criteria::TIME_YEAR:
+                return $since->modify('-1 year');
+            case Criteria::TIME_MONTH:
+                return $since->modify('-1 month');
+            case Criteria::TIME_WEEK:
+                return $since->modify('-1 week');
+            case Criteria::TIME_DAY:
+                return $since->modify('-1 day');
+            case Criteria::TIME_12_HOURS:
+                return $since->modify('-12 hours');
+            case Criteria::TIME_6_HOURS:
+                return $since->modify('-6 hours');
+            default:
+                throw new \LogicException();
+        }
     }
 }

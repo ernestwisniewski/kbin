@@ -32,7 +32,7 @@ export default class extends Controller {
 
             this.formValue = response.form;
         } catch (e) {
-            throw e;
+            alert('Nie możesz dodać komentarza.');
         } finally {
             this.loadingValue = false;
         }

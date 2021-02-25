@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Traits\RankingTrait;
 use App\Entity\Traits\VisibilityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,20 +21,15 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface
+class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface
 {
     use VotableTrait;
+    use RankingTrait;
     use VisibilityTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    private const DOWNVOTED_CUTOFF = -5;
-    private const NETSCORE_MULTIPLIER = 1800;
-    private const COMMENT_MULTIPLIER = 5000;
-    private const COMMENT_DOWNVOTED_MULTIPLIER = 500;
-    private const MAX_ADVANTAGE = 86400;
-    private const MAX_PENALTY = 43200;
     const ENTRY_TYPE_ARTICLE = 'artykul';
     const ENTRY_TYPE_LINK = 'link';
 
@@ -95,11 +92,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      * @ORM\Column(type="integer")
      */
     private int $score = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private int $ranking = 0;
 
     /**
      * @ORM\Column(type="datetimetz")
@@ -228,7 +220,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this;
     }
 
-    public function getCommentCount(): ?int
+    public function getCommentCount(): int
     {
         return $this->commentCount;
     }
@@ -251,17 +243,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
 
         return $this;
     }
-
-    public function getRanking(): int
-    {
-        return $this->ranking;
-    }
-
-    public function setRanking(int $ranking): void
-    {
-        $this->ranking = $ranking;
-    }
-
 
     public function getLastActive(): ?\DateTime
     {
@@ -372,24 +353,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
 
         $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
         $this->updateRanking();
-
-        return $this;
-    }
-
-    private function updateRanking(): self
-    {
-        $score          = $this->getScore();
-        $scoreAdvantage = $score * self::NETSCORE_MULTIPLIER;
-
-        if ($score > self::DOWNVOTED_CUTOFF) {
-            $commentAdvantage = $this->getCommentCount() * self::COMMENT_MULTIPLIER;
-        } else {
-            $commentAdvantage = $this->getCommentCount() * self::COMMENT_DOWNVOTED_MULTIPLIER;
-        }
-
-        $advantage = max(min($scoreAdvantage + $commentAdvantage, self::MAX_ADVANTAGE), -self::MAX_PENALTY);
-
-        $this->ranking = $this->getCreatedAt()->getTimestamp() + $advantage;
 
         return $this;
     }

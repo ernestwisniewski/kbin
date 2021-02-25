@@ -139,30 +139,7 @@ class EntryRepository extends ServiceEntityRepository
     private function addTimeClause(QueryBuilder $qb, Criteria $criteria)
     {
         if ($criteria->getTime() !== EntryPageView::TIME_ALL) {
-            $since = new \DateTimeImmutable('@'.time());
-
-            switch ($criteria->getTime()) {
-                case EntryPageView::TIME_YEAR:
-                    $since = $since->modify('-1 year');
-                    break;
-                case EntryPageView::TIME_MONTH:
-                    $since = $since->modify('-1 month');
-                    break;
-                case EntryPageView::TIME_WEEK:
-                    $since = $since->modify('-1 week');
-                    break;
-                case EntryPageView::TIME_DAY:
-                    $since = $since->modify('-1 day');
-                    break;
-                case EntryPageView::TIME_12_HOURS:
-                    $since = $since->modify('-12 hours');
-                    break;
-                case EntryPageView::TIME_6_HOURS:
-                    $since = $since->modify('-6 hours');
-                    break;
-                default:
-                    throw new \LogicException();
-            }
+            $since = $criteria->getSince();
 
             $qb->andWhere('e.createdAt > :time')
                 ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);

@@ -23,7 +23,7 @@ class FrontController extends AbstractController
     {
         $criteria = new EntryPageView((int) $request->get('strona', 1));
 
-        if($time) {
+        if ($time) {
             $criteria->setTime($criteria->translateTime($time));
         }
 
@@ -45,11 +45,15 @@ class FrontController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function subscribed(?string $sortBy, Request $request): Response
+    public function subscribed(?string $sortBy, ?string $time, Request $request): Response
     {
         $criteria = new EntryPageView((int) $request->get('strona', 1));
 
         $criteria->showSubscribed();
+
+        if ($time) {
+            $criteria->setTime($criteria->translateTime($time));
+        }
 
         if ($sortBy) {
             $method  = $criteria->translateSort($sortBy);

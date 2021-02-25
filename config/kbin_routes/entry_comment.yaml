@@ -27,21 +27,21 @@ entry_comment_vote:
 
 entry_comments:
   controller: App\Controller\EntryCommentController::front
-  defaults: { sortBy: ~ }
-  path: /komentarze/{sortBy}
+  defaults: { sortBy: ~, time: ~ }
+  path: /komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_subscribed:
   controller: App\Controller\EntryCommentController::subscribed
-  defaults: { sortBy: ~ }
-  path: /sub/komentarze/{sortBy}
+  defaults: { sortBy: ~, time: ~ }
+  path: /sub/komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_comments:
   controller: App\Controller\EntryCommentController::front
-  defaults: { sortBy: ~ }
-  path: /m/{name}/komentarze/{sortBy}
+  defaults: { sortBy: ~, time: ~ }
+  path: /m/{name}/komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }

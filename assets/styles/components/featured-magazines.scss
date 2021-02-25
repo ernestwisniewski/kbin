@@ -23,7 +23,7 @@
         display: block;
 
         &:hover {
-          background-color: $kbin-topbar-link-hover-background-color !important;
+          background-color: $kbin-topbar-link-hover-background-color;
         }
       }
 
@@ -36,7 +36,7 @@
           text-shadow: 0 0 2px #9ab4ca;
 
           &:hover {
-            background-color: $kbin-topbar-link-active-hover-background-color;
+            background-color: $kbin-topbar-link-active-background-color;
           }
         }
       }

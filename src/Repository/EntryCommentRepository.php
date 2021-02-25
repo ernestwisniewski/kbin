@@ -5,7 +5,9 @@ namespace App\Repository;
 use App\Entity\MagazineSubscription;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -62,6 +64,7 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->addSelect('cc')
             ->leftJoin('c.children', 'cc');
 
+        $this->addTimeClause($qb, $criteria);
         $this->filter($qb, $criteria);
 
         return $qb;
@@ -92,7 +95,8 @@ class EntryCommentRepository extends ServiceEntityRepository
                 OR
                 c.user = :user'
             );
-            $qb->setParameters(['follower' => $this->security->getUser(), 'user' => $this->security->getUser()]);
+            $qb->setParameter('follower', $this->security->getUser());
+            $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->isOnlyParents()) {
@@ -109,6 +113,16 @@ class EntryCommentRepository extends ServiceEntityRepository
         }
 
         return $qb;
+    }
+
+    private function addTimeClause(QueryBuilder $qb, Criteria $criteria):void
+    {
+        if ($criteria->getTime() !== Criteria::TIME_ALL) {
+            $since = $criteria->getSince();
+
+            $qb->andWhere('c.createdAt > :time')
+                ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
+        }
     }
 
     public function hydrate(EntryComment ...$comments): void

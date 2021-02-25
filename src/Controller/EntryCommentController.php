@@ -30,7 +30,7 @@ class EntryCommentController extends AbstractController
         $this->commentRepository = $commentRepository;
     }
 
-    public function front(?Magazine $magazine, ?string $sortBy, Request $request): Response
+    public function front(?Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
     {
         $params   = [];
         $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)));
@@ -38,6 +38,10 @@ class EntryCommentController extends AbstractController
         if ($magazine) {
             $params['magazine'] = $magazine;
             $criteria->showMagazine($magazine);
+        }
+
+        if ($time) {
+            $criteria->setTime($criteria->translateTime($time));
         }
 
         $criteria->showSortOption($sortBy);
@@ -53,10 +57,14 @@ class EntryCommentController extends AbstractController
         );
     }
 
-    public function subscribed(?string $sortBy, Request $request): Response
+    public function subscribed(?string $sortBy, ?string $time, Request $request): Response
     {
         $params   = [];
         $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)));
+
+        if ($time) {
+            $criteria->setTime($criteria->translateTime($time));
+        }
 
         $criteria->showSubscribed();
 
@@ -223,6 +231,7 @@ class EntryCommentController extends AbstractController
             ]
         );
     }
+
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})

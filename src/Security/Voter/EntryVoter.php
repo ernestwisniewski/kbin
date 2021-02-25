@@ -36,8 +36,6 @@ class EntryVoter extends Voter
         }
 
         switch ($attribute) {
-            case self::CREATE:
-                return $this->canCreate($subject, $user);
             case self::EDIT:
                 return $this->canEdit($subject, $user);
             case self::DELETE:
@@ -51,11 +49,6 @@ class EntryVoter extends Voter
         }
 
         throw new \LogicException();
-    }
-
-    private function canCreate(Magazine $magazine, User $user): bool
-    {
-        return !$magazine->isBanned($user);
     }
 
     private function canEdit(Entry $entry, User $user): bool

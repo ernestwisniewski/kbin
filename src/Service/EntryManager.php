@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,7 @@ use App\Event\EntryCreatedEvent;
 use App\Event\EntryUpdatedEvent;
 use App\Event\EntryPurgedEvent;
 use App\Factory\EntryFactory;
+use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
@@ -22,6 +24,7 @@ class EntryManager
     private EntryRepository $entryRepository;
     private EventDispatcherInterface $eventDispatcher;
     private MessageBusInterface $messageBus;
+    private Security $security;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
@@ -29,17 +32,23 @@ class EntryManager
         EntryRepository $entryRepository,
         EventDispatcherInterface $eventDispatcher,
         MessageBusInterface $messageBus,
+        Security $security,
         EntityManagerInterface $entityManager
     ) {
         $this->entryFactory    = $entryFactory;
         $this->entryRepository = $entryRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->messageBus      = $messageBus;
+        $this->security        = $security;
         $this->entityManager   = $entityManager;
     }
 
     public function create(EntryDto $entryDto, User $user): Entry
     {
+        if (!$this->security->isGranted('create_content', $entryDto->getMagazine())) {
+            throw new AccessDeniedHttpException();
+        }
+
         $entry    = $this->entryFactory->createFromDto($entryDto, $user);
         $magazine = $entry->getMagazine();
 
@@ -76,10 +85,15 @@ class EntryManager
         return $entry;
     }
 
-
-    public function delete(Entry $entry)
+    public function delete(Entry $entry): void
     {
-        $entry->softDelete();
+        if ($entry->getCommentCount() > 5) {
+            $entry->softDelete();
+        } else {
+            $this->purge($entry);
+
+            return;
+        }
 
         $this->entityManager->flush();
     }

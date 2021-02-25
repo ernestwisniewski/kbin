@@ -1697,12 +1697,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oscarotero/Embed.git",
-                "reference": "39fe12ec7efcd691f158a980b439837fe370ab2f"
+                "reference": "a247f4a4211e97581d78cfb6eff8a404c9cab906"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oscarotero/Embed/zipball/39fe12ec7efcd691f158a980b439837fe370ab2f",
-                "reference": "39fe12ec7efcd691f158a980b439837fe370ab2f",
+                "url": "https://api.github.com/repos/oscarotero/Embed/zipball/a247f4a4211e97581d78cfb6eff8a404c9cab906",
+                "reference": "a247f4a4211e97581d78cfb6eff8a404c9cab906",
                 "shasum": ""
             },
             "require": {
@@ -1765,7 +1765,7 @@
                 "issues": "https://github.com/oscarotero/Embed/issues",
                 "source": "https://github.com/oscarotero/Embed/tree/master"
             },
-            "time": "2020-12-31T10:21:39+00:00"
+            "time": "2021-02-22T22:02:11+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",

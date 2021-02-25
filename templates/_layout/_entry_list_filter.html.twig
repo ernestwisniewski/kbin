@@ -3,29 +3,29 @@
         <div class="dropdown">
             <a class="nav-link active text-decoration-none text-muted"
                aria-current="page"
-               type="button" id="dropdownMenuButton1"
+               id="kbin-time-filter"
                data-bs-toggle="dropdown"
                aria-expanded="false" href="#">
-                <i class="fas fa-history"></i> ∞</a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">6h</a></li>
-                <li><a class="dropdown-item" href="#">12h</a></li>
-                <li><a class="dropdown-item" href="#">24h</a></li>
-                <li><a class="dropdown-item" href="#">tydzień</a></li>
-                <li><a class="dropdown-item" href="#">miesiąc</a></li>
-                <li><a class="dropdown-item" href="#">rok</a></li>
-                <li><a class="dropdown-item" href="#">∞</a></li>
+                <i class="fas fa-history"></i> {{ get_active_time_option() }}</a>
+            <ul class="dropdown-menu" aria-labelledby="kbin-time-filter">
+                <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '6h') }}">6h</a></li>
+                <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '12h') }}">12h</a></li>
+                <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '1d') }}">24h</a></li>
+                <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '1w') }}">tydzień</a></li>
+                <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '1m') }}">miesiąc</a></li>
+                <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '1y') }}">rok</a></li>
+                <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '∞') }}">∞</a></li>
             </ul>
         </div>
     </li>
     <li class="nav-item">
         <a class="nav-link active text-decoration-none text-muted"
            aria-current="page"
-           type="button" id="dropdownMenuButton1"
+           id="kbin-type-filter"
            data-bs-toggle="dropdown"
            aria-expanded="false" href="#">
             <i class="fas fa-photo-video"></i> wszystko</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu" aria-labelledby="kbin-type-filter">
             <li><a class="dropdown-item" href="#">artykuły</a></li>
             <li><a class="dropdown-item" href="#">obrazy</a></li>
             <li><a class="dropdown-item" href="#">video</a></li>

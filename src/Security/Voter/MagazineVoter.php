@@ -9,6 +9,7 @@ use App\Entity\User;
 
 class MagazineVoter extends Voter
 {
+    const CREATE_CONTENT = 'create_content';
     const EDIT = 'edit';
     const DELETE = 'delete';
     const PURGE = 'purge';
@@ -21,7 +22,7 @@ class MagazineVoter extends Voter
         return $subject instanceof Magazine
             && \in_array(
                 $attribute,
-                [self::EDIT, self::DELETE, self::PURGE, self::MODERATE, self::SUBSCRIBE, self::BLOCK],
+                [self::CREATE_CONTENT, self::EDIT, self::DELETE, self::PURGE, self::MODERATE, self::SUBSCRIBE, self::BLOCK],
                 true
             );
     }
@@ -35,11 +36,13 @@ class MagazineVoter extends Voter
         }
 
         switch ($attribute) {
+            case self::CREATE_CONTENT:
+                return $this->canCreateContent($subject, $user);
             case self::EDIT:
                 return $this->canEdit($subject, $user);
             case self::DELETE:
                 return $this->canDelete($subject, $user);
-                case self::PURGE:
+            case self::PURGE:
                 return $this->canPurge($subject, $user);
             case self::MODERATE:
                 return $this->canModerate($subject, $user);
@@ -50,6 +53,11 @@ class MagazineVoter extends Voter
         }
 
         throw new \LogicException();
+    }
+
+    private function canCreateContent(Magazine $magazine, User $user): bool
+    {
+        return !$magazine->isBanned($user);
     }
 
     private function canEdit(Magazine $magazine, User $user): bool

@@ -71,12 +71,15 @@ class EntryCommentManager
 
     public function delete(EntryComment $comment): void
     {
-        $magazine = $comment->getEntry()->getMagazine();
-        $comment->softDelete();
+        if ($comment->getChildren()) {
+            $comment->softDelete();
+        } else {
+            $this->purge($comment);
+
+            return;
+        }
 
         $this->entityManager->flush();
-
-        $this->eventDispatcher->dispatch((new EntryCommentPurgedEvent($magazine)));
     }
 
     public function purge(EntryComment $comment): void
