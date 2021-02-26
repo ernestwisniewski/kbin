@@ -47,7 +47,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private User $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private ?Magazine $magazine;

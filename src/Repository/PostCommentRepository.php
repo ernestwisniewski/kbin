@@ -4,19 +4,26 @@ namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\EntryComment;
 use App\Entity\PostComment;
 
 /**
- * @method EntryComment|null find($id, $lockMode = null, $lockVersion = null)
- * @method EntryComment|null findOneBy(array $criteria, array $orderBy = null)
- * @method EntryComment[]    findAll()
- * @method EntryComment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PostComment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PostComment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PostComment[]    findAll()
+ * @method PostComment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PostCommentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PostComment::class);
+    }
+
+    public function findByCriteria(\App\PageView\PostCommentPageView $criteria)
+    {
+    }
+
+    public function hydrate(array $comments)
+    {
     }
 }

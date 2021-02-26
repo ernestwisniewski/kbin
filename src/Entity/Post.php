@@ -2,17 +2,29 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\RankingInterface;
+use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\RankingTrait;
+use App\Entity\Traits\VisibilityTrait;
+use App\Entity\Traits\VotableTrait;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
-class Post
+class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface
 {
+    use VotableTrait;
+    use RankingTrait;
+    use VisibilityTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
@@ -31,7 +43,7 @@ class Post
     private User $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
+     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private ?Magazine $magazine;
@@ -58,9 +70,20 @@ class Post
     private int $score = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
+     * @ORM\Column(type="datetimetz")
+     */
+    private ?\DateTime $lastActive;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="post", orphanRemoval=true)
      */
     private Collection $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PostVote::class, mappedBy="post", cascade={"persist"},
+     *     fetch="EXTRA_LAZY", orphanRemoval=true)
+     */
+    private Collection $votes;
 
     public function __construct(string $body, Magazine $magazine, User $user)
     {
@@ -68,13 +91,12 @@ class Post
         $this->magazine = $magazine;
         $this->user     = $user;
         $this->comments = new ArrayCollection();
-//        $this->votes    = new ArrayCollection();
+        $this->votes    = new ArrayCollection();
 
-//        $user->addPost($this);
+        $user->addPost($this);
 
         $this->createdAtTraitConstruct();
-
-//        $this->updateLastActive();
+        $this->updateLastActive();
     }
 
     public function getId(): int
@@ -136,6 +158,7 @@ class Post
     public function setCommentCount(int $commentCount): self
     {
         $this->commentCount = $commentCount;
+
         return $this;
     }
 
@@ -162,8 +185,8 @@ class Post
         }
 
         $this->updateCounts();
-//        $this->updateRanking();
-//        $this->updateLastActive();
+        $this->updateRanking();
+        $this->updateLastActive();
 
         return $this;
     }
@@ -177,8 +200,8 @@ class Post
         }
 
         $this->updateCounts();
-//        $this->updateRanking();
-//        $this->updateLastActive();
+        $this->updateRanking();
+        $this->updateLastActive();
 
         return $this;
     }
@@ -192,6 +215,82 @@ class Post
         return $this;
     }
 
+    public function getLastActive(): ?\DateTime
+    {
+        return $this->lastActive;
+    }
+
+    public function setLastActive(\DateTime $lastActive): self
+    {
+        $this->lastActive = $lastActive;
+
+        return $this;
+    }
+
+    public function updateLastActive(): void
+    {
+        $this->comments->get(-1);
+
+        $criteria = Criteria::create()
+            ->orderBy(['createdAt' => 'DESC'])
+            ->setMaxResults(1);
+
+        $lastComment = $this->comments->matching($criteria)->first();
+
+        if ($lastComment) {
+            $this->lastActive = \DateTime::createFromImmutable($lastComment->getCreatedAt());
+        } else {
+            $this->lastActive = \DateTime::createFromImmutable($this->getCreatedAt());
+        }
+    }
+
+    public function softDelete(): void {
+        $this->visibility = self::VISIBILITY_SOFT_DELETED;
+    }
+
+    public function trash(): void {
+        $this->visibility = self::VISIBILITY_TRASHED;
+    }
+
+    public function restore(): void {
+        $this->visibility = self::VISIBILITY_VISIBLE;
+    }
+
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        Assert::isInstanceOf($vote, PostVote::class);
+
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setPost($this);
+        }
+
+        $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
+        $this->updateRanking();
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        Assert::isInstanceOf($vote, PostVote::class);
+
+        if ($this->votes->removeElement($vote)) {
+            if ($vote->getPost() === $this) {
+                $vote->setPost(null);
+            }
+        }
+
+        $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
+        $this->updateRanking();
+
+        return $this;
+    }
     public function __sleep()
     {
         return [];

@@ -1,0 +1,106 @@
+<?php declare(strict_types=1);
+
+namespace App\Service;
+
+use App\DTO\PostDto;
+use App\Entity\Post;
+use App\Event\PostCreatedEvent;
+use App\Event\PostPurgedEvent;
+use App\Event\PostUpdatedEvent;
+use App\Message\PostCreatedMessage;
+use App\Repository\PostRepository;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Factory\PostFactory;
+use Symfony\Component\Security\Core\Security;
+use Webmozart\Assert\Assert;
+use App\Entity\User;
+
+class PostManager
+{
+    private PostFactory $postFactory;
+    private PostRepository $postRepository;
+    private EventDispatcherInterface $eventDispatcher;
+    private MessageBusInterface $messageBus;
+    private Security $security;
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(
+        PostFactory $postFactory,
+        PostRepository $postRepository,
+        EventDispatcherInterface $eventDispatcher,
+        MessageBusInterface $messageBus,
+        Security $security,
+        EntityManagerInterface $entityManager
+    ) {
+        $this->postFactory     = $postFactory;
+        $this->postRepository  = $postRepository;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->messageBus      = $messageBus;
+        $this->security        = $security;
+        $this->entityManager   = $entityManager;
+    }
+
+    public function create(PostDto $postDto, User $user): Post
+    {
+        $post     = $this->postFactory->createFromDto($postDto, $user);
+        $magazine = $post->getMagazine();
+
+        $magazine->addPost($post);
+
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new PostCreatedEvent($post));
+        $this->messageBus->dispatch(new PostCreatedMessage($post->getId()));
+
+        return $post;
+    }
+
+    public function edit(Post $post, PostDto $postDto): Post
+    {
+        Assert::same($post->getMagazine()->getId(), $postDto->getMagazine()->getId());
+
+        $post->setBody($postDto->getBody());
+        if ($postDto->getImage()) {
+            $post->setImage($postDto->getImage());
+        }
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new PostUpdatedEvent($post)));
+
+        return $post;
+    }
+
+    public function delete(Post $post): void
+    {
+        if ($post->getCommentCount() > 5) {
+            $post->softDelete();
+        } else {
+            $this->purge($post);
+
+            return;
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function purge(Post $post): void
+    {
+        $post->getMagazine()->removePost($post);
+
+        $this->eventDispatcher->dispatch((new PostPurgedEvent($post)));
+
+        $this->entityManager->remove($post);
+
+        $this->entityManager->flush();
+    }
+
+    public function createDto(Post $post): PostDto
+    {
+        return $this->postFactory->createDto($post);
+    }
+}

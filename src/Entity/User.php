@@ -90,6 +90,21 @@ class User implements UserInterface
     private Collection $posts;
 
     /**
+     * @ORM\OneToMany(targetEntity="PostVote", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    private Collection $postVotes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="user")
+     */
+    private Collection $postComments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PostCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    private Collection $postCommentVotes;
+
+    /**
      * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="user", orphanRemoval=true)
      */
     private Collection $subscriptions;
@@ -136,6 +151,9 @@ class User implements UserInterface
         $this->entryComments     = new ArrayCollection();
         $this->entryCommentVotes = new ArrayCollection();
         $this->posts             = new ArrayCollection();
+        $this->postVotes         = new ArrayCollection();
+        $this->postComments      = new ArrayCollection();
+        $this->postCommentVotes  = new ArrayCollection();
         $this->subscriptions     = new ArrayCollection();
         $this->follows           = new ArrayCollection();
         $this->followers         = new ArrayCollection();
@@ -255,7 +273,6 @@ class User implements UserInterface
         return $this->entryVotes;
     }
 
-
     public function getEntryComments(): Collection
     {
         return $this->entryComments;
@@ -284,6 +301,21 @@ class User implements UserInterface
 
         if (!$this->posts->contains($post)) {
             $this->posts->add($post);
+        }
+
+        return $this;
+    }
+
+    public function getPostComments(): Collection
+    {
+        return $this->postComments;
+    }
+
+    public function addPostComment(PostComment $comment): self
+    {
+        if (!$this->entryComments->contains($comment)) {
+            $this->entryComments->add($comment);
+            $comment->setUser($this);
         }
 
         return $this;

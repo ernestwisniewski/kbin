@@ -213,7 +213,7 @@ class EntryComment implements VoteInterface, VisibilityInterface
         return $this;
     }
 
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
@@ -238,15 +238,18 @@ class EntryComment implements VoteInterface, VisibilityInterface
         return $this;
     }
 
-    public function softDelete(): void {
+    public function softDelete(): void
+    {
         $this->visibility = self::VISIBILITY_SOFT_DELETED;
     }
 
-    public function trash(): void {
+    public function trash(): void
+    {
         $this->visibility = self::VISIBILITY_TRASHED;
     }
 
-    public function restore(): void {
+    public function restore(): void
+    {
         $this->visibility = self::VISIBILITY_VISIBLE;
     }
 

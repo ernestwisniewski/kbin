@@ -1,0 +1,38 @@
+post_front:
+  controller: App\Controller\PostController::front
+  defaults: { sortBy: ~, time: ~ }
+  path: /wpisy/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+post_create:
+  controller: App\Controller\PostController::create
+  path: /m/{name}/wpisy
+  methods: [ POST ]
+
+post_edit:
+  controller: App\Controller\PostController::edit
+  path: /m/{magazine_name}/w/{post_id}/edytuj
+  methods: [ GET, POST ]
+
+post_delete:
+  controller: App\Controller\PostController::delete
+  path: /m/{magazine_name}/w/{post_id}/delete
+  methods: [ POST ]
+
+post_purge:
+  controller: App\Controller\PostController::purge
+  path: /m/{magazine_name}/w/{post_id}/purge
+  methods: [ POST ]
+
+post:
+  controller: App\Controller\PostController::front
+  defaults: { sortBy: ~ }
+  path: /m/{magazine_name}/t/{post_id}/{sortBy}
+  methods: [ GET ]
+
+post_vote:
+  controller: App\Controller\VoteController
+  defaults: { entityClass: App\Entity\post }
+  path: /ev/{id}/{choice}
+  methods: [POST]
