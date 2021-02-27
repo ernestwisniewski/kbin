@@ -1,10 +1,10 @@
 import {Datepicker} from 'vanillajs-datepicker';
 
-export default class KChoices {
+export default class LoginAlert {
     constructor() {
         document.querySelectorAll('.kbin-login-alert').forEach(el => {
             el.addEventListener('click', (event) => {
-                event.preventDefault();
+                event.stopImmediatePropagation();
                 alert('Musisz być zalogowany.')
             })
         });

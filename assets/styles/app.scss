@@ -15,6 +15,7 @@ $primary: #556880;
 @import "components/magazine";
 @import "components/entry";
 @import "components/comment";
+@import "components/post";
 @import "components/vote";
 @import "components/sub_buttons";
 @import "components/datepicker";
@@ -94,4 +95,8 @@ $primary: #556880;
 
 .link-to-title {
   text-decoration: none;
+}
+
+.kbin-logo-color {
+  color: #6c757d!important;
 }

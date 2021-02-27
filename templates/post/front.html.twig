@@ -4,27 +4,27 @@
 
     {% block body %}
         <div class="kbin-posts-page">
-            <section class="kbin-post-wrapper mt-4">
+            <section class="kbin-post-wrapper kbin-comment-wrapper mt-4">
                 <div class="mt-2">
 {#                    {% include 'entry/comment/_filters.html.twig' %}#}
                 </div>
 
-                {% include 'post/comment/_list.html.twig' %}
+                {#                {% if is_granted('comment', entry) %}#}
+                {#                    {{ render(controller('App\\Controller\\EntryCommentController::commentForm', {#}
+                {#                        'magazineName': entry.magazine.name,#}
+                {#                        'entryId': entry.id#}
+                {#                    })) }}#}
+                {#                {% else %}#}
+                {#                    <div class="alert alert-secondary text-muted my-3" role="alert">#}
+                {#                        {% if not app.user %}#}
+                {#                            <a href="{{ path('app_login') }}" class="font-weight-bold">Zaloguj się</a> aby dodać komentarz.#}
+                {#                        {% else %}#}
+                {#                            Nie możesz dodać komentarza.#}
+                {#                        {% endif %}#}
+                {#                    </div>#}
+                {#                {% endif %}#}
 
-{#                {% if is_granted('comment', entry) %}#}
-{#                    {{ render(controller('App\\Controller\\EntryCommentController::commentForm', {#}
-{#                        'magazineName': entry.magazine.name,#}
-{#                        'entryId': entry.id#}
-{#                    })) }}#}
-{#                {% else %}#}
-{#                    <div class="alert alert-secondary text-muted my-3" role="alert">#}
-{#                        {% if not app.user %}#}
-{#                            <a href="{{ path('app_login') }}" class="font-weight-bold">Zaloguj się</a> aby dodać komentarz.#}
-{#                        {% else %}#}
-{#                            Nie możesz dodać komentarza.#}
-{#                        {% endif %}#}
-{#                    </div>#}
-{#                {% endif %}#}
+                {% include 'post/_list.html.twig' %}
             </section>
         </div>
     {% endblock %}

@@ -177,6 +177,11 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $this->comments;
     }
 
+    public function getBestComments(): Collection
+    {
+        return new ArrayCollection($this->comments->slice(0, 2));
+    }
+
     public function addComment(PostComment $comment): self
     {
         if (!$this->comments->contains($comment)) {
@@ -244,15 +249,18 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         }
     }
 
-    public function softDelete(): void {
+    public function softDelete(): void
+    {
         $this->visibility = self::VISIBILITY_SOFT_DELETED;
     }
 
-    public function trash(): void {
+    public function trash(): void
+    {
         $this->visibility = self::VISIBILITY_TRASHED;
     }
 
-    public function restore(): void {
+    public function restore(): void
+    {
         $this->visibility = self::VISIBILITY_VISIBLE;
     }
 
@@ -291,6 +299,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
 
         return $this;
     }
+
     public function __sleep()
     {
         return [];

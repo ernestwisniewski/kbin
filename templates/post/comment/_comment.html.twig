@@ -1,0 +1,74 @@
+{% block comment %}
+    {% from 'user/_macros.html.twig' import avatar %}
+    {% from 'vote/_macros.html.twig' import vote %}
+
+    <blockquote id="{{ comment.id }}"
+             class="kbin-comment {{ extra_classes }} kbin-comment--nested kbin-comment-level--2"
+             data-embed-id-value="{{ comment.id }}">
+        <div class="kbin-comment-header">
+            {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
+
+            <div class="kbin-comment-avatar">
+                {{ avatar(comment.user) }}
+            </div>
+
+            <aside class="kbin-comment-meta">
+                <ul class="kbin-comment-meta-list list-inline m-0">
+                    <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
+                        <small class="text-muted">dodany
+                            <time>{{ comment.createdAt|ago }}</time>
+                        </small>
+                    </li>
+
+                    <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
+                        <small class="text-muted">przez
+                            <a class="font-weight-bold" href="{{ path('user', {username: comment.user.username}) }}">
+                                {{ comment.user.username }}
+                            </a>
+                        </small>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="kbin-comment-main">
+                <div class="kbin-comment-content mt-3">
+                    {{ comment.body|markdown|raw }}
+                </div>
+                <aside class="kbin-comment-meta">
+                    <ul class="kbin-comment-meta-list  list-inline mb-0">
+                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                            <small class="text-muted">
+                                <a data-action="comment#reply"
+                                   class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+                                   href="">
+                                    odpowiedz
+                                </a>
+                            </small>
+                        </li>
+
+                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                            <small class="text-muted">
+                                <a href="#">link</a>
+                            </small>
+                        </li>
+
+                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                            <small class="text-muted"><a href="#">zgłoś</a></small>
+                        </li>
+
+                        {% if is_granted('edit', comment) %}
+                            <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                                <small class="text-muted">
+                                    <a href="">
+                                        edytuj
+                                    </a>
+                                </small>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </aside>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </blockquote>
+{% endblock comment %}

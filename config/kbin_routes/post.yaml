@@ -1,4 +1,11 @@
-post_front:
+posts_front:
+  controller: App\Controller\PostController::front
+  defaults: { sortBy: ~, time: ~ }
+  path: /wpisy/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+posts_single:
   controller: App\Controller\PostController::front
   defaults: { sortBy: ~, time: ~ }
   path: /wpisy/{sortBy}/{time}

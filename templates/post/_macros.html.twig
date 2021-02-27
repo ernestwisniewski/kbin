@@ -1,0 +1,15 @@
+{% use 'post/_post.html.twig' %}
+
+{%- macro post(post, options) -%}
+    {%- with {
+        post: post,
+        self: app.user,
+        show_all_comments: options.show_all_comments ?? null,
+        show_last_comments: options.show_last_comments ?? null,
+        extra_classes: options.extra_classes ?? null,
+        show_content: options.show_content ?? null,
+        title_tag: options.title_tag ?? 'h1'
+        } only -%}
+        {{ block('post') }}
+    {%- endwith -%}
+{%- endmacro -%}

@@ -34,7 +34,7 @@ class PostController extends AbstractController
     }
 
 
-    public function front(?string $sortBy, PostRepository $postRepository, Request $request): Response
+    public function front(?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
     {
         $criteria = (new PostPageView((int) $request->get('strona', 1)));
 
@@ -47,7 +47,7 @@ class PostController extends AbstractController
         return $this->render(
             'post/front.html.twig',
             [
-                'posts' => [],
+                'posts' => $posts,
             ]
         );
     }
@@ -69,7 +69,7 @@ class PostController extends AbstractController
             'post/front.html.twig',
             [
                 'magazine' => $magazine,
-                'posts' => [],
+                'posts'    => [],
             ]
         );
     }
@@ -92,7 +92,7 @@ class PostController extends AbstractController
                 'post',
                 [
                     'magazine_name' => $post->getMagazine()->getName(),
-                    'post_id'      => $post->getId(),
+                    'post_id'       => $post->getId(),
                 ]
             );
         }

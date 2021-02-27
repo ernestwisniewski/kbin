@@ -25,7 +25,7 @@ entry_comment_vote:
   path: /ecv/{id}/{choice}
   methods: [POST]
 
-entry_comments:
+entry_comments_front:
   controller: App\Controller\EntryCommentController::front
   defaults: { sortBy: ~, time: ~ }
   path: /komentarze/{sortBy}/{time}

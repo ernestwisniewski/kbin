@@ -65,8 +65,8 @@
                             <a href="{{ get_active_comments_page_path() }}">Komentarze</a>
                         </li>
 
-                        <li class="kbin-nav-navbar-item">
-                            <a href="#">Wpisy</a>
+                        <li class="kbin-nav-navbar-item {{ is_posts_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('posts_front') }}">Wpisy</a>
                         </li>
                     {% endif %}
                 </ul>

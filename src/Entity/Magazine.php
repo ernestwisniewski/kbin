@@ -292,7 +292,7 @@ class Magazine implements VisibilityInterface
     public function addPost(Post $post): self
     {
         if (!$this->posts->contains($post)) {
-            $this->entries->add($post);
+            $this->posts->add($post);
             $post->setMagazine($this);
         }
 

@@ -42,6 +42,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('get_active_comments_page_path', [$this, 'getActiveCommentsPagePath']),
             new TwigFunction('is_active_comment_filter', [$this, 'isActiveCommentFilter']),
             new TwigFunction('get_active_comment_filter_path', [$this, 'getActiveCommentFilterPath']),
+            new TwigFunction('is_posts_page', [$this, 'isPostsPage']),
             new TwigFunction('is_active_route', [$this, 'isActiveRoute']),
             new TwigFunction('is_route_contains', [$this, 'isRouteContains']),
         ];
@@ -49,7 +50,7 @@ final class PageContextExtension extends AbstractExtension
 
     public function isHomePage(): bool
     {
-        return in_array($this->getCurrentRouteName(), ['front', 'entry_comments']);
+        return in_array($this->getCurrentRouteName(), ['front', 'entry_comments_front', 'posts_front']);
     }
 
     public function isSubPage(): bool
@@ -99,9 +100,18 @@ final class PageContextExtension extends AbstractExtension
         return str_starts_with($this->getCurrentRouteName(), 'user_profile');
     }
 
+    public function isPostsPage(): bool
+    {
+        return str_contains($this->getCurrentRouteName(), 'posts');
+    }
+
     public function isActiveSortOption($sortOption): bool
     {
         if ($this->isCommentsPage()) {
+            return false;
+        }
+
+        if ($this->isPostsPage()) {
             return false;
         }
 
@@ -162,7 +172,7 @@ final class PageContextExtension extends AbstractExtension
 
     public function getActiveCommentsPagePath()
     {
-        $routeName   = 'entry_comments';
+        $routeName   = 'entry_comments_front';
         $routeParams = ['sortBy' => EntryCommentRepository::SORT_DEFAULT];
 
         if ($this->isMagazinePage()) {
@@ -192,7 +202,7 @@ final class PageContextExtension extends AbstractExtension
             'sortBy' => $sortOption ?? EntryCommentRepository::SORT_DEFAULT,
         ];
 
-        $routeName = str_replace('entry_comment_edit', 'entry_comments', $this->getCurrentRouteName());
+        $routeName = str_replace('entry_comment_edit', 'entry_comments_front', $this->getCurrentRouteName());
 
         if ($this->isMagazinePage()) {
             $routeParams['name'] = $this->getCurrentRequest()->get('magazine')->getName();

@@ -1,0 +1,15 @@
+{% from 'post/_macros.html.twig' import post %}
+
+<div class="kbin-post-list">
+    {% for post in posts %}
+        {{ post(post, {
+            post: post,
+            self: app.user,
+            extra_classes: 'kbin-post-list-item',
+            title_tag: 'h4'
+        }) }}
+    {% endfor %}
+    {% if(posts.haveToPaginate) %}
+        {{ pagerfanta(posts, null, {'pageParameter':'[strona]'}) }}
+    {% endif %}
+</div>

@@ -1,9 +1,9 @@
 $levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353');
-$comment-margin-xl: 4.5rem;
-$comment-margin-lg: 1rem;
-$comment-margin-sm: .5rem;
+$post-margin-xl: 4.5rem;
+$post-margin-lg: 1rem;
+$post-margin-sm: .5rem;
 
-.kbin-comment-wrapper {
+.kbin-post-wrapper {
   blockquote {
     margin: 0;
   }
@@ -12,7 +12,7 @@ $comment-margin-sm: .5rem;
     border-bottom: 1px solid $kbin-comment-list-item-border-color;
   }
 
-  .kbin-comment {
+  .kbin-post {
     font-size: .9rem;
     padding: .6rem .3rem;
     display: flow-root;
@@ -57,14 +57,14 @@ $comment-margin-sm: .5rem;
         height: 100%;
 
         border-left: .12rem dashed unquote(nth($levels, $i));
-        left: $comment-margin-lg * ($i - 1);
+        left: $post-margin-lg * ($i - 1);
 
         @include media-breakpoint-up(xl) {
-          left: $comment-margin-xl * ($i - 1);
+          left: $post-margin-xl * ($i - 1);
         }
 
         @include media-breakpoint-down(sm) {
-          left: $comment-margin-sm * ($i - 1);
+          left: $post-margin-sm * ($i - 1);
         }
       }
     }
@@ -183,28 +183,28 @@ $comment-margin-sm: .5rem;
       @for $i from 2 to 8 {
         &--#{$i} {
           border-left: .15rem solid unquote(nth($levels, $i));
-          margin-left: $comment-margin-lg * ($i - 1);
+          margin-left: $post-margin-lg * ($i - 1);
 
           @include media-breakpoint-up(xl) {
-            margin-left: $comment-margin-xl * ($i - 1);
+            margin-left: $post-margin-xl * ($i - 1);
           }
 
           @include media-breakpoint-down(sm) {
-            margin-left: $comment-margin-sm * ($i - 1);
+            margin-left: $post-margin-sm * ($i - 1);
           }
         }
       }
 
       &--last {
         border-left: .15rem solid #ac5353;
-        margin-left: $comment-margin-lg * (7 - 1);
+        margin-left: $post-margin-lg * (7 - 1);
 
         @include media-breakpoint-up(xl) {
-          margin-left: $comment-margin-xl * (7 - 1);
+          margin-left: $post-margin-xl * (7 - 1);
         }
 
         @include media-breakpoint-down(sm) {
-          margin-left: $comment-margin-sm * (7 - 1);
+          margin-left: $post-margin-sm * (7 - 1);
         }
       }
     }
