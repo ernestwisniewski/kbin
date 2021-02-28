@@ -52,6 +52,24 @@ class PostController extends AbstractController
         );
     }
 
+    public function subscribed(?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
+    {
+        $criteria = (new PostPageView((int) $request->get('strona', 1)))->showSubscribed();
+
+        if ($sortBy) {
+            $criteria->showSortOption($sortBy);
+        }
+
+        $posts = $postRepository->findByCriteria($criteria);
+
+        return $this->render(
+            'post/front.html.twig',
+            [
+                'posts' => $posts,
+            ]
+        );
+    }
+
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
@@ -70,24 +88,21 @@ class PostController extends AbstractController
         );
     }
 
-    public function magazine(Magazine $magazine, Post $post, ?string $sortBy, PostCommentRepository $commentRepository, Request $request): Response
+    public function magazine(Magazine $magazine, Post $post, ?string $sortBy, PostRepository $postRepository, Request $request): Response
     {
-        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))
-            ->showMagazine($magazine);
+        $criteria = (new PostPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
 
         if ($sortBy) {
             $criteria->showSortOption($sortBy);
         }
 
-//        $posts = $commentRepository->findByCriteria($criteria);
-
-//        $commentRepository->hydrate(...$comments);
+        $posts = $postRepository->findByCriteria($criteria);
 
         return $this->render(
             'post/front.html.twig',
             [
                 'magazine' => $magazine,
-                'posts'    => [],
+                'posts'    => $posts,
             ]
         );
     }

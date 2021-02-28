@@ -13,6 +13,11 @@ user_entry_comments:
   path: /u/{username}/komentarze
   methods: [ GET ]
 
+user_posts:
+  controller: App\Controller\UserController::posts
+  path: /u/{username}/wpisy
+  methods: [ GET ]
+
 user_follow:
   controller: App\Controller\UserController::follow
   path: /u/{username}/follow

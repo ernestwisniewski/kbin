@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Repository\PostRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,6 +45,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('get_active_comment_filter_path', [$this, 'getActiveCommentFilterPath']),
             new TwigFunction('is_posts_page', [$this, 'isPostsPage']),
             new TwigFunction('is_post_page', [$this, 'isPostPage']),
+            new TwigFunction('get_active_posts_page_path', [$this, 'getActivePostsPagePath']),
             new TwigFunction('is_active_route', [$this, 'isActiveRoute']),
             new TwigFunction('is_route_contains', [$this, 'isRouteContains']),
         ];
@@ -194,6 +196,32 @@ final class PageContextExtension extends AbstractExtension
 
         if ($this->isSubPage()) {
             $routeName = 'entry_comments_subscribed';
+        }
+
+        if ($time = $this->getCurrentRequest()->get('time')) {
+            $routeParams['time'] = $time;
+        }
+
+        return $this->urlGenerator->generate(
+            $routeName,
+            $routeParams
+        );
+    }
+
+    public function getActivePostsPagePath()
+    {
+        $routeName   = 'entry_comments_front';
+        $routeParams = ['sortBy' => PostRepository::SORT_DEFAULT];
+
+        if ($this->isMagazinePage()) {
+            $magazine = $this->getCurrentRequest()->get('magazine');
+
+            $routeName           = 'magazine_posts';
+            $routeParams['name'] = $magazine->getName();
+        }
+
+        if ($this->isSubPage()) {
+            $routeName = 'posts_subscribed';
         }
 
         if ($time = $this->getCurrentRequest()->get('time')) {

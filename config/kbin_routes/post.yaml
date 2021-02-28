@@ -5,6 +5,20 @@ posts_front:
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
+posts_subscribed:
+  controller: App\Controller\PostController::subscribed
+  defaults: { sortBy: ~, time: ~ }
+  path: /sub/wpisy/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
+magazine_posts:
+  controller: App\Controller\PostController::magazine
+  defaults: { sortBy: ~, time: ~ }
+  path: /{name}/wpisy/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
 post_single:
   controller: App\Controller\PostController::single
   path: /m/{magazine_name}/w/{post_id}

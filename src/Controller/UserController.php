@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Form\UserType;
+use App\PageView\PostPageView;
 use App\Repository\EntryCommentRepository;
+use App\Repository\PostRepository;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,6 +57,21 @@ class UserController extends AbstractController
             [
                 'user'     => $user,
                 'comments' => $comments,
+            ]
+        );
+    }
+
+    public function posts(User $user, Request $request, PostRepository $postRepository): Response
+    {
+        $criteria = (new PostPageView((int) $request->get('strona', 1)))->showUser($user);
+
+        $posts = $postRepository->findByCriteria($criteria);
+
+        return $this->render(
+            'user/posts.html.twig',
+            [
+                'user'     => $user,
+                'posts' => $posts,
             ]
         );
     }

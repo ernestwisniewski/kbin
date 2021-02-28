@@ -101,6 +101,9 @@
         {% for comment in comments %}
             {{ comment(comment) }}
         {% endfor %}
+        {% if(comments.haveToPaginate) %}
+            {{ pagerfanta(comments, null, {'pageParameter':'[strona]'}) }}
+        {% endif %}
     {% endif %}
 
     {% if(show_best_comments) %}

@@ -41,8 +41,8 @@
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_entry_comments') ? 'kbin-nav-navbar-item--active' : '' }}">
                             <a href="{{ path('user_entry_comments', {username: user.username}) }}">Komentarze</a>
                         </li>
-                        <li class=" kbin-nav-navbar-item">
-                            <a href="#">Wpisy</a>
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_posts') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user_posts', {username: user.username}) }}">Wpisy</a>
                         </li>
                     {% else %}
                         {{ navbar_link('Ważne', {
@@ -66,7 +66,7 @@
                         </li>
 
                         <li class="kbin-nav-navbar-item {{ is_posts_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('posts_front') }}">Wpisy</a>
+                            <a href="{{ get_active_posts_page_path() }}">Wpisy</a>
                         </li>
                     {% endif %}
                 </ul>
