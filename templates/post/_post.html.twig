@@ -54,14 +54,14 @@
                     <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                         <small class="text-muted">
                             <a data-action="post#reply"
-                               class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+                               class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
                                href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
                                 odpowiedz
                             </a>
                         </small>
                     </li>
 
-                    {% if post.commentCount > 2 %}
+                    {% if post.commentCount > 2 and not is_post_page() %}
                         <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                             <small class="text-muted">
                                 <a data-action="post#showAllPosts"

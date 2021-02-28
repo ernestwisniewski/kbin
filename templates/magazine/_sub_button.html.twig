@@ -1,6 +1,6 @@
 {% set subscribed = is_subscribed(magazine) %}
 
-<div class="kbin-sub btn-group btn-group-sm {% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+<div class="kbin-sub btn-group btn-group-sm {% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
      role="group"
      data-controller="subscribe"
      data-subscribe-add-url-value="{{ path('magazine_subscribe', {name: magazine.name}) }}"
