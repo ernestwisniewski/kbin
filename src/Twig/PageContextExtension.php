@@ -210,7 +210,7 @@ final class PageContextExtension extends AbstractExtension
 
     public function getActivePostsPagePath()
     {
-        $routeName   = 'entry_comments_front';
+        $routeName   = 'posts_front';
         $routeParams = ['sortBy' => PostRepository::SORT_DEFAULT];
 
         if ($this->isMagazinePage()) {
