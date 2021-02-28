@@ -52,20 +52,20 @@ class PostController extends AbstractController
         );
     }
 
-    public function single(Magazine $magazine, Post $post, PostRepository $postRepository, Request $request): Response
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
+     */
+    public function single(Magazine $magazine, Post $post, PostCommentRepository $commentRepository, Request $request): Response
     {
-        $criteria = (new PostPageView((int) $request->get('strona', 1)));
-
-        if ($sortBy) {
-            $criteria->showSortOption($sortBy);
-        }
-
-        $posts = $postRepository->findByCriteria($criteria);
+        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))->showPost($post);
 
         return $this->render(
-            'post/front.html.twig',
+            'post/single.html.twig',
             [
-                'posts' => $posts,
+                'magazine' => $magazine,
+                'post'     => $post,
+                'comments' => $commentRepository->findByCriteria($criteria),
             ]
         );
     }

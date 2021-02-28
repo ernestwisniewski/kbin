@@ -15,9 +15,15 @@
             <aside class="kbin-comment-meta">
                 <ul class="kbin-comment-meta-list list-inline m-0">
                     <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">dodany
-                            <time>{{ comment.createdAt|ago }}</time>
-                        </small>
+                        {% if not is_post_page() %}
+                        <a href="{{ path('post_single', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id }) }}">
+                            {% endif %}
+                            <small class="text-muted">dodany
+                                <time>{{ comment.createdAt|ago }}</time>
+                            </small>
+                            {% if not is_post_page() %}
+                        </a>
+                        {% endif %}
                     </li>
 
                     <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">

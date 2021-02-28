@@ -16,11 +16,15 @@
             <aside class="kbin-post-meta">
                 <ul class="kbin-post-meta-list list-inline m-0">
                     <li class="kbin-post-meta-date kbin-post-meta-list-item list-inline-item">
-                        <a href="">
+                        {% if not is_post_page() %}
+                        <a href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
+                            {% endif %}
                             <small class="text-muted">dodany
                                 <time>{{ post.createdAt|ago }}</time>
                             </small>
+                            {% if not is_post_page() %}
                         </a>
+                        {% endif %}
                     </li>
 
                     <li class="kbin-post-meta-user kbin-post-meta-list-item list-inline-item">
@@ -30,6 +34,14 @@
                             </a>
                         </small>
                     </li>
+
+                    {% if not is_magazine_page() %}
+                        <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
+
+                            <small class="text-muted">do <a class="font-weight-bold"
+                                                            href="{{ path('front_magazine', {'name': post.magazine.name}) }}">/m/{{ post.magazine.name }}</a></small>
+                        </li>
+                    {% endif %}
                 </ul>
             </aside>
         </div>
@@ -43,7 +55,7 @@
                         <small class="text-muted">
                             <a data-action="post#reply"
                                class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
-                               href="">
+                               href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
                                 odpowiedz
                             </a>
                         </small>
@@ -86,12 +98,12 @@
     </blockquote>
 
     {% if(show_all_comments) %}
-        {% for comment in post.comments %}
+        {% for comment in comments %}
             {{ comment(comment) }}
         {% endfor %}
     {% endif %}
 
-    {% if(true) %}
+    {% if(show_best_comments) %}
         {% for comment in post.bestComments %}
             {{ comment(comment) }}
         {% endfor %}

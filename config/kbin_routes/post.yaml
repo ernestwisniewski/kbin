@@ -5,12 +5,10 @@ posts_front:
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
-posts_single:
+post_single:
   controller: App\Controller\PostController::single
-  defaults: { sortBy: ~, time: ~ }
   path: /m/{magazine_name}/w/{post_id}
   methods: [GET]
-  requirements: { sortBy: "%front_sort_options%" }
 
 post_create:
   controller: App\Controller\PostController::create

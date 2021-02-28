@@ -48,6 +48,8 @@ class UserManager
      */
     public function follow(User $follower, User $following)
     {
+        $follower->unblock($following);
+
         $follower->follow($following);
 
         $this->entityManager->flush();

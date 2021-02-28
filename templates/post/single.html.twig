@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% from 'post/_macros.html.twig' import post %}
+{% from 'post/comment/_macros.html.twig' import comment %}
 
 {% block title %}Wpisy | {{ parent() }}{% endblock %}
 
@@ -6,24 +8,26 @@
         <div class="kbin-posts-page">
             <section class="kbin-post-wrapper kbin-comment-wrapper mt-4">
                 <div class="mt-2">
-{#                    {% include 'entry/comment/_filters.html.twig' %}#}
+                    {# {% include 'entry/comment/_filters.html.twig' %} #}
                 </div>
                 <div class="kbin-post-list">
-                        {{ post(post, {
-                            post: post,
-                            self: app.user,
-                            extra_classes: 'kbin-post-list-item',
-                            title_tag: 'h4'
-                        }) }}
+                    {{ post(post, {
+                        post: post,
+                        comments: comments,
+                        self: app.user,
+                        show_all_comments: true,
+                        extra_classes: 'kbin-post-list-item',
+                        title_tag: 'h4'
+                    }) }}
                 </div>
             </section>
         </div>
     {% endblock %}
 
 {% block sidebar %}
-{#    {% include 'post/_sidebar.html.twig' %}#}
+     {% include 'post/_sidebar.html.twig' %}
 
     {{ parent() }}
 
-{#    {% include 'magazine/_sidebar.html.twig' %}#}
+     {% include 'magazine/_sidebar.html.twig' %}
 {% endblock %}

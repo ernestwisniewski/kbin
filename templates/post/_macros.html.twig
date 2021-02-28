@@ -4,8 +4,9 @@
     {%- with {
         post: post,
         self: app.user,
+        comments: options.comments ?? null,
         show_all_comments: options.show_all_comments ?? null,
-        show_last_comments: options.show_last_comments ?? null,
+        show_best_comments: options.show_best_comments ?? null,
         extra_classes: options.extra_classes ?? null,
         show_content: options.show_content ?? null,
         title_tag: options.title_tag ?? 'h1'

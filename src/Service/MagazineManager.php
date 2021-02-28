@@ -79,6 +79,8 @@ class MagazineManager
 
     public function subscribe(Magazine $magazine, User $user): void
     {
+        $user->unblockMagazine($magazine);
+
         $magazine->subscribe($user);
 
         $this->entityManager->flush();

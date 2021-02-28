@@ -43,6 +43,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_active_comment_filter', [$this, 'isActiveCommentFilter']),
             new TwigFunction('get_active_comment_filter_path', [$this, 'getActiveCommentFilterPath']),
             new TwigFunction('is_posts_page', [$this, 'isPostsPage']),
+            new TwigFunction('is_post_page', [$this, 'isPostPage']),
             new TwigFunction('is_active_route', [$this, 'isActiveRoute']),
             new TwigFunction('is_route_contains', [$this, 'isRouteContains']),
         ];
@@ -103,6 +104,15 @@ final class PageContextExtension extends AbstractExtension
     public function isPostsPage(): bool
     {
         return str_contains($this->getCurrentRouteName(), 'posts');
+    }
+
+    public function isPostPage(): bool
+    {
+        if (in_array($this->getCurrentRouteName(), ['post_create', 'post_purge'])) {
+            return false;
+        }
+
+        return $this->getCurrentRouteName() === 'post_single';
     }
 
     public function isActiveSortOption($sortOption): bool

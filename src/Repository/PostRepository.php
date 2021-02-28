@@ -29,7 +29,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 25;
+    const PER_PAGE = 15;
 
     private Security $security;
 

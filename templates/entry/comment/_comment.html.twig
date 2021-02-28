@@ -4,10 +4,10 @@
 
     {% if with_parent %}
         {% if comment.parent|length %}
-                {% set level = 2 %}
-                {%- with { comment: comment.parent, level: level - 1, show_context: true, show_form: false, with_parent:false } -%}
-                    {{- block('comment') -}}
-                {%- endwith -%}
+            {% set level = 2 %}
+            {%- with { comment: comment.parent, level: level - 1, show_context: true, show_form: false, with_parent:false } -%}
+                {{- block('comment') -}}
+            {%- endwith -%}
         {% endif %}
     {% endif %}
     <blockquote id="{{ comment.id }}"
@@ -25,19 +25,24 @@
 
             <aside class="kbin-comment-meta">
                 <ul class="kbin-comment-meta-list list-inline m-0">
-                    <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">dodany
-                            <time>{{ comment.createdAt|ago }}</time>
-                        </small>
-                    </li>
-
-                        <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
-                            <small class="text-muted">przez
-                                <a class="font-weight-bold" href="{{ path('user', {username: comment.user.username}) }}">
-                                    {{ comment.user.username }}
-                                </a>
+                    {% if not is_entry_page() %}
+                    <a href="{{ path('entry_single', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id }) }}">
+                        {% endif %}
+                        <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
+                            <small class="text-muted">dodany
+                                <time>{{ comment.createdAt|ago }}</time>
                             </small>
                         </li>
+                        {% if not is_entry_page() %}
+                    </a>
+                    {% endif %}
+                    <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
+                        <small class="text-muted">przez
+                            <a class="font-weight-bold" href="{{ path('user', {username: comment.user.username}) }}">
+                                {{ comment.user.username }}
+                            </a>
+                        </small>
+                    </li>
 
                     {% if level is same as 1 %}
                         {% if is_comments_page() and not is_magazine_page() %}
