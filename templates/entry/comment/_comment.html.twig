@@ -52,7 +52,7 @@
                             <li class="kbin-comment-meta-entry kbin-comment-meta-list-item list-inline-item">
 
                                 <small class="text-muted">w <a class="font-weight-bold"
-                                                               href="{{ path('entry', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.title|slice(0, 60) ~ '...' }}</a></small>
+                                                               href="{{ path('entry_single', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.title|slice(0, 60) ~ '...' }}</a></small>
                             </li>
                         {% endif %}
                     {% endif %}

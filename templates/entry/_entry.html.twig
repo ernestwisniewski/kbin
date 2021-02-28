@@ -12,7 +12,7 @@
 
             {% if (entry.image) %}
                 <div class="kbin-entry-image">
-                    <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
+                    <a href="{{ path('entry_single', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
                         <img class="lazy" src="{{ asset(entry.image.getFilePath()) |imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
                     </a>
                 </div>
@@ -53,7 +53,7 @@
 
                         <li class="kbin-entry-meta-entry kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
+                                <a href="{{ path('entry_single', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
                                     {{ entry.commentCount }} komentarzy
                                 </a>
                             </small>

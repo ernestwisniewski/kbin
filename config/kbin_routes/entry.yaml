@@ -19,8 +19,8 @@ entry_purge:
   path: /m/{magazine_name}/t/{entry_id}/purge
   methods: [ POST ]
 
-entry:
-  controller: App\Controller\EntryController::front
+entry_single:
+  controller: App\Controller\EntryController::single
   defaults: { sortBy: ~ }
   path: /m/{magazine_name}/t/{entry_id}/{sortBy}
   methods: [ GET ]

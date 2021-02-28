@@ -1,4 +1,4 @@
 <{{ title_tag }} class="kbin-entry-title mb-0">
-<a href="{{ path('entry', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">{{ entry.title }}</a>
+<a href="{{ path('entry_single', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">{{ entry.title }}</a>
 <small class="kbin-entry-title-domain small text-muted">(<a class="text-reset" href="#">{{ entry.domain.name }}</a>)</small>
 </{{ title_tag }}>

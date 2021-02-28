@@ -115,7 +115,7 @@ class EntryCommentController extends AbstractController
             $this->commentManager->create($commentDto, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
-                'entry',
+                'entry_single',
                 [
                     'magazine_name' => $magazine->getName(),
                     'entry_id'      => $entry->getId(),
@@ -181,7 +181,7 @@ class EntryCommentController extends AbstractController
             $this->commentManager->edit($comment, $commentDto);
 
             return $this->redirectToRoute(
-                'entry',
+                'entry_single',
                 [
                     'magazine_name' => $magazine->getName(),
                     'entry_id'      => $entry->getId(),
@@ -224,7 +224,7 @@ class EntryCommentController extends AbstractController
         $this->commentManager->purge($comment);
 
         return $this->redirectToRoute(
-            'entry',
+            'entry_single',
             [
                 'magazine_name' => $magazine->getName(),
                 'entry_id'      => $entry->getId(),
@@ -247,7 +247,7 @@ class EntryCommentController extends AbstractController
         $this->commentManager->purge($comment);
 
         return $this->redirectToRoute(
-            'entry',
+            'entry_single',
             [
                 'magazine_name' => $magazine->getName(),
                 'entry_id'      => $entry->getId(),

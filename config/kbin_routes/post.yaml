@@ -6,9 +6,9 @@ posts_front:
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_single:
-  controller: App\Controller\PostController::front
+  controller: App\Controller\PostController::single
   defaults: { sortBy: ~, time: ~ }
-  path: /wpisy/{sortBy}/{time}
+  path: /m/{magazine_name}/w/{post_id}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 

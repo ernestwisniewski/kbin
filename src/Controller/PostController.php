@@ -52,6 +52,24 @@ class PostController extends AbstractController
         );
     }
 
+    public function single(Magazine $magazine, Post $post, PostRepository $postRepository, Request $request): Response
+    {
+        $criteria = (new PostPageView((int) $request->get('strona', 1)));
+
+        if ($sortBy) {
+            $criteria->showSortOption($sortBy);
+        }
+
+        $posts = $postRepository->findByCriteria($criteria);
+
+        return $this->render(
+            'post/front.html.twig',
+            [
+                'posts' => $posts,
+            ]
+        );
+    }
+
     public function magazine(Magazine $magazine, Post $post, ?string $sortBy, PostCommentRepository $commentRepository, Request $request): Response
     {
         $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))
@@ -120,7 +138,7 @@ class PostController extends AbstractController
             $entry = $this->postManager->edit($entry, $entryDto);
 
             return $this->redirectToRoute(
-                'entry',
+                'entry_single',
                 [
                     'magazine_name' => $magazine->getName(),
                     'entry_id'      => $entry->getId(),

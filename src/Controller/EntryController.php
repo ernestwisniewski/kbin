@@ -34,7 +34,7 @@ class EntryController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      */
-    public function front(Magazine $magazine, Entry $entry, ?string $sortBy, EntryCommentRepository $commentRepository, Request $request): Response
+    public function single(Magazine $magazine, Entry $entry, ?string $sortBy, EntryCommentRepository $commentRepository, Request $request): Response
     {
         $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))
             ->showEntry($entry);
@@ -49,7 +49,7 @@ class EntryController extends AbstractController
         $commentRepository->hydrateChildren(...$comments);
 
         return $this->render(
-            'entry/front.html.twig',
+            'entry/single.html.twig',
             [
                 'magazine' => $magazine,
                 'comments' => $comments,
@@ -77,7 +77,7 @@ class EntryController extends AbstractController
             $entry = $this->entryManager->create($entryDto, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
-                'entry',
+                'entry_single',
                 [
                     'magazine_name' => $entry->getMagazine()->getName(),
                     'entry_id'      => $entry->getId(),
@@ -111,7 +111,7 @@ class EntryController extends AbstractController
             $entry = $this->entryManager->edit($entry, $entryDto);
 
             return $this->redirectToRoute(
-                'entry',
+                'entry_single',
                 [
                     'magazine_name' => $magazine->getName(),
                     'entry_id'      => $entry->getId(),
