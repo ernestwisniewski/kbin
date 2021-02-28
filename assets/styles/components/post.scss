@@ -19,6 +19,12 @@ $post-margin-sm: .5rem;
     position: relative;
     background: white;
 
+    a {
+      &:hover {
+        color: black;
+      }
+    }
+
     .kbin-dark & {
       background: #222222;
     }
@@ -135,12 +141,7 @@ $post-margin-sm: .5rem;
 
     &-meta {
       font-size: .9rem;
-      opacity: .8;
       display: inline;
-
-      &:hover {
-        opacity: 1;
-      }
 
       &-list {
         display: flow-root;
@@ -154,6 +155,10 @@ $post-margin-sm: .5rem;
               font-weight: bold;
               color: gray;
               margin-right: .5rem;
+
+              &:hover {
+                color: initial;
+              }
             }
           }
         }

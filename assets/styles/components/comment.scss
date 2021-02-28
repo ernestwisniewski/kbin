@@ -19,6 +19,12 @@ $comment-margin-sm: .5rem;
     position: relative;
     background: white;
 
+    a {
+      &:hover {
+        color: black;
+      }
+    }
+
     .kbin-dark & {
       background: #222222;
     }
@@ -129,18 +135,9 @@ $comment-margin-sm: .5rem;
       }
     }
 
-    &-main {
-      display: flow-root;
-    }
-
     &-meta {
       font-size: .9rem;
-      opacity: .8;
       display: inline;
-
-      &:hover {
-        opacity: 1;
-      }
 
       &-list {
         display: flow-root;

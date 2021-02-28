@@ -16,7 +16,7 @@
       font-weight: bold;
 
       &:hover {
-        text-decoration: none;
+        color: black !important;
       }
     }
 
@@ -36,7 +36,6 @@
           border: 1px solid transparent;
           display: block;
           padding: .5rem 1rem;
-          text-decoration: none;
           transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
 
           @include media-breakpoint-down(lg) {

@@ -4,6 +4,7 @@
     {%- with {
         votable: votable,
         self: app.user,
+        hide_downvote: options.hide_downvote ?? null,
         form_dest: options.form_dest ?? null,
         base_class: options.base_class ?? 'entry',
         } only -%}

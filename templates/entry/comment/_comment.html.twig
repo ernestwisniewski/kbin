@@ -16,7 +16,7 @@
                 data-comment-magazine-value="{{ comment.entry.magazine.name }}"
                 data-comment-entry-value="{{ comment.entry.id }}"
                 data-comment-parent-value="{{ comment.id }}">
-        <div class="kbin-comment-header">
+        <div class="kbin-comment-header mb-2">
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 
             <div class="kbin-comment-avatar">
@@ -60,43 +60,43 @@
             </aside>
         </div>
         <div class="kbin-comment-main">
-            <blockquote class="kbin-comment-content my-2">
+            <blockquote class="kbin-comment-content">
                 {{ comment.body|markdown|raw }}
-                </p>
-                <aside class="kbin-comment-meta">
-                    <ul class="kbin-comment-meta-list  list-inline mb-0">
+            </blockquote>
+
+            <aside class="kbin-comment-meta">
+                <ul class="kbin-comment-meta-list  list-inline mb-0">
+                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                        <small class="text-muted">
+                            <a data-action="comment#reply"
+                               class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+                               href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">
+                                odpowiedz
+                            </a>
+                        </small>
+                    </li>
+
+                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                        <small class="text-muted">
+                            <a href="#">link</a>
+                        </small>
+                    </li>
+
+                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                        <small class="text-muted"><a href="#">zgłoś</a></small>
+                    </li>
+
+                    {% if is_granted('edit', comment) %}
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a data-action="comment#reply"
-                                   class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
-                                   href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">
-                                    odpowiedz
+                                <a href="{{ path('entry_comment_edit', {'magazine_name': comment.entry.magazine.name,'entry_id': comment.entry.id, 'comment_id': comment.id}) }}">
+                                    edytuj
                                 </a>
                             </small>
                         </li>
-
-                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                            <small class="text-muted">
-                                <a href="#">link</a>
-                            </small>
-                        </li>
-
-                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                            <small class="text-muted"><a href="#">zgłoś</a></small>
-                        </li>
-
-                        {% if is_granted('edit', comment) %}
-                            <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                                <small class="text-muted">
-                                    <a href="{{ path('entry_comment_edit', {'magazine_name': comment.entry.magazine.name,'entry_id': comment.entry.id, 'comment_id': comment.id}) }}">
-                                        edytuj
-                                    </a>
-                                </small>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </aside>
-            </blockquote>
+                    {% endif %}
+                </ul>
+            </aside>
 
             <div class="clearfix"></div>
 

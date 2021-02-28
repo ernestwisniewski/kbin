@@ -30,14 +30,6 @@ $primary: #556880;
     @include media-breakpoint-up(lg) {
       position: relative;
     }
-
-    a {
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 }
 
@@ -98,5 +90,13 @@ $primary: #556880;
 }
 
 .kbin-logo-color {
-  color: #6c757d!important;
+  color: #6c757d !important;
+}
+
+a {
+  text-decoration: none !important;
+
+  &:hover {
+    text-decoration: none !important;
+  }
 }

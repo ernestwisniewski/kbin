@@ -3,10 +3,10 @@
     {% from 'vote/_macros.html.twig' import vote %}
 
     <blockquote id="{{ comment.id }}"
-             class="kbin-comment {{ extra_classes }} kbin-comment--nested kbin-comment-level--2"
-             data-embed-id-value="{{ comment.id }}">
-        <div class="kbin-comment-header">
-            {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
+                class="kbin-comment {{ extra_classes }} kbin-comment--nested kbin-comment-level--2"
+                data-embed-id-value="{{ comment.id }}">
+        <div class="kbin-comment-header mb-2">
+            {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment', hide_downvote: true}) }}
 
             <div class="kbin-comment-avatar">
                 {{ avatar(comment.user) }}
@@ -29,45 +29,45 @@
                     </li>
                 </ul>
             </aside>
+        </div>
+        <div class="kbin-comment-main">
+            <div class="kbin-comment-content">
+                {{ comment.body|markdown|raw }}
+            </div>
 
-            <div class="kbin-comment-main">
-                <div class="kbin-comment-content mt-3">
-                    {{ comment.body|markdown|raw }}
-                </div>
-                <aside class="kbin-comment-meta">
-                    <ul class="kbin-comment-meta-list  list-inline mb-0">
+            <aside class="kbin-comment-meta">
+                <ul class="kbin-comment-meta-list  list-inline mb-0">
+                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                        <small class="text-muted">
+                            <a data-action="comment#reply"
+                               class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+                               href="">
+                                odpowiedz
+                            </a>
+                        </small>
+                    </li>
+
+                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                        <small class="text-muted">
+                            <a href="#">link</a>
+                        </small>
+                    </li>
+
+                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                        <small class="text-muted"><a href="#">zgłoś</a></small>
+                    </li>
+
+                    {% if is_granted('edit', comment) %}
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a data-action="comment#reply"
-                                   class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
-                                   href="">
-                                    odpowiedz
+                                <a href="">
+                                    edytuj
                                 </a>
                             </small>
                         </li>
-
-                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                            <small class="text-muted">
-                                <a href="#">link</a>
-                            </small>
-                        </li>
-
-                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                            <small class="text-muted"><a href="#">zgłoś</a></small>
-                        </li>
-
-                        {% if is_granted('edit', comment) %}
-                            <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                                <small class="text-muted">
-                                    <a href="">
-                                        edytuj
-                                    </a>
-                                </small>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </aside>
-            </div>
+                    {% endif %}
+                </ul>
+            </aside>
         </div>
         <div class="clearfix"></div>
     </blockquote>
