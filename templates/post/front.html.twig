@@ -4,25 +4,22 @@
 
     {% block body %}
         <div class="kbin-posts-page">
-            <section class="kbin-post-wrapper kbin-comment-wrapper mt-4">
-                <div class="mt-2">
-{#                    {% include 'entry/comment/_filters.html.twig' %}#}
-                </div>
+            <section class="kbin-post-wrapper kbin-comment-wrapper">
+                {% include '_layout/_filters.html.twig' %}
 
-                {#                {% if is_granted('comment', entry) %}#}
-                {#                    {{ render(controller('App\\Controller\\EntryCommentController::commentForm', {#}
-                {#                        'magazineName': entry.magazine.name,#}
-                {#                        'entryId': entry.id#}
-                {#                    })) }}#}
-                {#                {% else %}#}
-                {#                    <div class="alert alert-secondary text-muted my-3" role="alert">#}
-                {#                        {% if not app.user %}#}
-                {#                            <a href="{{ path('app_login') }}" class="font-weight-bold">Zaloguj się</a> aby dodać komentarz.#}
-                {#                        {% else %}#}
-                {#                            Nie możesz dodać komentarza.#}
-                {#                        {% endif %}#}
-                {#                    </div>#}
-                {#                {% endif %}#}
+                {% if magazine is defined and is_granted('create_content', magazine) %}
+                    {{ render(controller('App\\Controller\\PostController::postForm', {
+                        'magazineName': magazine.name,
+                    })) }}
+                {% elseif magazine is defined %}
+                    <div class="alert alert-secondary text-muted my-3" role="alert">
+                        {% if not app.user %}
+                            <a href="{{ path('app_login') }}" class="font-weight-bold">Zaloguj się</a> aby dodać komentarz.
+                        {% else %}
+                            Nie możesz dodać posta.
+                        {% endif %}
+                    </div>
+                {% endif %}
 
                 {% include 'post/_list.html.twig' %}
             </section>
@@ -30,9 +27,9 @@
     {% endblock %}
 
 {% block sidebar %}
-{#    {% include 'post/_sidebar.html.twig' %}#}
+    {# {% include 'post/_sidebar.html.twig' %} #}
 
     {{ parent() }}
 
-{#    {% include 'magazine/_sidebar.html.twig' %}#}
+    {# {% include 'magazine/_sidebar.html.twig' %} #}
 {% endblock %}

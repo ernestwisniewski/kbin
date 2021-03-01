@@ -15,7 +15,7 @@ posts_subscribed:
 magazine_posts:
   controller: App\Controller\PostController::magazine
   defaults: { sortBy: ~, time: ~ }
-  path: /{name}/wpisy/{sortBy}/{time}
+  path: /m/{name}/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 

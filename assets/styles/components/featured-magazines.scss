@@ -35,6 +35,7 @@
           text-shadow: 0 0 2px #9ab4ca;
 
           &:hover {
+            color: #556880 !important;
             background-color: $kbin-topbar-link-active-background-color;
           }
         }

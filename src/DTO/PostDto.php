@@ -43,9 +43,11 @@ class PostDto
         return $this->magazine;
     }
 
-    public function setMagazine(Magazine $magazine): void
+    public function setMagazine(Magazine $magazine): self
     {
         $this->magazine = $magazine;
+
+        return $this;
     }
 
     public function getBody(): ?string
@@ -53,9 +55,11 @@ class PostDto
         return $this->body;
     }
 
-    public function setBody(?string $body): void
+    public function setBody(?string $body): self
     {
         $this->body = $body;
+
+        return $this;
     }
 
     public function getImage(): ?Image
@@ -63,8 +67,10 @@ class PostDto
         return $this->image;
     }
 
-    public function setImage(?Image $image): void
+    public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
     }
 }

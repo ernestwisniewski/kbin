@@ -16,20 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\EntryArticleType;
-use App\Form\EntryLinkType;
 use App\Entity\Magazine;
-use App\DTO\EntryDto;
-use App\Entity\Entry;
 
 class PostController extends AbstractController
 {
     private PostManager $postManager;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(PostManager $entryManager, EntityManagerInterface $entityManager)
+    public function __construct(PostManager $postManager, EntityManagerInterface $entityManager)
     {
-        $this->postManager   = $entryManager;
+        $this->postManager   = $postManager;
         $this->entityManager = $entityManager;
     }
 
@@ -40,6 +36,10 @@ class PostController extends AbstractController
 
         if ($sortBy) {
             $criteria->showSortOption($sortBy);
+        }
+
+        if ($time) {
+            $criteria->setTime($criteria->translateTime($time));
         }
 
         $posts = $postRepository->findByCriteria($criteria);
@@ -60,12 +60,39 @@ class PostController extends AbstractController
             $criteria->showSortOption($sortBy);
         }
 
+        if ($time) {
+            $criteria->setTime($criteria->translateTime($time));
+        }
+
         $posts = $postRepository->findByCriteria($criteria);
 
         return $this->render(
             'post/front.html.twig',
             [
                 'posts' => $posts,
+            ]
+        );
+    }
+
+    public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
+    {
+        $criteria = (new PostPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
+
+        if ($sortBy) {
+            $criteria->showSortOption($sortBy);
+        }
+
+        if ($time) {
+            $criteria->setTime($criteria->translateTime($time));
+        }
+
+        $posts = $postRepository->findByCriteria($criteria);
+
+        return $this->render(
+            'post/front.html.twig',
+            [
+                'magazine' => $magazine,
+                'posts'    => $posts,
             ]
         );
     }
@@ -88,31 +115,13 @@ class PostController extends AbstractController
         );
     }
 
-    public function magazine(Magazine $magazine, Post $post, ?string $sortBy, PostRepository $postRepository, Request $request): Response
-    {
-        $criteria = (new PostPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
-
-        if ($sortBy) {
-            $criteria->showSortOption($sortBy);
-        }
-
-        $posts = $postRepository->findByCriteria($criteria);
-
-        return $this->render(
-            'post/front.html.twig',
-            [
-                'magazine' => $magazine,
-                'posts'    => $posts,
-            ]
-        );
-    }
-
     /**
      * @IsGranted("ROLE_USER")
+     * @IsGranted("create_content", subject="magazine")
      */
     public function create(Magazine $magazine, Request $request): Response
     {
-        $postDto = new PostDto();
+        $postDto = (new PostDto())->setMagazine($magazine);
 
         $form = $this->createForm(PostType::class, $postDto);
 
@@ -122,7 +131,7 @@ class PostController extends AbstractController
             $post = $this->postManager->create($postDto, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
-                'post',
+                'post_single',
                 [
                     'magazine_name' => $post->getMagazine()->getName(),
                     'post_id'       => $post->getId(),
@@ -130,42 +139,40 @@ class PostController extends AbstractController
             );
         }
 
-        return $this->redirectToRoute(
-            'front_post'
-        );
+        return $this->redirectToRefererOrHome($request);
     }
 
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="entry")
+     * @IsGranted("edit", subject="post")
      */
-    public function edit(Magazine $magazine, Entry $entry, Request $request): Response
+    public function edit(Magazine $magazine, Post $post, Request $request): Response
     {
-        $entryDto = $this->postManager->createDto($entry);
+        $postDto = $this->postManager->createDto($post);
 
-        $form = $this->createFormByType($entryDto, $entryDto->getType());
+        $form = $this->createForm(Post::class, $postDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entry = $this->postManager->edit($entry, $entryDto);
+            $post = $this->postManager->edit($post, $postDto);
 
             return $this->redirectToRoute(
-                'entry_single',
+                'post_single',
                 [
                     'magazine_name' => $magazine->getName(),
-                    'entry_id'      => $entry->getId(),
+                    'post_id'       => $post->getId(),
                 ]
             );
         }
 
         return $this->render(
-            $this->getTemplateName($entryDto->getType(), true),
+            'post/edit.html.twig',
             [
                 'magazine' => $magazine,
-                'entry'    => $entry,
+                'post'     => $post,
                 'form'     => $form->createView(),
             ]
         );
@@ -173,16 +180,16 @@ class PostController extends AbstractController
 
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
-     * @IsGranted("delete", subject="entry")
+     * @IsGranted("delete", subject="post")
      */
-    public function delete(Magazine $magazine, Entry $entry, Request $request): Response
+    public function delete(Magazine $magazine, Post $post, Request $request): Response
     {
-        $this->validateCsrf('entry_delete', $request->request->get('token'));
+        $this->validateCsrf('post_delete', $request->request->get('token'));
 
-        $this->postManager->delete($entry);
+        $this->postManager->delete($post);
 
         return $this->redirectToRoute(
             'front_magazine',
@@ -194,16 +201,16 @@ class PostController extends AbstractController
 
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
-     * @IsGranted("purge", subject="entry")
+     * @IsGranted("purge", subject="post")
      */
-    public function purge(Magazine $magazine, Entry $entry, Request $request): Response
+    public function purge(Magazine $magazine, Post $post, Request $request): Response
     {
-        $this->validateCsrf('entry_purge', $request->request->get('token'));
+        $this->validateCsrf('post_purge', $request->request->get('token'));
 
-        $this->postManager->purge($entry);
+        $this->postManager->purge($post);
 
         return $this->redirectToRoute(
             'front_magazine',
@@ -213,13 +220,15 @@ class PostController extends AbstractController
         );
     }
 
-    private function createFormByType(EntryDto $entryDto, ?string $type): FormInterface
+    public function postForm(string $magazineName): Response
     {
-        switch ($type) {
-            case Entry::ENTRY_TYPE_ARTICLE:
-                return $this->createForm(EntryArticleType::class, $entryDto);
-            default:
-                return $this->createForm(EntryLinkType::class, $entryDto);
-        }
+        $form = $this->createForm(PostType::class, null, ['action' => $this->generateUrl('post_create', ['name' => $magazineName])]);
+
+        return $this->render(
+            'post/_form.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
     }
 }

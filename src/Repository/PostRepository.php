@@ -30,7 +30,7 @@ use Symfony\Component\Security\Core\Security;
 class PostRepository extends ServiceEntityRepository
 {
     const PER_PAGE = 15;
-    const SORT_DEFAULT = 'wschodzace';
+    const SORT_DEFAULT = 'aktywne';
 
     private Security $security;
 

@@ -39,7 +39,7 @@ entry_comments_subscribed:
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
-magazine_comments:
+magazine_entry_comments:
   controller: App\Controller\EntryCommentController::front
   defaults: { sortBy: ~, time: ~ }
   path: /m/{name}/komentarze/{sortBy}/{time}

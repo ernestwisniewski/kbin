@@ -36,8 +36,8 @@
         </a>
 
         <a href="/łęcka" class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj post na mikroblogu</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz krótki wpis lub notatkę.</p>
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj wpis na mikroblogu</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz krótki post lub notatkę.</p>
         </a>
 
         <a href="{{ path('magazine_create') }}" class="list-group-item">
@@ -47,8 +47,8 @@
     </div>
 </div>
 
-{% if is_homepage() or is_sub_page() %}
-    {% if  app.user %}
+{% if is_homepage() or is_sub_page() or is_posts_page() %}
+    {% if app.user %}
         <div class="mb-4">
             {% include 'user/_moderator_list_card.html.twig' with {'user':app.user} %}
         </div>

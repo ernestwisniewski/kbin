@@ -117,22 +117,28 @@ final class PageContextExtension extends AbstractExtension
         return $this->getCurrentRouteName() === 'post_single';
     }
 
-    public function isActiveSortOption($sortOption): bool
+    public function isActiveSortOption($sortOption, $entriesOnly = true): bool
     {
-        if ($this->isCommentsPage()) {
-            return false;
-        }
+        $default = EntryRepository::SORT_DEFAULT;
 
-        if ($this->isPostsPage()) {
-            return false;
-        }
+        if ($entriesOnly) {
+            if ($this->isCommentsPage()) {
+                $default = EntryCommentRepository::SORT_DEFAULT;
+                return false;
+            }
 
-        if ($this->isEntryPage()) {
-            return false;
-        }
+            if ($this->isPostsPage()) {
+                $default = PostRepository::SORT_DEFAULT;
+                return false;
+            }
 
-        if ($this->isUserPage()) {
-            return false;
+            if ($this->isEntryPage()) {
+                return false;
+            }
+
+            if ($this->isUserPage()) {
+                return false;
+            }
         }
 
         return ($requestSort = $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT) === $sortOption;
@@ -148,7 +154,7 @@ final class PageContextExtension extends AbstractExtension
         return $this->getCurrentRequest()->get('time') ?? EntryRepository::TIME_DEFAULT;
     }
 
-    public function getActiveSortOptionPath(?string $sortOption = null, ?string $time = null): string
+    public function getActiveSortOptionPath(?string $sortOption = null, ?string $time = null, $entriesOnly = true): string
     {
         $routeName = 'front';
 
@@ -166,15 +172,46 @@ final class PageContextExtension extends AbstractExtension
             $routeParams['time'] = $time;
         }
 
+        if (!$entriesOnly) {
+            if ($this->isPostsPage()) {
+                $routeName = 'posts_front';
+            }
+
+            if ($this->isCommentsPage()) {
+                $routeName = 'entry_comments_front';
+            }
+        }
+
         if ($this->isMagazinePage()) {
             $magazine            = $this->getCurrentRequest()->get('magazine');
             $routeName           = 'front_magazine';
             $routeParams['name'] = $magazine->getName();
+
+            if (!$entriesOnly) {
+                if ($this->isPostsPage()) {
+                    $routeName = 'magazine_posts';
+                }
+
+                if ($this->isCommentsPage()) {
+                    $routeName = 'magazine_entry_comments';
+                }
+            }
         }
 
         if ($this->isSubPage()) {
             $routeName = 'front_subscribed';
+
+            if (!$entriesOnly) {
+                if ($this->isPostsPage()) {
+                    $routeName = 'posts_subscribed';
+                }
+
+                if ($this->isCommentsPage()) {
+                    $routeName = 'entry_comments_subscribed';
+                }
+            }
         }
+
 
         return $this->urlGenerator->generate(
             $routeName,
@@ -190,7 +227,7 @@ final class PageContextExtension extends AbstractExtension
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
 
-            $routeName           = 'magazine_comments';
+            $routeName           = 'magazine_entry_comments';
             $routeParams['name'] = $magazine->getName();
         }
 
