@@ -2,7 +2,7 @@
 {% from 'post/_macros.html.twig' import post %}
 {% from 'post/comment/_macros.html.twig' import comment %}
 
-{% block title %}Wpisy | {{ parent() }}{% endblock %}
+{% block title %}{{ post.body|slice(0, 35) ~ '...' }} | Wpisy | {{ parent() }}{% endblock %}
 
     {% block body %}
         <div class="kbin-posts-page">
@@ -13,12 +13,14 @@
                 <div class="kbin-post-list">
                     {{ post(post, {
                         post: post,
-                        comments: comments,
                         self: app.user,
-                        show_all_comments: true,
                         extra_classes: 'kbin-post-list-item',
                         title_tag: 'h4'
                     }) }}
+                    {% block before_comments %}{% endblock %}
+                    {% for comment in comments %}
+                        {{ comment(comment) }}
+                    {% endfor %}
                 </div>
             </section>
         </div>

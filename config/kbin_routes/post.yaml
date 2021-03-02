@@ -52,6 +52,6 @@ post:
 
 post_vote:
   controller: App\Controller\VoteController
-  defaults: { entityClass: App\Entity\post }
-  path: /ev/{id}/{choice}
+  defaults: { entityClass: App\Entity\Post }
+  path: /pv/{id}/{choice}
   methods: [POST]

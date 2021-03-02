@@ -1,12 +1,12 @@
-{% if is_granted('purge', entry) %}
-    <form action="{{ path('entry_delete', {
-        magazine_name: entry.magazine.name,
-        entry_id: entry.id,
+{% if is_granted('delete', post) %}
+    <form action="{{ path('post_delete', {
+        magazine_name: post.magazine.name,
+        post_id: post.id,
     }) }}" method="POST">
-        <div class="col-lg-6">
+        <div class="col-xs-12">
             <div class="kbin-magazine-create-form">
                 <div class="input-group-sm mb-3 text-end">
-                    <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                    <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
                     <button class="btn btn-danger">Usuń</button>
                 </div>
             </div>

@@ -8,9 +8,11 @@
                 {% include '_layout/_filters.html.twig' %}
 
                 {% if magazine is defined and is_granted('create_content', magazine) %}
-                    {{ render(controller('App\\Controller\\PostController::postForm', {
-                        'magazineName': magazine.name,
-                    })) }}
+                    <div class="px-xl-5">
+                        {{ render(controller('App\\Controller\\PostController::postForm', {
+                            'magazineName': magazine.name,
+                        })) }}
+                    </div>
                 {% elseif magazine is defined %}
                     <div class="alert alert-secondary text-muted my-3" role="alert">
                         {% if not app.user %}

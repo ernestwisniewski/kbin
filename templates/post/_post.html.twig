@@ -7,7 +7,7 @@
                 class="kbin-post {{ extra_classes }} "
                 data-embed-id-value="{{ post.id }}">
         <div class="kbin-post-header mb-2">
-            {{ vote(post, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'post', hide_downvote: true}) }}
+            {{ vote(post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true}) }}
 
             <div class="kbin-post-avatar">
                 {{ avatar(post.user) }}
@@ -85,7 +85,7 @@
                     {% if is_granted('edit', post) %}
                         <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a href="">
+                                <a href="{{ path('post_edit', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
                                     edytuj
                                 </a>
                             </small>
@@ -96,7 +96,7 @@
         </div>
         <div class="clearfix"></div>
     </blockquote>
-
+    {% block before_comments %}{% endblock %}
     {% if(show_all_comments) %}
         {% for comment in comments %}
             {{ comment(comment) }}

@@ -1,0 +1,18 @@
+{% extends 'post/single.html.twig' %}
+
+{% block title %}Edytuj wpis | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+{% endblock %}
+
+{% block before_comments %}
+    <div class="kbin-comment-edit-wrapper mt-4">
+        <h4 class="font-weight-bold">Edytuj:</h4>
+    </div>
+
+    <div class="px-xl-5">
+        {% include 'post/_form.html.twig' %}
+        {% include 'post/_form_delete.html.twig' %}
+    </div>
+{% endblock %}

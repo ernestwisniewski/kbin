@@ -1,0 +1,4 @@
+post_comment_create:
+  controller: App\Controller\PostCommentController::create
+  path: /m/{name}/wpisy
+  methods: [ POST ]

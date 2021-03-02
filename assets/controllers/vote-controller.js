@@ -33,7 +33,7 @@ export default class extends Controller {
 
         try {
             let voteUrl = this.uvUrlValue;
-            if(val === VOTE_DOWN) {
+            if (val === VOTE_DOWN) {
                 voteUrl = this.dvUrlValue;
             }
 
@@ -47,7 +47,10 @@ export default class extends Controller {
 
             this.choiceValue = response.choice;
             this.upVoteCountValue = response.upVotes;
-            this.downVoteCountValue = response.downVotes;
+
+            if(this.hasDownVoteTarget) {
+                this.downVoteCountValue = response.downVotes;
+            }
         } catch (e) {
             throw e;
         } finally {
@@ -67,7 +70,9 @@ export default class extends Controller {
         }
 
         this.upVoteTarget.classList.remove(this.uvClass);
-        this.downVoteTarget.classList.remove(this.dvClass);
+        if(this.hasDownVoteTarget) {
+            this.downVoteTarget.classList.remove(this.dvClass);
+        }
 
         if (event === VOTE_UP) {
             this.upVoteTarget.classList.add(this.uvClass);
@@ -76,6 +81,8 @@ export default class extends Controller {
         }
 
         this.upVoteCountTarget.innerHTML = this.upVoteCountValue
-        this.downVoteCountTarget.innerHTML = this.downVoteCountValue
+        if(this.hasDownVoteTarget) {
+            this.downVoteCountTarget.innerHTML = this.downVoteCountValue
+        }
     }
 }

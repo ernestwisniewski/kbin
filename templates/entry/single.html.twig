@@ -22,6 +22,9 @@
                     <div class="mt-2">
                         {% include 'entry/comment/_filters.html.twig' %}
                     </div>
+
+                    {% block before_comments %}{% endblock %}
+
                     {% include 'entry/comment/_list.html.twig' %}
 
                     {% if is_granted('comment', entry) %}

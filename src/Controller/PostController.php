@@ -149,11 +149,11 @@ class PostController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="post")
      */
-    public function edit(Magazine $magazine, Post $post, Request $request): Response
+    public function edit(Magazine $magazine, Post $post, Request $request, PostCommentRepository $commentRepository): Response
     {
         $postDto = $this->postManager->createDto($post);
 
-        $form = $this->createForm(Post::class, $postDto);
+        $form = $this->createForm(PostType::class, $postDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -168,11 +168,14 @@ class PostController extends AbstractController
             );
         }
 
+        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))->showPost($post);
+
         return $this->render(
             'post/edit.html.twig',
             [
                 'magazine' => $magazine,
                 'post'     => $post,
+                'comments' => $commentRepository->findByCriteria($criteria),
                 'form'     => $form->createView(),
             ]
         );
