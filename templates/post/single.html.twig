@@ -23,13 +23,17 @@
                     {% endfor %}
                 </div>
             </section>
+            {{ render(controller('App\\Controller\\PostCommentController::commentForm', {
+                'magazineName': magazine.name,
+                'postId': post.id,
+            })) }}
         </div>
     {% endblock %}
 
 {% block sidebar %}
-     {% include 'post/_sidebar.html.twig' %}
+    {% include 'post/_sidebar.html.twig' %}
 
     {{ parent() }}
 
-     {% include 'magazine/_sidebar.html.twig' %}
+    {% include 'magazine/_sidebar.html.twig' %}
 {% endblock %}

@@ -8,9 +8,9 @@
 
 {% block before_comments %}
     <div class="kbin-comment-edit-wrapper mt-4">
-        <h4 class="font-weight-bold">Edytuj:</h4>
+        <h4 class="font-weight-bold">Dodaj nowy:</h4>
     </div>
 
-    {% include 'post/_form.html.twig' %}
-    {% include 'post/_form_delete.html.twig' %}
+    {% include 'post/comment/_form.html.twig' %}
+    {% include 'post/comment/_form_delete.html.twig' %}
 {% endblock %}

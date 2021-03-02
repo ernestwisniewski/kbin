@@ -1,4 +1,5 @@
 post_comment_create:
   controller: App\Controller\PostCommentController::create
-  path: /m/{name}/wpisy
-  methods: [ POST ]
+  defaults: { parent_comment_id: null }
+  path: /m/{magazine_name}/w/{post_id}/komentarz/{parent_comment_id}
+  methods: [ GET, POST ]

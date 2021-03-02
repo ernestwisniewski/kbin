@@ -1,0 +1,15 @@
+{% if is_granted('delete', comment) %}
+    <form action="{{ path('post_comment_delete', {
+        magazine_name: comment.post.magazine.name,
+        post_id: comment.id,
+    }) }}" method="POST">
+        <div class="col-xs-12">
+            <div class="kbin-post-create-form">
+                <div class="input-group-sm mb-3 text-end">
+                    <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
+                    <button class="btn btn-danger">Usuń</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endif %}

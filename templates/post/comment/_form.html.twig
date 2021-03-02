@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+<div class="col-xs-12">
+    <div class="kbin-comment-create-form my-3">
+        <div class="mb-3">
+            {{ form_label(form.body, 'Komentarz') }}
+            {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
+        </div>
+
+        <div class="mb-12 text-end">
+            {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
