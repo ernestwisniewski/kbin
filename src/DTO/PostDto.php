@@ -17,7 +17,7 @@ class PostDto
     private ?Magazine $magazine = null;
     /**
      * @Assert\Length(
-     *     min = 3,
+     *     min = 2,
      *     max = 15000
      * )
      */

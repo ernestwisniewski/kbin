@@ -17,16 +17,29 @@
                         extra_classes: 'kbin-post-list-item',
                         title_tag: 'h4'
                     }) }}
-                    {% block before_comments %}{% endblock %}
+
+                    {% block before_comments %}
+                        {% if is_granted('comment', post) %}
+                            {{ render(controller('App\\Controller\\PostCommentController::commentForm', {
+                                'magazineName': magazine.name,
+                                'postId': post.id,
+                            })) }}
+                        {% else %}
+                            <div class="alert alert-secondary text-muted my-3" role="alert">
+                                {% if not app.user %}
+                                    <a href="{{ path('app_login') }}" class="font-weight-bold">Zaloguj się</a> aby dodać komentarz.
+                                {% else %}
+                                    Nie możesz dodać komentarza.
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endblock %}
+
                     {% for comment in comments %}
                         {{ comment(comment) }}
                     {% endfor %}
                 </div>
             </section>
-            {{ render(controller('App\\Controller\\PostCommentController::commentForm', {
-                'magazineName': magazine.name,
-                'postId': post.id,
-            })) }}
         </div>
     {% endblock %}
 

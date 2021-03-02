@@ -47,7 +47,7 @@
                         <small class="text-muted">
                             <a data-action="comment#reply"
                                class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
-                               href="">
+                               href="{{ path('post_comment_create', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'parent_comment_id': comment.id}) }}">
                                 odpowiedz
                             </a>
                         </small>

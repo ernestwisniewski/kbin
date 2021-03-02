@@ -18,7 +18,7 @@ class EntryDto
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
-     *     min = 3,
+     *     min = 2,
      *     max = 255
      * )
      */

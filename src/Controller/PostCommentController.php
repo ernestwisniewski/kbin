@@ -87,12 +87,61 @@ class PostCommentController extends AbstractController
         }
 
         return $this->render(
-            'entry/comment/create.html.twig',
+            'post/comment/create.html.twig',
+            [
+                'magazine' => $magazine,
+                'post'     => $post,
+                'comments' => $comments,
+                'parent'   => $parent,
+                'form'     => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="comment")
+     */
+    public function edit(
+        Magazine $magazine,
+        Post $post,
+        PostComment $comment,
+        Request $request,
+        PostCommentRepository $commentRepository
+    ): Response {
+        $commentDto = $this->commentManager->createDto($comment);
+
+        $form = $this->createForm(PostCommentType::class, $commentDto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->commentManager->edit($comment, $commentDto);
+
+            return $this->redirectToRoute(
+                'post_single',
+                [
+                    'magazine_name' => $magazine->getName(),
+                    'post_id'       => $post->getId(),
+                ]
+            );
+        }
+
+        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))
+            ->showPost($post);
+
+        $comments = $commentRepository->findByCriteria($criteria);
+
+        return $this->render(
+            'post/comment/edit.html.twig',
             [
                 'magazine' => $magazine,
                 'entry'    => $post,
                 'comments' => $comments,
-                'parent'   => $parent,
+                'comment'  => $comment,
                 'form'     => $form->createView(),
             ]
         );

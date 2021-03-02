@@ -13,7 +13,7 @@ class EntryCommentDto
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
-     *     min = 3,
+     *     min = 2,
      *     max = 4500
      * )
      */

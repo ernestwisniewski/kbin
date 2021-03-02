@@ -98,8 +98,7 @@ class PostCommentRepository extends ServiceEntityRepository
                 $qb->orderBy('c.upVotes', 'DESC');
                 break;
             default:
-                $qb->addOrderBy('c.lastActive', 'DESC')
-                    ->addOrderBy('c.id', 'DESC');
+                $qb->addOrderBy('c.id', 'ASC');
         }
     }
 }
