@@ -106,7 +106,7 @@
     {% endif %}
 
     {% if(show_best_comments) %}
-        {% for comment in post.bestComments %}
+        {% for comment in post.lastComments %}
             {{ comment(comment) }}
         {% endfor %}
     {% endif %}

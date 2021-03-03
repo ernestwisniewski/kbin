@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PostCommentRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 100;
+    const PER_PAGE = 500;
 
     public function __construct(ManagerRegistry $registry)
     {

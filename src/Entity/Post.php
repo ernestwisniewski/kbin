@@ -182,6 +182,14 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return new ArrayCollection($this->comments->slice(0, 2));
     }
 
+    public function getLastComments(): Collection
+    {
+        $criteria = Criteria::create()
+            ->orderBy(['id' => 'DESC']);
+
+        return new ArrayCollection($this->comments->matching($criteria)->slice(0, 2));
+    }
+
     public function addComment(PostComment $comment): self
     {
         if (!$this->comments->contains($comment)) {
