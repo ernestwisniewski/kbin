@@ -1,20 +1,21 @@
 {% if is_granted('edit', magazine) %}
-<div class="kbin-add d-grid gap-2 mb-4" data-controller="sidebar-menu"
-     data-sidebar-menu-hide-class="visually-hidden">
+<div class="kbin-add d-grid gap-2 mb-4"
+     data-controller="reveal"
+     data-reveal-hidden-class="visually-hidden">
     <button type="button"
             class="btn btn-primary btn-lg mb-1 kbin-add-btn {{ kbin_js_enabled ? '' : 'visually-hidden' }}"
-            data-sidebar-menu-target="showButton"
-            data-action="sidebar-menu#toggle">
+            data-reveal-target="item"
+            data-action="click->reveal#toggle">
         Zarządzaj magazynem
     </button>
     <button type="button" class="btn-close visually-hidden"
             aria-label="Close"
-            data-sidebar-menu-target="closeButton"
-            data-action="sidebar-menu#toggle"></button>
+            data-reveal-target="item"
+            data-action="click->reveal#toggle"></button>
 
 
     <div class="kbin-quick-links list-group {{ kbin_js_enabled ? 'visually-hidden' : '' }}"
-         data-sidebar-menu-target="content">
+         data-reveal-target="item">
 
         <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}" class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Ogólne</h4>
