@@ -167,6 +167,8 @@ $post-margin-sm: .5rem;
 
     &-content {
       display: inline-block;
+      word-break: break-all;
+      overflow: hidden;
 
       img {
         max-width: 100%;
