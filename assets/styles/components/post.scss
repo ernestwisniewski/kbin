@@ -167,7 +167,7 @@ $post-margin-sm: .5rem;
 
     &-content {
       display: inline-block;
-      word-break: break-all;
+      word-break: break-word;
       overflow: hidden;
 
       img {
