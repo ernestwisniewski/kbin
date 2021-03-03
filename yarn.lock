@@ -6551,6 +6551,30 @@ stdout-stream@^1.4.0:
   dependencies:
     readable-stream "^2.0.1"
 
+stimulus-clipboard@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/stimulus-clipboard/-/stimulus-clipboard-1.0.0.tgz#c6b70fda8a179d850686b34e0d3e1bc507270567"
+  integrity sha512-1tX+Hfl0PQDF4Hlttc4KpMdfbJZ57o3aOQupuSW3u9X8IGG1qIRuNIc/gEsZHp9BEyqIyifIf2KIlzlngx8khw==
+  dependencies:
+    stimulus "^2.0.0"
+
+stimulus-content-loader@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/stimulus-content-loader/-/stimulus-content-loader-2.1.0.tgz#9b9e1f2a57095136a413042bc07b87038daa610a"
+  integrity sha512-6Sf6VYeZqUHNQ+CnG+EYfPU/AZlofpziz0DEKDb8hout1jMYIWrs/Bv+Z8zUXj4QPsEYqbE3578ZRnyez8rhhw==
+
+stimulus-reveal-controller@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/stimulus-reveal-controller/-/stimulus-reveal-controller-2.0.0.tgz#a83ab31d6ad8a3411678b9d6e554d5e82e58d2b2"
+  integrity sha512-qvgxAGtvzEc1dvgIfb2wkaURf/3DYumapVjdXWL+otxTeeExwznp3fV/Z73m3FMNtmWfelh2wN5kRodXqumF9Q==
+  dependencies:
+    stimulus "^2.0.0"
+
+stimulus-use@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/stimulus-use/-/stimulus-use-0.23.0.tgz#7f35e99c98dc4ded59ada8d89a83b6a85b847099"
+  integrity sha512-9oYoT1kSzPLfvNHf4RoZKk6LTEtZ07mzUtq3BY5Cp1068eimgXES+TxGV2Cze8CeGBubWJXUxJ15LeLlR3bBtA==
+
 stimulus@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/stimulus/-/stimulus-2.0.0.tgz#713c8b91a72ef90914b90955f0e705f004403047"

@@ -3,8 +3,8 @@ import {fetch, ok} from "./utils/http";
 import router from "./utils/routing";
 
 export default class extends Controller {
-    static targets = ['container', 'close'];
-    static classes = ['hidden'];
+    static targets = ['reply', 'container', 'close'];
+    static classes = ['hidden', 'loading', 'reply'];
     static values = {
         isVisible: Boolean,
         loading: Boolean,
@@ -57,5 +57,17 @@ export default class extends Controller {
         this.closeTarget.classList.remove(this.hiddenClass);
 
         this.isVisibleValue = true;
+    }
+
+    loadingValueChanged() {
+        if (this.loadingValue) {
+            this.replyTarget.classList.remove(this.replyClass);
+            this.replyTarget.classList.add(this.loadingClass);
+        } else {
+            if (this.hasReplyTarget) {
+                this.replyTarget.classList.remove(this.loadingClass);
+                this.replyTarget.classList.add(this.replyClass);
+            }
+        }
     }
 }

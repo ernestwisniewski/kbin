@@ -31,7 +31,7 @@
     <div class="mb-3">
         {{ form_label(form.avatar, 'Avatar') }}
         <div class="input-group input-group-lg">
-            {{ form_widget(form.avatar) }}
+            {{ form_widget(form.avatar, {'attr':{ 'class': 'form-control' }}) }}
         </div>
     </div>
 {% endif %}

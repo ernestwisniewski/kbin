@@ -1,16 +1,17 @@
-import {Controller} from 'stimulus';
-import debounce from "./utils/debounce";
+// import {Controller} from 'stimulus';
+import { ApplicationController, useDebounce } from 'stimulus-use'
 import {fetch, ok} from './utils/http';
 import router from './utils/routing';
 
-export default class extends Controller {
+export default class extends ApplicationController {
+    static debounces = ['fetchTitle']
     static targets = ['sendButton', 'url', 'title'];
     static values = {
         loading: Boolean,
     };
 
     connect() {
-        this.fetchTitle = debounce(this.fetchTitle, 800).bind(this);
+        useDebounce(this, { wait: 800 })
     }
 
     async fetchTitle() {

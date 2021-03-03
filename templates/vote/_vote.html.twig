@@ -15,7 +15,7 @@
         {% set choice = VOTE_NONE %}
     {% endif %}
 
-    <div class="kbin-{{ base_class }}-vote {% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
+    <div class="kbin-{{ base_class }}-vote"
          data-controller="vote"
          data-vote-uv-class="kbin-vote-uv--active"
          data-vote-dv-class="kbin-vote-dv--active"
@@ -23,7 +23,7 @@
          data-vote-dv-url-value="{{ downUrl }}"
          data-vote-choice-value="{{ choice }}">
         <ul class="kbin-{{ base_class }}-vote-list">
-            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-uv {% if (choice is same as VOTE_UP) %}kbin-vote-uv--active{% endif %}"
+            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-uv {% if not is_granted('ROLE_USER' ) %}kbin-login-alert{% endif %} {% if (choice is same as VOTE_UP) %}kbin-vote-uv--active{% endif %}"
                 data-vote-target="upVote">
                 <form action="{{ upUrl }}" method="POST" data-action="vote#up">
                     <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
@@ -35,7 +35,7 @@
             </li>
 
             {% if not hide_downvote %}
-            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-dv {% if (choice is same as VOTE_DOWN) %}kbin-vote-dv--active{% endif %}"
+            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-dv {% if not is_granted('ROLE_USER' ) %}kbin-login-alert{% endif %} {% if (choice is same as VOTE_DOWN) %}kbin-vote-dv--active{% endif %}"
                 data-vote-target="downVote">
                 <form action="{{ path(form_dest, {id: votable.id,choice: VOTE_DOWN}) }}" method="POST" data-action="vote#down">
                     <button type="submit" {{ is_granted('ROLE_USER', votable) ? '' : 'disabled' }}>

@@ -7,10 +7,11 @@
 {% endblock %}
 
 {% block before_comments %}
-    <div class="kbin-comment-edit-wrapper mt-4">
+    <div class="kbin-comment-edit-wrapper mt-4 ps-sm-5">
         <h4 class="font-weight-bold">Edytuj:</h4>
-    </div>
 
     {% include 'post/_form.html.twig' %}
     {% include 'post/_form_delete.html.twig' %}
+    </div>
+
 {% endblock %}

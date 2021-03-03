@@ -32,7 +32,7 @@ class PostCommentController extends AbstractController
      * @ParamConverter("parent", options={"mapping": {"parent_comment_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
-     * @IsGranted("comment", subject="post")
+     * @IsGranted("create_content", subject="magazine")
      */
     public function create(
         Magazine $magazine,

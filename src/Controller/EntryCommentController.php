@@ -132,7 +132,6 @@ class EntryCommentController extends AbstractController
         $commentRepository->hydrateChildren(...$comments);
 
         if ($request->isXmlHttpRequest()) {
-
             return new JsonResponse(
                 [
                     'form' => $this->renderView(

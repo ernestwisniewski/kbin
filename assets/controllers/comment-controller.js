@@ -7,9 +7,7 @@ export default class extends Controller {
     static targets = ['reply'];
     static values = {
         loading: Boolean,
-        magazine: String,
-        entry: Number,
-        parent: Number,
+        url: String,
         form: String
     };
 
@@ -17,15 +15,9 @@ export default class extends Controller {
         event.preventDefault();
 
         this.loadingValue = true;
-
+console.log(this.urlValue)
         try {
-            let url = router().generate('entry_comment_create', {
-                magazine_name: this.magazineValue,
-                entry_id: this.entryValue,
-                parent_comment_id: this.parentValue
-            });
-
-            let response = await fetch(url, {method: 'GET'});
+            let response = await fetch(this.urlValue, {method: 'GET'});
 
             response = await ok(response);
             response = await response.json();

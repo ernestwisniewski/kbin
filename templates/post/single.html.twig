@@ -20,10 +20,12 @@
 
                     {% block before_comments %}
                         {% if is_granted('comment', post) %}
-                            {{ render(controller('App\\Controller\\PostCommentController::commentForm', {
-                                'magazineName': magazine.name,
-                                'postId': post.id,
-                            })) }}
+                            <div class="ps-sm-5">
+                                {{ render(controller('App\\Controller\\PostCommentController::commentForm', {
+                                    'magazineName': magazine.name,
+                                    'postId': post.id,
+                                })) }}
+                            </div>
                         {% else %}
                             <div class="alert alert-secondary text-muted my-3" role="alert">
                                 {% if not app.user %}

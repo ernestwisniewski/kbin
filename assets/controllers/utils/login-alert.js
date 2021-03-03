@@ -8,5 +8,11 @@ export default class LoginAlert {
                 alert('Musisz być zalogowany.')
             })
         });
+
+        document.querySelectorAll('.kbin-link-block').forEach(el => {
+            el.addEventListener('click', (event) => {
+                event.preventDefault();
+            })
+        });
     }
 }

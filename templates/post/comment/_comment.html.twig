@@ -4,9 +4,10 @@
 
     <blockquote id="{{ comment.id }}"
                 class="kbin-comment {{ extra_classes }} kbin-comment--nested kbin-comment-level--2"
-                data-embed-id-value="{{ comment.id }}">
+                data-controller="comment"
+                data-comment-url-value="{{ path('post_comment_create', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'parent_comment_id': comment.id}) }}">
         <div class="kbin-comment-header mb-2">
-            {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment', hide_downvote: true}) }}
+            {{ vote(comment, {user: app.user, form_dest: 'post_comment_vote', base_class: 'comment', hide_downvote: true}) }}
 
             <div class="kbin-comment-avatar">
                 {{ avatar(comment.user) }}
@@ -46,7 +47,7 @@
                     <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                         <small class="text-muted">
                             <a data-action="comment#reply"
-                               class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
+                               class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
                                href="{{ path('post_comment_create', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'parent_comment_id': comment.id}) }}">
                                 odpowiedz
                             </a>
@@ -74,6 +75,9 @@
                     {% endif %}
                 </ul>
             </aside>
+
+            <div data-comment-target="reply" class=""></div>
+
         </div>
         <div class="clearfix"></div>
     </blockquote>

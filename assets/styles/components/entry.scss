@@ -96,6 +96,11 @@
   &-meta {
     font-size: .9rem;
 
+    .kbin-preview.spinner-border {
+      width: 1rem;
+      height: 1rem;
+    }
+
     a {
       &:hover {
         color: black;
