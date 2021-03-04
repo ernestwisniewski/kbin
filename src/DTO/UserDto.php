@@ -11,15 +11,15 @@ class UserDto implements UserDtoInterface
     private ?int $id = null;
     /**
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=2,
+     *     max=35
+     * )
      */
     private ?string $username = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @Assert\Length(
-     *     min=2,
-     *     max=35
-     * )
      */
     private ?string $email = null;
     /**

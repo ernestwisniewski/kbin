@@ -28,7 +28,7 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            let list = this.element.parentElement
+            this.element.parentElement
                 .querySelectorAll(`[data-comment-post-id="${this.idValue}"]`)
                 .forEach(e => {
                     e.remove()

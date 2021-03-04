@@ -38,6 +38,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->entryCommentRepository = $entryCommentRepository;
     }
 
+    public function findByUsernameOrEmail($val)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :email')
+            ->orWhere('u.email = :email')
+            ->setParameter('email', $val)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
