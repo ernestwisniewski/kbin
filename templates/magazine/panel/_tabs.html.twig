@@ -1,17 +1,12 @@
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
-        <a class="nav-link {{ is_active_route('magazine_panel_edit') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}">Ogólne</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link {{ is_active_route('magazine_appearance') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}">Wygląd</a>
-    </li>
-
-    <li class="nav-item">
         <a class="nav-link {{ is_active_route('magazine_stats') ? 'active font-weight-bold' : '' }}" aria-current="page"
            href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}">Statystyki</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('magazine_panel_reports') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}">Zgłoszenia</a>
     </li>
 
     <li class="nav-item">
@@ -27,5 +22,15 @@
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('magazine_trash') ? 'active font-weight-bold' : '' }}" aria-current="page"
            href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}">Kosz</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('magazine_appearance') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}">Wygląd</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('magazine_panel_edit') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}">Ogólne</a>
     </li>
 </ul>

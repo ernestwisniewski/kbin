@@ -5,7 +5,8 @@
 
     <blockquote id="{{ post.id }}"
                 class="kbin-post {{ extra_classes }} "
-                data-embed-id-value="{{ post.id }}">
+                data-controller="post"
+                data-post-id-value="{{ post.id }}">
         <div class="kbin-post-header mb-2">
             {{ vote(post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true}) }}
 
@@ -53,8 +54,7 @@
                 <ul class="kbin-post-meta-list  list-inline mb-0">
                     <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                         <small class="text-muted">
-                            <a data-action="post#reply"
-                               href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
+                            <a href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
                                 odpowiedz
                             </a>
                         </small>
@@ -63,7 +63,7 @@
                     {% if post.commentCount > 2 and not is_post_page() %}
                         <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a data-action="post#showAllPosts"
+                                <a data-action="post#expand"
                                    href="#">
                                     rozwiń ({{ post.commentCount }})
                                 </a>
@@ -95,26 +95,13 @@
         </div>
         <div class="clearfix"></div>
     </blockquote>
+
     {% block before_comments %}{% endblock %}
     {% if(show_all_comments) %}
-        {% if comments|length %}
-            {% for comment in comments %}
-                {{ comment(comment) }}
-            {% endfor %}
-        {% else %}
-            <div class="text-center py-5 text-muted">
-                <span class="display-1">(._.)</span>
-                <p>Jeszcze nic tu nie ma...</p>
-            </div>
-        {% endif %}
-        {% if(comments.haveToPaginate) %}
-            {{ pagerfanta(comments, null, {'pageParameter':'[strona]'}) }}
-        {% endif %}
+        {% include 'post/comment/_list.html.twig' %}
     {% endif %}
 
     {% if(show_best_comments) %}
-        {% for comment in post.lastComments %}
-            {{ comment(comment) }}
-        {% endfor %}
+        {% include 'post/comment/_list.html.twig' with {comments: post.lastComments}  %}
     {% endif %}
 {% endblock post %}

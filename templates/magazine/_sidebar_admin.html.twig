@@ -16,17 +16,12 @@
 
     <div class="kbin-quick-links list-group {{ kbin_js_enabled ? 'visually-hidden' : '' }}"
          data-reveal-target="item">
-
-        <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}" class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Ogólne</h4>
-        </a>
-
-        <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}" class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Wygląd</h4>
-        </a>
-
         <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}" class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Statystyki</h4>
+        </a>
+
+        <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}" class="list-group-item">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Zgłoszenia</h4>
         </a>
 
         <a href="{{ path('magazine_panel_moderators', {'name': magazine.name}) }}" class="list-group-item">
@@ -39,6 +34,14 @@
 
         <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}" class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Kosz</h4>
+        </a>
+
+        <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}" class="list-group-item">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Wygląd</h4>
+        </a>
+
+        <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}" class="list-group-item">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Ogólne</h4>
         </a>
     </div>
 </div>

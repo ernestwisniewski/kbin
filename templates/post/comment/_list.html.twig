@@ -1,0 +1,10 @@
+{% from 'post/comment/_macros.html.twig' import comment %}
+
+{% if comments|length %}
+    {% for comment in comments %}
+        {{ comment(comment) }}
+    {% endfor %}
+{% endif %}
+{% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
+    {{ pagerfanta(comments, null, {'pageParameter':'[strona]'}) }}
+{% endif %}

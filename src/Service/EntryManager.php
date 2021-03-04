@@ -2,17 +2,20 @@
 
 namespace App\Service;
 
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Message\EntryCreatedMessage;
 use App\Repository\EntryRepository;
+use App\Exception\BadUrlException;
 use App\Event\EntryCreatedEvent;
 use App\Event\EntryUpdatedEvent;
 use App\Event\EntryPurgedEvent;
 use App\Factory\EntryFactory;
-use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
@@ -25,6 +28,7 @@ class EntryManager
     private EventDispatcherInterface $eventDispatcher;
     private MessageBusInterface $messageBus;
     private Security $security;
+    private HttpClientInterface $client;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
@@ -33,6 +37,7 @@ class EntryManager
         EventDispatcherInterface $eventDispatcher,
         MessageBusInterface $messageBus,
         Security $security,
+        HttpClientInterface $client,
         EntityManagerInterface $entityManager
     ) {
         $this->entryFactory    = $entryFactory;
@@ -40,6 +45,7 @@ class EntryManager
         $this->eventDispatcher = $eventDispatcher;
         $this->messageBus      = $messageBus;
         $this->security        = $security;
+        $this->client          = $client;
         $this->entityManager   = $entityManager;
     }
 
@@ -49,6 +55,8 @@ class EntryManager
         if ($this->security->getUser() && !$this->security->isGranted('create_content', $entryDto->getMagazine())) {
             throw new AccessDeniedHttpException();
         }
+
+        $this->validateUrl($entryDto->getUrl());
 
         $entry    = $this->entryFactory->createFromDto($entryDto, $user);
         $magazine = $entry->getMagazine();
@@ -121,6 +129,23 @@ class EntryManager
             Assert::null($entry->getBody());
         } else {
             Assert::null($entry->getUrl());
+        }
+    }
+
+    private function validateUrl(?string $url): void
+    {
+        if (!$url) {
+            return;
+        }
+
+        try {
+            $response = $this->client->request(
+                'GET',
+                $url
+            );
+            $headers  = $response->getHeaders();
+        } catch (TransportExceptionInterface $e) {
+            throw new BadUrlException();
         }
     }
 }
