@@ -15,7 +15,7 @@ export default class extends Controller {
         event.preventDefault();
 
         this.loadingValue = true;
-console.log(this.urlValue)
+
         try {
             let response = await fetch(this.urlValue, {method: 'GET'});
 

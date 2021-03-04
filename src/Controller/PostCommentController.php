@@ -139,10 +139,54 @@ class PostCommentController extends AbstractController
             'post/comment/edit.html.twig',
             [
                 'magazine' => $magazine,
-                'entry'    => $post,
+                'post'     => $post,
                 'comments' => $comments,
                 'comment'  => $comment,
                 'form'     => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("delete", subject="comment")
+     */
+    public function delete(Magazine $magazine, PostComment $comment, Request $request): Response
+    {
+        $this->validateCsrf('post_comment_delete', $request->request->get('token'));
+
+        $this->commentManager->delete($comment);
+
+        return $this->redirectToRoute(
+            'front_magazine',
+            [
+                'name' => $magazine->getName(),
+            ]
+        );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("purge", subject="comment")
+     */
+    public function purge(Magazine $magazine, PostComment $comment, Request $request): Response
+    {
+        $this->validateCsrf('post_comment_purge', $request->request->get('token'));
+
+        $this->commentManager->purge($comment);
+
+        return $this->redirectToRoute(
+            'front_magazine',
+            [
+                'name' => $magazine->getName(),
             ]
         );
     }

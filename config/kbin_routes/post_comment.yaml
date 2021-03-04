@@ -9,6 +9,16 @@ post_comment_edit:
   path: /m/{magazine_name}/w/{post_id}/komentarz/{comment_id}/edytuj
   methods: [ GET, POST ]
 
+post_comment_delete:
+  controller: App\Controller\PostCommentController::delete
+  path: /m/{magazine_name}/w/{post_id}/komentarz/{comment_id}/delete
+  methods: [ POST ]
+
+post_comment_purge:
+  controller: App\Controller\PostCommentController::purge
+  path: /m/{magazine_name}/w/{post_id}/komentarz/{comment_id}/purge
+  methods: [ POST ]
+
 post_comment_vote:
   controller: App\Controller\VoteController
   defaults: { entityClass: App\Entity\PostComment }

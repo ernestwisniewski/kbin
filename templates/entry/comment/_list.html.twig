@@ -1,19 +1,26 @@
 {% from 'entry/comment/_macros.html.twig' import comment %}
 
 <div class="kbin-comment-list mt-3">
-    {% for comment in comments %}
-        {{ comment(comment, {
-            self: app.user,
-            comment: comment,
-            extra_classes: 'kbin-comment-list-item mb-0',
-            nested: nested ?? true,
-            with_parent: with_parent ?? false
-        }) }}
-    {% endfor %}
+    {% if comments|length %}
+        {% for comment in comments %}
+            {{ comment(comment, {
+                self: app.user,
+                comment: comment,
+                extra_classes: 'kbin-comment-list-item mb-0',
+                nested: nested ?? true,
+                with_parent: with_parent ?? false
+            }) }}
+        {% endfor %}
 
-    {% for i in 2..8 %}
-        <div class="kbin-comment-line--{{ i }}"></div>
-    {% endfor %}
+        {% for i in 2..8 %}
+            <div class="kbin-comment-line--{{ i }}"></div>
+        {% endfor %}
+    {% else %}
+    <div class="text-center py-5">
+        <span class="display-1">(._.)</span>
+        <p>Jeszcze nic tu nie ma...</>
+    </div>
+    {% endif %}
 </div>
 
 {% if(comments.haveToPaginate) %}

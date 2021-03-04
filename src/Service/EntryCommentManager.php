@@ -71,7 +71,7 @@ class EntryCommentManager
 
     public function delete(EntryComment $comment): void
     {
-        if ($comment->getChildren()) {
+        if ($comment->getChildren()->count()) {
             $comment->softDelete();
         } else {
             $this->purge($comment);

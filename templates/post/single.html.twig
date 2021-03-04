@@ -37,9 +37,16 @@
                         {% endif %}
                     {% endblock %}
 
-                    {% for comment in comments %}
-                        {{ comment(comment) }}
-                    {% endfor %}
+                    {% if comments|length %}
+                        {% for comment in comments %}
+                            {{ comment(comment) }}
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <span class="display-1">(._.)</span>
+                            <p>Jeszcze nic tu nie ma...</p>
+                        </div>
+                    {% endif %}
                 </div>
             </section>
         </div>

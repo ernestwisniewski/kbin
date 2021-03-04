@@ -67,7 +67,7 @@
                     {% if is_granted('edit', comment) %}
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a href="">
+                                <a href="{{ path('post_comment_edit', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'comment_id': comment.id}) }}">
                                     edytuj
                                 </a>
                             </small>

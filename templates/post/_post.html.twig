@@ -97,9 +97,16 @@
     </blockquote>
     {% block before_comments %}{% endblock %}
     {% if(show_all_comments) %}
-        {% for comment in comments %}
-            {{ comment(comment) }}
-        {% endfor %}
+        {% if comments|length %}
+            {% for comment in comments %}
+                {{ comment(comment) }}
+            {% endfor %}
+        {% else %}
+            <div class="text-center py-5">
+                <span class="display-1">(._.)</span>
+                <p>Jeszcze nic tu nie ma...</p>
+            </div>
+        {% endif %}
         {% if(comments.haveToPaginate) %}
             {{ pagerfanta(comments, null, {'pageParameter':'[strona]'}) }}
         {% endif %}
