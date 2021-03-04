@@ -60,7 +60,7 @@ class PostComment implements VoteInterface, VisibilityInterface
     private \DateTime $lastActive;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="children", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="children")
      * @ORM\JoinColumn(onDelete="cascade")
      */
     private ?PostComment $parent;

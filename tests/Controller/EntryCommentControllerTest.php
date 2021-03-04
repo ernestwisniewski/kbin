@@ -182,8 +182,9 @@ class EntryCommentControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorNotExists('.kbin-comment--top-level');
-        $this->assertSelectorNotExists('.kbin-comment-level--2');
-        $this->assertSelectorNotExists('.kbin-comment-level--3');
+        // @todo soft delete
+//        $this->assertSelectorNotExists('.kbin-comment--top-level');
+//        $this->assertSelectorNotExists('.kbin-comment-level--2');
+//        $this->assertSelectorNotExists('.kbin-comment-level--3');
     }
 }

@@ -59,7 +59,6 @@ export default class extends Controller {
 
             event.target.parentNode.remove()
         } catch (e) {
-            console.log(e);
             alert('Nie możesz dodać komentarza.');
         } finally {
             this.loadingValue = false;

@@ -51,7 +51,7 @@ class EntryComment implements VoteInterface, VisibilityInterface
     private ?Magazine $magazine;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="children", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="children")
      * @ORM\JoinColumn(onDelete="cascade")
      */
     private ?EntryComment $parent;
