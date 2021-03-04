@@ -8,6 +8,7 @@ use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\PostCommentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -85,8 +86,8 @@ class PostComment implements VoteInterface, VisibilityInterface
         $this->createdAtTraitConstruct();
         $this->updateLastActive();
 
-//        $this->votes    = new ArrayCollection();
-//        $this->children = new ArrayCollection();
+        $this->votes    = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     public function getId(): int

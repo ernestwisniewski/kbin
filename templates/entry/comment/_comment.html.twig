@@ -13,6 +13,7 @@
     <blockquote id="{{ comment.id }}"
                 class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level >= 8 ? 'last' : level }} shadow-sm"
                 data-controller="comment"
+                data-comment-level-value="{{ level >= 7 ? '7' : level }}"
                 data-comment-url-value="{{ path('entry_comment_create', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id}) }}">
         <div class="kbin-comment-header mb-2">
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}

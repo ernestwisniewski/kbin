@@ -112,7 +112,24 @@ class EntryCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commentManager->create($commentDto, $this->getUserOrThrow());
+            $comment = $this->commentManager->create($commentDto, $this->getUserOrThrow());
+
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(
+                    [
+                        'html' => $this->renderView(
+                            'entry/comment/_comment.html.twig',
+                            [
+                                'extra_classes' => 'kbin-comment',
+                                'with_parent'   => false,
+                                'comment'       => $comment,
+                                'level'         => 1,
+                                'nested'        => false,
+                            ]
+                        ),
+                    ]
+                );
+            }
 
             return $this->redirectToRoute(
                 'entry_single',

@@ -6,6 +6,7 @@
                 class="kbin-comment {{ extra_classes }} kbin-comment--nested kbin-comment-level--2"
                 data-controller="comment"
                 data-comment-post-id="{{ comment.post.id }}"
+                data-comment-level-value="2"
                 data-comment-url-value="{{ path('post_comment_create', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'parent_comment_id': comment.id}) }}">
         <div class="kbin-comment-header mb-2">
             {{ vote(comment, {user: app.user, form_dest: 'post_comment_vote', base_class: 'comment', hide_downvote: true}) }}

@@ -57,7 +57,24 @@ class PostCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commentManager->create($commentDto, $this->getUserOrThrow());
+            $comment = $this->commentManager->create($commentDto, $this->getUserOrThrow());
+
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(
+                    [
+                        'html' => $this->renderView(
+                            'post/comment/_comment.html.twig',
+                            [
+                                'extra_classes' => 'kbin-comment',
+                                'with_parent'   => false,
+                                'comment'       => $comment,
+                                'level'         => 1,
+                                'nested'        => false,
+                            ]
+                        ),
+                    ]
+                );
+            }
 
             return $this->redirectToRoute(
                 'post_single',
