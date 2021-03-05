@@ -8,11 +8,15 @@ This is a very early beta version, and a lot of features are currently broken or
 
 ## Installation
 ### Requirements
-### Install on local server / VPS
+### Setting up the local environment
+#### NGINX
+#### PostgreSQL
+#### RabbitMQ (optional)
+#### Elasticsearch (optional)
 ### Install with Docker
 
 ## Configuration
-### Database
+### Migrations
 ### Fixtures
 ### Tests
 

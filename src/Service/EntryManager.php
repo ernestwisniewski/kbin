@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Kernel;
+use Symfony\Component\Validator\Constraints\UrlValidator;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -30,6 +32,7 @@ class EntryManager
     private Security $security;
     private HttpClientInterface $client;
     private EntityManagerInterface $entityManager;
+    private Kernel $kernel;
 
     public function __construct(
         EntryFactory $entryFactory,
@@ -38,6 +41,7 @@ class EntryManager
         MessageBusInterface $messageBus,
         Security $security,
         HttpClientInterface $client,
+        Kernel $kernel,
         EntityManagerInterface $entityManager
     ) {
         $this->entryFactory    = $entryFactory;
@@ -47,6 +51,7 @@ class EntryManager
         $this->security        = $security;
         $this->client          = $client;
         $this->entityManager   = $entityManager;
+        $this->kernel          = $kernel;
     }
 
     public function create(EntryDto $entryDto, User $user): Entry
@@ -138,14 +143,9 @@ class EntryManager
             return;
         }
 
-        try {
-            $response = $this->client->request(
-                'GET',
-                $url
-            );
-            $headers  = $response->getHeaders();
-        } catch (TransportExceptionInterface $e) {
-            throw new BadUrlException();
+        // @todo checkdnsrr?
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new BadUrlException($url);
         }
     }
 }

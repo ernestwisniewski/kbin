@@ -75,6 +75,14 @@
                             </small>
                         </li>
                     {% endif %}
+
+                    {% if is_granted('moderate', comment.magazine) %}
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="kbin-entry-meta-edit text-muted">
+                                <a href="{{ path('magazine_panel_ban', {'magazine_name': comment.post.magazine.name, 'user_username': comment.user.username}) }}">zbanuj</a>
+                            </small>
+                        </li>
+                    {% endif %}
                 </ul>
             </aside>
 

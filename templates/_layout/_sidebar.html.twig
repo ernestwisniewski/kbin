@@ -48,7 +48,7 @@
     </div>
 </div>
 
-{% if is_homepage() or is_sub_page() or is_posts_page() %}
+{% if not is_magazine_page() %}
     {% if app.user %}
         <div class="mb-4">
             {% include 'user/_moderator_list_card.html.twig' with {'user':app.user} %}

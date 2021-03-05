@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -45,11 +45,17 @@ class Moderator
      */
     private bool $isOwner = false;
 
-    public function __construct(Magazine $magazine, User $user, $isOwner = false)
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isConfirmed = false;
+
+    public function __construct(Magazine $magazine, User $user, $isOwner = false, $isConfirmed = false)
     {
-        $this->magazine  = $magazine;
-        $this->user      = $user;
-        $this->isOwner   = $isOwner;
+        $this->magazine    = $magazine;
+        $this->user        = $user;
+        $this->isOwner     = $isOwner;
+        $this->isConfirmed = $isConfirmed;
 
         $magazine->getModerators()->add($this);
         $user->getModeratorTokens()->add($this);
@@ -96,6 +102,16 @@ class Moderator
         $this->isOwner = $isOwner;
 
         return $this;
+    }
+
+    public function isConfirmed(): bool
+    {
+        return $this->isConfirmed;
+    }
+
+    public function setIsConfirmed(bool $isConfirmed): void
+    {
+        $this->isConfirmed = $isConfirmed;
     }
 
     public function __sleep()

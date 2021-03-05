@@ -27,9 +27,9 @@
     {% endblock %}
 
 {% block sidebar %}
-    {# {% include 'post/_sidebar.html.twig' %} #}
-
     {{ parent() }}
 
-    {# {% include 'magazine/_sidebar.html.twig' %} #}
+    {% if is_magazine_page() %}
+        {% include 'magazine/_sidebar.html.twig' %}
+    {% endif %}
 {% endblock %}

@@ -24,6 +24,7 @@ export default class extends Controller {
             response = await response.json();
 
             this.formValue = response.form;
+            event.target.remove();
         } catch (e) {
             alert('Nie możesz dodać komentarza.');
         } finally {

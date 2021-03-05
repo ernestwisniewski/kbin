@@ -146,7 +146,7 @@ class MagazineManager
     {
         $magazine = $dto->getMagazine();
 
-        $magazine->addModerator(new Moderator($magazine, $dto->getUser(), false));
+        $magazine->addModerator(new Moderator($magazine, $dto->getUser(), false, true));
 
         $this->entityManager->flush();
     }

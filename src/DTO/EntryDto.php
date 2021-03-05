@@ -23,6 +23,9 @@ class EntryDto
      * )
      */
     private string $title;
+    /**
+     * @Assert\Url
+     */
     private ?string $url = null;
     /**
      * @Assert\Length(

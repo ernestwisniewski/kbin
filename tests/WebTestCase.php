@@ -3,7 +3,13 @@
 namespace App\Tests;
 
 use App\DTO\EntryCommentDto;
+use App\DTO\PostCommentDto;
+use App\DTO\PostDto;
+use App\Entity\Post;
+use App\Entity\PostComment;
 use App\Service\EntryCommentManager;
+use App\Service\PostCommentManager;
+use App\Service\PostManager;
 use App\Service\VoteManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -186,6 +192,31 @@ abstract class WebTestCase extends BaseWebTestCase
         $manager->flush();
 
         return $vote;
+    }
+
+    public function createPost(string $body, ?Magazine $magazine = null, ?User $user = null): Post
+    {
+        /**
+         * @var $manager PostManager
+         */
+        $manager = self::$container->get(PostManager::class);
+
+
+        $dto = (new PostDto())->create($magazine ? $magazine : $this->getMagazineByName('polityka'), $body);
+
+        return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
+    }
+
+    public function createPostComment(string $body, Post $post, ?User $user = null): PostComment
+    {
+        /**
+         * @var $manager PostCommentManager
+         */
+        $manager = self::$container->get(PostCommentManager::class);
+
+        $dto = (new PostCommentDto())->create($post, $body);
+
+        return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
 
     private function provideUsers(): iterable

@@ -111,7 +111,7 @@ class Magazine implements VisibilityInterface
         $this->subscriptions = new ArrayCollection();
         $this->bans          = new ArrayCollection();
 
-        $this->addModerator(new Moderator($this, $user, true));
+        $this->addModerator(new Moderator($this, $user, true, true));
 
         $this->createdAtTraitConstruct();
     }
@@ -121,7 +121,8 @@ class Magazine implements VisibilityInterface
         $user->getModeratorTokens()->get(-1);
 
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('magazine', $this));
+            ->where(Criteria::expr()->eq('magazine', $this))
+            ->andWhere(Criteria::expr()->eq('isConfirmed', true));
 
         return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
     }

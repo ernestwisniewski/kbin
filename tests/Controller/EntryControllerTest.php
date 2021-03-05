@@ -145,6 +145,21 @@ class EntryControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isServerError());
     }
 
+    public function testUnauthorizedUserCannotEditEntry()
+    {
+        $this->expectException(AccessDeniedException::class);
+
+        $client = $this->createClient();
+        $client->catchExceptions(false);
+        $client->loginUser($user = $this->getUserByUsername('regularUser2'));
+
+        $entry = $this->getEntryByTitle('przykladowa tresc');
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+
+        $this->assertTrue($client->getResponse()->isServerError());
+    }
+
     public function testCanPurgeEntry()
     {
         $client = $this->createClient();

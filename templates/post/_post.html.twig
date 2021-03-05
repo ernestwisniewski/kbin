@@ -6,7 +6,8 @@
     <blockquote id="{{ post.id }}"
                 class="kbin-post {{ extra_classes }} "
                 data-controller="post"
-                data-post-id-value="{{ post.id }}">
+                data-post-id-value="{{ post.id }}"
+                data-post-magazine-name-value="{{ post.magazine.name }}">
         <div class="kbin-post-header mb-2">
             {{ vote(post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true}) }}
 
@@ -54,7 +55,7 @@
                 <ul class="kbin-post-meta-list  list-inline mb-0">
                     <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                         <small class="text-muted">
-                            <a href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
+                            <a href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}" data-action="post#reply">
                                 odpowiedz
                             </a>
                         </small>
@@ -63,8 +64,8 @@
                     {% if post.commentCount > 2 and not is_post_page() %}
                         <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a data-action="post#expand"
-                                   href="#">
+                                <a data-action="post#expandComments"
+                                   href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
                                     rozwiń ({{ post.commentCount }})
                                 </a>
                             </small>
@@ -90,8 +91,19 @@
                             </small>
                         </li>
                     {% endif %}
+
+                    {% if is_granted('moderate', post.magazine) %}
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="kbin-entry-meta-edit text-muted">
+                                <a href="{{ path('magazine_panel_ban', {'magazine_name': post.magazine.name, 'user_username': post.user.username}) }}">zbanuj</a>
+                            </small>
+                        </li>
+                    {% endif %}
                 </ul>
             </aside>
+
+            <div data-post-target="reply" class=""></div>
+
         </div>
         <div class="clearfix"></div>
     </blockquote>
@@ -102,6 +114,6 @@
     {% endif %}
 
     {% if(show_best_comments) %}
-        {% include 'post/comment/_list.html.twig' with {comments: post.lastComments}  %}
+        {% include 'post/comment/_list.html.twig' with {comments: post.lastComments} %}
     {% endif %}
 {% endblock post %}
