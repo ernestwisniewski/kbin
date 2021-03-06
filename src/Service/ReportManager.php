@@ -6,6 +6,5 @@ class ReportManager
 {
     public function report(): void
     {
-
     }
 }

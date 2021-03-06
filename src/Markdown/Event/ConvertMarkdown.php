@@ -4,50 +4,60 @@ namespace App\Markdown\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class ConvertMarkdown extends Event {
+class ConvertMarkdown extends Event
+{
     private string $renderedHtml = '';
     private string $markdown;
     private array $attributes = [];
 
-    public function __construct(string $markdown) {
+    public function __construct(string $markdown)
+    {
         $this->markdown = $markdown;
     }
 
-    public function getMarkdown(): string {
+    public function getMarkdown(): string
+    {
         return $this->markdown;
     }
 
-    public function setMarkdown(string $markdown): void {
+    public function setMarkdown(string $markdown): void
+    {
         $this->markdown = $markdown;
     }
 
-    public function getRenderedHtml(): string {
+    public function getRenderedHtml(): string
+    {
         return $this->renderedHtml;
     }
 
-    public function setRenderedHtml(string $renderedHtml): void {
+    public function setRenderedHtml(string $renderedHtml): void
+    {
         $this->renderedHtml = $renderedHtml;
     }
 
     /**
      * @return mixed|null
      */
-    public function getAttribute(string $key) {
+    public function getAttribute(string $key)
+    {
         return $this->attributes[$key] ?? null;
     }
 
     /**
      * @param mixed $data
      */
-    public function addAttribute(string $key, $data): void {
+    public function addAttribute(string $key, $data): void
+    {
         $this->attributes[$key] = $data;
     }
 
-    public function mergeAttributes(array $attributes): void {
+    public function mergeAttributes(array $attributes): void
+    {
         $this->attributes = array_replace($this->attributes, $attributes);
     }
 
-    public function removeAttribute(string $key): void {
+    public function removeAttribute(string $key): void
+    {
         unset($this->attributes[$key]);
     }
 }

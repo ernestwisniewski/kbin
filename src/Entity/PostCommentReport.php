@@ -32,4 +32,3 @@ class PostCommentReport extends Report
         return 'post_comment';
     }
 }
-

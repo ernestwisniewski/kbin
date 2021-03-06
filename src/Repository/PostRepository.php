@@ -144,5 +144,4 @@ class PostRepository extends ServiceEntityRepository
 
         return $qb;
     }
-
 }

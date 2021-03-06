@@ -12,14 +12,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Fetch and store rendered HTML given the raw input and a generated context.
  */
-final class CacheMarkdownListener implements EventSubscriberInterface {
+final class CacheMarkdownListener implements EventSubscriberInterface
+{
     private const ATTR_CACHE_ITEM = __CLASS__.' cache item';
     public const ATTR_NO_CACHE_STORE = 'no_cache_store';
 
     private CacheItemPoolInterface $pool;
     private EventDispatcherInterface $dispatcher;
 
-    public static function getSubscribedEvents(): array {
+    public static function getSubscribedEvents(): array
+    {
         return [
             ConvertMarkdown::class => [
                 ['preConvertMarkdown', 64],
@@ -36,7 +38,8 @@ final class CacheMarkdownListener implements EventSubscriberInterface {
         $this->dispatcher = $dispatcher;
     }
 
-    public function preConvertMarkdown(ConvertMarkdown $event): void {
+    public function preConvertMarkdown(ConvertMarkdown $event): void
+    {
         $cacheEvent = new BuildCacheContext($event);
         $this->dispatcher->dispatch($cacheEvent);
 
@@ -50,7 +53,8 @@ final class CacheMarkdownListener implements EventSubscriberInterface {
         }
     }
 
-    public function postConvertMarkdown(ConvertMarkdown $event): void {
+    public function postConvertMarkdown(ConvertMarkdown $event): void
+    {
         if ($event->getAttribute(self::ATTR_NO_CACHE_STORE)) {
             return;
         }

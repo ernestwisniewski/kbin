@@ -4,7 +4,8 @@ namespace App\Markdown\Event;
 
 use League\CommonMark\ConfigurableEnvironmentInterface;
 
-class ConfigureCommonMark {
+class ConfigureCommonMark
+{
     private ConfigurableEnvironmentInterface $environment;
     private ConvertMarkdown $convertMarkdownEvent;
 
@@ -16,11 +17,13 @@ class ConfigureCommonMark {
         $this->convertMarkdownEvent = $convertMarkdownEvent;
     }
 
-    public function getEnvironment(): ConfigurableEnvironmentInterface {
+    public function getEnvironment(): ConfigurableEnvironmentInterface
+    {
         return $this->environment;
     }
 
-    public function getConvertMarkdownEvent(): ConvertMarkdown {
+    public function getConvertMarkdownEvent(): ConvertMarkdown
+    {
         return $this->convertMarkdownEvent;
     }
 }

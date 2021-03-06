@@ -70,5 +70,4 @@ class PostControllerTest extends WebTestCase
 
         $this->assertTrue($client->getResponse()->isServerError());
     }
-
 }

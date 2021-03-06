@@ -2,7 +2,8 @@
 
 namespace App\Entity\Contracts;
 
-interface VisibilityInterface {
+interface VisibilityInterface
+{
     public const VISIBILITY_VISIBLE = 'visible';
     public const VISIBILITY_SOFT_DELETED = 'soft_deleted';
     public const VISIBILITY_TRASHED = 'trashed';

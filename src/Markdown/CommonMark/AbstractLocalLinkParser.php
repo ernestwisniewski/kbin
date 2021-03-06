@@ -9,7 +9,8 @@ use League\CommonMark\InlineParserContext;
 /**
  * Parses links like /u/foo, w/bar, etc.
  */
-abstract class AbstractLocalLinkParser implements InlineParserInterface {
+abstract class AbstractLocalLinkParser implements InlineParserInterface
+{
     /**
      * Return a single-character prefix.
      */
@@ -22,11 +23,13 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface {
 
     abstract public function getRegex(): string;
 
-    final public function getCharacters(): array {
+    final public function getCharacters(): array
+    {
         return ['/', $this->getPrefix()];
     }
 
-    final public function parse(InlineParserContext $inlineContext): bool {
+    final public function parse(InlineParserContext $inlineContext): bool
+    {
         $cursor = $inlineContext->getCursor();
 
         $previousChar = $cursor->peek(-1);

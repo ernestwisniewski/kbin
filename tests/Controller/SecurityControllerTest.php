@@ -8,7 +8,8 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class SecurityControllerTest extends WebTestCase
 {
-    public function testUserCanVerifyAccount() {
+    public function testUserCanVerifyAccount()
+    {
         $client = $this->createClient();
 
         $crawler = $this->registerUserAccount($client);

@@ -4,24 +4,29 @@ namespace App\Markdown\CommonMark;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class UserLinkParser extends AbstractLocalLinkParser {
+final class UserLinkParser extends AbstractLocalLinkParser
+{
     private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator) {
+    public function __construct(UrlGeneratorInterface $urlGenerator)
+    {
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function getPrefix(): string {
+    public function getPrefix(): string
+    {
         return 'u';
     }
 
-    public function getUrl(string $suffix): string {
+    public function getUrl(string $suffix): string
+    {
         return $this->urlGenerator->generate('user', [
             'username' => $suffix,
         ]);
     }
 
-    public function getRegex(): string {
+    public function getRegex(): string
+    {
         return '/^\w{2,35}\b/';
     }
 }

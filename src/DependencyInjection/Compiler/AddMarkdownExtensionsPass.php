@@ -7,8 +7,10 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class AddMarkdownExtensionsPass implements CompilerPassInterface {
-    public function process(ContainerBuilder $container) {
+final class AddMarkdownExtensionsPass implements CompilerPassInterface
+{
+    public function process(ContainerBuilder $container)
+    {
         $definition = $container->getDefinition(ConfigurableEnvironmentInterface::class);
 
         foreach ($container->findTaggedServiceIds('commonmark.event_listener') as $serviceId => $tags) {

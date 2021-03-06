@@ -69,5 +69,4 @@ class PostCommentControllerTest extends WebTestCase
 
         $this->assertTrue($client->getResponse()->isServerError());
     }
-
 }
