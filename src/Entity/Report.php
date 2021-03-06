@@ -20,7 +20,9 @@ abstract class Report
 {
     const STATUS_PENDING = 'pending';
     const STATUS_APPROVED = 'approved';
-    const STATUS_REJECTED = 'accept';
+    const STATUS_REJECTED = 'rejected';
+    const STATUS_APPEAL = 'appeal';
+    const STATUS_CLOSED = 'closed';
 
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;

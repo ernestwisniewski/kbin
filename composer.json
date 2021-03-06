@@ -41,6 +41,7 @@
         "symfony/twig-bundle": "5.2.*",
         "symfony/validator": "5.2.*",
         "symfony/webpack-encore-bundle": "^1.8",
+        "symfony/workflow": "5.2.*",
         "symfony/yaml": "5.2.*",
         "symfonycasts/verify-email-bundle": "^1.2",
         "twig/extra-bundle": "^2.12|^3.0",

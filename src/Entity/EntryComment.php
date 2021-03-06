@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Traits\VisibilityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +18,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryCommentRepository::class)
  */
-class EntryComment implements VoteInterface, VisibilityInterface
+class EntryComment implements VoteInterface, VisibilityInterface, ReportInterface
 {
     use VotableTrait;
     use VisibilityTrait;

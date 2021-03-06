@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\CommentInterface;
 use App\Entity\Contracts\RankingInterface;
+use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\CreatedAtTrait;
@@ -20,7 +21,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
-class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface
+class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface
 {
     use VotableTrait;
     use RankingTrait;

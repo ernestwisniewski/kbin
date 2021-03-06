@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\CreatedAtTrait;
@@ -16,7 +17,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=PostCommentRepository::class)
  */
-class PostComment implements VoteInterface, VisibilityInterface
+class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
 {
     use VotableTrait;
     use VisibilityTrait;

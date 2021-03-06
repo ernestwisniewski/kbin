@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Contracts\RankingInterface;
+use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Traits\RankingTrait;
 use App\Entity\Traits\VisibilityTrait;
@@ -21,7 +22,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface
+class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface
 {
     use VotableTrait;
     use RankingTrait;

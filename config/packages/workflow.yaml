@@ -1,0 +1,31 @@
+framework:
+    workflows:
+        reports:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Report
+            initial_marking: pending
+            places:
+                - pending
+                - approved
+                - rejected
+                - appeal
+                - closed
+            transitions:
+                approve:
+                    from: pending
+                    to: approved
+                reject:
+                    from: pending
+                    to: rejected
+                appeal:
+                    from: rejected
+                    to: appeal
+                close:
+                    from: appeal
+                    to: closed
