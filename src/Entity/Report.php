@@ -35,21 +35,43 @@ abstract class Report
 
     /**
      * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
-     */
-    private User $user;
-
-    /**
-     * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Magazine", inversedBy="reports")
      */
     private Magazine $magazine;
 
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
+     */
+    private User $reporting;
+
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="violations")
+     */
+    private User $reported;
+
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private User $consideredBy;
+
+    /**
+     * @ORM\Column(type="datetimetz")
+     */
+    private ?\DateTime $consideredAt;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     private string $status = self::STATUS_PENDING;
 
-    public function __construct(User $reporting)
+    public function __construct(User $reporting, User $reported, Magazine $magazine)
     {
-        $this->user = $reporting;
+        $this->reporting = $reporting;
+        $this->reported  = $reported;
+        $this->magazine  = $magazine;
 
         $this->createdAtTraitConstruct();
     }
@@ -59,14 +81,34 @@ abstract class Report
         return $this->id;
     }
 
-    public function getUser(): User
+    public function getReporting(): User
     {
-        return $this->user;
+        return $this->reporting;
     }
 
-    public function setUser(User $user): void
+    public function getReported(): User
     {
-        $this->user = $user;
+        return $this->reported;
+    }
+
+    public function getConsideredBy(): User
+    {
+        return $this->consideredBy;
+    }
+
+    public function setConsideredBy(User $consideredBy): void
+    {
+        $this->consideredBy = $consideredBy;
+    }
+
+    public function getConsideredAt(): ?\DateTime
+    {
+        return $this->consideredAt;
+    }
+
+    public function setConsideredAt(?\DateTime $consideredAt): void
+    {
+        $this->consideredAt = $consideredAt;
     }
 
     public function getStatus(): string

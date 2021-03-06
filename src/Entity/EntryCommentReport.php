@@ -13,19 +13,22 @@ class EntryCommentReport extends Report
     /**
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="reports")
      */
-    private EntryComment $comment;
+    private EntryComment $entryComment;
 
-    public function __construct(User $reporting, EntryComment $comment) {
-        parent::__construct($reporting);
+    public function __construct(User $reporting, User $reported, EntryComment $comment)
+    {
+        parent::__construct($reporting, $reported, $comment->getMagazine());
 
-        $this->comment = $comment;
+        $this->entryComment = $comment;
     }
 
-    public function getComment(): EntryComment {
-        return $this->comment;
+    public function getComment(): EntryComment
+    {
+        return $this->entryComment;
     }
 
-    public function getType(): string {
+    public function getType(): string
+    {
         return 'entry_comment';
     }
 }

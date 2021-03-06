@@ -15,17 +15,20 @@ class EntryReport extends Report
      */
     private Entry $entry;
 
-    public function __construct(User $reporting, Entry $comment) {
-        parent::__construct($reporting);
+    public function __construct(User $reporting, User $reported, Entry $entry)
+    {
+        parent::__construct($reporting, $reported, $entry->getMagazine());
 
-        $this->entry = $comment;
+        $this->entry = $entry;
     }
 
-    public function getEntry(): Entry {
+    public function getEntry(): Entry
+    {
         return $this->entry;
     }
 
-    public function getType(): string {
+    public function getType(): string
+    {
         return 'entry';
     }
 }

@@ -83,7 +83,7 @@ class EntryComment implements VoteInterface, VisibilityInterface
     private Collection $votes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryCommentReport", mappedBy="comment", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryCommentReport", mappedBy="entryComment", cascade={"remove"}, orphanRemoval=true)
      */
     private Collection $reports;
 

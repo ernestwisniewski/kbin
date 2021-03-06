@@ -140,10 +140,16 @@ class User implements UserInterface
     private Collection $blockedMagazines;
 
     /**
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="reporting", fetch="EXTRA_LAZY", cascade={"persist"})
      * @ORM\OrderBy({"id": "DESC"})
      */
     private Collection $reports;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="reported", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OrderBy({"id": "DESC"})
+     */
+    private Collection $violations;
 
     public function __construct($email, $username, $password)
     {
@@ -166,6 +172,7 @@ class User implements UserInterface
         $this->blockers          = new ArrayCollection();
         $this->blockedMagazines  = new ArrayCollection();
         $this->reports           = new ArrayCollection();
+        $this->violations        = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }

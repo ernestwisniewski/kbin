@@ -15,17 +15,20 @@ class PostReport extends Report
      */
     private Post $post;
 
-    public function __construct(User $reporting, Post $comment) {
-        parent::__construct($reporting);
+    public function __construct(User $reporting, User $reported, Post $post)
+    {
+        parent::__construct($reporting, $reported, $post->getMagazine());
 
-        $this->post = $comment;
+        $this->post = $post;
     }
 
-    public function getPost(): Post {
+    public function getPost(): Post
+    {
         return $this->post;
     }
 
-    public function getType(): string {
+    public function getType(): string
+    {
         return 'post';
     }
 }

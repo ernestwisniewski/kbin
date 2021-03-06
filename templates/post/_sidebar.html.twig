@@ -26,5 +26,17 @@
                 </li>
             </ul>
         </div>
+
+        <div class="input-group input-group-sm"
+             data-controller="clipboard"
+             data-clipboard-success-content="Skopiowano!">
+            <input type="text"
+                   class="form-control"
+                   aria-label="Skopiuj link"
+                   aria-describedby="copyUrl"
+                   data-clipboard-target="source"
+                   value="{{ app.request.uri }}">
+            <button class="input-group-text" id="copyUrl" data-action="clipboard#copy" data-clipboard-target="button">Skopiuj</button>
+        </div>
     </div>
 </div>
