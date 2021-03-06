@@ -109,6 +109,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     private Collection $votes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     */
+    private Collection $reports;
+
     public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user)
     {
         $this->title    = $title;
@@ -118,6 +123,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->user     = $user;
         $this->comments = new ArrayCollection();
         $this->votes    = new ArrayCollection();
+        $this->reports  = new ArrayCollection();
 
         $user->addEntry($this);
 
@@ -264,15 +270,18 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         }
     }
 
-    public function softDelete(): void {
+    public function softDelete(): void
+    {
         $this->visibility = self::VISIBILITY_SOFT_DELETED;
     }
 
-    public function trash(): void {
+    public function trash(): void
+    {
         $this->visibility = self::VISIBILITY_TRASHED;
     }
 
-    public function restore(): void {
+    public function restore(): void
+    {
         $this->visibility = self::VISIBILITY_VISIBLE;
     }
 

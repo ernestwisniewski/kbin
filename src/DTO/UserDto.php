@@ -9,6 +9,7 @@ use App\Entity\Image;
 class UserDto implements UserDtoInterface
 {
     private ?int $id = null;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -17,11 +18,13 @@ class UserDto implements UserDtoInterface
      * )
      */
     private ?string $username = null;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
      */
     private ?string $email = null;
+
     /**
      * @Assert\Length(
      *     min = 6,
@@ -31,7 +34,9 @@ class UserDto implements UserDtoInterface
      * )
      */
     private ?string $plainPassword = null;
+
     private ?Image $avatar = null;
+
     /**
      * @Assert\IsTrue()
      */

@@ -11,6 +11,7 @@ use App\Validator\Unique;
 class MagazineDto
 {
     private ?int $id = null;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -19,6 +20,7 @@ class MagazineDto
      * )
      */
     private ?string $name;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -27,6 +29,7 @@ class MagazineDto
      * )
      */
     private string $title;
+
     /**
      * @Assert\Length(
      *     min = 3,
@@ -34,6 +37,7 @@ class MagazineDto
      * )
      */
     private ?string $description = null;
+
     /**
      * @Assert\Length(
      *     min = 3,

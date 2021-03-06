@@ -11,10 +11,12 @@ use App\Entity\Entry;
 class PostDto
 {
     private ?int $id = null;
+
     /**
      * @Assert\NotBlank()
      */
     private ?Magazine $magazine = null;
+
     /**
      * @Assert\Length(
      *     min = 2,
@@ -22,6 +24,7 @@ class PostDto
      * )
      */
     private ?string $body = null;
+
     private ?Image $image = null;
 
     public function create(Magazine $magazine, ?string $body = null, ?Image $image = null, ?int $id = null): self

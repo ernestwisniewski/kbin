@@ -99,6 +99,12 @@ class Magazine implements VisibilityInterface
      */
     private Collection $bans;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OrderBy({"id": "DESC"})
+     */
+    private Collection $reports;
+
     public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules)
     {
         $this->name          = $name;
@@ -110,6 +116,7 @@ class Magazine implements VisibilityInterface
         $this->posts         = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
         $this->bans          = new ArrayCollection();
+        $this->reports       = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true, true));
 
@@ -315,6 +322,10 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
+    public function getPostCount(): int
+    {
+        return $this->postCount;
+    }
 
     public function setPostCount(int $postCount): self
     {

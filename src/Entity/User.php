@@ -60,6 +60,11 @@ class User implements UserInterface
     private int $followersCount = 0;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isVerified = false;//@todo
+
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
      */
     private Collection $moderatorTokens;
@@ -135,16 +140,16 @@ class User implements UserInterface
     private Collection $blockedMagazines;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OrderBy({"id": "DESC"})
      */
-    private bool $isVerified = false;//@todo
+    private Collection $reports;
 
     public function __construct($email, $username, $password)
     {
-        $this->email    = $email;
-        $this->password = $password;
-        $this->username = $username;
-
+        $this->email             = $email;
+        $this->password          = $password;
+        $this->username          = $username;
         $this->moderatorTokens   = new ArrayCollection();
         $this->entries           = new ArrayCollection();
         $this->entryVotes        = new ArrayCollection();
@@ -160,6 +165,7 @@ class User implements UserInterface
         $this->blocks            = new ArrayCollection();
         $this->blockers          = new ArrayCollection();
         $this->blockedMagazines  = new ArrayCollection();
+        $this->reports           = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }
@@ -248,6 +254,16 @@ class User implements UserInterface
     public function getModeratorTokens(): Collection
     {
         return $this->moderatorTokens;
+    }
+
+    public function getModeratedMagazines(): Collection
+    {
+        $this->getModeratorTokens()->get(-1);
+
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isConfirmed', true));
+
+        return $this->getModeratorTokens()->matching($criteria);
     }
 
     public function getEntries(): Collection

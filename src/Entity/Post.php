@@ -85,6 +85,11 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     private Collection $votes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostReport", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
+     */
+    private Collection $reports;
+
     public function __construct(string $body, Magazine $magazine, User $user)
     {
         $this->body     = $body;
@@ -92,6 +97,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $this->user     = $user;
         $this->comments = new ArrayCollection();
         $this->votes    = new ArrayCollection();
+        $this->reports  = new ArrayCollection();
 
         $user->addPost($this);
 

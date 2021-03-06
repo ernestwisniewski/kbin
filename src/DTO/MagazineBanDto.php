@@ -7,7 +7,9 @@ use App\Entity\User;
 class MagazineBanDto
 {
     private ?int $id = null;
+
     private ?string $reason = null;
+
     private ?\DateTimeInterface $expiredAt = null;
 
     public function create(

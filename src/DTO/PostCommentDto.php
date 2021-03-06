@@ -9,6 +9,7 @@ use App\Entity\Post;
 class PostCommentDto
 {
     private ?int $id = null;
+
     private Post $post;
     /**
      * @Assert\NotBlank()
@@ -18,6 +19,7 @@ class PostCommentDto
      * )
      */
     private ?string $body;
+
     private ?PostComment $parent = null;
 
     public function create(Post $post, string $body, ?int $id = null): self

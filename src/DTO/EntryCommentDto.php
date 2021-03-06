@@ -9,6 +9,7 @@ use App\Entity\Entry;
 class EntryCommentDto
 {
     private ?int $id = null;
+
     private Entry $entry;
     /**
      * @Assert\NotBlank()
@@ -18,7 +19,9 @@ class EntryCommentDto
      * )
      */
     private ?string $body;
+
     private ?EntryComment $parent = null;
+
     private ?EntryComment $root = null;
 
     public function create(Entry $entry, string $body, ?int $id = null): self

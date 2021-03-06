@@ -76,18 +76,23 @@ class PostComment implements VoteInterface, VisibilityInterface
      */
     private Collection $votes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostCommentReport", mappedBy="comment", cascade={"remove"}, orphanRemoval=true)
+     */
+    private Collection $reports;
+
     public function __construct(string $body, ?Post $post, User $user, ?PostComment $parent = null)
     {
-        $this->body   = $body;
-        $this->post   = $post;
-        $this->user   = $user;
-        $this->parent = $parent;
+        $this->body     = $body;
+        $this->post     = $post;
+        $this->user     = $user;
+        $this->parent   = $parent;
+        $this->votes    = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->reports  = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
         $this->updateLastActive();
-
-        $this->votes    = new ArrayCollection();
-        $this->children = new ArrayCollection();
     }
 
     public function getId(): int

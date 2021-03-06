@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -11,10 +11,12 @@ use App\Entity\Entry;
 class EntryDto
 {
     private ?int $id = null;
+
     /**
      * @Assert\NotBlank()
      */
     private ?Magazine $magazine = null;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -23,10 +25,12 @@ class EntryDto
      * )
      */
     private string $title;
+
     /**
      * @Assert\Url
      */
     private ?string $url = null;
+
     /**
      * @Assert\Length(
      *     min = 3,
@@ -34,6 +38,7 @@ class EntryDto
      * )
      */
     private ?string $body = null;
+
     private ?Image $image = null;
 
     public function create(Magazine $magazine, string $title, ?string $url = null, ?string $body = null, ?Image $image = null, ?int $id = null): self

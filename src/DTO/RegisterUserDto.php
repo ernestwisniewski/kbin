@@ -13,10 +13,12 @@ use App\Validator\Unique;
 class RegisterUserDto implements UserDtoInterface
 {
     private ?int $id = null;
+
     /**
      * @Assert\NotBlank()
      */
     private ?string $username = null;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
@@ -26,6 +28,7 @@ class RegisterUserDto implements UserDtoInterface
      * )
      */
     private ?string $email = null;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -36,6 +39,7 @@ class RegisterUserDto implements UserDtoInterface
      * )
      */
     private ?string $plainPassword;
+
     /**
      * @Assert\IsTrue()
      */
