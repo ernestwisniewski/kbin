@@ -1,0 +1,14 @@
+{% from 'entry/_macros.html.twig' import entry %}
+{% from 'entry/comment/_macros.html.twig' import comment as entry_comment %}
+{% from 'post/_macros.html.twig' import post %}
+{% from 'post/comment/_macros.html.twig' import comment as post_comment %}
+
+{% if subject is entry %}
+    {{ entry(subject) }}
+{% elseif subject is entry_comment %}
+    {{ entry_comment(subject) }}
+{% elseif subject is post %}
+    {{ post(subject) }}
+{% elseif subject is post_comment %}
+    {{ post_comment(subject) }}
+{% endif %}

@@ -4,7 +4,7 @@ import router from "./utils/routing";
 import KEditor from "./utils/editor";
 
 export default class extends Controller {
-    static targets = ['expand', 'reply'];
+    static targets = ['expand', 'form'];
     static values = {
         loading: Boolean,
         id: Number,
@@ -26,9 +26,15 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            this.formValue = response.form;
-            event.target.remove();
+            this.formTarget.innerHTML = response.form;
+            new KEditor(this.formTarget);
+
+            let self = this;
+            this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {
+                self.send(e);
+            });
         } catch (e) {
+            console.log(e);
             alert('Nie możesz dodać komentarza.');
         } finally {
             this.loadingValue = false;
@@ -49,7 +55,7 @@ export default class extends Controller {
             response = await response.json();
 
             this.element.insertAdjacentHTML('afterend', response.html);
-            this.replyTarget.remove();
+            event.target.parentNode.innerHTML = ''
         } catch (e) {
             alert('Nie możesz dodać komentarza.');
         } finally {
@@ -87,19 +93,5 @@ export default class extends Controller {
             loader.remove();
             this.loadingValue = false;
         }
-    }
-
-    formValueChanged(val) {
-        if (!val) {
-            return;
-        }
-
-        this.replyTarget.innerHTML = val;
-        new KEditor(this.replyTarget);
-
-        let self = this;
-        this.replyTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {
-            self.send(e);
-        });
     }
 }

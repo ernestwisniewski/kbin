@@ -24,3 +24,9 @@ post_comment_vote:
   defaults: { entityClass: App\Entity\PostComment }
   path: /pcv/{id}/{choice}
   methods: [POST]
+
+post_comment_report:
+  controller: App\Controller\ReportController
+  defaults: { entityClass: App\Entity\PostComment }
+  path: /pcr/{id}
+  methods: [ GET, POST ]

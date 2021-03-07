@@ -3,12 +3,12 @@
 
     <article id="{{ entry.id }}"
              class="kbin-entry {{ extra_classes }}"
-             data-controller="embed"
+             data-controller="embed report"
              data-embed-id-value="{{ entry.id }}"
              data-embed-is-visible-value="false"
              data-embed-hidden-class="display-none"
              data-embed-loading-class="spinner-border"
-             data-embed-reply-class="fa-photo-video">
+             data-embed-embed-class="fa-photo-video">
         <div class="kbin-entry-header">
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote'}) }}
 
@@ -49,7 +49,7 @@
                         {% if entry.hasEmbed %}
                             <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item"
                                 data-action="click->embed#fetch">
-                                <i class="kbin-preview fas fa-photo-video text-muted me-1" data-embed-target="reply"></i>
+                                <i class="kbin-preview fas fa-photo-video text-muted me-1" data-embed-target="embed"></i>
                             </li>
                         {% endif %}
 
@@ -62,7 +62,9 @@
                         </li>
 
                         <li class="kbin-entry-meta-report kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <small class="text-muted"><a href="#">zgłoś</a></small>
+                            <small class="text-muted"><a href="{{ path('entry_report', {id: entry.id}) }}"
+                                                         class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+                                                         data-action="report#report">zgłoś</a></small>
                         </li>
 
                         {% if is_granted('edit', entry) or is_granted('moderate', entry.magazine) %}
@@ -82,6 +84,7 @@
                         {% endif %}
                     </ul>
                 </aside>
+                <div data-report-target="form" class=""></div>
             </div>
             <div class="clearfix"></div>
         </div>

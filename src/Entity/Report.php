@@ -54,6 +54,11 @@ abstract class Report
     private User $reported;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $reason = null;
+
+    /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User")
      */
@@ -91,6 +96,16 @@ abstract class Report
     public function getReported(): User
     {
         return $this->reported;
+    }
+
+    public function getReason(): ?string
+    {
+        return $this->reason;
+    }
+
+    public function setReason(?string $reason): void
+    {
+        $this->reason = $reason;
     }
 
     public function getConsideredBy(): User

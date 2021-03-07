@@ -55,3 +55,9 @@ post_vote:
   defaults: { entityClass: App\Entity\Post }
   path: /pv/{id}/{choice}
   methods: [POST]
+
+post_report:
+  controller: App\Controller\ReportController
+  defaults: { entityClass: App\Entity\Post }
+  path: /pr/{id}
+  methods: [ GET, POST ]

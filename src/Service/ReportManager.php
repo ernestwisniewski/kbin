@@ -4,7 +4,8 @@ namespace App\Service;
 
 class ReportManager
 {
-    public function report(): void
+    public function report($dto): void
     {
+
     }
 }

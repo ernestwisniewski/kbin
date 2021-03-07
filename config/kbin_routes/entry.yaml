@@ -30,3 +30,9 @@ entry_vote:
   defaults: { entityClass: App\Entity\Entry }
   path: /ev/{id}/{choice}
   methods: [POST]
+
+entry_report:
+  controller: App\Controller\ReportController
+  defaults: { entityClass: App\Entity\Entry }
+  path: /er/{id}
+  methods: [ GET, POST ]

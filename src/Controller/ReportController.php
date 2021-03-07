@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\DTO\ReportDto;
 use App\Entity\Contracts\ReportInterface;
+use App\Form\ReportType;
 use App\Service\ReportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,12 +24,55 @@ class ReportController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function __invoke(ReportInterface $report, Request $request): Response
+    public function __invoke(ReportInterface $subject, Request $request): Response
     {
-        $this->validateCsrf('vote', $request->request->get('token'));
+        $reportDto = (new ReportDto())->create($subject);
 
-        $this->reportManager->report();
+        $form = $this->createForm(
+            ReportType::class,
+            $reportDto,
+            [
+                'action' => $this->generateUrl($reportDto->getRouteName(), ['id' => $subject->getId()]),
+            ]
+        );
 
-        return new Response('');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->reportManager->report($reportDto);
+
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(
+                    [
+                        'success' => true,
+                    ]
+                );
+            }
+
+            return $this->redirectToRoute('front_magazine', ['name' => $subject->getMagazine()->getName()]);
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'form' => $this->renderView(
+                        'report/_form.html.twig',
+                        [
+                            'form' => $form->createView(),
+                        ]
+                    ),
+                ]
+            );
+        }
+
+        return $this->render(
+            'report/single.html.twig',
+            [
+                'form'     => $form->createView(),
+                'magazine' => $subject->getMagazine(),
+                'subject'  => $subject,
+            ]
+        );
     }
+
 }

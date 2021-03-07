@@ -5,7 +5,7 @@
 
     <blockquote id="{{ post.id }}"
                 class="kbin-post {{ extra_classes }} "
-                data-controller="post"
+                data-controller="post report"
                 data-post-id-value="{{ post.id }}"
                 data-post-magazine-name-value="{{ post.magazine.name }}">
         <div class="kbin-post-header mb-2">
@@ -73,7 +73,9 @@
                     {% endif %}
 
                     <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
-                        <small class="text-muted"><a href="#">zgłoś</a></small>
+                        <small class="text-muted"><a href="{{ path('post_report', {id: post.id}) }}"
+                                                     class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+                                                     data-action="report#report">zgłoś</a></small>
                     </li>
 
                     {% if is_granted('edit', post) %}
@@ -96,7 +98,7 @@
                 </ul>
             </aside>
 
-            <div data-post-target="reply" class=""></div>
+            <div data-post-target="form" data-report-target="form" class=""></div>
 
         </div>
         <div class="clearfix"></div>

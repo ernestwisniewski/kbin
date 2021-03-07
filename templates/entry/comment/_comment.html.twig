@@ -12,9 +12,8 @@
     {% endif %}
     <blockquote id="{{ comment.id }}"
                 class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level >= 8 ? 'last' : level }} shadow-sm"
-                data-controller="comment"
-                data-comment-level-value="{{ level >= 7 ? '7' : level }}"
-                data-comment-url-value="{{ path('entry_comment_create', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id}) }}">
+                data-controller="comment report"
+                data-comment-level-value="{{ level >= 7 ? '7' : level }}">
         <div class="kbin-comment-header mb-2">
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment'}) }}
 
@@ -81,7 +80,9 @@
                     </li>
 
                     <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                        <small class="text-muted"><a href="#">zgłoś</a></small>
+                        <small class="text-muted"><a href="{{ path('entry_comment_report', {id: comment.id}) }}"
+                                                     class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+                                                     data-action="report#report">zgłoś</a></small>
                     </li>
 
                     {% if is_granted('edit', comment) %}
@@ -106,7 +107,7 @@
 
             <div class="clearfix"></div>
 
-            <div data-comment-target="reply" class=""></div>
+            <div data-comment-target="form" data-report-target="form" class=""></div>
         </div>
     </blockquote>
 

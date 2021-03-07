@@ -19,12 +19,6 @@ entry_comment_purge:
   path: /m/{magazine_name}/t/{entry_id}/komentarz/{comment_id}/purge
   methods: [ POST ]
 
-entry_comment_vote:
-  controller: App\Controller\VoteController
-  defaults: { entityClass: App\Entity\EntryComment }
-  path: /ecv/{id}/{choice}
-  methods: [POST]
-
 entry_comments_front:
   controller: App\Controller\EntryCommentController::front
   defaults: { sortBy: ~, time: ~ }
@@ -45,3 +39,15 @@ magazine_entry_comments:
   path: /m/{name}/komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
+
+entry_comment_vote:
+  controller: App\Controller\VoteController
+  defaults: { entityClass: App\Entity\EntryComment }
+  path: /ecv/{id}/{choice}
+  methods: [POST]
+
+entry_comment_report:
+  controller: App\Controller\ReportController
+  defaults: { entityClass: App\Entity\EntryComment }
+  path: /ecr/{id}
+  methods: [ GET, POST ]
