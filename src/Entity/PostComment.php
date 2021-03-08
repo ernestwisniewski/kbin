@@ -232,6 +232,11 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
         $this->visibility = self::VISIBILITY_VISIBLE;
     }
 
+    public function getReportClassName(): string
+    {
+        return PostCommentReport::class;
+    }
+    
     public function __sleep()
     {
         return [];

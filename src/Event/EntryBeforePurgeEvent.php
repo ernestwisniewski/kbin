@@ -4,7 +4,7 @@ namespace App\Event;
 
 use App\Entity\Entry;
 
-class EntryPurgedEvent
+class EntryBeforePurgeEvent
 {
     protected Entry $entry;
 

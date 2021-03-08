@@ -29,6 +29,6 @@ class PostCommentReport extends Report
 
     public function getType(): string
     {
-        return 'post_comment';
+        return PostComment::class;
     }
 }

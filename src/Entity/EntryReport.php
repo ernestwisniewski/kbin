@@ -29,6 +29,6 @@ class EntryReport extends Report
 
     public function getType(): string
     {
-        return 'entry';
+        return Entry::class;
     }
 }

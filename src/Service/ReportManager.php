@@ -6,6 +6,7 @@ use App\DTO\ReportDto;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Report;
 use App\Entity\User;
+use App\Event\ReportRejectedEvent;
 use App\Event\SubjectReportedEvent;
 use App\Exception\SubjectHasBeenReported;
 use App\Factory\ReportFactory;
@@ -24,21 +25,24 @@ class ReportManager
         EventDispatcherInterface $eventDispatcher,
         EntityManagerInterface $entityManager
     ) {
-        $this->reportFactory   = $reportFactory;
+        $this->reportFactory = $reportFactory;
         $this->eventDispatcher = $eventDispatcher;
-        $this->entityManager   = $entityManager;
+        $this->entityManager = $entityManager;
     }
 
     public function report(ReportDto $dto, User $reporting): Report
     {
-        $repository = $this->entityManager->getRepository($dto->getReportClassName());
+        $repository = $this->entityManager->getRepository($dto->getSubject()->getReportClassName());
+
         /**
          * @var $report Report
          */
         $existed = $report = $repository->findOneBy(['subject' => $dto->getSubject()]);
 
         if ($report) {
-            if ($repository->findOneBy(['subject' => $dto->getSubject(), 'reporting' => $reporting])) {
+            if ($repository->findOneBy(
+                ['subject' => $dto->getSubject(), 'reporting' => $reporting]
+            )) {
                 throw new SubjectHasBeenReported();
             }
         }
@@ -57,5 +61,14 @@ class ReportManager
         }
 
         return $report;
+    }
+
+    public function reject(Report $report)
+    {
+        $report->setStatus(Report::STATUS_REJECTED);
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new ReportRejectedEvent($report));
     }
 }

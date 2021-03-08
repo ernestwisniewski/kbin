@@ -29,6 +29,6 @@ class PostReport extends Report
 
     public function getType(): string
     {
-        return 'post';
+        return Post::class;
     }
 }

@@ -312,6 +312,11 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $this;
     }
 
+    public function getReportClassName(): string
+    {
+        return PostReport::class;
+    }
+    
     public function __sleep()
     {
         return [];

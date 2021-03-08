@@ -78,7 +78,7 @@ magazine_panel_reports:
   path: /m/{name}/panel/zgloszenia
   methods: [ GET ]
 
-magazine_panel_report_decline:
-  controller: App\Controller\MagazinePanelController::reportDecline
+magazine_panel_report_reject:
+  controller: App\Controller\MagazinePanelController::reportReject
   path: /m/{magazine_name}/panel/zgloszenia/{report_id}
   methods: [ POST ]

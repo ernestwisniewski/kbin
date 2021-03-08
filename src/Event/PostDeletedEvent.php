@@ -4,7 +4,7 @@ namespace App\Event;
 
 use App\Entity\Post;
 
-class PostPurgedEvent
+class PostDeletedEvent
 {
     protected Post $post;
 

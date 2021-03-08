@@ -23,7 +23,7 @@
                         <a class="btn btn-sm btn-danger">Usuń</a>
                         <a href="{{ path('magazine_panel_ban', {'magazine_name': report.subject.magazine.name,'user_username': report.reported.username}) }}"
                            class="btn btn-sm btn-dark">Zbanuj</a>
-                        <form method="post" action="{{ path('magazine_panel_report_decline', {'magazine_name': report.subject.magazine.name, 'report_id': report.id}) }}">
+                        <form method="post" action="{{ path('magazine_panel_report_reject', {'magazine_name': report.subject.magazine.name, 'report_id': report.id}) }}">
                             <input type="hidden" name="token" value="{{ csrf_token('report_decline') }}">
                             <button type="submit" class="btn btn-primary btn-sm">Odrzuć</button>
                         </form>

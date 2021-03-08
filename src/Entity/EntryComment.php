@@ -260,6 +260,11 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         $this->visibility = self::VISIBILITY_VISIBLE;
     }
 
+    public function getReportClassName(): string
+    {
+        return EntryComment::class;
+    }
+    
     public function __sleep()
     {
         return [];

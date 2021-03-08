@@ -12,4 +12,6 @@ interface ReportInterface
     public function getMagazine(): ?Magazine;
 
     public function getUser(): ?User;
+
+    public function getReportClassName(): string;
 }

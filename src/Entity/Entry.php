@@ -365,6 +365,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this;
     }
 
+    public function getReportClassName(): string
+    {
+        return EntryReport::class;
+    }
+    
     public function __sleep()
     {
         return [];

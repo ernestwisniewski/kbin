@@ -29,6 +29,6 @@ class EntryCommentReport extends Report
 
     public function getType(): string
     {
-        return 'entry_comment';
+        return EntryComment::class;
     }
 }

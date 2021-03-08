@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Event\EntryDeletedEvent;
 use App\Kernel;
 use Symfony\Component\Validator\Constraints\UrlValidator;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -16,7 +17,7 @@ use App\Repository\EntryRepository;
 use App\Exception\BadUrlException;
 use App\Event\EntryCreatedEvent;
 use App\Event\EntryUpdatedEvent;
-use App\Event\EntryPurgedEvent;
+use App\Event\EntryBeforePurgeEvent;
 use App\Factory\EntryFactory;
 use Webmozart\Assert\Assert;
 use App\DTO\EntryDto;
@@ -101,7 +102,7 @@ class EntryManager
 
     public function delete(Entry $entry): void
     {
-        if ($entry->getCommentCount() > 5) {
+        if ($entry->getCommentCount() >= 1) {
             $entry->softDelete();
         } else {
             $this->purge($entry);
@@ -110,16 +111,17 @@ class EntryManager
         }
 
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new EntryDeletedEvent($entry)));
     }
 
     public function purge(Entry $entry): void
     {
+        $this->eventDispatcher->dispatch((new EntryBeforePurgeEvent($entry)));
+
         $entry->getMagazine()->removeEntry($entry);
 
-        $this->eventDispatcher->dispatch((new EntryPurgedEvent($entry)));
-
         $this->entityManager->remove($entry);
-
         $this->entityManager->flush();
     }
 

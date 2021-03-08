@@ -70,21 +70,6 @@ class ReportDto
         return $this;
     }
 
-    public function getReportClassName(): string
-    {
-        switch (get_class($this->getSubject())) {
-            case Entry::class:
-                return EntryReport::class;
-            case EntryComment::class:
-                return EntryCommentReport::class;
-            case Post::class:
-                return PostReport::class;
-            case PostComment::class:
-                return PostCommentReport::class;
-        }
-
-        throw new \LogicException();
-    }
 
     public function getRouteName(): string
     {

@@ -4,7 +4,9 @@ namespace App\Service;
 
 use App\DTO\PostCommentDto;
 use App\Entity\PostComment;
+use App\Event\PostCommentBeforePurgeEvent;
 use App\Event\PostCommentCreatedEvent;
+use App\Event\PostCommentDeletedEvent;
 use App\Event\PostCommentPurgedEvent;
 use App\Event\PostCommentUpdatedEvent;
 use App\Repository\PostCommentRepository;
@@ -80,15 +82,18 @@ class PostCommentManager
         }
 
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new PostCommentDeletedEvent($comment)));
     }
 
     public function purge(PostComment $comment): void
     {
+        $this->eventDispatcher->dispatch((new PostCommentBeforePurgeEvent($comment)));
+
         $magazine = $comment->getPost()->getMagazine();
         $comment->getPost()->removeComment($comment);
 
         $this->entityManager->remove($comment);
-
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch((new PostCommentPurgedEvent($magazine)));

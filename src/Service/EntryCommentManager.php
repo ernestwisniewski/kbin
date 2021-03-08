@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Event\EntryCommentBeforePurgeEvent;
+use App\Event\EntryCommentDeletedEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use App\Repository\EntryCommentRepository;
@@ -80,15 +82,18 @@ class EntryCommentManager
         }
 
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new EntryCommentDeletedEvent($comment)));
     }
 
     public function purge(EntryComment $comment): void
     {
+        $this->eventDispatcher->dispatch((new EntryCommentBeforePurgeEvent($comment)));
+
         $magazine = $comment->getEntry()->getMagazine();
         $comment->getEntry()->removeComment($comment);
 
         $this->entityManager->remove($comment);
-
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch((new EntryCommentPurgedEvent($magazine)));

@@ -100,7 +100,7 @@ class Magazine implements VisibilityInterface
     private Collection $bans;
 
     /**
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
      * @ORM\OrderBy({"id": "DESC"})
      */
     private Collection $reports;

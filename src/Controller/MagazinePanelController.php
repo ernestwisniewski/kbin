@@ -11,6 +11,7 @@ use App\Form\MagazineBanType;
 use App\Form\ModeratorType;
 use App\Repository\ReportRepository;
 use App\Repository\UserRepository;
+use App\Service\ReportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -214,9 +215,12 @@ class MagazinePanelController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("moderate", subject="magazine")
      */
-    public function reportDecline(Magazine $magazine, Report $report, Request $request): Response
+    public function reportReject(Magazine $magazine, Report $report, ReportManager $reportManager, Request $request): Response
     {
         $this->validateCsrf('report_decline', $request->request->get('token'));
-        dd($report);
+
+        $reportManager->reject($report);
+
+        return $this->redirectToRefererOrHome($request);
     }
 }

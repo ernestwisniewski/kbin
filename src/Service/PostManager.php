@@ -5,7 +5,8 @@ namespace App\Service;
 use App\DTO\PostDto;
 use App\Entity\Post;
 use App\Event\PostCreatedEvent;
-use App\Event\PostPurgedEvent;
+use App\Event\PostDeletedEvent;
+use App\Event\PostBeforePurgeEvent;
 use App\Event\PostUpdatedEvent;
 use App\Message\PostCreatedMessage;
 use App\Repository\PostRepository;
@@ -77,7 +78,7 @@ class PostManager
 
     public function delete(Post $post): void
     {
-        if ($post->getCommentCount() > 5) {
+        if ($post->getCommentCount() >= 1) {
             $post->softDelete();
         } else {
             $this->purge($post);
@@ -86,16 +87,17 @@ class PostManager
         }
 
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new PostDeletedEvent($post)));
     }
 
     public function purge(Post $post): void
     {
+        $this->eventDispatcher->dispatch((new PostBeforePurgeEvent($post)));
+
         $post->getMagazine()->removePost($post);
 
-        $this->eventDispatcher->dispatch((new PostPurgedEvent($post)));
-
         $this->entityManager->remove($post);
-
         $this->entityManager->flush();
     }
 
