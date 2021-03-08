@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zgłoszenia | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-magazine-bans-page">
+        {% include 'magazine/panel/_tabs.html.twig' %}
+        <div class="kbin-magazine-bans mt-lg-4">
+            {% include 'magazine/panel/_reports_list_table.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
+{% endblock %}

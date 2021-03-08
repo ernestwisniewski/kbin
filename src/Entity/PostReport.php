@@ -13,18 +13,18 @@ class PostReport extends Report
     /**
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="reports")
      */
-    private Post $post;
+    private Post $subject;
 
-    public function __construct(User $reporting, User $reported, Post $post)
+    public function __construct(User $reporting, User $reported, Post $post, ?string $reason = null)
     {
-        parent::__construct($reporting, $reported, $post->getMagazine());
+        parent::__construct($reporting, $reported, $post->getMagazine(), $reason);
 
-        $this->post = $post;
+        $this->subject = $post;
     }
 
-    public function getPost(): Post
+    public function getSubject(): Post
     {
-        return $this->post;
+        return $this->subject;
     }
 
     public function getType(): string

@@ -471,8 +471,14 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
+    public function getReports()
+    {
+        return $this->reports;
+    }
+
     public function __sleep()
     {
         return [];
     }
+
 }

@@ -43,11 +43,12 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            event.target.parentNode.innerHTML = ''
-        } catch (e) {
-            alert('Nie możesz dodać komentarza.');
-        } finally {
+            event.target.parentNode.innerHTML = '';
+
             alert('Zgłoszenie zostało wysłane, dzięki!');
+        } catch (e) {
+            alert('Nie możesz dodać zgłoszenia.');
+        } finally {
             this.loadingValue = false;
         }
     }

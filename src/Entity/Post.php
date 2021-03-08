@@ -87,7 +87,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     private Collection $votes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PostReport", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\PostReport", mappedBy="subject", cascade={"remove"}, orphanRemoval=true)
      */
     private Collection $reports;
 

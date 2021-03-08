@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ReportController extends AbstractController
 {
@@ -38,18 +37,22 @@ class ReportController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->reportManager->report($reportDto);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $this->reportManager->report($reportDto, $this->getUserOrThrow());
 
-            if ($request->isXmlHttpRequest()) {
-                return new JsonResponse(
-                    [
-                        'success' => true,
-                    ]
-                );
+                if ($request->isXmlHttpRequest()) {
+                    return new JsonResponse(
+                        [
+                            'success' => true,
+                        ]
+                    );
+                }
+
+                return $this->redirectToRoute('front_magazine', ['name' => $subject->getMagazine()->getName()]);
+            } else {
+                return $this->redirectToRefererOrHome($request);
             }
-
-            return $this->redirectToRoute('front_magazine', ['name' => $subject->getMagazine()->getName()]);
         }
 
         if ($request->isXmlHttpRequest()) {
@@ -74,5 +77,4 @@ class ReportController extends AbstractController
             ]
         );
     }
-
 }

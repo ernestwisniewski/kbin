@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\DTO\MagazineBanDto;
 use App\DTO\ModeratorDto;
 use App\Entity\Moderator;
+use App\Entity\Report;
 use App\Entity\User;
 use App\Form\MagazineBanType;
 use App\Form\ModeratorType;
+use App\Repository\ReportRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -186,5 +188,35 @@ class MagazinePanelController extends AbstractController
         $this->magazineManager->unban($magazine, $user);
 
         return $this->redirectToRefererOrHome($request);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderate", subject="magazine")
+     */
+    public function reports(Magazine $magazine, Request $request): Response
+    {
+        $reports = $this->magazineRepository->findReportsPaginated($magazine, (int) $request->get('strona', 1));
+
+        return $this->render(
+            'magazine/panel/reports.html.twig',
+            [
+                'reports'  => $reports,
+                'magazine' => $magazine,
+            ]
+        );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("report", options={"mapping": {"report_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderate", subject="magazine")
+     */
+    public function reportDecline(Magazine $magazine, Report $report, Request $request): Response
+    {
+        $this->validateCsrf('report_decline', $request->request->get('token'));
+        dd($report);
     }
 }

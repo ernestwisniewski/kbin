@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ReportInterface;
 use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -59,26 +60,32 @@ abstract class Report
     private ?string $reason = null;
 
     /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\Column(type="integer")
      */
-    private User $consideredBy;
+    private int $weight = 1;
 
     /**
-     * @ORM\Column(type="datetimetz")
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="User")
      */
-    private ?\DateTime $consideredAt;
+    private ?User $consideredBy = null;
+
+    /**
+     * @ORM\Column(type="datetimetz", nullable=true)
+     */
+    private ?\DateTime $consideredAt = null;
 
     /**
      * @ORM\Column(type="string")
      */
     private string $status = self::STATUS_PENDING;
 
-    public function __construct(User $reporting, User $reported, Magazine $magazine)
+    public function __construct(User $reporting, User $reported, Magazine $magazine, ?string $reason = null)
     {
         $this->reporting = $reporting;
         $this->reported  = $reported;
         $this->magazine  = $magazine;
+        $this->reason    = $reason;
 
         $this->createdAtTraitConstruct();
     }
@@ -103,19 +110,35 @@ abstract class Report
         return $this->reason;
     }
 
-    public function setReason(?string $reason): void
+    public function setReason(?string $reason): self
     {
         $this->reason = $reason;
+
+        return $this;
     }
 
-    public function getConsideredBy(): User
+    public function getWeight(): ?int
+    {
+        return $this->weight;
+    }
+
+    public function increaseWeight(): self
+    {
+        $this->weight++;
+
+        return $this;
+    }
+
+    public function getConsideredBy(): ?User
     {
         return $this->consideredBy;
     }
 
-    public function setConsideredBy(User $consideredBy): void
+    public function setConsideredBy(User $consideredBy): self
     {
         $this->consideredBy = $consideredBy;
+
+        return $this;
     }
 
     public function getConsideredAt(): ?\DateTime
@@ -123,9 +146,11 @@ abstract class Report
         return $this->consideredAt;
     }
 
-    public function setConsideredAt(?\DateTime $consideredAt): void
+    public function setConsideredAt(?\DateTime $consideredAt): self
     {
         $this->consideredAt = $consideredAt;
+
+        return $this;
     }
 
     public function getStatus(): string
@@ -133,10 +158,14 @@ abstract class Report
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
     abstract public function getType(): string;
+
+    abstract public function getSubject(): ReportInterface;
 }

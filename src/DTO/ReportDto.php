@@ -5,9 +5,13 @@ namespace App\DTO;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\EntryCommentReport;
+use App\Entity\EntryReport;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\PostCommentReport;
+use App\Entity\PostReport;
 use App\Entity\User;
 
 class ReportDto
@@ -66,7 +70,23 @@ class ReportDto
         return $this;
     }
 
-    public function getRouteName():string
+    public function getReportClassName(): string
+    {
+        switch (get_class($this->getSubject())) {
+            case Entry::class:
+                return EntryReport::class;
+            case EntryComment::class:
+                return EntryCommentReport::class;
+            case Post::class:
+                return PostReport::class;
+            case PostComment::class:
+                return PostCommentReport::class;
+        }
+
+        throw new \LogicException();
+    }
+
+    public function getRouteName(): string
     {
         switch (get_class($this->getSubject())) {
             case Entry::class:

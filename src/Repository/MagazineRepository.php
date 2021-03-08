@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
+use App\Entity\Report;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -123,6 +124,19 @@ class MagazineRepository extends ServiceEntityRepository
             ->orderBy(['createdAt' => 'DESC']);
 
         $bans = new Pagerfanta(new SelectableAdapter($magazine->getBans(), $criteria));
+        $bans->setMaxPerPage(self::PER_PAGE);
+        $bans->setCurrentPage($page);
+
+        return $bans;
+    }
+
+    public function findReportsPaginated(Magazine $magazine, ?int $page = 1)
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('status', Report::STATUS_PENDING))
+            ->orderBy(['weight' => 'DESC']);
+
+        $bans = new Pagerfanta(new SelectableAdapter($magazine->getReports(), $criteria));
         $bans->setMaxPerPage(self::PER_PAGE);
         $bans->setCurrentPage($page);
 

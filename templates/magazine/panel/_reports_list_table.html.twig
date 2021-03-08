@@ -1,0 +1,40 @@
+{% from 'user/_macros.html.twig' import avatar %}
+
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            {# <td>Zgłosił</td> #}
+            <td>Powód</td>
+            <td>Treść</td>
+            <td>Autor</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for report in reports %}
+            <tr>
+                {# <td>/u/<a href="{{ path('user', {'username': report.reporting.username}) }}">{{ report.reporting.username }}</a></td> #}
+                <td>{{ report.reason }}</td>
+                <td>{% include '_layout/_subject_link.html.twig' with {subject: report.subject} %}</td>
+                <td>/u/<a href="{{ path('user', {'username': report.reported.username}) }}">{{ report.reported.username }}</a></td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Zgłoszenie">
+                        <a class="btn btn-sm btn-danger">Usuń</a>
+                        <a href="{{ path('magazine_panel_ban', {'magazine_name': report.subject.magazine.name,'user_username': report.reported.username}) }}"
+                           class="btn btn-sm btn-dark">Zbanuj</a>
+                        <form method="post" action="{{ path('magazine_panel_report_decline', {'magazine_name': report.subject.magazine.name, 'report_id': report.id}) }}">
+                            <input type="hidden" name="token" value="{{ csrf_token('report_decline') }}">
+                            <button type="submit" class="btn btn-primary btn-sm">Odrzuć</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if(reports.haveToPaginate) %}
+    {{ pagerfanta(users, null, {'pageParameter':'[strona]'}) }}
+{% endif %}
