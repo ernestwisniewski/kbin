@@ -35,7 +35,7 @@ class ReportsSubscriber implements EventSubscriberInterface
             EntryCommentDeletedEvent::class     => 'onEntryCommentDeleted',
             EntryCommentBeforePurgeEvent::class => 'onEntryCommentBeforePurge',
             PostDeletedEvent::class             => 'onPostDeleted',
-            PostBeforePurgeEvent::class         => 'onPostDeleted',
+            PostBeforePurgeEvent::class         => 'onPostBeforePurge',
             PostCommentDeletedEvent::class      => 'onPostCommentDeleted',
             PostCommentBeforePurgeEvent::class  => 'onPostCommentBeforePurge',
         ];
@@ -86,6 +86,11 @@ class ReportsSubscriber implements EventSubscriberInterface
     }
 
     public function onPostDeleted(PostDeletedEvent $event): void
+    {
+        $this->handleReport($event->getPost());
+    }
+
+    public function onPostBeforePurge(PostBeforePurgeEvent $event): void
     {
         $this->handleReport($event->getPost());
     }

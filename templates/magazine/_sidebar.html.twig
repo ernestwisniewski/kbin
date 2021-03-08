@@ -36,12 +36,17 @@
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a class="stretched-link" href="{{ get_active_comments_page_path() }}">Komentarze</a>
-                <span class="badge bg-primary rounded-pill">{{ magazine.commentCount }}</span>
+                <span class="badge bg-primary rounded-pill">{{ magazine.entryCommentCount }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a class="stretched-link" href="{{ get_active_posts_page_path() }}">Wpisy</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.postCount }}</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a class="stretched-link" href="{{ get_active_posts_page_path() }}">Odpowiedzi do wpisów</a>
+                <span class="badge bg-primary rounded-pill">{{ magazine.postCommentCount }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">

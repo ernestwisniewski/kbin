@@ -67,12 +67,17 @@ class Magazine implements VisibilityInterface
     /**
      * @ORM\Column(type="integer")
      */
-    private int $commentCount = 0;
+    private int $entryCommentCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
     private int $postCount = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $postCommentCount = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
@@ -263,31 +268,26 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
-    private function updateEntryCounts(): self
+    public function updateEntryCounts(): self
     {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', Entry::VISIBILITY_VISIBLE));
+
         $this->setEntryCount(
-            $this->entries->count()
+            $this->entries->matching($criteria)->count()
         );
 
         return $this;
     }
 
-    public function updateEntryCount(): self
+    public function getEntryCommentCount(): ?int
     {
-        $this->entryCount = $this->entries->count();
-
-        return $this;
+        return $this->entryCommentCount;
     }
 
-
-    public function getCommentCount(): ?int
+    public function setEntryCommentCount(int $entryCommentCount): self
     {
-        return $this->commentCount;
-    }
-
-    public function setCommentCount(int $commentCount): self
-    {
-        $this->commentCount = $commentCount;
+        $this->entryCommentCount = $entryCommentCount;
 
         return $this;
     }
@@ -336,17 +336,24 @@ class Magazine implements VisibilityInterface
 
     private function updatePostCounts(): self
     {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', Entry::VISIBILITY_VISIBLE));
+
         $this->setPostCount(
-            $this->posts->count()
+            $this->posts->matching($criteria)->count()
         );
 
         return $this;
     }
 
-    public function updatePostCount(): self
+    public function getPostCommentCount(): int
     {
-        $this->postCount = $this->posts->count();
+        return $this->postCommentCount;
+    }
 
+    public function setPostCommentCount(int $postCommentCount): self
+    {
+        $this->postCommentCount = $postCommentCount;
         return $this;
     }
 
@@ -480,5 +487,4 @@ class Magazine implements VisibilityInterface
     {
         return [];
     }
-
 }

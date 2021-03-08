@@ -144,4 +144,17 @@ class PostRepository extends ServiceEntityRepository
 
         return $qb;
     }
+
+
+    public function countPostCommentsByMagazine(?Magazine $magazine)
+    {
+        return intval(
+            $this->createQueryBuilder('p')
+                ->select('sum(p.commentCount)')
+                ->where('p.magazine = :magazine')
+                ->setParameter('magazine', $magazine)
+                ->getQuery()
+                ->getSingleScalarResult()
+        );
+    }
 }

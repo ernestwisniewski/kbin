@@ -39,7 +39,13 @@
         </div>
         <div class="kbin-comment-main">
             <div class="kbin-comment-content">
-                {{ comment.body|markdown|raw }}
+                {% if comment.visibility is same as 'visible' %}
+                    {{ comment.body|markdown|raw }}
+                {% elseif comment.visibility is same as 'trashed' %}
+                    <p class="text-muted">[Treść usunięta przez moderatora]</p>
+                {% elseif comment.visibility is same as 'soft_deleted' %}
+                    <p class="text-muted">[Treść usunięta przez użytkownika]</p>
+                {% endif %}
             </div>
 
             <aside class="kbin-comment-meta">

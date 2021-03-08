@@ -262,9 +262,9 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
 
     public function getReportClassName(): string
     {
-        return EntryComment::class;
+        return EntryCommentReport::class;
     }
-    
+
     public function __sleep()
     {
         return [];

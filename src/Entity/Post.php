@@ -225,8 +225,11 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
 
     private function updateCounts(): self
     {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', self::VISIBILITY_VISIBLE));
+
         $this->setCommentCount(
-            $this->getComments()->count()
+            $this->comments->matching($criteria)->count()
         );
 
         return $this;

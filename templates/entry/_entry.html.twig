@@ -21,7 +21,13 @@
             {% endif %}
 
             <div class="kbin-entry-main">
-                {% include 'entry/_entry_title.html.twig' %}
+                {% if entry.visibility is same as 'visible' %}
+                    {% include 'entry/_entry_title.html.twig' %}
+                {% elseif entry.visibility is same as 'trashed' %}
+                    <p class="text-muted">[Treść usunięta przez moderatora]</p>
+                {% elseif entry.visibility is same as 'soft_deleted' %}
+                    <p class="text-muted">[Treść usunięta przez użytkownika]</p>
+                {% endif %}
                 <aside class="kbin-entry-meta">
                     <ul class="kbin-entry-meta-list list-inline mb-0">
                         <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">

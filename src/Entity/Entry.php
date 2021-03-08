@@ -320,10 +320,13 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this;
     }
 
-    private function updateCounts(): self
+    public function updateCounts(): self
     {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', self::VISIBILITY_VISIBLE));
+
         $this->setCommentCount(
-            $this->getComments()->count()
+            $this->comments->matching($criteria)->count()
         );
 
         return $this;
@@ -369,7 +372,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     {
         return EntryReport::class;
     }
-    
+
     public function __sleep()
     {
         return [];
