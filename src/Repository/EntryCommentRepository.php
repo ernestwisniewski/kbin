@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
@@ -64,6 +65,11 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->addSelect('cc')
             ->leftJoin('c.children', 'cc');
 
+        if (!$criteria->getMagazine()) {
+            $qb->addSelect('e')
+                ->leftJoin('c.entry', 'e');
+        }
+
         $this->addTimeClause($qb, $criteria);
         $this->filter($qb, $criteria);
 
@@ -99,6 +105,18 @@ class EntryCommentRepository extends ServiceEntityRepository
             $qb->setParameter('user', $this->security->getUser());
         }
 
+        if ($user = $this->security->getUser()) {
+            $qb->andWhere(
+                'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
+            );
+            $qb->setParameter('blocker', $user);
+
+            $qb->andWhere(
+                'c.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
+            );
+            $qb->setParameter('magazineBlocker', $user);
+        }
+
         if ($criteria->isOnlyParents()) {
             $qb->andWhere('c.parent IS NULL');
         }
@@ -115,7 +133,7 @@ class EntryCommentRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    private function addTimeClause(QueryBuilder $qb, Criteria $criteria):void
+    private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
         if ($criteria->getTime() !== Criteria::TIME_ALL) {
             $since = $criteria->getSince();

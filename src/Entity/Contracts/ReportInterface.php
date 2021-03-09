@@ -5,7 +5,7 @@ namespace App\Entity\Contracts;
 use App\Entity\Magazine;
 use App\Entity\User;
 
-interface ReportInterface
+interface ReportInterface extends ContentInterface
 {
     public function getId(): ?int;
 

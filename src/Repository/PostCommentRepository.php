@@ -15,6 +15,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method PostComment|null find($id, $lockMode = null, $lockVersion = null)
@@ -26,9 +27,13 @@ class PostCommentRepository extends ServiceEntityRepository
 {
     const PER_PAGE = 500;
 
-    public function __construct(ManagerRegistry $registry)
+    private Security $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, PostComment::class);
+
+        $this->security = $security;
     }
 
     public function findByCriteria(PostCommentPageView $criteria): PagerfantaInterface
@@ -47,7 +52,7 @@ class PostCommentRepository extends ServiceEntityRepository
             throw new NotFoundHttpException();
         }
 
-//        $this->hydrate(...$pagerfanta);
+        $this->hydrate(...$pagerfanta);
 
         return $pagerfanta;
     }
@@ -70,10 +75,6 @@ class PostCommentRepository extends ServiceEntityRepository
             $qb->andWhere('c.createdAt > :time')
                 ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
         }
-    }
-
-    public function hydrate(array $comments)
-    {
     }
 
     private function filter(QueryBuilder $qb, Criteria $criteria)
@@ -101,4 +102,34 @@ class PostCommentRepository extends ServiceEntityRepository
                 $qb->addOrderBy('c.id', 'ASC');
         }
     }
+
+    public function hydrate(PostComment ...$comment): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('PARTIAL c.{id}')
+            ->addSelect('u')
+            ->addSelect('m')
+            ->addSelect('i')
+            ->from(PostComment::class, 'c')
+            ->join('c.user', 'u')
+            ->join('c.magazine', 'm')
+            ->leftJoin('c.image', 'i')
+            ->where('c IN (?1)')
+            ->setParameter(1, $comment)
+            ->getQuery()
+            ->getResult();
+
+        if ($this->security->getUser()) {
+            $this->_em->createQueryBuilder()
+                ->select('PARTIAL c.{id}')
+                ->addSelect('cv')
+                ->from(PostComment::class, 'c')
+                ->leftJoin('c.votes', 'cv')
+                ->where('c IN (?1)')
+                ->setParameter(1, $comment)
+                ->getQuery()
+                ->getResult();
+        }
+    }
+
 }

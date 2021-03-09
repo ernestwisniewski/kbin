@@ -6,6 +6,8 @@ use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -40,12 +42,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findByUsernameOrEmail($val)
     {
-        return $this->createQueryBuilder('u')
-            ->where('u.username = :email')
-            ->orWhere('u.email = :email')
-            ->setParameter('email', $val)
-            ->getQuery()
-            ->getSingleResult();
+        try {
+            return $this->createQueryBuilder('u')
+                ->where('u.username = :email')
+                ->orWhere('u.email = :email')
+                ->setParameter('email', $val)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (\Exception $e) {
+        }
+
+        return null;
     }
 
     /**

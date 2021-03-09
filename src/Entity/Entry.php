@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Traits\RankingTrait;
 use App\Entity\Traits\VisibilityTrait;
+use App\Service\Contracts\ContentManager;
+use App\Service\EntryManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Contracts\CommentInterface;
@@ -111,7 +114,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private Collection $votes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryReport", mappedBy="subject", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryReport", mappedBy="subject")
      */
     private Collection $reports;
 
@@ -259,6 +262,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->comments->get(-1);
 
         $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE))
             ->orderBy(['createdAt' => 'DESC'])
             ->setMaxResults(1);
 
@@ -371,6 +375,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public function getReportClassName(): string
     {
         return EntryReport::class;
+    }
+
+    public function isAuthor(User $user): bool
+    {
+        return $user === $this->getUser();
     }
 
     public function __sleep()

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Traits\VisibilityTrait;
@@ -263,6 +264,11 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     public function getReportClassName(): string
     {
         return EntryCommentReport::class;
+    }
+
+    public function isAuthor(User $user): bool
+    {
+        return $user === $this->getUser();
     }
 
     public function __sleep()

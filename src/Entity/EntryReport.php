@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ReportInterface;
 use App\Repository\EntryReportRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,7 +14,7 @@ class EntryReport extends Report
     /**
      * @ORM\ManyToOne(targetEntity="Entry", inversedBy="reports")
      */
-    private Entry $subject;
+    private ?Entry $subject;
 
     public function __construct(User $reporting, User $reported, Entry $entry, ?string $reason = null)
     {
@@ -25,6 +26,13 @@ class EntryReport extends Report
     public function getSubject(): Entry
     {
         return $this->subject;
+    }
+
+    public function clearSubject(): Report
+    {
+        $this->subject = null;
+
+        return $this;
     }
 
     public function getType(): string

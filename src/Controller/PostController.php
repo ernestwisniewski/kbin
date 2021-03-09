@@ -192,7 +192,7 @@ class PostController extends AbstractController
     {
         $this->validateCsrf('post_delete', $request->request->get('token'));
 
-        $this->postManager->delete($post);
+        $this->postManager->delete($post, !$post->isAuthor($this->getUserOrThrow()));
 
         return $this->redirectToRoute(
             'front_magazine',

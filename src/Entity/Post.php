@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
@@ -319,7 +320,12 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     {
         return PostReport::class;
     }
-    
+
+    public function isAuthor(User $user): bool
+    {
+        return $user === $this->getUser();
+    }
+
     public function __sleep()
     {
         return [];

@@ -58,7 +58,7 @@ class PostRepository extends ServiceEntityRepository
             throw new NotFoundHttpException();
         }
 
-//        $this->hydrate(...$pagerfanta);
+        $this->hydrate(...$pagerfanta);
 
         return $pagerfanta;
     }
@@ -145,6 +145,34 @@ class PostRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    public function hydrate(Post ...$posts): void
+    {
+        $this->_em->createQueryBuilder()
+            ->select('PARTIAL p.{id}')
+            ->addSelect('u')
+            ->addSelect('m')
+            ->addSelect('i')
+            ->from(Post::class, 'p')
+            ->join('p.user', 'u')
+            ->join('p.magazine', 'm')
+            ->leftJoin('p.image', 'i')
+            ->where('p IN (?1)')
+            ->setParameter(1, $posts)
+            ->getQuery()
+            ->getResult();
+
+        if ($this->security->getUser()) {
+            $this->_em->createQueryBuilder()
+                ->select('PARTIAL p.{id}')
+                ->addSelect('pv')
+                ->from(Post::class, 'p')
+                ->leftJoin('p.votes', 'pv')
+                ->where('p IN (?1)')
+                ->setParameter(1, $posts)
+                ->getQuery()
+                ->getResult();
+        }
+    }
 
     public function countPostCommentsByMagazine(?Magazine $magazine)
     {

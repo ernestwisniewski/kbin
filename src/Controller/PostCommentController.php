@@ -176,7 +176,7 @@ class PostCommentController extends AbstractController
     {
         $this->validateCsrf('post_comment_delete', $request->request->get('token'));
 
-        $this->commentManager->delete($comment);
+        $this->commentManager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
 
         return $this->redirectToRoute(
             'front_magazine',

@@ -168,4 +168,6 @@ abstract class Report
     abstract public function getType(): string;
 
     abstract public function getSubject(): ReportInterface;
+
+    abstract public function clearSubject(): Report;
 }

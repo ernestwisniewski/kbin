@@ -10,6 +10,7 @@ use App\Event\PostBeforePurgeEvent;
 use App\Event\PostUpdatedEvent;
 use App\Message\PostCreatedMessage;
 use App\Repository\PostRepository;
+use App\Service\Contracts\ContentManager;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -19,7 +20,7 @@ use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 use App\Entity\User;
 
-class PostManager
+class PostManager implements ContentManager
 {
     private PostFactory $postFactory;
     private PostRepository $postRepository;
@@ -76,10 +77,10 @@ class PostManager
         return $post;
     }
 
-    public function delete(Post $post): void
+    public function delete(Post $post, bool $trash = false): void
     {
         if ($post->getCommentCount() >= 1) {
-            $post->softDelete();
+            $trash ? $post->trash() : $post->softDelete();
         } else {
             $this->purge($post);
 

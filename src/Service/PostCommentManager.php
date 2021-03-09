@@ -11,6 +11,7 @@ use App\Event\PostCommentPurgedEvent;
 use App\Event\PostCommentUpdatedEvent;
 use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
+use App\Service\Contracts\ContentManager;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +19,7 @@ use App\Factory\PostCommentFactory;
 use Webmozart\Assert\Assert;
 use App\Entity\User;
 
-class PostCommentManager
+class PostCommentManager implements ContentManager
 {
     private PostCommentFactory $commentFactory;
     private EventDispatcherInterface $eventDispatcher;
@@ -71,10 +72,10 @@ class PostCommentManager
         return $comment;
     }
 
-    public function delete(PostComment $comment): void
+    public function delete(PostComment $comment, bool $trash = false): void
     {
         if ($comment->getChildren()->count()) {
-            $comment->softDelete();
+            $trash ? $comment->trash() : $comment->softDelete();
         } else {
             $this->purge($comment);
 

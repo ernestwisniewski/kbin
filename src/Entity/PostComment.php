@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
@@ -11,6 +12,7 @@ use App\Entity\Traits\VotableTrait;
 use App\Repository\PostCommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -49,6 +51,12 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private ?Magazine $magazine;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Image $image = null;
 
     /**
      * @ORM\Column(type="text", length=4500)
@@ -133,6 +141,18 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     public function setMagazine(?Magazine $magazine): self
     {
         $this->magazine = $magazine;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
@@ -236,7 +256,12 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     {
         return PostCommentReport::class;
     }
-    
+
+    public function isAuthor(User $user): bool
+    {
+        return $user === $this->getUser();
+    }
+
     public function __sleep()
     {
         return [];

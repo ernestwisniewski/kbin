@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Event\EntryDeletedEvent;
 use App\Kernel;
+use App\Service\Contracts\ContentManager;
 use Symfony\Component\Validator\Constraints\UrlValidator;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -24,7 +25,7 @@ use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\User;
 
-class EntryManager
+class EntryManager implements ContentManager
 {
     private EntryFactory $entryFactory;
     private EntryRepository $entryRepository;
@@ -100,10 +101,10 @@ class EntryManager
         return $entry;
     }
 
-    public function delete(Entry $entry): void
+    public function delete(Entry $entry, bool $trash = false): void
     {
         if ($entry->getCommentCount() >= 1) {
-            $entry->softDelete();
+            $trash ? $entry->trash() : $entry->softDelete();
         } else {
             $this->purge($entry);
 

@@ -7,6 +7,7 @@ use App\DTO\ModeratorDto;
 use App\Entity\Moderator;
 use App\Entity\Report;
 use App\Entity\User;
+use App\Factory\ContentManagerFactory;
 use App\Form\MagazineBanType;
 use App\Form\ModeratorType;
 use App\Repository\ReportRepository;
@@ -206,6 +207,24 @@ class MagazinePanelController extends AbstractController
                 'magazine' => $magazine,
             ]
         );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("report", options={"mapping": {"report_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderate", subject="magazine")
+     */
+    public function reportApprove(Magazine $magazine, Report $report, ContentManagerFactory $managerFactory, Request $request): Response
+    {
+        $this->validateCsrf('report_approve', $request->request->get('token'));
+
+        $manager = $managerFactory->createManager($report->getSubject());
+
+        $manager->delete($report->getSubject(), true);
+
+        return $this->redirectToRefererOrHome($request);
     }
 
     /**

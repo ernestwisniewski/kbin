@@ -237,7 +237,7 @@ class EntryCommentController extends AbstractController
     {
         $this->validateCsrf('entry_comment_delete', $request->request->get('token'));
 
-        $this->commentManager->delete($comment);
+        $this->commentManager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
 
         return $this->redirectToRoute(
             'entry_single',

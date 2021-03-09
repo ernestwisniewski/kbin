@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Event\EntryCommentBeforePurgeEvent;
 use App\Event\EntryCommentDeletedEvent;
+use App\Service\Contracts\ContentManager;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use App\Repository\EntryCommentRepository;
@@ -18,7 +19,7 @@ use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
 use App\Entity\User;
 
-class EntryCommentManager
+class EntryCommentManager implements ContentManager
 {
     private EntryCommentFactory $commentFactory;
     private EventDispatcherInterface $eventDispatcher;
@@ -71,10 +72,10 @@ class EntryCommentManager
         return $comment;
     }
 
-    public function delete(EntryComment $comment): void
+    public function delete(EntryComment $comment, bool $trash = false): void
     {
         if ($comment->getChildren()->count()) {
-            $comment->softDelete();
+            $trash ? $comment->trash() : $comment->softDelete();
         } else {
             $this->purge($comment);
 

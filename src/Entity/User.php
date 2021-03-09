@@ -132,7 +132,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocked", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private Collection $blockers;
+    private ?Collection $blockers;
 
     /**
      * @ORM\OneToMany(targetEntity=MagazineBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})

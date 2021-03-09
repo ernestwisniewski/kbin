@@ -140,7 +140,7 @@ class EntryController extends AbstractController
     {
         $this->validateCsrf('entry_delete', $request->request->get('token'));
 
-        $this->entryManager->delete($entry);
+        $this->entryManager->delete($entry, !$entry->isAuthor($this->getUserOrThrow()));
 
         return $this->redirectToRoute(
             'front_magazine',

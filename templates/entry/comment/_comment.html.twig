@@ -122,7 +122,9 @@
         {% if comment.children|length %}
             {%- for reply in comment.children -%}
                 {%- with { comment: reply, level: level + 1, show_context: false, show_form: false } -%}
-                    {{- block('comment') -}}
+                    {% if not app.user or (app.user and not app.user.isBlocker(reply.user)) %}
+                        {{- block('comment') -}}
+                    {% endif %}
                 {%- endwith -%}
             {%- endfor -%}
         {% endif %}

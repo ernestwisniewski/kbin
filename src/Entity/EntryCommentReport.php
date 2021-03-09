@@ -13,7 +13,7 @@ class EntryCommentReport extends Report
     /**
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="reports")
      */
-    private EntryComment $subject;
+    private ?EntryComment $subject;
 
     public function __construct(User $reporting, User $reported, EntryComment $comment, ?string $reason = null)
     {
@@ -25,6 +25,13 @@ class EntryCommentReport extends Report
     public function getSubject(): EntryComment
     {
         return $this->subject;
+    }
+
+    public function clearSubject(): Report
+    {
+        $this->subject = null;
+
+        return $this;
     }
 
     public function getType(): string
