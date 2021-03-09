@@ -73,44 +73,45 @@
                 {% endif %}
             </blockquote>
 
-            <aside class="kbin-comment-meta">
-                <ul class="kbin-comment-meta-list  list-inline mb-0">
-                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                        <small class="text-muted">
-                            <a data-action="comment#reply"
-                               class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
-                               href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">
-                                odpowiedz
-                            </a>
-                        </small>
-                    </li>
-
-                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                        <small class="text-muted"><a href="{{ path('entry_comment_report', {id: comment.id}) }}"
-                                                     class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
-                                                     data-action="report#report">zgłoś</a></small>
-                    </li>
-
-                    {% if is_granted('edit', comment) %}
+            {% if comment.visibility is same as 'visible' %}
+                <aside class="kbin-comment-meta">
+                    <ul class="kbin-comment-meta-list  list-inline mb-0">
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a href="{{ path('entry_comment_edit', {'magazine_name': comment.entry.magazine.name,'entry_id': comment.entry.id, 'comment_id': comment.id}) }}">
-                                    edytuj
+                                <a data-action="comment#reply"
+                                   class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
+                                   href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">
+                                    odpowiedz
                                 </a>
                             </small>
                         </li>
-                    {% endif %}
 
-                    {% if is_granted('moderate', comment.entry.magazine) %}
-                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <small class="kbin-entry-meta-edit text-muted">
-                                <a href="{{ path('magazine_panel_ban', {'magazine_name': comment.entry.magazine.name, 'user_username': comment.entry.user.username}) }}">zbanuj</a>
-                            </small>
+                        <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                            <small class="text-muted"><a href="{{ path('entry_comment_report', {id: comment.id}) }}"
+                                                         class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
+                                                         data-action="report#report">zgłoś</a></small>
                         </li>
-                    {% endif %}
-                </ul>
-            </aside>
 
+                        {% if is_granted('edit', comment) %}
+                            <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                                <small class="text-muted">
+                                    <a href="{{ path('entry_comment_edit', {'magazine_name': comment.entry.magazine.name,'entry_id': comment.entry.id, 'comment_id': comment.id}) }}">
+                                        edytuj
+                                    </a>
+                                </small>
+                            </li>
+                        {% endif %}
+
+                        {% if is_granted('moderate', comment.entry.magazine) %}
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <small class="kbin-entry-meta-edit text-muted">
+                                    <a href="{{ path('magazine_panel_ban', {'magazine_name': comment.entry.magazine.name, 'user_username': comment.entry.user.username}) }}">zbanuj</a>
+                                </small>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </aside>
+            {% endif %}
             <div class="clearfix"></div>
 
             <div data-comment-target="form" data-report-target="form" class=""></div>
