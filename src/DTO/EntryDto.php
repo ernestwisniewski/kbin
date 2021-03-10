@@ -48,6 +48,7 @@ class EntryDto
         $this->title    = $title;
         $this->url      = $url;
         $this->body     = $body;
+        $this->image    = $image;
 
         return $this;
     }

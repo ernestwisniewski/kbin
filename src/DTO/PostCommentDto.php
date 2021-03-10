@@ -25,7 +25,7 @@ class PostCommentDto
 
     private ?Image $image = null;
 
-    public function create(Post $post, string $body, ?Image $image, ?int $id = null): self
+    public function create(Post $post, string $body, ?Image $image = null, ?int $id = null): self
     {
         $this->id    = $id;
         $this->post  = $post;

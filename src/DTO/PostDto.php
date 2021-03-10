@@ -32,6 +32,7 @@ class PostDto
         $this->id       = $id;
         $this->magazine = $magazine;
         $this->body     = $body;
+        $this->image    = $image;
 
         return $this;
     }
