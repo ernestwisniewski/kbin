@@ -53,6 +53,12 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     private ?Magazine $magazine;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Image $image = null;
+
+    /**
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="children")
      * @ORM\JoinColumn(onDelete="cascade")
      */
@@ -145,6 +151,18 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     public function setMagazine(?Magazine $magazine): self
     {
         $this->magazine = $magazine;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

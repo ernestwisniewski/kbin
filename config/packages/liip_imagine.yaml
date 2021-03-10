@@ -10,6 +10,10 @@ liip_imagine:
             quality: 100
             filters:
                 thumbnail: { size: [ 100, 100 ], mode: fixed }
+        post_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 600, 500 ], mode: inset }
 
     loaders:
         local_images:
@@ -27,6 +31,13 @@ liip_imagine:
                 visibility:         public
 
         avatar_thumb:
+            flysystem:
+                filesystem_service: oneup_flysystem.local_images_filesystem
+                root_url: "/"
+                cache_prefix: media/cache
+                visibility: public
+
+        post_thumb:
             flysystem:
                 filesystem_service: oneup_flysystem.local_images_filesystem
                 root_url: "/"

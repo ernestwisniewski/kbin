@@ -50,6 +50,9 @@ class PostCommentManager implements ContentManager
 
         $comment->getPost()->addComment($comment);
         $comment->setMagazine($commentDto->getPost()->getMagazine());
+        if ($commentDto->getImage()) {
+            $comment->setImage($commentDto->getImage());
+        }
 
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
@@ -64,6 +67,9 @@ class PostCommentManager implements ContentManager
         Assert::same($comment->getPost()->getId(), $commentDto->getPost()->getId());
 
         $comment->setBody($commentDto->getBody());
+        if ($commentDto->getImage()) {
+            $comment->setImage($commentDto->getImage());
+        }
 
         $this->entityManager->flush();
 

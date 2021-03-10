@@ -66,6 +66,10 @@
             <blockquote class="kbin-comment-content">
                 {% if comment.visibility is same as 'visible' %}
                     {{ comment.body|markdown|raw }}
+                    {% if comment.image %}
+                        <img src="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                             alt="{{ comment.body|length > 150 ? '...' : '' }}">
+                    {% endif %}
                 {% elseif comment.visibility is same as 'trashed' %}
                     <p class="text-muted">[Treść usunięta przez moderatora]</p>
                 {% elseif comment.visibility is same as 'soft_deleted' %}
@@ -122,7 +126,7 @@
         {% if comment.children|length %}
             {%- for reply in comment.children -%}
                 {%- with { comment: reply, level: level + 1, show_context: false, show_form: false } -%}
-                    {% if not app.user or (app.user and not app.user.isBlocker(reply.user)) %}
+                    {% if not app.user or (app.user and not app.user.isBlocked(reply.user)) %}
                         {{- block('comment') -}}
                     {% endif %}
                 {%- endwith -%}

@@ -110,3 +110,20 @@ a {
   height: 1rem;
 }
 
+input[type=file] {
+  opacity: .7;
+  max-width: 10rem;
+}
+
+input[type=file]::-webkit-file-upload-button {
+  width: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  border: none;
+}
+
+::-webkit-file-upload-button, input[type=file]:after {
+  left: 100%;
+  position: relative;
+  -webkit-appearance: button;
+}

@@ -6,9 +6,13 @@
             {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
         </div>
 
-        <div class="mb-12 text-end">
-            {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+        <div class="mb-12 text-end btn-group float-end">
+            <div class="input-group input-group-lg me-2">
+                {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
+            </div>
+            {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': {'class': 'kbin-comment-send btn-primary'} }) }}
         </div>
     </div>
 </div>
+<div class="clearfix"></div>
 {{ form_end(form) }}

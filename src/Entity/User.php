@@ -468,7 +468,7 @@ class User implements UserInterface
     public function isBlocker(User $user): bool
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('blocker', $this));
+            ->where(Criteria::expr()->eq('blocker', $user));
 
         return $user->blockers->matching($criteria)->count() > 0;
     }

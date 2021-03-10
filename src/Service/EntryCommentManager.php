@@ -50,6 +50,9 @@ class EntryCommentManager implements ContentManager
 
         $comment->getEntry()->addComment($comment);
         $comment->setMagazine($commentDto->getEntry()->getMagazine());
+        if ($commentDto->getImage()) {
+            $comment->setImage($commentDto->getImage());
+        }
 
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
@@ -64,6 +67,9 @@ class EntryCommentManager implements ContentManager
         Assert::same($comment->getEntry()->getId(), $commentDto->getEntry()->getId());
 
         $comment->setBody($commentDto->getBody());
+        if ($commentDto->getImage()) {
+            $comment->setImage($commentDto->getImage());
+        }
 
         $this->entityManager->flush();
 

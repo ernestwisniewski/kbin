@@ -12,8 +12,10 @@ framework:
         #default_redis_provider: redis://localhost
 
         # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
-        #app: cache.adapter.apcu
+        app: cache.adapter.filesystem
 
         # Namespaced pools use the above "app" backend by default
-        #pools:
-            #my.dedicated.cache: null
+        pools:
+            doctrine.second_level_cache_pool:
+                adapter: cache.app
+

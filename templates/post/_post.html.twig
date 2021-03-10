@@ -51,6 +51,10 @@
             <div class="kbin-post-content">
                 {% if post.visibility is same as 'visible' %}
                     {{ post.body|markdown|raw }}
+                    {% if post.image %}
+                        <img src="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                             alt="{{ post.body|length > 150 ? '...' : '' }}">
+                    {% endif %}
                 {% elseif post.visibility is same as 'trashed' %}
                     <p class="text-muted">[Treść usunięta przez moderatora]</p>
                 {% elseif post.visibility is same as 'soft_deleted' %}

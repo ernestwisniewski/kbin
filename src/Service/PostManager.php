@@ -51,6 +51,9 @@ class PostManager implements ContentManager
         $magazine = $post->getMagazine();
 
         $magazine->addPost($post);
+        if ($postDto->getImage()) {
+            $post->setImage($postDto->getImage());
+        }
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();

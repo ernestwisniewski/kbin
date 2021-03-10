@@ -41,7 +41,6 @@ class PostRepository extends ServiceEntityRepository
         $this->security = $security;
     }
 
-
     public function findByCriteria(Criteria $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(

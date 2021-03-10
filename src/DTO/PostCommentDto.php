@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Image;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\PostComment;
 use App\Entity\Post;
@@ -22,20 +23,24 @@ class PostCommentDto
 
     private ?PostComment $parent = null;
 
-    public function create(Post $post, string $body, ?int $id = null): self
+    private ?Image $image = null;
+
+    public function create(Post $post, string $body, ?Image $image, ?int $id = null): self
     {
-        $this->id   = $id;
-        $this->post = $post;
-        $this->body = $body;
+        $this->id    = $id;
+        $this->post  = $post;
+        $this->body  = $body;
+        $this->image = $image;
 
         return $this;
     }
 
-    public function createWithParent(Post $post, ?PostComment $parent, ?string $body = null): self
+    public function createWithParent(Post $post, ?PostComment $parent, ?Image $image = null, ?string $body = null): self
     {
         $this->post   = $post;
         $this->parent = $parent;
         $this->body   = $body;
+        $this->image  = $image;
 
         return $this;
     }
@@ -75,6 +80,18 @@ class PostCommentDto
     public function setParent(?PostComment $parent): self
     {
         $this->parent = $parent;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
