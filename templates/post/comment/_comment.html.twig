@@ -2,7 +2,7 @@
     {% from 'user/_macros.html.twig' import avatar %}
     {% from 'vote/_macros.html.twig' import vote %}
 
-    {% if not app.user.isBlocked(comment.user) %}
+    {% if not app.user or (app.user and not app.user.isBlocked(comment.user)) %}
         <blockquote id="{{ comment.id }}"
                     class="kbin-comment {{ extra_classes }} kbin-comment--nested kbin-comment-level--2"
                     data-controller="comment report"
