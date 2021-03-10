@@ -173,6 +173,10 @@ $post-margin-sm: .5rem;
       img {
         max-width: 25rem;
         height: auto;
+
+        @include media-breakpoint-down(lg) {
+          max-width: 100%;
+        }
       }
     }
 

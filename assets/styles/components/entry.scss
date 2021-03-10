@@ -126,6 +126,10 @@
     img {
       max-width: 35rem;
       height: 25rem;
+
+      @include media-breakpoint-down(lg) {
+        max-width: 100%;
+      }
     }
   }
 }
