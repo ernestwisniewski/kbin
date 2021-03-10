@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -23,6 +23,7 @@ class EntryCommentFactory
         return (new EntryCommentDto())->create(
             $comment->getEntry(),
             $comment->getBody(),
+            null,
             $comment->getId()
         );
     }

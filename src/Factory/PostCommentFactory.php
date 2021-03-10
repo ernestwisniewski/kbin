@@ -25,6 +25,7 @@ class PostCommentFactory
         return (new PostCommentDto())->create(
             $comment->getPost(),
             $comment->getBody(),
+            null,
             $comment->getId()
         );
     }
