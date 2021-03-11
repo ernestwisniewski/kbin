@@ -133,3 +133,9 @@ a {
     -webkit-appearance: button;
   }
 }
+
+.scroll-progress {
+  height: 1.4rem;
+  position:fixed;
+  z-index: 1000;
+}
