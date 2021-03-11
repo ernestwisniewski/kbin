@@ -63,7 +63,7 @@
             </aside>
         </div>
         <div class="kbin-comment-main">
-            <blockquote class="kbin-comment-content">
+            <blockquote class="kbin-comment-content" data-controller="max-height">
                 {% if comment.visibility is same as 'visible' %}
                     {{ comment.body|markdown|raw }}
                     {% if comment.image %}

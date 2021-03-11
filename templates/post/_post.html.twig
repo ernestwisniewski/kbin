@@ -48,7 +48,7 @@
             </aside>
         </div>
         <div class="kbin-post-main">
-            <div class="kbin-post-content">
+            <div class="kbin-post-content" data-controller="max-height">
                 {% if post.visibility is same as 'visible' %}
                     {{ post.body|markdown|raw }}
                     {% if post.image %}

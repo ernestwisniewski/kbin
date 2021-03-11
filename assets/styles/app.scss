@@ -20,6 +20,7 @@ $primary: #556880;
 @import "components/sub_buttons";
 @import "components/datepicker";
 @import "components/profile";
+@import "components/max-height";
 
 .kbin-container {
   @include media-breakpoint-down(lg) {

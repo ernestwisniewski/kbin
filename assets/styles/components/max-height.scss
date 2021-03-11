@@ -1,0 +1,15 @@
+[data-max-height-controller] {
+  max-height: 25rem;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.kbin-more {
+  background: $primary;
+  color: white;
+  cursor: pointer;
+
+  .kbin-dark & {
+    color: black;
+  }
+}
