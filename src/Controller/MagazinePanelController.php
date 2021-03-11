@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\DTO\MagazineBanDto;
+use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
 use App\Entity\Moderator;
 use App\Entity\Report;
 use App\Entity\User;
 use App\Factory\ContentManagerFactory;
 use App\Form\MagazineBanType;
+use App\Form\MagazineThemeType;
 use App\Form\ModeratorType;
 use App\Repository\ReportRepository;
 use App\Repository\UserRepository;
@@ -241,5 +243,30 @@ class MagazinePanelController extends AbstractController
         $reportManager->reject($report);
 
         return $this->redirectToRefererOrHome($request);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="magazine")
+     */
+    public function theme(Magazine $magazine, Request $request): Response
+    {
+        $dto = new MagazineThemeDto($magazine);
+
+        $form = $this->createForm(MagazineThemeType::class, $dto);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->magazineManager->changeTheme($dto);
+        }
+
+        return $this->render(
+            'magazine/panel/theme.html.twig',
+            [
+                'magazine' => $magazine,
+                'form'     => $form->createView(),
+            ]
+        );
     }
 }

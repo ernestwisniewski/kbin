@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class MagazineRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 5;
+    const PER_PAGE = 15;
 
     public function __construct(ManagerRegistry $registry)
     {

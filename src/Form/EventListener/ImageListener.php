@@ -13,6 +13,7 @@ final class ImageListener implements EventSubscriberInterface
      * @var ImageRepository
      */
     private $images;
+    private string $fieldName;
 
     public function __construct(ImageRepository $images)
     {
@@ -34,16 +35,27 @@ final class ImageListener implements EventSubscriberInterface
 
         $data = $event->getData();
 
-        if (!$event->getForm()->has('image')) {
+        $fieldName = $this->fieldName ?? 'image';
+
+        if (!$event->getForm()->has($fieldName)) {
             return;
         }
 
-        $upload = $event->getForm()->get('image')->getData();
+        $upload = $event->getForm()->get($fieldName)->getData();
 
-        if ($upload && !$data->getImage()) {
+        $getter = 'get'.ucwords($fieldName);
+        if ($upload && !$data->$getter()) {
             $image = $this->images->findOrCreateFromUpload($upload);
 
-            $data->setImage($image);
+            $setter = 'set'.ucwords($fieldName);
+            $data->$setter($image);
         }
+    }
+
+    public function setFieldName(string $fieldName): self
+    {
+        $this->fieldName = $fieldName;
+
+        return $this;
     }
 }

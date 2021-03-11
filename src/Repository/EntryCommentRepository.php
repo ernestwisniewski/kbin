@@ -6,7 +6,6 @@ use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
-use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr\Join;

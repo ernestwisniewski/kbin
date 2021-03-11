@@ -7,7 +7,7 @@
   }
 
   a:hover {
-    color: #eee!important;
+    color: #eee !important;
   }
 
   .text-dark {
@@ -670,6 +670,10 @@
     background-color: #fff;
   }
 
+  .img-thumbnail {
+    background-color: #202020;
+    border-color: #2e2f2f;
+  }
 }
 
 .disabled {

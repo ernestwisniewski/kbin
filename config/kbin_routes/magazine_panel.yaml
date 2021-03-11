@@ -1,0 +1,49 @@
+magazine_panel_ban:
+  controller: App\Controller\MagazinePanelController::ban
+  path: /m/{magazine_name}/ban/{user_username}
+  methods: [ GET, POST ]
+
+magazine_panel_unban:
+  controller: App\Controller\MagazinePanelController::unban
+  path: /m/{magazine_name}/unban/{user_username}
+  methods: [ POST ]
+
+magazine_panel_edit:
+  controller: App\Controller\MagazinePanelController::edit
+  path: /m/{name}/panel/edytuj
+  methods: [ GET, POST ]
+
+magazine_panel_moderators:
+  controller: App\Controller\MagazinePanelController::moderators
+  path: /m/{name}/panel/moderatorzy
+  methods: [ GET, POST ]
+
+magazine_panel_moderator_purge:
+  controller: App\Controller\MagazinePanelController::deleteModerator
+  path: /m/{magazine_name}/panel/{moderator_id}/purge
+  methods: [ POST ]
+
+magazine_panel_bans:
+  controller: App\Controller\MagazinePanelController::bans
+  path: /m/{name}/panel/bany
+  methods: [ GET, POST ]
+
+magazine_panel_reports:
+  controller: App\Controller\MagazinePanelController::reports
+  path: /m/{name}/panel/zgloszenia
+  methods: [ GET ]
+
+magazine_panel_report_approve:
+  controller: App\Controller\MagazinePanelController::reportApprove
+  path: /m/{magazine_name}/panel/zgloszenia/{report_id}/approve
+  methods: [ POST ]
+
+magazine_panel_report_reject:
+  controller: App\Controller\MagazinePanelController::reportReject
+  path: /m/{magazine_name}/panel/zgloszenia/{report_id}/reject
+  methods: [ POST ]
+
+magazine_panel_theme:
+  controller: App\Controller\MagazinePanelController::theme
+  path: /m/{name}/panel/wyglad
+  methods: [ GET, POST ]

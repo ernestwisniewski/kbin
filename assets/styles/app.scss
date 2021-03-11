@@ -102,7 +102,7 @@ a {
 }
 
 .kbin-link-block {
-    //pointer-events: none;
+  //pointer-events: none;
 }
 
 .spinner-border {
@@ -110,20 +110,26 @@ a {
   height: 1rem;
 }
 
-input[type=file] {
-  opacity: .7;
-  max-width: 10rem;
-}
+.kbin-comment-main,
+.kbin-post-main,
+.kbin-entry-page,
+.kbin-posts-page {
 
-input[type=file]::-webkit-file-upload-button {
-  width: 0;
-  padding: 0;
-  -webkit-appearance: none;
-  border: none;
-}
+  input[type=file] {
+    opacity: .7;
+    max-width: 10rem;
+  }
 
-::-webkit-file-upload-button, input[type=file]:after {
-  left: 100%;
-  position: relative;
-  -webkit-appearance: button;
+  input[type=file]::-webkit-file-upload-button {
+    width: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    border: none;
+  }
+
+  ::-webkit-file-upload-button, input[type=file]:after {
+    left: 100%;
+    position: relative;
+    -webkit-appearance: button;
+  }
 }

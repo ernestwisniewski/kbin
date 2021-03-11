@@ -35,6 +35,12 @@ class Magazine implements VisibilityInterface
     private int $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Image $cover = null;
+
+    /**
      * @ORM\Column(type="string", length=25)
      */
     private string $name;
@@ -128,31 +134,21 @@ class Magazine implements VisibilityInterface
         $this->createdAtTraitConstruct();
     }
 
-    public function userIsModerator(User $user): bool
-    {
-        $user->getModeratorTokens()->get(-1);
-
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('magazine', $this))
-            ->andWhere(Criteria::expr()->eq('isConfirmed', true));
-
-        return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
-    }
-
-    public function userIsOwner(User $user): bool
-    {
-        $user->getModeratorTokens()->get(-1);
-
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('magazine', $this))
-            ->andWhere(Criteria::expr()->eq('isOwner', true));
-
-        return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
-    }
-
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getCover(): ?Image
+    {
+        return $this->cover;
+    }
+
+    public function setCover(?Image $cover): self
+    {
+        $this->cover = $cover;
+
+        return $this;
     }
 
     public function getName(): string
@@ -201,6 +197,28 @@ class Magazine implements VisibilityInterface
         $this->rules = $rules;
 
         return $this;
+    }
+
+    public function userIsModerator(User $user): bool
+    {
+        $user->getModeratorTokens()->get(-1);
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $this))
+            ->andWhere(Criteria::expr()->eq('isConfirmed', true));
+
+        return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
+    }
+
+    public function userIsOwner(User $user): bool
+    {
+        $user->getModeratorTokens()->get(-1);
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $this))
+            ->andWhere(Criteria::expr()->eq('isOwner', true));
+
+        return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
     }
 
     public function getModerators(): Collection
@@ -354,6 +372,7 @@ class Magazine implements VisibilityInterface
     public function setPostCommentCount(int $postCommentCount): self
     {
         $this->postCommentCount = $postCommentCount;
+
         return $this;
     }
 

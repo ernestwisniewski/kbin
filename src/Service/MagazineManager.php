@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\MagazineBanDto;
+use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
 use App\Entity\Moderator;
 use App\Event\MagazineBanEvent;
@@ -60,6 +61,7 @@ class MagazineManager
             $magazine->softDelete();
         } else {
             $this->purge($magazine);
+
             return;
         }
 
@@ -154,6 +156,15 @@ class MagazineManager
     public function removeModerator(Moderator $moderator): void
     {
         $this->entityManager->remove($moderator);
+        $this->entityManager->flush();
+    }
+
+    public function changeTheme(MagazineThemeDto $dto)
+    {
+        $magazine = $dto->getMagazine();
+
+        $magazine->setCover($dto->getCover());
+
         $this->entityManager->flush();
     }
 }

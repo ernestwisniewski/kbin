@@ -5,7 +5,7 @@ namespace App\Form;
 use App\DTO\Contracts\UserDtoInterface;
 use App\Form\EventListener\AddFieldsOnUserEdit;
 use App\Form\EventListener\DisableFieldsOnUserEdit;
-use App\Form\EventListener\UserAvatarListener;
+use App\Form\EventListener\ImageListener;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -16,17 +16,17 @@ use Symfony\Component\Form\AbstractType;
 
 class UserType extends AbstractType
 {
-    private UserAvatarListener $avatarListener;
+    private ImageListener $imageListener;
     private AddFieldsOnUserEdit $addAvatarFieldOnUserEdit;
     private DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit;
 
     public function __construct(
-        UserAvatarListener $avatarListener,
+        ImageListener $imageListener,
         AddFieldsOnUserEdit $addAvatarFieldOnUserEdit,
         DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit
     ) {
-        $this->avatarListener                 = $avatarListener;
-        $this->addAvatarFieldOnUserEdit       = $addAvatarFieldOnUserEdit;
+        $this->imageListener            = $imageListener;
+        $this->addAvatarFieldOnUserEdit = $addAvatarFieldOnUserEdit;
         $this->disableUsernameFieldOnUserEdit = $disableUsernameFieldOnUserEdit;
     }
 
@@ -54,7 +54,7 @@ class UserType extends AbstractType
 
         $builder->addEventSubscriber($this->disableUsernameFieldOnUserEdit);
         $builder->addEventSubscriber($this->addAvatarFieldOnUserEdit);
-        $builder->addEventSubscriber($this->avatarListener);
+        $builder->addEventSubscriber($this->imageListener->setFieldName('avatar'));
     }
 
     public function configureOptions(OptionsResolver $resolver)
