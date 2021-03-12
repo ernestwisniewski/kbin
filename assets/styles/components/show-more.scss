@@ -1,4 +1,4 @@
-[data-max-height-controller] {
+[show-more-controller] {
   max-height: 25rem;
   overflow: hidden;
   overflow-y: scroll;
@@ -8,6 +8,11 @@
   background: $primary;
   color: white;
   cursor: pointer;
+  opacity: .5;
+
+  &:hover {
+    opacity: 1;
+  }
 
   .kbin-dark & {
     color: black;

@@ -16,11 +16,11 @@
 
     <div class="kbin-magazine-desc px-2">
         {% if magazine.description %}
-            <p class="small">{{ magazine.description }}</p>
+            <p class="small">{{ magazine.description|markdown|raw }}</p>
         {% endif %}
 
         {% if magazine.rules %}
-            <p class="small">{{ magazine.rules }}</p>
+            <p class="small">{{ magazine.rules|markdown|raw }}</p>
         {% endif %}
     </div>
 
