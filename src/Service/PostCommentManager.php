@@ -12,7 +12,6 @@ use App\Event\PostCommentUpdatedEvent;
 use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
 use App\Service\Contracts\ContentManager;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\PostCommentFactory;
@@ -23,7 +22,6 @@ class PostCommentManager implements ContentManager
 {
     private PostCommentFactory $commentFactory;
     private EventDispatcherInterface $eventDispatcher;
-    private MessageBusInterface $messageBus;
     private PostCommentRepository $commentRepository;
     private PostRepository $postRepository;
     private EntityManagerInterface $entityManager;
@@ -31,14 +29,12 @@ class PostCommentManager implements ContentManager
     public function __construct(
         PostCommentFactory $commentFactory,
         EventDispatcherInterface $eventDispatcher,
-        MessageBusInterface $messageBus,
         PostCommentRepository $commentRepository,
         PostRepository $postRepository,
         EntityManagerInterface $entityManager
     ) {
         $this->commentFactory    = $commentFactory;
         $this->eventDispatcher   = $eventDispatcher;
-        $this->messageBus        = $messageBus;
         $this->commentRepository = $commentRepository;
         $this->postRepository    = $postRepository;
         $this->entityManager     = $entityManager;

@@ -139,7 +139,7 @@ abstract class WebTestCase extends BaseWebTestCase
         $manager = self::$container->get(EntryCommentManager::class);
 
         if ($parent) {
-            $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, $body);
+            $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
         } else {
             $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $body);
         }

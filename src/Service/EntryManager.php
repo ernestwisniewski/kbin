@@ -5,15 +5,11 @@ namespace App\Service;
 use App\Event\EntryDeletedEvent;
 use App\Kernel;
 use App\Service\Contracts\ContentManager;
-use Symfony\Component\Validator\Constraints\UrlValidator;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Message\EntryCreatedMessage;
 use App\Repository\EntryRepository;
 use App\Exception\BadUrlException;
 use App\Event\EntryCreatedEvent;
@@ -30,7 +26,6 @@ class EntryManager implements ContentManager
     private EntryFactory $entryFactory;
     private EntryRepository $entryRepository;
     private EventDispatcherInterface $eventDispatcher;
-    private MessageBusInterface $messageBus;
     private Security $security;
     private HttpClientInterface $client;
     private EntityManagerInterface $entityManager;
@@ -40,7 +35,6 @@ class EntryManager implements ContentManager
         EntryFactory $entryFactory,
         EntryRepository $entryRepository,
         EventDispatcherInterface $eventDispatcher,
-        MessageBusInterface $messageBus,
         Security $security,
         HttpClientInterface $client,
         Kernel $kernel,
@@ -49,7 +43,6 @@ class EntryManager implements ContentManager
         $this->entryFactory    = $entryFactory;
         $this->entryRepository = $entryRepository;
         $this->eventDispatcher = $eventDispatcher;
-        $this->messageBus      = $messageBus;
         $this->security        = $security;
         $this->client          = $client;
         $this->entityManager   = $entityManager;
@@ -76,7 +69,6 @@ class EntryManager implements ContentManager
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch(new EntryCreatedEvent($entry));
-        $this->messageBus->dispatch(new EntryCreatedMessage($entry->getId()));
 
         return $entry;
     }

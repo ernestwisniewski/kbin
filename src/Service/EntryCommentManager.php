@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Event\EntryCommentBeforePurgeEvent;
 use App\Event\EntryCommentDeletedEvent;
 use App\Service\Contracts\ContentManager;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use App\Repository\EntryCommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,7 +22,6 @@ class EntryCommentManager implements ContentManager
 {
     private EntryCommentFactory $commentFactory;
     private EventDispatcherInterface $eventDispatcher;
-    private MessageBusInterface $messageBus;
     private EntryCommentRepository $commentRepository;
     private EntryRepository $entryRepository;
     private EntityManagerInterface $entityManager;
@@ -31,14 +29,12 @@ class EntryCommentManager implements ContentManager
     public function __construct(
         EntryCommentFactory $commentFactory,
         EventDispatcherInterface $eventDispatcher,
-        MessageBusInterface $messageBus,
         EntryCommentRepository $commentRepository,
         EntryRepository $entryRepository,
         EntityManagerInterface $entityManager
     ) {
         $this->commentFactory    = $commentFactory;
         $this->eventDispatcher   = $eventDispatcher;
-        $this->messageBus        = $messageBus;
         $this->commentRepository = $commentRepository;
         $this->entryRepository   = $entryRepository;
         $this->entityManager     = $entityManager;

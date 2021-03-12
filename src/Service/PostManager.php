@@ -8,11 +8,8 @@ use App\Event\PostCreatedEvent;
 use App\Event\PostDeletedEvent;
 use App\Event\PostBeforePurgeEvent;
 use App\Event\PostUpdatedEvent;
-use App\Message\PostCreatedMessage;
 use App\Repository\PostRepository;
 use App\Service\Contracts\ContentManager;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\PostFactory;
@@ -25,7 +22,6 @@ class PostManager implements ContentManager
     private PostFactory $postFactory;
     private PostRepository $postRepository;
     private EventDispatcherInterface $eventDispatcher;
-    private MessageBusInterface $messageBus;
     private Security $security;
     private EntityManagerInterface $entityManager;
 
@@ -33,14 +29,12 @@ class PostManager implements ContentManager
         PostFactory $postFactory,
         PostRepository $postRepository,
         EventDispatcherInterface $eventDispatcher,
-        MessageBusInterface $messageBus,
         Security $security,
         EntityManagerInterface $entityManager
     ) {
         $this->postFactory     = $postFactory;
         $this->postRepository  = $postRepository;
         $this->eventDispatcher = $eventDispatcher;
-        $this->messageBus      = $messageBus;
         $this->security        = $security;
         $this->entityManager   = $entityManager;
     }
@@ -59,7 +53,6 @@ class PostManager implements ContentManager
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch(new PostCreatedEvent($post));
-        $this->messageBus->dispatch(new PostCreatedMessage($post->getId()));
 
         return $post;
     }

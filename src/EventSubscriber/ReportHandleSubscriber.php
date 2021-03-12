@@ -16,7 +16,7 @@ use App\Repository\ReportRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ReportsSubscriber implements EventSubscriberInterface
+class ReportHandleSubscriber implements EventSubscriberInterface
 {
     private ReportRepository $reportRepository;
     private EntityManagerInterface $entityManager;

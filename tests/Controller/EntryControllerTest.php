@@ -160,7 +160,7 @@ class EntryControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isServerError());
     }
 
-    public function testCanPurgeEntry()
+    public function testCanDeleteEntry()
     {
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('regularUser'));

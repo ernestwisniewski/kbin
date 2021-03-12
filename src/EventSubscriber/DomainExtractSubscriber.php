@@ -7,7 +7,7 @@ use App\Repository\DomainRepository;
 use App\Event\EntryCreatedEvent;
 use App\Service\DomainManager;
 
-class DomainSubscriber implements EventSubscriberInterface
+class DomainExtractSubscriber implements EventSubscriberInterface
 {
     private DomainRepository $domainRepository;
     private DomainManager $domainManager;

@@ -16,7 +16,7 @@ use App\Event\EntryCommentUpdatedEvent;
 use App\Event\EntryCommentPurgedEvent;
 use App\Repository\EntryRepository;
 
-class CountersSubscriber implements EventSubscriberInterface
+class ContentCountSubscriber implements EventSubscriberInterface
 {
     private EntryRepository $entryRepository;
     private PostRepository $postRepository;
