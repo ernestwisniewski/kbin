@@ -37,12 +37,10 @@ class ReportManager
         /**
          * @var $report Report
          */
-        $existed = $report = $repository->findOneBy(['subject' => $dto->getSubject()]);
+        $existed = $report = $repository->findBySubject($dto->getSubject());
 
         if ($report) {
-            if ($repository->findOneBy(
-                ['subject' => $dto->getSubject(), 'reporting' => $reporting]
-            )) {
+            if ($report->getReporting() === $reporting) {
                 throw new SubjectHasBeenReported();
             }
         }

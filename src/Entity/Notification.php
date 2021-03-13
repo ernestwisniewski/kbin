@@ -11,12 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="report_type", type="text")
  * @ORM\DiscriminatorMap({
- *     "entry": "EntryReport",
- *     "entry_comment": "EntryCommentReport",
- *     "post": "PostReport",
- *     "post_comment": "PostCommentReport",
  * })
  */
+//   "entry": "EntryNotification",
+//   "post": "PostNotification",
+//   "post_comment": "PostCommentNotification",
 abstract class Notification
 {
     const STATUS_NEW = 'new';

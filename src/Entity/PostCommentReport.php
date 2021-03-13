@@ -13,23 +13,28 @@ class PostCommentReport extends Report
     /**
      * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="reports")
      */
-    private ?PostComment $subject;
+    private ?PostComment $postComment;
 
     public function __construct(User $reporting, User $reported, PostComment $comment, ?string $reason = null)
     {
         parent::__construct($reporting, $reported, $comment->getMagazine(), $reason);
 
-        $this->subject = $comment;
+        $this->postComment = $comment;
+    }
+
+    public function getPostComment(): PostComment
+    {
+        return $this->postComment;
     }
 
     public function getSubject(): PostComment
     {
-        return $this->subject;
+        return $this->postComment;
     }
 
     public function clearSubject(): Report
     {
-        $this->subject = null;
+        $this->postComment = null;
 
         return $this;
     }

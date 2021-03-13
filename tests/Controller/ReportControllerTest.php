@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
@@ -9,15 +9,17 @@ class ReportControllerTest extends WebTestCase
 {
     public function testCanAddEntryReport()
     {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('regularUser'));
 
-    }
+        $user1 = $this->getUserByUsername('regularUser');
+        $this->getEntryByTitle('testowy wpis', null, null, null, $user1);
 
-    public function testModeratorCanApproveEntryReport()
-    {
+        $crawler = $client->request('GET', '/');
+        $crawler = $client->click($crawler->filter('.kbin-entry-list .kbin-entry-meta')->selectLink('zgłoś')->link());
 
-    }
-
-    public function testModeratorCanRejectEntryReport() {
-
+        $crawler = $client->submit(
+            $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form()
+        );
     }
 }

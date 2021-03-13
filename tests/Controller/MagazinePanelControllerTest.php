@@ -145,4 +145,13 @@ class MagazinePanelControllerTest extends WebTestCase
 
         $this->assertCount(1, $crawler->filter('.kbin-magazine-bans tbody tr'));
     }
+
+    public function testModeratorCanApproveEntryReport()
+    {
+
+    }
+
+    public function testModeratorCanRejectEntryReport() {
+
+    }
 }

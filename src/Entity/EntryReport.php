@@ -14,23 +14,29 @@ class EntryReport extends Report
     /**
      * @ORM\ManyToOne(targetEntity="Entry", inversedBy="reports")
      */
-    private ?Entry $subject;
+    private ?Entry $entry;
 
     public function __construct(User $reporting, User $reported, Entry $entry, ?string $reason = null)
     {
         parent::__construct($reporting, $reported, $entry->getMagazine(), $reason);
 
-        $this->subject = $entry;
+        $this->entry = $entry;
     }
+
+    public function getEntry(): Entry
+    {
+        return $this->entry;
+    }
+
 
     public function getSubject(): Entry
     {
-        return $this->subject;
+        return $this->entry;
     }
 
     public function clearSubject(): Report
     {
-        $this->subject = null;
+        $this->entry = null;
 
         return $this;
     }

@@ -114,7 +114,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private Collection $votes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryReport", mappedBy="subject")
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
      */
     private Collection $reports;
 

@@ -12,24 +12,30 @@ class EntryCommentReport extends Report
 {
     /**
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="reports")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
-    private ?EntryComment $subject;
+    private ?EntryComment $entryComment;
 
     public function __construct(User $reporting, User $reported, EntryComment $comment, ?string $reason = null)
     {
         parent::__construct($reporting, $reported, $comment->getMagazine(), $reason);
 
-        $this->subject = $comment;
+        $this->entryComment = $comment;
+    }
+
+    public function getEntryComment(): EntryComment
+    {
+        return $this->entryComment;
     }
 
     public function getSubject(): EntryComment
     {
-        return $this->subject;
+        return $this->entryComment;
     }
 
     public function clearSubject(): Report
     {
-        $this->subject = null;
+        $this->entryComment = null;
 
         return $this;
     }

@@ -47,12 +47,7 @@ class ReportHandleSubscriber implements EventSubscriberInterface
         /**
          * @var $report Report
          */
-        $report = $repo->findOneBy(
-            [
-                'subject' => $subject,
-                'status'  => Report::STATUS_PENDING,
-            ]
-        );
+        $report = $repo->findPendingBySubject($subject);
 
         if (!$report) {
             return null;

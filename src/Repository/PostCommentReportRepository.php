@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\PostComment;
 use App\Entity\PostCommentReport;
+use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,4 +20,25 @@ class PostCommentReportRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PostCommentReport::class);
     }
+
+    public function findBySubject(PostComment $comment)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.postComment = :comment')
+            ->setParameter('comment', $comment)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findPendingBySubject(PostComment $comment)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.postComment = :comment')
+            ->setParameter('comment', $comment)
+            ->andWhere('r.status = :status')
+            ->setParameter('status', Report::STATUS_PENDING)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }
