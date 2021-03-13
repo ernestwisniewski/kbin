@@ -21,5 +21,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->submit(
             $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form()
         );
+
+
     }
 }

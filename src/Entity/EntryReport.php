@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -43,6 +43,6 @@ class EntryReport extends Report
 
     public function getType(): string
     {
-        return Entry::class;
+        return 'entry';
     }
 }

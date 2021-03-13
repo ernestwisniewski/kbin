@@ -36,7 +36,6 @@ class PostCommentType extends AbstractType
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber($this->imageListener);
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

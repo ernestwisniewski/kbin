@@ -40,5 +40,4 @@ class PostCommentReportRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

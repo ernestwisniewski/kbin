@@ -92,14 +92,20 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     private Collection $reports;
 
+    /**
+     * @ORM\OneToMany(targetEntity="PostNotification", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
+     */
+    private Collection $notifications;
+
     public function __construct(string $body, Magazine $magazine, User $user)
     {
-        $this->body     = $body;
-        $this->magazine = $magazine;
-        $this->user     = $user;
-        $this->comments = new ArrayCollection();
-        $this->votes    = new ArrayCollection();
-        $this->reports  = new ArrayCollection();
+        $this->body          = $body;
+        $this->magazine      = $magazine;
+        $this->user          = $user;
+        $this->comments      = new ArrayCollection();
+        $this->votes         = new ArrayCollection();
+        $this->reports       = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
 
         $user->addPost($this);
 

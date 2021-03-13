@@ -131,5 +131,4 @@ class PostCommentRepository extends ServiceEntityRepository
                 ->getResult();
         }
     }
-
 }

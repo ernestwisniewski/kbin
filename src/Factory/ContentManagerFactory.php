@@ -29,7 +29,6 @@ class ContentManagerFactory
         PostCommentManager $postCommentManager,
         EntityManagerInterface $entityManager
     ) {
-
         $this->entryManager        = $entryManager;
         $this->entryCommentManager = $entryCommentManager;
         $this->postManager         = $postManager;

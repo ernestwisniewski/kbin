@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -41,6 +41,6 @@ class PostCommentReport extends Report
 
     public function getType(): string
     {
-        return PostCommentReport::class;
+        return 'post_comment';
     }
 }

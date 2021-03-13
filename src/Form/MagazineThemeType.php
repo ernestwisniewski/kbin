@@ -46,5 +46,4 @@ class MagazineThemeType extends AbstractType
             ]
         );
     }
-
 }

@@ -90,6 +90,11 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
      */
     private Collection $reports;
 
+    /**
+     * @ORM\OneToMany(targetEntity="PostCommentNotification", mappedBy="comment", cascade={"remove"}, orphanRemoval=true)
+     */
+    private Collection $notifications;
+
     public function __construct(string $body, ?Post $post, User $user, ?PostComment $parent = null)
     {
         $this->body     = $body;

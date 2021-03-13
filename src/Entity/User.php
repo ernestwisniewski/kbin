@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -151,6 +152,12 @@ class User implements UserInterface
      */
     private Collection $violations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OrderBy({"createdAt": "DESC"})
+     */
+    private Collection $notifications;
+
     public function __construct($email, $username, $password)
     {
         $this->email             = $email;
@@ -173,6 +180,7 @@ class User implements UserInterface
         $this->blockedMagazines  = new ArrayCollection();
         $this->reports           = new ArrayCollection();
         $this->violations        = new ArrayCollection();
+        $this->notifications     = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }

@@ -114,20 +114,26 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private Collection $votes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
      */
     private Collection $reports;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EntryNotification", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     */
+    private Collection $notifications;
+
     public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user)
     {
-        $this->title    = $title;
-        $this->url      = $url;
-        $this->body     = $body;
-        $this->magazine = $magazine;
-        $this->user     = $user;
-        $this->comments = new ArrayCollection();
-        $this->votes    = new ArrayCollection();
-        $this->reports  = new ArrayCollection();
+        $this->title         = $title;
+        $this->url           = $url;
+        $this->body          = $body;
+        $this->magazine      = $magazine;
+        $this->user          = $user;
+        $this->comments      = new ArrayCollection();
+        $this->votes         = new ArrayCollection();
+        $this->reports       = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
 
         $user->addEntry($this);
 

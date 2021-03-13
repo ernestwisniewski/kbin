@@ -95,15 +95,21 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      */
     private Collection $reports;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EntryCommentNotification", mappedBy="comment", cascade={"remove"}, orphanRemoval=true)
+     */
+    private Collection $notifications;
+
     public function __construct(string $body, ?Entry $entry, User $user, ?EntryComment $parent = null)
     {
-        $this->body     = $body;
-        $this->entry    = $entry;
-        $this->user     = $user;
-        $this->parent   = $parent;
-        $this->votes    = new ArrayCollection();
-        $this->children = new ArrayCollection();
-        $this->reports  = new ArrayCollection();
+        $this->body          = $body;
+        $this->entry         = $entry;
+        $this->user          = $user;
+        $this->parent        = $parent;
+        $this->votes         = new ArrayCollection();
+        $this->children      = new ArrayCollection();
+        $this->reports       = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
 
         if ($parent) {
             $this->root = $parent->getRoot() ?? $parent;

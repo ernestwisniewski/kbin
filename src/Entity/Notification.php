@@ -2,20 +2,22 @@
 
 namespace App\Entity;
 
+use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ReportRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\NotificationRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="report_type", type="text")
+ * @ORM\DiscriminatorColumn(name="notification_type", type="text")
  * @ORM\DiscriminatorMap({
+ *   "entry": "EntryNotification",
+ *   "entry_comment": "EntryCommentNotification",
+ *   "post": "PostNotification",
+ *   "post_comment": "PostCommentNotification",
  * })
  */
-//   "entry": "EntryNotification",
-//   "post": "PostNotification",
-//   "post_comment": "PostCommentNotification",
 abstract class Notification
 {
     const STATUS_NEW = 'new';
@@ -33,18 +35,18 @@ abstract class Notification
 
     /**
      * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="Magazine", inversedBy="reports")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
      */
-    private Magazine $magazine;
+    private User $user;
 
     /**
      * @ORM\Column(type="string")
      */
     private string $status = self::STATUS_NEW;
 
-    public function __construct(Magazine $magazine)
+    public function __construct(User $receiver)
     {
-        $this->magazine = $magazine;
+        $this->user = $receiver;
 
         $this->createdAtTraitConstruct();
     }

@@ -16,10 +16,18 @@ final class SubjectExtension extends AbstractExtension
     public function getTests(): array
     {
         return [
-            new TwigTest('entry', function (ReportInterface $report) { return $report instanceof Entry; }),
-            new TwigTest('entry_comment', function (ReportInterface $report) { return $report instanceof EntryComment; }),
-            new TwigTest('post', function (ReportInterface $report) { return $report instanceof Post; }),
-            new TwigTest('post_comment', function (ReportInterface $report) { return $report instanceof PostComment; }),
+            new TwigTest('entry', function (ReportInterface $report) {
+                return $report instanceof Entry;
+            }),
+            new TwigTest('entry_comment', function (ReportInterface $report) {
+                return $report instanceof EntryComment;
+            }),
+            new TwigTest('post', function (ReportInterface $report) {
+                return $report instanceof Post;
+            }),
+            new TwigTest('post_comment', function (ReportInterface $report) {
+                return $report instanceof PostComment;
+            }),
         ];
     }
 }
