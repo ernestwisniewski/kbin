@@ -73,8 +73,8 @@ class EntryCommentControllerTest extends WebTestCase
         $comment  = $this->createEntryComment('przykładowy komentarz');
         $comment2 = $this->createEntryComment('test', $comment->getEntry());
 
-        $this->createEntryCommentVote(1, $comment, $user2);
-        $this->createEntryCommentVote(1, $comment2, $user2);
+        $this->createVote(1, $comment, $user2);
+        $this->createVote(1, $comment2, $user2);
 
         $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";
 

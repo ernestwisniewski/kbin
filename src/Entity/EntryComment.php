@@ -279,11 +279,6 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         $this->visibility = self::VISIBILITY_VISIBLE;
     }
 
-    public function getReportClassName(): string
-    {
-        return EntryCommentReport::class;
-    }
-
     public function isAuthor(User $user): bool
     {
         return $user === $this->getUser();

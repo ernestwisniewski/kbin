@@ -316,11 +316,6 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $this;
     }
 
-    public function getReportClassName(): string
-    {
-        return PostReport::class;
-    }
-
     public function isAuthor(User $user): bool
     {
         return $user === $this->getUser();

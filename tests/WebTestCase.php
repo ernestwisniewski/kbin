@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\DTO\EntryCommentDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
+use App\Entity\Contracts\VoteInterface;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Service\EntryCommentManager;
@@ -162,23 +163,7 @@ abstract class WebTestCase extends BaseWebTestCase
         return $entry;
     }
 
-    public function createEntryVote(int $choice, Entry $entry, User $user): Vote
-    {
-        $entityManager = self::$container->get(EntityManagerInterface::class);
-        /**
-         * @var $voteManager VoteManager
-         */
-        $voteManager = self::$container->get(VoteManager::class);
-
-        $vote = $voteManager->vote($choice, $entry, $user);
-
-        $entityManager->persist($vote);
-        $entityManager->flush();
-
-        return $vote;
-    }
-
-    public function createEntryCommentVote(int $choice, EntryComment $comment, User $user): Vote
+    public function createVote(int $choice, VoteInterface $subject, User $user): Vote
     {
         $manager = self::$container->get(EntityManagerInterface::class);
         /**
@@ -186,7 +171,7 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $voteManager = self::$container->get(VoteManager::class);
 
-        $vote = $voteManager->vote($choice, $comment, $user);
+        $vote = $voteManager->vote($choice, $subject, $user);
 
         $manager->persist($vote);
         $manager->flush();

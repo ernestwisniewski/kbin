@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\PostComment;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Contracts\VoteInterface;
 use App\Factory\VoteFactory;

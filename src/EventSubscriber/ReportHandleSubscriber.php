@@ -43,7 +43,7 @@ class ReportHandleSubscriber implements EventSubscriberInterface
 
     private function handleReport(ReportInterface $subject): ?Report
     {
-        $repo = $this->entityManager->getRepository($subject->getReportClassName());
+        $repo = $this->entityManager->getRepository(get_class($subject).'Report');
         /**
          * @var $report Report
          */

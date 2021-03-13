@@ -13,7 +13,7 @@ class ReportFactory
 {
     public function createFromDto(ReportDto $reportDto, User $reporting): Report
     {
-        $className = $reportDto->getSubject()->getReportClassName();
+        $className = get_class($reportDto->getSubject()).'Report';
 
         return new $className($reporting, $reportDto->getSubject()->getUser(), $reportDto->getSubject(), $reportDto->getReason());
     }

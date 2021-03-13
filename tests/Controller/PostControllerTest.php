@@ -7,7 +7,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PostControllerTest extends WebTestCase
 {
-    public function testCanCreateArticle()
+    public function testCanCreatePost()
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('user'));

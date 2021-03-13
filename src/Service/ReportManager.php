@@ -25,14 +25,14 @@ class ReportManager
         EventDispatcherInterface $eventDispatcher,
         EntityManagerInterface $entityManager
     ) {
-        $this->reportFactory = $reportFactory;
+        $this->reportFactory   = $reportFactory;
         $this->eventDispatcher = $eventDispatcher;
-        $this->entityManager = $entityManager;
+        $this->entityManager   = $entityManager;
     }
 
     public function report(ReportDto $dto, User $reporting): Report
     {
-        $repository = $this->entityManager->getRepository($dto->getSubject()->getReportClassName());
+        $repository = $this->entityManager->getRepository(get_class($dto->getSubject()).'Report');
 
         /**
          * @var $report Report
