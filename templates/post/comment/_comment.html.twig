@@ -44,6 +44,7 @@
                         {{ comment.body|markdown|raw }}
                         {% if comment.image %}
                             <img data-controller="image"
+                                 data-image-loading-class="loading-cursor"
                                  data-image-full-value="{{ uploaded_asset(comment.image.getFilePath()) }}"
                                  data-image-thumb-value="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
                                  data-action="click->image#toggle"

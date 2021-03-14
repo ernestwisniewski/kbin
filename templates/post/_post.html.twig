@@ -53,6 +53,7 @@
                     {{ post.body|markdown|raw }}
                     {% if post.image %}
                         <img data-controller="image"
+                             data-image-loading-class="loading-cursor"
                              data-image-full-value="{{ uploaded_asset(post.image.getFilePath()) }}"
                              data-image-thumb-value="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
                              data-action="click->image#toggle"
