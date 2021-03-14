@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Magazine;
 use App\Entity\Entry;
-use App\Entity\Submission;
 use App\Entity\User;
 use App\PageView\EntryPageView;
 

@@ -9,12 +9,18 @@ export default class extends ApplicationController {
         thumb: String
     };
 
+    connect() {
+        this.element.onload = (() => {
+            this.dispatch('thumbLoaded', true)
+        });
+    }
+
     async toggle() {
         if (this.isFullValue) {
             this.element.src = this.thumbValue;
             this.isFullValue = false;
         } else {
-            this.dispatch('expand', 'true')
+            this.dispatch('thumbSelected', true)
 
             this.loadingValue = true;
 

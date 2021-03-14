@@ -79,7 +79,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    public function findBlockedMagazines(int $page, User $user)
+    public function findBlockedMagazines(int $page, User $user): PagerfantaInterface
     {
         $dql =
             'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
@@ -105,7 +105,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    public function findModeratorsPaginated(Magazine $magazine, ?int $page = 1)
+    public function findModerators(Magazine $magazine, ?int $page = 1): PagerfantaInterface
     {
         $criteria = Criteria::create()->orderBy(['createdAt' => 'ASC']);
 
@@ -116,7 +116,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $moderators;
     }
 
-    public function findBansPaginated(Magazine $magazine, ?int $page = 1)
+    public function findBans(Magazine $magazine, ?int $page = 1): PagerfantaInterface
     {
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
@@ -130,7 +130,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $bans;
     }
 
-    public function findReportsPaginated(Magazine $magazine, ?int $page = 1)
+    public function findReports(Magazine $magazine, ?int $page = 1): PagerfantaInterface
     {
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('status', Report::STATUS_PENDING))

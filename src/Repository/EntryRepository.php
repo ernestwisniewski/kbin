@@ -2,11 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\ForumSubscription;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
-use App\Entity\Submission;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;

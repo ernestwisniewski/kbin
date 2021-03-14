@@ -210,7 +210,7 @@ class MagazineController extends AbstractController
             'magazine/moderators.html.twig',
             [
                 'magazine'   => $magazine,
-                'moderators' => $magazineRepository->findModeratorsPaginated($magazine, (int) $request->get('strona', 1)),
+                'moderators' => $magazineRepository->findModerators($magazine, (int) $request->get('strona', 1)),
             ]
         );
     }

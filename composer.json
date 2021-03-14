@@ -33,6 +33,7 @@
         "symfony/http-client": "5.2.*",
         "symfony/mailer": "5.2.*",
         "symfony/mailgun-mailer": "5.2.*",
+        "symfony/mercure-bundle": "^0.2.6",
         "symfony/messenger": "5.2.*",
         "symfony/mime": "5.2.*",
         "symfony/monolog-bundle": "^3.6",

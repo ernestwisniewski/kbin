@@ -6,6 +6,10 @@ export default class extends ApplicationController {
     };
 
     connect() {
+        this.checkHeight();
+    }
+
+    checkHeight() {
         this.isExpandedValue = false;
         this.element.style.maxHeight = '25rem'
 

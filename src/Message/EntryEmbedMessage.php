@@ -2,7 +2,7 @@
 
 namespace App\Message;
 
-class EntryCreatedMessage
+class EntryEmbedMessage
 {
     private int $entryId;
 

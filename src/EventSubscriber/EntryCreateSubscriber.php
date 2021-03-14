@@ -3,17 +3,21 @@
 namespace App\EventSubscriber;
 
 use App\Event\EntryCreatedEvent;
-use App\Message\EntryCreatedMessage;
+use App\Message\EntryEmbedMessage;
+use App\Message\EntryNotificationMessage;
+use App\Service\DomainManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class EntryCreateSubscriber implements EventSubscriberInterface
 {
     private MessageBusInterface $messageBus;
+    private DomainManager $domainManager;
 
-    public function __construct(MessageBusInterface $messageBus)
+    public function __construct(MessageBusInterface $messageBus, DomainManager $domainManager)
     {
-        $this->messageBus = $messageBus;
+        $this->messageBus    = $messageBus;
+        $this->domainManager = $domainManager;
     }
 
     public static function getSubscribedEvents(): array
@@ -25,6 +29,8 @@ class EntryCreateSubscriber implements EventSubscriberInterface
 
     public function onEntryCreated(EntryCreatedEvent $event)
     {
-        $this->messageBus->dispatch(new EntryCreatedMessage($event->getEntry()->getId()));
+        $this->domainManager->extract($event->getEntry());
+        $this->messageBus->dispatch(new EntryEmbedMessage($event->getEntry()->getId()));
+        $this->messageBus->dispatch(new EntryNotificationMessage($event->getEntry()->getId()));
     }
 }
