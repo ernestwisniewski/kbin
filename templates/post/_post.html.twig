@@ -48,11 +48,15 @@
             </aside>
         </div>
         <div class="kbin-post-main">
-            <div class="kbin-post-content" data-controller="show-more">
+            <div class="kbin-post-content" data-controller="show-more" data-action="image:expand->show-more#expand">
                 {% if post.visibility is same as 'visible' %}
                     {{ post.body|markdown|raw }}
                     {% if post.image %}
-                        <img src="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                        <img data-controller="image"
+                             data-image-full-value="{{ uploaded_asset(post.image.getFilePath()) }}"
+                             data-image-thumb-value="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                             data-action="click->image#toggle"
+                             src="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
                              alt="{{ post.body|length > 150 ? '...' : '' }}">
                     {% endif %}
                 {% elseif post.visibility is same as 'trashed' %}

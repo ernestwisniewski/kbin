@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryCommentNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="reports")
+     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="notifications")
      */
     private ?EntryComment $entryComment;
 

@@ -163,11 +163,8 @@ $comment-margin-sm: .5rem;
       overflow: hidden;
 
       img {
-        max-width: 25rem;
+        max-width: 100%;
         height: auto;
-        @include media-breakpoint-down(lg) {
-          max-width: 100%;
-        }
       }
     }
 

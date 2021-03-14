@@ -39,11 +39,15 @@
                 </aside>
             </div>
             <div class="kbin-comment-main">
-                <div class="kbin-comment-content" data-controller="show-more">
+                <div class="kbin-comment-content" data-controller="show-more" data-action="image:expand->show-more#expand">
                     {% if comment.visibility is same as 'visible' %}
                         {{ comment.body|markdown|raw }}
                         {% if comment.image %}
-                            <img src="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                            <img data-controller="image"
+                                 data-image-full-value="{{ uploaded_asset(comment.image.getFilePath()) }}"
+                                 data-image-thumb-value="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                                 data-action="click->image#toggle"
+                                 src="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
                                  alt="{{ comment.body|length > 150 ? '...' : '' }}">
                         {% endif %}
                     {% elseif comment.visibility is same as 'trashed' %}

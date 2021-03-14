@@ -25,22 +25,22 @@ liip_imagine:
     resolvers:
         entry_thumb:
             flysystem:
-                filesystem_service: oneup_flysystem.local_images_filesystem
-                root_url:           "/"
+                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+                root_url:           '%uploads_base_url%'
                 cache_prefix:       media/cache
                 visibility:         public
 
         avatar_thumb:
             flysystem:
-                filesystem_service: oneup_flysystem.local_images_filesystem
-                root_url: "/"
+                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+                root_url: '%uploads_base_url%'
                 cache_prefix: media/cache
                 visibility: public
 
         post_thumb:
             flysystem:
-                filesystem_service: oneup_flysystem.local_images_filesystem
-                root_url: "/"
+                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+                root_url: '%uploads_base_url%'
                 cache_prefix: media/cache
                 visibility: public
 

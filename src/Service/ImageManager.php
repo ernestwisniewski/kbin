@@ -17,12 +17,12 @@ class ImageManager
     private ValidatorInterface $validator;
 
     public function __construct(
-        FilesystemInterface $defaultFilesystem,
+        FilesystemInterface $publicUploadsFilesystem,
         HttpClientInterface $httpClient,
         MimeTypesInterface $mimeTypeGuesser,
         ValidatorInterface $validator
     ) {
-        $this->defaultStorage  = $defaultFilesystem;
+        $this->defaultStorage  = $publicUploadsFilesystem;
         $this->httpClient      = $httpClient;
         $this->mimeTypeGuesser = $mimeTypeGuesser;
         $this->validator       = $validator;

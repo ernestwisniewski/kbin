@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Extension\AbstractExtension;
 use App\Repository\EntryRepository;
+use App\Twig\AppRuntime;
 use App\Entity\Magazine;
 use Twig\TwigFunction;
 

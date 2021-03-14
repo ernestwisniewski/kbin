@@ -1,14 +1,21 @@
-import {Controller} from 'stimulus';
+import {ApplicationController} from 'stimulus-use'
 
-export default class extends Controller {
+export default class extends ApplicationController {
+    static values = {
+        isExpanded: Boolean
+    };
+
     connect() {
+        this.isExpandedValue = false;
         this.element.style.maxHeight = '25rem'
 
         if (this.element.scrollHeight > this.element.clientHeight
             || this.element.scrollWidth > this.element.clientWidth) {
 
-            let moreBtn = this.createMoreBtn();
-            this.more(moreBtn);
+            this.moreBtn = this.createMoreBtn();
+            this.more();
+        } else {
+            this.element.style.maxHeight = null;
         }
     }
 
@@ -22,16 +29,24 @@ export default class extends Controller {
         return moreBtn;
     }
 
-    more(target) {
-        target.addEventListener('click', e => {
+    more() {
+        this.moreBtn.addEventListener('click', e => {
             if (e.target.previousSibling.style.maxHeight) {
                 e.target.previousSibling.style.maxHeight = null;
                 e.target.innerHTML = 'ukryj';
+                this.isExpandedValue = true;
             } else {
                 e.target.previousSibling.style.maxHeight = '25rem';
                 e.target.innerHTML = 'pokaż więcej';
-                e.target.previousSibling.scrollIntoView()
+                e.target.previousSibling.scrollIntoView();
+                this.isExpandedValue = false;
             }
         })
+    }
+
+    expand() {
+        if (!this.isExpandedValue) {
+            this.moreBtn.click();
+        }
     }
 }
