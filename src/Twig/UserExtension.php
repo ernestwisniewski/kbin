@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 use App\Entity\User;
+use App\Twig\Runtime\UserRuntime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,40 +17,11 @@ use Twig\TwigFunction;
 
 final class UserExtension extends AbstractExtension
 {
-    private RequestStack $requestStack;
-    private Security $security;
-
-    public function __construct(
-        Security $security,
-        RequestStack $requestStack
-    ) {
-        $this->requestStack = $requestStack;
-        $this->security     = $security;
-    }
-
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('is_user_follow', [$this, 'isUserFollow']),
-            new TwigFunction('is_user_blocked', [$this, 'isUserBlocked']),
+            new TwigFunction('is_user_follow', [UserRuntime::class, 'isUserFollow']),
+            new TwigFunction('is_user_blocked', [UserRuntime::class, 'isUserBlocked']),
         ];
-    }
-
-    public function isUserFollow(User $following): bool
-    {
-        if (!$user = $this->security->getUser()) {
-            return false;
-        }
-
-        return $this->security->getUser()->isFollower($following);
-    }
-
-    public function isUserBlocked(User $blocked): bool
-    {
-        if (!$user = $this->security->getUser()) {
-            return false;
-        }
-
-        return $this->security->getUser()->isBlocked($blocked);
     }
 }

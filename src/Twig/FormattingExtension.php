@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 use App\Markdown\MarkdownConverter;
+use App\Twig\Runtime\FormattingRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -18,7 +19,7 @@ final class FormattingExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('markdown', [$this->markdownConverter, 'convertToHtml']),
+            new TwigFilter('markdown', [FormattingRuntime::class, 'convertToHtml']),
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Helper;
+namespace App\Twig\Runtime;
 
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

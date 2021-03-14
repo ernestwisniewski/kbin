@@ -2,8 +2,8 @@
 
 namespace App\Twig;
 
+use App\Twig\Runtime\MediaRuntime;
 use Twig\Extension\AbstractExtension;
-use App\Helper\MediaRuntime;
 use Twig\TwigFunction;
 
 final class MediaExtension extends AbstractExtension
