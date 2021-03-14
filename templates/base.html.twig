@@ -10,7 +10,7 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
-<body data-controller="kbin">
+<body data-controller="kbin" class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : '' }}">
 <div data-controller="scroll-progress" class="bg-primary scroll-progress"></div>
 <div id="kbin">
     {% include '_layout/_topbar.html.twig' %}

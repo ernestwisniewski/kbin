@@ -82,3 +82,8 @@ user_profile_edit:
   controller: App\Controller\UserController::edit
   path: /profil/edytuj
   methods: [ GET, POST ]
+
+user_profile_toggle_theme:
+  controller: App\Controller\UserController::theme
+  path: /profil/edytuj/theme
+  methods: [ GET, POST ]

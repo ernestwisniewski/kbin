@@ -70,7 +70,7 @@ class UserController extends AbstractController
         return $this->render(
             'user/posts.html.twig',
             [
-                'user'     => $user,
+                'user'  => $user,
                 'posts' => $posts,
             ]
         );
@@ -89,8 +89,8 @@ class UserController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount' => $following->getFollowersCount(),
-                    'isSubscribed' => true
+                    'subCount'     => $following->getFollowersCount(),
+                    'isSubscribed' => true,
                 ]
             );
         }
@@ -111,8 +111,8 @@ class UserController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount' => $following->getFollowersCount(),
-                    'isSubscribed' => false
+                    'subCount'     => $following->getFollowersCount(),
+                    'isSubscribed' => false,
                 ]
             );
         }
@@ -132,7 +132,7 @@ class UserController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'isBlocked' => true
+                    'isBlocked' => true,
                 ]
             );
         }
@@ -152,7 +152,7 @@ class UserController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'isBlocked' => false
+                    'isBlocked' => false,
                 ]
             );
         }
@@ -185,5 +185,20 @@ class UserController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    public function theme(UserManager $userManager, Request $request): Response
+    {
+        $userManager->toggleTheme($this->getUserOrThrow());
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'success' => true,
+                ]
+            );
+        }
+
+        return $this->redirectToRefererOrHome($request);
     }
 }

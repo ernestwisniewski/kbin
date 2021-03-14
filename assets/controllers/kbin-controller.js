@@ -9,13 +9,26 @@ export default class extends Controller {
         }
     }
 
-    dark() {
-        this.element.classList.toggle('kbin-dark');
-        if (Cookies.get('dark')) {
+    async toggleTheme(e) {
+        e.preventDefault();
+
+        try {
+            let response = await fetch(e.target.href, {method: 'POST'});
+
+            response = await ok(response);
+            response = await response.json();
+
             Cookies.remove('dark');
-        } else {
-            Cookies.set('dark', true);
+            this.element.classList.toggle('kbin-dark');
+        } catch (e) {
+            this.element.classList.toggle('kbin-dark');
+            if (Cookies.get('dark')) {
+                Cookies.remove('dark');
+            } else {
+                alert("Zaloguj się, aby uniknąć efektu migania.")
+                Cookies.set('dark', true);
+            }
+        } finally {
         }
     }
-
 }

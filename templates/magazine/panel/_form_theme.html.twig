@@ -1,16 +1,26 @@
 {{ form_start(form) }}
 <div class="col-lg-6 mb-3">
-    <div class="kbin-magazine-create-form">
+    <div class="kbin-magazine-theme-form">
+        <div class="kbin-magazine-background"></div>
+
         <div class="mb-3">
             {{ form_label(form.cover, 'Okładka') }}
             {{ form_widget(form.cover, {'attr':{ 'class': 'form-control' }}) }}
         </div>
+
+        <div class="mb-3">
+            {{ form_label(form.css, 'CSS') }}
+            {{ form_widget(form.css) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.js, 'JS') }}
+            {{ form_widget(form.js) }}
+        </div>
+
         <div class="input-group input-group-lg me-2">
             {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': {'class': 'kbin-theme-send btn-primary'} }) }}
         </div>
-        {# <div class="mb-12 text-end"> #}
-        {# {{ form_row(form.submit, { 'label': 'Gotowe' }) }} #}
-        {# </div> #}
     </div>
 </div>
 {{ form_end(form) }}

@@ -148,4 +148,11 @@ class UserManager
     {
         $this->emailVerifier->handleEmailConfirmation($request, $user);
     }
+
+    public function toggleTheme(User $user): void
+    {
+        $user->toggleTheme();
+
+        $this->entityManager->flush();
+    }
 }

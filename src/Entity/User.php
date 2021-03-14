@@ -22,6 +22,10 @@ class User implements UserInterface
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    public const THEME_LIGHT = 'light';
+    public const THEME_DARK = 'dark';
+    public const THEME_AUTO = 'auto';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -59,6 +63,11 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private int $followersCount = 0;
+
+    /**
+     * @ORM\Column(type="string", options={"default": User::THEME_LIGHT})
+     */
+    private string $theme = self::THEME_LIGHT;
 
     /**
      * @ORM\Column(type="boolean")
@@ -451,6 +460,18 @@ class User implements UserInterface
     public function updateFollowCounts(User $following)
     {
         $following->followersCount = $following->followers->count();
+    }
+
+    public function getTheme(): string
+    {
+        return $this->theme;
+    }
+
+    public function toggleTheme(): self
+    {
+        $this->theme = $this->theme === self::THEME_LIGHT ? self::THEME_DARK : self::THEME_LIGHT;
+
+        return $this;
     }
 
     public function isVerified(): bool
