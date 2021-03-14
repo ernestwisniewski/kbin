@@ -70,6 +70,10 @@ class ReportHandleSubscriber implements EventSubscriberInterface
     public function onEntryBeforePurge(EntryBeforePurgeEvent $event): void
     {
         $report = $this->handleReport($event->getEntry());
+        if (!$report) {
+            return;
+        }
+
         $report->clearSubject();
         $this->entityManager->flush();
     }
@@ -107,6 +111,10 @@ class ReportHandleSubscriber implements EventSubscriberInterface
     public function onPostCommentBeforePurge(PostCommentBeforePurgeEvent $event): void
     {
         $report = $this->handleReport($event->getComment());
+        if (!$report) {
+            return;
+        }
+
         $report->clearSubject();
         $this->entityManager->flush();
     }
