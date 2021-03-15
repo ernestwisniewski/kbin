@@ -1,9 +1,0 @@
-resources:
-    App\DTO\MagazineDto:
-        shortName: 'magazine'
-        collectionOperations:
-            get:
-                method: GET
-        itemOperations:
-            get:
-                method: GET

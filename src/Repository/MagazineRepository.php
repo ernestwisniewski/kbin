@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @method Magazine|null find($id, $lockMode = null, $lockVersion = null)
  * @method Magazine|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Magazine|null findOneByName(array $criteria, array $orderBy = null)
  * @method Magazine[]    findAll()
  * @method Magazine[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

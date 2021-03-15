@@ -1,3 +1,8 @@
+framework:
+    serializer:
+        mapping:
+            paths: ['%kernel.project_dir%/config/kbin_serialization']
+
 parameters:
     html5_validation: false
     front_sort_options: wazne|wschodzace|aktywne|najnowsze|komentowane

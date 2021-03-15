@@ -1,0 +1,17 @@
+resources:
+  App\DTO\MagazineDto:
+    properties:
+      name:
+        identifier: true
+    shortName: 'magazine'
+    collectionOperations:
+      get:
+        method: GET
+    itemOperations:
+      get:
+        method: GET
+    attributes:
+      normalization_context:
+        groups: [ 'magazine_read' ]
+      denormalization_context:
+        groups: [ 'magazine_write' ]
