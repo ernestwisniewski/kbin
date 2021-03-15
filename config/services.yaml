@@ -36,6 +36,14 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\Markdown\CommonMark\ExternalImagesRenderer:
+        tags:
+            - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Image, priority: 1 }
+
+    App\Markdown\CommonMark\ExternalLinkRenderer:
+        tags:
+            - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Link, priority: 1 }
+
     App\Markdown\Factory\EnvironmentFactory:
         $container: !service_locator
             League\CommonMark\ConfigurableEnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
