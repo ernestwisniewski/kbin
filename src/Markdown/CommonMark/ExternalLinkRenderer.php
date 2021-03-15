@@ -37,7 +37,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
                 'span',
                 [],
                 [
-                    new HtmlElement('i', ['class' => 'kbin-preview fas fa-photo-video text-muted me-1'], ''),
+                    new HtmlElement('i', ['class' => 'kbin-preview fas fa-photo-video text-muted me-1 float-start'], ''),
                     new HtmlElement('a', $attr, $url),
                 ]
             );
