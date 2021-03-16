@@ -8,7 +8,7 @@ export default class extends Controller {
     static values = {
         isVisible: Boolean,
         loading: Boolean,
-        id: Number,
+        url: String,
         html: String
     };
 
@@ -28,7 +28,7 @@ export default class extends Controller {
         this.loadingValue = true;
 
         try {
-            let url = router().generate('ajax_fetch_embed', {id: this.idValue});
+            let url = router().generate('ajax_fetch_embed', {url: this.urlValue});
 
             let response = await fetch(url, {method: 'GET'});
 

@@ -2,11 +2,13 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Utils\Embed;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Image;
 use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
@@ -15,6 +17,12 @@ use League\CommonMark\Util\RegexHelper;
 final class ExternalLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
     protected ConfigurationInterface $config;
+    private Embed $embed;
+
+    public function __construct(Embed $embed)
+    {
+        $this->embed = $embed;
+    }
 
     public function render(
         AbstractInline $inline,
@@ -29,21 +37,17 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             );
         }
 
-        $url          = $inline->getUrl();
-        $attr['href'] = $url;
+        $url = $title = $inline->getUrl();
 
-       if (getimagesize($url)) {
-            return new HtmlElement(
-                'span',
-                [],
-                [
-                    new HtmlElement('i', ['class' => 'kbin-preview fas fa-photo-video text-muted me-1 float-start'], ''),
-                    new HtmlElement('a', $attr, $url),
-                ]
-            );
+        if ($inline->firstChild() instanceof Text) {
+            $title = $htmlRenderer->renderInline($inline->firstChild());
         }
 
-        return new HtmlElement('a', $attr + ['class' => 'kbin-media-link'], $url);
+        if (getimagesize($url) || $this->embed->fetch($url)->getHtml()) {
+            return EmbedElement::buildEmbed($url, $title);
+        }
+
+        return new HtmlElement('a', ['href' => $url] + ['class' => 'kbin-media-link'], $title);
     }
 
     public function setConfiguration(

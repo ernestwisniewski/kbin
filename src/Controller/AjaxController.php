@@ -24,11 +24,11 @@ class AjaxController extends AbstractController
         );
     }
 
-    public function fetchEmbed(Entry $entry, EntryRepository $entryRepository, Embed $embed, Request $request): JsonResponse
+    public function fetchEmbed(Embed $embed, Request $request): JsonResponse
     {
         return new JsonResponse(
             [
-                'html' => $embed->fetch($entry->getUrl())->getHtml(),
+                'html' => $embed->fetch($request->get('url'))->getHtml(),
             ]
         );
     }

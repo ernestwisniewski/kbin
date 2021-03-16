@@ -2,6 +2,7 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Utils\Embed;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\AbstractInline;
@@ -31,19 +32,7 @@ final class ExternalImagesRenderer implements InlineRendererInterface, Configura
 
         $url = $inline->getUrl();
 
-        $attr = [
-            'class' => 'kbin-media-link',
-            'href'  => $url,
-        ];
-
-        return new HtmlElement(
-            'span',
-            [],
-            [
-                new HtmlElement('i', ['class' => 'kbin-preview fas fa-photo-video text-muted me-1'], ''),
-                new HtmlElement('a', $attr, $url)
-            ]
-        );
+        return EmbedElement::buildEmbed($url);
     }
 
     public function setConfiguration(

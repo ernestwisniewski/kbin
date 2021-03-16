@@ -7,7 +7,7 @@ ajax_fetch_title:
 ajax_fetch_embed:
   controller: App\Controller\AjaxController::fetchEmbed
   defaults: { _format: json }
-  path: /ajax/fetch_embed/{id}
+  path: /ajax/fetch_embed
   methods: [GET]
 
 ajax_fetch_post_comments:
