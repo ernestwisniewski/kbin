@@ -70,7 +70,6 @@ class EntryController extends AbstractController
         }
 
         $form = $this->createFormByType($entryDto, $type);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

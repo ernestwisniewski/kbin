@@ -10,7 +10,7 @@ use App\Repository\EntryRepository;
 use App\Service\ImageManager;
 use App\Utils\Embed;
 
-class EntryEmbedHandler implements MessageHandlerInterface
+class AttachEntryEmbedHandler implements MessageHandlerInterface
 {
     private EntryRepository $entryRepository;
     private Embed $embed;

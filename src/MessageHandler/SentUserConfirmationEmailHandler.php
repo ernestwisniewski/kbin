@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Message\UserCreatedMessage;
 use Symfony\Component\Mime\Address;
 
-class SentUserConfirmationEmail implements MessageHandlerInterface
+class SentUserConfirmationEmailHandler implements MessageHandlerInterface
 {
     private EmailVerifier $emailVerifier;
     private UserRepository $userRepository;

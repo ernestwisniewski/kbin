@@ -254,7 +254,6 @@ class MagazinePanelController extends AbstractController
         $dto = new MagazineThemeDto($magazine);
 
         $form = $this->createForm(MagazineThemeType::class, $dto);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

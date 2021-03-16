@@ -34,7 +34,6 @@ class ReportController extends AbstractController
                 'action' => $this->generateUrl($reportDto->getRouteName(), ['id' => $subject->getId()]),
             ]
         );
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {

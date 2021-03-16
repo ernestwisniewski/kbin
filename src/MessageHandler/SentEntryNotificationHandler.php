@@ -7,7 +7,7 @@ use App\Repository\EntryRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class EntryNotificationHandler implements MessageHandlerInterface
+class SentEntryNotificationHandler implements MessageHandlerInterface
 {
     private EntryRepository $entryRepository;
     private NotificationManager $notificationManager;

@@ -124,7 +124,6 @@ class PostController extends AbstractController
         $postDto = (new PostDto())->create($magazine);
 
         $form = $this->createForm(PostType::class, $postDto);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

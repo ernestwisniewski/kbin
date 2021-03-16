@@ -9,7 +9,7 @@ use App\Repository\PostRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class PostNotificationHandler implements MessageHandlerInterface
+class SentPostNotificationHandler implements MessageHandlerInterface
 {
     private PostRepository $postRepository;
     private NotificationManager $notificationManager;

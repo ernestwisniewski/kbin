@@ -3,11 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Event\EntryCommentCreatedEvent;
-use App\Event\EntryCreatedEvent;
 use App\Message\EntryCommentNotificationMessage;
-use App\Message\EntryEmbedMessage;
-use App\Message\EntryNotificationMessage;
-use App\Service\DomainManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
