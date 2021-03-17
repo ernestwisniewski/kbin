@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Event\EntryHasBeenSeenEvent;
 use App\PageView\EntryCommentPageView;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -34,8 +36,14 @@ class EntryController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      */
-    public function single(Magazine $magazine, Entry $entry, ?string $sortBy, EntryCommentRepository $commentRepository, Request $request): Response
-    {
+    public function single(
+        Magazine $magazine,
+        Entry $entry,
+        ?string $sortBy,
+        EntryCommentRepository $commentRepository,
+        EventDispatcherInterface $eventDispatcher,
+        Request $request
+    ): Response {
         $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))
             ->showEntry($entry);
 
@@ -47,6 +55,8 @@ class EntryController extends AbstractController
 
         $commentRepository->hydrate(...$comments);
         $commentRepository->hydrateChildren(...$comments);
+
+        $eventDispatcher->dispatch((new EntryHasBeenSeenEvent($entry)));
 
         return $this->render(
             'entry/single.html.twig',

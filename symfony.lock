@@ -158,11 +158,35 @@
     "fzaninotto/faker": {
         "version": "v1.9.2"
     },
+    "google/recaptcha": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "d087df3e087f50da3955f2def05079380da5894b"
+        },
+        "files": [
+            "config/packages/google_recaptcha.yaml"
+        ]
+    },
     "imagine/imagine": {
         "version": "1.2.4"
     },
     "isometriks/spam-bundle": {
         "version": "v1.0.7"
+    },
+    "karser/karser-recaptcha3-bundle": {
+        "version": "0.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.1",
+            "ref": "107a3a758fe331292f1c23c13d73c66cb3a268c7"
+        },
+        "files": [
+            "config/packages/karser_recaptcha3.yaml"
+        ]
     },
     "knplabs/knp-time-bundle": {
         "version": "v1.15.0"
@@ -749,6 +773,9 @@
     },
     "symfonycasts/verify-email-bundle": {
         "version": "v1.2.0"
+    },
+    "tchoulom/view-counter-bundle": {
+        "version": "5.1.7"
     },
     "twig/extra-bundle": {
         "version": "v3.2.1"

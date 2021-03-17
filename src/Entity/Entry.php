@@ -20,12 +20,14 @@ use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Tchoulom\ViewCounterBundle\Entity\ViewCounter;
+use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface
+class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, ViewCountable
 {
     use VotableTrait;
     use RankingTrait;
@@ -98,6 +100,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private int $score = 0;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected ?int $views = 0;
+
+    /**
      * @ORM\Column(type="datetimetz")
      */
     private ?\DateTime $lastActive;
@@ -123,6 +130,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     private Collection $notifications;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry")
+     */
+    protected Collection $viewCounters;
+
     public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user)
     {
         $this->title         = $title;
@@ -134,6 +146,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->votes         = new ArrayCollection();
         $this->reports       = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->viewCounters  = new ArrayCollection();
 
         $user->addEntry($this);
 
@@ -258,6 +271,18 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this;
     }
 
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews($views): self
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
     public function getLastActive(): ?\DateTime
     {
         return $this->lastActive;
@@ -376,6 +401,23 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->updateRanking();
 
         return $this;
+    }
+
+    public function getViewCounters(): Collection
+    {
+        return $this->viewCounters;
+    }
+
+    public function addViewCounter(ViewCounter $viewCounter): self
+    {
+        $this->viewCounters[] = $viewCounter;
+
+        return $this;
+    }
+
+    public function removeViewCounter(ViewCounter $viewCounter): void
+    {
+        $this->viewCounters->removeElement($viewCounter);
     }
 
     public function isAuthor(User $user): bool

@@ -11,6 +11,7 @@ parameters:
     username_regex: '\w{2,25}|!deleted\d+'
     uploads_dir_name: 'media'
     uploads_base_url: '%env(SITE_BASE_URL)%/%uploads_dir_name%'
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 
 services:
     _defaults:
@@ -47,3 +48,9 @@ services:
     App\Markdown\Factory\EnvironmentFactory:
         $container: !service_locator
             League\CommonMark\ConfigurableEnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
+
+    App\Service\CloudflareIpResolver:
+        decorates: 'karser_recaptcha3.ip_resolver'
+        arguments:
+            $decorated: '@App\Service\CloudflareIpResolver.inner'
+            $requestStack: '@request_stack'
