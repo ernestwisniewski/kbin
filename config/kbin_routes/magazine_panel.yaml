@@ -1,3 +1,8 @@
+magazine_panel_front:
+  controller: App\Controller\MagazinePanelController::front
+  path: /m/{name}/panel/statystyki
+  methods: [ GET ]
+
 magazine_panel_ban:
   controller: App\Controller\MagazinePanelController::ban
   path: /m/{magazine_name}/ban/{user_username}

@@ -1,6 +1,6 @@
 import {Controller} from 'stimulus';
-import {fetch, ok} from "./utils/http";
-import router from "./utils/routing";
+import {fetch, ok} from "../utils/http";
+import router from "../utils/routing";
 
 export default class extends Controller {
     static targets = ['embed', 'container', 'close'];

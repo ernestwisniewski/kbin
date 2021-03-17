@@ -1,7 +1,7 @@
 import {Controller} from 'stimulus';
-import {fetch, ok} from "./utils/http";
-import router from "./utils/routing";
-import KEditor from "./utils/editor";
+import {fetch, ok} from "../utils/http";
+import router from "../utils/routing";
+import KEditor from "../utils/editor";
 
 export default class extends Controller {
     static targets = ['form'];

@@ -27,7 +27,7 @@ class EntryCommentVote extends Vote
 
     public function __construct(int $choice, User $user, EntryComment $comment)
     {
-        parent::__construct($choice, $user);
+        parent::__construct($choice, $user, $comment->getUser());
 
         $this->comment = $comment;
     }

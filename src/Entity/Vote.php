@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -32,10 +32,17 @@ class Vote
      */
     private User $user;
 
-    public function __construct(int $choice, User $user)
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private User $author;
+
+    public function __construct(int $choice, User $user, User $author)
     {
         $this->choice = $choice;
         $this->user   = $user;
+        $this->author = $author;
 
         $this->createdAtTraitConstruct();
     }
@@ -60,6 +67,12 @@ class Vote
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+
+    public function getAuthor(): User
+    {
+        return $this->author;
     }
 
     public function __sleep()

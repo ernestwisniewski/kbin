@@ -1,5 +1,5 @@
 import {Controller} from 'stimulus';
-import {fetch, ok} from "./utils/http";
+import {fetch, ok} from "../utils/http";
 
 const VOTE_UP = 1;
 const VOTE_DOWN = -1;

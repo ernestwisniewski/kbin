@@ -1,21 +1,13 @@
-import Vue from 'vue';
-import VueTest from './components/VueTest'
+import './bootstrap'
 import './styles/app.scss';
+import KChoices from "./utils/choices";
+import KDatepicker from "./utils/datepicker";
+import KEditor from "./utils/editor";
+import KLoginAlert from "./utils/login-alert";
 
-require('bootstrap');
-
-// start the Stimulus application
-import './bootstrap';
-
-// Vuejs
-Vue.options.delimiters = ['${', '}$']
-
-let vue = new Vue({
-    el: '#kbin',
-    data: {
-        message: 'test'
-    },
-    components: {
-        VueTest
-    },
+window.addEventListener('load', function(event) {
+    const choices = new KChoices();
+    const datepicker = new KDatepicker();
+    const editor = new KEditor();
+    const loginAlert = new KLoginAlert();
 });

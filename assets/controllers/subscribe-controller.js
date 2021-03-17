@@ -1,5 +1,5 @@
 import {Controller} from 'stimulus';
-import {fetch, ok} from "./utils/http";
+import {fetch, ok} from "../utils/http";
 
 export default class extends Controller {
     static targets = ['form', 'subCount'];

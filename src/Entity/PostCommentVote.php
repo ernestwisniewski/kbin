@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -27,7 +27,7 @@ class PostCommentVote extends Vote
 
     public function __construct(int $choice, User $user, PostComment $comment)
     {
-        parent::__construct($choice, $user);
+        parent::__construct($choice, $user, $comment->getUser());
 
         $this->comment = $comment;
     }

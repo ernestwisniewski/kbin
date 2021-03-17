@@ -1,4 +1,5 @@
-@import '~vanillajs-datepicker/sass/datepicker.scss';
+@import '../datepicker/datepicker';
+@import '../datepicker/mixins';
 
 $dp-background-color: $white !default;
 $dp-border-color: $border-color !default;
@@ -35,8 +36,6 @@ $dp-footer-background-color: $light !default;
 
 $dp-input-in-edit-border-color: darken($input-focus-border-color, 5%) !default;
 $dp-input-in-edit-focus-box-shadow-size: 0 0 0.25em 0.25em !default;
-
-@import '~vanillajs-datepicker/sass/mixins';
 
 @mixin dp-button {
   .btn {

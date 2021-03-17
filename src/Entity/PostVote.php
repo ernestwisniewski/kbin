@@ -26,7 +26,7 @@ class PostVote extends Vote
 
     public function __construct(int $choice, User $user, ?Post $post)
     {
-        parent::__construct($choice, $user);
+        parent::__construct($choice, $user, $post->getUser());
 
         $this->post = $post;
     }

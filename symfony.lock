@@ -265,6 +265,9 @@
     "nikic/php-parser": {
         "version": "v4.10.4"
     },
+    "nucleos/antispam-bundle": {
+        "version": "2.2.0"
+    },
     "oneup/flysystem-bundle": {
         "version": "3.0",
         "recipe": {
@@ -417,6 +420,9 @@
     },
     "symfony/event-dispatcher-contracts": {
         "version": "v2.2.0"
+    },
+    "symfony/expression-language": {
+        "version": "v5.2.4"
     },
     "symfony/filesystem": {
         "version": "v5.2.1"
@@ -697,6 +703,9 @@
     },
     "symfony/twig-pack": {
         "version": "v1.0.1"
+    },
+    "symfony/ux-chartjs": {
+        "version": "v1.2.0"
     },
     "symfony/validator": {
         "version": "4.3",

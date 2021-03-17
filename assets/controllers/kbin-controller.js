@@ -1,5 +1,5 @@
 import {Controller} from 'stimulus';
-import {fetch, ok} from "./utils/http";
+import {fetch, ok} from "../utils/http";
 import Cookies from 'js-cookie';
 
 export default class extends Controller {

@@ -1,7 +1,7 @@
 // import {Controller} from 'stimulus';
 import { ApplicationController, useDebounce } from 'stimulus-use'
-import {fetch, ok} from './utils/http';
-import router from './utils/routing';
+import {fetch, ok} from '../utils/http';
+import router from '../utils/routing';
 
 export default class extends ApplicationController {
     static debounces = ['fetchTitle']
