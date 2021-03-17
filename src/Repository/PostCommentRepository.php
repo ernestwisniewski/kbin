@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Magazine;
+use App\Entity\Post;
 use App\PageView\PostCommentPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
@@ -25,7 +26,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class PostCommentRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 500;
+    const PER_PAGE = 200;
 
     private Security $security;
 
@@ -67,7 +68,7 @@ class PostCommentRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    private function addTimeClause(QueryBuilder $qb, Criteria $criteria):void
+    private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
         if ($criteria->getTime() !== Criteria::TIME_ALL) {
             $since = $criteria->getSince();

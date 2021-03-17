@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Entry;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\UserBlock;
@@ -28,7 +29,7 @@ use Symfony\Component\Security\Core\Security;
 class EntryCommentRepository extends ServiceEntityRepository
 {
     const SORT_DEFAULT = 'aktywne';
-    const PER_PAGE = 15;
+    const PER_PAGE = 100;
 
     private Security $security;
 
@@ -64,11 +65,6 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->addSelect('cc')
             ->leftJoin('c.children', 'cc');
 
-        if (!$criteria->getMagazine()) {
-            $qb->addSelect('e')
-                ->leftJoin('c.entry', 'e');
-        }
-
         $this->addTimeClause($qb, $criteria);
         $this->filter($qb, $criteria);
 
@@ -83,8 +79,14 @@ class EntryCommentRepository extends ServiceEntityRepository
         }
 
         if ($criteria->getMagazine()) {
-            $qb->join('c.entry', 'e', Join::WITH, 'e.magazine = :magazine');
-            $qb->setParameter('magazine', $criteria->getMagazine());
+            $qb->join('c.entry', 'e', Join::WITH, 'e.magazine = :magazine')
+                ->setParameter('magazine', $criteria->getMagazine())
+                ->andWhere('e.visibility = :visible')
+                ->setParameter('visible', Entry::VISIBILITY_VISIBLE);
+        } else {
+            $qb->leftJoin('c.entry', 'e')
+                ->andWhere('e.visibility = :visible')
+                ->setParameter('visible', Entry::VISIBILITY_VISIBLE);
         }
 
         if ($criteria->getUser()) {

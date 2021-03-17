@@ -22,7 +22,7 @@ class EmbedElement
                 new HtmlElement(
                     'i',
                     [
-                        'class'             => 'kbin-preview fas fa-photo-video text-muted me-1',
+                        'class'             => 'kbin-preview fas fa-photo-video text-muted me-1 float-start',
                         'data-action'       => 'click->embed#fetch',
                         'data-embed-target' => 'embed',
                     ],
