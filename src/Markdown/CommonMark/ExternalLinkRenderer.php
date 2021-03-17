@@ -43,7 +43,19 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             $title = $htmlRenderer->renderInline($inline->firstChild());
         }
 
-        if (getimagesize($url) || $this->embed->fetch($url)->getHtml()) {
+        try {
+            $embed = $this->embed->fetch($url)->getHtml();
+        } catch (\Exception $e) {
+            $embed = null;
+        }
+
+        try {
+            $isImage = getimagesize($url);
+        } catch (\Exception $e) {
+            $isImage = false;
+        }
+
+        if ($isImage || $embed) {
             return EmbedElement::buildEmbed($url, $title);
         }
 
