@@ -1,0 +1,24 @@
+{% from 'user/_macros.html.twig' import avatar %}
+
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <td>Nadawca</td>
+            <td>Wiadomość</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{#{% if(messages.haveToPaginate) %}#}
+{#    {{ pagerfanta(messages, null, {'pageParameter':'[strona]'}) }}#}
+{#{% endif %}#}

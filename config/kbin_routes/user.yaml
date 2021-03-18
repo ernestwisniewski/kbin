@@ -44,12 +44,12 @@ user_profile_front:
   methods: [ GET ]
 
 user_profile_notifications:
-  controller: App\Controller\ProfileController::front
+  controller: App\Controller\ProfileController::notifications
   path: /profil/notyfikacje
   methods: [ GET ]
 
 user_profile_messages:
-  controller: App\Controller\ProfileController::front
+  controller: App\Controller\ProfileController::messages
   path: /profil/wiadomosci
   methods: [ GET ]
 
@@ -74,7 +74,7 @@ user_profile_user_subscriptions:
   methods: [ GET ]
 
 user_profile_settings:
-  controller: App\Controller\ProfileController::front
+  controller: App\Controller\ProfileController::settings
   path: /profil/ustawienia
   methods: [ GET ]
 

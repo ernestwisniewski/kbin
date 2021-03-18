@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\MagazineRepository;
+use App\Repository\MessageRepository;
+use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
+use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -92,6 +95,52 @@ class ProfileController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function notifications(NotificationRepository $notificationRepository, Request $request): Response
+    {
+        $page = (int) $request->get('strona', 1);
+
+        return $this->render(
+            'profile/notifications.twig',
+            [
+                'notifications' => []
+            ]
+        );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function messages(MessageRepository $messageRepository, Request $request): Response
+    {
+        $page = (int) $request->get('strona', 1);
+
+        return $this->render(
+            'profile/messages.twig',
+            [
+                'messages' => []
+            ]
+        );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function settings(Request $request): Response
+    {
+
+        return $this->render(
+            'profile/settings.twig',
+            [
+            ]
+        );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function subMagazines(MagazineRepository $magazineRepository, Request $request): Response
     {
         $page = (int) $request->get('strona', 1);
@@ -104,6 +153,9 @@ class ProfileController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function subUsers(UserRepository $userRepository, Request $request): Response
     {
         $page = (int) $request->get('strona', 1);
@@ -116,6 +168,9 @@ class ProfileController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function blockedMagazines(MagazineRepository $magazineRepository, Request $request): Response
     {
         $page = (int) $request->get('strona', 1);
@@ -128,6 +183,9 @@ class ProfileController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function blockedUsers(UserRepository $userRepository, Request $request): Response
     {
         $page = (int) $request->get('strona', 1);
