@@ -26,7 +26,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
     {
         try {
             $this->viewCounter->saveView($event->getEntry());
-        } catch (\Exception) {
+        } catch (\Exception $e) {
 
         }
     }

@@ -46,6 +46,7 @@ class EntryCommentManager implements ContentManager
 
         $comment->getEntry()->addComment($comment);
         $comment->setMagazine($commentDto->getEntry()->getMagazine());
+
         if ($commentDto->getImage()) {
             $comment->setImage($commentDto->getImage());
         }

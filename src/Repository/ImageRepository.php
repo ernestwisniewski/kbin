@@ -41,7 +41,7 @@ class ImageRepository extends ServiceEntityRepository
         try {
             $isStored = $this->imageManager->store($source, $filePath);
         } catch (\Exception $e) {
-            $this->getEntityManager()->remove($image);
+            $this->imageManager->remove($image);
 
             return null;
         }

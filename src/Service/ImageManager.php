@@ -162,4 +162,8 @@ class ImageManager
 
         return false;
     }
+
+    public function remove(\App\Entity\Image $image)
+    {
+    }
 }

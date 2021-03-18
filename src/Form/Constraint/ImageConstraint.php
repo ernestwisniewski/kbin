@@ -2,6 +2,7 @@
 
 namespace App\Form\Constraint;
 
+use App\Service\ImageManager;
 use Symfony\Component\Validator\Constraints\Image;
 
 class ImageConstraint
@@ -13,7 +14,7 @@ class ImageConstraint
                 'detectCorrupted' => true,
                 'groups'          => ['upload'],
                 'maxSize'         => '12M',
-                'mimeTypes'       => ['image/jpeg', 'image/gif', 'image/png'],
+                'mimeTypes'       => ImageManager::IMAGE_MIMETYPES,
             ]
         );
     }
