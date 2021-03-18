@@ -2,12 +2,16 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Service\ImageManager;
 use League\CommonMark\HtmlElement;
 
 class EmbedElement
 {
+
     public static function buildEmbed(string $url, ?string $label = null): HtmlElement
     {
+        $embedClass = ImageManager::isImageUrl($url) ? '' : 'ratio ratio-16x9 ';
+
         return new HtmlElement(
             'div',
             [
@@ -39,7 +43,7 @@ class EmbedElement
                 ),
                 new HtmlElement(
                     'div', ['class' => 'kbin-embed'],
-                    new HtmlElement('div', ['data-embed-target' => 'container', 'class' => 'ratio ratio-16x9 mt-4 display-none'], ''),
+                    new HtmlElement('div', ['data-embed-target' => 'container', 'class' => $embedClass.'mt-4 display-none'], ''),
                 ),
             ]
         );

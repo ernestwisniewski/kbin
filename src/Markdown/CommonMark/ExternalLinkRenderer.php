@@ -16,13 +16,11 @@ use League\CommonMark\Util\ConfigurationInterface;
 final class ExternalLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
     protected ConfigurationInterface $config;
-    private ImageManager $imageManager;
     private Embed $embed;
 
-    public function __construct(Embed $embed, ImageManager $imageManager)
+    public function __construct(Embed $embed)
     {
-        $this->embed        = $embed;
-        $this->imageManager = $imageManager;
+        $this->embed = $embed;
     }
 
     public function render(
@@ -50,7 +48,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             $embed = null;
         }
 
-        if ($this->imageManager->isImageUrl($url) || $embed) {
+        if (ImageManager::isImageUrl($url) || $embed) {
             return EmbedElement::buildEmbed($url, $title);
         }
 

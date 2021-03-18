@@ -41,7 +41,7 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
         }
 
         $embed   = $this->embed->fetch($entry->getUrl());
-        $isImage = $this->imageManager->isImageUrl($entry->getUrl());
+        $isImage = ImageManager::isImageUrl($entry->getUrl());
 
         $cover    = null;
         $tempFile = null;

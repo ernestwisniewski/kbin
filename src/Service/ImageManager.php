@@ -13,7 +13,7 @@ use League\Flysystem\FilesystemInterface;
 
 class ImageManager
 {
-    const IMAGE_MIMETYPES = ['image/jpeg', 'image/gif', 'image/png'];
+    const IMAGE_MIMETYPES = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png'];
     const MAX_IMAGE_BYTES = 12000000;
 
     private FilesystemInterface $defaultStorage;
@@ -146,7 +146,7 @@ class ImageManager
         return true;
     }
 
-    public function isImageUrl(string $url): bool
+    public static function isImageUrl(string $url): bool
     {
         $urlExt = pathinfo($url, PATHINFO_EXTENSION);
         $types  = array_map(
