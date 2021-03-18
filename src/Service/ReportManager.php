@@ -8,7 +8,7 @@ use App\Entity\Report;
 use App\Entity\User;
 use App\Event\ReportRejectedEvent;
 use App\Event\SubjectReportedEvent;
-use App\Exception\SubjectHasBeenReported;
+use App\Exception\SubjectHasBeenReportedException;
 use App\Factory\ReportFactory;
 use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,7 +41,7 @@ class ReportManager
 
         if ($report) {
             if ($report->getReporting() === $reporting) {
-                throw new SubjectHasBeenReported();
+                throw new SubjectHasBeenReportedException();
             }
         }
 

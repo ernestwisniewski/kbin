@@ -38,6 +38,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
 
     const ENTRY_TYPE_ARTICLE = 'artykul';
     const ENTRY_TYPE_LINK = 'link';
+    const ENTRY_TYPE_IMAGE = 'image';
 
     /**
      * @ORM\Id
@@ -83,6 +84,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      * @ORM\Column(type="text", nullable=true, length=15000)
      */
     private ?string $body = null;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private string $type = self::ENTRY_TYPE_ARTICLE;
 
     /**
      * @ORM\Column(type="boolean")
@@ -233,6 +239,18 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public function setBody(?string $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

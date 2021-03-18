@@ -63,6 +63,10 @@ class EntryManager implements ContentManager
 
         $this->assertType($entry);
 
+        if ($entry->getUrl()) {
+            $entry->setType(Entry::ENTRY_TYPE_LINK);
+        }
+
         $magazine->addEntry($entry);
 
         $this->entityManager->persist($entry);
@@ -82,6 +86,9 @@ class EntryManager implements ContentManager
         $entry->setBody($entryDto->getBody());
         if ($entryDto->getImage()) {
             $entry->setImage($entryDto->getImage());
+        }
+        if ($entry->getUrl()) {
+            $entry->setType(Entry::ENTRY_TYPE_LINK);
         }
 
         $this->assertType($entry);

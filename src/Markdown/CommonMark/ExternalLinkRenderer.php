@@ -2,26 +2,27 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Service\ImageManager;
 use App\Utils\Embed;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Image;
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
-use League\CommonMark\Util\RegexHelper;
 
 final class ExternalLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
     protected ConfigurationInterface $config;
+    private ImageManager $imageManager;
     private Embed $embed;
 
-    public function __construct(Embed $embed)
+    public function __construct(Embed $embed, ImageManager $imageManager)
     {
-        $this->embed = $embed;
+        $this->embed        = $embed;
+        $this->imageManager = $imageManager;
     }
 
     public function render(
@@ -49,13 +50,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             $embed = null;
         }
 
-        try {
-            $isImage = getimagesize($url);
-        } catch (\Exception $e) {
-            $isImage = false;
-        }
-
-        if ($isImage || $embed) {
+        if ($this->imageManager->isImageUrl($url) || $embed) {
             return EmbedElement::buildEmbed($url, $title);
         }
 
@@ -66,9 +61,5 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         ConfigurationInterface $configuration
     ) {
         $this->config = $configuration;
-    }
-
-    private function isImage()
-    {
     }
 }

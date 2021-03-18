@@ -2,6 +2,6 @@
 
 namespace App\Exception;
 
-final class SubjectHasBeenReported extends \Exception
+final class CorruptedFileException extends \Exception
 {
 }

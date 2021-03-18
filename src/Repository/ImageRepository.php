@@ -49,7 +49,7 @@ class ImageRepository extends ServiceEntityRepository
         return $isStored ? $image : null;
     }
 
-    public function findOrCreateFromUpload($upload): Image
+    public function findOrCreateFromUpload($upload): ?Image
     {
         return $this->findOrCreateFromPath($upload->getPathname());
     }

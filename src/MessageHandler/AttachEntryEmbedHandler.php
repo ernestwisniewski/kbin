@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler;
 
+use App\Entity\Entry;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Message\EntryEmbedMessage;
@@ -39,38 +40,40 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
             return;
         }
 
-        $embed = $this->embed->fetch($entry->getUrl());
+        $embed   = $this->embed->fetch($entry->getUrl());
+        $isImage = $this->imageManager->isImageUrl($entry->getUrl());
 
-        $image = null;
-        if ($tempFile = $this->fetchImage($embed)) {
-            $image = $this->imageRepository->findOrCreateFromPath($tempFile);
+        $cover    = null;
+        $tempFile = null;
+        if ($embed->getImage()) {
+            $tempFile = $this->fetchImage($embed->getImage());
+        } elseif ($isImage) {
+            $tempFile = $this->fetchImage($entry->getUrl());
+        }
+
+        if ($tempFile) {
+            $cover = $this->imageRepository->findOrCreateFromPath($tempFile);
         }
 
         $html = $embed->getHtml();
 
-        if (!$html && !$image) {
+        if (!$html && !$cover && !$isImage) {
             return;
         }
 
         $this->entityManager->transactional(
-            static function () use ($entry, $image, $html): void {
-                $entry->setHasEmbed($html ? true : false);
-                $entry->setImage($image);
+            static function () use ($entry, $cover, $html, $isImage): void {
+                if ($isImage) {
+                    $entry->setType(Entry::ENTRY_TYPE_IMAGE);
+                }
+                $entry->setHasEmbed($html || $isImage);
+                $entry->setImage($cover);
             }
         );
     }
 
-    private function fetchImage(Embed $embed): ?string
+    private function fetchImage(string $url): ?string
     {
-        if (!$embed->getImage()) {
-            return null;
-        }
-
-        $tempFile = $this->imageManager->download($embed->getImage());
-        if (!$tempFile) {
-            return null;
-        }
-
-        return $tempFile;
+        return $this->imageManager->download($url);
     }
 }

@@ -1,7 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Exception\CorruptedFileException;
+use App\Exception\ImageDownloadTooLargeException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -11,6 +13,9 @@ use League\Flysystem\FilesystemInterface;
 
 class ImageManager
 {
+    const IMAGE_MIMETYPES = ['image/jpeg', 'image/gif', 'image/png'];
+    const MAX_IMAGE_BYTES = 12000000;
+
     private FilesystemInterface $defaultStorage;
     private HttpClientInterface $httpClient;
     private MimeTypesInterface $mimeTypeGuesser;
@@ -33,13 +38,18 @@ class ImageManager
         $fh = fopen($source, 'rb');
 
         try {
+            if (filesize($source) > self::MAX_IMAGE_BYTES) {
+                throw new ImageDownloadTooLargeException();
+            }
             $this->validate($source);
+
             $this->defaultStorage->writeStream($filePath, $fh);
 
             return $this->defaultStorage->has($filePath);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
-        } finally {
+        }
+        finally {
             \is_resource($fh) and fclose($fh);
         }
     }
@@ -52,27 +62,42 @@ class ImageManager
             throw new UnrecoverableMessageHandlingException('Couldn\'t create temporary file');
         }
 
+        $fh = fopen($tempFile, 'wb');
+
         try {
             $response = $this->httpClient->request(
                 'GET',
                 $url,
                 [
-                    'headers' => [
-                        'Accept' => 'image/jpeg, image/gif, image/png',
+                    'headers'     => [
+                        'Accept' => implode(', ', self::IMAGE_MIMETYPES),
                     ],
+                    'on_progress' => function (int $downloaded, int $downloadSize) {
+                        if (
+                            $downloaded > self::MAX_IMAGE_BYTES
+                            || $downloadSize > self::MAX_IMAGE_BYTES
+                        ) {
+                            throw new ImageDownloadTooLargeException();
+                        }
+                    },
                 ]
             );
 
-            $fh = fopen($tempFile, 'wb');
             foreach ($this->httpClient->stream($response) as $chunk) {
                 fwrite($fh, $chunk->getContent());
             }
+
             fclose($fh);
 
-            return $tempFile;
+            $this->validate($tempFile);
         } catch (\Exception $e) {
+            fclose($fh);
+            unlink($tempFile);
+
             return null;
         }
+
+        return $tempFile;
     }
 
     public function getFilePath(string $file): string
@@ -115,9 +140,26 @@ class ImageManager
         );
 
         if (\count($violations) > 0) {
-            return false;
+            throw new CorruptedFileException();
         }
 
         return true;
+    }
+
+    public function isImageUrl(string $url): bool
+    {
+        $urlExt = pathinfo($url, PATHINFO_EXTENSION);
+        $types  = array_map(
+            function ($type) {
+                return str_replace('image/', '', $type);
+            },
+            self::IMAGE_MIMETYPES
+        );
+
+        if (in_array($urlExt, $types)) {
+            return true;
+        }
+
+        return false;
     }
 }
