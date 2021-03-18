@@ -1,5 +1,6 @@
 import './bootstrap'
 import './styles/app.scss';
+import "bootstrap/dist/js/bootstrap.min";
 import KChoices from "./utils/choices";
 import KDatepicker from "./utils/datepicker";
 import KEditor from "./utils/editor";
