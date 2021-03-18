@@ -1,0 +1,14 @@
+framework:
+  rate_limiter:
+    vote:
+      policy: 'sliding_window'
+      limit: 100
+      interval: '60 minutes'
+    create_comment:
+      policy: 'sliding_window'
+      limit: 30
+      interval: '60 minutes'
+    create_entry:
+      policy: 'fixed_window'
+      limit: 20
+      interval: '60 minutes'
