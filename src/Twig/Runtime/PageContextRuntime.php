@@ -95,18 +95,19 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return $this->isRouteContains('report');
     }
 
+    public function isMagazinePanelPage(): bool
+    {
+        return str_contains($this->getCurrentRouteName(), 'magazine_panel');
+    }
+
     public function isActiveSortOption($sortOption, $entriesOnly = true): bool
     {
-        $default = EntryRepository::SORT_DEFAULT;
-
         if ($entriesOnly) {
             if ($this->isCommentsPage()) {
-                $default = EntryCommentRepository::SORT_DEFAULT;
                 return false;
             }
 
             if ($this->isPostsPage()) {
-                $default = PostRepository::SORT_DEFAULT;
                 return false;
             }
 

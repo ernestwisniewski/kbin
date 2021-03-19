@@ -36,6 +36,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_posts_page', [PageContextRuntime::class, 'isPostsPage']),
             new TwigFunction('is_post_page', [PageContextRuntime::class, 'isPostPage']),
             new TwigFunction('is_report_page', [PageContextRuntime::class, 'isReportPage']),
+            new TwigFunction('is_magazine_panel_page', [PageContextRuntime::class, 'isMagazinePanelPage']),
             new TwigFunction('get_active_posts_page_path', [PageContextRuntime::class, 'getActivePostsPagePath']),
             new TwigFunction('is_active_route', [PageContextRuntime::class, 'isActiveRoute']),
             new TwigFunction('is_route_contains', [PageContextRuntime::class, 'isRouteContains']),
