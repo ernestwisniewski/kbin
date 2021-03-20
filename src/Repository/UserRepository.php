@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Entry;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;

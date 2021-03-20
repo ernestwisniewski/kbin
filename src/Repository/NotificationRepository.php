@@ -2,9 +2,15 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Notification;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,8 +20,33 @@ use App\Entity\Notification;
  */
 class NotificationRepository extends ServiceEntityRepository
 {
+    const PER_PAGE = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Notification::class);
+    }
+
+    public function findByUser(User $user, ?int $page): PagerfantaInterface
+    {
+        $qb = $this->createQueryBuilder('n')
+            ->where('n.user = :user')
+            ->setParameter('user', $user);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $qb
+            )
+        );
+
+        $pagerfanta->setMaxPerPage(self::PER_PAGE);
+
+        try {
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
     }
 }

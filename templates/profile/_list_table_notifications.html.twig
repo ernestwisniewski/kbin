@@ -5,13 +5,13 @@
         <thead>
         <tr>
             <td>Tytuł</td>
-            <td>Wiadomość</td>
+            <td>Wiadomośćaa</td>
         </tr>
         </thead>
         <tbody>
         {% for notification in notifications %}
             <tr>
-                <td></td>
+                <td>{{ notification.status }}</td>
                 <td></td>
             </tr>
         {% endfor %}
@@ -19,6 +19,6 @@
     </table>
 </div>
 
-{#{% if(notifications.haveToPaginate) %}#}
-{#    {{ pagerfanta(notifications, null, {'pageParameter':'[strona]'}) }}#}
-{#{% endif %}#}
+{% if(notifications.haveToPaginate) %}
+    {{ pagerfanta(notifications, null, {'pageParameter':'[strona]'}) }}
+{% endif %}

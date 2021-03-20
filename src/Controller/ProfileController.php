@@ -105,7 +105,7 @@ class ProfileController extends AbstractController
         return $this->render(
             'profile/notifications.twig',
             [
-                'notifications' => []
+                'notifications' => $notificationRepository->findByUser($this->getUserOrThrow(), $page),
             ]
         );
     }
@@ -120,7 +120,7 @@ class ProfileController extends AbstractController
         return $this->render(
             'profile/messages.twig',
             [
-                'messages' => []
+                'messages' => [],
             ]
         );
     }

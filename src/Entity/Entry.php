@@ -2,14 +2,11 @@
 
 namespace App\Entity;
 
-use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Traits\RankingTrait;
 use App\Entity\Traits\VisibilityTrait;
-use App\Service\Contracts\ContentManager;
-use App\Service\EntryManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Contracts\CommentInterface;

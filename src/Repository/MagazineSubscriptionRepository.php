@@ -1,8 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Entry;
+use App\Entity\MagazineSubscription;
+use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Moderator;
 
@@ -16,6 +20,30 @@ class MagazineSubscriptionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Moderator::class);
+        parent::__construct($registry, MagazineSubscription::class);
+    }
+
+    public function findNewEntrySubscribers(Entry $entry): array
+    {
+        return $this->createQueryBuilder('ms')
+            ->addSelect('u')
+            ->join('ms.user', 'u')
+            ->where('u.notifyOnNewEntry = true')
+            ->andWhere('ms.magazine = :magazine')
+            ->setParameter('magazine', $entry->getMagazine())
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findNewPostSubscribers(Post $post)
+    {
+        return $this->createQueryBuilder('ms')
+            ->addSelect('u')
+            ->join('ms.user', 'u')
+            ->where('u.notifyOnNewPost = true')
+            ->andWhere('ms.magazine = :magazine')
+            ->setParameter('magazine', $post->getMagazine())
+            ->getQuery()
+            ->getResult();
     }
 }

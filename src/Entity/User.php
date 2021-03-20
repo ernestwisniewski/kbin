@@ -72,6 +72,16 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
+    private bool $notifyOnNewEntry = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $notifyOnNewPost = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
     private bool $isVerified = false;//@todo
 
     /**
@@ -470,6 +480,28 @@ class User implements UserInterface
     public function toggleTheme(): self
     {
         $this->theme = $this->theme === self::THEME_LIGHT ? self::THEME_DARK : self::THEME_LIGHT;
+
+        return $this;
+    }
+
+    public function isNotifyOnNewEntry(): bool
+    {
+        return $this->notifyOnNewEntry;
+    }
+
+    public function setNotifyOnNewEntry(bool $notifyOnNewEntry): void
+    {
+        $this->notifyOnNewEntry = $notifyOnNewEntry;
+    }
+
+    public function isNotifyOnNewPost(): bool
+    {
+        return $this->notifyOnNewPost;
+    }
+
+    public function setNotifyOnNewPost(bool $notifyOnNewPost): self
+    {
+        $this->notifyOnNewPost = $notifyOnNewPost;
 
         return $this;
     }
