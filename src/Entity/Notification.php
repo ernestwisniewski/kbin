@@ -51,6 +51,11 @@ abstract class Notification
         $this->createdAtTraitConstruct();
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
     public function getStatus(): string
     {
         return $this->status;

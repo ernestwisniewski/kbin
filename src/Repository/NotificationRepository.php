@@ -20,18 +20,19 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class NotificationRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 5;
+    const PER_PAGE = 25;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Notification::class);
     }
 
-    public function findByUser(User $user, ?int $page): PagerfantaInterface
+    public function findByUser(User $user, ?int $page, bool $onlyNew = false): PagerfantaInterface
     {
         $qb = $this->createQueryBuilder('n')
             ->where('n.user = :user')
-            ->setParameter('user', $user);
+            ->setParameter('user', $user)
+            ->orderBy('n.id', 'DESC');
 
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(

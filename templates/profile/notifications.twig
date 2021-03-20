@@ -7,7 +7,22 @@
         {% include 'profile/_tabs.html.twig' %}
 
         <div class="kbin-profile-edit mt-lg-4">
-            {% include 'profile/_list_table_notifications.html.twig' %}
+            <div class="table-responsive">
+                <table class="table align-middle small">
+                    <tbody>
+                    {% for notification in notifications %}
+                        <tr>
+                            <td>{{ block('notification_'~notification.type) }}</td>
+                            <td class="text-end text-"><small class="text-muted">{{ notification.createdAt|ago }}</small></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if(notifications.haveToPaginate) %}
+                {{ pagerfanta(notifications, null, {'pageParameter':'[strona]'}) }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
@@ -19,3 +34,19 @@
         {% include 'user/_moderator_list_card.html.twig'with {user: app.user} %}
     </div>
 {% endblock %}
+
+{% block notification_entry_notification %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': notification.user.username}) }}">{{ notification.user.username }}</a> dodał/a nową treść w <small
+        class="text-muted">/m/</small><a
+        href="{{ path('front_magazine', {'name': notification.entry.magazine.name }) }}">{{ notification.entry.magazine.name }}</a> - <strong><a
+            href="{{ path('entry_single', {'magazine_name': notification.entry.magazine.name, 'entry_id': notification.entry.id}) }}">{{ notification.entry.title|slice(0,60) }}</a></strong>
+{% endblock notification_entry_notification %}
+
+{% block notification_post_notification %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': notification.user.username}) }}">{{ notification.user.username }}</a> dodał/a nowy wpis w <small
+        class="text-muted">/m/</small><a
+        href="{{ path('front_magazine', {'name': notification.post.magazine.name }) }}">{{ notification.post.magazine.name }}</a> - <strong><a
+            href="{{ path('post_single', {'magazine_name': notification.post.magazine.name, 'post_id': notification.post.id}) }}">{{ notification.post.body|slice(0,60) }}</a></strong>
+{% endblock notification_post_notification %}
