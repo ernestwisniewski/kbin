@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\DTO\UserProfileSettingsDto;
+use App\Form\UserProfileSettingsType;
 use App\Repository\MagazineRepository;
 use App\Repository\MessageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use App\Service\UserManager;
+use App\Service\UserProfileSettingsManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -128,12 +131,23 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function settings(Request $request): Response
+    public function settings(UserProfileSettingsManager $manager, Request $request): Response
     {
+        $dto = $manager->createDto($this->getUserOrThrow());
+
+        $form = $this->createForm(UserProfileSettingsType::class, $dto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->update($this->getUserOrThrow(), $dto);
+
+            $this->redirectToRefererOrHome($request);
+        }
 
         return $this->render(
             'profile/settings.twig',
             [
+                'form' => $form->createView(),
             ]
         );
     }

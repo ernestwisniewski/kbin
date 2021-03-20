@@ -134,7 +134,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private Collection $notifications;
 
     /**
-     * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry")
+     * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
      */
     protected Collection $viewCounters;
 

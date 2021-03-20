@@ -76,7 +76,7 @@ user_profile_user_subscriptions:
 user_profile_settings:
   controller: App\Controller\ProfileController::settings
   path: /profil/ustawienia
-  methods: [ GET ]
+  methods: [ GET, POST ]
 
 user_profile_edit:
   controller: App\Controller\UserController::edit

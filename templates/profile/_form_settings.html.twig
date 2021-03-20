@@ -1,0 +1,20 @@
+{{ form_start(form) }}
+<h3 class="mb-4">Powiadomienia</h3>
+<div class="mb-3">
+    {{ form_label(form.notifyOnNewEntry, 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.notifyOnNewEntry, {name: 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie'}) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.notifyOnNewPost, 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.notifyOnNewPost, {name: 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie'}) }}
+    </div>
+</div>
+
+<div class="mb-12 text-end">
+    {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+</div>
+{{ form_end(form) }}
