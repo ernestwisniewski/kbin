@@ -72,8 +72,15 @@
                 </ul>
 
                 <ul class="kbin-nav-navbar navbar-nav  mb-2 mb-lg-0 float-lg-end">
-                    <li class="kbin-nav-navbar-item kbn-login-btn {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                        <a href="{{ path('user_profile_front') }}"><i
+                    {% if app.user and app.user.countNewNotifications > 0 %}
+                        <li class="kbin-nav-navbar-item">
+                            <a href="{{ path('user_profile_notifications') }}" class="px-1">
+                                <span class="badge rounded-pill bg-primary text-dark">{{ app.user.countNewNotifications }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="kbin-nav-navbar-item kbn-login-btn{{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                        <a href="{{ path('user_profile_front') }}" class="px-1"><i
                                     class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'Profil' : 'Zaloguj się' }}</a>
                     </li>
                 </ul>

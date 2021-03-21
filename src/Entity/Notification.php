@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class Notification
 {
     const STATUS_NEW = 'new';
+    const STATUS_READ = 'read';
 
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;

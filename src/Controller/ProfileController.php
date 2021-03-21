@@ -8,6 +8,7 @@ use App\Repository\MagazineRepository;
 use App\Repository\MessageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
+use App\Service\NotificationManager;
 use App\Service\UserManager;
 use App\Service\UserProfileSettingsManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -111,6 +112,30 @@ class ProfileController extends AbstractController
                 'notifications' => $notificationRepository->findByUser($this->getUserOrThrow(), $page),
             ]
         );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function readNotifications(NotificationManager $notificationManager, Request $request): Response
+    {
+        $this->validateCsrf('read_notifications', $request->request->get('token'));
+
+        $notificationManager->markAllAsRead($this->getUserOrThrow());
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function clearNotifications(NotificationManager $notificationManager, Request $request): Response
+    {
+        $this->validateCsrf('clear_notifications', $request->request->get('token'));
+
+        $notificationManager->clear($this->getUserOrThrow());
+
+        return $this->redirectToRefererOrHome($request);
     }
 
     /**

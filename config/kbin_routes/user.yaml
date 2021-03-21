@@ -48,6 +48,16 @@ user_profile_notifications:
   path: /profil/notyfikacje
   methods: [ GET ]
 
+user_profile_notifications_read:
+  controller: App\Controller\ProfileController::readNotifications
+  path: /profil/notyfikacje/read
+  methods: [ POST ]
+
+user_profile_notifications_clear:
+  controller: App\Controller\ProfileController::clearNotifications
+  path: /profil/notyfikacje/clear
+  methods: [ POST ]
+
 user_profile_messages:
   controller: App\Controller\ProfileController::messages
   path: /profil/wiadomosci

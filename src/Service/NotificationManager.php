@@ -5,11 +5,13 @@ namespace App\Service;
 use App\Entity\EntryComment;
 use App\Entity\EntryNotification;
 use App\Entity\MagazineSubscription;
+use App\Entity\Notification;
 use App\Entity\PostComment;
 use App\Entity\PostNotification;
 use App\Entity\User;
 use App\Repository\EntryNotificationRepository;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Repository\NotificationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -18,15 +20,18 @@ use App\Entity\Post;
 
 class NotificationManager
 {
+    private NotificationRepository $notificationRepository;
     private MagazineSubscriptionRepository $magazineSubscriptionRepository;
     private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
+        NotificationRepository $notificationRepository,
         MagazineSubscriptionRepository $magazineSubscriptionRepository,
         MessageBusInterface $messageBus,
         EntityManagerInterface $entityManager
     ) {
+        $this->notificationRepository         = $notificationRepository;
         $this->magazineSubscriptionRepository = $magazineSubscriptionRepository;
         $this->messageBus                     = $messageBus;
         $this->entityManager                  = $entityManager;
@@ -76,6 +81,31 @@ class NotificationManager
 
     }
 
+    public function markAllAsRead(User $user): void
+    {
+        $notifications = $user->getNewNotifications();
+
+        foreach ($notifications as $notification) {
+            /**
+             * @var $notification Notification
+             */
+            $notification->setStatus(Notification::STATUS_READ);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function clear(User $user): void
+    {
+        $notifications = $user->getNotifications();
+
+        foreach ($notifications as $notification) {
+            $this->entityManager->remove($notification);
+        }
+
+        $this->entityManager->flush();
+    }
+
     private function getUsersToNotify(array $subscriptions): array
     {
         return array_map(
@@ -100,6 +130,4 @@ class NotificationManager
             )
         );
     }
-
-
 }

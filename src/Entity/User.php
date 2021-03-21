@@ -609,4 +609,25 @@ class User implements UserInterface
             }
         }
     }
+
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function getNewNotifications(): Collection
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
+
+        return $this->notifications->matching($criteria);
+    }
+
+    public function countNewNotifications(): int
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
+
+        return $this->notifications->matching($criteria)->count();
+    }
 }
