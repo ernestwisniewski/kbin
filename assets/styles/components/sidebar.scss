@@ -12,11 +12,15 @@
         display: none;
       }
 
+      a.active {
+        color: #fff;
+      }
+
       a {
         color: #000;
 
         &:hover {
-          background: $kbin-navbar-quicklinks-hover-background-color;
+          //background: $kbin-navbar-quicklinks-hover-background-color;
         }
       }
 

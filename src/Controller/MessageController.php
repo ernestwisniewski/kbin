@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DTO\MessageDto;
 use App\Entity\User;
 use App\Form\MessageType;
+use App\Repository\MessageThreadRepository;
 use App\Service\MessageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,15 @@ class MessageController extends AbstractController
     {
         $this->messageManager = $messageManager;
         $this->entityManager  = $entityManager;
+    }
+
+    public function threads(MessageThreadRepository $repository, Request $request): Response
+    {
+        $messageThreads = $repository->findUserMessages($this->getUser(),  (int) $request->get('strona', 1));
+
+        return $this->render('user/message/threads.html.twig', [
+            'threads' => $messageThreads,
+        ]);
     }
 
     public function createThread(User $receiver, Request $request): Response

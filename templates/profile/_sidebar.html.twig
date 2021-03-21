@@ -1,0 +1,37 @@
+<div class="kbin-add d-grid gap-2 mb-4">
+    <div class="kbin-quick-links list-group">
+        <a href="{{ path('user_profile_front') }}"
+           class="list-group-item {{ is_active_route('user_profile_front') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Statystyki</h4>
+        </a>
+        <a href="{{ path('user_profile_notifications') }}"
+           class="list-group-item {{ is_active_route('user_profile_notifications') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Powiadomienia</h4>
+        </a>
+        <a href="{{ path('user_profile_messages') }}"
+           class="list-group-item {{ is_active_route('user_profile_messages') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Wiadomości</h4>
+        </a>
+        {# todo: nojs #}
+        <a href="{{ path('user_profile_magazine_blocks') }}"
+           class="list-group-item {{ is_active_route('user_profile_magazine_blocks') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Blokady</h4>
+        </a>
+        <a href="{{ path('user_profile_magazine_subscriptions') }}"
+           class="list-group-item {{ is_active_route('user_profile_magazine_subscriptions') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Subskrybcje</h4>
+        </a>
+        <a href="{{ path('user_profile_settings') }}"
+           class="list-group-item {{ is_active_route('user_profile_settings') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Ustawienia</h4>
+        </a>
+        <a href="{{ path('user_profile_edit') }}"
+           class="list-group-item {{ is_active_route('user_profile_edit') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Edytuj profil</h4>
+        </a>
+        <a href="{{ path('app_logout') }}"
+           class="list-group-item">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Wyloguj</h4>
+        </a>
+    </div>
+</div>

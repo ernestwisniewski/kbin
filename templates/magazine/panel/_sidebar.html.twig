@@ -1,0 +1,54 @@
+{% if is_granted('edit', magazine) %}
+    <div class="kbin-add d-grid gap-2 mb-4"
+         data-controller="reveal"
+         data-reveal-hidden-class="visually-hidden">
+        <button type="button"
+                class="btn btn-primary btn-lg mb-1 kbin-add-btn {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}"
+                data-reveal-target="item"
+                data-action="click->reveal#toggle">
+            Zarządzaj magazynem
+        </button>
+        <button type="button" class="btn-close visually-hidden"
+                aria-label="Close"
+                data-reveal-target="item"
+                data-action="click->reveal#toggle"></button>
+
+        <div class="kbin-quick-links list-group {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
+             data-reveal-target="item">
+            <a href="{{ path('magazine_panel_front', {'name': magazine.name}) }}"
+               class="list-group-item {{ is_active_route('magazine_panel_front') ? 'active' : '' }}">
+                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Statystyki</h4>
+            </a>
+
+            <a href="{{ path('magazine_panel_reports', {'name': magazine.name}) }}"
+               class="list-group-item {{ is_active_route('magazine_panel_reports') ? 'active font-weight-bold' : '' }}">
+                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Zgłoszenia</h4>
+            </a>
+
+            <a href="{{ path('magazine_panel_moderators', {'name': magazine.name}) }}"
+               class="list-group-item {{ is_active_route('magazine_panel_moderators') ? 'active font-weight-bold' : '' }}">
+                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Moderatorzy</h4>
+            </a>
+
+            <a href="{{ path('magazine_panel_bans', {'name': magazine.name}) }}"
+               class="list-group-item {{ is_active_route('magazine_panel_bans') ? 'active font-weight-bold' : '' }}">
+                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Bany</h4>
+            </a>
+
+            <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}"
+               class="list-group-item {{ is_active_route('magazine_panel_trash') ? 'active font-weight-bold' : '' }}">
+                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Kosz</h4>
+            </a>
+
+            <a href="{{ path('magazine_panel_theme', {'name': magazine.name}) }}"
+               class="list-group-item {{ is_active_route('magazine_panel_theme') ? 'active font-weight-bold' : '' }}">
+                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Wygląd</h4>
+            </a>
+
+            <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}"
+               class="list-group-item {{ is_active_route('magazine_panel_edit') ? 'active font-weight-bold' : '' }}">
+                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Ogólne</h4>
+            </a>
+        </div>
+    </div>
+{% endif %}

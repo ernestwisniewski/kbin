@@ -55,7 +55,13 @@
   }
 
   .kbin-sidebar .kbin-add .kbin-quick-links a {
+    background: #2b2b2b;
+    border-color: #2b2b2b;
     color: #fff;
+  }
+
+  .kbin-sidebar .kbin-add .kbin-quick-links a.active {
+    background: #1f1f1f!important;
   }
 
   .kbin-sidebar .kbin-add .kbin-quick-links a:hover {

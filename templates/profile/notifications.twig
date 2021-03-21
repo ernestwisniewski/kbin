@@ -7,7 +7,7 @@
         {% include 'profile/_tabs.html.twig' %}
 
         <div class="kbin-profile-edit mt-lg-4">
-            {% if app.user.countNewNotifications > 0 %}
+            {% if app.user.notifications.count > 0 %}
                 <div class="mb-2 btn-group">
                     <form action="{{ path('user_profile_notifications_read') }}" method="POST" class="me-2">
                         <input type="hidden" name="token" value="{{ csrf_token('read_notifications') }}">
@@ -50,6 +50,7 @@
 
 {% block sidebar %}
     {% include 'user/_sidebar.html.twig' with {user: app.user} %}
+    {% include 'profile/_sidebar.html.twig' %}
     {{ parent() }}
     <div class="mb-4">
         {% include 'user/_moderator_list_card.html.twig'with {user: app.user} %}

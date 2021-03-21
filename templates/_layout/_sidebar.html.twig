@@ -14,7 +14,7 @@
      data-reveal-hidden-class="visually-hidden">
     <button type="button"
             data-reveal-target="item"
-            class="btn btn-primary btn-lg mb-1 kbin-add-btn {{ kbin_js_enabled ? '' : 'visually-hidden' }}"
+            class="btn btn-primary btn-lg mb-1 kbin-add-btn {{ not kbin_js_enabled or is_route_contains('_create') ? 'visually-hidden' : '' }}"
             data-action="click->reveal#toggle">
         Dodaj nowy
     </button>
@@ -23,8 +23,7 @@
             data-reveal-target="item"
             data-action="click->reveal#toggle"></button>
 
-
-    <div class="kbin-quick-links list-group {{ kbin_js_enabled ? 'visually-hidden' : '' }}"
+    <div class="kbin-quick-links list-group {{ not kbin_js_enabled or is_route_contains('_create') ? '' : 'visually-hidden' }}"
          data-reveal-target="item">
         <a href="{{ path('entry_create', { type: 'link' }) }}" class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy link</h4>
