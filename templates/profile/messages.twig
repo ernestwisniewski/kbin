@@ -6,9 +6,37 @@
     <div class="kbin-profile kbin-profile-notifications-page">
         {% include 'profile/_tabs.html.twig' %}
 
-        <div class="kbin-profile-edit mt-lg-4">
-            {% include 'profile/_list_table_messages.html.twig' %}
-        </div>
+        {% if true %}
+            <div class="text-center py-5 text-muted">
+                <span class="display-1">( ͡◕ ͜ʖ ͡◕)</span>
+                <p>Jeszcze nic tu nie ma...</p>
+            </div>
+        {% else %}
+            <div class="kbin-profile-edit mt-lg-4">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                        <tr>
+                            <td>Nadawca</td>
+                            <td>Wiadomość</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for message in messages %}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if(messages.haveToPaginate) %}
+                    {{ pagerfanta(messages, null, {'pageParameter':'[strona]'}) }}
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 

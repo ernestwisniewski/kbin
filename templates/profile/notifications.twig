@@ -7,20 +7,27 @@
         {% include 'profile/_tabs.html.twig' %}
 
         <div class="kbin-profile-edit mt-lg-4">
-            <div class="mb-2 btn-group">
-                <form action="{{ path('user_profile_notifications_read') }}" method="POST" class="me-2">
-                    <input type="hidden" name="token" value="{{ csrf_token('read_notifications') }}">
-                    <button class="btn btn-sm btn-primary" type="submit">
-                        <span>Odczytaj wszystkie</span>
-                    </button>
-                </form>
-                <form action="{{ path('user_profile_notifications_clear') }}" method="POST">
-                    <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
-                    <button class="btn btn-sm btn-danger" type="submit">
-                        <span>Wyczyść</span>
-                    </button>
-                </form>
-            </div>
+            {% if app.user.countNewNotifications > 0 %}
+                <div class="mb-2 btn-group">
+                    <form action="{{ path('user_profile_notifications_read') }}" method="POST" class="me-2">
+                        <input type="hidden" name="token" value="{{ csrf_token('read_notifications') }}">
+                        <button class="btn btn-sm btn-primary" type="submit">
+                            <span>Odczytaj wszystkie</span>
+                        </button>
+                    </form>
+                    <form action="{{ path('user_profile_notifications_clear') }}" method="POST">
+                        <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
+                        <button class="btn btn-sm btn-danger" type="submit">
+                            <span>Wyczyść</span>
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="text-center py-5 text-muted">
+                    <span class="display-1">(づ◔ ͜ʖ◔)づ</span>
+                    <p>Jeszcze nic tu nie ma...</p>
+                </div>
+            {% endif %}
             <div class="table-responsive">
                 <table class="table align-middle small">
                     <tbody>
