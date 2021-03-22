@@ -13,6 +13,7 @@
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
+        "doctrine/mongodb-odm-bundle": "^4.3",
         "doctrine/orm": "^2.8",
         "embed/embed": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "^2.7",

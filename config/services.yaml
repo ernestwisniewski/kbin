@@ -12,6 +12,8 @@ parameters:
     uploads_dir_name: 'media'
     uploads_base_url: '%env(SITE_BASE_URL)%/%uploads_dir_name%'
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    env(MONGODB_URL): ''
+    env(MONGODB_DB): ''
 
 services:
     _defaults:
