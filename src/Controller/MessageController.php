@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\MessageDto;
+use App\Entity\MessageThread;
 use App\Entity\User;
 use App\Form\MessageType;
 use App\Repository\MessageThreadRepository;
@@ -24,10 +25,19 @@ class MessageController extends AbstractController
 
     public function threads(MessageThreadRepository $repository, Request $request): Response
     {
-        $messageThreads = $repository->findUserMessages($this->getUser(),  (int) $request->get('strona', 1));
+        $messageThreads = $repository->findUserMessages($this->getUser(), (int) $request->get('strona', 1));
 
-        return $this->render('user/message/threads.html.twig', [
-            'threads' => $messageThreads,
+        return $this->render(
+            'user/profile/messages.html.twig',
+            [
+                'threads' => $messageThreads,
+            ]
+        );
+    }
+
+    public function thread(MessageThread $thread): Response {
+        return $this->render('user/profile/message.html.twig', [
+            'thread' => $thread,
         ]);
     }
 
@@ -41,14 +51,17 @@ class MessageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $thread = $this->messageManager->toThread($dto, $this->getUserOrThrow(), $receiver);
 
-//            return $this->redirectToRoute(
-//                'message_thread',
-//                [
-//                    'id' => $thread->getId(),
-//                ]
-//            );
+            return $this->redirectToRoute(
+                'user_profile_messages'
+            );
         }
 
-        return new Response('');
+        return $this->render(
+            'user/message.html.twig',
+            [
+                'user' => $receiver,
+                'form' => $form->createView(),
+            ]
+        );
     }
 }

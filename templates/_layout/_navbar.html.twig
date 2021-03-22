@@ -79,7 +79,7 @@
                             </a>
                         </li>
                     {% endif %}
-                    <li class="kbin-nav-navbar-item kbn-login-btn{{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                    <li class="kbin-nav-navbar-item kbn-login-btn {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
                         <a href="{{ path('user_profile_front') }}" class="px-1"><i
                                     class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'Profil' : 'Zaloguj się' }}</a>
                     </li>

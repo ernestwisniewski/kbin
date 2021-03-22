@@ -58,11 +58,6 @@ user_profile_notifications_clear:
   path: /profil/notyfikacje/clear
   methods: [ POST ]
 
-user_profile_messages:
-  controller: App\Controller\ProfileController::messages
-  path: /profil/wiadomosci
-  methods: [ GET ]
-
 user_profile_magazine_blocks:
   controller: App\Controller\ProfileController::blockedMagazines
   path: /profil/blokady/magazyny

@@ -91,7 +91,7 @@ class ProfileController extends AbstractController
         );
 
         return $this->render(
-            'profile/front.html.twig',
+            'user/profile/front.html.twig',
             [
                 'contentChart' => $contentChart,
                 'voteChart'    => $voteChart,
@@ -107,7 +107,7 @@ class ProfileController extends AbstractController
         $page = (int) $request->get('strona', 1);
 
         return $this->render(
-            'profile/notifications.twig',
+            'user/profile/notifications.html.twig',
             [
                 'notifications' => $notificationRepository->findByUser($this->getUserOrThrow(), $page),
             ]
@@ -141,21 +141,6 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function messages(MessageRepository $messageRepository, Request $request): Response
-    {
-        $page = (int) $request->get('strona', 1);
-
-        return $this->render(
-            'profile/messages.twig',
-            [
-                'messages' => [],
-            ]
-        );
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     */
     public function settings(UserProfileSettingsManager $manager, Request $request): Response
     {
         $dto = $manager->createDto($this->getUserOrThrow());
@@ -170,7 +155,7 @@ class ProfileController extends AbstractController
         }
 
         return $this->render(
-            'profile/settings.twig',
+            'user/profile/settings.html.twig',
             [
                 'form' => $form->createView(),
             ]
@@ -185,7 +170,7 @@ class ProfileController extends AbstractController
         $page = (int) $request->get('strona', 1);
 
         return $this->render(
-            'profile/sub_magazines.twig',
+            'user/profile/sub_magazines.html.twig',
             [
                 'magazines' => $magazineRepository->findSubscribedMagazines($page, $this->getUserOrThrow()),
             ]
@@ -200,7 +185,7 @@ class ProfileController extends AbstractController
         $page = (int) $request->get('strona', 1);
 
         return $this->render(
-            'profile/sub_users.twig',
+            'user/profile/sub_users.html.twig',
             [
                 'users' => $userRepository->findFollowedUsers($page, $this->getUserOrThrow()),
             ]
@@ -215,7 +200,7 @@ class ProfileController extends AbstractController
         $page = (int) $request->get('strona', 1);
 
         return $this->render(
-            'profile/block_magazines.twig',
+            'user/profile/block_magazines.html.twig',
             [
                 'magazines' => $magazineRepository->findBlockedMagazines($page, $this->getUserOrThrow()),
             ]
@@ -230,7 +215,7 @@ class ProfileController extends AbstractController
         $page = (int) $request->get('strona', 1);
 
         return $this->render(
-            'profile/block_users.twig',
+            'user/profile/block_users.html.twig',
             [
                 'users' => $userRepository->findBlockedUsers($page, $this->getUserOrThrow()),
             ]

@@ -1,0 +1,14 @@
+user_profile_messages:
+  controller: App\Controller\MessageController::threads
+  path: /profil/wiadomosci
+  methods: [ GET ]
+
+user_profile_message:
+  controller: App\Controller\MessageController::thread
+  path: /profil/wiadomosci/{id}
+  methods: [ GET, POST ]
+
+user_message:
+  controller: App\Controller\MessageController::createThread
+  path: /u/{username}/wiadomosc
+  methods: [ GET, POST ]

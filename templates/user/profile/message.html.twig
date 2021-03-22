@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wiadomość do {{ user.username }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-user-message-page">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                {% include 'user/profile/_form_message.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' %}
+    {{ parent() }}
+    <div class="mb-4">
+        {% include 'user/_moderator_list_card.html.twig' %}
+    </div>
+{% endblock %}

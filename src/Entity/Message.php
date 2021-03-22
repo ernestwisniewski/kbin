@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
+use App\Repository\MessageRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
+    const STATUS_NEW = 'new';
+    const STATUS_READ = 'read';
+
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }

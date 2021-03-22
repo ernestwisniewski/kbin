@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wiadomości | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-profile kbin-profile-threads-page">
+        {% include 'user/profile/_tabs.html.twig' %}
+
+        {% if threads.count > 1 %}
+            <div class="text-center py-5 text-muted">
+                <span class="display-1">( ͡◕ ͜ʖ ͡◕)</span>
+                <p>Jeszcze nic tu nie ma...</p>
+            </div>
+        {% else %}
+            <div class="kbin-profile-edit mt-lg-4">
+                <div class="table-responsive">
+                    <table class="table align-middle small">
+                        <tbody>
+                        {% for thread in threads %}
+                            <tr>
+                                <td class="">{{ block('message') }}</td>
+                                <td class="text-end"><small class="text-muted"></small></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if(threads.haveToPaginate) %}
+                    {{ pagerfanta(threads, null, {'pageParameter':'[strona]'}) }}
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' with {user: app.user} %}
+    {% include 'user/profile/_sidebar.html.twig' %}
+    {{ parent() }}
+    <div class="mb-4">
+        {% include 'user/_moderator_list_card.html.twig'with {user: app.user} %}
+    </div>
+{% endblock %}
+
+{% block message %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': thread.otherParticipants(app.user)[0].username}) }}">{{ thread.otherParticipants(app.user)[0].username }}</a> wysłał/a wiadomość - <strong><a href="#">{{ thread.title }}</a></strong>.
+{% endblock message %}

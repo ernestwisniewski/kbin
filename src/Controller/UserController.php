@@ -180,7 +180,7 @@ class UserController extends AbstractController
         }
 
         return $this->render(
-            'profile/edit.html.twig',
+            'user/profile/edit.html.twig',
             [
                 'form' => $form->createView(),
             ]
