@@ -5,6 +5,9 @@ namespace App\Service;
 use App\Entity\EntryComment;
 use App\Entity\EntryNotification;
 use App\Entity\MagazineSubscription;
+use App\Entity\Message;
+use App\Entity\MessageNotification;
+use App\Entity\MessageThread;
 use App\Entity\Notification;
 use App\Entity\PostComment;
 use App\Entity\PostNotification;
@@ -76,6 +79,21 @@ class NotificationManager
         $this->entityManager->flush();
     }
 
+    public function sendMessageNotification(Message $message, User $sender): void
+    {
+        $thread        = $message->getThread();
+        $usersToNotify = $thread->getOtherParticipants($sender);
+
+        foreach ($usersToNotify as $subscriber) {
+            $notify = new MessageNotification($subscriber, $message);
+            $this->entityManager->persist($notify);
+
+            // @todo Send push notification to user
+        }
+
+        $this->entityManager->flush();
+    }
+
     public function sendPostCommentNotification(PostComment $comment): void
     {
 
@@ -129,5 +147,23 @@ class NotificationManager
                 }
             )
         );
+    }
+
+    public function readMessageNotification(Message $message, User $user): void
+    {
+        $repo = $this->entityManager->getRepository(MessageNotification::class);
+
+        $notifications = $repo->findBy(
+            [
+                'message' => $message,
+                'user'    => $user,
+            ]
+        );
+
+        foreach ($notifications as $notification) {
+            $notification->setStatus(Notification::STATUS_READ);
+        }
+
+        $this->entityManager->flush();
     }
 }

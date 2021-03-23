@@ -51,6 +51,8 @@ class MessageController extends AbstractController
             );
         }
 
+        $this->messageManager->readMessages($thread, $this->getUserOrThrow());
+
         return $this->render(
             'user/profile/message.html.twig',
             [

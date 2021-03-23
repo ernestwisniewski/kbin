@@ -27,7 +27,7 @@ class MessageThreadRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('mt')
             ->where(':user MEMBER OF mt.participants')
-            ->orderBy('mt.id', 'DESC')
+            ->orderBy('mt.updatedAt', 'DESC')
             ->setParameter(':user', $user);
 
         $pager = new Pagerfanta(new QueryAdapter($qb));

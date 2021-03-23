@@ -75,7 +75,14 @@
                     {% if app.user and app.user.countNewNotifications > 0 %}
                         <li class="kbin-nav-navbar-item">
                             <a href="{{ path('user_profile_notifications') }}" class="px-1">
-                                <span class="badge rounded-pill bg-primary text-dark">{{ app.user.countNewNotifications }}</span>
+                                <span class="badge rounded-pill bg-primary">{{ app.user.countNewNotifications }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if app.user and app.user.countNewMessages > 0 %}
+                        <li class="kbin-nav-navbar-item">
+                            <a href="{{ path('user_profile_notifications') }}" class="px-1">
+                                <span class="badge rounded-pill bg-danger">{{ app.user.countNewMessages }}</span>
                             </a>
                         </li>
                     {% endif %}

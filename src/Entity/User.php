@@ -628,6 +628,20 @@ class User implements UserInterface
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
 
-        return $this->notifications->matching($criteria)->count();
+        return $this->notifications
+            ->matching($criteria)
+            ->filter(fn($notification) => $notification->getType() !== 'message_notification')
+            ->count();
+    }
+
+    public function countNewMessages(): int
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
+
+        return $this->notifications
+            ->matching($criteria)
+            ->filter(fn($notification) => $notification->getType() === 'message_notification')
+            ->count();
     }
 }

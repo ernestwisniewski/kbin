@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\MessageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,11 +44,22 @@ class Message
      */
     private string $body;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private string $status = self::STATUS_NEW;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MessageNotification", mappedBy="message", cascade={"remove"}, orphanRemoval=true)
+     */
+    private Collection $notifications;
+
     public function __construct(MessageThread $thread, User $sender, string $body)
     {
-        $this->thread = $thread;
-        $this->sender = $sender;
-        $this->body   = $body;
+        $this->thread        = $thread;
+        $this->sender        = $sender;
+        $this->body          = $body;
+        $this->notifications = new ArrayCollection();
 
         $thread->addMessage($this);
 
@@ -72,5 +84,17 @@ class Message
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }

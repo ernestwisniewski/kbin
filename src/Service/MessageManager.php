@@ -10,11 +10,13 @@ use App\Entity\User;
 
 class MessageManager
 {
+    private NotificationManager $notificationManager;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(NotificationManager $notificationManager, EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        $this->notificationManager = $notificationManager;
+        $this->entityManager       = $entityManager;
     }
 
     public function toThread(MessageDto $dto, User $sender, User $receiver): MessageThread
@@ -32,11 +34,27 @@ class MessageManager
     {
         $message = new Message($thread, $sender, $dto->getBody());
 
+        $thread->setUpdatedAt();
+
         $this->entityManager->persist($thread);
         $this->entityManager->flush();
+
+        $this->notificationManager->sendMessageNotification($message, $sender);
 
         return $message;
     }
 
+    public function readMessages(MessageThread $thread, User $user): void
+    {
+        foreach ($thread->getNewMessages($user) as $message) {
+            /**
+             * @var $message Message
+             */
+            $message->setStatus(Message::STATUS_READ);
 
+            $this->notificationManager->readMessageNotification($message, $user);
+        }
+
+        $this->entityManager->flush();
+    }
 }

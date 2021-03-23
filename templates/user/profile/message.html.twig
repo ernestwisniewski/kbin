@@ -4,6 +4,8 @@
 
 {% block body %}
     <div class="kbin-user-message-page">
+        {% include 'user/profile/_tabs.html.twig' %}
+
         <div class="kbin-comment-wrapper">
             <div class="mb-3">
                 {% include 'user/profile/_form_message.html.twig' %}

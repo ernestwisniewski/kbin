@@ -18,8 +18,8 @@
                         <tbody>
                         {% for thread in threads %}
                             <tr>
-                                <td class="">{{ block('message') }}</td>
-                                <td class="text-end"><small class="text-muted"></small></td>
+                                <td class="{{ thread.countNewMessages(app.user) ? '' : 'opacity-50' }}">{{ block('message') }}</td>
+                                <td class="text-end"><small class="text-muted">{{ thread.updatedAt|ago }}</small></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -44,6 +44,7 @@
 {% endblock %}
 
 {% block message %}
+    {{ (thread.messages|length - 1)|format_number }} odpowiedzi w wątku z
     <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': thread.otherParticipants(app.user)[0].username}) }}">{{ thread.otherParticipants(app.user)[0].username }}</a> wysłał/a wiadomość - <strong><a href="{{ path('user_profile_message', {'id': thread.id}) }}">{{ thread.title }}</a></strong>
+        href="{{ path('user', {'username': thread.otherParticipants(app.user)[0].username}) }}">{{ thread.otherParticipants(app.user)[0].username }}</a> - <strong><a href="{{ path('user_profile_message', {'id': thread.id}) }}">{{ thread.title }}</a></strong>
 {% endblock message %}

@@ -72,3 +72,9 @@
         href="{{ path('front_magazine', {'name': notification.post.magazine.name }) }}">{{ notification.post.magazine.name }}</a> - <strong><a
             href="{{ path('post_single', {'magazine_name': notification.post.magazine.name, 'post_id': notification.post.id}) }}">{{ notification.post.body|slice(0,60) }}</a></strong>
 {% endblock notification_post_notification %}
+
+{% block notification_message_notification %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': notification.message.sender.username}) }}">{{ notification.message.sender.username }}</a> napisał/a wiadomość w wątku
+    <a href="{{ path('user_profile_message', {'id': notification.message.thread.id}) }}">{{ notification.message.thread.title }}</a>
+{% endblock notification_message_notification %}
