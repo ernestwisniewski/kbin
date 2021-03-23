@@ -1,0 +1,26 @@
+{% from 'user/_macros.html.twig' import avatar %}
+
+<blockquote id="{{ message.id }}" class="kbin-comment shadow-sm">
+    <div class="kbin-comment-header mb-2">
+        <div class="kbin-comment-avatar">
+            {{ avatar(message.sender) }}
+        </div>
+
+        <aside class="kbin-comment-meta">
+            <ul class="kbin-comment-meta-list list-inline m-0">
+                <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
+                    <small class="text-muted">przez
+                        <a class="font-weight-bold" href="{{ path('user', {username: message.sender.username}) }}">
+                            {{ message.sender.username }}
+                        </a>
+                    </small>
+                </li>
+            </ul>
+        </aside>
+    </div>
+    <div class="kbin-comment-main">
+        <blockquote class="kbin-comment-content">
+            {{ message.body|markdown|raw }}
+        </blockquote>
+    </div>
+</blockquote>

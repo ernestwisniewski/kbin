@@ -6,7 +6,7 @@
     <div class="kbin-profile kbin-profile-threads-page">
         {% include 'user/profile/_tabs.html.twig' %}
 
-        {% if threads.count > 1 %}
+        {% if threads.count < 1 %}
             <div class="text-center py-5 text-muted">
                 <span class="display-1">( ͡◕ ͜ʖ ͡◕)</span>
                 <p>Jeszcze nic tu nie ma...</p>
@@ -45,5 +45,5 @@
 
 {% block message %}
     <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': thread.otherParticipants(app.user)[0].username}) }}">{{ thread.otherParticipants(app.user)[0].username }}</a> wysłał/a wiadomość - <strong><a href="#">{{ thread.title }}</a></strong>.
+        href="{{ path('user', {'username': thread.otherParticipants(app.user)[0].username}) }}">{{ thread.otherParticipants(app.user)[0].username }}</a> wysłał/a wiadomość - <strong><a href="{{ path('user_profile_message', {'id': thread.id}) }}">{{ thread.title }}</a></strong>
 {% endblock message %}

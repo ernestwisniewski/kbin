@@ -1,17 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Wiadomości | {{ parent() }}{% endblock %}
+{% block title %}Wiadomość do {{ user.username }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-message-page">
-        <div class="kbin-comment-wrapper">
-            <div class="mb-3">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
                 {% include 'user/profile/_form_message.html.twig' %}
-            </div>
-            <div class="row kbin-comment-list">
-                {% for message in thread.messages %}
-                    {% include 'user/profile/_message.html.twig' %}
-                {% endfor %}
             </div>
         </div>
     </div>

@@ -35,10 +35,30 @@ class MessageController extends AbstractController
         );
     }
 
-    public function thread(MessageThread $thread): Response {
-        return $this->render('user/profile/message.html.twig', [
-            'thread' => $thread,
-        ]);
+    public function thread(MessageThread $thread, Request $request): Response
+    {
+        $dto = new MessageDto();
+
+        $form = $this->createForm(MessageType::class, $dto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = $this->messageManager->toMessage($dto, $thread, $this->getUserOrThrow());
+
+            return $this->redirectToRoute(
+                'user_profile_message',
+                ['id' => $thread->getId()]
+            );
+        }
+
+        return $this->render(
+            'user/profile/message.html.twig',
+            [
+                'user'   => $this->getUserOrThrow(),
+                'thread' => $thread,
+                'form'   => $form->createView(),
+            ]
+        );
     }
 
     public function createThread(User $receiver, Request $request): Response

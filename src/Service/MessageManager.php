@@ -20,7 +20,7 @@ class MessageManager
     public function toThread(MessageDto $dto, User $sender, User $receiver): MessageThread
     {
         $thread = new MessageThread($sender, $receiver);
-        $thread->addMessage($this->toMessage($dto->getBody(), $thread, $sender));
+        $thread->addMessage($this->toMessage($dto, $thread, $sender));
 
         $this->entityManager->persist($thread);
         $this->entityManager->flush();
@@ -28,9 +28,14 @@ class MessageManager
         return $thread;
     }
 
-    private function toMessage(string $body, MessageThread $thread, User $sender)
+    public function toMessage(MessageDto $dto, MessageThread $thread, User $sender): Message
     {
-        return new Message($thread, $sender, $body);
+        $message = new Message($thread, $sender, $dto->getBody());
+
+        $this->entityManager->persist($thread);
+        $this->entityManager->flush();
+
+        return $message;
     }
 
 
