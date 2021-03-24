@@ -10,8 +10,24 @@ services:
       # - ./var:/srv/app/var:rw
     environment:
       APP_ENV: dev
+    depends_on:
+      - mongodb_container
+
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
 
   caddy:
     volumes:
+      - mongodb_data_container:/data/db
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./public:/srv/app/public:ro
+
+volumes:
+  mongodb_data_container:

@@ -88,21 +88,19 @@ ENV STABILITY ${STABILITY:-stable}
 # Allow to select skeleton version
 ARG SYMFONY_VERSION=""
 
-# Download dependencies and leverage Docker cache layers
-RUN composer update . --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-interaction; \
-	composer clear-cache
-
-###> recipes ###
-###< recipes ###
-
 COPY . .
 
+#RUN set -eux; \
+#	mkdir -p var/cache var/log; \
+#	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
+#	composer dump-autoload --classmap-authoritative --no-dev; \
+#	composer symfony:dump-env prod; \
+#	composer run-script --no-dev post-install-cmd; \
+#	chmod +x bin/console; sync
 RUN set -eux; \
+    rm -rf var/cache; \
 	mkdir -p var/cache var/log; \
-	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
-	composer dump-autoload --classmap-authoritative --no-dev; \
-	composer symfony:dump-env prod; \
-	composer run-script --no-dev post-install-cmd; \
+	composer install; \
 	chmod +x bin/console; sync
 VOLUME /srv/app/var
 
@@ -124,3 +122,12 @@ COPY --from=dunglas/mercure:v0.11 /srv/public /srv/mercure-assets/
 COPY --from=symfony_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=symfony_php /srv/app/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
+
+FROM symfony_php as symfony_php_debug
+
+ARG XDEBUG_VERSION=3.0.1
+RUN set -eux; \
+	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
+	pecl install xdebug-$XDEBUG_VERSION; \
+	docker-php-ext-enable xdebug; \
+	apk del .build-deps
