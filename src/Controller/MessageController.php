@@ -9,6 +9,7 @@ use App\Form\MessageType;
 use App\Repository\MessageThreadRepository;
 use App\Service\MessageManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,6 +24,9 @@ class MessageController extends AbstractController
         $this->entityManager  = $entityManager;
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function threads(MessageThreadRepository $repository, Request $request): Response
     {
         $messageThreads = $repository->findUserMessages($this->getUser(), (int) $request->get('strona', 1));
@@ -35,6 +39,9 @@ class MessageController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function thread(MessageThread $thread, Request $request): Response
     {
         $dto = new MessageDto();
@@ -63,6 +70,9 @@ class MessageController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function createThread(User $receiver, Request $request): Response
     {
         $dto = new MessageDto();
