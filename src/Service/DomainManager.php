@@ -8,7 +8,8 @@ use App\Repository\DomainRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class DomainManager
+class
+DomainManager
 {
     private DomainRepository $domainRepository;
     private EntityManagerInterface $entityManager;
