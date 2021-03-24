@@ -37,7 +37,7 @@ class MessageThread
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="thread",
      *     cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"createdAt": "ASC"})
+     * @ORM\OrderBy({"createdAt": "DESC"})
      */
     private Collection $messages;
 

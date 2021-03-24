@@ -29,6 +29,9 @@
                     <li>
                         <span class="text-muted small">Treści:</span> {{ user.entries|length }}
                     </li>
+                    <li class="mt-2">
+                        <span class="text-muted small"><a href="{{ path('user_message', {'username': user.username}) }}"><i class="fa fa-envelope"></i> Wyślij wiadomość</a></span>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -13,6 +13,7 @@
                         <a class="font-weight-bold" href="{{ path('user', {username: message.sender.username}) }}">
                             {{ message.sender.username }}
                         </a>
+                        {{ message.createdAt|ago }}
                     </small>
                 </li>
             </ul>

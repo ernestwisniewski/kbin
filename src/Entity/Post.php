@@ -327,6 +327,18 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $user === $this->getUser();
     }
 
+    public function getTitle(): string
+    {
+        $body      = $this->getBody();
+        $firstLine = preg_replace('/^# |\R.*/', '', $body);
+
+        if (grapheme_strlen($firstLine) <= 80) {
+            return $firstLine;
+        }
+
+        return grapheme_substr($firstLine, 0, 80).'…';
+    }
+
     public function __sleep()
     {
         return [];
