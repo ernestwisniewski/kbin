@@ -49,7 +49,7 @@ class VoteControllerTest extends WebTestCase
     public function testCanAddAndRemovePostVote()
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('testUser'));
 
         $post = $this->createPost('przykladowa tresc');
 
@@ -62,28 +62,28 @@ class VoteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
 
-        $this->assertVoteActions($client, $crawler, '.kbin-post');
+        $this->assertPostVoteActions($client, $crawler, '.kbin-post');
     }
 
-//    public function testCanAddAndRemovePostCommentVote()
-//    {
-//        $client = $this->createClient();
-//        $client->loginUser($user = $this->getUserByUsername('regularUser'));
-//
-//        $post = $this->createPost('przykladowa tresc');
-//        $comment = $this->createPostComment('przykłądowy komentarz.', $post);
-//
-//        $u1 = $this->getUserByUsername('testUser1');
-//        $u2 = $this->getUserByUsername('testUser2');
-//
-//        $this->createVote(1, $comment, $u1);
-//        $this->createVote(1, $comment, $u2);
-//
-//        $crawler = $client->request('GET', '/');
-//        $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
-//
-//        $this->assertVoteActions($client, $crawler, '.kbin-comment');
-//    }
+    public function testCanAddAndRemovePostCommentVote()
+    {
+        $client = $this->createClient();
+        $client->loginUser($user = $this->getUserByUsername('testUser'));
+
+        $post = $this->createPost('przykladowa tresc');
+        $comment = $this->createPostComment('przykłądowy komentarz.', $post);
+
+        $u1 = $this->getUserByUsername('testUser1');
+        $u2 = $this->getUserByUsername('testUser2');
+
+        $this->createVote(1, $comment, $u1);
+        $this->createVote(1, $comment, $u2);
+
+        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
+
+        $this->assertPostVoteActions($client, $crawler, '.kbin-comment');
+    }
 
     private function assertVoteActions($client, $crawler, string $parentClass = '', $upVoteOnly = false)
     {
@@ -117,5 +117,19 @@ class VoteControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
         $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '0');
+    }
+
+    private function assertPostVoteActions($client, $crawler, string $parentClass = '', $upVoteOnly = false) {
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '3');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
     }
 }
