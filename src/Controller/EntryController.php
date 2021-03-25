@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Event\EntryHasBeenSeenEvent;
 use App\PageView\EntryCommentPageView;
+use App\PageView\EntryPageView;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -182,23 +183,21 @@ class EntryController extends AbstractController
 
     private function createFormByType(EntryDto $entryDto, ?string $type): FormInterface
     {
-        switch ($type) {
-            case Entry::ENTRY_TYPE_ARTICLE:
-                return $this->createForm(EntryArticleType::class, $entryDto);
-            default:
-                return $this->createForm(EntryLinkType::class, $entryDto);
+        if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
+            return $this->createForm(EntryLinkType::class, $entryDto);
         }
+
+        return $this->createForm(EntryArticleType::class, $entryDto);
     }
 
     private function getTemplateName(?string $type, ?bool $edit = false): string
     {
         $prefix = $edit ? 'edit' : 'create';
 
-        switch ($type) {
-            case Entry::ENTRY_TYPE_ARTICLE:
-                return "entry/{$prefix}_article.html.twig";
-            default:
-                return "entry/{$prefix}_link.html.twig";
+        if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
+            return "entry/{$prefix}_link.html.twig";
         }
+
+        return "entry/{$prefix}_article.html.twig";
     }
 }

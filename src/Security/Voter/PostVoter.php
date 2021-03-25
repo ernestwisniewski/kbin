@@ -35,20 +35,14 @@ class PostVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($subject, $user);
-            case self::DELETE:
-                return $this->canDelete($subject, $user);
-            case self::PURGE:
-                return $this->canPurge($subject, $user);
-            case self::COMMENT:
-                return $this->canComment($subject, $user);
-            case self::VOTE:
-                return $this->canVote($subject, $user);
-        }
-
-        throw new \LogicException();
+        return match ($attribute) {
+            self::EDIT => $this->canEdit($subject, $user),
+            self::DELETE => $this->canDelete($subject, $user),
+            self::PURGE => $this->canPurge($subject, $user),
+            self::COMMENT => $this->canComment($subject, $user),
+            self::VOTE => $this->canVote($subject, $user),
+            default => throw new \LogicException(),
+        };
     }
 
     private function canEdit(Post $post, User $user): bool

@@ -112,6 +112,11 @@ class EntryRepository extends ServiceEntityRepository
             $qb->setParameter('magazineBlocker', $user);
         }
 
+        if ($criteria->getType()) {
+            $qb->andWhere('e.type = :type')
+                ->setParameter('type', $criteria->getType());
+        }
+
         switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('e.score', 'DESC');

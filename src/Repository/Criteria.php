@@ -50,6 +50,7 @@ abstract class Criteria
     private int $page = 1;
     private ?Magazine $magazine = null;
     private ?User $user = null;
+    private ?string $type = null;
     private string $sortOption = EntryRepository::SORT_DEFAULT;
     private string $time = EntryRepository::TIME_DEFAULT;
     private string $visibility = Entry::VISIBILITY_VISIBLE;
@@ -75,6 +76,18 @@ abstract class Criteria
         $this->magazine = $magazine;
 
         return $this;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
     }
 
     public function getUser(): ?User
@@ -153,6 +166,23 @@ abstract class Criteria
         return $routes[$value];
     }
 
+    public function translateType(string $value): string
+    {
+        //@todo
+        $routes = [
+            'artykul' => Entry::ENTRY_TYPE_ARTICLE,
+            'link'    => Entry::ENTRY_TYPE_LINK,
+            'video'   => Entry::ENTRY_TYPE_VIDEO,
+            'foto'    => Entry::ENTRY_TYPE_IMAGE,
+        ];
+
+        if (in_array($value, $routes)) {
+            return $value;
+        }
+
+        return $routes[$value];
+    }
+
     public function setVisibility(string $visibility): self
     {
         $this->visibility = $visibility;
@@ -181,21 +211,14 @@ abstract class Criteria
     {
         $since = new \DateTimeImmutable('@'.time());
 
-        switch ($this->getTime()) {
-            case Criteria::TIME_YEAR:
-                return $since->modify('-1 year');
-            case Criteria::TIME_MONTH:
-                return $since->modify('-1 month');
-            case Criteria::TIME_WEEK:
-                return $since->modify('-1 week');
-            case Criteria::TIME_DAY:
-                return $since->modify('-1 day');
-            case Criteria::TIME_12_HOURS:
-                return $since->modify('-12 hours');
-            case Criteria::TIME_6_HOURS:
-                return $since->modify('-6 hours');
-            default:
-                throw new \LogicException();
-        }
+        return match ($this->getTime()) {
+            Criteria::TIME_YEAR => $since->modify('-1 year'),
+            Criteria::TIME_MONTH => $since->modify('-1 month'),
+            Criteria::TIME_WEEK => $since->modify('-1 week'),
+            Criteria::TIME_DAY => $since->modify('-1 day'),
+            Criteria::TIME_12_HOURS => $since->modify('-12 hours'),
+            Criteria::TIME_6_HOURS => $since->modify('-6 hours'),
+            default => throw new \LogicException(),
+        };
     }
 }

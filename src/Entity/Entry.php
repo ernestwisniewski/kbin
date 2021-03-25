@@ -33,9 +33,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    const ENTRY_TYPE_ARTICLE = 'artykul';
+    const ENTRY_TYPE_ARTICLE = 'article';
     const ENTRY_TYPE_LINK = 'link';
     const ENTRY_TYPE_IMAGE = 'image';
+    const ENTRY_TYPE_VIDEO = 'video';
 
     /**
      * @ORM\Id

@@ -28,6 +28,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_active_sort_option', [PageContextRuntime::class, 'isActiveSortOption']),
             new TwigFunction('get_active_sort_option', [PageContextRuntime::class, 'getActiveSortOption']),
             new TwigFunction('get_active_time_option', [PageContextRuntime::class, 'getActiveTimeOption']),
+            new TwigFunction('get_active_type_option', [PageContextRuntime::class, 'getActiveTypeOption']),
             new TwigFunction('get_active_sort_option_path', [PageContextRuntime::class, 'getActiveSortOptionPath']),
             new TwigFunction('is_comments_page', [PageContextRuntime::class, 'isCommentsPage']),
             new TwigFunction('get_active_comments_page_path', [PageContextRuntime::class, 'getActiveCommentsPagePath']),

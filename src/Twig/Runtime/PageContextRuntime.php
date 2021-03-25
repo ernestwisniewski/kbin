@@ -133,7 +133,12 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return $this->getCurrentRequest()->get('time') ?? EntryRepository::TIME_DEFAULT;
     }
 
-    public function getActiveSortOptionPath(?string $sortOption = null, ?string $time = null, $entriesOnly = true): string
+    public function getActiveTypeOption(): ?string
+    {
+        return $this->getCurrentRequest()->get('typ', null);// @todo
+    }
+
+    public function getActiveSortOptionPath(?string $sortOption = null, ?string $time = null, ?string $type = null, $entriesOnly = true): string
     {
         $routeName = 'front';
 
@@ -149,6 +154,13 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
         if ($time) {
             $routeParams['time'] = $time;
+        }
+
+        if ($this->getCurrentRequest()->get('typ')) {
+            $routeParams['typ'] = $this->getCurrentRequest()->get('typ');
+        }
+        if ($type) {
+            $routeParams['typ'] = $type;
         }
 
         if (!$entriesOnly) {

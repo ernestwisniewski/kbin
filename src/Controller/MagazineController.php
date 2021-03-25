@@ -42,6 +42,10 @@ class MagazineController extends AbstractController
             $criteria->setTime($criteria->translateTime($time));
         }
 
+        if ($type = $request->get('typ', null)) {
+            $criteria->setType($criteria->translateType($type));
+        }
+
         if ($sortBy) {
             $method  = $criteria->translateSort($sortBy);
             $listing = $this->$method($criteria);

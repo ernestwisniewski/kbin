@@ -40,14 +40,13 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
             return;
         }
 
-        $embed   = $this->embed->fetch($entry->getUrl());
-        $isImage = ImageManager::isImageUrl($entry->getUrl());
+        $embed = $this->embed->fetch($entry->getUrl());
 
         $cover    = null;
         $tempFile = null;
         if ($embed->getImage()) {
             $tempFile = $this->fetchImage($embed->getImage());
-        } elseif ($isImage) {
+        } elseif ($embed->isImageUrl()) {
             $tempFile = $this->fetchImage($entry->getUrl());
         }
 
@@ -55,17 +54,17 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
             $cover = $this->imageRepository->findOrCreateFromPath($tempFile);
         }
 
-        $html = $embed->getHtml();
+        $html    = $embed->getHtml();
+        $type    = $embed->getType();
+        $isImage = $embed->isImageUrl();
 
         if (!$html && !$cover && !$isImage) {
             return;
         }
 
         $this->entityManager->transactional(
-            static function () use ($entry, $cover, $html, $isImage): void {
-                if ($isImage) {
-                    $entry->setType(Entry::ENTRY_TYPE_IMAGE);
-                }
+            static function () use ($entry, $cover, $html, $isImage, $type): void {
+                $entry->setType($type);
                 $entry->setHasEmbed($html || $isImage);
                 $entry->setImage($cover);
             }

@@ -26,16 +26,12 @@ class UserVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::FOLLOW:
-                return $this->canFollow($subject, $user);
-            case self::BLOCK:
-                return $this->canBlock($subject, $user);
-            case self::EDIT_PROFILE:
-                return $this->canEditProfile($subject, $user);
-        }
-
-        throw new \LogicException();
+        return match ($attribute) {
+            self::FOLLOW => $this->canFollow($subject, $user),
+            self::BLOCK => $this->canBlock($subject, $user),
+            self::EDIT_PROFILE => $this->canEditProfile($subject, $user),
+            default => throw new \LogicException(),
+        };
     }
 
     private function canFollow(User $following, User $follower): bool

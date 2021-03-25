@@ -51,23 +51,19 @@ class VoteManager
         }
 
         if ($vote === VoteInterface::VOTE_UP) {
-            switch ($choice) {
-                case VoteInterface::VOTE_UP:
-                    return VoteInterface::VOTE_NONE;
-                case VoteInterface::VOTE_DOWN:
-                    return VoteInterface::VOTE_DOWN;
-            }
+            return match ($choice) {
+                VoteInterface::VOTE_UP => VoteInterface::VOTE_NONE,
+                VoteInterface::VOTE_DOWN => VoteInterface::VOTE_DOWN,
+                default => throw new \LogicException(),
+            };
         }
 
         if ($vote === VoteInterface::VOTE_DOWN) {
-            switch ($choice) {
-                case VoteInterface::VOTE_UP:
-                    return VoteInterface::VOTE_UP;
-                case VoteInterface::VOTE_DOWN:
-                    return VoteInterface::VOTE_NONE;
-            }
+            return match ($choice) {
+                VoteInterface::VOTE_UP => VoteInterface::VOTE_UP,
+                VoteInterface::VOTE_DOWN => VoteInterface::VOTE_NONE,
+                default => throw new \LogicException(),
+            };
         }
-
-        throw new \LogicException();
     }
 }

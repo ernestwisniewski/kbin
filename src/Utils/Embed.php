@@ -2,12 +2,15 @@
 
 namespace App\Utils;
 
+use App\Entity\Entry;
+use App\Service\ImageManager;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Embed\Embed as BaseEmbed;
 use Symfony\Contracts\Cache\ItemInterface;
 
 class Embed
 {
+    private ?string $url = null;
     private ?string $title = null;
     private ?string $image = null;
     private ?string $html = null;
@@ -28,6 +31,7 @@ class Embed
                     return $this;
                 }
 
+                $this->url   = $url;
                 $this->title = $embed->title;
                 $this->image = (string) $embed->image;
                 $this->html  = $this->cleanIframe($oembed->html('html'));
@@ -56,6 +60,24 @@ class Embed
         return $this->html;
     }
 
+    public function isImageUrl(): bool
+    {
+        return ImageManager::isImageUrl($this->url);
+    }
+
+    public function getType(): string
+    {
+        if ($this->isImageUrl()) {
+            return Entry::ENTRY_TYPE_IMAGE;
+        }
+
+        if ($this->isVideoEmbed()) {
+            return Entry::ENTRY_TYPE_VIDEO;
+        }
+
+        return Entry::ENTRY_TYPE_LINK;
+    }
+
     private function cleanIframe(?string $html): ?string
     {
         return $html;
@@ -71,5 +93,16 @@ class Embed
 //        }
 //
 //        return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
+    }
+
+    private function isVideoEmbed(): bool
+    {
+        if (!$this->getHtml()) {
+            return false;
+        }
+        return str_contains($this->getHtml(), 'video')
+            || str_contains($this->getHtml(), 'youtube')
+            || str_contains($this->getHtml(), 'vimeo')
+            || str_contains($this->getHtml(), 'streamable'); // @todo
     }
 }

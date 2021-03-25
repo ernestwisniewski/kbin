@@ -38,17 +38,12 @@ class ContentManagerFactory
 
     public function createManager(ContentInterface $subject)
     {
-        switch ($this->entityManager->getClassMetadata(get_class($subject))->getName()) {
-            case Entry::class:
-                return $this->entryManager;
-            case EntryComment::class:
-                return $this->entryCommentManager;
-            case Post::class:
-                return $this->postManager;
-            case PostCommentManager::class:
-                return $this->postCommentManager;
-        }
-
-        throw new \LogicException();
+        return match ($this->entityManager->getClassMetadata(get_class($subject))->getName()) {
+            Entry::class => $this->entryManager,
+            EntryComment::class => $this->entryCommentManager,
+            Post::class => $this->postManager,
+            PostCommentManager::class => $this->postCommentManager,
+            default => throw new \LogicException(),
+        };
     }
 }

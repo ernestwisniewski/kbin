@@ -35,24 +35,16 @@ class MagazineVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::CREATE_CONTENT:
-                return $this->canCreateContent($subject, $user);
-            case self::EDIT:
-                return $this->canEdit($subject, $user);
-            case self::DELETE:
-                return $this->canDelete($subject, $user);
-            case self::PURGE:
-                return $this->canPurge($subject, $user);
-            case self::MODERATE:
-                return $this->canModerate($subject, $user);
-            case self::SUBSCRIBE:
-                return $this->canSubscribe($subject, $user);
-            case self::BLOCK:
-                return $this->canBlock($subject, $user);
-        }
-
-        throw new \LogicException();
+        return match ($attribute) {
+            self::CREATE_CONTENT => $this->canCreateContent($subject, $user),
+            self::EDIT => $this->canEdit($subject, $user),
+            self::DELETE => $this->canDelete($subject, $user),
+            self::PURGE => $this->canPurge($subject, $user),
+            self::MODERATE => $this->canModerate($subject, $user),
+            self::SUBSCRIBE => $this->canSubscribe($subject, $user),
+            self::BLOCK => $this->canBlock($subject, $user),
+            default => throw new \LogicException(),
+        };
     }
 
     private function canCreateContent(Magazine $magazine, User $user): bool

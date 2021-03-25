@@ -56,17 +56,12 @@ class ReportResolver implements ArgumentValueResolverInterface
     {
         ['id' => $id, 'entityClass' => $entityClass] = $request->attributes->all();
 
-        switch ($entityClass) {
-            case Entry::class:
-                return yield $this->entryRepository->find($id);
-            case EntryComment::class:
-                return yield $this->entryCommentRepository->find($id);
-            case Post::class:
-                return yield $this->postRepository->find($id);
-            case PostComment::class:
-                return yield $this->postCommentRepository->find($id);
-        }
-
-        throw new \LogicException();
+        return match ($entityClass) {
+            Entry::class => yield $this->entryRepository->find($id),
+            EntryComment::class => yield $this->entryCommentRepository->find($id),
+            Post::class => yield $this->postRepository->find($id),
+            PostComment::class => yield $this->postCommentRepository->find($id),
+            default => throw new \LogicException(),
+        };
     }
 }
