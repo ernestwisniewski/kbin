@@ -41,6 +41,7 @@ class MessageController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
+     * @IsGranted("show", subject="thread", statusCode=403)
      */
     public function thread(MessageThread $thread, Request $request): Response
     {
@@ -71,6 +72,7 @@ class MessageController extends AbstractController
     }
 
     /**
+     * @IsGranted("message", subject="receiver")
      * @IsGranted("ROLE_USER")
      */
     public function createThread(User $receiver, Request $request): Response
