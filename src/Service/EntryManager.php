@@ -84,9 +84,12 @@ class EntryManager implements ContentManager
         $entry->setTitle($entryDto->getTitle());
         $entry->setUrl($entryDto->getUrl());
         $entry->setBody($entryDto->getBody());
+        $entry->setIsAdult($entryDto->isAdult());
+
         if ($entryDto->getImage()) {
             $entry->setImage($entryDto->getImage());
         }
+
         if ($entry->getUrl()) {
             $entry->setType(Entry::ENTRY_TYPE_LINK);
         }

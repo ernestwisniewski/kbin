@@ -8,7 +8,12 @@ use App\Entity\Magazine;
 class MagazineThemeDto
 {
     private Magazine $magazine;
+
     private ?Image $cover = null;
+
+    private ?string $customCss = null;
+
+    private ?string $customJs = null;
 
     public function __construct(Magazine $magazine)
     {
@@ -33,5 +38,29 @@ class MagazineThemeDto
     public function setCover(?Image $cover): void
     {
         $this->cover = $cover;
+    }
+
+    public function getCustomCss(): ?string
+    {
+        return $this->customCss;
+    }
+
+    public function setCustomCss(?string $customCss): self
+    {
+        $this->customCss = $customCss;
+
+        return $this;
+    }
+
+    public function getCustomJs(): ?string
+    {
+        return $this->customJs;
+    }
+
+    public function setCustomJs(?string $customJs): self
+    {
+        $this->customJs = $customJs;
+
+        return $this;
     }
 }

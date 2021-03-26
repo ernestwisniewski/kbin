@@ -86,6 +86,21 @@ class Magazine implements VisibilityInterface
     private int $postCommentCount = 0;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isAdult = false;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $customCss = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $customJs = null;
+
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     private Collection $moderators;
@@ -116,12 +131,13 @@ class Magazine implements VisibilityInterface
      */
     private Collection $reports;
 
-    public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules)
+    public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules, ?bool $isAdult)
     {
         $this->name          = $name;
         $this->title         = $title;
         $this->description   = $description;
         $this->rules         = $rules;
+        $this->isAdult       = $isAdult ?? false;
         $this->moderators    = new ArrayCollection();
         $this->entries       = new ArrayCollection();
         $this->posts         = new ArrayCollection();
@@ -372,6 +388,42 @@ class Magazine implements VisibilityInterface
     public function setPostCommentCount(int $postCommentCount): self
     {
         $this->postCommentCount = $postCommentCount;
+
+        return $this;
+    }
+
+    public function isAdult(): bool
+    {
+        return $this->isAdult;
+    }
+
+    public function setIsAdult(bool $isAdult): self
+    {
+        $this->isAdult = $isAdult;
+
+        return $this;
+    }
+
+    public function getCustomCss(): ?string
+    {
+        return $this->customCss;
+    }
+
+    public function setCustomCss(?string $customCss): self
+    {
+        $this->customCss = $customCss;
+
+        return $this;
+    }
+
+    public function getCustomJs(): ?string
+    {
+        return $this->customJs;
+    }
+
+    public function setCustomJs(?string $customJs): self
+    {
+        $this->customJs = $customJs;
 
         return $this;
     }

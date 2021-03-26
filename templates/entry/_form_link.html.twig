@@ -14,6 +14,13 @@
             {{ form_widget(form.magazine, {'attr': {'class': 'kbin-choices'}}) }}
         </div>
 
+        <div class="mb-3">
+            {{ form_label(form.isAdult, 'Wyłącznie dla dorosłych') }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.isAdult, {name: 'Wyłącznie dla dorosłych'}) }}
+            </div>
+        </div>
+
         <div class="mb-12 text-end">
             {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
         </div>

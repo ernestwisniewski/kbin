@@ -62,6 +62,8 @@ class PostManager implements ContentManager
         Assert::same($post->getMagazine()->getId(), $postDto->getMagazine()->getId());
 
         $post->setBody($postDto->getBody());
+        $post->setIsAdult($postDto->isAdult());
+
         if ($postDto->getImage()) {
             $post->setImage($postDto->getImage());
         }

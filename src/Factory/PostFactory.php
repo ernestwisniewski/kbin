@@ -13,7 +13,8 @@ class PostFactory
         return new Post(
             $postDto->getBody(),
             $postDto->getMagazine(),
-            $user
+            $user,
+            $postDto->isAdult()
         );
     }
 
@@ -23,6 +24,7 @@ class PostFactory
             $post->getMagazine(),
             $post->getBody(),
             null,
+            $post->isAdult(),
             $post->getId()
         );
     }

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Magazine;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,6 +28,7 @@ class EntryArticleType extends AbstractType
                     'choice_label' => 'name',
                 ]
             )
+            ->add('isAdult', CheckboxType::class)
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());

@@ -41,14 +41,24 @@ class EntryDto
 
     private ?Image $image = null;
 
-    public function create(Magazine $magazine, string $title, ?string $url = null, ?string $body = null, ?Image $image = null, ?int $id = null): self
-    {
+    private ?bool $isAdult = false;
+
+    public function create(
+        Magazine $magazine,
+        string $title,
+        ?string $url = null,
+        ?string $body = null,
+        ?Image $image = null,
+        ?bool $isAdult = false,
+        ?int $id = null
+    ): self {
         $this->id       = $id;
         $this->magazine = $magazine;
         $this->title    = $title;
         $this->url      = $url;
         $this->body     = $body;
         $this->image    = $image;
+        $this->isAdult  = $isAdult;
 
         return $this;
     }
@@ -133,5 +143,17 @@ class EntryDto
     public function setImage(?Image $image): void
     {
         $this->image = $image;
+    }
+
+    public function isAdult(): bool
+    {
+        return $this->isAdult;
+    }
+
+    public function setIsAdult(bool $isAdult): self
+    {
+        $this->isAdult = $isAdult;
+
+        return $this;
     }
 }

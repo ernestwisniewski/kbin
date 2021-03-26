@@ -49,6 +49,7 @@ class MagazineManager
         $magazine->setTitle($magazineDto->getTitle());
         $magazine->setDescription($magazineDto->getDescription());
         $magazine->setRules($magazineDto->getRules());
+        $magazine->setIsAdult($magazineDto->isAdult());
 
         $this->entityManager->flush();
 

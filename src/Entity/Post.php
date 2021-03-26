@@ -72,6 +72,11 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     private int $score = 0;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isAdult = false;
+
+    /**
      * @ORM\Column(type="datetimetz")
      */
     private ?\DateTime $lastActive;
@@ -97,11 +102,12 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     private Collection $notifications;
 
-    public function __construct(string $body, Magazine $magazine, User $user)
+    public function __construct(string $body, Magazine $magazine, User $user, ?bool $isAdult = false)
     {
         $this->body          = $body;
         $this->magazine      = $magazine;
         $this->user          = $user;
+        $this->isAdult       = $isAdult ?? false;
         $this->comments      = new ArrayCollection();
         $this->votes         = new ArrayCollection();
         $this->reports       = new ArrayCollection();
@@ -184,6 +190,18 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     public function setScore(int $score): void
     {
         $this->score = $score;
+    }
+
+    public function isAdult(): bool
+    {
+        return $this->isAdult;
+    }
+
+    public function setIsAdult(bool $isAdult): self
+    {
+        $this->isAdult = $isAdult;
+
+        return $this;
     }
 
     public function getComments(): Collection

@@ -16,6 +16,7 @@ class MagazineFactory
             $user,
             $magazineDto->getDescription(),
             $magazineDto->getRules(),
+            $magazineDto->isAdult()
         );
     }
 
@@ -26,6 +27,7 @@ class MagazineFactory
             $magazine->getTitle(),
             $magazine->getDescription(),
             $magazine->getRules(),
+            $magazine->isAdult(),
             $magazine->getId()
         );
     }

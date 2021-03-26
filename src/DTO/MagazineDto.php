@@ -48,13 +48,22 @@ class MagazineDto
      */
     private ?string $rules = null;
 
-    public function create(string $name, string $title, ?string $description = null, ?string $rules = null, ?int $id = null): self
-    {
+    private ?bool $isAdult = false;
+
+    public function create(
+        string $name,
+        string $title,
+        ?string $description = null,
+        ?string $rules = null,
+        ?bool $isAdult = false,
+        ?int $id = null
+    ): self {
         $this->id          = $id;
         $this->name        = $name;
         $this->title       = $title;
         $this->description = $description;
         $this->rules       = $rules;
+        $this->isAdult     = $isAdult;
 
         return $this;
     }
@@ -109,5 +118,17 @@ class MagazineDto
     public function setRules(?string $rules): void
     {
         $this->rules = $rules;
+    }
+
+    public function isAdult(): bool
+    {
+        return $this->isAdult;
+    }
+
+    public function setIsAdult(bool $isAdult): self
+    {
+        $this->isAdult = $isAdult;
+
+        return $this;
     }
 }

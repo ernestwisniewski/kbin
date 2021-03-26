@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -15,7 +15,8 @@ class EntryFactory
             $entryDto->getUrl(),
             $entryDto->getBody(),
             $entryDto->getMagazine(),
-            $user
+            $user,
+            $entryDto->isAdult(),
         );
     }
 
@@ -27,6 +28,7 @@ class EntryFactory
             $entry->getUrl(),
             $entry->getBody(),
             null,
+            $entry->isAdult(),
             $entry->getId()
         );
     }

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -28,6 +29,7 @@ class EntryLinkType extends AbstractType
                     'choice_label' => 'name',
                 ]
             )
+            ->add('isAdult', CheckboxType::class)
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());

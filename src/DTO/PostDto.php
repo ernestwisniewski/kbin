@@ -27,12 +27,15 @@ class PostDto
 
     private ?Image $image = null;
 
-    public function create(Magazine $magazine, ?string $body = null, ?Image $image = null, ?int $id = null): self
+    private ?bool $isAdult = false;
+
+    public function create(Magazine $magazine, ?string $body = null, ?Image $image = null, ?bool $isAdult = false, ?int $id = null): self
     {
         $this->id       = $id;
         $this->magazine = $magazine;
         $this->body     = $body;
         $this->image    = $image;
+        $this->isAdult  = $isAdult;
 
         return $this;
     }
@@ -74,6 +77,18 @@ class PostDto
     public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function isAdult(): bool
+    {
+        return $this->isAdult;
+    }
+
+    public function setIsAdult(bool $isAdult): self
+    {
+        $this->isAdult = $isAdult;
 
         return $this;
     }

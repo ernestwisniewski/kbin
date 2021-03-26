@@ -21,6 +21,7 @@
                         {% if not is_post_page() %}
                         <a href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
                             {% endif %}
+                            {% if post.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
                             <small class="text-muted">dodany
                                 <time>{{ post.createdAt|ago }}</time>
                             </small>

@@ -10,6 +10,12 @@
             <div class="input-group input-group-lg me-2">
                 {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
             </div>
+            <div class="me-2 pt-2">
+                {{ form_label(form.isAdult, '+18') }}
+                <div class="input-group input-group-lg">
+                    {{ form_widget(form.isAdult, {name: '+18'}) }}
+                </div>
+            </div>
             {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': {'class': 'kbin-comment-send btn-primary'} }) }}
         </div>
     </div>

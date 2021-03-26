@@ -109,6 +109,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     protected ?int $views = 0;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isAdult = false;
+
+    /**
      * @ORM\Column(type="datetimetz")
      */
     private ?\DateTime $lastActive;
@@ -139,13 +144,14 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     protected Collection $viewCounters;
 
-    public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user)
+    public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user, ?bool $isAdult = null)
     {
         $this->title         = $title;
         $this->url           = $url;
         $this->body          = $body;
         $this->magazine      = $magazine;
         $this->user          = $user;
+        $this->isAdult       = $isAdult ?? false;
         $this->comments      = new ArrayCollection();
         $this->votes         = new ArrayCollection();
         $this->reports       = new ArrayCollection();
@@ -295,6 +301,18 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public function setViews($views): self
     {
         $this->views = $views;
+
+        return $this;
+    }
+
+    public function isAdult(): bool
+    {
+        return $this->isAdult;
+    }
+
+    public function setIsAdult(bool $isAdult): self
+    {
+        $this->isAdult = $isAdult;
 
         return $this;
     }
