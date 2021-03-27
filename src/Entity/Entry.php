@@ -144,6 +144,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     protected Collection $viewCounters;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryBadge", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     */
+    protected Collection $badges;
+
     public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user, ?bool $isAdult = null)
     {
         $this->title         = $title;
@@ -157,6 +162,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->reports       = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->viewCounters  = new ArrayCollection();
+        $this->badges        = new ArrayCollection();
 
         $user->addEntry($this);
 
