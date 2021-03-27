@@ -15,6 +15,11 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link {{ is_active_route('magazine_panel_badges') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('magazine_panel_badges', {'name': magazine.name}) }}">Etykiety</a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link {{ is_active_route('magazine_panel_bans') ? 'active font-weight-bold' : '' }}" aria-current="page"
            href="{{ path('magazine_panel_bans', {'name': magazine.name}) }}">Bany</a>
     </li>

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\BadgeDto;
 use App\DTO\MagazineBanDto;
 use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
@@ -9,11 +10,13 @@ use App\Entity\Moderator;
 use App\Entity\Report;
 use App\Entity\User;
 use App\Factory\ContentManagerFactory;
+use App\Form\BadgeType;
 use App\Form\MagazineBanType;
 use App\Form\MagazineThemeType;
 use App\Form\ModeratorType;
 use App\Repository\ReportRepository;
 use App\Repository\UserRepository;
+use App\Service\BadgeManager;
 use App\Service\ReportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -121,7 +124,7 @@ class MagazinePanelController extends AbstractController
             [
                 'contentChart' => $contentChart,
                 'voteChart'    => $voteChart,
-                'magazine'   => $magazine,
+                'magazine'     => $magazine,
             ]
         );
     }
@@ -348,6 +351,34 @@ class MagazinePanelController extends AbstractController
             [
                 'magazine' => $magazine,
                 'form'     => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderate", subject="magazine")
+     */
+    public function badges(Magazine $magazine, BadgeManager $badgeManager, Request $request): Response
+    {
+        $badges = $this->magazineRepository->findBadges($magazine);
+
+        $dto = new BadgeDto();
+
+        $form = $this->createForm(BadgeType::class, $dto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dto->setMagazine($magazine);
+            $badgeManager->create($dto);
+        }
+
+        return $this->render(
+            'magazine/panel/badges.html.twig',
+            [
+                'badges'   => $badges,
+                'magazine' => $magazine,
+                'form'     => $form,
             ]
         );
     }

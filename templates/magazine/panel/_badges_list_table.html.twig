@@ -1,0 +1,22 @@
+{% from 'user/_macros.html.twig' import avatar %}
+
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <td>Nazwa</td>
+            <td>Treści</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for badge in badges %}
+            <tr>
+                <td>{{ badge.name }}</td>
+                <td>4</td>
+                <td>Usuń</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

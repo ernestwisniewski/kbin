@@ -18,7 +18,7 @@ class Badge
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class)
+     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="badges")
      * @ORM\JoinColumn(onDelete="cascade")
      */
     private Magazine $magazine;
@@ -47,5 +47,12 @@ class Badge
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 }

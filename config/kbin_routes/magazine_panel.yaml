@@ -52,3 +52,8 @@ magazine_panel_theme:
   controller: App\Controller\MagazinePanelController::theme
   path: /m/{name}/panel/wyglad
   methods: [ GET, POST ]
+
+magazine_panel_badges:
+  controller: App\Controller\MagazinePanelController::badges
+  path: /m/{name}/panel/etykiety
+  methods: [ GET, POST ]

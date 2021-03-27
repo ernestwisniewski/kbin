@@ -30,6 +30,11 @@
                 <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Moderatorzy</h4>
             </a>
 
+            <a href="{{ path('magazine_panel_badges', {'name': magazine.name}) }}"
+               class="list-group-item {{ is_active_route('magazine_panel_badges') ? 'active font-weight-bold' : '' }}">
+                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Etykiety</h4>
+            </a>
+
             <a href="{{ path('magazine_panel_bans', {'name': magazine.name}) }}"
                class="list-group-item {{ is_active_route('magazine_panel_bans') ? 'active font-weight-bold' : '' }}">
                 <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Bany</h4>

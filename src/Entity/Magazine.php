@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use App\Repository\MagazineRepository;
 use App\Entity\Traits\CreatedAtTrait;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -131,6 +132,12 @@ class Magazine implements VisibilityInterface
      */
     private Collection $reports;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Badge", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"id": "DESC"})
+     */
+    private Collection $badges;
+
     public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules, ?bool $isAdult)
     {
         $this->name          = $name;
@@ -144,6 +151,7 @@ class Magazine implements VisibilityInterface
         $this->subscriptions = new ArrayCollection();
         $this->bans          = new ArrayCollection();
         $this->reports       = new ArrayCollection();
+        $this->badges        = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true, true));
 
@@ -237,7 +245,7 @@ class Magazine implements VisibilityInterface
         return !$user->getModeratorTokens()->matching($criteria)->isEmpty();
     }
 
-    public function getModerators(): Collection
+    public function getModerators(): Collection|Selectable
     {
         return $this->moderators;
     }
@@ -496,7 +504,7 @@ class Magazine implements VisibilityInterface
         $this->visibility = self::VISIBILITY_VISIBLE;
     }
 
-    public function getBans(): Collection
+    public function getBans(): Collection|Selectable
     {
         return $this->bans;
     }
@@ -549,9 +557,30 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
-    public function getReports()
+    public function getReports(): Collection|Selectable
     {
         return $this->reports;
+    }
+
+    public function getBadges(): Collection|Selectable
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges->add($badge);
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        $this->badges->removeElement($badge);
+
+        return $this;
     }
 
     public function __sleep()
