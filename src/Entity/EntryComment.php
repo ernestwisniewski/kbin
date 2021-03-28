@@ -289,16 +289,17 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         return $user === $this->getUser();
     }
 
-    public function getTitle(): string
+    public function getShortTitle(): string
     {
-        $body      = $this->getBody();
-        $firstLine = preg_replace('/^# |\R.*/', '', $body);
+        $body = $this->getTitle();
+        preg_match('/^(.*)$/m', $body, $firstLine);
+        $firstLine = $firstLine[0];
 
-        if (grapheme_strlen($firstLine) <= 80) {
+        if (grapheme_strlen($firstLine) <= 60) {
             return $firstLine;
         }
 
-        return grapheme_substr($firstLine, 0, 80).'…';
+        return grapheme_substr($firstLine, 0, 60).'…';
     }
 
     public function __sleep()

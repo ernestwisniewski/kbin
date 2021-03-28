@@ -49,7 +49,7 @@
                                  data-image-thumb-value="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
                                  data-action="click->image#toggle"
                                  src="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
-                                 alt="{{ comment.title }}">
+                                 alt="{{ comment.shortTitle }}">
                         {% endif %}
                     {% elseif comment.visibility is same as 'trashed' %}
                         <p class="text-muted">[Treść usunięta przez moderatora]</p>

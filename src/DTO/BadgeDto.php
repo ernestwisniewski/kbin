@@ -13,6 +13,7 @@ use App\Entity\PostComment;
 use App\Entity\PostCommentReport;
 use App\Entity\PostReport;
 use App\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class BadgeDto
 {
@@ -20,6 +21,13 @@ class BadgeDto
 
     private ?Magazine $magazine = null;
 
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 1,
+     *     max = 20
+     * )
+     */
     private ?string $name = null;
 
     public function create(Magazine $magazine, ?int $id = null): self

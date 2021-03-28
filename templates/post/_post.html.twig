@@ -59,7 +59,7 @@
                              data-image-thumb-value="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
                              data-action="click->image#toggle"
                              src="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
-                             alt="{{ post.title }}">
+                             alt="{{ post.shortTitle }}">
                     {% endif %}
                 {% elseif post.visibility is same as 'trashed' %}
                     <p class="text-muted">[Treść usunięta przez moderatora]</p>

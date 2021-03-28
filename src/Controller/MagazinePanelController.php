@@ -6,6 +6,7 @@ use App\DTO\BadgeDto;
 use App\DTO\MagazineBanDto;
 use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
+use App\Entity\Badge;
 use App\Entity\Moderator;
 use App\Entity\Report;
 use App\Entity\User;
@@ -371,6 +372,8 @@ class MagazinePanelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto->setMagazine($magazine);
             $badgeManager->create($dto);
+
+            return $this->redirectToRefererOrHome($request);
         }
 
         return $this->render(
@@ -378,8 +381,24 @@ class MagazinePanelController extends AbstractController
             [
                 'badges'   => $badges,
                 'magazine' => $magazine,
-                'form'     => $form,
+                'form'     => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("badge", options={"mapping": {"badge_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("moderate", subject="magazine")
+     */
+    public function removeBadge(Magazine $magazine, Badge $badge, BadgeManager $badgeManager, Request $request): Response
+    {
+        $this->validateCsrf('badge_remove', $request->request->get('token'));
+
+        $badgeManager->delete($badge);
+
+        return $this->redirectToRefererOrHome($request);
     }
 }

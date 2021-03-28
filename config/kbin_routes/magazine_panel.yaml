@@ -57,3 +57,8 @@ magazine_panel_badges:
   controller: App\Controller\MagazinePanelController::badges
   path: /m/{name}/panel/etykiety
   methods: [ GET, POST ]
+
+magazine_panel_badge_remove:
+  controller: App\Controller\MagazinePanelController::removeBadge
+  path: /m/{magazine_name}/panel/etykiety/{badge_id}/purge
+  methods: [ POST ]

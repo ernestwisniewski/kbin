@@ -55,7 +55,7 @@
                             <li class="kbin-comment-meta-entry kbin-comment-meta-list-item list-inline-item">
 
                                 <small class="text-muted">w <a class="font-weight-bold"
-                                                               href="{{ path('entry_single', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.title|slice(0, 60) ~ '...' }}</a></small>
+                                                               href="{{ path('entry_single', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.shortTitle }}</a></small>
                             </li>
                         {% endif %}
                     {% endif %}
@@ -73,7 +73,7 @@
                              data-image-thumb-value="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
                              data-action="click->image#toggle"
                              src="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
-                             alt="{{ comment.title }}">
+                             alt="{{ comment.shortTitle }}">
                     {% endif %}
                 {% elseif comment.visibility is same as 'trashed' %}
                     <p class="text-muted">[Treść usunięta przez moderatora]</p>

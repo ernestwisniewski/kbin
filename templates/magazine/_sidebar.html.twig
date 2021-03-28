@@ -66,7 +66,7 @@
     </div>
 
     {% if magazine.moderators|length %}
-        <div class="kbin-moderators">
+        <div class="kbin-moderators mb-4">
             <div class="card">
                 <div class="card-header">
                     Moderatorzy
@@ -81,9 +81,27 @@
                     {% endfor %}
                     {% if magazine.moderators|length > 5 %}
                         <li class="list-group-item text-center">
-                            <a class="text-decoration-none stretched-link" href="{{ path('magazine_moderators', {'name': magazine.name}) }}">więcej...</a>
+                            <a class="text-decoration-none stretched-link"
+                               href="{{ path('magazine_moderators', {'name': magazine.name}) }}">więcej...</a>
                         </li>
                     {% endif %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if magazine.badges|length %}
+        <div class="kbin-moderators">
+            <div class="card">
+                <div class="card-header">
+                    Etykiety
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        {% for badge in magazine.badges %}
+                            <span class="badge bg-primary me-1">{{ badge.name }}</span>
+                        {% endfor %}
+                    </li>
                 </ul>
             </div>
         </div>

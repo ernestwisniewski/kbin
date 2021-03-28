@@ -465,6 +465,19 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $user === $this->getUser();
     }
 
+    public function getShortTitle(): string
+    {
+        $body = $this->getTitle();
+        preg_match('/^(.*)$/m', $body, $firstLine);
+        $firstLine = $firstLine[0];
+
+        if (grapheme_strlen($firstLine) <= 60) {
+            return $firstLine;
+        }
+
+        return grapheme_substr($firstLine, 0, 60).'…';
+    }
+
     public function __sleep()
     {
         return [];

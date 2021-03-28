@@ -14,7 +14,20 @@
             <tr>
                 <td>{{ badge.name }}</td>
                 <td>4</td>
-                <td>Usuń</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Zgłoszenie">
+                        <form method="post"
+                              action="{{ path('magazine_panel_badge_remove', {'magazine_name': badge.magazine.name, 'badge_id': badge.id} ) }}">
+                            <input type="hidden" name="token" value="{{ csrf_token('badge_remove') }}">
+                            <button type="submit" class="btn btn-danger btn-sm rounded-0 rounded-start">Usuń</button>
+                        </form>
+
+                        <form method="post"
+                              action="">
+                            <button type="submit" class="btn btn-primary btn-sm rounded-0 rounded-end">Edytuj</button>
+                        </form>
+                    </div>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
