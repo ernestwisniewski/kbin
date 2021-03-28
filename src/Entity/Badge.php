@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BadgeRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +23,11 @@ class Badge
      * @ORM\JoinColumn(onDelete="cascade")
      */
     private Magazine $magazine;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EntryBadge", mappedBy="badge", cascade={"remove"}, orphanRemoval=true)
+     */
+    protected Collection $badges;
 
     /**
      * @ORM\Column(type="string")

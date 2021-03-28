@@ -29,6 +29,7 @@ class EntryFactory
             $entry->getBody(),
             null,
             $entry->isAdult(),
+            $entry->getBadges(),
             $entry->getId()
         );
     }

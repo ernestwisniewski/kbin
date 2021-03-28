@@ -18,7 +18,7 @@ class EntryBadge
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Badge")
+     * @ORM\ManyToOne(targetEntity="Badge", inversedBy="badges")
      */
     private Badge $badge;
 
@@ -27,8 +27,10 @@ class EntryBadge
      */
     private Entry $entry;
 
-    public function __construct() {
+    public function __construct(Entry $entry, Badge $badge) {
 
+        $this->entry = $entry;
+        $this->badge = $badge;
     }
 
     public function getId(): ?int

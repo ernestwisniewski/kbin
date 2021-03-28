@@ -291,7 +291,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
 
     public function getShortTitle(): string
     {
-        $body = $this->getTitle();
+        $body = $this->getBody();
         preg_match('/^(.*)$/m', $body, $firstLine);
         $firstLine = $firstLine[0];
 

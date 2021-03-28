@@ -145,7 +145,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     protected Collection $viewCounters;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryBadge", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryBadge", mappedBy="entry", cascade={"remove", "persist"}, orphanRemoval=true)
      */
     protected Collection $badges;
 
@@ -321,6 +321,19 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->isAdult = $isAdult;
 
         return $this;
+    }
+
+    public function getBadges(): ArrayCollection|Collection
+    {
+        return $this->badges;
+    }
+
+
+    public function addBadges(Badge ...$badges)
+    {
+        foreach ($badges as $badge){
+            $this->badges->add(new EntryBadge($this, $badge));
+        }
     }
 
     public function getLastActive(): ?\DateTime

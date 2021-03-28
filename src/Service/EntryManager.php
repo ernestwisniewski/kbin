@@ -28,8 +28,9 @@ class EntryManager implements ContentManager
     private EventDispatcherInterface $eventDispatcher;
     private Security $security;
     private HttpClientInterface $client;
-    private EntityManagerInterface $entityManager;
     private Kernel $kernel;
+    private BadgeManager $badgeManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         EntryFactory $entryFactory,
@@ -38,6 +39,7 @@ class EntryManager implements ContentManager
         Security $security,
         HttpClientInterface $client,
         Kernel $kernel,
+        BadgeManager $badgeManager,
         EntityManagerInterface $entityManager
     ) {
         $this->entryFactory    = $entryFactory;
@@ -45,8 +47,9 @@ class EntryManager implements ContentManager
         $this->eventDispatcher = $eventDispatcher;
         $this->security        = $security;
         $this->client          = $client;
-        $this->entityManager   = $entityManager;
         $this->kernel          = $kernel;
+        $this->badgeManager = $badgeManager;
+        $this->entityManager   = $entityManager;
     }
 
     public function create(EntryDto $entryDto, User $user): Entry
@@ -66,6 +69,8 @@ class EntryManager implements ContentManager
         if ($entry->getUrl()) {
             $entry->setType(Entry::ENTRY_TYPE_LINK);
         }
+
+        $this->badgeManager->assign($entry, $entryDto->getBadges());
 
         $magazine->addEntry($entry);
 

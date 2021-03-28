@@ -2,6 +2,8 @@
 
 namespace App\DTO;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Magazine;
@@ -43,6 +45,8 @@ class EntryDto
 
     private ?bool $isAdult = false;
 
+    private ?Collection $badges = null;
+
     public function create(
         Magazine $magazine,
         string $title,
@@ -50,6 +54,7 @@ class EntryDto
         ?string $body = null,
         ?Image $image = null,
         ?bool $isAdult = false,
+        ?Collection $badges = null,
         ?int $id = null
     ): self {
         $this->id       = $id;
@@ -59,6 +64,7 @@ class EntryDto
         $this->body     = $body;
         $this->image    = $image;
         $this->isAdult  = $isAdult;
+        $this->badges   = new ArrayCollection();
 
         return $this;
     }
@@ -156,4 +162,16 @@ class EntryDto
 
         return $this;
     }
+
+    public function getBadges(): ?Collection
+    {
+        return $this->badges;
+    }
+
+    public function setBadges(?Collection $badges): EntryDto
+    {
+        $this->badges = $badges;
+
+        return $this;
+}
 }

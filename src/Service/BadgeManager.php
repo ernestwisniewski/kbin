@@ -3,6 +3,10 @@
 namespace App\Service;
 
 use App\Entity\Badge;
+use App\Entity\Entry;
+use App\Entity\Magazine;
+use App\Entity\User;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use App\DTO\BadgeDto;
 use Webmozart\Assert\Assert;
@@ -47,5 +51,18 @@ class BadgeManager
     {
         $this->entityManager->remove($badge);
         $this->entityManager->flush();
+    }
+
+    public function assign(Entry $entry, Collection $badges): Entry
+    {
+        $badges = $entry->getMagazine()->getBadges()->filter(
+            static function (Badge $badge) use ($badges) {
+                return $badges->contains($badge->getName());
+            }
+        );
+
+        $entry->addBadges(...$badges);
+
+        return $entry;
     }
 }

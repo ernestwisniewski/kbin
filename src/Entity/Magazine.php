@@ -567,10 +567,12 @@ class Magazine implements VisibilityInterface
         return $this->badges;
     }
 
-    public function addBadge(Badge $badge): self
+    public function addBadge(Badge ...$badges): self
     {
-        if (!$this->badges->contains($badge)) {
-            $this->badges->add($badge);
+        foreach ($badges as $badge) {
+            if (!$this->badges->contains($badge)) {
+                $this->badges->add($badge);
+            }
         }
 
         return $this;
