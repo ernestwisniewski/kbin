@@ -25,17 +25,20 @@
 
     <div class="kbin-quick-links list-group {{ not kbin_js_enabled or is_route_contains('_create') ? '' : 'visually-hidden' }}"
          data-reveal-target="item">
-        <a href="{{ path('entry_create', { type: 'link' }) }}" class="list-group-item">
+        <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'link' }) }}{% else %}{{ path('entry_create', { type: 'link' }) }}{% endif %}"
+           class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy link</h4>
             <p class="kbin-quick-links-text list-group-item-text text-muted">Podziel się ciekawym linkiem lub fotografią.</p>
         </a>
 
-        <a href="{{ path('entry_create', { type: 'artykul' }) }}" class="list-group-item">
+        <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'artykul' }) }}{% else %}{{ path('entry_create', { type: 'artykul' }) }}{% endif %}"
+           class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy artykuł</h4>
             <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz artykuł lub wiadomość tekstową.</p>
         </a>
 
-        <a href="/m/karabin/wpisy/aktywne" class="list-group-item">
+        <a href="{% if magazine is defined and magazine %}{{ path('magazine_posts', { name: magazine.name }) }}{% else %}{{ '/m/karabin/wpisy/aktywne' }}{% endif %}"
+           class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj wpis na mikroblogu</h4>
             <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz krótki post lub notatkę.</p>
         </a>

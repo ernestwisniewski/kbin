@@ -23,6 +23,9 @@ class EntryArticleType extends AbstractType
         $builder
             ->add('title', TextareaType::class)
             ->add('body', TextareaType::class)
+            ->add('badges', BadgesType::class, [
+                'label' => 'Etykiety'
+            ])
             ->add(
                 'magazine',
                 EntityType::class,
@@ -32,9 +35,6 @@ class EntryArticleType extends AbstractType
                 ]
             )
             ->add('isAdult', CheckboxType::class)
-            ->add('badges', BadgesType::class, [
-                'label' => 'Etykiety'
-            ])
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());

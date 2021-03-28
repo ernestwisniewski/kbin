@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
+use App\Form\Type\BadgesType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,6 +22,9 @@ class EntryLinkType extends AbstractType
         $builder
             ->add('url', UrlType::class)
             ->add('title', TextareaType::class)
+            ->add('badges', BadgesType::class, [
+                'label' => 'Etykiety'
+            ])
             ->add(
                 'magazine',
                 EntityType::class,

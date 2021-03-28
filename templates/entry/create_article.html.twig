@@ -16,3 +16,11 @@
         </div>
     </div>
 {% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+
+    {% if magazine is defined and magazine %}
+        {% include 'magazine/_sidebar.html.twig' %}
+    {% endif %}
+{% endblock %}

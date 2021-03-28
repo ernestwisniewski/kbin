@@ -61,4 +61,14 @@ class Badge
 
         return $this;
     }
+
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function countBadges(): int
+    {
+        return $this->badges->count();
+    }
 }

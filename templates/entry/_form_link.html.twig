@@ -5,10 +5,17 @@
             {{ form_label(form.url, 'URL') }}
             {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle', 'data-entry-create-target': 'url' }}) }}
         </div>
+
         <div class="input-group-lg mb-3">
             {{ form_label(form.title, 'Tytuł') }}
             {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
         </div>
+
+        <div class="input-group-lg mb-3">
+            {{ form_label(form.badges, 'Etykiety') }}
+            {{ form_widget(form.badges, {'attr': {'class': ''}}) }}
+        </div>
+
         <div class="input-group-lg mb-3">
             {{ form_label(form.magazine, 'Magazyn') }}
             {{ form_widget(form.magazine, {'attr': {'class': 'kbin-choices'}}) }}

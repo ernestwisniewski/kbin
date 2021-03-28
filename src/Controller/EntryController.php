@@ -98,7 +98,8 @@ class EntryController extends AbstractController
         return $this->render(
             $this->getTemplateName($type),
             [
-                'form' => $form->createView(),
+                'magazine' => $magazine,
+                'form'     => $form->createView(),
             ]
         );
     }

@@ -4,6 +4,12 @@ entry_create:
   path: /nowaTresc/{type}
   methods: [ GET, POST ]
 
+magazine_entry_create:
+  controller: App\Controller\EntryController::create
+  defaults: { type: null }
+  path: /m/{name}/nowaTresc/{type}
+  methods: [ GET, POST ]
+
 entry_edit:
   controller: App\Controller\EntryController::edit
   path: /m/{magazine_name}/t/{entry_id}/edytuj
