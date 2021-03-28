@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class EntryFactory
 {

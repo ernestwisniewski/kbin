@@ -64,7 +64,7 @@ class EntryDto
         $this->body     = $body;
         $this->image    = $image;
         $this->isAdult  = $isAdult;
-        $this->badges   = new ArrayCollection();
+        $this->badges   = $badges;
 
         return $this;
     }
@@ -173,5 +173,5 @@ class EntryDto
         $this->badges = $badges;
 
         return $this;
-}
+    }
 }

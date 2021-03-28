@@ -329,8 +329,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     }
 
 
-    public function addBadges(Badge ...$badges)
+    public function setBadges(Badge ...$badges)
     {
+        $this->badges->clear();
+
         foreach ($badges as $badge){
             $this->badges->add(new EntryBadge($this, $badge));
         }

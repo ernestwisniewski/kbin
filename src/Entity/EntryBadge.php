@@ -47,4 +47,9 @@ class EntryBadge
     {
         return $this->entry;
     }
+
+    public function __toString(): string
+    {
+       return $this->getBadge()->getName();
+    }
 }

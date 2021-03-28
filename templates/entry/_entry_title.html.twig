@@ -1,6 +1,6 @@
 <{{ title_tag }} class="kbin-entry-title mb-0">
 {% if entry.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
 <a href="{{ path('entry_single', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">{{ entry.title }}</a>
-{% for badge in entry.badges %}<span class="badge bg-primary me-1">{{ badge.badge.name }}</span>{% endfor %}
+{% for badge in entry.badges %}<span class="badge bg-secondary me-1">{{ badge.badge.name }}</span>{% endfor %}
 <small class="kbin-entry-title-domain small text-muted">(<a class="text-reset" href="#">{{ entry.domain.name }}</a>)</small>
 </{{ title_tag }}>

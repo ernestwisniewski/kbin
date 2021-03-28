@@ -61,7 +61,7 @@ class BadgeManager
             }
         );
 
-        $entry->addBadges(...$badges);
+        $entry->setBadges(...$badges);
 
         return $entry;
     }

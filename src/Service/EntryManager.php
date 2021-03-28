@@ -99,6 +99,8 @@ class EntryManager implements ContentManager
             $entry->setType(Entry::ENTRY_TYPE_LINK);
         }
 
+        $this->badgeManager->assign($entry, $entryDto->getBadges());
+
         $this->assertType($entry);
 
         $this->entityManager->flush();
