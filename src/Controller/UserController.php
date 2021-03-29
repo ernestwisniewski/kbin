@@ -25,7 +25,7 @@ class UserController extends AbstractController
             'user/front.html.twig',
             [
                 'user'    => $user,
-                'entries' => $userRepository->findPublicActivity((int) $request->get('strona', 1), $user),
+                'results' => $userRepository->findPublicActivity((int) $request->get('strona', 1), $user),
             ]
         );
     }
@@ -35,7 +35,7 @@ class UserController extends AbstractController
         $criteria = (new EntryPageView((int) $request->get('strona', 1)))->showUser($user);
 
         return $this->render(
-            'user/front.html.twig',
+            'user/entries.html.twig',
             [
                 'user'    => $user,
                 'entries' => $entryRepository->findByCriteria($criteria),

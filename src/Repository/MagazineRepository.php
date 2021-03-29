@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class MagazineRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 15;
+    const PER_PAGE = 25;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -44,9 +44,8 @@ class MagazineRepository extends ServiceEntityRepository
             )
         );
 
-        $pagerfanta->setMaxPerPage(self::PER_PAGE);
-
         try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -70,9 +69,8 @@ class MagazineRepository extends ServiceEntityRepository
             )
         );
 
-        $pagerfanta->setMaxPerPage(self::PER_PAGE);
-
         try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -96,9 +94,8 @@ class MagazineRepository extends ServiceEntityRepository
             )
         );
 
-        $pagerfanta->setMaxPerPage(self::PER_PAGE);
-
         try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();

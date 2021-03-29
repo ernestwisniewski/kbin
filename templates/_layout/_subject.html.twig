@@ -6,9 +6,9 @@
 {% if subject is entry %}
     {{ entry(subject) }}
 {% elseif subject is entry_comment %}
-    {{ entry_comment(subject) }}
+    {{ entry_comment(subject, {with_parent: true}) }}
 {% elseif subject is post %}
     {{ post(subject) }}
 {% elseif subject is post_comment %}
-    {{ post_comment(subject) }}
+    {{ post_comment(subject, {with_parent: true}) }}
 {% endif %}

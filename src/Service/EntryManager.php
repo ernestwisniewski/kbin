@@ -70,7 +70,9 @@ class EntryManager implements ContentManager
             $entry->setType(Entry::ENTRY_TYPE_LINK);
         }
 
-        $this->badgeManager->assign($entry, $entryDto->getBadges());
+        if($entryDto->getBadges()) {
+            $this->badgeManager->assign($entry, $entryDto->getBadges());
+        }
 
         $magazine->addEntry($entry);
 
@@ -97,6 +99,10 @@ class EntryManager implements ContentManager
 
         if ($entry->getUrl()) {
             $entry->setType(Entry::ENTRY_TYPE_LINK);
+        }
+
+        if($entryDto->getBadges()) {
+            $this->badgeManager->assign($entry, $entryDto->getBadges());
         }
 
         $this->badgeManager->assign($entry, $entryDto->getBadges());

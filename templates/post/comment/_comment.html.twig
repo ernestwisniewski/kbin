@@ -1,6 +1,11 @@
 {% block comment %}
     {% from 'user/_macros.html.twig' import avatar %}
     {% from 'vote/_macros.html.twig' import vote %}
+    {% from 'post/_macros.html.twig' import post %}
+
+    {% if with_parent %}
+        {{ post(comment.post) }}
+    {% endif %}
 
     {% if not app.user or (app.user and not app.user.isBlocked(comment.user)) %}
         <blockquote id="{{ comment.id }}"

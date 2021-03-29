@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.username }} | Przegląd | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-user-front-page">
+        {% include 'entry/_list.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' %}
+    {{ parent() }}
+    <div class="mb-4">
+        {% include 'user/_moderator_list_card.html.twig' %}
+    </div>
+{% endblock %}

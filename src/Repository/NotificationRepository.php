@@ -40,9 +40,8 @@ class NotificationRepository extends ServiceEntityRepository
             )
         );
 
-        $pagerfanta->setMaxPerPage(self::PER_PAGE);
-
         try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();

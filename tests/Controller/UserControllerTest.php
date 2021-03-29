@@ -18,7 +18,7 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/u/regularUser');
 
-        $this->assertCount(2, $crawler->filter('.kbin-entry-list-item'));
+        $this->assertCount(2, $crawler->filter('article.kbin-entry'));
     }
 
     public function testUserCanFollow()
