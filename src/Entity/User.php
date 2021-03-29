@@ -452,12 +452,12 @@ class User implements UserInterface
         $this->updateFollowCounts($followingUser);
     }
 
-    public function getFollows(): Collection
+    public function getFollows(): Collection|Selectable
     {
         return $this->follows;
     }
 
-    public function getFollowers(): Collection
+    public function getFollowers(): Collection|Selectable
     {
         return $this->followers;
     }
@@ -643,5 +643,15 @@ class User implements UserInterface
             ->matching($criteria)
             ->filter(fn($notification) => $notification->getType() === 'message_notification')
             ->count();
+    }
+
+    public function getEntriesViewsCount():int {
+        $views = 0;
+
+        foreach ($this->entries as $entry) {
+            $views += $entry->getViews();
+        }
+
+        return $views;
     }
 }

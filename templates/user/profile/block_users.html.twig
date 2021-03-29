@@ -17,6 +17,6 @@
     {% include 'user/profile/_sidebar.html.twig' %}
     {{ parent() }}
     <div class="mb-4">
-        {% include 'user/_moderator_list_card.html.twig'with {user: app.user} %}
+        {% include 'user/_moderator_list_card.html.twig' with {user: app.user} %}
     </div>
 {% endblock %}

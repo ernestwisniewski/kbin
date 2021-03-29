@@ -44,6 +44,18 @@
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_posts') ? 'kbin-nav-navbar-item--active' : '' }}">
                             <a href="{{ path('user_posts', {username: user.username}) }}">Wpisy</a>
                         </li>
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_replies') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user_replies', {username: user.username}) }}">Odpowiedzi</a>
+                        </li>
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_replies') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user_subscriptions', {username: user.username}) }}">Subskrypcje</a>
+                        </li>
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_follow') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user_follow', {username: user.username}) }}">Obserwowani</a>
+                        </li>
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_followers') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user_followers', {username: user.username}) }}">Obserwujący</a>
+                        </li>
                     {% else %}
                         {{ navbar_link('Ważne', {
                             sortBy: 'wazne',

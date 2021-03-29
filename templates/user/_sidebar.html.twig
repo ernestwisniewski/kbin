@@ -21,7 +21,7 @@
                         <span class="text-muted small">Dołączył:</span> {{ user.createdAt|ago }}
                     </li>
                     <li>
-                        <span class="text-muted small">Punkty reputacji:</span> {{ user.entries|length + user.entryComments|length }}
+                        <span class="text-muted small">Punkty reputacji:</span> {{ user.entries|length + user.entryComments|length + user.posts|length + user.postComments|length }}
                     </li>
                     <li>
                         <span class="text-muted small">Komentarze:</span> {{ user.entryComments|length }}
@@ -29,8 +29,18 @@
                     <li>
                         <span class="text-muted small">Treści:</span> {{ user.entries|length }}
                     </li>
+                    <li>
+                        <span class="text-muted small">Wpisy:</span> {{ user.posts|length }}
+                    </li>
+                    <li>
+                        <span class="text-muted small">Odpowiedzi:</span> {{ user.postComments|length }}
+                    </li>
+                    <li>
+                        <span class="text-muted small">Wyświeleń treści:</span> {{ user.entriesViewsCount }}
+                    </li>
                     <li class="mt-2">
-                        <span class="text-muted small"><a href="{{ path('user_message', {'username': user.username}) }}"><i class="fa fa-envelope"></i> Wyślij wiadomość</a></span>
+                        <span class="text-muted small"><a href="{{ path('user_message', {'username': user.username}) }}"><i
+                                        class="fa fa-envelope"></i> Wyślij wiadomość</a></span>
                     </li>
                 </ul>
             </div>

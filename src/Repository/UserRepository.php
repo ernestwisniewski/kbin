@@ -14,7 +14,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\Common\Collections\Criteria as DoctrineCriteria;
 use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Doctrine\Collections\SelectableAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -143,6 +145,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
             'SELECT IDENTITY(us.following) FROM '.UserFollow::class.' us WHERE us.follower = :user'.')';
+
+        $query = $this->getEntityManager()->createQuery($dql)
+            ->setParameter('user', $user);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+
+    public function findFollowUsers(int $page, User $user): PagerfantaInterface
+    {
+        $dql =
+            'SELECT u FROM '.User::class.' u WHERE u IN ('.
+            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.follower = :user'.')';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);

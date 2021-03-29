@@ -10,5 +10,5 @@
 {% elseif subject is post %}
     {{ post(subject) }}
 {% elseif subject is post_comment %}
-    {{ post_comment(subject, {with_parent: true}) }}
+    {{ post_comment(subject, {'with_parent': true}) }}
 {% endif %}

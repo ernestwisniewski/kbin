@@ -2,7 +2,9 @@
 
 {% if comments|length %}
     {% for comment in comments %}
-        {{ comment(comment) }}
+        {{ comment(comment,{
+            with_parent: with_parent ?? false
+        }) }}
     {% endfor %}
 {% endif %}
 {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}

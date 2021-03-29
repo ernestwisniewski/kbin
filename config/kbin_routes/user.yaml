@@ -18,10 +18,30 @@ user_posts:
   path: /u/{username}/wpisy
   methods: [ GET ]
 
+user_replies:
+  controller: App\Controller\UserController::replies
+  path: /u/{username}/odpowiedzi
+  methods: [ GET ]
+
+user_subscriptions:
+  controller: App\Controller\UserController::subscriptions
+  path: /u/{username}/subskrypcje
+  methods: [ GET ]
+
+user_followers:
+  controller: App\Controller\UserController::followers
+  path: /u/{username}/obserwujacy
+  methods: [ GET ]
+
+user_follows:
+  controller: App\Controller\UserController::followers
+  path: /u/{username}/obserwujacy
+  methods: [ GET ]
+
 user_follow:
-  controller: App\Controller\UserController::follow
-  path: /u/{username}/follow
-  methods: [ POST ]
+  controller: App\Controller\UserController::follows
+  path: /u/{username}/obserwowani
+  methods: [ GET ]
 
 user_unfollow:
   controller: App\Controller\UserController::unfollow
@@ -70,12 +90,12 @@ user_profile_user_blocks:
 
 user_profile_magazine_subscriptions:
   controller: App\Controller\ProfileController::subMagazines
-  path: /profil/subskrybcje/magazyny
+  path: /profil/Subskrypcje/magazyny
   methods: [ GET ]
 
 user_profile_user_subscriptions:
   controller: App\Controller\ProfileController::subUsers
-  path: /profil/subskrybcje/ludzie
+  path: /profil/Subskrypcje/ludzie
   methods: [ GET ]
 
 user_profile_settings:

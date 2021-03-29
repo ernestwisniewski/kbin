@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Form\UserType;
+use App\PageView\PostCommentPageView;
 use App\PageView\PostPageView;
 use App\Repository\EntryCommentRepository;
+use App\Repository\MagazineRepository;
+use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -76,11 +79,65 @@ class UserController extends AbstractController
         );
     }
 
+    public function replies(User $user, Request $request, PostCommentRepository $commentRepository): Response
+    {
+        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))->showUser($user);
+
+        $comments = $commentRepository->findByCriteria($criteria);
+
+        return $this->render(
+            'user/replies.html.twig',
+            [
+                'user'     => $user,
+                'comments' => $comments,
+            ]
+        );
+    }
+
+    public function subscriptions(User $user, MagazineRepository $magazineRepository, Request $request): Response
+    {
+        $page = (int) $request->get('strona', 1);
+
+        return $this->render(
+            'user/subscriptions.html.twig',
+            [
+                'user'      => $user,
+                'magazines' => $magazineRepository->findSubscribedMagazines($page, $user),
+            ]
+        );
+    }
+
+    public function followers(User $user, UserRepository $userRepository, Request $request): Response
+    {
+        $page = (int) $request->get('strona', 1);
+
+        return $this->render(
+            'user/followers.html.twig',
+            [
+                'user'  => $user,
+                'users' => $userRepository->findFollowUsers($page, $user),
+            ]
+        );
+    }
+
+    public function follows(User $user, UserRepository $userRepository, Request $request): Response
+    {
+        $page = (int) $request->get('strona', 1);
+
+        return $this->render(
+            'user/follows.html.twig',
+            [
+                'user'  => $user,
+                'users' => $userRepository->findFollowedUsers($page, $user),
+            ]
+        );
+    }
+
     /**
      * @IsGranted("ROLE_USER")
      * @IsGranted("follow", subject="following")
      */
-    public function follow(User $following, UserManager $userManager, Request $request): Response
+    public function followed(User $following, UserManager $userManager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
 

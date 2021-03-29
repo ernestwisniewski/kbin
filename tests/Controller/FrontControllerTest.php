@@ -26,10 +26,10 @@ class FrontControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
 
 //      Sub
-        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Subskrybcje')->link());
+        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Subskrypcje')->link());
         $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
 
-        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Subskrybcje');
+        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Subskrypcje');
         $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
         $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
@@ -65,7 +65,7 @@ class FrontControllerTest extends WebTestCase
         $this->getEntryByTitle('testowa treść');
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Subskrybcje')->link());
+        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Subskrypcje')->link());
 
         $this->assertSelectorTextContains('.kbin-entry-meta-user', 'przez regularUser');
         $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/polityka');

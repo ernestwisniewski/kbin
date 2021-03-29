@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.username }} | Obserwowani | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-user-follows-page">
+        {% include'user/_list_table.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' %}
+    {{ parent() }}
+    <div class="mb-4">
+        {% include 'user/_moderator_list_card.html.twig' %}
+    </div>
+{% endblock %}
