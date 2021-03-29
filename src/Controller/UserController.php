@@ -137,7 +137,7 @@ class UserController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("follow", subject="following")
      */
-    public function followed(User $following, UserManager $userManager, Request $request): Response
+    public function follow(User $following, UserManager $userManager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
 

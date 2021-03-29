@@ -34,14 +34,14 @@ user_followers:
   methods: [ GET ]
 
 user_follows:
-  controller: App\Controller\UserController::followers
-  path: /u/{username}/obserwujacy
-  methods: [ GET ]
-
-user_follow:
   controller: App\Controller\UserController::follows
   path: /u/{username}/obserwowani
   methods: [ GET ]
+
+user_follow:
+  controller: App\Controller\UserController::follow
+  path: /u/{username}/follow
+  methods: [ POST ]
 
 user_unfollow:
   controller: App\Controller\UserController::unfollow
