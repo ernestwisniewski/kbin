@@ -128,7 +128,7 @@ class EntryManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new EntryDeletedEvent($entry)));
+        $this->eventDispatcher->dispatch((new EntryDeletedEvent($entry,$this->security->getUser())));
     }
 
     public function purge(Entry $entry): void

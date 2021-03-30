@@ -104,9 +104,6 @@ class NotificationManager
         $notifications = $user->getNewNotifications();
 
         foreach ($notifications as $notification) {
-            /**
-             * @var $notification Notification
-             */
             $notification->setStatus(Notification::STATUS_READ);
         }
 

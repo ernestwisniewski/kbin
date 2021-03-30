@@ -648,6 +648,7 @@ class User implements UserInterface
     public function getEntriesViewsCount():int {
         $views = 0;
 
+        // todo query
         foreach ($this->entries as $entry) {
             $views += $entry->getViews();
         }

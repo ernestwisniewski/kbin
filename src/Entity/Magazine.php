@@ -138,6 +138,12 @@ class Magazine implements VisibilityInterface
      */
     private Collection $badges;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MagazineLog", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"id": "DESC"})
+     */
+    private Collection $logs;
+
     public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules, ?bool $isAdult)
     {
         $this->name          = $name;
@@ -152,6 +158,7 @@ class Magazine implements VisibilityInterface
         $this->bans          = new ArrayCollection();
         $this->reports       = new ArrayCollection();
         $this->badges        = new ArrayCollection();
+        $this->logs          = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true, true));
 
@@ -583,6 +590,18 @@ class Magazine implements VisibilityInterface
         $this->badges->removeElement($badge);
 
         return $this;
+    }
+
+    public function getLogs(): ArrayCollection|Collection
+    {
+        return $this->logs;
+    }
+
+    public function addLog(MagazineLog $log): void
+    {
+        if (!$this->logs->contains($log)) {
+            $this->logs->add($log);
+        }
     }
 
     public function __sleep()
