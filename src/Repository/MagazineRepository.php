@@ -144,7 +144,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('status', Report::STATUS_PENDING))
-            ->orderBy(['weight' => 'DESC']);
+            ->orderBy(['weight' => 'ASC']);
 
         $bans = new Pagerfanta(new SelectableAdapter($magazine->getReports(), $criteria));
         $bans->setMaxPerPage(self::PER_PAGE);
