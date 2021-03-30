@@ -48,7 +48,7 @@ class EntryManager implements ContentManager
         $this->security        = $security;
         $this->client          = $client;
         $this->kernel          = $kernel;
-        $this->badgeManager = $badgeManager;
+        $this->badgeManager    = $badgeManager;
         $this->entityManager   = $entityManager;
     }
 
@@ -70,7 +70,7 @@ class EntryManager implements ContentManager
             $entry->setType(Entry::ENTRY_TYPE_LINK);
         }
 
-        if($entryDto->getBadges()) {
+        if ($entryDto->getBadges()) {
             $this->badgeManager->assign($entry, $entryDto->getBadges());
         }
 
@@ -101,7 +101,7 @@ class EntryManager implements ContentManager
             $entry->setType(Entry::ENTRY_TYPE_LINK);
         }
 
-        if($entryDto->getBadges()) {
+        if ($entryDto->getBadges()) {
             $this->badgeManager->assign($entry, $entryDto->getBadges());
         }
 
@@ -118,17 +118,11 @@ class EntryManager implements ContentManager
 
     public function delete(Entry $entry, bool $trash = false): void
     {
-        if ($entry->getCommentCount() >= 1) {
-            $trash ? $entry->trash() : $entry->softDelete();
-        } else {
-            $this->purge($entry);
-
-            return;
-        }
+        $trash ? $entry->trash() : $entry->softDelete();
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new EntryDeletedEvent($entry,$this->security->getUser())));
+        $this->eventDispatcher->dispatch((new EntryDeletedEvent($entry, $this->security->getUser())));
     }
 
     public function purge(Entry $entry): void

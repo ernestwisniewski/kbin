@@ -115,6 +115,17 @@ class MagazineRepository extends ServiceEntityRepository
         return $moderators;
     }
 
+    public function findModlog(Magazine $magazine, ?int $page = 1): PagerfantaInterface
+    {
+        $criteria = Criteria::create()->orderBy(['createdAt' => 'ASC']);
+
+        $moderators = new Pagerfanta(new SelectableAdapter($magazine->getLogs(), $criteria));
+        $moderators->setMaxPerPage(self::PER_PAGE);
+        $moderators->setCurrentPage($page);
+
+        return $moderators;
+    }
+
     public function findBans(Magazine $magazine, ?int $page = 1): PagerfantaInterface
     {
         $criteria = Criteria::create()

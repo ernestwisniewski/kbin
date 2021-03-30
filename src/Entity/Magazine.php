@@ -526,15 +526,18 @@ class Magazine implements VisibilityInterface
         return $this->bans->matching($criteria)->count() > 0;
     }
 
-    public function addBan(User $user, User $bannedBy, ?string $reason, ?\DateTimeInterface $expiredAt): self
+    public function addBan(User $user, User $bannedBy, ?string $reason, ?\DateTimeInterface $expiredAt): ?MagazineBan
     {
         $ban = $this->isBanned($user);
+
         if (!$ban) {
             $this->bans->add($ban = new MagazineBan($this, $user, $bannedBy, $reason, $expiredAt));
             $ban->setMagazine($this);
+        } else {
+            return null;
         }
 
-        return $this;
+        return $ban;
     }
 
     public function removeBan(MagazineBan $ban): self
@@ -548,7 +551,7 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
-    public function unban(User $user)
+    public function unban(User $user): MagazineBan
     {
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
@@ -561,7 +564,7 @@ class Magazine implements VisibilityInterface
         $ban = $this->bans->matching($criteria)->first();
         $ban->setExpiredAt(new \DateTime('+10 seconds'));
 
-        return $this;
+        return $ban;
     }
 
     public function getReports(): Collection|Selectable

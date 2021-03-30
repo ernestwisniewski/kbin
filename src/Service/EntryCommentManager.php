@@ -13,6 +13,7 @@ use App\Event\EntryCommentPurgedEvent;
 use App\Event\EntryCommentUpdatedEvent;
 use App\Factory\EntryCommentFactory;
 use App\Repository\EntryRepository;
+use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
@@ -24,6 +25,7 @@ class EntryCommentManager implements ContentManager
     private EventDispatcherInterface $eventDispatcher;
     private EntryCommentRepository $commentRepository;
     private EntryRepository $entryRepository;
+    private Security $security;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
@@ -31,12 +33,14 @@ class EntryCommentManager implements ContentManager
         EventDispatcherInterface $eventDispatcher,
         EntryCommentRepository $commentRepository,
         EntryRepository $entryRepository,
+        Security $security,
         EntityManagerInterface $entityManager
     ) {
         $this->commentFactory    = $commentFactory;
         $this->eventDispatcher   = $eventDispatcher;
         $this->commentRepository = $commentRepository;
         $this->entryRepository   = $entryRepository;
+        $this->security          = $security;
         $this->entityManager     = $entityManager;
     }
 
@@ -77,17 +81,11 @@ class EntryCommentManager implements ContentManager
 
     public function delete(EntryComment $comment, bool $trash = false): void
     {
-        if ($comment->getChildren()->count()) {
-            $trash ? $comment->trash() : $comment->softDelete();
-        } else {
-            $this->purge($comment);
-
-            return;
-        }
+        $trash ? $comment->trash() : $comment->softDelete();
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new EntryCommentDeletedEvent($comment)));
+        $this->eventDispatcher->dispatch((new EntryCommentDeletedEvent($comment, $this->security->getUser())));
     }
 
     public function purge(EntryComment $comment): void

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log moderatorski | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-modlog-page">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ block(log.type) }}</td>
+                        <td class="text-end text-"><small class="text-muted">{{ log.createdAt|ago }}</small></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if(logs.haveToPaginate) %}
+            {{ pagerfanta(logs, null, {'pageParameter':'[strona]'}) }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
+{% endblock %}
+
+{% block log_entry_delete %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął treść autorstwa <small
+        class="text-muted">/u/</small><a href="{{ path('user', {'username': log.entry.user.username}) }}">{{ log.entry.user.username }}</a>
+{% endblock log_entry_delete %}
+
+{% block log_entry_comment_delete %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął komentarz autorstwa <small
+        class="text-muted">/u/</small><a href="{{ path('user', {'username': log.comment.user.username}) }}">{{ log.comment.user.username }}</a>
+{% endblock log_entry_comment_delete %}
+
+{% block log_post_delete %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął post autorstwa <small
+        class="text-muted">/u/</small><a href="{{ path('user', {'username': log.post.user.username}) }}">{{ log.post.user.username }}</a>
+{% endblock log_post_delete %}
+
+{% block log_post_comment_delete %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął post autorstwa <small
+        class="text-muted">/u/</small><a href="{{ path('user', {'username': log.comment.user.username}) }}">{{ log.comment.user.username }}</a></strong>
+{% endblock log_post_comment_delete %}
+
+{% block log_ban %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> zbanował użytkownika <small
+        class="text-muted">/u/</small><a href="{{ path('user', {'username': log.ban.user.username}) }}">{{ log.ban.user.username }}</a></strong>
+{% endblock log_ban %}

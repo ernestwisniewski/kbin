@@ -124,11 +124,15 @@ class MagazineManager
     {
         Assert::greaterThan($dto->getExpiredAt(), new \DateTime());
 
-        $magazine->addBan($user, $bannedBy, $dto->getReason(), $dto->getExpiredAt());
+        $ban = $magazine->addBan($user, $bannedBy, $dto->getReason(), $dto->getExpiredAt());
+
+        if (!$ban) {
+            return;
+        }
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new MagazineBanEvent($magazine, $user));
+        $this->eventDispatcher->dispatch(new MagazineBanEvent($ban));
     }
 
 
@@ -138,11 +142,11 @@ class MagazineManager
             return;
         }
 
-        $magazine->unban($user);
+        $ban = $magazine->unban($user);
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new MagazineBanEvent($magazine, $user));
+        $this->eventDispatcher->dispatch(new MagazineBanEvent($ban));
     }
 
     public function addModerator(ModeratorDto $dto): void

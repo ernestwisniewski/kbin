@@ -23,6 +23,11 @@ magazine_moderators:
   path: /m/{name}/moderatorzy
   methods: [ GET ]
 
+magazine_modlog:
+  controller: App\Controller\MagazineController::modlog
+  path: /m/{name}/modlog
+  methods: [ GET ]
+
 magazine_subscribe:
   controller: App\Controller\MagazineController::subscribe
   path: /m/{name}/subscribe

@@ -29,6 +29,11 @@ class MagazineLogEntryDelete extends MagazineLog
         return 'log_entry_delete';
     }
 
+    public function getEntry(): Entry
+    {
+        return $this->entry;
+    }
+
     public function getSubject(): ContentInterface
     {
         return $this->entry;

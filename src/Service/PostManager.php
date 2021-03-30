@@ -77,17 +77,11 @@ class PostManager implements ContentManager
 
     public function delete(Post $post, bool $trash = false): void
     {
-        if ($post->getCommentCount() >= 1) {
-            $trash ? $post->trash() : $post->softDelete();
-        } else {
-            $this->purge($post);
-
-            return;
-        }
+        $trash ? $post->trash() : $post->softDelete();
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new PostDeletedEvent($post)));
+        $this->eventDispatcher->dispatch((new PostDeletedEvent($post, $this->security->getUser())));
     }
 
     public function purge(Post $post): void

@@ -210,11 +210,26 @@ class MagazineController extends AbstractController
 
     public function moderators(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
     {
+        $page = (int) $request->get('strona', 1);
+
         return $this->render(
             'magazine/moderators.html.twig',
             [
                 'magazine'   => $magazine,
-                'moderators' => $magazineRepository->findModerators($magazine, (int) $request->get('strona', 1)),
+                'moderators' => $magazineRepository->findModerators($magazine, (int) $request->get('strona', $page)),
+            ]
+        );
+    }
+
+    public function modlog(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
+    {
+        $page = (int) $request->get('strona', 1);
+
+        return $this->render(
+            'magazine/modlog.html.twig',
+            [
+                'magazine'   => $magazine,
+                'logs' => $magazineRepository->findModlog($magazine, (int) $request->get('strona', $page)),
             ]
         );
     }

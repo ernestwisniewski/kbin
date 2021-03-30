@@ -3,26 +3,20 @@
 namespace App\Event;
 
 use App\Entity\Magazine;
+use App\Entity\MagazineBan;
 use App\Entity\User;
 
 class MagazineBanEvent
 {
-    private Magazine $magazine;
-    private User $user;
+    private MagazineBan $ban;
 
-    public function __construct(Magazine $magazine, User $user)
+    public function __construct(MagazineBan $ban)
     {
-        $this->magazine = $magazine;
-        $this->user = $user;
+        $this->ban = $ban;
     }
 
-    public function getMagazine(): Magazine
+    public function getBan(): MagazineBan
     {
-        return $this->magazine;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
+        return $this->ban;
     }
 }

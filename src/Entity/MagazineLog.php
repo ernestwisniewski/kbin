@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="log_type", type="text")
  * @ORM\DiscriminatorMap({
  *   "entry_delete": "MagazineLogEntryDelete",
+ *   "entry_comment_delete": "MagazineLogEntryCommentDelete",
+ *   "post_delete": "MagazineLogPostDelete",
+ *   "post_comment_delete": "MagazineLogPostCommentDelete",
+ *   "ban": "MagazineLogBan",
  * })
  */
 abstract class MagazineLog
@@ -57,7 +61,7 @@ abstract class MagazineLog
         return $this->user;
     }
 
-    abstract public function getSubject(): ContentInterface;
+    abstract public function getSubject(): ContentInterface|null;
 
     abstract public function clearSubject(): MagazineLog;
 

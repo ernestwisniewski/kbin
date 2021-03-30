@@ -15,6 +15,7 @@ use App\Service\Contracts\ContentManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\PostCommentFactory;
+use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 use App\Entity\User;
 
@@ -24,6 +25,7 @@ class PostCommentManager implements ContentManager
     private EventDispatcherInterface $eventDispatcher;
     private PostCommentRepository $commentRepository;
     private PostRepository $postRepository;
+    private Security $security;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
@@ -31,12 +33,14 @@ class PostCommentManager implements ContentManager
         EventDispatcherInterface $eventDispatcher,
         PostCommentRepository $commentRepository,
         PostRepository $postRepository,
+        Security $security,
         EntityManagerInterface $entityManager
     ) {
         $this->commentFactory    = $commentFactory;
         $this->eventDispatcher   = $eventDispatcher;
         $this->commentRepository = $commentRepository;
         $this->postRepository    = $postRepository;
+        $this->security          = $security;
         $this->entityManager     = $entityManager;
     }
 
@@ -76,17 +80,11 @@ class PostCommentManager implements ContentManager
 
     public function delete(PostComment $comment, bool $trash = false): void
     {
-        if ($comment->getChildren()->count()) {
-            $trash ? $comment->trash() : $comment->softDelete();
-        } else {
-            $this->purge($comment);
-
-            return;
-        }
+        $trash ? $comment->trash() : $comment->softDelete();
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new PostCommentDeletedEvent($comment)));
+        $this->eventDispatcher->dispatch((new PostCommentDeletedEvent($comment, $this->security->getUser())));
     }
 
     public function purge(PostComment $comment): void

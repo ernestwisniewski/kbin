@@ -3,18 +3,26 @@
 namespace App\Event;
 
 use App\Entity\PostComment;
+use App\Entity\User;
 
 class PostCommentDeletedEvent
 {
-    protected PostComment $comment;
+    private PostComment $comment;
+    private ?User $user;
 
-    public function __construct(PostComment $comment)
+    public function __construct(PostComment $comment, ?User $user = null)
     {
         $this->comment = $comment;
+        $this->user    = $user;
     }
 
     public function getComment(): PostComment
     {
         return $this->comment;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
     }
 }
