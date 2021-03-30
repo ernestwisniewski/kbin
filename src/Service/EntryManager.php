@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Event\EntryDeletedEvent;
 use App\Kernel;
 use App\Service\Contracts\ContentManager;
+use App\Utils\UrlCleaner;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -30,6 +31,7 @@ class EntryManager implements ContentManager
     private HttpClientInterface $client;
     private Kernel $kernel;
     private BadgeManager $badgeManager;
+    private UrlCleaner $urlCleaner;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
@@ -40,6 +42,7 @@ class EntryManager implements ContentManager
         HttpClientInterface $client,
         Kernel $kernel,
         BadgeManager $badgeManager,
+        UrlCleaner $urlCleaner,
         EntityManagerInterface $entityManager
     ) {
         $this->entryFactory    = $entryFactory;
@@ -49,6 +52,7 @@ class EntryManager implements ContentManager
         $this->client          = $client;
         $this->kernel          = $kernel;
         $this->badgeManager    = $badgeManager;
+        $this->urlCleaner      = $urlCleaner;
         $this->entityManager   = $entityManager;
     }
 
@@ -59,6 +63,7 @@ class EntryManager implements ContentManager
             throw new AccessDeniedHttpException();
         }
 
+        $entryDto->setUrl(($this->urlCleaner)($entryDto->getUrl()));
         $this->validateUrl($entryDto->getUrl());
 
         $entry    = $this->entryFactory->createFromDto($entryDto, $user);
