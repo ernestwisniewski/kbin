@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
 
 {% block title %}{{ user.username }} | Subskrypcje | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-subscriptions-page">
-        {% include'magazine/_list_cards.html.twig' %}
+        {% if magazines|length %}
+            {% include'magazine/_list_cards.html.twig' %}
+        {% else %}
+            {{ not_found() }}
+        {% endif %}
     </div>
 {% endblock %}
 

@@ -1,0 +1,43 @@
+{%- macro not_found(type, options) -%}
+    {%- with {
+        type: type,
+        } only -%}
+        {{ block('not_found') }}
+    {%- endwith -%}
+{%- endmacro -%}
+
+{% block not_found %}
+    {# {{ block('icon_'~type) }} #}
+    {{ block('icon') }}
+{% endblock %}
+
+{% block icon %}
+    <div class="text-center py-5 text-muted">
+        <span class="display-1">
+                {{ random([
+                    'ฅ^•ﻌ•^ฅ',
+                    'q(❂‿❂)p',
+                    '☜(⌒▽⌒)☞',
+                    '(｡◕‿◕｡)',
+                    '(づ◔ ͜ʖ◔)づ',
+                    'ԅ(≖‿≖ԅ)',
+                    '\(ᵔᵕᵔ)/',
+                    '¯\_(ツ)_/¯',
+                    '(⩾﹏⩽)',
+                    'ಠ_ಠ',
+                    '¯\(°_o)/¯',
+                    'ಥ_ಥ',
+                    'ಥ﹏ಥ',
+                    '(҂◡_◡)',
+                    '(ーー゛)'
+                ]) }}
+        </span>
+        <p class="fs-3 mt-2">
+            {{ random([
+                'pusto...',
+                'nic tu nie ma...',
+                'nic tu się nie dzieje...',
+            ]) }}
+        </p>
+    </div>
+{% endblock icon %}

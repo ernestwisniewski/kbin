@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
 
 {% block title %}Edytuj profil | {{ parent() }}{% endblock %}
 
@@ -7,7 +8,11 @@
         {% include 'user/profile/_tabs.html.twig' %}
 
         <div class="kbin-profile-edit mt-lg-4">
-            {% include 'user/_list_table.html.twig' %}
+            {% if users|length %}
+                {% include 'user/_list_table.html.twig' %}
+            {% else %}
+                {{ not_found() }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

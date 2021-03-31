@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
 
 {% block title %}Wiadomości | {{ parent() }}{% endblock %}
 
@@ -6,12 +7,7 @@
     <div class="kbin-profile kbin-profile-threads-page">
         {% include 'user/profile/_tabs.html.twig' %}
 
-        {% if threads.count < 1 %}
-            <div class="text-center py-5 text-muted">
-                <span class="display-1">( ͡◕ ͜ʖ ͡◕)</span>
-                <p>Jeszcze nic tu nie ma...</p>
-            </div>
-        {% else %}
+        {% if threads|length %}
             <div class="kbin-profile-edit mt-lg-4">
                 <div class="table-responsive">
                     <table class="table align-middle small">
@@ -30,6 +26,8 @@
                     {{ pagerfanta(threads, null, {'pageParameter':'[strona]'}) }}
                 {% endif %}
             </div>
+        {% else %}
+            {{ not_found() }}
         {% endif %}
     </div>
 {% endblock %}
@@ -46,5 +44,6 @@
 {% block message %}
     {{ (thread.messages|length - 1)|format_number }} odpowiedzi w wątku z
     <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': thread.otherParticipants(app.user)[0].username}) }}">{{ thread.otherParticipants(app.user)[0].username }}</a> - <strong><a href="{{ path('user_profile_message', {'id': thread.id}) }}">{{ thread.title }}</a></strong>
+        href="{{ path('user', {'username': thread.otherParticipants(app.user)[0].username}) }}">{{ thread.otherParticipants(app.user)[0].username }}</a> -
+    <strong><a href="{{ path('user_profile_message', {'id': thread.id}) }}">{{ thread.title }}</a></strong>
 {% endblock message %}

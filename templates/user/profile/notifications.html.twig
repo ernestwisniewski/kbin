@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
 
 {% block title %}Notyfikacje | {{ parent() }}{% endblock %}
 
@@ -23,10 +24,7 @@
                     </form>
                 </div>
             {% else %}
-                <div class="text-center py-5 text-muted">
-                    <span class="display-1">(づ◔ ͜ʖ◔)づ</span>
-                    <p>Jeszcze nic tu nie ma...</p>
-                </div>
+                {{ not_found() }}
             {% endif %}
             <div class="table-responsive">
                 <table class="table align-middle small">

@@ -1,3 +1,4 @@
+{% from '_layout/_not_found.html.twig' import not_found %}
 {% from 'post/_macros.html.twig' import post %}
 
 <div class="kbin-post-list">
@@ -12,10 +13,7 @@
             }) }}
         {% endfor %}
     {% else %}
-    <div class="text-center py-5 text-muted">
-        <span class="display-1">(╥﹏╥)</span>
-        <p>Jeszcze nic tu nie ma...</>
-    </div>
+        {{ not_found() }}
     {% endif %}
     {% if(posts.haveToPaginate) %}
         {{ pagerfanta(posts, null, {'pageParameter':'[strona]'}) }}

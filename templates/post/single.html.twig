@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from 'post/_macros.html.twig' import post %}
 {% from 'post/comment/_macros.html.twig' import comment %}
+{% from '_layout/_not_found.html.twig' import not_found %}
 
 {% block title %}{{ post.body|slice(0, 35) ~ '...' }} | Wpisy | {{ parent() }}{% endblock %}
 
@@ -42,10 +43,7 @@
                             {{ comment(comment) }}
                         {% endfor %}
                     {% else %}
-                        <div class="text-center py-5 text-muted">
-                            <span class="display-1">( ಠ ʖ̯ ಠ)</span>
-                            <p>Jeszcze nic tu nie ma...</p>
-                        </div>
+                        {{ not_found() }}
                     {% endif %}
                 </div>
             </section>

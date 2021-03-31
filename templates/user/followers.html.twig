@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
 
 {% block title %}{{ user.username }} | Obserwujący | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-followers-page">
-        {% include'user/_list_table.html.twig' %}
+        {% if users|length %}
+            {% include'user/_list_table.html.twig' %}
+        {% else %}
+            {{ not_found() }}
+        {% endif %}
     </div>
 {% endblock %}
 
