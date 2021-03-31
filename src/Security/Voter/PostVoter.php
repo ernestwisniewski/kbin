@@ -73,15 +73,7 @@ class PostVoter extends Voter
 
     private function canPurge(Post $post, User $user): bool
     {
-        if ($post->getUser() === $user) {
-            return true;
-        }
-
-        if ($post->getMagazine()->userIsModerator($user)) {
-            return true;
-        }
-
-        return false;
+        return $user->isAdmin();
     }
 
     private function canComment(Post $post, User $user): bool

@@ -248,7 +248,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $this;
     }
 
-    private function updateCounts(): self
+    public function updateCounts(): self
     {
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', self::VISIBILITY_VISIBLE));

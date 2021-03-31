@@ -88,7 +88,8 @@ class EntryCommentControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextNotContains('blockquote', 'przykładowy komentarz');
+        $this->assertSelectorTextNotContains('blockquote', '[Treść usunięta przez użytkownika]');
+
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Komentarze 1');
         $this->assertSelectorTextContains('.kbin-entry .kbin-entry-meta', '1 komentarzy');
     }

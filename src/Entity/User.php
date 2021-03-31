@@ -645,7 +645,8 @@ class User implements UserInterface
             ->count();
     }
 
-    public function getEntriesViewsCount():int {
+    public function getEntriesViewsCount(): int
+    {
         $views = 0;
 
         // todo query
@@ -654,5 +655,10 @@ class User implements UserInterface
         }
 
         return $views;
+    }
+
+    public function isAdmin(): bool
+    {
+        return false;
     }
 }

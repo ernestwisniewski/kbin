@@ -51,15 +51,7 @@ class PostCommentVoter extends Voter
 
     private function canPurge(PostComment $comment, User $user): bool
     {
-        if ($comment->getUser() === $user) {
-            return true;
-        }
-
-        if ($comment->getPost()->getMagazine()->userIsModerator($user)) {
-            return true;
-        }
-
-        return false;
+        return $user->isAdmin();
     }
 
     private function canDelete(PostComment $comment, User $user): bool

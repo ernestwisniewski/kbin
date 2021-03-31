@@ -51,15 +51,7 @@ class EntryCommentVoter extends Voter
 
     private function canPurge(EntryComment $comment, User $user): bool
     {
-        if ($comment->getUser() === $user) {
-            return true;
-        }
-
-        if ($comment->getEntry()->getMagazine()->userIsModerator($user)) {
-            return true;
-        }
-
-        return false;
+        return $user->isAdmin();
     }
 
     private function canDelete(EntryComment $comment, User $user): bool

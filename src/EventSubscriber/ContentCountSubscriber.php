@@ -66,6 +66,8 @@ class ContentCountSubscriber implements EventSubscriberInterface
             $this->entryRepository->countEntryCommentsByMagazine($magazine) - 1
         );
 
+        $event->getComment()->getEntry()->updateCounts();
+
         $this->entityManager->flush();
     }
 
@@ -94,6 +96,8 @@ class ContentCountSubscriber implements EventSubscriberInterface
         $magazine->setPostCommentCount(
             $this->postRepository->countPostCommentsByMagazine($magazine) - 1
         );
+
+        $event->getComment()->getPost()->updateCounts();
 
         $this->entityManager->flush();
     }

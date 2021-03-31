@@ -63,8 +63,10 @@ class EntryManager implements ContentManager
             throw new AccessDeniedHttpException();
         }
 
-        $entryDto->setUrl(($this->urlCleaner)($entryDto->getUrl()));
-        $this->validateUrl($entryDto->getUrl());
+        if ($entryDto->getUrl()) {
+            $entryDto->setUrl(($this->urlCleaner)($entryDto->getUrl()));
+            $this->validateUrl($entryDto->getUrl());
+        }
 
         $entry    = $this->entryFactory->createFromDto($entryDto, $user);
         $magazine = $entry->getMagazine();
@@ -154,7 +156,7 @@ class EntryManager implements ContentManager
         }
     }
 
-    private function validateUrl(?string $url): void
+    private function validateUrl(string $url): void
     {
         if (!$url) {
             return;

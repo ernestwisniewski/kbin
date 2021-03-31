@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\Magazine;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\Entity\Entry;
@@ -73,15 +74,7 @@ class EntryVoter extends Voter
 
     private function canPurge(Entry $entry, User $user): bool
     {
-        if ($entry->getUser() === $user) {
-            return true;
-        }
-
-        if ($entry->getMagazine()->userIsModerator($user)) {
-            return true;
-        }
-
-        return false;
+        return $user->isAdmin();
     }
 
     private function canComment(Entry $entry, User $user): bool
