@@ -1,0 +1,4 @@
+modlog:
+  controller: App\Controller\ModlogController
+  path: /modlog
+  methods: [ GET ]

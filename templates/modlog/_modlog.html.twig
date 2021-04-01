@@ -1,0 +1,78 @@
+{% block modlog %}
+    {% from '_layout/_not_found.html.twig' import not_found %}
+
+    <div class="kbin-modlog">
+        {% if logs|length %}
+            <div class="alert alert-danger" role="alert">
+                W modlogu możesz trafić na <strong>drastyczne treści</strong> usunięte przez moderatorów. Upewnij się, że wiesz co robisz...
+            </div>
+
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <tbody>
+                    {% for log in logs %}
+                        <tr>
+                            <td>{{ block(log.type) }}</td>
+                            <td class="text-end text-"><small class="text-muted">{{ log.createdAt|ago }}</small></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if(logs.haveToPaginate) %}
+                {{ pagerfanta(logs, null, {'pageParameter':'[strona]'}) }}
+            {% endif %}
+        {% else %}
+            {{ not_found() }}
+        {% endif %}
+    </div>
+{% endblock modlog %}
+
+{% block log_entry_delete %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął treść autorstwa <small
+        class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.entry.user.username}) }}">{{ log.entry.user.username }}</a>{% if show_magazine %} w <small
+        class="text-muted">/m/</small><a
+    href="{{ path('front_magazine', {'name': log.entry.magazine.name}) }}">{{ log.entry.magazine.name }}</a>{% endif %} -
+    <a href="{{ path('entry_single', { 'magazine_name':log.entry.magazine.name, 'entry_id': log.entry.id}) }} }}">{{ log.entry.shortTitle }}</a>
+{% endblock log_entry_delete %}
+
+{% block log_entry_comment_delete %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął komentarz autorstwa <small
+        class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.comment.user.username}) }}">{{ log.comment.user.username }}</a>{% if show_magazine %} w <small
+        class="text-muted">/m/</small><a
+    href="{{ path('front_magazine', {'name': log.comment.magazine.name}) }}">{{ log.comment.magazine.name }}</a>{% endif %} - {{ log.comment.shortTitle }}
+{% endblock log_entry_comment_delete %}
+
+{% block log_post_delete %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął post autorstwa <small
+        class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.post.user.username}) }}">{{ log.post.user.username }}</a>{% if show_magazine %} w <small
+        class="text-muted">/m/</small><a
+    href="{{ path('front_magazine', {'name': log.post.magazine.name}) }}">{{ log.post.magazine.name }}</a>{% endif %} -
+    <a href="{{ path('post_single', {'magazine_name': log.post.magazine.name, 'post_id': log.post.id }) }}">{{ log.post.shortTitle }}</a>
+{% endblock log_post_delete %}
+
+{% block log_post_comment_delete %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął post autorstwa <small
+        class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.comment.user.username}) }}">{{ log.comment.user.username }}</a>{% if show_magazine %} w <small
+        class="text-muted">/m/</small><a
+    href="{{ path('front_magazine', {'name': log.comment.magazine.name}) }}">{{ log.comment.magazine.name }}</a>{% endif %} - {{ log.comment.shortTitle }}
+{% endblock log_post_comment_delete %}
+
+{% block log_ban %}
+    <small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a>
+    {% if log.meta is same as 'ban' %}zbanował{% else %}odbanował{% endif %} użytkownika
+    <small class="text-muted">/u/</small><a
+    href="{{ path('user', {'username': log.ban.user.username}) }}">{{ log.ban.user.username }}</a>{% if log.ban.reason %}{% if show_magazine %} w <small
+        class="text-muted">/m/</small><a
+    href="{{ path('front_magazine', {'name': log.ban.magazine.name}) }}">{{ log.ban.magazine.name }}</a>{% endif %} - {{ log.ban.reason }}{% endif %}
+{% endblock log_ban %}

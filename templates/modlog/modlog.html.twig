@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% from 'modlog/_macros.html.twig' import modlog %}
+
+{% block title %}Log moderatorski | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-modlog-page">
+        {{ modlog(logs, {show_magazine:true}) }}
+    </div>
+{% endblock %}
