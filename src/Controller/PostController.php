@@ -20,13 +20,10 @@ use App\Entity\Magazine;
 
 class PostController extends AbstractController
 {
-    private PostManager $postManager;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(PostManager $postManager, EntityManagerInterface $entityManager)
-    {
-        $this->postManager   = $postManager;
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private PostManager $postManager,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
 

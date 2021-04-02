@@ -38,15 +38,11 @@ use Symfony\UX\Chartjs\Model\Chart;
 
 class MagazinePanelController extends AbstractController
 {
-    private MagazineManager $magazineManager;
-    private MagazineRepository $magazineRepository;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(MagazineManager $magazineManager, MagazineRepository $magazineRepository, EntityManagerInterface $entityManager)
-    {
-        $this->magazineManager    = $magazineManager;
-        $this->magazineRepository = $magazineRepository;
-        $this->entityManager      = $entityManager;
+    public function __construct(
+        private MagazineManager $magazineManager,
+        private MagazineRepository $magazineRepository,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     /**

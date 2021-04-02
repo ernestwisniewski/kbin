@@ -14,22 +14,12 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
 {
     const ENTRIES_COUNT = MagazineFixtures::MAGAZINES_COUNT * 15;
 
-    private EntryManager $entryManager;
-    private ImageManager $imageManager;
-    private ImageRepository $imageRepository;
-
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        EntryManager $entryManager,
-        ImageManager $imageManager,
-        ImageRepository $imageRepository,
-        EntityManagerInterface $entityManager
+        private EntryManager $entryManager,
+        private ImageManager $imageManager,
+        private ImageRepository $imageRepository,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->entryManager    = $entryManager;
-        $this->imageManager    = $imageManager;
-        $this->imageRepository = $imageRepository;
-        $this->entityManager   = $entityManager;
     }
 
     public function getDependencies()

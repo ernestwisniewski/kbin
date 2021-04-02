@@ -23,15 +23,11 @@ use App\DTO\MagazineDto;
 
 class MagazineController extends AbstractController
 {
-    private MagazineManager $magazineManager;
-    private EntryRepository $entryRepository;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(MagazineManager $magazineManager, EntryRepository $entryRepository, EntityManagerInterface $entityManager)
-    {
-        $this->magazineManager = $magazineManager;
-        $this->entryRepository = $entryRepository;
-        $this->entityManager   = $entityManager;
+    public function __construct(
+        private MagazineManager $magazineManager,
+        private EntryRepository $entryRepository,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function front(Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
@@ -228,8 +224,8 @@ class MagazineController extends AbstractController
         return $this->render(
             'magazine/modlog.html.twig',
             [
-                'magazine'   => $magazine,
-                'logs' => $magazineRepository->findModlog($magazine, (int) $request->get('strona', $page)),
+                'magazine' => $magazine,
+                'logs'     => $magazineRepository->findModlog($magazine, (int) $request->get('strona', $page)),
             ]
         );
     }

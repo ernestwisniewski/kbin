@@ -12,11 +12,8 @@ use App\Repository\Criteria;
 
 class FrontController extends AbstractController
 {
-    private EntryRepository $entryRepository;
-
-    public function __construct(EntryRepository $entryRepository)
+    public function __construct(private EntryRepository $entryRepository)
     {
-        $this->entryRepository = $entryRepository;
     }
 
     public function front(?string $sortBy, ?string $time, Request $request): Response

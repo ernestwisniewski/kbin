@@ -13,11 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReportController extends AbstractController
 {
-    private ReportManager $reportManager;
-
-    public function __construct(ReportManager $reportManager)
+    public function __construct(private ReportManager $reportManager)
     {
-        $this->reportManager = $reportManager;
     }
 
     /**

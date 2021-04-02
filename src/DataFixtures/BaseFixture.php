@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -12,8 +12,9 @@ use Faker\Factory;
 abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 {
     protected Generator $faker;
+    protected ObjectManager $manager;
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
         $this->faker   = Factory::create('pl_PL');

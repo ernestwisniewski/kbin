@@ -11,11 +11,8 @@ use App\Service\VoteManager;
 
 class VoteController extends AbstractController
 {
-    private VoteManager $voteManager;
-
-    public function __construct(VoteManager $voteManager)
+    public function __construct(private VoteManager $voteManager)
     {
-        $this->voteManager = $voteManager;
     }
 
     /**
@@ -31,8 +28,8 @@ class VoteController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'choice' => $vote->getChoice(),
-                    'upVotes' => $votable->countUpVotes(),
+                    'choice'    => $vote->getChoice(),
+                    'upVotes'   => $votable->countUpVotes(),
                     'downVotes' => $votable->countDownVotes(),
                 ]
             );

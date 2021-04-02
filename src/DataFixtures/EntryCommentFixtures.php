@@ -12,11 +12,8 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
 {
     const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
 
-    private EntryCommentManager $commentManager;
-
-    public function __construct(EntryCommentManager $commentManager)
+    public function __construct(private EntryCommentManager $commentManager)
     {
-        $this->commentManager = $commentManager;
     }
 
     public function getDependencies()

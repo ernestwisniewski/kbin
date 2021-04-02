@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -8,11 +8,8 @@ use App\Service\VoteManager;
 
 class VoteFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    private VoteManager $voteManager;
-
-    public function __construct(VoteManager $voteManager)
+    public function __construct(private VoteManager $voteManager)
     {
-        $this->voteManager = $voteManager;
     }
 
     public function loadData(ObjectManager $manager)

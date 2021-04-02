@@ -15,13 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MessageController extends AbstractController
 {
-    private MessageManager $messageManager;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(MessageManager $messageManager, EntityManagerInterface $entityManager)
-    {
-        $this->messageManager = $messageManager;
-        $this->entityManager  = $entityManager;
+    public function __construct(
+        private MessageManager $messageManager,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     /**

@@ -19,11 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostCommentController extends AbstractController
 {
-    private PostCommentManager $commentManager;
-
-    public function __construct(PostCommentManager $commentManager)
+    public function __construct(private PostCommentManager $commentManager)
     {
-        $this->commentManager = $commentManager;
     }
 
     /**

@@ -12,3 +12,8 @@ window.addEventListener('load', function(event) {
     const editor = new KEditor();
     const loginAlert = new KLoginAlert();
 });
+
+const url = new URL('https://localhost/.well-known/mercure');
+url.searchParams.append('topic', '/api/magazines/karabin');
+const eventSource = new EventSource(url);
+eventSource.onmessage = e => console.log(e); // do something with the payload

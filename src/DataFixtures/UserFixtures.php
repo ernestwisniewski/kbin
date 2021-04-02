@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -10,11 +10,8 @@ class UserFixtures extends BaseFixture
 {
     const USERS_COUNT = 21;
 
-    private UserPasswordEncoderInterface $encoder;
-
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(private UserPasswordEncoderInterface $encoder)
     {
-        $this->encoder = $encoder;
     }
 
     public function loadData(ObjectManager $manager)

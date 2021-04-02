@@ -19,15 +19,11 @@ use App\Entity\Entry;
 
 class EntryCommentController extends AbstractController
 {
-    private EntryCommentManager $commentManager;
-    private EntityManagerInterface $entityManager;
-    private EntryCommentRepository $commentRepository;
-
-    public function __construct(EntryCommentManager $commentManager, EntryCommentRepository $commentRepository, EntityManagerInterface $entityManager)
-    {
-        $this->commentManager    = $commentManager;
-        $this->entityManager     = $entityManager;
-        $this->commentRepository = $commentRepository;
+    public function __construct(
+        private EntryCommentManager $commentManager,
+        private EntryCommentRepository $commentRepository,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function front(?Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response

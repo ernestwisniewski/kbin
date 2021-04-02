@@ -24,13 +24,10 @@ use App\Entity\Entry;
 
 class EntryController extends AbstractController
 {
-    private EntryManager $entryManager;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntryManager $entryManager, EntityManagerInterface $entityManager)
-    {
-        $this->entryManager  = $entryManager;
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private EntryManager $entryManager,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     /**

@@ -2,21 +2,22 @@
 
 namespace App\Service;
 
+use ApiPlatform\Core\Api\IriConverterInterface;
+use App\DTO\MagazineDto;
 use App\Entity\EntryComment;
 use App\Entity\EntryNotification;
-use App\Entity\MagazineSubscription;
 use App\Entity\Message;
 use App\Entity\MessageNotification;
-use App\Entity\MessageThread;
-use App\Entity\Notification;
 use App\Entity\PostComment;
 use App\Entity\PostNotification;
 use App\Entity\User;
-use App\Repository\EntryNotificationRepository;
+use App\Factory\EntryFactory;
+use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Entity\Entry;
 use App\Entity\Post;
@@ -24,32 +25,43 @@ use App\Entity\Post;
 class NotificationManager
 {
     public function __construct(
-        NotificationRepository $notificationRepository,
-        MagazineSubscriptionRepository $magazineSubscriptionRepository,
-        MessageBusInterface $messageBus,
-        EntityManagerInterface $entityManager
+        private NotificationRepository $notificationRepository,
+        private MagazineSubscriptionRepository $magazineSubscriptionRepository,
+        private MessageBusInterface $messageBus,
+        private PublisherInterface $publisher,
+        private IriConverterInterface $iriConverter,
+        private MagazineFactory $magazineFactory,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->notificationRepository         = $notificationRepository;
-        $this->magazineSubscriptionRepository = $magazineSubscriptionRepository;
-        $this->messageBus                     = $messageBus;
-        $this->entityManager                  = $entityManager;
     }
 
     public function sendNewEntryNotification(Entry $entry): void
     {
-        $subs    = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewEntrySubscribers($entry));
-        $follows = [];
+        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewEntrySubscribers($entry));
+        $followers = [];
 
-        $usersToNotify = $this->merge($subs, $follows);
+        $usersToNotify = $this->merge($subs, $followers);
 
         foreach ($usersToNotify as $subscriber) {
             $notify = new EntryNotification($subscriber, $entry);
             $this->entityManager->persist($notify);
-
-            // @todo Send push notification to user
         }
 
         $this->entityManager->flush();
+
+        try {
+            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($entry->getMagazine()));
+
+            $update = new Update(
+                $iri,
+                json_encode(['entryId' => $entry->getId()])
+            );
+
+            ($this->publisher)($update);
+
+        } catch (\Exception $e) {
+
+        }
     }
 
     public function sendEntryCommentNotification(EntryComment $comment): void

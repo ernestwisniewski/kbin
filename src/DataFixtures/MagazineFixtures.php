@@ -11,11 +11,8 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
     const MAGAZINES_COUNT = UserFixtures::USERS_COUNT / 3;
 
-    private MagazineManager $magazineManager;
-
-    public function __construct(MagazineManager $magazineManager)
+    public function __construct(private MagazineManager $magazineManager)
     {
-        $this->magazineManager = $magazineManager;
     }
 
     public function loadData(ObjectManager $manager)
@@ -55,7 +52,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
                 'title'       => $title,
                 'user'        => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
                 'description' => rand(0, 3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
-                'rules'       => rand(0, 3)  ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
+                'rules'       => rand(0, 3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
             ];
         }
     }
