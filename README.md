@@ -14,6 +14,11 @@ This is a very early beta version, and a lot of features are currently broken or
 #### RabbitMQ (optional)
 #### Elasticsearch (optional)
 ### Install with Docker
+`docker-compose up`
+
+`docker-compose exec php bin/console doctrine:migrations:migrate`
+
+`docker-compose exec php bin/console doctrine:fixtures:load`
 
 ## Configuration
 ### Migrations

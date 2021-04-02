@@ -33,7 +33,7 @@ class ImageManager
                 throw new ImageDownloadTooLargeException();
             }
 
-//            $this->validate($source);
+            $this->validate($source);
 
             $this->publicUploadsFilesystem->writeStream($filePath, $fh);
 
