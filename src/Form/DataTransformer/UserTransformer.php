@@ -9,11 +9,8 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class UserTransformer implements DataTransformerInterface
 {
-    private UserRepository $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
     public function transform($value): ?string

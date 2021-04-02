@@ -16,18 +16,11 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class ReportManager
 {
-    private ReportFactory $reportFactory;
-    private EventDispatcherInterface $eventDispatcher;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        ReportFactory $reportFactory,
-        EventDispatcherInterface $eventDispatcher,
-        EntityManagerInterface $entityManager
+        private ReportFactory $reportFactory,
+        private EventDispatcherInterface $eventDispatcher,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->reportFactory   = $reportFactory;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->entityManager   = $entityManager;
     }
 
     public function report(ReportDto $dto, User $reporting): Report

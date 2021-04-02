@@ -11,13 +11,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentPostNotificationHandler implements MessageHandlerInterface
 {
-    private PostRepository $postRepository;
-    private NotificationManager $notificationManager;
-
-    public function __construct(PostRepository $postRepository, NotificationManager $notificationManager)
-    {
-        $this->postRepository      = $postRepository;
-        $this->notificationManager = $notificationManager;
+    public function __construct(
+        private PostRepository $postRepository,
+        private NotificationManager $notificationManager
+    ) {
     }
 
     public function __invoke(PostNotificationMessage $postNotificationMessage)

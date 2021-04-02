@@ -8,11 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserProfileSettingsManager
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function createDto(User $user): UserProfileSettingsDto

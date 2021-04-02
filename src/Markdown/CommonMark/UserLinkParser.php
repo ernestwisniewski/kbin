@@ -6,11 +6,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class UserLinkParser extends AbstractLocalLinkParser
 {
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
     }
 
     public function getPrefix(): string

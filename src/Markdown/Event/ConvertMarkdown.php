@@ -7,12 +7,10 @@ use Symfony\Contracts\EventDispatcher\Event;
 class ConvertMarkdown extends Event
 {
     private string $renderedHtml = '';
-    private string $markdown;
     private array $attributes = [];
 
-    public function __construct(string $markdown)
+    public function __construct(private string $markdown)
     {
-        $this->markdown = $markdown;
     }
 
     public function getMarkdown(): string

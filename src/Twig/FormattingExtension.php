@@ -9,11 +9,8 @@ use Twig\TwigFilter;
 
 final class FormattingExtension extends AbstractExtension
 {
-    private MarkdownConverter $markdownConverter;
-
-    public function __construct(MarkdownConverter $markdownConverter)
+    public function __construct(private MarkdownConverter $markdownConverter)
     {
-        $this->markdownConverter = $markdownConverter;
     }
 
     public function getFilters(): array

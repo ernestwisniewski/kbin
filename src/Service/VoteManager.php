@@ -11,13 +11,10 @@ use App\Entity\User;
 
 class VoteManager
 {
-    private VoteFactory $voteFactory;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(VoteFactory $voteFactory, EntityManagerInterface $entityManager)
-    {
-        $this->voteFactory   = $voteFactory;
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private VoteFactory $voteFactory,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function vote(int $choice, VoteInterface $votable, User $user): Vote

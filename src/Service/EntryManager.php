@@ -24,36 +24,17 @@ use App\Entity\User;
 
 class EntryManager implements ContentManager
 {
-    private EntryFactory $entryFactory;
-    private EntryRepository $entryRepository;
-    private EventDispatcherInterface $eventDispatcher;
-    private Security $security;
-    private HttpClientInterface $client;
-    private Kernel $kernel;
-    private BadgeManager $badgeManager;
-    private UrlCleaner $urlCleaner;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        EntryFactory $entryFactory,
-        EntryRepository $entryRepository,
-        EventDispatcherInterface $eventDispatcher,
-        Security $security,
-        HttpClientInterface $client,
-        Kernel $kernel,
-        BadgeManager $badgeManager,
-        UrlCleaner $urlCleaner,
-        EntityManagerInterface $entityManager
+        private EntryFactory $entryFactory,
+        private EntryRepository $entryRepository,
+        private EventDispatcherInterface $eventDispatcher,
+        private Security $security,
+        private HttpClientInterface $client,
+        private Kernel $kernel,
+        private BadgeManager $badgeManager,
+        private UrlCleaner $urlCleaner,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->entryFactory    = $entryFactory;
-        $this->entryRepository = $entryRepository;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->security        = $security;
-        $this->client          = $client;
-        $this->kernel          = $kernel;
-        $this->badgeManager    = $badgeManager;
-        $this->urlCleaner      = $urlCleaner;
-        $this->entityManager   = $entityManager;
     }
 
     public function create(EntryDto $entryDto, User $user): Entry

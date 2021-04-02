@@ -6,11 +6,8 @@ use App\Entity\Post;
 
 class PostUpdatedEvent
 {
-    protected Post $post;
-
-    public function __construct(Post $post)
+    public function __construct(private Post $post)
     {
-        $this->post = $post;
     }
 
     public function getPost(): Post

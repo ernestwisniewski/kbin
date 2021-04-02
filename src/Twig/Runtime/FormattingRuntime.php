@@ -9,11 +9,8 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class FormattingRuntime implements RuntimeExtensionInterface
 {
-    private MarkdownConverter $markdownConverter;
-
-    public function __construct(MarkdownConverter $markdownConverter)
+    public function __construct(private MarkdownConverter $markdownConverter)
     {
-        $this->markdownConverter = $markdownConverter;
     }
 
     public function convertToHtml(string $value): string

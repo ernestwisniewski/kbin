@@ -6,11 +6,8 @@ use App\Entity\Report;
 
 class ReportRejectedEvent
 {
-    protected Report $report;
-
-    public function __construct(Report $report)
+    public function __construct(private Report $report)
     {
-        $this->report = $report;
     }
 
     public function getReport(): Report

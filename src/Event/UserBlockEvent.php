@@ -6,13 +6,8 @@ use App\Entity\User;
 
 class UserBlockEvent
 {
-    private User $blocker;
-    private User $blocked;
-
-    public function __construct(User $blocker, User $blocked)
+    public function __construct(private User $blocker, private User $blocked)
     {
-        $this->blocker = $blocker;
-        $this->blocked = $blocked;
     }
 
     public function getBlocker(): User

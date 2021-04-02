@@ -6,15 +6,10 @@ use League\CommonMark\ConfigurableEnvironmentInterface;
 
 class ConfigureCommonMark
 {
-    private ConfigurableEnvironmentInterface $environment;
-    private ConvertMarkdown $convertMarkdownEvent;
-
     public function __construct(
-        ConfigurableEnvironmentInterface $environment,
-        ConvertMarkdown $convertMarkdownEvent
+        private ConfigurableEnvironmentInterface $environment,
+        private ConvertMarkdown $convertMarkdownEvent
     ) {
-        $this->environment = $environment;
-        $this->convertMarkdownEvent = $convertMarkdownEvent;
     }
 
     public function getEnvironment(): ConfigurableEnvironmentInterface

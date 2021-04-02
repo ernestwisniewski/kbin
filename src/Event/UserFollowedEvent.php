@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Event;
 
@@ -6,13 +6,8 @@ use App\Entity\User;
 
 class UserFollowedEvent
 {
-    private User $follower;
-    private User $following;
-
-    public function __construct(User $follower, User $following)
+    public function __construct(private User $follower, private User $following)
     {
-        $this->follower = $follower;
-        $this->following = $following;
     }
 
     public function getFollower(): User

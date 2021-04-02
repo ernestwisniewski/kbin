@@ -16,18 +16,11 @@ use Symfony\Component\Form\AbstractType;
 
 class UserType extends AbstractType
 {
-    private ImageListener $imageListener;
-    private AddFieldsOnUserEdit $addAvatarFieldOnUserEdit;
-    private DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit;
-
     public function __construct(
-        ImageListener $imageListener,
-        AddFieldsOnUserEdit $addAvatarFieldOnUserEdit,
-        DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit
+        private ImageListener $imageListener,
+        private AddFieldsOnUserEdit $addAvatarFieldOnUserEdit,
+        private DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit
     ) {
-        $this->imageListener            = $imageListener;
-        $this->addAvatarFieldOnUserEdit = $addAvatarFieldOnUserEdit;
-        $this->disableUsernameFieldOnUserEdit = $disableUsernameFieldOnUserEdit;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

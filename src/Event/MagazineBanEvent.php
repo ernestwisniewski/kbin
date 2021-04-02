@@ -8,11 +8,8 @@ use App\Entity\User;
 
 class MagazineBanEvent
 {
-    private MagazineBan $ban;
-
-    public function __construct(MagazineBan $ban)
+    public function __construct(private MagazineBan $ban)
     {
-        $this->ban = $ban;
     }
 
     public function getBan(): MagazineBan

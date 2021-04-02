@@ -6,11 +6,8 @@ use App\Entity\EntryComment;
 
 class EntryCommentUpdatedEvent
 {
-    protected EntryComment $comment;
-
-    public function __construct(EntryComment $comment)
+    public function __construct(private EntryComment $comment)
     {
-        $this->comment = $comment;
     }
 
     public function getComment(): EntryComment

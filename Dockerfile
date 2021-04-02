@@ -18,6 +18,9 @@ RUN apk add --no-cache \
 		gettext \
 		git \
 		jq \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
 	;
 
 ARG APCU_VERSION=5.1.19
@@ -34,6 +37,8 @@ RUN set -eux; \
 		intl \
 		zip \
 	; \
+    docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/; \
+	docker-php-ext-install -j$(nproc) gd; \
 	pecl install \
 		apcu-${APCU_VERSION} \
 	; \
@@ -88,19 +93,27 @@ ENV STABILITY ${STABILITY:-stable}
 # Allow to select skeleton version
 ARG SYMFONY_VERSION=""
 
+# Download the Symfony skeleton and leverage Docker cache layers
+RUN composer create-project "symfony/skeleton ${SYMFONY_VERSION}" . --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-interaction; \
+	composer clear-cache
+
+###> recipes ###
+###> doctrine/doctrine-bundle ###
+RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
+	docker-php-ext-install -j$(nproc) pdo_pgsql; \
+	apk add --no-cache --virtual .pgsql-rundeps so:libpq.so.5; \
+	apk del .pgsql-deps
+###< doctrine/doctrine-bundle ###
+###< recipes ###
+
 COPY . .
 
-#RUN set -eux; \
-#	mkdir -p var/cache var/log; \
-#	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
-#	composer dump-autoload --classmap-authoritative --no-dev; \
-#	composer symfony:dump-env prod; \
-#	composer run-script --no-dev post-install-cmd; \
-#	chmod +x bin/console; sync
 RUN set -eux; \
-    rm -rf var/cache; \
 	mkdir -p var/cache var/log; \
-	composer install; \
+	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
+	composer dump-autoload --classmap-authoritative --no-dev; \
+	composer symfony:dump-env prod; \
+	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; sync
 VOLUME /srv/app/var
 
@@ -123,11 +136,11 @@ COPY --from=symfony_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=symfony_php /srv/app/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
-FROM symfony_php as symfony_php_debug
-
-ARG XDEBUG_VERSION=3.0.1
-RUN set -eux; \
-	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
-	pecl install xdebug-$XDEBUG_VERSION; \
-	docker-php-ext-enable xdebug; \
-	apk del .build-deps
+#FROM symfony_php as symfony_php_debug
+#
+#ARG XDEBUG_VERSION=3.0.1
+#RUN set -eux; \
+#	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
+#	pecl install xdebug-$XDEBUG_VERSION; \
+#	docker-php-ext-enable xdebug; \
+#	apk del .build-deps

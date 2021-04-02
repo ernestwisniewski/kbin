@@ -11,13 +11,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentEntryCommentNotificationHandler implements MessageHandlerInterface
 {
-    private EntryCommentRepository $commentRepository;
-    private NotificationManager $notificationManager;
-
-    public function __construct(EntryCommentRepository $commentRepository, NotificationManager $notificationManager)
-    {
-        $this->commentRepository   = $commentRepository;
-        $this->notificationManager = $notificationManager;
+    public function __construct(
+        private EntryCommentRepository $commentRepository,
+        private NotificationManager $notificationManager
+    ) {
     }
 
     public function __invoke(EntryCommentNotificationMessage $entryCreatedMessage)

@@ -7,13 +7,8 @@ use App\Entity\User;
 
 class MagazineBlockedEvent
 {
-    private Magazine $magazine;
-    private User $user;
-
-    public function __construct(Magazine $magazine, User $user)
+    public function __construct(private Magazine $magazine, private User $user)
     {
-        $this->magazine = $magazine;
-        $this->user = $user;
     }
 
     public function getMagazine(): Magazine

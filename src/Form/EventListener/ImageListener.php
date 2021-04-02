@@ -9,15 +9,10 @@ use App\Repository\ImageRepository;
 
 final class ImageListener implements EventSubscriberInterface
 {
-    /**
-     * @var ImageRepository
-     */
-    private $images;
     private string $fieldName;
 
-    public function __construct(ImageRepository $images)
+    public function __construct(private ImageRepository $images)
     {
-        $this->images = $images;
     }
 
     public static function getSubscribedEvents(): array

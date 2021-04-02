@@ -23,11 +23,6 @@ use App\Entity\Post;
 
 class NotificationManager
 {
-    private NotificationRepository $notificationRepository;
-    private MagazineSubscriptionRepository $magazineSubscriptionRepository;
-    private MessageBusInterface $messageBus;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
         NotificationRepository $notificationRepository,
         MagazineSubscriptionRepository $magazineSubscriptionRepository,

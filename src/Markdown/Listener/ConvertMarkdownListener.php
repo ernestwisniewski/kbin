@@ -11,25 +11,18 @@ use App\Markdown\Event\ConvertMarkdown;
 
 final class ConvertMarkdownListener implements EventSubscriberInterface
 {
-    private ConverterFactory $converterFactory;
-    private EnvironmentFactory $environmentFactory;
-    private EventDispatcherInterface $dispatcher;
+    public function __construct(
+        private ConverterFactory $converterFactory,
+        private EnvironmentFactory $environmentFactory,
+        private EventDispatcherInterface $dispatcher
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
         return [
             ConvertMarkdown::class => ['onConvertMarkdown'],
         ];
-    }
-
-    public function __construct(
-        ConverterFactory $converterFactory,
-        EnvironmentFactory $environmentFactory,
-        EventDispatcherInterface $dispatcher
-    ) {
-        $this->converterFactory   = $converterFactory;
-        $this->environmentFactory = $environmentFactory;
-        $this->dispatcher         = $dispatcher;
     }
 
     public function onConvertMarkdown(ConvertMarkdown $event): void

@@ -7,13 +7,8 @@ use App\Entity\User;
 
 class EntryDeletedEvent
 {
-    protected Entry $entry;
-    protected ?User $user = null;
-
-    public function __construct(Entry $entry, ?User $user = null)
+    public function __construct(private Entry $entry, private ?User $user = null)
     {
-        $this->entry = $entry;
-        $this->user  = $user;
     }
 
     public function getEntry(): Entry

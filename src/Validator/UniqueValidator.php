@@ -10,11 +10,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 final class UniqueValidator extends ConstraintValidator
 {
-    private EntityManagerInterface $manager;
-
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(private EntityManagerInterface $manager)
     {
-        $this->manager = $manager;
     }
 
     public function validate($value, Constraint $constraint): void

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Event;
 
@@ -7,13 +7,8 @@ use App\Entity\User;
 
 class MagazineSubscribedEvent
 {
-    private Magazine $magazine;
-    private User $user;
-
-    public function __construct(Magazine $magazine, User $user)
+    public function __construct(private Magazine $magazine, private User $user)
     {
-        $this->magazine = $magazine;
-        $this->user = $user;
     }
 
     public function getMagazine(): Magazine

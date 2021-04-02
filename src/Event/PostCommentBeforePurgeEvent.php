@@ -6,11 +6,8 @@ use App\Entity\PostComment;
 
 class PostCommentBeforePurgeEvent
 {
-    protected PostComment $comment;
-
-    public function __construct(PostComment $comment)
+    public function __construct(private PostComment $comment)
     {
-        $this->comment = $comment;
     }
 
     public function getComment(): PostComment

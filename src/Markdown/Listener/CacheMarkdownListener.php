@@ -17,8 +17,13 @@ final class CacheMarkdownListener implements EventSubscriberInterface
     private const ATTR_CACHE_ITEM = __CLASS__.' cache item';
     public const ATTR_NO_CACHE_STORE = 'no_cache_store';
 
-    private CacheItemPoolInterface $pool;
-    private EventDispatcherInterface $dispatcher;
+    public function __construct(
+        private CacheItemPoolInterface $markdownCache,
+        private EventDispatcherInterface $dispatcher
+    ) {
+        $this->pool = $markdownCache;
+        $this->dispatcher = $dispatcher;
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -28,14 +33,6 @@ final class CacheMarkdownListener implements EventSubscriberInterface
                 ['postConvertMarkdown', -64],
             ],
         ];
-    }
-
-    public function __construct(
-        CacheItemPoolInterface $markdownCache,
-        EventDispatcherInterface $dispatcher
-    ) {
-        $this->pool = $markdownCache;
-        $this->dispatcher = $dispatcher;
     }
 
     public function preConvertMarkdown(ConvertMarkdown $event): void

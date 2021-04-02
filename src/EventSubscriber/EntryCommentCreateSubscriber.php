@@ -9,11 +9,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class EntryCommentCreateSubscriber implements EventSubscriberInterface
 {
-    private MessageBusInterface $messageBus;
-
-    public function __construct(MessageBusInterface $messageBus)
+    public function __construct(private MessageBusInterface $messageBus)
     {
-        $this->messageBus = $messageBus;
     }
 
     public static function getSubscribedEvents(): array

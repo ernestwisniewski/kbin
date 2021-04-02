@@ -19,15 +19,11 @@ use App\Entity\User;
 
 class MagazineManager
 {
-    private MagazineFactory $magazineFactory;
-    private EventDispatcherInterface $eventDispatcher;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(MagazineFactory $magazineFactory, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $entityManager)
-    {
-        $this->magazineFactory = $magazineFactory;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->entityManager   = $entityManager;
+    public function __construct(
+        private MagazineFactory $magazineFactory,
+        private EventDispatcherInterface $eventDispatcher,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function create(MagazineDto $magazineDto, User $user): Magazine

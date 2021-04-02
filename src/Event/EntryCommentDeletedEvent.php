@@ -8,13 +8,8 @@ use App\Entity\User;
 
 class EntryCommentDeletedEvent
 {
-    private EntryComment $comment;
-    private ?User $user;
-
-    public function __construct(EntryComment $comment, ?User $user = null)
+    public function __construct(private EntryComment $comment, private ?User $user = null)
     {
-        $this->comment = $comment;
-        $this->user    = $user;
     }
 
     public function getComment(): EntryComment

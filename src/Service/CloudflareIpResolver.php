@@ -7,13 +7,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CloudflareIpResolver implements IpResolverInterface
 {
-    private IpResolverInterface $decorated;
-    private RequestStack $requestStack;
-
-    public function __construct(IpResolverInterface $decorated, RequestStack $requestStack)
-    {
-        $this->decorated    = $decorated;
-        $this->requestStack = $requestStack;
+    public function __construct(
+        private IpResolverInterface $decorated,
+        private RequestStack $requestStack
+    ) {
     }
 
     public function resolveIp(): ?string

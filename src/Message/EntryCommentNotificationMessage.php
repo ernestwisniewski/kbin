@@ -4,11 +4,8 @@ namespace App\Message;
 
 class EntryCommentNotificationMessage
 {
-    private int $commentId;
-
-    public function __construct(int $commentId)
+    public function __construct(private int $commentId)
     {
-        $this->commentId = $commentId;
     }
 
     public function getCommentId(): int

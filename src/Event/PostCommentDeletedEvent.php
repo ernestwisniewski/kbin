@@ -7,13 +7,8 @@ use App\Entity\User;
 
 class PostCommentDeletedEvent
 {
-    private PostComment $comment;
-    private ?User $user;
-
-    public function __construct(PostComment $comment, ?User $user = null)
+    public function __construct(private PostComment $comment, private ?User $user = null)
     {
-        $this->comment = $comment;
-        $this->user    = $user;
     }
 
     public function getComment(): PostComment

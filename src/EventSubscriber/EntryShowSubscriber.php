@@ -8,11 +8,8 @@ use Tchoulom\ViewCounterBundle\Counter\ViewCounter as Counter;
 
 class EntryShowSubscriber implements EventSubscriberInterface
 {
-    private Counter $viewCounter;
-
-    public function __construct(Counter $viewCounter)
+    public function __construct(private Counter $viewCounter)
     {
-        $this->viewCounter = $viewCounter;
     }
 
     public static function getSubscribedEvents(): array

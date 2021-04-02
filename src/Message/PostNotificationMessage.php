@@ -4,11 +4,8 @@ namespace App\Message;
 
 class PostNotificationMessage
 {
-    private int $postId;
-
-    public function __construct(int $postId)
+    public function __construct(private int $postId)
     {
-        $this->postId = $postId;
     }
 
     public function getPostId(): int

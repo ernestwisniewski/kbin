@@ -13,15 +13,10 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class PageContextRuntime implements RuntimeExtensionInterface
 {
-    private RequestStack $requestStack;
-    private UrlGeneratorInterface $urlGenerator;
-
     public function __construct(
-        RequestStack $requestStack,
-        UrlGeneratorInterface $urlGenerator
+        private RequestStack $requestStack,
+        private UrlGeneratorInterface $urlGenerator
     ) {
-        $this->requestStack = $requestStack;
-        $this->urlGenerator = $urlGenerator;
     }
 
     public function isHomePage(): bool

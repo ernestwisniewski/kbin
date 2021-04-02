@@ -14,11 +14,8 @@ use App\DTO\PostCommentDto;
 
 class PostCommentType extends AbstractType
 {
-    private ImageListener $imageListener;
-
-    public function __construct(ImageListener $imageListener)
+    public function __construct(private ImageListener $imageListener)
     {
-        $this->imageListener = $imageListener;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

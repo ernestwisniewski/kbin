@@ -11,13 +11,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class EntryCreateSubscriber implements EventSubscriberInterface
 {
-    private MessageBusInterface $messageBus;
-    private DomainManager $domainManager;
-
-    public function __construct(MessageBusInterface $messageBus, DomainManager $domainManager)
+    public function __construct(private MessageBusInterface $messageBus, private DomainManager $domainManager)
     {
-        $this->messageBus    = $messageBus;
-        $this->domainManager = $domainManager;
     }
 
     public static function getSubscribedEvents(): array

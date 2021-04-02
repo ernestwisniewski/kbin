@@ -17,11 +17,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MagazineLogSubscriber implements EventSubscriberInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public static function getSubscribedEvents(): array

@@ -7,11 +7,8 @@ use Psr\Container\ContainerInterface;
 
 class EnvironmentFactory
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        $this->container = $container;
     }
 
     public function createConfigurableEnvironment(): ConfigurableEnvironmentInterface

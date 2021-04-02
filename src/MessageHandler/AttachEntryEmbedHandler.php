@@ -13,24 +13,13 @@ use App\Utils\Embed;
 
 class AttachEntryEmbedHandler implements MessageHandlerInterface
 {
-    private EntryRepository $entryRepository;
-    private Embed $embed;
-    private EntityManagerInterface $entityManager;
-    private ImageRepository $imageRepository;
-    private ImageManager $imageManager;
-
     public function __construct(
-        EntryRepository $entryRepository,
-        Embed $embed,
-        ImageManager $imageManager,
-        ImageRepository $imageRepository,
-        EntityManagerInterface $entityManager
+        private EntryRepository $entryRepository,
+        private Embed $embed,
+        private ImageManager $imageManager,
+        private ImageRepository $imageRepository,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->entryRepository = $entryRepository;
-        $this->embed           = $embed;
-        $this->imageManager    = $imageManager;
-        $this->imageRepository = $imageRepository;
-        $this->entityManager   = $entityManager;
     }
 
     public function __invoke(EntryEmbedMessage $entryCreatedMessage)

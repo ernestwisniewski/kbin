@@ -9,11 +9,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class BadgesType extends AbstractType
 {
-    private BadgeCollectionToStringTransformer $badgeArrayToStringTransformer;
-
-    public function __construct(BadgeCollectionToStringTransformer $badgeArrayToStringTransformer)
+    public function __construct(private BadgeCollectionToStringTransformer $badgeArrayToStringTransformer)
     {
-        $this->badgeArrayToStringTransformer = $badgeArrayToStringTransformer;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

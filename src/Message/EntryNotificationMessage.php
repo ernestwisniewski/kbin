@@ -4,11 +4,8 @@ namespace App\Message;
 
 class EntryNotificationMessage
 {
-    private int $entryId;
-
-    public function __construct(int $entryId)
+    public function __construct(private int $entryId)
     {
-        $this->entryId = $entryId;
     }
 
     public function getEntryId(): int

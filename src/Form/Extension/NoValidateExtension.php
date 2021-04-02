@@ -9,11 +9,8 @@ use Symfony\Component\Form\FormView;
 
 final class NoValidateExtension extends AbstractTypeExtension
 {
-    private bool $html5Validation;
-
-    public function __construct(bool $html5Validation)
+    public function __construct(private bool $html5Validation)
     {
-        $this->html5Validation = $html5Validation;
     }
 
     /**

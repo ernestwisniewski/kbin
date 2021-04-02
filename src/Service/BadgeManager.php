@@ -13,11 +13,8 @@ use Webmozart\Assert\Assert;
 
 class BadgeManager
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function create(BadgeDto $dto): Badge

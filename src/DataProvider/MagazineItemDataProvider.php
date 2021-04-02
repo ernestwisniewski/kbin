@@ -11,13 +11,8 @@ use App\Repository\MagazineRepository;
 
 final class MagazineItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    private MagazineRepository $magazineRepository;
-    private MagazineFactory $magazineFactory;
-
-    public function __construct(MagazineRepository $magazineRepository, MagazineFactory $magazineFactory)
+    public function __construct(private MagazineRepository $magazineRepository, private MagazineFactory $magazineFactory)
     {
-        $this->magazineRepository = $magazineRepository;
-        $this->magazineFactory    = $magazineFactory;
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool

@@ -7,13 +7,8 @@ use App\Entity\User;
 
 class PostDeletedEvent
 {
-    protected Post $post;
-    protected ?User $user;
-
-    public function __construct(Post $post, ?User $user = null)
+    public function __construct(private Post $post, private ?User $user = null)
     {
-        $this->post = $post;
-        $this->user = $user;
     }
 
     public function getPost(): Post

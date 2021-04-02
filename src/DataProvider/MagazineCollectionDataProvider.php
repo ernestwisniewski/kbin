@@ -11,15 +11,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 final class MagazineCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    private MagazineRepository $magazineRepository;
-    private MagazineFactory $magazineFactory;
-    private RequestStack $request;
-
-    public function __construct(MagazineRepository $magazineRepository, MagazineFactory $magazineFactory, RequestStack $request)
-    {
-        $this->magazineRepository = $magazineRepository;
-        $this->magazineFactory    = $magazineFactory;
-        $this->request            = $request;
+    public function __construct(
+        private MagazineRepository $magazineRepository,
+        private MagazineFactory $magazineFactory,
+        private RequestStack $request
+    ) {
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool

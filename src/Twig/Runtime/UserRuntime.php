@@ -9,15 +9,10 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class UserRuntime implements RuntimeExtensionInterface
 {
-    private RequestStack $requestStack;
-    private Security $security;
-
     public function __construct(
-        Security $security,
-        RequestStack $requestStack
+        private Security $security,
+        private RequestStack $requestStack
     ) {
-        $this->requestStack = $requestStack;
-        $this->security     = $security;
     }
 
     public function isUserFollow(User $following): bool

@@ -6,11 +6,8 @@ use App\Entity\Entry;
 
 class EntryUpdatedEvent
 {
-    protected Entry $entry;
-
-    public function __construct(Entry $entry)
+    public function __construct(private Entry $entry)
     {
-        $this->entry = $entry;
     }
 
     public function getEntry(): Entry

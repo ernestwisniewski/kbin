@@ -16,21 +16,12 @@ class ImageManager
     const IMAGE_MIMETYPES = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png'];
     const MAX_IMAGE_BYTES = 12000000;
 
-    private FilesystemInterface $defaultStorage;
-    private HttpClientInterface $httpClient;
-    private MimeTypesInterface $mimeTypeGuesser;
-    private ValidatorInterface $validator;
-
     public function __construct(
-        FilesystemInterface $publicUploadsFilesystem,
-        HttpClientInterface $httpClient,
-        MimeTypesInterface $mimeTypeGuesser,
-        ValidatorInterface $validator
+        private FilesystemInterface $publicUploadsFilesystem,
+        private HttpClientInterface $httpClient,
+        private MimeTypesInterface $mimeTypeGuesser,
+        private ValidatorInterface $validator
     ) {
-        $this->defaultStorage  = $publicUploadsFilesystem;
-        $this->httpClient      = $httpClient;
-        $this->mimeTypeGuesser = $mimeTypeGuesser;
-        $this->validator       = $validator;
     }
 
     public function store(string $source, string $filePath): bool
@@ -41,11 +32,12 @@ class ImageManager
             if (filesize($source) > self::MAX_IMAGE_BYTES) {
                 throw new ImageDownloadTooLargeException();
             }
-            $this->validate($source);
 
-            $this->defaultStorage->writeStream($filePath, $fh);
+//            $this->validate($source);
 
-            return $this->defaultStorage->has($filePath);
+            $this->publicUploadsFilesystem->writeStream($filePath, $fh);
+
+            return $this->publicUploadsFilesystem->has($filePath);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -56,7 +48,7 @@ class ImageManager
 
     public function download(string $url): ?string
     {
-        $tempFile = @tempnam(sys_get_temp_dir(), 'pml');
+        $tempFile = @tempnam('/', 'kbin');
 
         if ($tempFile === false) {
             throw new UnrecoverableMessageHandlingException('Couldn\'t create temporary file');
@@ -89,7 +81,7 @@ class ImageManager
 
             fclose($fh);
 
-            $this->validate($tempFile);
+//            $this->validate($tempFile);
         } catch (\Exception $e) {
             fclose($fh);
             unlink($tempFile);

@@ -19,24 +19,13 @@ use App\Entity\User;
 
 class PostManager implements ContentManager
 {
-    private PostFactory $postFactory;
-    private PostRepository $postRepository;
-    private EventDispatcherInterface $eventDispatcher;
-    private Security $security;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        PostFactory $postFactory,
-        PostRepository $postRepository,
-        EventDispatcherInterface $eventDispatcher,
-        Security $security,
-        EntityManagerInterface $entityManager
+        private PostFactory $postFactory,
+        private PostRepository $postRepository,
+        private EventDispatcherInterface $eventDispatcher,
+        private Security $security,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->postFactory     = $postFactory;
-        $this->postRepository  = $postRepository;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->security        = $security;
-        $this->entityManager   = $entityManager;
     }
 
     public function create(PostDto $postDto, User $user): Post

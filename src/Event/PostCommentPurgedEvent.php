@@ -6,11 +6,8 @@ use App\Entity\Magazine;
 
 class PostCommentPurgedEvent
 {
-    private Magazine $magazine;
-
-    public function __construct(Magazine $magazine)
+    public function __construct(private Magazine $magazine)
     {
-        $this->magazine = $magazine;
     }
 
     public function getMagazine(): Magazine

@@ -16,11 +16,9 @@ use League\CommonMark\Util\ConfigurationInterface;
 final class ExternalLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
     protected ConfigurationInterface $config;
-    private Embed $embed;
 
-    public function __construct(Embed $embed)
+    public function __construct(private Embed $embed)
     {
-        $this->embed = $embed;
     }
 
     public function render(

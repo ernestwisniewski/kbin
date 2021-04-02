@@ -13,13 +13,10 @@ use Symfony\Component\Mime\Address;
 
 class SentUserConfirmationEmailHandler implements MessageHandlerInterface
 {
-    private EmailVerifier $emailVerifier;
-    private UserRepository $userRepository;
-
-    public function __construct(EmailVerifier $emailVerifier, UserRepository $userRepository)
-    {
-        $this->emailVerifier  = $emailVerifier;
-        $this->userRepository = $userRepository;
+    public function __construct(
+        private EmailVerifier $emailVerifier,
+        private UserRepository $userRepository
+    ) {
     }
 
     public function __invoke(SendConfirmationEmailInterface $entryCreatedMessage)

@@ -17,21 +17,12 @@ use App\Entity\Entry;
 
 class VotableResolver implements ArgumentValueResolverInterface
 {
-    private EntryRepository $entryRepository;
-    private EntryCommentRepository $entryCommentRepository;
-    private PostRepository $postRepository;
-    private PostCommentRepository $postCommentRepository;
-
     public function __construct(
-        EntryRepository $entryRepository,
-        EntryCommentRepository $entryCommentRepository,
-        PostRepository $postRepository,
-        PostCommentRepository $postCommentRepository
+        private EntryRepository $entryRepository,
+        private EntryCommentRepository $entryCommentRepository,
+        private PostRepository $postRepository,
+        private PostCommentRepository $postCommentRepository
     ) {
-        $this->entryRepository = $entryRepository;
-        $this->entryCommentRepository = $entryCommentRepository;
-        $this->postRepository = $postRepository;
-        $this->postCommentRepository = $postCommentRepository;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool

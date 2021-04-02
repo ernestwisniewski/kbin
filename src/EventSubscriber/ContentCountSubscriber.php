@@ -18,15 +18,11 @@ use App\Repository\EntryRepository;
 
 class ContentCountSubscriber implements EventSubscriberInterface
 {
-    private EntryRepository $entryRepository;
-    private PostRepository $postRepository;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntryRepository $entryRepository, PostRepository $postRepository, EntityManagerInterface $entityManager)
-    {
-        $this->entryRepository = $entryRepository;
-        $this->postRepository = $postRepository;
-        $this->entityManager   = $entityManager;
+    public function __construct(
+        private EntryRepository $entryRepository,
+        private PostRepository $postRepository,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -34,11 +30,11 @@ class ContentCountSubscriber implements EventSubscriberInterface
         return [
             EntryDeletedEvent::class => 'onEntryDeleted',
             EntryCommentCreatedEvent::class => 'onEntryCommentCreated',
-            EntryCommentDeletedEvent::class  => 'onEntryCommentDeleted',
-            EntryCommentPurgedEvent::class  => 'onEntryCommentPurged',
+            EntryCommentDeletedEvent::class => 'onEntryCommentDeleted',
+            EntryCommentPurgedEvent::class => 'onEntryCommentPurged',
             PostCommentCreatedEvent::class => 'onPostCommentCreated',
-            PostCommentDeletedEvent::class  => 'onPostCommentDeleted',
-            PostCommentPurgedEvent::class  => 'onPostCommentPurged',
+            PostCommentDeletedEvent::class => 'onPostCommentDeleted',
+            PostCommentPurgedEvent::class => 'onPostCommentPurged',
         ];
     }
 

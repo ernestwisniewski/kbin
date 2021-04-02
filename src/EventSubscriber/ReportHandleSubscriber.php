@@ -18,13 +18,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ReportHandleSubscriber implements EventSubscriberInterface
 {
-    private ReportRepository $reportRepository;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(ReportRepository $reportRepository, EntityManagerInterface $entityManager)
+    public function __construct(private ReportRepository $reportRepository, private EntityManagerInterface $entityManager)
     {
-        $this->reportRepository = $reportRepository;
-        $this->entityManager    = $entityManager;
     }
 
     public static function getSubscribedEvents(): array

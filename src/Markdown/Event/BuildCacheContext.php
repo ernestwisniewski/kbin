@@ -8,11 +8,9 @@ namespace App\Markdown\Event;
 class BuildCacheContext
 {
     private array $context = [];
-    private ConvertMarkdown $convertMarkdownEvent;
 
-    public function __construct(ConvertMarkdown $convertMarkdownEvent)
+    public function __construct(private ConvertMarkdown $convertMarkdownEvent)
     {
-        $this->convertMarkdownEvent = $convertMarkdownEvent;
         $this->addToContext('content', $convertMarkdownEvent->getMarkdown());
     }
 

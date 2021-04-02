@@ -10,13 +10,10 @@ use App\Entity\User;
 
 class MessageManager
 {
-    private NotificationManager $notificationManager;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(NotificationManager $notificationManager, EntityManagerInterface $entityManager)
-    {
-        $this->notificationManager = $notificationManager;
-        $this->entityManager       = $entityManager;
+    public function __construct(
+        private NotificationManager $notificationManager,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function toThread(MessageDto $dto, User $sender, User $receiver): MessageThread

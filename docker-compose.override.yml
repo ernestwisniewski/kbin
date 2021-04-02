@@ -13,6 +13,12 @@ services:
     depends_on:
       - mongodb_container
 
+  caddy:
+    volumes:
+      - mongodb_data_container:/data/db
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./public:/srv/app/public:ro
+
   mongodb_container:
     image: mongo:latest
     environment:
@@ -23,11 +29,11 @@ services:
     volumes:
       - mongodb_data_container:/data/db
 
-  caddy:
-    volumes:
-      - mongodb_data_container:/data/db
-      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./public:/srv/app/public:ro
+###> doctrine/doctrine-bundle ###
+  database:
+    ports:
+      - "5432"
+###< doctrine/doctrine-bundle ###
 
 volumes:
   mongodb_data_container:

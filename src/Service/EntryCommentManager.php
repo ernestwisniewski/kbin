@@ -21,27 +21,14 @@ use App\Entity\User;
 
 class EntryCommentManager implements ContentManager
 {
-    private EntryCommentFactory $commentFactory;
-    private EventDispatcherInterface $eventDispatcher;
-    private EntryCommentRepository $commentRepository;
-    private EntryRepository $entryRepository;
-    private Security $security;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        EntryCommentFactory $commentFactory,
-        EventDispatcherInterface $eventDispatcher,
-        EntryCommentRepository $commentRepository,
-        EntryRepository $entryRepository,
-        Security $security,
-        EntityManagerInterface $entityManager
+        private EntryCommentFactory $commentFactory,
+        private EventDispatcherInterface $eventDispatcher,
+        private EntryCommentRepository $commentRepository,
+        private EntryRepository $entryRepository,
+        private Security $security,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->commentFactory    = $commentFactory;
-        $this->eventDispatcher   = $eventDispatcher;
-        $this->commentRepository = $commentRepository;
-        $this->entryRepository   = $entryRepository;
-        $this->security          = $security;
-        $this->entityManager     = $entityManager;
     }
 
     public function create(EntryCommentDto $commentDto, User $user): EntryComment

@@ -8,6 +8,7 @@ use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Service\Contracts\ContentManager;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
 use App\Service\PostCommentManager;
@@ -16,27 +17,16 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ContentManagerFactory
 {
-    private EntryManager $entryManager;
-    private EntryCommentManager $entryCommentManager;
-    private PostManager $postManager;
-    private PostCommentManager $postCommentManager;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        EntryManager $entryManager,
-        EntryCommentManager $entryCommentManager,
-        PostManager $postManager,
-        PostCommentManager $postCommentManager,
-        EntityManagerInterface $entityManager
+        private EntryManager $entryManager,
+        private EntryCommentManager $entryCommentManager,
+        private PostManager $postManager,
+        private PostCommentManager $postCommentManager,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->entryManager        = $entryManager;
-        $this->entryCommentManager = $entryCommentManager;
-        $this->postManager         = $postManager;
-        $this->postCommentManager  = $postCommentManager;
-        $this->entityManager       = $entityManager;
     }
 
-    public function createManager(ContentInterface $subject)
+    public function createManager(ContentInterface $subject): ContentManager
     {
         return match ($this->entityManager->getClassMetadata(get_class($subject))->getName()) {
             Entry::class => $this->entryManager,

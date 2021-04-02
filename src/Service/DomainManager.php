@@ -11,13 +11,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class
 DomainManager
 {
-    private DomainRepository $domainRepository;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(DomainRepository $domainRepository, EntityManagerInterface $entityManager)
-    {
-        $this->domainRepository = $domainRepository;
-        $this->entityManager    = $entityManager;
+    public function __construct(
+        private DomainRepository $domainRepository,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function extract(DomainInterface $subject): DomainInterface

@@ -20,27 +20,14 @@ use App\Entity\User;
 
 class UserManager
 {
-    private UserPasswordEncoderInterface $passwordEncoder;
-    private EventDispatcherInterface $eventDispatcher;
-    private MessageBusInterface $messageBus;
-    private EmailVerifier $emailVerifier;
-    private UserRepository $userRepository;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        UserPasswordEncoderInterface $passwordEncoder,
-        EventDispatcherInterface $eventDispatcher,
-        MessageBusInterface $messageBus,
-        EmailVerifier $emailVerifier,
-        UserRepository $userRepository,
-        EntityManagerInterface $entityManager
+        private UserPasswordEncoderInterface $passwordEncoder,
+        private EventDispatcherInterface $eventDispatcher,
+        private MessageBusInterface $messageBus,
+        private EmailVerifier $emailVerifier,
+        private UserRepository $userRepository,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->passwordEncoder = $passwordEncoder;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->messageBus      = $messageBus;
-        $this->emailVerifier   = $emailVerifier;
-        $this->userRepository  = $userRepository;
-        $this->entityManager   = $entityManager;
     }
 
     /**
