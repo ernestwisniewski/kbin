@@ -81,7 +81,7 @@ class ImageManager
 
             fclose($fh);
 
-//            $this->validate($tempFile);
+            $this->validate($tempFile);
         } catch (\Exception $e) {
             fclose($fh);
             unlink($tempFile);
@@ -141,12 +141,8 @@ class ImageManager
     public static function isImageUrl(string $url): bool
     {
         $urlExt = pathinfo($url, PATHINFO_EXTENSION);
-        $types  = array_map(
-            function ($type) {
-                return str_replace('image/', '', $type);
-            },
-            self::IMAGE_MIMETYPES
-        );
+
+        $types = array_map(fn($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
 
         if (in_array($urlExt, $types)) {
             return true;

@@ -130,14 +130,7 @@ class NotificationManager
 
     private function getUsersToNotify(array $subscriptions): array
     {
-        return array_map(
-            function ($sub) {
-                $sub->getUser()->getId();
-
-                return $sub->getUser();
-            },
-            $subscriptions
-        );
+        return array_map(fn($sub) => $sub->getUser(), $subscriptions);
     }
 
     private function merge(array $subs, array $follows): array

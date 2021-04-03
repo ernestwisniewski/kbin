@@ -166,28 +166,28 @@
         },
         {
             "name": "babdev/pagerfanta-bundle",
-            "version": "v2.9.0",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BabDev/PagerfantaBundle.git",
-                "reference": "1056fcd1e5168b202da82075d7e29df9468245bd"
+                "reference": "04bcc5ad005b62f657d38dc816137382685086c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BabDev/PagerfantaBundle/zipball/1056fcd1e5168b202da82075d7e29df9468245bd",
-                "reference": "1056fcd1e5168b202da82075d7e29df9468245bd",
+                "url": "https://api.github.com/repos/BabDev/PagerfantaBundle/zipball/04bcc5ad005b62f657d38dc816137382685086c7",
+                "reference": "04bcc5ad005b62f657d38dc816137382685086c7",
                 "shasum": ""
             },
             "require": {
                 "pagerfanta/pagerfanta": "^2.7",
                 "php": "^7.2 || ^8.0",
-                "symfony/config": "^3.4 || ^4.4 || ^5.1",
-                "symfony/dependency-injection": "^3.4 || ^4.4 || ^5.1",
+                "symfony/config": "^3.4 || ^4.4 || ^5.2",
+                "symfony/dependency-injection": "^3.4 || ^4.4 || ^5.2",
                 "symfony/deprecation-contracts": "^2.1",
-                "symfony/http-foundation": "^3.4 || ^4.4 || ^5.1",
-                "symfony/http-kernel": "^3.4 || ^4.4 || ^5.1",
-                "symfony/property-access": "^3.4 || ^4.4 || ^5.1",
-                "symfony/routing": "^3.4 || ^4.4 || ^5.1"
+                "symfony/http-foundation": "^3.4 || ^4.4 || ^5.2",
+                "symfony/http-kernel": "^3.4 || ^4.4 || ^5.2",
+                "symfony/property-access": "^3.4 || ^4.4 || ^5.2",
+                "symfony/routing": "^3.4 || ^4.4 || ^5.2"
             },
             "conflict": {
                 "twig/twig": "<1.35 || >=2.0,<2.5",
@@ -200,14 +200,14 @@
                 "jms/serializer-bundle": "^3.0",
                 "matthiasnoback/symfony-dependency-injection-test": "^4.1",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^0.12.77",
-                "phpstan/phpstan-phpunit": "^0.12.17",
-                "phpstan/phpstan-symfony": "^0.12.19",
-                "phpunit/phpunit": "^8.5 || ^9.0",
-                "symfony/serializer": "^3.4 || ^4.4 || ^5.1",
-                "symfony/translation": "^3.4 || ^4.4 || ^5.1",
-                "symfony/twig-bridge": "^3.4 || ^4.4 || ^5.1",
-                "symfony/twig-bundle": "^3.4 || ^4.4 || ^5.1",
+                "phpstan/phpstan": "^0.12.80",
+                "phpstan/phpstan-phpunit": "^0.12.18",
+                "phpstan/phpstan-symfony": "^0.12.20",
+                "phpunit/phpunit": "^8.5 || ^9.3",
+                "symfony/serializer": "^3.4 || ^4.4 || ^5.2",
+                "symfony/translation": "^3.4 || ^4.4 || ^5.2",
+                "symfony/twig-bridge": "^3.4 || ^4.4 || ^5.2",
+                "symfony/twig-bundle": "^3.4 || ^4.4 || ^5.2",
                 "twig/twig": "^1.35 || ^2.5 || ^3.0"
             },
             "suggest": {
@@ -237,7 +237,7 @@
             ],
             "support": {
                 "issues": "https://github.com/BabDev/PagerfantaBundle/issues",
-                "source": "https://github.com/BabDev/PagerfantaBundle/tree/v2.9.0"
+                "source": "https://github.com/BabDev/PagerfantaBundle/tree/v2.10.0"
             },
             "funding": [
                 {
@@ -245,7 +245,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-19T00:57:08+00:00"
+            "time": "2021-03-31T21:55:51+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -707,16 +707,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "3.1.1",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "2afde5a9844126bc311cd5f548b5475e75f800d3"
+                "reference": "a036d90c303f3163b5be8b8fde9b6755b2be4a3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/2afde5a9844126bc311cd5f548b5475e75f800d3",
-                "reference": "2afde5a9844126bc311cd5f548b5475e75f800d3",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/a036d90c303f3163b5be8b8fde9b6755b2be4a3a",
+                "reference": "a036d90c303f3163b5be8b8fde9b6755b2be4a3a",
                 "shasum": ""
             },
             "require": {
@@ -729,7 +729,8 @@
                 "phpstan/phpstan-phpunit": "^0.12",
                 "phpunit/phpunit": "^7.5.20 || ^8.5 || ^9.0",
                 "squizlabs/php_codesniffer": "^3.0",
-                "symfony/phpunit-bridge": "^4.0.5"
+                "symfony/phpunit-bridge": "^4.0.5",
+                "vimeo/psalm": "^4.4"
             },
             "type": "library",
             "autoload": {
@@ -776,7 +777,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/common/issues",
-                "source": "https://github.com/doctrine/common/tree/3.1.1"
+                "source": "https://github.com/doctrine/common/tree/3.1.2"
             },
             "funding": [
                 {
@@ -792,7 +793,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-20T19:58:05+00:00"
+            "time": "2021-02-10T20:18:51+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -1786,16 +1787,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.8.2",
+            "version": "2.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "ebae57eb9637acd8252b398df3121b120688ed5c"
+                "reference": "657a30f8ceef2a78c2ff36a9fe6c6a6717c1c448"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/ebae57eb9637acd8252b398df3121b120688ed5c",
-                "reference": "ebae57eb9637acd8252b398df3121b120688ed5c",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/657a30f8ceef2a78c2ff36a9fe6c6a6717c1c448",
+                "reference": "657a30f8ceef2a78c2ff36a9fe6c6a6717c1c448",
                 "shasum": ""
             },
             "require": {
@@ -1828,11 +1829,6 @@
                 "bin/doctrine"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Doctrine\\ORM\\": "lib/Doctrine/ORM"
@@ -1872,9 +1868,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.8.2"
+                "source": "https://github.com/doctrine/orm/tree/2.8.3"
             },
-            "time": "2021-02-16T22:10:18+00:00"
+            "time": "2021-04-01T21:16:53+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -2019,16 +2015,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "62c3b73c581c834885acf6e120b412b76acc495a"
+                "reference": "c81f18a3efb941d8c4d2e025f6183b5c6d697307"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/62c3b73c581c834885acf6e120b412b76acc495a",
-                "reference": "62c3b73c581c834885acf6e120b412b76acc495a",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/c81f18a3efb941d8c4d2e025f6183b5c6d697307",
+                "reference": "c81f18a3efb941d8c4d2e025f6183b5c6d697307",
                 "shasum": ""
             },
             "require": {
@@ -2075,7 +2071,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/3.1.0"
+                "source": "https://github.com/egulias/EmailValidator/tree/3.1.1"
             },
             "funding": [
                 {
@@ -2083,7 +2079,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-07T14:33:28+00:00"
+            "time": "2021-04-01T18:37:14+00:00"
         },
         {
             "name": "embed/embed",
@@ -3229,16 +3225,16 @@
         },
         {
             "name": "liip/imagine-bundle",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipImagineBundle.git",
-                "reference": "a04aa405272a9aff3c9e25dd015a1073f9f291a6"
+                "reference": "afa4193c7fde027426ebb19e73878cd026438bbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipImagineBundle/zipball/a04aa405272a9aff3c9e25dd015a1073f9f291a6",
-                "reference": "a04aa405272a9aff3c9e25dd015a1073f9f291a6",
+                "url": "https://api.github.com/repos/liip/LiipImagineBundle/zipball/afa4193c7fde027426ebb19e73878cd026438bbd",
+                "reference": "afa4193c7fde027426ebb19e73878cd026438bbd",
                 "shasum": ""
             },
             "require": {
@@ -3259,7 +3255,7 @@
                 "doctrine/persistence": "^1.3|^2.0",
                 "enqueue/enqueue-bundle": "^0.9|^0.10",
                 "ext-gd": "*",
-                "league/flysystem": "^1.0",
+                "league/flysystem": "^1.0|^2.0",
                 "psr/log": "^1.0",
                 "symfony/browser-kit": "^3.4|^4.3|^5.0",
                 "symfony/console": "^3.4|^4.3|^5.0",
@@ -3319,9 +3315,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipImagineBundle/issues",
-                "source": "https://github.com/liip/LiipImagineBundle/tree/2.5.0"
+                "source": "https://github.com/liip/LiipImagineBundle/tree/2.6.0"
             },
-            "time": "2021-02-08T15:10:40+00:00"
+            "time": "2021-03-31T06:42:04+00:00"
         },
         {
             "name": "ml/iri",
