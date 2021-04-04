@@ -23,6 +23,8 @@ https://symfony.com/doc/4.2/reference/requirements.html
 #### Elasticsearch (optional)
 ### Install with Docker
 
+`cp .env.example .env`
+
 `docker-compose up`
 
 `docker-compose exec php bin/console doctrine:migrations:migrate`

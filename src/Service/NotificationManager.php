@@ -3,11 +3,11 @@
 namespace App\Service;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
-use App\DTO\MagazineDto;
 use App\Entity\EntryComment;
 use App\Entity\EntryNotification;
 use App\Entity\Message;
 use App\Entity\MessageNotification;
+use App\Entity\Notification;
 use App\Entity\PostComment;
 use App\Entity\PostNotification;
 use App\Entity\User;
