@@ -1,40 +1,43 @@
 <?php declare(strict_types=1);
 
-namespace App\DataProvider;
+namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use App\DTO\EntryDto;
 use App\DTO\MagazineDto;
+use App\Factory\EntryFactory;
 use App\Factory\MagazineFactory;
+use App\PageView\EntryPageView;
+use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class MagazineCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+final class EntryCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private MagazineRepository $magazineRepository,
-        private MagazineFactory $magazineFactory,
+        private EntryRepository $entryRepository,
+        private EntryFactory $entryFactory,
         private RequestStack $request
     ) {
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return MagazineDto::class === $resourceClass;
+        return EntryDto::class === $resourceClass;
     }
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         try {
-            $magazines = $this->magazineRepository
-                ->findAllPaginated((int) $this->request->getCurrentRequest()->get('page', 1))
-                ->getCurrentPageResults();
+            $criteria = new EntryPageView(1);
+            $entries  = $this->entryRepository->findByCriteria($criteria);
         } catch (\Exception $e) {
             return [];
         }
 
-        foreach ($magazines as $magazine) {
-            yield $this->magazineFactory->createDto($magazine);
+        foreach ($entries as $entry) {
+            yield $this->entryFactory->createDto($entry);
         }
     }
 }

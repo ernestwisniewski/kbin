@@ -54,13 +54,7 @@ class MagazineManager
 
     public function delete(Magazine $magazine): void
     {
-        if ($magazine->getEntryCount() > 10) {
-            $magazine->softDelete();
-        } else {
-            $this->purge($magazine);
-
-            return;
-        }
+        $magazine->softDelete();
 
         $this->entityManager->flush();
     }

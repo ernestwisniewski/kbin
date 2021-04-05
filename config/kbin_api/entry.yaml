@@ -1,0 +1,17 @@
+resources:
+  App\DTO\EntryDto:
+    properties:
+      id:
+        identifier: true
+    shortName: 'entry'
+    collectionOperations:
+      get:
+        method: GET
+    itemOperations:
+      get:
+        method: GET
+    attributes:
+      normalization_context:
+        groups: [ 'entry_read' ]
+      denormalization_context:
+        groups: [ 'entry_write' ]
