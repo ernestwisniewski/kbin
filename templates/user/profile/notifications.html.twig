@@ -31,7 +31,7 @@
                     <tbody>
                     {% for notification in notifications %}
                         <tr>
-                            <td class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }}">{{ block('notification_'~notification.type) }}</td>
+                            <td class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }}">{{ block(notification.type) }}</td>
                             <td class="text-end text-"><small class="text-muted">{{ notification.createdAt|ago }}</small></td>
                         </tr>
                     {% endfor %}
@@ -55,24 +55,14 @@
     </div>
 {% endblock %}
 
-{% block notification_entry_notification %}
-    <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': notification.user.username}) }}">{{ notification.user.username }}</a> dodał/a nową treść w <small
-        class="text-muted">/m/</small><a
-        href="{{ path('front_magazine', {'name': notification.entry.magazine.name }) }}">{{ notification.entry.magazine.name }}</a> - <strong><a
-            href="{{ path('entry_single', {'magazine_name': notification.entry.magazine.name, 'entry_id': notification.entry.id}) }}">{{ notification.entry.title|slice(0,60) }}</a></strong>
-{% endblock notification_entry_notification %}
+{% block entry_notification %}af
+    {% include 'user/profile/notification/_entry_notification.html.twig' %}
+{% endblock entry_notification %}
 
-{% block notification_post_notification %}
-    <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': notification.user.username}) }}">{{ notification.user.username }}</a> dodał/a nowy wpis w <small
-        class="text-muted">/m/</small><a
-        href="{{ path('front_magazine', {'name': notification.post.magazine.name }) }}">{{ notification.post.magazine.name }}</a> - <strong><a
-            href="{{ path('post_single', {'magazine_name': notification.post.magazine.name, 'post_id': notification.post.id}) }}">{{ notification.post.body|slice(0,60) }}</a></strong>
-{% endblock notification_post_notification %}
+{% block post_notification %}
+    {% include 'user/profile/notification/_post_notification.html.twig' %}
+{% endblock post_notification %}
 
-{% block notification_message_notification %}
-    <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': notification.message.sender.username}) }}">{{ notification.message.sender.username }}</a> napisał/a wiadomość w wątku
-    <a href="{{ path('user_profile_message', {'id': notification.message.thread.id}) }}">{{ notification.message.thread.title }}</a>
-{% endblock notification_message_notification %}
+{% block message_notification %}
+    {% include 'user/profile/notification/_message_notification.html.twig' %}
+{% endblock message_notification %}

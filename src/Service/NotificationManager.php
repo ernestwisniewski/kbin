@@ -2,66 +2,32 @@
 
 namespace App\Service;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\EntryComment;
-use App\Entity\EntryNotification;
 use App\Entity\Message;
 use App\Entity\MessageNotification;
 use App\Entity\Notification;
 use App\Entity\PostComment;
-use App\Entity\PostNotification;
 use App\Entity\User;
-use App\Factory\EntryFactory;
-use App\Factory\MagazineFactory;
-use App\Repository\MagazineSubscriptionRepository;
-use App\Repository\NotificationRepository;
+use App\Service\Notification\EntryNotificationManager;
+use App\Service\Notification\MessageNotificationManager;
+use App\Service\Notification\PostNotificationManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Mercure\PublisherInterface;
-use Symfony\Component\Mercure\Update;
-use Symfony\Component\Messenger\MessageBusInterface;
 use App\Entity\Entry;
 use App\Entity\Post;
 
 class NotificationManager
 {
     public function __construct(
-        private NotificationRepository $notificationRepository,
-        private MagazineSubscriptionRepository $magazineSubscriptionRepository,
-        private MessageBusInterface $messageBus,
-        private PublisherInterface $publisher,
-        private IriConverterInterface $iriConverter,
-        private MagazineFactory $magazineFactory,
+        private EntryNotificationManager $entryNotificationManager,
+        private PostNotificationManager $postNotificationManager,
+        private MessageNotificationManager $messageNotificationManager,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function sendNewEntryNotification(Entry $entry): void
     {
-        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewEntrySubscribers($entry));
-        $followers = [];
-
-        $usersToNotify = $this->merge($subs, $followers);
-
-        foreach ($usersToNotify as $subscriber) {
-            $notify = new EntryNotification($subscriber, $entry);
-            $this->entityManager->persist($notify);
-        }
-
-        $this->entityManager->flush();
-
-        try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($entry->getMagazine()));
-
-            $update = new Update(
-                $iri,
-                json_encode(['entryId' => $entry->getId()])
-            );
-
-            ($this->publisher)($update);
-
-        } catch (\Exception $e) {
-
-        }
+        $this->entryNotificationManager->send($entry);
     }
 
     public function sendEntryCommentNotification(EntryComment $comment): void
@@ -71,34 +37,12 @@ class NotificationManager
 
     public function sendPostNotification(Post $post): void
     {
-        $subs    = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewPostSubscribers($post));
-        $follows = [];
-
-        $usersToNotify = $this->merge($subs, $follows);
-
-        foreach ($usersToNotify as $subscriber) {
-            $notify = new PostNotification($subscriber, $post);
-            $this->entityManager->persist($notify);
-
-            // @todo Send push notification to user
-        }
-
-        $this->entityManager->flush();
+        $this->postNotificationManager->send($post);
     }
 
     public function sendMessageNotification(Message $message, User $sender): void
     {
-        $thread        = $message->getThread();
-        $usersToNotify = $thread->getOtherParticipants($sender);
-
-        foreach ($usersToNotify as $subscriber) {
-            $notify = new MessageNotification($subscriber, $message);
-            $this->entityManager->persist($notify);
-
-            // @todo Send push notification to user
-        }
-
-        $this->entityManager->flush();
+        $this->messageNotificationManager->send($message, $sender);
     }
 
     public function sendPostCommentNotification(PostComment $comment): void
@@ -128,23 +72,6 @@ class NotificationManager
         $this->entityManager->flush();
     }
 
-    private function getUsersToNotify(array $subscriptions): array
-    {
-        return array_map(fn($sub) => $sub->getUser(), $subscriptions);
-    }
-
-    private function merge(array $subs, array $follows): array
-    {
-        return array_merge(
-            $subs,
-            array_filter(
-                $follows,
-                function ($val) use ($subs) {
-                    return !in_array($val, $subs);
-                }
-            )
-        );
-    }
 
     public function readMessageNotification(Message $message, User $user): void
     {
