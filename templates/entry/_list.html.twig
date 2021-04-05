@@ -1,7 +1,7 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 {% from 'entry/_macros.html.twig' import entry %}
 
-<div class="kbin-entry-list" data-controller="entry-list" data-entry-list-magazine-name-value="{{ magazine is defined ? magazine.name : null }}">
+<div class="kbin-entry-list">
     {% if entries|length %}
         {% for entry in entries %}
             {{ entry(entry, {

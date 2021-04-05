@@ -1,6 +1,6 @@
 # Kbin
 
-A reddit-like content aggregator and micro-blogging platform for the fediverse.
+A reddit-like content aggregator and micro-blogging platform for the fediverse - https://kbin.info.
 
 https://dev.karab.in instance for testing purposes only
 
