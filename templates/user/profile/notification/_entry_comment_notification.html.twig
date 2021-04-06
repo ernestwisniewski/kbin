@@ -1,0 +1,5 @@
+<small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': notification.user.username}) }}">{{ notification.user.username }}</a> dodał/a nowy komentarz w <small
+        class="text-muted">/m/</small><a
+        href="{{ path('front_magazine', {'name': notification.comment.entry.magazine.name }) }}">{{ notification.comment.entry.magazine.name }}</a> - <strong><a
+            href="{{ path('entry_single', {'magazine_name': notification.comment.entry.magazine.name, 'entry_id': notification.comment.entry.id}) }}">{{ notification.comment.entry.title|slice(0,60) }}</a></strong>

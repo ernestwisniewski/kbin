@@ -32,6 +32,11 @@ class EntryCommentNotification extends Notification
         return $this->entryComment;
     }
 
+    public function getComment(): EntryComment
+    {
+        return $this->entryComment;
+    }
+
     public function getType(): string
     {
         return 'entry_comment_notification';

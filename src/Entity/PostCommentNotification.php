@@ -32,6 +32,11 @@ class PostCommentNotification extends Notification
         return $this->postComment;
     }
 
+    public function getComment(): PostComment
+    {
+        return $this->postComment;
+    }
+
     public function getType(): string
     {
         return 'post_comment_notification';

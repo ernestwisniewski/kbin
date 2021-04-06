@@ -4,9 +4,12 @@ namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Entry;
+use App\Entity\EntryComment;
+use App\Entity\EntryCommentNotification;
 use App\Entity\EntryNotification;
 use App\Entity\Notification;
-use App\Entity\User;
+use App\Entity\PostComment;
+use App\Entity\PostCommentNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +17,7 @@ use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 
-class EntryNotificationManager
+class PostCommentNotificationManager
 {
     use NotificationTrait;
 
@@ -28,41 +31,41 @@ class EntryNotificationManager
     ) {
     }
 
-    public function send(Entry $entry): void
+    public function send(PostComment $comment): void
     {
-        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewEntrySubscribers($entry));
+        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewPostSubscribers($comment->getPost()));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
 
-        $this->notifyMagazine(new EntryNotification($entry->getUser(), $entry));
+        $this->notifyMagazine(new PostCommentNotification($comment->getUser(), $comment));
 
         if (!\count($usersToNotify)) {
             return;
         }
 
         foreach ($usersToNotify as $subscriber) {
-            $notification = new EntryNotification($subscriber, $entry);
+            $notification = new PostCommentNotification($subscriber, $comment);
             $this->entityManager->persist($notification);
         }
 
         $this->entityManager->flush();
     }
 
-    private function getResponse(EntryNotification $notification): string
+    private function getResponse(PostCommentNotification $notification): string
     {
         return json_encode(
             [
-                'entryId'      => $notification->getEntry()->getId(),
+                'commentId'    => $notification->getComment()->getId(),
                 'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
 
-    private function notifyMagazine(EntryNotification $notification): void
+    private function notifyMagazine(PostCommentNotification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getEntry()->getMagazine()));
+            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->getMagazine()));
 
             $update = new Update(
                 $iri,
@@ -72,6 +75,7 @@ class EntryNotificationManager
             ($this->publisher)($update);
 
         } catch (\Exception $e) {
+            dd($e);
         }
     }
 }

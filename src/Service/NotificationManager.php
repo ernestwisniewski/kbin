@@ -8,8 +8,10 @@ use App\Entity\MessageNotification;
 use App\Entity\Notification;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Service\Notification\EntryCommentNotificationManager;
 use App\Service\Notification\EntryNotificationManager;
 use App\Service\Notification\MessageNotificationManager;
+use App\Service\Notification\PostCommentNotificationManager;
 use App\Service\Notification\PostNotificationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Entry;
@@ -19,7 +21,9 @@ class NotificationManager
 {
     public function __construct(
         private EntryNotificationManager $entryNotificationManager,
+        private EntryCommentNotificationManager $entryCommentNotificationManager,
         private PostNotificationManager $postNotificationManager,
+        private PostCommentNotificationManager $postCommentNotificationManager,
         private MessageNotificationManager $messageNotificationManager,
         private EntityManagerInterface $entityManager
     ) {
@@ -32,7 +36,7 @@ class NotificationManager
 
     public function sendEntryCommentNotification(EntryComment $comment): void
     {
-
+        $this->entryCommentNotificationManager->send($comment);
     }
 
     public function sendPostNotification(Post $post): void
@@ -40,14 +44,14 @@ class NotificationManager
         $this->postNotificationManager->send($post);
     }
 
+    public function sendPostCommentNotification(PostComment $comment): void
+    {
+        $this->postCommentNotificationManager->send($comment);
+    }
+
     public function sendMessageNotification(Message $message, User $sender): void
     {
         $this->messageNotificationManager->send($message, $sender);
-    }
-
-    public function sendPostCommentNotification(PostComment $comment): void
-    {
-
     }
 
     public function markAllAsRead(User $user): void

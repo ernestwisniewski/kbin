@@ -1,0 +1,5 @@
+<small class="text-muted">/u/</small><a
+        href="{{ path('user', {'username': notification.user.username}) }}">{{ notification.user.username }}</a> dodał/a nową odpowiedź w <small
+        class="text-muted">/m/</small><a
+        href="{{ path('front_magazine', {'name': notification.comment.post.magazine.name }) }}">{{ notification.comment.post.magazine.name }}</a> - <strong><a
+            href="{{ path('post_single', {'magazine_name': notification.comment.post.magazine.name, 'post_id': notification.comment.post.id}) }}">{{ notification.comment.post.body|slice(0,60) }}</a></strong>
