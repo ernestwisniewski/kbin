@@ -4,16 +4,17 @@ import Subscribe from '../utils/notification';
 
 export default class extends ApplicationController {
     static values = {
-        name: String
+        magazineName: String
     };
 
     connect() {
-        if (!this.hasNameValue) {
-            return;
+        let url = '*';
+        if (this.hasMagazineNameValue) {
+            url = '/api/magazines/' + this.magazineNameValue;
         }
 
         let self = this;
-        Subscribe('/api/magazines/' + this.nameValue, function (e) {
+        Subscribe(url, function (e) {
             let data = JSON.parse(e.data);
             self.toast(data.notification);
         });
