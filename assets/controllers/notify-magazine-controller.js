@@ -15,7 +15,7 @@ export default class extends ApplicationController {
         let self = this;
         Subscribe('/api/magazines/' + this.nameValue, function (e) {
             let data = JSON.parse(e.data);
-            self.toast(data.notificationHtml);
+            self.toast(data.notification);
         });
     }
 

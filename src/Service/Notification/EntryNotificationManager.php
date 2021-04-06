@@ -34,6 +34,8 @@ class EntryNotificationManager
 
         $usersToNotify = $this->merge($subs, $followers);
 
+        $this->notifyMagazine($entry, new EntryNotification($entry->getUser(), $entry));
+
         if (!\count($usersToNotify)) {
             return;
         }
@@ -44,20 +46,14 @@ class EntryNotificationManager
         }
 
         $this->entityManager->flush();
-
-        $this->notifyMagazine($entry, $notification);
     }
 
     private function getResponse(Entry $entry, Notification $notification): string
     {
         return json_encode(
             [
-                'entryId'          => $entry->getId(),
-                'html'             => $this->twig->render(
-                    'entry/_entry.html.twig',
-                    ['entry' => $entry, 'extra_classes' => '', 'title_tag' => 'h4', 'show_content' => false]
-                ),
-                'notificationHtml' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'entryId'      => $entry->getId(),
+                'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
