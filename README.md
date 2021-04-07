@@ -18,6 +18,7 @@ https://symfony.com/doc/4.2/reference/requirements.html
 #### RabbitMQ (optional)
 #### Elasticsearch (optional)
 ### Install with Docker
+Based on https://github.com/dunglas/symfony-docker
 #### Develop
 ```console
 $ cp .env.example .env
