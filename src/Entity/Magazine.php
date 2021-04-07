@@ -508,7 +508,7 @@ class Magazine implements VisibilityInterface
 
     public function restore(): void
     {
-        $this->visibility = self::VISIBILITY_VISIBLE;
+        $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     }
 
     public function getBans(): Collection|Selectable

@@ -281,7 +281,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
 
     public function restore(): void
     {
-        $this->visibility = self::VISIBILITY_VISIBLE;
+        $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     }
 
     public function isAuthor(User $user): bool

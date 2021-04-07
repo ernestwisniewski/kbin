@@ -373,7 +373,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
 
     public function restore(): void
     {
-        $this->visibility = self::VISIBILITY_VISIBLE;
+        $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     }
 
     public function getComments(): Collection
@@ -413,7 +413,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public function updateCounts(): self
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('visibility', self::VISIBILITY_VISIBLE));
+            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
         $this->setCommentCount(
             $this->comments->matching($criteria)->count()
