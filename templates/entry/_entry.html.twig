@@ -9,7 +9,7 @@
              data-embed-hidden-class="display-none"
              data-embed-loading-class="spinner-border"
              data-embed-embed-class="fa-photo-video">
-        <div class="kbin-entry-header">
+        <div class="kbin-entry-header clearfix">
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote'}) }}
 
             {% if (entry.image) and entry.visibility is same as 'visible' %}
@@ -20,7 +20,7 @@
                 </div>
             {% endif %}
 
-            <div class="kbin-entry-main">
+            <div class="kbin-entry-main clearfix">
                 {% if entry.visibility is same as 'visible' %}
                     {% include 'entry/_entry_title.html.twig' %}
                 {% elseif entry.visibility is same as 'trashed' %}
@@ -92,16 +92,13 @@
                 </aside>
                 <div data-report-target="form" class=""></div>
             </div>
-            <div class="clearfix"></div>
         </div>
 
         {% if(entry.body and show_content) %}
-            <div class="kbin-entry-content mt-3">
+            <div class="kbin-entry-content mt-3 clearfix">
                 {{ entry.body|markdown|raw }}
             </div>
         {% endif %}
-
-        <div class="clearfix"></div>
 
         {% if entry.hasEmbed %}
             <button type="button" class="btn-close mt-3 display-none" data-embed-target="close" aria-label="Zamknij"

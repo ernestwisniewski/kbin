@@ -43,7 +43,7 @@
                     </ul>
                 </aside>
             </div>
-            <div class="kbin-comment-main">
+            <div class="kbin-comment-main clearfix">
                 <div class="kbin-comment-content" data-controller="show-more" data-action="image:thumbSelected->show-more#expand" data-action="image:thumbLoaded->show-more#checkHeight">
                     {% if comment.visibility is same as 'visible' %}
                         {{ comment.body|markdown|raw }}
@@ -105,7 +105,6 @@
                 <div data-comment-target="form" data-report-target="form" class=""></div>
 
             </div>
-            <div class="clearfix"></div>
         </blockquote>
     {% endif %}
 {% endblock comment %}

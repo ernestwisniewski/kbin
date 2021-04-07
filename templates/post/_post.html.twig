@@ -48,7 +48,7 @@
                 </ul>
             </aside>
         </div>
-        <div class="kbin-post-main">
+        <div class="kbin-post-main clearfix">
             <div class="kbin-post-content" data-controller="show-more" data-action="image:thumbSelected->show-more#expand" data-action="image:thumbLoaded->show-more#checkHeight">
                 {% if post.visibility is same as 'visible' %}
                     {{ post.body|markdown|raw }}
@@ -117,7 +117,6 @@
             <div data-post-target="form" data-report-target="form" class=""></div>
 
         </div>
-        <div class="clearfix"></div>
     </blockquote>
 
     {% block before_comments %}{% endblock %}
