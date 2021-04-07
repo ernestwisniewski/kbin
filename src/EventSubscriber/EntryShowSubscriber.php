@@ -19,7 +19,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onShowEntry(EntryHasBeenSeenEvent $event)
+    public function onShowEntry(EntryHasBeenSeenEvent $event): void
     {
         try {
             $this->viewCounter->saveView($event->getEntry());

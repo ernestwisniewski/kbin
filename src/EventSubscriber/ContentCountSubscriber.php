@@ -28,17 +28,17 @@ class ContentCountSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EntryDeletedEvent::class => 'onEntryDeleted',
+            EntryDeletedEvent::class        => 'onEntryDeleted',
             EntryCommentCreatedEvent::class => 'onEntryCommentCreated',
             EntryCommentDeletedEvent::class => 'onEntryCommentDeleted',
-            EntryCommentPurgedEvent::class => 'onEntryCommentPurged',
-            PostCommentCreatedEvent::class => 'onPostCommentCreated',
-            PostCommentDeletedEvent::class => 'onPostCommentDeleted',
-            PostCommentPurgedEvent::class => 'onPostCommentPurged',
+            EntryCommentPurgedEvent::class  => 'onEntryCommentPurged',
+            PostCommentCreatedEvent::class  => 'onPostCommentCreated',
+            PostCommentDeletedEvent::class  => 'onPostCommentDeleted',
+            PostCommentPurgedEvent::class   => 'onPostCommentPurged',
         ];
     }
 
-    public function onEntryDeleted(EntryDeletedEvent $event)
+    public function onEntryDeleted(EntryDeletedEvent $event): void
     {
         $event->getEntry()->getMagazine()->updateEntryCounts();
 

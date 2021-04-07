@@ -1,5 +1,6 @@
 twig:
     globals:
+        kbin_domain: '%env(SITE_BASE_URL)%'
         kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
 
     default_path: '%kernel.project_dir%/templates'

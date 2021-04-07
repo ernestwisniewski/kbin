@@ -92,12 +92,12 @@ class Magazine implements VisibilityInterface
     private bool $isAdult = false;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $customCss = null;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $customJs = null;
 

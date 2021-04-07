@@ -159,6 +159,8 @@ class MagazineManager
         $magazine = $dto->getMagazine();
 
         $magazine->setCover($dto->getCover());
+        $magazine->setCustomCss($dto->getCustomCss());
+        $magazine->setCustomJs($dto->getCustomJs());
 
         $this->entityManager->flush();
     }

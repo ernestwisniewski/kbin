@@ -75,7 +75,6 @@ class PostCommentNotificationManager
             ($this->publisher)($update);
 
         } catch (\Exception $e) {
-            dd($e);
         }
     }
 }

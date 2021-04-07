@@ -8,6 +8,12 @@
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
+
+        {% if magazine is defined and magazine %}
+            <style>
+                {{ magazine.customCss }}
+            </style>
+        {% endif %}
     {% endblock %}
 </head>
 <body data-controller="kbin" class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : '' }}">

@@ -20,7 +20,7 @@ class EntryCommentCreateSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onEntryCommentCreated(EntryCommentCreatedEvent $event)
+    public function onEntryCommentCreated(EntryCommentCreatedEvent $event): void
     {
         $this->messageBus->dispatch(new EntryCommentNotificationMessage($event->getComment()->getId()));
     }

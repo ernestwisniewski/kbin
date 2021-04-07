@@ -22,7 +22,7 @@ class EntryCreateSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onEntryCreated(EntryCreatedEvent $event)
+    public function onEntryCreated(EntryCreatedEvent $event): void
     {
         $this->domainManager->extract($event->getEntry());
         $this->messageBus->dispatch(new EntryEmbedMessage($event->getEntry()->getId()));

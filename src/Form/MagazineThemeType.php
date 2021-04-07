@@ -30,8 +30,8 @@ class MagazineThemeType extends AbstractType
                     'mapped'      => false,
                 ]
             )
-            ->add('css', TextareaType::class, ['mapped' => false])
-            ->add('js', TextareaType::class, ['mapped' => false])
+            ->add('customCss', TextareaType::class)
+            ->add('customJs', TextareaType::class)
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber($this->imageListener->setFieldName('cover'));

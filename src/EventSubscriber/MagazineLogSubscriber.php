@@ -48,7 +48,7 @@ class MagazineLogSubscriber implements EventSubscriberInterface
         $this->entityManager->flush();
     }
 
-    public function onEntryCommentDeleted(EntryCommentDeletedEvent $event)
+    public function onEntryCommentDeleted(EntryCommentDeletedEvent $event): void
     {
         if (!$event->getComment()->isTrashed()) {
             return;
@@ -80,7 +80,7 @@ class MagazineLogSubscriber implements EventSubscriberInterface
         $this->entityManager->flush();
     }
 
-    public function onPostCommentDeleted(PostCommentDeletedEvent $event)
+    public function onPostCommentDeleted(PostCommentDeletedEvent $event): void
     {
         if (!$event->getComment()->isTrashed()) {
             return;
@@ -96,7 +96,7 @@ class MagazineLogSubscriber implements EventSubscriberInterface
         $this->entityManager->flush();
     }
 
-    public function onBan(MagazineBanEvent $event)
+    public function onBan(MagazineBanEvent $event): void
     {
         $log = new MagazineLogBan($event->getBan());
 
