@@ -18,6 +18,7 @@ class MagazineThemeDto
     public function __construct(Magazine $magazine)
     {
         $this->magazine = $magazine;
+        $this->customCss = $magazine->getCustomCss();
     }
 
     public function create(?Image $cover)

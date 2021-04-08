@@ -93,8 +93,29 @@
     }
   }
 
-  &-meta {
+  &-meta, {
     font-size: .9rem;
+
+    button {
+      padding: 0;
+      font-size: .75rem;
+      font-weight: bold;
+      color: gray;
+      margin: 0 .5rem 0 0;
+      text-decoration: none;
+
+      .kbin-dark & {
+        color: gray;
+      }
+
+      &:hover {
+        color: black;
+
+        .kbin-dark & {
+          color: $white;
+        }
+      }
+    }
 
     a {
       &:hover {

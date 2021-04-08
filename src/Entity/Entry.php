@@ -114,6 +114,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     private bool $isAdult = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $sticky = false;
+
+    /**
      * @ORM\Column(type="datetimetz")
      */
     private ?\DateTime $lastActive;
@@ -323,6 +328,18 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this;
     }
 
+    public function isSticky(): bool
+    {
+        return $this->sticky;
+    }
+
+    public function setSticky(bool $sticky): self
+    {
+        $this->sticky = $sticky;
+
+        return $this;
+    }
+
     public function getBadges(): ArrayCollection|Collection
     {
         return $this->badges;
@@ -333,7 +350,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     {
         $this->badges->clear();
 
-        foreach ($badges as $badge){
+        foreach ($badges as $badge) {
             $this->badges->add(new EntryBadge($this, $badge));
         }
     }

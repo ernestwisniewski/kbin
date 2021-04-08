@@ -25,6 +25,11 @@ entry_purge:
   path: /m/{magazine_name}/t/{entry_id}/purge
   methods: [ POST ]
 
+entry_pin:
+  controller: App\Controller\EntryController::pin
+  path: /m/{magazine_name}/t/{entry_id}/pin
+  methods: [ POST ]
+
 entry_single:
   controller: App\Controller\EntryController::single
   defaults: { sortBy: ~ }

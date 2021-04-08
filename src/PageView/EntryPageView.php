@@ -13,4 +13,18 @@ class EntryPageView extends Criteria
         self::SORT_TOP,
         self::SORT_COMMENTED,
     ];
+
+    private $stickiesFirst = false;
+
+    public function isStickiesFirst(): bool
+    {
+        return $this->stickiesFirst;
+    }
+
+    public function setStickiesFirst(bool $stickiesFirst): self
+    {
+        $this->stickiesFirst = $stickiesFirst;
+
+        return $this;
+    }
 }

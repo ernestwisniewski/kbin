@@ -52,6 +52,12 @@
                         {% endif %}
                     </ul>
                     <ul class="kbin-entry-meta-list  list-inline mb-0">
+                        {% if entry.isSticky %}
+                            <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
+                                <i class="kbin-sticky fas fa-thumbtack text-muted me-1"></i>
+                            </li>
+                        {% endif %}
+
                         {% if entry.hasEmbed %}
                             <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item"
                                 data-action="click->embed#fetch">
@@ -86,6 +92,17 @@
                                 <small class="kbin-entry-meta-edit text-muted">
                                     <a href="{{ path('magazine_panel_ban', {'magazine_name': entry.magazine.name, 'user_username': entry.user.username}) }}">zbanuj</a>
                                 </small>
+                            </li>
+                        {% endif %}
+
+                        {% if is_granted('moderate', entry.magazine) %}
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <form action="{{ path('entry_pin', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}" method="POST">
+                                    <input type="hidden" name="token" value="{{ csrf_token('entry_pin') }}">
+                                    <button type="submit" class="btn btn-link">
+                                        <span>{{ entry.isSticky ? 'odepnij' : 'przypnij' }}</span>
+                                    </button>
+                                </form>
                             </li>
                         {% endif %}
                     </ul>

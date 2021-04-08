@@ -10,6 +10,7 @@ use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
@@ -29,7 +30,7 @@ use Symfony\Component\Security\Core\Security;
 class EntryRepository extends ServiceEntityRepository
 {
     const SORT_DEFAULT = 'aktywne';
-    const TIME_DEFAULT = Criteria::TIME_ALL;
+    const TIME_DEFAULT = EntryPageView::TIME_ALL;
     const PER_PAGE = 25;
 
     private Security $security;
@@ -41,7 +42,7 @@ class EntryRepository extends ServiceEntityRepository
         $this->security = $security;
     }
 
-    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    public function findByCriteria(EntryPageView $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -61,7 +62,7 @@ class EntryRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
+    private function getEntryQueryBuilder(EntryPageView $criteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder('e')
             ->where('e.visibility = :e_visibility')
@@ -71,12 +72,13 @@ class EntryRepository extends ServiceEntityRepository
             ->setParameter('m_visibility', Magazine::VISIBILITY_VISIBLE);
 
         $this->addTimeClause($qb, $criteria);
+        $this->addStickyClause($qb, $criteria);
         $this->filter($qb, $criteria);
 
         return $qb;
     }
 
-    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    private function filter(QueryBuilder $qb, EntryPageView $criteria): QueryBuilder
     {
         if ($criteria->getMagazine()) {
             $qb->andWhere('e.magazine = :magazine')
@@ -118,33 +120,44 @@ class EntryRepository extends ServiceEntityRepository
 
         switch ($criteria->getSortOption()) {
             case Criteria::SORT_HOT:
-                $qb->orderBy('e.score', 'DESC');
+                $qb->addOrderBy('e.score', 'DESC');
                 break;
             case Criteria::SORT_TOP:
-                $qb->orderBy('e.ranking', 'DESC');
+                $qb->addOrderBy('e.ranking', 'DESC');
                 break;
             case Criteria::SORT_COMMENTED:
-                $qb->orderBy('e.commentCount', 'DESC');
+                $qb->addOrderBy('e.commentCount', 'DESC');
                 break;
             case Criteria::SORT_ACTIVE:
-                $qb->orderBy('e.lastActive', 'DESC');
+                $qb->addOrderBy('e.lastActive', 'DESC');
                 break;
             case Criteria::SORT_NEW:
             default:
-                $qb->orderBy('e.id', 'DESC');
+                $qb->addOrderBy('e.id', 'DESC');
         }
 
         return $qb;
     }
 
 
-    private function addTimeClause(QueryBuilder $qb, Criteria $criteria)
+    private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria)
     {
         if ($criteria->getTime() !== EntryPageView::TIME_ALL) {
             $since = $criteria->getSince();
 
             $qb->andWhere('e.createdAt > :time')
                 ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
+        }
+    }
+
+    private function addStickyClause(QueryBuilder $qb, EntryPageView $criteria)
+    {
+        if ($criteria->isStickiesFirst()) {
+            if ($criteria->getPage() === 1) {
+                $qb->addOrderBy('e.sticky', 'DESC');
+            } else {
+                $qb->andWhere($qb->expr()->eq('e.sticky', 'false'));
+            }
         }
     }
 
