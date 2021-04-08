@@ -41,6 +41,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 ## Federation
 https://dunglas.fr/2021/01/schema-generator-3-a-step-towards-redecentralizing-the-web/
+
 https://github.com/api-platform/activity-pub
 ## Documentation
 ### REST API
