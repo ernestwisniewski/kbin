@@ -33,6 +33,7 @@ class MagazineController extends AbstractController
     public function front(Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
     {
         $criteria = (new EntryPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
+        $criteria->setStickiesFirst(true);
 
         if ($time) {
             $criteria->setTime($criteria->translateTime($time));

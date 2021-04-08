@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Event\EntryDeletedEvent;
+use App\Event\EntryPinEvent;
 use App\Kernel;
 use App\Service\Contracts\ContentManager;
 use App\Utils\UrlCleaner;
@@ -121,6 +122,17 @@ class EntryManager implements ContentManager
 
         $this->entityManager->remove($entry);
         $this->entityManager->flush();
+    }
+
+    public function pin(Entry $entry): Entry
+    {
+        $entry->setSticky(!$entry->isSticky());
+
+        $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch((new EntryPinEvent($entry)));
+
+        return $entry;
     }
 
     public function createDto(Entry $entry): EntryDto
