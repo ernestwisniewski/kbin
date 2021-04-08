@@ -2,10 +2,12 @@
 
 namespace App\Security\Voter;
 
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\Entity\EntryComment;
 use App\Entity\User;
+use function in_array;
 
 class EntryCommentVoter extends Voter
 {
@@ -16,7 +18,7 @@ class EntryCommentVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof EntryComment && \in_array($attribute, [self::EDIT, self::DELETE, self::PURGE, self::VOTE], true);
+        return $subject instanceof EntryComment && in_array($attribute, [self::EDIT, self::DELETE, self::PURGE, self::VOTE], true);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -32,17 +34,17 @@ class EntryCommentVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
-            default => throw new \LogicException(),
+            default => throw new LogicException(),
         };
     }
 
     private function canEdit(EntryComment $comment, User $user): bool
     {
-        if ($comment->getUser() === $user) {
+        if ($comment->user === $user) {
             return true;
         }
 
-        if ($comment->getEntry()->getMagazine()->userIsModerator($user)) {
+        if ($comment->entry->magazine->userIsModerator($user)) {
             return true;
         }
 
@@ -56,11 +58,11 @@ class EntryCommentVoter extends Voter
 
     private function canDelete(EntryComment $comment, User $user): bool
     {
-        if ($comment->getUser() === $user) {
+        if ($comment->user === $user) {
             return true;
         }
 
-        if ($comment->getEntry()->getMagazine()->userIsModerator($user)) {
+        if ($comment->entry->magazine->userIsModerator($user)) {
             return true;
         }
 
@@ -69,11 +71,11 @@ class EntryCommentVoter extends Voter
 
     private function canVote(EntryComment $comment, User $user): bool
     {
-        if ($comment->getUser() === $user) {
+        if ($comment->user === $user) {
             return false;
         }
 
-        if ($comment->getEntry()->getMagazine()->isBanned($user)) {
+        if ($comment->entry->magazine->isBanned($user)) {
             return false;
         }
 

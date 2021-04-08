@@ -3,7 +3,7 @@
         <div class="row g-0">
             <div class="col-md-4">
                 {% if magazine.cover %}
-                    <img src="{{ asset(magazine.cover.getFilePath()) | imagine_filter('post_thumb') }}" class="img-thumbnail"
+                    <img src="{{ asset(magazine.cover.filePath) | imagine_filter('post_thumb') }}" class="img-thumbnail"
                          alt="{{ magazine.name }}">
                 {% else %}
                     <svg class="bd-placeholder-img" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img"

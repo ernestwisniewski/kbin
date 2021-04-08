@@ -2,11 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\EntryComment;
-use App\Entity\EntryCommentReport;
-use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\EntryCommentReport;
+use App\Entity\EntryComment;
+use App\Entity\Report;
 
 /**
  * @method EntryCommentReport|null find($id, $lockMode = null, $lockVersion = null)

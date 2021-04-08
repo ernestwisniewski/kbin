@@ -32,13 +32,13 @@ class UserBlock
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blocks")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private ?User $blocker;
+    public ?User $blocker;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blockers")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private ?User $blocked;
+    public ?User $blocked;
 
     public function __construct(User $blocker, User $blocked)
     {
@@ -51,30 +51,6 @@ class UserBlock
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getBlocker(): ?User
-    {
-        return $this->blocker;
-    }
-
-    public function setBlocker(?User $blocker): self
-    {
-        $this->blocker = $blocker;
-
-        return $this;
-    }
-
-    public function getBlocked(): ?User
-    {
-        return $this->blocked;
-    }
-
-    public function setBlocked(?User $blocked): self
-    {
-        $this->blocked = $blocked;
-
-        return $this;
     }
 
     public function __sleep()

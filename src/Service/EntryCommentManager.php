@@ -2,18 +2,16 @@
 
 namespace App\Service;
 
-use App\Event\EntryCommentBeforePurgeEvent;
-use App\Event\EntryCommentDeletedEvent;
-use App\Service\Contracts\ContentManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use App\Repository\EntryCommentRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Event\EntryCommentCreatedEvent;
-use App\Event\EntryCommentPurgedEvent;
-use App\Event\EntryCommentUpdatedEvent;
-use App\Factory\EntryCommentFactory;
-use App\Repository\EntryRepository;
 use Symfony\Component\Security\Core\Security;
+use App\Event\EntryCommentBeforePurgeEvent;
+use App\Service\Contracts\ContentManager;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Event\EntryCommentDeletedEvent;
+use App\Event\EntryCommentCreatedEvent;
+use App\Event\EntryCommentUpdatedEvent;
+use App\Event\EntryCommentPurgedEvent;
+use App\Factory\EntryCommentFactory;
 use Webmozart\Assert\Assert;
 use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
@@ -24,8 +22,6 @@ class EntryCommentManager implements ContentManager
     public function __construct(
         private EntryCommentFactory $commentFactory,
         private EventDispatcherInterface $eventDispatcher,
-        private EntryCommentRepository $commentRepository,
-        private EntryRepository $entryRepository,
         private Security $security,
         private EntityManagerInterface $entityManager
     ) {
@@ -35,11 +31,11 @@ class EntryCommentManager implements ContentManager
     {
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
-        $comment->getEntry()->addComment($comment);
-        $comment->setMagazine($commentDto->entry->magazine);
+        $comment->entry->addComment($comment);
+        $comment->magazine = $commentDto->entry->magazine;
 
         if ($commentDto->image) {
-            $comment->setImage($commentDto->image);
+            $comment->image = $commentDto->image;
         }
 
         $this->entityManager->persist($comment);
@@ -52,11 +48,11 @@ class EntryCommentManager implements ContentManager
 
     public function edit(EntryComment $comment, EntryCommentDto $commentDto): EntryComment
     {
-        Assert::same($comment->getEntry()->getId(), $commentDto->entry->getId());
+        Assert::same($comment->entry->getId(), $commentDto->entry->getId());
 
-        $comment->setBody($commentDto->body);
+        $comment->body = $commentDto->body;
         if ($commentDto->image) {
-            $comment->setImage($commentDto->image);
+            $comment->image = $commentDto->image;
         }
 
         $this->entityManager->flush();
@@ -79,8 +75,8 @@ class EntryCommentManager implements ContentManager
     {
         $this->eventDispatcher->dispatch((new EntryCommentBeforePurgeEvent($comment)));
 
-        $magazine = $comment->getEntry()->getMagazine();
-        $comment->getEntry()->removeComment($comment);
+        $magazine = $comment->entry->magazine;
+        $comment->entry->removeComment($comment);
 
         $this->entityManager->remove($comment);
         $this->entityManager->flush();

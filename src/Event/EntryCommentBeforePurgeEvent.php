@@ -6,12 +6,7 @@ use App\Entity\EntryComment;
 
 class EntryCommentBeforePurgeEvent
 {
-    public function __construct(private EntryComment $comment)
+    public function __construct(public EntryComment $comment)
     {
-    }
-
-    public function getComment(): EntryComment
-    {
-        return $this->comment;
     }
 }

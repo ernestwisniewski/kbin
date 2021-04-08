@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
-use App\Entity\PostComment;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Contracts\VoteInterface;
 use App\Factory\VoteFactory;
 use App\Entity\Vote;
 use App\Entity\User;
+use LogicException;
 
 class VoteManager
 {
@@ -22,8 +22,8 @@ class VoteManager
         $vote = $votable->getUserVote($user);
 
         if ($vote) {
-            $choice = $this->guessUserChoice($choice, $votable->getUserChoice($user));
-            $vote->setChoice($choice);
+            $choice       = $this->guessUserChoice($choice, $votable->getUserChoice($user));
+            $vote->choice = $choice;
 
             if ($choice === VoteInterface::VOTE_NONE) {
                 $votable->updateVoteCounts();
@@ -51,7 +51,7 @@ class VoteManager
             return match ($choice) {
                 VoteInterface::VOTE_UP => VoteInterface::VOTE_NONE,
                 VoteInterface::VOTE_DOWN => VoteInterface::VOTE_DOWN,
-                default => throw new \LogicException(),
+                default => throw new LogicException(),
             };
         }
 
@@ -59,7 +59,7 @@ class VoteManager
             return match ($choice) {
                 VoteInterface::VOTE_UP => VoteInterface::VOTE_UP,
                 VoteInterface::VOTE_DOWN => VoteInterface::VOTE_NONE,
-                default => throw new \LogicException(),
+                default => throw new LogicException(),
             };
         }
     }

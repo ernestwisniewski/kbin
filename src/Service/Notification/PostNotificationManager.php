@@ -2,16 +2,18 @@
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use App\Entity\Notification;
-use App\Entity\Post;
-use App\Entity\PostNotification;
-use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
+use ApiPlatform\Core\Api\IriConverterInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\Update;
+use App\Factory\MagazineFactory;
+use App\Entity\PostNotification;
+use App\Entity\Notification;
 use Twig\Environment;
+use App\Entity\Post;
+use function count;
 
 class PostNotificationManager
 {
@@ -34,9 +36,9 @@ class PostNotificationManager
 
         $usersToNotify = $this->merge($subs, $follows);
 
-        $this->notifyMagazine($post, new PostNotification($post->getUser(), $post));
+        $this->notifyMagazine($post, new PostNotification($post->user, $post));
 
-        if (!\count($usersToNotify)) {
+        if (!count($usersToNotify)) {
             return;
         }
 
@@ -53,7 +55,7 @@ class PostNotificationManager
     {
         return json_encode(
             [
-                'postId'      => $post->getId(),
+                'postId'       => $post->getId(),
                 'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
@@ -62,7 +64,7 @@ class PostNotificationManager
     private function notifyMagazine(Post $post, PostNotification $notification)
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($post->getMagazine()));
+            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($post->magazine));
 
             $update = new Update(
                 $iri,
@@ -71,7 +73,7 @@ class PostNotificationManager
 
             ($this->publisher)($update);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 }

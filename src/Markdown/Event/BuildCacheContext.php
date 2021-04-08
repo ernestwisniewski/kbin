@@ -2,6 +2,8 @@
 
 namespace App\Markdown\Event;
 
+use function array_key_exists;
+
 /**
  * Event dispatched to build a hash key for Markdown context.
  */
@@ -31,7 +33,7 @@ class BuildCacheContext
 
     public function hasContext(string $key, ?string $value = null): bool
     {
-        if (!\array_key_exists($key, $this->context)) {
+        if (!array_key_exists($key, $this->context)) {
             return false;
         }
 

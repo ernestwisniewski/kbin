@@ -41,7 +41,7 @@ class EntryCommentControllerTest extends WebTestCase
 
         $comment = $this->createEntryComment('przykładowy komentarz');
 
-        $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";
+        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}";
 
         $crawler = $client->request('GET', '/');
         $crawler = $client->request('GET', $entryUrl);
@@ -71,12 +71,12 @@ class EntryCommentControllerTest extends WebTestCase
         $user2 = $this->getUserByUsername('regularUser2');
 
         $comment  = $this->createEntryComment('przykładowy komentarz');
-        $comment2 = $this->createEntryComment('test', $comment->getEntry());
+        $comment2 = $this->createEntryComment('test', $comment->entry);
 
         $this->createVote(1, $comment, $user2);
         $this->createVote(1, $comment2, $user2);
 
-        $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";
+        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}";
 
         $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$comment->getId()}/edytuj");
 
@@ -103,7 +103,7 @@ class EntryCommentControllerTest extends WebTestCase
         $client->catchExceptions(false);
         $comment = $this->createEntryComment('przykładowy komentarz');
 
-        $entryUrl = "/m/polityka/t/{$comment->getEntry()->getId()}";
+        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}";
 
         $crawler = $client->request('GET', '/');
         $crawler = $client->request('GET', $entryUrl);

@@ -2,12 +2,12 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Magazine;
-use JetBrains\PhpStorm\Pure;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\Entity\Entry;
 use App\Entity\User;
+use function in_array;
 
 class EntryVoter extends Voter
 {
@@ -21,7 +21,7 @@ class EntryVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof Entry
-            && \in_array(
+            && in_array(
                 $attribute,
                 [self::CREATE, self::EDIT, self::DELETE, self::PURGE, self::COMMENT, self::VOTE],
                 true
@@ -42,7 +42,7 @@ class EntryVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::COMMENT => $this->canComment($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
-            default => throw new \LogicException(),
+            default => throw new LogicException(),
         };
     }
 

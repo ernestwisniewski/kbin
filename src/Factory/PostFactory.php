@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -21,10 +21,10 @@ class PostFactory
     public function createDto(Post $post): PostDto
     {
         return (new PostDto())->create(
-            $post->getMagazine(),
-            $post->getBody(),
+            $post->magazine,
+            $post->body,
             null,
-            $post->isAdult(),
+            $post->isAdult,
             $post->getId()
         );
     }

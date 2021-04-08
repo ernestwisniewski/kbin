@@ -13,7 +13,7 @@ class MessageNotification extends Notification
     /**
      * @ORM\ManyToOne(targetEntity="Message", inversedBy="notifications")
      */
-    private ?Message $message;
+    public ?Message $message;
 
     public function __construct(
         User $receiver,
@@ -22,11 +22,6 @@ class MessageNotification extends Notification
         parent::__construct($receiver);
 
         $this->message = $message;
-    }
-
-    public function getMessage(): Message
-    {
-        return $this->message;
     }
 
     public function getSubject(): Message

@@ -2,20 +2,19 @@
 
 namespace App\Controller;
 
-use App\DTO\PostCommentDto;
-use App\Entity\Magazine;
-use App\Entity\Post;
-use App\Entity\PostComment;
-use App\Form\PostCommentType;
-use App\Form\PostType;
-use App\PageView\PostCommentPageView;
-use App\Repository\PostCommentRepository;
-use App\Service\PostCommentManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repository\PostCommentRepository;
+use App\PageView\PostCommentPageView;
+use App\Service\PostCommentManager;
+use App\Form\PostCommentType;
+use App\Entity\PostComment;
+use App\DTO\PostCommentDto;
+use App\Entity\Magazine;
+use App\Entity\Post;
 
 class PostCommentController extends AbstractController
 {
@@ -46,7 +45,7 @@ class PostCommentController extends AbstractController
             [
                 'action' => $this->generateUrl(
                     'post_comment_create',
-                    ['magazine_name' => $magazine->getName(), 'post_id' => $post->getId(), 'parent_comment_id' => $parent ? $parent->getId() : null]
+                    ['magazine_name' => $magazine->name, 'post_id' => $post->getId(), 'parent_comment_id' => $parent ? $parent->getId() : null]
                 ),
             ]
         );
@@ -75,14 +74,14 @@ class PostCommentController extends AbstractController
             return $this->redirectToRoute(
                 'post_single',
                 [
-                    'magazine_name' => $magazine->getName(),
+                    'magazine_name' => $magazine->name,
                     'post_id'       => $post->getId(),
                 ]
             );
         }
 
-        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))
-            ->showPost($post);
+        $criteria       = (new PostCommentPageView((int) $request->get('strona', 1)));
+        $criteria->post = $post;
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -137,14 +136,14 @@ class PostCommentController extends AbstractController
             return $this->redirectToRoute(
                 'post_single',
                 [
-                    'magazine_name' => $magazine->getName(),
+                    'magazine_name' => $magazine->name,
                     'post_id'       => $post->getId(),
                 ]
             );
         }
 
-        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))
-            ->showPost($post);
+        $criteria       = (new PostCommentPageView((int) $request->get('strona', 1)));
+        $criteria->post = $post;
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -177,7 +176,7 @@ class PostCommentController extends AbstractController
         return $this->redirectToRoute(
             'front_magazine',
             [
-                'name' => $magazine->getName(),
+                'name' => $magazine->name,
             ]
         );
     }
@@ -199,7 +198,7 @@ class PostCommentController extends AbstractController
         return $this->redirectToRoute(
             'front_magazine',
             [
-                'name' => $magazine->getName(),
+                'name' => $magazine->name,
             ]
         );
     }

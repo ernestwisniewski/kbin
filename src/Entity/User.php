@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Selectable;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use DomainException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,17 +35,17 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      */
-    private ?Image $avatar = null;
+    public ?Image $avatar = null;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private string $email;
+    public ?string $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private array $roles = [];
+    public array $roles = [];
 
     /**
      * @var string The hashed password
@@ -57,125 +56,125 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=35)
      */
-    private string $username;
+    public string $username;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $followersCount = 0;
+    public int $followersCount = 0;
 
     /**
      * @ORM\Column(type="string", options={"default": User::THEME_LIGHT})
      */
-    private string $theme = self::THEME_LIGHT;
+    public string $theme = self::THEME_LIGHT;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $notifyOnNewEntry = false;
+    public bool $notifyOnNewEntry = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $notifyOnNewPost = false;
+    public bool $notifyOnNewPost = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $isVerified = false;//@todo
+    public bool $isVerified = false;//@todo
 
     /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
      */
-    private Collection $moderatorTokens;
+    public Collection $moderatorTokens;
 
     /**
      * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="user")
      */
-    private Collection $entries;
+    public Collection $entries;
 
     /**
      * @ORM\OneToMany(targetEntity="EntryVote", mappedBy="user", fetch="EXTRA_LAZY")
      */
-    private Collection $entryVotes;
+    public Collection $entryVotes;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="user")
      */
-    private Collection $entryComments;
+    public Collection $entryComments;
 
     /**
      * @ORM\OneToMany(targetEntity="EntryCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
      */
-    private Collection $entryCommentVotes;
+    public Collection $entryCommentVotes;
 
     /**
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
      */
-    private Collection $posts;
+    public Collection $posts;
 
     /**
      * @ORM\OneToMany(targetEntity="PostVote", mappedBy="user", fetch="EXTRA_LAZY")
      */
-    private Collection $postVotes;
+    public Collection $postVotes;
 
     /**
      * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="user")
      */
-    private Collection $postComments;
+    public Collection $postComments;
 
     /**
      * @ORM\OneToMany(targetEntity="PostCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
      */
-    private Collection $postCommentVotes;
+    public Collection $postCommentVotes;
 
     /**
      * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="user", orphanRemoval=true)
      */
-    private Collection $subscriptions;
+    public Collection $subscriptions;
 
     /**
      * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="follower", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private Collection $follows;
+    public Collection $follows;
 
     /**
      * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="following", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private Collection $followers;
+    public Collection $followers;
 
     /**
      * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocker", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private Collection $blocks;
+    public Collection $blocks;
 
     /**
      * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocked", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private ?Collection $blockers;
+    public ?Collection $blockers;
 
     /**
      * @ORM\OneToMany(targetEntity=MagazineBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private Collection $blockedMagazines;
+    public Collection $blockedMagazines;
 
     /**
      * @ORM\OneToMany(targetEntity="Report", mappedBy="reporting", fetch="EXTRA_LAZY", cascade={"persist"})
      * @ORM\OrderBy({"id": "DESC"})
      */
-    private Collection $reports;
+    public Collection $reports;
 
     /**
      * @ORM\OneToMany(targetEntity="Report", mappedBy="reported", fetch="EXTRA_LAZY", cascade={"persist"})
      * @ORM\OrderBy({"id": "DESC"})
      */
-    private Collection $violations;
+    public Collection $violations;
 
     /**
      * @ORM\OneToMany(targetEntity="Notification", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
      * @ORM\OrderBy({"createdAt": "DESC"})
      */
-    private Collection $notifications;
+    public Collection $notifications;
 
     public function __construct($email, $username, $password)
     {
@@ -209,29 +208,9 @@ class User implements UserInterface
         return $this->id;
     }
 
-
-    public function getAvatar(): ?Image
+    public function getUsername(): string
     {
-        return $this->avatar;
-    }
-
-    public function setAvatar(?Image $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
+        return $this->username;
     }
 
     public function getRoles(): array
@@ -243,18 +222,6 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return (string) $this->password;
-    }
-
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -262,16 +229,9 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUsername(): string
+    public function getPassword(): string
     {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
+        return (string) $this->password;
     }
 
     public function getSalt()
@@ -285,30 +245,21 @@ class User implements UserInterface
 //         $this->plainPassword = null;
     }
 
-    public function getModeratorTokens(): Collection
-    {
-        return $this->moderatorTokens;
-    }
-
     public function getModeratedMagazines(): Collection
     {
-        $this->getModeratorTokens()->get(-1);
+        $this->moderatorTokens->get(-1);
 
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('isConfirmed', true));
 
-        return $this->getModeratorTokens()->matching($criteria);
+        return $this->moderatorTokens->matching($criteria);
     }
 
-    public function getEntries(): Collection
-    {
-        return $this->entries;
-    }
 
     public function addEntry(Entry $entry): self
     {
         if ($entry->user !== $this) {
-            throw new \DomainException('Entry must belong to user');
+            throw new DomainException('Entry must belong to user');
         }
 
         if (!$this->entries->contains($entry)) {
@@ -318,35 +269,20 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getEntryVotes(): Collection
-    {
-        return $this->entryVotes;
-    }
-
-    public function getEntryComments(): Collection
-    {
-        return $this->entryComments;
-    }
-
     public function addEntryComment(EntryComment $comment): self
     {
         if (!$this->entryComments->contains($comment)) {
             $this->entryComments->add($comment);
-            $comment->setUser($this);
+            $comment->user = $this;
         }
 
         return $this;
     }
 
-    public function getPosts(): Collection
-    {
-        return $this->posts;
-    }
-
     public function addPost(Post $post): self
     {
-        if ($post->getUser() !== $this) {
-            throw new \DomainException('Post must belong to user');
+        if ($post->user !== $this) {
+            throw new DomainException('Post must belong to user');
         }
 
         if (!$this->posts->contains($post)) {
@@ -356,24 +292,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPostComments(): Collection
-    {
-        return $this->postComments;
-    }
-
     public function addPostComment(PostComment $comment): self
     {
         if (!$this->entryComments->contains($comment)) {
             $this->entryComments->add($comment);
-            $comment->setUser($this);
+            $comment->user = $this;
         }
 
         return $this;
-    }
-
-    public function getSubscriptions(): Collection
-    {
-        return $this->subscriptions;
     }
 
     public function addSubscription(MagazineSubscription $subscription): self
@@ -389,8 +315,8 @@ class User implements UserInterface
     public function removeSubscription(MagazineSubscription $subscription): self
     {
         if ($this->subscriptions->removeElement($subscription)) {
-            if ($subscription->getUser() === $this) {
-                $subscription->setUser(null);
+            if ($subscription->user === $this) {
+                $subscription->user = null;
             }
         }
 
@@ -443,8 +369,8 @@ class User implements UserInterface
         $following = $this->follows->matching($criteria)->first();
 
         if ($this->follows->removeElement($following)) {
-            if ($following->getFollower() === $this) {
-                $following->setFollower(null);
+            if ($following->follower === $this) {
+                $following->follower = null;
                 $followingUser->followers->removeElement($following);
             }
         }
@@ -452,68 +378,14 @@ class User implements UserInterface
         $this->updateFollowCounts($followingUser);
     }
 
-    public function getFollows(): Collection|Selectable
-    {
-        return $this->follows;
-    }
-
-    public function getFollowers(): Collection|Selectable
-    {
-        return $this->followers;
-    }
-
-    public function getFollowersCount(): int
-    {
-        return $this->followersCount;
-    }
-
     public function updateFollowCounts(User $following)
     {
         $following->followersCount = $following->followers->count();
     }
 
-    public function getTheme(): string
-    {
-        return $this->theme;
-    }
-
     public function toggleTheme(): self
     {
         $this->theme = $this->theme === self::THEME_LIGHT ? self::THEME_DARK : self::THEME_LIGHT;
-
-        return $this;
-    }
-
-    public function isNotifyOnNewEntry(): bool
-    {
-        return $this->notifyOnNewEntry;
-    }
-
-    public function setNotifyOnNewEntry(bool $notifyOnNewEntry): void
-    {
-        $this->notifyOnNewEntry = $notifyOnNewEntry;
-    }
-
-    public function isNotifyOnNewPost(): bool
-    {
-        return $this->notifyOnNewPost;
-    }
-
-    public function setNotifyOnNewPost(bool $notifyOnNewPost): self
-    {
-        $this->notifyOnNewPost = $notifyOnNewPost;
-
-        return $this;
-    }
-
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
 
         return $this;
     }
@@ -565,16 +437,6 @@ class User implements UserInterface
         }
     }
 
-    public function getBlocks(): Collection
-    {
-        return $this->blocks;
-    }
-
-    public function getBlockers(): Collection
-    {
-        return $this->blockers;
-    }
-
     public function isBlockedMagazine(Magazine $magazine): bool
     {
         $criteria = Criteria::create()
@@ -603,16 +465,11 @@ class User implements UserInterface
         $magazineBlock = $this->blockedMagazines->matching($criteria)->first();
 
         if ($this->blockedMagazines->removeElement($magazineBlock)) {
-            if ($magazineBlock->getUser() === $this) {
-                $magazineBlock->setMagazine(null);
+            if ($magazineBlock->user === $this) {
+                $magazineBlock->magazine = null;
                 $this->blockedMagazines->removeElement($magazineBlock);
             }
         }
-    }
-
-    public function getNotifications(): Collection
-    {
-        return $this->notifications;
     }
 
     public function getNewNotifications(): Collection

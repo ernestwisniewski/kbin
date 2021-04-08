@@ -2,8 +2,8 @@
 
 namespace App\PageView;
 
-use App\Entity\Entry;
 use App\Repository\Criteria;
+use App\Entity\Entry;
 
 class EntryCommentPageView extends Criteria
 {
@@ -12,30 +12,7 @@ class EntryCommentPageView extends Criteria
         self::SORT_TOP,
     ];
 
-    private ?Entry $entry = null;
-    private bool $onlyParents = true;
+    public ?Entry $entry = null;
+    public bool $onlyParents = true;
 
-    public function isOnlyParents(): bool
-    {
-        return $this->onlyParents;
-    }
-
-    public function showOnlyParents(bool $onlyParents): self
-    {
-        $this->onlyParents = $onlyParents;
-
-        return $this;
-    }
-
-    public function getEntry(): ?Entry
-    {
-        return $this->entry;
-    }
-
-    public function showEntry(Entry $entry): self
-    {
-        $this->entry = $entry;
-
-        return $this;
-    }
 }

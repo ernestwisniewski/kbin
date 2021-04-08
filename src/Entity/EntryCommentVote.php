@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\EntryCommentVoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,11 +22,11 @@ class EntryCommentVote extends Vote
      * @ORM\JoinColumn(name="comment_id", nullable=false, onDelete="cascade")
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="votes")
      */
-    private ?EntryComment $comment;
+    public ?EntryComment $comment;
 
     public function __construct(int $choice, User $user, EntryComment $comment)
     {
-        parent::__construct($choice, $user, $comment->getUser());
+        parent::__construct($choice, $user, $comment->user);
 
         $this->comment = $comment;
     }

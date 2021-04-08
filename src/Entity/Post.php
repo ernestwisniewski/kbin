@@ -2,20 +2,20 @@
 
 namespace App\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Contracts\VisibilityInterface;
+use Doctrine\Common\Collections\Collection;
 use App\Entity\Contracts\CommentInterface;
-use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
-use App\Entity\Contracts\VisibilityInterface;
+use Doctrine\Common\Collections\Criteria;
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\RankingTrait;
-use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\PostRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -42,65 +42,65 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private User $user;
+    public User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private ?Magazine $magazine;
+    public ?Magazine $magazine;
 
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?Image $image = null;
+    public ?Image $image = null;
 
     /**
      * @ORM\Column(type="text", nullable=true, length=15000)
      */
-    private ?string $body = null;
+    public ?string $body = null;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $commentCount = 0;
+    public int $commentCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $score = 0;
+    public int $score = 0;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $isAdult = false;
+    public ?bool $isAdult = false;
 
     /**
      * @ORM\Column(type="datetimetz")
      */
-    private ?\DateTime $lastActive;
+    public ?DateTime $lastActive;
 
     /**
      * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="post", orphanRemoval=true)
      */
-    private Collection $comments;
+    public Collection $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=PostVote::class, mappedBy="post", cascade={"persist"},
      *     fetch="EXTRA_LAZY", orphanRemoval=true)
      */
-    private Collection $votes;
+    public Collection $votes;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PostReport", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
      */
-    private Collection $reports;
+    public Collection $reports;
 
     /**
      * @ORM\OneToMany(targetEntity="PostNotification", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
      */
-    private Collection $notifications;
+    public Collection $notifications;
 
     public function __construct(string $body, Magazine $magazine, User $user, ?bool $isAdult = false)
     {
@@ -124,91 +124,6 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $this->id;
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(?Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setBody(?string $body): void
-    {
-        $this->body = $body;
-    }
-
-    public function getCommentCount(): int
-    {
-        return $this->commentCount;
-    }
-
-    public function setCommentCount(int $commentCount): self
-    {
-        $this->commentCount = $commentCount;
-
-        return $this;
-    }
-
-    public function getScore(): int
-    {
-        return $this->score;
-    }
-
-    public function setScore(int $score): void
-    {
-        $this->score = $score;
-    }
-
-    public function isAdult(): bool
-    {
-        return $this->isAdult;
-    }
-
-    public function setIsAdult(bool $isAdult): self
-    {
-        $this->isAdult = $isAdult;
-
-        return $this;
-    }
-
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
     public function getBestComments(): Collection
     {
         return new ArrayCollection($this->comments->slice(0, 2));
@@ -216,14 +131,14 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
 
     public function getLastComments(): Collection
     {
-        return new ArrayCollection($this->comments->slice(-2, 2, true));
+        return new ArrayCollection($this->comments->slice(-2, 2));
     }
 
     public function addComment(PostComment $comment): self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setPost($this);
+            $comment->post = $this;
         }
 
         $this->updateCounts();
@@ -236,8 +151,8 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     public function removeComment(PostComment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
-            if ($comment->getPost() === $this) {
-                $comment->setPost(null);
+            if ($comment->post === $this) {
+                $comment->post = null;
             }
         }
 
@@ -253,21 +168,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
-        $this->setCommentCount(
-            $this->comments->matching($criteria)->count()
-        );
-
-        return $this;
-    }
-
-    public function getLastActive(): ?\DateTime
-    {
-        return $this->lastActive;
-    }
-
-    public function setLastActive(\DateTime $lastActive): self
-    {
-        $this->lastActive = $lastActive;
+        $this->commentCount = $this->comments->matching($criteria)->count();
 
         return $this;
     }
@@ -283,9 +184,9 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $lastComment = $this->comments->matching($criteria)->first();
 
         if ($lastComment) {
-            $this->lastActive = \DateTime::createFromImmutable($lastComment->getCreatedAt());
+            $this->lastActive = DateTime::createFromImmutable($lastComment->createdAt);
         } else {
-            $this->lastActive = \DateTime::createFromImmutable($this->getCreatedAt());
+            $this->lastActive = DateTime::createFromImmutable($this->getCreatedAt());
         }
     }
 
@@ -304,18 +205,13 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     }
 
-    public function getVotes(): Collection
-    {
-        return $this->votes;
-    }
-
     public function addVote(Vote $vote): self
     {
         Assert::isInstanceOf($vote, PostVote::class);
 
         if (!$this->votes->contains($vote)) {
             $this->votes->add($vote);
-            $vote->setPost($this);
+            $vote->post = $this;
         }
 
         $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
@@ -342,12 +238,12 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
 
     public function isAuthor(User $user): bool
     {
-        return $user === $this->getUser();
+        return $user === $this->user;
     }
 
     public function getShortTitle(): string
     {
-        $body = $this->getBody();
+        $body = $this->body;
         preg_match('/^(.*)$/m', $body, $firstLine);
         $firstLine = $firstLine[0];
 
@@ -356,6 +252,26 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         }
 
         return grapheme_substr($firstLine, 0, 60).'…';
+    }
+
+    public function getCommentCount(): int
+    {
+        return $this->commentCount;
+    }
+
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+    public function getMagazine(): ?Magazine
+    {
+        return $this->magazine;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
     }
 
     public function __sleep()

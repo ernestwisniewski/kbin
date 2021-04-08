@@ -2,6 +2,8 @@
 
 namespace App\Exception;
 
-final class ImageDownloadTooLargeException extends \RuntimeException
+use RuntimeException;
+
+final class ImageDownloadTooLargeException extends RuntimeException
 {
 }

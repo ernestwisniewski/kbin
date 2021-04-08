@@ -2,10 +2,10 @@
 
 namespace App\MessageHandler;
 
-use App\Message\EntryNotificationMessage;
-use App\Repository\EntryRepository;
-use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use App\Message\EntryNotificationMessage;
+use App\Service\NotificationManager;
+use App\Repository\EntryRepository;
 
 class SentEntryNotificationHandler implements MessageHandlerInterface
 {
@@ -17,7 +17,7 @@ class SentEntryNotificationHandler implements MessageHandlerInterface
 
     public function __invoke(EntryNotificationMessage $entryCreatedMessage)
     {
-        $entry = $this->entryRepository->find($entryCreatedMessage->getEntryId());
+        $entry = $this->entryRepository->find($entryCreatedMessage->entryId);
         if (!$entry) {
             return;
         }

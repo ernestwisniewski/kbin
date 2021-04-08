@@ -2,46 +2,38 @@
 
 namespace App\Controller;
 
-use App\DTO\BadgeDto;
-use App\DTO\MagazineBanDto;
-use App\DTO\MagazineThemeDto;
-use App\DTO\ModeratorDto;
-use App\Entity\Badge;
-use App\Entity\Moderator;
-use App\Entity\Report;
-use App\Entity\User;
-use App\Factory\ContentManagerFactory;
-use App\Form\BadgeType;
-use App\Form\MagazineBanType;
-use App\Form\MagazineThemeType;
-use App\Form\ModeratorType;
-use App\Repository\ReportRepository;
-use App\Repository\UserRepository;
-use App\Service\BadgeManager;
-use App\Service\ReportManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MagazineRepository;
-use App\Repository\EntryRepository;
-use Pagerfanta\PagerfantaInterface;
-use App\Service\MagazineManager;
-use App\PageView\EntryPageView;
-use App\Repository\Criteria;
-use App\Form\MagazineType;
-use App\Entity\Magazine;
-use App\DTO\MagazineDto;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use App\Factory\ContentManagerFactory;
 use Symfony\UX\Chartjs\Model\Chart;
+use App\Repository\UserRepository;
+use App\Service\MagazineManager;
+use App\Form\MagazineThemeType;
+use App\Service\ReportManager;
+use App\Service\BadgeManager;
+use App\DTO\MagazineThemeDto;
+use App\Form\MagazineBanType;
+use App\DTO\MagazineBanDto;
+use App\Form\ModeratorType;
+use App\Form\MagazineType;
+use App\DTO\ModeratorDto;
+use App\Entity\Moderator;
+use App\Entity\Magazine;
+use App\Form\BadgeType;
+use App\DTO\BadgeDto;
+use App\Entity\Badge;
+use App\Entity\Report;
+use App\Entity\User;
 
 class MagazinePanelController extends AbstractController
 {
     public function __construct(
         private MagazineManager $magazineManager,
         private MagazineRepository $magazineRepository,
-        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -143,7 +135,7 @@ class MagazinePanelController extends AbstractController
             return $this->redirectToRoute(
                 'front_magazine',
                 [
-                    'name' => $magazine->getName(),
+                    'name' => $magazine->name,
                 ]
             );
         }
@@ -216,7 +208,7 @@ class MagazinePanelController extends AbstractController
             return $this->redirectToRoute(
                 'magazine_panel_ban',
                 [
-                    'magazine_name' => $magazine->getName(),
+                    'magazine_name' => $magazine->name,
                     'user_username' => $user->getUsername(),
                 ]
             );
@@ -248,7 +240,7 @@ class MagazinePanelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->magazineManager->ban($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
 
-            return $this->redirectToRoute('magazine_panel_bans', ['name' => $magazine->getName()]);
+            return $this->redirectToRoute('magazine_panel_bans', ['name' => $magazine->name]);
         }
 
         return $this->render(

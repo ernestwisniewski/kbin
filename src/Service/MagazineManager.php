@@ -2,17 +2,18 @@
 
 namespace App\Service;
 
-use App\DTO\MagazineBanDto;
-use App\DTO\MagazineThemeDto;
-use App\DTO\ModeratorDto;
-use App\Entity\Moderator;
-use App\Event\MagazineBanEvent;
-use App\Event\MagazineBlockedEvent;
-use App\Event\MagazineSubscribedEvent;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Factory\MagazineFactory;
+use DateTime;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Event\MagazineSubscribedEvent;
+use App\Event\MagazineBlockedEvent;
+use App\Factory\MagazineFactory;
+use App\Event\MagazineBanEvent;
+use App\DTO\MagazineThemeDto;
 use Webmozart\Assert\Assert;
+use App\DTO\MagazineBanDto;
+use App\Entity\Moderator;
+use App\DTO\ModeratorDto;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
 use App\Entity\User;
@@ -40,12 +41,12 @@ class MagazineManager
 
     public function edit(Magazine $magazine, MagazineDto $magazineDto): Magazine
     {
-        Assert::same($magazine->getName(), $magazineDto->name);
+        Assert::same($magazine->name, $magazineDto->name);
 
-        $magazine->setTitle($magazineDto->title);
-        $magazine->setDescription($magazineDto->description);
-        $magazine->setRules($magazineDto->rules);
-        $magazine->setIsAdult($magazineDto->isAdult);
+        $magazine->title       = $magazineDto->title;
+        $magazine->description = $magazineDto->description;
+        $magazine->rules       = $magazineDto->rules;
+        $magazine->isAdult     = $magazineDto->isAdult;
 
         $this->entityManager->flush();
 
@@ -67,7 +68,7 @@ class MagazineManager
 
     public function createDto(Magazine $magazine): MagazineDto
     {
-       return $this->magazineFactory->createDto($magazine);
+        return $this->magazineFactory->createDto($magazine);
     }
 
     public function subscribe(Magazine $magazine, User $user): void
@@ -112,7 +113,7 @@ class MagazineManager
 
     public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): void
     {
-        Assert::greaterThan($dto->expiredAt, new \DateTime());
+        Assert::greaterThan($dto->expiredAt, new DateTime());
 
         $ban = $magazine->addBan($user, $bannedBy, $dto->reason, $dto->expiredAt);
 
@@ -158,9 +159,9 @@ class MagazineManager
     {
         $magazine = $dto->magazine;
 
-        $magazine->setCover($dto->cover);
-        $magazine->setCustomCss($dto->customCss);
-        $magazine->setCustomJs($dto->customJs);
+        $magazine->cover     = $dto->cover;
+        $magazine->customCss = $dto->customCss;
+        $magazine->customJs  = $dto->customJs;
 
         $this->entityManager->flush();
     }

@@ -3,16 +3,13 @@
 namespace App\DTO;
 
 use App\Entity\Contracts\ReportInterface;
-use App\Entity\Entry;
 use App\Entity\EntryComment;
-use App\Entity\EntryCommentReport;
-use App\Entity\EntryReport;
-use App\Entity\Magazine;
-use App\Entity\Post;
 use App\Entity\PostComment;
-use App\Entity\PostCommentReport;
-use App\Entity\PostReport;
+use App\Entity\Magazine;
+use App\Entity\Entry;
+use App\Entity\Post;
 use App\Entity\User;
+use LogicException;
 
 class ReportDto
 {
@@ -28,8 +25,8 @@ class ReportDto
         $this->subject = $subject;
         $this->reason  = $reason;
 
-        $this->magazine = $subject->getMagazine();
-        $this->reported = $subject->getUser();
+        $this->magazine = $subject->magazine;
+        $this->reported = $subject->user;
 
         return $this;
     }
@@ -57,6 +54,6 @@ class ReportDto
                 return 'post_comment_report';
         }
 
-        throw new \LogicException();
+        throw new LogicException();
     }
 }

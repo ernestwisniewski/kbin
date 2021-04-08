@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Form\Constraint\ImageConstraint;
-use App\Form\EventListener\ImageListener;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
+use App\Form\EventListener\ImageListener;
+use App\Form\Constraint\ImageConstraint;
 use Symfony\Component\Form\AbstractType;
 use App\DTO\EntryCommentDto;
 

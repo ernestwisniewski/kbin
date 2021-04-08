@@ -2,10 +2,8 @@
 
 namespace App\Twig\Runtime;
 
-use App\Markdown\MarkdownConverter;
-use League\Flysystem\FilesystemInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
+use App\Markdown\MarkdownConverter;
 
 class FormattingRuntime implements RuntimeExtensionInterface
 {

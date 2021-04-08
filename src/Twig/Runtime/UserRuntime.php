@@ -2,16 +2,14 @@
 
 namespace App\Twig\Runtime;
 
-use App\Entity\User;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 use Twig\Extension\RuntimeExtensionInterface;
+use App\Entity\User;
 
 class UserRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private Security $security,
-        private RequestStack $requestStack
     ) {
     }
 

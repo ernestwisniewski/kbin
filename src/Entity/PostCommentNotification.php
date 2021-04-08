@@ -13,18 +13,13 @@ class PostCommentNotification extends Notification
     /**
      * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="notifications")
      */
-    private ?PostComment $postComment;
+    public ?PostComment $postComment;
 
     public function __construct(User $receiver, PostComment $comment)
     {
         parent::__construct($receiver);
 
         $this->postComment = $comment;
-    }
-
-    public function getPostComment(): PostComment
-    {
-        return $this->postComment;
     }
 
     public function getSubject(): PostComment

@@ -2,15 +2,8 @@
 
 namespace App\Twig;
 
-use App\Repository\PostRepository;
 use App\Twig\Runtime\PageContextRuntime;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\EntryCommentRepository;
 use Twig\Extension\AbstractExtension;
-use App\Repository\EntryRepository;
-use App\Entity\Magazine;
 use Twig\TwigFunction;
 
 final class PageContextExtension extends AbstractExtension

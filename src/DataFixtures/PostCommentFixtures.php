@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\DTO\PostCommentDto;
-use App\Entity\PostComment;
-use App\Service\PostCommentManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use App\Service\PostCommentManager;
+use App\DTO\PostCommentDto;
+use App\Entity\PostComment;
 
 class PostCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
@@ -41,7 +41,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
             $this->addReference('post_comment_'.$index, $entity);
             $manager->flush();
 
-            $roll = rand(0, 4);
+            $roll     = rand(0, 4);
             $children = [$entity];
             if ($roll) {
                 for ($i = 1; $i <= rand(0, 20); $i++) {
@@ -69,9 +69,9 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
     {
         for ($i = 0; $i <= $count; $i++) {
             yield [
-                'body'  => $this->faker->realText($this->faker->numberBetween(10, 1024)),
+                'body' => $this->faker->realText($this->faker->numberBetween(10, 1024)),
                 'post' => $this->getReference('post_'.rand(1, EntryFixtures::ENTRIES_COUNT)),
-                'user'  => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                'user' => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
             ];
         }
     }

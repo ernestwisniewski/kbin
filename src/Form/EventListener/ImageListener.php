@@ -39,7 +39,7 @@ final class ImageListener implements EventSubscriberInterface
         $upload = $event->getForm()->get($fieldName)->getData();
 
         if ($upload && !$data->$fieldName) {
-            $image = $this->images->findOrCreateFromUpload($upload);
+            $image            = $this->images->findOrCreateFromUpload($upload);
             $data->$fieldName = $image;
         }
     }

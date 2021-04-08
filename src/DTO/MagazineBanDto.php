@@ -2,17 +2,17 @@
 
 namespace App\DTO;
 
-use App\Entity\User;
+use DateTimeInterface;
 
 class MagazineBanDto
 {
     private ?int $id = null;
     public ?string $reason = null;
-    public ?\DateTimeInterface $expiredAt = null;
+    public ?DateTimeInterface $expiredAt = null;
 
     public function create(
         ?string $reason = null,
-        ?\DateTimeInterface $expiredAt = null,
+        ?DateTimeInterface $expiredAt = null,
         ?int $id = null
     ) {
         $this->reason    = $reason;

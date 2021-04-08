@@ -2,16 +2,19 @@
 
 namespace App\Markdown\CommonMark;
 
-use App\Service\ImageManager;
-use App\Utils\Embed;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Link;
-use League\CommonMark\Inline\Element\Text;
+use Exception;
+use InvalidArgumentException;
 use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
+use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Inline\Element\Text;
+use League\CommonMark\HtmlElement;
+use App\Service\ImageManager;
+use App\Utils\Embed;
+use function get_class;
 
 final class ExternalLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
@@ -26,10 +29,10 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         ElementRendererInterface $htmlRenderer
     ): HtmlElement {
         if (!$inline instanceof Link) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'Incompatible inline type: %s',
-                    \get_class($inline)
+                    get_class($inline)
                 )
             );
         }
@@ -42,7 +45,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
 
         try {
             $embed = $this->embed->fetch($url)->getHtml();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $embed = null;
         }
 

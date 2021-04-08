@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\PostCommentVoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,11 +22,11 @@ class PostCommentVote extends Vote
      * @ORM\JoinColumn(name="comment_id", nullable=false, onDelete="cascade")
      * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="votes")
      */
-    private ?PostComment $comment;
+    public ?PostComment $comment;
 
     public function __construct(int $choice, User $user, PostComment $comment)
     {
-        parent::__construct($choice, $user, $comment->getUser());
+        parent::__construct($choice, $user, $comment->user);
 
         $this->comment = $comment;
     }

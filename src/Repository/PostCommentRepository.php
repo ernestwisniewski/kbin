@@ -2,21 +2,20 @@
 
 namespace App\Repository;
 
-use App\Entity\Magazine;
-use App\Entity\Post;
-use App\PageView\PostCommentPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Symfony\Component\Security\Core\Security;
+use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use App\PageView\PostCommentPageView;
+use Pagerfanta\PagerfantaInterface;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query\Expr\Join;
 use App\Entity\PostComment;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
+
 
 /**
  * @method PostComment|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,7 +46,7 @@ class PostCommentRepository extends ServiceEntityRepository
 
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
-            $pagerfanta->setCurrentPage($criteria->getPage());
+            $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -69,7 +68,7 @@ class PostCommentRepository extends ServiceEntityRepository
 
     private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
-        if ($criteria->getTime() !== Criteria::TIME_ALL) {
+        if ($criteria->time !== Criteria::TIME_ALL) {
             $since = $criteria->getSince();
 
             $qb->andWhere('c.createdAt > :time')
@@ -79,22 +78,22 @@ class PostCommentRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria)
     {
-        if ($criteria->getPost()) {
+        if ($criteria->post) {
             $qb->andWhere('c.post = :post')
-                ->setParameter('post', $criteria->getPost());
+                ->setParameter('post', $criteria->post);
         }
 
-        if ($criteria->getMagazine()) {
+        if ($criteria->magazine) {
             $qb->join('c.post', 'p', Join::WITH, 'p.magazine = :magazine');
-            $qb->setParameter('magazine', $criteria->getMagazine());
+            $qb->setParameter('magazine', $criteria->magazine);
         }
 
-        if ($criteria->getUser()) {
+        if ($criteria->user) {
             $qb->andWhere('c.user = :user')
-                ->setParameter('user', $criteria->getUser());
+                ->setParameter('user', $criteria->user);
         }
 
-        switch ($criteria->getSortOption()) {
+        switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('c.upVotes', 'DESC');
                 break;

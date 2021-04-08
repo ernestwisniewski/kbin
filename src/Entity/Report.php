@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Traits\CreatedAtTrait;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,45 +41,45 @@ abstract class Report
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Magazine", inversedBy="reports")
      */
-    private Magazine $magazine;
+    public Magazine $magazine;
 
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
      */
-    private User $reporting;
+    public User $reporting;
 
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="violations")
      */
-    private User $reported;
+    public User $reported;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $reason = null;
+    public ?string $reason = null;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $weight = 1;
+    public int $weight = 1;
 
     /**
      * @ORM\JoinColumn(nullable=true)
      * @ORM\ManyToOne(targetEntity="User")
      */
-    private ?User $consideredBy = null;
+    public ?User $consideredBy = null;
 
     /**
      * @ORM\Column(type="datetimetz", nullable=true)
      */
-    private ?\DateTime $consideredAt = null;
+    public ?DateTime $consideredAt = null;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $status = self::STATUS_PENDING;
+    public string $status = self::STATUS_PENDING;
 
     public function __construct(User $reporting, User $reported, Magazine $magazine, ?string $reason = null)
     {
@@ -95,72 +96,9 @@ abstract class Report
         return $this->id;
     }
 
-    public function getReporting(): User
-    {
-        return $this->reporting;
-    }
-
-    public function getReported(): User
-    {
-        return $this->reported;
-    }
-
-    public function getReason(): ?string
-    {
-        return $this->reason;
-    }
-
-    public function setReason(?string $reason): self
-    {
-        $this->reason = $reason;
-
-        return $this;
-    }
-
-    public function getWeight(): ?int
-    {
-        return $this->weight;
-    }
-
     public function increaseWeight(): self
     {
         $this->weight++;
-
-        return $this;
-    }
-
-    public function getConsideredBy(): ?User
-    {
-        return $this->consideredBy;
-    }
-
-    public function setConsideredBy(User $consideredBy): self
-    {
-        $this->consideredBy = $consideredBy;
-
-        return $this;
-    }
-
-    public function getConsideredAt(): ?\DateTime
-    {
-        return $this->consideredAt;
-    }
-
-    public function setConsideredAt(?\DateTime $consideredAt): self
-    {
-        $this->consideredAt = $consideredAt;
-
-        return $this;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }

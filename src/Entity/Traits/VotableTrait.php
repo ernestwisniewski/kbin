@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
@@ -60,7 +60,7 @@ trait VotableTrait
     {
         $vote = $this->getUserVote($user);
 
-        return $vote ? $vote->getChoice() : VoteInterface::VOTE_NONE;
+        return $vote ? $vote->choice : VoteInterface::VOTE_NONE;
     }
 
     public function getUserVote(User $user): ?Vote

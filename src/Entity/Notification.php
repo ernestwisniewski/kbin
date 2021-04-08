@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
-use App\Entity\Contracts\ReportInterface;
 use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -39,12 +37,12 @@ abstract class Notification
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
      */
-    private User $user;
+    public User $user;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $status = self::STATUS_NEW;
+    public string $status = self::STATUS_NEW;
 
     public function __construct(User $receiver)
     {
@@ -53,21 +51,9 @@ abstract class Notification
         $this->createdAtTraitConstruct();
     }
 
-    public function getUser(): User
+    public function getId(): int
     {
-        return $this->user;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
+        return $this->id;
     }
 
     abstract public function getType(): string;

@@ -2,11 +2,12 @@
 
 namespace App\Utils;
 
-use App\Entity\Entry;
-use App\Service\ImageManager;
+use Exception;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Embed\Embed as BaseEmbed;
 use Symfony\Contracts\Cache\ItemInterface;
+use Embed\Embed as BaseEmbed;
+use App\Service\ImageManager;
+use App\Entity\Entry;
 
 class Embed
 {
@@ -27,7 +28,7 @@ class Embed
                 try {
                     $embed  = (new BaseEmbed())->get($url);
                     $oembed = $embed->getOEmbed();
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     return $this;
                 }
 
@@ -100,6 +101,7 @@ class Embed
         if (!$this->getHtml()) {
             return false;
         }
+
         return str_contains($this->getHtml(), 'video')
             || str_contains($this->getHtml(), 'youtube')
             || str_contains($this->getHtml(), 'vimeo')

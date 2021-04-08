@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -22,24 +22,12 @@ class PostVote extends Vote
      * @ORM\JoinColumn(name="post_id", nullable=false, onDelete="cascade")
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="votes")
      */
-    private ?Post $post;
+    public ?Post $post;
 
     public function __construct(int $choice, User $user, ?Post $post)
     {
-        parent::__construct($choice, $user, $post->getUser());
+        parent::__construct($choice, $user, $post->user);
 
         $this->post = $post;
-    }
-
-    public function getPost(): Post
-    {
-        return $this->post;
-    }
-
-    public function setPost(?Post $post): self
-    {
-        $this->post = $post;
-
-        return $this;
     }
 }

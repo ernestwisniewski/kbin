@@ -2,17 +2,15 @@
 
 namespace App\Service;
 
+use App\Exception\SubjectHasBeenReportedException;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Event\SubjectReportedEvent;
+use App\Event\ReportRejectedEvent;
+use App\Factory\ReportFactory;
 use App\DTO\ReportDto;
-use App\Entity\Contracts\ReportInterface;
 use App\Entity\Report;
 use App\Entity\User;
-use App\Event\ReportRejectedEvent;
-use App\Event\SubjectReportedEvent;
-use App\Exception\SubjectHasBeenReportedException;
-use App\Factory\ReportFactory;
-use App\Repository\ReportRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 
 class ReportManager
 {
@@ -33,14 +31,14 @@ class ReportManager
         $existed = $report = $repository->findBySubject($dto->getSubject());
 
         if ($report) {
-            if ($report->getReporting() === $reporting) {
+            if ($report->reporting === $reporting) {
                 throw new SubjectHasBeenReportedException();
             }
         }
 
         if (!$report) {
             $report = $this->reportFactory->createFromDto($dto, $reporting);
-        } elseif ($report->getStatus() === Report::STATUS_PENDING) {
+        } elseif ($report->status === Report::STATUS_PENDING) {
             $report->increaseWeight();
         }
 
@@ -56,7 +54,7 @@ class ReportManager
 
     public function reject(Report $report)
     {
-        $report->setStatus(Report::STATUS_REJECTED);
+        $report->status = Report::STATUS_REJECTED;
 
         $this->entityManager->flush();
 

@@ -2,14 +2,12 @@
 
 namespace App\Twig\Runtime;
 
-use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class MediaRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
-        private FilesystemInterface $publicUploadsFilesystem,
         private RequestStack $requestStack,
         private string $uploadedAssetsBaseUrl
     ) {

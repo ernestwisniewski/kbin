@@ -2,9 +2,9 @@
 
 namespace App\DTO;
 
-use App\Entity\Image;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\EntryComment;
+use App\Entity\Image;
 use App\Entity\Entry;
 
 class EntryCommentDto
@@ -41,7 +41,7 @@ class EntryCommentDto
         $this->image  = $image;
 
         if ($parent) {
-            $this->root = $parent->getRoot() ?? $parent;
+            $this->root = $parent->root ?? $parent;
         }
 
         return $this;

@@ -6,7 +6,7 @@ trait NotificationTrait
 {
     private function getUsersToNotify(array $subscriptions): array
     {
-        return array_map(fn($sub) => $sub->getUser(), $subscriptions);
+        return array_map(fn($sub) => $sub->user, $subscriptions);
     }
 
     private function merge(array $subs, array $follows): array

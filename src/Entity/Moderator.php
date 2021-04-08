@@ -32,23 +32,23 @@ class Moderator
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="moderatorTokens")
      * @ORM\JoinColumn(nullable=false)
      */
-    private User $user;
+    public User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="moderators")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private Magazine $magazine;
+    public Magazine $magazine;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $isOwner = false;
+    public bool $isOwner = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $isConfirmed = false;
+    public bool $isConfirmed = false;
 
     public function __construct(Magazine $magazine, User $user, $isOwner = false, $isConfirmed = false)
     {
@@ -57,8 +57,8 @@ class Moderator
         $this->isOwner     = $isOwner;
         $this->isConfirmed = $isConfirmed;
 
-        $magazine->getModerators()->add($this);
-        $user->getModeratorTokens()->add($this);
+        $magazine->moderators->add($this);
+        $user->moderatorTokens->add($this);
 
         $this->createdAtTraitConstruct();
     }
@@ -66,52 +66,6 @@ class Moderator
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getMagazine(): Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
-
-        return $this;
-    }
-
-    public function getIsOwner(): ?bool
-    {
-        return $this->isOwner;
-    }
-
-    public function setIsOwner(bool $isOwner): self
-    {
-        $this->isOwner = $isOwner;
-
-        return $this;
-    }
-
-    public function isConfirmed(): bool
-    {
-        return $this->isConfirmed;
-    }
-
-    public function setIsConfirmed(bool $isConfirmed): void
-    {
-        $this->isConfirmed = $isConfirmed;
     }
 
     public function __sleep()

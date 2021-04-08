@@ -13,18 +13,13 @@ class PostNotification extends Notification
     /**
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="notifications")
      */
-    private ?Post $post;
+    public ?Post $post;
 
     public function __construct(User $receiver, Post $post)
     {
         parent::__construct($receiver);
 
         $this->post = $post;
-    }
-
-    public function getPost(): Post
-    {
-        return $this->post;
     }
 
     public function getSubject(): Post

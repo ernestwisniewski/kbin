@@ -4,10 +4,9 @@ namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
-use App\DTO\MagazineDto;
-use App\Entity\Magazine;
-use App\Factory\MagazineFactory;
 use App\Repository\MagazineRepository;
+use App\Factory\MagazineFactory;
+use App\DTO\MagazineDto;
 
 final class MagazineItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {

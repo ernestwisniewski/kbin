@@ -2,6 +2,8 @@
 
 namespace App\Exception;
 
-final class CorruptedFileException extends \Exception
+use Exception;
+
+final class CorruptedFileException extends Exception
 {
 }

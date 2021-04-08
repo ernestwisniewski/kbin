@@ -2,21 +2,19 @@
 
 namespace App\Service;
 
-use App\DTO\PostCommentDto;
-use App\Entity\PostComment;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Security;
 use App\Event\PostCommentBeforePurgeEvent;
+use App\Service\Contracts\ContentManager;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Event\PostCommentUpdatedEvent;
 use App\Event\PostCommentCreatedEvent;
 use App\Event\PostCommentDeletedEvent;
 use App\Event\PostCommentPurgedEvent;
-use App\Event\PostCommentUpdatedEvent;
-use App\Repository\PostCommentRepository;
-use App\Repository\PostRepository;
-use App\Service\Contracts\ContentManager;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\PostCommentFactory;
-use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
+use App\Entity\PostComment;
+use App\DTO\PostCommentDto;
 use App\Entity\User;
 
 class PostCommentManager implements ContentManager
@@ -24,8 +22,6 @@ class PostCommentManager implements ContentManager
     public function __construct(
         private PostCommentFactory $commentFactory,
         private EventDispatcherInterface $eventDispatcher,
-        private PostCommentRepository $commentRepository,
-        private PostRepository $postRepository,
         private Security $security,
         private EntityManagerInterface $entityManager
     ) {
@@ -35,10 +31,10 @@ class PostCommentManager implements ContentManager
     {
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
-        $comment->getPost()->addComment($comment);
-        $comment->setMagazine($commentDto->post->getMagazine());
+        $comment->post->addComment($comment);
+        $comment->magazine = $commentDto->post->magazine;
         if ($commentDto->image) {
-            $comment->setImage($commentDto->getImage());
+            $comment->image = $commentDto->image;
         }
 
         $this->entityManager->persist($comment);
@@ -51,11 +47,11 @@ class PostCommentManager implements ContentManager
 
     public function edit(PostComment $comment, PostCommentDto $commentDto): PostComment
     {
-        Assert::same($comment->getPost()->getId(), $commentDto->post->getId());
+        Assert::same($comment->post->getId(), $commentDto->post->getId());
 
-        $comment->setBody($commentDto->body);
+        $comment->body = $commentDto->body;
         if ($commentDto->image) {
-            $comment->setImage($commentDto->image);
+            $comment->image = $commentDto->image;
         }
 
         $this->entityManager->flush();
@@ -78,8 +74,8 @@ class PostCommentManager implements ContentManager
     {
         $this->eventDispatcher->dispatch((new PostCommentBeforePurgeEvent($comment)));
 
-        $magazine = $comment->getPost()->getMagazine();
-        $comment->getPost()->removeComment($comment);
+        $magazine = $comment->post->magazine;
+        $comment->post->removeComment($comment);
 
         $this->entityManager->remove($comment);
         $this->entityManager->flush();

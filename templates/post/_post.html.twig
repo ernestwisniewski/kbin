@@ -55,10 +55,10 @@
                     {% if post.image %}
                         <img data-controller="image"
                              data-image-loading-class="loading-cursor"
-                             data-image-full-value="{{ uploaded_asset(post.image.getFilePath()) }}"
-                             data-image-thumb-value="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                             data-image-full-value="{{ uploaded_asset(post.image.filePath) }}"
+                             data-image-thumb-value="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
                              data-action="click->image#toggle"
-                             src="{{ asset(post.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                             src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
                              alt="{{ post.shortTitle }}">
                     {% endif %}
                 {% elseif post.visibility is same as 'trashed' %}

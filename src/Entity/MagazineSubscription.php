@@ -32,13 +32,13 @@ class MagazineSubscription
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="subscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $user;
+    public ?User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="subscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Magazine $magazine;
+    public ?Magazine $magazine;
 
     public function __construct(User $user, Magazine $magazine)
     {
@@ -50,30 +50,6 @@ class MagazineSubscription
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(?Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
-
-        return $this;
     }
 
     public function __sleep()

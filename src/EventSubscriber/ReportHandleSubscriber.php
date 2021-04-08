@@ -2,19 +2,19 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Contracts\ReportInterface;
-use App\Entity\Report;
-use App\Event\EntryBeforePurgeEvent;
-use App\Event\EntryCommentBeforePurgeEvent;
-use App\Event\EntryCommentDeletedEvent;
-use App\Event\EntryDeletedEvent;
-use App\Event\PostBeforePurgeEvent;
-use App\Event\PostCommentBeforePurgeEvent;
-use App\Event\PostCommentDeletedEvent;
-use App\Event\PostDeletedEvent;
-use App\Repository\ReportRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use App\Event\EntryCommentBeforePurgeEvent;
+use App\Event\PostCommentBeforePurgeEvent;
+use App\Entity\Contracts\ReportInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Event\EntryCommentDeletedEvent;
+use App\Event\PostCommentDeletedEvent;
+use App\Repository\ReportRepository;
+use App\Event\EntryBeforePurgeEvent;
+use App\Event\PostBeforePurgeEvent;
+use App\Event\EntryDeletedEvent;
+use App\Event\PostDeletedEvent;
+use App\Entity\Report;
 
 class ReportHandleSubscriber implements EventSubscriberInterface
 {
@@ -48,7 +48,7 @@ class ReportHandleSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        $report->setStatus(Report::STATUS_APPROVED);
+        $report->status = Report::STATUS_APPROVED;
 
         // Notification for reporting, reported user
         // Reputation points for reporting user
@@ -58,13 +58,13 @@ class ReportHandleSubscriber implements EventSubscriberInterface
 
     public function onEntryDeleted(EntryDeletedEvent $event): void
     {
-        $this->handleReport($event->getEntry());
+        $this->handleReport($event->entry);
         $this->entityManager->flush();
     }
 
     public function onEntryBeforePurge(EntryBeforePurgeEvent $event): void
     {
-        $report = $this->handleReport($event->getEntry());
+        $report = $this->handleReport($event->entry);
         if (!$report) {
             return;
         }
@@ -75,37 +75,37 @@ class ReportHandleSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentDeleted(EntryCommentDeletedEvent $event): void
     {
-        $this->handleReport($event->getComment());
+        $this->handleReport($event->comment);
         $this->entityManager->flush();
     }
 
     public function onEntryCommentBeforePurge(EntryCommentBeforePurgeEvent $event): void
     {
-        $this->handleReport($event->getComment());
+        $this->handleReport($event->comment);
         $this->entityManager->flush();
     }
 
     public function onPostDeleted(PostDeletedEvent $event): void
     {
-        $this->handleReport($event->getPost());
+        $this->handleReport($event->post);
         $this->entityManager->flush();
     }
 
     public function onPostBeforePurge(PostBeforePurgeEvent $event): void
     {
-        $this->handleReport($event->getPost());
+        $this->handleReport($event->post);
         $this->entityManager->flush();
     }
 
     public function onPostCommentDeleted(PostCommentDeletedEvent $event): void
     {
-        $this->handleReport($event->getComment());
+        $this->handleReport($event->comment);
         $this->entityManager->flush();
     }
 
     public function onPostCommentBeforePurge(PostCommentBeforePurgeEvent $event): void
     {
-        $report = $this->handleReport($event->getComment());
+        $report = $this->handleReport($event->comment);
         if (!$report) {
             return;
         }

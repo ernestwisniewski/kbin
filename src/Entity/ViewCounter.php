@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use Tchoulom\ViewCounterBundle\Entity\ViewCounter as BaseViewCounter;
-use Doctrine\ORM\Mapping as ORM;
-use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Tchoulom\ViewCounterBundle\Entity\ViewCounterInterface;
+use Tchoulom\ViewCounterBundle\Model\ViewCountable;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="view_counter")
@@ -17,7 +17,7 @@ class ViewCounter extends BaseViewCounter
      * @ORM\ManyToOne(targetEntity="App\Entity\Entry", cascade={"persist"}, inversedBy="viewCounters")
      * @ORM\JoinColumn(nullable=true)
      */
-    private ViewCountable $entry;
+    public ViewCountable $entry;
 
     public function getPage(): ViewCountable
     {

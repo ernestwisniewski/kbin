@@ -2,21 +2,17 @@
 
 namespace App\Controller;
 
-use App\Event\EntryHasBeenSeenEvent;
-use App\PageView\EntryCommentPageView;
-use App\PageView\EntryPageView;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EntryCommentRepository;
 use Symfony\Component\Form\FormInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use App\PageView\EntryCommentPageView;
+use App\Event\EntryHasBeenSeenEvent;
 use App\Form\EntryArticleType;
 use App\Service\EntryManager;
-use App\Repository\Criteria;
 use App\Form\EntryLinkType;
 use App\Entity\Magazine;
 use App\DTO\EntryDto;
@@ -26,7 +22,6 @@ class EntryController extends AbstractController
 {
     public function __construct(
         private EntryManager $entryManager,
-        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -42,12 +37,9 @@ class EntryController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         Request $request
     ): Response {
-        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))
-            ->showEntry($entry);
-
-        if ($sortBy) {
-            $criteria->showSortOption($sortBy);
-        }
+        $criteria        = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria->entry = $entry;
+        $criteria->showSortOption($sortBy);
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -86,7 +78,7 @@ class EntryController extends AbstractController
             return $this->redirectToRoute(
                 'entry_single',
                 [
-                    'magazine_name' => $entry->magazine->getName(),
+                    'magazine_name' => $entry->magazine->name,
                     'entry_id'      => $entry->getId(),
                 ]
             );
@@ -121,7 +113,7 @@ class EntryController extends AbstractController
             return $this->redirectToRoute(
                 'entry_single',
                 [
-                    'magazine_name' => $magazine->getName(),
+                    'magazine_name' => $magazine->name,
                     'entry_id'      => $entry->getId(),
                 ]
             );
@@ -153,7 +145,7 @@ class EntryController extends AbstractController
         return $this->redirectToRoute(
             'front_magazine',
             [
-                'name' => $magazine->getName(),
+                'name' => $magazine->name,
             ]
         );
     }
@@ -174,7 +166,7 @@ class EntryController extends AbstractController
         return $this->redirectToRoute(
             'front_magazine',
             [
-                'name' => $magazine->getName(),
+                'name' => $magazine->name,
             ]
         );
     }

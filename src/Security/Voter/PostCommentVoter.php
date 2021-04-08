@@ -2,10 +2,12 @@
 
 namespace App\Security\Voter;
 
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\Entity\PostComment;
 use App\Entity\User;
+use function in_array;
 
 class PostCommentVoter extends Voter
 {
@@ -16,7 +18,7 @@ class PostCommentVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof PostComment && \in_array($attribute, [self::EDIT, self::DELETE, self::PURGE, self::VOTE], true);
+        return $subject instanceof PostComment && in_array($attribute, [self::EDIT, self::DELETE, self::PURGE, self::VOTE], true);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -32,17 +34,17 @@ class PostCommentVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
-            default => throw new \LogicException(),
+            default => throw new LogicException(),
         };
     }
 
     private function canEdit(PostComment $comment, User $user): bool
     {
-        if ($comment->getUser() === $user) {
+        if ($comment->user === $user) {
             return true;
         }
 
-        if ($comment->getPost()->getMagazine()->userIsModerator($user)) {
+        if ($comment->post->magazine->userIsModerator($user)) {
             return true;
         }
 
@@ -56,11 +58,11 @@ class PostCommentVoter extends Voter
 
     private function canDelete(PostComment $comment, User $user): bool
     {
-        if ($comment->getUser() === $user) {
+        if ($comment->user === $user) {
             return true;
         }
 
-        if ($comment->getPost()->getMagazine()->userIsModerator($user)) {
+        if ($comment->post->magazine->userIsModerator($user)) {
             return true;
         }
 
@@ -69,11 +71,11 @@ class PostCommentVoter extends Voter
 
     private function canVote(PostComment $comment, User $user): bool
     {
-        if ($comment->getUser() === $user) {
+        if ($comment->user === $user) {
             return false;
         }
 
-        if ($comment->getPost()->getMagazine()->isBanned($user)) {
+        if ($comment->post->magazine->isBanned($user)) {
             return false;
         }
 

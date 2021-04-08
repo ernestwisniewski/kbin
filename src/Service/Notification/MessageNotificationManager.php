@@ -2,16 +2,14 @@
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use App\Entity\Message;
-use App\Entity\MessageNotification;
-use App\Entity\Post;
-use App\Entity\PostNotification;
-use App\Entity\User;
-use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\PublisherInterface;
+use ApiPlatform\Core\Api\IriConverterInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\MessageNotification;
+use App\Factory\MagazineFactory;
+use App\Entity\Message;
+use App\Entity\User;
 
 class MessageNotificationManager
 {
@@ -28,7 +26,7 @@ class MessageNotificationManager
 
     public function send(Message $message, User $sender): void
     {
-        $thread        = $message->getThread();
+        $thread        = $message->thread;
         $usersToNotify = $thread->getOtherParticipants($sender);
 
         foreach ($usersToNotify as $subscriber) {

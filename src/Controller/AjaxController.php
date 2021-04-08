@@ -2,13 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
-use App\PageView\PostCommentPageView;
-use App\Repository\EntryRepository;
-use App\Repository\PostCommentRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Entry;
+use App\Repository\PostCommentRepository;
+use App\PageView\PostCommentPageView;
+use App\Entity\Post;
 use App\Utils\Embed;
 
 class AjaxController extends AbstractController
@@ -35,7 +33,8 @@ class AjaxController extends AbstractController
 
     public function fetchPostComments(Post $post, PostCommentRepository $commentRepository): JsonResponse
     {
-        $criteria = (new PostCommentPageView(1))->showPost($post);
+        $criteria       = (new PostCommentPageView(1));
+        $criteria->post = $post;
 
         $comments = $commentRepository->findByCriteria($criteria);
 

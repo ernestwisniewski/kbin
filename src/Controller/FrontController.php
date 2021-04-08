@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Pagerfanta\PagerfantaInterface;
 use App\Repository\EntryRepository;
 use App\PageView\EntryPageView;
@@ -19,21 +19,11 @@ class FrontController extends AbstractController
     public function front(?string $sortBy, ?string $time, Request $request): Response
     {
         $criteria = new EntryPageView((int) $request->get('strona', 1));
+        $criteria->setTime($criteria->translateTime($time));
+        $criteria->setType($criteria->translateType($request->get('typ', null)));
 
-        if ($time) {
-            $criteria->setTime($criteria->translateTime($time));
-        }
-
-        if ($type = $request->get('typ', null)) {
-            $criteria->setType($criteria->translateType($type));
-        }
-
-        if ($sortBy) {
-            $method  = $criteria->translateSort($sortBy);
-            $listing = $this->$method($criteria);
-        } else {
-            $listing = $this->active($criteria);
-        }
+        $method  = $criteria->translateSort($sortBy);
+        $listing = $this->$method($criteria);
 
         return $this->render(
             'front/front.html.twig',
@@ -48,24 +38,13 @@ class FrontController extends AbstractController
      */
     public function subscribed(?string $sortBy, ?string $time, Request $request): Response
     {
-        $criteria = new EntryPageView((int) $request->get('strona', 1));
+        $criteria             = new EntryPageView((int) $request->get('strona', 1));
+        $criteria->subscribed = true;
+        $criteria->setTime($criteria->translateTime($time));
+        $criteria->setType($criteria->translateType($request->get('typ', null)));
 
-        $criteria->showSubscribed();
-
-        if ($time) {
-            $criteria->setTime($criteria->translateTime($time));
-        }
-
-        if ($type = $request->get('typ', null)) {
-            $criteria->setType($criteria->translateType($type));
-        }
-
-        if ($sortBy) {
-            $method  = $criteria->translateSort($sortBy);
-            $listing = $this->$method($criteria);
-        } else {
-            $listing = $this->active($criteria);
-        }
+        $method  = $criteria->translateSort($sortBy);
+        $listing = $this->$method($criteria);
 
         return $this->render(
             'front/front.html.twig',
@@ -95,7 +74,7 @@ class FrontController extends AbstractController
         return $this->entryRepository->findByCriteria($criteria);
     }
 
-    private function commented(EntryPageView $criteria)
+    private function commented(EntryPageView $criteria): PagerfantaInterface
     {
         return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
     }

@@ -2,11 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Entry;
-use App\Entity\EntryReport;
-use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\EntryReport;
+use App\Entity\Report;
+use App\Entity\Entry;
 
 /**
  * @method EntryReport|null find($id, $lockMode = null, $lockVersion = null)

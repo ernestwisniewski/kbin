@@ -24,19 +24,19 @@ class Vote
     /**
      * @ORM\Column(type="integer")
      */
-    private int $choice;
+    public int $choice;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private User $user;
+    public User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private User $author;
+    public User $author;
 
     public function __construct(int $choice, User $user, User $author)
     {
@@ -50,29 +50,6 @@ class Vote
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getChoice(): ?int
-    {
-        return $this->choice;
-    }
-
-    public function setChoice(int $choice): self
-    {
-        $this->choice = $choice;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-
-    public function getAuthor(): User
-    {
-        return $this->author;
     }
 
     public function __sleep()

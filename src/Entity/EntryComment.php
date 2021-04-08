@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
-use App\Entity\Contracts\ContentInterface;
-use App\Entity\Contracts\ReportInterface;
-use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Traits\VisibilityTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Contracts\VisibilityInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\EntryCommentRepository;
+use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\VotableTrait;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Traversable;
 use Webmozart\Assert\Assert;
 
 /**
@@ -38,67 +38,67 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entryComments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private User $user;
+    public User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Entry::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private ?Entry $entry;
+    public ?Entry $entry;
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class)
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private ?Magazine $magazine;
+    public ?Magazine $magazine;
 
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?Image $image = null;
+    public ?Image $image = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="children")
      * @ORM\JoinColumn(onDelete="cascade")
      */
-    private ?EntryComment $parent;
+    public ?EntryComment $parent;
 
     /**
      * @ORM\ManyToOne(targetEntity="EntryComment")
      */
-    private ?EntryComment $root = null;
+    public ?EntryComment $root = null;
 
     /**
      * @ORM\Column(type="text", length=4500)
      */
-    private string $body;
+    public ?string $body;
 
     /**
      * @ORM\Column(type="datetimetz")
      */
-    private \DateTime $lastActive;
+    public DateTime $lastActive;
 
     /**
      * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="parent", orphanRemoval=true)
      */
-    private Collection $children;
+    public Collection $children;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryCommentVote::class, mappedBy="comment",
      *     fetch="EXTRA_LAZY", cascade={"persist"}, orphanRemoval=true))
      */
-    private Collection $votes;
+    public Collection $votes;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\EntryCommentReport", mappedBy="entryComment", cascade={"remove"}, orphanRemoval=true)
      */
-    private Collection $reports;
+    public Collection $reports;
 
     /**
      * @ORM\OneToMany(targetEntity="EntryCommentNotification", mappedBy="entryComment", cascade={"remove"}, orphanRemoval=true)
      */
-    private Collection $notifications;
+    public Collection $notifications;
 
     public function __construct(string $body, ?Entry $entry, User $user, ?EntryComment $parent = null)
     {
@@ -112,7 +112,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         $this->notifications = new ArrayCollection();
 
         if ($parent) {
-            $this->root = $parent->getRoot() ?? $parent;
+            $this->root = $parent->root ?? $parent;
         }
 
         $this->createdAtTraitConstruct();
@@ -124,98 +124,15 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         return $this->id;
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getEntry(): ?Entry
-    {
-        return $this->entry;
-    }
-
-    public function setEntry(?Entry $entry): self
-    {
-        $this->entry = $entry;
-
-        return $this;
-    }
-
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(?Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getParent(): ?EntryComment
-    {
-        return $this->parent;
-    }
-
-    public function getBody(): string
-    {
-        return $this->body;
-    }
-
-    public function setBody(string $body): self
-    {
-        $this->body = $body;
-
-        return $this;
-    }
-
-    public function getLastActive(): ?\DateTime
-    {
-        return $this->lastActive;
-    }
-
-    public function setLastActive(\DateTime $lastActive): self
-    {
-        $this->lastActive = $lastActive;
-
-        return $this;
-    }
-
     public function updateLastActive(): void
     {
-        $this->setLastActive(\DateTime::createFromImmutable($this->getCreatedAt()));
+        $this->lastActive = DateTime::createFromImmutable($this->createdAt);
 
-        $root = $this->getRoot();
-        if (!$root) {
+        if (!$this->root) {
             return;
         }
 
-        $root->setLastActive(\DateTime::createFromImmutable($this->getCreatedAt()));
-    }
-
-    public function getVotes(): Collection
-    {
-        return $this->votes;
+        $this->root->lastActive = DateTime::createFromImmutable($this->createdAt);
     }
 
     public function addVote(Vote $vote): self
@@ -236,7 +153,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
 
         if ($this->votes->removeElement($vote)) {
             // set the owning side to null (unless already changed)
-            if ($vote->getComment() === $this) {
+            if ($vote->comment === $this) {
                 $vote->setComment(null);
             }
         }
@@ -244,29 +161,12 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         return $this;
     }
 
-    public function getChildren(): Collection
-    {
-        return $this->children;
-    }
-
-    public function getChildrenRecursive(int &$startIndex = 0): \Traversable
+    public function getChildrenRecursive(int &$startIndex = 0): Traversable
     {
         foreach ($this->children as $child) {
             yield $startIndex++ => $child;
             yield from $child->getChildrenRecursive($startIndex);
         }
-    }
-
-    public function getRoot(): ?EntryComment
-    {
-        return $this->root;
-    }
-
-    public function setRoot(?EntryComment $root): self
-    {
-        $this->root = $root;
-
-        return $this;
     }
 
     public function softDelete(): void
@@ -286,12 +186,12 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
 
     public function isAuthor(User $user): bool
     {
-        return $user === $this->getUser();
+        return $user === $this->user;
     }
 
     public function getShortTitle(): string
     {
-        $body = $this->getBody();
+        $body = $this->body;
         preg_match('/^(.*)$/m', $body, $firstLine);
         $firstLine = $firstLine[0];
 
@@ -300,6 +200,16 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         }
 
         return grapheme_substr($firstLine, 0, 60).'…';
+    }
+
+    public function getMagazine(): ?Magazine
+    {
+        return $this->magazine;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
     }
 
     public function __sleep()

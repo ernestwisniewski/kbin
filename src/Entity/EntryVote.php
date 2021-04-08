@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -22,24 +22,12 @@ class EntryVote extends Vote
      * @ORM\JoinColumn(name="entry_id", nullable=false, onDelete="cascade")
      * @ORM\ManyToOne(targetEntity="Entry", inversedBy="votes")
      */
-    private ?Entry $entry;
+    public ?Entry $entry;
 
     public function __construct(int $choice, User $user, ?Entry $entry)
     {
         parent::__construct($choice, $user, $entry->user);
 
         $this->entry = $entry;
-    }
-
-    public function getEntry(): Entry
-    {
-        return $this->entry;
-    }
-
-    public function setEntry(?Entry $entry): self
-    {
-        $this->entry = $entry;
-
-        return $this;
     }
 }

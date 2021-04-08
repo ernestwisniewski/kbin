@@ -2,42 +2,32 @@
 
 namespace App\Controller;
 
-use App\DTO\PostDto;
-use App\Entity\Post;
-use App\Form\PostType;
-use App\PageView\PostCommentPageView;
-use App\PageView\PostPageView;
-use App\Repository\PostCommentRepository;
-use App\Repository\PostRepository;
-use App\Service\PostManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\PostCommentRepository;
+use App\PageView\PostCommentPageView;
+use App\Repository\PostRepository;
+use App\PageView\PostPageView;
+use App\Service\PostManager;
 use App\Entity\Magazine;
+use App\Form\PostType;
+use App\DTO\PostDto;
+use App\Entity\Post;
 
 class PostController extends AbstractController
 {
     public function __construct(
         private PostManager $postManager,
-        private EntityManagerInterface $entityManager
     ) {
     }
-
 
     public function front(?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
     {
         $criteria = (new PostPageView((int) $request->get('strona', 1)));
-
-        if ($sortBy) {
-            $criteria->showSortOption($sortBy);
-        }
-
-        if ($time) {
-            $criteria->setTime($criteria->translateTime($time));
-        }
+        $criteria->showSortOption($sortBy);
+        $criteria->setTime($criteria->translateTime($time));
 
         $posts = $postRepository->findByCriteria($criteria);
 
@@ -51,15 +41,10 @@ class PostController extends AbstractController
 
     public function subscribed(?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
     {
-        $criteria = (new PostPageView((int) $request->get('strona', 1)))->showSubscribed();
-
-        if ($sortBy) {
-            $criteria->showSortOption($sortBy);
-        }
-
-        if ($time) {
-            $criteria->setTime($criteria->translateTime($time));
-        }
+        $criteria             = (new PostPageView((int) $request->get('strona', 1)));
+        $criteria->subscribed = true;
+        $criteria->showSortOption($sortBy);
+        $criteria->setTime($criteria->translateTime($time));
 
         $posts = $postRepository->findByCriteria($criteria);
 
@@ -73,15 +58,10 @@ class PostController extends AbstractController
 
     public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
     {
-        $criteria = (new PostPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
-
-        if ($sortBy) {
-            $criteria->showSortOption($sortBy);
-        }
-
-        if ($time) {
-            $criteria->setTime($criteria->translateTime($time));
-        }
+        $criteria           = (new PostPageView((int) $request->get('strona', 1)));
+        $criteria->magazine = $magazine;
+        $criteria->showSortOption($sortBy);
+        $criteria->setTime($criteria->translateTime($time));
 
         $posts = $postRepository->findByCriteria($criteria);
 
@@ -100,7 +80,8 @@ class PostController extends AbstractController
      */
     public function single(Magazine $magazine, Post $post, PostCommentRepository $commentRepository, Request $request): Response
     {
-        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))->showPost($post);
+        $criteria       = (new PostCommentPageView((int) $request->get('strona', 1)));
+        $criteria->post = $post;
 
         return $this->render(
             'post/single.html.twig',
@@ -129,7 +110,7 @@ class PostController extends AbstractController
             return $this->redirectToRoute(
                 'post_single',
                 [
-                    'magazine_name' => $post->getMagazine()->getName(),
+                    'magazine_name' => $post->magazine->name,
                     'post_id'       => $post->getId(),
                 ]
             );
@@ -158,13 +139,14 @@ class PostController extends AbstractController
             return $this->redirectToRoute(
                 'post_single',
                 [
-                    'magazine_name' => $magazine->getName(),
+                    'magazine_name' => $magazine->name,
                     'post_id'       => $post->getId(),
                 ]
             );
         }
 
-        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))->showPost($post);
+        $criteria       = (new PostCommentPageView((int) $request->get('strona', 1)));
+        $criteria->post = $post;
 
         return $this->render(
             'post/edit.html.twig',
@@ -193,7 +175,7 @@ class PostController extends AbstractController
         return $this->redirectToRoute(
             'front_magazine',
             [
-                'name' => $magazine->getName(),
+                'name' => $magazine->name,
             ]
         );
     }
@@ -214,7 +196,7 @@ class PostController extends AbstractController
         return $this->redirectToRoute(
             'front_magazine',
             [
-                'name' => $magazine->getName(),
+                'name' => $magazine->name,
             ]
         );
     }

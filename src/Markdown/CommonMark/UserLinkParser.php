@@ -17,9 +17,12 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     public function getUrl(string $suffix): string
     {
-        return $this->urlGenerator->generate('user', [
-            'username' => $suffix,
-        ]);
+        return $this->urlGenerator->generate(
+            'user',
+            [
+                'username' => $suffix,
+            ]
+        );
     }
 
     public function getRegex(): string

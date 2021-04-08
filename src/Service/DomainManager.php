@@ -3,10 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Contracts\DomainInterface;
-use App\Entity\Domain;
-use App\Repository\DomainRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use App\Repository\DomainRepository;
+use App\Entity\Domain;
 
 class
 DomainManager
@@ -27,8 +26,8 @@ DomainManager
         $domain = $this->domainRepository->findOneByName($domainName);
 
         if (!$domain) {
-            $domain  = new Domain($subject, $domainName);
-            $subject = $subject->setDomain($domain);
+            $domain          = new Domain($subject, $domainName);
+            $subject->domain = $domain;
         } else {
             $domain->addEntry($subject);
             $domain->updateCounts();

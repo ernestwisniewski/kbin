@@ -2,6 +2,8 @@
 
 namespace App\Entity\Contracts;
 
+use DateTimeImmutable;
+
 interface RankingInterface
 {
     const DOWNVOTED_CUTOFF = -5;
@@ -21,5 +23,5 @@ interface RankingInterface
 
     public function getScore(): int;
 
-    public function getCreatedAt(): \DateTimeImmutable;
+    public function getCreatedAt(): DateTimeImmutable;
 }

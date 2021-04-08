@@ -13,18 +13,13 @@ class EntryCommentNotification extends Notification
     /**
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="notifications")
      */
-    private ?EntryComment $entryComment;
+    public ?EntryComment $entryComment;
 
     public function __construct(User $receiver, EntryComment $comment)
     {
         parent::__construct($receiver);
 
         $this->entryComment = $comment;
-    }
-
-    public function getEntryComment(): EntryComment
-    {
-        return $this->entryComment;
     }
 
     public function getSubject(): EntryComment

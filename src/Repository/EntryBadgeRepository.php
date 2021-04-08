@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\EntryBadge;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\EntryBadge;
 
 /**
  * @method EntryBadge|null find($id, $lockMode = null, $lockVersion = null)

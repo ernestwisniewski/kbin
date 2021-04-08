@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\UpdatedAtTrait;
-use App\Repository\MessageThreadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\MessageThreadRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Selectable;
+use App\Entity\Traits\UpdatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=MessageThreadRepository::class)
@@ -32,30 +33,25 @@ class MessageThread
      * })
      * @ORM\ManyToMany(targetEntity="User")
      */
-    private Collection $participants;
+    public Collection $participants;
 
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="thread",
      *     cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"createdAt": "DESC"})
      */
-    private Collection $messages;
+    public Collection $messages;
 
 
-    public function __construct(User ...$participants)
+    #[Pure] public function __construct(User ...$participants)
     {
-        $this->participants  = new ArrayCollection($participants);
-        $this->messages      = new ArrayCollection();
+        $this->participants = new ArrayCollection($participants);
+        $this->messages     = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
     }
 
     public function getOtherParticipants(User $self): array
@@ -70,11 +66,6 @@ class MessageThread
     public function userIsParticipant($user): bool
     {
         return $this->participants->contains($user);
-    }
-
-    public function getMessages(): Collection
-    {
-        return $this->messages;
     }
 
     public function getNewMessages(User $user): Collection
@@ -98,8 +89,8 @@ class MessageThread
     public function addMessage(Message $message): void
     {
         if (!$this->messages->contains($message)) {
-            if (!$this->userIsParticipant($message->getSender())) {
-                throw new \DomainException('Sender is not allowed to participate');
+            if (!$this->userIsParticipant($message->sender)) {
+                throw new DomainException('Sender is not allowed to participate');
             }
 
             $this->messages->add($message);
@@ -113,7 +104,7 @@ class MessageThread
 
     public function getTitle(): string
     {
-        $body      = $this->messages[0]->getBody();
+        $body      = $this->messages[0]->body;
         $firstLine = preg_replace('/^# |\R.*/', '', $body);
 
         if (grapheme_strlen($firstLine) <= 80) {

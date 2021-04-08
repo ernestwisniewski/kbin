@@ -2,11 +2,12 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Magazine;
-use App\Entity\Post;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Entity\Post;
 use App\Entity\User;
+use function in_array;
 
 class PostVoter extends Voter
 {
@@ -20,7 +21,7 @@ class PostVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof Post
-            && \in_array(
+            && in_array(
                 $attribute,
                 [self::CREATE, self::EDIT, self::DELETE, self::PURGE, self::COMMENT, self::VOTE],
                 true
@@ -41,17 +42,17 @@ class PostVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::COMMENT => $this->canComment($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
-            default => throw new \LogicException(),
+            default => throw new LogicException(),
         };
     }
 
     private function canEdit(Post $post, User $user): bool
     {
-        if ($post->getUser() === $user) {
+        if ($post->user === $user) {
             return true;
         }
 
-        if ($post->getMagazine()->userIsModerator($user)) {
+        if ($post->magazine->userIsModerator($user)) {
             return true;
         }
 
@@ -60,11 +61,11 @@ class PostVoter extends Voter
 
     private function canDelete(Post $post, User $user): bool
     {
-        if ($post->getUser() === $user) {
+        if ($post->user === $user) {
             return true;
         }
 
-        if ($post->getMagazine()->userIsModerator($user)) {
+        if ($post->magazine->userIsModerator($user)) {
             return true;
         }
 
@@ -78,16 +79,16 @@ class PostVoter extends Voter
 
     private function canComment(Post $post, User $user): bool
     {
-        return !$post->getMagazine()->isBanned($user);
+        return !$post->magazine->isBanned($user);
     }
 
     private function canVote(Post $post, User $user): bool
     {
-        if ($post->getUser() === $user) {
+        if ($post->user === $user) {
             return false;
         }
 
-        if ($post->getMagazine()->isBanned($user)) {
+        if ($post->magazine->isBanned($user)) {
             return false;
         }
 

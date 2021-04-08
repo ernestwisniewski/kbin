@@ -2,15 +2,10 @@
 
 namespace App\DataFixtures;
 
-use App\DTO\PostDto;
-use App\Service\PostManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Repository\ImageRepository;
-use App\Service\ImageManager;
-use App\Service\EntryManager;
-use App\DTO\EntryDto;
+use App\Service\PostManager;
+use App\DTO\PostDto;
 
 class PostFixtures extends BaseFixture implements DependentFixtureInterface
 {
@@ -18,9 +13,6 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
 
     public function __construct(
         private PostManager $postManager,
-        private ImageManager $imageManager,
-        private ImageRepository $imageRepository,
-        private EntityManagerInterface $entityManager
     ) {
     }
 

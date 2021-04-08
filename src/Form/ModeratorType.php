@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Form\DataTransformer\UserTransformer;
-use App\Repository\UserRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
+use App\Form\DataTransformer\UserTransformer;
 use Symfony\Component\Form\AbstractType;
+use App\Repository\UserRepository;
 use App\DTO\ModeratorDto;
 
 class ModeratorType extends AbstractType

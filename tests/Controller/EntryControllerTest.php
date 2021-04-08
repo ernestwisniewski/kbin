@@ -106,7 +106,7 @@ class EntryControllerTest extends WebTestCase
                 [
                     'entry_article[title]'    => 'zmieniona treść',
                     'entry_article[body]'     => 'zmieniona treść wpisu',
-                    'entry_article[magazine]' => $entry->getMagazine()->getId(),
+                    'entry_article[magazine]' => $entry->magazine->getId(),
                 ]
             )
         );

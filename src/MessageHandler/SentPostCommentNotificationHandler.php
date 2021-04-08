@@ -2,13 +2,10 @@
 
 namespace App\MessageHandler;
 
-use App\Message\EntryCommentNotificationMessage;
-use App\Message\EntryNotificationMessage;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Message\PostCommentNotificationMessage;
-use App\Repository\EntryCommentRepository;
 use App\Repository\PostCommentRepository;
 use App\Service\NotificationManager;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentPostCommentNotificationHandler implements MessageHandlerInterface
 {
@@ -20,7 +17,7 @@ class SentPostCommentNotificationHandler implements MessageHandlerInterface
 
     public function __invoke(PostCommentNotificationMessage $entryCreatedMessage)
     {
-        $comment = $this->commentRepository->find($entryCreatedMessage->getCommentId());
+        $comment = $this->commentRepository->find($entryCreatedMessage->commentId);
         if (!$comment) {
             return;
         }

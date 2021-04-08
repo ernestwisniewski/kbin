@@ -4,21 +4,17 @@ namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\DTO\EntryDto;
-use App\DTO\MagazineDto;
-use App\Factory\EntryFactory;
-use App\Factory\MagazineFactory;
-use App\PageView\EntryPageView;
 use App\Repository\EntryRepository;
-use App\Repository\MagazineRepository;
-use Symfony\Component\HttpFoundation\RequestStack;
+use App\PageView\EntryPageView;
+use App\Factory\EntryFactory;
+use App\DTO\EntryDto;
+use Exception;
 
 final class EntryCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
         private EntryRepository $entryRepository,
         private EntryFactory $entryFactory,
-        private RequestStack $request
     ) {
     }
 
@@ -32,7 +28,7 @@ final class EntryCollectionDataProvider implements ContextAwareCollectionDataPro
         try {
             $criteria = new EntryPageView(1);
             $entries  = $this->entryRepository->findByCriteria($criteria);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 

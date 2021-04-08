@@ -2,21 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\MagazineBlock;
-use App\Entity\MagazineSubscription;
-use App\Entity\Report;
-use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Pagerfanta\Doctrine\Collections\SelectableAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Magazine;
-use Pagerfanta\Doctrine\Collections\SelectableAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Pagerfanta\Exception\NotValidCurrentPageException;
-use Pagerfanta\Pagerfanta;
+use App\Entity\MagazineSubscription;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Entity\MagazineBlock;
+use Pagerfanta\Pagerfanta;
+use App\Entity\Magazine;
+use App\Entity\Report;
+use App\Entity\User;
 
 /**
  * @method Magazine|null find($id, $lockMode = null, $lockVersion = null)
@@ -108,7 +109,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $criteria = Criteria::create()->orderBy(['createdAt' => 'ASC']);
 
-        $moderators = new Pagerfanta(new SelectableAdapter($magazine->getModerators(), $criteria));
+        $moderators = new Pagerfanta(new SelectableAdapter($magazine->moderators, $criteria));
         $moderators->setMaxPerPage(self::PER_PAGE);
         $moderators->setCurrentPage($page);
 
@@ -119,7 +120,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $criteria = Criteria::create()->orderBy(['createdAt' => 'DESC']);
 
-        $moderators = new Pagerfanta(new SelectableAdapter($magazine->getLogs(), $criteria));
+        $moderators = new Pagerfanta(new SelectableAdapter($magazine->logs, $criteria));
         $moderators->setMaxPerPage(self::PER_PAGE);
         $moderators->setCurrentPage($page);
 
@@ -129,11 +130,11 @@ class MagazineRepository extends ServiceEntityRepository
     public function findBans(Magazine $magazine, ?int $page = 1): PagerfantaInterface
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
+            ->andWhere(Criteria::expr()->gt('expiredAt', new DateTime()))
             ->orWhere(Criteria::expr()->isNull('expiredAt'))
             ->orderBy(['createdAt' => 'DESC']);
 
-        $bans = new Pagerfanta(new SelectableAdapter($magazine->getBans(), $criteria));
+        $bans = new Pagerfanta(new SelectableAdapter($magazine->bans, $criteria));
         $bans->setMaxPerPage(self::PER_PAGE);
         $bans->setCurrentPage($page);
 
@@ -146,7 +147,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->andWhere(Criteria::expr()->eq('status', Report::STATUS_PENDING))
             ->orderBy(['weight' => 'ASC']);
 
-        $bans = new Pagerfanta(new SelectableAdapter($magazine->getReports(), $criteria));
+        $bans = new Pagerfanta(new SelectableAdapter($magazine->reports, $criteria));
         $bans->setMaxPerPage(self::PER_PAGE);
         $bans->setCurrentPage($page);
 
@@ -155,6 +156,6 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findBadges(Magazine $magazine): Collection
     {
-        return $magazine->getBadges();
+        return $magazine->badges;
     }
 }

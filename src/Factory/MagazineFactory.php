@@ -23,11 +23,11 @@ class MagazineFactory
     public function createDto(Magazine $magazine): MagazineDto
     {
         return (new MagazineDto())->create(
-            $magazine->getName(),
-            $magazine->getTitle(),
-            $magazine->getDescription(),
-            $magazine->getRules(),
-            $magazine->isAdult(),
+            $magazine->name,
+            $magazine->title,
+            $magazine->description,
+            $magazine->rules,
+            $magazine->isAdult,
             $magazine->getId()
         );
     }

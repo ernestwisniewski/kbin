@@ -2,8 +2,8 @@
 
 namespace App\Form\Constraint;
 
-use App\Service\ImageManager;
 use Symfony\Component\Validator\Constraints\Image;
+use App\Service\ImageManager;
 
 class ImageConstraint
 {

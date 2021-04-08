@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -38,7 +38,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             $this->addReference('entry_comment_'.$index, $entity);
             $manager->flush();
 
-            $roll = rand(0, 4);
+            $roll     = rand(0, 4);
             $children = [$entity];
             if ($roll) {
                 for ($i = 1; $i <= rand(0, 20); $i++) {
@@ -53,7 +53,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
     private function createChildren(EntryComment $parent): EntryComment
     {
         $dto = (new EntryCommentDto())->createWithParent(
-            $parent->getEntry(),
+            $parent->entry,
             $parent,
             null,
             $this->faker->paragraphs($this->faker->numberBetween(1, 3), true)

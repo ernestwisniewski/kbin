@@ -35,13 +35,13 @@ abstract class MagazineLog
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="Magazine", inversedBy="logs")
      */
-    private Magazine $magazine;
+    public Magazine $magazine;
 
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
      */
-    private User $user;
+    public User $user;
 
     public function __construct(Magazine $magazine, User $user)
     {
@@ -49,16 +49,6 @@ abstract class MagazineLog
         $this->user     = $user;
 
         $this->createdAtTraitConstruct();
-    }
-
-    public function getMagazine(): Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
     }
 
     abstract public function getSubject(): ContentInterface|null;

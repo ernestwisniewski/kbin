@@ -2,22 +2,22 @@
 
 namespace App\Controller;
 
-use App\Form\UserType;
-use App\PageView\PostCommentPageView;
-use App\PageView\PostPageView;
-use App\Repository\EntryCommentRepository;
-use App\Repository\MagazineRepository;
-use App\Repository\PostCommentRepository;
-use App\Repository\PostRepository;
-use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\EntryCommentRepository;
+use App\Repository\PostCommentRepository;
+use App\Repository\MagazineRepository;
 use App\PageView\EntryCommentPageView;
-use App\PageView\EntryPageView;
+use App\PageView\PostCommentPageView;
 use App\Repository\EntryRepository;
+use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use App\PageView\EntryPageView;
+use App\PageView\PostPageView;
+use App\Service\UserManager;
+use App\Form\UserType;
 use App\Entity\User;
 
 class UserController extends AbstractController
@@ -35,7 +35,8 @@ class UserController extends AbstractController
 
     public function entries(User $user, Request $request, EntryRepository $entryRepository): Response
     {
-        $criteria = (new EntryPageView((int) $request->get('strona', 1)))->showUser($user);
+        $criteria       = (new EntryPageView((int) $request->get('strona', 1)));
+        $criteria->user = $user;
 
         return $this->render(
             'user/entries.html.twig',
@@ -48,7 +49,9 @@ class UserController extends AbstractController
 
     public function comments(User $user, Request $request, EntryCommentRepository $commentRepository): Response
     {
-        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))->showUser($user)->showOnlyParents(false);
+        $criteria              = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria->user        = $user;
+        $criteria->onlyParents = false;
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -66,7 +69,8 @@ class UserController extends AbstractController
 
     public function posts(User $user, Request $request, PostRepository $postRepository): Response
     {
-        $criteria = (new PostPageView((int) $request->get('strona', 1)))->showUser($user);
+        $criteria       = (new PostPageView((int) $request->get('strona', 1)));
+        $criteria->user = $user;
 
         $posts = $postRepository->findByCriteria($criteria);
 
@@ -81,7 +85,8 @@ class UserController extends AbstractController
 
     public function replies(User $user, Request $request, PostCommentRepository $commentRepository): Response
     {
-        $criteria = (new PostCommentPageView((int) $request->get('strona', 1)))->showUser($user);
+        $criteria       = (new PostCommentPageView((int) $request->get('strona', 1)));
+        $criteria->user = $user;
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -146,7 +151,7 @@ class UserController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount'     => $following->getFollowersCount(),
+                    'subCount'     => $following->followersCount,
                     'isSubscribed' => true,
                 ]
             );
@@ -168,7 +173,7 @@ class UserController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount'     => $following->getFollowersCount(),
+                    'subCount'     => $following->followersCount,
                     'isSubscribed' => false,
                 ]
             );

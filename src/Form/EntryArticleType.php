@@ -2,18 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\Magazine;
-use App\Form\EventListener\DisableFieldsOnEntryEdit;
-use App\Form\Type\BadgesType;
-use Doctrine\DBAL\Types\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\EventListener\DisableFieldsOnEntryEdit;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
+use App\Form\Type\BadgesType;
+use App\Entity\Magazine;
 use App\DTO\EntryDto;
 
 class EntryArticleType extends AbstractType
@@ -23,9 +21,13 @@ class EntryArticleType extends AbstractType
         $builder
             ->add('title', TextareaType::class)
             ->add('body', TextareaType::class)
-            ->add('badges', BadgesType::class, [
-                'label' => 'Etykiety'
-            ])
+            ->add(
+                'badges',
+                BadgesType::class,
+                [
+                    'label' => 'Etykiety',
+                ]
+            )
             ->add(
                 'magazine',
                 EntityType::class,

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Event;
 
@@ -6,12 +6,7 @@ use App\Entity\Entry;
 
 class EntryHasBeenSeenEvent
 {
-    public function __construct(private Entry $entry)
+    public function __construct(public Entry $entry)
     {
-    }
-
-    public function getEntry(): Entry
-    {
-        return $this->entry;
     }
 }

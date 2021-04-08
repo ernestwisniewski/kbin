@@ -2,12 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\MessageThread;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
+use App\Entity\User;
 
 /**
  * @method MessageThread|null find($id, $lockMode = null, $lockVersion = null)
