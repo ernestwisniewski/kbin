@@ -84,9 +84,9 @@ class UserManager
 
     public function create(RegisterUserDto $dto): User
     {
-        $user = new User($dto->getEmail(), $dto->getUsername(), '');
+        $user = new User($dto->email, $dto->username, '');
 
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->getPlainPassword()));
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->plainPassword));
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -98,17 +98,17 @@ class UserManager
 
     public function edit(User $user, UserDto $dto): User
     {
-        if ($dto->getAvatar()) {
-            $user->setAvatar($dto->getAvatar());
+        if ($dto->avatar) {
+            $user->setAvatar($dto->avatar);
         }
 
-        if ($dto->getPlainPassword()) {
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->getPlainPassword()));
+        if ($dto->plainPassword) {
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->plainPassword));
         }
 
-        if ($dto->getEmail() !== $user->getEmail()) {
+        if ($dto->email !== $user->getEmail()) {
             $user->setIsVerified(false);
-            $user->setEmail($dto->getEmail());
+            $user->setEmail($dto->email);
 
             $this->entityManager->flush();
 
@@ -125,8 +125,8 @@ class UserManager
         $dto = new UserDto();
 
         $dto->setId($user->getId());
-        $dto->setUsername($user->getUsername());
-        $dto->setEmail($user->getEmail());
+        $dto->username = $user->getUsername();
+        $dto->email = $user->getEmail();
 
         return $dto;
     }

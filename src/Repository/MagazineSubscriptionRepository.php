@@ -31,8 +31,8 @@ class MagazineSubscriptionRepository extends ServiceEntityRepository
             ->where('u.notifyOnNewEntry = true')
             ->andWhere('ms.magazine = :magazine')
             ->andWhere('u != :user')
-            ->setParameter('magazine', $entry->getMagazine())
-            ->setParameter('user', $entry->getUser())
+            ->setParameter('magazine', $entry->magazine)
+            ->setParameter('user', $entry->user)
             ->getQuery()
             ->getResult();
     }

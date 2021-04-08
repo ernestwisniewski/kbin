@@ -23,22 +23,22 @@ trait VotableTrait
 
     public function getUpVotes(): Collection
     {
-        $this->getVotes()->get(-1);
+        $this->votes->get(-1);
 
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('choice', self::VOTE_UP));
 
-        return $this->getVotes()->matching($criteria);
+        return $this->votes->matching($criteria);
     }
 
     public function getDownVotes(): Collection
     {
-        $this->getVotes()->get(-1);
+        $this->votes->get(-1);
 
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('choice', self::VOTE_DOWN));
 
-        return $this->getVotes()->matching($criteria);
+        return $this->votes->matching($criteria);
     }
 
     public function countUpVotes(): int
@@ -68,7 +68,7 @@ trait VotableTrait
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('user', $user));
 
-        return $this->getVotes()->matching($criteria)->first() ?: null;
+        return $this->votes->matching($criteria)->first() ?: null;
     }
 
     public function updateVoteCounts(): self

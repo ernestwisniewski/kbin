@@ -27,11 +27,8 @@ class EntryManager implements ContentManager
 {
     public function __construct(
         private EntryFactory $entryFactory,
-        private EntryRepository $entryRepository,
         private EventDispatcherInterface $eventDispatcher,
         private Security $security,
-        private HttpClientInterface $client,
-        private Kernel $kernel,
         private BadgeManager $badgeManager,
         private UrlCleaner $urlCleaner,
         private EntityManagerInterface $entityManager
@@ -41,26 +38,26 @@ class EntryManager implements ContentManager
     public function create(EntryDto $entryDto, User $user): Entry
     {
         // @todo
-        if ($this->security->getUser() && !$this->security->isGranted('create_content', $entryDto->getMagazine())) {
+        if ($this->security->getUser() && !$this->security->isGranted('create_content', $entryDto->magazine)) {
             throw new AccessDeniedHttpException();
         }
 
-        if ($entryDto->getUrl()) {
-            $entryDto->setUrl(($this->urlCleaner)($entryDto->getUrl()));
-            $this->validateUrl($entryDto->getUrl());
+        if ($entryDto->url) {
+            $entryDto->url = ($this->urlCleaner)($entryDto->url);
+            $this->validateUrl($entryDto->url);
         }
 
         $entry    = $this->entryFactory->createFromDto($entryDto, $user);
-        $magazine = $entry->getMagazine();
+        $magazine = $entry->magazine;
 
         $this->assertType($entry);
 
-        if ($entry->getUrl()) {
-            $entry->setType(Entry::ENTRY_TYPE_LINK);
+        if ($entry->url) {
+            $entry->type = Entry::ENTRY_TYPE_LINK;
         }
 
-        if ($entryDto->getBadges()) {
-            $this->badgeManager->assign($entry, $entryDto->getBadges());
+        if ($entryDto->badges) {
+            $this->badgeManager->assign($entry, $entryDto->badges);
         }
 
         $magazine->addEntry($entry);
@@ -75,26 +72,26 @@ class EntryManager implements ContentManager
 
     public function edit(Entry $entry, EntryDto $entryDto): Entry
     {
-        Assert::same($entry->getMagazine()->getId(), $entryDto->getMagazine()->getId());
+        Assert::same($entry->magazine->getId(), $entryDto->magazine->getId());
 
-        $entry->setTitle($entryDto->getTitle());
-        $entry->setUrl($entryDto->getUrl());
-        $entry->setBody($entryDto->getBody());
-        $entry->setIsAdult($entryDto->isAdult());
+        $entry->title   = $entryDto->title;
+        $entry->url     = $entryDto->url;
+        $entry->body    = $entryDto->body;
+        $entry->isAdult = $entryDto->isAdult;
 
-        if ($entryDto->getImage()) {
-            $entry->setImage($entryDto->getImage());
+        if ($entryDto->image) {
+            $entry->image = $entryDto->image;
         }
 
-        if ($entry->getUrl()) {
-            $entry->setType(Entry::ENTRY_TYPE_LINK);
+        if ($entry->url) {
+            $entry->type = Entry::ENTRY_TYPE_LINK;
         }
 
-        if ($entryDto->getBadges()) {
-            $this->badgeManager->assign($entry, $entryDto->getBadges());
+        if ($entryDto->badges) {
+            $this->badgeManager->assign($entry, $entryDto->badges);
         }
 
-        $this->badgeManager->assign($entry, $entryDto->getBadges());
+        $this->badgeManager->assign($entry, $entryDto->badges);
 
         $this->assertType($entry);
 
@@ -118,7 +115,7 @@ class EntryManager implements ContentManager
     {
         $this->eventDispatcher->dispatch((new EntryBeforePurgeEvent($entry)));
 
-        $entry->getMagazine()->removeEntry($entry);
+        $entry->magazine->removeEntry($entry);
 
         $this->entityManager->remove($entry);
         $this->entityManager->flush();
@@ -126,7 +123,7 @@ class EntryManager implements ContentManager
 
     public function pin(Entry $entry): Entry
     {
-        $entry->setSticky(!$entry->isSticky());
+        $entry->sticky = !$entry->sticky;
 
         $this->entityManager->flush();
 
@@ -142,10 +139,10 @@ class EntryManager implements ContentManager
 
     private function assertType(Entry $entry): void
     {
-        if ($entry->getUrl()) {
-            Assert::null($entry->getBody());
+        if ($entry->url) {
+            Assert::null($entry->body);
         } else {
-            Assert::null($entry->getUrl());
+            Assert::null($entry->url);
         }
     }
 

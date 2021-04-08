@@ -25,18 +25,18 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
     public function __invoke(EntryEmbedMessage $entryCreatedMessage)
     {
         $entry = $this->entryRepository->find($entryCreatedMessage->getEntryId());
-        if (!$entry || !$entry->getUrl()) {
+        if (!$entry || !$entry->url) {
             return;
         }
 
-        $embed = $this->embed->fetch($entry->getUrl());
+        $embed = $this->embed->fetch($entry->url);
 
         $cover    = null;
         $tempFile = null;
         if ($embed->getImage()) {
             $tempFile = $this->fetchImage($embed->getImage());
         } elseif ($embed->isImageUrl()) {
-            $tempFile = $this->fetchImage($entry->getUrl());
+            $tempFile = $this->fetchImage($entry->url);
         }
 
         if ($tempFile) {
@@ -53,9 +53,9 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
 
         $this->entityManager->transactional(
             static function () use ($entry, $cover, $html, $isImage, $type): void {
-                $entry->setType($type);
-                $entry->setHasEmbed($html || $isImage);
-                $entry->setImage($cover);
+                $entry->type     = $type;
+                $entry->hasEmbed = $html || $isImage;
+                $entry->image    = $cover;
             }
         );
     }

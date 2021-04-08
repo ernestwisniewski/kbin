@@ -11,10 +11,10 @@ class EntryCommentFactory
     public function createFromDto(EntryCommentDto $commentDto, User $user): EntryComment
     {
         return new EntryComment(
-            $commentDto->getBody(),
-            $commentDto->getEntry(),
+            $commentDto->body,
+            $commentDto->entry,
             $user,
-            $commentDto->getParent()
+            $commentDto->parent
         );
     }
 

@@ -18,7 +18,7 @@ class EntryReport extends Report
 
     public function __construct(User $reporting, User $reported, Entry $entry, ?string $reason = null)
     {
-        parent::__construct($reporting, $reported, $entry->getMagazine(), $reason);
+        parent::__construct($reporting, $reported, $entry->magazine, $reason);
 
         $this->entry = $entry;
     }

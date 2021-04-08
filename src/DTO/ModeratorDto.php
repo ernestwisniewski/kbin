@@ -13,35 +13,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ModeratorDto
 {
-    private Magazine $magazine;
-
+    public Magazine $magazine;
     /**
      * @Assert\NotBlank()
      */
-    private ?User $user = null;
+    public ?User $user = null;
 
     public function __construct(Magazine $magazine)
     {
         $this->magazine = $magazine;
-    }
-
-    public function getMagazine(): Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(Magazine $magazine): void
-    {
-        $this->magazine = $magazine;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): void
-    {
-        $this->user = $user;
     }
 }

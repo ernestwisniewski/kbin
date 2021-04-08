@@ -17,14 +17,10 @@ use App\Entity\User;
 class ReportDto
 {
     private ?int $id = null;
-
-    private ?Magazine $magazine = null;
-
-    private ?User $reported = null;
-
-    private ReportInterface $subject;
-
-    private ?string $reason = null;
+    public ?Magazine $magazine = null;
+    public ?User $reported = null;
+    public ReportInterface $subject;
+    public ?string $reason = null;
 
     public function create(ReportInterface $subject, ?string $reason = null, ?int $id = null): self
     {
@@ -43,33 +39,10 @@ class ReportDto
         return $this->id;
     }
 
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function getReported(): ?User
-    {
-        return $this->reported;
-    }
-
     public function getSubject(): ReportInterface
     {
         return $this->subject;
     }
-
-    public function getReason(): ?string
-    {
-        return $this->reason;
-    }
-
-    public function setReason(?string $reason): ReportDto
-    {
-        $this->reason = $reason;
-
-        return $this;
-    }
-
 
     public function getRouteName(): string
     {

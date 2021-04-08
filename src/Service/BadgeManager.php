@@ -19,7 +19,7 @@ class BadgeManager
 
     public function create(BadgeDto $dto): Badge
     {
-        $badge = new Badge($dto->getMagazine(), $dto->getName());
+        $badge = new Badge($dto->magazine, $dto->name);
 
         $this->entityManager->persist($badge);
         $this->entityManager->flush();
@@ -29,9 +29,9 @@ class BadgeManager
 
     public function edit(Badge $badge, BadgeDto $dto): Badge
     {
-        Assert::same($badge->getMagazine()->getId(), $badge->getMagazine()->getId());
+        Assert::same($badge->magazine->getId(), $badge->magazine->getId());
 
-        $badge->setName($dto->getName());
+        $badge->name = $dto->name;
 
         $this->entityManager->persist($badge);
         $this->entityManager->flush();
@@ -52,9 +52,9 @@ class BadgeManager
 
     public function assign(Entry $entry, Collection $badges): Entry
     {
-        $badges = $entry->getMagazine()->getBadges()->filter(
+        $badges = $entry->magazine->getBadges()->filter(
             static function (Badge $badge) use ($badges) {
-                return $badges->contains($badge->getName());
+                return $badges->contains($badge->name);
             }
         );
 

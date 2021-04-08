@@ -13,12 +13,10 @@ use App\Entity\Entry;
 class EntryDto
 {
     private ?int $id = null;
-
     /**
      * @Assert\NotBlank()
      */
-    private ?Magazine $magazine = null;
-
+    public ?Magazine $magazine = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -26,26 +24,21 @@ class EntryDto
      *     max = 255
      * )
      */
-    private string $title;
-
+    public string $title;
     /**
      * @Assert\Url
      */
-    private ?string $url = null;
-
+    public ?string $url = null;
     /**
      * @Assert\Length(
      *     min = 3,
      *     max = 15000
      * )
      */
-    private ?string $body = null;
-
-    private ?Image $image = null;
-
-    private ?bool $isAdult = false;
-
-    private ?Collection $badges = null;
+    public ?string $body = null;
+    public ?Image $image = null;
+    public ?bool $isAdult = false;
+    public ?Collection $badges = null;
 
     public function create(
         Magazine $magazine,
@@ -74,7 +67,7 @@ class EntryDto
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if (null === $this->getBody() && null === $this->getUrl()) {
+        if (null === $this->body && null === $this->url) {
             $this->buildViolation($context, 'url');
             $this->buildViolation($context, 'body');
         }
@@ -94,84 +87,10 @@ class EntryDto
 
     public function getType(): string
     {
-        if ($this->getBody()) {
+        if ($this->body) {
             return Entry::ENTRY_TYPE_ARTICLE;
         }
 
         return Entry::ENTRY_TYPE_LINK;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(Magazine $magazine): void
-    {
-        $this->magazine = $magazine;
-    }
-
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    public function getUrl(): ?string
-    {
-        return $this->url;
-    }
-
-    public function setUrl(?string $url): void
-    {
-        $this->url = $url;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setBody(?string $body): void
-    {
-        $this->body = $body;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): void
-    {
-        $this->image = $image;
-    }
-
-    public function isAdult(): bool
-    {
-        return $this->isAdult;
-    }
-
-    public function setIsAdult(bool $isAdult): self
-    {
-        $this->isAdult = $isAdult;
-
-        return $this;
-    }
-
-    public function getBadges(): ?Collection
-    {
-        return $this->badges;
-    }
-
-    public function setBadges(?Collection $badges): EntryDto
-    {
-        $this->badges = $badges;
-
-        return $this;
     }
 }

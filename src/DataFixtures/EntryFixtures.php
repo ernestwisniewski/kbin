@@ -41,7 +41,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
                 $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
                 $image    = $this->imageRepository->findOrCreateFromPath($tempFile);
 
-                $entity->setImage($image);
+                $entity->image = $image;
                 $this->entityManager->flush();
             }
 

@@ -29,7 +29,7 @@ class MessageManager
 
     public function toMessage(MessageDto $dto, MessageThread $thread, User $sender): Message
     {
-        $message = new Message($thread, $sender, $dto->getBody());
+        $message = new Message($thread, $sender, $dto->body);
 
         $thread->setUpdatedAt();
 

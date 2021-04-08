@@ -36,8 +36,8 @@ class PostCommentManager implements ContentManager
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
         $comment->getPost()->addComment($comment);
-        $comment->setMagazine($commentDto->getPost()->getMagazine());
-        if ($commentDto->getImage()) {
+        $comment->setMagazine($commentDto->post->getMagazine());
+        if ($commentDto->image) {
             $comment->setImage($commentDto->getImage());
         }
 
@@ -51,11 +51,11 @@ class PostCommentManager implements ContentManager
 
     public function edit(PostComment $comment, PostCommentDto $commentDto): PostComment
     {
-        Assert::same($comment->getPost()->getId(), $commentDto->getPost()->getId());
+        Assert::same($comment->getPost()->getId(), $commentDto->post->getId());
 
-        $comment->setBody($commentDto->getBody());
-        if ($commentDto->getImage()) {
-            $comment->setImage($commentDto->getImage());
+        $comment->setBody($commentDto->body);
+        if ($commentDto->image) {
+            $comment->setImage($commentDto->image);
         }
 
         $this->entityManager->flush();

@@ -13,12 +13,10 @@ use App\Validator\Unique;
 class RegisterUserDto implements UserDtoInterface
 {
     private ?int $id = null;
-
     /**
      * @Assert\NotBlank()
      */
-    private ?string $username = null;
-
+    public ?string $username = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
@@ -27,8 +25,7 @@ class RegisterUserDto implements UserDtoInterface
      *     max=35
      * )
      */
-    private ?string $email = null;
-
+    public ?string $email = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -38,56 +35,14 @@ class RegisterUserDto implements UserDtoInterface
      *     maxMessage="Hasło powinno mieć nie więcej niż {{ limit }} znaków."
      * )
      */
-    private ?string $plainPassword;
-
+    public ?string $plainPassword;
     /**
      * @Assert\IsTrue()
      */
-    private ?bool $agreeTerms;
+    public ?bool $agreeTerms;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?string $username): void
-    {
-        $this->username = $username;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): void
-    {
-        $this->email = $email;
-    }
-
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-
-    public function setPlainPassword(?string $plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
-    }
-
-    public function getAgreeTerms(): ?bool
-    {
-        return $this->agreeTerms;
-    }
-
-    public function setAgreeTerms(?bool $agreeTerms): void
-    {
-        $this->agreeTerms = $agreeTerms;
     }
 }

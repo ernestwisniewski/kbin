@@ -12,25 +12,25 @@ class EntryFactory
     public function createFromDto(EntryDto $entryDto, User $user): Entry
     {
         return new Entry(
-            $entryDto->getTitle(),
-            $entryDto->getUrl(),
-            $entryDto->getBody(),
-            $entryDto->getMagazine(),
+            $entryDto->title,
+            $entryDto->url,
+            $entryDto->body,
+            $entryDto->magazine,
             $user,
-            $entryDto->isAdult(),
+            $entryDto->isAdult,
         );
     }
 
     public function createDto(Entry $entry): EntryDto
     {
         return (new EntryDto())->create(
-            $entry->getMagazine(),
-            $entry->getTitle(),
-            $entry->getUrl(),
-            $entry->getBody(),
+            $entry->magazine,
+            $entry->title,
+            $entry->url,
+            $entry->body,
             null,
-            $entry->isAdult(),
-            $entry->getBadges(),
+            $entry->isAdult,
+            $entry->badges,
             $entry->getId()
         );
     }

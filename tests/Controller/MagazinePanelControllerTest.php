@@ -124,7 +124,7 @@ class MagazinePanelControllerTest extends WebTestCase
         $this->getEntryByTitle('testowa treść', null, 'test', $magazine, $user3);
 
         $moderatorDto = new ModeratorDto($magazine);
-        $moderatorDto->setUser($user2);
+        $moderatorDto->user = $user2;
 
         $manager->addModerator($moderatorDto);
 

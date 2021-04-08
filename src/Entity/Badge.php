@@ -22,17 +22,17 @@ class Badge
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="badges")
      * @ORM\JoinColumn(onDelete="cascade")
      */
-    private Magazine $magazine;
+    public Magazine $magazine;
 
     /**
      * @ORM\OneToMany(targetEntity="EntryBadge", mappedBy="badge", cascade={"remove"}, orphanRemoval=true)
      */
-    protected Collection $badges;
+    public Collection $badges;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $name;
+    public ?string $name;
 
     public function __construct(Magazine $magazine, string $name)
     {
@@ -43,28 +43,6 @@ class Badge
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getBadges(): Collection
-    {
-        return $this->badges;
     }
 
     public function countBadges(): int

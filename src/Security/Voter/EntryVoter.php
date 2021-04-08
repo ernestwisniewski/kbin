@@ -48,11 +48,11 @@ class EntryVoter extends Voter
 
     private function canEdit(Entry $entry, User $user): bool
     {
-        if ($entry->getUser() === $user) {
+        if ($entry->user === $user) {
             return true;
         }
 
-        if ($entry->getMagazine()->userIsModerator($user)) {
+        if ($entry->magazine->userIsModerator($user)) {
             return true;
         }
 
@@ -61,11 +61,11 @@ class EntryVoter extends Voter
 
     private function canDelete(Entry $entry, User $user): bool
     {
-        if ($entry->getUser() === $user) {
+        if ($entry->user === $user) {
             return true;
         }
 
-        if ($entry->getMagazine()->userIsModerator($user)) {
+        if ($entry->magazine->userIsModerator($user)) {
             return true;
         }
 
@@ -79,16 +79,16 @@ class EntryVoter extends Voter
 
     private function canComment(Entry $entry, User $user): bool
     {
-        return !$entry->getMagazine()->isBanned($user);
+        return !$entry->magazine->isBanned($user);
     }
 
     private function canVote(Entry $entry, User $user): bool
     {
-        if ($entry->getUser() === $user) {
+        if ($entry->user === $user) {
             return false;
         }
 
-        if ($entry->getMagazine()->isBanned($user)) {
+        if ($entry->magazine->isBanned($user)) {
             return false;
         }
 

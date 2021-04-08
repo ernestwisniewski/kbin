@@ -36,10 +36,10 @@ class EntryCommentManager implements ContentManager
         $comment = $this->commentFactory->createFromDto($commentDto, $user);
 
         $comment->getEntry()->addComment($comment);
-        $comment->setMagazine($commentDto->getEntry()->getMagazine());
+        $comment->setMagazine($commentDto->entry->magazine);
 
-        if ($commentDto->getImage()) {
-            $comment->setImage($commentDto->getImage());
+        if ($commentDto->image) {
+            $comment->setImage($commentDto->image);
         }
 
         $this->entityManager->persist($comment);
@@ -52,11 +52,11 @@ class EntryCommentManager implements ContentManager
 
     public function edit(EntryComment $comment, EntryCommentDto $commentDto): EntryComment
     {
-        Assert::same($comment->getEntry()->getId(), $commentDto->getEntry()->getId());
+        Assert::same($comment->getEntry()->getId(), $commentDto->entry->getId());
 
-        $comment->setBody($commentDto->getBody());
-        if ($commentDto->getImage()) {
-            $comment->setImage($commentDto->getImage());
+        $comment->setBody($commentDto->body);
+        if ($commentDto->image) {
+            $comment->setImage($commentDto->image);
         }
 
         $this->entityManager->flush();

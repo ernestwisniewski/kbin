@@ -119,7 +119,7 @@ abstract class WebTestCase extends BaseWebTestCase
     ): Entry {
         $entry = $this->entries->filter(
             static function (Entry $entry) use ($title) {
-                return $entry->getTitle() === $title;
+                return $entry->title === $title;
             }
         )->first();
 

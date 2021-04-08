@@ -307,7 +307,7 @@ class User implements UserInterface
 
     public function addEntry(Entry $entry): self
     {
-        if ($entry->getUser() !== $this) {
+        if ($entry->user !== $this) {
             throw new \DomainException('Entry must belong to user');
         }
 
@@ -651,7 +651,7 @@ class User implements UserInterface
 
         // todo query
         foreach ($this->entries as $entry) {
-            $views += $entry->getViews();
+            $views += $entry->views;
         }
 
         return $views;
