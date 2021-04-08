@@ -1,8 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
+use function strlen;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -23,27 +25,27 @@ class Image
     /**
      * @ORM\Column(type="string")
      */
-    private string $filePath;
+    public string $filePath;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $fileName;
+    public string $fileName;
 
     /**
      * @ORM\Column(type="binary", length=32)
      */
-    private $sha256;
+    public $sha256;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $width;
+    public ?int $width;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $height;
+    public ?int $height;
 
     public function __construct(string $fileName, string $filePath, string $sha256, ?int $width, ?int $height)
     {
@@ -51,14 +53,14 @@ class Image
         $this->fileName = $fileName;
 
         error_clear_last();
-        if (\strlen($sha256) === 64) {
+        if (strlen($sha256) === 64) {
             $sha256 = @hex2bin($sha256);
 
             if ($sha256 === false) {
-                throw new \InvalidArgumentException(error_get_last()['message']);
+                throw new InvalidArgumentException(error_get_last()['message']);
             }
-        } elseif (\strlen($sha256) !== 32) {
-            throw new \InvalidArgumentException(
+        } elseif (strlen($sha256) !== 32) {
+            throw new InvalidArgumentException(
                 '$sha256 must be a SHA256 hash in raw or binary form'
             );
         }
@@ -67,22 +69,12 @@ class Image
         $this->setDimensions($width, $height);
     }
 
-    public function __toString(): string
-    {
-        return $this->fileName;
-    }
-
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getFilePath(): string
-    {
-        return $this->filePath;
-    }
-
-    public function getFileName(): string
+    public function __toString(): string
     {
         return $this->fileName;
     }
@@ -92,31 +84,21 @@ class Image
         return bin2hex($this->sha256);
     }
 
-    public function getWidth(): ?int
-    {
-        return $this->width;
-    }
-
-    public function getHeight(): ?int
-    {
-        return $this->height;
-    }
-
     public function setDimensions(?int $width, ?int $height): void
     {
         if ($width !== null && $width <= 0) {
-            throw new \InvalidArgumentException('$width must be NULL or >0');
+            throw new InvalidArgumentException('$width must be NULL or >0');
         }
 
         if ($height !== null && $height <= 0) {
-            throw new \InvalidArgumentException('$height must be NULL or >0');
+            throw new InvalidArgumentException('$height must be NULL or >0');
         }
 
         if (($width && $height) || (!$width && !$height)) {
             $this->width  = $width;
             $this->height = $height;
         } else {
-            throw new \InvalidArgumentException('$width and $height must both be set or NULL');
+            throw new InvalidArgumentException('$width and $height must both be set or NULL');
         }
     }
 

@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\DTO\ReportDto;
-use App\Entity\Contracts\ReportInterface;
-use App\Form\ReportType;
-use App\Service\ReportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Contracts\ReportInterface;
+use App\Service\ReportManager;
+use App\Form\ReportType;
+use App\DTO\ReportDto;
 
 class ReportController extends AbstractController
 {
@@ -45,7 +45,7 @@ class ReportController extends AbstractController
                     );
                 }
 
-                return $this->redirectToRoute('front_magazine', ['name' => $subject->getMagazine()->getName()]);
+                return $this->redirectToRoute('front_magazine', ['name' => $subject->magazine->name]);
             } else {
                 return $this->redirectToRefererOrHome($request);
             }
@@ -68,7 +68,7 @@ class ReportController extends AbstractController
             'report/single.html.twig',
             [
                 'form'     => $form->createView(),
-                'magazine' => $subject->getMagazine(),
+                'magazine' => $subject->magazine,
                 'subject'  => $subject,
             ]
         );

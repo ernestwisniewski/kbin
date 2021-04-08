@@ -21,8 +21,8 @@ class EntryCommentFactory
     public function createDto(EntryComment $comment): EntryCommentDto
     {
         return (new EntryCommentDto())->create(
-            $comment->getEntry(),
-            $comment->getBody(),
+            $comment->entry,
+            $comment->body,
             null,
             $comment->getId()
         );

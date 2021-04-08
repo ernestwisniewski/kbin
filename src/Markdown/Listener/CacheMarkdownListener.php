@@ -2,12 +2,13 @@
 
 namespace App\Markdown\Listener;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use App\Markdown\Event\BuildCacheContext;
 use App\Markdown\Event\ConvertMarkdown;
-use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Psr\Cache\CacheItemInterface;
+use function assert;
 
 /**
  * Fetch and store rendered HTML given the raw input and a generated context.
@@ -21,7 +22,7 @@ final class CacheMarkdownListener implements EventSubscriberInterface
         private CacheItemPoolInterface $markdownCache,
         private EventDispatcherInterface $dispatcher
     ) {
-        $this->pool = $markdownCache;
+        $this->pool       = $markdownCache;
         $this->dispatcher = $dispatcher;
     }
 
@@ -57,7 +58,7 @@ final class CacheMarkdownListener implements EventSubscriberInterface
         }
 
         $item = $event->getAttribute(self::ATTR_CACHE_ITEM);
-        \assert($item instanceof CacheItemInterface);
+        assert($item instanceof CacheItemInterface);
 
         $item->set($event->getRenderedHtml());
         $this->pool->save($item);

@@ -2,10 +2,10 @@
 
 namespace App\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\MessageThread;
 use App\DTO\MessageDto;
 use App\Entity\Message;
-use App\Entity\MessageThread;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 
 class MessageManager
@@ -47,7 +47,7 @@ class MessageManager
             /**
              * @var $message Message
              */
-            $message->setStatus(Message::STATUS_READ);
+            $message->status = Message::STATUS_READ;
 
             $this->notificationManager->readMessageNotification($message, $user);
         }

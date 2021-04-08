@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Image;
-use App\Service\ImageManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Service\ImageManager;
+use App\Entity\Image;
+use Exception;
 
 /**
  * @method Image|null find($id, $lockMode = null, $lockVersion = null)
@@ -34,13 +35,13 @@ class ImageRepository extends ServiceEntityRepository
         if (!$image) {
             [$width, $height] = @getimagesize($source);
             $image = new Image($fileName, $filePath, $sha256, $width, $height);
-        } elseif (!$image->getWidth() || !$image->getHeight()) {
+        } elseif (!$image->width || !$image->height) {
             [$width, $height] = @getimagesize($source);
             $image->setDimensions($width, $height);
         }
         try {
             $isStored = $this->imageManager->store($source, $filePath);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->imageManager->remove($image);
 
             return null;

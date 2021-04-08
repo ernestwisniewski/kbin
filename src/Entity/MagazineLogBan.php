@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Contracts\ContentInterface;
-use App\Repository\MagazineLogEntryDeleteRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,20 +15,20 @@ class MagazineLogBan extends MagazineLog
      * @ORM\ManyToOne(targetEntity="MagazineBan")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
-    private ?MagazineBan $ban;
+    public ?MagazineBan $ban;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $meta = 'ban';
+    public string $meta = 'ban';
 
     public function __construct(MagazineBan $ban)
     {
-        parent::__construct($ban->getMagazine(), $ban->getBannedBy());
+        parent::__construct($ban->magazine, $ban->bannedBy);
 
         $this->ban = $ban;
 
-        if ($ban->getExpiredAt() < new \DateTime('+10 seconds')) {
+        if ($ban->expiredAt < new DateTime('+10 seconds')) {
             $this->meta = 'unban';
         }
     }
@@ -36,11 +36,6 @@ class MagazineLogBan extends MagazineLog
     public function getType(): string
     {
         return 'log_ban';
-    }
-
-    public function getBan(): MagazineBan
-    {
-        return $this->ban;
     }
 
     public function getSubject(): ContentInterface|null
@@ -53,10 +48,5 @@ class MagazineLogBan extends MagazineLog
         $this->ban = null;
 
         return $this;
-    }
-
-    public function getMeta(): string
-    {
-        return $this->meta;
     }
 }

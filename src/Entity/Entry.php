@@ -2,23 +2,24 @@
 
 namespace App\Entity;
 
-use App\Entity\Contracts\RankingInterface;
-use App\Entity\Contracts\ReportInterface;
-use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Traits\RankingTrait;
-use App\Entity\Traits\VisibilityTrait;
+use DateTime;
+use Tchoulom\ViewCounterBundle\Model\ViewCountable;
+use Tchoulom\ViewCounterBundle\Entity\ViewCounter;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Contracts\VisibilityInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\RankingInterface;
+use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\DomainInterface;
+use Doctrine\Common\Collections\Criteria;
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\RankingTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryRepository;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
-use Tchoulom\ViewCounterBundle\Entity\ViewCounter;
-use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
 /**
@@ -121,7 +122,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     /**
      * @ORM\Column(type="datetimetz")
      */
-    public ?\DateTime $lastActive;
+    public ?DateTime $lastActive;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
@@ -202,9 +203,9 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $lastComment = $this->comments->matching($criteria)->first();
 
         if ($lastComment) {
-            $this->lastActive = \DateTime::createFromImmutable($lastComment->getCreatedAt());
+            $this->lastActive = DateTime::createFromImmutable($lastComment->createdAt);
         } else {
-            $this->lastActive = \DateTime::createFromImmutable($this->getCreatedAt());
+            $this->lastActive = DateTime::createFromImmutable($this->createdAt);
         }
     }
 
@@ -227,7 +228,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setEntry($this);
+            $comment->entry = $this;
         }
 
         $this->updateCounts();
@@ -240,8 +241,8 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public function removeComment(EntryComment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
-            if ($comment->getEntry() === $this) {
-                $comment->setEntry(null);
+            if ($comment->entry === $this) {
+                $comment->entry = null;
             }
         }
 
@@ -268,7 +269,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
 
         if (!$this->votes->contains($vote)) {
             $this->votes->add($vote);
-            $vote->setEntry($this);
+            $vote->entry = $this;
         }
 
         $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
@@ -282,8 +283,8 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         Assert::isInstanceOf($vote, EntryVote::class);
 
         if ($this->votes->removeElement($vote)) {
-            if ($vote->getEntry() === $this) {
-                $vote->setEntry(null);
+            if ($vote->entry === $this) {
+                $vote->entry = null;
             }
         }
 
@@ -307,7 +308,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
 
     public function isAuthor(User $user): bool
     {
-        return $user === $this->getUser();
+        return $user === $this->user;
     }
 
     public function getShortTitle(): string
@@ -323,7 +324,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return grapheme_substr($firstLine, 0, 60).'…';
     }
 
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }

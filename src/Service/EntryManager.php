@@ -2,23 +2,20 @@
 
 namespace App\Service;
 
-use App\Event\EntryDeletedEvent;
-use App\Event\EntryPinEvent;
-use App\Kernel;
-use App\Service\Contracts\ContentManager;
-use App\Utils\UrlCleaner;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Security;
+use App\Service\Contracts\ContentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\EntryRepository;
+use App\Event\EntryBeforePurgeEvent;
 use App\Exception\BadUrlException;
 use App\Event\EntryCreatedEvent;
 use App\Event\EntryUpdatedEvent;
-use App\Event\EntryBeforePurgeEvent;
+use App\Event\EntryDeletedEvent;
 use App\Factory\EntryFactory;
 use Webmozart\Assert\Assert;
+use App\Event\EntryPinEvent;
+use App\Utils\UrlCleaner;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\User;

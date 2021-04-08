@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\BadgeRepository;
 use Doctrine\Common\Collections\Collection;
+use App\Repository\BadgeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

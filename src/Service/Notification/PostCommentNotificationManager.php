@@ -2,20 +2,17 @@
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use App\Entity\Entry;
-use App\Entity\EntryComment;
-use App\Entity\EntryCommentNotification;
-use App\Entity\EntryNotification;
-use App\Entity\Notification;
-use App\Entity\PostComment;
-use App\Entity\PostCommentNotification;
-use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
+use ApiPlatform\Core\Api\IriConverterInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\PostCommentNotification;
 use Symfony\Component\Mercure\Update;
+use App\Factory\MagazineFactory;
+use App\Entity\PostComment;
 use Twig\Environment;
+use function count;
 
 class PostCommentNotificationManager
 {
@@ -33,14 +30,13 @@ class PostCommentNotificationManager
 
     public function send(PostComment $comment): void
     {
-        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewPostSubscribers($comment->getPost()));
+        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewPostSubscribers($comment->post));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
 
-        $this->notifyMagazine(new PostCommentNotification($comment->getUser(), $comment));
-
-        if (!\count($usersToNotify)) {
+        $this->notifyMagazine(new PostCommentNotification($comment->user, $comment));
+        if (!count($usersToNotify)) {
             return;
         }
 
@@ -65,7 +61,7 @@ class PostCommentNotificationManager
     private function notifyMagazine(PostCommentNotification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->getMagazine()));
+            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
 
             $update = new Update(
                 $iri,
@@ -74,7 +70,7 @@ class PostCommentNotificationManager
 
             ($this->publisher)($update);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 }

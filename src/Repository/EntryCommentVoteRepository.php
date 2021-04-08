@@ -1,10 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\EntryCommentVote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\EntryCommentVote;
 
 /**
  * @method EntryCommentVote|null find($id, $lockMode = null, $lockVersion = null)

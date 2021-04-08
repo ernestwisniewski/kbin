@@ -50,7 +50,7 @@ class EntryCommentRepository extends ServiceEntityRepository
 
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
-            $pagerfanta->setCurrentPage($criteria->getPage());
+            $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -72,14 +72,14 @@ class EntryCommentRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
-        if ($criteria->getEntry()) {
+        if ($criteria->entry) {
             $qb->andWhere('c.entry = :entry')
-                ->setParameter('entry', $criteria->getEntry());
+                ->setParameter('entry', $criteria->entry);
         }
 
-        if ($criteria->getMagazine()) {
+        if ($criteria->magazine) {
             $qb->join('c.entry', 'e', Join::WITH, 'e.magazine = :magazine')
-                ->setParameter('magazine', $criteria->getMagazine())
+                ->setParameter('magazine', $criteria->magazine)
                 ->andWhere('e.visibility = :visible')
                 ->setParameter('visible', Entry::VISIBILITY_VISIBLE);
         } else {
@@ -88,12 +88,12 @@ class EntryCommentRepository extends ServiceEntityRepository
                 ->setParameter('visible', Entry::VISIBILITY_VISIBLE);
         }
 
-        if ($criteria->getUser()) {
+        if ($criteria->user) {
             $qb->andWhere('c.user = :user')
-                ->setParameter('user', $criteria->getUser());
+                ->setParameter('user', $criteria->user);
         }
 
-        if ($criteria->isSubscribed()) {
+        if ($criteria->subscribed) {
             $qb->andWhere(
                 'c.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :follower) 
                 OR 
@@ -117,11 +117,11 @@ class EntryCommentRepository extends ServiceEntityRepository
             $qb->setParameter('magazineBlocker', $user);
         }
 
-        if ($criteria->isOnlyParents()) {
+        if ($criteria->onlyParents) {
             $qb->andWhere('c.parent IS NULL');
         }
 
-        switch ($criteria->getSortOption()) {
+        switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('c.upVotes', 'DESC');
                 break;
@@ -135,7 +135,7 @@ class EntryCommentRepository extends ServiceEntityRepository
 
     private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
-        if ($criteria->getTime() !== Criteria::TIME_ALL) {
+        if ($criteria->time !== Criteria::TIME_ALL) {
             $since = $criteria->getSince();
 
             $qb->andWhere('c.createdAt > :time')

@@ -1,11 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Validator;
 
-use Doctrine\Common\Annotations\Annotation\Target;
-use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Doctrine\Common\Annotations\Annotation\Target;
+use Symfony\Component\Validator\Constraint;
+use function count;
+use function is_array;
+use function is_string;
 
 /**
  * For this to work when editing something, the DTO must hold the ID of the
@@ -51,13 +54,13 @@ class Unique extends Constraint
 
         $fields = $options['fields'] ?? $options['value'];
 
-        if (!\is_array($fields) && !\is_string($fields)) {
+        if (!is_array($fields) && !is_string($fields)) {
             throw new UnexpectedTypeException($fields, 'array or string');
         }
 
         $fields = (array) $fields;
 
-        if (\count($fields) === 0) {
+        if (count($fields) === 0) {
             throw new InvalidOptionsException(
                 'fields option must have at least one field',
                 ['fields']

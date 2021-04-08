@@ -2,21 +2,17 @@
 
 namespace App\Controller;
 
-use App\DTO\UserProfileSettingsDto;
-use App\Form\UserProfileSettingsType;
-use App\Repository\MagazineRepository;
-use App\Repository\MessageRepository;
-use App\Repository\NotificationRepository;
-use App\Repository\UserRepository;
-use App\Service\NotificationManager;
-use App\Service\UserManager;
-use App\Service\UserProfileSettingsManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use App\Service\UserProfileSettingsManager;
+use App\Repository\NotificationRepository;
+use App\Repository\MagazineRepository;
+use App\Form\UserProfileSettingsType;
+use App\Service\NotificationManager;
 use Symfony\UX\Chartjs\Model\Chart;
+use App\Repository\UserRepository;
 
 class ProfileController extends AbstractController
 {

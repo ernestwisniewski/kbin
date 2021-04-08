@@ -2,8 +2,8 @@
 
 namespace App\DTO;
 
-use App\Entity\Image;
 use App\Entity\Magazine;
+use App\Entity\Image;
 
 class MagazineThemeDto
 {
@@ -14,8 +14,8 @@ class MagazineThemeDto
 
     public function __construct(Magazine $magazine)
     {
-        $this->magazine = $magazine;
-        $this->customCss = $magazine->getCustomCss();
+        $this->magazine  = $magazine;
+        $this->customCss = $magazine->customCss;
     }
 
     public function create(?Image $cover)

@@ -1,15 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Message;
 
 class PostNotificationMessage
 {
-    public function __construct(private int $postId)
+    public function __construct(public int $postId)
     {
-    }
-
-    public function getPostId(): int
-    {
-        return $this->postId;
     }
 }

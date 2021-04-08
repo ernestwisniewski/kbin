@@ -2,18 +2,21 @@
 
 namespace App\ArgumentValueResolver;
 
-use App\Entity\Contracts\ReportInterface;
-use App\Entity\Post;
-use App\Entity\PostComment;
-use App\Repository\PostCommentRepository;
-use App\Repository\PostRepository;
+use Generator;
+use LogicException;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EntryCommentRepository;
+use App\Entity\Contracts\ReportInterface;
+use App\Repository\PostCommentRepository;
 use App\Repository\EntryRepository;
+use App\Repository\PostRepository;
+use App\Entity\PostComment;
 use App\Entity\EntryComment;
 use App\Entity\Entry;
+use App\Entity\Post;
+use function in_array;
 
 class ReportResolver implements ArgumentValueResolverInterface
 {
@@ -30,7 +33,7 @@ class ReportResolver implements ArgumentValueResolverInterface
         return $argument->getType() === ReportInterface::class
             && !$argument->isVariadic()
             && $request->attributes->has('entityClass')
-            && \in_array(
+            && in_array(
                 $request->attributes->get('entityClass'),
                 [
                     Entry::class,
@@ -43,7 +46,7 @@ class ReportResolver implements ArgumentValueResolverInterface
             && $request->attributes->has('id');
     }
 
-    public function resolve(Request $request, ArgumentMetadata $argument): \Generator
+    public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
         ['id' => $id, 'entityClass' => $entityClass] = $request->attributes->all();
 
@@ -52,7 +55,7 @@ class ReportResolver implements ArgumentValueResolverInterface
             EntryComment::class => yield $this->entryCommentRepository->find($id),
             Post::class => yield $this->postRepository->find($id),
             PostComment::class => yield $this->postCommentRepository->find($id),
-            default => throw new \LogicException(),
+            default => throw new LogicException(),
         };
     }
 }

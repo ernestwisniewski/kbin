@@ -2,31 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\EntryComment;
-use App\Entity\Post;
-use App\Entity\PostComment;
-use App\Entity\UserBlock;
-use App\Entity\UserFollow;
-use App\Entity\Entry;
-use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\Query\ResultSetMapping;
-use Doctrine\Common\Collections\Criteria as DoctrineCriteria;
-use Pagerfanta\Adapter\ArrayAdapter;
-use Pagerfanta\Doctrine\Collections\SelectableAdapter;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Pagerfanta\Pagerfanta;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\PagerfantaInterface;
+use App\Entity\EntryComment;
+use App\Entity\PostComment;
+use Pagerfanta\Pagerfanta;
+use App\Entity\UserFollow;
+use App\Entity\UserBlock;
+use App\Entity\Entry;
+use App\Entity\Post;
 use App\Entity\User;
+use function get_class;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -65,7 +59,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
 
         $user->setPassword($newEncodedPassword);

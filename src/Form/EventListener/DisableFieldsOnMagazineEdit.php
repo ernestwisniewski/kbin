@@ -3,8 +3,8 @@
 namespace App\Form\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 final class DisableFieldsOnMagazineEdit implements EventSubscriberInterface
 {
@@ -16,7 +16,7 @@ final class DisableFieldsOnMagazineEdit implements EventSubscriberInterface
     public function preSetData(FormEvent $event): void
     {
         $magazine = $event->getData();
-        $form = $event->getForm();
+        $form     = $event->getForm();
 
         if (!$magazine || null === $magazine->getId()) {
             return;

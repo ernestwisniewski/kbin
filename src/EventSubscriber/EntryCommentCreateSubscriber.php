@@ -2,10 +2,10 @@
 
 namespace App\EventSubscriber;
 
-use App\Event\EntryCommentCreatedEvent;
-use App\Message\EntryCommentNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use App\Message\EntryCommentNotificationMessage;
+use App\Event\EntryCommentCreatedEvent;
 
 class EntryCommentCreateSubscriber implements EventSubscriberInterface
 {
@@ -22,6 +22,6 @@ class EntryCommentCreateSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentCreated(EntryCommentCreatedEvent $event): void
     {
-        $this->messageBus->dispatch(new EntryCommentNotificationMessage($event->getComment()->getId()));
+        $this->messageBus->dispatch(new EntryCommentNotificationMessage($event->comment->getId()));
     }
 }

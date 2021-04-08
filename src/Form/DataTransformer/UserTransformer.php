@@ -2,10 +2,10 @@
 
 namespace App\Form\DataTransformer;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
+use InvalidArgumentException;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
+use App\Repository\UserRepository;
+use App\Entity\User;
 
 class UserTransformer implements DataTransformerInterface
 {
@@ -20,7 +20,7 @@ class UserTransformer implements DataTransformerInterface
         }
 
         if ($value !== null) {
-            throw new \InvalidArgumentException('$value must be '.User::class.' or null');
+            throw new InvalidArgumentException('$value must be '.User::class.' or null');
         }
 
         return null;

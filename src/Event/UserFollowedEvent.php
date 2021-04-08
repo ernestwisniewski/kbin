@@ -6,17 +6,7 @@ use App\Entity\User;
 
 class UserFollowedEvent
 {
-    public function __construct(private User $follower, private User $following)
+    public function __construct(public User $follower, public User $following)
     {
-    }
-
-    public function getFollower(): User
-    {
-        return $this->follower;
-    }
-
-    public function getFollowing(): User
-    {
-        return $this->following;
     }
 }

@@ -14,18 +14,13 @@ class EntryCommentReport extends Report
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="reports")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
-    private ?EntryComment $entryComment;
+    public ?EntryComment $entryComment;
 
     public function __construct(User $reporting, User $reported, EntryComment $comment, ?string $reason = null)
     {
-        parent::__construct($reporting, $reported, $comment->getMagazine(), $reason);
+        parent::__construct($reporting, $reported, $comment->magazine, $reason);
 
         $this->entryComment = $comment;
-    }
-
-    public function getEntryComment(): EntryComment
-    {
-        return $this->entryComment;
     }
 
     public function getSubject(): EntryComment

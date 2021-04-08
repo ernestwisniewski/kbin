@@ -6,12 +6,7 @@ use App\Entity\PostComment;
 
 class PostCommentCreatedEvent
 {
-    public function __construct(private PostComment $comment)
+    public function __construct(public PostComment $comment)
     {
-    }
-
-    public function getComment(): PostComment
-    {
-        return $this->comment;
     }
 }

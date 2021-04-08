@@ -2,26 +2,24 @@
 
 namespace App\Service;
 
-use App\DTO\PostDto;
-use App\Entity\Post;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Security;
+use App\Service\Contracts\ContentManager;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Event\PostBeforePurgeEvent;
 use App\Event\PostCreatedEvent;
 use App\Event\PostDeletedEvent;
-use App\Event\PostBeforePurgeEvent;
 use App\Event\PostUpdatedEvent;
-use App\Repository\PostRepository;
-use App\Service\Contracts\ContentManager;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Factory\PostFactory;
-use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
+use App\DTO\PostDto;
+use App\Entity\Post;
 use App\Entity\User;
 
 class PostManager implements ContentManager
 {
     public function __construct(
         private PostFactory $postFactory,
-        private PostRepository $postRepository,
         private EventDispatcherInterface $eventDispatcher,
         private Security $security,
         private EntityManagerInterface $entityManager
@@ -31,11 +29,11 @@ class PostManager implements ContentManager
     public function create(PostDto $postDto, User $user): Post
     {
         $post     = $this->postFactory->createFromDto($postDto, $user);
-        $magazine = $post->getMagazine();
+        $magazine = $post->magazine;
 
         $magazine->addPost($post);
         if ($postDto->image) {
-            $post->setImage($postDto->image);
+            $post->image = $postDto->image;
         }
 
         $this->entityManager->persist($post);
@@ -48,10 +46,10 @@ class PostManager implements ContentManager
 
     public function edit(Post $post, PostDto $postDto): Post
     {
-        Assert::same($post->getMagazine()->getId(), $postDto->magazine->getId());
+        Assert::same($post->magazine->getId(), $postDto->magazine->getId());
 
-        $post->setBody($postDto->body);
-        $post->setIsAdult($postDto->isAdult);
+        $post->body    = $postDto->body;
+        $post->isAdult = $postDto->isAdult;
 
         if ($postDto->image) {
             $post->setImage($postDto->image);
@@ -77,7 +75,7 @@ class PostManager implements ContentManager
     {
         $this->eventDispatcher->dispatch((new PostBeforePurgeEvent($post)));
 
-        $post->getMagazine()->removePost($post);
+        $post->magazine->removePost($post);
 
         $this->entityManager->remove($post);
         $this->entityManager->flush();

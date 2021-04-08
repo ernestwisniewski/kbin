@@ -7,17 +7,7 @@ use App\Entity\User;
 
 class MagazineSubscribedEvent
 {
-    public function __construct(private Magazine $magazine, private User $user)
+    public function __construct(public Magazine $magazine, public User $user)
     {
-    }
-
-    public function getMagazine(): Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Entity\Contracts\ContentInterface;
-use App\Repository\MagazineLogEntryDeleteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,11 +14,11 @@ class MagazineLogPostCommentDelete extends MagazineLog
      * @ORM\ManyToOne(targetEntity="PostComment")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
-    private ?PostComment $postComment;
+    public ?PostComment $postComment;
 
     public function __construct(PostComment $comment, User $user)
     {
-        parent::__construct($comment->getMagazine(), $user);
+        parent::__construct($comment->magazine, $user);
 
         $this->postComment = $comment;
     }

@@ -2,15 +2,10 @@
 
 namespace App\Controller;
 
-use App\DTO\MagazineBanDto;
-use App\Entity\User;
-use App\Form\MagazineBanType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MagazineRepository;
 use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
@@ -26,29 +21,19 @@ class MagazineController extends AbstractController
     public function __construct(
         private MagazineManager $magazineManager,
         private EntryRepository $entryRepository,
-        private EntityManagerInterface $entityManager
     ) {
     }
 
     public function front(Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
     {
-        $criteria = (new EntryPageView((int) $request->get('strona', 1)))->showMagazine($magazine);
-        $criteria->setStickiesFirst(true);
+        $criteria                = (new EntryPageView((int) $request->get('strona', 1)));
+        $criteria->magazine      = $magazine;
+        $criteria->stickiesFirst = true;
+        $criteria->setTime($criteria->translateTime($time));
+        $criteria->setType($criteria->translateType($request->get('typ', null)));
 
-        if ($time) {
-            $criteria->setTime($criteria->translateTime($time));
-        }
-
-        if ($type = $request->get('typ', null)) {
-            $criteria->setType($criteria->translateType($type));
-        }
-
-        if ($sortBy) {
-            $method  = $criteria->translateSort($sortBy);
-            $listing = $this->$method($criteria);
-        } else {
-            $listing = $this->active($criteria);
-        }
+        $method  = $criteria->translateSort($sortBy);
+        $listing = $this->$method($criteria);
 
         return $this->render(
             'magazine/front.html.twig',
@@ -122,7 +107,7 @@ class MagazineController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount'     => $magazine->getSubscriptionsCount(),
+                    'subCount'     => $magazine->subscriptionsCount,
                     'isSubscribed' => true,
                 ]
             );
@@ -144,7 +129,7 @@ class MagazineController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount'     => $magazine->getSubscriptionsCount(),
+                    'subCount'     => $magazine->subscriptionsCount,
                     'isSubscribed' => false,
                 ]
             );

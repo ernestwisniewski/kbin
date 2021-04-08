@@ -2,16 +2,13 @@
 
 namespace App\Form;
 
-use App\DTO\MagazineBanDto;
-use App\Form\DataTransformer\UserTransformer;
-use App\Repository\UserRepository;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use App\DTO\MagazineBanDto;
 
 class MagazineBanType extends AbstractType
 {
@@ -19,12 +16,16 @@ class MagazineBanType extends AbstractType
     {
         $builder
             ->add('reason', TextareaType::class)
-            ->add('expiredAt', DateTimeType::class, [
-                'widget' => 'single_text',
-                'html5' => false,
-                'format' => 'yyyy-MM-dd HH:mm',
-                'placeholder' => 'Select a value',
-                ])
+            ->add(
+                'expiredAt',
+                DateTimeType::class,
+                [
+                    'widget'      => 'single_text',
+                    'html5'       => false,
+                    'format'      => 'yyyy-MM-dd HH:mm',
+                    'placeholder' => 'Select a value',
+                ]
+            )
             ->add('submit', SubmitType::class);
     }
 

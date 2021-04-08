@@ -2,24 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Magazine;
-use App\Entity\MagazineBlock;
-use App\Entity\MagazineSubscription;
-use App\Entity\UserBlock;
-use App\Entity\UserFollow;
-use App\PageView\EntryPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Types;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Pagerfanta\Exception\NotValidCurrentPageException;
+use Symfony\Component\Security\Core\Security;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\MagazineSubscription;
 use Pagerfanta\PagerfantaInterface;
+use App\PageView\EntryPageView;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\MagazineBlock;
+use App\Entity\UserFollow;
 use Pagerfanta\Pagerfanta;
+use App\Entity\UserBlock;
+use App\Entity\Magazine;
 use App\Entity\Entry;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Entry|null find($id, $lockMode = null, $lockVersion = null)
@@ -52,7 +51,7 @@ class EntryRepository extends ServiceEntityRepository
 
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
-            $pagerfanta->setCurrentPage($criteria->getPage());
+            $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -68,7 +67,7 @@ class EntryRepository extends ServiceEntityRepository
             ->where('e.visibility = :e_visibility')
             ->leftJoin('e.magazine', 'm')
             ->andWhere('m.visibility = :m_visibility')
-            ->setParameter('e_visibility', $criteria->getVisibility())
+            ->setParameter('e_visibility', $criteria->visibility)
             ->setParameter('m_visibility', Magazine::VISIBILITY_VISIBLE);
 
         $this->addTimeClause($qb, $criteria);
@@ -80,17 +79,17 @@ class EntryRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, EntryPageView $criteria): QueryBuilder
     {
-        if ($criteria->getMagazine()) {
+        if ($criteria->magazine) {
             $qb->andWhere('e.magazine = :magazine')
-                ->setParameter('magazine', $criteria->getMagazine());
+                ->setParameter('magazine', $criteria->magazine);
         }
 
-        if ($criteria->getUser()) {
+        if ($criteria->user) {
             $qb->andWhere('e.user = :user')
-                ->setParameter('user', $criteria->getUser());
+                ->setParameter('user', $criteria->user);
         }
 
-        if ($criteria->isSubscribed()) {
+        if ($criteria->subscribed) {
             $qb->andWhere(
                 'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
                 OR 
@@ -113,12 +112,12 @@ class EntryRepository extends ServiceEntityRepository
             $qb->setParameter('magazineBlocker', $user);
         }
 
-        if ($criteria->getType()) {
+        if ($criteria->type) {
             $qb->andWhere('e.type = :type')
-                ->setParameter('type', $criteria->getType());
+                ->setParameter('type', $criteria->type);
         }
 
-        switch ($criteria->getSortOption()) {
+        switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
                 $qb->addOrderBy('e.score', 'DESC');
                 break;
@@ -142,7 +141,7 @@ class EntryRepository extends ServiceEntityRepository
 
     private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria)
     {
-        if ($criteria->getTime() !== EntryPageView::TIME_ALL) {
+        if ($criteria->time !== EntryPageView::TIME_ALL) {
             $since = $criteria->getSince();
 
             $qb->andWhere('e.createdAt > :time')
@@ -152,8 +151,8 @@ class EntryRepository extends ServiceEntityRepository
 
     private function addStickyClause(QueryBuilder $qb, EntryPageView $criteria)
     {
-        if ($criteria->isStickiesFirst()) {
-            if ($criteria->getPage() === 1) {
+        if ($criteria->stickiesFirst) {
+            if ($criteria->page === 1) {
                 $qb->addOrderBy('e.sticky', 'DESC');
             } else {
                 $qb->andWhere($qb->expr()->eq('e.sticky', 'false'));

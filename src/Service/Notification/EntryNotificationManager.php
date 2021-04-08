@@ -2,17 +2,17 @@
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use App\Entity\Entry;
-use App\Entity\EntryNotification;
-use App\Entity\Notification;
-use App\Entity\User;
-use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
+use ApiPlatform\Core\Api\IriConverterInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\Update;
+use App\Entity\EntryNotification;
+use App\Factory\MagazineFactory;
+use App\Entity\Entry;
 use Twig\Environment;
+use function count;
 
 class EntryNotificationManager
 {
@@ -37,7 +37,7 @@ class EntryNotificationManager
 
         $this->notifyMagazine(new EntryNotification($entry->user, $entry));
 
-        if (!\count($usersToNotify)) {
+        if (!count($usersToNotify)) {
             return;
         }
 
@@ -53,7 +53,7 @@ class EntryNotificationManager
     {
         return json_encode(
             [
-                'entryId'      => $notification->getEntry()->getId(),
+                'entryId'      => $notification->entry->getId(),
                 'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
@@ -62,7 +62,7 @@ class EntryNotificationManager
     private function notifyMagazine(EntryNotification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getEntry()->getMagazine()));
+            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->entry->magazine));
 
             $update = new Update(
                 $iri,
@@ -71,7 +71,7 @@ class EntryNotificationManager
 
             ($this->publisher)($update);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 }

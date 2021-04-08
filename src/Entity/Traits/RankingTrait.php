@@ -2,19 +2,14 @@
 
 namespace App\Entity\Traits;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
-use App\Entity\Contracts\VoteInterface;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Vote;
-use App\Entity\User;
 
 trait RankingTrait
 {
     /**
      * @ORM\Column(type="integer")
      */
-    private int $ranking = 0;
+    public int $ranking = 0;
 
     public function updateRanking(): void
     {

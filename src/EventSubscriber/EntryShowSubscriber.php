@@ -2,9 +2,10 @@
 
 namespace App\EventSubscriber;
 
-use App\Event\EntryHasBeenSeenEvent;
+use Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Tchoulom\ViewCounterBundle\Counter\ViewCounter as Counter;
+use App\Event\EntryHasBeenSeenEvent;
 
 class EntryShowSubscriber implements EventSubscriberInterface
 {
@@ -22,8 +23,8 @@ class EntryShowSubscriber implements EventSubscriberInterface
     public function onShowEntry(EntryHasBeenSeenEvent $event): void
     {
         try {
-            $this->viewCounter->saveView($event->getEntry());
-        } catch (\Exception $e) {
+            $this->viewCounter->saveView($event->entry);
+        } catch (Exception $e) {
 
         }
     }

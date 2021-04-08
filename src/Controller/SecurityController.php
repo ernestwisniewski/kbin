@@ -2,22 +2,21 @@
 
 namespace App\Controller;
 
-use App\DTO\RegisterUserDto;
-use App\Form\UserType;
-use App\Repository\UserRepository;
-use App\Security\EmailVerifier;
-use App\Security\LoginAuthenticator;
-use App\Service\UserManager;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\HttpFoundation\Response;
+use LogicException;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use App\Security\LoginAuthenticator;
+use App\Repository\UserRepository;
+use App\DTO\RegisterUserDto;
+use App\Service\UserManager;
+use App\Form\UserType;
 
 class SecurityController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
+    public function __construct()
     {
     }
 
@@ -87,6 +86,6 @@ class SecurityController extends AbstractController
 
     public function logout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }

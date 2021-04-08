@@ -2,11 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\MagazineLog;
-use App\Repository\MagazineLogRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use App\Repository\MagazineLogRepository;
 
 class ModlogController extends AbstractController
 {

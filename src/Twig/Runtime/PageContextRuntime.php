@@ -2,14 +2,14 @@
 
 namespace App\Twig\Runtime;
 
-use App\Entity\Magazine;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
+use Twig\Extension\RuntimeExtensionInterface;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Twig\Extension\RuntimeExtensionInterface;
+use App\Entity\Magazine;
 
 class PageContextRuntime implements RuntimeExtensionInterface
 {
@@ -171,7 +171,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
         if ($this->isMagazinePage()) {
             $magazine            = $this->getCurrentRequest()->get('magazine');
             $routeName           = 'front_magazine';
-            $routeParams['name'] = $magazine->getName();
+            $routeParams['name'] = $magazine->name;
 
             if (!$entriesOnly) {
                 if ($this->isPostsPage()) {
@@ -214,7 +214,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $magazine = $this->getCurrentRequest()->get('magazine');
 
             $routeName           = 'magazine_entry_comments';
-            $routeParams['name'] = $magazine->getName();
+            $routeParams['name'] = $magazine->name;
         }
 
         if ($this->isSubPage()) {
@@ -240,7 +240,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $magazine = $this->getCurrentRequest()->get('magazine');
 
             $routeName           = 'magazine_posts';
-            $routeParams['name'] = $magazine->getName();
+            $routeParams['name'] = $magazine->name;
         }
 
         if ($this->isSubPage()) {
@@ -266,11 +266,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
         $routeName = str_replace('entry_comment_edit', 'entry_comments_front', $this->getCurrentRouteName());
 
         if ($this->isMagazinePage()) {
-            $routeParams['name'] = $this->getCurrentRequest()->get('magazine')->getName();
+            $routeParams['name'] = $this->getCurrentRequest()->get('magazine')->name;
         }
 
         if ($this->isEntryPage()) {
-            $routeParams['magazine_name'] = $this->getCurrentRequest()->get('magazine')->getName();
+            $routeParams['magazine_name'] = $this->getCurrentRequest()->get('magazine')->name;
             $routeParams['entry_id']      = $this->getCurrentRequest()->get('entry')->getId();
             unset($routeParams['name']);
         }

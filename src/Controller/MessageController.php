@@ -2,22 +2,20 @@
 
 namespace App\Controller;
 
-use App\DTO\MessageDto;
-use App\Entity\MessageThread;
-use App\Entity\User;
-use App\Form\MessageType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use App\Repository\MessageThreadRepository;
 use App\Service\MessageManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use App\Entity\MessageThread;
+use App\Form\MessageType;
+use App\DTO\MessageDto;
+use App\Entity\User;
 
 class MessageController extends AbstractController
 {
     public function __construct(
         private MessageManager $messageManager,
-        private EntityManagerInterface $entityManager
     ) {
     }
 

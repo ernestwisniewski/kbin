@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EntryCommentRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\PageView\EntryCommentPageView;
 use App\Service\EntryCommentManager;
 use App\Form\EntryCommentType;
@@ -22,7 +21,6 @@ class EntryCommentController extends AbstractController
     public function __construct(
         private EntryCommentManager $commentManager,
         private EntryCommentRepository $commentRepository,
-        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -33,7 +31,7 @@ class EntryCommentController extends AbstractController
 
         if ($magazine) {
             $params['magazine'] = $magazine;
-            $criteria->showMagazine($magazine);
+            $criteria->magazine = $magazine;
         }
 
         if ($time) {
@@ -62,7 +60,7 @@ class EntryCommentController extends AbstractController
             $criteria->setTime($criteria->translateTime($time));
         }
 
-        $criteria->showSubscribed();
+        $criteria->subscribed = true;
 
         $criteria->showSortOption($sortBy);
 
@@ -100,7 +98,7 @@ class EntryCommentController extends AbstractController
             [
                 'action' => $this->generateUrl(
                     'entry_comment_create',
-                    ['magazine_name' => $magazine->getName(), 'entry_id' => $entry->getId(), 'parent_comment_id' => $parent ? $parent->getId() : null]
+                    ['magazine_name' => $magazine->name, 'entry_id' => $entry->getId(), 'parent_comment_id' => $parent ? $parent->getId() : null]
                 ),
             ]
         );
@@ -129,14 +127,14 @@ class EntryCommentController extends AbstractController
             return $this->redirectToRoute(
                 'entry_single',
                 [
-                    'magazine_name' => $magazine->getName(),
+                    'magazine_name' => $magazine->name,
                     'entry_id'      => $entry->getId(),
                 ]
             );
         }
 
-        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))
-            ->showEntry($entry);
+        $criteria        = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria->entry = $entry;
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -194,14 +192,14 @@ class EntryCommentController extends AbstractController
             return $this->redirectToRoute(
                 'entry_single',
                 [
-                    'magazine_name' => $magazine->getName(),
+                    'magazine_name' => $magazine->name,
                     'entry_id'      => $entry->getId(),
                 ]
             );
         }
 
-        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)))
-            ->showEntry($entry);
+        $criteria        = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria->entry = $entry;
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -237,7 +235,7 @@ class EntryCommentController extends AbstractController
         return $this->redirectToRoute(
             'entry_single',
             [
-                'magazine_name' => $magazine->getName(),
+                'magazine_name' => $magazine->name,
                 'entry_id'      => $entry->getId(),
             ]
         );
@@ -260,7 +258,7 @@ class EntryCommentController extends AbstractController
         return $this->redirectToRoute(
             'entry_single',
             [
-                'magazine_name' => $magazine->getName(),
+                'magazine_name' => $magazine->name,
                 'entry_id'      => $entry->getId(),
             ]
         );

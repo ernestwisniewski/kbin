@@ -2,12 +2,11 @@
 
 namespace App\MessageHandler;
 
-use App\Entity\Entry;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Message\EntryEmbedMessage;
 use App\Repository\ImageRepository;
 use App\Repository\EntryRepository;
+use App\Message\EntryEmbedMessage;
 use App\Service\ImageManager;
 use App\Utils\Embed;
 
@@ -24,7 +23,7 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
 
     public function __invoke(EntryEmbedMessage $entryCreatedMessage)
     {
-        $entry = $this->entryRepository->find($entryCreatedMessage->getEntryId());
+        $entry = $this->entryRepository->find($entryCreatedMessage->entryId);
         if (!$entry || !$entry->url) {
             return;
         }

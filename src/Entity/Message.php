@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\CreatedAtTrait;
-use App\Repository\MessageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Traits\CreatedAtTrait;
+use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,23 +31,23 @@ class Message
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="MessageThread", inversedBy="messages", cascade={"persist"})
      */
-    private MessageThread $thread;
+    public MessageThread $thread;
 
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="User")
      */
-    private User $sender;
+    public User $sender;
 
     /**
      * @ORM\Column(type="text")
      */
-    private string $body;
+    public string $body;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $status = self::STATUS_NEW;
+    public string $status = self::STATUS_NEW;
 
     /**
      * @ORM\OneToMany(targetEntity="MessageNotification", mappedBy="message", cascade={"remove"}, orphanRemoval=true)
@@ -69,32 +69,5 @@ class Message
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function getThread(): MessageThread
-    {
-        return $this->thread;
-    }
-
-    public function getSender(): User
-    {
-        return $this->sender;
-    }
-
-    public function getBody(): string
-    {
-        return $this->body;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
     }
 }

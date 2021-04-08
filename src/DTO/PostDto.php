@@ -2,11 +2,9 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Magazine;
 use App\Entity\Image;
-use App\Entity\Entry;
 
 class PostDto
 {

@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\UserBlockRepository;
+use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,13 +32,13 @@ class MagazineBlock
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blockedMagazines")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private ?User $user;
+    public ?User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class)
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private ?Magazine $magazine;
+    public ?Magazine $magazine;
 
     public function __construct(User $user, Magazine $magazine)
     {
@@ -51,30 +51,6 @@ class MagazineBlock
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(?Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
-
-        return $this;
     }
 
     public function __sleep()

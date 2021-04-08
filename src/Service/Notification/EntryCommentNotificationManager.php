@@ -2,18 +2,17 @@
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use App\Entity\Entry;
-use App\Entity\EntryComment;
-use App\Entity\EntryCommentNotification;
-use App\Entity\EntryNotification;
-use App\Entity\Notification;
-use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
+use ApiPlatform\Core\Api\IriConverterInterface;
+use App\Entity\EntryCommentNotification;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\Update;
+use App\Factory\MagazineFactory;
+use App\Entity\EntryComment;
 use Twig\Environment;
+use function count;
 
 class EntryCommentNotificationManager
 {
@@ -31,14 +30,14 @@ class EntryCommentNotificationManager
 
     public function send(EntryComment $comment): void
     {
-        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewEntrySubscribers($comment->getEntry()));
+        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewEntrySubscribers($comment->entry));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
 
-        $this->notifyMagazine(new EntryCommentNotification($comment->getUser(), $comment));
+        $this->notifyMagazine(new EntryCommentNotification($comment->user, $comment));
 
-        if (!\count($usersToNotify)) {
+        if (!count($usersToNotify)) {
             return;
         }
 
@@ -63,7 +62,7 @@ class EntryCommentNotificationManager
     private function notifyMagazine(EntryCommentNotification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->getMagazine()));
+            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
 
             $update = new Update(
                 $iri,
@@ -72,7 +71,7 @@ class EntryCommentNotificationManager
 
             ($this->publisher)($update);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 }

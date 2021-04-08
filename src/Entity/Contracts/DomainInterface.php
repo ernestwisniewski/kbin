@@ -7,5 +7,6 @@ use App\Entity\Domain;
 interface DomainInterface
 {
     public function getUrl();
+
     public function setDomain(Domain $domain): self;
 }

@@ -2,10 +2,9 @@
 
 namespace App\DTO;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 use App\Entity\Magazine;
 use App\Entity\Image;
 use App\Entity\Entry;

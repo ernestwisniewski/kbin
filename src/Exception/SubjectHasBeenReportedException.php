@@ -2,6 +2,8 @@
 
 namespace App\Exception;
 
-final class SubjectHasBeenReportedException extends \Exception
+use Exception;
+
+final class SubjectHasBeenReportedException extends Exception
 {
 }

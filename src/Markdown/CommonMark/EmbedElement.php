@@ -2,8 +2,8 @@
 
 namespace App\Markdown\CommonMark;
 
-use App\Service\ImageManager;
 use League\CommonMark\HtmlElement;
+use App\Service\ImageManager;
 
 class EmbedElement
 {

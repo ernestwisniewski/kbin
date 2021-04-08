@@ -65,7 +65,7 @@ abstract class WebTestCase extends BaseWebTestCase
 
         $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
 
-        $user->setIsVerified($active);
+        $user->isVerified = $active;
 
         $manager->persist($user);
         $manager->flush();
@@ -88,7 +88,7 @@ abstract class WebTestCase extends BaseWebTestCase
     {
         $magazine = $this->magazines->filter(
             static function (Magazine $magazine) use ($name) {
-                return $magazine->getName() === $name;
+                return $magazine->name === $name;
             }
         )->first();
 

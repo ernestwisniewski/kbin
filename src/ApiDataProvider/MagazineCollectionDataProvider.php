@@ -4,10 +4,11 @@ namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\DTO\MagazineDto;
-use App\Factory\MagazineFactory;
-use App\Repository\MagazineRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+use App\Repository\MagazineRepository;
+use App\Factory\MagazineFactory;
+use App\DTO\MagazineDto;
 
 final class MagazineCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
@@ -29,7 +30,7 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
             $magazines = $this->magazineRepository
                 ->findAllPaginated((int) $this->request->getCurrentRequest()->get('page', 1))
                 ->getCurrentPageResults();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [];
         }
 

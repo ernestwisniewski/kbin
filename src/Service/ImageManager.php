@@ -2,14 +2,18 @@
 
 namespace App\Service;
 
-use App\Exception\CorruptedFileException;
-use App\Exception\ImageDownloadTooLargeException;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Validator\Constraints\Image;
+use App\Exception\ImageDownloadTooLargeException;
 use Symfony\Component\Mime\MimeTypesInterface;
+use App\Exception\CorruptedFileException;
 use League\Flysystem\FilesystemInterface;
+use function count;
+use function is_resource;
 
 class ImageManager
 {
@@ -38,11 +42,11 @@ class ImageManager
             $this->publicUploadsFilesystem->writeStream($filePath, $fh);
 
             return $this->publicUploadsFilesystem->has($filePath);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         finally {
-            \is_resource($fh) and fclose($fh);
+            is_resource($fh) and fclose($fh);
         }
     }
 
@@ -82,7 +86,7 @@ class ImageManager
             fclose($fh);
 
             $this->validate($tempFile);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             fclose($fh);
             unlink($tempFile);
 
@@ -103,13 +107,13 @@ class ImageManager
         $mimeType = $this->mimeTypeGuesser->guessMimeType($file);
 
         if (!$mimeType) {
-            throw new \RuntimeException("Couldn't guess MIME type of image");
+            throw new RuntimeException("Couldn't guess MIME type of image");
         }
 
         $ext = $this->mimeTypeGuesser->getExtensions($mimeType)[0] ?? null;
 
         if (!$ext) {
-            throw new \RuntimeException("Couldn't guess extension of image");
+            throw new RuntimeException("Couldn't guess extension of image");
         }
 
         return sprintf('%s.%s', $hash, $ext);
@@ -131,7 +135,7 @@ class ImageManager
             ]
         );
 
-        if (\count($violations) > 0) {
+        if (count($violations) > 0) {
             throw new CorruptedFileException();
         }
 

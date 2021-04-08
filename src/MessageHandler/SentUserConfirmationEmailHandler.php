@@ -2,14 +2,12 @@
 
 namespace App\MessageHandler;
 
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Message\Contracts\SendConfirmationEmailInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use App\Message\UserCreatedMessage;
-use Symfony\Component\Mime\Address;
 
 class SentUserConfirmationEmailHandler implements MessageHandlerInterface
 {
@@ -21,7 +19,7 @@ class SentUserConfirmationEmailHandler implements MessageHandlerInterface
 
     public function __invoke(SendConfirmationEmailInterface $entryCreatedMessage)
     {
-        $user = $this->userRepository->find($entryCreatedMessage->getUserId());
+        $user = $this->userRepository->find($entryCreatedMessage->userId);
 
         if (!$user) {
             return;
@@ -33,7 +31,7 @@ class SentUserConfirmationEmailHandler implements MessageHandlerInterface
             $user,
             (new TemplatedEmail())
                 ->from(new Address('noreply@mg.karab.in ', 'karab.in Bot'))
-                ->to($user->getEmail())
+                ->to($user->email)
                 ->subject('Potwierdź swój adres email')
                 ->htmlTemplate('_email/confirmation_email.html.twig')
         );

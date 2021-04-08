@@ -2,13 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\Entry;
-use App\Entity\MagazineSubscription;
-use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
+use App\Entity\Entry;
+use App\Entity\Post;
 
 /**
  * @method Moderator|null find($id, $lockMode = null, $lockVersion = null)
@@ -45,8 +44,8 @@ class MagazineSubscriptionRepository extends ServiceEntityRepository
             ->where('u.notifyOnNewPost = true')
             ->andWhere('ms.magazine = :magazine')
             ->andWhere('u != :user')
-            ->setParameter('magazine', $post->getMagazine())
-            ->setParameter('user', $post->getUser())
+            ->setParameter('magazine', $post->magazine)
+            ->setParameter('user', $post->user)
             ->getQuery()
             ->getResult();
     }

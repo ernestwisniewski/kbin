@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Contracts\VoteInterface;
 use App\Service\VoteManager;
 
@@ -28,7 +28,7 @@ class VoteController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'choice'    => $vote->getChoice(),
+                    'choice'    => $vote->choice,
                     'upVotes'   => $votable->countUpVotes(),
                     'downVotes' => $votable->countDownVotes(),
                 ]

@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Event\UserBlockEvent;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -11,9 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
-use App\Repository\UserRepository;
-use App\Security\EmailVerifier;
 use App\Event\UserFollowedEvent;
+use App\Security\EmailVerifier;
+use App\Event\UserBlockEvent;
 use App\DTO\RegisterUserDto;
 use App\DTO\UserDto;
 use App\Entity\User;
@@ -25,7 +24,6 @@ class UserManager
         private EventDispatcherInterface $eventDispatcher,
         private MessageBusInterface $messageBus,
         private EmailVerifier $emailVerifier,
-        private UserRepository $userRepository,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -106,9 +104,9 @@ class UserManager
             $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->plainPassword));
         }
 
-        if ($dto->email !== $user->getEmail()) {
-            $user->setIsVerified(false);
-            $user->setEmail($dto->email);
+        if ($dto->email !== $user->email) {
+            $user->isVerified = false;
+            $user->email      = $dto->email;
 
             $this->entityManager->flush();
 
@@ -126,7 +124,7 @@ class UserManager
 
         $dto->setId($user->getId());
         $dto->username = $user->getUsername();
-        $dto->email = $user->getEmail();
+        $dto->email    = $user->email;
 
         return $dto;
     }

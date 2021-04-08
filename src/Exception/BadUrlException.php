@@ -2,6 +2,8 @@
 
 namespace App\Exception;
 
-final class BadUrlException extends \Exception
+use Exception;
+
+final class BadUrlException extends Exception
 {
 }

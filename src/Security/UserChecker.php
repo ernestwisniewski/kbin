@@ -2,11 +2,10 @@
 
 namespace App\Security;
 
-use App\Entity\User as AppUser;
-use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\User as AppUser;
 
 class UserChecker implements UserCheckerInterface
 {
@@ -16,7 +15,7 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
-        if (!$user->isVerified()) {
+        if (!$user->isVerified) {
             throw new CustomUserMessageAccountStatusException('Twoje konto nie jest aktywne.');
         }
     }

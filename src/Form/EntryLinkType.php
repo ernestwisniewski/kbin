@@ -1,17 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Form\EventListener\DisableFieldsOnEntryEdit;
-use App\Form\Type\BadgesType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
+use App\Form\Type\BadgesType;
 use App\Entity\Magazine;
 use App\DTO\EntryDto;
 
@@ -22,9 +22,13 @@ class EntryLinkType extends AbstractType
         $builder
             ->add('url', UrlType::class)
             ->add('title', TextareaType::class)
-            ->add('badges', BadgesType::class, [
-                'label' => 'Etykiety'
-            ])
+            ->add(
+                'badges',
+                BadgesType::class,
+                [
+                    'label' => 'Etykiety',
+                ]
+            )
             ->add(
                 'magazine',
                 EntityType::class,

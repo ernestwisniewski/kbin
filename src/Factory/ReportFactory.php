@@ -2,10 +2,7 @@
 
 namespace App\Factory;
 
-use App\DTO\EntryDto;
 use App\DTO\ReportDto;
-use App\Entity\Contracts\ReportInterface;
-use App\Entity\Entry;
 use App\Entity\Report;
 use App\Entity\User;
 
@@ -15,7 +12,7 @@ class ReportFactory
     {
         $className = get_class($reportDto->getSubject()).'Report';
 
-        return new $className($reporting, $reportDto->getSubject()->getUser(), $reportDto->getSubject(), $reportDto->reason);
+        return new $className($reporting, $reportDto->getSubject()->user, $reportDto->getSubject(), $reportDto->reason);
     }
 
 //    public function createDto(Entry $entry): ReportDto

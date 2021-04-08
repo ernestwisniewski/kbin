@@ -2,18 +2,18 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\MagazineLogBan;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use App\Entity\MagazineLogEntryCommentDelete;
-use App\Entity\MagazineLogEntryDelete;
 use App\Entity\MagazineLogPostCommentDelete;
-use App\Entity\MagazineLogPostDelete;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Event\EntryCommentDeletedEvent;
+use App\Event\PostCommentDeletedEvent;
+use App\Entity\MagazineLogEntryDelete;
+use App\Entity\MagazineLogPostDelete;
 use App\Event\EntryDeletedEvent;
 use App\Event\MagazineBanEvent;
-use App\Event\PostCommentDeletedEvent;
 use App\Event\PostDeletedEvent;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use App\Entity\MagazineLogBan;
 
 class MagazineLogSubscriber implements EventSubscriberInterface
 {
@@ -34,15 +34,15 @@ class MagazineLogSubscriber implements EventSubscriberInterface
 
     public function onEntryDeleted(EntryDeletedEvent $event): void
     {
-        if (!$event->getEntry()->isTrashed()) {
+        if (!$event->entry->isTrashed()) {
             return;
         }
 
-        if (!$event->getUser() || $event->getEntry()->isAuthor($event->getUser())) {
+        if (!$event->user || $event->entry->isAuthor($event->user)) {
             return;
         }
 
-        $log = new MagazineLogEntryDelete($event->getEntry(), $event->getUser());
+        $log = new MagazineLogEntryDelete($event->entry, $event->user);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();
@@ -50,15 +50,15 @@ class MagazineLogSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentDeleted(EntryCommentDeletedEvent $event): void
     {
-        if (!$event->getComment()->isTrashed()) {
+        if (!$event->comment->isTrashed()) {
             return;
         }
 
-        if (!$event->getUser() || $event->getComment()->isAuthor($event->getUser())) {
+        if (!$event->user || $event->comment->isAuthor($event->user)) {
             return;
         }
 
-        $log = new MagazineLogEntryCommentDelete($event->getComment(), $event->getUser());
+        $log = new MagazineLogEntryCommentDelete($event->comment, $event->user);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();
@@ -66,15 +66,15 @@ class MagazineLogSubscriber implements EventSubscriberInterface
 
     public function onPostDeleted(PostDeletedEvent $event): void
     {
-        if (!$event->getPost()->isTrashed()) {
+        if (!$event->post->isTrashed()) {
             return;
         }
 
-        if (!$event->getUser() || $event->getPost()->isAuthor($event->getUser())) {
+        if (!$event->user || $event->post->isAuthor($event->user)) {
             return;
         }
 
-        $log = new MagazineLogPostDelete($event->getPost(), $event->getUser());
+        $log = new MagazineLogPostDelete($event->post, $event->user);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();
@@ -82,15 +82,15 @@ class MagazineLogSubscriber implements EventSubscriberInterface
 
     public function onPostCommentDeleted(PostCommentDeletedEvent $event): void
     {
-        if (!$event->getComment()->isTrashed()) {
+        if (!$event->comment->isTrashed()) {
             return;
         }
 
-        if (!$event->getUser() || $event->getComment()->isAuthor($event->getUser())) {
+        if (!$event->user || $event->comment->isAuthor($event->user)) {
             return;
         }
 
-        $log = new MagazineLogPostCommentDelete($event->getComment(), $event->getUser());
+        $log = new MagazineLogPostCommentDelete($event->comment, $event->user);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();
@@ -98,7 +98,7 @@ class MagazineLogSubscriber implements EventSubscriberInterface
 
     public function onBan(MagazineBanEvent $event): void
     {
-        $log = new MagazineLogBan($event->getBan());
+        $log = new MagazineLogBan($event->ban);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();

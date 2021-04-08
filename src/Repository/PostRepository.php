@@ -2,24 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Magazine;
-use App\Entity\MagazineBlock;
-use App\Entity\MagazineSubscription;
-use App\Entity\Post;
-use App\Entity\UserBlock;
-use App\Entity\UserFollow;
-use App\PageView\PostPageView;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Symfony\Component\Security\Core\Security;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Pagerfanta\Exception\NotValidCurrentPageException;
-use Pagerfanta\Pagerfanta;
+use App\Entity\MagazineSubscription;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\QueryBuilder;
+use App\Entity\MagazineBlock;
+use Pagerfanta\Pagerfanta;
+use App\Entity\UserFollow;
+use App\Entity\UserBlock;
+use App\Entity\Magazine;
+use App\Entity\Post;
 
 /**
  * @method UserFollow|null find($id, $lockMode = null, $lockVersion = null)
@@ -51,7 +50,7 @@ class PostRepository extends ServiceEntityRepository
 
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
-            $pagerfanta->setCurrentPage($criteria->getPage());
+            $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -67,7 +66,7 @@ class PostRepository extends ServiceEntityRepository
             ->where('p.visibility = :p_visibility')
             ->leftJoin('p.magazine', 'm')
             ->andWhere('m.visibility = :m_visibility')
-            ->setParameter('p_visibility', $criteria->getVisibility())
+            ->setParameter('p_visibility', $criteria->visibility)
             ->setParameter('m_visibility', Magazine::VISIBILITY_VISIBLE);
 
         $this->addTimeClause($qb, $criteria);
@@ -77,9 +76,9 @@ class PostRepository extends ServiceEntityRepository
     }
 
 
-    private function addTimeClause(QueryBuilder $qb, Criteria $criteria):void
+    private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
-        if ($criteria->getTime() !== Criteria::TIME_ALL) {
+        if ($criteria->time !== Criteria::TIME_ALL) {
             $since = $criteria->getSince();
 
             $qb->andWhere('p.createdAt > :time')
@@ -89,17 +88,17 @@ class PostRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
-        if ($criteria->getMagazine()) {
+        if ($criteria->magazine) {
             $qb->andWhere('p.magazine = :magazine')
-                ->setParameter('magazine', $criteria->getMagazine());
+                ->setParameter('magazine', $criteria->magazine);
         }
 
-        if ($criteria->getUser()) {
+        if ($criteria->user) {
             $qb->andWhere('p.user = :user')
-                ->setParameter('user', $criteria->getUser());
+                ->setParameter('user', $criteria->user);
         }
 
-        if ($criteria->isSubscribed()) {
+        if ($criteria->subscribed) {
             $qb->andWhere(
                 'p.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
                 OR 
@@ -122,7 +121,7 @@ class PostRepository extends ServiceEntityRepository
             $qb->setParameter('magazineBlocker', $user);
         }
 
-        switch ($criteria->getSortOption()) {
+        switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('p.score', 'DESC');
                 break;

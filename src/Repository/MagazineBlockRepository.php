@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\UserFollow;
 
 /**
  * @method UserFollow|null find($id, $lockMode = null, $lockVersion = null)

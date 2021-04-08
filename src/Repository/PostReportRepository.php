@@ -2,11 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Post;
-use App\Entity\PostReport;
-use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\PostReport;
+use App\Entity\Post;
+use App\Entity\Report;
 
 /**
  * @method PostReport|null find($id, $lockMode = null, $lockVersion = null)

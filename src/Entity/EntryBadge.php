@@ -20,14 +20,15 @@ class EntryBadge
     /**
      * @ORM\ManyToOne(targetEntity="Badge", inversedBy="badges")
      */
-    private Badge $badge;
+    public Badge $badge;
 
     /**
      * @ORM\ManyToOne(targetEntity="Entry", inversedBy="badges")
      */
-    private Entry $entry;
+    public Entry $entry;
 
-    public function __construct(Entry $entry, Badge $badge) {
+    public function __construct(Entry $entry, Badge $badge)
+    {
 
         $this->entry = $entry;
         $this->badge = $badge;
@@ -38,18 +39,8 @@ class EntryBadge
         return $this->id;
     }
 
-    public function getBadge(): ?Badge
-    {
-        return $this->badge;
-    }
-
-    public function getEntry(): Entry
-    {
-        return $this->entry;
-    }
-
     public function __toString(): string
     {
-       return $this->getBadge()->getName();
+        return $this->badge->name;
     }
 }

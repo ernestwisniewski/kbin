@@ -2,14 +2,12 @@
 
 namespace App\Service;
 
-use App\Entity\Badge;
-use App\Entity\Entry;
-use App\Entity\Magazine;
-use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
-use App\DTO\BadgeDto;
 use Webmozart\Assert\Assert;
+use App\Entity\Badge;
+use App\Entity\Entry;
+use App\DTO\BadgeDto;
 
 class BadgeManager
 {
@@ -52,7 +50,7 @@ class BadgeManager
 
     public function assign(Entry $entry, Collection $badges): Entry
     {
-        $badges = $entry->magazine->getBadges()->filter(
+        $badges = $entry->magazine->badges->filter(
             static function (Badge $badge) use ($badges) {
                 return $badges->contains($badge->name);
             }

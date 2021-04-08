@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Entity\Contracts\ContentInterface;
-use App\Repository\MagazineLogEntryDeleteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,11 +14,11 @@ class MagazineLogPostDelete extends MagazineLog
      * @ORM\ManyToOne(targetEntity="Post")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
-    private ?Post $post;
+    public ?Post $post;
 
     public function __construct(Post $post, User $user)
     {
-        parent::__construct($post->getMagazine(), $user);
+        parent::__construct($post->magazine, $user);
 
         $this->post = $post;
     }
@@ -27,11 +26,6 @@ class MagazineLogPostDelete extends MagazineLog
     public function getType(): string
     {
         return 'log_post_delete';
-    }
-
-    public function getPost(): Post
-    {
-        return $this->post;
     }
 
     public function getSubject(): ContentInterface

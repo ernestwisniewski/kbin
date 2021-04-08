@@ -2,20 +2,20 @@
 
 namespace App\Service;
 
-use App\Entity\EntryComment;
-use App\Entity\Message;
-use App\Entity\MessageNotification;
-use App\Entity\Notification;
-use App\Entity\PostComment;
-use App\Entity\User;
 use App\Service\Notification\EntryCommentNotificationManager;
-use App\Service\Notification\EntryNotificationManager;
-use App\Service\Notification\MessageNotificationManager;
 use App\Service\Notification\PostCommentNotificationManager;
+use App\Service\Notification\MessageNotificationManager;
+use App\Service\Notification\EntryNotificationManager;
 use App\Service\Notification\PostNotificationManager;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\MessageNotification;
+use App\Entity\Notification;
+use App\Entity\EntryComment;
+use App\Entity\PostComment;
+use App\Entity\Message;
 use App\Entity\Entry;
 use App\Entity\Post;
+use App\Entity\User;
 
 class NotificationManager
 {
@@ -59,7 +59,7 @@ class NotificationManager
         $notifications = $user->getNewNotifications();
 
         foreach ($notifications as $notification) {
-            $notification->setStatus(Notification::STATUS_READ);
+            $notification->status = Notification::STATUS_READ;
         }
 
         $this->entityManager->flush();
@@ -89,7 +89,7 @@ class NotificationManager
         );
 
         foreach ($notifications as $notification) {
-            $notification->setStatus(Notification::STATUS_READ);
+            $notification->status = Notification::STATUS_READ;
         }
 
         $this->entityManager->flush();

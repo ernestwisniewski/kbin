@@ -5,7 +5,8 @@ namespace App\Repository;
 use App\Entity\Magazine;
 use App\Entity\Entry;
 use App\Entity\User;
-use App\PageView\EntryPageView;
+use DateTimeImmutable;
+use LogicException;
 
 abstract class Criteria
 {
@@ -47,87 +48,39 @@ abstract class Criteria
         self::TIME_ALL,
     ];
 
-    private int $page = 1;
-    private ?Magazine $magazine = null;
-    private ?User $user = null;
-    private ?string $type = null;
-    private string $sortOption = EntryRepository::SORT_DEFAULT;
-    private string $time = EntryRepository::TIME_DEFAULT;
-    private string $visibility = Entry::VISIBILITY_VISIBLE;
-    private bool $subscribed = false;
+    public int $page = 1;
+    public ?Magazine $magazine = null;
+    public ?User $user = null;
+    public ?string $type = null;
+    public string $sortOption = EntryRepository::SORT_DEFAULT;
+    public string $time = EntryRepository::TIME_DEFAULT;
+    public string $visibility = Entry::VISIBILITY_VISIBLE;
+    public bool $subscribed = false;
 
     public function __construct(int $page)
     {
         $this->page = $page;
     }
 
-    public function getPage(): int
+    public function setType(?string $type): self
     {
-        return $this->page;
-    }
-
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function showMagazine(Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
+        if ($type) {
+            $this->type = $type;
+        }
 
         return $this;
     }
 
-    public function setType(string $type): self
+    public function showSortOption(?string $sortOption): self
     {
-        $this->type = $type;
+        if ($sortOption) {
+            $this->sortOption = $this->translateSort($sortOption);
+        }
 
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-
-    public function showUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getSortOption(): string
-    {
-        return $this->sortOption;
-    }
-
-    public function showSortOption(string $sortOption): self
-    {
-        $this->sortOption = $this->translateSort($sortOption);
-
-        return $this;
-    }
-
-    public function showSubscribed(): self
-    {
-        $this->subscribed = true;
-
-        return $this;
-    }
-
-    public function isSubscribed(): bool
-    {
-        return $this->subscribed;
-    }
-
-    public function translateSort(string $value): string
+    public function translateSort(?string $value): string
     {
         //@todo
         $routes = [
@@ -138,14 +91,10 @@ abstract class Criteria
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
 
-        if (in_array($value, $routes)) {
-            return $value;
-        }
-
-        return $routes[$value];
+        return $routes[$value] ?? $routes['aktywne'];
     }
 
-    public function translateTime(string $value): string
+    public function translateTime(?string $value): ?string
     {
         //@todo
         $routes = [
@@ -157,16 +106,13 @@ abstract class Criteria
             '1y'       => Criteria::TIME_YEAR,
             '∞'        => Criteria::TIME_ALL,
             'wszystko' => Criteria::TIME_ALL,
+            null       => null,
         ];
 
-        if (in_array($value, $routes)) {
-            return $value;
-        }
-
-        return $routes[$value];
+        return $routes[$value] ?? $value;
     }
 
-    public function translateType(string $value): string
+    public function translateType(?string $value): ?string
     {
         //@todo
         $routes = [
@@ -174,13 +120,10 @@ abstract class Criteria
             'link'    => Entry::ENTRY_TYPE_LINK,
             'video'   => Entry::ENTRY_TYPE_VIDEO,
             'foto'    => Entry::ENTRY_TYPE_IMAGE,
+            null      => null,
         ];
 
-        if (in_array($value, $routes)) {
-            return $value;
-        }
-
-        return $routes[$value];
+        return $routes[$value] ?? $value;
     }
 
     public function setVisibility(string $visibility): self
@@ -190,35 +133,29 @@ abstract class Criteria
         return $this;
     }
 
-    public function getVisibility(): string
+    public function setTime(?string $time): self
     {
-        return $this->visibility;
-    }
-
-    public function getTime(): string
-    {
-        return $this->time;
-    }
-
-    public function setTime(string $time): self
-    {
-        $this->time = $time;
+        if ($time) {
+            $this->time = $time;
+        } else {
+            $this->time = EntryRepository::TIME_DEFAULT;
+        }
 
         return $this;
     }
 
-    public function getSince()
+    public function getSince(): DateTimeImmutable
     {
-        $since = new \DateTimeImmutable('@'.time());
+        $since = new DateTimeImmutable('@'.time());
 
-        return match ($this->getTime()) {
+        return match ($this->time) {
             Criteria::TIME_YEAR => $since->modify('-1 year'),
             Criteria::TIME_MONTH => $since->modify('-1 month'),
             Criteria::TIME_WEEK => $since->modify('-1 week'),
             Criteria::TIME_DAY => $since->modify('-1 day'),
             Criteria::TIME_12_HOURS => $since->modify('-12 hours'),
             Criteria::TIME_6_HOURS => $since->modify('-6 hours'),
-            default => throw new \LogicException(),
+            default => throw new LogicException(),
         };
     }
 }

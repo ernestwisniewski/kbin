@@ -69,10 +69,10 @@
                     {% if comment.image %}
                         <img data-controller="image"
                              data-image-loading-class="loading-cursor"
-                             data-image-full-value="{{ uploaded_asset(comment.image.getFilePath()) }}"
-                             data-image-thumb-value="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                             data-image-full-value="{{ uploaded_asset(comment.image.filePath) }}"
+                             data-image-thumb-value="{{ asset(comment.image.filePath) | imagine_filter('post_thumb') }}"
                              data-action="click->image#toggle"
-                             src="{{ asset(comment.image.getFilePath()) | imagine_filter('post_thumb') }}"
+                             src="{{ asset(comment.image.filePath) | imagine_filter('post_thumb') }}"
                              alt="{{ comment.shortTitle }}">
                     {% endif %}
                 {% elseif comment.visibility is same as 'trashed' %}
