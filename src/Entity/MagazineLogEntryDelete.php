@@ -19,7 +19,7 @@ class MagazineLogEntryDelete extends MagazineLog
 
     public function __construct(Entry $entry, User $user)
     {
-        parent::__construct($entry->getMagazine(), $user);
+        parent::__construct($entry->magazine, $user);
 
         $this->entry = $entry;
     }

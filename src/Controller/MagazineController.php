@@ -72,7 +72,7 @@ class MagazineController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->magazineManager->create($magazineDto, $this->getUserOrThrow());
 
-            return $this->redirectToRoute('front_magazine', ['name' => $magazineDto->getName()]);
+            return $this->redirectToRoute('front_magazine', ['name' => $magazineDto->name]);
         }
 
         return $this->render(

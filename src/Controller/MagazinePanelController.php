@@ -366,7 +366,7 @@ class MagazinePanelController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dto->setMagazine($magazine);
+            $dto->magazine = $magazine;
             $badgeManager->create($dto);
 
             return $this->redirectToRefererOrHome($request);

@@ -38,12 +38,9 @@ final class ImageListener implements EventSubscriberInterface
 
         $upload = $event->getForm()->get($fieldName)->getData();
 
-        $getter = 'get'.ucwords($fieldName);
-        if ($upload && !$data->$getter()) {
+        if ($upload && !$data->$fieldName) {
             $image = $this->images->findOrCreateFromUpload($upload);
-
-            $setter = 'set'.ucwords($fieldName);
-            $data->$setter($image);
+            $data->$fieldName = $image;
         }
     }
 

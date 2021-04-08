@@ -40,12 +40,12 @@ class MagazineManager
 
     public function edit(Magazine $magazine, MagazineDto $magazineDto): Magazine
     {
-        Assert::same($magazine->getName(), $magazineDto->getName());
+        Assert::same($magazine->getName(), $magazineDto->name);
 
-        $magazine->setTitle($magazineDto->getTitle());
-        $magazine->setDescription($magazineDto->getDescription());
-        $magazine->setRules($magazineDto->getRules());
-        $magazine->setIsAdult($magazineDto->isAdult());
+        $magazine->setTitle($magazineDto->title);
+        $magazine->setDescription($magazineDto->description);
+        $magazine->setRules($magazineDto->rules);
+        $magazine->setIsAdult($magazineDto->isAdult);
 
         $this->entityManager->flush();
 
@@ -67,7 +67,7 @@ class MagazineManager
 
     public function createDto(Magazine $magazine): MagazineDto
     {
-        return ($this->magazineFactory->createDto($magazine))->setId($magazine->getId());
+       return $this->magazineFactory->createDto($magazine);
     }
 
     public function subscribe(Magazine $magazine, User $user): void
@@ -112,9 +112,9 @@ class MagazineManager
 
     public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): void
     {
-        Assert::greaterThan($dto->getExpiredAt(), new \DateTime());
+        Assert::greaterThan($dto->expiredAt, new \DateTime());
 
-        $ban = $magazine->addBan($user, $bannedBy, $dto->getReason(), $dto->getExpiredAt());
+        $ban = $magazine->addBan($user, $bannedBy, $dto->reason, $dto->expiredAt);
 
         if (!$ban) {
             return;
@@ -141,9 +141,9 @@ class MagazineManager
 
     public function addModerator(ModeratorDto $dto): void
     {
-        $magazine = $dto->getMagazine();
+        $magazine = $dto->magazine;
 
-        $magazine->addModerator(new Moderator($magazine, $dto->getUser(), false, true));
+        $magazine->addModerator(new Moderator($magazine, $dto->user, false, true));
 
         $this->entityManager->flush();
     }
@@ -156,11 +156,11 @@ class MagazineManager
 
     public function changeTheme(MagazineThemeDto $dto)
     {
-        $magazine = $dto->getMagazine();
+        $magazine = $dto->magazine;
 
-        $magazine->setCover($dto->getCover());
-        $magazine->setCustomCss($dto->getCustomCss());
-        $magazine->setCustomJs($dto->getCustomJs());
+        $magazine->setCover($dto->cover);
+        $magazine->setCustomCss($dto->customCss);
+        $magazine->setCustomJs($dto->customJs);
 
         $this->entityManager->flush();
     }

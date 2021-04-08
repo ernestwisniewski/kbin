@@ -13,10 +13,10 @@ class PostCommentFactory
     public function createFromDto(PostCommentDto $commentDto, User $user): PostComment
     {
         return new PostComment(
-            $commentDto->getBody(),
-            $commentDto->getPost(),
+            $commentDto->body,
+            $commentDto->post,
             $user,
-            $commentDto->getParent()
+            $commentDto->parent
         );
     }
 

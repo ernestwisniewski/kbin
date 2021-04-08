@@ -52,7 +52,7 @@
                         {% endif %}
                     </ul>
                     <ul class="kbin-entry-meta-list  list-inline mb-0">
-                        {% if entry.isSticky %}
+                        {% if entry.sticky %}
                             <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
                                 <i class="kbin-sticky fas fa-thumbtack text-muted me-1"></i>
                             </li>
@@ -100,7 +100,7 @@
                                 <form action="{{ path('entry_pin', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}" method="POST">
                                     <input type="hidden" name="token" value="{{ csrf_token('entry_pin') }}">
                                     <button type="submit" class="btn btn-link">
-                                        <span>{{ entry.isSticky ? 'odepnij' : 'przypnij' }}</span>
+                                        <span>{{ entry.sticky ? 'odepnij' : 'przypnij' }}</span>
                                     </button>
                                 </form>
                             </li>

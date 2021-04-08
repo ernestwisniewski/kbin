@@ -26,17 +26,17 @@ class Domain
     /**
      * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="domain")
      */
-    private Collection $entries;
+    public Collection $entries;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    public string $name;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $entryCount = 0;
+    public int $entryCount = 0;
 
     public function __construct(DomainInterface $entry, string $name)
     {
@@ -49,11 +49,6 @@ class Domain
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getEntries(): Collection
-    {
-        return $this->entries;
     }
 
     public function addEntry(DomainInterface $subject): self
@@ -84,30 +79,6 @@ class Domain
     public function updateCounts()
     {
         $this->entryCount = $this->entries->count();
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getEntryCount(): ?int
-    {
-        return $this->entryCount;
-    }
-
-    public function setEntryCount(int $entryCount): self
-    {
-        $this->entryCount = $entryCount;
-
-        return $this;
     }
 
     public function __sleep()

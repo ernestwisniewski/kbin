@@ -284,7 +284,7 @@ class Magazine implements VisibilityInterface
     {
         if (!$this->entries->contains($entry)) {
             $this->entries->add($entry);
-            $entry->setMagazine($this);
+            $entry->magazine = $this;
         }
 
         $this->updateEntryCounts();
@@ -295,8 +295,8 @@ class Magazine implements VisibilityInterface
     public function removeEntry(Entry $entry): self
     {
         if ($this->entries->removeElement($entry)) {
-            if ($entry->getMagazine() === $this) {
-                $entry->setMagazine(null);
+            if ($entry->magazine === $this) {
+                $entry->magazine = null;
             }
         }
 

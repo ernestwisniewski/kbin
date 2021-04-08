@@ -74,7 +74,7 @@ class EntryController extends AbstractController
         $entryDto = new EntryDto();
 
         if ($magazine) {
-            $entryDto->setMagazine($magazine);
+            $entryDto->magazine = $magazine;
         }
 
         $form = $this->createFormByType($entryDto, $type);
@@ -86,7 +86,7 @@ class EntryController extends AbstractController
             return $this->redirectToRoute(
                 'entry_single',
                 [
-                    'magazine_name' => $entry->getMagazine()->getName(),
+                    'magazine_name' => $entry->magazine->getName(),
                     'entry_id'      => $entry->getId(),
                 ]
             );

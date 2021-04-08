@@ -11,26 +11,27 @@ use App\Entity\Entry;
 class PostDto
 {
     private ?int $id = null;
-
     /**
      * @Assert\NotBlank()
      */
-    private ?Magazine $magazine = null;
-
+    public ?Magazine $magazine = null;
     /**
      * @Assert\Length(
      *     min = 2,
      *     max = 15000
      * )
      */
-    private ?string $body = null;
+    public ?string $body = null;
+    public ?Image $image = null;
+    public ?bool $isAdult = false;
 
-    private ?Image $image = null;
-
-    private ?bool $isAdult = false;
-
-    public function create(Magazine $magazine, ?string $body = null, ?Image $image = null, ?bool $isAdult = false, ?int $id = null): self
-    {
+    public function create(
+        Magazine $magazine,
+        ?string $body = null,
+        ?Image $image = null,
+        ?bool $isAdult = false,
+        ?int $id = null
+    ): self {
         $this->id       = $id;
         $this->magazine = $magazine;
         $this->body     = $body;
@@ -43,53 +44,5 @@ class PostDto
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getMagazine(): ?Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
-
-        return $this;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setBody(?string $body): self
-    {
-        $this->body = $body;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function isAdult(): bool
-    {
-        return $this->isAdult;
-    }
-
-    public function setIsAdult(bool $isAdult): self
-    {
-        $this->isAdult = $isAdult;
-
-        return $this;
     }
 }

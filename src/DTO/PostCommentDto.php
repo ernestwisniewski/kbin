@@ -10,8 +10,7 @@ use App\Entity\Post;
 class PostCommentDto
 {
     private ?int $id = null;
-
-    private Post $post;
+    public Post $post;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -19,11 +18,9 @@ class PostCommentDto
      *     max = 4500
      * )
      */
-    private ?string $body;
-
-    private ?PostComment $parent = null;
-
-    private ?Image $image = null;
+    public ?string $body;
+    public ?PostComment $parent = null;
+    public ?Image $image = null;
 
     public function create(Post $post, string $body, ?Image $image = null, ?int $id = null): self
     {
@@ -48,51 +45,5 @@ class PostCommentDto
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPost(): Post
-    {
-        return $this->post;
-    }
-
-    public function setPost(Post $post): void
-    {
-        $this->post = $post;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setBody(?string $body): self
-    {
-        $this->body = $body;
-
-        return $this;
-    }
-
-    public function getParent(): ?PostComment
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?PostComment $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
     }
 }

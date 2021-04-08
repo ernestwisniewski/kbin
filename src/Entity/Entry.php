@@ -49,110 +49,110 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entries")
      * @ORM\JoinColumn(nullable=false)
      */
-    private User $user;
+    public User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private ?Magazine $magazine;
+    public ?Magazine $magazine;
 
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?Image $image = null;
+    public ?Image $image = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Domain::class, inversedBy="entries")
      */
-    private Domain $domain;
+    public Domain $domain;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $title;
+    public string $title;
 
     /**
      * @ORM\Column(type="string", length=2048, nullable=true)
      */
-    private ?string $url = null;
+    public ?string $url = null;
 
     /**
      * @ORM\Column(type="text", nullable=true, length=15000)
      */
-    private ?string $body = null;
+    public ?string $body = null;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $type = self::ENTRY_TYPE_ARTICLE;
+    public string $type = self::ENTRY_TYPE_ARTICLE;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $hasEmbed = false;
+    public bool $hasEmbed = false;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $commentCount = 0;
+    public int $commentCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $score = 0;
+    public int $score = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected ?int $views = 0;
+    public ?int $views = 0;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $isAdult = false;
+    public ?bool $isAdult = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $sticky = false;
+    public bool $sticky = false;
 
     /**
      * @ORM\Column(type="datetimetz")
      */
-    private ?\DateTime $lastActive;
+    public ?\DateTime $lastActive;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
      */
-    private Collection $comments;
+    public Collection $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry", cascade={"persist"},
      *     fetch="EXTRA_LAZY", orphanRemoval=true)
      */
-    private Collection $votes;
+    public Collection $votes;
 
     /**
      * @ORM\OneToMany(targetEntity="EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
      */
-    private Collection $reports;
+    public Collection $reports;
 
     /**
      * @ORM\OneToMany(targetEntity="EntryNotification", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
      */
-    private Collection $notifications;
+    public Collection $notifications;
 
     /**
      * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
      */
-    protected Collection $viewCounters;
+    public Collection $viewCounters;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\EntryBadge", mappedBy="entry", cascade={"remove", "persist"}, orphanRemoval=true)
      */
-    protected Collection $badges;
+    public Collection $badges;
 
     public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user, ?bool $isAdult = null)
     {
@@ -181,171 +181,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this->id;
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function getMagazine(): Magazine
-    {
-        return $this->magazine;
-    }
-
-    public function setMagazine(?Magazine $magazine): self
-    {
-        $this->magazine = $magazine;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getDomain(): Domain
-    {
-        return $this->domain;
-    }
-
-    public function setDomain(Domain $domain): self
-    {
-        $this->domain = $domain;
-
-        return $this;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getUrl(): ?string
-    {
-        return $this->url;
-    }
-
-    public function setUrl(?string $url): self
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setBody(?string $body): self
-    {
-        $this->body = $body;
-
-        return $this;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function hasEmbed(): bool
-    {
-        return $this->hasEmbed;
-    }
-
-    public function setHasEmbed(bool $hasEmbed): void
-    {
-        $this->hasEmbed = $hasEmbed;
-    }
-
-    public function getCommentCount(): int
-    {
-        return $this->commentCount;
-    }
-
-    public function setCommentCount(int $commentCount): self
-    {
-        $this->commentCount = $commentCount;
-
-        return $this;
-    }
-
-    public function getScore(): int
-    {
-        return $this->score;
-    }
-
-    public function setScore(int $score): self
-    {
-        $this->score = $score;
-
-        return $this;
-    }
-
-    public function getViews(): ?int
-    {
-        return $this->views;
-    }
-
-    public function setViews($views): self
-    {
-        $this->views = $views;
-
-        return $this;
-    }
-
-    public function isAdult(): bool
-    {
-        return $this->isAdult;
-    }
-
-    public function setIsAdult(bool $isAdult): self
-    {
-        $this->isAdult = $isAdult;
-
-        return $this;
-    }
-
-    public function isSticky(): bool
-    {
-        return $this->sticky;
-    }
-
-    public function setSticky(bool $sticky): self
-    {
-        $this->sticky = $sticky;
-
-        return $this;
-    }
-
-    public function getBadges(): ArrayCollection|Collection
-    {
-        return $this->badges;
-    }
-
-
     public function setBadges(Badge ...$badges)
     {
         $this->badges->clear();
@@ -353,11 +188,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         foreach ($badges as $badge) {
             $this->badges->add(new EntryBadge($this, $badge));
         }
-    }
-
-    public function getLastActive(): ?\DateTime
-    {
-        return $this->lastActive;
     }
 
     public function updateLastActive(): void
@@ -391,11 +221,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public function restore(): void
     {
         $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
-    }
-
-    public function getComments(): Collection
-    {
-        return $this->comments;
     }
 
     public function addComment(EntryComment $comment): self
@@ -432,16 +257,9 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
-        $this->setCommentCount(
-            $this->comments->matching($criteria)->count()
-        );
+        $this->commentCount = $this->comments->matching($criteria)->count();
 
         return $this;
-    }
-
-    public function getVotes(): Collection
-    {
-        return $this->votes;
     }
 
     public function addVote(Vote $vote): self
@@ -475,11 +293,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this;
     }
 
-    public function getViewCounters(): Collection
-    {
-        return $this->viewCounters;
-    }
-
     public function addViewCounter(ViewCounter $viewCounter): self
     {
         $this->viewCounters[] = $viewCounter;
@@ -499,7 +312,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
 
     public function getShortTitle(): string
     {
-        $body = $this->getTitle();
+        $body = $this->title;
         preg_match('/^(.*)$/m', $body, $firstLine);
         $firstLine = $firstLine[0];
 
@@ -508,6 +321,48 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         }
 
         return grapheme_substr($firstLine, 0, 60).'…';
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function setDomain(Domain $domain): DomainInterface
+    {
+        $this->domain = $domain;
+
+        return $this;
+    }
+
+    public function getCommentCount(): int
+    {
+        return $this->commentCount;
+    }
+
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+    public function getMagazine(): ?Magazine
+    {
+        return $this->magazine;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function getViews()
+    {
+        return $this->views;
+    }
+
+    public function setViews($views)
+    {
+        $this->views = $views;
     }
 
     public function __sleep()

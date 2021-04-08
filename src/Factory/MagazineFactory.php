@@ -11,12 +11,12 @@ class MagazineFactory
     public function createFromDto(MagazineDto $magazineDto, User $user): Magazine
     {
         return new Magazine(
-            $magazineDto->getName(),
-            $magazineDto->getTitle(),
+            $magazineDto->name,
+            $magazineDto->title,
             $user,
-            $magazineDto->getDescription(),
-            $magazineDto->getRules(),
-            $magazineDto->isAdult()
+            $magazineDto->description,
+            $magazineDto->rules,
+            $magazineDto->isAdult
         );
     }
 

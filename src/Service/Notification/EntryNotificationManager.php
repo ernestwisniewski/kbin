@@ -35,7 +35,7 @@ class EntryNotificationManager
 
         $usersToNotify = $this->merge($subs, $followers);
 
-        $this->notifyMagazine(new EntryNotification($entry->getUser(), $entry));
+        $this->notifyMagazine(new EntryNotification($entry->user, $entry));
 
         if (!\count($usersToNotify)) {
             return;

@@ -9,7 +9,6 @@ use App\Entity\Image;
 class UserDto implements UserDtoInterface
 {
     private ?int $id = null;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -17,14 +16,12 @@ class UserDto implements UserDtoInterface
      *     max=35
      * )
      */
-    private ?string $username = null;
-
+    public ?string $username = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
      */
-    private ?string $email = null;
-
+    public ?string $email = null;
     /**
      * @Assert\Length(
      *     min = 6,
@@ -33,14 +30,12 @@ class UserDto implements UserDtoInterface
      *     maxMessage="Hasło powinno mieć nie więcej niż {{ limit }} znaków."
      * )
      */
-    private ?string $plainPassword = null;
-
-    private ?Image $avatar = null;
-
+    public ?string $plainPassword = null;
+    public ?Image $avatar = null;
     /**
      * @Assert\IsTrue()
      */
-    private bool $agreeTerms;
+    public bool $agreeTerms;
 
     public function getId(): ?int
     {
@@ -52,57 +47,5 @@ class UserDto implements UserDtoInterface
         $this->id = $id;
 
         return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?string $username): void
-    {
-        $this->username = $username;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): void
-    {
-        $this->email = $email;
-    }
-
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(?string $plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
-    }
-
-    public function getAvatar(): ?Image
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(?Image $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getAgreeTerms(): ?bool
-    {
-        return $this->agreeTerms;
-    }
-
-    public function setAgreeTerms(bool $agreeTerms): void
-    {
-        $this->agreeTerms = $agreeTerms;
     }
 }

@@ -26,7 +26,7 @@ class EntryVote extends Vote
 
     public function __construct(int $choice, User $user, ?Entry $entry)
     {
-        parent::__construct($choice, $user, $entry->getUser());
+        parent::__construct($choice, $user, $entry->user);
 
         $this->entry = $entry;
     }

@@ -13,7 +13,6 @@ use App\Validator\Unique;
 class MagazineDto
 {
     private ?int $id = null;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -21,8 +20,7 @@ class MagazineDto
      *     max = 25
      * )
      */
-    private ?string $name;
-
+    public ?string $name;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -30,25 +28,22 @@ class MagazineDto
      *     max = 50
      * )
      */
-    private string $title;
-
+    public string $title;
     /**
      * @Assert\Length(
      *     min = 3,
      *     max = 420
      * )
      */
-    private ?string $description = null;
-
+    public ?string $description = null;
     /**
      * @Assert\Length(
      *     min = 3,
      *     max = 420
      * )
      */
-    private ?string $rules = null;
-
-    private ?bool $isAdult = false;
+    public ?string $rules = null;
+    public ?bool $isAdult = false;
 
     public function create(
         string $name,
@@ -71,64 +66,5 @@ class MagazineDto
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(?int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): void
-    {
-        $this->description = $description;
-    }
-
-    public function getRules(): ?string
-    {
-        return $this->rules;
-    }
-
-    public function setRules(?string $rules): void
-    {
-        $this->rules = $rules;
-    }
-
-    public function isAdult(): bool
-    {
-        return $this->isAdult;
-    }
-
-    public function setIsAdult(bool $isAdult): self
-    {
-        $this->isAdult = $isAdult;
-
-        return $this;
     }
 }

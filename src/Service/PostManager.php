@@ -34,8 +34,8 @@ class PostManager implements ContentManager
         $magazine = $post->getMagazine();
 
         $magazine->addPost($post);
-        if ($postDto->getImage()) {
-            $post->setImage($postDto->getImage());
+        if ($postDto->image) {
+            $post->setImage($postDto->image);
         }
 
         $this->entityManager->persist($post);
@@ -48,13 +48,13 @@ class PostManager implements ContentManager
 
     public function edit(Post $post, PostDto $postDto): Post
     {
-        Assert::same($post->getMagazine()->getId(), $postDto->getMagazine()->getId());
+        Assert::same($post->getMagazine()->getId(), $postDto->magazine->getId());
 
-        $post->setBody($postDto->getBody());
-        $post->setIsAdult($postDto->isAdult());
+        $post->setBody($postDto->body);
+        $post->setIsAdult($postDto->isAdult);
 
-        if ($postDto->getImage()) {
-            $post->setImage($postDto->getImage());
+        if ($postDto->image) {
+            $post->setImage($postDto->image);
         }
 
         $this->entityManager->flush();

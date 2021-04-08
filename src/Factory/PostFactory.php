@@ -11,10 +11,10 @@ class PostFactory
     public function createFromDto(PostDto $postDto, User $user): Post
     {
         return new Post(
-            $postDto->getBody(),
-            $postDto->getMagazine(),
+            $postDto->body,
+            $postDto->magazine,
             $user,
-            $postDto->isAdult()
+            $postDto->isAdult
         );
     }
 
