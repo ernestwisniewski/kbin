@@ -1,4 +1,7 @@
 # Kbin
+[![Maintainability](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/maintainability)](https://codeclimate.com/github/ernestwisniewski/kbin/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/test_coverage)](https://codeclimate.com/github/ernestwisniewski/kbin/test_coverage)
+
 A reddit-like content aggregator and micro-blogging platform for the fediverse - https://kbin.info.
 
 https://dev.karab.in instance for testing purposes only
