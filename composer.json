@@ -15,6 +15,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/mongodb-odm-bundle": "^4.3",
         "doctrine/orm": "^2.8",
+        "easycorp/easyadmin-bundle": "^3",
         "embed/embed": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
         "karser/karser-recaptcha3-bundle": "^0.1.17",
