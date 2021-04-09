@@ -56,7 +56,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
     private function createChildren(PostComment $parent): PostComment
     {
         $dto = (new PostCommentDto())->createWithParent(
-            $parent->getPost(),
+            $parent->post,
             $parent,
             null,
             $this->faker->realText($this->faker->numberBetween(10, 1024))

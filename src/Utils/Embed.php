@@ -63,6 +63,10 @@ class Embed
 
     public function isImageUrl(): bool
     {
+        if (!$this->url) {
+            return false;
+        }
+
         return ImageManager::isImageUrl($this->url);
     }
 
