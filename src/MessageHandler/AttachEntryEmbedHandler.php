@@ -32,8 +32,8 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
 
         $cover    = null;
         $tempFile = null;
-        if ($embed->getImage()) {
-            $tempFile = $this->fetchImage($embed->getImage());
+        if ($embed->image) {
+            $tempFile = $this->fetchImage($embed->image);
         } elseif ($embed->isImageUrl()) {
             $tempFile = $this->fetchImage($entry->url);
         }
@@ -42,7 +42,7 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
             $cover = $this->imageRepository->findOrCreateFromPath($tempFile);
         }
 
-        $html    = $embed->getHtml();
+        $html    = $embed->html;
         $type    = $embed->getType();
         $isImage = $embed->isImageUrl();
 

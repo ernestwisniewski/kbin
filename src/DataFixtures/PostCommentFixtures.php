@@ -19,14 +19,14 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
         $this->postCommentManager = $postCommentManager;
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             PostFixtures::class,
         ];
     }
 
-    public function loadData(ObjectManager $manager)
+    public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomComments(self::COMMENTS_COUNT) as $index => $comment) {
             $dto = (new PostCommentDto())->create(

@@ -16,14 +16,14 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
     ) {
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             MagazineFixtures::class,
         ];
     }
 
-    public function loadData(ObjectManager $manager)
+    public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomPosts(self::ENTRIES_COUNT) as $index => $post) {
             $dto = (new PostDto())->create($post['magazine'], $post['body']);

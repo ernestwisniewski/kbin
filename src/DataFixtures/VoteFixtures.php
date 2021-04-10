@@ -12,7 +12,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
     {
     }
 
-    public function loadData(ObjectManager $manager)
+    public function loadData(ObjectManager $manager): void
     {
         for ($u = 0; $u <= UserFixtures::USERS_COUNT; $u++) {
             $randomNb = $this->getUniqueNb(
@@ -55,7 +55,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             EntryFixtures::class,

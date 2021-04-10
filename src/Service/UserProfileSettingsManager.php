@@ -19,8 +19,7 @@ class UserProfileSettingsManager
 
     public function update(User $user, UserProfileSettingsDto $dto)
     {
-        $user->setNotifyOnNewEntry($dto->notifyOnNewEntry);
-        $user->setNotifyOnNewPost($dto->notifyOnNewPost);
+        $user->notifyOnNewPost = $dto->notifyOnNewEntry;
 
         $this->entityManager->flush();
     }
