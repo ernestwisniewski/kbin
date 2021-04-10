@@ -41,7 +41,7 @@ class EntryRepository extends ServiceEntityRepository
         $this->security = $security;
     }
 
-    public function findByCriteria(EntryPageView $criteria): PagerfantaInterface
+    public function findByCriteria(EntryPageView|Criteria $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
