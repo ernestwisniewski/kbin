@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class AdminCommand extends Command
 {
     protected static $defaultName = 'kbin:admin';
-    protected static string $defaultDescription = 'This command allows you to grant administrator privileges to the user..';
+    protected static string $defaultDescription = 'This command allows you to grant administrator privileges to the user.';
 
     public function __construct(private EntityManagerInterface $entityManager, private UserRepository $userRepository)
     {
@@ -33,19 +33,19 @@ class AdminCommand extends Command
     {
         $io     = new SymfonyStyle($input, $output);
         $remove = $input->getOption('remove');
+        $user   = $this->userRepository->findOneByUsername($input->getArgument('username'));
 
-        $user = $this->userRepository->findOneByUsername($input->getArgument('username'));
         if (!$user) {
             $io->error('User not found.');
 
             return 0;
         }
 
-        if (!$remove) {
-            $io->success('Administrator privileges has been granted.');
-        } else {
-            $io->success('Administrator privileges have been revoked.');
-        }
+        $user->setOrRemoveAdminRole($remove);
+        $this->entityManager->flush();
+
+        $remove ? $io->success('Administrator privileges have been revoked.')
+            : $io->success('Administrator privileges has been granted.');
 
         return Command::SUCCESS;
     }

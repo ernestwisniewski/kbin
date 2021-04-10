@@ -222,6 +222,17 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    public function setOrRemoveAdminRole(bool $remove = false): self
+    {
+        $this->roles = ['ROLE_ADMIN'];
+
+        if ($remove) {
+            $this->roles = [];
+        }
+
+        return $this;
+    }
+
     public function setPassword(string $password): self
     {
         $this->password = $password;
