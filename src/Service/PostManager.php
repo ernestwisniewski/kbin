@@ -26,14 +26,14 @@ class PostManager implements ContentManager
     ) {
     }
 
-    public function create(PostDto $postDto, User $user): Post
+    public function create(PostDto $dto, User $user): Post
     {
-        $post     = $this->postFactory->createFromDto($postDto, $user);
+        $post     = $this->postFactory->createFromDto($dto, $user);
         $magazine = $post->magazine;
 
         $magazine->addPost($post);
-        if ($postDto->image) {
-            $post->image = $postDto->image;
+        if ($dto->image) {
+            $post->image = $dto->image;
         }
 
         $this->entityManager->persist($post);
@@ -44,15 +44,15 @@ class PostManager implements ContentManager
         return $post;
     }
 
-    public function edit(Post $post, PostDto $postDto): Post
+    public function edit(Post $post, PostDto $dto): Post
     {
-        Assert::same($post->magazine->getId(), $postDto->magazine->getId());
+        Assert::same($post->magazine->getId(), $dto->magazine->getId());
 
-        $post->body    = $postDto->body;
-        $post->isAdult = $postDto->isAdult;
+        $post->body    = $dto->body;
+        $post->isAdult = $dto->isAdult;
 
-        if ($postDto->image) {
-            $post->setImage($postDto->image);
+        if ($dto->image) {
+            $post->setImage($dto->image);
         }
 
         $this->entityManager->flush();

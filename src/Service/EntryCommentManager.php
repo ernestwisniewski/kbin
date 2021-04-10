@@ -27,15 +27,15 @@ class EntryCommentManager implements ContentManager
     ) {
     }
 
-    public function create(EntryCommentDto $commentDto, User $user): EntryComment
+    public function create(EntryCommentDto $dto, User $user): EntryComment
     {
-        $comment = $this->commentFactory->createFromDto($commentDto, $user);
+        $comment = $this->commentFactory->createFromDto($dto, $user);
 
         $comment->entry->addComment($comment);
-        $comment->magazine = $commentDto->entry->magazine;
+        $comment->magazine = $dto->entry->magazine;
 
-        if ($commentDto->image) {
-            $comment->image = $commentDto->image;
+        if ($dto->image) {
+            $comment->image = $dto->image;
         }
 
         $this->entityManager->persist($comment);
@@ -46,13 +46,13 @@ class EntryCommentManager implements ContentManager
         return $comment;
     }
 
-    public function edit(EntryComment $comment, EntryCommentDto $commentDto): EntryComment
+    public function edit(EntryComment $comment, EntryCommentDto $dto): EntryComment
     {
-        Assert::same($comment->entry->getId(), $commentDto->entry->getId());
+        Assert::same($comment->entry->getId(), $dto->entry->getId());
 
-        $comment->body = $commentDto->body;
-        if ($commentDto->image) {
-            $comment->image = $commentDto->image;
+        $comment->body = $dto->body;
+        if ($dto->image) {
+            $comment->image = $dto->image;
         }
 
         $this->entityManager->flush();
