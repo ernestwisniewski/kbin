@@ -11,10 +11,10 @@ use App\Entity\Entry;
 
 class Embed
 {
-    private ?string $url = null;
-    private ?string $title = null;
-    private ?string $image = null;
-    private ?string $html = null;
+    public ?string $url = null;
+    public ?string $title = null;
+    public ?string $image = null;
+    public ?string $html = null;
 
     public function fetch($url): self
     {
@@ -44,21 +44,6 @@ class Embed
                 return $this;
             }
         );
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function getHtml(): ?string
-    {
-        return $this->html;
     }
 
     public function isImageUrl(): bool
@@ -102,13 +87,13 @@ class Embed
 
     private function isVideoEmbed(): bool
     {
-        if (!$this->getHtml()) {
+        if (!$this->html) {
             return false;
         }
 
-        return str_contains($this->getHtml(), 'video')
-            || str_contains($this->getHtml(), 'youtube')
-            || str_contains($this->getHtml(), 'vimeo')
-            || str_contains($this->getHtml(), 'streamable'); // @todo
+        return str_contains($this->html, 'video')
+            || str_contains($this->html, 'youtube')
+            || str_contains($this->html, 'vimeo')
+            || str_contains($this->html, 'streamable'); // @todo
     }
 }

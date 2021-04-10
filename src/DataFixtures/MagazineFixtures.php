@@ -15,7 +15,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
     {
     }
 
-    public function loadData(ObjectManager $manager)
+    public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomMagazines(self::MAGAZINES_COUNT) as $index => $magazine) {
             $dto = (new MagazineDto())->create($magazine['name'], $magazine['title'], $magazine['description'], $magazine['rules']);
@@ -28,7 +28,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,

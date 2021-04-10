@@ -36,6 +36,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             $manager->persist($entity);
 
             $this->addReference('entry_comment_'.$index, $entity);
+
             $manager->flush();
 
             $roll     = rand(0, 4);

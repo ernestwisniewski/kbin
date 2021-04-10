@@ -49,12 +49,12 @@ user_unfollow:
   methods: [ POST ]
 
 user_block:
-  controller: App\Controller\UserController::block
+  controller: App\Controller\UserBlockController::block
   path: /u/{username}/block
   methods: [ POST ]
 
 user_unblock:
-  controller: App\Controller\UserController::unblock
+  controller: App\Controller\UserBlockController::unblock
   path: /u/{username}/unblock
   methods: [ POST ]
 

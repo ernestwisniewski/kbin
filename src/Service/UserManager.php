@@ -124,7 +124,7 @@ class UserManager
     {
         $dto = new UserDto();
 
-        $dto->id = $user->getId();
+        $dto->id       = $user->getId();
         $dto->username = $user->getUsername();
         $dto->email    = $user->email;
 

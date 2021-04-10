@@ -14,7 +14,7 @@ class UserFixtures extends BaseFixture
     {
     }
 
-    public function loadData(ObjectManager $manager)
+    public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomUsers(self::USERS_COUNT) as $index => $user) {
             $newUser = new User(

@@ -17,7 +17,7 @@ class AjaxController extends AbstractController
 
         return new JsonResponse(
             [
-                'title' => $embed->fetch($url)->getTitle(),
+                'title' => $embed->fetch($url)->title,
             ]
         );
     }
@@ -26,14 +26,14 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'html' => $embed->fetch($request->get('url'))->getHtml(),
+                'html' => $embed->fetch($request->get('url'))->html,
             ]
         );
     }
 
     public function fetchPostComments(Post $post, PostCommentRepository $commentRepository): JsonResponse
     {
-        $criteria       = (new PostCommentPageView(1));
+        $criteria       = new PostCommentPageView(1);
         $criteria->post = $post;
 
         $comments = $commentRepository->findByCriteria($criteria);

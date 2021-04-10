@@ -44,7 +44,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         }
 
         try {
-            $embed = $this->embed->fetch($url)->getHtml();
+            $embed = $this->embed->fetch($url)->html;
         } catch (Exception $e) {
             $embed = null;
         }

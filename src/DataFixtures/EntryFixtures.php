@@ -22,14 +22,14 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
     ) {
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             MagazineFixtures::class,
         ];
     }
 
-    public function loadData(ObjectManager $manager)
+    public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomEntries(self::ENTRIES_COUNT) as $index => $entry) {
             $dto = (new EntryDto())->create($entry['magazine'], $entry['title'], $entry['url'], $entry['body']);
