@@ -27,9 +27,9 @@ class MagazineManager
     ) {
     }
 
-    public function create(MagazineDto $magazineDto, User $user): Magazine
+    public function create(MagazineDto $dto, User $user): Magazine
     {
-        $magazine = $this->magazineFactory->createFromDto($magazineDto, $user);
+        $magazine = $this->magazineFactory->createFromDto($dto, $user);
 
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();
@@ -39,14 +39,14 @@ class MagazineManager
         return $magazine;
     }
 
-    public function edit(Magazine $magazine, MagazineDto $magazineDto): Magazine
+    public function edit(Magazine $magazine, MagazineDto $dto): Magazine
     {
-        Assert::same($magazine->name, $magazineDto->name);
+        Assert::same($magazine->name, $dto->name);
 
-        $magazine->title       = $magazineDto->title;
-        $magazine->description = $magazineDto->description;
-        $magazine->rules       = $magazineDto->rules;
-        $magazine->isAdult     = $magazineDto->isAdult;
+        $magazine->title       = $dto->title;
+        $magazine->description = $dto->description;
+        $magazine->rules       = $dto->rules;
+        $magazine->isAdult     = $dto->isAdult;
 
         $this->entityManager->flush();
 

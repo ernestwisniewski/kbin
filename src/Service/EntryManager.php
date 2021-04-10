@@ -32,19 +32,19 @@ class EntryManager implements ContentManager
     ) {
     }
 
-    public function create(EntryDto $entryDto, User $user): Entry
+    public function create(EntryDto $dto, User $user): Entry
     {
         // @todo
-        if ($this->security->getUser() && !$this->security->isGranted('create_content', $entryDto->magazine)) {
+        if ($this->security->getUser() && !$this->security->isGranted('create_content', $dto->magazine)) {
             throw new AccessDeniedHttpException();
         }
 
-        if ($entryDto->url) {
-            $entryDto->url = ($this->urlCleaner)($entryDto->url);
-            $this->validateUrl($entryDto->url);
+        if ($dto->url) {
+            $dto->url = ($this->urlCleaner)($dto->url);
+            $this->validateUrl($dto->url);
         }
 
-        $entry    = $this->entryFactory->createFromDto($entryDto, $user);
+        $entry    = $this->entryFactory->createFromDto($dto, $user);
         $magazine = $entry->magazine;
 
         $this->assertType($entry);
@@ -53,8 +53,8 @@ class EntryManager implements ContentManager
             $entry->type = Entry::ENTRY_TYPE_LINK;
         }
 
-        if ($entryDto->badges) {
-            $this->badgeManager->assign($entry, $entryDto->badges);
+        if ($dto->badges) {
+            $this->badgeManager->assign($entry, $dto->badges);
         }
 
         $magazine->addEntry($entry);
@@ -67,28 +67,28 @@ class EntryManager implements ContentManager
         return $entry;
     }
 
-    public function edit(Entry $entry, EntryDto $entryDto): Entry
+    public function edit(Entry $entry, EntryDto $dto): Entry
     {
-        Assert::same($entry->magazine->getId(), $entryDto->magazine->getId());
+        Assert::same($entry->magazine->getId(), $dto->magazine->getId());
 
-        $entry->title   = $entryDto->title;
-        $entry->url     = $entryDto->url;
-        $entry->body    = $entryDto->body;
-        $entry->isAdult = $entryDto->isAdult;
+        $entry->title   = $dto->title;
+        $entry->url     = $dto->url;
+        $entry->body    = $dto->body;
+        $entry->isAdult = $dto->isAdult;
 
-        if ($entryDto->image) {
-            $entry->image = $entryDto->image;
+        if ($dto->image) {
+            $entry->image = $dto->image;
         }
 
         if ($entry->url) {
             $entry->type = Entry::ENTRY_TYPE_LINK;
         }
 
-        if ($entryDto->badges) {
-            $this->badgeManager->assign($entry, $entryDto->badges);
+        if ($dto->badges) {
+            $this->badgeManager->assign($entry, $dto->badges);
         }
 
-        $this->badgeManager->assign($entry, $entryDto->badges);
+        $this->badgeManager->assign($entry, $dto->badges);
 
         $this->assertType($entry);
 

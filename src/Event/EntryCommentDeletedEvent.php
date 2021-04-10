@@ -5,6 +5,7 @@ namespace App\Event;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Entity\User;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class EntryCommentDeletedEvent
 {

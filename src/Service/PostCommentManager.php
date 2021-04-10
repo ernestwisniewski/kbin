@@ -27,14 +27,14 @@ class PostCommentManager implements ContentManager
     ) {
     }
 
-    public function create(PostCommentDto $commentDto, User $user): PostComment
+    public function create(PostCommentDto $dto, User $user): PostComment
     {
-        $comment = $this->commentFactory->createFromDto($commentDto, $user);
+        $comment = $this->commentFactory->createFromDto($dto, $user);
 
         $comment->post->addComment($comment);
-        $comment->magazine = $commentDto->post->magazine;
-        if ($commentDto->image) {
-            $comment->image = $commentDto->image;
+        $comment->magazine = $dto->post->magazine;
+        if ($dto->image) {
+            $comment->image = $dto->image;
         }
 
         $this->entityManager->persist($comment);
@@ -45,13 +45,13 @@ class PostCommentManager implements ContentManager
         return $comment;
     }
 
-    public function edit(PostComment $comment, PostCommentDto $commentDto): PostComment
+    public function edit(PostComment $comment, PostCommentDto $dto): PostComment
     {
-        Assert::same($comment->post->getId(), $commentDto->post->getId());
+        Assert::same($comment->post->getId(), $dto->post->getId());
 
-        $comment->body = $commentDto->body;
-        if ($commentDto->image) {
-            $comment->image = $commentDto->image;
+        $comment->body = $dto->body;
+        if ($dto->image) {
+            $comment->image = $dto->image;
         }
 
         $this->entityManager->flush();
