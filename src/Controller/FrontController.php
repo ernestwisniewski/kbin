@@ -19,8 +19,9 @@ class FrontController extends AbstractController
     public function front(?string $sortBy, ?string $time, Request $request): Response
     {
         $criteria = new EntryPageView((int) $request->get('strona', 1));
-        $criteria->setTime($criteria->translateTime($time));
-        $criteria->setType($criteria->translateType($request->get('typ', null)));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time))
+            ->setType($criteria->translateType($request->get('typ', null)));
 
         $method  = $criteria->translateSort($sortBy);
         $listing = $this->$method($criteria);
@@ -38,10 +39,11 @@ class FrontController extends AbstractController
      */
     public function subscribed(?string $sortBy, ?string $time, Request $request): Response
     {
-        $criteria             = new EntryPageView((int) $request->get('strona', 1));
+        $criteria = new EntryPageView((int) $request->get('strona', 1));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time))
+            ->setType($criteria->translateType($request->get('typ', null)));
         $criteria->subscribed = true;
-        $criteria->setTime($criteria->translateTime($time));
-        $criteria->setType($criteria->translateType($request->get('typ', null)));
 
         $method  = $criteria->translateSort($sortBy);
         $listing = $this->$method($criteria);

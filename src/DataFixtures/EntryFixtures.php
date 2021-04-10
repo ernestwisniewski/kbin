@@ -36,7 +36,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
 
             $entity = $this->entryManager->create($dto, $entry['user']);
 
-            $roll = rand(100, 500);
+            $roll = rand(1, 400);
             if ($roll % 5) {
                 $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
                 $image    = $this->imageRepository->findOrCreateFromPath($tempFile);
@@ -44,6 +44,12 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
                 $entity->image = $image;
                 $this->entityManager->flush();
             }
+
+            $entity->createdAt = $this->getRandomTime();
+
+            $entity->updateCounts();
+            $entity->updateLastActive();
+            $entity->updateRanking();
 
             $this->addReference('entry'.'_'.$index, $entity);
         }

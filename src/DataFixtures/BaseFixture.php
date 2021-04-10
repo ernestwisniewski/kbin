@@ -33,4 +33,16 @@ abstract class BaseFixture extends Fixture implements FixtureGroupInterface
     {
         return (new Slugger())->camelCase($value);
     }
+
+    protected function getRandomTime(?\DateTimeImmutable $from = null): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable(
+            $this->faker->dateTimeBetween
+            (
+                $from ? $from->format('Y-m-d H:i:s') : '-1 month',
+                'now'
+            )
+                ->format('Y-m-d H:i:s')
+        );
+    }
 }

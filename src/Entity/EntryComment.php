@@ -129,6 +129,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         $this->lastActive = DateTime::createFromImmutable($this->createdAt);
 
         if (!$this->root) {
+
             return;
         }
 

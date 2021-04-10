@@ -38,7 +38,7 @@ class AdminCommand extends Command
         if (!$user) {
             $io->error('User not found.');
 
-            return 0;
+            return Command::FAILURE;
         }
 
         $user->setOrRemoveAdminRole($remove);

@@ -30,7 +30,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    public int $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})

@@ -2,17 +2,16 @@
 
 namespace App\Command;
 
-use App\DTO\RegisterUserDto;
-use App\DTO\UserDto;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Command\Command;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserRepository;
 use App\Service\UserManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use App\DTO\RegisterUserDto;
 
 class UserCommand extends Command
 {
@@ -43,26 +42,41 @@ class UserCommand extends Command
         $remove = $input->getOption('remove');
         $user   = $this->userRepository->findOneByUsername($input->getArgument('username'));
 
-        if ($user) {
-            // publish delete user command
-            $io->success('The user deletion process has started.');
+        if ($user && !$remove) {
+            $io->error('User exists.');
 
-            return 1;
+            return Command::FAILURE;
         }
 
+        if ($user) {
+            // @todo publish delete user message
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
+
+            $io->success('The user deletion process has started.');
+
+            return Command::SUCCESS;
+        }
+
+        $this->createUser($input, $io);
+
+        return Command::SUCCESS;
+    }
+
+    private function createUser(InputInterface $input, SymfonyStyle $io): void
+    {
         $user = $this->userManager->create(
             (new RegisterUserDto())->create(
                 $input->getArgument('username'),
                 $input->getArgument('email'),
                 $input->getArgument('password'),
-            )
+            ),
+            false
         );
 
         $user->isVerified = true;
         $this->entityManager->flush();
 
         $io->success('A user has been created. It is recommended to change the password after the first login.');
-
-        return Command::SUCCESS;
     }
 }
