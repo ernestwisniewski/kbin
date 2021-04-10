@@ -41,6 +41,15 @@ class RegisterUserDto implements UserDtoInterface
      */
     public ?bool $agreeTerms;
 
+    public function create(string $username, string $email, string $plainPassword): self
+    {
+        $this->username      = $username;
+        $this->email         = $email;
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
