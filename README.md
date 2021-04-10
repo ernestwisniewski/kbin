@@ -48,10 +48,6 @@ $ docker-compose exec php bin/console kbin:user username email@exmple.com passwo
 $ docker-compose exec php bin/console kbin:admin username
 ```
 Next, setup your instance https://localhost/admin
-### Migrations
-### Fixtures
-### Tests
-
 ## Federation
 https://dunglas.fr/2021/01/schema-generator-3-a-step-towards-redecentralizing-the-web/
 

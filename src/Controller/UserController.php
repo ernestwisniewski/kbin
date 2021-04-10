@@ -28,14 +28,14 @@ class UserController extends AbstractController
             'user/front.html.twig',
             [
                 'user'    => $user,
-                'results' => $userRepository->findPublicActivity((int) $request->get('strona', 1), $user),
+                'results' => $userRepository->findPublicActivity($this->getPageNb($request), $user),
             ]
         );
     }
 
     public function entries(User $user, Request $request, EntryRepository $entryRepository): Response
     {
-        $criteria       = (new EntryPageView((int) $request->get('strona', 1)));
+        $criteria       = (new EntryPageView($this->getPageNb($request)));
         $criteria->user = $user;
 
         return $this->render(
@@ -49,7 +49,7 @@ class UserController extends AbstractController
 
     public function comments(User $user, Request $request, EntryCommentRepository $commentRepository): Response
     {
-        $criteria              = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria              = (new EntryCommentPageView($this->getPageNb($request)));
         $criteria->user        = $user;
         $criteria->onlyParents = false;
 
@@ -69,7 +69,7 @@ class UserController extends AbstractController
 
     public function posts(User $user, Request $request, PostRepository $postRepository): Response
     {
-        $criteria       = (new PostPageView((int) $request->get('strona', 1)));
+        $criteria       = (new PostPageView($this->getPageNb($request)));
         $criteria->user = $user;
 
         $posts = $postRepository->findByCriteria($criteria);
@@ -85,7 +85,7 @@ class UserController extends AbstractController
 
     public function replies(User $user, Request $request, PostCommentRepository $commentRepository): Response
     {
-        $criteria       = (new PostCommentPageView((int) $request->get('strona', 1)));
+        $criteria       = (new PostCommentPageView($this->getPageNb($request)));
         $criteria->user = $user;
 
         $comments = $commentRepository->findByCriteria($criteria);
@@ -101,7 +101,7 @@ class UserController extends AbstractController
 
     public function subscriptions(User $user, MagazineRepository $magazineRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'user/subscriptions.html.twig',
@@ -114,7 +114,7 @@ class UserController extends AbstractController
 
     public function followers(User $user, UserRepository $userRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'user/followers.html.twig',
@@ -127,7 +127,7 @@ class UserController extends AbstractController
 
     public function follows(User $user, UserRepository $userRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'user/follows.html.twig',

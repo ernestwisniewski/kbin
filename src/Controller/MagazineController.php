@@ -26,7 +26,7 @@ class MagazineController extends AbstractController
 
     public function front(Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
     {
-        $criteria = (new EntryPageView((int) $request->get('strona', 1)));
+        $criteria = (new EntryPageView($this->getPageNb($request)));
         $criteria->showSortOption($criteria->translateSort($sortBy))
             ->setTime($criteria->translateTime($time))
             ->setType($criteria->translateType($request->get('typ', null)));
@@ -186,14 +186,14 @@ class MagazineController extends AbstractController
         return $this->render(
             'magazine/list_all.html.twig',
             [
-                'magazines' => $magazineRepository->findAllPaginated((int) $request->get('strona', 1)),
+                'magazines' => $magazineRepository->findAllPaginated($this->getPageNb($request)),
             ]
         );
     }
 
     public function moderators(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'magazine/moderators.html.twig',
@@ -206,7 +206,7 @@ class MagazineController extends AbstractController
 
     public function modlog(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'magazine/modlog.html.twig',

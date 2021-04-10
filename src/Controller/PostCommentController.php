@@ -80,7 +80,7 @@ class PostCommentController extends AbstractController
             );
         }
 
-        $criteria       = (new PostCommentPageView((int) $request->get('strona', 1)));
+        $criteria       = (new PostCommentPageView($this->getPageNb($request)));
         $criteria->post = $post;
 
         $comments = $commentRepository->findByCriteria($criteria);
@@ -142,7 +142,7 @@ class PostCommentController extends AbstractController
             );
         }
 
-        $criteria       = (new PostCommentPageView((int) $request->get('strona', 1)));
+        $criteria       = (new PostCommentPageView($this->getPageNb($request)));
         $criteria->post = $post;
 
         $comments = $commentRepository->findByCriteria($criteria);

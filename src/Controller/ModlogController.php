@@ -11,7 +11,7 @@ class ModlogController extends AbstractController
 {
     public function __invoke(MagazineLogRepository $magazineLogRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'modlog/modlog.html.twig',
