@@ -80,7 +80,7 @@ class UserManager
         $this->eventDispatcher->dispatch(new UserFollowedEvent($blocker, $blocked));
     }
 
-    public function create(RegisterUserDto $dto): User
+    public function create(RegisterUserDto $dto, bool $verifyUserEmail = true): User
     {
         $user = new User($dto->email, $dto->username, '');
 
@@ -89,7 +89,9 @@ class UserManager
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $this->messageBus->dispatch(new UserCreatedMessage($user->getId()));
+        if ($verifyUserEmail) {
+            $this->messageBus->dispatch(new UserCreatedMessage($user->getId()));
+        }
 
         return $user;
     }
@@ -122,7 +124,7 @@ class UserManager
     {
         $dto = new UserDto();
 
-        $dto->setId($user->getId());
+        $dto->id = $user->getId();
         $dto->username = $user->getUsername();
         $dto->email    = $user->email;
 

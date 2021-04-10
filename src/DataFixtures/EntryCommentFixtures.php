@@ -42,15 +42,18 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             $children = [$entity];
             if ($roll) {
                 for ($i = 1; $i <= rand(0, 20); $i++) {
-                    $children[] = $this->createChildren($children[array_rand($children, 1)]);
+                    $children[] = $this->createChildren($children[array_rand($children, 1)], $manager);
                 }
             }
+
+            $entity->createdAt = $this->getRandomTime($entity->entry->createdAt);
+            $entity->updateLastActive();
         }
 
         $manager->flush();
     }
 
-    private function createChildren(EntryComment $parent): EntryComment
+    private function createChildren(EntryComment $parent, ObjectManager $manager): EntryComment
     {
         $dto = (new EntryCommentDto())->createWithParent(
             $parent->entry,
@@ -59,7 +62,14 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             $this->faker->paragraphs($this->faker->numberBetween(1, 3), true)
         );
 
-        return $this->commentManager->create($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
+        $entity = $this->commentManager->create($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
+
+        $entity->createdAt = $this->getRandomTime($parent->createdAt);
+        $entity->updateLastActive();
+
+        $manager->flush();
+
+        return $entity;
     }
 
     private function provideRandomComments($count = 1): iterable

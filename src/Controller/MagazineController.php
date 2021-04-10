@@ -26,11 +26,12 @@ class MagazineController extends AbstractController
 
     public function front(Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
     {
-        $criteria                = (new EntryPageView((int) $request->get('strona', 1)));
+        $criteria = (new EntryPageView((int) $request->get('strona', 1)));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time))
+            ->setType($criteria->translateType($request->get('typ', null)));
         $criteria->magazine      = $magazine;
         $criteria->stickiesFirst = true;
-        $criteria->setTime($criteria->translateTime($time));
-        $criteria->setType($criteria->translateType($request->get('typ', null)));
 
         $method  = $criteria->translateSort($sortBy);
         $listing = $this->$method($criteria);

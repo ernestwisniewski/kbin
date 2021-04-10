@@ -45,15 +45,18 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
             $children = [$entity];
             if ($roll) {
                 for ($i = 1; $i <= rand(0, 20); $i++) {
-                    $children[] = $this->createChildren($children[array_rand($children, 1)]);
+                    $children[] = $this->createChildren($children[array_rand($children, 1)], $manager);
                 }
             }
+
+            $entity->createdAt = $this->getRandomTime($entity->post->createdAt);
+            $entity->updateLastActive();
         }
 
         $manager->flush();
     }
 
-    private function createChildren(PostComment $parent): PostComment
+    private function createChildren(PostComment $parent, ObjectManager $manager): PostComment
     {
         $dto = (new PostCommentDto())->createWithParent(
             $parent->post,
@@ -62,7 +65,15 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
             $this->faker->realText($this->faker->numberBetween(10, 1024))
         );
 
-        return $this->postCommentManager->create($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
+        $entity = $this->postCommentManager->create($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
+
+
+        $entity->createdAt = $this->getRandomTime($parent->createdAt);
+        $entity->updateLastActive();
+
+        $manager->flush();
+
+        return $entity;
     }
 
     private function provideRandomComments($count = 1): iterable

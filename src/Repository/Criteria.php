@@ -74,7 +74,7 @@ abstract class Criteria
     public function showSortOption(?string $sortOption): self
     {
         if ($sortOption) {
-            $this->sortOption = $this->translateSort($sortOption);
+            $this->sortOption = $sortOption;
         }
 
         return $this;

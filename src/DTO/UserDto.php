@@ -8,7 +8,7 @@ use App\Entity\Image;
 
 class UserDto implements UserDtoInterface
 {
-    private ?int $id = null;
+    public ?int $id = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -40,12 +40,5 @@ class UserDto implements UserDtoInterface
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(?int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 }
