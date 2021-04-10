@@ -100,7 +100,7 @@ class ProfileController extends AbstractController
      */
     public function notifications(NotificationRepository $notificationRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/notifications.html.twig',
@@ -163,7 +163,7 @@ class ProfileController extends AbstractController
      */
     public function subMagazines(MagazineRepository $magazineRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/sub_magazines.html.twig',
@@ -178,7 +178,7 @@ class ProfileController extends AbstractController
      */
     public function subUsers(UserRepository $userRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/sub_users.html.twig',
@@ -193,7 +193,7 @@ class ProfileController extends AbstractController
      */
     public function blockedMagazines(MagazineRepository $magazineRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/block_magazines.html.twig',
@@ -208,7 +208,7 @@ class ProfileController extends AbstractController
      */
     public function blockedUsers(UserRepository $userRepository, Request $request): Response
     {
-        $page = (int) $request->get('strona', 1);
+        $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/block_users.html.twig',

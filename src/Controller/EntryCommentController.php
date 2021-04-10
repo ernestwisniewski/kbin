@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EntryCommentRepository;
+use Symfony\Component\Form\FormInterface;
 use App\PageView\EntryCommentPageView;
 use App\Service\EntryCommentManager;
 use App\Form\EntryCommentType;
@@ -19,31 +20,26 @@ use App\Entity\Entry;
 class EntryCommentController extends AbstractController
 {
     public function __construct(
-        private EntryCommentManager $commentManager,
-        private EntryCommentRepository $commentRepository,
+        private EntryCommentManager $manager,
+        private EntryCommentRepository $repository,
     ) {
     }
 
     public function front(?Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
     {
         $params   = [];
-        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria = (new EntryCommentPageView($this->getPageNb($request)));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time));
 
         if ($magazine) {
-            $params['magazine'] = $magazine;
-            $criteria->magazine = $magazine;
+            $criteria->magazine = $params['magazine'] = $magazine;
         }
 
-        if ($time) {
-            $criteria->setTime($criteria->translateTime($time));
-        }
+        $params['comments'] = $this->repository->findByCriteria($criteria);
 
-        $criteria->showSortOption($sortBy);
-
-        $params['comments'] = $this->commentRepository->findByCriteria($criteria);
-
-        $this->commentRepository->hydrate(...$params['comments']);
-        $this->commentRepository->hydrateChildren(...$params['comments']);
+        $this->repository->hydrate(...$params['comments']);
+        $this->repository->hydrateChildren(...$params['comments']);
 
         return $this->render(
             'entry/comment/front.html.twig',
@@ -54,20 +50,15 @@ class EntryCommentController extends AbstractController
     public function subscribed(?string $sortBy, ?string $time, Request $request): Response
     {
         $params   = [];
-        $criteria = (new EntryCommentPageView((int) $request->get('strona', 1)));
-
-        if ($time) {
-            $criteria->setTime($criteria->translateTime($time));
-        }
-
+        $criteria = (new EntryCommentPageView($this->getPageNb($request)));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time));
         $criteria->subscribed = true;
 
-        $criteria->showSortOption($sortBy);
+        $params['comments'] = $this->repository->findByCriteria($criteria);
 
-        $params['comments'] = $this->commentRepository->findByCriteria($criteria);
-
-        $this->commentRepository->hydrate(...$params['comments']);
-        $this->commentRepository->hydrateChildren(...$params['comments']);
+        $this->repository->hydrate(...$params['comments']);
+        $this->repository->hydrateChildren(...$params['comments']);
 
         return $this->render(
             'entry/comment/front.html.twig',
@@ -88,82 +79,24 @@ class EntryCommentController extends AbstractController
         Entry $entry,
         ?EntryComment $parent,
         Request $request,
-        EntryCommentRepository $commentRepository
     ): Response {
-        $commentDto = (new EntryCommentDto())->createWithParent($entry, $parent);
+        $dto = (new EntryCommentDto())->createWithParent($entry, $parent);
 
-        $form = $this->createForm(
-            EntryCommentType::class,
-            $commentDto,
-            [
-                'action' => $this->generateUrl(
-                    'entry_comment_create',
-                    ['magazine_name' => $magazine->name, 'entry_id' => $entry->getId(), 'parent_comment_id' => $parent ? $parent->getId() : null]
-                ),
-            ]
-        );
+        $form = $this->getCreateForm($dto, $parent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $comment = $this->commentManager->create($commentDto, $this->getUserOrThrow());
-
-            if ($request->isXmlHttpRequest()) {
-                return new JsonResponse(
-                    [
-                        'html' => $this->renderView(
-                            'entry/comment/_comment.html.twig',
-                            [
-                                'extra_classes' => 'kbin-comment',
-                                'with_parent'   => false,
-                                'comment'       => $comment,
-                                'level'         => 1,
-                                'nested'        => false,
-                            ]
-                        ),
-                    ]
-                );
-            }
-
-            return $this->redirectToRoute(
-                'entry_single',
-                [
-                    'magazine_name' => $magazine->name,
-                    'entry_id'      => $entry->getId(),
-                ]
-            );
+            return $this->handleValidCreateRequest($dto, $request);
         }
 
-        $criteria        = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria        = (new EntryCommentPageView($this->getPageNb($request)));
         $criteria->entry = $entry;
 
-        $comments = $commentRepository->findByCriteria($criteria);
-
-        $commentRepository->hydrate(...$comments);
-        $commentRepository->hydrateChildren(...$comments);
-
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'form' => $this->renderView(
-                        'entry/comment/_form.html.twig',
-                        [
-                            'form' => $form->createView(),
-                        ]
-                    ),
-                ]
-            );
+            return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
         }
 
-        return $this->render(
-            'entry/comment/create.html.twig',
-            [
-                'magazine' => $magazine,
-                'entry'    => $entry,
-                'comments' => $comments,
-                'parent'   => $parent,
-                'form'     => $form->createView(),
-            ]
-        );
+        return $this->getEntryCommentPageResponse('entry/comment/create.html.twig', $criteria, $form, $request, $parent);
     }
 
     /**
@@ -179,43 +112,20 @@ class EntryCommentController extends AbstractController
         Entry $entry,
         EntryComment $comment,
         Request $request,
-        EntryCommentRepository $commentRepository
     ): Response {
-        $commentDto = $this->commentManager->createDto($comment);
+        $dto = $this->manager->createDto($comment);
 
-        $form = $this->createForm(EntryCommentType::class, $commentDto);
+        $form = $this->createForm(EntryCommentType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commentManager->edit($comment, $commentDto);
-
-            return $this->redirectToRoute(
-                'entry_single',
-                [
-                    'magazine_name' => $magazine->name,
-                    'entry_id'      => $entry->getId(),
-                ]
-            );
+            return $this->handleValidEditRequest($dto, $comment);
         }
 
-        $criteria        = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria        = (new EntryCommentPageView($this->getPageNb($request)));
         $criteria->entry = $entry;
 
-        $comments = $commentRepository->findByCriteria($criteria);
-
-        $commentRepository->hydrate(...$comments);
-        $commentRepository->hydrateChildren(...$comments);
-
-        return $this->render(
-            'entry/comment/edit.html.twig',
-            [
-                'magazine' => $magazine,
-                'entry'    => $entry,
-                'comments' => $comments,
-                'comment'  => $comment,
-                'form'     => $form->createView(),
-            ]
-        );
+        return $this->getEntryCommentPageResponse('entry/comment/edit.html.twig', $criteria, $form, $request, $comment);
     }
 
     /**
@@ -230,15 +140,9 @@ class EntryCommentController extends AbstractController
     {
         $this->validateCsrf('entry_comment_delete', $request->request->get('token'));
 
-        $this->commentManager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
+        $this->manager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
 
-        return $this->redirectToRoute(
-            'entry_single',
-            [
-                'magazine_name' => $magazine->name,
-                'entry_id'      => $entry->getId(),
-            ]
-        );
+        return $this->redirectToEntry($entry);
     }
 
     /**
@@ -253,15 +157,9 @@ class EntryCommentController extends AbstractController
     {
         $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
 
-        $this->commentManager->purge($comment);
+        $this->manager->purge($comment);
 
-        return $this->redirectToRoute(
-            'entry_single',
-            [
-                'magazine_name' => $magazine->name,
-                'entry_id'      => $entry->getId(),
-            ]
-        );
+        return $this->redirectToEntry($entry);
     }
 
     public function commentForm(string $magazineName, int $entryId, int $commentId = null): Response
@@ -281,6 +179,104 @@ class EntryCommentController extends AbstractController
             'entry/comment/_form.html.twig',
             [
                 'form' => $form->createView(),
+            ]
+        );
+    }
+
+    private function handleValidCreateRequest(EntryCommentDto $dto, Request $request): Response
+    {
+        $comment = $this->manager->create($dto, $this->getUserOrThrow());
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonCreateCommentSuccessResponse($comment);
+        }
+
+        return $this->redirectToRoute(
+            'entry_single',
+            [
+                'magazine_name' => $comment->magazine->name,
+                'entry_id'      => $comment->entry->getId(),
+            ]
+        );
+    }
+
+    private function getJsonCreateCommentSuccessResponse(EntryComment $comment): Response
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'entry/comment/_comment.html.twig',
+                    [
+                        'extra_classes' => 'kbin-comment',
+                        'with_parent'   => false,
+                        'comment'       => $comment,
+                        'level'         => 1,
+                        'nested'        => false,
+                    ]
+                ),
+            ]
+        );
+    }
+
+    private function getEntryCommentPageResponse(
+        string $template,
+        EntryCommentPageView $criteria,
+        FormInterface $form,
+        Request $request,
+        ?EntryComment $parent = null,
+
+    ): Response {
+        $comments = $this->repository->findByCriteria($criteria);
+
+        $this->repository->hydrate(...$comments);
+        $this->repository->hydrateChildren(...$comments);
+
+        if ($request->isXmlHttpRequest()) {
+            $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
+        }
+
+        return $this->render(
+            $template,
+            [
+                'magazine' => $criteria->entry->magazine,
+                'entry'    => $criteria->entry,
+                'comments' => $comments,
+                'parent'   => $parent,
+                'comment'  => $parent,
+                'form'     => $form->createView(),
+            ]
+        );
+    }
+
+    private function handleValidEditRequest(EntryCommentDto $commentDto, EntryComment $comment): Response
+    {
+        $this->manager->edit($comment, $commentDto);
+
+        return $this->redirectToRoute(
+            'entry_single',
+            [
+                'magazine_name' => $comment->magazine->name,
+                'entry_id'      => $comment->entry->getId(),
+            ]
+        );
+    }
+
+    private function getCreateForm(EntryCommentDto $dto, ?EntryComment $parent): FormInterface
+    {
+        $entry = $dto->entry;
+
+        return $this->createForm(
+            EntryCommentType::class,
+            $dto,
+            [
+                'action' => $this->generateUrl(
+                    'entry_comment_create',
+                    [
+                        'magazine_name'     => $entry->magazine->name,
+                        'entry_id'          => $entry->getId(),
+                        'parent_comment_id' => $parent?->getId(),
+                    ]
+                ),
             ]
         );
     }

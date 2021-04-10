@@ -8,14 +8,16 @@
 {% endblock %}
 
 {% block after_entry %}
-    <section class="kbin-comment-wrapper mt-4">
-        <h4 class="font-weight-bold">Odpowiedz:</h4>
-        {{ comment(parent, {
-            self: app.user,
-            comment: parent,
-            extra_classes: 'kbin-comment-list-item mb-0'
-        }) }}
-    </section>
+    {% if comment is defined and comment %}
+        <section class="kbin-comment-wrapper mt-4">
+            <h4 class="font-weight-bold">Odpowiedz:</h4>
+            {{ comment(parent, {
+                self: app.user,
+                comment: parent,
+                extra_classes: 'kbin-comment-list-item mb-0'
+            }) }}
+        </section>
+    {% endif %}
 
     {% include 'entry/comment/_form.html.twig' %}
 {% endblock %}

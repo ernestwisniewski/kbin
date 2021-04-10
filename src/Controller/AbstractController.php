@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Entry;
 use BadMethodCallException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,5 +43,44 @@ abstract class AbstractController extends BaseAbstractController
         }
 
         return $this->redirect($request->headers->get('Referer'));
+    }
+
+    protected function getJsonSuccessResponse(): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'success' => true,
+            ]
+        );
+    }
+
+    protected function getJsonFormResponse(FormInterface $form, string $template): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'form' => $this->renderView(
+                    $template,
+                    [
+                        'form' => $form->createView(),
+                    ]
+                ),
+            ]
+        );
+    }
+
+    protected function getPageNb(Request $request): int
+    {
+        return (int) $request->get('strona', 1);
+    }
+
+    protected function redirectToEntry(Entry $entry): Response
+    {
+        return $this->redirectToRoute(
+            'entry_single',
+            [
+                'magazine_name' => $entry->magazine->name,
+                'entry_id'      => $entry->getId(),
+            ]
+        );
     }
 }

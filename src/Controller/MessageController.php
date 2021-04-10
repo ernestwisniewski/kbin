@@ -24,7 +24,7 @@ class MessageController extends AbstractController
      */
     public function threads(MessageThreadRepository $repository, Request $request): Response
     {
-        $messageThreads = $repository->findUserMessages($this->getUser(), (int) $request->get('strona', 1));
+        $messageThreads = $repository->findUserMessages($this->getUser(), $this->getPageNb($request));
 
         return $this->render(
             'user/profile/messages.html.twig',

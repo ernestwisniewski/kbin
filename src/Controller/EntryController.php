@@ -37,7 +37,7 @@ class EntryController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         Request $request
     ): Response {
-        $criteria        = (new EntryCommentPageView((int) $request->get('strona', 1)));
+        $criteria        = (new EntryCommentPageView($this->getPageNb($request)));
         $criteria->entry = $entry;
         $criteria->showSortOption($sortBy);
 

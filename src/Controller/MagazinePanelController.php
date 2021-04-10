@@ -164,7 +164,7 @@ class MagazinePanelController extends AbstractController
             $this->magazineManager->addModerator($dto);
         }
 
-        $moderators = $this->magazineRepository->findModerators($magazine, (int) $request->get('strona', 1));
+        $moderators = $this->magazineRepository->findModerators($magazine, $this->getPageNb($request));
 
         return $this->render(
             'magazine/panel/moderators.html.twig',
@@ -214,7 +214,7 @@ class MagazinePanelController extends AbstractController
             );
         }
 
-        $bans = $this->magazineRepository->findBans($magazine, (int) $request->get('strona', 1));
+        $bans = $this->magazineRepository->findBans($magazine, $this->getPageNb($request));
 
         return $this->render(
             'magazine/panel/bans.html.twig',
@@ -275,7 +275,7 @@ class MagazinePanelController extends AbstractController
      */
     public function reports(Magazine $magazine, Request $request): Response
     {
-        $reports = $this->magazineRepository->findReports($magazine, (int) $request->get('strona', 1));
+        $reports = $this->magazineRepository->findReports($magazine, $this->getPageNb($request));
 
         return $this->render(
             'magazine/panel/reports.html.twig',

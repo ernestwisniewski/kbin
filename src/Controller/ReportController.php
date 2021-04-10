@@ -33,35 +33,19 @@ class ReportController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $this->reportManager->report($reportDto, $this->getUserOrThrow());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->reportManager->report($reportDto, $this->getUserOrThrow());
 
-                if ($request->isXmlHttpRequest()) {
-                    return new JsonResponse(
-                        [
-                            'success' => true,
-                        ]
-                    );
-                }
-
-                return $this->redirectToRoute('front_magazine', ['name' => $subject->magazine->name]);
-            } else {
-                return $this->redirectToRefererOrHome($request);
+            if ($request->isXmlHttpRequest()) {
+                return $this->getJsonSuccessResponse();
             }
+
+            // @todo flash message
+            return $this->redirectToRefererOrHome($request);
         }
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'form' => $this->renderView(
-                        'report/_form.html.twig',
-                        [
-                            'form' => $form->createView(),
-                        ]
-                    ),
-                ]
-            );
+            return $this->getJsonFormResponse($form, 'report/_form.html.twig');
         }
 
         return $this->render(
