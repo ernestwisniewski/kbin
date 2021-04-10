@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +34,7 @@ class UserController extends AbstractController
 
     public function entries(User $user, Request $request, EntryRepository $entryRepository): Response
     {
-        $criteria       = (new EntryPageView($this->getPageNb($request)));
+        $criteria       = new EntryPageView($this->getPageNb($request));
         $criteria->user = $user;
 
         return $this->render(
@@ -49,7 +48,7 @@ class UserController extends AbstractController
 
     public function comments(User $user, Request $request, EntryCommentRepository $commentRepository): Response
     {
-        $criteria              = (new EntryCommentPageView($this->getPageNb($request)));
+        $criteria              = new EntryCommentPageView($this->getPageNb($request));
         $criteria->user        = $user;
         $criteria->onlyParents = false;
 
@@ -69,7 +68,7 @@ class UserController extends AbstractController
 
     public function posts(User $user, Request $request, PostRepository $postRepository): Response
     {
-        $criteria       = (new PostPageView($this->getPageNb($request)));
+        $criteria       = new PostPageView($this->getPageNb($request));
         $criteria->user = $user;
 
         $posts = $postRepository->findByCriteria($criteria);
@@ -85,7 +84,7 @@ class UserController extends AbstractController
 
     public function replies(User $user, Request $request, PostCommentRepository $commentRepository): Response
     {
-        $criteria       = (new PostCommentPageView($this->getPageNb($request)));
+        $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->user = $user;
 
         $comments = $commentRepository->findByCriteria($criteria);
@@ -101,128 +100,16 @@ class UserController extends AbstractController
 
     public function subscriptions(User $user, MagazineRepository $magazineRepository, Request $request): Response
     {
-        $page = $this->getPageNb($request);
-
         return $this->render(
             'user/subscriptions.html.twig',
             [
                 'user'      => $user,
-                'magazines' => $magazineRepository->findSubscribedMagazines($page, $user),
+                'magazines' => $magazineRepository->findSubscribedMagazines($this->getPageNb($request), $user),
             ]
         );
     }
 
-    public function followers(User $user, UserRepository $userRepository, Request $request): Response
-    {
-        $page = $this->getPageNb($request);
-
-        return $this->render(
-            'user/followers.html.twig',
-            [
-                'user'  => $user,
-                'users' => $userRepository->findFollowUsers($page, $user),
-            ]
-        );
-    }
-
-    public function follows(User $user, UserRepository $userRepository, Request $request): Response
-    {
-        $page = $this->getPageNb($request);
-
-        return $this->render(
-            'user/follows.html.twig',
-            [
-                'user'  => $user,
-                'users' => $userRepository->findFollowedUsers($page, $user),
-            ]
-        );
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("follow", subject="following")
-     */
-    public function follow(User $following, UserManager $userManager, Request $request): Response
-    {
-        $this->validateCsrf('follow', $request->request->get('token'));
-
-        $userManager->follow($this->getUserOrThrow(), $following);
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount'     => $following->followersCount,
-                    'isSubscribed' => true,
-                ]
-            );
-        }
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("follow", subject="following")
-     */
-    public function unfollow(User $following, UserManager $userManager, Request $request): Response
-    {
-        $this->validateCsrf('follow', $request->request->get('token'));
-
-        $userManager->unfollow($this->getUserOrThrow(), $following);
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount'     => $following->followersCount,
-                    'isSubscribed' => false,
-                ]
-            );
-        }
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     */
-    public function block(User $blocked, UserManager $userManager, Request $request): Response
-    {
-        $this->validateCsrf('block', $request->request->get('token'));
-
-        $userManager->block($this->getUserOrThrow(), $blocked);
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => true,
-                ]
-            );
-        }
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     */
-    public function unblock(User $blocked, UserManager $userManager, Request $request): Response
-    {
-        $this->validateCsrf('block', $request->request->get('token'));
-
-        $userManager->unblock($this->getUserOrThrow(), $blocked);
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => false,
-                ]
-            );
-        }
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    public function edit(UserManager $userManager, Request $request)
+    public function edit(UserManager $userManager, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 

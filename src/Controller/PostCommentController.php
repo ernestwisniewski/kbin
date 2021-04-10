@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,65 +38,22 @@ class PostCommentController extends AbstractController
         Request $request,
         PostCommentRepository $commentRepository
     ): Response {
-        $commentDto = (new PostCommentDto())->createWithParent($post, $parent);
+        $dto = (new PostCommentDto())->createWithParent($post, $parent);
 
-        $form = $this->createForm(
-            PostCommentType::class,
-            $commentDto,
-            [
-                'action' => $this->generateUrl(
-                    'post_comment_create',
-                    ['magazine_name' => $magazine->name, 'post_id' => $post->getId(), 'parent_comment_id' => $parent ? $parent->getId() : null]
-                ),
-            ]
-        );
+        $form = $this->getCreateForm($dto, $parent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $comment = $this->commentManager->create($commentDto, $this->getUserOrThrow());
-
-            if ($request->isXmlHttpRequest()) {
-                return new JsonResponse(
-                    [
-                        'html' => $this->renderView(
-                            'post/comment/_comment.html.twig',
-                            [
-                                'extra_classes' => 'kbin-comment',
-                                'with_parent'   => false,
-                                'comment'       => $comment,
-                                'level'         => 1,
-                                'nested'        => false,
-                            ]
-                        ),
-                    ]
-                );
-            }
-
-            return $this->redirectToRoute(
-                'post_single',
-                [
-                    'magazine_name' => $magazine->name,
-                    'post_id'       => $post->getId(),
-                ]
-            );
+            return $this->handleValidCreateRequest($dto, $request);
         }
 
-        $criteria       = (new PostCommentPageView($this->getPageNb($request)));
+        $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
         $comments = $commentRepository->findByCriteria($criteria);
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'form' => $this->renderView(
-                        'post/comment/_form.html.twig',
-                        [
-                            'form' => $form->createView(),
-                        ]
-                    ),
-                ]
-            );
+            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig');
         }
 
         return $this->render(
@@ -133,16 +91,10 @@ class PostCommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->commentManager->edit($comment, $commentDto);
 
-            return $this->redirectToRoute(
-                'post_single',
-                [
-                    'magazine_name' => $magazine->name,
-                    'post_id'       => $post->getId(),
-                ]
-            );
+            return $this->redirectToPost($post);
         }
 
-        $criteria       = (new PostCommentPageView($this->getPageNb($request)));
+        $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
         $comments = $commentRepository->findByCriteria($criteria);
@@ -173,12 +125,7 @@ class PostCommentController extends AbstractController
 
         $this->commentManager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
 
-        return $this->redirectToRoute(
-            'front_magazine',
-            [
-                'name' => $magazine->name,
-            ]
-        );
+        return $this->redirectToMagazine($magazine);
     }
 
     /**
@@ -215,6 +162,59 @@ class PostCommentController extends AbstractController
             'post/comment/_form.html.twig',
             [
                 'form' => $form->createView(),
+            ]
+        );
+    }
+
+    private function getCreateForm(PostCommentDto $dto, ?PostComment $parent): FormInterface
+    {
+        return $this->createForm(
+            PostCommentType::class,
+            $dto,
+            [
+                'action' => $this->generateUrl(
+                    'post_comment_create',
+                    [
+                        'magazine_name'     => $dto->post->magazine->name,
+                        'post_id'           => $dto->post->getId(),
+                        'parent_comment_id' => $parent?->getId(),
+                    ]
+                ),
+            ]
+        );
+    }
+
+    private function handleValidCreateRequest(PostCommentDto $dto, Request $request): Response
+    {
+        $comment = $this->commentManager->create($dto, $this->getUserOrThrow());
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonCreateCommentSuccessResponse($comment);
+        }
+
+        return $this->redirectToRoute(
+            'post_single',
+            [
+                'magazine_name' => $comment->magazine->name,
+                'post_id'       => $comment->post->getId(),
+            ]
+        );
+    }
+
+    private function getJsonCreateCommentSuccessResponse(PostComment $comment): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'post/comment/_comment.html.twig',
+                    [
+                        'extra_classes' => 'kbin-comment',
+                        'with_parent'   => false,
+                        'comment'       => $comment,
+                        'level'         => 1,
+                        'nested'        => false,
+                    ]
+                ),
             ]
         );
     }

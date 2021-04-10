@@ -28,7 +28,7 @@ class EntryCommentController extends AbstractController
     public function front(?Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
     {
         $params   = [];
-        $criteria = (new EntryCommentPageView($this->getPageNb($request)));
+        $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->translateSort($sortBy))
             ->setTime($criteria->translateTime($time));
 
@@ -50,7 +50,7 @@ class EntryCommentController extends AbstractController
     public function subscribed(?string $sortBy, ?string $time, Request $request): Response
     {
         $params   = [];
-        $criteria = (new EntryCommentPageView($this->getPageNb($request)));
+        $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->translateSort($sortBy))
             ->setTime($criteria->translateTime($time));
         $criteria->subscribed = true;
@@ -89,7 +89,7 @@ class EntryCommentController extends AbstractController
             return $this->handleValidCreateRequest($dto, $request);
         }
 
-        $criteria        = (new EntryCommentPageView($this->getPageNb($request)));
+        $criteria        = new EntryCommentPageView($this->getPageNb($request));
         $criteria->entry = $entry;
 
         if ($request->isXmlHttpRequest()) {
@@ -122,7 +122,7 @@ class EntryCommentController extends AbstractController
             return $this->handleValidEditRequest($dto, $comment);
         }
 
-        $criteria        = (new EntryCommentPageView($this->getPageNb($request)));
+        $criteria        = new EntryCommentPageView($this->getPageNb($request));
         $criteria->entry = $entry;
 
         return $this->getEntryCommentPageResponse('entry/comment/edit.html.twig', $criteria, $form, $request, $comment);

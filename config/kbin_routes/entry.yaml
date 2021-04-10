@@ -26,7 +26,7 @@ entry_purge:
   methods: [ POST ]
 
 entry_pin:
-  controller: App\Controller\EntryController::pin
+  controller: App\Controller\EntryPinController
   path: /m/{magazine_name}/t/{entry_id}/pin
   methods: [ POST ]
 

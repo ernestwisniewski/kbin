@@ -29,22 +29,22 @@ user_subscriptions:
   methods: [ GET ]
 
 user_followers:
-  controller: App\Controller\UserController::followers
+  controller: App\Controller\UserFollowController::followers
   path: /u/{username}/obserwujacy
   methods: [ GET ]
 
 user_follows:
-  controller: App\Controller\UserController::follows
+  controller: App\Controller\UserFollowController::follows
   path: /u/{username}/obserwowani
   methods: [ GET ]
 
 user_follow:
-  controller: App\Controller\UserController::follow
+  controller: App\Controller\UserFollowController::follow
   path: /u/{username}/follow
   methods: [ POST ]
 
 user_unfollow:
-  controller: App\Controller\UserController::unfollow
+  controller: App\Controller\UserFollowController::unfollow
   path: /u/{username}/unfollow
   methods: [ POST ]
 

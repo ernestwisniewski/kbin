@@ -25,9 +25,9 @@ class PostController extends AbstractController
 
     public function front(?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
     {
-        $criteria = (new PostPageView($this->getPageNb($request)));
-        $criteria->showSortOption($sortBy);
-        $criteria->setTime($criteria->translateTime($time));
+        $criteria = new PostPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time));
 
         $posts = $postRepository->findByCriteria($criteria);
 
@@ -41,10 +41,10 @@ class PostController extends AbstractController
 
     public function subscribed(?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
     {
-        $criteria             = (new PostPageView($this->getPageNb($request)));
+        $criteria = new PostPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time));
         $criteria->subscribed = true;
-        $criteria->showSortOption($sortBy);
-        $criteria->setTime($criteria->translateTime($time));
 
         $posts = $postRepository->findByCriteria($criteria);
 
@@ -58,10 +58,10 @@ class PostController extends AbstractController
 
     public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
     {
-        $criteria           = (new PostPageView($this->getPageNb($request)));
+        $criteria = new PostPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time));
         $criteria->magazine = $magazine;
-        $criteria->showSortOption($sortBy);
-        $criteria->setTime($criteria->translateTime($time));
 
         $posts = $postRepository->findByCriteria($criteria);
 
@@ -80,7 +80,7 @@ class PostController extends AbstractController
      */
     public function single(Magazine $magazine, Post $post, PostCommentRepository $commentRepository, Request $request): Response
     {
-        $criteria       = (new PostCommentPageView($this->getPageNb($request)));
+        $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
         return $this->render(
@@ -145,7 +145,7 @@ class PostController extends AbstractController
             );
         }
 
-        $criteria       = (new PostCommentPageView($this->getPageNb($request)));
+        $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
         return $this->render(
@@ -172,12 +172,7 @@ class PostController extends AbstractController
 
         $this->postManager->delete($post, !$post->isAuthor($this->getUserOrThrow()));
 
-        return $this->redirectToRoute(
-            'front_magazine',
-            [
-                'name' => $magazine->name,
-            ]
-        );
+        return $this->redirectToMagazine($magazine);
     }
 
     /**
@@ -193,12 +188,7 @@ class PostController extends AbstractController
 
         $this->postManager->purge($post);
 
-        return $this->redirectToRoute(
-            'front_magazine',
-            [
-                'name' => $magazine->name,
-            ]
-        );
+        return $this->redirectToMagazine($magazine);
     }
 
     public function postForm(string $magazineName): Response

@@ -19,8 +19,8 @@ use App\DTO\MagazineDto;
 class MagazineController extends AbstractController
 {
     public function __construct(
-        private MagazineManager $magazineManager,
-        private EntryRepository $entryRepository,
+        private MagazineManager $manager,
+        private EntryRepository $repository,
     ) {
     }
 
@@ -50,15 +50,15 @@ class MagazineController extends AbstractController
      */
     public function create(Request $request): Response
     {
-        $magazineDto = new MagazineDto();
+        $dto = new MagazineDto();
 
-        $form = $this->createForm(MagazineType::class, $magazineDto);
+        $form = $this->createForm(MagazineType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->create($magazineDto, $this->getUserOrThrow());
+            $magazine = $this->manager->create($dto, $this->getUserOrThrow());
 
-            return $this->redirectToRoute('front_magazine', ['name' => $magazineDto->name]);
+            return $this->redirectToMagazine($magazine);
         }
 
         return $this->render(
@@ -77,7 +77,7 @@ class MagazineController extends AbstractController
     {
         $this->validateCsrf('magazine_delete', $request->request->get('token'));
 
-        $this->magazineManager->delete($magazine);
+        $this->manager->delete($magazine);
 
         return $this->redirectToRoute('front');
     }
@@ -90,7 +90,7 @@ class MagazineController extends AbstractController
     {
         $this->validateCsrf('magazine_purge', $request->request->get('token'));
 
-        $this->magazineManager->purge($magazine);
+        $this->manager->purge($magazine);
 
         return $this->redirectToRoute('front');
     }
@@ -103,7 +103,7 @@ class MagazineController extends AbstractController
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
-        $this->magazineManager->subscribe($magazine, $this->getUserOrThrow());
+        $this->manager->subscribe($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -125,7 +125,7 @@ class MagazineController extends AbstractController
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
-        $this->magazineManager->unsubscribe($magazine, $this->getUserOrThrow());
+        $this->manager->unsubscribe($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -147,7 +147,7 @@ class MagazineController extends AbstractController
     {
         $this->validateCsrf('block', $request->request->get('token'));
 
-        $this->magazineManager->block($magazine, $this->getUserOrThrow());
+        $this->manager->block($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -168,7 +168,7 @@ class MagazineController extends AbstractController
     {
         $this->validateCsrf('block', $request->request->get('token'));
 
-        $this->magazineManager->unblock($magazine, $this->getUserOrThrow());
+        $this->manager->unblock($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -236,26 +236,26 @@ class MagazineController extends AbstractController
 
     private function hot(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
     }
 
     private function top(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
     }
 
     private function active(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_ACTIVE));
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_ACTIVE));
     }
 
     private function new(Criteria $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria);
+        return $this->repository->findByCriteria($criteria);
     }
 
     private function commented(Criteria $criteria)
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
     }
 }

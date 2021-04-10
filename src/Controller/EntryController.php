@@ -21,7 +21,7 @@ use App\Entity\Entry;
 class EntryController extends AbstractController
 {
     public function __construct(
-        private EntryManager $entryManager,
+        private EntryManager $manager,
     ) {
     }
 
@@ -37,9 +37,9 @@ class EntryController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         Request $request
     ): Response {
-        $criteria        = (new EntryCommentPageView($this->getPageNb($request)));
-        $criteria->entry = $entry;
+        $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($sortBy);
+        $criteria->entry = $entry;
 
         $comments = $commentRepository->findByCriteria($criteria);
 
@@ -63,25 +63,16 @@ class EntryController extends AbstractController
      */
     public function create(?Magazine $magazine, ?string $type, Request $request): Response
     {
-        $entryDto = new EntryDto();
+        $dto           = new EntryDto();
+        $dto->magazine = $magazine;
 
-        if ($magazine) {
-            $entryDto->magazine = $magazine;
-        }
-
-        $form = $this->createFormByType($entryDto, $type);
+        $form = $this->createFormByType($dto, $type);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entry = $this->entryManager->create($entryDto, $this->getUserOrThrow());
+            $entry = $this->manager->create($dto, $this->getUserOrThrow());
 
-            return $this->redirectToRoute(
-                'entry_single',
-                [
-                    'magazine_name' => $entry->magazine->name,
-                    'entry_id'      => $entry->getId(),
-                ]
-            );
+            return $this->redirectToEntry($entry);
         }
 
         return $this->render(
@@ -102,25 +93,19 @@ class EntryController extends AbstractController
      */
     public function edit(Magazine $magazine, Entry $entry, Request $request): Response
     {
-        $entryDto = $this->entryManager->createDto($entry);
+        $dto = $this->manager->createDto($entry);
 
-        $form = $this->createFormByType($entryDto, $entryDto->getType());
+        $form = $this->createFormByType($dto, $dto->getType());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entry = $this->entryManager->edit($entry, $entryDto);
+            $entry = $this->manager->edit($entry, $dto);
 
-            return $this->redirectToRoute(
-                'entry_single',
-                [
-                    'magazine_name' => $magazine->name,
-                    'entry_id'      => $entry->getId(),
-                ]
-            );
+            return $this->redirectToEntry($entry);
         }
 
         return $this->render(
-            $this->getTemplateName($entryDto->getType(), true),
+            $this->getTemplateName($dto->getType(), true),
             [
                 'magazine' => $magazine,
                 'entry'    => $entry,
@@ -140,14 +125,9 @@ class EntryController extends AbstractController
     {
         $this->validateCsrf('entry_delete', $request->request->get('token'));
 
-        $this->entryManager->delete($entry, !$entry->isAuthor($this->getUserOrThrow()));
+        $this->manager->delete($entry, !$entry->isAuthor($this->getUserOrThrow()));
 
-        return $this->redirectToRoute(
-            'front_magazine',
-            [
-                'name' => $magazine->name,
-            ]
-        );
+        return $this->redirectToMagazine($magazine);
     }
 
     /**
@@ -161,39 +141,18 @@ class EntryController extends AbstractController
     {
         $this->validateCsrf('entry_purge', $request->request->get('token'));
 
-        $this->entryManager->purge($entry);
+        $this->manager->purge($entry);
 
-        return $this->redirectToRoute(
-            'front_magazine',
-            [
-                'name' => $magazine->name,
-            ]
-        );
+        return $this->redirectToMagazine($magazine);
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
-    public function pin(Magazine $magazine, Entry $entry, Request $request): Response
-    {
-        $this->validateCsrf('entry_pin', $request->request->get('token'));
-
-        $this->entryManager->pin($entry);
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    private function createFormByType(EntryDto $entryDto, ?string $type): FormInterface
+    private function createFormByType(EntryDto $dto, ?string $type): FormInterface
     {
         if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
-            return $this->createForm(EntryLinkType::class, $entryDto);
+            return $this->createForm(EntryLinkType::class, $dto);
         }
 
-        return $this->createForm(EntryArticleType::class, $entryDto);
+        return $this->createForm(EntryArticleType::class, $dto);
     }
 
     private function getTemplateName(?string $type, ?bool $edit = false): string

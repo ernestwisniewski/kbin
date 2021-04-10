@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Entry;
+use App\Entity\Magazine;
+use App\Entity\Post;
 use BadMethodCallException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -80,6 +82,27 @@ abstract class AbstractController extends BaseAbstractController
             [
                 'magazine_name' => $entry->magazine->name,
                 'entry_id'      => $entry->getId(),
+            ]
+        );
+    }
+
+    protected function redirectToPost(Post $post): Response
+    {
+        return $this->redirectToRoute(
+            'post_single',
+            [
+                'magazine_name' => $post->magazine->name,
+                'post_id'       => $post->getId(),
+            ]
+        );
+    }
+
+    protected function redirectToMagazine(Magazine $magazine): Response
+    {
+        return $this->redirectToRoute(
+            'front_magazine',
+            [
+                'name' => $magazine->name,
             ]
         );
     }
