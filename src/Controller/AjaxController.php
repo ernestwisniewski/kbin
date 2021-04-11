@@ -31,12 +31,12 @@ class AjaxController extends AbstractController
         );
     }
 
-    public function fetchPostComments(Post $post, PostCommentRepository $commentRepository): JsonResponse
+    public function fetchPostComments(Post $post, PostCommentRepository $repository): JsonResponse
     {
         $criteria       = new PostCommentPageView(1);
         $criteria->post = $post;
 
-        $comments = $commentRepository->findByCriteria($criteria);
+        $comments = $repository->findByCriteria($criteria);
 
         return new JsonResponse(
             [

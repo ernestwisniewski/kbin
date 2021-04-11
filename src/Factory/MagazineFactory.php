@@ -8,15 +8,15 @@ use App\Entity\User;
 
 class MagazineFactory
 {
-    public function createFromDto(MagazineDto $magazineDto, User $user): Magazine
+    public function createFromDto(MagazineDto $dto, User $user): Magazine
     {
         return new Magazine(
-            $magazineDto->name,
-            $magazineDto->title,
+            $dto->name,
+            $dto->title,
             $user,
-            $magazineDto->description,
-            $magazineDto->rules,
-            $magazineDto->isAdult
+            $dto->description,
+            $dto->rules,
+            $dto->isAdult
         );
     }
 

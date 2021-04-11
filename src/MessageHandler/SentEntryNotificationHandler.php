@@ -10,18 +10,18 @@ use App\Repository\EntryRepository;
 class SentEntryNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private EntryRepository $entryRepository,
-        private NotificationManager $notificationManager
+        private EntryRepository $repository,
+        private NotificationManager $manager
     ) {
     }
 
     public function __invoke(EntryNotificationMessage $entryCreatedMessage)
     {
-        $entry = $this->entryRepository->find($entryCreatedMessage->entryId);
+        $entry = $this->repository->find($entryCreatedMessage->entryId);
         if (!$entry) {
             return;
         }
 
-        $this->notificationManager->sendNewEntryNotification($entry);
+        $this->manager->sendNewEntryNotification($entry);
     }
 }

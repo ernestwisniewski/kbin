@@ -32,8 +32,8 @@ use App\Entity\User;
 class MagazinePanelController extends AbstractController
 {
     public function __construct(
-        private MagazineManager $magazineManager,
-        private MagazineRepository $magazineRepository,
+        private MagazineManager $manager,
+        private MagazineRepository $repository,
     ) {
     }
 
@@ -54,13 +54,13 @@ class MagazinePanelController extends AbstractController
      */
     public function edit(Magazine $magazine, Request $request): Response
     {
-        $magazineDto = $this->magazineManager->createDto($magazine);
+        $magazineDto = $this->manager->createDto($magazine);
 
         $form = $this->createForm(MagazineType::class, $magazineDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->edit($magazine, $magazineDto);
+            $this->manager->edit($magazine, $magazineDto);
 
             return $this->redirectToMagazine($magazine);
         }
@@ -86,10 +86,10 @@ class MagazinePanelController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->addModerator($dto);
+            $this->manager->addModerator($dto);
         }
 
-        $moderators = $this->magazineRepository->findModerators($magazine, $this->getPageNb($request));
+        $moderators = $this->repository->findModerators($magazine, $this->getPageNb($request));
 
         return $this->render(
             'magazine/panel/moderators.html.twig',
@@ -112,7 +112,7 @@ class MagazinePanelController extends AbstractController
     {
         $this->validateCsrf('remove_moderator', $request->request->get('token'));
 
-        $this->magazineManager->removeModerator($moderator);
+        $this->manager->removeModerator($moderator);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -121,10 +121,10 @@ class MagazinePanelController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("moderate", subject="magazine")
      */
-    public function bans(Magazine $magazine, UserRepository $userRepository, Request $request): Response
+    public function bans(Magazine $magazine, UserRepository $repository, Request $request): Response
     {
         if ($request->isMethod('POST')) {
-            $user = $userRepository->findOneByUsername($request->get('user'));
+            $user = $repository->findOneByUsername($request->get('user'));
 
             if (!$user) {
                 return $this->redirectToRefererOrHome($request);
@@ -139,7 +139,7 @@ class MagazinePanelController extends AbstractController
             );
         }
 
-        $bans = $this->magazineRepository->findBans($magazine, $this->getPageNb($request));
+        $bans = $this->repository->findBans($magazine, $this->getPageNb($request));
 
         return $this->render(
             'magazine/panel/bans.html.twig',
@@ -163,7 +163,7 @@ class MagazinePanelController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->ban($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
+            $this->manager->ban($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
 
             return $this->redirectToRoute('magazine_panel_bans', ['name' => $magazine->name]);
         }
@@ -189,7 +189,7 @@ class MagazinePanelController extends AbstractController
     {
         $this->validateCsrf('magazine_unban', $request->request->get('token'));
 
-        $this->magazineManager->unban($magazine, $user);
+        $this->manager->unban($magazine, $user);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -200,7 +200,7 @@ class MagazinePanelController extends AbstractController
      */
     public function reports(Magazine $magazine, Request $request): Response
     {
-        $reports = $this->magazineRepository->findReports($magazine, $this->getPageNb($request));
+        $reports = $this->repository->findReports($magazine, $this->getPageNb($request));
 
         return $this->render(
             'magazine/panel/reports.html.twig',
@@ -236,11 +236,11 @@ class MagazinePanelController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("moderate", subject="magazine")
      */
-    public function reportReject(Magazine $magazine, Report $report, ReportManager $reportManager, Request $request): Response
+    public function reportReject(Magazine $magazine, Report $report, ReportManager $manager, Request $request): Response
     {
         $this->validateCsrf('report_decline', $request->request->get('token'));
 
-        $reportManager->reject($report);
+        $manager->reject($report);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -257,7 +257,7 @@ class MagazinePanelController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->magazineManager->changeTheme($dto);
+            $this->manager->changeTheme($dto);
         }
 
         return $this->render(
@@ -273,9 +273,9 @@ class MagazinePanelController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("moderate", subject="magazine")
      */
-    public function badges(Magazine $magazine, BadgeManager $badgeManager, Request $request): Response
+    public function badges(Magazine $magazine, BadgeManager $manager, Request $request): Response
     {
-        $badges = $this->magazineRepository->findBadges($magazine);
+        $badges = $this->repository->findBadges($magazine);
 
         $dto = new BadgeDto();
 
@@ -284,7 +284,7 @@ class MagazinePanelController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto->magazine = $magazine;
-            $badgeManager->create($dto);
+            $manager->create($dto);
 
             return $this->redirectToRefererOrHome($request);
         }
@@ -306,11 +306,11 @@ class MagazinePanelController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("moderate", subject="magazine")
      */
-    public function removeBadge(Magazine $magazine, Badge $badge, BadgeManager $badgeManager, Request $request): Response
+    public function removeBadge(Magazine $magazine, Badge $badge, BadgeManager $manager, Request $request): Response
     {
         $this->validateCsrf('badge_remove', $request->request->get('token'));
 
-        $badgeManager->delete($badge);
+        $manager->delete($badge);
 
         return $this->redirectToRefererOrHome($request);
     }

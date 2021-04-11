@@ -8,11 +8,11 @@ use App\Entity\User;
 
 class ReportFactory
 {
-    public function createFromDto(ReportDto $reportDto, User $reporting): Report
+    public function createFromDto(ReportDto $dto, User $reporting): Report
     {
-        $className = get_class($reportDto->getSubject()).'Report';
+        $className = get_class($dto->getSubject()).'Report';
 
-        return new $className($reporting, $reportDto->getSubject()->user, $reportDto->getSubject(), $reportDto->reason);
+        return new $className($reporting, $dto->getSubject()->user, $dto->getSubject(), $dto->reason);
     }
 
 //    public function createDto(Entry $entry): ReportDto

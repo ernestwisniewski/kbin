@@ -10,18 +10,18 @@ use App\Repository\PostRepository;
 class SentPostNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private PostRepository $postRepository,
-        private NotificationManager $notificationManager
+        private PostRepository $repository,
+        private NotificationManager $manager
     ) {
     }
 
     public function __invoke(PostNotificationMessage $postNotificationMessage)
     {
-        $post = $this->postRepository->find($postNotificationMessage->postId);
+        $post = $this->repository->find($postNotificationMessage->postId);
         if (!$post) {
             return;
         }
 
-        $this->notificationManager->sendPostNotification($post);
+        $this->manager->sendPostNotification($post);
     }
 }

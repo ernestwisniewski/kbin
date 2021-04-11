@@ -20,8 +20,8 @@ use App\Entity\User;
 class PostCommentManager implements ContentManager
 {
     public function __construct(
-        private PostCommentFactory $commentFactory,
-        private EventDispatcherInterface $eventDispatcher,
+        private PostCommentFactory $factory,
+        private EventDispatcherInterface $dispatcher,
         private Security $security,
         private EntityManagerInterface $entityManager
     ) {
@@ -29,7 +29,7 @@ class PostCommentManager implements ContentManager
 
     public function create(PostCommentDto $dto, User $user): PostComment
     {
-        $comment = $this->commentFactory->createFromDto($dto, $user);
+        $comment = $this->factory->createFromDto($dto, $user);
 
         $comment->post->addComment($comment);
         $comment->magazine = $dto->post->magazine;
@@ -40,7 +40,7 @@ class PostCommentManager implements ContentManager
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new PostCommentCreatedEvent($comment)));
+        $this->dispatcher->dispatch((new PostCommentCreatedEvent($comment)));
 
         return $comment;
     }
@@ -56,7 +56,7 @@ class PostCommentManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new PostCommentUpdatedEvent($comment)));
+        $this->dispatcher->dispatch((new PostCommentUpdatedEvent($comment)));
 
         return $comment;
     }
@@ -67,12 +67,12 @@ class PostCommentManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new PostCommentDeletedEvent($comment, $this->security->getUser())));
+        $this->dispatcher->dispatch((new PostCommentDeletedEvent($comment, $this->security->getUser())));
     }
 
     public function purge(PostComment $comment): void
     {
-        $this->eventDispatcher->dispatch((new PostCommentBeforePurgeEvent($comment)));
+        $this->dispatcher->dispatch((new PostCommentBeforePurgeEvent($comment)));
 
         $magazine = $comment->post->magazine;
         $comment->post->removeComment($comment);
@@ -80,11 +80,11 @@ class PostCommentManager implements ContentManager
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new PostCommentPurgedEvent($magazine)));
+        $this->dispatcher->dispatch((new PostCommentPurgedEvent($magazine)));
     }
 
     public function createDto(PostComment $comment): PostCommentDto
     {
-        return $this->commentFactory->createDto($comment);
+        return $this->factory->createDto($comment);
     }
 }

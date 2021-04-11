@@ -21,15 +21,15 @@ use App\Entity\User;
 class MagazineManager
 {
     public function __construct(
-        private MagazineFactory $magazineFactory,
-        private EventDispatcherInterface $eventDispatcher,
+        private MagazineFactory $factory,
+        private EventDispatcherInterface $dispatcher,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(MagazineDto $dto, User $user): Magazine
     {
-        $magazine = $this->magazineFactory->createFromDto($dto, $user);
+        $magazine = $this->factory->createFromDto($dto, $user);
 
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();
@@ -68,7 +68,7 @@ class MagazineManager
 
     public function createDto(Magazine $magazine): MagazineDto
     {
-        return $this->magazineFactory->createDto($magazine);
+        return $this->factory->createDto($magazine);
     }
 
     public function subscribe(Magazine $magazine, User $user): void
@@ -79,7 +79,7 @@ class MagazineManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
+        $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
     }
 
     public function unsubscribe(Magazine $magazine, User $user): void
@@ -88,7 +88,7 @@ class MagazineManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
+        $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
     }
 
     public function block(Magazine $magazine, User $user): void
@@ -99,7 +99,7 @@ class MagazineManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
+        $this->dispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
     }
 
     public function unblock(Magazine $magazine, User $user): void
@@ -108,7 +108,7 @@ class MagazineManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
+        $this->dispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
     }
 
     public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): void
@@ -123,7 +123,7 @@ class MagazineManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new MagazineBanEvent($ban));
+        $this->dispatcher->dispatch(new MagazineBanEvent($ban));
     }
 
 
@@ -137,7 +137,7 @@ class MagazineManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new MagazineBanEvent($ban));
+        $this->dispatcher->dispatch(new MagazineBanEvent($ban));
     }
 
     public function addModerator(ModeratorDto $dto): void

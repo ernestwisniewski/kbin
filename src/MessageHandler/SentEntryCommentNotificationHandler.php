@@ -10,18 +10,18 @@ use App\Service\NotificationManager;
 class SentEntryCommentNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private EntryCommentRepository $commentRepository,
-        private NotificationManager $notificationManager
+        private EntryCommentRepository $repository,
+        private NotificationManager $manager
     ) {
     }
 
     public function __invoke(EntryCommentNotificationMessage $entryCreatedMessage)
     {
-        $comment = $this->commentRepository->find($entryCreatedMessage->commentId);
+        $comment = $this->repository->find($entryCreatedMessage->commentId);
         if (!$comment) {
             return;
         }
 
-        $this->notificationManager->sendEntryCommentNotification($comment);
+        $this->manager->sendEntryCommentNotification($comment);
     }
 }

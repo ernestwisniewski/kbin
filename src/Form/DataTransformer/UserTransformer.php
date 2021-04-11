@@ -9,7 +9,7 @@ use App\Entity\User;
 
 class UserTransformer implements DataTransformerInterface
 {
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private UserRepository $repository)
     {
     }
 
@@ -32,6 +32,6 @@ class UserTransformer implements DataTransformerInterface
             return null;
         }
 
-        return $this->userRepository->findOneByUsername($value);
+        return $this->repository->findOneByUsername($value);
     }
 }

@@ -11,7 +11,7 @@ use App\Service\DomainManager;
 
 class EntryCreateSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $messageBus, private DomainManager $domainManager)
+    public function __construct(private MessageBusInterface $bus, private DomainManager $manager)
     {
     }
 
@@ -24,8 +24,8 @@ class EntryCreateSubscriber implements EventSubscriberInterface
 
     public function onEntryCreated(EntryCreatedEvent $event): void
     {
-        $this->domainManager->extract($event->entry);
-        $this->messageBus->dispatch(new EntryEmbedMessage($event->entry->getId()));
-        $this->messageBus->dispatch(new EntryNotificationMessage($event->entry->getId()));
+        $this->manager->extract($event->entry);
+        $this->bus->dispatch(new EntryEmbedMessage($event->entry->getId()));
+        $this->bus->dispatch(new EntryNotificationMessage($event->entry->getId()));
     }
 }

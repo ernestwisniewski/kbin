@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,7 @@ use App\DTO\ReportDto;
 
 class ReportController extends AbstractController
 {
-    public function __construct(private ReportManager $reportManager)
+    public function __construct(private ReportManager $manager)
     {
     }
 
@@ -22,26 +23,13 @@ class ReportController extends AbstractController
      */
     public function __invoke(ReportInterface $subject, Request $request): Response
     {
-        $reportDto = (new ReportDto())->create($subject);
+        $dto = (new ReportDto())->create($subject);
 
-        $form = $this->createForm(
-            ReportType::class,
-            $reportDto,
-            [
-                'action' => $this->generateUrl($reportDto->getRouteName(), ['id' => $subject->getId()]),
-            ]
-        );
+        $form = $this->getForm($dto, $subject);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->reportManager->report($reportDto, $this->getUserOrThrow());
-
-            if ($request->isXmlHttpRequest()) {
-                return $this->getJsonSuccessResponse();
-            }
-
-            // @todo flash message
-            return $this->redirectToRefererOrHome($request);
+            return $this->handleValidSuccessRequest($dto, $request);
         }
 
         if ($request->isXmlHttpRequest()) {
@@ -56,5 +44,28 @@ class ReportController extends AbstractController
                 'subject'  => $subject,
             ]
         );
+    }
+
+    private function getForm(ReportDto $dto, ReportInterface $subject): FormInterface
+    {
+        return $this->createForm(
+            ReportType::class,
+            $dto,
+            [
+                'action' => $this->generateUrl($dto->getRouteName(), ['id' => $subject->getId()]),
+            ]
+        );
+    }
+
+    private function handleValidSuccessRequest(ReportDto $dto, Request $request): Response
+    {
+        $this->manager->report($dto, $this->getUserOrThrow());
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonSuccessResponse();
+        }
+
+        // @todo flash message
+        return $this->redirectToRefererOrHome($request);
     }
 }

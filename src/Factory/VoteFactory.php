@@ -19,17 +19,13 @@ class VoteFactory
 {
     public function create(int $choice, VoteInterface $votable, User $user): Vote
     {
-        if ($votable instanceof Entry) {
-            $vote = new EntryVote($choice, $user, $votable);
-        } elseif ($votable instanceof EntryComment) {
-            $vote = new EntryCommentVote($choice, $user, $votable);
-        } elseif ($votable instanceof Post) {
-            $vote = new PostVote($choice, $user, $votable);
-        } elseif ($votable instanceof PostComment) {
-            $vote = new PostCommentVote($choice, $user, $votable);
-        } else {
-            throw new LogicException();
-        }
+        $vote = match (get_class($votable)) {
+            Entry::class => new EntryVote($choice, $user, $votable),
+            EntryComment::class => new EntryCommentVote($choice, $user, $votable),
+            Post::class => new PostVote($choice, $user, $votable),
+            PostComment::class => new PostCommentVote($choice, $user, $votable),
+            default => throw new LogicException(),
+        };
 
         $votable->addVote($vote);
 

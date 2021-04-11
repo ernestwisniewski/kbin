@@ -9,7 +9,7 @@ use App\Event\PostCreatedEvent;
 
 class PostCreateSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $messageBus)
+    public function __construct(private MessageBusInterface $bus)
     {
     }
 
@@ -22,6 +22,6 @@ class PostCreateSubscriber implements EventSubscriberInterface
 
     public function onPostCreated(PostCreatedEvent $event)
     {
-        $this->messageBus->dispatch(new PostNotificationMessage($event->post->getId()));
+        $this->bus->dispatch(new PostNotificationMessage($event->post->getId()));
     }
 }

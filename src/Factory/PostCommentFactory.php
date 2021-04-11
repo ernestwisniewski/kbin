@@ -8,13 +8,13 @@ use App\Entity\User;
 
 class PostCommentFactory
 {
-    public function createFromDto(PostCommentDto $commentDto, User $user): PostComment
+    public function createFromDto(PostCommentDto $dto, User $user): PostComment
     {
         return new PostComment(
-            $commentDto->body,
-            $commentDto->post,
+            $dto->body,
+            $dto->post,
             $user,
-            $commentDto->parent
+            $dto->parent
         );
     }
 

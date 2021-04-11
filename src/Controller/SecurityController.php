@@ -23,7 +23,7 @@ class SecurityController extends AbstractController
     public function register(
         GuardAuthenticatorHandler $guardHandler,
         LoginAuthenticator $authenticator,
-        UserManager $userManager,
+        UserManager $manager,
         Request $request
     ): Response {
         if ($this->getUser()) {
@@ -36,7 +36,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userManager->create($userDto);
+            $manager->create($userDto);
 
             return $this->redirectToRoute('front');
         }
@@ -49,7 +49,7 @@ class SecurityController extends AbstractController
         );
     }
 
-    public function verifyUserEmail(Request $request, UserRepository $userRepository, UserManager $userManager): Response
+    public function verifyUserEmail(Request $request, UserRepository $repository, UserManager $manager): Response
     {
         $id = $request->get('id');
 
@@ -57,14 +57,14 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $user = $userRepository->find($id);
+        $user = $repository->find($id);
 
         if (null === $user) {
             return $this->redirectToRoute('app_register');
         }
 
         try {
-            $userManager->verify($request, $user);
+            $manager->verify($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             return $this->redirectToRoute('app_register');
         }
@@ -72,14 +72,14 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $utils): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('front_subscribed');
         }
 
-        $error        = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $error        = $utils->getLastAuthenticationError();
+        $lastUsername = $utils->getLastUsername();
 
         return $this->render('user/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }

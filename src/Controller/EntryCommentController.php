@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,12 +90,12 @@ class EntryCommentController extends AbstractController
             return $this->handleValidCreateRequest($dto, $request);
         }
 
-        $criteria        = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->entry = $entry;
-
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
         }
+
+        $criteria        = new EntryCommentPageView($this->getPageNb($request));
+        $criteria->entry = $entry;
 
         return $this->getEntryCommentPageResponse('entry/comment/create.html.twig', $criteria, $form, $request, $parent);
     }
@@ -115,11 +116,15 @@ class EntryCommentController extends AbstractController
     ): Response {
         $dto = $this->manager->createDto($comment);
 
-        $form = $this->createForm(EntryCommentType::class, $dto);
+        $form = $this->getEditForm($dto, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->handleValidEditRequest($dto, $comment);
+            return $this->handleValidEditRequest($dto, $comment, $request);
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
         }
 
         $criteria        = new EntryCommentPageView($this->getPageNb($request));
@@ -188,7 +193,7 @@ class EntryCommentController extends AbstractController
         $comment = $this->manager->create($dto, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonCreateCommentSuccessResponse($comment);
+            return $this->getJsonCommentSuccessResponse($comment);
         }
 
         return $this->redirectToRoute(
@@ -200,11 +205,12 @@ class EntryCommentController extends AbstractController
         );
     }
 
-    private function getJsonCreateCommentSuccessResponse(EntryComment $comment): Response
+    private function getJsonCommentSuccessResponse(EntryComment $comment): Response
     {
         return new JsonResponse(
             [
-                'html' => $this->renderView(
+                'commentId' => $comment->getId(),
+                'html'      => $this->renderView(
                     'entry/comment/_comment.html.twig',
                     [
                         'extra_classes' => 'kbin-comment',
@@ -226,14 +232,13 @@ class EntryCommentController extends AbstractController
         ?EntryComment $parent = null,
 
     ): Response {
-        $comments = $this->repository->findByCriteria($criteria);
-
-        $this->repository->hydrate(...$comments);
-        $this->repository->hydrateChildren(...$comments);
-
         if ($request->isXmlHttpRequest()) {
             $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
         }
+
+        $comments = $this->repository->findByCriteria($criteria);
+        $this->repository->hydrate(...$comments);
+        $this->repository->hydrateChildren(...$comments);
 
         return $this->render(
             $template,
@@ -248,9 +253,13 @@ class EntryCommentController extends AbstractController
         );
     }
 
-    private function handleValidEditRequest(EntryCommentDto $commentDto, EntryComment $comment): Response
+    private function handleValidEditRequest(EntryCommentDto $dto, EntryComment $comment, Request $request): Response
     {
-        $this->manager->edit($comment, $commentDto);
+        $comment = $this->manager->edit($comment, $dto);
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonCommentSuccessResponse($comment);
+        }
 
         return $this->redirectToRoute(
             'entry_single',
@@ -275,6 +284,24 @@ class EntryCommentController extends AbstractController
                         'magazine_name'     => $entry->magazine->name,
                         'entry_id'          => $entry->getId(),
                         'parent_comment_id' => $parent?->getId(),
+                    ]
+                ),
+            ]
+        );
+    }
+
+    private function getEditForm(EntryCommentDto $dto, EntryComment $comment): FormInterface
+    {
+        return $this->createForm(
+            EntryCommentType::class,
+            $dto,
+            [
+                'action' => $this->generateUrl(
+                    'entry_comment_edit',
+                    [
+                        'magazine_name' => $comment->magazine->name,
+                        'entry_id'      => $comment->entry->getId(),
+                        'comment_id'    => $comment->getId(),
                     ]
                 ),
             ]

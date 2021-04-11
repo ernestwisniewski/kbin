@@ -13,8 +13,8 @@ use Exception;
 final class EntryCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private EntryRepository $entryRepository,
-        private EntryFactory $entryFactory,
+        private EntryRepository $repository,
+        private EntryFactory $factory,
     ) {
     }
 
@@ -27,13 +27,13 @@ final class EntryCollectionDataProvider implements ContextAwareCollectionDataPro
     {
         try {
             $criteria = new EntryPageView(1);
-            $entries  = $this->entryRepository->findByCriteria($criteria);
+            $entries  = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];
         }
 
         foreach ($entries as $entry) {
-            yield $this->entryFactory->createDto($entry);
+            yield $this->factory->createDto($entry);
         }
     }
 }

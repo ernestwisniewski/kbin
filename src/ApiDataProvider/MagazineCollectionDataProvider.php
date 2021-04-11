@@ -13,8 +13,8 @@ use App\DTO\MagazineDto;
 final class MagazineCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private MagazineRepository $magazineRepository,
-        private MagazineFactory $magazineFactory,
+        private MagazineRepository $repository,
+        private MagazineFactory $factory,
         private RequestStack $request
     ) {
     }
@@ -27,7 +27,7 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         try {
-            $magazines = $this->magazineRepository
+            $magazines = $this->repository
                 ->findAllPaginated((int) $this->request->getCurrentRequest()->get('page', 1))
                 ->getCurrentPageResults();
         } catch (Exception $e) {
@@ -35,7 +35,7 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
         }
 
         foreach ($magazines as $magazine) {
-            yield $this->magazineFactory->createDto($magazine);
+            yield $this->factory->createDto($magazine);
         }
     }
 }

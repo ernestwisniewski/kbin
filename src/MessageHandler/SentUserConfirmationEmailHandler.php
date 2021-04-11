@@ -13,13 +13,13 @@ class SentUserConfirmationEmailHandler implements MessageHandlerInterface
 {
     public function __construct(
         private EmailVerifier $emailVerifier,
-        private UserRepository $userRepository
+        private UserRepository $repository
     ) {
     }
 
     public function __invoke(SendConfirmationEmailInterface $entryCreatedMessage)
     {
-        $user = $this->userRepository->find($entryCreatedMessage->userId);
+        $user = $this->repository->find($entryCreatedMessage->userId);
 
         if (!$user) {
             return;

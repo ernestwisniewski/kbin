@@ -19,8 +19,8 @@ use App\Entity\User;
 class PostManager implements ContentManager
 {
     public function __construct(
-        private PostFactory $postFactory,
-        private EventDispatcherInterface $eventDispatcher,
+        private PostFactory $factory,
+        private EventDispatcherInterface $dispatcher,
         private Security $security,
         private EntityManagerInterface $entityManager
     ) {
@@ -28,7 +28,7 @@ class PostManager implements ContentManager
 
     public function create(PostDto $dto, User $user): Post
     {
-        $post     = $this->postFactory->createFromDto($dto, $user);
+        $post     = $this->factory->createFromDto($dto, $user);
         $magazine = $post->magazine;
 
         $magazine->addPost($post);
@@ -39,7 +39,7 @@ class PostManager implements ContentManager
         $this->entityManager->persist($post);
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new PostCreatedEvent($post));
+        $this->dispatcher->dispatch(new PostCreatedEvent($post));
 
         return $post;
     }
@@ -57,7 +57,7 @@ class PostManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new PostUpdatedEvent($post)));
+        $this->dispatcher->dispatch((new PostUpdatedEvent($post)));
 
         return $post;
     }
@@ -68,12 +68,12 @@ class PostManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new PostDeletedEvent($post, $this->security->getUser())));
+        $this->dispatcher->dispatch((new PostDeletedEvent($post, $this->security->getUser())));
     }
 
     public function purge(Post $post): void
     {
-        $this->eventDispatcher->dispatch((new PostBeforePurgeEvent($post)));
+        $this->dispatcher->dispatch((new PostBeforePurgeEvent($post)));
 
         $post->magazine->removePost($post);
 
@@ -83,6 +83,6 @@ class PostManager implements ContentManager
 
     public function createDto(Post $post): PostDto
     {
-        return $this->postFactory->createDto($post);
+        return $this->factory->createDto($post);
     }
 }

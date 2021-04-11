@@ -20,8 +20,8 @@ class UserCommand extends Command
 
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private UserRepository $userRepository,
-        private UserManager $userManager
+        private UserRepository $repository,
+        private UserManager $manager
     ) {
         parent::__construct();
     }
@@ -40,7 +40,7 @@ class UserCommand extends Command
     {
         $io     = new SymfonyStyle($input, $output);
         $remove = $input->getOption('remove');
-        $user   = $this->userRepository->findOneByUsername($input->getArgument('username'));
+        $user   = $this->repository->findOneByUsername($input->getArgument('username'));
 
         if ($user && !$remove) {
             $io->error('User exists.');
@@ -65,7 +65,7 @@ class UserCommand extends Command
 
     private function createUser(InputInterface $input, SymfonyStyle $io): void
     {
-        $user = $this->userManager->create(
+        $user = $this->manager->create(
             (new RegisterUserDto())->create(
                 $input->getArgument('username'),
                 $input->getArgument('email'),

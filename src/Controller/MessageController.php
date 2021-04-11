@@ -15,7 +15,7 @@ use App\Entity\User;
 class MessageController extends AbstractController
 {
     public function __construct(
-        private MessageManager $messageManager,
+        private MessageManager $manager,
     ) {
     }
 
@@ -46,7 +46,7 @@ class MessageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $message = $this->messageManager->toMessage($dto, $thread, $this->getUserOrThrow());
+            $message = $this->manager->toMessage($dto, $thread, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
                 'user_profile_message',
@@ -54,7 +54,7 @@ class MessageController extends AbstractController
             );
         }
 
-        $this->messageManager->readMessages($thread, $this->getUserOrThrow());
+        $this->manager->readMessages($thread, $this->getUserOrThrow());
 
         return $this->render(
             'user/profile/message.html.twig',
@@ -78,7 +78,7 @@ class MessageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $thread = $this->messageManager->toThread($dto, $this->getUserOrThrow(), $receiver);
+            $thread = $this->manager->toThread($dto, $this->getUserOrThrow(), $receiver);
 
             return $this->redirectToRoute(
                 'user_profile_messages'

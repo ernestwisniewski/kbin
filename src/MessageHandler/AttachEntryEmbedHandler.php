@@ -15,7 +15,7 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
     public function __construct(
         private EntryRepository $entryRepository,
         private Embed $embed,
-        private ImageManager $imageManager,
+        private ImageManager $manager,
         private ImageRepository $imageRepository,
         private EntityManagerInterface $entityManager
     ) {
@@ -61,6 +61,6 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
 
     private function fetchImage(string $url): ?string
     {
-        return $this->imageManager->download($url);
+        return $this->manager->download($url);
     }
 }
