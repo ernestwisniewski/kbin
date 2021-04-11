@@ -4,10 +4,10 @@ namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\Repository\EntryRepository;
-use App\PageView\EntryPageView;
-use App\Factory\EntryFactory;
 use App\DTO\EntryDto;
+use App\Factory\EntryFactory;
+use App\PageView\EntryPageView;
+use App\Repository\EntryRepository;
 use Exception;
 
 final class EntryCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface

@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\MagazineLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\MagazineLog;
 
 /**
  * @method MagazineLog|null find($id, $lockMode = null, $lockVersion = null)

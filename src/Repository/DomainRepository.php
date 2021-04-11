@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Domain;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Domain;
 
 /**
  * @method Domain|null find($id, $lockMode = null, $lockVersion = null)

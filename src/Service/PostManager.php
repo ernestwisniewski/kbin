@@ -2,19 +2,19 @@
 
 namespace App\Service;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Security;
-use App\Service\Contracts\ContentManager;
-use Doctrine\ORM\EntityManagerInterface;
+use App\DTO\PostDto;
+use App\Entity\Post;
+use App\Entity\User;
 use App\Event\PostBeforePurgeEvent;
 use App\Event\PostCreatedEvent;
 use App\Event\PostDeletedEvent;
 use App\Event\PostUpdatedEvent;
 use App\Factory\PostFactory;
+use App\Service\Contracts\ContentManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
-use App\DTO\PostDto;
-use App\Entity\Post;
-use App\Entity\User;
 
 class PostManager implements ContentManager
 {

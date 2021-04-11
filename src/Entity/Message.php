@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\MessageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,36 +19,30 @@ class Message
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
-
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="MessageThread", inversedBy="messages", cascade={"persist"})
+     */
+    public MessageThread $thread;
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    public User $sender;
+    /**
+     * @ORM\Column(type="text")
+     */
+    public string $body;
+    /**
+     * @ORM\Column(type="string")
+     */
+    public string $status = self::STATUS_NEW;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
-
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="MessageThread", inversedBy="messages", cascade={"persist"})
-     */
-    public MessageThread $thread;
-
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User")
-     */
-    public User $sender;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    public string $body;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $status = self::STATUS_NEW;
-
     /**
      * @ORM\OneToMany(targetEntity="MessageNotification", mappedBy="message", cascade={"remove"}, orphanRemoval=true)
      */

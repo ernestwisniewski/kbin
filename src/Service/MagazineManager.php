@@ -2,21 +2,21 @@
 
 namespace App\Service;
 
-use DateTime;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Event\MagazineSubscribedEvent;
-use App\Event\MagazineBlockedEvent;
-use App\Factory\MagazineFactory;
-use App\Event\MagazineBanEvent;
-use App\DTO\MagazineThemeDto;
-use Webmozart\Assert\Assert;
 use App\DTO\MagazineBanDto;
-use App\Entity\Moderator;
-use App\DTO\ModeratorDto;
 use App\DTO\MagazineDto;
+use App\DTO\MagazineThemeDto;
+use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
+use App\Entity\Moderator;
 use App\Entity\User;
+use App\Event\MagazineBanEvent;
+use App\Event\MagazineBlockedEvent;
+use App\Event\MagazineSubscribedEvent;
+use App\Factory\MagazineFactory;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Webmozart\Assert\Assert;
 
 class MagazineManager
 {
@@ -37,6 +37,17 @@ class MagazineManager
         $this->subscribe($magazine, $user);
 
         return $magazine;
+    }
+
+    public function subscribe(Magazine $magazine, User $user): void
+    {
+        $user->unblockMagazine($magazine);
+
+        $magazine->subscribe($user);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
     }
 
     public function edit(Magazine $magazine, MagazineDto $dto): Magazine
@@ -71,26 +82,6 @@ class MagazineManager
         return $this->factory->createDto($magazine);
     }
 
-    public function subscribe(Magazine $magazine, User $user): void
-    {
-        $user->unblockMagazine($magazine);
-
-        $magazine->subscribe($user);
-
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
-    }
-
-    public function unsubscribe(Magazine $magazine, User $user): void
-    {
-        $magazine->unsubscribe($user);
-
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
-    }
-
     public function block(Magazine $magazine, User $user): void
     {
         $this->unsubscribe($magazine, $user);
@@ -100,6 +91,15 @@ class MagazineManager
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
+    }
+
+    public function unsubscribe(Magazine $magazine, User $user): void
+    {
+        $magazine->unsubscribe($user);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
     }
 
     public function unblock(Magazine $magazine, User $user): void

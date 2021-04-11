@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\DTO\MagazineDto;
+use App\Service\MagazineManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Service\MagazineManager;
-use App\DTO\MagazineDto;
 
 class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
@@ -28,13 +28,6 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies(): array
-    {
-        return [
-            UserFixtures::class,
-        ];
-    }
-
     private function provideRandomMagazines($count = 1): iterable
     {
         $titles = [];
@@ -55,5 +48,12 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
                 'rules'       => rand(0, 3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
             ];
         }
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            UserFixtures::class,
+        ];
     }
 }

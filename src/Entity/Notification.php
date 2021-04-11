@@ -25,24 +25,21 @@ abstract class Notification
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
-
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
+     */
+    public User $user;
+    /**
+     * @ORM\Column(type="string")
+     */
+    public string $status = self::STATUS_NEW;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
-
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
-     */
-    public User $user;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $status = self::STATUS_NEW;
 
     public function __construct(User $receiver)
     {

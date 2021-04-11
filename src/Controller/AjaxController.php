@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
+use App\PageView\PostCommentPageView;
+use App\Repository\PostCommentRepository;
+use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Repository\PostCommentRepository;
-use App\PageView\PostCommentPageView;
-use App\Entity\Post;
-use App\Utils\Embed;
 
 class AjaxController extends AbstractController
 {

@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\DTO\UserProfileSettingsDto;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UserProfileSettingsManager
 {

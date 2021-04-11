@@ -2,8 +2,8 @@
 
 namespace App\Markdown;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
 use App\Markdown\Event\ConvertMarkdown;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class MarkdownConverter
 {

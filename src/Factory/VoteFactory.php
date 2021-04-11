@@ -3,14 +3,14 @@
 namespace App\Factory;
 
 use App\Entity\Contracts\VoteInterface;
-use App\Entity\EntryCommentVote;
-use App\Entity\PostCommentVote;
-use App\Entity\EntryComment;
-use App\Entity\PostComment;
-use App\Entity\EntryVote;
-use App\Entity\PostVote;
 use App\Entity\Entry;
+use App\Entity\EntryComment;
+use App\Entity\EntryCommentVote;
+use App\Entity\EntryVote;
 use App\Entity\Post;
+use App\Entity\PostComment;
+use App\Entity\PostCommentVote;
+use App\Entity\PostVote;
 use App\Entity\User;
 use App\Entity\Vote;
 use LogicException;

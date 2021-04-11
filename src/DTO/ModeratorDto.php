@@ -2,10 +2,10 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Unique;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Validator\Unique;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Unique({"magazine", "user"}, entityClass="App\Entity\Moderator",

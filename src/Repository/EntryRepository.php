@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Pagerfanta\Exception\NotValidCurrentPageException;
-use Symfony\Component\Security\Core\Security;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Entry;
+use App\Entity\Magazine;
+use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
-use Pagerfanta\PagerfantaInterface;
+use App\Entity\UserBlock;
+use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\MagazineBlock;
-use App\Entity\UserFollow;
+use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use App\Entity\UserBlock;
-use App\Entity\Magazine;
-use App\Entity\Entry;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Entry|null find($id, $lockMode = null, $lockVersion = null)
@@ -75,6 +75,27 @@ class EntryRepository extends ServiceEntityRepository
         $this->filter($qb, $criteria);
 
         return $qb;
+    }
+
+    private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria)
+    {
+        if ($criteria->time !== EntryPageView::TIME_ALL) {
+            $since = $criteria->getSince();
+
+            $qb->andWhere('e.createdAt > :time')
+                ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
+        }
+    }
+
+    private function addStickyClause(QueryBuilder $qb, EntryPageView $criteria)
+    {
+        if ($criteria->stickiesFirst) {
+            if ($criteria->page === 1) {
+                $qb->addOrderBy('e.sticky', 'DESC');
+            } else {
+                $qb->andWhere($qb->expr()->eq('e.sticky', 'false'));
+            }
+        }
     }
 
     private function filter(QueryBuilder $qb, EntryPageView $criteria): QueryBuilder
@@ -136,28 +157,6 @@ class EntryRepository extends ServiceEntityRepository
         }
 
         return $qb;
-    }
-
-
-    private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria)
-    {
-        if ($criteria->time !== EntryPageView::TIME_ALL) {
-            $since = $criteria->getSince();
-
-            $qb->andWhere('e.createdAt > :time')
-                ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
-        }
-    }
-
-    private function addStickyClause(QueryBuilder $qb, EntryPageView $criteria)
-    {
-        if ($criteria->stickiesFirst) {
-            if ($criteria->page === 1) {
-                $qb->addOrderBy('e.sticky', 'DESC');
-            } else {
-                $qb->andWhere($qb->expr()->eq('e.sticky', 'false'));
-            }
-        }
     }
 
     public function hydrate(Entry ...$entries): void

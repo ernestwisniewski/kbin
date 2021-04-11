@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\UserBlock;
@@ -10,9 +11,8 @@ use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\EntryComment;
+use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -68,6 +68,16 @@ class EntryCommentRepository extends ServiceEntityRepository
         $this->filter($qb, $criteria);
 
         return $qb;
+    }
+
+    private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
+    {
+        if ($criteria->time !== Criteria::TIME_ALL) {
+            $since = $criteria->getSince();
+
+            $qb->andWhere('c.createdAt > :time')
+                ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
+        }
     }
 
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
@@ -133,14 +143,14 @@ class EntryCommentRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
+    public function hydrateChildren(EntryComment ...$comments): void
     {
-        if ($criteria->time !== Criteria::TIME_ALL) {
-            $since = $criteria->getSince();
+        $children = $this->createQueryBuilder('c')
+            ->andWhere('c.root IN (:ids)')
+            ->setParameter('ids', $comments)
+            ->getQuery()->getResult();
 
-            $qb->andWhere('c.createdAt > :time')
-                ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
-        }
+        $this->hydrate(...$children);
     }
 
     public function hydrate(EntryComment ...$comments): void
@@ -172,16 +182,6 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->setParameter(1, $comments)
             ->getQuery()
             ->execute();
-    }
-
-    public function hydrateChildren(EntryComment ...$comments): void
-    {
-        $children = $this->createQueryBuilder('c')
-            ->andWhere('c.root IN (:ids)')
-            ->setParameter('ids', $comments)
-            ->getQuery()->getResult();
-
-        $this->hydrate(...$children);
     }
 
     public function hydrateParents(EntryComment ...$comments): void

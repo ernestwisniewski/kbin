@@ -2,16 +2,16 @@
 
 namespace App\Service;
 
+use App\Exception\CorruptedFileException;
+use App\Exception\ImageDownloadTooLargeException;
 use Exception;
+use League\Flysystem\FilesystemInterface;
 use RuntimeException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
+use Symfony\Component\Mime\MimeTypesInterface;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\Validator\Constraints\Image;
-use App\Exception\ImageDownloadTooLargeException;
-use Symfony\Component\Mime\MimeTypesInterface;
-use App\Exception\CorruptedFileException;
-use League\Flysystem\FilesystemInterface;
 use function count;
 use function is_resource;
 
@@ -26,6 +26,19 @@ class ImageManager
         private MimeTypesInterface $mimeTypeGuesser,
         private ValidatorInterface $validator
     ) {
+    }
+
+    public static function isImageUrl(string $url): bool
+    {
+        $urlExt = pathinfo($url, PATHINFO_EXTENSION);
+
+        $types = array_map(fn($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
+
+        if (in_array($urlExt, $types)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function store(string $source, string $filePath): bool
@@ -48,6 +61,22 @@ class ImageManager
         finally {
             is_resource($fh) and fclose($fh);
         }
+    }
+
+    private function validate(string $filePath)
+    {
+        $violations = $this->validator->validate(
+            $filePath,
+            [
+                new Image(['detectCorrupted' => true]),
+            ]
+        );
+
+        if (count($violations) > 0) {
+            throw new CorruptedFileException();
+        }
+
+        return true;
     }
 
     public function download(string $url): ?string
@@ -101,6 +130,13 @@ class ImageManager
         return sprintf('%s/%s/%s', $this->getRandomCharacters(), $this->getRandomCharacters(), $this->getFileName($file));
     }
 
+    private function getRandomCharacters($length = 2): string
+    {
+        $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        return substr(str_shuffle($chars), 0, $length);
+    }
+
     public function getFileName(string $file): string
     {
         $hash     = hash_file('sha256', $file);
@@ -117,42 +153,6 @@ class ImageManager
         }
 
         return sprintf('%s.%s', $hash, $ext);
-    }
-
-    private function getRandomCharacters($length = 2): string
-    {
-        $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-        return substr(str_shuffle($chars), 0, $length);
-    }
-
-    private function validate(string $filePath)
-    {
-        $violations = $this->validator->validate(
-            $filePath,
-            [
-                new Image(['detectCorrupted' => true]),
-            ]
-        );
-
-        if (count($violations) > 0) {
-            throw new CorruptedFileException();
-        }
-
-        return true;
-    }
-
-    public static function isImageUrl(string $url): bool
-    {
-        $urlExt = pathinfo($url, PATHINFO_EXTENSION);
-
-        $types = array_map(fn($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
-
-        if (in_array($urlExt, $types)) {
-            return true;
-        }
-
-        return false;
     }
 
     public function remove(\App\Entity\Image $image)

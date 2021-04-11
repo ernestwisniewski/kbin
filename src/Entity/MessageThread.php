@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\MessageThreadRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use App\Entity\Traits\UpdatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use JetBrains\PhpStorm\Pure;
@@ -19,13 +19,6 @@ class MessageThread
     use UpdatedAtTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
-
-    /**
      * @ORM\JoinTable(name="message_thread_participants", joinColumns={
      *     @ORM\JoinColumn(name="message_thread_id", referencedColumnName="id")
      * }, inverseJoinColumns={
@@ -34,14 +27,18 @@ class MessageThread
      * @ORM\ManyToMany(targetEntity="User")
      */
     public Collection $participants;
-
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="thread",
      *     cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"createdAt": "DESC"})
      */
     public Collection $messages;
-
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private int $id;
 
     #[Pure] public function __construct(User ...$participants)
     {
@@ -61,11 +58,6 @@ class MessageThread
                 return $user !== $self;
             }
         )->getValues();
-    }
-
-    public function userIsParticipant($user): bool
-    {
-        return $this->participants->contains($user);
     }
 
     public function getNewMessages(User $user): Collection
@@ -95,6 +87,11 @@ class MessageThread
 
             $this->messages->add($message);
         }
+    }
+
+    public function userIsParticipant($user): bool
+    {
+        return $this->participants->contains($user);
     }
 
     public function removeMessage(Message $message): void

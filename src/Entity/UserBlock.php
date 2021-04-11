@@ -22,23 +22,21 @@ class UserBlock
     }
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blocks")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     public ?User $blocker;
-
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blockers")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     public ?User $blocked;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private ?int $id;
 
     public function __construct(User $blocker, User $blocked)
     {

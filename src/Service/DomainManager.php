@@ -3,9 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Contracts\DomainInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\DomainRepository;
 use App\Entity\Domain;
+use App\Repository\DomainRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class
 DomainManager

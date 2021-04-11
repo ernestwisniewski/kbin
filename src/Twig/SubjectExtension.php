@@ -3,11 +3,11 @@
 namespace App\Twig;
 
 use App\Entity\Contracts\ReportInterface;
-use Twig\Extension\AbstractExtension;
-use App\Entity\EntryComment;
-use App\Entity\PostComment;
 use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\Post;
+use App\Entity\PostComment;
+use Twig\Extension\AbstractExtension;
 use Twig\TwigTest;
 
 final class SubjectExtension extends AbstractExtension

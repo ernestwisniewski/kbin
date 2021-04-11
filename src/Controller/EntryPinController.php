@@ -2,21 +2,13 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\EntryCommentRepository;
-use Symfony\Component\Form\FormInterface;
-use App\PageView\EntryCommentPageView;
-use App\Event\EntryHasBeenSeenEvent;
-use App\Form\EntryArticleType;
-use App\Service\EntryManager;
-use App\Form\EntryLinkType;
-use App\Entity\Magazine;
-use App\DTO\EntryDto;
 use App\Entity\Entry;
+use App\Entity\Magazine;
+use App\Service\EntryManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class EntryPinController extends AbstractController
 {

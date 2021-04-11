@@ -2,23 +2,23 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Security;
-use App\Service\Contracts\ContentManager;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Event\EntryBeforePurgeEvent;
-use App\Exception\BadUrlException;
-use App\Event\EntryCreatedEvent;
-use App\Event\EntryUpdatedEvent;
-use App\Event\EntryDeletedEvent;
-use App\Factory\EntryFactory;
-use Webmozart\Assert\Assert;
-use App\Event\EntryPinEvent;
-use App\Utils\UrlCleaner;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\User;
+use App\Event\EntryBeforePurgeEvent;
+use App\Event\EntryCreatedEvent;
+use App\Event\EntryDeletedEvent;
+use App\Event\EntryPinEvent;
+use App\Event\EntryUpdatedEvent;
+use App\Exception\BadUrlException;
+use App\Factory\EntryFactory;
+use App\Service\Contracts\ContentManager;
+use App\Utils\UrlCleaner;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Security;
+use Webmozart\Assert\Assert;
 
 class EntryManager implements ContentManager
 {
@@ -65,6 +65,27 @@ class EntryManager implements ContentManager
         $this->dispatcher->dispatch(new EntryCreatedEvent($entry));
 
         return $entry;
+    }
+
+    private function validateUrl(string $url): void
+    {
+        if (!$url) {
+            return;
+        }
+
+        // @todo checkdnsrr?
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new BadUrlException($url);
+        }
+    }
+
+    private function assertType(Entry $entry): void
+    {
+        if ($entry->url) {
+            Assert::null($entry->body);
+        } else {
+            Assert::null($entry->url);
+        }
     }
 
     public function edit(Entry $entry, EntryDto $dto): Entry
@@ -132,26 +153,5 @@ class EntryManager implements ContentManager
     public function createDto(Entry $entry): EntryDto
     {
         return $this->factory->createDto($entry);
-    }
-
-    private function assertType(Entry $entry): void
-    {
-        if ($entry->url) {
-            Assert::null($entry->body);
-        } else {
-            Assert::null($entry->url);
-        }
-    }
-
-    private function validateUrl(string $url): void
-    {
-        if (!$url) {
-            return;
-        }
-
-        // @todo checkdnsrr?
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new BadUrlException($url);
-        }
     }
 }

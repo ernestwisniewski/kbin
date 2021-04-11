@@ -2,19 +2,18 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\MagazineRepository;
-use App\Repository\EntryRepository;
-use Pagerfanta\PagerfantaInterface;
-use App\Service\MagazineManager;
+use App\DTO\MagazineDto;
+use App\Entity\Magazine;
+use App\Form\MagazineType;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
-use App\Form\MagazineType;
-use App\Entity\Magazine;
-use App\DTO\MagazineDto;
+use App\Repository\EntryRepository;
+use App\Repository\MagazineRepository;
+use App\Service\MagazineManager;
+use Pagerfanta\PagerfantaInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MagazineController extends AbstractController
 {

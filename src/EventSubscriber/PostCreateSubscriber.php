@@ -2,10 +2,10 @@
 
 namespace App\EventSubscriber;
 
+use App\Event\PostCreatedEvent;
+use App\Message\PostNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use App\Message\PostNotificationMessage;
-use App\Event\PostCreatedEvent;
 
 class PostCreateSubscriber implements EventSubscriberInterface
 {

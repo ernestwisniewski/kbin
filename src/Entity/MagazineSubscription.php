@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\MagazineSubscriptionRepository;
 use App\Entity\Traits\CreatedAtTrait;
+use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,23 +22,21 @@ class MagazineSubscription
     }
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="subscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
     public ?User $user;
-
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="subscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
     public ?Magazine $magazine;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private ?int $id;
 
     public function __construct(User $user, Magazine $magazine)
     {

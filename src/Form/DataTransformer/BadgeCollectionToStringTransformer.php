@@ -2,9 +2,9 @@
 
 namespace App\Form\DataTransformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Form\DataTransformerInterface;
 use TypeError;
 use function is_string;
 

@@ -2,20 +2,20 @@
 
 namespace App\Entity;
 
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use App\Entity\Contracts\VisibilityInterface;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\Contracts\CommentInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
-use Doctrine\Common\Collections\Criteria;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
-use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\RankingTrait;
+use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\PostRepository;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
@@ -32,75 +32,63 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     }
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
     public User $user;
-
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     public ?Magazine $magazine;
-
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     public ?Image $image = null;
-
     /**
      * @ORM\Column(type="text", nullable=true, length=15000)
      */
     public ?string $body = null;
-
     /**
      * @ORM\Column(type="integer")
      */
     public int $commentCount = 0;
-
     /**
      * @ORM\Column(type="integer")
      */
     public int $score = 0;
-
     /**
      * @ORM\Column(type="boolean")
      */
     public ?bool $isAdult = false;
-
     /**
      * @ORM\Column(type="datetimetz")
      */
     public ?DateTime $lastActive;
-
     /**
      * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="post", orphanRemoval=true)
      */
     public Collection $comments;
-
     /**
      * @ORM\OneToMany(targetEntity=PostVote::class, mappedBy="post", cascade={"persist"},
      *     fetch="EXTRA_LAZY", orphanRemoval=true)
      */
     public Collection $votes;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PostReport", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
      */
     public Collection $reports;
-
     /**
      * @ORM\OneToMany(targetEntity="PostNotification", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
      */
     public Collection $notifications;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private int $id;
 
     public function __construct(string $body, Magazine $magazine, User $user, ?bool $isAdult = false)
     {
@@ -117,6 +105,23 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
 
         $this->createdAtTraitConstruct();
         $this->updateLastActive();
+    }
+
+    public function updateLastActive(): void
+    {
+        $this->comments->get(-1);
+
+        $criteria = Criteria::create()
+            ->orderBy(['createdAt' => 'DESC'])
+            ->setMaxResults(1);
+
+        $lastComment = $this->comments->matching($criteria)->first();
+
+        if ($lastComment) {
+            $this->lastActive = DateTime::createFromImmutable($lastComment->createdAt);
+        } else {
+            $this->lastActive = DateTime::createFromImmutable($this->getCreatedAt());
+        }
     }
 
     public function getId(): int
@@ -148,6 +153,16 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $this;
     }
 
+    public function updateCounts(): self
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
+
+        $this->commentCount = $this->comments->matching($criteria)->count();
+
+        return $this;
+    }
+
     public function removeComment(PostComment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
@@ -161,33 +176,6 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $this->updateLastActive();
 
         return $this;
-    }
-
-    public function updateCounts(): self
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
-
-        $this->commentCount = $this->comments->matching($criteria)->count();
-
-        return $this;
-    }
-
-    public function updateLastActive(): void
-    {
-        $this->comments->get(-1);
-
-        $criteria = Criteria::create()
-            ->orderBy(['createdAt' => 'DESC'])
-            ->setMaxResults(1);
-
-        $lastComment = $this->comments->matching($criteria)->first();
-
-        if ($lastComment) {
-            $this->lastActive = DateTime::createFromImmutable($lastComment->createdAt);
-        } else {
-            $this->lastActive = DateTime::createFromImmutable($this->getCreatedAt());
-        }
     }
 
     public function softDelete(): void

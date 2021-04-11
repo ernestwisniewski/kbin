@@ -2,17 +2,23 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use App\Utils\Slugger;
-use Faker\Generator;
+use DateTimeImmutable;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Faker\Generator;
 
 abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 {
     protected Generator $faker;
     protected ObjectManager $manager;
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
+    }
 
     public function load(ObjectManager $manager): void
     {
@@ -24,19 +30,14 @@ abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 
     abstract protected function loadData(ObjectManager $manager);
 
-    public static function getGroups(): array
-    {
-        return ['dev'];
-    }
-
     protected function camelCase($value): string
     {
         return (new Slugger())->camelCase($value);
     }
 
-    protected function getRandomTime(?\DateTimeImmutable $from = null): \DateTimeImmutable
+    protected function getRandomTime(?DateTimeImmutable $from = null): DateTimeImmutable
     {
-        return new \DateTimeImmutable(
+        return new DateTimeImmutable(
             $this->faker->dateTimeBetween
             (
                 $from ? $from->format('Y-m-d H:i:s') : '-1 month',

@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
+use App\DTO\BadgeDto;
+use App\Entity\Badge;
+use App\Entity\Entry;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Webmozart\Assert\Assert;
-use App\Entity\Badge;
-use App\Entity\Entry;
-use App\DTO\BadgeDto;
 
 class BadgeManager
 {

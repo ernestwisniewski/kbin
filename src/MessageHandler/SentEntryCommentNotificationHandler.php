@@ -2,10 +2,10 @@
 
 namespace App\MessageHandler;
 
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Message\EntryCommentNotificationMessage;
 use App\Repository\EntryCommentRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentEntryCommentNotificationHandler implements MessageHandlerInterface
 {

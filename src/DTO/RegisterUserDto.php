@@ -2,9 +2,9 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use App\DTO\Contracts\UserDtoInterface;
 use App\Validator\Unique;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Unique(entityClass="App\Entity\User", errorPath="username", fields={"username"}, idFields="id")
@@ -12,7 +12,6 @@ use App\Validator\Unique;
  */
 class RegisterUserDto implements UserDtoInterface
 {
-    private ?int $id = null;
     /**
      * @Assert\NotBlank()
      */
@@ -40,6 +39,7 @@ class RegisterUserDto implements UserDtoInterface
      * @Assert\IsTrue()
      */
     public ?bool $agreeTerms;
+    private ?int $id = null;
 
     public function create(string $username, string $email, string $plainPassword): self
     {

@@ -2,8 +2,8 @@
 
 namespace App\PageView;
 
-use App\Repository\Criteria;
 use App\Entity\Entry;
+use App\Repository\Criteria;
 
 class EntryCommentPageView extends Criteria
 {

@@ -2,11 +2,11 @@
 
 namespace App\ApiDataProvider;
 
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
-use App\Repository\EntryRepository;
-use App\Factory\EntryFactory;
+use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\EntryDto;
+use App\Factory\EntryFactory;
+use App\Repository\EntryRepository;
 
 final class EntryItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {

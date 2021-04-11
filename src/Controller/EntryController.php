@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\EntryCommentRepository;
-use Symfony\Component\Form\FormInterface;
-use App\PageView\EntryCommentPageView;
-use App\Event\EntryHasBeenSeenEvent;
-use App\Form\EntryArticleType;
-use App\Service\EntryManager;
-use App\Form\EntryLinkType;
-use App\Entity\Magazine;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
+use App\Entity\Magazine;
+use App\Event\EntryHasBeenSeenEvent;
+use App\Form\EntryArticleType;
+use App\Form\EntryLinkType;
+use App\PageView\EntryCommentPageView;
+use App\Repository\EntryCommentRepository;
+use App\Service\EntryManager;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class EntryController extends AbstractController
 {
@@ -84,6 +84,26 @@ class EntryController extends AbstractController
         );
     }
 
+    private function createFormByType(EntryDto $dto, ?string $type): FormInterface
+    {
+        if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
+            return $this->createForm(EntryLinkType::class, $dto);
+        }
+
+        return $this->createForm(EntryArticleType::class, $dto);
+    }
+
+    private function getTemplateName(?string $type, ?bool $edit = false): string
+    {
+        $prefix = $edit ? 'edit' : 'create';
+
+        if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
+            return "entry/{$prefix}_link.html.twig";
+        }
+
+        return "entry/{$prefix}_article.html.twig";
+    }
+
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
@@ -144,25 +164,5 @@ class EntryController extends AbstractController
         $this->manager->purge($entry);
 
         return $this->redirectToMagazine($magazine);
-    }
-
-    private function createFormByType(EntryDto $dto, ?string $type): FormInterface
-    {
-        if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
-            return $this->createForm(EntryLinkType::class, $dto);
-        }
-
-        return $this->createForm(EntryArticleType::class, $dto);
-    }
-
-    private function getTemplateName(?string $type, ?bool $edit = false): string
-    {
-        $prefix = $edit ? 'edit' : 'create';
-
-        if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
-            return "entry/{$prefix}_link.html.twig";
-        }
-
-        return "entry/{$prefix}_article.html.twig";
     }
 }

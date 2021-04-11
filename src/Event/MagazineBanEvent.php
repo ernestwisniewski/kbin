@@ -2,9 +2,7 @@
 
 namespace App\Event;
 
-use App\Entity\Magazine;
 use App\Entity\MagazineBan;
-use App\Entity\User;
 
 class MagazineBanEvent
 {

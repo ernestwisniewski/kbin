@@ -11,21 +11,19 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryBadge
 {
     /**
+     * @ORM\ManyToOne(targetEntity="Badge", inversedBy="badges")
+     */
+    public Badge $badge;
+    /**
+     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="badges")
+     */
+    public Entry $entry;
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Badge", inversedBy="badges")
-     */
-    public Badge $badge;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="badges")
-     */
-    public Entry $entry;
 
     public function __construct(Entry $entry, Badge $badge)
     {

@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\MessageThread;
 use App\DTO\MessageDto;
 use App\Entity\Message;
+use App\Entity\MessageThread;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 
 class MessageManager
 {

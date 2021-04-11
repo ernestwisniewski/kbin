@@ -16,6 +16,11 @@ class BuildCacheContext
         $this->addToContext('content', $convertMarkdownEvent->getMarkdown());
     }
 
+    public function addToContext(string $key, ?string $value = null): void
+    {
+        $this->context[$key] = $value;
+    }
+
     /**
      * @return ConvertMarkdown
      */
@@ -42,10 +47,5 @@ class BuildCacheContext
         }
 
         return $this->context[$key] === $value;
-    }
-
-    public function addToContext(string $key, ?string $value = null): void
-    {
-        $this->context[$key] = $value;
     }
 }

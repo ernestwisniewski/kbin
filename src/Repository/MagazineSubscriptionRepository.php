@@ -2,12 +2,12 @@
 
 namespace App\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Entry;
 use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
-use App\Entity\Entry;
 use App\Entity\Post;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Moderator|null find($id, $lockMode = null, $lockVersion = null)

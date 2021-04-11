@@ -2,24 +2,24 @@
 
 namespace App\Repository;
 
+use App\Entity\Entry;
+use App\Entity\EntryComment;
+use App\Entity\Post;
+use App\Entity\PostComment;
+use App\Entity\User;
+use App\Entity\UserBlock;
+use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Pagerfanta\Exception\NotValidCurrentPageException;
-use Doctrine\Persistence\ManagerRegistry;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Pagerfanta\Adapter\ArrayAdapter;
-use Pagerfanta\PagerfantaInterface;
-use App\Entity\EntryComment;
-use App\Entity\PostComment;
-use Pagerfanta\Pagerfanta;
-use App\Entity\UserFollow;
-use App\Entity\UserBlock;
-use App\Entity\Entry;
-use App\Entity\Post;
-use App\Entity\User;
 use function get_class;
 
 /**

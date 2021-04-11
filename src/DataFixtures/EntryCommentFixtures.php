@@ -2,11 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\DTO\EntryCommentDto;
+use App\Entity\EntryComment;
+use App\Service\EntryCommentManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Service\EntryCommentManager;
-use App\Entity\EntryComment;
-use App\DTO\EntryCommentDto;
 
 class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
@@ -54,6 +54,17 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
         $manager->flush();
     }
 
+    private function provideRandomComments($count = 1): iterable
+    {
+        for ($i = 0; $i <= $count; $i++) {
+            yield [
+                'body'  => $this->faker->paragraphs($this->faker->numberBetween(1, 3), true),
+                'entry' => $this->getReference('entry_'.rand(1, EntryFixtures::ENTRIES_COUNT)),
+                'user'  => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+            ];
+        }
+    }
+
     private function createChildren(EntryComment $parent, ObjectManager $manager): EntryComment
     {
         $dto = (new EntryCommentDto())->createWithParent(
@@ -71,16 +82,5 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
         $manager->flush();
 
         return $entity;
-    }
-
-    private function provideRandomComments($count = 1): iterable
-    {
-        for ($i = 0; $i <= $count; $i++) {
-            yield [
-                'body'  => $this->faker->paragraphs($this->faker->numberBetween(1, 3), true),
-                'entry' => $this->getReference('entry_'.rand(1, EntryFixtures::ENTRIES_COUNT)),
-                'user'  => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
-            ];
-        }
     }
 }

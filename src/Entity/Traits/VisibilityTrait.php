@@ -13,14 +13,14 @@ trait VisibilityTrait
      */
     private string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
 
-    public function getVisibility(): string
-    {
-        return $this->visibility;
-    }
-
     #[Pure] public function isVisible(): bool
     {
         return $this->getVisibility() === VisibilityInterface::VISIBILITY_VISIBLE;
+    }
+
+    public function getVisibility(): string
+    {
+        return $this->visibility;
     }
 
     #[Pure] public function isSoftDeleted(): bool

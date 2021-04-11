@@ -2,8 +2,8 @@
 
 namespace App\Markdown\CommonMark;
 
-use League\CommonMark\Inline\Parser\InlineParserInterface;
 use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Inline\Parser\InlineParserInterface;
 use League\CommonMark\InlineParserContext;
 
 /**
@@ -11,22 +11,15 @@ use League\CommonMark\InlineParserContext;
  */
 abstract class AbstractLocalLinkParser implements InlineParserInterface
 {
-    /**
-     * Return a single-character prefix.
-     */
-    abstract public function getPrefix(): string;
-
-    /**
-     * Generates a URL based on the extracted suffix.
-     */
-    abstract public function getUrl(string $suffix): string;
-
-    abstract public function getRegex(): string;
-
     final public function getCharacters(): array
     {
         return ['/', $this->getPrefix()];
     }
+
+    /**
+     * Return a single-character prefix.
+     */
+    abstract public function getPrefix(): string;
 
     final public function parse(InlineParserContext $inlineContext): bool
     {
@@ -60,4 +53,11 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
 
         return true;
     }
+
+    abstract public function getRegex(): string;
+
+    /**
+     * Generates a URL based on the extracted suffix.
+     */
+    abstract public function getUrl(string $suffix): string;
 }

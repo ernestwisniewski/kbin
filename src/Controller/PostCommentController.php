@@ -2,20 +2,20 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use App\DTO\PostCommentDto;
+use App\Entity\Magazine;
+use App\Entity\Post;
+use App\Entity\PostComment;
+use App\Form\PostCommentType;
+use App\PageView\PostCommentPageView;
+use App\Repository\PostCommentRepository;
+use App\Service\PostCommentManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Repository\PostCommentRepository;
-use App\PageView\PostCommentPageView;
-use App\Service\PostCommentManager;
-use App\Form\PostCommentType;
-use App\Entity\PostComment;
-use App\DTO\PostCommentDto;
-use App\Entity\Magazine;
-use App\Entity\Post;
 
 class PostCommentController extends AbstractController
 {
@@ -64,6 +64,59 @@ class PostCommentController extends AbstractController
                 'comments' => $comments,
                 'parent'   => $parent,
                 'form'     => $form->createView(),
+            ]
+        );
+    }
+
+    private function getCreateForm(PostCommentDto $dto, ?PostComment $parent): FormInterface
+    {
+        return $this->createForm(
+            PostCommentType::class,
+            $dto,
+            [
+                'action' => $this->generateUrl(
+                    'post_comment_create',
+                    [
+                        'magazine_name'     => $dto->post->magazine->name,
+                        'post_id'           => $dto->post->getId(),
+                        'parent_comment_id' => $parent?->getId(),
+                    ]
+                ),
+            ]
+        );
+    }
+
+    private function handleValidCreateRequest(PostCommentDto $dto, Request $request): Response
+    {
+        $comment = $this->manager->create($dto, $this->getUserOrThrow());
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonCreateCommentSuccessResponse($comment);
+        }
+
+        return $this->redirectToRoute(
+            'post_single',
+            [
+                'magazine_name' => $comment->magazine->name,
+                'post_id'       => $comment->post->getId(),
+            ]
+        );
+    }
+
+    private function getJsonCreateCommentSuccessResponse(PostComment $comment): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'post/comment/_comment.html.twig',
+                    [
+                        'extra_classes' => 'kbin-comment',
+                        'with_parent'   => false,
+                        'comment'       => $comment,
+                        'level'         => 1,
+                        'nested'        => false,
+                    ]
+                ),
             ]
         );
     }
@@ -162,59 +215,6 @@ class PostCommentController extends AbstractController
             'post/comment/_form.html.twig',
             [
                 'form' => $form->createView(),
-            ]
-        );
-    }
-
-    private function getCreateForm(PostCommentDto $dto, ?PostComment $parent): FormInterface
-    {
-        return $this->createForm(
-            PostCommentType::class,
-            $dto,
-            [
-                'action' => $this->generateUrl(
-                    'post_comment_create',
-                    [
-                        'magazine_name'     => $dto->post->magazine->name,
-                        'post_id'           => $dto->post->getId(),
-                        'parent_comment_id' => $parent?->getId(),
-                    ]
-                ),
-            ]
-        );
-    }
-
-    private function handleValidCreateRequest(PostCommentDto $dto, Request $request): Response
-    {
-        $comment = $this->manager->create($dto, $this->getUserOrThrow());
-
-        if ($request->isXmlHttpRequest()) {
-            return $this->getJsonCreateCommentSuccessResponse($comment);
-        }
-
-        return $this->redirectToRoute(
-            'post_single',
-            [
-                'magazine_name' => $comment->magazine->name,
-                'post_id'       => $comment->post->getId(),
-            ]
-        );
-    }
-
-    private function getJsonCreateCommentSuccessResponse(PostComment $comment): JsonResponse
-    {
-        return new JsonResponse(
-            [
-                'html' => $this->renderView(
-                    'post/comment/_comment.html.twig',
-                    [
-                        'extra_classes' => 'kbin-comment',
-                        'with_parent'   => false,
-                        'comment'       => $comment,
-                        'level'         => 1,
-                        'nested'        => false,
-                    ]
-                ),
             ]
         );
     }

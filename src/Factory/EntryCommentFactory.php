@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\Entity\EntryComment;
 use App\DTO\EntryCommentDto;
+use App\Entity\EntryComment;
 use App\Entity\User;
 
 class EntryCommentFactory

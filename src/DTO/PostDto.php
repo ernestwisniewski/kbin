@@ -2,13 +2,12 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Magazine;
 use App\Entity\Image;
+use App\Entity\Magazine;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class PostDto
 {
-    private ?int $id = null;
     /**
      * @Assert\NotBlank()
      */
@@ -22,6 +21,7 @@ class PostDto
     public ?string $body = null;
     public ?Image $image = null;
     public ?bool $isAdult = false;
+    private ?int $id = null;
 
     public function create(
         Magazine $magazine,

@@ -2,14 +2,14 @@
 
 namespace App\Twig\Runtime;
 
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Request;
-use Twig\Extension\RuntimeExtensionInterface;
+use App\Entity\Magazine;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
-use App\Entity\Magazine;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Extension\RuntimeExtensionInterface;
 
 class PageContextRuntime implements RuntimeExtensionInterface
 {
@@ -24,9 +24,14 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return in_array($this->getCurrentRouteName(), ['front', 'entry_comments_front', 'posts_front']);
     }
 
-    public function isSubPage(): bool
+    private function getCurrentRouteName(): string
     {
-        return str_contains($this->getCurrentRouteName(), 'subscribed');
+        return $this->getCurrentRequest()->get('_route');
+    }
+
+    private function getCurrentRequest(): ?Request
+    {
+        return $this->requestStack->getCurrentRequest();
     }
 
     public function isCurrentMagazinePage(Magazine $magazine): bool
@@ -38,42 +43,9 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return $magazineRequest === $magazine;
     }
 
-    public function isMagazinePage(): bool
-    {
-        if (in_array($this->getCurrentRouteName(), ['magazine_create', 'magazine_delete'])) {
-            return false;
-        }
-
-        return (bool) $this->getCurrentRequest()->get('magazine');
-    }
-
-    public function isEntryPage(): bool
-    {
-        if (in_array($this->getCurrentRouteName(), ['entry_create', 'entry_purge'])) {
-            return false;
-        }
-
-        return (bool) $this->getCurrentRequest()->get('entry');
-    }
-
-    public function isCommentsPage(): bool
-    {
-        return str_contains($this->getCurrentRouteName(), 'comments');
-    }
-
-    public function isUserPage(): bool
-    {
-        return str_starts_with($this->getCurrentRouteName(), 'user');
-    }
-
     public function isUserProfilePage(): bool
     {
         return str_starts_with($this->getCurrentRouteName(), 'user_profile');
-    }
-
-    public function isPostsPage(): bool
-    {
-        return str_contains($this->getCurrentRouteName(), 'posts');
     }
 
     public function isPostPage(): bool
@@ -88,6 +60,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
     public function isReportPage(): bool
     {
         return $this->isRouteContains('report');
+    }
+
+    public function isRouteContains(string $val): bool
+    {
+        return str_contains($this->getCurrentRouteName(), $val);
     }
 
     public function isMagazinePanelPage(): bool
@@ -118,9 +95,28 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return ($requestSort = $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT) === $sortOption;
     }
 
-    public function getActiveSortOption()
+    public function isCommentsPage(): bool
     {
-        return $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT;
+        return str_contains($this->getCurrentRouteName(), 'comments');
+    }
+
+    public function isPostsPage(): bool
+    {
+        return str_contains($this->getCurrentRouteName(), 'posts');
+    }
+
+    public function isEntryPage(): bool
+    {
+        if (in_array($this->getCurrentRouteName(), ['entry_create', 'entry_purge'])) {
+            return false;
+        }
+
+        return (bool) $this->getCurrentRequest()->get('entry');
+    }
+
+    public function isUserPage(): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), 'user');
     }
 
     public function getActiveTimeOption()
@@ -205,6 +201,25 @@ class PageContextRuntime implements RuntimeExtensionInterface
         );
     }
 
+    public function getActiveSortOption()
+    {
+        return $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT;
+    }
+
+    public function isMagazinePage(): bool
+    {
+        if (in_array($this->getCurrentRouteName(), ['magazine_create', 'magazine_delete'])) {
+            return false;
+        }
+
+        return (bool) $this->getCurrentRequest()->get('magazine');
+    }
+
+    public function isSubPage(): bool
+    {
+        return str_contains($this->getCurrentRouteName(), 'subscribed');
+    }
+
     public function getActiveCommentsPagePath()
     {
         $routeName   = 'entry_comments_front';
@@ -283,23 +298,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return $routeName === $this->getCurrentRouteName();
     }
 
-    public function isRouteContains(string $val): bool
-    {
-        return str_contains($this->getCurrentRouteName(), $val);
-    }
-
     public function isActiveCommentFilter(string $sortOption): bool
     {
         return ($this->getCurrentRequest()->get('sortBy') ?? EntryCommentRepository::SORT_DEFAULT) === $sortOption;
-    }
-
-    private function getCurrentRouteName(): string
-    {
-        return $this->getCurrentRequest()->get('_route');
-    }
-
-    private function getCurrentRequest(): ?Request
-    {
-        return $this->requestStack->getCurrentRequest();
     }
 }

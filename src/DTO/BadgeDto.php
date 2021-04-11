@@ -2,12 +2,11 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Magazine;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class BadgeDto
 {
-    private ?int $id = null;
     public ?Magazine $magazine = null;
     /**
      * @Assert\NotBlank()
@@ -17,6 +16,7 @@ class BadgeDto
      * )
      */
     public ?string $name = null;
+    private ?int $id = null;
 
     public function create(Magazine $magazine, ?int $id = null): self
     {

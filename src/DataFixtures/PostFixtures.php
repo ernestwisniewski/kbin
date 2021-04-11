@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\DTO\PostDto;
+use App\Service\PostManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Service\PostManager;
-use App\DTO\PostDto;
 
 class PostFixtures extends BaseFixture implements DependentFixtureInterface
 {

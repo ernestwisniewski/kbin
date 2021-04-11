@@ -2,18 +2,18 @@
 
 namespace App\EventSubscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use App\Entity\MagazineLogBan;
 use App\Entity\MagazineLogEntryCommentDelete;
-use App\Entity\MagazineLogPostCommentDelete;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Event\EntryCommentDeletedEvent;
-use App\Event\PostCommentDeletedEvent;
 use App\Entity\MagazineLogEntryDelete;
+use App\Entity\MagazineLogPostCommentDelete;
 use App\Entity\MagazineLogPostDelete;
+use App\Event\EntryCommentDeletedEvent;
 use App\Event\EntryDeletedEvent;
 use App\Event\MagazineBanEvent;
+use App\Event\PostCommentDeletedEvent;
 use App\Event\PostDeletedEvent;
-use App\Entity\MagazineLogBan;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MagazineLogSubscriber implements EventSubscriberInterface
 {

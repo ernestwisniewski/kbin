@@ -2,13 +2,13 @@
 
 namespace App\DataFixtures;
 
+use App\DTO\EntryDto;
+use App\Repository\ImageRepository;
+use App\Service\EntryManager;
+use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Repository\ImageRepository;
-use App\Service\ImageManager;
-use App\Service\EntryManager;
-use App\DTO\EntryDto;
 
 class EntryFixtures extends BaseFixture implements DependentFixtureInterface
 {

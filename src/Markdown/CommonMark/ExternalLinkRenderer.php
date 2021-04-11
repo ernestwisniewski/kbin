@@ -2,18 +2,18 @@
 
 namespace App\Markdown\CommonMark;
 
-use Exception;
-use InvalidArgumentException;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Util\ConfigurationInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\Link;
-use League\CommonMark\Inline\Element\Text;
-use League\CommonMark\HtmlElement;
 use App\Service\ImageManager;
 use App\Utils\Embed;
+use Exception;
+use InvalidArgumentException;
+use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\HtmlElement;
+use League\CommonMark\Inline\Element\AbstractInline;
+use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Inline\Element\Text;
+use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Util\ConfigurationAwareInterface;
+use League\CommonMark\Util\ConfigurationInterface;
 use function get_class;
 
 final class ExternalLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface

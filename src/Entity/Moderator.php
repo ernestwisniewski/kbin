@@ -22,33 +22,29 @@ class Moderator
     }
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="moderatorTokens")
      * @ORM\JoinColumn(nullable=false)
      */
     public User $user;
-
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="moderators")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     public Magazine $magazine;
-
     /**
      * @ORM\Column(type="boolean")
      */
     public bool $isOwner = false;
-
     /**
      * @ORM\Column(type="boolean")
      */
     public bool $isConfirmed = false;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private int $id;
 
     public function __construct(Magazine $magazine, User $user, $isOwner = false, $isConfirmed = false)
     {

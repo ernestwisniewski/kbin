@@ -2,9 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Service\VoteManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Service\VoteManager;
 
 class VoteFixtures extends BaseFixture implements DependentFixtureInterface
 {
@@ -55,19 +55,19 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
         }
     }
 
-    public function getDependencies(): array
-    {
-        return [
-            EntryFixtures::class,
-            EntryCommentFixtures::class,
-        ];
-    }
-
     private function getUniqueNb(int $max, int $quantity): array
     {
         $numbers = range(1, $max);
         shuffle($numbers);
 
         return array_slice($numbers, 0, $quantity);
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            EntryFixtures::class,
+            EntryCommentFixtures::class,
+        ];
     }
 }

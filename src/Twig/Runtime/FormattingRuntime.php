@@ -2,8 +2,8 @@
 
 namespace App\Twig\Runtime;
 
-use Twig\Extension\RuntimeExtensionInterface;
 use App\Markdown\MarkdownConverter;
+use Twig\Extension\RuntimeExtensionInterface;
 
 class FormattingRuntime implements RuntimeExtensionInterface
 {

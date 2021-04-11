@@ -2,12 +2,12 @@
 
 namespace App\Entity\Traits;
 
+use App\Entity\Contracts\VoteInterface;
+use App\Entity\User;
+use App\Entity\Vote;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use App\Entity\Contracts\VoteInterface;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Vote;
-use App\Entity\User;
 
 trait VotableTrait
 {
@@ -20,26 +20,6 @@ trait VotableTrait
      * @ORM\Column(type="integer")
      */
     private int $downVotes = 0;
-
-    public function getUpVotes(): Collection
-    {
-        $this->votes->get(-1);
-
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('choice', self::VOTE_UP));
-
-        return $this->votes->matching($criteria);
-    }
-
-    public function getDownVotes(): Collection
-    {
-        $this->votes->get(-1);
-
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('choice', self::VOTE_DOWN));
-
-        return $this->votes->matching($criteria);
-    }
 
     public function countUpVotes(): int
     {
@@ -77,5 +57,25 @@ trait VotableTrait
         $this->downVotes = $this->getDownVotes()->count();
 
         return $this;
+    }
+
+    public function getUpVotes(): Collection
+    {
+        $this->votes->get(-1);
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('choice', self::VOTE_UP));
+
+        return $this->votes->matching($criteria);
+    }
+
+    public function getDownVotes(): Collection
+    {
+        $this->votes->get(-1);
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('choice', self::VOTE_DOWN));
+
+        return $this->votes->matching($criteria);
     }
 }

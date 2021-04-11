@@ -2,9 +2,9 @@
 
 namespace App\Entity\Contracts;
 
-use Doctrine\Common\Collections\Collection;
 use App\Entity\User;
 use App\Entity\Vote;
+use Doctrine\Common\Collections\Collection;
 
 interface VoteInterface
 {

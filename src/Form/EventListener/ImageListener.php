@@ -2,10 +2,10 @@
 
 namespace App\Form\EventListener;
 
+use App\Repository\ImageRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\FormEvents;
-use App\Repository\ImageRepository;
 
 final class ImageListener implements EventSubscriberInterface
 {

@@ -2,14 +2,13 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\PostComment;
 use App\Entity\Image;
 use App\Entity\Post;
+use App\Entity\PostComment;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class PostCommentDto
 {
-    private ?int $id = null;
     public Post $post;
     /**
      * @Assert\NotBlank()
@@ -21,6 +20,7 @@ class PostCommentDto
     public ?string $body;
     public ?PostComment $parent = null;
     public ?Image $image = null;
+    private ?int $id = null;
 
     public function create(Post $post, string $body, ?Image $image = null, ?int $id = null): self
     {

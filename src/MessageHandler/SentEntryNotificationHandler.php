@@ -2,10 +2,10 @@
 
 namespace App\MessageHandler;
 
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Message\EntryNotificationMessage;
-use App\Service\NotificationManager;
 use App\Repository\EntryRepository;
+use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentEntryNotificationHandler implements MessageHandlerInterface
 {

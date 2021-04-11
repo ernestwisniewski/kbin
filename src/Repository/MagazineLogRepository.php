@@ -2,12 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\MagazineLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Pagerfanta\PagerfantaInterface;
-use App\Entity\MagazineLog;
 use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
 
 /**
  * @method MagazineLog|null find($id, $lockMode = null, $lockVersion = null)

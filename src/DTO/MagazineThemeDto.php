@@ -2,8 +2,8 @@
 
 namespace App\DTO;
 
-use App\Entity\Magazine;
 use App\Entity\Image;
+use App\Entity\Magazine;
 
 class MagazineThemeDto
 {
