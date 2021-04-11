@@ -3,21 +3,21 @@
 namespace App\DTO;
 
 use App\Entity\Contracts\ReportInterface;
-use App\Entity\EntryComment;
-use App\Entity\PostComment;
-use App\Entity\Magazine;
 use App\Entity\Entry;
+use App\Entity\EntryComment;
+use App\Entity\Magazine;
 use App\Entity\Post;
+use App\Entity\PostComment;
 use App\Entity\User;
 use LogicException;
 
 class ReportDto
 {
-    private ?int $id = null;
     public ?Magazine $magazine = null;
     public ?User $reported = null;
     public ReportInterface $subject;
     public ?string $reason = null;
+    private ?int $id = null;
 
     public function create(ReportInterface $subject, ?string $reason = null, ?int $id = null): self
     {
@@ -36,11 +36,6 @@ class ReportDto
         return $this->id;
     }
 
-    public function getSubject(): ReportInterface
-    {
-        return $this->subject;
-    }
-
     public function getRouteName(): string
     {
         switch (get_class($this->getSubject())) {
@@ -55,5 +50,10 @@ class ReportDto
         }
 
         throw new LogicException();
+    }
+
+    public function getSubject(): ReportInterface
+    {
+        return $this->subject;
     }
 }

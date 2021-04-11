@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use App\DTO\MessageDto;
+use App\Entity\MessageThread;
+use App\Entity\User;
+use App\Form\MessageType;
 use App\Repository\MessageThreadRepository;
 use App\Service\MessageManager;
-use App\Entity\MessageThread;
-use App\Form\MessageType;
-use App\DTO\MessageDto;
-use App\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MessageController extends AbstractController
 {

@@ -2,20 +2,20 @@
 
 namespace App\Service;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Security;
+use App\DTO\EntryCommentDto;
+use App\Entity\EntryComment;
+use App\Entity\User;
 use App\Event\EntryCommentBeforePurgeEvent;
+use App\Event\EntryCommentCreatedEvent;
+use App\Event\EntryCommentDeletedEvent;
+use App\Event\EntryCommentPurgedEvent;
+use App\Event\EntryCommentUpdatedEvent;
+use App\Factory\EntryCommentFactory;
 use App\Service\Contracts\ContentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Event\EntryCommentDeletedEvent;
-use App\Event\EntryCommentCreatedEvent;
-use App\Event\EntryCommentUpdatedEvent;
-use App\Event\EntryCommentPurgedEvent;
-use App\Factory\EntryCommentFactory;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
-use App\Entity\EntryComment;
-use App\DTO\EntryCommentDto;
-use App\Entity\User;
 
 class EntryCommentManager implements ContentManager
 {

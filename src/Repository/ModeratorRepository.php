@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Moderator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Moderator;
 
 /**
  * @method Moderator|null find($id, $lockMode = null, $lockVersion = null)

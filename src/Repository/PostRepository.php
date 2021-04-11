@@ -3,22 +3,22 @@
 namespace App\Repository;
 
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Pagerfanta\Exception\NotValidCurrentPageException;
-use Symfony\Component\Security\Core\Security;
-use Doctrine\Persistence\ManagerRegistry;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use App\Entity\Magazine;
+use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
-use Pagerfanta\PagerfantaInterface;
+use App\Entity\Post;
+use App\Entity\UserBlock;
+use App\Entity\UserFollow;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\MagazineBlock;
+use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use App\Entity\UserFollow;
-use App\Entity\UserBlock;
-use App\Entity\Magazine;
-use App\Entity\Post;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method UserFollow|null find($id, $lockMode = null, $lockVersion = null)

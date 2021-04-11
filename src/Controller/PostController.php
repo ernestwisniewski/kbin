@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
+use App\DTO\PostDto;
+use App\Entity\Magazine;
+use App\Entity\Post;
+use App\Form\PostType;
+use App\PageView\PostCommentPageView;
+use App\PageView\PostPageView;
+use App\Repository\PostCommentRepository;
+use App\Repository\PostRepository;
+use App\Service\PostManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Repository\PostCommentRepository;
-use App\PageView\PostCommentPageView;
-use App\Repository\PostRepository;
-use App\PageView\PostPageView;
-use App\Service\PostManager;
-use App\Entity\Magazine;
-use App\Form\PostType;
-use App\DTO\PostDto;
-use App\Entity\Post;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends AbstractController
 {

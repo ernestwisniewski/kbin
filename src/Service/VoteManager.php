@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Contracts\VoteInterface;
-use App\Factory\VoteFactory;
-use App\Entity\Vote;
 use App\Entity\User;
+use App\Entity\Vote;
+use App\Factory\VoteFactory;
+use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 
 class VoteManager

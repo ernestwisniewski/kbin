@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ReportInterface;
+use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Contracts\VoteInterface;
+use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\VisibilityTrait;
+use App\Entity\Traits\VotableTrait;
+use App\Repository\PostCommentRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Entity\Contracts\VisibilityInterface;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\Contracts\ReportInterface;
-use App\Repository\PostCommentRepository;
-use App\Entity\Contracts\VoteInterface;
-use App\Entity\Traits\VisibilityTrait;
-use App\Entity\Traits\CreatedAtTrait;
-use App\Entity\Traits\VotableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Traversable;
 use Webmozart\Assert\Assert;
@@ -28,72 +28,61 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     }
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="postComments")
      * @ORM\JoinColumn(nullable=false)
      */
     public User $user;
-
     /**
      * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     public ?Post $post;
-
     /**
      * @ORM\ManyToOne(targetEntity=Magazine::class)
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     public ?Magazine $magazine;
-
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     public ?Image $image = null;
-
     /**
      * @ORM\Column(type="text", length=4500)
      */
     public ?string $body;
-
     /**
      * @ORM\Column(type="datetimetz")
      */
     public DateTime $lastActive;
-
     /**
      * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="children")
      * @ORM\JoinColumn(onDelete="cascade")
      */
     public ?PostComment $parent;
-
     /**
      * @ORM\OneToMany(targetEntity="PostComment", mappedBy="parent", orphanRemoval=true)
      */
     public Collection $children;
-
     /**
      * @ORM\OneToMany(targetEntity=PostCommentVote::class, mappedBy="comment",
      *     fetch="EXTRA_LAZY", cascade={"persist"}, orphanRemoval=true))
      */
     public Collection $votes;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PostCommentReport", mappedBy="postComment", cascade={"remove"}, orphanRemoval=true)
      */
     public Collection $reports;
-
     /**
      * @ORM\OneToMany(targetEntity="PostCommentNotification", mappedBy="postComment", cascade={"remove"}, orphanRemoval=true)
      */
     public Collection $notifications;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private int $id;
 
     public function __construct(string $body, ?Post $post, User $user, ?PostComment $parent = null)
     {
@@ -109,16 +98,16 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
         $this->updateLastActive();
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function updateLastActive(): void
     {
         $this->lastActive = DateTime::createFromImmutable($this->createdAt);
 
         $this->post->lastActive = DateTime::createFromImmutable($this->createdAt);
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function addVote(Vote $vote): self

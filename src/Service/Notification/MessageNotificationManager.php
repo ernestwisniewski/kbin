@@ -2,14 +2,14 @@
 
 namespace App\Service\Notification;
 
-use App\Repository\MagazineSubscriptionRepository;
-use Symfony\Component\Mercure\PublisherInterface;
 use ApiPlatform\Core\Api\IriConverterInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\MessageNotification;
-use App\Factory\MagazineFactory;
 use App\Entity\Message;
+use App\Entity\MessageNotification;
 use App\Entity\User;
+use App\Factory\MagazineFactory;
+use App\Repository\MagazineSubscriptionRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mercure\PublisherInterface;
 
 class MessageNotificationManager
 {

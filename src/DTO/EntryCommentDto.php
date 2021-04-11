@@ -2,14 +2,13 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Image;
-use App\Entity\Entry;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EntryCommentDto
 {
-    private ?int $id = null;
     public Entry $entry;
     /**
      * @Assert\NotBlank()
@@ -22,6 +21,7 @@ class EntryCommentDto
     public ?EntryComment $parent = null;
     public ?EntryComment $root = null;
     public ?Image $image = null;
+    private ?int $id = null;
 
     public function create(Entry $entry, string $body, ?Image $image = null, ?int $id = null): self
     {

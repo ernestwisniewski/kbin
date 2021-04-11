@@ -2,10 +2,10 @@
 
 namespace App\Form\DataTransformer;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use InvalidArgumentException;
 use Symfony\Component\Form\DataTransformerInterface;
-use App\Repository\UserRepository;
-use App\Entity\User;
 
 class UserTransformer implements DataTransformerInterface
 {

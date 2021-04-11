@@ -2,32 +2,16 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\MagazineRepository;
-use App\Factory\ContentManagerFactory;
-use Symfony\UX\Chartjs\Model\Chart;
-use App\Repository\UserRepository;
-use App\Service\MagazineManager;
-use App\Form\MagazineThemeType;
-use App\Service\ReportManager;
-use App\Service\BadgeManager;
 use App\DTO\MagazineThemeDto;
-use App\Form\MagazineBanType;
-use App\DTO\MagazineBanDto;
-use App\Form\ModeratorType;
-use App\Form\MagazineType;
-use App\DTO\ModeratorDto;
-use App\Entity\Moderator;
 use App\Entity\Magazine;
-use App\Form\BadgeType;
-use App\DTO\BadgeDto;
-use App\Entity\Badge;
-use App\Entity\Report;
-use App\Entity\User;
+use App\Form\MagazineThemeType;
+use App\Form\MagazineType;
+use App\Service\MagazineManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class MagazinePanelController extends AbstractController
 {
@@ -45,56 +29,6 @@ class MagazinePanelController extends AbstractController
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
         return $this->getChartsResponse($magazine, $chartBuilder);
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
-     */
-    public function edit(Magazine $magazine, Request $request): Response
-    {
-        $magazineDto = $this->manager->createDto($magazine);
-
-        $form = $this->createForm(MagazineType::class, $magazineDto);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->edit($magazine, $magazineDto);
-
-            return $this->redirectToMagazine($magazine);
-        }
-
-        return $this->render(
-            'magazine/panel/edit.html.twig',
-            [
-                'magazine' => $magazine,
-                'form'     => $form->createView(),
-            ]
-        );
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
-     */
-    public function theme(Magazine $magazine, Request $request): Response
-    {
-        $dto = new MagazineThemeDto($magazine);
-
-        $form = $this->createForm(MagazineThemeType::class, $dto);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->changeTheme($dto);
-        }
-
-        return $this->render(
-            'magazine/panel/theme.html.twig',
-            [
-                'magazine' => $magazine,
-                'form'     => $form->createView(),
-            ]
-        );
     }
 
     private function getChartsResponse(Magazine $magazine, ChartBuilderInterface $chartBuilder): Response
@@ -168,6 +102,56 @@ class MagazinePanelController extends AbstractController
                 'contentChart' => $contentChart,
                 'voteChart'    => $voteChart,
                 'magazine'     => $magazine,
+            ]
+        );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="magazine")
+     */
+    public function edit(Magazine $magazine, Request $request): Response
+    {
+        $magazineDto = $this->manager->createDto($magazine);
+
+        $form = $this->createForm(MagazineType::class, $magazineDto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->manager->edit($magazine, $magazineDto);
+
+            return $this->redirectToMagazine($magazine);
+        }
+
+        return $this->render(
+            'magazine/panel/edit.html.twig',
+            [
+                'magazine' => $magazine,
+                'form'     => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="magazine")
+     */
+    public function theme(Magazine $magazine, Request $request): Response
+    {
+        $dto = new MagazineThemeDto($magazine);
+
+        $form = $this->createForm(MagazineThemeType::class, $dto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->manager->changeTheme($dto);
+        }
+
+        return $this->render(
+            'magazine/panel/theme.html.twig',
+            [
+                'magazine' => $magazine,
+                'form'     => $form->createView(),
             ]
         );
     }

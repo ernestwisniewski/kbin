@@ -2,10 +2,10 @@
 
 namespace App\Validator;
 
-use Symfony\Component\Validator\Exception\InvalidOptionsException;
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Doctrine\Common\Annotations\Annotation\Target;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Exception\InvalidOptionsException;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use function count;
 use function is_array;
 use function is_string;

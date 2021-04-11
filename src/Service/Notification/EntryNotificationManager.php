@@ -2,15 +2,15 @@
 
 namespace App\Service\Notification;
 
-use App\Repository\MagazineSubscriptionRepository;
-use Exception;
-use Symfony\Component\Mercure\PublisherInterface;
 use ApiPlatform\Core\Api\IriConverterInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Mercure\Update;
+use App\Entity\Entry;
 use App\Entity\EntryNotification;
 use App\Factory\MagazineFactory;
-use App\Entity\Entry;
+use App\Repository\MagazineSubscriptionRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 use function count;
 
@@ -49,16 +49,6 @@ class EntryNotificationManager
         $this->entityManager->flush();
     }
 
-    private function getResponse(EntryNotification $notification): string
-    {
-        return json_encode(
-            [
-                'entryId'      => $notification->entry->getId(),
-                'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-            ]
-        );
-    }
-
     private function notifyMagazine(EntryNotification $notification): void
     {
         try {
@@ -73,5 +63,15 @@ class EntryNotificationManager
 
         } catch (Exception $e) {
         }
+    }
+
+    private function getResponse(EntryNotification $notification): string
+    {
+        return json_encode(
+            [
+                'entryId'      => $notification->entry->getId(),
+                'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+            ]
+        );
     }
 }

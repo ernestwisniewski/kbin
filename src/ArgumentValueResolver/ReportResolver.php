@@ -2,20 +2,20 @@
 
 namespace App\ArgumentValueResolver;
 
+use App\Entity\Contracts\ReportInterface;
+use App\Entity\Entry;
+use App\Entity\EntryComment;
+use App\Entity\Post;
+use App\Entity\PostComment;
+use App\Repository\EntryCommentRepository;
+use App\Repository\EntryRepository;
+use App\Repository\PostCommentRepository;
+use App\Repository\PostRepository;
 use Generator;
 use LogicException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\EntryCommentRepository;
-use App\Entity\Contracts\ReportInterface;
-use App\Repository\PostCommentRepository;
-use App\Repository\EntryRepository;
-use App\Repository\PostRepository;
-use App\Entity\PostComment;
-use App\Entity\EntryComment;
-use App\Entity\Entry;
-use App\Entity\Post;
 use function in_array;
 
 class ReportResolver implements ArgumentValueResolverInterface

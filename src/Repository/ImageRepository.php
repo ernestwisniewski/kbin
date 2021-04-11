@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Image;
+use App\Service\ImageManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Service\ImageManager;
-use App\Entity\Image;
 use Exception;
 
 /**
@@ -23,6 +23,11 @@ class ImageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Image::class);
         $this->imageManager = $imageManager;
+    }
+
+    public function findOrCreateFromUpload($upload): ?Image
+    {
+        return $this->findOrCreateFromPath($upload->getPathname());
     }
 
     public function findOrCreateFromPath(string $source): ?Image
@@ -48,10 +53,5 @@ class ImageRepository extends ServiceEntityRepository
         }
 
         return $isStored ? $image : null;
-    }
-
-    public function findOrCreateFromUpload($upload): ?Image
-    {
-        return $this->findOrCreateFromPath($upload->getPathname());
     }
 }

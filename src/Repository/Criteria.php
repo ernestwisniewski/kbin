@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Magazine;
 use App\Entity\Entry;
+use App\Entity\Magazine;
 use App\Entity\User;
 use DateTimeImmutable;
 use LogicException;

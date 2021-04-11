@@ -2,11 +2,11 @@
 
 namespace App\Validator;
 
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Constraint;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use function is_int;
 use function is_object;
 

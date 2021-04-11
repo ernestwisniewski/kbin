@@ -2,18 +2,18 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\EventListener\DisableFieldsOnEntryEdit;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\AbstractType;
-use App\Form\Type\BadgesType;
-use App\Entity\Magazine;
 use App\DTO\EntryDto;
+use App\Entity\Magazine;
+use App\Form\EventListener\DisableFieldsOnEntryEdit;
+use App\Form\Type\BadgesType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntryLinkType extends AbstractType
 {

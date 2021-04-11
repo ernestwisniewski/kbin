@@ -2,20 +2,20 @@
 
 namespace App\Service;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Security;
+use App\DTO\PostCommentDto;
+use App\Entity\PostComment;
+use App\Entity\User;
 use App\Event\PostCommentBeforePurgeEvent;
-use App\Service\Contracts\ContentManager;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Event\PostCommentUpdatedEvent;
 use App\Event\PostCommentCreatedEvent;
 use App\Event\PostCommentDeletedEvent;
 use App\Event\PostCommentPurgedEvent;
+use App\Event\PostCommentUpdatedEvent;
 use App\Factory\PostCommentFactory;
+use App\Service\Contracts\ContentManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
-use App\Entity\PostComment;
-use App\DTO\PostCommentDto;
-use App\Entity\User;
 
 class PostCommentManager implements ContentManager
 {

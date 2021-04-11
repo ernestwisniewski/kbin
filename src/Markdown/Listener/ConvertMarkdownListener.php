@@ -2,12 +2,12 @@
 
 namespace App\Markdown\Listener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use App\Markdown\Factory\EnvironmentFactory;
 use App\Markdown\Event\ConfigureCommonMark;
-use App\Markdown\Factory\ConverterFactory;
 use App\Markdown\Event\ConvertMarkdown;
+use App\Markdown\Factory\ConverterFactory;
+use App\Markdown\Factory\EnvironmentFactory;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class ConvertMarkdownListener implements EventSubscriberInterface
 {

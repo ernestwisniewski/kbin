@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Tchoulom\ViewCounterBundle\Entity\ViewCounter as BaseViewCounter;
 use Tchoulom\ViewCounterBundle\Entity\ViewCounterInterface;
 use Tchoulom\ViewCounterBundle\Model\ViewCountable;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="view_counter")

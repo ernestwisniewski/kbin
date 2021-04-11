@@ -2,15 +2,15 @@
 
 namespace App\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Pagerfanta\Exception\NotValidCurrentPageException;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Doctrine\Persistence\ManagerRegistry;
-use Pagerfanta\PagerfantaInterface;
 use App\Entity\Notification;
-use Pagerfanta\Pagerfanta;
 use App\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)

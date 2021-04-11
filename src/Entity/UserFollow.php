@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\UserFollowRepository;
 use App\Entity\Traits\CreatedAtTrait;
+use App\Repository\UserFollowRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,23 +22,21 @@ class UserFollow
     }
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="follows")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     public ?User $follower;
-
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="followers")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     public ?User $following;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private ?int $id;
 
     public function __construct(User $follower, User $following)
     {

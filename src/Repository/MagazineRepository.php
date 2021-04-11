@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
+use App\Entity\Magazine;
+use App\Entity\MagazineBlock;
+use App\Entity\MagazineSubscription;
+use App\Entity\Report;
+use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Pagerfanta\Doctrine\Collections\SelectableAdapter;
-use Pagerfanta\Exception\NotValidCurrentPageException;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\Collections\SelectableAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use App\Entity\MagazineSubscription;
-use Pagerfanta\PagerfantaInterface;
-use App\Entity\MagazineBlock;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use App\Entity\Magazine;
-use App\Entity\Report;
-use App\Entity\User;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Magazine|null find($id, $lockMode = null, $lockVersion = null)

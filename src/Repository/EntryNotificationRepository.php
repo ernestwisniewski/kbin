@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\EntryNotification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\EntryNotification;
 
 /**
  * @method EntryNotification|null find($id, $lockMode = null, $lockVersion = null)

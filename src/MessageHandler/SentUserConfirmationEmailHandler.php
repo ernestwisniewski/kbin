@@ -2,12 +2,12 @@
 
 namespace App\MessageHandler;
 
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Message\Contracts\SendConfirmationEmailInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mime\Address;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Mime\Address;
 
 class SentUserConfirmationEmailHandler implements MessageHandlerInterface
 {

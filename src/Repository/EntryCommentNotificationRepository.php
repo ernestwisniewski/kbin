@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\EntryCommentNotification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\EntryCommentNotification;
 
 /**
  * @method EntryCommentNotification|null find($id, $lockMode = null, $lockVersion = null)

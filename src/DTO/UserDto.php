@@ -2,9 +2,9 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use App\DTO\Contracts\UserDtoInterface;
 use App\Entity\Image;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class UserDto implements UserDtoInterface
 {

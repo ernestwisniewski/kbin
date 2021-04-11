@@ -2,10 +2,10 @@
 
 namespace App\MessageHandler;
 
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Message\PostCommentNotificationMessage;
 use App\Repository\PostCommentRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentPostCommentNotificationHandler implements MessageHandlerInterface
 {

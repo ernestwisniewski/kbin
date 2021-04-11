@@ -2,32 +2,16 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\MagazineRepository;
-use App\Factory\ContentManagerFactory;
-use Symfony\UX\Chartjs\Model\Chart;
-use App\Repository\UserRepository;
-use App\Service\MagazineManager;
-use App\Form\MagazineThemeType;
-use App\Service\ReportManager;
-use App\Service\BadgeManager;
-use App\DTO\MagazineThemeDto;
-use App\Form\MagazineBanType;
-use App\DTO\MagazineBanDto;
-use App\Form\ModeratorType;
-use App\Form\MagazineType;
-use App\DTO\ModeratorDto;
-use App\Entity\Moderator;
-use App\Entity\Magazine;
-use App\Form\BadgeType;
 use App\DTO\BadgeDto;
 use App\Entity\Badge;
-use App\Entity\Report;
-use App\Entity\User;
+use App\Entity\Magazine;
+use App\Form\BadgeType;
+use App\Repository\MagazineRepository;
+use App\Service\BadgeManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MagazinePanelBadgeController extends AbstractController
 {

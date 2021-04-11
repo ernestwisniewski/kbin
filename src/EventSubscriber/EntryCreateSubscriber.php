@@ -2,12 +2,12 @@
 
 namespace App\EventSubscriber;
 
+use App\Event\EntryCreatedEvent;
+use App\Message\EntryEmbedMessage;
+use App\Message\EntryNotificationMessage;
+use App\Service\DomainManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use App\Message\EntryNotificationMessage;
-use App\Message\EntryEmbedMessage;
-use App\Event\EntryCreatedEvent;
-use App\Service\DomainManager;
 
 class EntryCreateSubscriber implements EventSubscriberInterface
 {

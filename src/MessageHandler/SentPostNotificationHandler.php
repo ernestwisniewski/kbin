@@ -2,10 +2,10 @@
 
 namespace App\MessageHandler;
 
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Message\PostNotificationMessage;
-use App\Service\NotificationManager;
 use App\Repository\PostRepository;
+use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentPostNotificationHandler implements MessageHandlerInterface
 {

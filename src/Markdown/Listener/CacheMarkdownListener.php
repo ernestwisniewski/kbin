@@ -2,12 +2,12 @@
 
 namespace App\Markdown\Listener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use App\Markdown\Event\BuildCacheContext;
 use App\Markdown\Event\ConvertMarkdown;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\CacheItemInterface;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use function assert;
 
 /**

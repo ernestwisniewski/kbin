@@ -2,15 +2,15 @@
 
 namespace App\Service\Notification;
 
+use ApiPlatform\Core\Api\IriConverterInterface;
+use App\Entity\PostComment;
+use App\Entity\PostCommentNotification;
+use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
-use ApiPlatform\Core\Api\IriConverterInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\PostCommentNotification;
 use Symfony\Component\Mercure\Update;
-use App\Factory\MagazineFactory;
-use App\Entity\PostComment;
 use Twig\Environment;
 use function count;
 
@@ -48,16 +48,6 @@ class PostCommentNotificationManager
         $this->entityManager->flush();
     }
 
-    private function getResponse(PostCommentNotification $notification): string
-    {
-        return json_encode(
-            [
-                'commentId'    => $notification->getComment()->getId(),
-                'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-            ]
-        );
-    }
-
     private function notifyMagazine(PostCommentNotification $notification): void
     {
         try {
@@ -72,5 +62,15 @@ class PostCommentNotificationManager
 
         } catch (Exception $e) {
         }
+    }
+
+    private function getResponse(PostCommentNotification $notification): string
+    {
+        return json_encode(
+            [
+                'commentId'    => $notification->getComment()->getId(),
+                'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+            ]
+        );
     }
 }

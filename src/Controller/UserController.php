@@ -2,22 +2,22 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\EntryCommentRepository;
-use App\Repository\PostCommentRepository;
-use App\Repository\MagazineRepository;
+use App\Entity\User;
+use App\Form\UserType;
 use App\PageView\EntryCommentPageView;
+use App\PageView\EntryPageView;
 use App\PageView\PostCommentPageView;
+use App\PageView\PostPageView;
+use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
+use App\Repository\MagazineRepository;
+use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
-use App\PageView\EntryPageView;
-use App\PageView\PostPageView;
 use App\Service\UserManager;
-use App\Form\UserType;
-use App\Entity\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {

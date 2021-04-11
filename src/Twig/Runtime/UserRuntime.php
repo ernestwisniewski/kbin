@@ -2,9 +2,9 @@
 
 namespace App\Twig\Runtime;
 
+use App\Entity\User;
 use Symfony\Component\Security\Core\Security;
 use Twig\Extension\RuntimeExtensionInterface;
-use App\Entity\User;
 
 class UserRuntime implements RuntimeExtensionInterface
 {

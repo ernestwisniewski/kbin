@@ -2,12 +2,12 @@
 
 namespace App\Utils;
 
+use App\Entity\Entry;
+use App\Service\ImageManager;
+use Embed\Embed as BaseEmbed;
 use Exception;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
-use Embed\Embed as BaseEmbed;
-use App\Service\ImageManager;
-use App\Entity\Entry;
 
 class Embed
 {
@@ -46,28 +46,6 @@ class Embed
         );
     }
 
-    public function isImageUrl(): bool
-    {
-        if (!$this->url) {
-            return false;
-        }
-
-        return ImageManager::isImageUrl($this->url);
-    }
-
-    public function getType(): string
-    {
-        if ($this->isImageUrl()) {
-            return Entry::ENTRY_TYPE_IMAGE;
-        }
-
-        if ($this->isVideoEmbed()) {
-            return Entry::ENTRY_TYPE_VIDEO;
-        }
-
-        return Entry::ENTRY_TYPE_LINK;
-    }
-
     private function cleanIframe(?string $html): ?string
     {
         return $html;
@@ -83,6 +61,28 @@ class Embed
 //        }
 //
 //        return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
+    }
+
+    public function getType(): string
+    {
+        if ($this->isImageUrl()) {
+            return Entry::ENTRY_TYPE_IMAGE;
+        }
+
+        if ($this->isVideoEmbed()) {
+            return Entry::ENTRY_TYPE_VIDEO;
+        }
+
+        return Entry::ENTRY_TYPE_LINK;
+    }
+
+    public function isImageUrl(): bool
+    {
+        if (!$this->url) {
+            return false;
+        }
+
+        return ImageManager::isImageUrl($this->url);
     }
 
     private function isVideoEmbed(): bool

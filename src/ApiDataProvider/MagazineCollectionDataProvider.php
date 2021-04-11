@@ -4,11 +4,11 @@ namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use App\DTO\MagazineDto;
+use App\Factory\MagazineFactory;
+use App\Repository\MagazineRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
-use App\Repository\MagazineRepository;
-use App\Factory\MagazineFactory;
-use App\DTO\MagazineDto;
 
 final class MagazineCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {

@@ -2,10 +2,10 @@
 
 namespace App\DependencyInjection\Compiler;
 
+use League\CommonMark\ConfigurableEnvironmentInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use League\CommonMark\ConfigurableEnvironmentInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 final class AddMarkdownExtensionsPass implements CompilerPassInterface

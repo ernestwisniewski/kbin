@@ -2,15 +2,15 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\DTO\PostCommentDto;
+use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\ImageListener;
 use Symfony\Component\Form\AbstractType;
-use App\Form\Constraint\ImageConstraint;
-use App\DTO\PostCommentDto;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostCommentType extends AbstractType
 {

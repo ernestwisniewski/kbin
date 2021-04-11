@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\PostCommentVote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\PostCommentVote;
 
 /**
  * @method PostCommentVote|null find($id, $lockMode = null, $lockVersion = null)

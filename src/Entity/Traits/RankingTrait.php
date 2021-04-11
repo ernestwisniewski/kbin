@@ -27,13 +27,13 @@ trait RankingTrait
         $this->ranking = $this->getCreatedAt()->getTimestamp() + $advantage;
     }
 
-    public function setRanking(int $ranking): void
-    {
-        $this->ranking = $ranking;
-    }
-
     public function getRanking(): int
     {
         return $this->ranking;
+    }
+
+    public function setRanking(int $ranking): void
+    {
+        $this->ranking = $ranking;
     }
 }

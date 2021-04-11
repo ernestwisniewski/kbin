@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Pagerfanta\PagerfantaInterface;
-use App\Repository\EntryRepository;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
+use App\Repository\EntryRepository;
+use Pagerfanta\PagerfantaInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class FrontController extends AbstractController
 {

@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\VisibilityTrait;
+use App\Repository\MagazineRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Entity\Contracts\VisibilityInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use App\Entity\Traits\VisibilityTrait;
-use App\Repository\MagazineRepository;
-use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,120 +30,99 @@ class Magazine implements VisibilityInterface
     }
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     public ?Image $cover = null;
-
     /**
      * @ORM\Column(type="string", length=25)
      */
     public string $name;
-
     /**
      * @ORM\Column(type="string", length=50)
      */
     public ?string $title;
-
     /**
      * @ORM\Column(type="text", nullable=true, length=420)
      */
     public ?string $description = null;
-
     /**
      * @ORM\Column(type="text", nullable=true, length=420)
      */
     public ?string $rules = null;
-
     /**
      * @ORM\Column(type="integer")
      */
     public int $subscriptionsCount = 0;
-
     /**
      * @ORM\Column(type="integer")
      */
     public int $entryCount = 0;
-
     /**
      * @ORM\Column(type="integer")
      */
     public int $entryCommentCount = 0;
-
     /**
      * @ORM\Column(type="integer")
      */
     public int $postCount = 0;
-
     /**
      * @ORM\Column(type="integer")
      */
     public int $postCommentCount = 0;
-
     /**
      * @ORM\Column(type="boolean")
      */
     public ?bool $isAdult = false;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     public ?string $customCss = null;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     public ?string $customJs = null;
-
     /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     public Collection $moderators;
-
     /**
      * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="magazine")
      */
     public Collection $entries;
-
     /**
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="magazine")
      */
     public Collection $posts;
-
     /**
      * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="magazine", orphanRemoval=true, cascade={"persist", "remove"})
      */
     public Collection $subscriptions;
-
     /**
      * @ORM\OneToMany(targetEntity=MagazineBan::class, mappedBy="magazine", orphanRemoval=true, cascade={"persist", "remove"})
      */
     public Collection $bans;
-
     /**
      * @ORM\OneToMany(targetEntity="Report", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
      * @ORM\OrderBy({"id": "DESC"})
      */
     public Collection $reports;
-
     /**
      * @ORM\OneToMany(targetEntity="Badge", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
      * @ORM\OrderBy({"id": "DESC"})
      */
     public Collection $badges;
-
     /**
      * @ORM\OneToMany(targetEntity="MagazineLog", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
      * @ORM\OrderBy({"id": "DESC"})
      */
     public Collection $logs;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private int $id;
 
     public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules, ?bool $isAdult)
     {
@@ -164,6 +143,16 @@ class Magazine implements VisibilityInterface
         $this->addModerator(new Moderator($this, $user, true, true));
 
         $this->createdAtTraitConstruct();
+    }
+
+    public function addModerator(Moderator $moderator): self
+    {
+        if (!$this->moderators->contains($moderator)) {
+            $this->moderators->add($moderator);
+            $moderator->magazine = $this;
+        }
+
+        return $this;
     }
 
     public function getId(): int
@@ -193,16 +182,6 @@ class Magazine implements VisibilityInterface
         return !$user->moderatorTokens->matching($criteria)->isEmpty();
     }
 
-    public function addModerator(Moderator $moderator): self
-    {
-        if (!$this->moderators->contains($moderator)) {
-            $this->moderators->add($moderator);
-            $moderator->magazine = $this;
-        }
-
-        return $this;
-    }
-
     public function getOwner(): User
     {
         $criteria = Criteria::create()
@@ -223,6 +202,16 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
+    public function updateEntryCounts(): self
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', Entry::VISIBILITY_VISIBLE));
+
+        $this->entryCount = $this->entries->matching($criteria)->count();
+
+        return $this;
+    }
+
     public function removeEntry(Entry $entry): self
     {
         if ($this->entries->removeElement($entry)) {
@@ -232,16 +221,6 @@ class Magazine implements VisibilityInterface
         }
 
         $this->updateEntryCounts();
-
-        return $this;
-    }
-
-    public function updateEntryCounts(): self
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('visibility', Entry::VISIBILITY_VISIBLE));
-
-        $this->entryCount = $this->entries->matching($criteria)->count();
 
         return $this;
     }
@@ -263,6 +242,16 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
+    private function updatePostCounts(): self
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', Entry::VISIBILITY_VISIBLE));
+
+        $this->postCount = $this->posts->matching($criteria)->count();
+
+        return $this;
+    }
+
     public function removePost(Post $post): self
     {
         if ($this->posts->removeElement($post)) {
@@ -276,24 +265,6 @@ class Magazine implements VisibilityInterface
         return $this;
     }
 
-    private function updatePostCounts(): self
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('visibility', Entry::VISIBILITY_VISIBLE));
-
-        $this->postCount = $this->posts->matching($criteria)->count();
-
-        return $this;
-    }
-
-    public function isSubscribed(User $user): bool
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('user', $user));
-
-        return $this->subscriptions->matching($criteria)->count() > 0;
-    }
-
     public function subscribe(User $user): self
     {
         if (!$this->isSubscribed($user)) {
@@ -304,6 +275,14 @@ class Magazine implements VisibilityInterface
         $this->updateSubscriptionsCount();
 
         return $this;
+    }
+
+    public function isSubscribed(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return $this->subscriptions->matching($criteria)->count() > 0;
     }
 
     private function updateSubscriptionsCount(): self
@@ -344,16 +323,6 @@ class Magazine implements VisibilityInterface
         $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     }
 
-    public function isBanned(User $user): bool
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->gt('expiredAt', new DateTime()))
-            ->orWhere(Criteria::expr()->isNull('expiredAt'))
-            ->andWhere(Criteria::expr()->eq('user', $user));
-
-        return $this->bans->matching($criteria)->count() > 0;
-    }
-
     public function addBan(User $user, User $bannedBy, ?string $reason, ?DateTimeInterface $expiredAt): ?MagazineBan
     {
         $ban = $this->isBanned($user);
@@ -366,6 +335,16 @@ class Magazine implements VisibilityInterface
         }
 
         return $ban;
+    }
+
+    public function isBanned(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->gt('expiredAt', new DateTime()))
+            ->orWhere(Criteria::expr()->isNull('expiredAt'))
+            ->andWhere(Criteria::expr()->eq('user', $user));
+
+        return $this->bans->matching($criteria)->count() > 0;
     }
 
     public function removeBan(MagazineBan $ban): self

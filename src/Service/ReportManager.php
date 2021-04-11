@@ -2,15 +2,15 @@
 
 namespace App\Service;
 
-use App\Exception\SubjectHasBeenReportedException;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Event\SubjectReportedEvent;
-use App\Event\ReportRejectedEvent;
-use App\Factory\ReportFactory;
 use App\DTO\ReportDto;
 use App\Entity\Report;
 use App\Entity\User;
+use App\Event\ReportRejectedEvent;
+use App\Event\SubjectReportedEvent;
+use App\Exception\SubjectHasBeenReportedException;
+use App\Factory\ReportFactory;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class ReportManager
 {

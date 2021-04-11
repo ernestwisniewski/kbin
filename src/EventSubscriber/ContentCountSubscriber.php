@@ -2,17 +2,17 @@
 
 namespace App\EventSubscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Event\EntryCommentCreatedEvent;
 use App\Event\EntryCommentDeletedEvent;
 use App\Event\EntryCommentPurgedEvent;
+use App\Event\EntryDeletedEvent;
 use App\Event\PostCommentCreatedEvent;
 use App\Event\PostCommentDeletedEvent;
 use App\Event\PostCommentPurgedEvent;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
-use App\Event\EntryDeletedEvent;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ContentCountSubscriber implements EventSubscriberInterface
 {

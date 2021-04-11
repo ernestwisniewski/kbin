@@ -2,21 +2,20 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\EntryCommentRepository;
-use Symfony\Component\Form\FormInterface;
-use App\PageView\EntryCommentPageView;
-use App\Service\EntryCommentManager;
-use App\Form\EntryCommentType;
 use App\DTO\EntryCommentDto;
+use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Entity\Entry;
+use App\Form\EntryCommentType;
+use App\PageView\EntryCommentPageView;
+use App\Repository\EntryCommentRepository;
+use App\Service\EntryCommentManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class EntryCommentController extends AbstractController
 {
@@ -100,90 +99,22 @@ class EntryCommentController extends AbstractController
         return $this->getEntryCommentPageResponse('entry/comment/create.html.twig', $criteria, $form, $request, $parent);
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="comment")
-     */
-    public function edit(
-        Magazine $magazine,
-        Entry $entry,
-        EntryComment $comment,
-        Request $request,
-    ): Response {
-        $dto = $this->manager->createDto($comment);
-
-        $form = $this->getEditForm($dto, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->handleValidEditRequest($dto, $comment, $request);
-        }
-
-        if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
-        }
-
-        $criteria        = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->entry = $entry;
-
-        return $this->getEntryCommentPageResponse('entry/comment/edit.html.twig', $criteria, $form, $request, $comment);
-    }
-
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("delete", subject="comment")
-     */
-    public function delete(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
+    private function getCreateForm(EntryCommentDto $dto, ?EntryComment $parent): FormInterface
     {
-        $this->validateCsrf('entry_comment_delete', $request->request->get('token'));
+        $entry = $dto->entry;
 
-        $this->manager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
-
-        return $this->redirectToEntry($entry);
-    }
-
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("purge", subject="comment")
-     */
-    public function purge(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
-    {
-        $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
-
-        $this->manager->purge($comment);
-
-        return $this->redirectToEntry($entry);
-    }
-
-    public function commentForm(string $magazineName, int $entryId, int $commentId = null): Response
-    {
-        $routeParams = [
-            'magazine_name' => $magazineName,
-            'entry_id'      => $entryId,
-        ];
-
-        if ($commentId !== null) {
-            $routeParams['comment_id'] = $commentId;
-        }
-
-        $form = $this->createForm(EntryCommentType::class, null, ['action' => $this->generateUrl('entry_comment_create', $routeParams)]);
-
-        return $this->render(
-            'entry/comment/_form.html.twig',
+        return $this->createForm(
+            EntryCommentType::class,
+            $dto,
             [
-                'form' => $form->createView(),
+                'action' => $this->generateUrl(
+                    'entry_comment_create',
+                    [
+                        'magazine_name'     => $entry->magazine->name,
+                        'entry_id'          => $entry->getId(),
+                        'parent_comment_id' => $parent?->getId(),
+                    ]
+                ),
             ]
         );
     }
@@ -253,6 +184,57 @@ class EntryCommentController extends AbstractController
         );
     }
 
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("edit", subject="comment")
+     */
+    public function edit(
+        Magazine $magazine,
+        Entry $entry,
+        EntryComment $comment,
+        Request $request,
+    ): Response {
+        $dto = $this->manager->createDto($comment);
+
+        $form = $this->getEditForm($dto, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->handleValidEditRequest($dto, $comment, $request);
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
+        }
+
+        $criteria        = new EntryCommentPageView($this->getPageNb($request));
+        $criteria->entry = $entry;
+
+        return $this->getEntryCommentPageResponse('entry/comment/edit.html.twig', $criteria, $form, $request, $comment);
+    }
+
+    private function getEditForm(EntryCommentDto $dto, EntryComment $comment): FormInterface
+    {
+        return $this->createForm(
+            EntryCommentType::class,
+            $dto,
+            [
+                'action' => $this->generateUrl(
+                    'entry_comment_edit',
+                    [
+                        'magazine_name' => $comment->magazine->name,
+                        'entry_id'      => $comment->entry->getId(),
+                        'comment_id'    => $comment->getId(),
+                    ]
+                ),
+            ]
+        );
+    }
+
     private function handleValidEditRequest(EntryCommentDto $dto, EntryComment $comment, Request $request): Response
     {
         $comment = $this->manager->edit($comment, $dto);
@@ -270,40 +252,57 @@ class EntryCommentController extends AbstractController
         );
     }
 
-    private function getCreateForm(EntryCommentDto $dto, ?EntryComment $parent): FormInterface
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("delete", subject="comment")
+     */
+    public function delete(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
     {
-        $entry = $dto->entry;
+        $this->validateCsrf('entry_comment_delete', $request->request->get('token'));
 
-        return $this->createForm(
-            EntryCommentType::class,
-            $dto,
-            [
-                'action' => $this->generateUrl(
-                    'entry_comment_create',
-                    [
-                        'magazine_name'     => $entry->magazine->name,
-                        'entry_id'          => $entry->getId(),
-                        'parent_comment_id' => $parent?->getId(),
-                    ]
-                ),
-            ]
-        );
+        $this->manager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
+
+        return $this->redirectToEntry($entry);
     }
 
-    private function getEditForm(EntryCommentDto $dto, EntryComment $comment): FormInterface
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("purge", subject="comment")
+     */
+    public function purge(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
     {
-        return $this->createForm(
-            EntryCommentType::class,
-            $dto,
+        $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
+
+        $this->manager->purge($comment);
+
+        return $this->redirectToEntry($entry);
+    }
+
+    public function commentForm(string $magazineName, int $entryId, int $commentId = null): Response
+    {
+        $routeParams = [
+            'magazine_name' => $magazineName,
+            'entry_id'      => $entryId,
+        ];
+
+        if ($commentId !== null) {
+            $routeParams['comment_id'] = $commentId;
+        }
+
+        $form = $this->createForm(EntryCommentType::class, null, ['action' => $this->generateUrl('entry_comment_create', $routeParams)]);
+
+        return $this->render(
+            'entry/comment/_form.html.twig',
             [
-                'action' => $this->generateUrl(
-                    'entry_comment_edit',
-                    [
-                        'magazine_name' => $comment->magazine->name,
-                        'entry_id'      => $comment->entry->getId(),
-                        'comment_id'    => $comment->getId(),
-                    ]
-                ),
+                'form' => $form->createView(),
             ]
         );
     }

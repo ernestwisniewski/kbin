@@ -2,20 +2,20 @@
 
 namespace App\Service;
 
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Message\UserCreatedMessage;
-use App\Message\UserUpdatedMessage;
-use App\Event\UserFollowedEvent;
-use App\Security\EmailVerifier;
-use App\Event\UserBlockEvent;
 use App\DTO\RegisterUserDto;
 use App\DTO\UserDto;
 use App\Entity\User;
+use App\Event\UserBlockEvent;
+use App\Event\UserFollowedEvent;
+use App\Message\UserCreatedMessage;
+use App\Message\UserUpdatedMessage;
+use App\Security\EmailVerifier;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserManager
 {
@@ -45,18 +45,6 @@ class UserManager
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function unfollow(User $follower, User $following)
-    {
-        $follower->unfollow($following);
-
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new UserFollowedEvent($follower, $following));
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     */
     public function block(User $blocker, User $blocked)
     {
         $this->unfollow($blocker, $blocked);
@@ -66,6 +54,18 @@ class UserManager
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function unfollow(User $follower, User $following)
+    {
+        $follower->unfollow($following);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new UserFollowedEvent($follower, $following));
     }
 
     /**

@@ -29,57 +29,48 @@ abstract class Report
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
-
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Magazine", inversedBy="reports")
+     */
+    public Magazine $magazine;
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
+     */
+    public User $reporting;
+    /**
+     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="violations")
+     */
+    public User $reported;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public ?string $reason = null;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public int $weight = 1;
+    /**
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    public ?User $consideredBy = null;
+    /**
+     * @ORM\Column(type="datetimetz", nullable=true)
+     */
+    public ?DateTime $consideredAt = null;
+    /**
+     * @ORM\Column(type="string")
+     */
+    public string $status = self::STATUS_PENDING;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
-
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="Magazine", inversedBy="reports")
-     */
-    public Magazine $magazine;
-
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
-     */
-    public User $reporting;
-
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="violations")
-     */
-    public User $reported;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public ?string $reason = null;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $weight = 1;
-
-    /**
-     * @ORM\JoinColumn(nullable=true)
-     * @ORM\ManyToOne(targetEntity="User")
-     */
-    public ?User $consideredBy = null;
-
-    /**
-     * @ORM\Column(type="datetimetz", nullable=true)
-     */
-    public ?DateTime $consideredAt = null;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $status = self::STATUS_PENDING;
 
     public function __construct(User $reporting, User $reported, Magazine $magazine, ?string $reason = null)
     {

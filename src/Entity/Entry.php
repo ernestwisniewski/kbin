@@ -2,24 +2,24 @@
 
 namespace App\Entity;
 
-use DateTime;
-use Tchoulom\ViewCounterBundle\Model\ViewCountable;
-use Tchoulom\ViewCounterBundle\Entity\ViewCounter;
-use Doctrine\Common\Collections\ArrayCollection;
-use App\Entity\Contracts\VisibilityInterface;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\DomainInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
-use App\Entity\Contracts\DomainInterface;
-use Doctrine\Common\Collections\Criteria;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
-use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\RankingTrait;
+use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryRepository;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Tchoulom\ViewCounterBundle\Entity\ViewCounter;
+use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
 /**
@@ -38,122 +38,100 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     const ENTRY_TYPE_LINK = 'link';
     const ENTRY_TYPE_IMAGE = 'image';
     const ENTRY_TYPE_VIDEO = 'video';
-
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entries")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public User $user;
+    /**
+     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    public ?Magazine $magazine;
+    /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public ?Image $image = null;
+    /**
+     * @ORM\ManyToOne(targetEntity=Domain::class, inversedBy="entries")
+     */
+    public Domain $domain;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    public string $title;
+    /**
+     * @ORM\Column(type="string", length=2048, nullable=true)
+     */
+    public ?string $url = null;
+    /**
+     * @ORM\Column(type="text", nullable=true, length=15000)
+     */
+    public ?string $body = null;
+    /**
+     * @ORM\Column(type="string")
+     */
+    public string $type = self::ENTRY_TYPE_ARTICLE;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $hasEmbed = false;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public int $commentCount = 0;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public int $score = 0;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    public ?int $views = 0;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public ?bool $isAdult = false;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $sticky = false;
+    /**
+     * @ORM\Column(type="datetimetz")
+     */
+    public ?DateTime $lastActive;
+    /**
+     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
+     */
+    public Collection $comments;
+    /**
+     * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry", cascade={"persist"},
+     *     fetch="EXTRA_LAZY", orphanRemoval=true)
+     */
+    public Collection $votes;
+    /**
+     * @ORM\OneToMany(targetEntity="EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     */
+    public Collection $reports;
+    /**
+     * @ORM\OneToMany(targetEntity="EntryNotification", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     */
+    public Collection $notifications;
+    /**
+     * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     */
+    public Collection $viewCounters;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryBadge", mappedBy="entry", cascade={"remove", "persist"}, orphanRemoval=true)
+     */
+    public Collection $badges;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entries")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public User $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    public ?Magazine $magazine;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    public ?Image $image = null;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Domain::class, inversedBy="entries")
-     */
-    public Domain $domain;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    public string $title;
-
-    /**
-     * @ORM\Column(type="string", length=2048, nullable=true)
-     */
-    public ?string $url = null;
-
-    /**
-     * @ORM\Column(type="text", nullable=true, length=15000)
-     */
-    public ?string $body = null;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $type = self::ENTRY_TYPE_ARTICLE;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $hasEmbed = false;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $commentCount = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $score = 0;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    public ?int $views = 0;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public ?bool $isAdult = false;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $sticky = false;
-
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    public ?DateTime $lastActive;
-
-    /**
-     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
-     */
-    public Collection $comments;
-
-    /**
-     * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry", cascade={"persist"},
-     *     fetch="EXTRA_LAZY", orphanRemoval=true)
-     */
-    public Collection $votes;
-
-    /**
-     * @ORM\OneToMany(targetEntity="EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $reports;
-
-    /**
-     * @ORM\OneToMany(targetEntity="EntryNotification", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $notifications;
-
-    /**
-     * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $viewCounters;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryBadge", mappedBy="entry", cascade={"remove", "persist"}, orphanRemoval=true)
-     */
-    public Collection $badges;
 
     public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user, ?bool $isAdult = null)
     {
@@ -177,20 +155,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->updateLastActive();
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function setBadges(Badge ...$badges)
-    {
-        $this->badges->clear();
-
-        foreach ($badges as $badge) {
-            $this->badges->add(new EntryBadge($this, $badge));
-        }
-    }
-
     public function updateLastActive(): void
     {
         $this->comments->get(-1);
@@ -206,6 +170,20 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
             $this->lastActive = DateTime::createFromImmutable($lastComment->createdAt);
         } else {
             $this->lastActive = DateTime::createFromImmutable($this->createdAt);
+        }
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setBadges(Badge ...$badges)
+    {
+        $this->badges->clear();
+
+        foreach ($badges as $badge) {
+            $this->badges->add(new EntryBadge($this, $badge));
         }
     }
 
@@ -238,6 +216,16 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this;
     }
 
+    public function updateCounts(): self
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
+
+        $this->commentCount = $this->comments->matching($criteria)->count();
+
+        return $this;
+    }
+
     public function removeComment(EntryComment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
@@ -249,16 +237,6 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->updateCounts();
         $this->updateRanking();
         $this->updateLastActive();
-
-        return $this;
-    }
-
-    public function updateCounts(): self
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
-
-        $this->commentCount = $this->comments->matching($criteria)->count();
 
         return $this;
     }

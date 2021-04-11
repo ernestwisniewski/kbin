@@ -2,11 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\PostComment;
+use App\Entity\PostCommentReport;
+use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\PostCommentReport;
-use App\Entity\PostComment;
-use App\Entity\Report;
 
 /**
  * @method PostCommentReport|null find($id, $lockMode = null, $lockVersion = null)

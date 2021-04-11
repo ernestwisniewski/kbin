@@ -2,9 +2,9 @@
 
 namespace App\Markdown\Factory;
 
-use League\CommonMark\MarkdownConverterInterface;
-use League\CommonMark\EnvironmentInterface;
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\EnvironmentInterface;
+use League\CommonMark\MarkdownConverterInterface;
 
 class ConverterFactory
 {

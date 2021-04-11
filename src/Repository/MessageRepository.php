@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Message;
 
 /**
  * @method Message|null find($id, $lockMode = null, $lockVersion = null)

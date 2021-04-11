@@ -2,8 +2,8 @@
 
 namespace App\Twig;
 
-use Twig\Extension\AbstractExtension;
 use App\Twig\Runtime\UserRuntime;
+use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 final class UserExtension extends AbstractExtension

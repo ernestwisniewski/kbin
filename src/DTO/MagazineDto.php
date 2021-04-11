@@ -2,15 +2,14 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Unique;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Unique(entityClass="App\Entity\Magazine", errorPath="name", fields={"name"}, idFields="id")
  */
 class MagazineDto
 {
-    private ?int $id = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -42,6 +41,7 @@ class MagazineDto
      */
     public ?string $rules = null;
     public ?bool $isAdult = false;
+    private ?int $id = null;
 
     public function create(
         string $name,

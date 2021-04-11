@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use DomainException;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Traits\CreatedAtTrait;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use App\Entity\Traits\CreatedAtTrait;
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -24,157 +24,128 @@ class User implements UserInterface
     public const THEME_LIGHT = 'light';
     public const THEME_DARK = 'dark';
     public const THEME_AUTO = 'auto';
-
+    /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     */
+    public ?Image $avatar = null;
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    public ?string $email;
+    /**
+     * @ORM\Column(type="json")
+     */
+    public array $roles = [];
+    /**
+     * @ORM\Column(type="string", length=35)
+     */
+    public string $username;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public int $followersCount = 0;
+    /**
+     * @ORM\Column(type="string", options={"default": User::THEME_LIGHT})
+     */
+    public string $theme = self::THEME_LIGHT;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $notifyOnNewEntry = false;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $notifyOnNewPost = false;
+/**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $isVerified = false;
+    /**
+     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
+     */
+    public Collection $moderatorTokens;
+    /**
+     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="user")
+     */
+    public Collection $entries;//@todo
+    /**
+     * @ORM\OneToMany(targetEntity="EntryVote", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    public Collection $entryVotes;
+    /**
+     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="user")
+     */
+    public Collection $entryComments;
+    /**
+     * @ORM\OneToMany(targetEntity="EntryCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    public Collection $entryCommentVotes;
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
+     */
+    public Collection $posts;
+    /**
+     * @ORM\OneToMany(targetEntity="PostVote", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    public Collection $postVotes;
+    /**
+     * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="user")
+     */
+    public Collection $postComments;
+    /**
+     * @ORM\OneToMany(targetEntity="PostCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    public Collection $postCommentVotes;
+    /**
+     * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="user", orphanRemoval=true)
+     */
+    public Collection $subscriptions;
+    /**
+     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="follower", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    public Collection $follows;
+    /**
+     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="following", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    public Collection $followers;
+    /**
+     * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocker", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    public Collection $blocks;
+    /**
+     * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocked", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    public ?Collection $blockers;
+    /**
+     * @ORM\OneToMany(targetEntity=MagazineBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    public Collection $blockedMagazines;
+    /**
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="reporting", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OrderBy({"id": "DESC"})
+     */
+    public Collection $reports;
+    /**
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="reported", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OrderBy({"id": "DESC"})
+     */
+    public Collection $violations;
+    /**
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OrderBy({"createdAt": "DESC"})
+     */
+    public Collection $notifications;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
-     */
-    public ?Image $avatar = null;
-
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    public ?string $email;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    public array $roles = [];
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private string $password;
-
-    /**
-     * @ORM\Column(type="string", length=35)
-     */
-    public string $username;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $followersCount = 0;
-
-    /**
-     * @ORM\Column(type="string", options={"default": User::THEME_LIGHT})
-     */
-    public string $theme = self::THEME_LIGHT;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $notifyOnNewEntry = false;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $notifyOnNewPost = false;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $isVerified = false;//@todo
-
-    /**
-     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
-     */
-    public Collection $moderatorTokens;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="user")
-     */
-    public Collection $entries;
-
-    /**
-     * @ORM\OneToMany(targetEntity="EntryVote", mappedBy="user", fetch="EXTRA_LAZY")
-     */
-    public Collection $entryVotes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="user")
-     */
-    public Collection $entryComments;
-
-    /**
-     * @ORM\OneToMany(targetEntity="EntryCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
-     */
-    public Collection $entryCommentVotes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
-     */
-    public Collection $posts;
-
-    /**
-     * @ORM\OneToMany(targetEntity="PostVote", mappedBy="user", fetch="EXTRA_LAZY")
-     */
-    public Collection $postVotes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="user")
-     */
-    public Collection $postComments;
-
-    /**
-     * @ORM\OneToMany(targetEntity="PostCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
-     */
-    public Collection $postCommentVotes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="user", orphanRemoval=true)
-     */
-    public Collection $subscriptions;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="follower", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $follows;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="following", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $followers;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocker", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $blocks;
-
-    /**
-     * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocked", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public ?Collection $blockers;
-
-    /**
-     * @ORM\OneToMany(targetEntity=MagazineBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $blockedMagazines;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="reporting", fetch="EXTRA_LAZY", cascade={"persist"})
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $reports;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="reported", fetch="EXTRA_LAZY", cascade={"persist"})
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $violations;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
-     * @ORM\OrderBy({"createdAt": "DESC"})
-     */
-    public Collection $notifications;
 
     public function __construct($email, $username, $password)
     {
@@ -233,16 +204,16 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
     public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return (string) $this->password;
     }
 
     public function getSalt()
@@ -334,14 +305,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function isFollowing(User $user): bool
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('following', $user));
-
-        return $this->follows->matching($criteria)->count() > 0;
-    }
-
     public function isFollower(User $user): bool
     {
         $criteria = Criteria::create()
@@ -367,6 +330,37 @@ class User implements UserInterface
         return $this;
     }
 
+    public function unblock(User $blocked): void
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('blocked', $blocked));
+
+        /**
+         * @var $userBlock UserBlock
+         */
+        $userBlock = $this->blocks->matching($criteria)->first();
+
+        if ($this->blocks->removeElement($userBlock)) {
+            if ($userBlock->blocker === $this) {
+                $userBlock->blocker = null;
+                $blocked->blockers->removeElement($this);
+            }
+        }
+    }
+
+    public function isFollowing(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('following', $user));
+
+        return $this->follows->matching($criteria)->count() > 0;
+    }
+
+    public function updateFollowCounts(User $following)
+    {
+        $following->followersCount = $following->followers->count();
+    }
+
     public function unfollow(User $following): void
     {
         $followingUser = $following;
@@ -389,24 +383,11 @@ class User implements UserInterface
         $this->updateFollowCounts($followingUser);
     }
 
-    public function updateFollowCounts(User $following)
-    {
-        $following->followersCount = $following->followers->count();
-    }
-
     public function toggleTheme(): self
     {
         $this->theme = $this->theme === self::THEME_LIGHT ? self::THEME_DARK : self::THEME_LIGHT;
 
         return $this;
-    }
-
-    public function isBlocked(User $user): bool
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('blocked', $user));
-
-        return $this->blocks->matching($criteria)->count() > 0;
     }
 
     public function isBlocker(User $user): bool
@@ -430,30 +411,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function unblock(User $blocked): void
+    public function isBlocked(User $user): bool
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('blocked', $blocked));
+            ->where(Criteria::expr()->eq('blocked', $user));
 
-        /**
-         * @var $userBlock UserBlock
-         */
-        $userBlock = $this->blocks->matching($criteria)->first();
-
-        if ($this->blocks->removeElement($userBlock)) {
-            if ($userBlock->blocker === $this) {
-                $userBlock->blocker = null;
-                $blocked->blockers->removeElement($this);
-            }
-        }
-    }
-
-    public function isBlockedMagazine(Magazine $magazine): bool
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('magazine', $magazine));
-
-        return $this->blockedMagazines->matching($criteria)->count() > 0;
+        return $this->blocks->matching($criteria)->count() > 0;
     }
 
     public function blockMagazine(Magazine $magazine): self
@@ -463,6 +426,14 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function isBlockedMagazine(Magazine $magazine): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $magazine));
+
+        return $this->blockedMagazines->matching($criteria)->count() > 0;
     }
 
     public function unblockMagazine(Magazine $magazine): void

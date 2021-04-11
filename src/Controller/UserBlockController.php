@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\UserManager;
-use App\Entity\User;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserBlockController extends AbstractController
 {

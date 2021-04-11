@@ -2,13 +2,13 @@
 
 namespace App\MessageHandler;
 
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\ImageRepository;
-use App\Repository\EntryRepository;
 use App\Message\EntryEmbedMessage;
+use App\Repository\EntryRepository;
+use App\Repository\ImageRepository;
 use App\Service\ImageManager;
 use App\Utils\Embed;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class AttachEntryEmbedHandler implements MessageHandlerInterface
 {

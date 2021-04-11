@@ -2,16 +2,15 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\Collection;
-use App\Entity\Magazine;
-use App\Entity\Image;
 use App\Entity\Entry;
+use App\Entity\Image;
+use App\Entity\Magazine;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class EntryDto
 {
-    private ?int $id = null;
     /**
      * @Assert\NotBlank()
      */
@@ -38,6 +37,7 @@ class EntryDto
     public ?Image $image = null;
     public ?bool $isAdult = false;
     public ?Collection $badges = null;
+    private ?int $id = null;
 
     public function create(
         Magazine $magazine,

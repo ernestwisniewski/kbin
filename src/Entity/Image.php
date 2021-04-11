@@ -16,36 +16,31 @@ use function strlen;
 class Image
 {
     /**
+     * @ORM\Column(type="string")
+     */
+    public string $filePath;
+    /**
+     * @ORM\Column(type="string")
+     */
+    public string $fileName;
+    /**
+     * @ORM\Column(type="binary", length=32)
+     */
+    public $sha256;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    public ?int $width;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    public ?int $height;
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $filePath;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $fileName;
-
-    /**
-     * @ORM\Column(type="binary", length=32)
-     */
-    public $sha256;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    public ?int $width;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    public ?int $height;
 
     public function __construct(string $fileName, string $filePath, string $sha256, ?int $width, ?int $height)
     {
@@ -69,21 +64,6 @@ class Image
         $this->setDimensions($width, $height);
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function __toString(): string
-    {
-        return $this->fileName;
-    }
-
-    public function getSha256(): string
-    {
-        return bin2hex($this->sha256);
-    }
-
     public function setDimensions(?int $width, ?int $height): void
     {
         if ($width !== null && $width <= 0) {
@@ -100,6 +80,21 @@ class Image
         } else {
             throw new InvalidArgumentException('$width and $height must both be set or NULL');
         }
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        return $this->fileName;
+    }
+
+    public function getSha256(): string
+    {
+        return bin2hex($this->sha256);
     }
 
     public function __sleep()

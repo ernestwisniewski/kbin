@@ -2,8 +2,8 @@
 
 namespace App\Form\Extension;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
@@ -13,6 +13,11 @@ final class NoValidateExtension extends AbstractTypeExtension
     {
     }
 
+    public static function getExtendedTypes(): iterable
+    {
+        return [FormType::class];
+    }
+
     /**
      * @param array<string,mixed> $options
      */
@@ -20,10 +25,5 @@ final class NoValidateExtension extends AbstractTypeExtension
     {
         $attr               = !$this->html5Validation ? ['novalidate' => 'novalidate'] : [];
         $view->vars['attr'] = array_merge($view->vars['attr'], $attr);
-    }
-
-    public static function getExtendedTypes(): iterable
-    {
-        return [FormType::class];
     }
 }

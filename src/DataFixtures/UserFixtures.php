@@ -2,9 +2,9 @@
 
 namespace App\DataFixtures;
 
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends BaseFixture
 {
