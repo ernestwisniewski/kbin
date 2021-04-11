@@ -12,24 +12,24 @@ use App\Entity\User;
 
 class UserFollowController extends AbstractController
 {
-    public function followers(User $user, UserRepository $userRepository, Request $request): Response
+    public function followers(User $user, UserRepository $repository, Request $request): Response
     {
         return $this->render(
             'user/followers.html.twig',
             [
                 'user'  => $user,
-                'users' => $userRepository->findFollowUsers($this->getPageNb($request), $user),
+                'users' => $repository->findFollowUsers($this->getPageNb($request), $user),
             ]
         );
     }
 
-    public function follows(User $user, UserRepository $userRepository, Request $request): Response
+    public function follows(User $user, UserRepository $manager, Request $request): Response
     {
         return $this->render(
             'user/follows.html.twig',
             [
                 'user'  => $user,
-                'users' => $userRepository->findFollowedUsers($this->getPageNb($request), $user),
+                'users' => $manager->findFollowedUsers($this->getPageNb($request), $user),
             ]
         );
     }
@@ -38,11 +38,11 @@ class UserFollowController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("follow", subject="following")
      */
-    public function follow(User $following, UserManager $userManager, Request $request): Response
+    public function follow(User $following, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
 
-        $userManager->follow($this->getUserOrThrow(), $following);
+        $manager->follow($this->getUserOrThrow(), $following);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -60,11 +60,11 @@ class UserFollowController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("follow", subject="following")
      */
-    public function unfollow(User $following, UserManager $userManager, Request $request): Response
+    public function unfollow(User $following, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
 
-        $userManager->unfollow($this->getUserOrThrow(), $following);
+        $manager->unfollow($this->getUserOrThrow(), $following);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

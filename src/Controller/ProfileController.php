@@ -29,12 +29,12 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function notifications(NotificationRepository $notificationRepository, Request $request): Response
+    public function notifications(NotificationRepository $repository, Request $request): Response
     {
         return $this->render(
             'user/profile/notifications.html.twig',
             [
-                'notifications' => $notificationRepository->findByUser($this->getUserOrThrow(), $this->getPageNb($request)),
+                'notifications' => $repository->findByUser($this->getUserOrThrow(), $this->getPageNb($request)),
             ]
         );
     }
@@ -42,11 +42,11 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function readNotifications(NotificationManager $notificationManager, Request $request): Response
+    public function readNotifications(NotificationManager $manager, Request $request): Response
     {
         $this->validateCsrf('read_notifications', $request->request->get('token'));
 
-        $notificationManager->markAllAsRead($this->getUserOrThrow());
+        $manager->markAllAsRead($this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -54,11 +54,11 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function clearNotifications(NotificationManager $notificationManager, Request $request): Response
+    public function clearNotifications(NotificationManager $manager, Request $request): Response
     {
         $this->validateCsrf('clear_notifications', $request->request->get('token'));
 
-        $notificationManager->clear($this->getUserOrThrow());
+        $manager->clear($this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -90,14 +90,14 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function subMagazines(MagazineRepository $magazineRepository, Request $request): Response
+    public function subMagazines(MagazineRepository $repository, Request $request): Response
     {
         $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/sub_magazines.html.twig',
             [
-                'magazines' => $magazineRepository->findSubscribedMagazines($page, $this->getUserOrThrow()),
+                'magazines' => $repository->findSubscribedMagazines($page, $this->getUserOrThrow()),
             ]
         );
     }
@@ -105,14 +105,14 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function subUsers(UserRepository $userRepository, Request $request): Response
+    public function subUsers(UserRepository $repository, Request $request): Response
     {
         $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/sub_users.html.twig',
             [
-                'users' => $userRepository->findFollowedUsers($page, $this->getUserOrThrow()),
+                'users' => $repository->findFollowedUsers($page, $this->getUserOrThrow()),
             ]
         );
     }
@@ -120,14 +120,14 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function blockedMagazines(MagazineRepository $magazineRepository, Request $request): Response
+    public function blockedMagazines(MagazineRepository $repository, Request $request): Response
     {
         $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/block_magazines.html.twig',
             [
-                'magazines' => $magazineRepository->findBlockedMagazines($page, $this->getUserOrThrow()),
+                'magazines' => $repository->findBlockedMagazines($page, $this->getUserOrThrow()),
             ]
         );
     }
@@ -135,14 +135,14 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function blockedUsers(UserRepository $userRepository, Request $request): Response
+    public function blockedUsers(UserRepository $repository, Request $request): Response
     {
         $page = $this->getPageNb($request);
 
         return $this->render(
             'user/profile/block_users.html.twig',
             [
-                'users' => $userRepository->findBlockedUsers($page, $this->getUserOrThrow()),
+                'users' => $repository->findBlockedUsers($page, $this->getUserOrThrow()),
             ]
         );
     }

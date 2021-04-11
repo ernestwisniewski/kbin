@@ -63,7 +63,10 @@
             </aside>
         </div>
         <div class="kbin-comment-main">
-            <blockquote class="kbin-comment-content" data-controller="show-more" data-action="image:thumbSelected->show-more#expand" data-action="image:thumbLoaded->show-more#checkHeight">
+            <blockquote class="kbin-comment-content"
+                        data-controller="show-more"
+                        data-action="image:thumbSelected->show-more#expand"
+                        data-action="image:thumbLoaded->show-more#checkHeight">
                 {% if comment.visibility is same as 'visible' %}
                     {{ comment.body|markdown|raw }}
                     {% if comment.image %}
@@ -104,7 +107,8 @@
                         {% if is_granted('edit', comment) %}
                             <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                                 <small class="text-muted">
-                                    <a href="{{ path('entry_comment_edit', {'magazine_name': comment.entry.magazine.name,'entry_id': comment.entry.id, 'comment_id': comment.id}) }}">
+                                    <a data-action="comment#edit"
+                                       href="{{ path('entry_comment_edit', {'magazine_name': comment.entry.magazine.name,'entry_id': comment.entry.id, 'comment_id': comment.id}) }}">
                                         edytuj
                                     </a>
                                 </small>

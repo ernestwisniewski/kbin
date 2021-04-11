@@ -1,6 +1,5 @@
 import {Controller} from 'stimulus';
 import {fetch, ok} from "../utils/http";
-import router from "../utils/routing";
 import KEditor from "../utils/editor";
 
 export default class extends Controller {
@@ -13,6 +12,14 @@ export default class extends Controller {
     };
 
     async reply(event) {
+        await this.handle(event);
+    }
+
+    async edit(event) {
+        await this.handle(event, true);
+    }
+
+    async handle(event, edit = false) {
         event.preventDefault();
 
         this.loadingValue = true;
@@ -29,7 +36,7 @@ export default class extends Controller {
 
             let self = this;
             this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {
-                self.send(e);
+                self.send(e, self.edit);
             });
         } catch (e) {
             alert('Nie możesz dodać komentarza.');
@@ -38,7 +45,7 @@ export default class extends Controller {
         }
     }
 
-    async send(event) {
+    async send(event, edit = false) {
         event.preventDefault();
 
         this.loadingValue = true;
@@ -54,8 +61,13 @@ export default class extends Controller {
             let div = document.createElement('div');
             div.innerHTML = response.html;
 
-            level = (level >= 7 ? 7 : parseInt(level) + 1);
+            if (edit) {
+                div.firstElementChild.classList.add('kbin-comment-level--' + level);
+                event.target.closest('blockquote').replaceWith(div);
+                return;
+            }
 
+            level = (level >= 7 ? 7 : parseInt(level) + 1);
             div.firstElementChild.classList.add('kbin-comment-level--' + level)
             div.firstElementChild.dataset.commentLevelValue = level;
 

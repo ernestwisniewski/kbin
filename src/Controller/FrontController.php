@@ -12,7 +12,7 @@ use App\Repository\Criteria;
 
 class FrontController extends AbstractController
 {
-    public function __construct(private EntryRepository $entryRepository)
+    public function __construct(private EntryRepository $repository)
     {
     }
 
@@ -58,26 +58,26 @@ class FrontController extends AbstractController
 
     private function hot(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
     }
 
     private function top(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
     }
 
     private function active(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_ACTIVE));
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_ACTIVE));
     }
 
     private function new(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria);
+        return $this->repository->findByCriteria($criteria);
     }
 
     private function commented(EntryPageView $criteria): PagerfantaInterface
     {
-        return $this->entryRepository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
     }
 }

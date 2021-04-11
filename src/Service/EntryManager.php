@@ -23,8 +23,8 @@ use App\Entity\User;
 class EntryManager implements ContentManager
 {
     public function __construct(
-        private EntryFactory $entryFactory,
-        private EventDispatcherInterface $eventDispatcher,
+        private EntryFactory $factory,
+        private EventDispatcherInterface $dispatcher,
         private Security $security,
         private BadgeManager $badgeManager,
         private UrlCleaner $urlCleaner,
@@ -44,7 +44,7 @@ class EntryManager implements ContentManager
             $this->validateUrl($dto->url);
         }
 
-        $entry    = $this->entryFactory->createFromDto($dto, $user);
+        $entry    = $this->factory->createFromDto($dto, $user);
         $magazine = $entry->magazine;
 
         $this->assertType($entry);
@@ -62,7 +62,7 @@ class EntryManager implements ContentManager
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new EntryCreatedEvent($entry));
+        $this->dispatcher->dispatch(new EntryCreatedEvent($entry));
 
         return $entry;
     }
@@ -94,7 +94,7 @@ class EntryManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new EntryUpdatedEvent($entry)));
+        $this->dispatcher->dispatch((new EntryUpdatedEvent($entry)));
 
         return $entry;
     }
@@ -105,12 +105,12 @@ class EntryManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new EntryDeletedEvent($entry, $this->security->getUser())));
+        $this->dispatcher->dispatch((new EntryDeletedEvent($entry, $this->security->getUser())));
     }
 
     public function purge(Entry $entry): void
     {
-        $this->eventDispatcher->dispatch((new EntryBeforePurgeEvent($entry)));
+        $this->dispatcher->dispatch((new EntryBeforePurgeEvent($entry)));
 
         $entry->magazine->removeEntry($entry);
 
@@ -124,14 +124,14 @@ class EntryManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch((new EntryPinEvent($entry)));
+        $this->dispatcher->dispatch((new EntryPinEvent($entry)));
 
         return $entry;
     }
 
     public function createDto(Entry $entry): EntryDto
     {
-        return $this->entryFactory->createDto($entry);
+        return $this->factory->createDto($entry);
     }
 
     private function assertType(Entry $entry): void

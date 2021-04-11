@@ -11,7 +11,7 @@ use App\Service\VoteManager;
 
 class VoteController extends AbstractController
 {
-    public function __construct(private VoteManager $voteManager)
+    public function __construct(private VoteManager $manager)
     {
     }
 
@@ -23,7 +23,7 @@ class VoteController extends AbstractController
     {
         $this->validateCsrf('vote', $request->request->get('token'));
 
-        $vote = $this->voteManager->vote($choice, $votable, $this->getUserOrThrow());
+        $vote = $this->manager->vote($choice, $votable, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

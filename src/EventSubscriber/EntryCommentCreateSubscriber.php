@@ -9,7 +9,7 @@ use App\Event\EntryCommentCreatedEvent;
 
 class EntryCommentCreateSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $messageBus)
+    public function __construct(private MessageBusInterface $bus)
     {
     }
 
@@ -22,6 +22,6 @@ class EntryCommentCreateSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentCreated(EntryCommentCreatedEvent $event): void
     {
-        $this->messageBus->dispatch(new EntryCommentNotificationMessage($event->comment->getId()));
+        $this->bus->dispatch(new EntryCommentNotificationMessage($event->comment->getId()));
     }
 }

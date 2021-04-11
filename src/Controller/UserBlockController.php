@@ -14,11 +14,11 @@ class UserBlockController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function block(User $blocked, UserManager $userManager, Request $request): Response
+    public function block(User $blocked, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));
 
-        $userManager->block($this->getUserOrThrow(), $blocked);
+        $manager->block($this->getUserOrThrow(), $blocked);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -34,11 +34,11 @@ class UserBlockController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function unblock(User $blocked, UserManager $userManager, Request $request): Response
+    public function unblock(User $blocked, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));
 
-        $userManager->unblock($this->getUserOrThrow(), $blocked);
+        $manager->unblock($this->getUserOrThrow(), $blocked);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

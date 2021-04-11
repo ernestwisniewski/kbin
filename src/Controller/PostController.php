@@ -19,17 +19,17 @@ use App\Entity\Post;
 class PostController extends AbstractController
 {
     public function __construct(
-        private PostManager $postManager,
+        private PostManager $manager,
     ) {
     }
 
-    public function front(?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
+    public function front(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->translateSort($sortBy))
             ->setTime($criteria->translateTime($time));
 
-        $posts = $postRepository->findByCriteria($criteria);
+        $posts = $repository->findByCriteria($criteria);
 
         return $this->render(
             'post/front.html.twig',
@@ -39,14 +39,14 @@ class PostController extends AbstractController
         );
     }
 
-    public function subscribed(?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
+    public function subscribed(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->translateSort($sortBy))
             ->setTime($criteria->translateTime($time));
         $criteria->subscribed = true;
 
-        $posts = $postRepository->findByCriteria($criteria);
+        $posts = $repository->findByCriteria($criteria);
 
         return $this->render(
             'post/front.html.twig',
@@ -56,14 +56,14 @@ class PostController extends AbstractController
         );
     }
 
-    public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, PostRepository $postRepository, Request $request): Response
+    public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->translateSort($sortBy))
             ->setTime($criteria->translateTime($time));
         $criteria->magazine = $magazine;
 
-        $posts = $postRepository->findByCriteria($criteria);
+        $posts = $repository->findByCriteria($criteria);
 
         return $this->render(
             'post/front.html.twig',
@@ -78,7 +78,7 @@ class PostController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
      */
-    public function single(Magazine $magazine, Post $post, PostCommentRepository $commentRepository, Request $request): Response
+    public function single(Magazine $magazine, Post $post, PostCommentRepository $repository, Request $request): Response
     {
         $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
@@ -88,7 +88,7 @@ class PostController extends AbstractController
             [
                 'magazine' => $magazine,
                 'post'     => $post,
-                'comments' => $commentRepository->findByCriteria($criteria),
+                'comments' => $repository->findByCriteria($criteria),
             ]
         );
     }
@@ -105,7 +105,7 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post = $this->postManager->create($postDto, $this->getUserOrThrow());
+            $post = $this->manager->create($postDto, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
                 'post_single',
@@ -126,15 +126,15 @@ class PostController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="post")
      */
-    public function edit(Magazine $magazine, Post $post, Request $request, PostCommentRepository $commentRepository): Response
+    public function edit(Magazine $magazine, Post $post, Request $request, PostCommentRepository $repository): Response
     {
-        $postDto = $this->postManager->createDto($post);
+        $postDto = $this->manager->createDto($post);
 
         $form = $this->createForm(PostType::class, $postDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post = $this->postManager->edit($post, $postDto);
+            $post = $this->manager->edit($post, $postDto);
 
             return $this->redirectToRoute(
                 'post_single',
@@ -153,7 +153,7 @@ class PostController extends AbstractController
             [
                 'magazine' => $magazine,
                 'post'     => $post,
-                'comments' => $commentRepository->findByCriteria($criteria),
+                'comments' => $repository->findByCriteria($criteria),
                 'form'     => $form->createView(),
             ]
         );
@@ -170,7 +170,7 @@ class PostController extends AbstractController
     {
         $this->validateCsrf('post_delete', $request->request->get('token'));
 
-        $this->postManager->delete($post, !$post->isAuthor($this->getUserOrThrow()));
+        $this->manager->delete($post, !$post->isAuthor($this->getUserOrThrow()));
 
         return $this->redirectToMagazine($magazine);
     }
@@ -186,7 +186,7 @@ class PostController extends AbstractController
     {
         $this->validateCsrf('post_purge', $request->request->get('token'));
 
-        $this->postManager->purge($post);
+        $this->manager->purge($post);
 
         return $this->redirectToMagazine($magazine);
     }

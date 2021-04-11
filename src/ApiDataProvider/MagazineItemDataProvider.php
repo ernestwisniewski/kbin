@@ -10,7 +10,7 @@ use App\DTO\MagazineDto;
 
 final class MagazineItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private MagazineRepository $magazineRepository, private MagazineFactory $magazineFactory)
+    public function __construct(private MagazineRepository $repository, private MagazineFactory $factory)
     {
     }
 
@@ -21,13 +21,13 @@ final class MagazineItemDataProvider implements ItemDataProviderInterface, Restr
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?MagazineDto
     {
-        $magazine = $this->magazineRepository->findOneByName(['name' => $id]);
+        $magazine = $this->repository->findOneByName(['name' => $id]);
 
         if (!$magazine) {
             return null;
         }
 
-        return $this->magazineFactory->createDto($magazine);
+        return $this->factory->createDto($magazine);
     }
 }
 

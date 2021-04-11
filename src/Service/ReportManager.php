@@ -15,8 +15,8 @@ use App\Entity\User;
 class ReportManager
 {
     public function __construct(
-        private ReportFactory $reportFactory,
-        private EventDispatcherInterface $eventDispatcher,
+        private ReportFactory $factory,
+        private EventDispatcherInterface $dispatcher,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -37,7 +37,7 @@ class ReportManager
         }
 
         if (!$report) {
-            $report = $this->reportFactory->createFromDto($dto, $reporting);
+            $report = $this->factory->createFromDto($dto, $reporting);
         } elseif ($report->status === Report::STATUS_PENDING) {
             $report->increaseWeight();
         }
@@ -46,7 +46,7 @@ class ReportManager
         $this->entityManager->flush();
 
         if (!$existed) {
-            $this->eventDispatcher->dispatch(new SubjectReportedEvent($report));
+            $this->dispatcher->dispatch(new SubjectReportedEvent($report));
         }
 
         return $report;
@@ -58,6 +58,6 @@ class ReportManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new ReportRejectedEvent($report));
+        $this->dispatcher->dispatch(new ReportRejectedEvent($report));
     }
 }

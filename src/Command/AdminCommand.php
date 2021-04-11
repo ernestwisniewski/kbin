@@ -16,7 +16,7 @@ class AdminCommand extends Command
     protected static $defaultName = 'kbin:admin';
     protected static string $defaultDescription = 'This command allows you to grant administrator privileges to the user.';
 
-    public function __construct(private EntityManagerInterface $entityManager, private UserRepository $userRepository)
+    public function __construct(private EntityManagerInterface $entityManager, private UserRepository $repository)
     {
         parent::__construct();
     }
@@ -33,7 +33,7 @@ class AdminCommand extends Command
     {
         $io     = new SymfonyStyle($input, $output);
         $remove = $input->getOption('remove');
-        $user   = $this->userRepository->findOneByUsername($input->getArgument('username'));
+        $user   = $this->repository->findOneByUsername($input->getArgument('username'));
 
         if (!$user) {
             $io->error('User not found.');

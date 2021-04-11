@@ -8,13 +8,13 @@ use App\Entity\User;
 
 class EntryCommentFactory
 {
-    public function createFromDto(EntryCommentDto $commentDto, User $user): EntryComment
+    public function createFromDto(EntryCommentDto $dto, User $user): EntryComment
     {
         return new EntryComment(
-            $commentDto->body,
-            $commentDto->entry,
+            $dto->body,
+            $dto->entry,
             $user,
-            $commentDto->parent
+            $dto->parent
         );
     }
 

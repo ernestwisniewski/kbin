@@ -9,7 +9,6 @@ use App\Entity\Contracts\ReportInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Event\EntryCommentDeletedEvent;
 use App\Event\PostCommentDeletedEvent;
-use App\Repository\ReportRepository;
 use App\Event\EntryBeforePurgeEvent;
 use App\Event\PostBeforePurgeEvent;
 use App\Event\EntryDeletedEvent;
@@ -18,7 +17,7 @@ use App\Entity\Report;
 
 class ReportHandleSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private ReportRepository $reportRepository, private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 

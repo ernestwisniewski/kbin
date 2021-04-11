@@ -33,20 +33,20 @@ class EntryController extends AbstractController
         Magazine $magazine,
         Entry $entry,
         ?string $sortBy,
-        EntryCommentRepository $commentRepository,
-        EventDispatcherInterface $eventDispatcher,
+        EntryCommentRepository $repository,
+        EventDispatcherInterface $dispatcher,
         Request $request
     ): Response {
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($sortBy);
         $criteria->entry = $entry;
 
-        $comments = $commentRepository->findByCriteria($criteria);
+        $comments = $repository->findByCriteria($criteria);
 
-        $commentRepository->hydrate(...$comments);
-        $commentRepository->hydrateChildren(...$comments);
+        $repository->hydrate(...$comments);
+        $repository->hydrateChildren(...$comments);
 
-        $eventDispatcher->dispatch((new EntryHasBeenSeenEvent($entry)));
+        $dispatcher->dispatch((new EntryHasBeenSeenEvent($entry)));
 
         return $this->render(
             'entry/single.html.twig',

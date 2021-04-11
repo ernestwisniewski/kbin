@@ -8,15 +8,15 @@ use App\Entity\User;
 
 class EntryFactory
 {
-    public function createFromDto(EntryDto $entryDto, User $user): Entry
+    public function createFromDto(EntryDto $dto, User $user): Entry
     {
         return new Entry(
-            $entryDto->title,
-            $entryDto->url,
-            $entryDto->body,
-            $entryDto->magazine,
+            $dto->title,
+            $dto->url,
+            $dto->body,
+            $dto->magazine,
             $user,
-            $entryDto->isAdult,
+            $dto->isAdult,
         );
     }
 

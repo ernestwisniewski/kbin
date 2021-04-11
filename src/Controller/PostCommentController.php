@@ -19,7 +19,7 @@ use App\Entity\Post;
 
 class PostCommentController extends AbstractController
 {
-    public function __construct(private PostCommentManager $commentManager)
+    public function __construct(private PostCommentManager $manager)
     {
     }
 
@@ -36,7 +36,7 @@ class PostCommentController extends AbstractController
         Post $post,
         ?PostComment $parent,
         Request $request,
-        PostCommentRepository $commentRepository
+        PostCommentRepository $repository
     ): Response {
         $dto = (new PostCommentDto())->createWithParent($post, $parent);
 
@@ -50,7 +50,7 @@ class PostCommentController extends AbstractController
         $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
-        $comments = $commentRepository->findByCriteria($criteria);
+        $comments = $repository->findByCriteria($criteria);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig');
@@ -81,15 +81,15 @@ class PostCommentController extends AbstractController
         Post $post,
         PostComment $comment,
         Request $request,
-        PostCommentRepository $commentRepository
+        PostCommentRepository $repository
     ): Response {
-        $commentDto = $this->commentManager->createDto($comment);
+        $commentDto = $this->manager->createDto($comment);
 
         $form = $this->createForm(PostCommentType::class, $commentDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commentManager->edit($comment, $commentDto);
+            $this->manager->edit($comment, $commentDto);
 
             return $this->redirectToPost($post);
         }
@@ -97,7 +97,7 @@ class PostCommentController extends AbstractController
         $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
-        $comments = $commentRepository->findByCriteria($criteria);
+        $comments = $repository->findByCriteria($criteria);
 
         return $this->render(
             'post/comment/edit.html.twig',
@@ -123,7 +123,7 @@ class PostCommentController extends AbstractController
     {
         $this->validateCsrf('post_comment_delete', $request->request->get('token'));
 
-        $this->commentManager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
+        $this->manager->delete($comment, !$comment->isAuthor($this->getUserOrThrow()));
 
         return $this->redirectToMagazine($magazine);
     }
@@ -140,7 +140,7 @@ class PostCommentController extends AbstractController
     {
         $this->validateCsrf('post_comment_purge', $request->request->get('token'));
 
-        $this->commentManager->purge($comment);
+        $this->manager->purge($comment);
 
         return $this->redirectToRoute(
             'front_magazine',
@@ -186,7 +186,7 @@ class PostCommentController extends AbstractController
 
     private function handleValidCreateRequest(PostCommentDto $dto, Request $request): Response
     {
-        $comment = $this->commentManager->create($dto, $this->getUserOrThrow());
+        $comment = $this->manager->create($dto, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonCreateCommentSuccessResponse($comment);

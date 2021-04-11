@@ -21,18 +21,18 @@ use App\Entity\User;
 
 class UserController extends AbstractController
 {
-    public function front(User $user, Request $request, UserRepository $userRepository): Response
+    public function front(User $user, Request $request, UserRepository $repository): Response
     {
         return $this->render(
             'user/front.html.twig',
             [
                 'user'    => $user,
-                'results' => $userRepository->findPublicActivity($this->getPageNb($request), $user),
+                'results' => $repository->findPublicActivity($this->getPageNb($request), $user),
             ]
         );
     }
 
-    public function entries(User $user, Request $request, EntryRepository $entryRepository): Response
+    public function entries(User $user, Request $request, EntryRepository $repository): Response
     {
         $criteria       = new EntryPageView($this->getPageNb($request));
         $criteria->user = $user;
@@ -41,21 +41,21 @@ class UserController extends AbstractController
             'user/entries.html.twig',
             [
                 'user'    => $user,
-                'entries' => $entryRepository->findByCriteria($criteria),
+                'entries' => $repository->findByCriteria($criteria),
             ]
         );
     }
 
-    public function comments(User $user, Request $request, EntryCommentRepository $commentRepository): Response
+    public function comments(User $user, Request $request, EntryCommentRepository $repository): Response
     {
         $criteria              = new EntryCommentPageView($this->getPageNb($request));
         $criteria->user        = $user;
         $criteria->onlyParents = false;
 
-        $comments = $commentRepository->findByCriteria($criteria);
+        $comments = $repository->findByCriteria($criteria);
 
-        $commentRepository->hydrate(...$comments);
-        $commentRepository->hydrateParents(...$comments);
+        $repository->hydrate(...$comments);
+        $repository->hydrateParents(...$comments);
 
         return $this->render(
             'user/comments.html.twig',
@@ -66,12 +66,12 @@ class UserController extends AbstractController
         );
     }
 
-    public function posts(User $user, Request $request, PostRepository $postRepository): Response
+    public function posts(User $user, Request $request, PostRepository $repository): Response
     {
         $criteria       = new PostPageView($this->getPageNb($request));
         $criteria->user = $user;
 
-        $posts = $postRepository->findByCriteria($criteria);
+        $posts = $repository->findByCriteria($criteria);
 
         return $this->render(
             'user/posts.html.twig',
@@ -82,12 +82,12 @@ class UserController extends AbstractController
         );
     }
 
-    public function replies(User $user, Request $request, PostCommentRepository $commentRepository): Response
+    public function replies(User $user, Request $request, PostCommentRepository $repository): Response
     {
         $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->user = $user;
 
-        $comments = $commentRepository->findByCriteria($criteria);
+        $comments = $repository->findByCriteria($criteria);
 
         return $this->render(
             'user/replies.html.twig',
@@ -98,28 +98,28 @@ class UserController extends AbstractController
         );
     }
 
-    public function subscriptions(User $user, MagazineRepository $magazineRepository, Request $request): Response
+    public function subscriptions(User $user, MagazineRepository $repository, Request $request): Response
     {
         return $this->render(
             'user/subscriptions.html.twig',
             [
                 'user'      => $user,
-                'magazines' => $magazineRepository->findSubscribedMagazines($this->getPageNb($request), $user),
+                'magazines' => $repository->findSubscribedMagazines($this->getPageNb($request), $user),
             ]
         );
     }
 
-    public function edit(UserManager $userManager, Request $request): Response
+    public function edit(UserManager $manager, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        $userDto = $userManager->createDto($this->getUserOrThrow());
+        $userDto = $manager->createDto($this->getUserOrThrow());
 
         $form = $this->createForm(UserType::class, $userDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userManager->edit($this->getUser(), $userDto);
+            $manager->edit($this->getUser(), $userDto);
 
             if ($userDto->plainPassword) {
                 return $this->redirectToRoute('app_login');
@@ -136,9 +136,9 @@ class UserController extends AbstractController
         );
     }
 
-    public function theme(UserManager $userManager, Request $request): Response
+    public function theme(UserManager $manager, Request $request): Response
     {
-        $userManager->toggleTheme($this->getUserOrThrow());
+        $manager->toggleTheme($this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

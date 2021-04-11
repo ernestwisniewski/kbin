@@ -12,7 +12,7 @@ use function is_object;
 
 final class UniqueValidator extends ConstraintValidator
 {
-    public function __construct(private EntityManagerInterface $manager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 
@@ -26,7 +26,7 @@ final class UniqueValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, Unique::class);
         }
 
-        $qb = $this->manager->createQueryBuilder()
+        $qb = $this->entityManager->createQueryBuilder()
             ->select('COUNT(e)')
             ->from($constraint->entityClass, 'e');
 

@@ -10,7 +10,7 @@ use App\DTO\EntryDto;
 
 final class EntryItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private EntryRepository $entryRepository, private EntryFactory $entryFactory)
+    public function __construct(private EntryRepository $repository, private EntryFactory $factory)
     {
     }
 
@@ -21,13 +21,13 @@ final class EntryItemDataProvider implements ItemDataProviderInterface, Restrict
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?EntryDto
     {
-        $entry = $this->entryRepository->find($id);
+        $entry = $this->repository->find($id);
 
         if (!$entry) {
             return null;
         }
 
-        return $this->entryFactory->createDto($entry);
+        return $this->factory->createDto($entry);
     }
 }
 

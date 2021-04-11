@@ -11,8 +11,8 @@ class
 DomainManager
 {
     public function __construct(
-        private DomainRepository $domainRepository,
-        private EntityManagerInterface $entityManager
+        private DomainRepository $repository,
+        private EntityManagerInterface $manager
     ) {
     }
 
@@ -23,7 +23,7 @@ DomainManager
 
         $domainName = preg_replace('/^www\./i', '', parse_url($domainName)['host']);
 
-        $domain = $this->domainRepository->findOneByName($domainName);
+        $domain = $this->repository->findOneByName($domainName);
 
         if (!$domain) {
             $domain          = new Domain($subject, $domainName);
@@ -33,8 +33,8 @@ DomainManager
             $domain->updateCounts();
         }
 
-        $this->entityManager->persist($domain);
-        $this->entityManager->flush();
+        $this->manager->persist($domain);
+        $this->manager->flush();
 
         return $subject;
     }

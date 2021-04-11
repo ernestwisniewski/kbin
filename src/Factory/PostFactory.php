@@ -8,13 +8,13 @@ use App\Entity\User;
 
 class PostFactory
 {
-    public function createFromDto(PostDto $postDto, User $user): Post
+    public function createFromDto(PostDto $dto, User $user): Post
     {
         return new Post(
-            $postDto->body,
-            $postDto->magazine,
+            $dto->body,
+            $dto->magazine,
             $user,
-            $postDto->isAdult
+            $dto->isAdult
         );
     }
 

@@ -20,10 +20,10 @@ use App\Entity\User;
 class UserManager
 {
     public function __construct(
-        private UserPasswordEncoderInterface $passwordEncoder,
-        private EventDispatcherInterface $eventDispatcher,
-        private MessageBusInterface $messageBus,
-        private EmailVerifier $emailVerifier,
+        private UserPasswordEncoderInterface $encoder,
+        private EventDispatcherInterface $dispatcher,
+        private MessageBusInterface $bus,
+        private EmailVerifier $verifier,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -39,7 +39,7 @@ class UserManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new UserFollowedEvent($follower, $following));
+        $this->dispatcher->dispatch(new UserFollowedEvent($follower, $following));
     }
 
     /**
@@ -51,7 +51,7 @@ class UserManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new UserFollowedEvent($follower, $following));
+        $this->dispatcher->dispatch(new UserFollowedEvent($follower, $following));
     }
 
     /**
@@ -65,7 +65,7 @@ class UserManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
+        $this->dispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
     }
 
     /**
@@ -77,20 +77,20 @@ class UserManager
 
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new UserFollowedEvent($blocker, $blocked));
+        $this->dispatcher->dispatch(new UserFollowedEvent($blocker, $blocked));
     }
 
     public function create(RegisterUserDto $dto, bool $verifyUserEmail = true): User
     {
         $user = new User($dto->email, $dto->username, '');
 
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->plainPassword));
+        $user->setPassword($this->encoder->encodePassword($user, $dto->plainPassword));
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         if ($verifyUserEmail) {
-            $this->messageBus->dispatch(new UserCreatedMessage($user->getId()));
+            $this->bus->dispatch(new UserCreatedMessage($user->getId()));
         }
 
         return $user;
@@ -103,7 +103,7 @@ class UserManager
         }
 
         if ($dto->plainPassword) {
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $dto->plainPassword));
+            $user->setPassword($this->encoder->encodePassword($user, $dto->plainPassword));
         }
 
         if ($dto->email !== $user->email) {
@@ -112,7 +112,7 @@ class UserManager
 
             $this->entityManager->flush();
 
-            $this->messageBus->dispatch(new UserUpdatedMessage($user->getId()));
+            $this->bus->dispatch(new UserUpdatedMessage($user->getId()));
         }
 
         $this->entityManager->flush();
@@ -133,7 +133,7 @@ class UserManager
 
     public function verify(Request $request, User $user): void
     {
-        $this->emailVerifier->handleEmailConfirmation($request, $user);
+        $this->verifier->handleEmailConfirmation($request, $user);
     }
 
     public function toggleTheme(User $user): void

@@ -181,17 +181,17 @@ class MagazineController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    public function listAll(MagazineRepository $magazineRepository, Request $request)
+    public function listAll(MagazineRepository $repository, Request $request)
     {
         return $this->render(
             'magazine/list_all.html.twig',
             [
-                'magazines' => $magazineRepository->findAllPaginated($this->getPageNb($request)),
+                'magazines' => $repository->findAllPaginated($this->getPageNb($request)),
             ]
         );
     }
 
-    public function moderators(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
+    public function moderators(Magazine $magazine, MagazineRepository $repository, Request $request): Response
     {
         $page = $this->getPageNb($request);
 
@@ -199,12 +199,12 @@ class MagazineController extends AbstractController
             'magazine/moderators.html.twig',
             [
                 'magazine'   => $magazine,
-                'moderators' => $magazineRepository->findModerators($magazine, (int) $request->get('strona', $page)),
+                'moderators' => $repository->findModerators($magazine, (int) $request->get('strona', $page)),
             ]
         );
     }
 
-    public function modlog(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
+    public function modlog(Magazine $magazine, MagazineRepository $repository, Request $request): Response
     {
         $page = $this->getPageNb($request);
 
@@ -212,14 +212,14 @@ class MagazineController extends AbstractController
             'magazine/modlog.html.twig',
             [
                 'magazine' => $magazine,
-                'logs'     => $magazineRepository->findModlog($magazine, (int) $request->get('strona', $page)),
+                'logs'     => $repository->findModlog($magazine, (int) $request->get('strona', $page)),
             ]
         );
     }
 
-    public function featuredList(?Magazine $magazine, MagazineRepository $magazineRepository): Response
+    public function featuredList(?Magazine $magazine, MagazineRepository $repository): Response
     {
-        $magazines = $magazineRepository->findBy([], null, 20);
+        $magazines = $repository->findBy([], null, 20);
 
         if ($magazine && !in_array($magazine, $magazines)) {
             array_unshift($magazines, $magazine);
