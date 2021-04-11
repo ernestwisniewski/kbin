@@ -441,8 +441,8 @@ class User implements UserInterface
         $userBlock = $this->blocks->matching($criteria)->first();
 
         if ($this->blocks->removeElement($userBlock)) {
-            if ($userBlock->getBlocker() === $this) {
-                $userBlock->setBlocker(null);
+            if ($userBlock->blocker === $this) {
+                $userBlock->blocker = null;
                 $blocked->blockers->removeElement($this);
             }
         }
