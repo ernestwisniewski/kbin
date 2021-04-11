@@ -13,18 +13,17 @@ use App\Entity\PostCommentVote;
 use App\Entity\PostVote;
 use App\Entity\User;
 use App\Entity\Vote;
-use LogicException;
 
 class VoteFactory
 {
     public function create(int $choice, VoteInterface $votable, User $user): Vote
     {
-        $vote = match (get_class($votable)) {
-            Entry::class => new EntryVote($choice, $user, $votable),
-            EntryComment::class => new EntryCommentVote($choice, $user, $votable),
-            Post::class => new PostVote($choice, $user, $votable),
-            PostComment::class => new PostCommentVote($choice, $user, $votable),
-            default => throw new LogicException(),
+        $vote = match (true) {
+            $votable instanceof Entry => new EntryVote($choice, $user, $votable),
+            $votable instanceof EntryComment => new EntryCommentVote($choice, $user, $votable),
+            $votable instanceof Post => new PostVote($choice, $user, $votable),
+            $votable instanceof PostComment => new PostCommentVote($choice, $user, $votable),
+            default => throw new \LogicException(),
         };
 
         $votable->addVote($vote);
