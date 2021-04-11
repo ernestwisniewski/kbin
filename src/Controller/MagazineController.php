@@ -95,124 +95,12 @@ class MagazineController extends AbstractController
         return $this->redirectToRoute('front');
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("subscribe", subject="magazine")
-     */
-    public function subscribe(Magazine $magazine, Request $request): Response
-    {
-        $this->validateCsrf('subscribe', $request->request->get('token'));
-
-        $this->manager->subscribe($magazine, $this->getUserOrThrow());
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount'     => $magazine->subscriptionsCount,
-                    'isSubscribed' => true,
-                ]
-            );
-        }
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("subscribe", subject="magazine")
-     */
-    public function unsubscribe(Magazine $magazine, Request $request): Response
-    {
-        $this->validateCsrf('subscribe', $request->request->get('token'));
-
-        $this->manager->unsubscribe($magazine, $this->getUserOrThrow());
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount'     => $magazine->subscriptionsCount,
-                    'isSubscribed' => false,
-                ]
-            );
-        }
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("block", subject="magazine")
-     */
-    public function block(Magazine $magazine, Request $request): Response
-    {
-        $this->validateCsrf('block', $request->request->get('token'));
-
-        $this->manager->block($magazine, $this->getUserOrThrow());
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => true,
-                ]
-            );
-        }
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("block", subject="magazine")
-     */
-    public function unblock(Magazine $magazine, Request $request): Response
-    {
-        $this->validateCsrf('block', $request->request->get('token'));
-
-        $this->manager->unblock($magazine, $this->getUserOrThrow());
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => false,
-                ]
-            );
-        }
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
     public function listAll(MagazineRepository $repository, Request $request)
     {
         return $this->render(
             'magazine/list_all.html.twig',
             [
                 'magazines' => $repository->findAllPaginated($this->getPageNb($request)),
-            ]
-        );
-    }
-
-    public function moderators(Magazine $magazine, MagazineRepository $repository, Request $request): Response
-    {
-        $page = $this->getPageNb($request);
-
-        return $this->render(
-            'magazine/moderators.html.twig',
-            [
-                'magazine'   => $magazine,
-                'moderators' => $repository->findModerators($magazine, (int) $request->get('strona', $page)),
-            ]
-        );
-    }
-
-    public function modlog(Magazine $magazine, MagazineRepository $repository, Request $request): Response
-    {
-        $page = $this->getPageNb($request);
-
-        return $this->render(
-            'magazine/modlog.html.twig',
-            [
-                'magazine' => $magazine,
-                'logs'     => $repository->findModlog($magazine, (int) $request->get('strona', $page)),
             ]
         );
     }

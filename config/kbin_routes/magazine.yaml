@@ -19,31 +19,31 @@ magazine_list_all:
   methods: [ GET ]
 
 magazine_moderators:
-  controller: App\Controller\MagazineController::moderators
+  controller: App\Controller\MagazineModController
   path: /m/{name}/moderatorzy
   methods: [ GET ]
 
 magazine_modlog:
-  controller: App\Controller\MagazineController::modlog
+  controller: App\Controller\MagazineLogController
   path: /m/{name}/modlog
   methods: [ GET ]
 
 magazine_subscribe:
-  controller: App\Controller\MagazineController::subscribe
+  controller: App\Controller\MagazineSubController::subscribe
   path: /m/{name}/subscribe
   methods: [ POST ]
 
 magazine_unsubscribe:
-  controller: App\Controller\MagazineController::unsubscribe
+  controller: App\Controller\MagazineSubController::unsubscribe
   path: /m/{name}/unsubscribe
   methods: [ POST ]
 
 magazine_block:
-  controller: App\Controller\MagazineController::block
+  controller: App\Controller\MagazineBlockController::block
   path: /m/{name}/block
   methods: [ POST ]
 
 magazine_unblock:
-  controller: App\Controller\MagazineController::unblock
+  controller: App\Controller\MagazineBlockController::unblock
   path: /m/{name}/unblock
   methods: [ POST ]
