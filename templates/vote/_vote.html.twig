@@ -35,16 +35,16 @@
             </li>
 
             {% if not hide_downvote %}
-            <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-dv {% if not is_granted('ROLE_USER' ) %}kbin-login-alert{% endif %} {% if (choice is same as VOTE_DOWN) %}kbin-vote-dv--active{% endif %}"
-                data-vote-target="downVote">
-                <form action="{{ path(form_dest, {id: votable.id,choice: VOTE_DOWN}) }}" method="POST" data-action="vote#down">
-                    <button type="submit" {{ is_granted('ROLE_USER', votable) ? '' : 'disabled' }}>
-                        <span data-vote-target="downVoteCount">{{ votable.countDownvotes }}</span>
-                        <span class="fa fa-arrow-down"></span>
-                    </button>
-                    <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
-                </form>
-            </li>
+                <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-dv {% if not is_granted('ROLE_USER' ) %}kbin-login-alert{% endif %} {% if (choice is same as VOTE_DOWN) %}kbin-vote-dv--active{% endif %}"
+                    data-vote-target="downVote">
+                    <form action="{{ path(form_dest, {id: votable.id,choice: VOTE_DOWN}) }}" method="POST" data-action="vote#down">
+                        <button type="submit" {{ is_granted('ROLE_USER', votable) ? '' : 'disabled' }}>
+                            <span data-vote-target="downVoteCount">{{ votable.countDownvotes }}</span>
+                            <span class="fa fa-arrow-down"></span>
+                        </button>
+                        <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
+                    </form>
+                </li>
             {% endif %}
         </ul>
     </div>

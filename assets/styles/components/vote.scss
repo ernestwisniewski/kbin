@@ -30,9 +30,11 @@
     button {
       color: white !important;
       background: $kbin-vote-down;
+
       .kbin-dark & {
         background: $kbin-dark-vote-down;
       }
+
       &:hover {
         color: white !important;
       }

@@ -21,7 +21,8 @@
                 <td>{{ ban.createdAt|ago }}</td>
                 <td>{{ ban.expiredAt ? ban.expiredAt|ago : 'Nigdy' }}</td>
                 <td>
-                    <form action="{{ path('magazine_panel_unban', {magazine_name: ban.magazine.name, user_username: ban.user.username}) }}" method="post">
+                    <form action="{{ path('magazine_panel_unban', {magazine_name: ban.magazine.name, user_username: ban.user.username}) }}"
+                          method="post">
                         <input type="hidden" name="token" value="{{ csrf_token('magazine_unban') }}">
                         <button class="btn btn-sm btn-danger">usuń</button>
                     </form>

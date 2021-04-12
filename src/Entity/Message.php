@@ -19,6 +19,7 @@ class Message
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
+
     /**
      * @ORM\JoinColumn(nullable=false)
      * @ORM\ManyToOne(targetEntity="MessageThread", inversedBy="messages", cascade={"persist"})

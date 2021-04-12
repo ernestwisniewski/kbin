@@ -12,7 +12,7 @@ use LogicException;
 class VoteManager
 {
     public function __construct(
-        private VoteFactory $voteFactory,
+        private VoteFactory $factory,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -30,7 +30,7 @@ class VoteManager
                 $this->entityManager->remove($vote);
             }
         } else {
-            $vote = $this->voteFactory->create($choice, $votable, $user);
+            $vote = $this->factory->create($choice, $votable, $user);
             $this->entityManager->persist($vote);
         }
 
@@ -62,5 +62,7 @@ class VoteManager
                 default => throw new LogicException(),
             };
         }
+
+        throw new LogicException();
     }
 }

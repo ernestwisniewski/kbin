@@ -2,7 +2,7 @@
 $black: hsl(0, 0%, 4%) !default;
 $white: hsl(0, 0%, 100%) !default;
 $light: hsl(0, 0%, 96%) !default; // white-ter
-$dark: hsl(0, 0%, 21%) !default;  // grey-darker
+$dark: hsl(0, 0%, 21%) !default; // grey-darker
 $link: hsl(217, 71%, 53%) !default; // blue
 
 $grey-dark: lighten($black, 25%) !default;
@@ -32,8 +32,8 @@ $dp-cell-disabled-color: $grey-lighter !default;
 $dp-cell-selected-background-color: $link !default;
 $dp-cell-selected-color: #fff !default; // link(blue)-invert
 $dp-cell-selected-font-weight: 600 !default;
-$dp-cell-today-background-color: hsl(171, 100%, 41%) !default;  // turquoise (primary)
-$dp-cell-today-color: #fff !default;  // turquoise-invert
+$dp-cell-today-background-color: hsl(171, 100%, 41%) !default; // turquoise (primary)
+$dp-cell-today-color: #fff !default; // turquoise-invert
 $dp-cell-highlighted-background-color: $light !default;
 $dp-range-start-end-background-color: $grey-light !default;
 $dp-range-start-end-color: $dp-cell-selected-color !default;
@@ -47,7 +47,7 @@ $dp-input-in-edit-border-color: darken($link, 5%) !default;
 $dp-input-in-edit-focus-box-shadow-size: 0 0 0.25em 0.25em !default;
 
 //== non-configurable variables ==//
-$dp-cell-shrink-threshold: $dp-cell-size-base * 10;  // = 8 * 1.25
+$dp-cell-shrink-threshold: $dp-cell-size-base * 10; // = 8 * 1.25
 $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
 
 //== mixins ==//
@@ -155,15 +155,15 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
       $button-padding-horizontal: 0.75em;
 
       $button-hover-color: $dark; // link-hover
-      $button-hover-border-color: $grey-light;  // link-hover-border
+      $button-hover-border-color: $grey-light; // link-hover-border
 
       $button-focus-color: $dark; // link-focus
-      $button-focus-border-color: $link;  // link-focus-border
+      $button-focus-border-color: $link; // link-focus-border
       $button-focus-box-shadow-size: 0 0 0 0.125em;
       $button-focus-box-shadow-color: rgba($link, 0.25);
 
-      $button-active-color: $dark;  // link-active
-      $button-active-border-color: $grey-dark;  // link-active-border
+      $button-active-color: $dark; // link-active
+      $button-active-border-color: $grey-dark; // link-active-border
 
       display: inline-flex;
       position: relative;
@@ -179,10 +179,10 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
       height: 2.25em; // control-height
       vertical-align: top;
       text-align: center;
-      line-height: $dp-line-height-base;  // control-line-height
+      line-height: $dp-line-height-base; // control-line-height
       white-space: nowrap;
       color: $button-color;
-      font-size: $dp-font-size-normal;  // size-normal
+      font-size: $dp-font-size-normal; // size-normal
 
       &:focus,
       &:active {

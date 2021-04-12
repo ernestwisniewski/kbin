@@ -1,5 +1,4 @@
-// import {Controller} from 'stimulus';
-import { ApplicationController, useDebounce } from 'stimulus-use'
+import {ApplicationController, useDebounce} from 'stimulus-use'
 import {fetch, ok} from '../utils/http';
 import router from '../utils/routing';
 
@@ -11,7 +10,7 @@ export default class extends ApplicationController {
     };
 
     connect() {
-        useDebounce(this, { wait: 800 })
+        useDebounce(this, {wait: 800})
     }
 
     async fetchTitle() {
@@ -19,7 +18,7 @@ export default class extends ApplicationController {
             return;
         }
 
-        if(!this.urlTarget.value) {
+        if (!this.urlTarget.value) {
             return;
         }
 

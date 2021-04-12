@@ -48,7 +48,7 @@ export default class extends Controller {
             this.choiceValue = response.choice;
             this.upVoteCountValue = response.upVotes;
 
-            if(this.hasDownVoteTarget) {
+            if (this.hasDownVoteTarget) {
                 this.downVoteCountValue = response.downVotes;
             }
         } catch (e) {
@@ -70,7 +70,7 @@ export default class extends Controller {
         }
 
         this.upVoteTarget.classList.remove(this.uvClass);
-        if(this.hasDownVoteTarget) {
+        if (this.hasDownVoteTarget) {
             this.downVoteTarget.classList.remove(this.dvClass);
         }
 
@@ -81,7 +81,7 @@ export default class extends Controller {
         }
 
         this.upVoteCountTarget.innerHTML = this.upVoteCountValue
-        if(this.hasDownVoteTarget) {
+        if (this.hasDownVoteTarget) {
             this.downVoteCountTarget.innerHTML = this.downVoteCountValue
         }
     }

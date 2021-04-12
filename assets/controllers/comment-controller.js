@@ -36,7 +36,7 @@ export default class extends Controller {
 
             let self = this;
             this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {
-                self.send(e, self.edit);
+                self.send(e, edit);
             });
         } catch (e) {
             alert('Nie możesz dodać komentarza.');
