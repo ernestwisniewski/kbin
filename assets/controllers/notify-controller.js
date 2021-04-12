@@ -1,5 +1,5 @@
 import bootstrap from "bootstrap/dist/js/bootstrap.min";
-import {ApplicationController, useDebounce} from 'stimulus-use'
+import {ApplicationController} from 'stimulus-use'
 import Subscribe from '../utils/notification';
 
 export default class extends ApplicationController {

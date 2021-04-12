@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostCommentController extends AbstractController
 {
-    public function __construct(private PostCommentManager $manager)
+    public function __construct(private PostCommentManager $manager, private PostCommentRepository $repository)
     {
     }
 
@@ -36,7 +36,6 @@ class PostCommentController extends AbstractController
         Post $post,
         ?PostComment $parent,
         Request $request,
-        PostCommentRepository $repository
     ): Response {
         $dto = (new PostCommentDto())->createWithParent($post, $parent);
 
@@ -50,7 +49,7 @@ class PostCommentController extends AbstractController
         $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
-        $comments = $repository->findByCriteria($criteria);
+        $comments = $this->repository->findByCriteria($criteria);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig');
@@ -134,28 +133,84 @@ class PostCommentController extends AbstractController
         Post $post,
         PostComment $comment,
         Request $request,
-        PostCommentRepository $repository
     ): Response {
-        $commentDto = $this->manager->createDto($comment);
+        $dto = $this->manager->createDto($comment);
 
-        $form = $this->createForm(PostCommentType::class, $commentDto);
+        $form = $this->createForm(
+            PostCommentType::class,
+            $dto,
+            [
+                'action' => $this->generateUrl(
+                    'post_comment_edit',
+                    ['magazine_name' => $comment->magazine->name, 'post_id' => $comment->post->getId(), 'comment_id' => $comment->getId()]
+                ),
+            ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->edit($comment, $commentDto);
-
-            return $this->redirectToPost($post);
+            return $this->handleValidEditRequest($dto, $comment, $request);
         }
 
         $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
-        $comments = $repository->findByCriteria($criteria);
+        return $this->getPostCommentPageResponse($post, $comment, $form, $criteria, $request);
+    }
+
+    private function handleValidEditRequest(PostCommentDto $dto, PostComment $comment, Request $request): Response
+    {
+        $comment = $this->manager->edit($comment, $dto);
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonCommentSuccessResponse($comment);
+        }
+
+        return $this->redirectToRoute(
+            'entry_single',
+            [
+                'magazine_name' => $comment->magazine->name,
+                'entry_id'      => $comment->post->getId(),
+            ]
+        );
+    }
+
+    private function getJsonCommentSuccessResponse(PostComment $comment): Response
+    {
+        return new JsonResponse(
+            [
+                'commentId' => $comment->getId(),
+                'html'      => $this->renderView(
+                    'post/comment/_comment.html.twig',
+                    [
+                        'extra_classes' => 'kbin-comment',
+                        'with_parent'   => false,
+                        'comment'       => $comment,
+                        'level'         => 2,
+                        'nested'        => false,
+                    ]
+                ),
+            ]
+        );
+    }
+
+    private function getPostCommentPageResponse(
+        Post $post,
+        PostComment $comment,
+        FormInterface $form,
+        PostCommentPageView $criteria,
+        Request $request
+    ): Response {
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig');
+        }
+
+        $comments = $this->repository->findByCriteria($criteria);
 
         return $this->render(
             'post/comment/edit.html.twig',
             [
-                'magazine' => $magazine,
+                'magazine' => $post->magazine,
                 'post'     => $post,
                 'comments' => $comments,
                 'comment'  => $comment,

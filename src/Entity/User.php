@@ -56,7 +56,7 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     public bool $notifyOnNewPost = false;
-/**
+    /**
      * @ORM\Column(type="boolean")
      */
     public bool $isVerified = false;

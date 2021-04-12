@@ -13,6 +13,7 @@ use App\Entity\PostCommentVote;
 use App\Entity\PostVote;
 use App\Entity\User;
 use App\Entity\Vote;
+use LogicException;
 
 class VoteFactory
 {
@@ -23,7 +24,7 @@ class VoteFactory
             $votable instanceof EntryComment => new EntryCommentVote($choice, $user, $votable),
             $votable instanceof Post => new PostVote($choice, $user, $votable),
             $votable instanceof PostComment => new PostCommentVote($choice, $user, $votable),
-            default => throw new \LogicException(),
+            default => throw new LogicException(),
         };
 
         $votable->addVote($vote);
