@@ -11,13 +11,11 @@ class MagazineModController extends AbstractController
 {
     public function __invoke(Magazine $magazine, MagazineRepository $repository, Request $request): Response
     {
-        $page = $this->getPageNb($request);
-
         return $this->render(
             'magazine/moderators.html.twig',
             [
                 'magazine'   => $magazine,
-                'moderators' => $repository->findModerators($magazine, (int) $request->get('strona', $page)),
+                'moderators' => $repository->findModerators($magazine, $this->getPageNb($request)),
             ]
         );
     }
