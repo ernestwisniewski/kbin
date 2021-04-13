@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\DTO\PostDto;
 use App\Entity\Magazine;
 use App\Entity\Post;
+use App\Event\PostHasBeenSeenEvent;
 use App\Form\PostType;
 use App\PageView\PostCommentPageView;
 use App\PageView\PostPageView;
 use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
 use App\Service\PostManager;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,10 +80,17 @@ class PostController extends AbstractController
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
      * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
      */
-    public function single(Magazine $magazine, Post $post, PostCommentRepository $repository, Request $request): Response
-    {
+    public function single(
+        Magazine $magazine,
+        Post $post,
+        PostCommentRepository $repository,
+        EventDispatcherInterface $dispatcher,
+        Request $request
+    ): Response {
         $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
+
+        $dispatcher->dispatch((new PostHasBeenSeenEvent($post)));
 
         return $this->render(
             'post/single.html.twig',
