@@ -67,7 +67,7 @@ class NotificationManager
 
     public function clear(User $user): void
     {
-        $notifications = $user->getNotifications();
+        $notifications = $user->notifications;
 
         foreach ($notifications as $notification) {
             $this->entityManager->remove($notification);

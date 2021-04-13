@@ -690,3 +690,10 @@
   cursor: not-allowed;
 }
 
+.CodeMirror-cursor {
+  border-color: white !important;
+}
+
+.choices__input {
+  caret-color: white !important;
+}
