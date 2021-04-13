@@ -459,6 +459,12 @@ class User implements UserInterface
         return $this->notifications->matching($this->getNewNotificationsCriteria());
     }
 
+    private function getNewNotificationsCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
+    }
+
     public function getNewEntryNotifications(User $user, Entry $entry): ?Notification
     {
         $criteria = $this->getNewNotificationsCriteria()
@@ -467,12 +473,6 @@ class User implements UserInterface
             ->andWhere(Criteria::expr()->eq('type', 'new_entry'));
 
         return $this->notifications->matching($criteria)->first();
-    }
-
-    private function getNewNotificationsCriteria(): Criteria
-    {
-        return Criteria::create()
-            ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
     }
 
     public function countNewNotifications(): int

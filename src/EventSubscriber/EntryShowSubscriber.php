@@ -56,10 +56,6 @@ class EntryShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if ($notification->getType() !== 'entry_notification') {
-            return;
-        }
-
         $notification->status = Notification::STATUS_READ;
 
         $this->entityManager->flush();
