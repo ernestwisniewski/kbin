@@ -166,12 +166,10 @@ class ProfileController extends AbstractController
      */
     public function subMagazines(MagazineRepository $repository, Request $request): Response
     {
-        $page = $this->getPageNb($request);
-
         return $this->render(
             'user/profile/sub_magazines.html.twig',
             [
-                'magazines' => $repository->findSubscribedMagazines($page, $this->getUserOrThrow()),
+                'magazines' => $repository->findSubscribedMagazines($this->getPageNb($request), $this->getUserOrThrow()),
             ]
         );
     }
@@ -181,12 +179,10 @@ class ProfileController extends AbstractController
      */
     public function subUsers(UserRepository $repository, Request $request): Response
     {
-        $page = $this->getPageNb($request);
-
         return $this->render(
             'user/profile/sub_users.html.twig',
             [
-                'users' => $repository->findFollowedUsers($page, $this->getUserOrThrow()),
+                'users' => $repository->findFollowedUsers($this->getPageNb($request), $this->getUserOrThrow()),
             ]
         );
     }
@@ -196,12 +192,10 @@ class ProfileController extends AbstractController
      */
     public function blockedMagazines(MagazineRepository $repository, Request $request): Response
     {
-        $page = $this->getPageNb($request);
-
         return $this->render(
             'user/profile/block_magazines.html.twig',
             [
-                'magazines' => $repository->findBlockedMagazines($page, $this->getUserOrThrow()),
+                'magazines' => $repository->findBlockedMagazines($this->getPageNb($request), $this->getUserOrThrow()),
             ]
         );
     }
@@ -211,12 +205,10 @@ class ProfileController extends AbstractController
      */
     public function blockedUsers(UserRepository $repository, Request $request): Response
     {
-        $page = $this->getPageNb($request);
-
         return $this->render(
             'user/profile/block_users.html.twig',
             [
-                'users' => $repository->findBlockedUsers($page, $this->getUserOrThrow()),
+                'users' => $repository->findBlockedUsers($this->getPageNb($request), $this->getUserOrThrow()),
             ]
         );
     }

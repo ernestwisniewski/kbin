@@ -456,10 +456,23 @@ class User implements UserInterface
 
     public function getNewNotifications(): Collection
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
+        return $this->notifications->matching($this->getNewNotificationsCriteria());
+    }
 
-        return $this->notifications->matching($criteria);
+    public function getNewEntryNotifications(User $user, Entry $entry): ?Notification
+    {
+        $criteria = $this->getNewNotificationsCriteria()
+            ->andWhere(Criteria::expr()->eq('user', $user))
+            ->andWhere(Criteria::expr()->eq('entry', $entry))
+            ->andWhere(Criteria::expr()->eq('type', 'new_entry'));
+
+        return $this->notifications->matching($criteria)->first();
+    }
+
+    private function getNewNotificationsCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
     }
 
     public function countNewNotifications(): int
