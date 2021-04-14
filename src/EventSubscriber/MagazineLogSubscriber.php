@@ -7,11 +7,11 @@ use App\Entity\MagazineLogEntryCommentDelete;
 use App\Entity\MagazineLogEntryDelete;
 use App\Entity\MagazineLogPostCommentDelete;
 use App\Entity\MagazineLogPostDelete;
-use App\Event\EntryCommentDeletedEvent;
-use App\Event\EntryDeletedEvent;
-use App\Event\MagazineBanEvent;
-use App\Event\PostCommentDeletedEvent;
-use App\Event\PostDeletedEvent;
+use App\Event\Entry\EntryDeletedEvent;
+use App\Event\EntryComment\EntryCommentDeletedEvent;
+use App\Event\Magazine\MagazineBanEvent;
+use App\Event\Post\PostDeletedEvent;
+use App\Event\PostComment\PostCommentDeletedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

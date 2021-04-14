@@ -2,13 +2,13 @@
 
 namespace App\EventSubscriber;
 
-use App\Event\EntryCommentCreatedEvent;
-use App\Event\EntryCommentDeletedEvent;
-use App\Event\EntryCommentPurgedEvent;
-use App\Event\EntryDeletedEvent;
-use App\Event\PostCommentCreatedEvent;
-use App\Event\PostCommentDeletedEvent;
-use App\Event\PostCommentPurgedEvent;
+use App\Event\Entry\EntryDeletedEvent;
+use App\Event\EntryComment\EntryCommentCreatedEvent;
+use App\Event\EntryComment\EntryCommentDeletedEvent;
+use App\Event\EntryComment\EntryCommentPurgedEvent;
+use App\Event\PostComment\PostCommentCreatedEvent;
+use App\Event\PostComment\PostCommentDeletedEvent;
+use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;

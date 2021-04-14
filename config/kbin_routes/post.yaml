@@ -1,51 +1,51 @@
 posts_front:
-  controller: App\Controller\PostController::front
+  controller: App\Controller\Post\PostController::front
   defaults: { sortBy: ~, time: ~ }
   path: /wpisy/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_subscribed:
-  controller: App\Controller\PostController::subscribed
+  controller: App\Controller\Post\PostController::subscribed
   defaults: { sortBy: ~, time: ~ }
   path: /sub/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_posts:
-  controller: App\Controller\PostController::magazine
+  controller: App\Controller\Post\PostController::magazine
   defaults: { sortBy: ~, time: ~ }
   path: /m/{name}/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 post_single:
-  controller: App\Controller\PostController::single
+  controller: App\Controller\Post\PostController::single
   path: /m/{magazine_name}/w/{post_id}
   methods: [GET]
 
 post_create:
-  controller: App\Controller\PostController::create
+  controller: App\Controller\Post\PostController::create
   path: /m/{name}/wpisy
   methods: [ POST ]
 
 post_edit:
-  controller: App\Controller\PostController::edit
+  controller: App\Controller\Post\PostController::edit
   path: /m/{magazine_name}/w/{post_id}/edytuj
   methods: [ GET, POST ]
 
 post_delete:
-  controller: App\Controller\PostController::delete
+  controller: App\Controller\Post\PostController::delete
   path: /m/{magazine_name}/w/{post_id}/delete
   methods: [ POST ]
 
 post_purge:
-  controller: App\Controller\PostController::purge
+  controller: App\Controller\Post\PostController::purge
   path: /m/{magazine_name}/w/{post_id}/purge
   methods: [ POST ]
 
 post:
-  controller: App\Controller\PostController::front
+  controller: App\Controller\Post\PostController::front
   defaults: { sortBy: ~ }
   path: /m/{magazine_name}/t/{post_id}/{sortBy}
   methods: [ GET ]

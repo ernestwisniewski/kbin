@@ -1,60 +1,60 @@
 user:
-  controller: App\Controller\UserController::front
+  controller: App\Controller\User\UserController::front
   path: /u/{username}
   methods: [ GET ]
 
 user_entries:
-  controller: App\Controller\UserController::entries
+  controller: App\Controller\User\UserController::entries
   path: /u/{username}/tresci
   methods: [ GET ]
 
 user_entry_comments:
-  controller: App\Controller\UserController::comments
+  controller: App\Controller\User\UserController::comments
   path: /u/{username}/komentarze
   methods: [ GET ]
 
 user_posts:
-  controller: App\Controller\UserController::posts
+  controller: App\Controller\User\UserController::posts
   path: /u/{username}/wpisy
   methods: [ GET ]
 
 user_replies:
-  controller: App\Controller\UserController::replies
+  controller: App\Controller\User\UserController::replies
   path: /u/{username}/odpowiedzi
   methods: [ GET ]
 
 user_subscriptions:
-  controller: App\Controller\UserController::subscriptions
+  controller: App\Controller\User\UserController::subscriptions
   path: /u/{username}/subskrypcje
   methods: [ GET ]
 
 user_followers:
-  controller: App\Controller\UserFollowController::followers
+  controller: App\Controller\User\UserFollowController::followers
   path: /u/{username}/obserwujacy
   methods: [ GET ]
 
 user_follows:
-  controller: App\Controller\UserFollowController::follows
+  controller: App\Controller\User\UserFollowController::follows
   path: /u/{username}/obserwowani
   methods: [ GET ]
 
 user_follow:
-  controller: App\Controller\UserFollowController::follow
+  controller: App\Controller\User\UserFollowController::follow
   path: /u/{username}/follow
   methods: [ POST ]
 
 user_unfollow:
-  controller: App\Controller\UserFollowController::unfollow
+  controller: App\Controller\User\UserFollowController::unfollow
   path: /u/{username}/unfollow
   methods: [ POST ]
 
 user_block:
-  controller: App\Controller\UserBlockController::block
+  controller: App\Controller\User\UserBlockController::block
   path: /u/{username}/block
   methods: [ POST ]
 
 user_unblock:
-  controller: App\Controller\UserBlockController::unblock
+  controller: App\Controller\User\UserBlockController::unblock
   path: /u/{username}/unblock
   methods: [ POST ]
 
@@ -104,11 +104,11 @@ user_profile_settings:
   methods: [ GET, POST ]
 
 user_profile_edit:
-  controller: App\Controller\UserController::edit
+  controller: App\Controller\User\UserController::edit
   path: /profil/edytuj
   methods: [ GET, POST ]
 
 user_profile_toggle_theme:
-  controller: App\Controller\UserController::theme
+  controller: App\Controller\User\UserController::theme
   path: /profil/edytuj/theme
   methods: [ GET, POST ]
