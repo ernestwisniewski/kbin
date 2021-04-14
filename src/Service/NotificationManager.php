@@ -56,6 +56,14 @@ class NotificationManager
         $this->messageNotificationManager->send($message, $sender);
     }
 
+    public function sendBanNotification(MagazineBan $ban)
+    {
+        $notification = new BanNotification($ban->user, $ban);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+    }
+
     public function markAllAsRead(User $user): void
     {
         $notifications = $user->getNewNotifications();
@@ -78,7 +86,6 @@ class NotificationManager
         $this->entityManager->flush();
     }
 
-
     public function readMessageNotification(Message $message, User $user): void
     {
         $repo = $this->entityManager->getRepository(MessageNotification::class);
@@ -94,14 +101,6 @@ class NotificationManager
             $notification->status = Notification::STATUS_READ;
         }
 
-        $this->entityManager->flush();
-    }
-
-    public function sendBanNotification(MagazineBan $ban)
-    {
-        $notification = new BanNotification($ban->user, $ban);
-
-        $this->entityManager->persist($notification);
         $this->entityManager->flush();
     }
 }

@@ -1,9 +1,9 @@
 import SimpleMDE from 'simplemde';
 
 export default class Keditor {
-    constructor(form) {
+    constructor(form, focus = false) {
         if (form) {
-            this.build(form.querySelector('.kbin-editor'));
+            this.build(form.querySelector('.kbin-editor'), focus);
             return;
         }
 
@@ -12,7 +12,7 @@ export default class Keditor {
         });
     }
 
-    build(el) {
+    build(el, focus = false) {
         let simplemde = new SimpleMDE({
             element: el,
             hideIcons: ['guide', 'fullscreen', 'side-by-side', 'preview', 'heading'],
@@ -20,16 +20,25 @@ export default class Keditor {
             spellChecker: false,
             status: false,
             toolbarTips: false,
-            styleSelectedText: false
+            styleSelectedText: false,
+            autofocus: focus,
         });
 
-        const textarea = simplemde.element.parentNode.getElementsByClassName('CodeMirror')[0].getElementsByTagName('textarea')[0]
-        const toolbar = simplemde.element.parentElement.getElementsByClassName('editor-toolbar')[0];
+        simplemde.codemirror.setOption("extraKeys", {
+            'Ctrl-Enter': (e) => {
+                el.closest('form').querySelector('[type="submit"]').click();
+            }
+        });
 
-        toolbar.classList.add('visually-hidden');
+        if (!focus) {
+            const textarea = simplemde.element.parentNode.getElementsByClassName('CodeMirror')[0].getElementsByTagName('textarea')[0]
+            const toolbar = simplemde.element.parentElement.getElementsByClassName('editor-toolbar')[0];
 
-        textarea.addEventListener('focus', (evt => {
-            toolbar.classList.remove('visually-hidden');
-        }));
+            toolbar.classList.add('visually-hidden');
+
+            textarea.addEventListener('focus', (evt => {
+                toolbar.classList.remove('visually-hidden');
+            }));
+        }
     }
 }

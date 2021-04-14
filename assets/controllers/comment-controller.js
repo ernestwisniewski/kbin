@@ -32,7 +32,7 @@ export default class extends Controller {
 
             this.formTarget.innerHTML = response.form;
 
-            new KEditor(this.formTarget);
+            new KEditor(this.formTarget, true);
 
             let self = this;
             this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {

@@ -3,10 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\BanNotification;
-use App\Entity\Notification;
-use App\Entity\Post;
-use App\Entity\PostNotification;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -691,7 +691,9 @@
 }
 
 .CodeMirror-cursor {
-  border-color: white !important;
+  .kbin-dark & {
+    border-color: white !important;
+  }
 }
 
 .choices__input {
