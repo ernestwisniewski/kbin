@@ -15,9 +15,9 @@ class SentEntryCommentNotificationHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(EntryCommentNotificationMessage $entryCreatedMessage)
+    public function __invoke(EntryCommentNotificationMessage $message)
     {
-        $comment = $this->repository->find($entryCreatedMessage->commentId);
+        $comment = $this->repository->find($message->commentId);
         if (!$comment) {
             return;
         }

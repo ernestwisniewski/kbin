@@ -21,9 +21,9 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(EntryEmbedMessage $entryCreatedMessage)
+    public function __invoke(EntryEmbedMessage $message)
     {
-        $entry = $this->entryRepository->find($entryCreatedMessage->entryId);
+        $entry = $this->entryRepository->find($message->entryId);
         if (!$entry || !$entry->url) {
             return;
         }

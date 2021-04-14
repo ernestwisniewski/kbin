@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\EventSubscriber;
+namespace App\EventSubscriber\Magazine;
 
 use App\Entity\MagazineLogBan;
 use App\Entity\MagazineLogEntryCommentDelete;

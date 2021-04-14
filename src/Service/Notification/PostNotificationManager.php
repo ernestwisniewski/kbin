@@ -20,7 +20,7 @@ class PostNotificationManager
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $magazineSubscriptionRepository,
+        private MagazineSubscriptionRepository $repository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private PublisherInterface $publisher,
@@ -31,7 +31,7 @@ class PostNotificationManager
 
     public function send(Post $post): void
     {
-        $subs    = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewPostSubscribers($post));
+        $subs    = $this->getUsersToNotify($this->repository->findNewPostSubscribers($post));
         $follows = [];
 
         $usersToNotify = $this->merge($subs, $follows);
