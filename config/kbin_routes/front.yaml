@@ -13,7 +13,7 @@ front_subscribed:
   requirements: { sortBy: "%front_sort_options%" }
 
 front_magazine:
-  controller: App\Controller\MagazineController::front
+  controller: App\Controller\Magazine\MagazineController::front
   defaults: { sortBy: ~, time: ~ }
   path: /m/{name}/{sortBy}/{time}
   methods: [GET]

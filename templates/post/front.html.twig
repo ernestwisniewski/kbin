@@ -8,7 +8,7 @@
                 {% include '_layout/_filters.html.twig' %}
 
                 {% if magazine is defined and is_granted('create_content', magazine) %}
-                    {{ render(controller('App\\Controller\\PostController::postForm', {
+                    {{ render(controller('App\\Controller\\Post\\PostController::postForm', {
                         'magazineName': magazine.name,
                     })) }}
                 {% elseif magazine is defined %}

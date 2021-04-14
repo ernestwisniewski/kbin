@@ -1,49 +1,49 @@
 magazine_create:
-  controller: App\Controller\MagazineController::create
+  controller: App\Controller\Magazine\MagazineController::create
   path: /nowyMagazyn
   methods: [ GET, POST ]
 
 magazine_delete:
-  controller: App\Controller\MagazineController::delete
+  controller: App\Controller\Magazine\MagazineController::delete
   path: /m/{name}/delete
   methods: [ POST ]
 
 magazine_purge:
-  controller: App\Controller\MagazineController::purge
+  controller: App\Controller\Magazine\MagazineController::purge
   path: /m/{name}/purge
   methods: [ POST ]
 
 magazine_list_all:
-  controller: App\Controller\MagazineController::listAll
+  controller: App\Controller\Magazine\MagazineController::listAll
   path: /magazyny
   methods: [ GET ]
 
 magazine_moderators:
-  controller: App\Controller\MagazineModController
+  controller: App\Controller\Magazine\MagazineModController
   path: /m/{name}/moderatorzy
   methods: [ GET ]
 
 magazine_modlog:
-  controller: App\Controller\MagazineLogController
+  controller: App\Controller\Magazine\MagazineLogController
   path: /m/{name}/modlog
   methods: [ GET ]
 
 magazine_subscribe:
-  controller: App\Controller\MagazineSubController::subscribe
+  controller: App\Controller\Magazine\MagazineSubController::subscribe
   path: /m/{name}/subscribe
   methods: [ POST ]
 
 magazine_unsubscribe:
-  controller: App\Controller\MagazineSubController::unsubscribe
+  controller: App\Controller\Magazine\MagazineSubController::unsubscribe
   path: /m/{name}/unsubscribe
   methods: [ POST ]
 
 magazine_block:
-  controller: App\Controller\MagazineBlockController::block
+  controller: App\Controller\Magazine\MagazineBlockController::block
   path: /m/{name}/block
   methods: [ POST ]
 
 magazine_unblock:
-  controller: App\Controller\MagazineBlockController::unblock
+  controller: App\Controller\Magazine\MagazineBlockController::unblock
   path: /m/{name}/unblock
   methods: [ POST ]

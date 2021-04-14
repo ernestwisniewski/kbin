@@ -1,37 +1,37 @@
 entry_create:
-  controller: App\Controller\EntryController::create
+  controller: App\Controller\Entry\EntryController::create
   defaults: { type: null }
   path: /nowaTresc/{type}
   methods: [ GET, POST ]
 
 magazine_entry_create:
-  controller: App\Controller\EntryController::create
+  controller: App\Controller\Entry\EntryController::create
   defaults: { type: null }
   path: /m/{name}/nowaTresc/{type}
   methods: [ GET, POST ]
 
 entry_edit:
-  controller: App\Controller\EntryController::edit
+  controller: App\Controller\Entry\EntryController::edit
   path: /m/{magazine_name}/t/{entry_id}/edytuj
   methods: [ GET, POST ]
 
 entry_delete:
-  controller: App\Controller\EntryController::delete
+  controller: App\Controller\Entry\EntryController::delete
   path: /m/{magazine_name}/t/{entry_id}/delete
   methods: [ POST ]
 
 entry_purge:
-  controller: App\Controller\EntryController::purge
+  controller: App\Controller\Entry\EntryController::purge
   path: /m/{magazine_name}/t/{entry_id}/purge
   methods: [ POST ]
 
 entry_pin:
-  controller: App\Controller\EntryPinController
+  controller: App\Controller\Entry\EntryPinController
   path: /m/{magazine_name}/t/{entry_id}/pin
   methods: [ POST ]
 
 entry_single:
-  controller: App\Controller\EntryController::single
+  controller: App\Controller\Entry\EntryController::single
   defaults: { sortBy: ~ }
   path: /m/{magazine_name}/t/{entry_id}/{sortBy}
   methods: [ GET ]

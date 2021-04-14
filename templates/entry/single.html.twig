@@ -28,7 +28,7 @@
                     {% include 'entry/comment/_list.html.twig' %}
 
                     {% if is_granted('comment', entry) %}
-                        {{ render(controller('App\\Controller\\EntryCommentController::commentForm', {
+                        {{ render(controller('App\\Controller\\Entry\\EntryCommentController::commentForm', {
                             'magazineName': entry.magazine.name,
                             'entryId': entry.id
                         })) }}

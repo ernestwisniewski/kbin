@@ -22,7 +22,7 @@
                     {% block before_comments %}
                         {% if is_granted('comment', post) %}
                             <div class="ps-sm-5">
-                                {{ render(controller('App\\Controller\\PostCommentController::commentForm', {
+                                {{ render(controller('App\\Controller\\Post\\PostCommentController::commentForm', {
                                     'magazineName': magazine.name,
                                     'postId': post.id,
                                 })) }}

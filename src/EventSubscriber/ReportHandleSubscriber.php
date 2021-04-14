@@ -4,14 +4,14 @@ namespace App\EventSubscriber;
 
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Report;
-use App\Event\EntryBeforePurgeEvent;
-use App\Event\EntryCommentBeforePurgeEvent;
-use App\Event\EntryCommentDeletedEvent;
-use App\Event\EntryDeletedEvent;
-use App\Event\PostBeforePurgeEvent;
-use App\Event\PostCommentBeforePurgeEvent;
-use App\Event\PostCommentDeletedEvent;
-use App\Event\PostDeletedEvent;
+use App\Event\Entry\EntryBeforePurgeEvent;
+use App\Event\Entry\EntryDeletedEvent;
+use App\Event\EntryComment\EntryCommentBeforePurgeEvent;
+use App\Event\EntryComment\EntryCommentDeletedEvent;
+use App\Event\Post\PostBeforePurgeEvent;
+use App\Event\Post\PostDeletedEvent;
+use App\Event\PostComment\PostCommentBeforePurgeEvent;
+use App\Event\PostComment\PostCommentDeletedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
