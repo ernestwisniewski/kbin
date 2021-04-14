@@ -19,7 +19,7 @@ class PostCommentNotificationManager
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $magazineSubscriptionRepository,
+        private MagazineSubscriptionRepository $repository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private PublisherInterface $publisher,
@@ -30,7 +30,7 @@ class PostCommentNotificationManager
 
     public function send(PostComment $comment): void
     {
-        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewPostSubscribers($comment->post));
+        $subs      = $this->getUsersToNotify($this->repository->findNewPostSubscribers($comment->post));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);

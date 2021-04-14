@@ -15,9 +15,9 @@ class SentEntryNotificationHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(EntryNotificationMessage $entryCreatedMessage)
+    public function __invoke(EntryNotificationMessage $message)
     {
-        $entry = $this->repository->find($entryCreatedMessage->entryId);
+        $entry = $this->repository->find($message->entryId);
         if (!$entry) {
             return;
         }

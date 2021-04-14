@@ -16,7 +16,7 @@ class MessageNotificationManager
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $magazineSubscriptionRepository,
+        private MagazineSubscriptionRepository $repository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private PublisherInterface $publisher,

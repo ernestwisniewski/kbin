@@ -19,7 +19,7 @@ class EntryCommentNotificationManager
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $magazineSubscriptionRepository,
+        private MagazineSubscriptionRepository $repository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private PublisherInterface $publisher,
@@ -30,7 +30,7 @@ class EntryCommentNotificationManager
 
     public function send(EntryComment $comment): void
     {
-        $subs      = $this->getUsersToNotify($this->magazineSubscriptionRepository->findNewEntrySubscribers($comment->entry));
+        $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($comment->entry));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);

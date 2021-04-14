@@ -8,5 +8,6 @@ class MagazineBanEvent
 {
     public function __construct(public MagazineBan $ban)
     {
+
     }
 }

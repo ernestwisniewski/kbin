@@ -20,29 +20,7 @@ class MagazineController extends AbstractController
 {
     public function __construct(
         private MagazineManager $manager,
-        private EntryRepository $repository,
     ) {
-    }
-
-    public function front(Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
-    {
-        $criteria = (new EntryPageView($this->getPageNb($request)));
-        $criteria->showSortOption($criteria->translateSort($sortBy))
-            ->setTime($criteria->translateTime($time))
-            ->setType($criteria->translateType($request->get('typ', null)));
-        $criteria->magazine      = $magazine;
-        $criteria->stickiesFirst = true;
-
-        $method  = $criteria->translateSort($sortBy);
-        $listing = $this->$method($criteria);
-
-        return $this->render(
-            'magazine/front.html.twig',
-            [
-                'magazine' => $magazine,
-                'entries'  => $listing,
-            ]
-        );
     }
 
     /**
@@ -120,30 +98,5 @@ class MagazineController extends AbstractController
                 'magazines' => $magazines,
             ]
         );
-    }
-
-    private function hot(Criteria $criteria): PagerfantaInterface
-    {
-        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_HOT));
-    }
-
-    private function top(Criteria $criteria): PagerfantaInterface
-    {
-        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_TOP));
-    }
-
-    private function active(Criteria $criteria): PagerfantaInterface
-    {
-        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_ACTIVE));
-    }
-
-    private function new(Criteria $criteria): PagerfantaInterface
-    {
-        return $this->repository->findByCriteria($criteria);
-    }
-
-    private function commented(Criteria $criteria)
-    {
-        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
     }
 }

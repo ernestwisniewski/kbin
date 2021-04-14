@@ -15,9 +15,9 @@ class SentPostNotificationHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(PostNotificationMessage $postNotificationMessage)
+    public function __invoke(PostNotificationMessage $message)
     {
-        $post = $this->repository->find($postNotificationMessage->postId);
+        $post = $this->repository->find($message->postId);
         if (!$post) {
             return;
         }

@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\BanNotification;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\MagazineBan;
 use App\Entity\Message;
 use App\Entity\MessageNotification;
 use App\Entity\Notification;
@@ -92,6 +94,14 @@ class NotificationManager
             $notification->status = Notification::STATUS_READ;
         }
 
+        $this->entityManager->flush();
+    }
+
+    public function sendBanNotification(MagazineBan $ban)
+    {
+        $notification = new BanNotification($ban->user, $ban);
+
+        $this->entityManager->persist($notification);
         $this->entityManager->flush();
     }
 }
