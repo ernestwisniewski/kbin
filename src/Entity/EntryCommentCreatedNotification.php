@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=EntryCommentNotificationRepository::class)
  */
-class EntryCommentNotification extends Notification
+class EntryCommentCreatedNotification extends Notification
 {
     /**
      * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="notifications")
@@ -34,6 +34,6 @@ class EntryCommentNotification extends Notification
 
     public function getType(): string
     {
-        return 'entry_comment_notification';
+        return 'entry_comment_created_notification';
     }
 }

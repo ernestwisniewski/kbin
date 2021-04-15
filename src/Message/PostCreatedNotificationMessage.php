@@ -2,7 +2,7 @@
 
 namespace App\Message;
 
-class PostNotificationMessage
+class PostCreatedNotificationMessage
 {
     public function __construct(public int $postId)
     {

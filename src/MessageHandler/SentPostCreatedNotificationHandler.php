@@ -2,12 +2,12 @@
 
 namespace App\MessageHandler;
 
-use App\Message\PostNotificationMessage;
+use App\Message\PostCreatedNotificationMessage;
 use App\Repository\PostRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class SentPostNotificationHandler implements MessageHandlerInterface
+class SentPostCreatedNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
         private PostRepository $repository,
@@ -15,7 +15,7 @@ class SentPostNotificationHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(PostNotificationMessage $message)
+    public function __invoke(PostCreatedNotificationMessage $message)
     {
         $post = $this->repository->find($message->postId);
         if (!$post) {

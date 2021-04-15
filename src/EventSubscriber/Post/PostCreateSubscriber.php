@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\Post;
 
 use App\Event\Post\PostCreatedEvent;
-use App\Message\PostNotificationMessage;
+use App\Message\PostCreatedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -22,6 +22,6 @@ class PostCreateSubscriber implements EventSubscriberInterface
 
     public function onPostCreated(PostCreatedEvent $event)
     {
-        $this->bus->dispatch(new PostNotificationMessage($event->post->getId()));
+        $this->bus->dispatch(new PostCreatedNotificationMessage($event->post->getId()));
     }
 }

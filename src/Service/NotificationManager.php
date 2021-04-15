@@ -33,7 +33,12 @@ class NotificationManager
 
     public function sendNewEntryNotification(Entry $entry): void
     {
-        $this->entryNotificationManager->send($entry);
+        $this->entryNotificationManager->new($entry);
+    }
+
+    public function sendDeletedEntryNotification(Entry $entry): void
+    {
+        $this->entryNotificationManager->delete($entry);
     }
 
     public function sendEntryCommentNotification(EntryComment $comment): void

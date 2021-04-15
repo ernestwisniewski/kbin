@@ -4,7 +4,7 @@ namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\PostComment;
-use App\Entity\PostCommentNotification;
+use App\Entity\PostCommentCreatedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,20 +35,20 @@ class PostCommentNotificationManager
 
         $usersToNotify = $this->merge($subs, $followers);
 
-        $this->notifyMagazine(new PostCommentNotification($comment->user, $comment));
+        $this->notifyMagazine(new PostCommentCreatedNotification($comment->user, $comment));
         if (!count($usersToNotify)) {
             return;
         }
 
         foreach ($usersToNotify as $subscriber) {
-            $notification = new PostCommentNotification($subscriber, $comment);
+            $notification = new PostCommentCreatedNotification($subscriber, $comment);
             $this->entityManager->persist($notification);
         }
 
         $this->entityManager->flush();
     }
 
-    private function notifyMagazine(PostCommentNotification $notification): void
+    private function notifyMagazine(PostCommentCreatedNotification $notification): void
     {
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
@@ -64,7 +64,7 @@ class PostCommentNotificationManager
         }
     }
 
-    private function getResponse(PostCommentNotification $notification): string
+    private function getResponse(PostCommentCreatedNotification $notification): string
     {
         return json_encode(
             [

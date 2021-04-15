@@ -78,7 +78,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      */
     public Collection $reports;
     /**
-     * @ORM\OneToMany(targetEntity="EntryCommentNotification", mappedBy="entryComment", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EntryCommentCreatedNotification", mappedBy="entryComment", cascade={"remove"}, orphanRemoval=true)
      */
     public Collection $notifications;
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Message;
 
-class EntryNotificationMessage
+class EntryDeletedNotificationMessage
 {
     public function __construct(public int $entryId)
     {
