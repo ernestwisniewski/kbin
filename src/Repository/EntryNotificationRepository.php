@@ -3,26 +3,26 @@
 namespace App\Repository;
 
 use App\Entity\Entry;
-use App\Entity\EntryNotification;
+use App\Entity\EntryCreatedNotification;
 use App\Entity\Notification;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method EntryNotification|null find($id, $lockMode = null, $lockVersion = null)
- * @method EntryNotification|null findOneBy(array $criteria, array $orderBy = null)
- * @method EntryNotification[]    findAll()
- * @method EntryNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method EntryCreatedNotification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method EntryCreatedNotification|null findOneBy(array $criteria, array $orderBy = null)
+ * @method EntryCreatedNotification[]    findAll()
+ * @method EntryCreatedNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class EntryNotificationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, EntryNotification::class);
+        parent::__construct($registry, EntryCreatedNotification::class);
     }
 
-    public function findNewEntryUnreadNotification(User $user, Entry $entry): ?EntryNotification
+    public function findNewEntryUnreadNotification(User $user, Entry $entry): ?EntryCreatedNotification
     {
         return $this->createQueryBuilder('n')
             ->andWhere('n.user = :user')

@@ -2,12 +2,13 @@
 
 namespace App\MessageHandler;
 
-use App\Message\EntryNotificationMessage;
+use App\Message\EntryCreatedNotificationMessage;
+use App\Message\EntryDeletedNotificationMessage;
 use App\Repository\EntryRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class SentEntryNotificationHandler implements MessageHandlerInterface
+class SentEntryDeletedNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
         private EntryRepository $repository,
@@ -15,13 +16,13 @@ class SentEntryNotificationHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(EntryNotificationMessage $message)
+    public function __invoke(EntryDeletedNotificationMessage $message)
     {
         $entry = $this->repository->find($message->entryId);
         if (!$entry) {
             return;
         }
 
-        $this->manager->sendNewEntryNotification($entry);
+        $this->manager->sendDeletedEntryNotification($entry);
     }
 }

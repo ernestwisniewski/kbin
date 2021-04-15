@@ -4,7 +4,7 @@ namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Entry;
-use App\Entity\EntryNotification;
+use App\Entity\EntryCreatedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,28 +28,34 @@ class EntryNotificationManager
     ) {
     }
 
-    public function send(Entry $entry): void
+    public function new(Entry $entry): void
     {
         $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($entry));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
 
-        $this->notifyMagazine(new EntryNotification($entry->user, $entry));
+        $this->notifyMagazine(new EntryCreatedNotification($entry->user, $entry));
 
         if (!count($usersToNotify)) {
             return;
         }
 
         foreach ($usersToNotify as $subscriber) {
-            $notification = new EntryNotification($subscriber, $entry);
+            $notification = new EntryCreatedNotification($subscriber, $entry);
             $this->entityManager->persist($notification);
         }
 
         $this->entityManager->flush();
     }
 
-    private function notifyMagazine(EntryNotification $notification): void
+    public function delete(Entry $entry): void
+    {
+//        $this->entityManager->flush();
+    }
+
+
+    private function notifyMagazine(EntryCreatedNotification $notification): void
     {
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->entry->magazine));
@@ -65,7 +71,7 @@ class EntryNotificationManager
         }
     }
 
-    private function getResponse(EntryNotification $notification): string
+    private function getResponse(EntryCreatedNotification $notification): string
     {
         return json_encode(
             [

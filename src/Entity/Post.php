@@ -80,7 +80,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     public Collection $reports;
     /**
-     * @ORM\OneToMany(targetEntity="PostNotification", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="PostCreatedNotification", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
      */
     public Collection $notifications;
     /**

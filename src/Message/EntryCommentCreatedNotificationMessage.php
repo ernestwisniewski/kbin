@@ -2,7 +2,7 @@
 
 namespace App\Message;
 
-class PostCommentNotificationMessage
+class EntryCommentCreatedNotificationMessage
 {
     public function __construct(public int $commentId)
     {

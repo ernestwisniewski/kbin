@@ -5,7 +5,7 @@ namespace App\Service\Notification;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Notification;
 use App\Entity\Post;
-use App\Entity\PostNotification;
+use App\Entity\PostCreatedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,21 +36,21 @@ class PostNotificationManager
 
         $usersToNotify = $this->merge($subs, $follows);
 
-        $this->notifyMagazine($post, new PostNotification($post->user, $post));
+        $this->notifyMagazine($post, new PostCreatedNotification($post->user, $post));
 
         if (!count($usersToNotify)) {
             return;
         }
 
         foreach ($usersToNotify as $subscriber) {
-            $notify = new PostNotification($subscriber, $post);
+            $notify = new PostCreatedNotification($subscriber, $post);
             $this->entityManager->persist($notify);
         }
 
         $this->entityManager->flush();
     }
 
-    private function notifyMagazine(Post $post, PostNotification $notification)
+    private function notifyMagazine(Post $post, PostCreatedNotification $notification)
     {
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($post->magazine));

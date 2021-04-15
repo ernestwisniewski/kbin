@@ -4,25 +4,25 @@ namespace App\Repository;
 
 use App\Entity\Notification;
 use App\Entity\Post;
-use App\Entity\PostNotification;
+use App\Entity\PostCreatedNotification;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method PostNotification|null find($id, $lockMode = null, $lockVersion = null)
- * @method PostNotification|null findOneBy(array $criteria, array $orderBy = null)
- * @method PostNotification[]    findAll()
- * @method PostNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PostCreatedNotification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PostCreatedNotification|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PostCreatedNotification[]    findAll()
+ * @method PostCreatedNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PostNotificationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PostNotification::class);
+        parent::__construct($registry, PostCreatedNotification::class);
     }
 
-    public function findNewEntryUnreadNotification(User $user, Post $post): ?PostNotification
+    public function findNewEntryUnreadNotification(User $user, Post $post): ?PostCreatedNotification
     {
         return $this->createQueryBuilder('n')
             ->andWhere('n.user = :user')

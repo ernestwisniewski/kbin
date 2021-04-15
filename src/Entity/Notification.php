@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="notification_type", type="text")
  * @ORM\DiscriminatorMap({
- *   "entry": "EntryNotification",
- *   "entry_comment": "EntryCommentNotification",
- *   "post": "PostNotification",
- *   "post_comment": "PostCommentNotification",
+ *   "entry_created": "EntryCreatedNotification",
+ *   "entry_comment_created": "EntryCommentCreatedNotification",
+ *   "post_created": "PostCreatedNotification",
+ *   "post_comment_created": "PostCommentCreatedNotification",
  *   "message": "MessageNotification",
  *   "ban": "BanNotification",
  * })
