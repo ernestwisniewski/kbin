@@ -66,6 +66,8 @@ abstract class WebTestCase extends BaseWebTestCase
         $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
 
         $user->isVerified = $active;
+        $user->notifyOnNewEntry = true;
+        $user->notifyOnNewPost = true;
 
         $manager->persist($user);
         $manager->flush();

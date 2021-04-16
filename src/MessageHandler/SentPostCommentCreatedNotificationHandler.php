@@ -22,6 +22,6 @@ class SentPostCommentCreatedNotificationHandler implements MessageHandlerInterfa
             return;
         }
 
-        $this->manager->sendPostCommentNotification($comment);
+        $this->manager->sendPostCommentCreatedNotification($comment);
     }
 }

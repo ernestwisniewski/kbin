@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MagazineLogPostCommentDeleteRepository")
  */
-class MagazineLogPostCommentDelete extends MagazineLog
+class MagazineLogPostCommentDeleted extends MagazineLog
 {
     /**
      * @ORM\ManyToOne(targetEntity="PostComment")
@@ -25,7 +25,7 @@ class MagazineLogPostCommentDelete extends MagazineLog
 
     public function getType(): string
     {
-        return 'log_post_comment_delete';
+        return 'log_post_comment_deleted';
     }
 
     public function getComment(): PostComment

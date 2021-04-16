@@ -5,6 +5,7 @@ namespace App\Service\Notification;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Entry;
 use App\Entity\EntryCreatedNotification;
+use App\Entity\EntryDeletedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +29,7 @@ class EntryNotificationManager
     ) {
     }
 
-    public function new(Entry $entry): void
+    public function sendCreated(Entry $entry): void
     {
         $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($entry));
         $followers = [];
@@ -49,11 +50,13 @@ class EntryNotificationManager
         $this->entityManager->flush();
     }
 
-    public function delete(Entry $entry): void
+    public function sendDeleted(Entry $entry): void
     {
-//        $this->entityManager->flush();
-    }
+        $notification = new EntryDeletedNotification($entry->getUser(), $entry);
 
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+    }
 
     private function notifyMagazine(EntryCreatedNotification $notification): void
     {

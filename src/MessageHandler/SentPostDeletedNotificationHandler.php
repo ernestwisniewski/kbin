@@ -7,7 +7,7 @@ use App\Repository\PostRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class SentPostCreatedNotificationHandler implements MessageHandlerInterface
+class SentPostDeletedNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
         private PostRepository $repository,
@@ -22,6 +22,6 @@ class SentPostCreatedNotificationHandler implements MessageHandlerInterface
             return;
         }
 
-        $this->manager->sendPostCreatedNotification($post);
+        $this->manager->sendPostDeletedNotification($post);
     }
 }

@@ -5,7 +5,7 @@ namespace App\EventSubscriber\Post;
 use App\Entity\Notification;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
-use App\Repository\PostNotificationRepository;
+use App\Repository\PostCreatedNotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,7 +15,7 @@ class PostShowSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private Security $security,
-        private PostNotificationRepository $repository,
+        private PostCreatedNotificationRepository $repository,
         private EntityManagerInterface $entityManager
     ) {
     }

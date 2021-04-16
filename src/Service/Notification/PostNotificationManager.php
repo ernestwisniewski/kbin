@@ -6,6 +6,7 @@ use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostCreatedNotification;
+use App\Entity\PostDeletedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,7 @@ class PostNotificationManager
     ) {
     }
 
-    public function send(Post $post): void
+    public function sendCreated(Post $post): void
     {
         $subs    = $this->getUsersToNotify($this->repository->findNewPostSubscribers($post));
         $follows = [];
@@ -47,6 +48,14 @@ class PostNotificationManager
             $this->entityManager->persist($notify);
         }
 
+        $this->entityManager->flush();
+    }
+
+    public function sendDeleted(Post $post): void
+    {
+        $notification = new PostDeletedNotification($post->getUser(), $post);
+
+        $this->entityManager->persist($notification);
         $this->entityManager->flush();
     }
 

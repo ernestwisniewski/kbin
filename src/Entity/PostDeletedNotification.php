@@ -6,9 +6,9 @@ use App\Repository\PostCreatedNotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PostCreatedNotificationRepository::class)
+ * @ORM\Entity()
  */
-class PostCreatedNotification extends Notification
+class PostDeletedNotification extends Notification
 {
     /**
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="notifications")
@@ -29,6 +29,6 @@ class PostCreatedNotification extends Notification
 
     public function getType(): string
     {
-        return 'post_created_notification';
+        return 'post_deleted_notification';
     }
 }

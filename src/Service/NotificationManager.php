@@ -31,29 +31,44 @@ class NotificationManager
     ) {
     }
 
-    public function sendNewEntryNotification(Entry $entry): void
+    public function sendEntryCreatedNotification(Entry $entry): void
     {
-        $this->entryNotificationManager->new($entry);
+        $this->entryNotificationManager->sendCreated($entry);
     }
 
-    public function sendDeletedEntryNotification(Entry $entry): void
+    public function sendEntryDeletedNotification(Entry $entry): void
     {
-        $this->entryNotificationManager->delete($entry);
+        $this->entryNotificationManager->sendDeleted($entry);
     }
 
-    public function sendEntryCommentNotification(EntryComment $comment): void
+    public function sendEntryCommentCreatedNotification(EntryComment $comment): void
     {
-        $this->entryCommentNotificationManager->send($comment);
+        $this->entryCommentNotificationManager->sendCreated($comment);
     }
 
-    public function sendPostNotification(Post $post): void
+    public function sendEntryCommentDeletedNotification(EntryComment $comment): void
     {
-        $this->postNotificationManager->send($post);
+        $this->entryCommentNotificationManager->sendDeleted($comment);
     }
 
-    public function sendPostCommentNotification(PostComment $comment): void
+    public function sendPostCreatedNotification(Post $post): void
     {
-        $this->postCommentNotificationManager->send($comment);
+        $this->postNotificationManager->sendCreated($post);
+    }
+
+    public function sendPostDeletedNotification(Post $post): void
+    {
+        $this->postNotificationManager->sendDeleted($post);
+    }
+
+    public function sendPostCommentCreatedNotification(PostComment $comment): void
+    {
+        $this->postCommentNotificationManager->sendCreated($comment);
+    }
+
+    public function sendPostCommentDeletedNotification(PostComment $comment): void
+    {
+        $this->postCommentNotificationManager->sendDeleted($comment);
     }
 
     public function sendMessageNotification(Message $message, User $sender): void
