@@ -11,10 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="log_type", type="text")
  * @ORM\DiscriminatorMap({
- *   "entry_delete": "MagazineLogEntryDelete",
- *   "entry_comment_delete": "MagazineLogEntryCommentDelete",
- *   "post_delete": "MagazineLogPostDelete",
- *   "post_comment_delete": "MagazineLogPostCommentDelete",
+ *   "entry_deleted": "MagazineLogEntryDeleted",
+ *   "entry_comment_deleted": "MagazineLogEntryCommentDeleted",
+ *   "post_deleted": "MagazineLogPostDeleted",
+ *   "post_comment_deleted": "MagazineLogPostCommentDeleted",
  *   "ban": "MagazineLogBan",
  * })
  */

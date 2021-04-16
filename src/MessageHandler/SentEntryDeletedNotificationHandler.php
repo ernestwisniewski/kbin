@@ -2,7 +2,6 @@
 
 namespace App\MessageHandler;
 
-use App\Message\EntryCreatedNotificationMessage;
 use App\Message\EntryDeletedNotificationMessage;
 use App\Repository\EntryRepository;
 use App\Service\NotificationManager;
@@ -23,6 +22,6 @@ class SentEntryDeletedNotificationHandler implements MessageHandlerInterface
             return;
         }
 
-        $this->manager->sendDeletedEntryNotification($entry);
+        $this->manager->sendEntryDeletedNotification($entry);
     }
 }

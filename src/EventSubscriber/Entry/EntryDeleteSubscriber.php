@@ -2,7 +2,6 @@
 
 namespace App\EventSubscriber\Entry;
 
-use App\Event\Entry\EntryCreatedEvent;
 use App\Event\Entry\EntryDeletedEvent;
 use App\Message\EntryDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

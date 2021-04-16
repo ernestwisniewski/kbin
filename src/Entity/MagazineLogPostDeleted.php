@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MagazineLogPostDeleteRepository")
  */
-class MagazineLogPostDelete extends MagazineLog
+class MagazineLogPostDeleted extends MagazineLog
 {
     /**
      * @ORM\ManyToOne(targetEntity="Post")
@@ -25,7 +25,7 @@ class MagazineLogPostDelete extends MagazineLog
 
     public function getType(): string
     {
-        return 'log_post_delete';
+        return 'log_post_deleted';
     }
 
     public function getSubject(): ContentInterface

@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\BanNotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=BanNotificationRepository::class)
+ * @ORM\Entity()
  */
 class BanNotification extends Notification
 {

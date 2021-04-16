@@ -22,6 +22,6 @@ class SentEntryCreatedNotificationHandler implements MessageHandlerInterface
             return;
         }
 
-        $this->manager->sendNewEntryNotification($entry);
+        $this->manager->sendEntryCreatedNotification($entry);
     }
 }

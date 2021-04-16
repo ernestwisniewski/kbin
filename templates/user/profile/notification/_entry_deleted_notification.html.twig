@@ -1,5 +1,3 @@
-<small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': notification.user.username}) }}">{{ notification.user.username }}</a> dodał/a nową treść w <small
-        class="text-muted">/m/</small><a
+Moderator usunął twoją treść w <small class="text-muted">/m/</small><a
         href="{{ path('front_magazine', {'name': notification.entry.magazine.name }) }}">{{ notification.entry.magazine.name }}</a> - <strong><a
             href="{{ path('entry_single', {'magazine_name': notification.entry.magazine.name, 'entry_id': notification.entry.id}) }}">{{ notification.entry.shortTitle }}</a></strong>

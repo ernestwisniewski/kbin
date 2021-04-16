@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\EntryCreatedNotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=EntryCreatedNotificationRepository::class)
+ * @ORM\Entity()
  */
-class EntryCreatedNotification extends Notification
+class EntryDeletedNotification extends Notification
 {
     /**
      * @ORM\ManyToOne(targetEntity="Entry", inversedBy="notifications")
@@ -29,6 +28,6 @@ class EntryCreatedNotification extends Notification
 
     public function getType(): string
     {
-        return 'entry_created_notification';
+        return 'entry_deleted_notification';
     }
 }

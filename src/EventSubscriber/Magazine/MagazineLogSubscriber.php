@@ -3,10 +3,10 @@
 namespace App\EventSubscriber\Magazine;
 
 use App\Entity\MagazineLogBan;
-use App\Entity\MagazineLogEntryCommentDelete;
-use App\Entity\MagazineLogEntryDelete;
-use App\Entity\MagazineLogPostCommentDelete;
-use App\Entity\MagazineLogPostDelete;
+use App\Entity\MagazineLogEntryCommentDeleted;
+use App\Entity\MagazineLogEntryDeleted;
+use App\Entity\MagazineLogPostCommentDeleted;
+use App\Entity\MagazineLogPostDeleted;
 use App\Event\Entry\EntryDeletedEvent;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
 use App\Event\Magazine\MagazineBanEvent;
@@ -42,7 +42,7 @@ class MagazineLogSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $log = new MagazineLogEntryDelete($event->entry, $event->user);
+        $log = new MagazineLogEntryDeleted($event->entry, $event->user);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();
@@ -58,7 +58,7 @@ class MagazineLogSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $log = new MagazineLogEntryCommentDelete($event->comment, $event->user);
+        $log = new MagazineLogEntryCommentDeleted($event->comment, $event->user);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();
@@ -74,7 +74,7 @@ class MagazineLogSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $log = new MagazineLogPostDelete($event->post, $event->user);
+        $log = new MagazineLogPostDeleted($event->post, $event->user);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();
@@ -90,7 +90,7 @@ class MagazineLogSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $log = new MagazineLogPostCommentDelete($event->comment, $event->user);
+        $log = new MagazineLogPostCommentDeleted($event->comment, $event->user);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();

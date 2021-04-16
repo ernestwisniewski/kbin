@@ -39,16 +39,16 @@
     <a href="{{ path('entry_single', { 'magazine_name':log.entry.magazine.name, 'entry_id': log.entry.id}) }} }}">{{ log.entry.shortTitle }}</a>
 {% endblock log_entry_delete %}
 
-{% block log_entry_comment_delete %}
+{% block log_entry_comment_deleted %}
     <small class="text-muted">/u/</small><a
         href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął komentarz autorstwa <small
         class="text-muted">/u/</small><a
     href="{{ path('user', {'username': log.comment.user.username}) }}">{{ log.comment.user.username }}</a>{% if show_magazine %} w <small
         class="text-muted">/m/</small><a
     href="{{ path('front_magazine', {'name': log.comment.magazine.name}) }}">{{ log.comment.magazine.name }}</a>{% endif %} - {{ log.comment.shortTitle }}
-{% endblock log_entry_comment_delete %}
+{% endblock log_entry_comment_deleted %}
 
-{% block log_post_delete %}
+{% block log_post_deleted %}
     <small class="text-muted">/u/</small><a
         href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął post autorstwa <small
         class="text-muted">/u/</small><a
@@ -56,16 +56,16 @@
         class="text-muted">/m/</small><a
     href="{{ path('front_magazine', {'name': log.post.magazine.name}) }}">{{ log.post.magazine.name }}</a>{% endif %} -
     <a href="{{ path('post_single', {'magazine_name': log.post.magazine.name, 'post_id': log.post.id }) }}">{{ log.post.shortTitle }}</a>
-{% endblock log_post_delete %}
+{% endblock log_post_deleted %}
 
-{% block log_post_comment_delete %}
+{% block log_post_comment_deleted %}
     <small class="text-muted">/u/</small><a
         href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął post autorstwa <small
         class="text-muted">/u/</small><a
     href="{{ path('user', {'username': log.comment.user.username}) }}">{{ log.comment.user.username }}</a>{% if show_magazine %} w <small
         class="text-muted">/m/</small><a
     href="{{ path('front_magazine', {'name': log.comment.magazine.name}) }}">{{ log.comment.magazine.name }}</a>{% endif %} - {{ log.comment.shortTitle }}
-{% endblock log_post_comment_delete %}
+{% endblock log_post_comment_deleted %}
 
 {% block log_ban %}
     <small class="text-muted">/u/</small><a

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\EventSubscriber\Entry;
+namespace App\EventSubscriber\EntryComment;
 
 use App\Event\EntryComment\EntryCommentCreatedEvent;
 use App\Message\EntryCommentCreatedNotificationMessage;
