@@ -1,0 +1,6 @@
+App\DTO\UserDto:
+  attributes:
+    username:
+      groups: [ 'user_read', 'user_write' ]
+    email:
+      groups: [ 'user_read', 'user_write' ]

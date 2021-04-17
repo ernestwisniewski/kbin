@@ -28,15 +28,14 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
     {
         try {
             $magazines = $this->repository
-                ->findAllPaginated((int) $this->request->getCurrentRequest()->get('page', 1))
-                ->getCurrentPageResults();
+                ->findAllPaginated((int) $this->request->getCurrentRequest()->get('page', 1));
         } catch (Exception $e) {
             return [];
         }
 
-        foreach ($magazines as $magazine) {
-            yield $this->factory->createDto($magazine);
-        }
+        $dtos = array_map(fn($magazine) => $this->factory->createDto($magazine), (array) $magazines->getCurrentPageResults());
+
+        return new DtoPaginator($dtos, 0, MagazineRepository::PER_PAGE, $magazines->getNbResults());
     }
 }
 

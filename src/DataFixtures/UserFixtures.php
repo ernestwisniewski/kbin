@@ -46,7 +46,7 @@ class UserFixtures extends BaseFixture
         for ($i = 0; $i <= $count; $i++) {
             yield [
                 'email'    => $this->faker->email,
-                'username' => $this->faker->userName,
+                'username' => str_replace('.', '_', $this->faker->userName),
                 'password' => 'secret',
             ];
         }

@@ -25,7 +25,7 @@ use function get_class;
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User|null findOneByUsername(mixed $value)
+ * @method User|null findOneByUsername(string $value)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

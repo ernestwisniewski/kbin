@@ -9,12 +9,14 @@ use App\Factory\EntryFactory;
 use App\PageView\EntryPageView;
 use App\Repository\EntryRepository;
 use Exception;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class EntryCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
         private EntryRepository $repository,
         private EntryFactory $factory,
+        private RequestStack $request
     ) {
     }
 
@@ -26,15 +28,15 @@ final class EntryCollectionDataProvider implements ContextAwareCollectionDataPro
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         try {
-            $criteria = new EntryPageView(1);
+            $criteria = new EntryPageView((int) $this->request->getCurrentRequest()->get('page', 1));
             $entries  = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];
         }
 
-        foreach ($entries as $entry) {
-            yield $this->factory->createDto($entry);
-        }
+        $dtos = array_map(fn($entry) => $this->factory->createDto($entry), (array) $entries->getCurrentPageResults());
+
+        return new DtoPaginator($dtos, 0, EntryRepository::PER_PAGE, $entries->getNbResults());
     }
 }
 

@@ -24,6 +24,7 @@ class EntryFactory
     {
         return (new EntryDto())->create(
             $entry->magazine,
+            $entry->user,
             $entry->title,
             $entry->url,
             $entry->body,
