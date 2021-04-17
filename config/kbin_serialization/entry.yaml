@@ -2,6 +2,10 @@ App\DTO\EntryDto:
   attributes:
     id:
       groups: [ 'entry_read', 'entry_write' ]
+    magazine:
+      groups: [ 'entry_read', 'entry_write' ]
+    user:
+      groups: [ 'entry_read', 'entry_write' ]
     title:
       groups: [ 'entry_read', 'entry_write' ]
     url:

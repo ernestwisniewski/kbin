@@ -7,6 +7,7 @@ use App\DTO\UserDto;
 use App\Entity\User;
 use App\Event\User\UserBlockEvent;
 use App\Event\User\UserFollowedEvent;
+use App\Factory\UserFactory;
 use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
 use App\Security\EmailVerifier;
@@ -20,6 +21,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserManager
 {
     public function __construct(
+        private UserFactory $factory,
         private UserPasswordEncoderInterface $encoder,
         private EventDispatcherInterface $dispatcher,
         private MessageBusInterface $bus,
@@ -122,13 +124,7 @@ class UserManager
 
     public function createDto(User $user): UserDto
     {
-        $dto = new UserDto();
-
-        $dto->id       = $user->getId();
-        $dto->username = $user->getUsername();
-        $dto->email    = $user->email;
-
-        return $dto;
+        return $this->factory->createDto($user);
     }
 
     public function verify(Request $request, User $user): void

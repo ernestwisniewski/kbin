@@ -5,6 +5,7 @@ namespace App\DTO;
 use App\Entity\Entry;
 use App\Entity\Image;
 use App\Entity\Magazine;
+use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -14,7 +15,8 @@ class EntryDto
     /**
      * @Assert\NotBlank()
      */
-    public ?Magazine $magazine = null;
+    public Magazine|MagazineDto|null $magazine = null;
+    public User|UserDto|null $user = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -41,6 +43,7 @@ class EntryDto
 
     public function create(
         Magazine $magazine,
+        User $user,
         string $title,
         ?string $url = null,
         ?string $body = null,
@@ -51,6 +54,7 @@ class EntryDto
     ): self {
         $this->id       = $id;
         $this->magazine = $magazine;
+        $this->user     = $user;
         $this->title    = $title;
         $this->url      = $url;
         $this->body     = $body;

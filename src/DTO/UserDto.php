@@ -4,16 +4,23 @@ namespace App\DTO;
 
 use App\DTO\Contracts\UserDtoInterface;
 use App\Entity\Image;
+use App\Validator\Unique;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Unique(entityClass="App\Entity\User", errorPath="username", fields={"username"}, idFields="id")
+ */
 class UserDto implements UserDtoInterface
 {
-    public ?int $id = null;
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
      *     min=2,
      *     max=35
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9_]{2,35}$/",
+     *     match=true
      * )
      */
     public ?string $username = null;
@@ -32,6 +39,7 @@ class UserDto implements UserDtoInterface
      */
     public ?string $plainPassword = null;
     public ?Image $avatar = null;
+    public ?int $id = null;
     /**
      * @Assert\IsTrue()
      */
@@ -40,5 +48,14 @@ class UserDto implements UserDtoInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function create(string $username, ?string $email = null, ?int $id = null): self
+    {
+        $this->id       = $id;
+        $this->username = $username;
+        $this->email    = $email;
+
+        return $this;
     }
 }

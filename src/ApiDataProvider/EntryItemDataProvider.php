@@ -26,7 +26,6 @@ final class EntryItemDataProvider implements ItemDataProviderInterface, Restrict
         if (!$entry) {
             return null;
         }
-
         return $this->factory->createDto($entry);
     }
 }

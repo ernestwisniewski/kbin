@@ -21,7 +21,7 @@ final class MagazineItemDataProvider implements ItemDataProviderInterface, Restr
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?MagazineDto
     {
-        $magazine = $this->repository->findOneByName(['name' => $id]);
+        $magazine = $this->repository->findOneByName($id);
 
         if (!$magazine) {
             return null;

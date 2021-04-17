@@ -3,29 +3,27 @@
 namespace App\Tests;
 
 use App\DTO\EntryCommentDto;
+use App\DTO\EntryDto;
+use App\DTO\MagazineDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\Entry;
+use App\Entity\EntryComment;
+use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\User;
+use App\Entity\Vote;
 use App\Service\EntryCommentManager;
+use App\Service\EntryManager;
+use App\Service\MagazineManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
 use App\Service\VoteManager;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\EntryCommentVote;
-use App\Service\MagazineManager;
-use App\Service\EntryManager;
-use App\Entity\EntryComment;
-use App\Entity\EntryVote;
-use App\DTO\MagazineDto;
-use App\Entity\Magazine;
-use App\DTO\EntryDto;
-use App\Entity\Entry;
-use App\Entity\Vote;
-use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 
 abstract class WebTestCase extends BaseWebTestCase
 {
@@ -65,9 +63,9 @@ abstract class WebTestCase extends BaseWebTestCase
 
         $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
 
-        $user->isVerified = $active;
+        $user->isVerified       = $active;
         $user->notifyOnNewEntry = true;
-        $user->notifyOnNewPost = true;
+        $user->notifyOnNewPost  = true;
 
         $manager->persist($user);
         $manager->flush();
@@ -157,7 +155,7 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = self::$container->get(EntryManager::class);
 
-        $dto   = (new EntryDto())->create($magazine, $title, $url, $body);
+        $dto   = (new EntryDto())->create($magazine, $user, $title, $url, $body);
         $entry = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
 
         $this->entries->add($entry);

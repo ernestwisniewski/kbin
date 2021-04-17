@@ -1,0 +1,17 @@
+resources:
+  App\DTO\UserDto:
+    properties:
+      username:
+        identifier: true
+    shortName: 'user'
+    collectionOperations:
+      get:
+        method: GET
+    itemOperations:
+      get:
+        method: GET
+    attributes:
+      normalization_context:
+        groups: [ 'user_read' ]
+      denormalization_context:
+        groups: [ 'user_write' ]
