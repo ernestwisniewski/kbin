@@ -3,7 +3,6 @@
 namespace App\EventSubscriber\PostComment;
 
 use App\Event\PostComment\PostCommentDeletedEvent;
-use App\Message\EntryCommentDeletedNotificationMessage;
 use App\Message\PostCommentDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;

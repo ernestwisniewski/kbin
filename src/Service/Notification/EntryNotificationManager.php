@@ -50,14 +50,6 @@ class EntryNotificationManager
         $this->entityManager->flush();
     }
 
-    public function sendDeleted(Entry $entry): void
-    {
-        $notification = new EntryDeletedNotification($entry->getUser(), $entry);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
-    }
-
     private function notifyMagazine(EntryCreatedNotification $notification): void
     {
         try {
@@ -82,5 +74,13 @@ class EntryNotificationManager
                 'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
+    }
+
+    public function sendDeleted(Entry $entry): void
+    {
+        $notification = new EntryDeletedNotification($entry->getUser(), $entry);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
     }
 }

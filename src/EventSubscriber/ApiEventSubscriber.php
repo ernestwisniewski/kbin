@@ -14,8 +14,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class ApiEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MagazineFactory $magazineFactory, private UserFactory $userFactory,  private IriConverterInterface $iriConverter,)
-    {
+    public function __construct(
+        private MagazineFactory $magazineFactory,
+        private UserFactory $userFactory,
+        private IriConverterInterface $iriConverter,
+    ) {
     }
 
     public static function getSubscribedEvents()
@@ -37,12 +40,6 @@ final class ApiEventSubscriber implements EventSubscriberInterface
         }
     }
 
-    private function entry(EntryDto $dto): void
-    {
-        $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
-        $dto->user     = $this->userFactory->createDto($dto->user);
-    }
-
     private function collection(DtoPaginator $dtos)
     {
         foreach ($dtos->getIterator() as $dto) {
@@ -52,5 +49,11 @@ final class ApiEventSubscriber implements EventSubscriberInterface
                     break;
             }
         }
+    }
+
+    private function entry(EntryDto $dto): void
+    {
+        $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
+        $dto->user     = $this->userFactory->createDto($dto->user);
     }
 }

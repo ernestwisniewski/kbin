@@ -8,23 +8,23 @@
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "1ba77218dfe61ca9e6cff1bbb3e9a4a6658d4538"
+                "reference": "be971e5d0257a8c01a824ee01cfc217ba04c3200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/1ba77218dfe61ca9e6cff1bbb3e9a4a6658d4538",
-                "reference": "1ba77218dfe61ca9e6cff1bbb3e9a4a6658d4538",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/be971e5d0257a8c01a824ee01cfc217ba04c3200",
+                "reference": "be971e5d0257a8c01a824ee01cfc217ba04c3200",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^1.0 || ^2.0",
                 "fig/link-util": "^1.0",
                 "php": ">=7.1",
-                "psr/cache": "^1.0",
+                "psr/cache": "^1.0 || ^2.0 || ^3.0",
                 "psr/container": "^1.0",
                 "symfony/http-foundation": "^4.4 || ^5.1",
                 "symfony/http-kernel": "^4.4 || ^5.1",
@@ -154,7 +154,7 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v2.6.3"
+                "source": "https://github.com/api-platform/core/tree/v2.6.4"
             },
             "funding": [
                 {
@@ -162,7 +162,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-07T19:13:33+00:00"
+            "time": "2021-04-12T14:53:14+00:00"
         },
         {
             "name": "babdev/pagerfanta-bundle",
@@ -1056,16 +1056,16 @@
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMigrationsBundle.git",
-                "reference": "d1248471734c62b94baac36cb18e9c635775eeb0"
+                "reference": "91f0a5e2356029575f3038432cc188b12f9d5da5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/d1248471734c62b94baac36cb18e9c635775eeb0",
-                "reference": "d1248471734c62b94baac36cb18e9c635775eeb0",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/91f0a5e2356029575f3038432cc188b12f9d5da5",
+                "reference": "91f0a5e2356029575f3038432cc188b12f9d5da5",
                 "shasum": ""
             },
             "require": {
@@ -1120,7 +1120,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineMigrationsBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineMigrationsBundle/tree/3.1.0"
+                "source": "https://github.com/doctrine/DoctrineMigrationsBundle/tree/3.1.1"
             },
             "funding": [
                 {
@@ -1136,7 +1136,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-05T20:45:07+00:00"
+            "time": "2021-04-10T16:48:53+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -2765,16 +2765,16 @@
         },
         {
             "name": "laminas/laminas-code",
-            "version": "4.1.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-code.git",
-                "reference": "5b553c274b94af3f880cbaaf8fbab047f279a31c"
+                "reference": "e7e8f8a9c267520051d8026ff1da74823a3d8b97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/5b553c274b94af3f880cbaaf8fbab047f279a31c",
-                "reference": "5b553c274b94af3f880cbaaf8fbab047f279a31c",
+                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/e7e8f8a9c267520051d8026ff1da74823a3d8b97",
+                "reference": "e7e8f8a9c267520051d8026ff1da74823a3d8b97",
                 "shasum": ""
             },
             "require": {
@@ -2832,20 +2832,20 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-03-27T13:55:31+00:00"
+            "time": "2021-04-14T22:05:06+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
-            "version": "2.5.0",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diactoros.git",
-                "reference": "4ff7400c1c12e404144992ef43c8b733fd9ad516"
+                "reference": "53df7b7cd66e0905e6133970a4b90392a7a08075"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/4ff7400c1c12e404144992ef43c8b733fd9ad516",
-                "reference": "4ff7400c1c12e404144992ef43c8b733fd9ad516",
+                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/53df7b7cd66e0905e6133970a4b90392a7a08075",
+                "reference": "53df7b7cd66e0905e6133970a4b90392a7a08075",
                 "shasum": ""
             },
             "require": {
@@ -2932,7 +2932,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-11-18T18:39:28+00:00"
+            "time": "2021-04-13T19:39:11+00:00"
         },
         {
             "name": "laminas/laminas-eventmanager",
@@ -4355,20 +4355,20 @@
         },
         {
             "name": "psr/cache",
-            "version": "1.0.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/cache.git",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
+                "reference": "213f9dbc5b9bfbc4f8db86d2838dc968752ce13b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/213f9dbc5b9bfbc4f8db86d2838dc968752ce13b",
+                "reference": "213f9dbc5b9bfbc4f8db86d2838dc968752ce13b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
@@ -4388,7 +4388,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for caching libraries",
@@ -4398,9 +4398,9 @@
                 "psr-6"
             ],
             "support": {
-                "source": "https://github.com/php-fig/cache/tree/master"
+                "source": "https://github.com/php-fig/cache/tree/2.0.0"
             },
-            "time": "2016-08-06T20:24:11+00:00"
+            "time": "2021-02-03T23:23:37+00:00"
         },
         {
             "name": "psr/container",
@@ -5195,29 +5195,30 @@
         },
         {
             "name": "symfony/cache-contracts",
-            "version": "v2.2.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache-contracts.git",
-                "reference": "8034ca0b61d4dd967f3698aaa1da2507b631d0cb"
+                "reference": "c0446463729b89dd4fa62e9aeecc80287323615d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/8034ca0b61d4dd967f3698aaa1da2507b631d0cb",
-                "reference": "8034ca0b61d4dd967f3698aaa1da2507b631d0cb",
+                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/c0446463729b89dd4fa62e9aeecc80287323615d",
+                "reference": "c0446463729b89dd4fa62e9aeecc80287323615d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
-                "psr/cache": "^1.0"
+                "psr/cache": "^1.0|^2.0|^3.0"
             },
             "suggest": {
                 "symfony/cache-implementation": ""
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-main": "2.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -5254,7 +5255,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache-contracts/tree/v2.2.0"
+                "source": "https://github.com/symfony/cache-contracts/tree/main"
             },
             "funding": [
                 {
@@ -5270,7 +5271,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-07T11:33:47+00:00"
+            "time": "2021-03-23T23:28:01+00:00"
         },
         {
             "name": "symfony/config",
@@ -10868,16 +10869,16 @@
         },
         {
             "name": "symfonycasts/verify-email-bundle",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SymfonyCasts/verify-email-bundle.git",
-                "reference": "cd6bf4533ec8794cb001627754cdecec0ec4a4de"
+                "reference": "3935f7375b2fa795f349bb4281ba8bcb754f4c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyCasts/verify-email-bundle/zipball/cd6bf4533ec8794cb001627754cdecec0ec4a4de",
-                "reference": "cd6bf4533ec8794cb001627754cdecec0ec4a4de",
+                "url": "https://api.github.com/repos/SymfonyCasts/verify-email-bundle/zipball/3935f7375b2fa795f349bb4281ba8bcb754f4c91",
+                "reference": "3935f7375b2fa795f349bb4281ba8bcb754f4c91",
                 "shasum": ""
             },
             "require": {
@@ -10912,9 +10913,9 @@
             "description": "Simple, stylish Email Verification for Symfony",
             "support": {
                 "issues": "https://github.com/SymfonyCasts/verify-email-bundle/issues",
-                "source": "https://github.com/SymfonyCasts/verify-email-bundle/tree/v1.3.0"
+                "source": "https://github.com/SymfonyCasts/verify-email-bundle/tree/v1.4.0"
             },
-            "time": "2021-03-29T17:57:50+00:00"
+            "time": "2021-04-12T17:34:34+00:00"
         },
         {
             "name": "tchoulom/view-counter-bundle",

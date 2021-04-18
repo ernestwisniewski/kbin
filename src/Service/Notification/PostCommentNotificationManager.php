@@ -49,14 +49,6 @@ class PostCommentNotificationManager
         $this->entityManager->flush();
     }
 
-    public function sendDeleted(PostComment $comment): void
-    {
-        $notification = new PostCommentDeletedNotification($comment->getUser(), $comment);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
-    }
-
     private function notifyMagazine(PostCommentCreatedNotification $notification): void
     {
         try {
@@ -81,5 +73,13 @@ class PostCommentNotificationManager
                 'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
+    }
+
+    public function sendDeleted(PostComment $comment): void
+    {
+        $notification = new PostCommentDeletedNotification($comment->getUser(), $comment);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
     }
 }
