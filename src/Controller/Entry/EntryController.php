@@ -62,7 +62,7 @@ class EntryController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function create(?Magazine $magazine, ?string $type,  Request $request): Response
+    public function create(?Magazine $magazine, ?string $type, Request $request): Response
     {
         $dto           = new EntryDto();
         $dto->magazine = $magazine;
