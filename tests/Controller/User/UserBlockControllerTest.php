@@ -1,10 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\User;
 
 use App\Service\UserManager;
 use App\Tests\WebTestCase;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class UserBlockControllerTest extends WebTestCase
 {

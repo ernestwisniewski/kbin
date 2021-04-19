@@ -1,8 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Entry;
 
 use App\Tests\WebTestCase;
+use InvalidArgumentException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryControllerTest extends WebTestCase
@@ -122,7 +123,7 @@ class EntryControllerTest extends WebTestCase
 
     public function testCannotEditEntryMagazine()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $client = $this->createClient();
         $client->catchExceptions(false);
@@ -168,7 +169,7 @@ class EntryControllerTest extends WebTestCase
         $user1 = $this->getUserByUsername('regularUser');
         $user2 = $this->getUserByUsername('regularUser2');
 
-        $entry  = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
+        $entry = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
         $this->getEntryByTitle('test1');
         $this->getEntryByTitle('test2');
 

@@ -1,14 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Magazine;
 
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
-class MagazineSubControllerTest extends WebTestCase
+class MagazineBlockControllerTest extends WebTestCase
 {
-    public function testUserCanSubscribeMagazine()
+    public function testUserCanBlockMagazine() // @todo
     {
         $client  = $this->createClient();
         $manager = self::$container->get(MagazineManager::class);
@@ -28,38 +27,19 @@ class MagazineSubControllerTest extends WebTestCase
         $this->getEntryByTitle('treść 5', null, null, $magazine3, $user);
         $this->getEntryByTitle('treść 1', null, null, $magazine, $user);
 
-        $manager->subscribe($magazine, $user3);
+        $manager->subscribe($magazine, $user);
 
         $crawler = $client->request('GET', '/m/polityka');
 
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
 
         $client->submit(
-            $crawler->filter('.kbin-magazine-header .kbin-sub')->selectButton('obserwuj')->form()
+            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block ')->selectButton('')->form()
         );
 
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '3');
-
-        $crawler = $client->request('GET', '/sub');
-
-        $this->assertSelectorTextContains('.kbin-entry-title', 'treść ');
-        $this->assertCount(3, $crawler->filter('.kbin-entry-title'));
-
-        $crawler = $client->click($crawler->filter('.kbin-entry-title a')->link());
-
-        $client->submit(
-            $crawler->filter('.kbin-magazine-header .kbin-sub')->selectButton('obserwuj')->form()
-        );
-
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
-
-        $crawler = $client->request('GET', '/sub');
-
-        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 5');
-        $this->assertCount(2, $crawler->filter('.kbin-entry-title'));
+        $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->attr('class'));
+        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
     }
 }

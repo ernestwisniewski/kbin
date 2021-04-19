@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Entry;
 
 use App\Tests\WebTestCase;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryPinControllerTest extends WebTestCase
 {

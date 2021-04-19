@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Magazine;
 
 use App\DTO\ModeratorDto;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
+use DateTime;
 
 class MagazinePanelModControllerTest extends WebTestCase
 {
@@ -58,7 +58,7 @@ class MagazinePanelModControllerTest extends WebTestCase
 
         $this->getEntryByTitle('testowa treść', null, 'test', $magazine, $user3);
 
-        $moderatorDto = new ModeratorDto($magazine);
+        $moderatorDto       = new ModeratorDto($magazine);
         $moderatorDto->user = $user2;
 
         $manager->addModerator($moderatorDto);
@@ -71,7 +71,7 @@ class MagazinePanelModControllerTest extends WebTestCase
             $crawler->selectButton('Gotowe')->form(
                 [
                     'magazine_ban[reason]'    => 'spam',
-                    'magazine_ban[expiredAt]' => (new \DateTime('+1 day'))->format('Y-m-d H:m'),
+                    'magazine_ban[expiredAt]' => (new DateTime('+1 day'))->format('Y-m-d H:m'),
                 ]
             )
         );

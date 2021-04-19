@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use App\Entity\Contracts\VoteInterface;
 use App\Tests\WebTestCase;
 
 class VoteControllerTest extends WebTestCase
@@ -24,6 +23,40 @@ class VoteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/polityka/t/'.$entry->getId());
 
         $this->assertVoteActions($client, $crawler);
+    }
+
+    private function assertVoteActions($client, $crawler, string $parentClass = '', $upVoteOnly = false)
+    {
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '3');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-dv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '1');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-dv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '0');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '3');
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '0');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '0');
     }
 
     public function testCanAddAndRemoveEntryCommentVote()
@@ -65,12 +98,27 @@ class VoteControllerTest extends WebTestCase
         $this->assertPostVoteActions($client, $crawler, '.kbin-post');
     }
 
+    private function assertPostVoteActions($client, $crawler, string $parentClass = '', $upVoteOnly = false)
+    {
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '3');
+
+        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
+    }
+
     public function testCanAddAndRemovePostCommentVote()
     {
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('testUser'));
 
-        $post = $this->createPost('przykladowa tresc');
+        $post    = $this->createPost('przykladowa tresc');
         $comment = $this->createPostComment('przykłądowy komentarz.', $post);
 
         $u1 = $this->getUserByUsername('testUser1');
@@ -83,53 +131,5 @@ class VoteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
 
         $this->assertPostVoteActions($client, $crawler, '.kbin-comment');
-    }
-
-    private function assertVoteActions($client, $crawler, string $parentClass = '', $upVoteOnly = false)
-    {
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
-
-        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '3');
-
-        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-dv form')->form());
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '1');
-
-        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-dv form')->form());
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '0');
-
-        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '3');
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '0');
-
-        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-dv', '0');
-    }
-
-    private function assertPostVoteActions($client, $crawler, string $parentClass = '', $upVoteOnly = false) {
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
-
-        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '3');
-
-        $crawler = $client->submit($crawler->filter($parentClass.' .kbin-vote-uv form')->form());
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains($parentClass.' .kbin-vote-uv', '2');
     }
 }

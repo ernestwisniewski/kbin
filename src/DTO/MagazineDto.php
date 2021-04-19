@@ -16,6 +16,10 @@ class MagazineDto
      *     min = 2,
      *     max = 25
      * )
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9_]{2,25}$/",
+     *     match=true
+     * )
      */
     public ?string $name;
     /**

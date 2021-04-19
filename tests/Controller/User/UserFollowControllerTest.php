@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\User;
 
 use App\Service\UserManager;
 use App\Tests\WebTestCase;
@@ -160,8 +160,8 @@ class UserFollowControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'user[email]'      => 'ernest@karab.in',
-                    'user[agreeTerms]' => true,
+                    'user[email]'                 => 'ernest@karab.in',
+                    'user[agreeTerms]'            => true,
                     'user[plainPassword][first]'  => 'secret',
                     'user[plainPassword][second]' => 'secret',
                 ]

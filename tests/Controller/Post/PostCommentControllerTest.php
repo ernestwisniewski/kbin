@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Post;
 
 use App\Tests\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -44,7 +44,7 @@ class PostCommentControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'post[body]'    => 'zmieniona treść',
+                    'post[body]' => 'zmieniona treść',
                 ]
             )
         );
@@ -63,7 +63,7 @@ class PostCommentControllerTest extends WebTestCase
         $client->catchExceptions(false);
         $client->loginUser($user = $this->getUserByUsername('regularUser2'));
 
-        $post = $this->createPost('przykladowa post.');
+        $post    = $this->createPost('przykladowa post.');
         $comment = $this->createPostComment('przykłądowy komentarz.', $post);
         $crawler = $client->request('GET', "/m/polityka/w/{$post->getId()}/komentarz/{$comment->getId()}/edytuj");
 

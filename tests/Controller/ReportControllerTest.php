@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Contracts\VoteInterface;
 use App\Tests\WebTestCase;
 
 class ReportControllerTest extends WebTestCase
@@ -27,6 +26,15 @@ class ReportControllerTest extends WebTestCase
         );
 
         $this->assertReportPanel($client);
+    }
+
+    public function assertReportPanel($client)
+    {
+        $crawler = $client->followRedirect();
+        $crawler = $client->request('GET', '/m/polityka/najnowsze');
+        $crawler = $client->click($crawler->filter('.kbin-sidebar')->selectLink('Zgłoszenia')->link());
+
+        $this->assertSelectorTextContains('.kbin-magazine-bans', 'Przykładowy report');
     }
 
     public function testCanAddEntryCommentReport()
@@ -82,7 +90,7 @@ class ReportControllerTest extends WebTestCase
 
         $user2 = $this->getUserByUsername('regularUser2');
 
-        $post = $this->createPost('przykładowy post', null, $user2);
+        $post    = $this->createPost('przykładowy post', null, $user2);
         $comment = $this->createPostComment('przykładowy komentarz', $post, $user2);
 
         $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
@@ -97,15 +105,6 @@ class ReportControllerTest extends WebTestCase
         );
 
         $this->assertReportPanel($client);
-    }
-
-    public function assertReportPanel($client)
-    {
-        $crawler = $client->followRedirect();
-        $crawler = $client->request('GET', '/m/polityka/najnowsze');
-        $crawler = $client->click($crawler->filter('.kbin-sidebar')->selectLink('Zgłoszenia')->link());
-
-        $this->assertSelectorTextContains('.kbin-magazine-bans', 'Przykładowy report');
     }
 
 }

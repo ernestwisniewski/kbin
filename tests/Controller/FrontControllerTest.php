@@ -44,6 +44,21 @@ class FrontControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
     }
 
+    private function loadFixtures()
+    {
+        $user1     = $this->getUserByUsername('regularUser');
+        $user2     = $this->getUserByUsername('regularUser2');
+        $user3     = $this->getUserByUsername('regularUser3');
+        $magazine  = $this->getMagazineByName('polityka', $user1);
+        $magazine2 = $this->getMagazineByName('polityka2', $user2);
+        $entry1    = $this->getEntryByTitle('entry1', null, 'treść 1', $magazine);
+        $entry2    = $this->getEntryByTitle('entry2', null, 'treść 2', $magazine);
+        $entry2    = $this->getEntryByTitle('entry3', null, 'treść 3', $magazine, $user3);
+        $entry3    = $this->getEntryByTitle('entry4', null, 'treść 4', $magazine, $user2);
+
+        $comment = $comment = $this->createEntryComment('przykładowy komentarz', $entry1);
+    }
+
     public function testFrontPage()
     {
         $client = $this->createClient();
@@ -70,7 +85,6 @@ class FrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-entry-meta-user', 'przez regularUser');
         $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/polityka');
     }
-
 
     public function testCommentsPage()
     {
@@ -147,21 +161,6 @@ class FrontControllerTest extends WebTestCase
         $this->assertSelectorNotExists('.kbin-comments-meta-user');
         $this->assertSelectorTextContains('.kbin-comment-meta-magazine', 'do /m/polityka');
         $this->assertSelectorTextContains('.kbin-comment-meta-entry', 'w testowa treść');
-    }
-
-    private function loadFixtures()
-    {
-        $user1     = $this->getUserByUsername('regularUser');
-        $user2     = $this->getUserByUsername('regularUser2');
-        $user3     = $this->getUserByUsername('regularUser3');
-        $magazine  = $this->getMagazineByName('polityka', $user1);
-        $magazine2 = $this->getMagazineByName('polityka2', $user2);
-        $entry1    = $this->getEntryByTitle('entry1', null, 'treść 1', $magazine);
-        $entry2    = $this->getEntryByTitle('entry2', null, 'treść 2', $magazine);
-        $entry2    = $this->getEntryByTitle('entry3', null, 'treść 3', $magazine, $user3);
-        $entry3    = $this->getEntryByTitle('entry4', null, 'treść 4', $magazine, $user2);
-
-        $comment = $comment = $this->createEntryComment('przykładowy komentarz', $entry1);
     }
 
     public function provider()
