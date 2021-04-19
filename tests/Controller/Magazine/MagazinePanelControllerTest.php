@@ -1,11 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Magazine;
 
-use App\DTO\ModeratorDto;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MagazinePanelControllerTest extends WebTestCase
 {

@@ -1,9 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Magazine;
 
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
 class MagazineControllerTest extends WebTestCase

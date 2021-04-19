@@ -1,6 +1,6 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Post;
 
 use App\Tests\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -19,7 +19,7 @@ class PostControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'post[body]'     => 'Lorem ipsum',
+                    'post[body]' => 'Lorem ipsum',
                 ]
             )
         );
@@ -45,7 +45,7 @@ class PostControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'post[body]'    => 'zmieniona treść',
+                    'post[body]' => 'zmieniona treść',
                 ]
             )
         );

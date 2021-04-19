@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Service\UserManager;
 use App\Tests\WebTestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
@@ -61,8 +60,8 @@ class ProfileControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'user[email]'      => 'ernest@karab.in',
-                    'user[agreeTerms]' => true,
+                    'user[email]'                 => 'ernest@karab.in',
+                    'user[agreeTerms]'            => true,
                     'user[plainPassword][first]'  => 'secret',
                     'user[plainPassword][second]' => 'secret',
                 ]

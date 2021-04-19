@@ -29,7 +29,7 @@ class SecurityControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Zaloguj się')->form(
                 [
-                    'email'         => 'ernest@karab.in',
+                    'email'    => 'ernest@karab.in',
                     'password' => 'secret',
                 ]
             )
@@ -38,31 +38,6 @@ class SecurityControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
-    }
-
-    public function testUserCannotLoginWithoutConfirmation()
-    {
-        $client = $this->createClient();
-
-        $crawler = $this->registerUserAccount($client);
-
-        $crawler = $client->followRedirect();
-
-        $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
-        $crawler = $client->followRedirect();
-
-        $client->submit(
-            $crawler->selectButton('Zaloguj się')->form(
-                [
-                    'email'         => 'ernest@karab.in',
-                    'password' => 'secret',
-                ]
-            )
-        );
-
-        $crawler = $client->followRedirect();
-
-        $this->assertSelectorTextContains('.alert-danger', 'Twoje konto nie jest aktywne.');
     }
 
     private function registerUserAccount(KernelBrowser $client)
@@ -85,5 +60,30 @@ class SecurityControllerTest extends WebTestCase
         );
 
         return $crawler;
+    }
+
+    public function testUserCannotLoginWithoutConfirmation()
+    {
+        $client = $this->createClient();
+
+        $crawler = $this->registerUserAccount($client);
+
+        $crawler = $client->followRedirect();
+
+        $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
+        $crawler = $client->followRedirect();
+
+        $client->submit(
+            $crawler->selectButton('Zaloguj się')->form(
+                [
+                    'email'    => 'ernest@karab.in',
+                    'password' => 'secret',
+                ]
+            )
+        );
+
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains('.alert-danger', 'Twoje konto nie jest aktywne.');
     }
 }

@@ -39,75 +39,20 @@ abstract class WebTestCase extends BaseWebTestCase
         $this->entries   = new ArrayCollection();
     }
 
-    protected function loadExampleUsers(): void
-    {
-        foreach ($this->provideUsers() as $data) {
-            $this->createUser($data['username'], $data['email'], $data['password']);
-        }
-    }
-
-    protected function getUserByUsername(string $username): User
-    {
-        $user = $this->users->filter(
-            static function (User $user) use ($username) {
-                return $user->getUsername() === $username;
-            }
-        )->first();
-
-        return $user ? $user : $this->createUser($username);
-    }
-
-    private function createUser(string $username, string $email = null, string $password = null, $active = true): User
-    {
-        $manager = self::$container->get(EntityManagerInterface::class);
-
-        $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
-
-        $user->isVerified       = $active;
-        $user->notifyOnNewEntry = true;
-        $user->notifyOnNewPost  = true;
-
-        $manager->persist($user);
-        $manager->flush();
-
-        $this->users->add($user);
-
-        return $user;
-    }
-
-    protected function loadExampleMagazines(): void
-    {
-        $this->loadExampleUsers();
-
-        foreach ($this->provideMagazines() as $data) {
-            $this->createMagazine($data['name'], $data['title'], $data['user']);
-        }
-    }
-
-    protected function getMagazineByName(string $name, ?User $user = null): Magazine
-    {
-        $magazine = $this->magazines->filter(
-            static function (Magazine $magazine) use ($name) {
-                return $magazine->name === $name;
-            }
-        )->first();
-
-        return $magazine ? $magazine : $this->createMagazine($name, null, $user);
-    }
-
-    private function createMagazine(string $name, string $title = null, User $user = null): Magazine
+    public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null, ?EntryComment $parent = null): EntryComment
     {
         /**
-         * @var $manager MagazineManager
+         * @var $manager EntryCommentManager
          */
-        $manager = self::$container->get(MagazineManager::class);
+        $manager = self::$container->get(EntryCommentManager::class);
 
-        $dto      = (new MagazineDto())->create($name, $title ?? 'Przykładowy magazyn');
-        $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
+        if ($parent) {
+            $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
+        } else {
+            $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $body);
+        }
 
-        $this->magazines->add($magazine);
-
-        return $magazine;
+        return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
 
     protected function getEntryByTitle(
@@ -132,20 +77,15 @@ abstract class WebTestCase extends BaseWebTestCase
         return $entry;
     }
 
-    public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null, ?EntryComment $parent = null): EntryComment
+    protected function getMagazineByName(string $name, ?User $user = null): Magazine
     {
-        /**
-         * @var $manager EntryCommentManager
-         */
-        $manager = self::$container->get(EntryCommentManager::class);
+        $magazine = $this->magazines->filter(
+            static function (Magazine $magazine) use ($name) {
+                return $magazine->name === $name;
+            }
+        )->first();
 
-        if ($parent) {
-            $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
-        } else {
-            $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $body);
-        }
-
-        return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
+        return $magazine ? $magazine : $this->createMagazine($name, null, $user);
     }
 
     private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
@@ -204,6 +144,22 @@ abstract class WebTestCase extends BaseWebTestCase
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
 
+    protected function loadExampleMagazines(): void
+    {
+        $this->loadExampleUsers();
+
+        foreach ($this->provideMagazines() as $data) {
+            $this->createMagazine($data['name'], $data['title'], $data['user']);
+        }
+    }
+
+    protected function loadExampleUsers(): void
+    {
+        foreach ($this->provideUsers() as $data) {
+            $this->createUser($data['username'], $data['email'], $data['password']);
+        }
+    }
+
     private function provideUsers(): iterable
     {
         yield [
@@ -219,6 +175,24 @@ abstract class WebTestCase extends BaseWebTestCase
         ];
     }
 
+    private function createUser(string $username, string $email = null, string $password = null, $active = true): User
+    {
+        $manager = self::$container->get(EntityManagerInterface::class);
+
+        $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
+
+        $user->isVerified       = $active;
+        $user->notifyOnNewEntry = true;
+        $user->notifyOnNewPost  = true;
+
+        $manager->persist($user);
+        $manager->flush();
+
+        $this->users->add($user);
+
+        return $user;
+    }
+
     private function provideMagazines(): iterable
     {
         yield [
@@ -232,5 +206,31 @@ abstract class WebTestCase extends BaseWebTestCase
             'title' => 'kbin devlog',
             'user'  => $this->getUserByUsername('adminUser'),
         ];
+    }
+
+    protected function getUserByUsername(string $username): User
+    {
+        $user = $this->users->filter(
+            static function (User $user) use ($username) {
+                return $user->getUsername() === $username;
+            }
+        )->first();
+
+        return $user ? $user : $this->createUser($username);
+    }
+
+    private function createMagazine(string $name, string $title = null, User $user = null): Magazine
+    {
+        /**
+         * @var $manager MagazineManager
+         */
+        $manager = self::$container->get(MagazineManager::class);
+
+        $dto      = (new MagazineDto())->create($name, $title ?? 'Przykładowy magazyn');
+        $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
+
+        $this->magazines->add($magazine);
+
+        return $magazine;
     }
 }
