@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         columns={"user_id", "comment_id"}
  *     )
  * })
- * @ORM\Entity(repositoryClass="App\Repository\EntryCommentVoteRepository")
+ * @ORM\Entity()
  * @ORM\AssociationOverrides({
  *     @ORM\AssociationOverride(name="user", inversedBy="entryCommentVotes")
  * })

@@ -2,12 +2,12 @@
 
 namespace App\Service\Notification;
 
-use App\Entity\BanNotification;
 use App\Entity\MagazineBan;
+use App\Entity\MagazineBanNotification;
 use App\Repository\MagazineBanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class BanNotificationManager
+class MagazineBanNotificationManager
 {
     use NotificationTrait;
 
@@ -19,7 +19,7 @@ class BanNotificationManager
 
     public function send(MagazineBan $ban): void
     {
-        $notification = new BanNotification($ban->user, $ban);
+        $notification = new MagazineBanNotification($ban->user, $ban);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();

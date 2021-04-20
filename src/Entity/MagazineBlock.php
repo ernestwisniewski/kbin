@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
-use App\Repository\UserBlockRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         columns={"user_id", "magazine_id"}
  *     )
  * })
- * @ORM\Entity(repositoryClass=UserBlockRepository::class)
+ * @ORM\Entity()
  */
 class MagazineBlock
 {

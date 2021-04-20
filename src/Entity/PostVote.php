@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         columns={"user_id", "post_id"}
  *     )
  * })
- * @ORM\Entity(repositoryClass="App\Repository\PostVoteRepository")
+ * @ORM\Entity()
  * @ORM\AssociationOverrides({
  *     @ORM\AssociationOverride(name="user", inversedBy="postVotes")
  * })

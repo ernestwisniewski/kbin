@@ -13,7 +13,7 @@
                     <form action="{{ path('user_profile_notifications_read') }}" method="POST" class="me-2">
                         <input type="hidden" name="token" value="{{ csrf_token('read_notifications') }}">
                         <button class="btn btn-sm btn-primary" type="submit">
-                            <span>Odczytaj wszystkie</span>
+                            Odczytaj wszystkie
                         </button>
                     </form>
                     <form action="{{ path('user_profile_notifications_clear') }}" method="POST">
@@ -76,7 +76,7 @@
 {% endblock post_created_notification %}
 
 {% block post_deleted_notification %}
-    {% include 'user/profile/notification/_post_deleted_post_notification.html.twig' %}
+    {% include 'user/profile/notification/_post_deleted_notification.html.twig' %}
 {% endblock post_deleted_notification %}
 
 {% block post_comment_created_notification %}

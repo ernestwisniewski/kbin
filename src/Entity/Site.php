@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\SiteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=SiteRepository::class)
+ * @ORM\Entity()
  */
 class Site
 {

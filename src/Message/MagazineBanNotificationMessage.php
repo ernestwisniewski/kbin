@@ -2,7 +2,7 @@
 
 namespace App\Message;
 
-class BanNotificationMessage
+class MagazineBanNotificationMessage
 {
     public function __construct(public int $banId)
     {

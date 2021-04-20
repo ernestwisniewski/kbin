@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
-class BanNotification extends Notification
+class MagazineBanNotification extends Notification
 {
     /**
      * @ORM\ManyToOne(targetEntity="MagazineBan")
