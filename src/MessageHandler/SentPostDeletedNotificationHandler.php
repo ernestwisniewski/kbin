@@ -2,7 +2,9 @@
 
 namespace App\MessageHandler;
 
+use App\Entity\PostDeletedNotification;
 use App\Message\PostCreatedNotificationMessage;
+use App\Message\PostDeletedNotificationMessage;
 use App\Repository\PostRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -15,7 +17,7 @@ class SentPostDeletedNotificationHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(PostCreatedNotificationMessage $message)
+    public function __invoke(PostDeletedNotificationMessage $message)
     {
         $post = $this->repository->find($message->postId);
         if (!$post) {

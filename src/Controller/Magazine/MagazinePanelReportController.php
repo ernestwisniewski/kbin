@@ -50,7 +50,7 @@ class MagazinePanelReportController extends AbstractController
 
         $manager = $managerFactory->createManager($report->getSubject());
 
-        $manager->delete($report->getSubject(), true);
+        $manager->delete($this->getUserOrThrow(), $report->getSubject());
 
         return $this->redirectToRefererOrHome($request);
     }

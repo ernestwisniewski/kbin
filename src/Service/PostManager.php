@@ -57,23 +57,23 @@ class PostManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new PostUpdatedEvent($post)));
+        $this->dispatcher->dispatch(new PostUpdatedEvent($post));
 
         return $post;
     }
 
-    public function delete(Post $post, bool $trash = false): void
+    public function delete(User $user, Post $post): void
     {
-        $trash ? $post->trash() : $post->softDelete();
+        $this->isTrashed($user, $post) ? $post->trash() : $post->softDelete();
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new PostDeletedEvent($post, $this->security->getUser())));
+        $this->dispatcher->dispatch(new PostDeletedEvent($post, $user));
     }
 
     public function purge(Post $post): void
     {
-        $this->dispatcher->dispatch((new PostBeforePurgeEvent($post)));
+        $this->dispatcher->dispatch(new PostBeforePurgeEvent($post));
 
         $post->magazine->removePost($post);
 
@@ -84,5 +84,10 @@ class PostManager implements ContentManager
     public function createDto(Post $post): PostDto
     {
         return $this->factory->createDto($post);
+    }
+
+    private function isTrashed(User $user, Post $post): bool
+    {
+        return !$post->isAuthor($user);
     }
 }

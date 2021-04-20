@@ -40,7 +40,7 @@ class PostCommentManager implements ContentManager
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new PostCommentCreatedEvent($comment)));
+        $this->dispatcher->dispatch(new PostCommentCreatedEvent($comment));
 
         return $comment;
     }
@@ -56,23 +56,23 @@ class PostCommentManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new PostCommentUpdatedEvent($comment)));
+        $this->dispatcher->dispatch(new PostCommentUpdatedEvent($comment));
 
         return $comment;
     }
 
-    public function delete(PostComment $comment, bool $trash = false): void
+    public function delete(User $user, PostComment $comment): void
     {
-        $trash ? $comment->trash() : $comment->softDelete();
+        $this->isTrashed($user, $comment) ? $comment->trash() : $comment->softDelete();
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new PostCommentDeletedEvent($comment, $this->security->getUser())));
+        $this->dispatcher->dispatch(new PostCommentDeletedEvent($comment, $user));
     }
 
     public function purge(PostComment $comment): void
     {
-        $this->dispatcher->dispatch((new PostCommentBeforePurgeEvent($comment)));
+        $this->dispatcher->dispatch(new PostCommentBeforePurgeEvent($comment));
 
         $magazine = $comment->post->magazine;
         $comment->post->removeComment($comment);
@@ -80,11 +80,16 @@ class PostCommentManager implements ContentManager
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new PostCommentPurgedEvent($magazine)));
+        $this->dispatcher->dispatch(new PostCommentPurgedEvent($magazine));
     }
 
     public function createDto(PostComment $comment): PostCommentDto
     {
         return $this->factory->createDto($comment);
+    }
+
+    private function isTrashed(User $user, PostComment $comment): bool
+    {
+        return !$comment->isAuthor($user);
     }
 }

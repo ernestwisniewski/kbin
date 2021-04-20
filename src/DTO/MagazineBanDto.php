@@ -14,9 +14,11 @@ class MagazineBanDto
         ?string $reason = null,
         ?DateTimeInterface $expiredAt = null,
         ?int $id = null
-    ) {
+    ): self {
         $this->reason    = $reason;
         $this->expiredAt = $expiredAt;
+
+        return $this;
     }
 
     public function getId(): ?int

@@ -180,7 +180,7 @@ class PostController extends AbstractController
     {
         $this->validateCsrf('post_delete', $request->request->get('token'));
 
-        $this->manager->delete($post, !$post->isAuthor($this->getUserOrThrow()));
+        $this->manager->delete($this->getUserOrThrow(), $post);
 
         return $this->redirectToMagazine($magazine);
     }
