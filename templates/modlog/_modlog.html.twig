@@ -29,7 +29,7 @@
     </div>
 {% endblock modlog %}
 
-{% block log_entry_delete %}
+{% block log_entry_deleted %}
     <small class="text-muted">/u/</small><a
         href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął treść autorstwa <small
         class="text-muted">/u/</small><a
@@ -37,7 +37,7 @@
         class="text-muted">/m/</small><a
     href="{{ path('front_magazine', {'name': log.entry.magazine.name}) }}">{{ log.entry.magazine.name }}</a>{% endif %} -
     <a href="{{ path('entry_single', { 'magazine_name':log.entry.magazine.name, 'entry_id': log.entry.id}) }} }}">{{ log.entry.shortTitle }}</a>
-{% endblock log_entry_delete %}
+{% endblock log_entry_deleted %}
 
 {% block log_entry_comment_deleted %}
     <small class="text-muted">/u/</small><a

@@ -115,23 +115,23 @@ class EntryManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new EntryUpdatedEvent($entry)));
+        $this->dispatcher->dispatch(new EntryUpdatedEvent($entry));
 
         return $entry;
     }
 
-    public function delete(Entry $entry, bool $trash = false): void
+    public function delete(User $user, Entry $entry): void
     {
-        $trash ? $entry->trash() : $entry->softDelete();
+        $entry->isAuthor($user) ? $entry->softDelete() : $entry->trash();
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new EntryDeletedEvent($entry, $this->security->getUser())));
+        $this->dispatcher->dispatch(new EntryDeletedEvent($entry, $user));
     }
 
     public function purge(Entry $entry): void
     {
-        $this->dispatcher->dispatch((new EntryBeforePurgeEvent($entry)));
+        $this->dispatcher->dispatch(new EntryBeforePurgeEvent($entry));
 
         $entry->magazine->removeEntry($entry);
 
@@ -145,7 +145,7 @@ class EntryManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new EntryPinEvent($entry)));
+        $this->dispatcher->dispatch(new EntryPinEvent($entry));
 
         return $entry;
     }

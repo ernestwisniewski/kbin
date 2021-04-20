@@ -14,7 +14,6 @@ use App\Factory\EntryCommentFactory;
 use App\Service\Contracts\ContentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 
 class EntryCommentManager implements ContentManager
@@ -22,7 +21,6 @@ class EntryCommentManager implements ContentManager
     public function __construct(
         private EntryCommentFactory $factory,
         private EventDispatcherInterface $dispatcher,
-        private Security $security,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -41,7 +39,7 @@ class EntryCommentManager implements ContentManager
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new EntryCommentCreatedEvent($comment)));
+        $this->dispatcher->dispatch(new EntryCommentCreatedEvent($comment));
 
         return $comment;
     }
@@ -57,23 +55,23 @@ class EntryCommentManager implements ContentManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new EntryCommentUpdatedEvent($comment)));
+        $this->dispatcher->dispatch(new EntryCommentUpdatedEvent($comment));
 
         return $comment;
     }
 
-    public function delete(EntryComment $comment, bool $trash = false): void
+    public function delete(User $user, EntryComment $comment): void
     {
-        $trash ? $comment->trash() : $comment->softDelete();
+        $this->isTrashed($user, $comment) ? $comment->trash() : $comment->softDelete();
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new EntryCommentDeletedEvent($comment, $this->security->getUser())));
+        $this->dispatcher->dispatch(new EntryCommentDeletedEvent($comment, $user));
     }
 
     public function purge(EntryComment $comment): void
     {
-        $this->dispatcher->dispatch((new EntryCommentBeforePurgeEvent($comment)));
+        $this->dispatcher->dispatch(new EntryCommentBeforePurgeEvent($comment));
 
         $magazine = $comment->entry->magazine;
         $comment->entry->removeComment($comment);
@@ -81,11 +79,16 @@ class EntryCommentManager implements ContentManager
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch((new EntryCommentPurgedEvent($magazine)));
+        $this->dispatcher->dispatch(new EntryCommentPurgedEvent($magazine));
     }
 
     public function createDto(EntryComment $comment): EntryCommentDto
     {
         return $this->factory->createDto($comment);
+    }
+
+    private function isTrashed(User $user, EntryComment $comment): bool
+    {
+        return !$comment->isAuthor($user);
     }
 }

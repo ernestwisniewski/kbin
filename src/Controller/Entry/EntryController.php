@@ -146,7 +146,7 @@ class EntryController extends AbstractController
     {
         $this->validateCsrf('entry_delete', $request->request->get('token'));
 
-        $this->manager->delete($entry, !$entry->isAuthor($this->getUserOrThrow()));
+        $this->manager->delete($this->getUserOrThrow(), $entry);
 
         return $this->redirectToMagazine($magazine);
     }
