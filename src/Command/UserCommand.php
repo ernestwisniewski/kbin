@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class UserCommand extends Command
 {
-    protected static $defaultName = 'kbin:user';
+    protected static $defaultName = 'kbin:user:create';
     protected static string $defaultDescription = 'This command allows you to create or remove user account.';
 
     public function __construct(

@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\EntryBadgeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=EntryBadgeRepository::class)
+ * @ORM\Entity()
  */
 class EntryBadge
 {

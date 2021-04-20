@@ -69,6 +69,11 @@ class EntryCommentManager implements ContentManager
         $this->dispatcher->dispatch(new EntryCommentDeletedEvent($comment, $user));
     }
 
+    private function isTrashed(User $user, EntryComment $comment): bool
+    {
+        return !$comment->isAuthor($user);
+    }
+
     public function purge(EntryComment $comment): void
     {
         $this->dispatcher->dispatch(new EntryCommentBeforePurgeEvent($comment));
@@ -85,10 +90,5 @@ class EntryCommentManager implements ContentManager
     public function createDto(EntryComment $comment): EntryCommentDto
     {
         return $this->factory->createDto($comment);
-    }
-
-    private function isTrashed(User $user, EntryComment $comment): bool
-    {
-        return !$comment->isAuthor($user);
     }
 }

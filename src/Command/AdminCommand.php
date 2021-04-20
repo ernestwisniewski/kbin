@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class AdminCommand extends Command
 {
-    protected static $defaultName = 'kbin:admin';
+    protected static $defaultName = 'kbin:user:admin';
     protected static string $defaultDescription = 'This command allows you to grant administrator privileges to the user.';
 
     public function __construct(private EntityManagerInterface $entityManager, private UserRepository $repository)

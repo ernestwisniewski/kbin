@@ -2,8 +2,6 @@
 
 namespace App\MessageHandler;
 
-use App\Entity\PostDeletedNotification;
-use App\Message\PostCreatedNotificationMessage;
 use App\Message\PostDeletedNotificationMessage;
 use App\Repository\PostRepository;
 use App\Service\NotificationManager;

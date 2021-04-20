@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  *   "post_comment_created": "PostCommentCreatedNotification",
  *   "post_comment_deleted": "PostCommentDeletedNotification",
  *   "message": "MessageNotification",
- *   "ban": "BanNotification",
+ *   "ban": "MagazineBanNotification",
  * })
  */
 abstract class Notification

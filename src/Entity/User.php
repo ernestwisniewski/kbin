@@ -511,6 +511,6 @@ class User implements UserInterface
 
     public function isAdmin(): bool
     {
-        return false;
+        return in_array('ROLE_ADMIN', $this->getRoles());
     }
 }

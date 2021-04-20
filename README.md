@@ -54,9 +54,9 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 ```console
 # Create new user (without email verification)
-$ docker-compose exec php bin/console kbin:user username email@exmple.com password
+$ docker-compose exec php bin/console kbin:user:create username email@exmple.com password
 # Grant administrator privileges
-$ docker-compose exec php bin/console kbin:admin username
+$ docker-compose exec php bin/console kbin:user:admin username
 ```
 
 Next, setup your instance https://localhost/admin

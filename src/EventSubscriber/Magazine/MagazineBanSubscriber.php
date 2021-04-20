@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\Magazine;
 
 use App\Event\Magazine\MagazineBanEvent;
-use App\Message\BanNotificationMessage;
+use App\Message\MagazineBanNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -22,6 +22,6 @@ class MagazineBanSubscriber implements EventSubscriberInterface
 
     public function onBan(MagazineBanEvent $event): void
     {
-        $this->bus->dispatch(new BanNotificationMessage($event->ban->getId()));
+        $this->bus->dispatch(new MagazineBanNotificationMessage($event->ban->getId()));
     }
 }

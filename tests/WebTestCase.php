@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
+use App\DTO\MagazineBanDto;
 use App\DTO\MagazineDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
@@ -232,5 +233,25 @@ abstract class WebTestCase extends BaseWebTestCase
         $this->magazines->add($magazine);
 
         return $magazine;
+    }
+
+    protected function loadNotificationsFixture()
+    {
+        $owner    = $this->getUserByUsername('owner');
+        $magazine = $this->getMagazineByName('polityka', $owner);
+
+        $actor = $this->getUserByUsername('actor');
+
+        $entry   = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
+        $comment = $this->createEntryComment('test', $entry, $actor);
+        (self::$container->get(EntryManager::class))->delete($owner, $entry);
+        (self::$container->get(EntryCommentManager::class))->delete($owner, $comment);
+
+        $post    = $this->createPost('test', $magazine, $actor);
+        $comment = $this->createPostComment('test', $post, $actor);
+        (self::$container->get(PostManager::class))->delete($owner, $post);
+        (self::$container->get(PostCommentManager::class))->delete($owner, $comment);
+
+        (self::$container->get(MagazineManager::class))->ban($magazine, $actor, $owner, (new MagazineBanDto())->create('test', new \DateTime('+1 day')));
     }
 }

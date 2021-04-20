@@ -6,7 +6,7 @@ use App\Entity\Contracts\ContentInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MagazineLogEntryCommentDeleteRepository")
+ * @ORM\Entity()
  */
 class MagazineLogEntryCommentDeleted extends MagazineLog
 {

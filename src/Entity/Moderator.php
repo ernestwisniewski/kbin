@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
-use App\Repository\ModeratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         columns={"magazine_id", "user_id"}
  *     )
  * })
- * @ORM\Entity(repositoryClass=ModeratorRepository::class)
+ * @ORM\Entity()
  */
 class Moderator
 {
