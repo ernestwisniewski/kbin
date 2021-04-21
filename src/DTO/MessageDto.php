@@ -6,9 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class MessageDto
 {
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(max="10000")
-     */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
 }

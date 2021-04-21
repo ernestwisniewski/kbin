@@ -12,37 +12,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserDto implements UserDtoInterface
 {
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *     min=2,
-     *     max=35
-     * )
-     * @Assert\Regex(
-     *     pattern="/^[a-zA-Z0-9_]{2,35}$/",
-     *     match=true
-     * )
-     */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 35)]
+    #[Assert\Regex(pattern: "/^[a-zA-Z0-9_]{2,35}$/", match: true)]
     public ?string $username = null;
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     */
+    #[Assert\NotBlank]
+    #[Assert\Email]
     public ?string $email = null;
-    /**
-     * @Assert\Length(
-     *     min = 6,
-     *     max = 4096,
-     *     minMessage="Hasło powinno mieć bynajmniej {{ limit }} znaków.",
-     *     maxMessage="Hasło powinno mieć nie więcej niż {{ limit }} znaków."
-     * )
-     */
+    #[Assert\Length(min: 6, max: 4096)]
     public ?string $plainPassword = null;
     public ?Image $avatar = null;
     public ?int $id = null;
-    /**
-     * @Assert\IsTrue()
-     */
+    #[Assert\IsTrue]
     public bool $agreeTerms;
 
     public function getId(): ?int

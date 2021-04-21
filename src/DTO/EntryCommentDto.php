@@ -10,13 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class EntryCommentDto
 {
     public Entry $entry;
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *     min = 2,
-     *     max = 4500
-     * )
-     */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
     public ?EntryComment $parent = null;
     public ?EntryComment $root = null;
