@@ -8,13 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class BadgeDto
 {
     public ?Magazine $magazine = null;
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *     min = 1,
-     *     max = 20
-     * )
-     */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1, max: 20)]
     public ?string $name = null;
     private ?int $id = null;
 

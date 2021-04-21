@@ -10,13 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PostCommentDto
 {
     public Post $post;
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *     min = 2,
-     *     max = 4500
-     * )
-     */
+    #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
     public ?PostComment $parent = null;
     public ?Image $image = null;

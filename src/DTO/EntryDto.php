@@ -12,29 +12,15 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class EntryDto
 {
-    /**
-     * @Assert\NotBlank()
-     */
+    #[Assert\NotBlank]
     public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *     min = 2,
-     *     max = 255
-     * )
-     */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 255)]
     public string $title;
-    /**
-     * @Assert\Url
-     */
+    #[Assert\Url]
     public ?string $url = null;
-    /**
-     * @Assert\Length(
-     *     min = 3,
-     *     max = 15000
-     * )
-     */
+    #[Assert\Length(min: 2, max: 15000)]
     public ?string $body = null;
     public ?Image $image = null;
     public ?bool $isAdult = false;
@@ -65,11 +51,11 @@ class EntryDto
         return $this;
     }
 
-    /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context, $payload)
-    {
+    #[Assert\Callback]
+    public function validate(
+        ExecutionContextInterface $context,
+        $payload
+    ) {
         if (null === $this->body && null === $this->url) {
             $this->buildViolation($context, 'url');
             $this->buildViolation($context, 'body');

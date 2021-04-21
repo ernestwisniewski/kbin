@@ -14,9 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ModeratorDto
 {
     public Magazine $magazine;
-    /**
-     * @Assert\NotBlank()
-     */
+    #[Assert\NotBlank]
     public ?User $user = null;
 
     public function __construct(Magazine $magazine)
