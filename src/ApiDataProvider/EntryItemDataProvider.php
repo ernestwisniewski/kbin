@@ -23,11 +23,7 @@ final class EntryItemDataProvider implements ItemDataProviderInterface, Restrict
     {
         $entry = $this->repository->find($id);
 
-        if (!$entry) {
-            return null;
-        }
-
-        return $this->factory->createDto($entry);
+        return $entry ? $this->factory->createDto($entry) : null;
     }
 }
 

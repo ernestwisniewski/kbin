@@ -23,11 +23,7 @@ final class MagazineItemDataProvider implements ItemDataProviderInterface, Restr
     {
         $magazine = $this->repository->findOneByName($id);
 
-        if (!$magazine) {
-            return null;
-        }
-
-        return $this->factory->createDto($magazine);
+        return $magazine ? $this->factory->createDto($magazine) : null;
     }
 }
 

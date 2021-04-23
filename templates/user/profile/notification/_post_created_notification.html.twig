@@ -1,5 +1,6 @@
-<small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': notification.user.username}) }}">{{ notification.user.username }}</a> dodał/a nowy wpis w <small
+{% from 'user/_macros.html.twig' import user %}
+
+{{ user(notification.user) }} dodał/a nowy wpis w <small
         class="text-muted">/m/</small><a
         href="{{ path('front_magazine', {'name': notification.post.magazine.name }) }}">{{ notification.post.magazine.name }}</a> - <strong><a
-            href="{{ path('post_single', {'magazine_name': notification.post.magazine.name, 'post_id': notification.post.id}) }}">{{ notification.post.shortTitle}}</a></strong>
+            href="{{ path('post_single', {'magazine_name': notification.post.magazine.name, 'post_id': notification.post.id}) }}">{{ notification.post.shortTitle }}</a></strong>

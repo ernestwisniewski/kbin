@@ -1,11 +1,10 @@
-{% from 'user/_macros.html.twig' import avatar %}
+{% from 'user/_macros.html.twig' import user %}
 
 <div class="table-responsive">
     <table class="table align-middle">
         <thead>
         <tr>
-            <td></td>
-            <td>Nazwa</td>
+            <td>Login</td>
             <td>Dodno</td>
             <td></td>
         </tr>
@@ -13,8 +12,7 @@
         <tbody>
         {% for moderator in moderators %}
             <tr>
-                <td>{{ avatar(moderator.user) }}</td>
-                <td>/u/<a href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a></td>
+                <td>{{ user(moderator.user) }}</td>
                 <td>{{ moderator.createdAt|ago }}</td>
                 <td>{% include 'user/_follow_button.html.twig' with {'user': moderator.user} %}</td>
             </tr>
