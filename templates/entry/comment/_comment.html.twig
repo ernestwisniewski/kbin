@@ -1,5 +1,6 @@
 {% block comment %}
     {% from 'user/_macros.html.twig' import avatar %}
+    {% from 'user/_macros.html.twig' import user %}
     {% from 'vote/_macros.html.twig' import vote %}
 
     {% if with_parent %}
@@ -35,11 +36,7 @@
                     </a>
                     {% endif %}
                     <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">przez
-                            <a class="font-weight-bold" href="{{ path('user', {username: comment.user.username}) }}">
-                                {{ comment.user.username }}
-                            </a>
-                        </small>
+                        <small class="text-muted">przez {{ user(comment.user, {prefix: false, bolded: true}) }}</small>
                     </li>
 
                     {% if level is same as 1 %}

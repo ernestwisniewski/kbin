@@ -1,3 +1,4 @@
-Moderator usunął twój komentarz w <small class="text-muted">/m/</small><a
-        href="{{ path('front_magazine', {'name': notification.comment.post.magazine.name }) }}">{{ notification.comment.post.magazine.name }}</a> -
-<strong><a href="{{ path('post_single', {'magazine_name': notification.comment.post.magazine.name, 'post_id': notification.comment.post.id}) }}">{{ notification.comment.post.shortTitle }}</a></strong>
+{% from 'magazine/_macros.html.twig' import magazine %}
+
+Moderator usunął twój komentarz w {{ magazine(notification.comment.post.magazine) }} - <strong><a
+            href="{{ path('post_single', {'magazine_name': notification.comment.post.magazine.name, 'post_id': notification.comment.post.id}) }}">{{ notification.comment.post.shortTitle }}</a></strong>

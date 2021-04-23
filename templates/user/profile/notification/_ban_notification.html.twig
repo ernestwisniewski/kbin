@@ -1,6 +1,4 @@
+{% from 'magazine/_macros.html.twig' import magazine %}
 {% from 'user/_macros.html.twig' import user %}
 
-{{ user(notification.ban.bannedBy) }} zbanował cię w
-<small class="text-muted">/m/</small><a
-        href="{{ path('front_magazine', {'name': notification.ban.magazine.name }) }}">{{ notification.ban.magazine.name }}</a>.
-Ban wygasa {{ notification.ban.expiredAt|ago }}. {{ notification.ban.reason }}
+{{ user(notification.ban.bannedBy) }} zbanował cię w {{ magazine(notification.ban.magazine) }}. Ban wygasa {{ notification.ban.expiredAt|ago }}. {{ notification.ban.reason }}
