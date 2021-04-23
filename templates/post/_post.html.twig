@@ -1,5 +1,7 @@
 {% block post %}
     {% from 'user/_macros.html.twig' import avatar %}
+    {% from 'user/_macros.html.twig' import user %}
+    {% from 'magazine/_macros.html.twig' import magazine %}
     {% from 'vote/_macros.html.twig' import vote %}
     {% from 'post/comment/_macros.html.twig' import comment %}
 
@@ -31,18 +33,12 @@
                     </li>
 
                     <li class="kbin-post-meta-user kbin-post-meta-list-item list-inline-item">
-                        <small class="text-muted">przez
-                            <a class="font-weight-bold" href="{{ path('user', {username: post.user.username}) }}">
-                                {{ post.user.username }}
-                            </a>
-                        </small>
+                        <small class="text-muted">{{ user(post.user, {bolded: true, prefix: false}) }}</small>
                     </li>
 
                     {% if not is_magazine_page() %}
                         <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
-
-                            <small class="text-muted">do <a class="font-weight-bold"
-                                                            href="{{ path('front_magazine', {'name': post.magazine.name}) }}">/m/{{ post.magazine.name }}</a></small>
+                            <small class="text-muted">do {{ magazine(post.magazine, {bolded:true}) }}</small>
                         </li>
                     {% endif %}
                 </ul>

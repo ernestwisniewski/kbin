@@ -1,3 +1,5 @@
+{% from 'magazine/_macros.html.twig' import magazine %}
+
 <div class="table-responsive">
     <table class="table align-middle">
         <thead>
@@ -12,7 +14,7 @@
         <tbody>
         {% for magazine in magazines %}
             <tr>
-                <td>/m/<a href="{{ path('front_magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a></td>
+                <td>{{ magazine(magazine) }}</td>
                 <td>{{ magazine.entryCount }}</td>
                 <td>{{ magazine.entryCommentCount }}</td>
                 <td>0</td>

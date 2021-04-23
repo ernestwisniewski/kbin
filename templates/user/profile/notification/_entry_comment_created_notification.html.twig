@@ -1,7 +1,5 @@
+{% from 'magazine/_macros.html.twig' import magazine %}
 {% from 'user/_macros.html.twig' import user %}
 
-{{ user(notification.user) }} dodał/a nowy komentarz w <small
-        class="text-muted">/m/</small><a
-        href="{{ path('front_magazine', {'name': notification.comment.entry.magazine.name }) }}">{{ notification.comment.entry.magazine.name }}</a> -
-<strong><a
+{{ user(notification.user) }} dodał/a nowy komentarz w {{ magazine(notification.comment.entry.magazine) }} - <strong><a
             href="{{ path('entry_single', {'magazine_name': notification.comment.entry.magazine.name, 'entry_id': notification.comment.entry.id}) }}">{{ notification.comment.shortTitle }}</a></strong>
