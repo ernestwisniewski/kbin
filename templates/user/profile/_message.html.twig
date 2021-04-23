@@ -1,3 +1,4 @@
+{% from 'user/_macros.html.twig' import user %}
 {% from 'user/_macros.html.twig' import avatar %}
 
 <blockquote id="{{ message.id }}" class="kbin-comment shadow-sm">
@@ -9,10 +10,7 @@
         <aside class="kbin-comment-meta">
             <ul class="kbin-comment-meta-list list-inline m-0">
                 <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
-                    <small class="text-muted">przez
-                        <a class="font-weight-bold" href="{{ path('user', {username: message.sender.username}) }}">
-                            {{ message.sender.username }}
-                        </a>
+                    <small class="text-muted">przez {{ user(message.sender) }} {# @todo bold username #}
                         {{ message.createdAt|ago }}
                     </small>
                 </li>

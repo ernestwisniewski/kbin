@@ -30,50 +30,39 @@
 {% endblock modlog %}
 
 {% block log_entry_deleted %}
-    <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął treść autorstwa <small
-        class="text-muted">/u/</small><a
-    href="{{ path('user', {'username': log.entry.user.username}) }}">{{ log.entry.user.username }}</a>{% if show_magazine %} w <small
-        class="text-muted">/m/</small><a
-    href="{{ path('front_magazine', {'name': log.entry.magazine.name}) }}">{{ log.entry.magazine.name }}</a>{% endif %} -
+    {% from 'magazine/_macros.html.twig' import magazine %}
+    {% from 'user/_macros.html.twig' import user %}
+
+    {{ user(log.user) }} usunął treść autorstwa {{ user(log.entry.user) }}{% if show_magazine %} w {{ magazine(log.entry.magazine) }}{% endif %} -
     <a href="{{ path('entry_single', { 'magazine_name':log.entry.magazine.name, 'entry_id': log.entry.id}) }} }}">{{ log.entry.shortTitle }}</a>
 {% endblock log_entry_deleted %}
 
 {% block log_entry_comment_deleted %}
-    <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął komentarz autorstwa <small
-        class="text-muted">/u/</small><a
-    href="{{ path('user', {'username': log.comment.user.username}) }}">{{ log.comment.user.username }}</a>{% if show_magazine %} w <small
-        class="text-muted">/m/</small><a
-    href="{{ path('front_magazine', {'name': log.comment.magazine.name}) }}">{{ log.comment.magazine.name }}</a>{% endif %} - {{ log.comment.shortTitle }}
+    {% from 'magazine/_macros.html.twig' import magazine %}
+    {% from 'user/_macros.html.twig' import user %}
+
+    {{ user(log.user) }} usunął komentarz autorstwa {{ user(log.comment.user) }}{% if show_magazine %} w {{ magazine(log.comment.magazine) }}{% endif %} - {{ log.comment.shortTitle }}
 {% endblock log_entry_comment_deleted %}
 
 {% block log_post_deleted %}
-    <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął post autorstwa <small
-        class="text-muted">/u/</small><a
-    href="{{ path('user', {'username': log.post.user.username}) }}">{{ log.post.user.username }}</a>{% if show_magazine %} w <small
-        class="text-muted">/m/</small><a
-    href="{{ path('front_magazine', {'name': log.post.magazine.name}) }}">{{ log.post.magazine.name }}</a>{% endif %} -
+    {% from 'magazine/_macros.html.twig' import magazine %}
+    {% from 'user/_macros.html.twig' import user %}
+
+    {{ user(log.user) }} usunął post autorstwa {{ user(log.post.user) }}{% if show_magazine %} w {{ magazine(log.post.magazine) }}{% endif %} -
     <a href="{{ path('post_single', {'magazine_name': log.post.magazine.name, 'post_id': log.post.id }) }}">{{ log.post.shortTitle }}</a>
 {% endblock log_post_deleted %}
 
 {% block log_post_comment_deleted %}
-    <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a> usunął post autorstwa <small
-        class="text-muted">/u/</small><a
-    href="{{ path('user', {'username': log.comment.user.username}) }}">{{ log.comment.user.username }}</a>{% if show_magazine %} w <small
-        class="text-muted">/m/</small><a
-    href="{{ path('front_magazine', {'name': log.comment.magazine.name}) }}">{{ log.comment.magazine.name }}</a>{% endif %} - {{ log.comment.shortTitle }}
+    {% from 'magazine/_macros.html.twig' import magazine %}
+    {% from 'user/_macros.html.twig' import user %}
+
+    {{ user(log.user) }} usunął post autorstwa {{ user(log.comment.user) }}{% if show_magazine %} w {{ magazine(log.comment.magazine) }}{% endif %} - {{ log.comment.shortTitle }}
 {% endblock log_post_comment_deleted %}
 
 {% block log_ban %}
-    <small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': log.user.username}) }}">{{ log.user.username }}</a>
-    {% if log.meta is same as 'ban' %}zbanował{% else %}odbanował{% endif %} użytkownika
-    <small class="text-muted">/u/</small><a
-    href="{{ path('user', {'username': log.ban.user.username}) }}">{{ log.ban.user.username }}</a>{% if log.ban.reason %}{% if show_magazine %} w
-    <small
-            class="text-muted">/m/</small><a
-    href="{{ path('front_magazine', {'name': log.ban.magazine.name}) }}">{{ log.ban.magazine.name }}</a>{% endif %} - {{ log.ban.reason }}{% endif %}
+    {% from 'magazine/_macros.html.twig' import magazine %}
+    {% from 'user/_macros.html.twig' import user %}
+
+    {{ user(log.user) }} {% if log.meta is same as 'ban' %}zbanował{% else %}odbanował{% endif %} użytkownika {{ user(log.ban.user) }}
+    {% if log.ban.reason %}{% if show_magazine %} w {{ magazine(log.ban.magazine) }}{% endif %} - {{ log.ban.reason }}{% endif %}
 {% endblock log_ban %}

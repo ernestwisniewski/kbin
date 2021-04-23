@@ -23,11 +23,7 @@ final class UserItemDataProvider implements ItemDataProviderInterface, Restricte
     {
         $user = $this->repository->findOneByUsername($id);
 
-        if (!$user) {
-            return null;
-        }
-
-        return $this->factory->createDto($user);
+        return $user ? $this->factory->createDto($user) : null;
     }
 }
 

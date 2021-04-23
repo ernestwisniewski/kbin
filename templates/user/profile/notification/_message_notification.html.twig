@@ -1,3 +1,4 @@
-<small class="text-muted">/u/</small><a
-        href="{{ path('user', {'username': notification.message.sender.username}) }}">{{ notification.message.sender.username }}</a> napisał/a wiadomość w wątku
-<a href="{{ path('user_profile_message', {'id': notification.message.thread.id}) }}">{{ notification.message.thread.title }}</a>
+{% from 'user/_macros.html.twig' import user %}
+
+{{ user(notification.message.sender) }} napisał/a wiadomość w wątku <a
+        href="{{ path('user_profile_message', {'id': notification.message.thread.id}) }}">{{ notification.message.thread.title }}</a>

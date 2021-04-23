@@ -1,4 +1,4 @@
-{% use 'user/_avatar.html.twig' %}
+{% use 'user/_user.html.twig' %}
 
 {%- macro avatar(user, options) -%}
     {%- with {
@@ -6,5 +6,15 @@
         width: options.width ?? null
         } only -%}
         {{ block('avatar') }}
+    {%- endwith -%}
+{%- endmacro -%}
+
+{%- macro user(user, options) -%}
+    {%- with {
+        user: user,
+        prefix: options.prefix ?? true,
+        bolded: options.bolded ?? false
+        } only -%}
+        {{ block('user') }}
     {%- endwith -%}
 {%- endmacro -%}

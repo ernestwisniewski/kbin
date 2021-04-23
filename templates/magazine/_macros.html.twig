@@ -1,0 +1,11 @@
+{% use 'magazine/_magazine.html.twig' %}
+
+{%- macro magazine(magazine, options) -%}
+    {%- with {
+        magazine: magazine,
+        prefix: options.prefix ?? true,
+        bolded: options.bolded ?? false
+        } only -%}
+        {{ block('magazine') }}
+    {%- endwith -%}
+{%- endmacro -%}
