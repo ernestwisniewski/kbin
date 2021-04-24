@@ -94,6 +94,20 @@
                             </li>
                         {% endif %}
 
+                        {% if is_granted('delete', entry) %}
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <form action="{{ path('entry_delete', {
+                                    magazine_name: entry.magazine.name,
+                                    entry_id: entry.id,
+                                }) }}" method="POST">
+                                    <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                                    <button type="submit" class="btn btn-link">
+                                        <span>usuń</span>
+                                    </button>
+                                </form>
+                            </li>
+                        {% endif %}
+
                         {% if is_granted('moderate', entry.magazine) %}
                             <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <form action="{{ path('entry_pin', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}" method="POST">

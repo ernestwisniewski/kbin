@@ -108,6 +108,20 @@
                             </small>
                         </li>
                     {% endif %}
+
+                    {% if is_granted('delete', post) %}
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <form action="{{ path('post_delete', {
+                                magazine_name: post.magazine.name,
+                                post_id: post.id,
+                            }) }}" method="POST">
+                                <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
+                                <button type="submit" class="btn btn-link">
+                                    <span>usuń</span>
+                                </button>
+                            </form>
+                        </li>
+                    {% endif %}
                 </ul>
             </aside>
 

@@ -6,6 +6,7 @@ use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\ApiDataProvider\DtoPaginator;
 use App\DTO\EntryDto;
+use App\Factory\ImageFactory;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -17,6 +18,7 @@ final class ApiEventSubscriber implements EventSubscriberInterface
     public function __construct(
         private MagazineFactory $magazineFactory,
         private UserFactory $userFactory,
+        private ImageFactory $imageFactory,
         private IriConverterInterface $iriConverter,
     ) {
     }
@@ -55,5 +57,6 @@ final class ApiEventSubscriber implements EventSubscriberInterface
     {
         $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
         $dto->user     = $this->userFactory->createDto($dto->user);
+        $dto->image    = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
     }
 }
