@@ -234,7 +234,7 @@ class PostCommentController extends AbstractController
 
         $this->manager->delete($this->getUserOrThrow(), $comment);
 
-        return $this->redirectToMagazine($magazine);
+        return $this->redirectToRefererOrHome($request);
     }
 
     /**

@@ -139,6 +139,15 @@ $comment-margin-sm: .5rem;
       font-size: .9rem;
       display: inline;
 
+      button {
+        padding: 0;
+        font-size: .78rem;
+        font-weight: 700;
+        color: grey;
+        margin: 0 .5rem 0 0;
+        text-decoration: none;
+      }
+
       &-list {
         display: flow-root;
 

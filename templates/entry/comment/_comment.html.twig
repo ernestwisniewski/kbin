@@ -119,6 +119,21 @@
                                 </small>
                             </li>
                         {% endif %}
+
+                        {% if is_granted('delete', comment) %}
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <form action="{{ path('entry_comment_delete', {
+                                    magazine_name: comment.magazine.name,
+                                    entry_id: comment.entry.id,
+                                    comment_id: comment.id,
+                                }) }}" method="POST">
+                                    <input type="hidden" name="token" value="{{ csrf_token('entry_comment_delete') }}">
+                                    <button type="submit" class="btn btn-link">
+                                        <span>usuń</span>
+                                    </button>
+                                </form>
+                            </li>
+                        {% endif %}
                     </ul>
                 </aside>
             {% endif %}

@@ -3,14 +3,14 @@
 namespace App\MessageHandler;
 
 use App\Message\PostCommentDeletedNotificationMessage;
-use App\Repository\EntryCommentRepository;
+use App\Repository\PostCommentRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentPostCommentDeletedNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private EntryCommentRepository $repository,
+        private PostCommentRepository $repository,
         private NotificationManager $manager
     ) {
     }

@@ -182,7 +182,7 @@ class PostController extends AbstractController
 
         $this->manager->delete($this->getUserOrThrow(), $post);
 
-        return $this->redirectToMagazine($magazine);
+        return $this->redirectToRefererOrHome($request);
     }
 
     /**
