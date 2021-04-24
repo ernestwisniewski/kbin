@@ -38,7 +38,7 @@ class PostShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $notification = $this->repository->findNewEntryUnreadNotification($this->security->getUser(), $post);
+        $notification = $this->repository->findUnreadNotification($this->security->getUser(), $post);
 
         if (!$notification) {
             return;

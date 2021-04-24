@@ -1,0 +1,17 @@
+resources:
+  App\DTO\ImageDto:
+    properties:
+      id:
+        identifier: true
+    shortName: 'image'
+    collectionOperations:
+      get:
+        method: GET
+    itemOperations:
+      get:
+        method: GET
+    attributes:
+      normalization_context:
+        groups: [ 'image_read' ]
+      denormalization_context:
+        groups: [ 'image_write' ]

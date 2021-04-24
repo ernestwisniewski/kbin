@@ -22,7 +22,7 @@ class EntryCreatedNotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, EntryCreatedNotification::class);
     }
 
-    public function findNewEntryUnreadNotification(User $user, Entry $entry): ?EntryCreatedNotification
+    public function findUnreadNotifications(User $user, Entry $entry)
     {
         return $this->createQueryBuilder('n')
             ->andWhere('n.user = :user')
@@ -36,6 +36,6 @@ class EntryCreatedNotificationRepository extends ServiceEntityRepository
                 ]
             )
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
 }

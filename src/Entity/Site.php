@@ -15,6 +15,18 @@ class Site
      * @ORM\Column(type="integer")
      */
     private $id;
+    /**
+     * @ORM\Column(type="string")
+     */
+    public string $title;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $enabled;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $registrationOpen;
 
     public function getId(): ?int
     {
