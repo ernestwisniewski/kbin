@@ -28,7 +28,10 @@ class EntryFactory
             $entry->title,
             $entry->url,
             $entry->body,
-            null,
+            $entry->commentCount,
+            $entry->countUpVotes(),
+            $entry->countDownVotes(),
+            $entry->image,
             $entry->isAdult,
             $entry->badges,
             $entry->getId()

@@ -15,6 +15,7 @@ class EntryDto
     #[Assert\NotBlank]
     public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
+    public Image|ImageDto|null $image = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
     public string $title;
@@ -22,7 +23,9 @@ class EntryDto
     public ?string $url = null;
     #[Assert\Length(min: 2, max: 15000)]
     public ?string $body = null;
-    public ?Image $image = null;
+    public ?int $comments = null;
+    public ?int $uv = null;
+    public ?int $dv = null;
     public ?bool $isAdult = false;
     public ?Collection $badges = null;
     private ?int $id = null;
@@ -33,6 +36,9 @@ class EntryDto
         string $title,
         ?string $url = null,
         ?string $body = null,
+        ?int $comments = null,
+        ?int $uv = null,
+        ?int $dv = null,
         ?Image $image = null,
         ?bool $isAdult = false,
         ?Collection $badges = null,
@@ -44,6 +50,9 @@ class EntryDto
         $this->title    = $title;
         $this->url      = $url;
         $this->body     = $body;
+        $this->comments = $comments;
+        $this->uv       = $uv;
+        $this->dv       = $dv;
         $this->image    = $image;
         $this->isAdult  = $isAdult;
         $this->badges   = $badges;

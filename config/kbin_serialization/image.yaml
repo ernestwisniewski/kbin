@@ -1,0 +1,10 @@
+App\DTO\ImageDto:
+  attributes:
+    id:
+      groups: [ 'image_read' ]
+    filePath:
+      groups: [ 'image_read' ]
+    width:
+      groups: [ 'image_read' ]
+    height:
+      groups: [ 'image_read' ]

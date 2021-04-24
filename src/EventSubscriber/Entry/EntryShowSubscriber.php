@@ -50,13 +50,13 @@ class EntryShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $notification = $this->repository->findNewEntryUnreadNotification($this->security->getUser(), $entry);
+        $notifications = $this->repository->findUnreadNotifications($this->security->getUser(), $entry);
 
-        if (!$notification) {
+        if (!count($notifications)) {
             return;
         }
 
-        $notification->status = Notification::STATUS_READ;
+        array_map(fn($notification) => $notification->status = Notification::STATUS_READ, $notifications);
 
         $this->entityManager->flush();
     }
