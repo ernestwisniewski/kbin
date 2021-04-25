@@ -12,12 +12,13 @@ use App\Event\Post\PostBeforePurgeEvent;
 use App\Event\Post\PostDeletedEvent;
 use App\Event\PostComment\PostCommentBeforePurgeEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
+use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ReportHandleSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private ReportRepository $repository, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -43,11 +44,7 @@ class ReportHandleSubscriber implements EventSubscriberInterface
 
     private function handleReport(ReportInterface $subject): ?Report
     {
-        $repo = $this->entityManager->getRepository(get_class($subject).'Report');
-        /**
-         * @var $report Report
-         */
-        $report = $repo->findPendingBySubject($subject);
+        $report = $this->repository->findBySubject($subject);
 
         if (!$report) {
             return null;

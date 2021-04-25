@@ -9,6 +9,7 @@ use App\Event\Report\ReportRejectedEvent;
 use App\Event\Report\SubjectReportedEvent;
 use App\Exception\SubjectHasBeenReportedException;
 use App\Factory\ReportFactory;
+use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -16,6 +17,7 @@ class ReportManager
 {
     public function __construct(
         private ReportFactory $factory,
+        private ReportRepository $repository,
         private EventDispatcherInterface $dispatcher,
         private EntityManagerInterface $entityManager
     ) {
@@ -23,12 +25,7 @@ class ReportManager
 
     public function report(ReportDto $dto, User $reporting): Report
     {
-        $repository = $this->entityManager->getRepository(get_class($dto->getSubject()).'Report');
-
-        /**
-         * @var $report Report
-         */
-        $existed = $report = $repository->findBySubject($dto->getSubject());
+        $existed = $report = $this->repository->findBySubject($dto->getSubject());
 
         if ($report) {
             if ($report->reporting === $reporting) {

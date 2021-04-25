@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\EntryReportRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=EntryReportRepository::class)
+ * @ORM\Entity()
  */
 class EntryReport extends Report
 {

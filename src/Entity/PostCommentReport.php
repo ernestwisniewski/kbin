@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\PostCommentReportRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PostCommentReportRepository::class)
+ * @ORM\Entity()
  */
 class PostCommentReport extends Report
 {
