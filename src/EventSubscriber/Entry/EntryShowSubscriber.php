@@ -5,7 +5,7 @@ namespace App\EventSubscriber\Entry;
 use App\Entity\Entry;
 use App\Entity\Notification;
 use App\Event\Entry\EntryHasBeenSeenEvent;
-use App\Repository\EntryCreatedNotificationRepository;
+use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
@@ -18,7 +18,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
     public function __construct(
         private Counter $viewCounter,
         private Security $security,
-        private EntryCreatedNotificationRepository $repository,
+        private NotificationRepository $repository,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -50,7 +50,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $notifications = $this->repository->findUnreadNotifications($this->security->getUser(), $entry);
+        $notifications = $this->repository->findUnreadEntryNotifications($this->security->getUser(), $entry);
 
         if (!count($notifications)) {
             return;

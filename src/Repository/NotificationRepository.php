@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Entry;
 use App\Entity\Notification;
+use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -48,5 +50,37 @@ class NotificationRepository extends ServiceEntityRepository
         }
 
         return $pagerfanta;
+    }
+
+    public function findUnreadEntryNotifications(User $user, Entry $entry): iterable
+    {
+        $result = $this->findUnreadNotifications($user);
+
+        return array_filter(
+            $result,
+            fn($notification) => (isset($notification->entry) && $notification->entry === $entry)
+                || (isset($notification->entryComment) && $notification->entryComment->entry === $entry)
+        );
+    }
+
+    public function findUnreadPostNotifications(User $user, Post $post): iterable
+    {
+        $result = $this->findUnreadNotifications($user);
+
+        return array_filter(
+            $result,
+            fn($notification) => (isset($notification->post) && $notification->post === $post)
+                || (isset($notification->postComment) && $notification->postComment->post === $post)
+        );
+    }
+
+    private function findUnreadNotifications(User $user): array
+    {
+        $dql = 'SELECT n FROM '.Notification::class.' n WHERE n.user = :user AND n.status = :status';
+
+        return $this->getEntityManager()->createQuery($dql)
+            ->setParameter('user', $user)
+            ->setParameter('status', Notification::STATUS_NEW)
+            ->getResult();
     }
 }
