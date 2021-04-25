@@ -132,7 +132,7 @@ class ProfileControllerTest extends WebTestCase
 
         $client->loginUser($this->getUserByUsername('actor'));
         $crawler = $client->request('GET', '/profil/notyfikacje');
-        $this->assertCount(4, $crawler->filter('.table-responsive tr'));
+        $this->assertCount(5, $crawler->filter('.table-responsive tr'));
     }
 
     public function testUserCanReadAllNotifications()
