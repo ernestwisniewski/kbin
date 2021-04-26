@@ -12,6 +12,13 @@ posts_subscribed:
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
+posts_moderated:
+  controller: App\Controller\Post\PostController::moderated
+  defaults: { sortBy: ~, time: ~ }
+  path: /mod/wpisy/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
 magazine_posts:
   controller: App\Controller\Post\PostController::magazine
   defaults: { sortBy: ~, time: ~ }

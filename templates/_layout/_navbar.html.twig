@@ -29,6 +29,12 @@
                                 <a class="text-decoration-none text-reset" href="{{ path('front_subscribed') }}">sub</a>
                             </span>
                         </li>
+                    {% elseif is_mod_page() %}
+                        <li class="text-muted me-3 pt-2">
+                            /<span class="font-weight-bold">
+                                <a class="text-decoration-none text-reset" href="{{ path('front_moderated') }}">mod</a>
+                            </span>
+                        </li>
                     {% endif %}
 
                     {% if is_user_page() %}

@@ -33,6 +33,13 @@ entry_comments_subscribed:
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
+entry_comments_moderated:
+  controller: App\Controller\Entry\EntryCommentController::moderated
+  defaults: { sortBy: ~, time: ~ }
+  path: /mod/komentarze/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
 magazine_entry_comments:
   controller: App\Controller\Entry\EntryCommentController::front
   defaults: { sortBy: ~, time: ~ }

@@ -42,12 +42,35 @@ class PostController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function subscribed(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->translateSort($sortBy))
             ->setTime($criteria->translateTime($time));
         $criteria->subscribed = true;
+
+        $posts = $repository->findByCriteria($criteria);
+
+        return $this->render(
+            'post/front.html.twig',
+            [
+                'posts' => $posts,
+            ]
+        );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function moderated(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
+    {
+        $criteria = new PostPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time));
+        $criteria->moderated = true;
 
         $posts = $repository->findByCriteria($criteria);
 

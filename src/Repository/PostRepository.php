@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
+use App\Entity\Moderator;
 use App\Entity\Post;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
@@ -88,6 +89,8 @@ class PostRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
+        $user = $this->security->getUser();
+
         if ($criteria->magazine) {
             $qb->andWhere('p.magazine = :magazine')
                 ->setParameter('magazine', $criteria->magazine);
@@ -109,7 +112,12 @@ class PostRepository extends ServiceEntityRepository
             $qb->setParameter('user', $this->security->getUser());
         }
 
-        if ($user = $this->security->getUser()) {
+        if ($criteria->moderated) {
+            $qb->andWhere('p.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)');
+            $qb->setParameter('user', $this->security->getUser());
+        }
+
+        if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
             $qb->andWhere(
                 'p.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
             );

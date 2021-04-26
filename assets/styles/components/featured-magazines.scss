@@ -21,8 +21,13 @@
         padding: .1rem .5rem;
         display: block;
 
-        &:hover {
+        &:hover,
+        &.highlighted:hover {
           background-color: $kbin-topbar-link-hover-background-color;
+        }
+
+        &.highlighted {
+          background: #556880;
         }
       }
 
@@ -30,6 +35,10 @@
         background-color: $kbin-topbar-link-active-background-color;
 
         a {
+          &.highlighted {
+            background: transparent;
+          }
+
           font-weight: bold;
           color: #556880 !important;
           text-shadow: 0 0 2px #9ab4ca;
