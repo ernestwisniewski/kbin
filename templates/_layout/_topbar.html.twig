@@ -4,10 +4,16 @@
             <a href="/">Strona główna</a>
         </li>
         <li class="kbin-featured-magazines-list-item {{ is_sub_page() ? 'kbin-featured-magazines-list-item--active' : '' }}">
-            <a href="{{ path('front_subscribed') }}">Subskrypcje</a>
+            <a href="{{ path('front_subscribed') }}">Obserwowane</a>
         </li>
-        <li class="kbin-featured-magazines-list-item {{ is_active_route('magazine_list_all') ? 'kbin-featured-magazines-list-item--active' : '' }}">
-            <a href="{{ path('magazine_list_all') }}">Magazyny</a>
+        <li class="kbin-featured-magazines-list-item {{ is_mod_page() ? 'kbin-featured-magazines-list-item--active' : '' }}">
+            <a href="{{ path('front_moderated') }}">Moderowane</a>
+        </li>
+        <li class="kbin-featured-magazines-list-item position-absolute end-0 {{ is_active_route('magazine_list_all') ? 'kbin-featured-magazines-list-item--active' : '' }}" style="z-index:1090">
+            <a class="highlighted" href="{{ path('magazine_list_all') }}">Wszystkie magazyny</a>
+        </li>
+        <li class="kbin-featured-magazines-list-item {{ is_active_route('magazine_list_all') ? 'kbin-featured-magazines-list-item--active' : '' }}"">
+            <a href="#">•</a>
         </li>
     </ul>
     {{ render(controller('App\\Controller\\Magazine\\MagazineController::featuredList', {'magazine': magazine is defined ? magazine : null})) }}

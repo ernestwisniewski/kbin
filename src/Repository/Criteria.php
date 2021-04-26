@@ -51,6 +51,7 @@ abstract class Criteria
     public int $page = 1;
     public ?Magazine $magazine = null;
     public ?User $user = null;
+    public bool $moderated = false;
     public ?string $type = null;
     public string $sortOption = EntryRepository::SORT_DEFAULT;
     public string $time = EntryRepository::TIME_DEFAULT;

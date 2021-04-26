@@ -48,6 +48,9 @@ class EntryCommentController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_USER")
+     */
     public function subscribed(?string $sortBy, ?string $time, Request $request): Response
     {
         $params   = [];
@@ -55,6 +58,28 @@ class EntryCommentController extends AbstractController
         $criteria->showSortOption($criteria->translateSort($sortBy))
             ->setTime($criteria->translateTime($time));
         $criteria->subscribed = true;
+
+        $params['comments'] = $this->repository->findByCriteria($criteria);
+
+        $this->repository->hydrate(...$params['comments']);
+        $this->repository->hydrateChildren(...$params['comments']);
+
+        return $this->render(
+            'entry/comment/front.html.twig',
+            $params
+        );
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     */
+    public function moderated(?string $sortBy, ?string $time, Request $request): Response
+    {
+        $params   = [];
+        $criteria = new EntryCommentPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->translateSort($sortBy))
+            ->setTime($criteria->translateTime($time));
+        $criteria->moderated = true;
 
         $params['comments'] = $this->repository->findByCriteria($criteria);
 

@@ -6,6 +6,7 @@ use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
+use App\Entity\Moderator;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
@@ -100,6 +101,8 @@ class EntryRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, EntryPageView $criteria): QueryBuilder
     {
+        $user = $this->security->getUser();
+
         if ($criteria->magazine) {
             $qb->andWhere('e.magazine = :magazine')
                 ->setParameter('magazine', $criteria->magazine);
@@ -108,6 +111,11 @@ class EntryRepository extends ServiceEntityRepository
         if ($criteria->user) {
             $qb->andWhere('e.user = :user')
                 ->setParameter('user', $criteria->user);
+        }
+
+        if ($criteria->type) {
+            $qb->andWhere('e.type = :type')
+                ->setParameter('type', $criteria->type);
         }
 
         if ($criteria->subscribed) {
@@ -121,7 +129,12 @@ class EntryRepository extends ServiceEntityRepository
             $qb->setParameter('user', $this->security->getUser());
         }
 
-        if ($user = $this->security->getUser()) {
+        if ($criteria->moderated) {
+            $qb->andWhere('e.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)');
+            $qb->setParameter('user', $this->security->getUser());
+        }
+
+        if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
             $qb->andWhere(
                 'e.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
             );
@@ -131,11 +144,6 @@ class EntryRepository extends ServiceEntityRepository
                 'e.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
             );
             $qb->setParameter('magazineBlocker', $user);
-        }
-
-        if ($criteria->type) {
-            $qb->andWhere('e.type = :type')
-                ->setParameter('type', $criteria->type);
         }
 
         switch ($criteria->sortOption) {

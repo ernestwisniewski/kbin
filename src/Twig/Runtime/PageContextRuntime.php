@@ -194,6 +194,19 @@ class PageContextRuntime implements RuntimeExtensionInterface
             }
         }
 
+        if ($this->isModPage()) {
+            $routeName = 'front_moderated';
+
+            if (!$entriesOnly) {
+                if ($this->isPostsPage()) {
+                    $routeName = 'posts_moderated';
+                }
+
+                if ($this->isCommentsPage()) {
+                    $routeName = 'entry_comments_moderated';
+                }
+            }
+        }
 
         return $this->urlGenerator->generate(
             $routeName,
@@ -220,6 +233,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return str_contains($this->getCurrentRouteName(), 'subscribed');
     }
 
+    public function isModPage(): bool
+    {
+        return str_contains($this->getCurrentRouteName(), 'moderated');
+    }
+
     public function getActiveCommentsPagePath()
     {
         $routeName   = 'entry_comments_front';
@@ -234,6 +252,10 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
         if ($this->isSubPage()) {
             $routeName = 'entry_comments_subscribed';
+        }
+
+        if ($this->isModPage()) {
+            $routeName = 'entry_comments_moderated';
         }
 
         if ($time = $this->getCurrentRequest()->get('time')) {
@@ -260,6 +282,10 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
         if ($this->isSubPage()) {
             $routeName = 'posts_subscribed';
+        }
+
+        if ($this->isModPage()) {
+            $routeName = 'posts_moderated';
         }
 
         if ($time = $this->getCurrentRequest()->get('time')) {

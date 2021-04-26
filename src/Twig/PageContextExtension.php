@@ -13,6 +13,7 @@ final class PageContextExtension extends AbstractExtension
         return [
             new TwigFunction('is_homepage', [PageContextRuntime::class, 'isHomePage']),
             new TwigFunction('is_sub_page', [PageContextRuntime::class, 'isSubPage']),
+            new TwigFunction('is_mod_page', [PageContextRuntime::class, 'isModPage']),
             new TwigFunction('is_magazine_page', [PageContextRuntime::class, 'isMagazinePage']),
             new TwigFunction('is_entry_page', [PageContextRuntime::class, 'isEntryPage']),
             new TwigFunction('is_user_page', [PageContextRuntime::class, 'isUserPage']),
