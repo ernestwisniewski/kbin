@@ -10,6 +10,12 @@ resources:
     itemOperations:
       get:
         method: GET
+      badges:
+        method: GET
+        path: /magazines/{name}/badges.{_format}
+        controller: App\Controller\Api\MagazineBadges
+        normalization_context:
+          groups: [ 'badge_read' ]
     attributes:
       normalization_context:
         groups: [ 'magazine_read' ]

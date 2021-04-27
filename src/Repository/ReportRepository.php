@@ -14,6 +14,7 @@ use App\Entity\PostReport;
 use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use LogicException;
 
 /**
  * @method Report|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,19 +36,7 @@ class ReportRepository extends ServiceEntityRepository
             $subject instanceof EntryComment => $this->findByEntryComment($subject),
             $subject instanceof Post => $this->findByPost($subject),
             $subject instanceof PostComment => $this->findByPostComment($subject),
-            default => throw new \LogicException(),
-        };
-    }
-
-    public function findPendingBySubject(ReportInterface $subject): ?Report
-    {
-        dd($subject);
-        return match (true) {
-            $subject instanceof Entry => $this->findPendingByEntry($subject),
-            $subject instanceof EntryComment => $this->findPendingByEntryComment($subject),
-            $subject instanceof Post => $this->findPendingByPost($subject),
-            $subject instanceof PostComment => $this->findPendingByPostComment($subject),
-            default => throw new \LogicException(),
+            default => throw new LogicException(),
         };
     }
 
@@ -85,6 +74,17 @@ class ReportRepository extends ServiceEntityRepository
         return $this->getEntityManager()->createQuery($dql)
             ->setParameter('comment', $comment)
             ->getOneOrNullResult();
+    }
+
+    public function findPendingBySubject(ReportInterface $subject): ?Report
+    {
+        return match (true) {
+            $subject instanceof Entry => $this->findPendingByEntry($subject),
+            $subject instanceof EntryComment => $this->findPendingByEntryComment($subject),
+            $subject instanceof Post => $this->findPendingByPost($subject),
+            $subject instanceof PostComment => $this->findPendingByPostComment($subject),
+            default => throw new LogicException(),
+        };
     }
 
     private function findPendingByEntry(Entry $entry): ?EntryReport

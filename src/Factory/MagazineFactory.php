@@ -25,6 +25,7 @@ class MagazineFactory
         return (new MagazineDto())->create(
             $magazine->name,
             $magazine->title,
+            $magazine->badges,
             $magazine->description,
             $magazine->rules,
             $magazine->isAdult,

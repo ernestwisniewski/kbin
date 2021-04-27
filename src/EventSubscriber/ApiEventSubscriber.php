@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\ApiDataProvider\DtoPaginator;
+use App\DTO\BadgeDto;
 use App\DTO\EntryDto;
 use App\Factory\ImageFactory;
 use App\Factory\MagazineFactory;

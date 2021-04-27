@@ -184,15 +184,6 @@ class User implements UserInterface
         return $this->username;
     }
 
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
     public function setOrRemoveAdminRole(bool $remove = false): self
     {
         $this->roles = ['ROLE_ADMIN'];
@@ -236,7 +227,6 @@ class User implements UserInterface
 
         return $this->moderatorTokens->matching($criteria);
     }
-
 
     public function addEntry(Entry $entry): self
     {
@@ -512,5 +502,14 @@ class User implements UserInterface
     public function isAdmin(): bool
     {
         return in_array('ROLE_ADMIN', $this->getRoles());
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 }

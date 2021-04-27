@@ -4,9 +4,10 @@ namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use App\DTO\BadgeDto;
 use App\DTO\ImageDto;
 
-final class ImageCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+final class BadgeCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
 //        private ImageRepository $repository,
@@ -18,7 +19,7 @@ final class ImageCollectionDataProvider implements ContextAwareCollectionDataPro
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return ImageDto::class === $resourceClass;
+        return BadgeDto::class === $resourceClass;
     }
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
