@@ -3,6 +3,7 @@
 namespace App\DTO;
 
 use App\Validator\Unique;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,7 +14,7 @@ class MagazineDto
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 25)]
     #[Assert\Regex(pattern: "/^[a-zA-Z0-9_]{2,25}$/", match: true)]
-    public ?string $name;
+    public string $name;
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 50)]
     public string $title;
@@ -22,11 +23,13 @@ class MagazineDto
     #[Assert\Length(min: 3, max: 420)]
     public ?string $rules = null;
     public ?bool $isAdult = false;
+    public Collection $badges;
     private ?int $id = null;
 
     public function create(
         string $name,
         string $title,
+        Collection $badges,
         ?string $description = null,
         ?string $rules = null,
         ?bool $isAdult = false,
@@ -35,6 +38,7 @@ class MagazineDto
         $this->id          = $id;
         $this->name        = $name;
         $this->title       = $title;
+        $this->badges      = $badges;
         $this->description = $description;
         $this->rules       = $rules;
         $this->isAdult     = $isAdult;

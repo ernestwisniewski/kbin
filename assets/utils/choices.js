@@ -1,14 +1,22 @@
 import Choices from "choices.js";
 
 export default class KChoices {
-    constructor() {
+    constructor(form) {
+        if (form) {
+            return this.build(form.querySelector('.kbin-choices'));
+        }
+
         document.querySelectorAll('.kbin-choices').forEach(el => {
-            new Choices(el, {
-                loadingText: 'Czekaj...',
-                noResultsText: 'Brak wyników',
-                noChoicesText: 'Brak wyników',
-                itemSelectText: 'Wybierz',
-            });
+            this.build(el);
+        });
+    }
+
+    build() {
+        return new Choices(el, {
+            loadingText: 'Czekaj...',
+            noResultsText: 'Brak wyników',
+            noChoicesText: 'Brak wyników',
+            itemSelectText: 'Wybierz',
         });
     }
 }

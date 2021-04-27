@@ -10,7 +10,7 @@ class PostDto
 {
     #[Assert\NotBlank]
     public ?Magazine $magazine = null;
-    #[Assert\Length(min:2, max:15000)]
+    #[Assert\Length(min: 2, max: 15000)]
     public ?string $body = null;
     public ?Image $image = null;
     public ?bool $isAdult = false;

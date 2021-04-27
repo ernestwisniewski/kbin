@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\DTO\MagazineDto;
 use App\Service\MagazineManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -18,7 +19,13 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomMagazines(self::MAGAZINES_COUNT) as $index => $magazine) {
-            $dto = (new MagazineDto())->create($magazine['name'], $magazine['title'], $magazine['description'], $magazine['rules']);
+            $dto = (new MagazineDto())->create(
+                $magazine['name'],
+                $magazine['title'],
+                $magazine['badges'],
+                $magazine['description'],
+                $magazine['rules']
+            );
 
             $entity = $this->magazineManager->create($dto, $magazine['user']);
 
@@ -46,6 +53,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
                 'user'        => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
                 'description' => rand(0, 3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
                 'rules'       => rand(0, 3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
+                'badges'      => new ArrayCollection(),
             ];
         }
     }

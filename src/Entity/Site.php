@@ -10,12 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Site
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-    /**
      * @ORM\Column(type="string")
      */
     public string $title;
@@ -27,6 +21,12 @@ class Site
      * @ORM\Column(type="boolean")
      */
     public bool $registrationOpen;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
     public function getId(): ?int
     {

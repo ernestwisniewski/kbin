@@ -3,8 +3,7 @@ import SimpleMDE from 'simplemde';
 export default class Keditor {
     constructor(form, focus = false) {
         if (form) {
-            this.build(form.querySelector('.kbin-editor'), focus);
-            return;
+            return this.build(form.querySelector('.kbin-editor'), focus);
         }
 
         document.querySelectorAll('.kbin-editor').forEach(el => {
@@ -40,5 +39,7 @@ export default class Keditor {
                 toolbar.classList.remove('visually-hidden');
             }));
         }
+
+        return simplemde;
     }
 }

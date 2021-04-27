@@ -38,4 +38,3 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
         return new DtoPaginator($dtos, 0, MagazineRepository::PER_PAGE, $magazines->getNbResults());
     }
 }
-
