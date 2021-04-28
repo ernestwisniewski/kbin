@@ -1,0 +1,17 @@
+resources:
+  App\DTO\PostDto:
+    properties:
+      id:
+        identifier: true
+    shortName: 'post'
+    collectionOperations:
+      get:
+        method: GET
+    itemOperations:
+      get:
+        method: GET
+    attributes:
+      normalization_context:
+        groups: [ 'post_read' ]
+      denormalization_context:
+        groups: [ 'post_write' ]

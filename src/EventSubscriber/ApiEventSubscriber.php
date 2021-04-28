@@ -5,8 +5,8 @@ namespace App\EventSubscriber;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\ApiDataProvider\DtoPaginator;
-use App\DTO\BadgeDto;
 use App\DTO\EntryDto;
+use App\DTO\PostDto;
 use App\Factory\ImageFactory;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
@@ -40,6 +40,9 @@ final class ApiEventSubscriber implements EventSubscriberInterface
             case $dto instanceof EntryDto:
                 $this->entry($dto);
                 break;
+            case $dto instanceof PostDto:
+                $this->post($dto);
+                break;
         }
     }
 
@@ -50,11 +53,21 @@ final class ApiEventSubscriber implements EventSubscriberInterface
                 case $dto instanceof EntryDto:
                     $this->entry($dto);
                     break;
+                case $dto instanceof PostDto:
+                    $this->post($dto);
+                    break;
             }
         }
     }
 
     private function entry(EntryDto $dto): void
+    {
+        $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
+        $dto->user     = $this->userFactory->createDto($dto->user);
+        $dto->image    = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+    }
+
+    private function post(PostDto $dto): void
     {
         $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
         $dto->user     = $this->userFactory->createDto($dto->user);

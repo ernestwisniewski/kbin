@@ -22,9 +22,10 @@ class PostFactory
     {
         return (new PostDto())->create(
             $post->magazine,
+            $post->user,
+            $post->image,
             $post->body,
             null,
-            $post->isAdult,
             $post->getId()
         );
     }
