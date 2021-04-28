@@ -4,6 +4,8 @@ App\DTO\EntryDto:
       groups: [ 'entry_read' ]
     magazine:
       groups: [ 'entry_read' ]
+    user:
+      groups: [ 'entry_read' ]
     image:
       groups: [ 'entry_read' ]
     title:

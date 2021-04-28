@@ -86,7 +86,7 @@ abstract class WebTestCase extends BaseWebTestCase
             }
         )->first();
 
-        return $magazine ? $magazine : $this->createMagazine($name, null, $user);
+        return $magazine ?: $this->createMagazine($name, null, $user);
     }
 
     private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
@@ -128,7 +128,12 @@ abstract class WebTestCase extends BaseWebTestCase
         $manager = self::$container->get(PostManager::class);
 
 
-        $dto = (new PostDto())->create($magazine ? $magazine : $this->getMagazineByName('polityka'), $body);
+        $dto = (new PostDto())->create(
+            $magazine ?: $this->getMagazineByName('polityka'),
+            $user ?: $this->getUserByUsername('regularUser'),
+            null,
+            $body
+        );
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
@@ -217,7 +222,7 @@ abstract class WebTestCase extends BaseWebTestCase
             }
         )->first();
 
-        return $user ? $user : $this->createUser($username);
+        return $user ?: $this->createUser($username);
     }
 
     private function createMagazine(string $name, string $title = null, User $user = null): Magazine
@@ -227,7 +232,7 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = self::$container->get(MagazineManager::class);
 
-        $dto      = (new MagazineDto())->create($name, $title ?? 'Przykładowy magazyn');
+        $dto      = (new MagazineDto())->create($name, $title ?? 'Przykładowy magazyn', new ArrayCollection());
         $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
 
         $this->magazines->add($magazine);
@@ -252,6 +257,11 @@ abstract class WebTestCase extends BaseWebTestCase
         (self::$container->get(PostManager::class))->delete($owner, $post);
         (self::$container->get(PostCommentManager::class))->delete($owner, $comment);
 
-        (self::$container->get(MagazineManager::class))->ban($magazine, $actor, $owner, (new MagazineBanDto())->create('test', new \DateTime('+1 day')));
+        (self::$container->get(MagazineManager::class))->ban(
+            $magazine,
+            $actor,
+            $owner,
+            (new MagazineBanDto())->create('test', new \DateTime('+1 day'))
+        );
     }
 }

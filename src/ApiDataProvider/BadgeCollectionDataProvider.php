@@ -5,7 +5,6 @@ namespace App\ApiDataProvider;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\BadgeDto;
-use App\DTO\ImageDto;
 
 final class BadgeCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
