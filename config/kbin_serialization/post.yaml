@@ -3,10 +3,10 @@ App\DTO\PostDto:
     id:
       groups: [ 'post_read' ]
     user:
-      groups: [ 'entry_read' ]
+      groups: [ 'post_read' ]
     magazine:
-      groups: [ 'entry_read' ]
+      groups: [ 'post_read' ]
     image:
-      groups: [ 'entry_read' ]
+      groups: [ 'post_read' ]
     body:
       groups: [ 'post_read' ]

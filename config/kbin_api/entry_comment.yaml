@@ -1,0 +1,17 @@
+resources:
+  App\DTO\EntryCommentDto:
+    properties:
+      id:
+        identifier: true
+    shortName: 'entry_comment'
+    collectionOperations:
+      get:
+        method: GET
+    itemOperations:
+      get:
+        method: GET
+    attributes:
+      normalization_context:
+        groups: [ 'entry_comment_read' ]
+      denormalization_context:
+        groups: [ 'entry_comment_write' ]
