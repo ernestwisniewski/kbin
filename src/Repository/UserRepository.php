@@ -33,14 +33,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 {
     const PER_PAGE = 25;
 
-    private EntryRepository $entryRepository;
-    private EntryCommentRepository $entryCommentRepository;
-
-    public function __construct(ManagerRegistry $registry, EntryRepository $entryRepository, EntryCommentRepository $entryCommentRepository)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
-        $this->entryRepository        = $entryRepository;
-        $this->entryCommentRepository = $entryCommentRepository;
     }
 
     public function findByUsernameOrEmail($val)
