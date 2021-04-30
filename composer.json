@@ -21,6 +21,7 @@
         "karser/karser-recaptcha3-bundle": "^0.1.17",
         "knplabs/knp-time-bundle": "^1.15",
         "laminas/laminas-diactoros": "^2.5",
+        "landrok/activitypub": "^0.5.6",
         "league/commonmark": "^1.5",
         "liip/imagine-bundle": "^2.4",
         "nelmio/cors-bundle": "^2.1",

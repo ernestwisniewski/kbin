@@ -1,0 +1,4 @@
+ap_inbox:
+  controller: App\Controller\ActivityPub\InboxController
+  path: /ap/inbox
+  methods: [ GET ]
