@@ -2,6 +2,8 @@
 
 namespace App\MessageHandler;
 
+use App\Entity\Entry;
+use App\Entity\Image;
 use App\Message\EntryEmbedMessage;
 use App\Repository\EntryRepository;
 use App\Repository\ImageRepository;
@@ -24,27 +26,18 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
     public function __invoke(EntryEmbedMessage $message)
     {
         $entry = $this->entryRepository->find($message->entryId);
+
         if (!$entry || !$entry->url) {
             return;
         }
 
         $embed = $this->embed->fetch($entry->url);
 
-        $cover    = null;
-        $tempFile = null;
-        if ($embed->image) {
-            $tempFile = $this->fetchImage($embed->image);
-        } elseif ($embed->isImageUrl()) {
-            $tempFile = $this->fetchImage($entry->url);
-        }
-
-        if ($tempFile) {
-            $cover = $this->imageRepository->findOrCreateFromPath($tempFile);
-        }
-
         $html    = $embed->html;
         $type    = $embed->getType();
         $isImage = $embed->isImageUrl();
+
+        $cover = $this->fetchCover($entry, $embed);
 
         if (!$html && !$cover && !$isImage) {
             return;
@@ -62,5 +55,23 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
     private function fetchImage(string $url): ?string
     {
         return $this->manager->download($url);
+    }
+
+    private function fetchCover(Entry $entry, Embed $embed): ?Image
+    {
+        if (!$entry->image) {
+            $tempFile = null;
+            if ($embed->image) {
+                $tempFile = $this->fetchImage($embed->image);
+            } elseif ($embed->isImageUrl()) {
+                $tempFile = $this->fetchImage($entry->url);
+            }
+
+            if ($tempFile) {
+                return $this->imageRepository->findOrCreateFromPath($tempFile);
+            }
+        }
+
+        return null;
     }
 }

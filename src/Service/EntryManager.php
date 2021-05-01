@@ -35,7 +35,7 @@ class EntryManager implements ContentManager
     public function create(EntryDto $dto, User $user): Entry
     {
         // @todo
-        if ($this->security->getUser() && !$this->security->isGranted('create_content', $dto->magazine)) {
+        if (!$this->security->isGranted('create_content', $dto->magazine)) {
             throw new AccessDeniedHttpException();
         }
 
@@ -46,8 +46,11 @@ class EntryManager implements ContentManager
 
         $entry    = $this->factory->createFromDto($dto, $user);
         $magazine = $entry->magazine;
-
         $this->assertType($entry);
+
+        if ($dto->image) {
+            $entry->image = $dto->image;
+        }
 
         if ($entry->url) {
             $entry->type = Entry::ENTRY_TYPE_LINK;
@@ -69,10 +72,6 @@ class EntryManager implements ContentManager
 
     private function validateUrl(string $url): void
     {
-        if (!$url) {
-            return;
-        }
-
         // @todo checkdnsrr?
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             throw new BadUrlException($url);
