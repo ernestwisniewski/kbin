@@ -63,7 +63,7 @@
 
                 {% if comment.visibility is same as 'visible' %}
                     <aside class="kbin-comment-meta">
-                        <ul class="kbin-comment-meta-list  list-inline mb-0">
+                        <ul class="kbin-comment-meta-list list-inline mb-0 float-start">
                             <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                                 <small class="text-muted">
                                     <a data-action="comment#reply"
@@ -79,45 +79,61 @@
                                                              class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
                                                              data-action="report#report">zgłoś</a></small>
                             </li>
-
-                            {% if is_granted('edit', comment) %}
-                                <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                                    <small class="text-muted">
-                                        <a data-action="comment#edit"
-                                           href="{{ path('post_comment_edit', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'comment_id': comment.id}) }}">
-                                            edytuj
-                                        </a>
-                                    </small>
-                                </li>
-                            {% endif %}
-
-                            {% if is_granted('moderate', comment.magazine) %}
-                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                    <small class="kbin-entry-meta-edit text-muted">
-                                        <a href="{{ path('magazine_panel_ban', {'magazine_name': comment.post.magazine.name, 'user_username': comment.user.username}) }}">zbanuj</a>
-                                    </small>
-                                </li>
-                            {% endif %}
-
-                            {% if is_granted('delete', comment) %}
-                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                    <form action="{{ path('post_comment_delete', {
-                                        magazine_name: comment.magazine.name,
-                                        post_id: comment.post.id,
-                                        comment_id: comment.id,
-                                    }) }}" method="POST">
-                                        <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
-                                        <button type="submit" class="btn btn-link">
-                                            <span>usuń</span>
-                                        </button>
-                                    </form>
-                                </li>
-                            {% endif %}
                         </ul>
+                        <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
+                            {% if is_granted('moderate', comment.magazine) or is_granted('delete', comment) %}
+                                <ul class="kbin-comment-meta-list  list-inline mb-0">
+                                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                                        <small class="text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
+                                            <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
+                                                zarządzaj
+                                            </button>
+                                        </small>
+                                    </li>
+                                </ul>
+                            {% endif %}
+
+                            <ul class="kbin-comment-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
+                                data-reveal-target="item">
+                                {% if is_granted('edit', comment) %}
+                                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                                        <small class="text-muted">
+                                            <a data-action="comment#edit"
+                                               href="{{ path('post_comment_edit', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'comment_id': comment.id}) }}">
+                                                edytuj
+                                            </a>
+                                        </small>
+                                    </li>
+                                {% endif %}
+
+                                {% if is_granted('moderate', comment.magazine) %}
+                                    <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                        <small class="kbin-entry-meta-edit text-muted">
+                                            <a href="{{ path('magazine_panel_ban', {'magazine_name': comment.post.magazine.name, 'user_username': comment.user.username}) }}">zbanuj</a>
+                                        </small>
+                                    </li>
+                                {% endif %}
+
+                                {% if is_granted('delete', comment) %}
+                                    <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                        <form action="{{ path('post_comment_delete', {
+                                            magazine_name: comment.magazine.name,
+                                            post_id: comment.post.id,
+                                            comment_id: comment.id,
+                                        }) }}" method="POST">
+                                            <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
+                                            <button type="submit" class="btn btn-link">
+                                                <span>usuń</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </section>
                     </aside>
                 {% endif %}
+                <div class="clearfix"></div>
                 <div data-comment-target="form" data-report-target="form" class=""></div>
-
             </div>
         </blockquote>
     {% endif %}

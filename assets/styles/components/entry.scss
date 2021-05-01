@@ -101,8 +101,9 @@
       font-size: .75rem;
       font-weight: bold;
       color: gray;
-      margin: 0 .5rem 0 0;
       text-decoration: none;
+      margin: 0 .5rem 0 0;
+      vertical-align: revert;
 
       .kbin-dark & {
         color: gray;
