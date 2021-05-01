@@ -50,17 +50,23 @@
                             </li>
                         {% endif %}
                     </ul>
-                    <ul class="kbin-entry-meta-list  list-inline mb-0">
+                    <ul class="kbin-entry-meta-list list-inline mb-0 float-start">
                         {% if entry.sticky %}
-                            <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
+                            <li class="kbin-entry-meta-sticky kbin-entry-meta-list-item list-inline-item">
                                 <i class="kbin-sticky fas fa-thumbtack text-muted me-1"></i>
                             </li>
                         {% endif %}
 
                         {% if entry.hasEmbed %}
-                            <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item"
+                            <li class="kbin-entry-meta-embed kbin-entry-meta-list-item list-inline-item"
                                 data-action="click->embed#fetch">
                                 <i class="kbin-preview fas fa-photo-video text-muted me-1" data-embed-target="embed"></i>
+                            </li>
+                        {% endif %}
+
+                        {% if entry.type is same as 'article' %}
+                            <li class="kbin-entry-meta-article kbin-entry-meta-list-item list-inline-item">
+                                <i class="kbin-preview fas fa-newspaper text-muted me-1"></i>
                             </li>
                         {% endif %}
 
@@ -77,50 +83,68 @@
                                                          class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
                                                          data-action="report#report">zgłoś</a></small>
                         </li>
-
-                        {% if is_granted('edit', entry) or is_granted('moderate', entry.magazine) %}
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <small class="kbin-entry-meta-edit text-muted">
-                                    <a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">edytuj</a>
-                                </small>
-                            </li>
-                        {% endif %}
-
-                        {% if is_granted('moderate', entry.magazine) %}
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <small class="kbin-entry-meta-edit text-muted">
-                                    <a href="{{ path('magazine_panel_ban', {'magazine_name': entry.magazine.name, 'user_username': entry.user.username}) }}">zbanuj</a>
-                                </small>
-                            </li>
-                        {% endif %}
-
-                        {% if is_granted('delete', entry) %}
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <form action="{{ path('entry_delete', {
-                                    magazine_name: entry.magazine.name,
-                                    entry_id: entry.id,
-                                }) }}" method="POST">
-                                    <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
-                                    <button type="submit" class="btn btn-link">
-                                        <span>usuń</span>
-                                    </button>
-                                </form>
-                            </li>
-                        {% endif %}
-
-                        {% if is_granted('moderate', entry.magazine) %}
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <form action="{{ path('entry_pin', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}" method="POST">
-                                    <input type="hidden" name="token" value="{{ csrf_token('entry_pin') }}">
-                                    <button type="submit" class="btn btn-link">
-                                        <span>{{ entry.sticky ? 'odepnij' : 'przypnij' }}</span>
-                                    </button>
-                                </form>
-                            </li>
-                        {% endif %}
                     </ul>
+
+                    <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
+                        {% if is_granted('moderate', entry.magazine) or is_granted('delete', entry) %}
+                            <ul class="kbin-entry-meta-list list-inline mb-0">
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <small class="kbin-entry-meta-edit text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
+                                        <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
+                                            zarządzaj
+                                        </button>
+                                    </small>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                        <ul class="kbin-entry-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
+                            data-reveal-target="item">
+                            {% if is_granted('edit', entry) %}
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <small class="kbin-entry-meta-edit text-muted">
+                                        <a href="{{ path('entry_edit', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">edytuj</a>
+                                    </small>
+                                </li>
+                            {% endif %}
+
+                            {% if is_granted('moderate', entry.magazine) %}
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <small class="kbin-entry-meta-edit text-muted">
+                                        <a href="{{ path('magazine_panel_ban', {'magazine_name': entry.magazine.name, 'user_username': entry.user.username}) }}">zbanuj</a>
+                                    </small>
+                                </li>
+
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <form action="{{ path('entry_pin', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}"
+                                          method="POST">
+                                        <input type="hidden" name="token" value="{{ csrf_token('entry_pin') }}">
+                                        <button type="submit" class="btn btn-link">
+                                            <span>{{ entry.sticky ? 'odepnij' : 'przypnij' }}</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            {% endif %}
+
+                            {% if is_granted('delete', entry) %}
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <form action="{{ path('entry_delete', {
+                                        magazine_name: entry.magazine.name,
+                                        entry_id: entry.id,
+                                    }) }}" method="POST">
+                                        <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                                        <button type="submit" class="btn btn-link">
+                                            <span>usuń</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            {% endif %}
+                        </ul>
+
+                    </section>
                 </aside>
-                <div data-report-target="form" class=""></div>
+                <div class="clearfix"></div>
+                <div data-report-target="form"></div>
             </div>
         </div>
 
