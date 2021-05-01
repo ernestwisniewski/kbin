@@ -7,7 +7,6 @@ use ActivityPhp\Type;
 use App\ActivityPub\Ontology\Mastodon;
 use App\ActivityPub\Ontology\Peertube;
 use App\ActivityPub\Ontology\Pleroma;
-use App\ActivityPub\Type\Person;
 use App\ActivityPub\Type\PropertyValue;
 use JetBrains\PhpStorm\NoReturn;
 

@@ -21,6 +21,13 @@
             {{ form_widget(form.badges, {'attr': {'class': ''}}) }}
         </div>
 
+        {% if form.image is defined %}
+            <div class="input-group-lg mb-3">
+                {{ form_label(form.image, 'Obraz') }}
+                {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
+            </div>
+        {% endif %}
+
         <div class="mb-3">
             {{ form_label(form.isAdult, 'Wyłącznie dla dorosłych') }}
             <div class="input-group input-group-lg">

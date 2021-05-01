@@ -4,11 +4,15 @@ namespace App\Form;
 
 use App\DTO\EntryDto;
 use App\Entity\Magazine;
+use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
+use App\Form\EventListener\ImageListener;
+use App\Form\EventListener\RemoveFieldsOnEntryCreate;
 use App\Form\Type\BadgesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +20,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntryArticleType extends AbstractType
 {
+    public function __construct(private ImageListener $imageListener)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -36,10 +44,19 @@ class EntryArticleType extends AbstractType
                     'choice_label' => 'name',
                 ]
             )
+            ->add(
+                'image',
+                FileType::class,
+                [
+                    'constraints' => ImageConstraint::default(),
+                    'mapped'      => false,
+                ]
+            )
             ->add('isAdult', CheckboxType::class)
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());
+        $builder->addEventSubscriber($this->imageListener);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
