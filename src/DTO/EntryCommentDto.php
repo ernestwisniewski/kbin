@@ -5,11 +5,15 @@ namespace App\DTO;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Image;
+use App\Entity\Magazine;
+use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class EntryCommentDto
 {
-    public Entry $entry;
+    public Magazine|MagazineDto|null $magazine;
+    public User|UserDto|null $user = null;
+    public Entry|EntryDto $entry;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
@@ -20,10 +24,12 @@ class EntryCommentDto
 
     public function create(Entry $entry, string $body, ?Image $image = null, ?int $id = null): self
     {
-        $this->id    = $id;
-        $this->entry = $entry;
-        $this->body  = $body;
-        $this->image = $image;
+        $this->id       = $id;
+        $this->magazine = $entry->magazine;
+        $this->user     = $entry->user;
+        $this->entry    = $entry;
+        $this->body     = $body;
+        $this->image    = $image;
 
         return $this;
     }

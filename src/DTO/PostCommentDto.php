@@ -3,13 +3,17 @@
 namespace App\DTO;
 
 use App\Entity\Image;
+use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class PostCommentDto
 {
-    public Post $post;
+    public Magazine|MagazineDto|null $magazine;
+    public User|UserDto|null $user = null;
+    public Post|PostDto $post;
     #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
     public ?PostComment $parent = null;
@@ -18,10 +22,12 @@ class PostCommentDto
 
     public function create(Post $post, string $body, ?Image $image = null, ?int $id = null): self
     {
-        $this->id    = $id;
-        $this->post  = $post;
-        $this->body  = $body;
-        $this->image = $image;
+        $this->id       = $id;
+        $this->magazine = $post->magazine;
+        $this->user     = $post->user;
+        $this->post     = $post;
+        $this->body     = $body;
+        $this->image    = $image;
 
         return $this;
     }

@@ -1,0 +1,12 @@
+App\DTO\PostCommentDto:
+  attributes:
+    id:
+      groups: [ 'postComment_read' ]
+    magazine:
+      groups: [ 'postComment_read' ]
+    user:
+      groups: [ 'postComment_read' ]
+    post:
+      groups: [ 'postComment_read' ]
+    body:
+      groups: [ 'postComment_read' ]

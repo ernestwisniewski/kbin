@@ -1,9 +1,9 @@
 resources:
-  App\DTO\EntryCommentDto:
+  App\DTO\PostCommentDto:
     properties:
       id:
         identifier: true
-    shortName: 'entry_comment'
+    shortName: 'post_comment'
     collectionOperations:
       get:
         method: GET
@@ -12,6 +12,6 @@ resources:
         method: GET
     attributes:
       normalization_context:
-        groups: [ 'entryComment_read' ]
+        groups: [ 'postComment_read' ]
       denormalization_context:
-        groups: [ 'entryComment_write' ]
+        groups: [ 'postComment_write' ]
