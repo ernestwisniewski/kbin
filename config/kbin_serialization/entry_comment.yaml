@@ -1,6 +1,12 @@
-App\DTO\EntryDto:
+App\DTO\EntryCommentDto:
   attributes:
     id:
-      groups: [ 'entry_comment_read' ]
+      groups: [ 'entryComment_read' ]
+    magazine:
+      groups: [ 'entryComment_read' ]
+    user:
+      groups: [ 'entryComment_read' ]
+    entry:
+      groups: [ 'entryComment_read' ]
     body:
-      groups: [ 'entry_comment_read' ]
+      groups: [ 'entryComment_read' ]
