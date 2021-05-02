@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\DTO\Contracts\UserDtoInterface;
 use App\DTO\UserDto;
 use App\Form\EventListener\AddFieldsOnUserEdit;
 use App\Form\EventListener\DisableFieldsOnUserEdit;

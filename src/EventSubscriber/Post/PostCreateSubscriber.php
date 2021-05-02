@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\Post;
 
 use App\Event\Post\PostCreatedEvent;
-use App\Message\PostCreatedNotificationMessage;
+use App\Message\Notification\PostCreatedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 

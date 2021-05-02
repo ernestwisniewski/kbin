@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\Entry;
 
 use App\Event\Entry\EntryCreatedEvent;
-use App\Message\EntryCreatedNotificationMessage;
+use App\Message\Notification\EntryCreatedNotificationMessage;
 use App\Message\EntryEmbedMessage;
 use App\Service\DomainManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

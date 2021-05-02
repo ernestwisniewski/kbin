@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\Post;
 
 use App\Event\Post\PostDeletedEvent;
-use App\Message\PostDeletedNotificationMessage;
+use App\Message\Notification\PostDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 

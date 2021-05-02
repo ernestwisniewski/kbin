@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Message;
+namespace App\Message\Notification;
 
-class PostCommentDeletedNotificationMessage
+class EntryCommentDeletedNotificationMessage
 {
     public function __construct(public int $commentId)
     {

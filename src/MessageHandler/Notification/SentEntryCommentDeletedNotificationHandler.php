@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\MessageHandler\Notification;
 
-use App\Message\EntryCommentCreatedNotificationMessage;
+use App\Message\Notification\EntryCommentDeletedNotificationMessage;
 use App\Repository\EntryCommentRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class SentEntryCommentCreatedNotificationHandler implements MessageHandlerInterface
+class SentEntryCommentDeletedNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
         private EntryCommentRepository $repository,
@@ -15,13 +15,13 @@ class SentEntryCommentCreatedNotificationHandler implements MessageHandlerInterf
     ) {
     }
 
-    public function __invoke(EntryCommentCreatedNotificationMessage $message)
+    public function __invoke(EntryCommentDeletedNotificationMessage $message)
     {
         $comment = $this->repository->find($message->commentId);
         if (!$comment) {
             return;
         }
 
-        $this->manager->sendEntryCommentCreatedNotification($comment);
+        $this->manager->sendEntryCommentDeletedNotification($comment);
     }
 }

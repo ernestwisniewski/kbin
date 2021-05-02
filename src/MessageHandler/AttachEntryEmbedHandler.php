@@ -52,11 +52,6 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
         );
     }
 
-    private function fetchImage(string $url): ?string
-    {
-        return $this->manager->download($url);
-    }
-
     private function fetchCover(Entry $entry, Embed $embed): ?Image
     {
         if (!$entry->image) {
@@ -73,5 +68,10 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
         }
 
         return null;
+    }
+
+    private function fetchImage(string $url): ?string
+    {
+        return $this->manager->download($url);
     }
 }

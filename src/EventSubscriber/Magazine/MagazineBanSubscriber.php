@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\Magazine;
 
 use App\Event\Magazine\MagazineBanEvent;
-use App\Message\MagazineBanNotificationMessage;
+use App\Message\Notification\MagazineBanNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 

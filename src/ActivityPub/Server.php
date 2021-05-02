@@ -21,7 +21,7 @@ class Server
                 'ontologies' => [
                     'peertube' => Peertube::class,
                     'mastodon' => Mastodon::class,
-                    'pleroma' => Pleroma::class,
+                    'pleroma'  => Pleroma::class,
                 ],
             ]
         );
