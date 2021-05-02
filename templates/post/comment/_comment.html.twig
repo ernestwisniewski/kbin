@@ -80,6 +80,7 @@
                                                              data-action="report#report">zgłoś</a></small>
                             </li>
                         </ul>
+
                         <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
                             {% if is_granted('moderate', comment.magazine) or is_granted('delete', comment) %}
                                 <ul class="kbin-comment-meta-list  list-inline mb-0">

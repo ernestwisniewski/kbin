@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class UserProfileSettingsDto
+class UserSettingsDto
 {
     public function __construct(public bool $notifyOnNewEntry, public bool $notifyOnNewPost)
     {

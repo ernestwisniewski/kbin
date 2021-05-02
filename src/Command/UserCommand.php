@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\DTO\RegisterUserDto;
+use App\DTO\UserDto;
 use App\Repository\UserRepository;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,14 +65,10 @@ class UserCommand extends Command
 
     private function createUser(InputInterface $input, SymfonyStyle $io): void
     {
-        $user = $this->manager->create(
-            (new RegisterUserDto())->create(
-                $input->getArgument('username'),
-                $input->getArgument('email'),
-                $input->getArgument('password'),
-            ),
-            false
-        );
+        $dto                = (new UserDto())->create($input->getArgument('username'), $input->getArgument('email'));
+        $dto->plainPassword = $input->getArgument('password');
+
+        $user = $this->manager->create($dto, false);
 
         $user->isVerified = true;
         $this->entityManager->flush();

@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\DTO\UserProfileSettingsDto;
+use App\DTO\UserSettingsDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserProfileSettingsType extends AbstractType
+class UserSettingsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,7 +29,7 @@ class UserProfileSettingsType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => UserProfileSettingsDto::class,
+                'data_class' => UserSettingsDto::class,
             ]
         );
     }
