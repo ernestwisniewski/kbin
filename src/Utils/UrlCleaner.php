@@ -93,6 +93,7 @@ class UrlCleaner
         '#?utm_campaign',
         '#?utm_content',
         '#?utm_int',
+        'fbclid',
     ];
 
     public function __invoke(string $url): string
@@ -111,6 +112,6 @@ class UrlCleaner
         unset($qsVars[$var]);
         $newQs = http_build_query($qsVars);
 
-        return $urlPart.'?'.$newQs;
+        return trim($urlPart.'?'.$newQs, '?');
     }
 }

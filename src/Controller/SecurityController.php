@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\DTO\RegisterUserDto;
+use App\DTO\UserDto;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Security\LoginAuthenticator;
@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('front_subscribed');
         }
 
-        $userDto = new RegisterUserDto();
+        $userDto = new UserDto();
 
         $form = $this->createForm(UserType::class, $userDto);
         $form->handleRequest($request);

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Command;
 
-use App\DTO\RegisterUserDto;
+use App\DTO\UserDto;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -24,8 +24,11 @@ class AdminCommandTest extends KernelTestCase
 
     public function testCreateUser()
     {
+        $dto                = (new UserDto())->create('actor', 'contact@example.com');
+        $dto->plainPassword = 'secret';
+
         self::$container->get('App\Service\UserManager')
-            ->create((new RegisterUserDto())->create('actor', 'contact@example.com', 'secret'), false);
+            ->create($dto, false);
 
         $this->assertFalse($this->repository->findOneByUsername('actor')->isAdmin());
 

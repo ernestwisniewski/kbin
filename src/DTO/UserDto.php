@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Unique(entityClass="App\Entity\User", errorPath="username", fields={"username"}, idFields="id")
+ * @Unique(entityClass="App\Entity\User", errorPath="email", fields={"email"}, idFields="id")
  */
 class UserDto implements UserDtoInterface
 {

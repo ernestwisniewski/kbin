@@ -2,22 +2,22 @@
 
 namespace App\Service;
 
-use App\DTO\UserProfileSettingsDto;
+use App\DTO\UserSettingsDto;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserProfileSettingsManager
+class UserSettingsManager
 {
     public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 
-    public function createDto(User $user): UserProfileSettingsDto
+    public function createDto(User $user): UserSettingsDto
     {
-        return new UserProfileSettingsDto($user->notifyOnNewEntry, $user->notifyOnNewPost);
+        return new UserSettingsDto($user->notifyOnNewEntry, $user->notifyOnNewPost);
     }
 
-    public function update(User $user, UserProfileSettingsDto $dto)
+    public function update(User $user, UserSettingsDto $dto)
     {
         $user->notifyOnNewPost  = $dto->notifyOnNewPost;
         $user->notifyOnNewEntry = $dto->notifyOnNewEntry;

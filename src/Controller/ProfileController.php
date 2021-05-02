@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Form\UserProfileSettingsType;
+use App\Form\UserSettingsType;
 use App\Repository\MagazineRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use App\Service\NotificationManager;
-use App\Service\UserProfileSettingsManager;
+use App\Service\UserSettingsManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -140,11 +140,11 @@ class ProfileController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function settings(UserProfileSettingsManager $manager, Request $request): Response
+    public function settings(UserSettingsManager $manager, Request $request): Response
     {
         $dto = $manager->createDto($this->getUserOrThrow());
 
-        $form = $this->createForm(UserProfileSettingsType::class, $dto);
+        $form = $this->createForm(UserSettingsType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

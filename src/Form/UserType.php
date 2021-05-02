@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\DTO\Contracts\UserDtoInterface;
+use App\DTO\UserDto;
 use App\Form\EventListener\AddFieldsOnUserEdit;
 use App\Form\EventListener\DisableFieldsOnUserEdit;
 use App\Form\EventListener\ImageListener;
@@ -54,7 +55,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => UserDtoInterface::class,
+                'data_class' => UserDto::class,
             ]
         );
     }

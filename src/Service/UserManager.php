@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\DTO\RegisterUserDto;
 use App\DTO\UserDto;
 use App\Entity\User;
 use App\Event\User\UserBlockEvent;
@@ -13,7 +12,6 @@ use App\Message\UserUpdatedMessage;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -30,9 +28,6 @@ class UserManager
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
     public function follow(User $follower, User $following)
     {
         $follower->unblock($following);
@@ -44,9 +39,6 @@ class UserManager
         $this->dispatcher->dispatch(new UserFollowedEvent($follower, $following));
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
     public function block(User $blocker, User $blocked)
     {
         $this->unfollow($blocker, $blocked);
@@ -58,9 +50,6 @@ class UserManager
         $this->dispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
     public function unfollow(User $follower, User $following)
     {
         $follower->unfollow($following);
@@ -70,9 +59,6 @@ class UserManager
         $this->dispatcher->dispatch(new UserFollowedEvent($follower, $following));
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
     public function unblock(User $blocker, User $blocked)
     {
         $blocker->unblock($blocked);
@@ -82,7 +68,7 @@ class UserManager
         $this->dispatcher->dispatch(new UserFollowedEvent($blocker, $blocked));
     }
 
-    public function create(RegisterUserDto $dto, bool $verifyUserEmail = true): User
+    public function create(UserDto $dto, bool $verifyUserEmail = true): User
     {
         $user = new User($dto->email, $dto->username, '');
 

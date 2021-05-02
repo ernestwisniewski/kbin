@@ -35,7 +35,7 @@ class EntryManager implements ContentManager
     public function create(EntryDto $dto, User $user): Entry
     {
         // @todo
-        if (!$this->security->isGranted('create_content', $dto->magazine)) {
+        if ($this->security->getUser() && !$this->security->isGranted('create_content', $dto->magazine)) {
             throw new AccessDeniedHttpException();
         }
 
