@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\MessageHandler\Notification;
 
-use App\Message\MagazineBanNotificationMessage;
+use App\Message\Notification\MagazineBanNotificationMessage;
 use App\Repository\MagazineBanRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;

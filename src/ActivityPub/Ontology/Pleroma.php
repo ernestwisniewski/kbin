@@ -7,6 +7,6 @@ use ActivityPhp\Type\OntologyBase;
 abstract class Pleroma extends OntologyBase
 {
     protected static $definitions = [
-        'Person'     => ['alsoKnownAs', 'capabilities'],
+        'Person' => ['alsoKnownAs', 'capabilities'],
     ];
 }

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\MessageHandler\Notification;
 
-use App\Message\PostCommentDeletedNotificationMessage;
+use App\Message\Notification\PostCommentDeletedNotificationMessage;
 use App\Repository\PostCommentRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;

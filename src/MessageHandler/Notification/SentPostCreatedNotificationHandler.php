@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\MessageHandler\Notification;
 
-use App\Message\PostCreatedNotificationMessage;
+use App\Message\Notification\PostCreatedNotificationMessage;
 use App\Repository\PostRepository;
 use App\Service\NotificationManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;

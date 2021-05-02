@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\EntryComment;
 
 use App\Event\EntryComment\EntryCommentDeletedEvent;
-use App\Message\EntryCommentDeletedNotificationMessage;
+use App\Message\Notification\EntryCommentDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 

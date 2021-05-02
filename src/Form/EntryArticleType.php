@@ -7,7 +7,6 @@ use App\Entity\Magazine;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
-use App\Form\EventListener\RemoveFieldsOnEntryCreate;
 use App\Form\Type\BadgesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
