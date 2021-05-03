@@ -4,7 +4,7 @@
     {% from 'vote/_macros.html.twig' import vote %}
 
     <article id="{{ entry.id }}"
-             class="kbin-entry {{ extra_classes }}"
+             class="kbin-entry {{ extra_classes }} {{ entry.image ? 'kbin-has-image' : '' }}"
              data-controller="embed report"
              data-embed-url-value="{{ entry.url }}"
              data-embed-is-visible-value="false"
@@ -14,7 +14,7 @@
         <div class="kbin-entry-header clearfix">
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote'}) }}
 
-            {% if (entry.image) and entry.visibility is same as 'visible' %}
+            {% if entry.image and entry.visibility is same as 'visible' %}
                 <div class="kbin-entry-image">
                     <a href="{{ path('entry_single', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}">
                         <img class="lazy" src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>

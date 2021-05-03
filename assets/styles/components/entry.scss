@@ -19,8 +19,11 @@
     display: flow-root;
 
     @include media-breakpoint-down(sm) {
-      clear: both;
-      padding-top: 1rem;
+      .kbin-has-image & {
+        clear: both;
+        padding-top: 1rem;
+        padding-left: 3.8rem;
+      }
     }
   }
 
