@@ -45,7 +45,7 @@ class PostCommentRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();

@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\ApiDataProvider;
+namespace App\Controller\Api;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\DTO\EntryCommentDto;
+use App\ApiDataProvider\DtoPaginator;
+use App\Controller\AbstractController;
+use App\Entity\Entry;
 use App\Factory\EntryCommentFactory;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class EntryCommentCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+class EntryComments extends AbstractController
 {
     public function __construct(
         private EntryCommentRepository $repository,
@@ -20,16 +20,17 @@ final class EntryCommentCollectionDataProvider implements ContextAwareCollection
     ) {
     }
 
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
-    {
-        return EntryCommentDto::class === $resourceClass;
-    }
-
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
+    public function __invoke(Entry $entry)
     {
         try {
-            $criteria = new EntryCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria              = new EntryCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria->entry       = $entry;
+            $criteria->onlyParents = false;
+
             $comments = $this->repository->findByCriteria($criteria);
+
+            $this->repository->hydrate(...$comments);
+            $this->repository->hydrateChildren(...$comments);
         } catch (Exception $e) {
             return [];
         }
@@ -39,4 +40,3 @@ final class EntryCommentCollectionDataProvider implements ContextAwareCollection
         return new DtoPaginator($dtos, 0, EntryCommentRepository::PER_PAGE, $comments->getNbResults());
     }
 }
-
