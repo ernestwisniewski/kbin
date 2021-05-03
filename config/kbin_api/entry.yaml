@@ -3,6 +3,10 @@ resources:
     properties:
       id:
         identifier: true
+#      comments:
+#        subresource:
+#          resourceClass: 'App\DTO\EntryCommentDto'
+#          collection: false
     shortName: 'entry'
     collectionOperations:
       get:
@@ -10,6 +14,12 @@ resources:
     itemOperations:
       get:
         method: GET
+      comments:
+        method: GET
+        path: /entries/{id}/comments.{_format}
+        controller: App\Controller\Api\EntryComments
+        normalization_context:
+          groups: [ 'entryComment_read' ]
     attributes:
       normalization_context:
         groups: [ 'entry_read' ]

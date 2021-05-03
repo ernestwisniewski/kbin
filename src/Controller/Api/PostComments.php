@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\ApiDataProvider;
+namespace App\Controller\Api;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\DTO\PostCommentDto;
+use App\ApiDataProvider\DtoPaginator;
+use App\Controller\AbstractController;
+use App\Entity\Post;
 use App\Factory\PostCommentFactory;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class PostCommentCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+class PostComments extends AbstractController
 {
     public function __construct(
         private PostCommentRepository $repository,
@@ -20,16 +20,16 @@ final class PostCommentCollectionDataProvider implements ContextAwareCollectionD
     ) {
     }
 
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
-    {
-        return PostCommentDto::class === $resourceClass;
-    }
-
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
+    public function __invoke(Post $post)
     {
         try {
-            $criteria = new PostCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria              = new PostCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria->post        = $post;
+            $criteria->onlyParents = false;
+
             $comments = $this->repository->findByCriteria($criteria);
+
+            $this->repository->hydrate(...$comments);
         } catch (Exception $e) {
             return [];
         }
@@ -39,4 +39,3 @@ final class PostCommentCollectionDataProvider implements ContextAwareCollectionD
         return new DtoPaginator($dtos, 0, PostCommentRepository::PER_PAGE, $comments->getNbResults());
     }
 }
-

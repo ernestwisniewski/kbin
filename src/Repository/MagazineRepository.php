@@ -46,7 +46,7 @@ class MagazineRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -71,7 +71,7 @@ class MagazineRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -96,7 +96,7 @@ class MagazineRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -110,7 +110,7 @@ class MagazineRepository extends ServiceEntityRepository
         $criteria = Criteria::create()->orderBy(['createdAt' => 'ASC']);
 
         $moderators = new Pagerfanta(new SelectableAdapter($magazine->moderators, $criteria));
-        $moderators->setMaxPerPage(self::PER_PAGE);
+        $moderators->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
         $moderators->setCurrentPage($page);
 
         return $moderators;
@@ -121,7 +121,7 @@ class MagazineRepository extends ServiceEntityRepository
         $criteria = Criteria::create()->orderBy(['createdAt' => 'DESC']);
 
         $moderators = new Pagerfanta(new SelectableAdapter($magazine->logs, $criteria));
-        $moderators->setMaxPerPage(self::PER_PAGE);
+        $moderators->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
         $moderators->setCurrentPage($page);
 
         return $moderators;
@@ -135,7 +135,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->orderBy(['createdAt' => 'DESC']);
 
         $bans = new Pagerfanta(new SelectableAdapter($magazine->bans, $criteria));
-        $bans->setMaxPerPage(self::PER_PAGE);
+        $bans->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
         $bans->setCurrentPage($page);
 
         return $bans;
@@ -148,7 +148,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->orderBy(['weight' => 'ASC']);
 
         $bans = new Pagerfanta(new SelectableAdapter($magazine->reports, $criteria));
-        $bans->setMaxPerPage(self::PER_PAGE);
+        $bans->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
         $bans->setCurrentPage($page);
 
         return $bans;
