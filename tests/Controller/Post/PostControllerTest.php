@@ -66,7 +66,7 @@ class PostControllerTest extends WebTestCase
 
         $post = $this->createPost('przykladowa tresc');
 
-        $crawler = $client->request('GET', "/m/polityka/w/{$post->getId()}/edytuj");
+        $crawler = $client->request('GET', "/m/polityka/w/{$post->getId()}/-/edytuj");
 
         $this->assertTrue($client->getResponse()->isServerError());
     }

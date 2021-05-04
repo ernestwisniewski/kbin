@@ -14,7 +14,7 @@ class EntryCommentControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('title');
 
-        $crawler = $client->request('GET', $entryUrl = '/m/polityka/t/'.$entry->getId());
+        $crawler = $client->request('GET', $entryUrl = '/m/polityka/t/'.$entry->getId().'/-/komentarze');
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -41,7 +41,7 @@ class EntryCommentControllerTest extends WebTestCase
 
         $comment = $this->createEntryComment('przykładowy komentarz');
 
-        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}";
+        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}/-/komentarze";
 
         $crawler = $client->request('GET', '/');
         $crawler = $client->request('GET', $entryUrl);
@@ -54,8 +54,6 @@ class EntryCommentControllerTest extends WebTestCase
                 ]
             )
         );
-
-        $this->assertResponseRedirects($entryUrl);
 
         $crawler = $client->followRedirect();
 
@@ -76,14 +74,13 @@ class EntryCommentControllerTest extends WebTestCase
         $this->createVote(1, $comment, $user2);
         $this->createVote(1, $comment2, $user2);
 
-        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}";
+        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}/-";
 
         $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$comment->getId()}/edytuj");
 
         $client->submit(
             $crawler->selectButton('Usuń')->form()
         );
-        $this->assertResponseRedirects($entryUrl);
 
         $crawler = $client->followRedirect();
 
@@ -103,10 +100,10 @@ class EntryCommentControllerTest extends WebTestCase
         $client->catchExceptions(false);
         $comment = $this->createEntryComment('przykładowy komentarz');
 
-        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}";
+        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}/-";
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->request('GET', $entryUrl);
+        $crawler = $client->request('GET', $entryUrl.'/komentarze');
 
         $this->assertEmpty($crawler->filter('.kbin-entry-meta')->selectLink('edytuj'));
         $this->assertSelectorTextContains('blockquote', 'przykładowy komentarz');

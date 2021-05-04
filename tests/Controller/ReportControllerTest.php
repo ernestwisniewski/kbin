@@ -46,7 +46,7 @@ class ReportControllerTest extends WebTestCase
 
         $comment = $this->createEntryComment('przykładowy komentarz', null, $user2);
 
-        $crawler = $client->request('GET', '/m/polityka/t/'.$comment->entry->getId());
+        $crawler = $client->request('GET', '/m/polityka/t/'.$comment->entry->getId().'/-/komentarze');
         $crawler = $client->click($crawler->filter('.kbin-comment')->selectLink('zgłoś')->link());
 
         $crawler = $client->submit(
@@ -106,5 +106,4 @@ class ReportControllerTest extends WebTestCase
 
         $this->assertReportPanel($client);
     }
-
 }

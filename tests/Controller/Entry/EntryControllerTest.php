@@ -72,7 +72,7 @@ class EntryControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('przykladowa tresc', 'https://wp.pl');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}");
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/komentarze");
         $crawler = $client->click($crawler->filter('.kbin-entry-meta')->selectLink('edytuj')->link());
 
         $client->submit(
@@ -85,7 +85,7 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}");
+        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}/-/komentarze");
 
         $crawler = $client->followRedirect();
 
@@ -100,7 +100,7 @@ class EntryControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -112,7 +112,7 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}");
+        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}/-/komentarze");
 
         $crawler = $client->followRedirect();
 
@@ -131,7 +131,7 @@ class EntryControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('przykladowa tresc');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -156,7 +156,7 @@ class EntryControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('przykladowa tresc');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
 
         $this->assertTrue($client->getResponse()->isServerError());
     }
@@ -181,7 +181,7 @@ class EntryControllerTest extends WebTestCase
         $this->createVote(1, $comment2, $user2);
         $this->createVote(1, $comment2, $user1);
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
             $crawler->selectButton('Usuń')->form()
@@ -206,11 +206,11 @@ class EntryControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('przykładowy wpis');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}");
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/komentarze");
 
         $this->assertEmpty($crawler->filter('.kbin-entry-meta')->selectLink('edytuj'));
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/edytuj");
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
 
         $this->assertTrue($client->getResponse()->isForbidden());
     }

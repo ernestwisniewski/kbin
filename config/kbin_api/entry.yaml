@@ -6,12 +6,9 @@ resources:
 #      comments:
 #        subresource:
 #          resourceClass: 'App\DTO\EntryCommentDto'
-#          collection: false
+#          collection: true
     shortName: 'entry'
     collectionOperations:
-      get:
-        method: GET
-    itemOperations:
       get:
         method: GET
       comments:
@@ -20,6 +17,9 @@ resources:
         controller: App\Controller\Api\EntryComments
         normalization_context:
           groups: [ 'entryComment_read' ]
+    itemOperations:
+      get:
+        method: GET
     attributes:
       normalization_context:
         groups: [ 'entry_read' ]
