@@ -7,15 +7,15 @@ resources:
     collectionOperations:
       get:
         method: GET
-    itemOperations:
-      get:
-        method: GET
       comments:
         method: GET
         path: /posts/{id}/comments.{_format}
         controller: App\Controller\Api\PostComments
         normalization_context:
           groups: [ 'postComment_read' ]
+    itemOperations:
+      get:
+        method: GET
     attributes:
       normalization_context:
         groups: [ 'post_read' ]

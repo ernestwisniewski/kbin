@@ -12,28 +12,32 @@ magazine_entry_create:
 
 entry_edit:
   controller: App\Controller\Entry\EntryController::edit
-  path: /m/{magazine_name}/t/{entry_id}/edytuj
+  defaults: { slug: -, sortBy: ~ }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/edytuj
   methods: [ GET, POST ]
 
 entry_delete:
   controller: App\Controller\Entry\EntryController::delete
-  path: /m/{magazine_name}/t/{entry_id}/delete
+  defaults: { slug: -, sortBy: ~ }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/delete
   methods: [ POST ]
 
 entry_purge:
   controller: App\Controller\Entry\EntryController::purge
-  path: /m/{magazine_name}/t/{entry_id}/purge
+  defaults: { slug: -, sortBy: ~ }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/purge
   methods: [ POST ]
 
 entry_pin:
   controller: App\Controller\Entry\EntryPinController
-  path: /m/{magazine_name}/t/{entry_id}/pin
+  defaults: { slug: -, sortBy: ~ }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/pin
   methods: [ POST ]
 
 entry_single:
   controller: App\Controller\Entry\EntryController::single
-  defaults: { sortBy: ~ }
-  path: /m/{magazine_name}/t/{entry_id}/{sortBy}
+  defaults: { slug: -, sortBy: ~ }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarze/{sortBy}
   methods: [ GET ]
 
 entry_vote:

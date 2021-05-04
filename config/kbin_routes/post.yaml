@@ -28,7 +28,8 @@ magazine_posts:
 
 post_single:
   controller: App\Controller\Post\PostController::single
-  path: /m/{magazine_name}/w/{post_id}
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/w/{post_id}/{slug}
   methods: [GET]
 
 post_create:
@@ -38,23 +39,26 @@ post_create:
 
 post_edit:
   controller: App\Controller\Post\PostController::edit
-  path: /m/{magazine_name}/w/{post_id}/edytuj
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/w/{post_id}/{slug}/edytuj
   methods: [ GET, POST ]
 
 post_delete:
   controller: App\Controller\Post\PostController::delete
-  path: /m/{magazine_name}/w/{post_id}/delete
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/w/{post_id}/{slug}/delete
   methods: [ POST ]
 
 post_purge:
   controller: App\Controller\Post\PostController::purge
-  path: /m/{magazine_name}/w/{post_id}/purge
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/w/{post_id}/{slug}/purge
   methods: [ POST ]
 
 post:
   controller: App\Controller\Post\PostController::front
-  defaults: { sortBy: ~ }
-  path: /m/{magazine_name}/t/{post_id}/{sortBy}
+  defaults: { slug: -, sortBy: ~ }
+  path: /m/{magazine_name}/t/{post_id}/{slug}/{sortBy}
   methods: [ GET ]
 
 post_vote:
