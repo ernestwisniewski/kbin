@@ -17,6 +17,7 @@ class EntryFactory
             $dto->magazine,
             $user,
             $dto->isAdult,
+            $dto->ip,
         );
     }
 
@@ -34,6 +35,8 @@ class EntryFactory
             $entry->image,
             $entry->isAdult,
             $entry->badges,
+            $entry->slug,
+            $entry->ip,
             $entry->getId()
         );
     }

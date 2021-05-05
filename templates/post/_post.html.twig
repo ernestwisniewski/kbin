@@ -4,6 +4,7 @@
     {% from 'magazine/_macros.html.twig' import magazine %}
     {% from 'vote/_macros.html.twig' import vote %}
     {% from 'post/comment/_macros.html.twig' import comment %}
+    {% from '_layout/_macros.html.twig' import post_url %}
 
     <blockquote id="{{ post.id }}"
                 class="kbin-post {{ extra_classes }} "
@@ -21,7 +22,7 @@
                 <ul class="kbin-post-meta-list list-inline m-0">
                     <li class="kbin-post-meta-date kbin-post-meta-list-item list-inline-item">
                         {% if not is_post_page() %}
-                        <a href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
+                        <a href="{{ post_url(post) }}">
                             {% endif %}
                             {% if post.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
                             <small class="text-muted">dodany
@@ -68,7 +69,7 @@
                 <ul class="kbin-post-meta-list list-inline mb-0 float-start">
                     <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                         <small class="text-muted">
-                            <a href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}" data-action="post#reply">
+                            <a href="{{ post_url(post) }}" data-action="post#reply">
                                 odpowiedz
                             </a>
                         </small>
@@ -78,7 +79,7 @@
                         <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                             <small class="text-muted">
                                 <a data-action="post#expandComments"
-                                   href="{{ path('post_single', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}">
+                                   href="{{ post_url(post) }}">
                                     rozwiń ({{ post.commentCount }})
                                 </a>
                             </small>

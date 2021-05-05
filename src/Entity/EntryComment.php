@@ -65,6 +65,10 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      */
     public DateTime $lastActive;
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public $ip;
+    /**
      * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="parent", orphanRemoval=true)
      */
     public Collection $children;
@@ -88,12 +92,13 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      */
     private int $id;
 
-    public function __construct(string $body, ?Entry $entry, User $user, ?EntryComment $parent = null)
+    public function __construct(string $body, ?Entry $entry, User $user, ?EntryComment $parent = null, ?string $ip = null)
     {
         $this->body          = $body;
         $this->entry         = $entry;
         $this->user          = $user;
         $this->parent        = $parent;
+        $this->ip            = $ip;
         $this->votes         = new ArrayCollection();
         $this->children      = new ArrayCollection();
         $this->reports       = new ArrayCollection();

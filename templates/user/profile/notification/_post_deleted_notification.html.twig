@@ -1,4 +1,5 @@
 {% from 'magazine/_macros.html.twig' import magazine %}
+{% from '_layout/_macros.html.twig' import post_url %}
 
 Moderator usunął twój wpis w {{ magazine(notification.post.magazine) }} - <strong><a
-            href="{{ path('post_single', {'magazine_name': notification.post.magazine.name, 'post_id': notification.post.id}) }}">{{ notification.post.shortTitle }}</a></strong>
+            href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a></strong>

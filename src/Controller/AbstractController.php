@@ -82,6 +82,7 @@ abstract class AbstractController extends BaseAbstractController
             [
                 'magazine_name' => $entry->magazine->name,
                 'entry_id'      => $entry->getId(),
+                'slug'          => $entry->slug,
             ]
         );
     }
@@ -93,6 +94,7 @@ abstract class AbstractController extends BaseAbstractController
             [
                 'magazine_name' => $post->magazine->name,
                 'post_id'       => $post->getId(),
+                'slug'          => $post->slug,
             ]
         );
     }

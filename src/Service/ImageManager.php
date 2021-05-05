@@ -34,11 +34,7 @@ class ImageManager
 
         $types = array_map(fn($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
 
-        if (in_array($urlExt, $types)) {
-            return true;
-        }
-
-        return false;
+        return in_array($urlExt, $types);
     }
 
     public function store(string $source, string $filePath): bool

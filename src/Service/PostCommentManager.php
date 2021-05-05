@@ -14,7 +14,6 @@ use App\Factory\PostCommentFactory;
 use App\Service\Contracts\ContentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 
 class PostCommentManager implements ContentManager
@@ -22,7 +21,6 @@ class PostCommentManager implements ContentManager
     public function __construct(
         private PostCommentFactory $factory,
         private EventDispatcherInterface $dispatcher,
-        private Security $security,
         private EntityManagerInterface $entityManager
     ) {
     }

@@ -153,13 +153,7 @@ class EntryCommentController extends AbstractController
             return $this->getJsonCommentSuccessResponse($comment);
         }
 
-        return $this->redirectToRoute(
-            'entry_single',
-            [
-                'magazine_name' => $comment->magazine->name,
-                'entry_id'      => $comment->entry->getId(),
-            ]
-        );
+        return $this->redirectToEntry($comment->entry);
     }
 
     private function getJsonCommentSuccessResponse(EntryComment $comment): Response
@@ -269,13 +263,7 @@ class EntryCommentController extends AbstractController
             return $this->getJsonCommentSuccessResponse($comment);
         }
 
-        return $this->redirectToRoute(
-            'entry_single',
-            [
-                'magazine_name' => $comment->magazine->name,
-                'entry_id'      => $comment->entry->getId(),
-            ]
-        );
+        return $this->redirectToEntry($comment->entry);
     }
 
     /**

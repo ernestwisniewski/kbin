@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class EntryController extends AbstractController
 {
@@ -65,12 +66,17 @@ class EntryController extends AbstractController
     public function create(?Magazine $magazine, ?string $type, Request $request): Response
     {
         $dto           = new EntryDto();
+        $dto->ip       = $request->getClientIp();
         $dto->magazine = $magazine;
 
         $form = $this->createFormByType($dto, $type);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isGranted('create_content', $dto->magazine)) {
+                throw new AccessDeniedHttpException();
+            }
+
             $entry = $this->manager->create($dto, $this->getUserOrThrow());
 
             return $this->redirectToEntry($entry);
@@ -120,6 +126,10 @@ class EntryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isGranted('create_content', $dto->magazine)) {
+                throw new AccessDeniedHttpException();
+            }
+
             $entry = $this->manager->edit($entry, $dto);
 
             return $this->redirectToEntry($entry);

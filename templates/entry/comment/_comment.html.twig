@@ -2,6 +2,7 @@
     {% from 'user/_macros.html.twig' import avatar %}
     {% from 'user/_macros.html.twig' import user %}
     {% from 'vote/_macros.html.twig' import vote %}
+    {% from '_layout/_macros.html.twig' import entry_url %}
 
     {% if with_parent %}
         {% if comment.parent|length %}
@@ -25,7 +26,7 @@
             <aside class="kbin-comment-meta">
                 <ul class="kbin-comment-meta-list list-inline m-0">
                     {% if not is_entry_page() %}
-                    <a href="{{ path('entry_single', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id }) }}">
+                    <a href="{{ entry_url(comment.entry) }}">
                         {% endif %}
                         <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
                             <small class="text-muted">dodany
@@ -50,9 +51,8 @@
 
                         {% if is_comments_page() or is_user_page() %}
                             <li class="kbin-comment-meta-entry kbin-comment-meta-list-item list-inline-item">
-
                                 <small class="text-muted">w <a class="font-weight-bold"
-                                                               href="{{ path('entry_single', {'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id}) }}">{{ comment.entry.shortTitle }}</a></small>
+                                                               href="{{ entry_url(comment.entry) }}">{{ comment.entry.shortTitle }}</a></small>
                             </li>
                         {% endif %}
                     {% endif %}

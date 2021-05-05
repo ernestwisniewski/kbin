@@ -1,4 +1,5 @@
 {% from 'magazine/_macros.html.twig' import magazine %}
+{% from '_layout/_macros.html.twig' import entry_url %}
 
-Moderator twój komentarz treść w {{ magazine(notification.comment.magazine) }} - <strong><a
-            href="{{ path('entry_single', {'magazine_name': notification.comment.entry.magazine.name, 'entry_id': notification.comment.entry.id}) }}">{{ notification.comment.shortTitle }}</a></strong>
+Moderator twój komentarz treść w {{ magazine(notification.comment.magazine) }} - <strong><a href="{{ entry_url(notification.comment.entry) }}">
+        {{ notification.comment.shortTitle }}</a></strong>

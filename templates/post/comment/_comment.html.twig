@@ -3,6 +3,7 @@
     {% from 'user/_macros.html.twig' import user %}
     {% from 'vote/_macros.html.twig' import vote %}
     {% from 'post/_macros.html.twig' import post %}
+    {% from '_layout/_macros.html.twig' import post_url %}
 
     {% if with_parent %}
         {{ post(comment.post) }}
@@ -24,7 +25,7 @@
                     <ul class="kbin-comment-meta-list list-inline m-0">
                         <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
                             {% if not is_post_page() %}
-                            <a href="{{ path('post_single', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id }) }}">
+                            <a href="{{ post_url(comment.post) }}">
                                 {% endif %}
                                 <small class="text-muted">dodany
                                     <time>{{ comment.createdAt|ago }}</time>

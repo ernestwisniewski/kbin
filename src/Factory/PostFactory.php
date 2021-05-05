@@ -14,7 +14,8 @@ class PostFactory
             $dto->body,
             $dto->magazine,
             $user,
-            $dto->isAdult
+            $dto->isAdult,
+            $dto->ip
         );
     }
 
@@ -26,6 +27,8 @@ class PostFactory
             $post->image,
             $post->body,
             null,
+            $post->slug,
+            $post->ip,
             $post->getId()
         );
     }

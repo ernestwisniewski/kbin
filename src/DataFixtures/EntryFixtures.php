@@ -69,6 +69,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
                 'body'     => $body,
                 'magazine' => $this->getReference('magazine_'.rand(1, intval(MagazineFixtures::MAGAZINES_COUNT))),
                 'user'     => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                'ip'       => $this->faker->ipv4,
             ];
         }
     }

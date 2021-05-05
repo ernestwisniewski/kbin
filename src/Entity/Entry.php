@@ -58,6 +58,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public Domain $domain;
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public ?string $slug = null;
+    /**
      * @ORM\Column(type="string", length=255)
      */
     public string $title;
@@ -102,6 +106,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public ?DateTime $lastActive;
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public $ip;
+    /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
      */
     public Collection $comments;
@@ -133,7 +141,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     private int $id;
 
-    public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user, ?bool $isAdult = null)
+    public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user, ?bool $isAdult = null, ?string $ip = null)
     {
         $this->title         = $title;
         $this->url           = $url;
@@ -141,6 +149,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->magazine      = $magazine;
         $this->user          = $user;
         $this->isAdult       = $isAdult ?? false;
+        $this->ip            = $ip;
         $this->comments      = new ArrayCollection();
         $this->votes         = new ArrayCollection();
         $this->reports       = new ArrayCollection();

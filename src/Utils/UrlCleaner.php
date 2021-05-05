@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use App\Exception\BadUrlException;
+
 class UrlCleaner
 {
     // https://gist.github.com/htsign/455bd76d107be1f810c5caa4072c8275
@@ -112,6 +114,16 @@ class UrlCleaner
         unset($qsVars[$var]);
         $newQs = http_build_query($qsVars);
 
-        return trim($urlPart.'?'.$newQs, '?');
+        return $this->validate(trim($urlPart.'?'.$newQs, '?'));
+    }
+
+    private function validate(string $url): string
+    {
+        // @todo checkdnsrr?
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new BadUrlException($url);
+        }
+
+        return $url;
     }
 }

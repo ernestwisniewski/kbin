@@ -30,7 +30,7 @@ class PostCommentController extends AbstractController
      * @ParamConverter("parent", options={"mapping": {"parent_comment_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
-     * @IsGranted("create_content", subject="magazine")
+     * @IsGranted("comment", subject="post")
      */
     public function create(
         Magazine $magazine,
@@ -94,13 +94,7 @@ class PostCommentController extends AbstractController
             return $this->getJsonCreateCommentSuccessResponse($comment);
         }
 
-        return $this->redirectToRoute(
-            'post_single',
-            [
-                'magazine_name' => $comment->magazine->name,
-                'post_id'       => $comment->post->getId(),
-            ]
-        );
+        return $this->redirectToPost($comment->post);
     }
 
     private function getJsonCreateCommentSuccessResponse(PostComment $comment): JsonResponse
@@ -167,13 +161,7 @@ class PostCommentController extends AbstractController
             return $this->getJsonCommentSuccessResponse($comment);
         }
 
-        return $this->redirectToRoute(
-            'entry_single',
-            [
-                'magazine_name' => $comment->magazine->name,
-                'entry_id'      => $comment->post->getId(),
-            ]
-        );
+        return $this->redirectToPost($comment->post);
     }
 
     private function getJsonCommentSuccessResponse(PostComment $comment): Response

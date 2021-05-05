@@ -28,12 +28,12 @@ DomainManager
         if (!$domain) {
             $domain          = new Domain($subject, $domainName);
             $subject->domain = $domain;
-        } else {
-            $domain->addEntry($subject);
-            $domain->updateCounts();
+            $this->manager->persist($domain);
         }
 
-        $this->manager->persist($domain);
+        $domain->addEntry($subject);
+        $domain->updateCounts();
+
         $this->manager->flush();
 
         return $subject;

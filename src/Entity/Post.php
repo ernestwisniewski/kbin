@@ -47,6 +47,10 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     public ?Image $image = null;
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public ?string $slug = null;
+    /**
      * @ORM\Column(type="text", nullable=true, length=15000)
      */
     public ?string $body = null;
@@ -66,6 +70,10 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      * @ORM\Column(type="datetimetz")
      */
     public ?DateTime $lastActive;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public $ip;
     /**
      * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="post", orphanRemoval=true)
      */
@@ -90,12 +98,13 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     private int $id;
 
-    public function __construct(string $body, Magazine $magazine, User $user, ?bool $isAdult = false)
+    public function __construct(string $body, Magazine $magazine, User $user, ?bool $isAdult = false, ?string $ip = null)
     {
         $this->body          = $body;
         $this->magazine      = $magazine;
         $this->user          = $user;
         $this->isAdult       = $isAdult ?? false;
+        $this->ip            = $ip;
         $this->comments      = new ArrayCollection();
         $this->votes         = new ArrayCollection();
         $this->reports       = new ArrayCollection();
