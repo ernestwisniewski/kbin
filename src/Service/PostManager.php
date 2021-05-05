@@ -11,9 +11,9 @@ use App\Event\Post\PostDeletedEvent;
 use App\Event\Post\PostUpdatedEvent;
 use App\Factory\PostFactory;
 use App\Service\Contracts\ContentManager;
+use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 
 class PostManager implements ContentManager
@@ -21,20 +21,21 @@ class PostManager implements ContentManager
     public function __construct(
         private PostFactory $factory,
         private EventDispatcherInterface $dispatcher,
-        private Security $security,
+        private Slugger $slugger,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(PostDto $dto, User $user): Post
     {
-        $post     = $this->factory->createFromDto($dto, $user);
-        $magazine = $post->magazine;
+        $post       = $this->factory->createFromDto($dto, $user);
+        $post->slug = $this->slugger->slug($dto->body);
 
-        $magazine->addPost($post);
         if ($dto->image) {
             $post->image = $dto->image;
         }
+
+        $post->magazine->addPost($post);
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();
@@ -52,7 +53,7 @@ class PostManager implements ContentManager
         $post->isAdult = $dto->isAdult;
 
         if ($dto->image) {
-            $post->setImage($dto->image);
+            $post->image = $dto->image;
         }
 
         $this->entityManager->flush();

@@ -26,7 +26,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomPosts(self::ENTRIES_COUNT) as $index => $post) {
-            $dto = (new PostDto())->create($post['magazine'], $post['user'], null, $post['body']);
+            $dto = (new PostDto())->create($post['magazine'], $post['user'], $post['body']);
 
             $entity = $this->postManager->create($dto, $post['user']);
 
@@ -57,6 +57,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
                 'body'     => $this->faker->realText($this->faker->numberBetween(10, 1024)),
                 'magazine' => $this->getReference('magazine_'.rand(1, intval(MagazineFixtures::MAGAZINES_COUNT))),
                 'user'     => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                'ip'       => $this->faker->ipv4,
             ];
         }
     }

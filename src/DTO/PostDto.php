@@ -16,6 +16,8 @@ class PostDto
     #[Assert\Length(min: 2, max: 15000)]
     public ?string $body = null;
     public ?bool $isAdult = false;
+    public ?string $slug = null;
+    public ?string $ip = null;
     private ?int $id = null;
 
     public function create(
@@ -24,6 +26,8 @@ class PostDto
         ?Image $image = null,
         ?string $body = null,
         ?bool $isAdult = false,
+        ?string $slug = null,
+        ?string $ip = null,
         ?int $id = null
     ): self {
         $this->id       = $id;
@@ -32,6 +36,8 @@ class PostDto
         $this->body     = $body;
         $this->image    = $image;
         $this->isAdult  = $isAdult;
+        $this->slug     = $slug;
+        $this->ip       = $ip;
 
         return $this;
     }

@@ -87,7 +87,7 @@ class UserManager
     public function edit(User $user, UserDto $dto): User
     {
         if ($dto->avatar) {
-            $user->setAvatar($dto->avatar);
+            $user->avatar = $dto->avatar;
         }
 
         if ($dto->plainPassword) {

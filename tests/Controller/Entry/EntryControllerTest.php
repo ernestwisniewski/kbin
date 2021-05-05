@@ -85,7 +85,7 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}/-/komentarze");
+        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}/zmieniona-tresc/komentarze");
 
         $crawler = $client->followRedirect();
 
@@ -112,7 +112,7 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}/-/komentarze");
+        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}/zmieniona-tresc/komentarze");
 
         $crawler = $client->followRedirect();
 

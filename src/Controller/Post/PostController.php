@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PostController extends AbstractController
 {
@@ -132,21 +133,20 @@ class PostController extends AbstractController
      */
     public function create(Magazine $magazine, Request $request): Response
     {
-        $postDto = (new PostDto())->create($magazine, $this->getUserOrThrow(), null);
+        $dto     = (new PostDto())->create($magazine, $this->getUserOrThrow());
+        $dto->ip = $request->getClientIp();
 
-        $form = $this->createForm(PostType::class, $postDto);
+        $form = $this->createForm(PostType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post = $this->manager->create($postDto, $this->getUserOrThrow());
+            if (!$this->isGranted('create_content', $magazine)) {
+                throw new AccessDeniedHttpException();
+            }
 
-            return $this->redirectToRoute(
-                'post_single',
-                [
-                    'magazine_name' => $post->magazine->name,
-                    'post_id'       => $post->getId(),
-                ]
-            );
+            $post = $this->manager->create($dto, $this->getUserOrThrow());
+
+            return $this->redirectToPost($post);
         }
 
         return $this->redirectToRefererOrHome($request);
@@ -161,21 +161,19 @@ class PostController extends AbstractController
      */
     public function edit(Magazine $magazine, Post $post, Request $request, PostCommentRepository $repository): Response
     {
-        $postDto = $this->manager->createDto($post);
+        $dto = $this->manager->createDto($post);
 
-        $form = $this->createForm(PostType::class, $postDto);
+        $form = $this->createForm(PostType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post = $this->manager->edit($post, $postDto);
+            if (!$this->isGranted('create_content', $magazine)) {
+                throw new AccessDeniedHttpException();
+            }
 
-            return $this->redirectToRoute(
-                'post_single',
-                [
-                    'magazine_name' => $magazine->name,
-                    'post_id'       => $post->getId(),
-                ]
-            );
+            $post = $this->manager->edit($post, $dto);
+
+            return $this->redirectToPost($post);
         }
 
         $criteria       = new PostCommentPageView($this->getPageNb($request));

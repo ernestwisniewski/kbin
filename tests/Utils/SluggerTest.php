@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Command;
+namespace App\Tests\Utils;
 
+use App\Tests\WebTestCase;
 use App\Utils\Slugger;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class SluggerTest extends KernelTestCase
+class SluggerTest extends WebTestCase
 {
     /**
      * @dataProvider provider
      */
     public function testCamelCase(string $input, string $output)
     {
-        $this->assertEquals($output, (new Slugger())->camelCase($input));
+        $this->createClient();
+        $slugger = self::$container->get(Slugger::class);
+        $this->assertEquals($output, $slugger->camelCase($input));
     }
 
     public function provider(): array

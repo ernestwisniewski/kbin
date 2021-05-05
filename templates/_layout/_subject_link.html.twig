@@ -1,9 +1,12 @@
+{% from '_layout/_macros.html.twig' import entry_url %}
+{% from '_layout/_macros.html.twig' import post_url %}
+
 {% if subject is entry %}
-    <a href="{{ path('entry_single', {'magazine_name': subject.magazine.name, 'entry_id': subject.id}) }}">{{ subject.shortTitle }}</a>
+    <a href="{{ entry_url(subject) }}">{{ subject.shortTitle }}</a>
 {% elseif subject is entry_comment %}
-    <a href="{{ path('entry_single', {'magazine_name': subject.entry.magazine.name, 'entry_id': subject.entry.id}) }}">{{ subject.shortTitle }}</a>
+    <a href="{{ entry_url(subject.entry) }}">{{ subject.shortTitle }}</a>
 {% elseif subject is post %}
-    <a href="{{ path('post_single', {'magazine_name': subject.magazine.name, 'post_id': subject.id}) }}">{{ subject.shortTitle }}</a>
+    <a href="{{ post_url(subject) }}">{{ subject.shortTitle }}</a>
 {% elseif subject is post_comment %}
-    <a href="{{ path('post_single', {'magazine_name': subject.post.magazine.name, 'post_id': subject.post.id}) }}">{{ subject.shortTitle }}</a>
+    <a href="{{ post_url(subject.post) }}">{{ subject.shortTitle }}</a>
 {% endif %}

@@ -56,6 +56,10 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
      */
     public DateTime $lastActive;
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public $ip;
+    /**
      * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="children")
      * @ORM\JoinColumn(onDelete="cascade")
      */
@@ -84,12 +88,13 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
      */
     private int $id;
 
-    public function __construct(string $body, ?Post $post, User $user, ?PostComment $parent = null)
+    public function __construct(string $body, ?Post $post, User $user, ?PostComment $parent = null, ?string $ip = null)
     {
         $this->body     = $body;
         $this->post     = $post;
         $this->user     = $user;
         $this->parent   = $parent;
+        $this->ip       = $ip;
         $this->votes    = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->reports  = new ArrayCollection();

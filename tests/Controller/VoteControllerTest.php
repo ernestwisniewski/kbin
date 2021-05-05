@@ -20,7 +20,7 @@ class VoteControllerTest extends WebTestCase
         $this->createVote(1, $entry, $u2);
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->request('GET', '/m/polityka/t/'.$entry->getId());
+        $crawler = $client->request('GET', '/m/polityka/t/'.$entry->getId().'/-/komentarze');
 
         $this->assertVoteActions($client, $crawler);
     }
@@ -74,7 +74,7 @@ class VoteControllerTest extends WebTestCase
         $this->createVote(1, $comment, $u2);
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->request('GET', '/m/polityka/t/'.$entry->getId());
+        $crawler = $client->request('GET', '/m/polityka/t/'.$entry->getId().'/-/komentarze');
 
         $this->assertVoteActions($client, $crawler, '.kbin-comment-list');
     }

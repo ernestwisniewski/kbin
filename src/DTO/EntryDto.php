@@ -28,6 +28,8 @@ class EntryDto
     public ?int $dv = null;
     public ?bool $isAdult = false;
     public ?Collection $badges = null;
+    public ?string $slug = null;
+    public ?string $ip = null;
     private ?int $id = null;
 
     public function create(
@@ -42,6 +44,8 @@ class EntryDto
         ?Image $image = null,
         ?bool $isAdult = false,
         ?Collection $badges = null,
+        ?string $slug = null,
+        ?string $ip = null,
         ?int $id = null
     ): self {
         $this->id       = $id;
@@ -56,6 +60,8 @@ class EntryDto
         $this->image    = $image;
         $this->isAdult  = $isAdult;
         $this->badges   = $badges;
+        $this->slug     = $slug;
+        $this->ip       = $ip;
 
         return $this;
     }

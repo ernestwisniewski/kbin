@@ -1,5 +1,6 @@
 {% from 'magazine/_macros.html.twig' import magazine %}
 {% from 'user/_macros.html.twig' import user %}
+{% from '_layout/_macros.html.twig' import entry_url %}
 
 {{ user(notification.user) }} dodał/a nową treść w {{ magazine(notification.entry.magazine) }} - <strong><a
-            href="{{ path('entry_single', {'magazine_name': notification.entry.magazine.name, 'entry_id': notification.entry.id}) }}">{{ notification.entry.shortTitle }}</a></strong>
+            href="{{ entry_url(notification.entry) }}">{{ notification.entry.shortTitle }}</a></strong>
