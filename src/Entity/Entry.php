@@ -108,7 +108,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    public $ip;
+    public ?string $ip = null;
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
      */

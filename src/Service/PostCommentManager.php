@@ -14,6 +14,8 @@ use App\Factory\PostCommentFactory;
 use App\Service\Contracts\ContentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
 class PostCommentManager implements ContentManager
@@ -21,16 +23,23 @@ class PostCommentManager implements ContentManager
     public function __construct(
         private PostCommentFactory $factory,
         private EventDispatcherInterface $dispatcher,
+        private RateLimiterFactory $postCommentLimiter,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(PostCommentDto $dto, User $user): PostComment
     {
+        $limiter = $this->postCommentLimiter->create($dto->ip);
+        if (false === $limiter->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         $comment = $this->factory->createFromDto($dto, $user);
 
-        $comment->post->addComment($comment);
         $comment->magazine = $dto->post->magazine;
+        $comment->post->addComment($comment);
+
         if ($dto->image) {
             $comment->image = $dto->image;
         }

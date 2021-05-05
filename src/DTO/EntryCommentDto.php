@@ -17,6 +17,7 @@ class EntryCommentDto
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
+    public ?string $ip = null;
     public ?EntryComment $parent = null;
     public ?EntryComment $root = null;
     public ?Image $image = null;

@@ -106,7 +106,9 @@ class EntryCommentController extends AbstractController
         ?EntryComment $parent,
         Request $request,
     ): Response {
-        $dto = (new EntryCommentDto())->createWithParent($entry, $parent);
+        $dto           = (new EntryCommentDto())->createWithParent($entry, $parent);
+        $dto->magazine = $magazine;
+        $dto->ip       = $request->getClientIp();
 
         $form = $this->getCreateForm($dto, $parent);
         $form->handleRequest($request);

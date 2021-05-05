@@ -14,6 +14,8 @@ use App\Factory\EntryCommentFactory;
 use App\Service\Contracts\ContentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
 class EntryCommentManager implements ContentManager
@@ -21,12 +23,18 @@ class EntryCommentManager implements ContentManager
     public function __construct(
         private EntryCommentFactory $factory,
         private EventDispatcherInterface $dispatcher,
+        private RateLimiterFactory $entryCommentLimiter,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(EntryCommentDto $dto, User $user): EntryComment
     {
+        $limiter = $this->entryCommentLimiter->create($dto->ip);
+        if (false === $limiter->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         $comment = $this->factory->createFromDto($dto, $user);
 
         $comment->entry->addComment($comment);

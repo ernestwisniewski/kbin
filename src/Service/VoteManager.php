@@ -8,17 +8,25 @@ use App\Entity\Vote;
 use App\Factory\VoteFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 class VoteManager
 {
     public function __construct(
         private VoteFactory $factory,
+        private RateLimiterFactory $voteLimiter,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function vote(int $choice, VoteInterface $votable, User $user): Vote
     {
+        $limiter = $this->voteLimiter->create($user->username);
+        if (false === $limiter->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         $vote = $votable->getUserVote($user);
 
         if ($vote) {

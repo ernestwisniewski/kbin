@@ -14,6 +14,8 @@ use App\Service\Contracts\ContentManager;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
 class PostManager implements ContentManager
@@ -22,12 +24,18 @@ class PostManager implements ContentManager
         private PostFactory $factory,
         private EventDispatcherInterface $dispatcher,
         private Slugger $slugger,
+        private RateLimiterFactory $postLimiter,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(PostDto $dto, User $user): Post
     {
+        $limiter = $this->postLimiter->create($dto->ip);
+        if (false === $limiter->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         $post       = $this->factory->createFromDto($dto, $user);
         $post->slug = $this->slugger->slug($dto->body);
 
