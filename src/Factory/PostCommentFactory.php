@@ -14,7 +14,8 @@ class PostCommentFactory
             $dto->body,
             $dto->post,
             $user,
-            $dto->parent
+            $dto->parent,
+            $dto->ip
         );
     }
 

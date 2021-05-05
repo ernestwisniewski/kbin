@@ -133,8 +133,9 @@ class PostController extends AbstractController
      */
     public function create(Magazine $magazine, Request $request): Response
     {
-        $dto     = (new PostDto())->create($magazine, $this->getUserOrThrow());
-        $dto->ip = $request->getClientIp();
+        $dto           = (new PostDto())->create($magazine, $this->getUserOrThrow());
+        $dto->magazine = $magazine;
+        $dto->ip       = $request->getClientIp();
 
         $form = $this->createForm(PostType::class, $dto);
         $form->handleRequest($request);

@@ -16,6 +16,7 @@ class PostCommentDto
     public Post|PostDto $post;
     #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
+    public ?string $ip = null;
     public ?PostComment $parent = null;
     public ?Image $image = null;
     private ?int $id = null;

@@ -16,6 +16,8 @@ use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
 class EntryManager implements ContentManager
@@ -26,12 +28,18 @@ class EntryManager implements ContentManager
         private BadgeManager $badgeManager,
         private UrlCleaner $urlCleaner,
         private Slugger $slugger,
+        private RateLimiterFactory $postLimiter,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(EntryDto $dto, User $user): Entry
     {
+        $limiter = $this->postLimiter->create($dto->ip);
+        if (false === $limiter->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         $entry       = $this->factory->createFromDto($dto, $user);
         $entry->slug = $this->slugger->slug($dto->title);
 

@@ -14,7 +14,8 @@ class EntryCommentFactory
             $dto->body,
             $dto->entry,
             $user,
-            $dto->parent
+            $dto->parent,
+            $dto->ip
         );
     }
 

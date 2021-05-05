@@ -38,7 +38,9 @@ class PostCommentController extends AbstractController
         ?PostComment $parent,
         Request $request,
     ): Response {
-        $dto = (new PostCommentDto())->createWithParent($post, $parent);
+        $dto           = (new PostCommentDto())->createWithParent($post, $parent);
+        $dto->magazine = $magazine;
+        $dto->ip       = $request->getClientIp();
 
         $form = $this->getCreateForm($dto, $parent);
         $form->handleRequest($request);
