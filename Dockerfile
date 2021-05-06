@@ -22,6 +22,7 @@ RUN apk add --no-cache \
         freetype-dev \
         libjpeg-turbo-dev \
         libpng-dev \
+        php-sysvsem \
 	;
 
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
@@ -44,6 +45,8 @@ RUN set -eux; \
 	; \
     docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/; \
 	docker-php-ext-install -j$(nproc) gd; \
+    docker-php-ext-configure sysvsem; \
+	docker-php-ext-install -j$(nproc) sysvsem; \
 	pecl install \
 		apcu-${APCU_VERSION} \
 	; \
@@ -54,6 +57,7 @@ RUN set -eux; \
 	docker-php-ext-enable \
 		apcu \
 		opcache \
+		sysvsem \
 	; \
 	\
 	runDeps="$( \
