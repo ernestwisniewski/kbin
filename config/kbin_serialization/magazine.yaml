@@ -1,10 +1,10 @@
 App\DTO\MagazineDto:
   attributes:
     name:
-      groups: [ 'magazine_read' ]
+      groups: [ 'magazine_read', 'magazine_write' ]
     title:
-      groups: [ 'magazine_read' ]
+      groups: [ 'magazine_read', 'magazine_write' ]
     description:
-      groups: [ 'magazine_read' ]
+      groups: [ 'magazine_read', 'magazine_write' ]
     rules:
-      groups: [ 'magazine_read' ]
+      groups: [ 'magazine_read', 'magazine_write' ]

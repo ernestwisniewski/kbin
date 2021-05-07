@@ -39,6 +39,10 @@ final class ApiEventSubscriber implements EventSubscriberInterface
 
     public function transform(ViewEvent $event): void
     {
+        if (!$event->getControllerResult()) {
+            return;
+        }
+
         switch ($dto = $event->getControllerResult()) {
             case $dto instanceof DtoPaginator:
                 $this->collection($dto);
