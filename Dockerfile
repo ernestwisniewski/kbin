@@ -29,7 +29,7 @@ RUN apk add --no-cache \
 # see https://github.com/docker-library/php/issues/240#issuecomment-763112749
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
-ARG APCU_VERSION=5.1.19
+ARG APCU_VERSION=5.1.20
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
@@ -133,9 +133,9 @@ FROM caddy:${CADDY_VERSION}-builder-alpine AS symfony_caddy_builder
 
 RUN xcaddy build \
 	--with github.com/dunglas/mercure \
-	--with github.com/dunglas/mercure/caddy
-    #--with github.com/dunglas/vulcain \
-    #--with github.com/dunglas/vulcain/caddy
+	--with github.com/dunglas/mercure/caddy \
+    --with github.com/dunglas/vulcain \
+    --with github.com/dunglas/vulcain/caddy
 
 FROM caddy:${CADDY_VERSION} AS symfony_caddy
 
@@ -148,7 +148,7 @@ COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
 #FROM symfony_php as symfony_php_debug
 #
-#ARG XDEBUG_VERSION=3.0.1
+#ARG XDEBUG_VERSION=3.0.4
 #RUN set -eux; \
 #	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
 #	pecl install xdebug-$XDEBUG_VERSION; \
