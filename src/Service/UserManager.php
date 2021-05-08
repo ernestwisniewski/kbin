@@ -11,6 +11,7 @@ use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -78,7 +79,10 @@ class UserManager
         $this->entityManager->flush();
 
         if ($verifyUserEmail) {
-            $this->bus->dispatch(new UserCreatedMessage($user->getId()));
+            try {
+                $this->bus->dispatch(new UserCreatedMessage($user->getId()));
+            } catch (Exception $e) {
+            }
         }
 
         return $user;

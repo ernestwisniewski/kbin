@@ -5,8 +5,8 @@ App\DTO\PostDto:
     user:
       groups: [ 'post_read' ]
     magazine:
-      groups: [ 'post_read' ]
+      groups: [ 'post_read', 'post_write' ]
     image:
-      groups: [ 'post_read' ]
+      groups: [ 'post_read', 'post_write' ]
     body:
-      groups: [ 'post_read' ]
+      groups: [ 'post_read', 'post_write' ]

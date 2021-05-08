@@ -3,10 +3,10 @@ App\DTO\EntryCommentDto:
     id:
       groups: [ 'entryComment_read' ]
     magazine:
-      groups: [ 'entryComment_read' ]
+      groups: [ 'entryComment_read', 'entryComment_write' ]
     user:
       groups: [ 'entryComment_read' ]
     entry:
-      groups: [ 'entryComment_read' ]
+      groups: [ 'entryComment_read', 'entryComment_write' ]
     body:
-      groups: [ 'entryComment_read' ]
+      groups: [ 'entryComment_read', 'entryComment_write' ]
