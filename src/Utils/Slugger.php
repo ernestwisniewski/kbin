@@ -15,12 +15,12 @@ class Slugger
         return $this->slugger->slug(substr($val, 0, 60))->toString();
     }
 
-    public function camelCase(string $value): string
+    public static function camelCase(string $value): string
     {
-        return lcfirst($this->studly($value));
+        return lcfirst(static::studly($value));
     }
 
-    private function studly(string $value): string
+    private static function studly(string $value): string
     {
         $value = ucwords(str_replace(['-', '_'], ' ', $value));
 

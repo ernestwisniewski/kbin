@@ -14,6 +14,7 @@ abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 {
     protected Generator $faker;
     protected ObjectManager $manager;
+    protected Slugger $slugger;
 
     public static function getGroups(): array
     {
@@ -32,7 +33,7 @@ abstract class BaseFixture extends Fixture implements FixtureGroupInterface
 
     protected function camelCase($value): string
     {
-        return (new Slugger())->camelCase($value);
+        return Slugger::camelCase($value);
     }
 
     protected function getRandomTime(?DateTimeImmutable $from = null): DateTimeImmutable
