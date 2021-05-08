@@ -23,6 +23,7 @@
         "laminas/laminas-diactoros": "^2.5",
         "landrok/activitypub": "^0.5.6",
         "league/commonmark": "^1.5",
+        "lexik/jwt-authentication-bundle": "^2.11",
         "liip/imagine-bundle": "^2.4",
         "nelmio/cors-bundle": "^2.1",
         "nucleos/antispam-bundle": "^2.1",

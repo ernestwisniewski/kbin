@@ -32,7 +32,21 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomEntries(self::ENTRIES_COUNT) as $index => $entry) {
-            $dto = (new EntryDto())->create($entry['magazine'], $entry['user'], $entry['title'], $entry['url'], $entry['body']);
+            $dto = (new EntryDto())->create(
+                $entry['magazine'],
+                $entry['user'],
+                $entry['title'],
+                $entry['url'],
+                $entry['body'],
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                $entry['ip']
+            );
 
             $entity = $this->entryManager->create($dto, $entry['user']);
 
@@ -64,12 +78,12 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
             $body  = $isUrl ? null : $this->faker->paragraphs($this->faker->numberBetween(1, 10), true);
 
             yield [
-                'title'    => $this->faker->realText($this->faker->numberBetween(10, 255)),
-                'url'      => $isUrl ? $this->faker->url : null,
-                'body'     => $body,
+                'title' => $this->faker->realText($this->faker->numberBetween(10, 255)),
+                'url' => $isUrl ? $this->faker->url : null,
+                'body' => $body,
                 'magazine' => $this->getReference('magazine_'.rand(1, intval(MagazineFixtures::MAGAZINES_COUNT))),
-                'user'     => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
-                'ip'       => $this->faker->ipv4,
+                'user' => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                'ip' => $this->faker->ipv4,
             ];
         }
     }

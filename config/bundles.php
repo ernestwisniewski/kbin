@@ -29,4 +29,5 @@ return [
     Symfony\UX\Chartjs\ChartjsBundle::class => ['all' => true],
     Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
+    Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
 ];

@@ -247,6 +247,12 @@
     "landrok/activitypub": {
         "version": "0.5.6"
     },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
+    "lcobucci/jwt": {
+        "version": "4.1.4"
+    },
     "league/commonmark": {
         "version": "1.5.7"
     },
@@ -268,6 +274,18 @@
     },
     "league/mime-type-detection": {
         "version": "1.7.0"
+    },
+    "lexik/jwt-authentication-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "5b2157bcd5778166a5696e42f552ad36529a07a6"
+        },
+        "files": [
+            "config/packages/lexik_jwt_authentication.yaml"
+        ]
     },
     "liip/imagine-bundle": {
         "version": "1.8",
@@ -296,6 +314,12 @@
     },
     "monolog/monolog": {
         "version": "2.2.0"
+    },
+    "namshi/jose": {
+        "version": "7.2.3"
+    },
+    "neitanod/forceutf8": {
+        "version": "v2.0.4"
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
@@ -664,6 +688,9 @@
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.22.0"
+    },
+    "symfony/polyfill-php56": {
+        "version": "v1.20.0"
     },
     "symfony/polyfill-php73": {
         "version": "v1.22.0"
