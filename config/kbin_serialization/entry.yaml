@@ -3,17 +3,19 @@ App\DTO\EntryDto:
     id:
       groups: [ 'entry_read' ]
     magazine:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry_read', 'entry_write' ]
     user:
       groups: [ 'entry_read' ]
     image:
       groups: [ 'entry_read' ]
     title:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry_read', 'entry_write' ]
     url:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry_read', 'entry_write' ]
     body:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry_read', 'entry_write' ]
+    isAdult:
+      groups: [ 'entry_read', 'entry_write' ]
     type:
       groups: [ 'entry_read' ]
     comments:

@@ -4,13 +4,13 @@ namespace App\ApiDataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DTO\UserDto;
-use App\Entity\User;
 use App\Factory\UserFactory;
 use App\Service\UserManager;
 
 final class UserDataPersister implements ContextAwareDataPersisterInterface
 {
-    public function __construct(private UserManager $manager, public UserFactory $factory) {
+    public function __construct(private UserManager $manager, public UserFactory $factory)
+    {
     }
 
     public function supports($data, array $context = []): bool

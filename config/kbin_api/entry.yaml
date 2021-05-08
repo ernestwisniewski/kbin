@@ -11,6 +11,8 @@ resources:
     collectionOperations:
       get:
         method: GET
+      post:
+        method: POST
       comments:
         method: GET
         path: /entries/{id}/comments.{_format}

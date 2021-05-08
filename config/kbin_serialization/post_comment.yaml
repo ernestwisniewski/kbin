@@ -3,10 +3,10 @@ App\DTO\PostCommentDto:
     id:
       groups: [ 'postComment_read' ]
     magazine:
-      groups: [ 'postComment_read' ]
+      groups: [ 'postComment_read', 'postComment_read' ]
     user:
       groups: [ 'postComment_read' ]
     post:
-      groups: [ 'postComment_read' ]
+      groups: [ 'postComment_read', 'postComment_read' ]
     body:
-      groups: [ 'postComment_read' ]
+      groups: [ 'postComment_read', 'postComment_read' ]
