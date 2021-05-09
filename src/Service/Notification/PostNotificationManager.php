@@ -71,8 +71,10 @@ class PostNotificationManager
     {
         return json_encode(
             [
-                'postId'       => $post->getId(),
-                'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'op'   => 'PostNotification',
+                'id'   => $post->getId(),
+                'data' => [],
+                'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
