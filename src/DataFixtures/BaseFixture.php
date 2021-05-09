@@ -24,7 +24,7 @@ abstract class BaseFixture extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
-        $this->faker   = Factory::create('pl_PL');
+        $this->faker   = Factory::create();
 
         $this->loadData($manager);
     }
