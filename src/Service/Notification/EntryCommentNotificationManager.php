@@ -70,8 +70,10 @@ class EntryCommentNotificationManager
     {
         return json_encode(
             [
-                'commentId'    => $notification->getComment()->getId(),
-                'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'op'   => 'EntryCommentNotificationManager',
+                'id'   => $notification->getComment()->getId(),
+                'data' => [],
+                'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

@@ -70,8 +70,10 @@ class EntryNotificationManager
     {
         return json_encode(
             [
-                'entryId'      => $notification->entry->getId(),
-                'notification' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'op'   => 'EntryNotification',
+                'id'   => $notification->entry->getId(),
+                'data' => [],
+                'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
