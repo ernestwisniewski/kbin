@@ -2,16 +2,13 @@
 
 namespace App\DataFixtures;
 
-use App\Service\VoteManager;
+use App\Entity\EntryCommentReport;
+use App\Entity\EntryReport;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class VoteFixtures extends BaseFixture implements DependentFixtureInterface
+class ReportFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    public function __construct(private VoteManager $voteManager)
-    {
-    }
-
     public function loadData(ObjectManager $manager): void
     {
         for ($u = 0; $u <= UserFixtures::USERS_COUNT; $u++) {
@@ -20,6 +17,8 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
             $this->posts($u);
             $this->postComments($u);
         }
+
+        $this->manager->flush();
     }
 
     private function getUniqueNb(int $max, int $quantity): array
@@ -33,9 +32,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            EntryFixtures::class,
             EntryCommentFixtures::class,
-            PostFixtures::class,
             PostCommentFixtures::class,
         ];
     }
@@ -54,11 +51,13 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $this->voteManager->vote(
-                rand(0, 4) > 0 ? 1 : -1,
-                $this->getReference('entry_'.$e),
-                $this->getReference('user_'.$u)
+            $r = new EntryReport(
+                $this->getReference('user_'.$u),
+                $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                $this->getReference('entry_'.$e)
             );
+
+            $this->manager->persist($r);
         }
     }
 
@@ -66,7 +65,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             EntryCommentFixtures::COMMENTS_COUNT,
-            intval((EntryCommentFixtures::COMMENTS_COUNT / 5) / rand(2, 5))
+            intval(EntryCommentFixtures::COMMENTS_COUNT / rand(2, 5))
         );
 
         foreach ($randomNb as $c) {
@@ -76,11 +75,13 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $this->voteManager->vote(
-                rand(0, 4) > 0 ? 1 : -1,
-                $this->getReference('entry_comment_'.$c),
-                $this->getReference('user_'.$u)
+            $r = new EntryCommentReport(
+                $this->getReference('user_'.$u),
+                $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                $this->getReference('entry_comment_'.$c)
             );
+
+            $this->manager->persist($r);
         }
     }
 
@@ -98,11 +99,13 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $this->voteManager->vote(
-                rand(0, 4) > 0 ? 1 : -1,
-                $this->getReference('post_'.$e),
-                $this->getReference('user_'.$u)
+            $r = new EntryCommentReport(
+                $this->getReference('user_'.$u),
+                $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                $this->getReference('post_'.$e)
             );
+
+            $this->manager->persist($r);
         }
     }
 
@@ -110,7 +113,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             PostCommentFixtures::COMMENTS_COUNT,
-            intval((PostCommentFixtures::COMMENTS_COUNT / 5) / rand(2, 5))
+            intval(PostCommentFixtures::COMMENTS_COUNT / rand(2, 5))
         );
 
         foreach ($randomNb as $c) {
@@ -120,11 +123,13 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $this->voteManager->vote(
-                rand(0, 4) > 0 ? 1 : -1,
-                $this->getReference('post_comment_'.$c),
-                $this->getReference('user_'.$u)
+            $r = new EntryCommentReport(
+                $this->getReference('user_'.$u),
+                $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                $this->getReference('post_comment_'.$c)
             );
+
+            $this->manager->persist($r);
         }
     }
 }
