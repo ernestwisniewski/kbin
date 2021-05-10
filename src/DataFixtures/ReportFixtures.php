@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\EntryCommentReport;
 use App\Entity\EntryReport;
+use App\Entity\PostCommentReport;
+use App\Entity\PostReport;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -99,7 +101,7 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $r = new EntryCommentReport(
+            $r = new PostReport(
                 $this->getReference('user_'.$u),
                 $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
                 $this->getReference('post_'.$e)
@@ -123,7 +125,7 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $r = new EntryCommentReport(
+            $r = new PostCommentReport(
                 $this->getReference('user_'.$u),
                 $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
                 $this->getReference('post_comment_'.$c)
