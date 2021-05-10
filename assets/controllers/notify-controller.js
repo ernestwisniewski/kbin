@@ -17,7 +17,12 @@ export default class extends ApplicationController {
         Subscribe(url, function (e) {
             let data = JSON.parse(e.data);
             self.toast(data.html);
-            this.dispatch(data.op, data);
+
+            self.dispatch(data.op, data);
+
+            if(data.op.includes('Notification')) {
+                self.dispatch('Notification', data);
+            }
         });
     }
 

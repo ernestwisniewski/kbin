@@ -16,9 +16,13 @@
         {% endif %}
     {% endblock %}
 </head>
-<body data-controller="kbin" class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : '' }}">
+<body data-controller="kbin notify-counter"
+      data-action="notify:Notification->notify-counter#notification"
+      data-action="notify:Message->notify-counter#message"
+      data-notify-counter-hidden-class="visually-hidden"
+      class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : '' }}">
 <div data-controller="scroll-progress" class="bg-primary scroll-progress"></div>
-<div id="kbin" data-controller="notify" {% if magazine is defined and magazine %}data-notify-magazine-name-value="{{ magazine.name }}"{% endif %}>
+<div id="kbin">
     {% include '_layout/_topbar.html.twig' %}
     {% include '_layout/_navbar.html.twig' %}
     <section class="kbin-container container pt-3 pb-5">

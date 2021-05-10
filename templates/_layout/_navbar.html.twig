@@ -89,24 +89,29 @@
                     {% endif %}
                 </ul>
 
-                <ul class="kbin-nav-navbar navbar-nav  mb-2 mb-lg-0 float-lg-end">
-                    {% if app.user and app.user.countNewNotifications > 0 %}
-                        <li class="kbin-nav-navbar-item">
+                <ul class="kbin-nav-navbar navbar-nav  mb-2 mb-lg-0 float-lg-end"
+                    data-controller="notify"
+                    {% if magazine is defined and magazine %}data-notify-magazine-name-value="{{ magazine.name }}"{% endif %}>
+                    {% if app.user %}
+                        <li class="kbin-nav-navbar-item {{ app.user.countNewNotifications > 0 ? '' : 'visually-hidden' }}"
+                            data-notify-counter-target="notifications">
                             <a href="{{ path('user_profile_notifications') }}" class="px-1">
                                 <span class="badge rounded-pill bg-primary">{{ app.user.countNewNotifications }}</span>
                             </a>
                         </li>
                     {% endif %}
-                    {% if app.user and app.user.countNewMessages > 0 %}
-                        <li class="kbin-nav-navbar-item">
+                    {% if app.user %}
+                        <li class="kbin-nav-navbar-item {{ app.user.countNewMessages > 0 ? '' : 'visually-hidden' }}"
+                            data-notify-counter-target="messages">
                             <a href="{{ path('user_profile_messages') }}" class="px-1">
                                 <span class="badge rounded-pill bg-danger">{{ app.user.countNewMessages }}</span>
                             </a>
                         </li>
                     {% endif %}
                     <li class="kbin-nav-navbar-item kbn-login-btn {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                        <a href="{{ path('user_profile_front') }}" class="px-1"><i
-                                    class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'Profil' : 'Zaloguj się' }}</a>
+                        <a href="{{ path('user_profile_front') }}" class="px-1">
+                            <i class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'Profil' : 'Zaloguj się' }}
+                        </a>
                     </li>
                 </ul>
             </div>
