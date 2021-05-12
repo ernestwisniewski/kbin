@@ -11,6 +11,8 @@ use App\Entity\User;
 use App\Message\DeleteUserMessage;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
+use App\Repository\MessageRepository;
+use App\Repository\NotificationRepository;
 use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
@@ -41,6 +43,8 @@ class DeleteUserHandler
         private PostManager $postManager,
         private PostRepository $postRepository,
         private VoteManager $voteManager,
+        private MessageRepository $messageRepository,
+        private NotificationRepository $notificationRepository,
         private MessageBus $bus,
         private EntityManagerInterface $entityManager
     ) {
@@ -234,11 +238,53 @@ class DeleteUserHandler
         return $retry;
     }
 
-    private function removeMessages():bool
+    private function removeMessages(): bool
     {
+        $messages = $this->messageRepository->findBy(
+            [
+                'sender' => $this->user,
+            ],
+            ['timestamp' => 'DESC'],
+            $this->batchSize
+        );
+
+        $retry = false;
+
+        foreach ($messages as $message) {
+            $retry = true;
+
+            $message->thread->removeMessage($message);
+
+            if (count($message->thread->messages) === 0) {
+                $this->entityManager->remove($message->thread);
+            }
+        }
+
+        $this->entityManager->flush();
+
+        return $retry;
     }
 
-    private function removeNotifications():bool
+    private function removeNotifications(): bool
     {
+        $notifications = $this->notificationRepository->findBy(
+            [
+                'user' => $this->user,
+            ],
+            ['timestamp' => 'DESC'],
+            $this->batchSize
+        );
+
+        $retry = false;
+
+        foreach ($notifications as $notification) {
+            $retry = true;
+
+            $this->entityManager->remove($notification);
+        }
+
+        $this->entityManager->flush();
+
+        return $retry;
     }
 }
