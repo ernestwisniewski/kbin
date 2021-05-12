@@ -15,26 +15,10 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
 
     public function loadData(ObjectManager $manager): void
     {
-        for ($u = 0; $u <= UserFixtures::USERS_COUNT; $u++) {
+        for ($u = 1; $u <= UserFixtures::USERS_COUNT; $u++) {
             $this->magazines($u);
             $this->users($u);
         }
-    }
-
-    private function getUniqueNb(int $max, int $quantity): array
-    {
-        $numbers = range(1, $max);
-        shuffle($numbers);
-
-        return array_slice($numbers, 0, $quantity);
-    }
-
-    public function getDependencies(): array
-    {
-        return [
-            UserFixtures::class,
-            MagazineFixtures::class,
-        ];
     }
 
     private function magazines(int $u)
@@ -48,6 +32,10 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
             $roll = rand(0, 2);
 
             if (0 === $roll) {
+                $this->magazineManager->block(
+                    $this->getReference('magazine_'.$m),
+                    $this->getReference('user_'.$u)
+                );
                 continue;
             }
 
@@ -56,6 +44,14 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
                 $this->getReference('user_'.$u)
             );
         }
+    }
+
+    private function getUniqueNb(int $max, int $quantity): array
+    {
+        $numbers = range(1, $max);
+        shuffle($numbers);
+
+        return array_slice($numbers, 0, $quantity);
     }
 
     private function users(int $u)
@@ -69,6 +65,10 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
             $roll = rand(0, 2);
 
             if (0 === $roll) {
+                $this->userManager->block(
+                    $this->getReference('user_'.$f),
+                    $this->getReference('user_'.$u)
+                );
                 continue;
             }
 
@@ -77,6 +77,14 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
                 $this->getReference('user_'.$u)
             );
         }
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            UserFixtures::class,
+            MagazineFixtures::class,
+        ];
     }
 
 }

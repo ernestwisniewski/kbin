@@ -6,6 +6,7 @@ use App\Message\Contracts\SendConfirmationEmailInterface;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Mime\Address;
 
@@ -22,7 +23,7 @@ class SentUserConfirmationEmailHandler implements MessageHandlerInterface
         $user = $this->repository->find($message->userId);
 
         if (!$user) {
-            return;
+            throw new UnrecoverableMessageHandlingException('User not found');
         }
 
         //@todo

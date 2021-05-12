@@ -23,22 +23,6 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
         $this->manager->flush();
     }
 
-    private function getUniqueNb(int $max, int $quantity): array
-    {
-        $numbers = range(1, $max);
-        shuffle($numbers);
-
-        return array_slice($numbers, 0, $quantity);
-    }
-
-    public function getDependencies(): array
-    {
-        return [
-            EntryCommentFixtures::class,
-            PostCommentFixtures::class,
-        ];
-    }
-
     private function entries(int $u)
     {
         $randomNb = $this->getUniqueNb(
@@ -61,6 +45,14 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
 
             $this->manager->persist($r);
         }
+    }
+
+    private function getUniqueNb(int $max, int $quantity): array
+    {
+        $numbers = range(1, $max);
+        shuffle($numbers);
+
+        return array_slice($numbers, 0, $quantity);
     }
 
     private function entryComments(int $u)
@@ -133,5 +125,13 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
 
             $this->manager->persist($r);
         }
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            EntryCommentFixtures::class,
+            PostCommentFixtures::class,
+        ];
     }
 }

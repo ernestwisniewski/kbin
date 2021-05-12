@@ -5,6 +5,7 @@ namespace App\MessageHandler\Notification;
 use App\Message\Notification\MagazineBanNotificationMessage;
 use App\Repository\MagazineBanRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentMagazineBanNotificationHandler implements MessageHandlerInterface
@@ -18,8 +19,9 @@ class SentMagazineBanNotificationHandler implements MessageHandlerInterface
     public function __invoke(MagazineBanNotificationMessage $message)
     {
         $ban = $this->repository->find($message->banId);
+
         if (!$ban) {
-            return;
+            throw new UnrecoverableMessageHandlingException('Ban not found');
         }
 
         $this->manager->sendMagazineBanNotification($ban);
