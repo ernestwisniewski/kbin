@@ -10,6 +10,7 @@ use App\Repository\ImageRepository;
 use App\Service\ImageManager;
 use App\Utils\Embed;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class AttachEntryEmbedHandler implements MessageHandlerInterface
@@ -28,7 +29,7 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
         $entry = $this->entryRepository->find($message->entryId);
 
         if (!$entry || !$entry->url) {
-            return;
+            throw new UnrecoverableMessageHandlingException('Entry not found');
         }
 
         $embed = $this->embed->fetch($entry->url);

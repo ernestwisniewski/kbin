@@ -5,6 +5,7 @@ namespace App\MessageHandler\Notification;
 use App\Message\Notification\PostCommentDeletedNotificationMessage;
 use App\Repository\PostCommentRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentPostCommentDeletedNotificationHandler implements MessageHandlerInterface
@@ -18,8 +19,9 @@ class SentPostCommentDeletedNotificationHandler implements MessageHandlerInterfa
     public function __invoke(PostCommentDeletedNotificationMessage $message)
     {
         $comment = $this->repository->find($message->commentId);
+
         if (!$comment) {
-            return;
+            throw new UnrecoverableMessageHandlingException('Comment not found');
         }
 
         $this->manager->sendPostCommentDeletedNotification($comment);

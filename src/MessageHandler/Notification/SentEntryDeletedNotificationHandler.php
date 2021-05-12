@@ -5,6 +5,7 @@ namespace App\MessageHandler\Notification;
 use App\Message\Notification\EntryDeletedNotificationMessage;
 use App\Repository\EntryRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentEntryDeletedNotificationHandler implements MessageHandlerInterface
@@ -18,8 +19,9 @@ class SentEntryDeletedNotificationHandler implements MessageHandlerInterface
     public function __invoke(EntryDeletedNotificationMessage $message)
     {
         $entry = $this->repository->find($message->entryId);
+
         if (!$entry) {
-            return;
+            throw new UnrecoverableMessageHandlingException('Entry not found');
         }
 
         $this->manager->sendEntryDeletedNotification($entry);

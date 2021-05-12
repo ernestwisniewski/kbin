@@ -10,11 +10,6 @@ class Slugger
     {
     }
 
-    public function slug(string $val): string
-    {
-        return $this->slugger->slug(substr($val, 0, 60))->toString();
-    }
-
     public static function camelCase(string $value): string
     {
         return lcfirst(static::studly($value));
@@ -25,5 +20,10 @@ class Slugger
         $value = ucwords(str_replace(['-', '_'], ' ', $value));
 
         return str_replace(' ', '', $value);
+    }
+
+    public function slug(string $val): string
+    {
+        return $this->slugger->slug(substr($val, 0, 60))->toString();
     }
 }

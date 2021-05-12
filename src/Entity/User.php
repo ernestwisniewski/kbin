@@ -512,4 +512,9 @@ class User implements UserInterface
 
         return array_unique($roles);
     }
+
+    public function isAccountDeleted(): bool
+    {
+        return isset($this->id) && $this->username === "!deleted{$this->id}";
+    }
 }

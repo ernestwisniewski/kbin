@@ -5,6 +5,7 @@ namespace App\MessageHandler\Notification;
 use App\Message\Notification\PostDeletedNotificationMessage;
 use App\Repository\PostRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SentPostDeletedNotificationHandler implements MessageHandlerInterface
@@ -18,8 +19,9 @@ class SentPostDeletedNotificationHandler implements MessageHandlerInterface
     public function __invoke(PostDeletedNotificationMessage $message)
     {
         $post = $this->repository->find($message->postId);
+
         if (!$post) {
-            return;
+            throw new UnrecoverableMessageHandlingException('Post not found');
         }
 
         $this->manager->sendPostDeletedNotification($post);
