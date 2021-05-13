@@ -73,6 +73,12 @@ class PostManager implements ContentManager
 
     public function delete(User $user, Post $post): void
     {
+        if (!$post->comments->count()) {
+            $this->purge($post);
+
+            return;
+        }
+
         $this->isTrashed($user, $post) ? $post->trash() : $post->softDelete();
 
         $this->entityManager->flush();

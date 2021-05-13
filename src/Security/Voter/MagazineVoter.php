@@ -66,7 +66,7 @@ class MagazineVoter extends Voter
 
     private function canPurge(Magazine $magazine, User $user): bool
     {
-        return $magazine->userIsOwner($user);
+        return $user->isAdmin();
     }
 
     private function canModerate(Magazine $magazine, User $user): bool

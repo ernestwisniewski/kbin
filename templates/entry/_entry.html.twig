@@ -140,6 +140,20 @@
                                     </form>
                                 </li>
                             {% endif %}
+
+                            {% if is_granted('purge', entry) %}
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <form action="{{ path('entry_purge', {
+                                        magazine_name: entry.magazine.name,
+                                        entry_id: entry.id,
+                                    }) }}" method="POST">
+                                        <input type="hidden" name="token" value="{{ csrf_token('entry_purge') }}">
+                                        <button type="submit" class="btn btn-link">
+                                            <span>wyczyść</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            {% endif %}
                         </ul>
 
                     </section>
