@@ -70,6 +70,8 @@ class EntryCommentManager implements ContentManager
 
     public function delete(User $user, EntryComment $comment): void
     {
+
+
         $this->isTrashed($user, $comment) ? $comment->trash() : $comment->softDelete();
 
         $this->entityManager->flush();

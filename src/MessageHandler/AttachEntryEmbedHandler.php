@@ -24,12 +24,16 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(EntryEmbedMessage $message)
+    public function __invoke(EntryEmbedMessage $message): void
     {
         $entry = $this->entryRepository->find($message->entryId);
 
-        if (!$entry || !$entry->url) {
+        if (!$entry) {
             throw new UnrecoverableMessageHandlingException('Entry not found');
+        }
+
+        if (!$entry->url) {
+            return;
         }
 
         $embed = $this->embed->fetch($entry->url);
