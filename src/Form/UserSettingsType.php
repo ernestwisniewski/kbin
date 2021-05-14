@@ -19,7 +19,15 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class
             )
             ->add(
+                'notifyOnNewEntryCommentReply',
+                CheckboxType::class
+            )
+            ->add(
                 'notifyOnNewPost',
+                CheckboxType::class
+            )
+            ->add(
+                'notifyOnNewPostCommentReply',
                 CheckboxType::class
             )
             ->add('submit', SubmitType::class);

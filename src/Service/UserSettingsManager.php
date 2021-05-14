@@ -14,13 +14,20 @@ class UserSettingsManager
 
     public function createDto(User $user): UserSettingsDto
     {
-        return new UserSettingsDto($user->notifyOnNewEntry, $user->notifyOnNewPost);
+        return new UserSettingsDto(
+            $user->notifyOnNewEntry,
+            $user->notifyOnNewEntryCommentReply,
+            $user->notifyOnNewPost,
+            $user->notifyOnNewPostCommentReply
+        );
     }
 
     public function update(User $user, UserSettingsDto $dto)
     {
-        $user->notifyOnNewPost  = $dto->notifyOnNewPost;
-        $user->notifyOnNewEntry = $dto->notifyOnNewEntry;
+        $user->notifyOnNewPost              = $dto->notifyOnNewPost;
+        $user->notifyOnNewEntryCommentReply = $dto->notifyOnNewEntryCommentReply;
+        $user->notifyOnNewEntry             = $dto->notifyOnNewEntry;
+        $user->notifyOnNewPostCommentReply  = $dto->notifyOnNewPostCommentReply;
 
         $this->entityManager->flush();
     }

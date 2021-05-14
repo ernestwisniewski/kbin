@@ -15,9 +15,9 @@ class EntryCommentReport extends Report
      */
     public ?EntryComment $entryComment;
 
-    public function __construct(User $reporting, User $reported, EntryComment $comment, ?string $reason = null)
+    public function __construct(User $reporting, EntryComment $comment, ?string $reason = null)
     {
-        parent::__construct($reporting, $reported, $comment->magazine, $reason);
+        parent::__construct($reporting, $comment->user, $comment->magazine, $reason);
 
         $this->entryComment = $comment;
     }
