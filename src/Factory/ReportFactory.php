@@ -12,11 +12,6 @@ class ReportFactory
     {
         $className = get_class($dto->getSubject()).'Report';
 
-        return new $className($reporting, $dto->getSubject()->user, $dto->getSubject(), $dto->reason);
+        return new $className($dto->getSubject()->user, $dto->getSubject(), $dto->reason);
     }
-
-//    public function createDto(Entry $entry): ReportDto
-//    {
-//
-//    }
 }

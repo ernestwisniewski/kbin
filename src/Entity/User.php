@@ -55,7 +55,15 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
+    public bool $notifyOnNewEntryCommentReply = true;
+    /**
+     * @ORM\Column(type="boolean")
+     */
     public bool $notifyOnNewPost = false;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $notifyOnNewPostCommentReply = true;
     /**
      * @ORM\Column(type="boolean")
      */

@@ -6,24 +6,29 @@ use App\Entity\EntryCommentReport;
 use App\Entity\EntryReport;
 use App\Entity\PostCommentReport;
 use App\Entity\PostReport;
+use App\Event\Report\SubjectReportedEvent;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class ReportFixtures extends BaseFixture implements DependentFixtureInterface
 {
+    public function __construct(private EventDispatcherInterface $dispatcher,
+    ) {
+
+    }
+
     public function loadData(ObjectManager $manager): void
     {
-        for ($u = 0; $u <= UserFixtures::USERS_COUNT; $u++) {
-            $this->entries($u);
-            $this->entryComments($u);
-            $this->posts($u);
-            $this->postComments($u);
-        }
+        $this->entries();
+        $this->entryComments();
+        $this->posts();
+        $this->postComments();
 
         $this->manager->flush();
     }
 
-    private function entries(int $u)
+    private function entries()
     {
         $randomNb = $this->getUniqueNb(
             EntryFixtures::ENTRIES_COUNT,
@@ -38,12 +43,13 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
             }
 
             $r = new EntryReport(
-                $this->getReference('user_'.$u),
-                $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                $this->getReference('user_'.$this->getRandomNumber(UserFixtures::USERS_COUNT)),
                 $this->getReference('entry_'.$e)
             );
 
             $this->manager->persist($r);
+
+            $this->dispatcher->dispatch(new SubjectReportedEvent($r));
         }
     }
 
@@ -55,7 +61,7 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
         return array_slice($numbers, 0, $quantity);
     }
 
-    private function entryComments(int $u)
+    private function entryComments()
     {
         $randomNb = $this->getUniqueNb(
             EntryCommentFixtures::COMMENTS_COUNT,
@@ -70,16 +76,17 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
             }
 
             $r = new EntryCommentReport(
-                $this->getReference('user_'.$u),
-                $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                $this->getReference('user_'.$this->getRandomNumber(UserFixtures::USERS_COUNT)),
                 $this->getReference('entry_comment_'.$c)
             );
 
             $this->manager->persist($r);
+
+            $this->dispatcher->dispatch(new SubjectReportedEvent($r));
         }
     }
 
-    private function posts(int $u)
+    private function posts()
     {
         $randomNb = $this->getUniqueNb(
             PostFixtures::ENTRIES_COUNT,
@@ -94,16 +101,17 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
             }
 
             $r = new PostReport(
-                $this->getReference('user_'.$u),
-                $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                $this->getReference('user_'.$this->getRandomNumber(UserFixtures::USERS_COUNT)),
                 $this->getReference('post_'.$e)
             );
 
             $this->manager->persist($r);
+
+            $this->dispatcher->dispatch(new SubjectReportedEvent($r));
         }
     }
 
-    private function postComments(int $u)
+    private function postComments()
     {
         $randomNb = $this->getUniqueNb(
             PostCommentFixtures::COMMENTS_COUNT,
@@ -118,13 +126,20 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
             }
 
             $r = new PostCommentReport(
-                $this->getReference('user_'.$u),
-                $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                $this->getReference('user_'.$this->getRandomNumber(UserFixtures::USERS_COUNT)),
                 $this->getReference('post_comment_'.$c)
             );
 
             $this->manager->persist($r);
+
+            $this->dispatcher->dispatch(new SubjectReportedEvent($r));
         }
+    }
+
+    public function getRandomNumber($max) {
+        $numbers = range(1, $max);
+        shuffle($numbers);
+        return $numbers[0];
     }
 
     public function getDependencies(): array

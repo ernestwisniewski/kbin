@@ -8,9 +8,23 @@
 </div>
 
 <div class="mb-3">
+    {{ form_label(form.notifyOnNewEntry, 'Powiadamiaj mnie o odpowiedziach na komentarze w treściach') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.notifyOnNewEntry, {name: 'Powiadamiaj mnie o odpowiedziach na komentarze w treściach'}) }}
+    </div>
+</div>
+
+<div class="mb-3">
     {{ form_label(form.notifyOnNewPost, 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie') }}
     <div class="input-group input-group-lg">
         {{ form_widget(form.notifyOnNewPost, {name: 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie'}) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.notifyOnNewPost, 'Powiadamiaj mnie o odpowiedziach na komentarze we wpisach') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.notifyOnNewPost, {name: 'Powiadamiaj mnie o odpowiedziach na komentarze we wpisach'}) }}
     </div>
 </div>
 
