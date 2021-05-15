@@ -107,7 +107,7 @@ class EntryManager implements ContentManager
 
     public function delete(User $user, Entry $entry): void
     {
-        if (!$entry->comments->count()) {
+        if ($entry->isAuthor($user) && $entry->comments->isEmpty()) {
             $this->purge($entry);
 
             return;

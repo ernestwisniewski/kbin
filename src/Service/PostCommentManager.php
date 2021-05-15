@@ -70,6 +70,12 @@ class PostCommentManager implements ContentManager
 
     public function delete(User $user, PostComment $comment): void
     {
+        if ($comment->isAuthor($user) && $comment->children->isEmpty()) {
+            $this->purge($comment);
+
+            return;
+        }
+
         $this->isTrashed($user, $comment) ? $comment->trash() : $comment->softDelete();
 
         $this->entityManager->flush();

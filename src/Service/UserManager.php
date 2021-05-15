@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Event\User\UserBlockEvent;
 use App\Event\User\UserFollowedEvent;
 use App\Factory\UserFactory;
+use App\Message\DeleteUserMessage;
 use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
 use App\Security\EmailVerifier;
@@ -110,6 +111,11 @@ class UserManager
         $this->entityManager->flush();
 
         return $user;
+    }
+
+    public function purge(User $user, bool $purge): void
+    {
+        $this->bus->dispatch(new DeleteUserMessage($user->getId(), $purge));
     }
 
     public function createDto(User $user): UserDto

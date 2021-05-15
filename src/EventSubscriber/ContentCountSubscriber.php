@@ -88,7 +88,7 @@ class ContentCountSubscriber implements EventSubscriberInterface
 
     public function onPostCommentPurged(PostCommentPurgedEvent $event): void
     {
-        $event->comment->postCommentCount = $this->postRepository->countPostCommentsByMagazine($event->magazine);
+        $event->magazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($event->magazine);
 
         $this->entityManager->flush();
     }

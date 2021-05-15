@@ -24,9 +24,10 @@ use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\MessageBus;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-class DeleteUserHandler
+class DeleteUserHandler implements MessageHandlerInterface
 {
     private ?User $user;
     private int $batchSize = 50;
@@ -45,7 +46,7 @@ class DeleteUserHandler
         private VoteManager $voteManager,
         private MessageRepository $messageRepository,
         private NotificationRepository $notificationRepository,
-        private MessageBus $bus,
+        private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -85,7 +86,7 @@ class DeleteUserHandler
             return false;
         }
 
-        return true;
+        return false;
     }
 
     private function removeEntryComments(): bool
@@ -157,7 +158,6 @@ class DeleteUserHandler
         );
 
         $retry = false;
-
         try {
             $this->entityManager->beginTransaction();
 
