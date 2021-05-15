@@ -44,5 +44,22 @@
             </div>
         </div>
     </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="kbin-entry card shadow-lg bg-white rounded mb-4">
+            <div class="card-body">
+                <ul class="list-unstyled clearfix mb-0 pb-0">
+                    <li>
+                        <form action="{{ path('user_purge', {username: user.username}) }}" method="POST">
+                            <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
+                            <button type="submit" class="btn btn-link">
+                                <span class="small"><i class="fa fa-trash"></i> Usuń konto</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
 </div>
 

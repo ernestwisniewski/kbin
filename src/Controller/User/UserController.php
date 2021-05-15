@@ -16,6 +16,7 @@ use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Service\UserManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -135,6 +136,14 @@ class UserController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function purge(User $user, UserManager $manager): void
+    {
+        $manager->purge($user, true);
     }
 
     public function theme(UserManager $manager, Request $request): Response

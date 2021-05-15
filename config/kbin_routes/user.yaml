@@ -58,6 +58,11 @@ user_unblock:
   path: /u/{username}/unblock
   methods: [ POST ]
 
+user_purge:
+  controller: App\Controller\User\UserController::purge
+  path: /u/{username}/purge
+  methods: [ POST ]
+
 user_profile_front:
   controller: App\Controller\ProfileController::front
   path: /profil
