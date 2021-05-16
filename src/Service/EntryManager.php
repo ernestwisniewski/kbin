@@ -108,7 +108,7 @@ class EntryManager implements ContentManager
     public function delete(User $user, Entry $entry): void
     {
         if ($entry->isAuthor($user) && $entry->comments->isEmpty()) {
-            $this->purge($entry);
+            $this->purge($user, $entry);
 
             return;
         }
@@ -120,7 +120,7 @@ class EntryManager implements ContentManager
         $this->dispatcher->dispatch(new EntryDeletedEvent($entry, $user));
     }
 
-    public function purge(Entry $entry): void
+    public function purge(User $user, Entry $entry): void
     {
         $this->dispatcher->dispatch(new EntryBeforePurgeEvent($entry));
 

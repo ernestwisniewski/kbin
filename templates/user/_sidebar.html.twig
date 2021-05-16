@@ -50,10 +50,18 @@
             <div class="card-body">
                 <ul class="list-unstyled clearfix mb-0 pb-0">
                     <li>
+                        <form action="{{ path('user_delete', {username: user.username}) }}" method="POST">
+                            <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
+                            <button type="submit" class="btn btn-link">
+                                <span class="small"><i class="fa fa-trash"></i> Usuń konto</span>
+                            </button>
+                        </form>
+                    </li>
+                    <li>
                         <form action="{{ path('user_purge', {username: user.username}) }}" method="POST">
                             <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
                             <button type="submit" class="btn btn-link">
-                                <span class="small"><i class="fa fa-trash"></i> Usuń konto</span>
+                                <span class="small"><i class="fa fa-trash"></i> Wyczyść konto</span>
                             </button>
                         </form>
                     </li>

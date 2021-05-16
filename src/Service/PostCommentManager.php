@@ -71,7 +71,7 @@ class PostCommentManager implements ContentManager
     public function delete(User $user, PostComment $comment): void
     {
         if ($comment->isAuthor($user) && $comment->children->isEmpty()) {
-            $this->purge($comment);
+            $this->purge($user, $comment);
 
             return;
         }
@@ -88,7 +88,7 @@ class PostCommentManager implements ContentManager
         return !$comment->isAuthor($user);
     }
 
-    public function purge(PostComment $comment): void
+    public function purge(User $user, PostComment $comment): void
     {
         $this->dispatcher->dispatch(new PostCommentBeforePurgeEvent($comment));
 

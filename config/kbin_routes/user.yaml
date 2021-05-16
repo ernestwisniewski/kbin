@@ -63,6 +63,11 @@ user_purge:
   path: /u/{username}/purge
   methods: [ POST ]
 
+user_delete:
+  controller: App\Controller\User\UserController::delete
+  path: /u/{username}/delete
+  methods: [ POST ]
+
 user_profile_front:
   controller: App\Controller\ProfileController::front
   path: /profil

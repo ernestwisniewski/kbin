@@ -172,7 +172,7 @@ class EntryController extends AbstractController
     {
         $this->validateCsrf('entry_purge', $request->request->get('token'));
 
-        $this->manager->purge($entry);
+        $this->manager->purge($this->getUserOrThrow(), $entry);
 
         return $this->redirectToMagazine($magazine);
     }
