@@ -86,6 +86,9 @@ class DeleteUserHandler implements MessageHandlerInterface
             return false;
         }
 
+        $this->user->username = '!deleted'.$this->user->getId();
+        $this->user->email = '!deleted'.$this->user->getId().'@karab.in';
+
         return false;
     }
 
@@ -106,7 +109,7 @@ class DeleteUserHandler implements MessageHandlerInterface
 
             foreach ($comments as $comment) {
                 $retry = true;
-                $this->entryCommentManager->{$this->op}($comment);
+                $this->entryCommentManager->{$this->op}($this->user, $comment);
             }
 
             $this->entityManager->commit();
@@ -135,7 +138,7 @@ class DeleteUserHandler implements MessageHandlerInterface
 
             foreach ($entries as $entry) {
                 $retry = true;
-                $this->entryManager->{$this->op}($entry);
+                $this->entryManager->{$this->op}($this->user, $entry);
             }
 
             $this->entityManager->commit();
@@ -163,7 +166,7 @@ class DeleteUserHandler implements MessageHandlerInterface
 
             foreach ($comments as $comment) {
                 $retry = true;
-                $this->postCommentManager->{$this->op}($comment);
+                $this->postCommentManager->{$this->op}($this->user, $comment);
             }
 
             $this->entityManager->commit();
@@ -192,7 +195,7 @@ class DeleteUserHandler implements MessageHandlerInterface
 
             foreach ($posts as $post) {
                 $retry = true;
-                $this->postManager->{$this->op}($post);
+                $this->postManager->{$this->op}($this->user, $post);
             }
 
             $this->entityManager->commit();
@@ -244,7 +247,7 @@ class DeleteUserHandler implements MessageHandlerInterface
             [
                 'sender' => $this->user,
             ],
-            ['timestamp' => 'DESC'],
+            ['createdAt' => 'DESC'],
             $this->batchSize
         );
 
@@ -271,7 +274,7 @@ class DeleteUserHandler implements MessageHandlerInterface
             [
                 'user' => $this->user,
             ],
-            ['timestamp' => 'DESC'],
+            ['createdAt' => 'DESC'],
             $this->batchSize
         );
 

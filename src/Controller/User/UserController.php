@@ -141,9 +141,25 @@ class UserController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function purge(User $user, UserManager $manager): void
+    public function delete(User $user, UserManager $manager, Request $request): Response
     {
-        $manager->purge($user, true);
+        $this->validateCsrf('user_delete', $request->request->get('token'));
+
+        $manager->delete($user);
+
+        return $this->redirectToRoute('front');
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function purge(User $user, UserManager $manager, Request $request): Response
+    {
+        $this->validateCsrf('user_purge', $request->request->get('token'));
+
+        $manager->delete($user, true);
+
+        return $this->redirectToRoute('front');
     }
 
     public function theme(UserManager $manager, Request $request): Response

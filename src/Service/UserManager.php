@@ -113,7 +113,7 @@ class UserManager
         return $user;
     }
 
-    public function purge(User $user, bool $purge): void
+    public function delete(User $user, bool $purge = false): void
     {
         $this->bus->dispatch(new DeleteUserMessage($user->getId(), $purge));
     }
