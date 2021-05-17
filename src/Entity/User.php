@@ -340,7 +340,6 @@ class User implements UserInterface
 
         if ($this->blocks->removeElement($userBlock)) {
             if ($userBlock->blocker === $this) {
-                $userBlock->blocker = null;
                 $blocked->blockers->removeElement($this);
             }
         }

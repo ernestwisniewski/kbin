@@ -67,7 +67,7 @@ class UserManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new UserFollowedEvent($blocker, $blocked));
+        $this->dispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
     }
 
     public function create(UserDto $dto, bool $verifyUserEmail = true): User
