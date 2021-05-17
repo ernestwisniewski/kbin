@@ -5,21 +5,22 @@ namespace App\MessageHandler;
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\MagazineBlock;
+use App\Entity\MagazineSubscription;
+use App\Entity\Message;
+use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Entity\UserBlock;
+use App\Entity\UserFollow;
 use App\Message\DeleteUserMessage;
-use App\Repository\EntryCommentRepository;
-use App\Repository\EntryRepository;
-use App\Repository\MessageRepository;
-use App\Repository\NotificationRepository;
-use App\Repository\PostCommentRepository;
-use App\Repository\PostRepository;
-use App\Repository\UserRepository;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
+use App\Service\MagazineManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
+use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -30,22 +31,17 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class DeleteUserHandler implements MessageHandlerInterface
 {
     private ?User $user;
-    private int $batchSize = 50;
+    private int $batchSize = 5;
     private string $op;
 
     public function __construct(
-        private UserRepository $userRepository,
+        private UserManager $userManager,
+        private MagazineManager $magazineManager,
         private EntryCommentManager $entryCommentManager,
-        private EntryCommentRepository $entryCommentRepository,
         private EntryManager $entryManager,
-        private EntryRepository $entryRepository,
         private PostCommentManager $postCommentManager,
-        private PostCommentRepository $postCommentRepository,
         private PostManager $postManager,
-        private PostRepository $postRepository,
         private VoteManager $voteManager,
-        private MessageRepository $messageRepository,
-        private NotificationRepository $notificationRepository,
         private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager
     ) {
@@ -53,8 +49,11 @@ class DeleteUserHandler implements MessageHandlerInterface
 
     public function __invoke(DeleteUserMessage $message): void
     {
-        $this->user = $this->userRepository->find($message->id);
-        $this->op   = $message->purge ? 'purge' : 'delete';
+        $this->user = $this->entityManager
+            ->getRepository(User::class)
+            ->find($message->id);
+
+        $this->op = $message->purge ? 'purge' : 'delete';
 
         if (!$this->user) {
             throw new UnrecoverableMessageHandlingException('User not found');
@@ -62,16 +61,20 @@ class DeleteUserHandler implements MessageHandlerInterface
 
         $retry =
             $this->removeMeta()
-            || $this->removeEntryComments()
+            || $this->removeNotifications()
+            || $this->removeMagazineSubscriptions()
+            || $this->removeMagazineBlocks()
+            || $this->removeUserFollows()
+            || $this->removeUserBlocks()
             || $this->removeVotes(EntryComment::class)
-            || $this->removeEntries()
+            || $this->removeEntryComments()
             || $this->removeVotes(Entry::class)
-            || $this->removePostComments()
+            || $this->removeEntries()
             || $this->removeVotes(PostComment::class)
-            || $this->removePosts()
+            || $this->removePostComments()
             || $this->removeVotes(Post::class)
-            || $this->removeMessages()
-            || $this->removeNotifications();
+            || $this->removePosts()
+            || $this->removeMessages();
 
         $this->entityManager->clear();
 
@@ -87,20 +90,146 @@ class DeleteUserHandler implements MessageHandlerInterface
         }
 
         $this->user->username = '!deleted'.$this->user->getId();
-        $this->user->email = '!deleted'.$this->user->getId().'@karab.in';
+        $this->user->email    = '!deleted'.$this->user->getId().'@karab.in';
 
         return false;
     }
 
+    private function removeNotifications(): bool
+    {
+        $notifications = $this->entityManager
+            ->getRepository(Notification::class)
+            ->findBy(
+                [
+                    'user' => $this->user,
+                ],
+                ['createdAt' => 'DESC'],
+                $this->batchSize
+            );
+
+        $retry = false;
+
+        foreach ($notifications as $notification) {
+            $retry = true;
+
+            $this->entityManager->remove($notification);
+        }
+
+        $this->entityManager->flush();
+
+        return $retry;
+    }
+
+    private function removeMagazineSubscriptions(): bool
+    {
+        $subscriptions = $this->entityManager
+            ->getRepository(MagazineSubscription::class)
+            ->findBy(
+                [
+                    'user' => $this->user,
+                ],
+                ['createdAt' => 'DESC'],
+                $this->batchSize
+            );
+
+        $retry = false;
+
+        foreach ($subscriptions as $subscription) {
+            $retry = true;
+
+            $this->magazineManager->unsubscribe($subscription->magazine, $this->user);
+        }
+
+        return $retry;
+    }
+
+    private function removeMagazineBlocks(): bool
+    {
+        $subscriptions = $this->entityManager
+            ->getRepository(MagazineBlock::class)
+            ->findBy(
+                [
+                    'user' => $this->user,
+                ],
+                ['createdAt' => 'DESC'],
+                $this->batchSize
+            );
+
+        $retry = false;
+
+        foreach ($subscriptions as $subscription) {
+            $retry = true;
+
+            $this->magazineManager->unblock($subscription->magazine, $this->user);
+        }
+
+        return $retry;
+    }
+
+    private function removeUserFollows(): bool
+    {
+        $subscriptions = $this->entityManager
+            ->getRepository(UserFollow::class)
+            ->findBy(
+                [
+                    'follower' => $this->user,
+                ],
+                ['createdAt' => 'DESC'],
+                $this->batchSize
+            );
+
+        $retry = false;
+
+        foreach ($subscriptions as $subscription) {
+            $retry = true;
+
+            $this->userManager->unfollow($this->user, $subscription->following);
+        }
+
+        return $retry;
+    }
+
+    private function removeUserBlocks(): bool
+    {
+        $subscriptions = $this->entityManager
+            ->getRepository(UserBlock::class)
+            ->findBy(
+                [
+                    'blocker' => $this->user,
+                ],
+                ['createdAt' => 'DESC'],
+                $this->batchSize
+            );
+
+        $retry = false;
+
+        foreach ($subscriptions as $subscription) {
+            $retry = true;
+
+            $this->userManager->unblock($this->user, $subscription->blocked);
+        }
+
+        return $retry;
+    }
+
     private function removeEntryComments(): bool
     {
-        $comments = $this->entryCommentRepository->findBy(
-            [
-                'user' => $this->user,
-            ],
-            ['id' => 'DESC'],
-            $this->batchSize
-        );
+        if ($this->op === 'purge') {
+            $comments = $this->entityManager
+                ->getRepository(EntryComment::class)
+                ->findBy(
+                    [
+                        'user' => $this->user,
+                    ],
+                    ['id' => 'DESC'],
+                    $this->batchSize
+                );
+        } else {
+            $comments = $this->entityManager
+                ->getRepository(EntryComment::class)
+                ->findToDelete($this->user, $this->batchSize);
+        }
+
 
         $retry = false;
 
@@ -123,13 +252,21 @@ class DeleteUserHandler implements MessageHandlerInterface
 
     private function removeEntries(): bool
     {
-        $entries = $this->entryRepository->findBy(
-            [
-                'user' => $this->user,
-            ],
-            ['id' => 'DESC'],
-            $this->batchSize
-        );
+        if ($this->op === 'purge') {
+            $entries = $this->entityManager
+                ->getRepository(Entry::class)
+                ->findBy(
+                    [
+                        'user' => $this->user,
+                    ],
+                    ['id' => 'DESC'],
+                    $this->batchSize
+                );
+        } else {
+            $entries = $this->entityManager
+                ->getRepository(Entry::class)
+                ->findToDelete($this->user, $this->batchSize);
+        }
 
         $retry = false;
 
@@ -152,15 +289,24 @@ class DeleteUserHandler implements MessageHandlerInterface
 
     private function removePostComments(): bool
     {
-        $comments = $this->postCommentRepository->findBy(
-            [
-                'user' => $this->user,
-            ],
-            ['id' => 'DESC'],
-            $this->batchSize
-        );
+        if ($this->op === 'purge') {
+            $comments = $this->entityManager
+                ->getRepository(PostComment::class)
+                ->findBy(
+                    [
+                        'user' => $this->user,
+                    ],
+                    ['id' => 'DESC'],
+                    $this->batchSize
+                );
+        } else {
+            $comments = $this->entityManager
+                ->getRepository(PostComment::class)
+                ->findToDelete($this->user, $this->batchSize);
+        }
 
         $retry = false;
+
         try {
             $this->entityManager->beginTransaction();
 
@@ -180,13 +326,21 @@ class DeleteUserHandler implements MessageHandlerInterface
 
     private function removePosts(): bool
     {
-        $posts = $this->postRepository->findBy(
-            [
-                'user' => $this->user,
-            ],
-            ['id' => 'DESC'],
-            $this->batchSize
-        );
+        if ($this->op === 'purge') {
+            $posts = $this->entityManager
+                ->getRepository(Post::class)
+                ->findBy(
+                    [
+                        'user' => $this->user,
+                    ],
+                    ['id' => 'DESC'],
+                    $this->batchSize
+                );
+        } else {
+            $posts = $this->entityManager
+                ->getRepository(Post::class)
+                ->findToDelete($this->user, $this->batchSize);
+        }
 
         $retry = false;
 
@@ -243,13 +397,15 @@ class DeleteUserHandler implements MessageHandlerInterface
 
     private function removeMessages(): bool
     {
-        $messages = $this->messageRepository->findBy(
-            [
-                'sender' => $this->user,
-            ],
-            ['createdAt' => 'DESC'],
-            $this->batchSize
-        );
+        $messages = $this->entityManager
+            ->getRepository(Message::class)
+            ->findBy(
+                [
+                    'sender' => $this->user,
+                ],
+                ['createdAt' => 'DESC'],
+                $this->batchSize
+            );
 
         $retry = false;
 
@@ -261,29 +417,6 @@ class DeleteUserHandler implements MessageHandlerInterface
             if (count($message->thread->messages) === 0) {
                 $this->entityManager->remove($message->thread);
             }
-        }
-
-        $this->entityManager->flush();
-
-        return $retry;
-    }
-
-    private function removeNotifications(): bool
-    {
-        $notifications = $this->notificationRepository->findBy(
-            [
-                'user' => $this->user,
-            ],
-            ['createdAt' => 'DESC'],
-            $this->batchSize
-        );
-
-        $retry = false;
-
-        foreach ($notifications as $notification) {
-            $retry = true;
-
-            $this->entityManager->remove($notification);
         }
 
         $this->entityManager->flush();

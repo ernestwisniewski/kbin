@@ -7,6 +7,7 @@ use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
+use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
@@ -210,5 +211,17 @@ class EntryRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getSingleScalarResult()
         );
+    }
+
+    public function findToDelete(User $user, int $limit): array
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.visibility != :visibility')
+            ->andWhere('e.user = :user')
+            ->setParameters(['visibility' => Entry::VISIBILITY_SOFT_DELETED, 'user' => $user])
+            ->orderBy('e.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }

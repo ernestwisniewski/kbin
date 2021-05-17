@@ -8,6 +8,7 @@ use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -189,5 +190,17 @@ class PostRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getSingleScalarResult()
         );
+    }
+
+    public function findToDelete(User $user, int $limit): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.visibility != :visibility')
+            ->andWhere('p.user = :user')
+            ->setParameters(['visibility' => Post::VISIBILITY_SOFT_DELETED, 'user' => $user])
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }

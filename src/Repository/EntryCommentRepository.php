@@ -6,6 +6,7 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
+use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -198,5 +199,17 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->setParameter(1, $comments)
             ->getQuery()
             ->execute();
+    }
+
+    public function findToDelete(User $user, int $limit): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.visibility != :visibility')
+            ->andWhere('c.user = :user')
+            ->setParameters(['visibility' => EntryComment::VISIBILITY_SOFT_DELETED, 'user' => $user])
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }
