@@ -83,11 +83,6 @@ class PostCommentManager implements ContentManager
         $this->dispatcher->dispatch(new PostCommentDeletedEvent($comment, $user));
     }
 
-    private function isTrashed(User $user, PostComment $comment): bool
-    {
-        return !$comment->isAuthor($user);
-    }
-
     public function purge(User $user, PostComment $comment): void
     {
         $this->dispatcher->dispatch(new PostCommentBeforePurgeEvent($comment));
@@ -99,6 +94,11 @@ class PostCommentManager implements ContentManager
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new PostCommentPurgedEvent($magazine));
+    }
+
+    private function isTrashed(User $user, PostComment $comment): bool
+    {
+        return !$comment->isAuthor($user);
     }
 
     public function createDto(PostComment $comment): PostCommentDto

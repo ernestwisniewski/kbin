@@ -61,6 +61,14 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
         return array_slice($numbers, 0, $quantity);
     }
 
+    public function getRandomNumber($max)
+    {
+        $numbers = range(1, $max);
+        shuffle($numbers);
+
+        return $numbers[0];
+    }
+
     private function entryComments()
     {
         $randomNb = $this->getUniqueNb(
@@ -134,12 +142,6 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
 
             $this->dispatcher->dispatch(new SubjectReportedEvent($r));
         }
-    }
-
-    public function getRandomNumber($max) {
-        $numbers = range(1, $max);
-        shuffle($numbers);
-        return $numbers[0];
     }
 
     public function getDependencies(): array
