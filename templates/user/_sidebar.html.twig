@@ -36,10 +36,12 @@
                     <li>
                         <span class="text-muted small">Wyświeleń treści:</span> {{ user.entriesViewsCount }}
                     </li>
-                    <li class="mt-2">
+                    {% if not app.user or user is not same as app.user %}
+                        <li class="mt-2">
                         <span class="text-muted small"><a href="{{ path('user_message', {'username': user.username}) }}"><i
                                         class="fa fa-envelope"></i> Wyślij wiadomość</a></span>
-                    </li>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

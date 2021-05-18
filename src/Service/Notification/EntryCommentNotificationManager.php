@@ -6,7 +6,9 @@ use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\EntryComment;
 use App\Entity\EntryCommentCreatedNotification;
 use App\Entity\EntryCommentDeletedNotification;
+use App\Entity\EntryCommentReplyNotification;
 use App\Factory\MagazineFactory;
+use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -23,6 +25,7 @@ class EntryCommentNotificationManager
         private MagazineSubscriptionRepository $repository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
+        private UserFactory $userFactory,
         private PublisherInterface $publisher,
         private Environment $twig,
         private EntityManagerInterface $entityManager
@@ -30,6 +33,12 @@ class EntryCommentNotificationManager
     }
 
     public function sendCreated(EntryComment $comment): void
+    {
+        $this->sendMagazineSubscribersNotification($comment);
+        $this->sendUserReplyNotification($comment);
+    }
+
+    private function sendMagazineSubscribersNotification(EntryComment $comment): void
     {
         $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($comment->entry));
         $followers = [];
@@ -57,7 +66,7 @@ class EntryCommentNotificationManager
 
             $update = new Update(
                 $iri,
-                $this->getResponse($notification)
+                $this->getCreatedResponse($notification)
             );
 
             ($this->publisher)($update);
@@ -66,11 +75,52 @@ class EntryCommentNotificationManager
         }
     }
 
-    private function getResponse(EntryCommentCreatedNotification $notification): string
+    private function getCreatedResponse(EntryCommentCreatedNotification $notification): string
     {
         return json_encode(
             [
                 'op'   => 'EntryCommentNotification',
+                'id'   => $notification->getComment()->getId(),
+                'data' => [],
+                'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+            ]
+        );
+    }
+
+    private function sendUserReplyNotification(EntryComment $comment):void
+    {
+        if(!$comment->parent || $comment->parent->isAuthor($comment->user)) {
+            return;
+        }
+
+        $notification = new EntryCommentReplyNotification($comment->parent->user, $comment);
+        $this->notifyUser($notification);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+    }
+
+    private function notifyUser(EntryCommentReplyNotification $notification): void
+    {
+        try {
+            $iri = $this->iriConverter->getIriFromItem($this->userFactory->createDto($notification->user));
+
+            $update = new Update(
+                $iri,
+                $this->getReplyResponse($notification)
+            );
+
+            ($this->publisher)($update);
+
+        } catch (Exception $e) {
+        }
+    }
+
+    private function getReplyResponse(EntryCommentReplyNotification $notification): string
+    {
+        return json_encode(
+            [
+                'op'   => 'EntryCommentReplyNotification',
                 'id'   => $notification->getComment()->getId(),
                 'data' => [],
                 'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),

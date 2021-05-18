@@ -27,6 +27,7 @@ use Exception;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Throwable;
 
 class DeleteUserHandler implements MessageHandlerInterface
 {
@@ -212,6 +213,40 @@ class DeleteUserHandler implements MessageHandlerInterface
         return $retry;
     }
 
+    private function removeVotes(string $subjectClass): bool
+    {
+        $subjects = $this->entityManager->createQueryBuilder()
+            ->select('c')
+            ->from($subjectClass, 'c')
+            ->join('c.votes', 'cv')
+            ->where('cv.user = :user')
+            ->orderBy('c.id', 'DESC')
+            ->setParameter('user', $this->user)
+            ->setMaxResults($this->batchSize)
+            ->getQuery()
+            ->execute();
+
+        $retry = false;
+
+        try {
+            $this->entityManager->beginTransaction();
+
+            foreach ($subjects as $subject) {
+                $retry = true;
+
+                $this->voteManager->vote(VoteInterface::VOTE_NONE, $subject, $this->user);
+            }
+
+            $this->entityManager->commit();
+        } catch (Throwable $e) {
+            $this->entityManager->rollback();
+
+            throw $e;
+        }
+
+        return $retry;
+    }
+
     private function removeEntryComments(): bool
     {
         if ($this->op === 'purge') {
@@ -355,40 +390,6 @@ class DeleteUserHandler implements MessageHandlerInterface
             $this->entityManager->commit();
         } catch (Exception $e) {
             $this->entityManager->rollback();
-            throw $e;
-        }
-
-        return $retry;
-    }
-
-    private function removeVotes(string $subjectClass): bool
-    {
-        $subjects = $this->entityManager->createQueryBuilder()
-            ->select('c')
-            ->from($subjectClass, 'c')
-            ->join('c.votes', 'cv')
-            ->where('cv.user = :user')
-            ->orderBy('c.id', 'DESC')
-            ->setParameter('user', $this->user)
-            ->setMaxResults($this->batchSize)
-            ->getQuery()
-            ->execute();
-
-        $retry = false;
-
-        try {
-            $this->entityManager->beginTransaction();
-
-            foreach ($subjects as $subject) {
-                $retry = true;
-
-                $this->voteManager->vote(VoteInterface::VOTE_NONE, $subject, $this->user);
-            }
-
-            $this->entityManager->commit();
-        } catch (\Throwable $e) {
-            $this->entityManager->rollback();
-
             throw $e;
         }
 
