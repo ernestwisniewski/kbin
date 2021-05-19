@@ -1,11 +1,8 @@
 {{ form_start(form) }}
+
 <h3 class="mb-4">Powiadomienia</h3>
-<div class="mb-3">
-    {{ form_label(form.notifyOnNewEntry, 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie') }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewEntry, {name: 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie'}) }}
-    </div>
-</div>
+
+<h5 class="mb-3">Twoje treści</h5>
 
 <div class="mb-3">
     {{ form_label(form.notifyOnNewEntryCommentReply, 'Powiadamiaj mnie o odpowiedziach na komentarze w treściach') }}
@@ -15,16 +12,25 @@
 </div>
 
 <div class="mb-3">
-    {{ form_label(form.notifyOnNewPost, 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie') }}
+    {{ form_label(form.notifyOnNewPostCommentReply, 'Powiadamiaj mnie o odpowiedziach na komentarze we wpisach') }}
     <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewPost, {name: 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie'}) }}
+        {{ form_widget(form.notifyOnNewPostCommentReply, {name: 'Powiadamiaj mnie o odpowiedziach na komentarze we wpisach'}) }}
+    </div>
+</div>
+
+<h5 class="mb-3">Obserwowane</h5>
+
+<div class="mb-3">
+    {{ form_label(form.notifyOnNewEntry, 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.notifyOnNewEntry, {name: 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie'}) }}
     </div>
 </div>
 
 <div class="mb-3">
-    {{ form_label(form.notifyOnNewPostCommentReply, 'Powiadamiaj mnie o odpowiedziach na komentarze we wpisach') }}
+    {{ form_label(form.notifyOnNewPost, 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie') }}
     <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewPostCommentReply, {name: 'Powiadamiaj mnie o odpowiedziach na komentarze we wpisach'}) }}
+        {{ form_widget(form.notifyOnNewPost, {name: 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie'}) }}
     </div>
 </div>
 
