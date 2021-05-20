@@ -16,9 +16,12 @@ class UserSettingsManager
     {
         return new UserSettingsDto(
             $user->notifyOnNewEntry,
+            $user->notifyOnNewEntryReply,
             $user->notifyOnNewEntryCommentReply,
             $user->notifyOnNewPost,
-            $user->notifyOnNewPostCommentReply
+            $user->notifyOnNewPostReply,
+            $user->notifyOnNewPostCommentReply,
+            $user->theme === User::THEME_DARK
         );
     }
 
@@ -28,6 +31,11 @@ class UserSettingsManager
         $user->notifyOnNewEntryCommentReply = $dto->notifyOnNewEntryCommentReply;
         $user->notifyOnNewEntry             = $dto->notifyOnNewEntry;
         $user->notifyOnNewPostCommentReply  = $dto->notifyOnNewPostCommentReply;
+        if ($dto->darkTheme) {
+            $user->theme = User::THEME_DARK;
+        } else {
+            $user->theme = User::THEME_LIGHT;
+        }
 
         $this->entityManager->flush();
     }
