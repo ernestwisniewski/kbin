@@ -30,6 +30,10 @@ class UserSettingsType extends AbstractType
                 'notifyOnNewPostCommentReply',
                 CheckboxType::class
             )
+            ->add(
+                'darkTheme',
+                CheckboxType::class
+            )
             ->add('submit', SubmitType::class);
     }
 

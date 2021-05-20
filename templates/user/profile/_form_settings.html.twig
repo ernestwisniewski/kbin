@@ -34,6 +34,15 @@
     </div>
 </div>
 
+<h5 class="mb-3">Wygląd</h5>
+
+<div class="mb-3">
+    {{ form_label(form.darkTheme, 'Ciemny motyw') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.darkTheme, {name: 'Ciemny motyw'}) }}
+    </div>
+</div>
+
 <div class="mb-12 text-end">
     {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
 </div>
