@@ -3,18 +3,31 @@
 <h3 class="mb-4">Powiadomienia</h3>
 
 <h5 class="mb-3">Twoje treści</h5>
-
 <div class="mb-3">
-    {{ form_label(form.notifyOnNewEntryCommentReply, 'Powiadamiaj mnie o odpowiedziach na komentarze w treściach') }}
+    {{ form_label(form.notifyOnNewEntryReply, 'Powiadamiaj o komentarzach w twoich treściach') }}
     <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewEntryCommentReply, {name: 'Powiadamiaj mnie o odpowiedziach na komentarze w treściach'}) }}
+        {{ form_widget(form.notifyOnNewEntryReply, {name: 'Powiadamiaj o komentarzach w twoich treściach'}) }}
     </div>
 </div>
 
 <div class="mb-3">
-    {{ form_label(form.notifyOnNewPostCommentReply, 'Powiadamiaj mnie o odpowiedziach na komentarze we wpisach') }}
+    {{ form_label(form.notifyOnNewEntryCommentReply, 'Powiadamiaj o odpowiedziach na twoje komentarze w treściach') }}
     <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewPostCommentReply, {name: 'Powiadamiaj mnie o odpowiedziach na komentarze we wpisach'}) }}
+        {{ form_widget(form.notifyOnNewEntryCommentReply, {name: 'Powiadamiaj o odpowiedziach na twoje komentarze w treściach'}) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.notifyOnNewPostReply, 'Powiadamiaj o odpowiedziach w twoich wpisach') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.notifyOnNewPostReply, {name: 'Powiadamiaj o odpowiedziach w twoich wpisach'}) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.notifyOnNewPostCommentReply, 'Powiadamiaj o odpowiedziach na twoje komentarze we wpisach') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.notifyOnNewPostCommentReply, {name: 'Powiadamiaj o odpowiedziach na twoje komentarze we wpisach'}) }}
     </div>
 </div>
 
