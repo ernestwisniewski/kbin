@@ -28,8 +28,9 @@ class UserSettingsManager
     public function update(User $user, UserSettingsDto $dto)
     {
         $user->notifyOnNewPost              = $dto->notifyOnNewPost;
+        $user->notifyOnNewPostReply         = $dto->notifyOnNewPostReply;
         $user->notifyOnNewEntryCommentReply = $dto->notifyOnNewEntryCommentReply;
-        $user->notifyOnNewEntry             = $dto->notifyOnNewEntry;
+        $user->notifyOnNewEntryReply        = $dto->notifyOnNewEntryReply;
         $user->notifyOnNewPostCommentReply  = $dto->notifyOnNewPostCommentReply;
         if ($dto->darkTheme) {
             $user->theme = User::THEME_DARK;
