@@ -46,6 +46,7 @@ class PostCommentNotificationManager
         $usersToNotify = $this->merge($subs, $followers);
 
         $this->notifyMagazine(new PostCommentCreatedNotification($comment->user, $comment));
+
         if (!count($usersToNotify)) {
             return;
         }
