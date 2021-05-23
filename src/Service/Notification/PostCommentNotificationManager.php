@@ -40,16 +40,12 @@ class PostCommentNotificationManager
 
     public function sendMagazineSubscribersNotification(PostComment $comment): void
     {
+        $this->notifyMagazine(new PostCommentCreatedNotification($comment->user, $comment));
+
         $subs      = $this->getUsersToNotify($this->repository->findNewPostSubscribers($comment->post));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
-
-        $this->notifyMagazine(new PostCommentCreatedNotification($comment->user, $comment));
-
-        if (!count($usersToNotify)) {
-            return;
-        }
 
         foreach ($usersToNotify as $subscriber) {
             $notification = new PostCommentCreatedNotification($subscriber, $comment);

@@ -31,16 +31,12 @@ class EntryNotificationManager
 
     public function sendCreated(Entry $entry): void
     {
+        $this->notifyMagazine(new EntryCreatedNotification($entry->user, $entry));
+
         $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($entry));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
-
-        $this->notifyMagazine(new EntryCreatedNotification($entry->user, $entry));
-
-        if (!count($usersToNotify)) {
-            return;
-        }
 
         foreach ($usersToNotify as $subscriber) {
             $notification = new EntryCreatedNotification($subscriber, $entry);

@@ -40,16 +40,12 @@ class EntryCommentNotificationManager
 
     private function sendMagazineSubscribersNotification(EntryComment $comment): void
     {
+        $this->notifyMagazine(new EntryCommentCreatedNotification($comment->user, $comment));
+
         $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($comment->entry));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
-
-        $this->notifyMagazine(new EntryCommentCreatedNotification($comment->user, $comment));
-
-        if (!count($usersToNotify)) {
-            return;
-        }
 
         foreach ($usersToNotify as $subscriber) {
             $notification = new EntryCommentCreatedNotification($subscriber, $comment);
