@@ -32,16 +32,12 @@ class PostNotificationManager
 
     public function sendCreated(Post $post): void
     {
+        $this->notifyMagazine($post, new PostCreatedNotification($post->user, $post));
+
         $subs    = $this->getUsersToNotify($this->repository->findNewPostSubscribers($post));
         $follows = [];
 
         $usersToNotify = $this->merge($subs, $follows);
-
-        $this->notifyMagazine($post, new PostCreatedNotification($post->user, $post));
-
-        if (!count($usersToNotify)) {
-            return;
-        }
 
         foreach ($usersToNotify as $subscriber) {
             $notify = new PostCreatedNotification($subscriber, $post);
