@@ -7,6 +7,7 @@ use App\Entity\PostComment;
 use App\Entity\PostCommentCreatedNotification;
 use App\Entity\PostCommentDeletedNotification;
 use App\Entity\PostCommentReplyNotification;
+use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
@@ -34,11 +35,11 @@ class PostCommentNotificationManager
 
     public function sendCreated(PostComment $comment): void
     {
-        $this->sendMagazineSubscribersNotification($comment);
-        $this->sendUserReplyNotification($comment);
+        $user = $this->sendUserReplyNotification($comment);
+        $this->sendMagazineSubscribersNotification($comment, $user);
     }
 
-    public function sendMagazineSubscribersNotification(PostComment $comment): void
+    public function sendMagazineSubscribersNotification(PostComment $comment, ?User $exclude): void
     {
         $this->notifyMagazine(new PostCommentCreatedNotification($comment->user, $comment));
 
@@ -46,6 +47,10 @@ class PostCommentNotificationManager
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
+
+        if($exclude) {
+            $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
+        }
 
         foreach ($usersToNotify as $subscriber) {
             $notification = new PostCommentCreatedNotification($subscriber, $comment);
@@ -83,10 +88,10 @@ class PostCommentNotificationManager
         );
     }
 
-    private function sendUserReplyNotification(PostComment $comment):void
+    private function sendUserReplyNotification(PostComment $comment): ?User
     {
         if(!$comment->parent || $comment->parent->isAuthor($comment->user)) {
-            return;
+            return null;
         }
 
         $notification = new PostCommentReplyNotification($comment->parent->user, $comment);
@@ -94,6 +99,8 @@ class PostCommentNotificationManager
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
+
+        return $notification->user;
     }
 
     private function notifyUser(PostCommentReplyNotification $notification): void
