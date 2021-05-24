@@ -7,6 +7,7 @@ use App\Entity\EntryComment;
 use App\Entity\EntryCommentCreatedNotification;
 use App\Entity\EntryCommentDeletedNotification;
 use App\Entity\EntryCommentReplyNotification;
+use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
@@ -15,7 +16,6 @@ use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
-use function count;
 
 class EntryCommentNotificationManager
 {
@@ -34,11 +34,11 @@ class EntryCommentNotificationManager
 
     public function sendCreated(EntryComment $comment): void
     {
-        $this->sendMagazineSubscribersNotification($comment);
-        $this->sendUserReplyNotification($comment);
+        $user = $this->sendUserReplyNotification($comment);
+        $this->sendMagazineSubscribersNotification($comment, $user);
     }
 
-    private function sendMagazineSubscribersNotification(EntryComment $comment): void
+    private function sendMagazineSubscribersNotification(EntryComment $comment, ?User $exclude): void
     {
         $this->notifyMagazine(new EntryCommentCreatedNotification($comment->user, $comment));
 
@@ -46,6 +46,10 @@ class EntryCommentNotificationManager
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
+
+        if($exclude) {
+            $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
+        }
 
         foreach ($usersToNotify as $subscriber) {
             $notification = new EntryCommentCreatedNotification($subscriber, $comment);
@@ -83,10 +87,10 @@ class EntryCommentNotificationManager
         );
     }
 
-    private function sendUserReplyNotification(EntryComment $comment):void
+    private function sendUserReplyNotification(EntryComment $comment): ?User
     {
-        if(!$comment->parent || $comment->parent->isAuthor($comment->user)) {
-            return;
+        if (!$comment->parent || $comment->parent->isAuthor($comment->user)) {
+            return null;
         }
 
         $notification = new EntryCommentReplyNotification($comment->parent->user, $comment);
@@ -94,6 +98,8 @@ class EntryCommentNotificationManager
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
+
+        return $notification->user;
     }
 
     private function notifyUser(EntryCommentReplyNotification $notification): void
