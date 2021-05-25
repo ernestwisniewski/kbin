@@ -47,6 +47,7 @@ class PostCommentNotificationManager
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
+        $usersToNotify = $this->merge($usersToNotify, [$comment->post->user]);
 
         if($exclude) {
             $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
