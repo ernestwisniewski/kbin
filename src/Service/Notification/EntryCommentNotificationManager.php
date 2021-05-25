@@ -46,7 +46,10 @@ class EntryCommentNotificationManager
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
-        $usersToNotify = $this->merge($usersToNotify, [$comment->entry->user]);
+
+        if($comment->entry->user->notifyOnNewEntryReply) {
+            $usersToNotify = $this->merge($usersToNotify, [$comment->entry->user]);
+        }
 
         if($exclude) {
             $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
@@ -91,6 +94,10 @@ class EntryCommentNotificationManager
     private function sendUserReplyNotification(EntryComment $comment): ?User
     {
         if (!$comment->parent || $comment->parent->isAuthor($comment->user)) {
+            return null;
+        }
+
+        if(!$comment->parent->user->notifyOnNewEntryCommentReply) {
             return null;
         }
 

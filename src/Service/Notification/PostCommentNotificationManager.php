@@ -47,7 +47,10 @@ class PostCommentNotificationManager
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
-        $usersToNotify = $this->merge($usersToNotify, [$comment->post->user]);
+
+        if($comment->user->notifyOnNewPostReply) {
+            $usersToNotify = $this->merge($usersToNotify, [$comment->post->user]);
+        }
 
         if($exclude) {
             $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
@@ -92,6 +95,10 @@ class PostCommentNotificationManager
     private function sendUserReplyNotification(PostComment $comment): ?User
     {
         if(!$comment->parent || $comment->parent->isAuthor($comment->user)) {
+            return null;
+        }
+
+        if(!$comment->parent->user->notifyOnNewPostCommentReply) {
             return null;
         }
 
