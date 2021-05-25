@@ -46,6 +46,7 @@ class EntryCommentNotificationManager
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
+        $usersToNotify = $this->merge($usersToNotify, [$comment->entry->user]);
 
         if($exclude) {
             $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
