@@ -18,6 +18,7 @@
         "easycorp/easyadmin-bundle": "^3",
         "embed/embed": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
+        "jolicode/elastically": "^1.2",
         "karser/karser-recaptcha3-bundle": "^0.1.17",
         "knplabs/knp-time-bundle": "^1.15",
         "laminas/laminas-diactoros": "^2.5",

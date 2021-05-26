@@ -163,8 +163,17 @@
     "egulias/email-validator": {
         "version": "2.1.25"
     },
+    "elasticsearch/elasticsearch": {
+        "version": "v7.13.0"
+    },
     "embed/embed": {
         "version": "dev-master"
+    },
+    "ezimuel/guzzlestreams": {
+        "version": "3.0.1"
+    },
+    "ezimuel/ringphp": {
+        "version": "1.1.2"
     },
     "fig/link-util": {
         "version": "1.1.2"
@@ -216,6 +225,9 @@
     },
     "jean85/pretty-package-versions": {
         "version": "1.6.0"
+    },
+    "jolicode/elastically": {
+        "version": "v1.2.0"
     },
     "karser/karser-recaptcha3-bundle": {
         "version": "0.1",
@@ -339,6 +351,9 @@
     "nucleos/antispam-bundle": {
         "version": "2.2.0"
     },
+    "nyholm/dsn": {
+        "version": "2.0.0"
+    },
     "oneup/flysystem-bundle": {
         "version": "3.0",
         "recipe": {
@@ -419,6 +434,12 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "react/promise": {
+        "version": "v2.8.0"
+    },
+    "ruflin/elastica": {
+        "version": "7.1.1"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
