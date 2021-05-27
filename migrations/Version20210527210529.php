@@ -7,17 +7,14 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version20210402112139 extends AbstractMigration
+final class Version20210527210529 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE badge_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -42,15 +39,16 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE post_comment_vote_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE post_vote_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE report_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE site_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE user_block_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE user_follow_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE view_counter_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE badge (id INT NOT NULL, magazine_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE badge (id INT NOT NULL, magazine_id INT NOT NULL, name VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_FEF0481D3EB84A1D ON badge (magazine_id)');
         $this->addSql('CREATE TABLE domain (id INT NOT NULL, name VARCHAR(255) NOT NULL, entry_count INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX domain_name_idx ON domain (name)');
-        $this->addSql('CREATE TABLE entry (id INT NOT NULL, user_id INT NOT NULL, magazine_id INT NOT NULL, image_id INT DEFAULT NULL, domain_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, url VARCHAR(2048) DEFAULT NULL, body TEXT DEFAULT NULL, type VARCHAR(255) NOT NULL, has_embed BOOLEAN NOT NULL, comment_count INT NOT NULL, score INT NOT NULL, views INT DEFAULT NULL, is_adult BOOLEAN NOT NULL, last_active TIMESTAMP(0) WITH TIME ZONE NOT NULL, up_votes INT NOT NULL, down_votes INT NOT NULL, ranking INT NOT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE entry (id INT NOT NULL, user_id INT NOT NULL, magazine_id INT NOT NULL, image_id INT DEFAULT NULL, domain_id INT DEFAULT NULL, slug VARCHAR(255) DEFAULT NULL, title VARCHAR(255) NOT NULL, url VARCHAR(2048) DEFAULT NULL, body TEXT DEFAULT NULL, type VARCHAR(255) NOT NULL, has_embed BOOLEAN NOT NULL, comment_count INT NOT NULL, score INT NOT NULL, views INT DEFAULT NULL, is_adult BOOLEAN DEFAULT NULL, sticky BOOLEAN NOT NULL, last_active TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, ip VARCHAR(255) DEFAULT NULL, up_votes INT NOT NULL, down_votes INT NOT NULL, ranking INT NOT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2B219D70A76ED395 ON entry (user_id)');
         $this->addSql('CREATE INDEX IDX_2B219D703EB84A1D ON entry (magazine_id)');
         $this->addSql('CREATE INDEX IDX_2B219D703DA5256D ON entry (image_id)');
@@ -59,7 +57,7 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('CREATE TABLE entry_badge (id INT NOT NULL, badge_id INT DEFAULT NULL, entry_id INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7AEA2BBBF7A2C2FC ON entry_badge (badge_id)');
         $this->addSql('CREATE INDEX IDX_7AEA2BBBBA364942 ON entry_badge (entry_id)');
-        $this->addSql('CREATE TABLE entry_comment (id INT NOT NULL, user_id INT NOT NULL, entry_id INT NOT NULL, magazine_id INT NOT NULL, image_id INT DEFAULT NULL, parent_id INT DEFAULT NULL, root_id INT DEFAULT NULL, body TEXT NOT NULL, last_active TIMESTAMP(0) WITH TIME ZONE NOT NULL, up_votes INT NOT NULL, down_votes INT NOT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE entry_comment (id INT NOT NULL, user_id INT NOT NULL, entry_id INT NOT NULL, magazine_id INT NOT NULL, image_id INT DEFAULT NULL, parent_id INT DEFAULT NULL, root_id INT DEFAULT NULL, body TEXT DEFAULT NULL, last_active TIMESTAMP(0) WITH TIME ZONE NOT NULL, ip VARCHAR(255) DEFAULT NULL, up_votes INT NOT NULL, down_votes INT NOT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_B892FDFBA76ED395 ON entry_comment (user_id)');
         $this->addSql('CREATE INDEX IDX_B892FDFBBA364942 ON entry_comment (entry_id)');
         $this->addSql('CREATE INDEX IDX_B892FDFB3EB84A1D ON entry_comment (magazine_id)');
@@ -67,22 +65,22 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B892FDFB727ACA70 ON entry_comment (parent_id)');
         $this->addSql('CREATE INDEX IDX_B892FDFB79066886 ON entry_comment (root_id)');
         $this->addSql('COMMENT ON COLUMN entry_comment.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE entry_comment_vote (id INT NOT NULL, user_id INT NOT NULL, author_id INT NOT NULL, comment_id INT NOT NULL, choice INT NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE entry_comment_vote (id INT NOT NULL, comment_id INT NOT NULL, user_id INT NOT NULL, author_id INT NOT NULL, choice INT NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_9E561267F8697D13 ON entry_comment_vote (comment_id)');
         $this->addSql('CREATE INDEX IDX_9E561267A76ED395 ON entry_comment_vote (user_id)');
         $this->addSql('CREATE INDEX IDX_9E561267F675F31B ON entry_comment_vote (author_id)');
-        $this->addSql('CREATE INDEX IDX_9E561267F8697D13 ON entry_comment_vote (comment_id)');
         $this->addSql('CREATE UNIQUE INDEX user_entry_comment_vote_idx ON entry_comment_vote (user_id, comment_id)');
         $this->addSql('COMMENT ON COLUMN entry_comment_vote.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE entry_vote (id INT NOT NULL, user_id INT NOT NULL, author_id INT NOT NULL, entry_id INT NOT NULL, choice INT NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE entry_vote (id INT NOT NULL, entry_id INT NOT NULL, user_id INT NOT NULL, author_id INT NOT NULL, choice INT NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_FE32FD77BA364942 ON entry_vote (entry_id)');
         $this->addSql('CREATE INDEX IDX_FE32FD77A76ED395 ON entry_vote (user_id)');
         $this->addSql('CREATE INDEX IDX_FE32FD77F675F31B ON entry_vote (author_id)');
-        $this->addSql('CREATE INDEX IDX_FE32FD77BA364942 ON entry_vote (entry_id)');
         $this->addSql('CREATE UNIQUE INDEX user_entry_vote_idx ON entry_vote (user_id, entry_id)');
         $this->addSql('COMMENT ON COLUMN entry_vote.created_at IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE image (id INT NOT NULL, file_path VARCHAR(255) NOT NULL, file_name VARCHAR(255) NOT NULL, sha256 BYTEA NOT NULL, width INT DEFAULT NULL, height INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX images_file_name_idx ON image (file_name)');
         $this->addSql('CREATE UNIQUE INDEX images_sha256_idx ON image (sha256)');
-        $this->addSql('CREATE TABLE magazine (id INT NOT NULL, cover_id INT DEFAULT NULL, name VARCHAR(25) NOT NULL, title VARCHAR(50) NOT NULL, description TEXT DEFAULT NULL, rules TEXT DEFAULT NULL, subscriptions_count INT NOT NULL, entry_count INT NOT NULL, entry_comment_count INT NOT NULL, post_count INT NOT NULL, post_comment_count INT NOT NULL, is_adult BOOLEAN NOT NULL, custom_css VARCHAR(255) DEFAULT NULL, custom_js VARCHAR(255) DEFAULT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE magazine (id INT NOT NULL, cover_id INT DEFAULT NULL, name VARCHAR(25) NOT NULL, title VARCHAR(50) DEFAULT NULL, description TEXT DEFAULT NULL, rules TEXT DEFAULT NULL, subscriptions_count INT NOT NULL, entry_count INT NOT NULL, entry_comment_count INT NOT NULL, post_count INT NOT NULL, post_comment_count INT NOT NULL, is_adult BOOLEAN DEFAULT NULL, custom_css TEXT DEFAULT NULL, custom_js TEXT DEFAULT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_378C2FE4922726E9 ON magazine (cover_id)');
         $this->addSql('CREATE UNIQUE INDEX magazine_name_idx ON magazine (name)');
         $this->addSql('COMMENT ON COLUMN magazine.created_at IS \'(DC2Type:datetimetz_immutable)\'');
@@ -114,7 +112,7 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B6BD307FE2904019 ON message (thread_id)');
         $this->addSql('CREATE INDEX IDX_B6BD307FF624B39D ON message (sender_id)');
         $this->addSql('COMMENT ON COLUMN message.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE message_thread (id INT NOT NULL, updated_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE message_thread (id INT NOT NULL, updated_at TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN message_thread.updated_at IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE message_thread_participants (message_thread_id INT NOT NULL, user_id INT NOT NULL, PRIMARY KEY(message_thread_id, user_id))');
         $this->addSql('CREATE INDEX IDX_F2DE92908829462F ON message_thread_participants (message_thread_id)');
@@ -124,36 +122,37 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_6A30B2683EB84A1D ON moderator (magazine_id)');
         $this->addSql('CREATE UNIQUE INDEX moderator_magazine_user_idx ON moderator (magazine_id, user_id)');
         $this->addSql('COMMENT ON COLUMN moderator.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE notification (id INT NOT NULL, user_id INT NOT NULL, entry_id INT DEFAULT NULL, entry_comment_id INT DEFAULT NULL, post_id INT DEFAULT NULL, post_comment_id INT DEFAULT NULL, message_id INT DEFAULT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, notification_type TEXT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE notification (id INT NOT NULL, user_id INT NOT NULL, entry_id INT DEFAULT NULL, entry_comment_id INT DEFAULT NULL, post_id INT DEFAULT NULL, post_comment_id INT DEFAULT NULL, message_id INT DEFAULT NULL, ban_id INT DEFAULT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, notification_type TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_BF5476CAA76ED395 ON notification (user_id)');
         $this->addSql('CREATE INDEX IDX_BF5476CABA364942 ON notification (entry_id)');
         $this->addSql('CREATE INDEX IDX_BF5476CA60C33421 ON notification (entry_comment_id)');
         $this->addSql('CREATE INDEX IDX_BF5476CA4B89032C ON notification (post_id)');
         $this->addSql('CREATE INDEX IDX_BF5476CADB1174D2 ON notification (post_comment_id)');
         $this->addSql('CREATE INDEX IDX_BF5476CA537A1329 ON notification (message_id)');
+        $this->addSql('CREATE INDEX IDX_BF5476CA1255CD1D ON notification (ban_id)');
         $this->addSql('COMMENT ON COLUMN notification.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE post (id INT NOT NULL, user_id INT NOT NULL, magazine_id INT NOT NULL, image_id INT DEFAULT NULL, body TEXT DEFAULT NULL, comment_count INT NOT NULL, score INT NOT NULL, is_adult BOOLEAN NOT NULL, last_active TIMESTAMP(0) WITH TIME ZONE NOT NULL, up_votes INT NOT NULL, down_votes INT NOT NULL, ranking INT NOT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE post (id INT NOT NULL, user_id INT NOT NULL, magazine_id INT NOT NULL, image_id INT DEFAULT NULL, slug VARCHAR(255) DEFAULT NULL, body TEXT DEFAULT NULL, comment_count INT NOT NULL, score INT NOT NULL, is_adult BOOLEAN DEFAULT NULL, last_active TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, ip VARCHAR(255) DEFAULT NULL, up_votes INT NOT NULL, down_votes INT NOT NULL, ranking INT NOT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_5A8A6C8DA76ED395 ON post (user_id)');
         $this->addSql('CREATE INDEX IDX_5A8A6C8D3EB84A1D ON post (magazine_id)');
         $this->addSql('CREATE INDEX IDX_5A8A6C8D3DA5256D ON post (image_id)');
         $this->addSql('COMMENT ON COLUMN post.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE post_comment (id INT NOT NULL, user_id INT NOT NULL, post_id INT NOT NULL, magazine_id INT NOT NULL, image_id INT DEFAULT NULL, parent_id INT DEFAULT NULL, body TEXT NOT NULL, last_active TIMESTAMP(0) WITH TIME ZONE NOT NULL, up_votes INT NOT NULL, down_votes INT NOT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE post_comment (id INT NOT NULL, user_id INT NOT NULL, post_id INT NOT NULL, magazine_id INT NOT NULL, image_id INT DEFAULT NULL, parent_id INT DEFAULT NULL, body TEXT DEFAULT NULL, last_active TIMESTAMP(0) WITH TIME ZONE NOT NULL, ip VARCHAR(255) DEFAULT NULL, up_votes INT NOT NULL, down_votes INT NOT NULL, visibility TEXT DEFAULT \'visible\' NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_A99CE55FA76ED395 ON post_comment (user_id)');
         $this->addSql('CREATE INDEX IDX_A99CE55F4B89032C ON post_comment (post_id)');
         $this->addSql('CREATE INDEX IDX_A99CE55F3EB84A1D ON post_comment (magazine_id)');
         $this->addSql('CREATE INDEX IDX_A99CE55F3DA5256D ON post_comment (image_id)');
         $this->addSql('CREATE INDEX IDX_A99CE55F727ACA70 ON post_comment (parent_id)');
         $this->addSql('COMMENT ON COLUMN post_comment.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE post_comment_vote (id INT NOT NULL, user_id INT NOT NULL, author_id INT NOT NULL, comment_id INT NOT NULL, choice INT NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE post_comment_vote (id INT NOT NULL, comment_id INT NOT NULL, user_id INT NOT NULL, author_id INT NOT NULL, choice INT NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_D71B5A5BF8697D13 ON post_comment_vote (comment_id)');
         $this->addSql('CREATE INDEX IDX_D71B5A5BA76ED395 ON post_comment_vote (user_id)');
         $this->addSql('CREATE INDEX IDX_D71B5A5BF675F31B ON post_comment_vote (author_id)');
-        $this->addSql('CREATE INDEX IDX_D71B5A5BF8697D13 ON post_comment_vote (comment_id)');
         $this->addSql('CREATE UNIQUE INDEX user_post_comment_vote_idx ON post_comment_vote (user_id, comment_id)');
         $this->addSql('COMMENT ON COLUMN post_comment_vote.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE post_vote (id INT NOT NULL, user_id INT NOT NULL, author_id INT NOT NULL, post_id INT NOT NULL, choice INT NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE post_vote (id INT NOT NULL, post_id INT NOT NULL, user_id INT NOT NULL, author_id INT NOT NULL, choice INT NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_9345E26F4B89032C ON post_vote (post_id)');
         $this->addSql('CREATE INDEX IDX_9345E26FA76ED395 ON post_vote (user_id)');
         $this->addSql('CREATE INDEX IDX_9345E26FF675F31B ON post_vote (author_id)');
-        $this->addSql('CREATE INDEX IDX_9345E26F4B89032C ON post_vote (post_id)');
         $this->addSql('CREATE UNIQUE INDEX user_post_vote_idx ON post_vote (user_id, post_id)');
         $this->addSql('COMMENT ON COLUMN post_vote.created_at IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE report (id INT NOT NULL, magazine_id INT NOT NULL, reporting_id INT NOT NULL, reported_id INT NOT NULL, considered_by_id INT DEFAULT NULL, entry_id INT DEFAULT NULL, entry_comment_id INT DEFAULT NULL, post_id INT DEFAULT NULL, post_comment_id INT DEFAULT NULL, reason VARCHAR(255) DEFAULT NULL, weight INT NOT NULL, considered_at TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, report_type TEXT NOT NULL, PRIMARY KEY(id))');
@@ -166,7 +165,8 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_C42F77844B89032C ON report (post_id)');
         $this->addSql('CREATE INDEX IDX_C42F7784DB1174D2 ON report (post_comment_id)');
         $this->addSql('COMMENT ON COLUMN report.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, avatar_id INT DEFAULT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, username VARCHAR(35) NOT NULL, followers_count INT NOT NULL, theme VARCHAR(255) DEFAULT \'light\' NOT NULL, notify_on_new_entry BOOLEAN NOT NULL, notify_on_new_post BOOLEAN NOT NULL, is_verified BOOLEAN NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE site (id INT NOT NULL, title VARCHAR(255) NOT NULL, enabled BOOLEAN NOT NULL, registration_open BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, avatar_id INT DEFAULT NULL, email VARCHAR(180) DEFAULT NULL, roles JSON NOT NULL, username VARCHAR(35) NOT NULL, followers_count INT NOT NULL, theme VARCHAR(255) DEFAULT \'light\' NOT NULL, notify_on_new_entry BOOLEAN NOT NULL, notify_on_new_entry_reply BOOLEAN NOT NULL, notify_on_new_entry_comment_reply BOOLEAN NOT NULL, notify_on_new_post BOOLEAN NOT NULL, notify_on_new_post_reply BOOLEAN NOT NULL, notify_on_new_post_comment_reply BOOLEAN NOT NULL, is_verified BOOLEAN NOT NULL, password VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
         $this->addSql('CREATE INDEX IDX_8D93D64986383B10 ON "user" (avatar_id)');
         $this->addSql('COMMENT ON COLUMN "user".created_at IS \'(DC2Type:datetimetz_immutable)\'');
@@ -180,7 +180,7 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_D665F4D1816E3A3 ON user_follow (following_id)');
         $this->addSql('CREATE UNIQUE INDEX user_follows_idx ON user_follow (follower_id, following_id)');
         $this->addSql('COMMENT ON COLUMN user_follow.created_at IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE view_counter (id INT NOT NULL, entry_id INT DEFAULT NULL, ip TEXT NOT NULL, view_date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE view_counter (id INT NOT NULL, entry_id INT NOT NULL, ip TEXT NOT NULL, view_date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E87F8182BA364942 ON view_counter (entry_id)');
         $this->addSql('ALTER TABLE badge ADD CONSTRAINT FK_FEF0481D3EB84A1D FOREIGN KEY (magazine_id) REFERENCES magazine (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE entry ADD CONSTRAINT FK_2B219D70A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -195,12 +195,12 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('ALTER TABLE entry_comment ADD CONSTRAINT FK_B892FDFB3DA5256D FOREIGN KEY (image_id) REFERENCES image (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE entry_comment ADD CONSTRAINT FK_B892FDFB727ACA70 FOREIGN KEY (parent_id) REFERENCES entry_comment (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE entry_comment ADD CONSTRAINT FK_B892FDFB79066886 FOREIGN KEY (root_id) REFERENCES entry_comment (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE entry_comment_vote ADD CONSTRAINT FK_9E561267F8697D13 FOREIGN KEY (comment_id) REFERENCES entry_comment (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE entry_comment_vote ADD CONSTRAINT FK_9E561267A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE entry_comment_vote ADD CONSTRAINT FK_9E561267F675F31B FOREIGN KEY (author_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE entry_comment_vote ADD CONSTRAINT FK_9E561267F8697D13 FOREIGN KEY (comment_id) REFERENCES entry_comment (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE entry_vote ADD CONSTRAINT FK_FE32FD77BA364942 FOREIGN KEY (entry_id) REFERENCES entry (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE entry_vote ADD CONSTRAINT FK_FE32FD77A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE entry_vote ADD CONSTRAINT FK_FE32FD77F675F31B FOREIGN KEY (author_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE entry_vote ADD CONSTRAINT FK_FE32FD77BA364942 FOREIGN KEY (entry_id) REFERENCES entry (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE magazine ADD CONSTRAINT FK_378C2FE4922726E9 FOREIGN KEY (cover_id) REFERENCES image (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE magazine_ban ADD CONSTRAINT FK_6A126CE53EB84A1D FOREIGN KEY (magazine_id) REFERENCES magazine (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE magazine_ban ADD CONSTRAINT FK_6A126CE5A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -228,6 +228,7 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CA4B89032C FOREIGN KEY (post_id) REFERENCES post (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CADB1174D2 FOREIGN KEY (post_comment_id) REFERENCES post_comment (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CA537A1329 FOREIGN KEY (message_id) REFERENCES message (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CA1255CD1D FOREIGN KEY (ban_id) REFERENCES magazine_ban (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post ADD CONSTRAINT FK_5A8A6C8DA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post ADD CONSTRAINT FK_5A8A6C8D3EB84A1D FOREIGN KEY (magazine_id) REFERENCES magazine (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post ADD CONSTRAINT FK_5A8A6C8D3DA5256D FOREIGN KEY (image_id) REFERENCES image (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -236,12 +237,12 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('ALTER TABLE post_comment ADD CONSTRAINT FK_A99CE55F3EB84A1D FOREIGN KEY (magazine_id) REFERENCES magazine (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post_comment ADD CONSTRAINT FK_A99CE55F3DA5256D FOREIGN KEY (image_id) REFERENCES image (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post_comment ADD CONSTRAINT FK_A99CE55F727ACA70 FOREIGN KEY (parent_id) REFERENCES post_comment (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE post_comment_vote ADD CONSTRAINT FK_D71B5A5BF8697D13 FOREIGN KEY (comment_id) REFERENCES post_comment (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post_comment_vote ADD CONSTRAINT FK_D71B5A5BA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post_comment_vote ADD CONSTRAINT FK_D71B5A5BF675F31B FOREIGN KEY (author_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE post_comment_vote ADD CONSTRAINT FK_D71B5A5BF8697D13 FOREIGN KEY (comment_id) REFERENCES post_comment (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE post_vote ADD CONSTRAINT FK_9345E26F4B89032C FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post_vote ADD CONSTRAINT FK_9345E26FA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE post_vote ADD CONSTRAINT FK_9345E26FF675F31B FOREIGN KEY (author_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE post_vote ADD CONSTRAINT FK_9345E26F4B89032C FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE report ADD CONSTRAINT FK_C42F77843EB84A1D FOREIGN KEY (magazine_id) REFERENCES magazine (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE report ADD CONSTRAINT FK_C42F778427EE0E60 FOREIGN KEY (reporting_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE report ADD CONSTRAINT FK_C42F778494BDEEB6 FOREIGN KEY (reported_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -258,7 +259,7 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('ALTER TABLE view_counter ADD CONSTRAINT FK_E87F8182BA364942 FOREIGN KEY (entry_id) REFERENCES entry (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
@@ -295,6 +296,7 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('ALTER TABLE post_comment DROP CONSTRAINT FK_A99CE55F3EB84A1D');
         $this->addSql('ALTER TABLE report DROP CONSTRAINT FK_C42F77843EB84A1D');
         $this->addSql('ALTER TABLE magazine_log DROP CONSTRAINT FK_87D3D4C51255CD1D');
+        $this->addSql('ALTER TABLE notification DROP CONSTRAINT FK_BF5476CA1255CD1D');
         $this->addSql('ALTER TABLE notification DROP CONSTRAINT FK_BF5476CA537A1329');
         $this->addSql('ALTER TABLE message DROP CONSTRAINT FK_B6BD307FE2904019');
         $this->addSql('ALTER TABLE message_thread_participants DROP CONSTRAINT FK_F2DE92908829462F');
@@ -358,6 +360,7 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('DROP SEQUENCE post_comment_vote_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE post_vote_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE report_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE site_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('DROP SEQUENCE user_block_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE user_follow_id_seq CASCADE');
@@ -385,6 +388,7 @@ final class Version20210402112139 extends AbstractMigration
         $this->addSql('DROP TABLE post_comment_vote');
         $this->addSql('DROP TABLE post_vote');
         $this->addSql('DROP TABLE report');
+        $this->addSql('DROP TABLE site');
         $this->addSql('DROP TABLE "user"');
         $this->addSql('DROP TABLE user_block');
         $this->addSql('DROP TABLE user_follow');
