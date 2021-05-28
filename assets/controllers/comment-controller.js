@@ -83,4 +83,8 @@ export default class extends Controller {
             this.loadingValue = false;
         }
     }
+
+    notification(event) {
+        console.log(event)
+    }
 }
