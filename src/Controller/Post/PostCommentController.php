@@ -170,8 +170,8 @@ class PostCommentController extends AbstractController
     {
         return new JsonResponse(
             [
-                'commentId' => $comment->getId(),
-                'html'      => $this->renderView(
+                'id'   => $comment->getId(),
+                'html' => $this->renderView(
                     'post/comment/_comment.html.twig',
                     [
                         'extra_classes' => 'kbin-comment',
