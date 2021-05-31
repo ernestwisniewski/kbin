@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\EntryComment;
 use App\Entity\Post;
+use App\Entity\PostComment;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use App\Utils\Embed;
@@ -43,5 +45,15 @@ class AjaxController extends AbstractController
                 'html' => $this->renderView('post/comment/_list.html.twig', ['comments' => $comments]),
             ]
         );
+    }
+
+    public function fetchEntryComment(Post $post, EntryComment $comment, PostCommentRepository $repository): JsonResponse
+    {
+        return new JsonResponse();
+    }
+
+    public function fetchPostComment(Post $post, PostComment $comment, PostCommentRepository $repository): JsonResponse
+    {
+        return new JsonResponse();
     }
 }

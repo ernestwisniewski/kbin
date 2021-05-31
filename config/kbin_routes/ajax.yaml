@@ -15,3 +15,15 @@ ajax_fetch_post_comments:
   defaults: { _format: json }
   path: /ajax/fetch_post_comments/{id}
   methods: [GET]
+
+ajax_fetch_entry_comment:
+  controller: App\Controller\AjaxController::fetchEntryComment
+  defaults: { _format: json }
+  path: /ajax/fetch_entry_comment/{id}
+  methods: [GET]
+
+ajax_fetch_post_comment:
+  controller: App\Controller\AjaxController::fetchPostComment
+  defaults: { _format: json }
+  path: /ajax/fetch_post_comment/{id}
+  methods: [GET]
