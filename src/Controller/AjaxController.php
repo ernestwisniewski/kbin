@@ -47,13 +47,43 @@ class AjaxController extends AbstractController
         );
     }
 
-    public function fetchEntryComment(Post $post, EntryComment $comment, PostCommentRepository $repository): JsonResponse
+    public function fetchEntryComment(EntryComment $comment): JsonResponse
     {
-        return new JsonResponse();
+        return new JsonResponse(
+            [
+                'id'        => $comment->getId(),
+                'parent_id' => $comment->parent ? $comment->parent->getId() : null,
+                'html'      => $this->renderView(
+                    'entry/comment/_comment.html.twig',
+                    [
+                        'extra_classes' => 'kbin-comment',
+                        'with_parent'   => false,
+                        'comment'       => $comment,
+                        'level'         => 1,
+                        'nested'        => false,
+                    ]
+                ),
+            ]
+        );
     }
 
-    public function fetchPostComment(Post $post, PostComment $comment, PostCommentRepository $repository): JsonResponse
+    public function fetchPostComment(PostComment $comment): JsonResponse
     {
-        return new JsonResponse();
+        return new JsonResponse(
+            [
+                'id'        => $comment->getId(),
+                'parent_id' => $comment->parent ? $comment->parent->getId() : null,
+                'html'      => $this->renderView(
+                    'post/comment/_comment.html.twig',
+                    [
+                        'extra_classes' => 'kbin-comment',
+                        'with_parent'   => false,
+                        'comment'       => $comment,
+                        'level'         => 1,
+                        'nested'        => false,
+                    ]
+                ),
+            ]
+        );
     }
 }
