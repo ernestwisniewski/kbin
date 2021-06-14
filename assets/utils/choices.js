@@ -11,7 +11,7 @@ export default class KChoices {
         });
     }
 
-    build() {
+    build(el) {
         return new Choices(el, {
             loadingText: 'Czekaj...',
             noResultsText: 'Brak wyników',
