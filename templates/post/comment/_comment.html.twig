@@ -13,7 +13,8 @@
         <blockquote id="{{ comment.id }}"
                     class="kbin-comment {{ extra_classes }} kbin-comment--nested kbin-comment-level--2"
                     data-controller="comment report"
-                    data-comment-level-value="2">
+                    data-comment-level-value="2"
+                    data-comment-parent-value="{{ comment.parent ? comment.parent.id : null }}">
             <div class="kbin-comment-header mb-2">
                 {{ vote(comment, {user: app.user, form_dest: 'post_comment_vote', base_class: 'comment', hide_downvote: true}) }}
 
