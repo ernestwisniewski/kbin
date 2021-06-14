@@ -50,9 +50,9 @@ RUN set -eux; \
 	pecl install \
 		apcu-${APCU_VERSION} \
 	; \
-    pecl install \
-        mongodb \
-    ; \
+#    pecl install \
+#        mongodb \
+#    ; \
 	pecl clear-cache; \
 	docker-php-ext-enable \
 		apcu \
@@ -77,7 +77,7 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 
 RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 COPY docker/php/conf.d/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
-RUN echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
+#RUN echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
 
 COPY docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
