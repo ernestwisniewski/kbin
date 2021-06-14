@@ -85,6 +85,6 @@ export default class extends Controller {
     }
 
     notification(event) {
-        console.log(event.detail)
+        // console.log(event.detail)
     }
 }

@@ -26,7 +26,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     private function getCurrentRouteName(): string
     {
-        return $this->getCurrentRequest()->get('_route');
+        return $this->getCurrentRequest()->get('_route') ?? 'front';
     }
 
     private function getCurrentRequest(): ?Request
