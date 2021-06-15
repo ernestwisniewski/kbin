@@ -95,12 +95,17 @@ ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
 WORKDIR /srv/app
 
+# Allow to choose skeleton
+ARG SKELETON="symfony/skeleton"
+ENV SKELETON ${SKELETON}
+
 # Allow to use development versions of Symfony
 ARG STABILITY="stable"
-ENV STABILITY ${STABILITY:-stable}
+ENV STABILITY ${STABILITY}
 
 # Allow to select skeleton version
 ARG SYMFONY_VERSION=""
+ENV SYMFONY_VERSION ${SYMFONY_VERSION}
 
 # Download the Symfony skeleton and leverage Docker cache layers
 RUN composer create-project "symfony/skeleton ${SYMFONY_VERSION}" . --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-interaction; \
@@ -134,8 +139,8 @@ FROM caddy:${CADDY_VERSION}-builder-alpine AS symfony_caddy_builder
 RUN xcaddy build \
 	--with github.com/dunglas/mercure \
 	--with github.com/dunglas/mercure/caddy \
-    --with github.com/dunglas/vulcain \
-    --with github.com/dunglas/vulcain/caddy
+	--with github.com/dunglas/vulcain \
+	--with github.com/dunglas/vulcain/caddy
 
 FROM caddy:${CADDY_VERSION} AS symfony_caddy
 

@@ -4,36 +4,38 @@ version: "3.4"
 services:
   php:
     volumes:
+      # The "cached" option has no effect on Linux but improves performance on Mac
       - ./:/srv/app:rw,cached
       - ./docker/php/conf.d/symfony.dev.ini:/usr/local/etc/php/conf.d/symfony.ini
-      # If you develop on Linux, comment out the following volumes to just use bind-mounted project directory from host
-      # - ./var:/srv/app/var:rw
+      # If you develop on Mac you can remove the var/ directory from the bind-mount
+      # for better performance by enabling the next line
+      # - /srv/app/var
     environment:
       APP_ENV: dev
-    depends_on:
-      - mongodb_container
+#    depends_on:
+#      - mongodb_container
 
   caddy:
     volumes:
-      - mongodb_data_container:/data/db
+#      - mongodb_data_container:/data/db
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./public:/srv/app/public:ro
 
-  mongodb_container:
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-    ports:
-      - 27017:27017
-    volumes:
-      - mongodb_data_container:/data/db
-
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database:
     ports:
       - "5432"
-###< doctrine/doctrine-bundle ###
+  ###< doctrine/doctrine-bundle ###
 
-volumes:
-  mongodb_data_container:
+#  mongodb_container:
+#    image: mongo:latest
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+#    ports:
+#      - 27017:27017
+#    volumes:
+#      - mongodb_data_container:/data/db
+
+#volumes:
+#  mongodb_data_container:
