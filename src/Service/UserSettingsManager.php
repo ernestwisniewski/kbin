@@ -27,6 +27,7 @@ class UserSettingsManager
 
     public function update(User $user, UserSettingsDto $dto)
     {
+        $user->notifyOnNewEntry             = $dto->notifyOnNewEntry;
         $user->notifyOnNewPost              = $dto->notifyOnNewPost;
         $user->notifyOnNewPostReply         = $dto->notifyOnNewPostReply;
         $user->notifyOnNewEntryCommentReply = $dto->notifyOnNewEntryCommentReply;
