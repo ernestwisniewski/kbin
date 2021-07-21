@@ -1,5 +1,6 @@
 security:
-    encoders:
+    enable_authenticator_manager: true
+    password_hashers:
         App\Entity\User:
             algorithm: auto
 
@@ -7,44 +8,32 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: email
+                property: username
 
     firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\AppAuthenticator
+            logout:
+                path: app_logout
+            user_checker: App\Security\UserChecker
         login:
             pattern: ^/api/login
             stateless: true
-            anonymous: true
             json_login:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
-            pattern: ^/api
+            pattern:   ^/api
             stateless: true
-            guard:
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            anonymous: true
-            lazy: true
-            provider: app_user_provider
-            guard:
-                authenticators:
-                    - App\Security\LoginAuthenticator
-            logout:
-                path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
-            user_checker: App\Security\UserChecker
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 1814400
-                path: /
+            jwt: ~
+
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

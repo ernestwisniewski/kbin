@@ -16,13 +16,13 @@ use Exception;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserManager
 {
     public function __construct(
         private UserFactory $factory,
-        private UserPasswordEncoderInterface $encoder,
+        private UserPasswordHasherInterface $passwordHasher,
         private EventDispatcherInterface $dispatcher,
         private MessageBusInterface $bus,
         private EmailVerifier $verifier,
@@ -74,7 +74,7 @@ class UserManager
     {
         $user = new User($dto->email, $dto->username, '');
 
-        $user->setPassword($this->encoder->encodePassword($user, $dto->plainPassword));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -96,7 +96,7 @@ class UserManager
         }
 
         if ($dto->plainPassword) {
-            $user->setPassword($this->encoder->encodePassword($user, $dto->plainPassword));
+            $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
         }
 
         if ($dto->email !== $user->email) {

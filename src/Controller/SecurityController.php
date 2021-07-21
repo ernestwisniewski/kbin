@@ -21,8 +21,6 @@ class SecurityController extends AbstractController
     }
 
     public function register(
-        GuardAuthenticatorHandler $guardHandler,
-        LoginAuthenticator $authenticator,
         UserManager $manager,
         Request $request
     ): Response {

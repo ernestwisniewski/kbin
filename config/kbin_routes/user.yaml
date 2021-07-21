@@ -69,47 +69,47 @@ user_delete:
   methods: [ POST ]
 
 user_profile_front:
-  controller: App\Controller\ProfileController::front
+  controller: App\Controller\User\ProfileController::front
   path: /profil
   methods: [ GET ]
 
 user_profile_notifications:
-  controller: App\Controller\ProfileController::notifications
+  controller: App\Controller\User\ProfileController::notifications
   path: /profil/notyfikacje
   methods: [ GET ]
 
 user_profile_notifications_read:
-  controller: App\Controller\ProfileController::readNotifications
+  controller: App\Controller\User\ProfileController::readNotifications
   path: /profil/notyfikacje/read
   methods: [ POST ]
 
 user_profile_notifications_clear:
-  controller: App\Controller\ProfileController::clearNotifications
+  controller: App\Controller\User\ProfileController::clearNotifications
   path: /profil/notyfikacje/clear
   methods: [ POST ]
 
 user_profile_magazine_blocks:
-  controller: App\Controller\ProfileController::blockedMagazines
+  controller: App\Controller\User\ProfileController::blockedMagazines
   path: /profil/blokady/magazyny
   methods: [ GET ]
 
 user_profile_user_blocks:
-  controller: App\Controller\ProfileController::blockedUsers
+  controller: App\Controller\User\ProfileController::blockedUsers
   path: /profil/blokady/ludzie
   methods: [ GET ]
 
 user_profile_magazine_subscriptions:
-  controller: App\Controller\ProfileController::subMagazines
+  controller: App\Controller\User\ProfileController::subMagazines
   path: /profil/Subskrypcje/magazyny
   methods: [ GET ]
 
 user_profile_user_subscriptions:
-  controller: App\Controller\ProfileController::subUsers
+  controller: App\Controller\User\ProfileController::subUsers
   path: /profil/Subskrypcje/ludzie
   methods: [ GET ]
 
 user_profile_settings:
-  controller: App\Controller\ProfileController::settings
+  controller: App\Controller\User\ProfileController::settings
   path: /profil/ustawienia
   methods: [ GET, POST ]
 
