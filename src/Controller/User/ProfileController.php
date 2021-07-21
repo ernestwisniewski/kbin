@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\User;
 
+use App\Controller\AbstractController;
 use App\Form\UserSettingsType;
 use App\Repository\MagazineRepository;
 use App\Repository\NotificationRepository;

@@ -16,7 +16,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class UserCommand extends Command
 {
     protected static $defaultName = 'kbin:user:create';
-    protected static string $defaultDescription = 'This command allows you to create or remove user account.';
 
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -29,7 +28,7 @@ class UserCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('This command allows you to create or remove user account.')
             ->addArgument('username', InputArgument::REQUIRED)
             ->addArgument('email', InputArgument::REQUIRED)
             ->addArgument('password', InputArgument::REQUIRED)
