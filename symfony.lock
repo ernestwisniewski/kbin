@@ -210,9 +210,6 @@
     "laminas/laminas-diactoros": {
         "version": "2.6.0"
     },
-    "laminas/laminas-eventmanager": {
-        "version": "3.3.1"
-    },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.2.0"
     },
