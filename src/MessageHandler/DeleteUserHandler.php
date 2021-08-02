@@ -15,11 +15,11 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\Message\DeleteUserMessage;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
+use App\Service\EntryCommentManagerInterface;
+use App\Service\EntryManagerInterface;
 use App\Service\MagazineManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
+use App\Service\PostCommentManagerInterface;
+use App\Service\PostManagerInterface;
 use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,10 +38,10 @@ class DeleteUserHandler implements MessageHandlerInterface
     public function __construct(
         private UserManager $userManager,
         private MagazineManager $magazineManager,
-        private EntryCommentManager $entryCommentManager,
-        private EntryManager $entryManager,
-        private PostCommentManager $postCommentManager,
-        private PostManager $postManager,
+        private EntryCommentManagerInterface $entryCommentManager,
+        private EntryManagerInterface $entryManager,
+        private PostCommentManagerInterface $postCommentManager,
+        private PostManagerInterface $postManager,
         private VoteManager $voteManager,
         private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager

@@ -19,7 +19,7 @@ https://symfony.com/doc/4.2/reference/requirements.html
 * GD or Imagemagick php extension
 * NGINX / Apache / Caddy
 * PostgreSQL
-* Mongodb (should be optional soon)
+* Mongodb (optional)
 * Mercure (optional)
 * RabbitMQ (optional)
 * Elasticsearch (optional)

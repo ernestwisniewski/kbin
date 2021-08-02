@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\DTO\EntryCommentDto;
 use App\Entity\EntryComment;
-use App\Service\EntryCommentManager;
+use App\Service\EntryCommentManagerInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -12,7 +12,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
 {
     const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
 
-    public function __construct(private EntryCommentManager $commentManager)
+    public function __construct(private EntryCommentManagerInterface $commentManager)
     {
     }
 

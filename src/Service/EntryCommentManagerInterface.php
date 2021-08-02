@@ -11,14 +11,14 @@ use App\Event\EntryComment\EntryCommentDeletedEvent;
 use App\Event\EntryComment\EntryCommentPurgedEvent;
 use App\Event\EntryComment\EntryCommentUpdatedEvent;
 use App\Factory\EntryCommentFactory;
-use App\Service\Contracts\ContentManager;
+use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
-class EntryCommentManager implements ContentManager
+class EntryCommentManagerInterface implements ContentManagerInterface
 {
     public function __construct(
         private EntryCommentFactory $factory,

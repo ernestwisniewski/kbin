@@ -12,6 +12,8 @@ use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Contracts\ContentNotificationInterface;
 use App\Service\Notification\EntryCommentNotificationManager;
 use App\Service\Notification\EntryNotificationManager;
 use App\Service\Notification\MessageNotificationManager;
@@ -29,6 +31,21 @@ class NotificationManager
         private MessageNotificationManager $messageNotificationManager,
         private EntityManagerInterface $entityManager
     ) {
+    }
+
+    public function sendCreated(ContentManagerInterface $manager)
+    {
+
+    }
+
+    public function sendDeleted(ContentManagerInterface $manager)
+    {
+
+    }
+
+    private function getManager(ContentManagerInterface $manager)
+    {
+
     }
 
     public function sendEntryCreatedNotification(Entry $entry): void

@@ -5,7 +5,7 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Service\EntryManager;
+use App\Service\EntryManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EntryPinController extends AbstractController
 {
     public function __construct(
-        private EntryManager $manager,
+        private EntryManagerInterface $manager,
     ) {
     }
 

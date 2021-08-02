@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\UserDto;
-use App\Form\UserType;
+use App\Form\UserRegisterType;
 use App\Repository\UserRepository;
 use App\Security\LoginAuthenticator;
 use App\Service\UserManager;
@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
 
         $userDto = new UserDto();
 
-        $form = $this->createForm(UserType::class, $userDto);
+        $form = $this->createForm(UserRegisterType::class, $userDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

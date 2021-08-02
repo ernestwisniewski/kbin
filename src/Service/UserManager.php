@@ -15,14 +15,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserManager
 {
     public function __construct(
         private UserFactory $factory,
         private UserPasswordHasherInterface $passwordHasher,
+        private TokenStorageInterface $tokenStorage,
+        private SessionInterface $session,
         private EventDispatcherInterface $dispatcher,
         private MessageBusInterface $bus,
         private EmailVerifier $verifier,
@@ -91,24 +95,34 @@ class UserManager
 
     public function edit(User $user, UserDto $dto): User
     {
-        if ($dto->avatar) {
-            $user->avatar = $dto->avatar;
-        }
+        $this->entityManager->beginTransaction();
+        $mailUpdated = false;
 
-        if ($dto->plainPassword) {
-            $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
-        }
+        try {
+            if ($dto->avatar) {
+                $user->avatar = $dto->avatar;
+            }
 
-        if ($dto->email !== $user->email) {
-            $user->isVerified = false;
-            $user->email      = $dto->email;
+            if ($dto->plainPassword) {
+                $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
+            }
+
+            if ($dto->email !== $user->email) {
+                $mailUpdated = true;
+                $user->isVerified = false;
+                $user->email      = $dto->email;
+            }
 
             $this->entityManager->flush();
-
-            $this->bus->dispatch(new UserUpdatedMessage($user->getId()));
+            $this->entityManager->commit();
+        } catch (\Exception $e) {
+            $this->entityManager->rollback();
+            throw $e;
         }
 
-        $this->entityManager->flush();
+        if($mailUpdated) {
+            $this->bus->dispatch(new UserUpdatedMessage($user->getId()));
+        }
 
         return $user;
     }
@@ -133,5 +147,11 @@ class UserManager
         $user->toggleTheme();
 
         $this->entityManager->flush();
+    }
+
+    public function logout(): void
+    {
+        $this->tokenStorage->setToken(null);
+        $this->session->invalidate();
     }
 }

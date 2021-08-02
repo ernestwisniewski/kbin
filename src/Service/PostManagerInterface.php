@@ -10,7 +10,7 @@ use App\Event\Post\PostCreatedEvent;
 use App\Event\Post\PostDeletedEvent;
 use App\Event\Post\PostUpdatedEvent;
 use App\Factory\PostFactory;
-use App\Service\Contracts\ContentManager;
+use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
-class PostManager implements ContentManager
+class PostManagerInterface implements ContentManagerInterface
 {
     public function __construct(
         private PostFactory $factory,
