@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\DTO\EntryDto;
 use App\Repository\ImageRepository;
-use App\Service\EntryManagerInterface;
+use App\Service\EntryManager;
 use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +15,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
     const ENTRIES_COUNT = MagazineFixtures::MAGAZINES_COUNT * 15;
 
     public function __construct(
-        private EntryManagerInterface $entryManager,
+        private EntryManager $entryManager,
         private ImageManager $imageManager,
         private ImageRepository $imageRepository,
         private EntityManagerInterface $entityManager

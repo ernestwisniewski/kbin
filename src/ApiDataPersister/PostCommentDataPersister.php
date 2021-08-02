@@ -5,13 +5,13 @@ namespace App\ApiDataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DTO\PostCommentDto;
 use App\Factory\PostCommentFactory;
-use App\Service\PostCommentManagerInterface;
+use App\Service\PostCommentManager;
 use Symfony\Component\Security\Core\Security;
 
 final class PostCommentDataPersister implements ContextAwareDataPersisterInterface
 {
     public function __construct(
-        private PostCommentManagerInterface $manager,
+        private PostCommentManager $manager,
         private PostCommentFactory $factory,
         private Security $security,
     ) {

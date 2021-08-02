@@ -7,20 +7,20 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Service\Contracts\ContentManagerInterface;
-use App\Service\EntryCommentManagerInterface;
-use App\Service\EntryManagerInterface;
-use App\Service\PostCommentManagerInterface;
-use App\Service\PostManagerInterface;
+use App\Service\EntryCommentManager;
+use App\Service\EntryManager;
+use App\Service\PostCommentManager;
+use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 
 class ContentManagerFactory
 {
     public function __construct(
-        private EntryManagerInterface $entryManager,
-        private EntryCommentManagerInterface $entryCommentManager,
-        private PostManagerInterface $postManager,
-        private PostCommentManagerInterface $postCommentManager,
+        private EntryManager $entryManager,
+        private EntryCommentManager $entryCommentManager,
+        private PostManager $postManager,
+        private PostCommentManager $postCommentManager,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -31,7 +31,7 @@ class ContentManagerFactory
             Entry::class => $this->entryManager,
             EntryComment::class => $this->entryCommentManager,
             Post::class => $this->postManager,
-            PostCommentManagerInterface::class => $this->postCommentManager,
+            PostCommentManager::class => $this->postCommentManager,
             default => throw new LogicException(),
         };
     }

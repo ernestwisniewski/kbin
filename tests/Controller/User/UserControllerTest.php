@@ -30,11 +30,11 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-main')->selectLink('Edytuj profil')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('button#user_password_submit')->form(
                 [
-                    'user[plainPassword][first]'  => 'supersecret',
-                    'user[plainPassword][second]' => 'supersecret',
-                    'user[agreeTerms]'            => true,
+                    'user_password[plainPassword][first]'  => 'supersecret',
+                    'user_password[plainPassword][second]' => 'supersecret',
+                    'user_password[agreeTerms]'            => true,
                 ]
             )
         );
@@ -68,12 +68,10 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-main')->selectLink('Edytuj profil')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('button#user_email_submit')->form(
                 [
-                    'user[email]'                 => 'ernest@karab.in',
-                    'user[agreeTerms]'            => true,
-                    'user[plainPassword][first]'  => 'secret',
-                    'user[plainPassword][second]' => 'secret',
+                    'user_email[email]'                 => 'ernest@karab.in',
+                    'user_email[agreeTerms]'            => true,
                 ]
             )
         );
@@ -118,8 +116,7 @@ class UserControllerTest extends WebTestCase
         );
 
         $crawler = $client->followRedirect();
-
+dd($crawler);
         $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
-
     }
 }

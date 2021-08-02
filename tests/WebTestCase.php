@@ -16,11 +16,11 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\Vote;
-use App\Service\EntryCommentManagerInterface;
-use App\Service\EntryManagerInterface;
+use App\Service\EntryCommentManager;
+use App\Service\EntryManager;
 use App\Service\MagazineManager;
-use App\Service\PostCommentManagerInterface;
-use App\Service\PostManagerInterface;
+use App\Service\PostCommentManager;
+use App\Service\PostManager;
 use App\Service\VoteManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,9 +43,9 @@ abstract class WebTestCase extends BaseWebTestCase
     public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null, ?EntryComment $parent = null): EntryComment
     {
         /**
-         * @var $manager EntryCommentManagerInterface
+         * @var $manager EntryCommentManager
          */
-        $manager = self::$container->get(EntryCommentManagerInterface::class);
+        $manager = self::$container->get(EntryCommentManager::class);
 
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
@@ -92,9 +92,9 @@ abstract class WebTestCase extends BaseWebTestCase
     private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
     {
         /**
-         * @var $manager EntryManagerInterface
+         * @var $manager EntryManager
          */
-        $manager = self::$container->get(EntryManagerInterface::class);
+        $manager = self::$container->get(EntryManager::class);
 
         $dto   = (new EntryDto())->create($magazine, $user, $title, $url, $body);
         $entry = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
@@ -123,9 +123,9 @@ abstract class WebTestCase extends BaseWebTestCase
     public function createPost(string $body, ?Magazine $magazine = null, ?User $user = null): Post
     {
         /**
-         * @var $manager PostManagerInterface
+         * @var $manager PostManager
          */
-        $manager = self::$container->get(PostManagerInterface::class);
+        $manager = self::$container->get(PostManager::class);
 
 
         $dto = (new PostDto())->create(
@@ -141,9 +141,9 @@ abstract class WebTestCase extends BaseWebTestCase
     public function createPostComment(string $body, Post $post, ?User $user = null): PostComment
     {
         /**
-         * @var $manager PostCommentManagerInterface
+         * @var $manager PostCommentManager
          */
-        $manager = self::$container->get(PostCommentManagerInterface::class);
+        $manager = self::$container->get(PostCommentManager::class);
 
         $dto = (new PostCommentDto())->create($post, $body);
 
@@ -249,13 +249,13 @@ abstract class WebTestCase extends BaseWebTestCase
 
         $entry   = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
         $comment = $this->createEntryComment('test', $entry, $actor);
-        (self::$container->get(EntryManagerInterface::class))->delete($owner, $entry);
-        (self::$container->get(EntryCommentManagerInterface::class))->delete($owner, $comment);
+        (self::$container->get(EntryManager::class))->delete($owner, $entry);
+        (self::$container->get(EntryCommentManager::class))->delete($owner, $comment);
 
         $post    = $this->createPost('test', $magazine, $actor);
         $comment = $this->createPostComment('test', $post, $actor);
-        (self::$container->get(PostManagerInterface::class))->delete($owner, $post);
-        (self::$container->get(PostCommentManagerInterface::class))->delete($owner, $comment);
+        (self::$container->get(PostManager::class))->delete($owner, $post);
+        (self::$container->get(PostCommentManager::class))->delete($owner, $comment);
 
         (self::$container->get(MagazineManager::class))->ban(
             $magazine,

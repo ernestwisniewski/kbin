@@ -11,7 +11,7 @@ use App\Form\EntryArticleType;
 use App\Form\EntryLinkType;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
-use App\Service\EntryManagerInterface;
+use App\Service\EntryManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class EntryController extends AbstractController
 {
     public function __construct(
-        private EntryManagerInterface $manager,
+        private EntryManager $manager,
     ) {
     }
 
