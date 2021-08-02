@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+<div class="mb-3">
+    {{ form_label(form.email, 'Email') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.email) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.agreeTerms, 'Zgoda na warunki i regulamin') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.agreeTerms, {name: 'Zgoda na warunki i regulamin'}) }}
+    </div>
+</div>
+
+<div class="mb-12 text-end">
+    {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+</div>
+{{ form_end(form) }}

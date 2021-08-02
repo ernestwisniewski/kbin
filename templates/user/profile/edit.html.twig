@@ -12,11 +12,21 @@
             <div class="row">
                 <h2 class="font-weight-bold">Edytuj profil</h2>
                 <div class="col-lg-6 mb-3">
-                    {% include 'user/profile/_form_user.html.twig' %}
+                    {% include 'user/profile/_form_basic.html.twig' with {'form': form_basic} %}
+                    <hr>
                 </div>
 
-                <h5 class="mb-3">Zmień hasło</h5>
-                <h5 class="mb-3">Zmień email</h5>
+                <h2 class="font-weight-bold">Zmień hasło</h2>
+                <div class="col-lg-6 mb-3">
+                    {% include 'user/profile/_form_password.html.twig' with {'form': form_password} %}
+                    <hr>
+                </div>
+
+                <h2 class="font-weight-bold">Zmień email</h2>
+                <div class="col-lg-6 mb-3">
+                    {% include 'user/profile/_form_email.html.twig' with {'form': form_email} %}
+                    <hr>
+                </div>
             </div>
         </div>
     </div>

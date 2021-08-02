@@ -12,7 +12,7 @@ use App\PageView\PostCommentPageView;
 use App\PageView\PostPageView;
 use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
-use App\Service\PostManager;
+use App\Service\PostManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class PostController extends AbstractController
 {
     public function __construct(
-        private PostManager $manager,
+        private PostManagerInterface $manager,
     ) {
     }
 

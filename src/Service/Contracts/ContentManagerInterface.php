@@ -2,6 +2,6 @@
 
 namespace App\Service\Contracts;
 
-interface ContentManager
+interface ContentManagerInterface
 {
 }

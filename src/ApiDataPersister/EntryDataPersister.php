@@ -5,13 +5,13 @@ namespace App\ApiDataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DTO\EntryDto;
 use App\Factory\EntryFactory;
-use App\Service\EntryManager;
+use App\Service\EntryManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
 final class EntryDataPersister implements ContextAwareDataPersisterInterface
 {
     public function __construct(
-        private EntryManager $manager,
+        private EntryManagerInterface $manager,
         private EntryFactory $factory,
         private Security $security,
     ) {

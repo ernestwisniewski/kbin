@@ -40,9 +40,6 @@ class UserControllerTest extends WebTestCase
         );
 
         $crawler = $client->followRedirect();
-        $crawler = $client->followRedirect();
-        $crawler = $client->request('GET', '/wyloguj');
-        $crawler = $client->followRedirect();
 
         $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();
@@ -92,9 +89,6 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        $crawler = $client->request('GET', '/wyloguj');
-        $crawler = $client->followRedirect();
-
         $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();
 
@@ -126,5 +120,6 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
+
     }
 }

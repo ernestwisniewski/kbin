@@ -11,14 +11,14 @@ use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Event\PostComment\PostCommentUpdatedEvent;
 use App\Factory\PostCommentFactory;
-use App\Service\Contracts\ContentManager;
+use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
-class PostCommentManager implements ContentManager
+class PostCommentManagerInterface implements ContentManagerInterface
 {
     public function __construct(
         private PostCommentFactory $factory,

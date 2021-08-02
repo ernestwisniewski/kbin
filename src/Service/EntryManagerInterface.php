@@ -11,7 +11,7 @@ use App\Event\Entry\EntryDeletedEvent;
 use App\Event\Entry\EntryPinEvent;
 use App\Event\Entry\EntryUpdatedEvent;
 use App\Factory\EntryFactory;
-use App\Service\Contracts\ContentManager;
+use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
-class EntryManager implements ContentManager
+class EntryManagerInterface implements ContentManagerInterface
 {
     public function __construct(
         private EntryFactory $factory,

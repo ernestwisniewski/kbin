@@ -50,11 +50,11 @@ class SecurityControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'user[username]'              => 'Ernest',
-                    'user[email]'                 => 'ernest@karab.in',
-                    'user[plainPassword][first]'  => 'secret',
-                    'user[plainPassword][second]' => 'secret',
-                    'user[agreeTerms]'            => true,
+                    'user_register[username]'              => 'Ernest',
+                    'user_register[email]'                 => 'ernest@karab.in',
+                    'user_register[plainPassword][first]'  => 'secret',
+                    'user_register[plainPassword][second]' => 'secret',
+                    'user_register[agreeTerms]'            => true,
                 ]
             )
         );

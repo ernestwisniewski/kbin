@@ -3,11 +3,11 @@
 namespace App\Tests\Controller;
 
 use App\DTO\MagazineBanDto;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
+use App\Service\EntryCommentManagerInterface;
+use App\Service\EntryManagerInterface;
 use App\Service\MagazineManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
+use App\Service\PostCommentManagerInterface;
+use App\Service\PostManagerInterface;
 use App\Tests\WebTestCase;
 
 class ModlogControllerTest extends WebTestCase

@@ -10,7 +10,7 @@ use App\Entity\Magazine;
 use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
-use App\Service\EntryCommentManager;
+use App\Service\EntryCommentManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EntryCommentController extends AbstractController
 {
     public function __construct(
-        private EntryCommentManager $manager,
+        private EntryCommentManagerInterface $manager,
         private EntryCommentRepository $repository,
     ) {
     }
