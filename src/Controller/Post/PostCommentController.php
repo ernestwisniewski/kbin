@@ -10,7 +10,7 @@ use App\Entity\PostComment;
 use App\Form\PostCommentType;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
-use App\Service\PostCommentManagerInterface;
+use App\Service\PostCommentManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostCommentController extends AbstractController
 {
-    public function __construct(private PostCommentManagerInterface $manager, private PostCommentRepository $repository)
+    public function __construct(private PostCommentManager $manager, private PostCommentRepository $repository)
     {
     }
 

@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
-class EntryCommentManagerInterface implements ContentManagerInterface
+class EntryCommentManager implements ContentManagerInterface
 {
     public function __construct(
         private EntryCommentFactory $factory,

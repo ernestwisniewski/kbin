@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\DTO\PostDto;
-use App\Service\PostManagerInterface;
+use App\Service\PostManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use ForceUTF8\Encoding;
@@ -13,7 +13,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
     const ENTRIES_COUNT = MagazineFixtures::MAGAZINES_COUNT * 15;
 
     public function __construct(
-        private PostManagerInterface $postManager,
+        private PostManager $postManager,
     ) {
     }
 
