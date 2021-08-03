@@ -24,6 +24,6 @@ class SentEntryCreatedNotificationHandler implements MessageHandlerInterface
             throw new UnrecoverableMessageHandlingException('Entry not found');
         }
 
-        $this->manager->sendEntryCreatedNotification($entry);
+        $this->manager->sendCreated($entry);
     }
 }

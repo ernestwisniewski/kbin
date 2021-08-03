@@ -3,6 +3,7 @@
 namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\PostComment;
 use App\Entity\PostCommentCreatedNotification;
 use App\Entity\PostCommentDeletedNotification;
@@ -11,6 +12,7 @@ use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
@@ -18,7 +20,7 @@ use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 use function count;
 
-class PostCommentNotificationManager
+class PostCommentNotificationManager implements ContentNotificationManagerInterface
 {
     use NotificationTrait;
 
@@ -33,10 +35,24 @@ class PostCommentNotificationManager
     ) {
     }
 
-    public function sendCreated(PostComment $comment): void
+    public function sendCreated(ContentInterface $subject): void
     {
-        $user = $this->sendUserReplyNotification($comment);
-        $this->sendMagazineSubscribersNotification($comment, $user);
+        /**
+         * @var PostComment $subject
+         */
+        $user = $this->sendUserReplyNotification($subject);
+        $this->sendMagazineSubscribersNotification($subject, $user);
+    }
+
+    public function sendDeleted(ContentInterface $subject): void
+    {
+        /**
+         * @var PostComment $subject
+         */
+        $notification = new PostCommentDeletedNotification($subject->getUser(), $subject);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
     }
 
     public function sendMagazineSubscribersNotification(PostComment $comment, ?User $exclude): void
@@ -137,13 +153,5 @@ class PostCommentNotificationManager
                 'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
-    }
-
-    public function sendDeleted(PostComment $comment): void
-    {
-        $notification = new PostCommentDeletedNotification($comment->getUser(), $comment);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
     }
 }

@@ -24,6 +24,6 @@ class SentPostCommentCreatedNotificationHandler implements MessageHandlerInterfa
             throw new UnrecoverableMessageHandlingException('Comment not found');
         }
 
-        $this->manager->sendPostCommentCreatedNotification($comment);
+        $this->manager->sendCreated($comment);
     }
 }

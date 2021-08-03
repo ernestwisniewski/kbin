@@ -3,11 +3,13 @@
 namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Entry;
 use App\Entity\EntryCreatedNotification;
 use App\Entity\EntryDeletedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
@@ -15,7 +17,7 @@ use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 use function count;
 
-class EntryNotificationManager
+class EntryNotificationManager implements ContentNotificationManagerInterface
 {
     use NotificationTrait;
 
@@ -29,20 +31,34 @@ class EntryNotificationManager
     ) {
     }
 
-    public function sendCreated(Entry $entry): void
+    public function sendCreated(ContentInterface $subject): void
     {
-        $this->notifyMagazine(new EntryCreatedNotification($entry->user, $entry));
+        /**
+         * @var Entry $subject
+         */
+        $this->notifyMagazine(new EntryCreatedNotification($subject->user, $subject));
 
-        $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($entry));
+        $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($subject));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
 
         foreach ($usersToNotify as $subscriber) {
-            $notification = new EntryCreatedNotification($subscriber, $entry);
+            $notification = new EntryCreatedNotification($subscriber, $subject);
             $this->entityManager->persist($notification);
         }
 
+        $this->entityManager->flush();
+    }
+
+    public function sendDeleted(ContentInterface $subject): void
+    {
+        /**
+         * @var Entry $subject
+         */
+        $notification = new EntryDeletedNotification($subject->getUser(), $subject);
+
+        $this->entityManager->persist($notification);
         $this->entityManager->flush();
     }
 
@@ -72,13 +88,5 @@ class EntryNotificationManager
                 'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
-    }
-
-    public function sendDeleted(Entry $entry): void
-    {
-        $notification = new EntryDeletedNotification($entry->getUser(), $entry);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
     }
 }

@@ -116,7 +116,7 @@ class UserControllerTest extends WebTestCase
         );
 
         $crawler = $client->followRedirect();
-dd($crawler);
+
         $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
     }
 }
