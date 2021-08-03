@@ -24,6 +24,6 @@ class SentEntryDeletedNotificationHandler implements MessageHandlerInterface
             throw new UnrecoverableMessageHandlingException('Entry not found');
         }
 
-        $this->manager->sendEntryDeletedNotification($entry);
+        $this->manager->sendDeleted($entry);
     }
 }

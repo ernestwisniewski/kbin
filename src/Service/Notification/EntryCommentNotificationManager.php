@@ -3,6 +3,7 @@
 namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\EntryComment;
 use App\Entity\EntryCommentCreatedNotification;
 use App\Entity\EntryCommentDeletedNotification;
@@ -11,13 +12,14 @@ use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 
-class EntryCommentNotificationManager
+class EntryCommentNotificationManager implements ContentNotificationManagerInterface
 {
     use NotificationTrait;
 
@@ -32,10 +34,24 @@ class EntryCommentNotificationManager
     ) {
     }
 
-    public function sendCreated(EntryComment $comment): void
+    public function sendCreated(ContentInterface $subject): void
     {
-        $user = $this->sendUserReplyNotification($comment);
-        $this->sendMagazineSubscribersNotification($comment, $user);
+        /**
+         * @var EntryComment $subject
+         */
+        $user = $this->sendUserReplyNotification($subject);
+        $this->sendMagazineSubscribersNotification($subject, $user);
+    }
+
+    public function sendDeleted(ContentInterface $subject): void
+    {
+        /**
+         * @var EntryComment $subject
+         */
+        $notification = new EntryCommentDeletedNotification($subject->getUser(), $subject);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
     }
 
     private function sendMagazineSubscribersNotification(EntryComment $comment, ?User $exclude): void
@@ -136,13 +152,5 @@ class EntryCommentNotificationManager
                 'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
-    }
-
-    public function sendDeleted(EntryComment $comment): void
-    {
-        $notification = new EntryCommentDeletedNotification($comment->getUser(), $comment);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
     }
 }

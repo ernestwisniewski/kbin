@@ -2,90 +2,33 @@
 
 namespace App\Service;
 
-use App\Entity\Entry;
-use App\Entity\EntryComment;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\MagazineBan;
 use App\Entity\MagazineBanNotification;
 use App\Entity\Message;
 use App\Entity\MessageNotification;
 use App\Entity\Notification;
-use App\Entity\Post;
-use App\Entity\PostComment;
 use App\Entity\User;
-use App\Service\Contracts\ContentManagerInterface;
-use App\Service\Contracts\ContentNotificationInterface;
-use App\Service\Notification\EntryCommentNotificationManager;
-use App\Service\Notification\EntryNotificationManager;
 use App\Service\Notification\MessageNotificationManager;
-use App\Service\Notification\PostCommentNotificationManager;
-use App\Service\Notification\PostNotificationManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class NotificationManager
 {
     public function __construct(
-        private EntryNotificationManager $entryNotificationManager,
-        private EntryCommentNotificationManager $entryCommentNotificationManager,
-        private PostNotificationManager $postNotificationManager,
-        private PostCommentNotificationManager $postCommentNotificationManager,
+        private NotificationManagerTypeResolver $resolver,
         private MessageNotificationManager $messageNotificationManager,
         private EntityManagerInterface $entityManager
     ) {
     }
 
-    public function sendCreated(ContentManagerInterface $manager)
+    public function sendCreated(ContentInterface $subject): void
     {
-
+        ($this->resolver->resolve($subject))->sendCreated($subject);
     }
 
-    public function sendDeleted(ContentManagerInterface $manager)
+    public function sendDeleted(ContentInterface $subject): void
     {
-
-    }
-
-    private function getManager(ContentManagerInterface $manager)
-    {
-
-    }
-
-    public function sendEntryCreatedNotification(Entry $entry): void
-    {
-        $this->entryNotificationManager->sendCreated($entry);
-    }
-
-    public function sendEntryDeletedNotification(Entry $entry): void
-    {
-        $this->entryNotificationManager->sendDeleted($entry);
-    }
-
-    public function sendEntryCommentCreatedNotification(EntryComment $comment): void
-    {
-        $this->entryCommentNotificationManager->sendCreated($comment);
-    }
-
-    public function sendEntryCommentDeletedNotification(EntryComment $comment): void
-    {
-        $this->entryCommentNotificationManager->sendDeleted($comment);
-    }
-
-    public function sendPostCreatedNotification(Post $post): void
-    {
-        $this->postNotificationManager->sendCreated($post);
-    }
-
-    public function sendPostDeletedNotification(Post $post): void
-    {
-        $this->postNotificationManager->sendDeleted($post);
-    }
-
-    public function sendPostCommentCreatedNotification(PostComment $comment): void
-    {
-        $this->postCommentNotificationManager->sendCreated($comment);
-    }
-
-    public function sendPostCommentDeletedNotification(PostComment $comment): void
-    {
-        $this->postCommentNotificationManager->sendDeleted($comment);
+        ($this->resolver->resolve($subject))->sendDeleted($subject);
     }
 
     public function sendMessageNotification(Message $message, User $sender): void

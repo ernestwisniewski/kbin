@@ -2,6 +2,6 @@
 
 namespace App\Service\Contracts;
 
-interface ContentManagerInterface extends ManagerInterface
+interface ManagerInterface
 {
 }

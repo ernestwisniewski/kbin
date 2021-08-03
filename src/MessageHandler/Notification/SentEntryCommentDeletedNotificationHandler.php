@@ -24,6 +24,6 @@ class SentEntryCommentDeletedNotificationHandler implements MessageHandlerInterf
             throw new UnrecoverableMessageHandlingException('Comment not found');
         }
 
-        $this->manager->sendEntryCommentDeletedNotification($comment);
+        $this->manager->sendDeleted($comment);
     }
 }

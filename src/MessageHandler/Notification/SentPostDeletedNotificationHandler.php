@@ -16,7 +16,7 @@ class SentPostDeletedNotificationHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(PostDeletedNotificationMessage $message)
+    public function __invoke(PostDeletedNotificationMessage $message): void
     {
         $post = $this->repository->find($message->postId);
 
@@ -24,6 +24,6 @@ class SentPostDeletedNotificationHandler implements MessageHandlerInterface
             throw new UnrecoverableMessageHandlingException('Post not found');
         }
 
-        $this->manager->sendPostDeletedNotification($post);
+        $this->manager->sendDeleted($post);
     }
 }

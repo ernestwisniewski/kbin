@@ -24,6 +24,6 @@ class SentPostCreatedNotificationHandler implements MessageHandlerInterface
             throw new UnrecoverableMessageHandlingException('Post not found');
         }
 
-        $this->manager->sendPostCreatedNotification($post);
+        $this->manager->sendCreated($post);
     }
 }
