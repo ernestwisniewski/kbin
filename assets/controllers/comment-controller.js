@@ -56,25 +56,49 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
+            let id = event.target.closest('blockquote').dataset.commentIdValue;
             let level = event.target.closest('blockquote').dataset.commentLevelValue;
 
+            // Create element
             let div = document.createElement('div');
             div.innerHTML = response.html;
 
+            // Edit node
             if (edit) {
                 div.firstElementChild.classList.add('kbin-comment-level--' + level);
                 event.target.closest('blockquote').replaceWith(div);
+
                 return;
             }
 
+            // Create node
             level = (level >= 7 ? 7 : parseInt(level) + 1);
-            div.firstElementChild.classList.add('kbin-comment-level--' + level)
+            div.firstElementChild.classList.add('kbin-comment-level--' + level);
             div.firstElementChild.dataset.commentLevelValue = level;
 
-            event.target
+            let children = event.target
                 .closest('blockquote')
                 .parentNode
-                .insertBefore(div.firstElementChild, event.target.closest('blockquote').nextSibling);
+                .querySelectorAll(`[data-comment-parent-value='${id}']`);
+
+            if (children.length) {
+                let child = children[children.length - 1];
+
+                while (true) {
+                    if (!child.nextElementSibling.dataset.commentLevelValue || (child.nextElementSibling.dataset.commentLevelValue <= Number(level))) {
+                        break;
+                    }
+
+                    child = child.nextElementSibling;
+                }
+
+                child.parentNode.insertBefore(div.firstElementChild, child.nextSibling);
+            } else {
+                event.target
+                    .closest('blockquote')
+                    .parentNode
+                    .insertBefore(div.firstElementChild, event.target.closest('blockquote').nextSibling);
+            }
 
             event.target.parentNode.innerHTML = ''
         } catch (e) {
