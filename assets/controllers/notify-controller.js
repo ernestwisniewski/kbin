@@ -9,21 +9,25 @@ export default class extends ApplicationController {
 
     connect() {
         let url = '*';
-        if (this.hasMagazineNameValue) {
-            url = '/api/magazines/' + this.magazineNameValue;
-        }
+        // if (this.hasMagazineNameValue) {
+        //     url = '/api/magazines/' + this.magazineNameValue;
+        // }
 
         let self = this;
-        Subscribe(url, function (e) {
-            let data = JSON.parse(e.data);
-            self.toast(data.html);
+        if(document.subscribed === undefined){
+            Subscribe(url, function (e) {
+                let data = JSON.parse(e.data);
+                self.toast(data.html);
 
-            self.dispatch(data.op, data);
+                self.dispatch(data.op, data);
 
-            if(data.op.includes('Notification')) {
-                self.dispatch('Notification', data);
-            }
-        });
+                if(data.op.includes('Notification')) {
+                    self.dispatch('Notification', data);
+                }
+            });
+
+            document.subscribed = true;
+        }
     }
 
     toast(html) {
