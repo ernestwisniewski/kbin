@@ -66,6 +66,7 @@ export default class extends Controller {
             // Edit node
             if (edit) {
                 div.firstElementChild.classList.add('kbin-comment-level--' + level);
+                div.firstElementChild.dataset.commentLevelValue = level;
                 event.target.closest('blockquote').replaceWith(div);
 
                 return;

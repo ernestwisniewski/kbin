@@ -15,6 +15,12 @@
             </style>
         {% endif %}
     {% endblock %}
+
+    {% block javascripts %}
+        {% if kbin_js_enabled %}
+            {{ encore_entry_script_tags('app') }}
+        {% endif %}
+    {% endblock %}
 </head>
 <body data-controller="kbin notify-counter"
       data-action="notify:Notification->notify-counter#notification"
@@ -32,13 +38,11 @@
                     {% block body %}{% endblock %}
                 </main>
             </div>
-            <div class="col-lg-3">
-                <aside class="kbin-sidebar">
-                    {% block sidebar %}
-                        {% include '_layout/_sidebar.html.twig' %}
-                    {% endblock %}
-                </aside>
-            </div>
+            <aside class="col-lg-3 kbin-sidebar">
+                {% block sidebar %}
+                    {% include '_layout/_sidebar.html.twig' %}
+                {% endblock %}
+            </aside>
         </div>
     </section>
     {% include '_layout/_footer.html.twig' %}
@@ -49,12 +53,5 @@
         </div>
     </div>
 </div>
-
-{% block javascripts %}
-    {% if kbin_js_enabled %}
-        {{ encore_entry_script_tags('app') }}
-    {% endif %}
-{% endblock %}
-
 </body>
 </html>
