@@ -14,6 +14,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Traversable;
 use Webmozart\Assert\Assert;
 
@@ -67,6 +68,7 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     public ?PostComment $parent;
     /**
      * @ORM\OneToMany(targetEntity="PostComment", mappedBy="parent", orphanRemoval=true)
+     * @OrderBy({"id" = "ASC"})
      */
     public Collection $children;
     /**

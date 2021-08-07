@@ -15,7 +15,6 @@ use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
-use function count;
 
 class EntryNotificationManager implements ContentNotificationManagerInterface
 {
@@ -64,11 +63,12 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
 
     private function notifyMagazine(EntryCreatedNotification $notification): void
     {
+        $this->getResponse($notification);
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->entry->magazine));
 
             $update = new Update(
-                $iri,
+                ['pub', $iri],
                 $this->getResponse($notification)
             );
 
@@ -82,10 +82,15 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     {
         return json_encode(
             [
-                'op'   => 'EntryNotification',
-                'id'   => $notification->entry->getId(),
-                'data' => [],
-                'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'op'           => 'EntryNotification',
+                'id'           => $notification->entry->getId(),
+                'data'         => [
+                    'magazine' => [
+                        'name' => $notification->entry->magazine->name,
+                    ],
+                ],
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'html'         => $this->twig->render('entry/__entry.html.twig', ['entry' => $notification->entry]),
             ]
         );
     }

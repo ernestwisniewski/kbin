@@ -9,6 +9,12 @@ export default class Keditor {
         document.querySelectorAll('.kbin-editor').forEach(el => {
             this.build(el)
         });
+
+        document.addEventListener('turbo:load', (event) => {
+            event.target.querySelectorAll('.kbin-editor').forEach(el => {
+                this.build(el)
+            });
+        });
     }
 
     build(el, focus = false) {

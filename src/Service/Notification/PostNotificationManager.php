@@ -86,7 +86,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
                 'op'   => 'PostNotification',
                 'id'   => $post->getId(),
                 'data' => [],
-                'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

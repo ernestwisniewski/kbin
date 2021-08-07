@@ -1,7 +1,9 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 {% from 'entry/_macros.html.twig' import entry %}
 
-<div class="kbin-entry-list">
+<div class="kbin-entry-list" data-controller="entry-list"
+    data-action="notify:Notification@window->entry-list#add"
+    {% if magazine is defined and magazine %}data-entry-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if entries|length %}
         {% for entry in entries %}
             {{ entry(entry, {

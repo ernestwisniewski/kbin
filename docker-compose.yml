@@ -66,15 +66,12 @@ services:
       - db-data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
     ports:
       - "5433:5432"
+###< doctrine/doctrine-bundle ###
 
 volumes:
   php_socket:
   caddy_data:
   caddy_config:
-
-###> doctrine/doctrine-bundle ###
   db-data:
-###< doctrine/doctrine-bundle ###

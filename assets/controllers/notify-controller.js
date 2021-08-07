@@ -1,33 +1,54 @@
 import bootstrap from "bootstrap/dist/js/bootstrap.min";
 import {ApplicationController} from 'stimulus-use'
-import Subscribe from '../utils/notification';
+import Subscribe from '../event-source';
 
 export default class extends ApplicationController {
     static values = {
-        magazineName: String
+        magazineName: String,
+        username: String
     };
 
     connect() {
-        let url = '*';
-        // if (this.hasMagazineNameValue) {
-        //     url = '/api/magazines/' + this.magazineNameValue;
-        // }
+        this.es(
+            this.getTopics()
+        );
+    }
+
+    es(topics) {
+        if (document.es !== undefined) {
+            document.es.close();
+        }
 
         let self = this;
-        if(document.subscribed === undefined){
-            Subscribe(url, function (e) {
-                let data = JSON.parse(e.data);
-                self.toast(data.html);
+        document.es = Subscribe(topics, function (e) {
+            let data = JSON.parse(e.data);
+            self.toast(data.toast);
 
-                self.dispatch(data.op, data);
+            self.dispatch(data.op, data);
 
-                if(data.op.includes('Notification')) {
-                    self.dispatch('Notification', data);
-                }
-            });
+            if (data.op.includes('Notification')) {
+                self.dispatch('Notification', data);
+            }
 
-            document.subscribed = true;
+            if (data.op === 'EntryNotification') {
+                self.dispatch('EntryNotification', data);
+            }
+        });
+    }
+
+    getTopics() {
+        let topics = [
+            'pub',
+        ];
+
+        if (this.hasUsernameValue) {
+            topics = [
+                `/api/magazines/${this.HasMagazineNameValue ? this.magazineNameValue : '{id}'}`,
+                `/api/user/${this.usernameValue}`,
+            ]
         }
+
+        return topics;
     }
 
     toast(html) {

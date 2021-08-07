@@ -9,6 +9,12 @@ export default class KChoices {
         document.querySelectorAll('.kbin-choices').forEach(el => {
             this.build(el);
         });
+
+        document.addEventListener('turbo:load', (event) => {
+            event.target.querySelectorAll('.kbin-choices').forEach(el => {
+                this.build(el);
+            });
+        });
     }
 
     build(el) {

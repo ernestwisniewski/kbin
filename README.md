@@ -13,7 +13,7 @@ This is a very early beta version, and a lot of features are currently broken or
 
 ### Requirements
 
-https://symfony.com/doc/4.2/reference/requirements.html
+https://symfony.com/doc/5.3/reference/requirements.html
 
 * PHP version: 8.0 or higher
 * GD or Imagemagick php extension
