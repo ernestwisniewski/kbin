@@ -4,16 +4,26 @@ import {Datepicker} from 'vanillajs-datepicker';
 export default class KChoices {
     constructor() {
         Object.assign(Datepicker.locales, this.getLocale());
+
         document.querySelectorAll('.kbin-date').forEach(el => {
-            let minDate = el.classList.contains('kbin-ban') ? Date.now() : null;
-            new Datepicker(el, {
-                format: 'yyyy-mm-dd 00:00',
-                minDate: minDate,
-                language: "pl"
-            })
+            this.build(el);
+        });
+        
+        document.addEventListener('turbo:load', (event) => {
+            event.target.querySelectorAll('.kbin-date').forEach(el => {
+                this.build(el);
+            });
         });
     }
 
+    build(el) {
+        let minDate = el.classList.contains('kbin-ban') ? Date.now() : null;
+        new Datepicker(el, {
+            format: 'yyyy-mm-dd 00:00',
+            minDate: minDate,
+            language: "pl"
+        })
+    }
     getLocale() {
         return {
             pl: {

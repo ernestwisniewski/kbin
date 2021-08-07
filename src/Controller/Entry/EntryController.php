@@ -40,7 +40,7 @@ class EntryController extends AbstractController
         Request $request
     ): Response {
         $criteria = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->showSortOption($sortBy);
+        $criteria->showSortOption($criteria->translateSort($sortBy));
         $criteria->entry = $entry;
 
         $comments = $repository->findByCriteria($criteria);

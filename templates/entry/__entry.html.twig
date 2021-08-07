@@ -1,0 +1,8 @@
+{% from 'entry/_macros.html.twig' import entry %}
+
+{{ entry(entry, {
+    entry: entry,
+    self: app.user,
+    extra_classes: 'kbin-entry-list-item',
+    title_tag: 'h4'
+}) }}

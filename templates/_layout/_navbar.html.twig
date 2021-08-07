@@ -89,9 +89,10 @@
                     {% endif %}
                 </ul>
 
-                <ul class="kbin-nav-navbar navbar-nav  mb-2 mb-lg-0 float-lg-end"
+                <ul class="kbin-nav-navbar navbar-nav mb-2 mb-lg-0 float-lg-end"
                     data-controller="notify"
-                    {% if magazine is defined and magazine %}data-notify-magazine-name-value="{{ magazine.name }}"{% endif %}>
+                    {% if magazine is defined and magazine %}data-notify-magazine-name-value="{{ magazine.name }}"{% endif %}
+                        {% if app.user %}data-notify-username-value="{{ app.user.username }}"{% endif %}>
                     {% if app.user %}
                         <li class="kbin-nav-navbar-item {{ app.user.countNewNotifications > 0 ? '' : 'visually-hidden' }}"
                             data-notify-counter-target="notifications">

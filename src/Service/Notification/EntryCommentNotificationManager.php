@@ -54,58 +54,6 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         $this->entityManager->flush();
     }
 
-    private function sendMagazineSubscribersNotification(EntryComment $comment, ?User $exclude): void
-    {
-        $this->notifyMagazine(new EntryCommentCreatedNotification($comment->user, $comment));
-
-        $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($comment->entry));
-        $followers = [];
-
-        $usersToNotify = $this->merge($subs, $followers);
-
-        if($comment->entry->user->notifyOnNewEntryReply) {
-            $usersToNotify = $this->merge($usersToNotify, [$comment->entry->user]);
-        }
-
-        if($exclude) {
-            $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
-        }
-
-        foreach ($usersToNotify as $subscriber) {
-            $notification = new EntryCommentCreatedNotification($subscriber, $comment);
-            $this->entityManager->persist($notification);
-        }
-
-        $this->entityManager->flush();
-    }
-
-    private function notifyMagazine(EntryCommentCreatedNotification $notification): void
-    {
-        try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
-
-            $update = new Update(
-                $iri,
-                $this->getCreatedResponse($notification)
-            );
-
-            ($this->publisher)($update);
-
-        } catch (Exception $e) {
-        }
-    }
-
-    private function getCreatedResponse(EntryCommentCreatedNotification $notification): string
-    {
-        return json_encode(
-            [
-                'op'   => 'EntryCommentNotification',
-                'id'   => $notification->getComment()->getId(),
-                'data' => [],
-                'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-            ]
-        );
-    }
 
     private function sendUserReplyNotification(EntryComment $comment): ?User
     {
@@ -113,7 +61,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
             return null;
         }
 
-        if(!$comment->parent->user->notifyOnNewEntryCommentReply) {
+        if (!$comment->parent->user->notifyOnNewEntryCommentReply) {
             return null;
         }
 
@@ -149,7 +97,58 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
                 'op'   => 'EntryCommentReplyNotification',
                 'id'   => $notification->getComment()->getId(),
                 'data' => [],
-                'html' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+            ]
+        );
+    }
+
+    private function sendMagazineSubscribersNotification(EntryComment $comment, ?User $exclude): void
+    {
+        $this->notifyMagazine(new EntryCommentCreatedNotification($comment->user, $comment));
+
+        // @todo user followers
+        $usersToNotify = [];
+
+        if ($comment->entry->user->notifyOnNewEntryReply && !$comment->isAuthor($comment->entry->user)) {
+            $usersToNotify = $this->merge($usersToNotify, [$comment->entry->user]);
+        }
+
+        if($exclude){
+            $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
+        }
+
+        foreach ($usersToNotify as $subscriber) {
+            $notification = new EntryCommentCreatedNotification($subscriber, $comment);
+            $this->entityManager->persist($notification);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    private function notifyMagazine(EntryCommentCreatedNotification $notification): void
+    {
+        try {
+            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
+
+            $update = new Update(
+                ['pub', $iri],
+                $this->getCreatedResponse($notification)
+            );
+
+            ($this->publisher)($update);
+
+        } catch (Exception $e) {
+        }
+    }
+
+    private function getCreatedResponse(EntryCommentCreatedNotification $notification): string
+    {
+        return json_encode(
+            [
+                'op'   => 'EntryCommentNotification',
+                'id'   => $notification->getComment()->getId(),
+                'data' => [],
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
