@@ -15,7 +15,13 @@
                         {% for thread in threads %}
                             <tr>
                                 <td class="{{ thread.countNewMessages(app.user) ? '' : 'opacity-50' }}">{{ block('message') }}</td>
-                                <td class="text-end"><small class="text-muted">{{ thread.updatedAt|ago }}</small></td>
+                                <td class="text-end">
+                                    <small class="text-muted">
+                                        <time data-controller="timeago"
+                                              data-timeago-refresh-interval-value="10000"
+                                              data-timeago-datetime-value="{{ thread.updatedAt|date('c') }}">{{ thread.updatedAt|ago }}</time>
+                                    </small>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

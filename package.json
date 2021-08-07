@@ -33,6 +33,7 @@
         "stimulus-content-loader": "^2.1.0",
         "stimulus-reveal-controller": "^2.0.0",
         "stimulus-scroll-progress": "^2.0.0",
+        "stimulus-timeago": "^3.0.0",
         "stimulus-use": "^0.23.0",
         "vanillajs-datepicker": "^1.1.2"
     }

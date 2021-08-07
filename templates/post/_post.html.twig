@@ -26,7 +26,9 @@
                             {% endif %}
                             {% if post.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
                             <small class="text-muted">dodany
-                                <time>{{ post.createdAt|ago }}</time>
+                                <time data-controller="timeago"
+                                      data-timeago-refresh-interval-value="10000"
+                                      data-timeago-datetime-value="{{ post.createdAt|date('c') }}">{{ post.createdAt|ago }}</time>
                             </small>
                             {% if not is_post_page() %}
                         </a>

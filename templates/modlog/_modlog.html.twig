@@ -13,7 +13,13 @@
                     {% for log in logs %}
                         <tr>
                             <td>{{ block(log.type) }}</td>
-                            <td class="text-end text-"><small class="text-muted">{{ log.createdAt|ago }}</small></td>
+                            <td class="text-end text-">
+                                <small class="text-muted">
+                                    <time data-controller="timeago"
+                                          data-timeago-refresh-interval-value="10000"
+                                          data-timeago-datetime-value="{{ log.createdAt|date('c') }}">{{ log.createdAt|ago }}</time>
+                                </small>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

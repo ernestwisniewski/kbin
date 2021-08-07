@@ -11,7 +11,9 @@
             <ul class="kbin-comment-meta-list list-inline m-0">
                 <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
                     <small class="text-muted">przez {{ user(message.sender, {prefix: false, bolded: true}) }} {# @todo bold username #}
-                        {{ message.createdAt|ago }}
+                        <time data-controller="timeago"
+                              data-timeago-refresh-interval-value="10000"
+                              data-timeago-datetime-value="{{ message.createdAt|date('c') }}">{{ message.createdAt|ago }}</time>
                     </small>
                 </li>
             </ul>
