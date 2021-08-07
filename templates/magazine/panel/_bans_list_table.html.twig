@@ -16,7 +16,9 @@
             <tr>
                 <td>{{ user(ban.user) }}</td>
                 <td>{{ ban.reason }}</td>
-                <td>{{ ban.createdAt|ago }}</td>
+                <td><time data-controller="timeago"
+                          data-timeago-refresh-interval-value="10000"
+                          data-timeago-datetime-value="{{ ban.createdAt|date('c') }}">{{ ban.createdAt|ago }}</time></td>
                 <td>{{ ban.expiredAt ? ban.expiredAt|ago : 'Nigdy' }}</td>
                 <td>
                     <form action="{{ path('magazine_panel_unban', {magazine_name: ban.magazine.name, user_username: ban.user.username}) }}"

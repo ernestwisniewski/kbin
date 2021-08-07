@@ -35,7 +35,9 @@
                     <ul class="kbin-entry-meta-list list-inline mb-0">
                         <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
                             <small class="text-muted">dodany
-                                <time>{{ entry.createdAt|ago }}</time>
+                                <time data-controller="timeago"
+                                      data-timeago-refresh-interval-value="10000"
+                                      data-timeago-datetime-value="{{ entry.createdAt|date('c') }}">{{ entry.createdAt|ago }}</time>
                             </small>
                         </li>
 

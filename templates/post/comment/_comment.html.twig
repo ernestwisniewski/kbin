@@ -30,7 +30,9 @@
                             <a href="{{ post_url(comment.post) }}">
                                 {% endif %}
                                 <small class="text-muted">dodany
-                                    <time>{{ comment.createdAt|ago }}</time>
+                                    <time data-controller="timeago"
+                                          data-timeago-refresh-interval-value="10000"
+                                          data-timeago-datetime-value="{{ comment.createdAt|date('c') }}">{{ comment.createdAt|ago }}</time>
                                 </small>
                                 {% if not is_post_page() %}
                             </a>

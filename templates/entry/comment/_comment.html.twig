@@ -33,7 +33,9 @@
                         {% endif %}
                         <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
                             <small class="text-muted">dodany
-                                <time>{{ comment.createdAt|ago }}</time>
+                                <time data-controller="timeago"
+                                data-timeago-refresh-interval-value="10000"
+                                data-timeago-datetime-value="{{ comment.createdAt|date('c') }}">{{ comment.createdAt|ago }}</time>
                             </small>
                         </li>
                         {% if not is_entry_page() %}

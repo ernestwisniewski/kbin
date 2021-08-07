@@ -16,7 +16,9 @@
         {% for moderator in moderators %}
             <tr>
                 <td>{{ user(moderator.user) }}</td>
-                <td>{{ moderator.createdAt|ago }}</td>
+                <td><time data-controller="timeago"
+                          data-timeago-refresh-interval-value="10000"
+                          data-timeago-datetime-value="{{ moderator.createdAt|date('c') }}">{{ moderator.createdAt|ago }}</time></td>
                 <td>{% include 'user/_follow_button.html.twig' with {'user': moderator.user} %}</td>
                 <td>
                     {% if is_granted('edit', magazine) and not moderator.isOwner %}

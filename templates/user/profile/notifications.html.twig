@@ -34,7 +34,13 @@
                     {% for notification in notifications %}
                         <tr>
                             <td class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }}">{{ block(notification.type) }}</td>
-                            <td class="text-end text-"><small class="text-muted">{{ notification.createdAt|ago }}</small></td>
+                            <td class="text-end text-">
+                                <small class="text-muted">
+                                    <time data-controller="timeago"
+                                          data-timeago-refresh-interval-value="10000"
+                                          data-timeago-datetime-value="{{ notification.createdAt|date('c') }}">{{ notification.createdAt|ago }}</time>
+                                </small>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

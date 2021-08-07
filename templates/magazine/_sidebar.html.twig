@@ -27,7 +27,10 @@
 
     <div class="kbin-magazine-stats mb-4">
         <ul class="list-group list-group-flush mb-3">
-            <li class="list-group-item"><span class="text-muted">Utworzono:</span> {{ magazine.createdAt|ago }}</li>
+            <li class="list-group-item"><span class="text-muted">Utworzono:</span>
+                <time data-controller="timeago"
+                      data-timeago-refresh-interval-value="10000"
+                      data-timeago-datetime-value="{{ magazine.createdAt|date('c') }}">{{ magazine.createdAt|ago }}</time></li>
             <li class="list-group-item"><span class="text-muted">Autor:</span> {{ user(magazine.getOwner, {prefix: false}) }}</li>
             <li class="list-group-item"><span class="text-muted">Subskrybujących:</span> 1</li>
         </ul>
