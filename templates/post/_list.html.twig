@@ -1,7 +1,9 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 {% from 'post/_macros.html.twig' import post %}
 
-<div class="kbin-post-list">
+<div class="kbin-post-list" data-controller="post-list"
+    data-action="notify:PostCreatedNotification@window->post-list#add"
+    {% if magazine is defined and magazine %}data-post-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if posts|length %}
         {% for post in posts %}
             {{ post(post, {

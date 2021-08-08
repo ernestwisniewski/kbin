@@ -1,0 +1,9 @@
+{% from 'post/_macros.html.twig' import post %}
+
+{{ post(post, {
+    post: post,
+    self: app.user,
+    extra_classes: 'kbin-post-list-item',
+    show_best_comments: true,
+    title_tag: 'h4'
+}) }}

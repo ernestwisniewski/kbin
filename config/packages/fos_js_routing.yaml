@@ -1,2 +1,11 @@
 fos_js_routing:
-    routes_to_expose: ['ajax_fetch_title', 'ajax_fetch_embed', 'ajax_fetch_post_comments', 'post_comment_create']
+    routes_to_expose: [
+            'ajax_fetch_title',
+            'ajax_fetch_embed',
+            'ajax_fetch_entry',
+            'ajax_fetch_entry_comment',
+            'ajax_fetch_post',
+            'ajax_fetch_post_comment',
+            'ajax_fetch_post_comments',
+            'post_comment_create'
+    ]

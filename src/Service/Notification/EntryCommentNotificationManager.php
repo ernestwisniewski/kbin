@@ -146,15 +146,12 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     {
         return json_encode(
             [
-                'op'    => 'EntryCommentNotification',
-                'id'    => $notification->getComment()->getId(),
-                'data'  => [
-                    'entry' => [
-                        'id' => $notification->getComment()->entry->getId(),
-                    ],
+                'op'      => 'EntryCommentCreatedNotification',
+                'id'      => $notification->getComment()->getId(),
+                'entry' => [
+                    'id' => $notification->getComment()->entry->getId(),
                 ],
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-                'html'  => $this->twig->render('entry/comment/__comment.html.twig', ['comment' => $notification->getComment()]),
+                'toast'   => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

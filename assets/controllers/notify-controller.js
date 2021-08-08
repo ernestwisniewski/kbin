@@ -24,19 +24,8 @@ export default class extends ApplicationController {
             let data = JSON.parse(e.data);
             self.toast(data.toast);
 
-            if (data.op === 'EntryNotification') {
-                self.dispatch('EntryNotification', data);
-                return;
-            }
-
-            if (data.op === 'EntryCommentNotification') {
-                self.dispatch('EntryCommentNotification', data);
-                return;
-            }
-
             if (data.op.includes('Notification')) {
                 self.dispatch('Notification', data);
-                return;
             }
 
             self.dispatch(data.op, data);

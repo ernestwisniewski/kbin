@@ -63,7 +63,6 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
 
     private function notifyMagazine(EntryCreatedNotification $notification): void
     {
-        $this->getResponse($notification);
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->entry->magazine));
 
@@ -82,15 +81,12 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     {
         return json_encode(
             [
-                'op'           => 'EntryNotification',
-                'id'           => $notification->entry->getId(),
-                'data'         => [
-                    'magazine' => [
-                        'name' => $notification->entry->magazine->name,
-                    ],
+                'op'       => 'EntryCreatedNotification',
+                'id'       => $notification->entry->getId(),
+                'magazine' => [
+                    'name' => $notification->entry->magazine->name,
                 ],
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-                'html' => $this->twig->render('entry/__entry.html.twig', ['entry' => $notification->entry]),
+                'toast'    => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

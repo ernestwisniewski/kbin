@@ -4,7 +4,6 @@ namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
-use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostCreatedNotification;
 use App\Entity\PostDeletedNotification;
@@ -16,7 +15,6 @@ use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
-use function count;
 
 class PostNotificationManager implements ContentNotificationManagerInterface
 {
@@ -69,7 +67,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($post->magazine));
 
             $update = new Update(
-                $iri,
+                ['pub', $iri],
                 $this->getResponse($post, $notification)
             );
 
@@ -79,14 +77,16 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         }
     }
 
-    private function getResponse(Post $post, Notification $notification): string
+    private function getResponse(Post $post, PostCreatedNotification $notification): string
     {
         return json_encode(
             [
-                'op'   => 'PostNotification',
-                'id'   => $post->getId(),
-                'data' => [],
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'op'       => 'PostCreatedNotification',
+                'id'       => $post->getId(),
+                'magazine' => [
+                    'name' => $post->magazine->name,
+                ],
+                'toast'    => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
