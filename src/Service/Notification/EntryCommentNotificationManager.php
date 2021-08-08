@@ -94,9 +94,9 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     {
         return json_encode(
             [
-                'op'   => 'EntryCommentReplyNotification',
-                'id'   => $notification->getComment()->getId(),
-                'data' => [],
+                'op'    => 'EntryCommentReplyNotification',
+                'id'    => $notification->getComment()->getId(),
+                'data'  => [],
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
@@ -113,7 +113,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
             $usersToNotify = $this->merge($usersToNotify, [$comment->entry->user]);
         }
 
-        if($exclude){
+        if ($exclude) {
             $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
         }
 
@@ -127,6 +127,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
 
     private function notifyMagazine(EntryCommentCreatedNotification $notification): void
     {
+
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
 
@@ -145,10 +146,15 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     {
         return json_encode(
             [
-                'op'   => 'EntryCommentNotification',
-                'id'   => $notification->getComment()->getId(),
-                'data' => [],
+                'op'    => 'EntryCommentNotification',
+                'id'    => $notification->getComment()->getId(),
+                'data'  => [
+                    'entry' => [
+                        'id' => $notification->getComment()->entry->getId(),
+                    ],
+                ],
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'html'  => $this->twig->render('entry/comment/__comment.html.twig', ['comment' => $notification->getComment()]),
             ]
         );
     }

@@ -15,7 +15,6 @@
     <blockquote id="{{ comment.id }}"
                 class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level >= 8 ? 'last' : level }} shadow-sm"
                 data-controller="comment report"
-                data-action="notify:Notification@window->comment#notification"
                 data-comment-id-value="{{ comment.id }}"
                 data-comment-level-value="{{ level >= 7 ? '7' : level }}"
                 data-comment-parent-value="{{ comment.parent ? comment.parent.id : null }}">

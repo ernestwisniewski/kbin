@@ -1,0 +1,9 @@
+{% from 'entry/comment/_macros.html.twig' import comment %}
+
+{{ comment(comment, {
+    self: app.user,
+    comment: comment,
+    extra_classes: 'kbin-comment-list-item mb-0',
+    nested: nested ?? true,
+    with_parent: with_parent ?? false
+}) }}
