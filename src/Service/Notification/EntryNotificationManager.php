@@ -90,7 +90,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
                     ],
                 ],
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-                'html'         => $this->twig->render('entry/__entry.html.twig', ['entry' => $notification->entry]),
+                'html' => $this->twig->render('entry/__entry.html.twig', ['entry' => $notification->entry]),
             ]
         );
     }

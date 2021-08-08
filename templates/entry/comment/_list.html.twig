@@ -1,7 +1,9 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 {% from 'entry/comment/_macros.html.twig' import comment %}
 
-<div class="kbin-comment-list mt-3">
+<div class="kbin-comment-list mt-3" data-controller="comment-list"
+   data-action="notify:EntryCommentNotification@window->comment-list#add"
+   {% if magazine is defined and magazine %}data-comment-list-subject-id-value="{{ entry.id }}"{% endif %}>
     {% if comments|length %}
         {% for comment in comments %}
             {{ comment(comment, {
