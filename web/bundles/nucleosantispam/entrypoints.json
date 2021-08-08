@@ -1,9 +1,0 @@
-{
-  "entrypoints": {
-    "widget": {
-      "js": [
-        "/bundles/nucleosantispam/widget.js"
-      ]
-    }
-  }
-}

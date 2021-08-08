@@ -14,14 +14,13 @@ export default class extends ApplicationController {
         }
 
         try {
-            let url = router().generate('ajax_fetch_entry', {'id': notification.detail.id});
+            let url = router().generate('ajax_fetch_post', {'id': notification.detail.id});
 
             let response = await fetch(url, {method: 'GET'});
 
             response = await ok(response);
             response = await response.json();
 
-            console.log(response);
             const html = response.html;
 
             let div = document.createElement('div');

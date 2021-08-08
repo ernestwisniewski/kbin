@@ -11,7 +11,10 @@
                 <div class="mt-2">
                     {# {% include 'entry/comment/_filters.html.twig' %} #}
                 </div>
-                <div class="kbin-comment-list">
+                <div class="kbin-comment-list"
+                     data-controller="comment-list"
+                     data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
+                     {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
                     {{ post(post, {
                         post: post,
                         self: app.user,

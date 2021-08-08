@@ -18,7 +18,6 @@ use Exception;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
-use function count;
 
 class PostCommentNotificationManager implements ContentNotificationManagerInterface
 {
@@ -58,11 +57,11 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
 
     private function sendUserReplyNotification(PostComment $comment): ?User
     {
-        if(!$comment->parent || $comment->parent->isAuthor($comment->user)) {
+        if (!$comment->parent || $comment->parent->isAuthor($comment->user)) {
             return null;
         }
 
-        if(!$comment->parent->user->notifyOnNewPostCommentReply) {
+        if (!$comment->parent->user->notifyOnNewPostCommentReply) {
             return null;
         }
 
@@ -95,9 +94,9 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     {
         return json_encode(
             [
-                'op'   => 'PostCommentReplyNotification',
-                'id'   => $notification->getComment()->getId(),
-                'data' => [],
+                'op'    => 'PostCommentReplyNotification',
+                'id'    => $notification->getComment()->getId(),
+                'data'  => [],
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
@@ -110,11 +109,11 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         // @todo user followers
         $usersToNotify = [];
 
-        if($comment->user->notifyOnNewPostReply && !$comment->isAuthor($comment->post->user)) {
+        if ($comment->user->notifyOnNewPostReply && !$comment->isAuthor($comment->post->user)) {
             $usersToNotify = $this->merge($usersToNotify, [$comment->post->user]);
         }
 
-        if($exclude) {
+        if ($exclude) {
             $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
         }
 
@@ -146,9 +145,11 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     {
         return json_encode(
             [
-                'op'   => 'PostCommentCreatedNotification',
-                'id'   => $notification->getComment()->getId(),
-                'data' => [],
+                'op'    => 'PostCommentCreatedNotification',
+                'id'    => $notification->getComment()->getId(),
+                'post'  => [
+                    'id' => $notification->getComment()->post->getId(),
+                ],
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );

@@ -16,10 +16,22 @@ ajax_fetch_post_comments:
   path: /ajax/fetch_post_comments/{id}
   methods: [GET]
 
+ajax_fetch_entry:
+  controller: App\Controller\AjaxController::fetchEntry
+  defaults: { _format: json }
+  path: /ajax/fetch_entry/{id}
+  methods: [GET]
+
 ajax_fetch_entry_comment:
   controller: App\Controller\AjaxController::fetchEntryComment
   defaults: { _format: json }
   path: /ajax/fetch_entry_comment/{id}
+  methods: [GET]
+
+ajax_fetch_post:
+  controller: App\Controller\AjaxController::fetchPost
+  defaults: { _format: json }
+  path: /ajax/fetch_post/{id}
   methods: [GET]
 
 ajax_fetch_post_comment:
