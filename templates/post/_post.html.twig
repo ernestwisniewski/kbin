@@ -8,11 +8,13 @@
 
     <blockquote id="{{ post.id }}"
                 class="kbin-post {{ extra_classes }} "
-                data-controller="post report"
+                data-controller="post report comment-counter"
+                data-action="notify:PostCommentCreatedNotification@window->comment-counter#increase"
+                data-comment-counter-subject-id-value="{{ post.id }}"
                 data-post-id-value="{{ post.id }}"
                 data-post-magazine-name-value="{{ post.magazine.name }}">
         <div class="kbin-post-header mb-2">
-            {{ vote(post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true}) }}
+            {{ vote(post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true, notification_type: 'Post'}) }}
 
             <div class="kbin-post-avatar">
                 {{ avatar(post.user) }}
@@ -82,7 +84,7 @@
                             <small class="text-muted">
                                 <a data-action="post#expandComments"
                                    href="{{ post_url(post) }}">
-                                    rozwiń ({{ post.commentCount }})
+                                    rozwiń (<span data-comment-counter-target="lenght">{{ post.commentCount }}</span>)
                                 </a>
                             </small>
                         </li>

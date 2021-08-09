@@ -21,7 +21,6 @@ export default class extends ApplicationController {
             response = await ok(response);
             response = await response.json();
 
-            console.log(response);
             const html = response.html;
 
             let div = document.createElement('div');

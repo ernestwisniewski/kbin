@@ -9,8 +9,8 @@ export default class extends ApplicationController {
     };
 
     async add(notification) {
-        const subjectId = notification.detail.entry ? notification.detail.entry.id : notification.detail.post.id;
-        const route = notification.detail.entry ? 'ajax_fetch_entry_comment' : 'ajax_fetch_post_comment';
+        const subjectId = notification.detail.subject.id;
+        const route = notification.detail.op === 'EntryCommentCreatedNotification' ? 'ajax_fetch_entry_comment' : 'ajax_fetch_post_comment';
 
         if (this.hasSubjectIdValue && this.subjectIdValue !== subjectId) {
             return;
@@ -32,10 +32,19 @@ export default class extends ApplicationController {
             let parent = div.firstElementChild.dataset.commentParentValue;
             parent = this.element.querySelector(`[data-comment-id-value='${parent}']`);
 
+            const existed = div.firstElementChild.dataset.commentIdValue;
+            if (this.element.querySelector(`[data-comment-id-value='${existed}']`)) {
+                return;
+            }
+
             if (parent) {
-                notification.detail.entry ? CommentFactory.create(html, parent) : this.element.append(div.firstElementChild);
+                notification.detail.op === 'EntryCommentCreatedNotification'
+                    ? CommentFactory.create(html, parent)
+                    : this.element.append(div.firstElementChild);
             } else {
-                notification.detail.entry ? this.element.prepend(div.firstElementChild) : this.element.append(div.firstElementChild);
+                notification.detail.op === 'EntryCommentCreatedNotification'
+                    ? this.element.prepend(div.firstElementChild)
+                    : this.element.append(div.firstElementChild);
             }
         } catch (e) {
         }

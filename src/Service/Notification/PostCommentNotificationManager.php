@@ -147,7 +147,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
             [
                 'op'    => 'PostCommentCreatedNotification',
                 'id'    => $notification->getComment()->getId(),
-                'post'  => [
+                'subject'  => [
                     'id' => $notification->getComment()->post->getId(),
                 ],
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),

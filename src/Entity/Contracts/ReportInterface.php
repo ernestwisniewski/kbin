@@ -9,7 +9,5 @@ interface ReportInterface extends ContentInterface
 {
     public function getId(): ?int;
 
-    public function getMagazine(): ?Magazine;
-
     public function getUser(): ?User;
 }

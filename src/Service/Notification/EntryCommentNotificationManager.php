@@ -148,7 +148,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
             [
                 'op'      => 'EntryCommentCreatedNotification',
                 'id'      => $notification->getComment()->getId(),
-                'entry' => [
+                'subject' => [
                     'id' => $notification->getComment()->entry->getId(),
                 ],
                 'toast'   => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),

@@ -65,7 +65,6 @@ export default class extends Controller {
 
             event.target.parentNode.innerHTML = ''
         } catch (e) {
-            console.log(e);
             alert('Nie możesz dodać komentarza.');
         } finally {
             this.loadingValue = false;
