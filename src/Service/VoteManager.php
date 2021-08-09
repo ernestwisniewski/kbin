@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Vote;
 use App\Factory\VoteFactory;
 use App\Message\Notification\VoteNotificationMessage;
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -53,7 +54,7 @@ class VoteManager
             (
             new VoteNotificationMessage(
                 $votable->getId(),
-                get_class($votable)
+                ClassUtils::getRealClass(get_class($votable))
             ))
         );
 
