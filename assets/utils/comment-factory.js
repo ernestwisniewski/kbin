@@ -6,11 +6,6 @@ export default class CommentFactory {
         const div = document.createElement('div');
         div.innerHTML = html;
 
-        const existed = div.firstElementChild.dataset.commentIdValue
-        if(parent.parentNode.querySelector(`[data-comment-id-value='${existed}']`)) {
-            return;
-        }
-
         // Create node
         level = (level >= 7 ? 7 : parseInt(level) + 1);
         div.firstElementChild.classList.add('kbin-comment-level--' + level);

@@ -17,7 +17,7 @@
                     data-comment-level-value="2"
                     data-comment-parent-value="{{ comment.parent ? comment.parent.id : null }}">
             <div class="kbin-comment-header mb-2">
-                {{ vote(comment, {user: app.user, form_dest: 'post_comment_vote', base_class: 'comment', hide_downvote: true}) }}
+                {{ vote(comment, {user: app.user, form_dest: 'post_comment_vote', base_class: 'comment', hide_downvote: true, notification_type: 'PostVote'}) }}
 
                 <div class="kbin-comment-avatar">
                     {{ avatar(comment.user) }}

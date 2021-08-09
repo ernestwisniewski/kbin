@@ -16,19 +16,21 @@
     {% endif %}
 
     <div class="kbin-{{ base_class }}-vote"
-         data-controller="vote"
+         data-controller="vote vote-counter"
+         data-action="notify:{{ notification_type }}Vote@window->vote-counter#refresh"
          data-vote-uv-class="kbin-vote-uv--active"
          data-vote-dv-class="kbin-vote-dv--active"
          data-vote-uv-url-value="{{ upUrl }}"
          data-vote-dv-url-value="{{ downUrl }}"
-         data-vote-choice-value="{{ choice }}">
+         data-vote-choice-value="{{ choice }}"
+         data-vote-counter-subject-id-value="{{ votable.id }}">
         <ul class="kbin-{{ base_class }}-vote-list">
             <li class="kbin-{{ base_class }}-vote-list-item kbin-vote kbin-vote-uv {% if not is_granted('ROLE_USER' ) %}kbin-login-alert{% endif %} {% if (choice is same as VOTE_UP) %}kbin-vote-uv--active{% endif %}"
                 data-vote-target="upVote">
                 <form action="{{ upUrl }}" method="POST" data-action="vote#up">
                     <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
                     <button type="submit" {{ is_granted('ROLE_USER', votable)  ? '' : 'disabled' }}>
-                        <span data-vote-target="upVoteCount">{{ votable.countUpvotes }}</span>
+                        <span data-vote-target="upVoteCount" data-vote-counter-target="upVotes">{{ votable.countUpvotes }}</span>
                         <span class="fa fa-arrow-up"></span>
                     </button>
                 </form>
@@ -39,7 +41,7 @@
                     data-vote-target="downVote">
                     <form action="{{ path(form_dest, {id: votable.id,choice: VOTE_DOWN}) }}" method="POST" data-action="vote#down">
                         <button type="submit" {{ is_granted('ROLE_USER', votable) ? '' : 'disabled' }}>
-                            <span data-vote-target="downVoteCount">{{ votable.countDownvotes }}</span>
+                            <span data-vote-target="downVoteCount" data-vote-counter-target="downVotes">{{ votable.countDownvotes }}</span>
                             <span class="fa fa-arrow-down"></span>
                         </button>
                         <input type="hidden" name="token" value="{{ csrf_token('vote') }}">

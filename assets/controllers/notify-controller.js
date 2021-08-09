@@ -22,7 +22,10 @@ export default class extends ApplicationController {
         let self = this;
         document.es = Subscribe(topics, function (e) {
             let data = JSON.parse(e.data);
-            self.toast(data.toast);
+
+            if(data.toast) {
+                self.toast(data.toast);
+            }
 
             if (data.op.includes('Notification')) {
                 self.dispatch('Notification', data);

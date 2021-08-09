@@ -6,9 +6,11 @@ use App\Entity\Contracts\VoteInterface;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Factory\VoteFactory;
+use App\Message\Notification\VoteNotificationMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 class VoteManager
@@ -16,6 +18,7 @@ class VoteManager
     public function __construct(
         private VoteFactory $factory,
         private RateLimiterFactory $voteLimiter,
+        private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -45,6 +48,14 @@ class VoteManager
         $votable->updateVoteCounts();
 
         $this->entityManager->flush();
+
+        $this->bus->dispatch(
+            (
+            new VoteNotificationMessage(
+                $votable->getId(),
+                get_class($votable)
+            ))
+        );
 
         return $vote;
     }
