@@ -33,6 +33,7 @@ Based on https://github.com/dunglas/symfony-docker
 ```console
 # Set SMTP creds if you need it.
 $ cp .env.example .env
+$ docker-compose build --pull --no-cache
 $ docker-compose up
 $ docker-compose exec php bin/console doctrine:fixtures:load
 $ docker-compose exec php bin/phpunit
@@ -41,10 +42,9 @@ $ docker-compose exec php bin/phpunit
 #### Production
 
 ```console
-$ SERVER_NAME=dev.karab.in \
-APP_SECRET=secret \
-MERCURE_PUBLISHER_JWT_KEY=ChangeMe \
-MERCURE_SUBSCRIBER_JWT_KEY=ChangeMe \
+$ SERVER_NAME="your-domain-name.example.com" \
+APP_SECRET=ChangeMe \
+CADDY_MERCURE_JWT_SECRET=ChangeMe \
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 

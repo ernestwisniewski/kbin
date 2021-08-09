@@ -53,7 +53,8 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            this.element.insertAdjacentHTML('afterend', response.html);
+            this.element.nextElementSibling.insertAdjacentHTML('beforeend', response.html);
+
             event.target.parentNode.innerHTML = ''
         } catch (e) {
             alert('Nie możesz dodać komentarza.');

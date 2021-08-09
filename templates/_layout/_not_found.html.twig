@@ -7,37 +7,27 @@
 {%- endmacro -%}
 
 {% block not_found %}
-    {# {{ block('icon_'~type) }} #}
-    {{ block('icon') }}
-{% endblock %}
-
-{% block icon %}
+    {% if is_entry_page() or is_post_page() %}
     <div class="text-center py-5 text-muted">
-        <span class="display-1">
-                {{ random([
-                    'ฅ^•ﻌ•^ฅ',
-                    'q(❂‿❂)p',
-                    '☜(⌒▽⌒)☞',
-                    '(｡◕‿◕｡)',
-                    '(づ◔ ͜ʖ◔)づ',
-                    'ԅ(≖‿≖ԅ)',
-                    '\(ᵔᵕᵔ)/',
-                    '¯\_(ツ)_/¯',
-                    '(⩾﹏⩽)',
-                    'ಠ_ಠ',
-                    '¯\(°_o)/¯',
-                    'ಥ_ಥ',
-                    'ಥ﹏ಥ',
-                    '(҂◡_◡)',
-                    '(ーー゛)'
-                ]) }}
-        </span>
-        <p class="fs-3 mt-2">
-            {{ random([
-                'pusto...',
-                'nic tu nie ma...',
-                'nic tu się nie dzieje...',
-            ]) }}
+        <p class="display-4">
+            brak komentarzy
         </p>
     </div>
-{% endblock icon %}
+    {% elseif is_magazine_page() or is_sub_page() or is_homepage() %}
+        <div class="text-center py-5 text-muted">
+            <p class="display-4">
+                brak treści
+            </p>
+            <p class="fs-5 mt-2">
+                dodaj nowy <a class="fw-bolder" href="{{ path('entry_create', { type: 'link' }) }}">link</a> lub <a href="{{ path('entry_create') }}"
+                                                                                                                    class="fw-bold">artykuł</a>
+            </p>
+        </div>
+    {% else %}
+        <div class="text-center py-5 text-muted">
+            <p class="display-4">
+                nie znaleziono
+            </p>
+        </div>
+    {% endif %}
+{% endblock %}
