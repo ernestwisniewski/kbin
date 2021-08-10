@@ -123,14 +123,7 @@ class ImageManager
 
     public function getFilePath(string $file): string
     {
-        return sprintf('%s/%s/%s', $this->getRandomCharacters(), $this->getRandomCharacters(), $this->getFileName($file));
-    }
-
-    private function getRandomCharacters($length = 2): string
-    {
-        $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-        return substr(str_shuffle($chars), 0, $length);
+        return sprintf('%s/%s/%s', substr($this->getFileName($file), 0, 2), substr($this->getFileName($file), 2, 2), $this->getFileName($file));
     }
 
     public function getFileName(string $file): string

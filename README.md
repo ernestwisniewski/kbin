@@ -42,9 +42,9 @@ $ docker-compose exec php bin/phpunit
 #### Production
 
 ```console
-$ SERVER_NAME="your-domain-name.example.com" \
-APP_SECRET=ChangeMe \
-CADDY_MERCURE_JWT_SECRET=ChangeMe \
+$ SERVER_NAME="beta.karab.in" \
+APP_SECRET=427f5e2940e5b2472c1b44b2d06e0525 \
+CADDY_MERCURE_JWT_SECRET='!ChangeMe!' \
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
