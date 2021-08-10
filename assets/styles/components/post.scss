@@ -18,6 +18,7 @@ $post-margin-sm: .5rem;
     display: flow-root;
     position: relative;
     background: white;
+    overflow: hidden;
 
     &.kbin-post-list-item {
       border-bottom: 1px solid lightgray;
