@@ -19,6 +19,10 @@ $post-margin-sm: .5rem;
     position: relative;
     background: white;
 
+    &.kbin-post-list-item {
+      border-bottom: 1px solid lightgray;
+    }
+
     a {
       &:hover {
         color: black;
