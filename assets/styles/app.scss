@@ -23,6 +23,10 @@ $primary: #556880;
 @import "components/profile";
 @import "components/show-more";
 
+#kbin {
+  background: url(../images/shape2.png) center center;
+}
+
 .kbin-container {
   @include media-breakpoint-down(lg) {
     position: relative;
