@@ -71,6 +71,12 @@
     img {
       max-width: 7rem;
     }
+
+    @include media-breakpoint-down(sm) {
+      img {
+        max-width: 100%;
+      }
+    }
   }
 
   &-main {
