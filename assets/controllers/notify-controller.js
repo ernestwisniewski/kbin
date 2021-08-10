@@ -20,10 +20,10 @@ export default class extends ApplicationController {
         }
 
         let self = this;
-        document.es = Subscribe(topics, function (e) {
+        let cb = function (e) {
             let data = JSON.parse(e.data);
 
-            if(data.toast) {
+            if (data.toast) {
                 self.toast(data.toast);
             }
 
@@ -32,7 +32,15 @@ export default class extends ApplicationController {
             }
 
             self.dispatch(data.op, data);
-        });
+        }
+
+        document.es = Subscribe(topics, cb);
+        // firefox bug: https://github.com/dunglas/mercure/issues/339#issuecomment-650978605
+        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+            document.es.onerror = (e) => {
+                Subscribe(topics, cb);
+            };
+        }
     }
 
     getTopics() {
