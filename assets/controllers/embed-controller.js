@@ -6,6 +6,8 @@ export default class extends Controller {
     static targets = ['embed', 'container', 'close'];
     static classes = ['hidden', 'loading', 'embed'];
     static values = {
+        type: String,
+        image: String,
         isVisible: Boolean,
         loading: Boolean,
         url: String,
@@ -25,9 +27,19 @@ export default class extends Controller {
             return;
         }
 
+        if(this.typeValue === 'image' && this.hasImageValue) {
+            this.htmlValue = `<img src='${window.location.origin}/media/${this.imageValue}'>`;
+            this.show();
+            return;
+        }
+
         this.loadingValue = true;
 
         try {
+            if(this.typeValue === 'image'){
+                return;
+            }
+
             let url = router().generate('ajax_fetch_embed', {url: this.urlValue});
 
             let response = await fetch(url, {method: 'GET'});

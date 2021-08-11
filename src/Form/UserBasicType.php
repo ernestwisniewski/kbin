@@ -25,10 +25,6 @@ class UserBasicType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add(
-                'agreeTerms',
-                CheckboxType::class
-            )
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber($this->disableUsernameFieldOnUserEdit);

@@ -3,11 +3,17 @@
 {% block title %}Zgłoszenia | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
 
 {% block body %}
+    {% from '_layout/_not_found.html.twig' import not_found %}
+
     <div class="kbin-magazine-bans-page">
         {% include 'magazine/panel/_tabs.html.twig' %}
-        <div class="kbin-magazine-bans mt-lg-4">
-            {% include 'magazine/panel/_reports_list_table.html.twig' %}
-        </div>
+        {% if(reports|length) %}
+            <div class="kbin-magazine-bans mt-lg-4">
+                {% include 'magazine/panel/_reports_list_table.html.twig' %}
+            </div>
+        {% else %}
+            {{ not_found() }}
+        {% endif %}
     </div>
 {% endblock %}
 

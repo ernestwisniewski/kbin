@@ -3,11 +3,17 @@
 {% block title %}Moderatorzy | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
 
 {% block body %}
+    {% from '_layout/_not_found.html.twig' import not_found %}
+
     <div class="kbin-magazine-bans-page">
         {% include 'magazine/panel/_tabs.html.twig' %}
-        <div class="kbin-magazine-bans mt-lg-4">
-            {% include 'magazine/panel/_bans_list_table.html.twig' %}
-        </div>
+        {% if(bans|length) %}
+            <div class="kbin-magazine-bans mt-lg-4">
+                {% include 'magazine/panel/_bans_list_table.html.twig' %}
+            </div>
+        {% else %}
+            {{ not_found() }}
+        {% endif %}
         <div class="col-lg-6">
             <form method="post" action="{{ path('magazine_panel_bans', {'name': magazine.name }) }}">
                 <div class="mb-3">

@@ -8,8 +8,11 @@ use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Event\Entry\EntryHasBeenSeenEvent;
 use App\Form\EntryArticleType;
+use App\Form\EntryImageType;
 use App\Form\EntryLinkType;
 use App\PageView\EntryCommentPageView;
+use App\PageView\EntryPageView;
+use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Service\EntryManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -69,7 +72,7 @@ class EntryController extends AbstractController
         $dto->ip       = $request->getClientIp();
         $dto->magazine = $magazine;
 
-        $form = $this->createFormByType($dto, $type);
+        $form = $this->createFormByType($dto, (new EntryPageView(1))->translateType($type));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,7 +86,7 @@ class EntryController extends AbstractController
         }
 
         return $this->render(
-            $this->getTemplateName($type),
+            $this->getTemplateName((new EntryPageView(1))->translateType($type)),
             [
                 'magazine' => $magazine,
                 'form'     => $form->createView(),
@@ -93,22 +96,30 @@ class EntryController extends AbstractController
 
     private function createFormByType(EntryDto $dto, ?string $type): FormInterface
     {
-        if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
-            return $this->createForm(EntryLinkType::class, $dto);
+        if ($type === Entry::ENTRY_TYPE_ARTICLE) {
+            return $this->createForm(EntryArticleType::class, $dto);
         }
 
-        return $this->createForm(EntryArticleType::class, $dto);
+        if ($type === Entry::ENTRY_TYPE_IMAGE) {
+            return $this->createForm(EntryImageType::class, $dto);
+        }
+
+        return $this->createForm(EntryLinkType::class, $dto);
     }
 
     private function getTemplateName(?string $type, ?bool $edit = false): string
     {
         $prefix = $edit ? 'edit' : 'create';
 
-        if (!$type || $type === Entry::ENTRY_TYPE_LINK) {
-            return "entry/{$prefix}_link.html.twig";
+        if (!$type || $type === Entry::ENTRY_TYPE_ARTICLE) {
+            return "entry/{$prefix}_article.html.twig";
         }
 
-        return "entry/{$prefix}_article.html.twig";
+        if ($type === Entry::ENTRY_TYPE_IMAGE) {
+            return "entry/{$prefix}_image.html.twig";
+        }
+
+        return "entry/{$prefix}_link.html.twig";
     }
 
     /**
@@ -122,7 +133,7 @@ class EntryController extends AbstractController
     {
         $dto = $this->manager->createDto($entry);
 
-        $form = $this->createFormByType($dto, $dto->getType());
+        $form = $this->createFormByType($dto, (new EntryPageView(1))->translateType($entry->type));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -136,7 +147,7 @@ class EntryController extends AbstractController
         }
 
         return $this->render(
-            $this->getTemplateName($dto->getType(), true),
+            $this->getTemplateName((new EntryPageView(1))->translateType($entry->type), true),
             [
                 'magazine' => $magazine,
                 'entry'    => $entry,

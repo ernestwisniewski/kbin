@@ -30,10 +30,6 @@ class UserPasswordType extends AbstractType
                     'second_options'  => ['label' => 'repeat password'],
                 ]
             )
-            ->add(
-                'agreeTerms',
-                CheckboxType::class
-            )
             ->add('submit', SubmitType::class);
     }
 

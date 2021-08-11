@@ -20,10 +20,6 @@ class UserEmailType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add(
-                'agreeTerms',
-                CheckboxType::class
-            )
             ->add('submit', SubmitType::class);
     }
 

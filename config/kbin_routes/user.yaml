@@ -100,12 +100,12 @@ user_profile_user_blocks:
 
 user_profile_magazine_subscriptions:
   controller: App\Controller\User\ProfileController::subMagazines
-  path: /profil/Subskrypcje/magazyny
+  path: /profil/subskrypcje/magazyny
   methods: [ GET ]
 
 user_profile_user_subscriptions:
   controller: App\Controller\User\ProfileController::subUsers
-  path: /profil/Subskrypcje/ludzie
+  path: /profil/subskrypcje/ludzie
   methods: [ GET ]
 
 user_profile_settings:

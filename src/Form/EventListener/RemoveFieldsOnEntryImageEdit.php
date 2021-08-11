@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-final class RemoveFieldsOnEntryCreate implements EventSubscriberInterface
+final class RemoveFieldsOnEntryImageEdit implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
@@ -18,7 +18,7 @@ final class RemoveFieldsOnEntryCreate implements EventSubscriberInterface
         $entry = $event->getData();
         $form  = $event->getForm();
 
-        if ($entry && $entry->getId()) {
+        if (!$entry || null === $entry->getId()) {
             return;
         }
 

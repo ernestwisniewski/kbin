@@ -10,6 +10,8 @@
              data-action="notify:EntryCommentCreatedNotification@window->comment-counter#increase"
              data-comment-counter-subject-id-value="{{ entry.id }}"
              data-embed-url-value="{{ entry.url }}"
+             data-embed-type-value="{{ entry.type }}"
+             data-embed-image-value="{{ entry.image ? entry.image.filePath : '' }}"
              data-embed-is-visible-value="false"
              data-embed-hidden-class="display-none"
              data-embed-loading-class="spinner-border"

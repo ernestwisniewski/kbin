@@ -1,62 +1,62 @@
 {{ form_start(form) }}
 
-<h2 class="font-weight-bold">Powiadomienia</h2>
-
-<h5 class="mb-3">Twoje treści</h5>
-<div class="mb-3">
-    {{ form_label(form.notifyOnNewEntryReply, 'Powiadamiaj o komentarzach w twoich treściach') }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewEntryReply, {name: 'Powiadamiaj o komentarzach w twoich treściach'}) }}
-    </div>
-</div>
-
-<div class="mb-3">
-    {{ form_label(form.notifyOnNewEntryCommentReply, 'Powiadamiaj o odpowiedziach na twoje komentarze w treściach') }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewEntryCommentReply, {name: 'Powiadamiaj o odpowiedziach na twoje komentarze w treściach'}) }}
-    </div>
-</div>
-
-<div class="mb-3">
-    {{ form_label(form.notifyOnNewPostReply, 'Powiadamiaj o odpowiedziach w twoich wpisach') }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewPostReply, {name: 'Powiadamiaj o odpowiedziach w twoich wpisach'}) }}
-    </div>
-</div>
-
-<div class="mb-3">
-    {{ form_label(form.notifyOnNewPostCommentReply, 'Powiadamiaj o odpowiedziach na twoje komentarze we wpisach') }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewPostCommentReply, {name: 'Powiadamiaj o odpowiedziach na twoje komentarze we wpisach'}) }}
-    </div>
-</div>
-
-<h5 class="mb-3">Obserwowane</h5>
-
-<div class="mb-3">
-    {{ form_label(form.notifyOnNewEntry, 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie') }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewEntry, {name: 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie'}) }}
-    </div>
-</div>
-
-<div class="mb-3">
-    {{ form_label(form.notifyOnNewPost, 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie') }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.notifyOnNewPost, {name: 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie'}) }}
-    </div>
-</div>
-
-<h5 class="mb-3">Wygląd</h5>
+<h2 class="font-weight-bold">Wygląd</h2>
 
 <div class="mb-3">
     {{ form_label(form.darkTheme, 'Ciemny motyw') }}
     <div class="input-group input-group-lg">
         {{ form_widget(form.darkTheme, {name: 'Ciemny motyw'}) }}
     </div>
+    <div class="input-group input-group-lg">
+        <div class="form-check"><input id="adult" type="checkbox" name="" disabled="disabled" novalidate="novalidate" class="form-check-input">
+            <label class="form-check-label required" for="adult">Ukryj treści dla dorosłych</label>
+        </div>
+    </div>
+    <div class="input-group input-group-lg">
+        <div class="form-check"><input id="images" type="checkbox" name="" disabled="disabled" novalidate="novalidate" class="form-check-input">
+            <label class="form-check-label required" for="images">Ukryj obrazy</label>
+        </div>
+    </div>
 </div>
+
+<h2 class="font-weight-bold mt-4">Powiadomienia</h2>
+
+<h5 class="">Twoje treści</h5>
+{{ form_label(form.notifyOnNewEntryReply, 'Powiadamiaj o komentarzach w twoich treściach') }}
+<div class="input-group input-group-lg">
+    {{ form_widget(form.notifyOnNewEntryReply, {name: 'Powiadamiaj o komentarzach w twoich treściach'}) }}
+</div>
+
+{{ form_label(form.notifyOnNewEntryCommentReply, 'Powiadamiaj o odpowiedziach na twoje komentarze w treściach') }}
+<div class="input-group input-group-lg">
+    {{ form_widget(form.notifyOnNewEntryCommentReply, {name: 'Powiadamiaj o odpowiedziach na twoje komentarze w treściach'}) }}
+</div>
+
+{{ form_label(form.notifyOnNewPostReply, 'Powiadamiaj o odpowiedziach w twoich wpisach') }}
+<div class="input-group input-group-lg">
+    {{ form_widget(form.notifyOnNewPostReply, {name: 'Powiadamiaj o odpowiedziach w twoich wpisach'}) }}
+</div>
+
+{{ form_label(form.notifyOnNewPostCommentReply, 'Powiadamiaj o odpowiedziach na twoje komentarze we wpisach') }}
+<div class="input-group input-group-lg">
+    {{ form_widget(form.notifyOnNewPostCommentReply, {name: 'Powiadamiaj o odpowiedziach na twoje komentarze we wpisach'}) }}
+</div>
+
+<h5 class="mt-3">Obserwowane</h5>
+
+{{ form_label(form.notifyOnNewEntry, 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie') }}
+<div class="input-group input-group-lg">
+    {{ form_widget(form.notifyOnNewEntry, {name: 'Powiadamiaj mnie o nowych treściach w obserwowanym magazynie'}) }}
+</div>
+
+{{ form_label(form.notifyOnNewPost, 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie') }}
+<div class="input-group input-group-lg">
+    {{ form_widget(form.notifyOnNewPost, {name: 'Powiadamiaj mnie o nowych wpisach w obserwowanym magazynie'}) }}
+</div>
+
 
 <div class="mb-12 text-end">
     {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
 </div>
+
 {{ form_end(form) }}
