@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    public bool $notifyOnNewEntryCommentReply = true;
+    public bool $notifyOnNewEntryCommentReply = false;
     /**
      * @ORM\Column(type="boolean")
      */
@@ -68,11 +68,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    public bool $notifyOnNewPostReply = true;
+    public bool $notifyOnNewPostReply = false;
     /**
      * @ORM\Column(type="boolean")
      */
-    public bool $notifyOnNewPostCommentReply = true;
+    public bool $notifyOnNewPostCommentReply = false;
     /**
      * @ORM\Column(type="boolean")
      */

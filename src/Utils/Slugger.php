@@ -2,14 +2,10 @@
 
 namespace App\Utils;
 
-use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Slugger
 {
-    public function __construct(private SluggerInterface $slugger)
-    {
-    }
-
     public static function camelCase(string $value): string
     {
         return lcfirst(static::studly($value));
@@ -24,6 +20,6 @@ class Slugger
 
     public function slug(string $val): string
     {
-        return $this->slugger->slug(substr($val, 0, 60))->toString();
+        return (new AsciiSlugger())->slug(substr($val, 0, 60))->toString();
     }
 }

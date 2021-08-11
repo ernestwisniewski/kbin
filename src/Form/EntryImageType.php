@@ -7,7 +7,7 @@ use App\Entity\Magazine;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
-use App\Form\EventListener\RemoveFieldsOnEntryLinkCreate;
+use App\Form\EventListener\RemoveFieldsOnEntryImageEdit;
 use App\Form\Type\BadgesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -15,11 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EntryLinkType extends AbstractType
+class EntryImageType extends AbstractType
 {
     public function __construct(private ImageListener $imageListener)
     {
@@ -28,7 +27,6 @@ class EntryLinkType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('url', UrlType::class)
             ->add('title', TextareaType::class)
             ->add(
                 'badges',
@@ -56,7 +54,7 @@ class EntryLinkType extends AbstractType
             ->add('isAdult', CheckboxType::class)
             ->add('submit', SubmitType::class);
 
-        $builder->addEventSubscriber(new RemoveFieldsOnEntryLinkCreate());
+        $builder->addEventSubscriber(new RemoveFieldsOnEntryImageEdit());
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());
         $builder->addEventSubscriber($this->imageListener);
     }

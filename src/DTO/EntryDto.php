@@ -71,10 +71,10 @@ class EntryDto
         ExecutionContextInterface $context,
         $payload
     ) {
-        if (null === $this->body && null === $this->url) {
-            $this->buildViolation($context, 'url');
-            $this->buildViolation($context, 'body');
-        }
+//        if (null === $this->body && null === $this->url) {
+//            $this->buildViolation($context, 'url');
+//            $this->buildViolation($context, 'body');
+//        }
     }
 
     private function buildViolation(ExecutionContextInterface $context, $path)
@@ -91,10 +91,16 @@ class EntryDto
 
     public function getType(): string
     {
-        if ($this->body) {
-            return Entry::ENTRY_TYPE_ARTICLE;
+        if($this->url) {
+            return Entry::ENTRY_TYPE_LINK;
         }
 
-        return Entry::ENTRY_TYPE_LINK;
+        $type = Entry::ENTRY_TYPE_IMAGE;
+
+        if ($this->body) {
+            $type = Entry::ENTRY_TYPE_ARTICLE;
+        }
+
+        return $type;
     }
 }

@@ -1,17 +1,21 @@
 {{ form_start(form) }}
 <div class="col-lg-6 mb-3">
     <div class="kbin-magazine-create-form">
-        <div class="input-group-lg mb-3 row">
-            <div class="col-11">
-                {{ form_label(form.url, 'URL') }}
-                {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle', 'data-entry-create-target': 'url' }}) }}
+        {% if form.image is defined %}
+            <div class="row me-0 pe-0">
+                <div class="input-group-lg mb-3 row">
+                    <div class="col-11">
+                        {{ form_label(form.image, 'Obraz') }}
+                        {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
+                    </div>
+                    <div class="col-1 pt-4">
+                        <a href="{{ path('entry_create', { type: 'link' }) }}" class="link-dark">
+                            <i class="fas fa-link pt-2"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="col-1 pt-4">
-                <a href="{{ path('entry_create', { type: 'image' }) }}" class="link-dark">
-                    <i class="fas fa-image pt-2"></i>
-                </a>
-            </div>
-        </div>
+        {% endif %}
 
         <div class="input-group-lg mb-3">
             {{ form_label(form.title, 'Tytuł') }}
@@ -27,13 +31,6 @@
             {{ form_label(form.badges, 'Etykiety') }}
             {{ form_widget(form.badges, {'attr': {'class': ''}}) }}
         </div>
-
-        {% if form.image is defined %}
-            <div class="input-group-lg mb-3">
-                {{ form_label(form.image, 'Obraz') }}
-                {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
-            </div>
-        {% endif %}
 
         <div class="mb-3">
             {{ form_label(form.isAdult, 'Wyłącznie dla dorosłych') }}

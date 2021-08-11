@@ -43,13 +43,19 @@ class EntryManager implements ContentManagerInterface
         $entry       = $this->factory->createFromDto($dto, $user);
         $entry->slug = $this->slugger->slug($dto->title);
 
-        $this->assertType($entry);
-
         if ($dto->url) {
+            $entry->type = Entry::ENTRY_TYPE_LINK;
             $dto->url = ($this->urlCleaner)($dto->url);
         }
 
         if ($dto->image) {
+            $entry->type = Entry::ENTRY_TYPE_IMAGE;
+            $entry->image = $dto->image;
+            $entry->hasEmbed = true;
+        }
+
+        if ($dto->body) {
+            $entry->type = Entry::ENTRY_TYPE_ARTICLE;
             $entry->image = $dto->image;
         }
 
@@ -65,17 +71,6 @@ class EntryManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new EntryCreatedEvent($entry));
 
         return $entry;
-    }
-
-    private function assertType(Entry $entry): void
-    {
-        if ($entry->url) {
-            Assert::null($entry->body);
-            $entry->type = Entry::ENTRY_TYPE_LINK;
-        } else {
-            Assert::null($entry->url);
-            $entry->type = Entry::ENTRY_TYPE_ARTICLE;
-        }
     }
 
     public function edit(Entry $entry, EntryDto $dto): Entry

@@ -16,22 +16,22 @@
 
     {# todo: nojs #}
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_magazine_blocks') or is_active_route('user_profile_user_blocks') ? 'active font-weight-bold' : '' }}"
+        <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_user_subscriptions') or is_active_route('user_profile_user_blocks') ? 'active font-weight-bold' : '' }}"
            data-bs-toggle="dropdown"
-           role="button" aria-expanded="false" href="{{ path('user_profile_magazine_blocks') }}">Blokady</a>
+           role="button" aria-expanded="false" href="{{ path('user_profile_user_subscriptions') }}">Ludzie</a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('user_profile_user_blocks') }}">Użytkownicy</a></li>
-            <li><a class="dropdown-item" href="{{ path('user_profile_magazine_blocks') }}">Magazyny</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_user_subscriptions') }}">Subskrypcje</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_user_blocks') }}">Blokady</a></li>
         </ul>
     </li>
 
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_magazine_subscriptions') or is_active_route('user_profile_user_subscriptions') ? 'active font-weight-bold' : '' }}"
+        <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_magazine_subscriptions') or is_active_route('user_profile_magazine_blocks') ? 'active font-weight-bold' : '' }}"
            data-bs-toggle="dropdown"
-           role="button" aria-expanded="false" href="{{ path('user_profile_magazine_subscriptions') }}">Subskrypcje</a>
+           role="button" aria-expanded="false" href="{{ path('user_profile_magazine_subscriptions') }}">Magazyny</a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('user_profile_user_subscriptions') }}">Użytkownicy</a></li>
-            <li><a class="dropdown-item" href="{{ path('user_profile_magazine_subscriptions') }}">Magazyny</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_magazine_subscriptions') }}">Subskrypcje</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_magazine_blocks') }}">Blokady</a></li>
         </ul>
     </li>
 
