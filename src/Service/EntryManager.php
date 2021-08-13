@@ -83,8 +83,6 @@ class EntryManager implements ContentManagerInterface
         $entry->isAdult = $dto->isAdult;
         $entry->slug    = $this->slugger->slug($dto->title);
 
-        $this->assertType($entry);
-
         if ($dto->image) {
             $entry->image = $dto->image;
         }
