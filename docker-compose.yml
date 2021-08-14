@@ -24,6 +24,8 @@ services:
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
+#    depends_on:
+#     - mongodb_container
 
   caddy:
     build:
@@ -40,6 +42,8 @@ services:
       - php_socket:/var/run/php
       - caddy_data:/data
       - caddy_config:/config
+#      - mongodb_data_container:/data/db
+
     ports:
       # HTTP
       - target: 80
@@ -70,8 +74,20 @@ services:
       - "5433:5432"
 ###< doctrine/doctrine-bundle ###
 
+#  mongodb_container:
+#    image: mongo:latest
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+#    ports:
+#      - 27017:27017
+#    volumes:
+#      - mongodb_data_container:/data/db
+
 volumes:
   php_socket:
   caddy_data:
   caddy_config:
   db-data:
+#  mongodb_data_container:
+
