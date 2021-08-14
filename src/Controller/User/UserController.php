@@ -8,7 +8,6 @@ use App\Entity\User;
 use App\Form\UserBasicType;
 use App\Form\UserEmailType;
 use App\Form\UserPasswordType;
-use App\Form\UserRegisterType;
 use App\PageView\EntryCommentPageView;
 use App\PageView\EntryPageView;
 use App\PageView\PostCommentPageView;
@@ -21,10 +20,8 @@ use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -125,31 +122,39 @@ class UserController extends AbstractController
         $dto = $manager->createDto($this->getUserOrThrow());
 
         $basicForm = $this->handleForm($this->createForm(UserBasicType::class, $dto), $dto, $manager, $request);
-        if(!$basicForm instanceof FormInterface) {
+        if (!$basicForm instanceof FormInterface) {
             return $basicForm;
         }
 
         $emailForm = $this->handleForm($this->createForm(UserEmailType::class, $dto), $dto, $manager, $request);
-        if(!$emailForm instanceof FormInterface) {
+        if (!$emailForm instanceof FormInterface) {
             return $emailForm;
         }
 
         $passwordForm = $this->handleForm($this->createForm(UserPasswordType::class, $dto), $dto, $manager, $request);
-        if(!$passwordForm instanceof FormInterface) {
+        if (!$passwordForm instanceof FormInterface) {
             return $passwordForm;
         }
 
         return $this->render(
             'user/profile/edit.html.twig',
             [
-                'form_basic' => $basicForm->createView(),
+                'form_basic'    => $basicForm->createView(),
                 'form_password' => $passwordForm->createView(),
-                'form_email' => $emailForm->createView(),
-            ]
+                'form_email'    => $emailForm->createView(),
+            ],
+            new Response(
+                null,
+                $basicForm->isSubmitted() && !$basicForm->isValid()
+                || $passwordForm->isSubmitted() && !$passwordForm->isValid()
+                || $emailForm->isSubmitted() && !$emailForm->isValid()
+                    ? 422 : 200
+            )
         );
     }
 
-    private function handleForm(FormInterface $form, UserDto $dto, UserManager $manager, Request $request): FormInterface|Response {
+    private function handleForm(FormInterface $form, UserDto $dto, UserManager $manager, Request $request): FormInterface|Response
+    {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -158,6 +163,7 @@ class UserController extends AbstractController
 
             if ($dto->email !== $email || $dto->plainPassword) {
                 $manager->logout();
+
                 return $this->redirectToRoute('app_login');
             }
 
