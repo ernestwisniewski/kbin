@@ -12,30 +12,8 @@ services:
       # - /srv/app/var
     environment:
       APP_ENV: dev
-#    depends_on:
-#      - mongodb_container
 
   caddy:
     volumes:
-#      - mongodb_data_container:/data/db
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./public:/srv/app/public:ro
-
-  ###> doctrine/doctrine-bundle ###
-  database:
-    ports:
-      - "5432"
-  ###< doctrine/doctrine-bundle ###
-
-#  mongodb_container:
-#    image: mongo:latest
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-#    ports:
-#      - 27017:27017
-#    volumes:
-#      - mongodb_data_container:/data/db
-
-#volumes:
-#  mongodb_data_container:
