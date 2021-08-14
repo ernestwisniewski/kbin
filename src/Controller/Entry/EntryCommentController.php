@@ -202,7 +202,8 @@ class EntryCommentController extends AbstractController
                 'parent'   => $parent,
                 'comment'  => $parent,
                 'form'     => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 
