@@ -71,10 +71,11 @@ class EntryDto
         ExecutionContextInterface $context,
         $payload
     ) {
-//        if (null === $this->body && null === $this->url) {
-//            $this->buildViolation($context, 'url');
-//            $this->buildViolation($context, 'body');
-//        }
+        if (null === $this->body && null === $this->url && null === $this->image) {
+            $this->buildViolation($context, 'url');
+            $this->buildViolation($context, 'body');
+            $this->buildViolation($context, 'image');
+        }
     }
 
     private function buildViolation(ExecutionContextInterface $context, $path)
