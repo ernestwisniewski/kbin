@@ -158,7 +158,7 @@ class ProfileController extends AbstractController
             'user/profile/settings.html.twig',
             [
                 'form' => $form->createView(),
-            ]
+            ], new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 

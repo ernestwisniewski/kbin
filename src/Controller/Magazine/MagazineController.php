@@ -39,7 +39,8 @@ class MagazineController extends AbstractController
             'magazine/create.html.twig',
             [
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 
@@ -90,7 +91,7 @@ class MagazineController extends AbstractController
         return $this->render(
             'magazine/_featured.html.twig',
             [
-                'magazine'  => $magazine,
+                'magazine' => $magazine,
                 'magazines' => $magazines,
             ]
         );

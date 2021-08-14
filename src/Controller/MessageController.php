@@ -59,9 +59,9 @@ class MessageController extends AbstractController
         return $this->render(
             'user/profile/message.html.twig',
             [
-                'user'   => $this->getUserOrThrow(),
+                'user' => $this->getUserOrThrow(),
                 'thread' => $thread,
-                'form'   => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -90,7 +90,8 @@ class MessageController extends AbstractController
             [
                 'user' => $receiver,
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 }

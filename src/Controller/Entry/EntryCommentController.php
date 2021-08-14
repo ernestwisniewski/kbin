@@ -319,6 +319,7 @@ class EntryCommentController extends AbstractController
             'entry/comment/_form.html.twig',
             [
                 'form' => $form->createView(),
+                new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200),
             ]
         );
     }

@@ -35,23 +35,27 @@ class ImageRepository extends ServiceEntityRepository
         $fileName = $this->imageManager->getFileName($source);
         $filePath = $this->imageManager->getFilePath($source);
         $sha256   = hash_file('sha256', $source, true);
-        $image    = $this->findOneBySha256($sha256);
 
-        if (!$image) {
-            [$width, $height] = @getimagesize($source);
-            $image = new Image($fileName, $filePath, $sha256, $width, $height);
-        } elseif (!$image->width || !$image->height) {
+        if ($image = $this->findOneBySha256($sha256)) {
+            return $image;
+        }
+
+        [$width, $height] = @getimagesize($source);
+        $image = new Image($fileName, $filePath, $sha256, $width, $height);
+
+        if (!$image->width || !$image->height) {
             [$width, $height] = @getimagesize($source);
             $image->setDimensions($width, $height);
         }
+
         try {
-            $isStored = $this->imageManager->store($source, $filePath);
+            $this->imageManager->store($source, $filePath);
         } catch (Exception $e) {
             $this->imageManager->remove($image);
 
             return null;
         }
 
-        return $isStored ? $image : null;
+        return $image;
     }
 }
