@@ -66,7 +66,8 @@ class PostCommentController extends AbstractController
                 'comments' => $comments,
                 'parent'   => $parent,
                 'form'     => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 
@@ -206,7 +207,8 @@ class PostCommentController extends AbstractController
                 'comments' => $comments,
                 'comment'  => $comment,
                 'form'     => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 

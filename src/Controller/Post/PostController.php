@@ -187,7 +187,8 @@ class PostController extends AbstractController
                 'post'     => $post,
                 'comments' => $repository->findByCriteria($criteria),
                 'form'     => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 
