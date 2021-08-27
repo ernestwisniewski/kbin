@@ -112,7 +112,9 @@ class ImageManager
 
             $this->validate($tempFile);
         } catch (Exception $e) {
-            fclose($fh);
+            if($fh) {
+                fclose($fh);
+            }
             unlink($tempFile);
 
             return null;

@@ -45,17 +45,17 @@ class EntryManager implements ContentManagerInterface
 
         if ($dto->url) {
             $entry->type = Entry::ENTRY_TYPE_LINK;
-            $dto->url = ($this->urlCleaner)($dto->url);
+            $dto->url    = ($this->urlCleaner)($dto->url);
         }
 
         if ($dto->image) {
-            $entry->type = Entry::ENTRY_TYPE_IMAGE;
-            $entry->image = $dto->image;
+            $entry->type     = Entry::ENTRY_TYPE_IMAGE;
+            $entry->image    = $dto->image;
             $entry->hasEmbed = true;
         }
 
         if ($dto->body) {
-            $entry->type = Entry::ENTRY_TYPE_ARTICLE;
+            $entry->type  = Entry::ENTRY_TYPE_ARTICLE;
             $entry->image = $dto->image;
         }
 
