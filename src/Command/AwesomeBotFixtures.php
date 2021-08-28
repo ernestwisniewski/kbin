@@ -8,13 +8,13 @@ use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\EntryManager;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Persistence\ManagerRegistry;
 use DOMElement;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpClient\HttpClient;
@@ -35,7 +35,7 @@ class AwesomeBotFixtures extends Command
     protected function configure()
     {
         $this
-            ->addArgument('prepare', InputArgument::OPTIONAL)
+            ->addOption('prepare', null, InputOption::VALUE_OPTIONAL)
             ->setDescription('This command allows you to create awesome-bot entries.');
     }
 
@@ -45,7 +45,96 @@ class AwesomeBotFixtures extends Command
 
         $result = [];
 
-        $entries = [
+        foreach ($this->getEntries() as $entry) {
+            if($input->getOption('prepare')){
+                $this->preapreMagazines($output, $entry);
+            }
+
+            $user     = $this->userRepository->findOneByUsername($entry['username']);
+            $magazine = $this->magazineRepository->findOneByName($entry['magazine_name']);
+
+            $tags = $entry['tags'] ? explode(',', $entry['tags']) : [];
+
+            if (!$user) {
+                $io->error('User not exist.');
+
+                continue;
+            } elseif (!$magazine) {
+                $io->error('Magazine not exist.');
+
+                continue;
+            }
+
+            $browser = new HttpBrowser(HttpClient::create());
+            $crawler = $browser->request('GET', $entry['url']);
+
+            $content = $crawler->filter('.markdown-body')->first()->children();
+
+            $tags = array_flip($tags);
+            foreach ($content as $elem) {
+                if (array_key_exists($elem->nodeName, $tags)) {
+                    $tags[$elem->nodeName] = $elem->nodeValue;
+                }
+
+                if ($elem->nodeName === 'ul') {
+                    foreach ($elem->childNodes as $li) {
+                        /**
+                         * @var $li DOMElement
+                         */
+                        if ($li->nodeName !== 'li') {
+                            continue;
+                        }
+
+                        if ($li->firstChild->nodeName !== 'a') {
+                            continue;
+                        }
+
+                        $result[] = [
+                            'magazine' => $magazine,
+                            'user'     => $user,
+                            'title'    => $li->nodeValue,
+                            'url'      => $li->firstChild->getAttribute('href'),
+                            'badges'   => new ArrayCollection(array_filter($tags, fn($v) => is_string($v))),
+                        ];
+                    };
+                }
+            }
+        }
+
+        shuffle($result);
+        foreach ($result as $item) {
+            if (false === filter_var($item['url'], FILTER_VALIDATE_URL)) {
+                continue;
+            }
+
+            if ($this->entryRepository->findOneByUrl($item['url'])) {
+                continue;
+            }
+
+            $this->entryManager->create(
+                (new EntryDto())->create(
+                    $item['magazine'],
+                    $item['user'],
+                    substr($item['title'], 0, 255),
+                    $item['url'],
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    $item['badges']
+                ),
+                $item['user']
+            );
+        }
+
+        return Command::SUCCESS;
+    }
+
+    private function getEntries(): array
+    {
+        return [
             [
                 'username'       => 'awesome-vue-bot',
                 'magazine_name'  => 'vue',
@@ -151,114 +240,56 @@ class AwesomeBotFixtures extends Command
                 'url'            => 'https://github.com/emilebosch/awesome-fediverse',
                 'tags'           => '',
             ],
+            [
+                'username'       => 'awesome-eventstorming-bot',
+                'magazine_name'  => 'eventstorming',
+                'magazine_title' => 'Eventstorming',
+                'url'            => 'https://github.com/mariuszgil/awesome-eventstorming',
+                'tags'           => 'h2',
+            ],
+            [
+                'username'       => 'awesome-javascript-bot',
+                'magazine_name'  => 'javascript',
+                'magazine_title' => 'Javascript',
+                'url'            => 'https://github.com/sorrycc/awesome-javascript',
+                'tags'           => 'h2,h3',
+            ],
+            [
+                'username'       => 'awesome-unity-bot',
+                'magazine_name'  => 'unity',
+                'magazine_title' => 'Unity 3D',
+                'url'            => 'https://github.com/RyanNielson/awesome-unity',
+                'tags'           => 'h2',
+            ],
         ];
+    }
 
-        foreach ($entries as $entry) {
-            try {
-                $command   = $this->getApplication()->find('kbin:user:create');
-                $arguments = [
-                    'username' => $entry['username'],
-                    'email'    => $entry['username'].'@karab.in',
-                    'password' => $entry['username'].'!test',
-                ];
-                $input     = new ArrayInput($arguments);
-                $command->run($input, $output);
-            } catch (\Exception $e) {
-            }
-
-            try {
-                $command   = $this->getApplication()->find('kbin:awesome-bot:magazine:create');
-                $arguments = [
-                    'username'       => 'ernest',
-                    'magazine_name'  => $entry['magazine_name'],
-                    'magazine_title' => $entry['magazine_title'],
-                    'url'            => $entry['url'],
-                    'tags'           => $entry['tags'],
-                ];
-                $input     = new ArrayInput($arguments);
-                $command->run($input, $output);
-            } catch (\Exception $e) {
-            }
-
-            $user     = $this->userRepository->findOneByUsername($entry['username']);
-            $magazine = $this->magazineRepository->findOneByName($entry['magazine_name']);
-
-            $tags = $entry['tags'] ? explode(',', $entry['tags']) : [];
-
-            if (!$user) {
-                $io->error('User not exist.');
-
-                continue;
-            } elseif (!$magazine) {
-                $io->error('Magazine not exist.');
-
-                continue;
-            }
-
-            $browser = new HttpBrowser(HttpClient::create());
-            $crawler = $browser->request('GET', $entry['url']);
-
-            $content = $crawler->filter('.markdown-body')->first()->children();
-
-            $tags = array_flip($tags);
-            foreach ($content as $elem) {
-                if (array_key_exists($elem->nodeName, $tags)) {
-                    $tags[$elem->nodeName] = $elem->nodeValue;
-                }
-
-                if ($elem->nodeName === 'ul') {
-                    foreach ($elem->childNodes as $li) {
-                        /**
-                         * @var $li DOMElement
-                         */
-                        if ($li->nodeName !== 'li') {
-                            continue;
-                        }
-
-                        if ($li->firstChild->nodeName !== 'a') {
-                            continue;
-                        }
-
-                        $result[] = [
-                            'magazine' => $magazine,
-                            'user'     => $user,
-                            'title'    => $li->nodeValue,
-                            'url'      => $li->firstChild->getAttribute('href'),
-                            'badges'   => new ArrayCollection(array_filter($tags, fn($v) => is_string($v))),
-                        ];
-                    };
-                }
-            }
+    private function preapreMagazines(OutputInterface $output, array $entry)
+    {
+        try {
+            $command   = $this->getApplication()->find('kbin:user:create');
+            $arguments = [
+                'username' => $entry['username'],
+                'email'    => $entry['username'].'@karab.in',
+                'password' => $entry['username'].'!test',
+            ];
+            $input     = new ArrayInput($arguments);
+            $command->run($input, $output);
+        } catch (\Exception $e) {
         }
 
-        shuffle($result);
-        foreach ($result as $item) {
-            if (false === filter_var($item['url'], FILTER_VALIDATE_URL)) {
-                continue;
-            }
-
-            if ($this->entryRepository->findOneByUrl($item['url'])) {
-                continue;
-            }
-
-            $this->entryManager->create(
-                (new EntryDto())->create(
-                    $item['magazine'],
-                    $item['user'],
-                    substr($item['title'], 0, 255),
-                    $item['url'],
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    $item['badges']
-                ),
-                $item['user']
-            );
+        try {
+            $command   = $this->getApplication()->find('kbin:awesome-bot:magazine:create');
+            $arguments = [
+                'username'       => 'ernest',
+                'magazine_name'  => $entry['magazine_name'],
+                'magazine_title' => $entry['magazine_title'],
+                'url'            => $entry['url'],
+                'tags'           => $entry['tags'],
+            ];
+            $input     = new ArrayInput($arguments);
+            $command->run($input, $output);
+        } catch (\Exception $e) {
         }
-
-        return Command::SUCCESS;
     }
 }
