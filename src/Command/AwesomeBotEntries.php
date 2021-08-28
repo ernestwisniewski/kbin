@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\DTO\EntryDto;
+use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\EntryManager;
@@ -28,6 +29,7 @@ class AwesomeBotEntries extends Command
         private EntryManager $entryManager,
         private UserRepository $userRepository,
         private MagazineRepository $magazineRepository,
+        private EntryRepository $entryRepository
     ) {
         parent::__construct();
     }
@@ -97,6 +99,10 @@ class AwesomeBotEntries extends Command
 
         foreach ($result as $item) {
             if (false === filter_var($item['url'], FILTER_VALIDATE_URL)) {
+                continue;
+            }
+
+            if ($this->entryRepository->findOneByUrl($item['url'])) {
                 continue;
             }
 
