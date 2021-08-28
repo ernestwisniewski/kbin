@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use \ForceUTF8\Encoding;
 
 class Slugger
 {
@@ -20,6 +21,6 @@ class Slugger
 
     public function slug(string $val): string
     {
-        return (new AsciiSlugger())->slug(substr($val, 0, 60))->toString();
+        return (new AsciiSlugger())->slug(substr(Encoding::fixUTF8($val), 0, 60))->toString();
     }
 }

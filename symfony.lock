@@ -264,6 +264,9 @@
     "namshi/jose": {
         "version": "7.2.3"
     },
+    "neitanod/forceutf8": {
+        "version": "v2.0.4"
+    },
     "nelmio/cors-bundle": {
         "version": "1.5",
         "recipe": {

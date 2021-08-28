@@ -25,6 +25,7 @@
         "league/commonmark": "^1.5",
         "lexik/jwt-authentication-bundle": "^2.11",
         "liip/imagine-bundle": "^2.4",
+        "neitanod/forceutf8": "^2.0",
         "nelmio/cors-bundle": "^2.1",
         "nucleos/antispam-bundle": "^2.1",
         "oneup/flysystem-bundle": "^3.7",
