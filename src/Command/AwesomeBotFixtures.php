@@ -56,11 +56,11 @@ class AwesomeBotFixtures extends Command
             $tags = $entry['tags'] ? explode(',', $entry['tags']) : [];
 
             if (!$user) {
-                $io->error('User not exist.');
+                $io->error("User {$entry['username']} not exist.");
 
                 continue;
             } elseif (!$magazine) {
-                $io->error('Magazine not exist.');
+                $io->error("Magazine {$entry['magazine_name']} not exist.");
 
                 continue;
             }

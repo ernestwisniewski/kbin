@@ -6,7 +6,6 @@ use App\DTO\PostDto;
 use App\Service\PostManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use ForceUTF8\Encoding;
 
 class PostFixtures extends BaseFixture implements DependentFixtureInterface
 {
