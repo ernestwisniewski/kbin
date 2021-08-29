@@ -17,6 +17,7 @@ export default class extends Controller {
 
             this.element.classList.toggle('kbin-dark');
         } catch (e) {
+            this.element.classList.toggle('kbin-dark');
         } finally {
         }
     }
