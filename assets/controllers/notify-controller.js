@@ -48,6 +48,12 @@ export default class extends ApplicationController {
             'pub',
         ];
 
+        if(this.hasMagazineNameValue) {
+            topics = [
+                `/api/magazines/${this.magazineNameValue}`,
+            ]
+        }
+        
         if (this.hasUsernameValue) {
             topics = [
                 `/api/magazines/${this.HasMagazineNameValue ? this.magazineNameValue : '{id}'}`,

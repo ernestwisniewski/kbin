@@ -38,8 +38,8 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id'       => $entry->getId(),
-                'html'     => $this->renderView('entry/__entry.html.twig', ['entry' => $entry]),
+                'id'   => $entry->getId(),
+                'html' => $this->renderView('entry/__entry.html.twig', ['entry' => $entry, 'show_content' => true]),
             ]
         );
     }
@@ -48,8 +48,8 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id'     => $comment->getId(),
-                'html'   => $this->renderView(
+                'id'   => $comment->getId(),
+                'html' => $this->renderView(
                     'entry/comment/_comment.html.twig',
                     [
                         'extra_classes' => 'kbin-comment',
@@ -67,8 +67,8 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id'       => $post->getId(),
-                'html'     => $this->renderView('post/__post.html.twig', ['post' => $post]),
+                'id'   => $post->getId(),
+                'html' => $this->renderView('post/__post.html.twig', ['post' => $post]),
             ]
         );
     }

@@ -7,6 +7,14 @@
   }
 
   .kbin-add {
+    &-btn {
+      border-bottom: 1px solid $kbin-entry-list-item-border-color;
+
+      .kbin-dark & {
+        border-bottom: 1px solid $kbin-dark-entry-list-item-border-color;
+      }
+    }
+
     .kbin-quick-links {
       &--hide {
         display: none;

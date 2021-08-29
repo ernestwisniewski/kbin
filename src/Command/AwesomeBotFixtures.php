@@ -12,7 +12,6 @@ use DOMElement;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,8 +45,9 @@ class AwesomeBotFixtures extends Command
         $result = [];
 
         foreach ($this->getEntries() as $entry) {
-            if($input->getOption('prepare')){
+            if ($input->getOption('prepare')) {
                 $this->preapreMagazines($output, $entry);
+                continue;
             }
 
             $user     = $this->userRepository->findOneByUsername($entry['username']);
@@ -58,11 +58,11 @@ class AwesomeBotFixtures extends Command
             if (!$user) {
                 $io->error("User {$entry['username']} not exist.");
 
-                continue;
+                return Command::FAILURE;
             } elseif (!$magazine) {
                 $io->error("Magazine {$entry['magazine_name']} not exist.");
 
-                continue;
+                return Command::FAILURE;
             }
 
             $browser = new HttpBrowser(HttpClient::create());
@@ -111,7 +111,7 @@ class AwesomeBotFixtures extends Command
                 continue;
             }
 
-            $this->entryManager->create(
+            $entry = $this->entryManager->create(
                 (new EntryDto())->create(
                     $item['magazine'],
                     $item['user'],
@@ -127,6 +127,10 @@ class AwesomeBotFixtures extends Command
                 ),
                 $item['user']
             );
+
+            $io->info("(m/{$entry->magazine->name}) {$entry->title}");
+
+//            sleep(rand(2,30));
         }
 
         return Command::SUCCESS;
@@ -135,13 +139,6 @@ class AwesomeBotFixtures extends Command
     private function getEntries(): array
     {
         return [
-            [
-                'username'       => 'awesome-vue-bot',
-                'magazine_name'  => 'vue',
-                'magazine_title' => 'Vue',
-                'url'            => 'https://github.com/vuejs/awesome-vue',
-                'tags'           => 'h3',
-            ],
             [
                 'username'       => 'awesome-rust-bot',
                 'magazine_name'  => 'rust',
@@ -155,6 +152,13 @@ class AwesomeBotFixtures extends Command
                 'magazine_title' => 'Cardano',
                 'url'            => 'https://github.com/CardanoUmbrella/awesome-cardano',
                 'tags'           => 'h3,h4',
+            ],
+            [
+                'username'       => 'awesome-vue-bot',
+                'magazine_name'  => 'vue',
+                'magazine_title' => 'Vue',
+                'url'            => 'https://github.com/vuejs/awesome-vue',
+                'tags'           => 'h3',
             ],
             [
                 'username'       => 'awesome-svelte-bot',
@@ -259,6 +263,55 @@ class AwesomeBotFixtures extends Command
                 'magazine_name'  => 'unity',
                 'magazine_title' => 'Unity 3D',
                 'url'            => 'https://github.com/RyanNielson/awesome-unity',
+                'tags'           => 'h2',
+            ],
+            [
+                'username'       => 'awesome-selfhosted-bot',
+                'magazine_name'  => 'selfhosted',
+                'magazine_title' => 'selfhosted',
+                'url'            => 'https://github.com/awesome-selfhosted/awesome-selfhosted',
+                'tags'           => 'h3',
+            ],
+            [
+                'username'       => 'awesome-dotnet-bot',
+                'magazine_name'  => 'dotnet',
+                'magazine_title' => 'dotnet',
+                'url'            => 'https://github.com/quozd/awesome-dotnet',
+                'tags'           => 'h2',
+            ],
+            [
+                'username'       => 'awesome-java-bot',
+                'magazine_name'  => 'java',
+                'magazine_title' => 'Java',
+                'url'            => 'https://github.com/akullpp/awesome-java',
+                'tags'           => 'h3',
+            ],
+            [
+                'username'       => 'awesome-macos-bot',
+                'magazine_name'  => 'macOS',
+                'magazine_title' => 'macOS',
+                'url'            => 'https://github.com/iCHAIT/awesome-macOS',
+                'tags'           => 'h3',
+            ],
+            [
+                'username'       => 'awesome-laravel-bot',
+                'magazine_name'  => 'laravel',
+                'magazine_title' => 'Laravel',
+                'url'            => 'https://github.com/chiraggude/awesome-laravel',
+                'tags'           => 'h2,h5',
+            ],
+            [
+                'username'       => 'awesome-ux-bot',
+                'magazine_name'  => 'ux',
+                'magazine_title' => 'UX',
+                'url'            => 'https://github.com/netoguimaraes/awesome-ux',
+                'tags'           => 'h2,h3',
+            ],
+            [
+                'username'       => 'awesome-symfony-bot',
+                'magazine_name'  => 'symfony',
+                'magazine_title' => 'Symfony',
+                'url'            => 'https://github.com/sitepoint-editors/awesome-symfony',
                 'tags'           => 'h2',
             ],
         ];
