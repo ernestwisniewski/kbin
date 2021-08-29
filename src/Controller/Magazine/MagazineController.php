@@ -82,7 +82,7 @@ class MagazineController extends AbstractController
 
     public function featuredList(?Magazine $magazine, MagazineRepository $repository): Response
     {
-        $magazines = $repository->findBy([], null, 20);
+        $magazines = $repository->findBy([], null, 45);
 
         if ($magazine && !in_array($magazine, $magazines)) {
             array_unshift($magazines, $magazine);

@@ -21,7 +21,11 @@ $post-margin-sm: .5rem;
     overflow: hidden;
 
     &.kbin-post-list-item {
-      border-bottom: 1px solid lightgray;
+      border-bottom: 1px solid $kbin-entry-list-item-border-color;
+
+      .kbin-dark & {
+        border-bottom: 1px solid $kbin-dark-entry-list-item-border-color;
+      }
     }
 
     a {
