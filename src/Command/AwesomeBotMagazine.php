@@ -59,7 +59,8 @@ class AwesomeBotMagazine extends Command
                 (new MagazineDto())->create(
                     $input->getArgument('magazine_name'),
                     $input->getArgument('magazine_title'),
-                    new ArrayCollection()
+                    new ArrayCollection(),
+                    'Powered by '.$input->getArgument('url')
                 ),
                 $user
             );
