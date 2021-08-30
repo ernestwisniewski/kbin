@@ -314,6 +314,13 @@ class AwesomeBotFixtures extends Command
                 'url'            => 'https://github.com/sitepoint-editors/awesome-symfony',
                 'tags'           => 'h2',
             ],
+            [
+                'username'       => 'awesome-design-bot',
+                'magazine_name'  => 'design',
+                'magazine_title' => 'Design',
+                'url'            => 'https://github.com/gztchan/awesome-design',
+                'tags'           => 'h2',
+            ],
         ];
     }
 
@@ -324,7 +331,7 @@ class AwesomeBotFixtures extends Command
             $arguments = [
                 'username' => $entry['username'],
                 'email'    => $entry['username'].'@karab.in',
-                'password' => $entry['username'].'!test',
+                'password' => md5(rand()),
             ];
             $input     = new ArrayInput($arguments);
             $command->run($input, $output);
