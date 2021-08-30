@@ -28,7 +28,7 @@
       data-notify-counter-hidden-class="visually-hidden"
       class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : '' }}">
 <div data-controller="scroll-progress" class="bg-primary scroll-progress"></div>
-<div id="kbin" data-turbo="false">
+<div id="kbin" data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
     {% include '_layout/_topbar.html.twig' %}
     {% include '_layout/_navbar.html.twig' %}
     <section class="kbin-container container pt-3 pb-5">

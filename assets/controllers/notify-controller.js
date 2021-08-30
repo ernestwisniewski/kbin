@@ -56,7 +56,7 @@ export default class extends ApplicationController {
         
         if (this.hasUsernameValue) {
             topics = [
-                `/api/magazines/${this.HasMagazineNameValue ? this.magazineNameValue : '{id}'}`,
+                `/api/magazines/${this.hasMagazineNameValue ? this.magazineNameValue : '{id}'}`,
                 `/api/user/${this.usernameValue}`,
             ]
         }
