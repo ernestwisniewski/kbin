@@ -7,6 +7,7 @@ use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -71,7 +72,12 @@ class EntryDto
         ExecutionContextInterface $context,
         $payload
     ) {
-        if (null === $this->body && null === $this->url && null === $this->image) {
+        $image = Request::createFromGlobals()->files->filter('entry_image');
+        if (is_array($image)) {
+            $image = $image['image'];
+        }
+        $image = empty($image) ? null : $image;
+        if (null === $this->body && null === $this->url && null === $image) {
             $this->buildViolation($context, 'url');
             $this->buildViolation($context, 'body');
             $this->buildViolation($context, 'image');
@@ -92,7 +98,7 @@ class EntryDto
 
     public function getType(): string
     {
-        if($this->url) {
+        if ($this->url) {
             return Entry::ENTRY_TYPE_LINK;
         }
 
