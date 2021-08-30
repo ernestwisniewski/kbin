@@ -21,7 +21,8 @@ class UserSettingsManager
             $user->notifyOnNewPost,
             $user->notifyOnNewPostReply,
             $user->notifyOnNewPostCommentReply,
-            $user->theme === User::THEME_DARK
+            $user->theme === User::THEME_DARK,
+            $user->mode === User::MODE_TURBO
         );
     }
 
@@ -37,6 +38,11 @@ class UserSettingsManager
             $user->theme = User::THEME_DARK;
         } else {
             $user->theme = User::THEME_LIGHT;
+        }
+        if($dto->turboMode) {
+            $user->mode = User::MODE_TURBO;
+        } else {
+            $user->mode = User::MODE_NORMAL;
         }
 
         $this->entityManager->flush();

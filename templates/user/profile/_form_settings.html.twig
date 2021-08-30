@@ -7,6 +7,12 @@
     <div class="input-group input-group-lg">
         {{ form_widget(form.darkTheme, {name: 'Ciemny motyw'}) }}
     </div>
+
+    {{ form_label(form.turboMode, 'Tryb turbo') }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.turboMode, {name: 'Tryb turbo'}) }}
+    </div>
+
     <div class="input-group input-group-lg">
         <div class="form-check"><input id="adult" type="checkbox" name="" disabled="disabled" novalidate="novalidate" class="form-check-input">
             <label class="form-check-label required" for="adult">Ukryj treści dla dorosłych</label>

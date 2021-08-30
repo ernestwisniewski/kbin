@@ -15,6 +15,14 @@ class UserSettingsType extends AbstractType
     {
         $builder
             ->add(
+                'darkTheme',
+                CheckboxType::class
+            )
+            ->add(
+                'turboMode',
+                CheckboxType::class
+            )
+            ->add(
                 'notifyOnNewEntry',
                 CheckboxType::class
             )
@@ -36,10 +44,6 @@ class UserSettingsType extends AbstractType
             )
             ->add(
                 'notifyOnNewPostCommentReply',
-                CheckboxType::class
-            )
-            ->add(
-                'darkTheme',
                 CheckboxType::class
             )
             ->add('submit', SubmitType::class);

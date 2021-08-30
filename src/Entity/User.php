@@ -25,6 +25,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public const THEME_LIGHT = 'light';
     public const THEME_DARK = 'dark';
     public const THEME_AUTO = 'auto';
+
+    public const MODE_NORMAL = 'normal';
+    public const MODE_TURBO = 'turbo';
+
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      */
@@ -49,6 +53,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", options={"default": User::THEME_LIGHT})
      */
     public string $theme = self::THEME_LIGHT;
+    /**
+     * @ORM\Column(type="string", options={"default": User::MODE_NORMAL})
+     */
+    public string $mode = self::MODE_NORMAL;
     /**
      * @ORM\Column(type="boolean")
      */

@@ -12,6 +12,7 @@ class UserSettingsDto
         public bool $notifyOnNewPostReply,
         public bool $notifyOnNewPostCommentReply,
         public bool $darkTheme,
+        public bool $turboMode,
     ) {
     }
 }
