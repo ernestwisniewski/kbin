@@ -30,7 +30,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class EntryRepository extends ServiceEntityRepository
 {
-    const SORT_DEFAULT = 'aktywne';
+    const SORT_DEFAULT = 'wschodzace';
     const TIME_DEFAULT = EntryPageView::TIME_ALL;
     const PER_PAGE = 25;
 

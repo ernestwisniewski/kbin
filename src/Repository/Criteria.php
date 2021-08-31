@@ -93,7 +93,7 @@ abstract class Criteria
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
 
-        return $routes[$value] ?? $routes['aktywne'];
+        return $routes[$value] ?? $routes['wschodzace'];
     }
 
     public function translateTime(?string $value): ?string
