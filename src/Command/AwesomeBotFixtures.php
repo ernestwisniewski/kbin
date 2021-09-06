@@ -321,6 +321,20 @@ class AwesomeBotFixtures extends Command
                 'url'            => 'https://github.com/gztchan/awesome-design',
                 'tags'           => 'h2',
             ],
+            [
+                'username'       => 'awesome-wordpress-bot',
+                'magazine_name'  => 'wordpress',
+                'magazine_title' => 'wordpress',
+                'url'            => 'https://github.com/miziomon/awesome-wordpress',
+                'tags'           => 'h2,h4',
+            ],
+            [
+                'username'       => 'awesome-drupal-bot',
+                'magazine_name'  => 'drupal',
+                'magazine_title' => 'Drupal',
+                'url'            => 'https://github.com/mrsinguyen/awesome-drupal',
+                'tags'           => 'h2,h3',
+            ],
         ];
     }
 
