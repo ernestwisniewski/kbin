@@ -1,11 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Magazyny | {{ parent() }}{% endblock %}
+{% block title %}{{ 'topbar.all_magazines'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-magazines-list-page mt-lg-4">
-        <h1 class="font-weight-bold mb-5">Magazyny</h1>
-
         {% include'magazine/_list_cards.html.twig' %}
     </div>
 {% endblock %}

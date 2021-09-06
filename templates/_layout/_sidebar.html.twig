@@ -1,9 +1,9 @@
 <div class="kbin-search mb-4 mt-lg-0">
     <form>
         <div class="input-group input-group-sm input-group-btn">
-            <input type="text" name="szukaj" class="form-control" placeholder="Wpisz szukaną frazę...">
+            <input type="text" name="szukaj" class="form-control" placeholder="{{ 'type_search_term'|trans }}">
             <span class="input-group-btn input-group-sm">
-        <button class="kbin-search-btn btn btn-default" type="submit">Szukaj</button>
+        <button class="kbin-search-btn btn btn-default" type="submit">{{ 'search'|trans }}</button>
       </span>
         </div>
     </form>
@@ -16,7 +16,7 @@
             data-reveal-target="item"
             class="btn btn-light btn-lg mb-1 kbin-add-btn {{ not kbin_js_enabled or is_route_contains('_create') ? 'visually-hidden' : '' }}"
             data-action="click->reveal#toggle">
-        Dodaj nowy
+        {{ 'add_new'|trans }}
     </button>
     <button type="button" class="btn-close visually-hidden"
             aria-label="Close"
@@ -27,25 +27,25 @@
          data-reveal-target="item">
         <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'link' }) }}{% else %}{{ path('entry_create', { type: 'link' }) }}{% endif %}"
            class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy link</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">Podziel się ciekawym linkiem lub fotografią.</p>
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_link'|trans }}</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_link_desc'|trans }}</p>
         </a>
 
-        <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'artykul' }) }}{% else %}{{ path('entry_create', { type: 'artykul' }) }}{% endif %}"
+        <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.article'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.article'|trans }) }}{% endif %}"
            class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy artykuł</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz artykuł lub wiadomość tekstową.</p>
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_article'|trans }}</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_article_desc'|trans }}</p>
         </a>
 
         <a href="{% if magazine is defined and magazine %}{{ path('magazine_posts', { name: magazine.name }) }}{% else %}{{ '/m/karabin/wpisy/aktywne' }}{% endif %}"
            class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj wpis na mikroblogu</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">Napisz krótki post lub notatkę.</p>
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_post'|trans }}</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_post_desc'|trans }}</p>
         </a>
 
         <a href="{{ path('magazine_create') }}" class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">Dodaj nowy magazyn</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">Utwórz i zarządzaj magazynem tematycznym.</p>
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'create_new_magazine'|trans }}</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'create_new_magazine_desc'|trans }}</p>
         </a>
     </div>
 </div>

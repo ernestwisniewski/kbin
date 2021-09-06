@@ -4,8 +4,8 @@
     <table class="table align-middle">
         <thead>
         <tr>
-            <td>Nazwa</td>
-            <td>Treści</td>
+            <td>{{ 'name'|trans }}</td>
+            <td>{{ 'content'|trans }}</td>
             <td></td>
         </tr>
         </thead>
@@ -19,12 +19,12 @@
                         <form method="post"
                               action="{{ path('magazine_panel_badge_remove', {'magazine_name': badge.magazine.name, 'badge_id': badge.id} ) }}">
                             <input type="hidden" name="token" value="{{ csrf_token('badge_remove') }}">
-                            <button type="submit" class="btn btn-danger btn-sm rounded-0 rounded-start">Usuń</button>
+                            <button type="submit" class="btn btn-danger btn-sm rounded-0 rounded-start">{{ 'delete'|trans }}</button>
                         </form>
 
                         <form method="post"
                               action="">
-                            <button type="submit" class="btn btn-primary btn-sm rounded-0 rounded-end">Edytuj</button>
+                            <button type="submit" class="btn btn-primary btn-sm rounded-0 rounded-end">{{ 'edit'|trans }}</button>
                         </form>
                     </div>
                 </td>

@@ -6,10 +6,10 @@
         <thead>
         <tr>
             <td></td>
-            <td>Nazwa</td>
-            <td>Treści</td>
-            <td>Komentarzy</td>
-            <td>Obserwujących</td>
+            <td>{{ 'username'|trans }}</td>
+            <td>{{ 'threads'|trans }}</td>
+            <td>{{ 'comments'|trans }}</td>
+            <td>{{ 'followers'|trans }}</td>
             <td></td>
         </tr>
         </thead>
@@ -29,5 +29,5 @@
 </div>
 
 {% if(users.haveToPaginate) %}
-    {{ pagerfanta(users, null, {'pageParameter':'[strona]'}) }}
+    {{ pagerfanta(users, null, {'pageParameter':'[p]'}) }}
 {% endif %}

@@ -1,10 +1,10 @@
 <div class="kbin-comment-filter btn-group" role="group">
-    <a href="{{ get_active_comment_filter_path('najnowsze') }}"
-       class="btn btn-sm {{ is_active_comment_filter('najnowsze') ? 'btn-primary' : 'btn-light' }}" tabindex="-1" role="button">
-        Najnowsze
+    <a href="{{ get_active_comment_filter_path('sort.hot'|trans|lower) }}"
+       class="btn btn-sm {{ is_active_comment_filter('sort.hot'|trans|lower) ? 'btn-primary' : 'btn-light' }}" tabindex="-1" role="button">
+        {{ 'sort.hot'|trans }}
     </a>
-    <a href="{{ get_active_comment_filter_path('wazne') }}"
-       class="btn btn-sm {{ is_active_comment_filter('wazne') ? 'btn-primary' : 'btn-light' }}" tabindex="-1" role="button">
-        Najlepsze
+    <a href="{{ get_active_comment_filter_path('sort.active'|trans|lower) }}"
+       class="btn btn-sm {{ is_active_comment_filter('sort.active'|trans|lower) ? 'btn-primary' : 'btn-light' }}" tabindex="-1" role="button">
+        {{ 'sort.active'|trans }}
     </a>
 </div>

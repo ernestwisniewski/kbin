@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Wiadomość do {{ user.username }} | {{ parent() }}{% endblock %}
+{% block title %}{{ user.username }} | {{ 'messages'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-message-page">

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Zarejestruj się | {{ parent() }}{% endblock %}
+{% block title %}{{ 'register'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-register-page">
@@ -9,9 +9,9 @@
 
             <div class="row">
                 <div class="col-lg-6 mb-3">
-                    <h1 class="font-weight-bold mb-5">Utwórz konto</h1>
+                    <h1 class="font-weight-bold mb-5">{{ 'create_account'|trans }}</h1>
                     {% include 'user/profile/_form_register.html.twig' %}
-                    <p class="mt-4">Masz już konto? <a href="{{ path('app_login') }}">Zaloguj się!</a></p>
+                    <p class="mt-4">{{ 'already_have_account'|trans }} <a href="{{ path('app_login') }}">{{ 'login'|trans }}!</a></p>
                 </div>
             </div>
         </div>

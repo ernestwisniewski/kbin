@@ -3,7 +3,7 @@
 
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}Notyfikacje | {{ parent() }}{% endblock %}
+{% block title %}{{ 'notifications'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-profile kbin-profile-notifications-page">
@@ -15,13 +15,13 @@
                     <form action="{{ path('user_profile_notifications_read') }}" method="POST" class="me-2">
                         <input type="hidden" name="token" value="{{ csrf_token('read_notifications') }}">
                         <button class="btn btn-sm btn-primary" type="submit">
-                            Odczytaj wszystkie
+                            {{ 'read_all'|trans }}
                         </button>
                     </form>
                     <form action="{{ path('user_profile_notifications_clear') }}" method="POST">
                         <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
                         <button class="btn btn-sm btn-danger" type="submit">
-                            <span>Wyczyść</span>
+                            <span>{{'purge'|trans}}</span>
                         </button>
                     </form>
                 </div>
@@ -48,7 +48,7 @@
             </div>
 
             {% if(notifications.haveToPaginate) %}
-                {{ pagerfanta(notifications, null, {'pageParameter':'[strona]'}) }}
+                {{ pagerfanta(notifications, null, {'pageParameter':'[p]'}) }}
             {% endif %}
         </div>
     </div>

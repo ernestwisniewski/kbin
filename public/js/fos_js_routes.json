@@ -1,1 +1,205 @@
-{"base_url":"","routes":{"ajax_fetch_title":{"tokens":[["text","\/ajax\/fetch_title"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["POST"],"schemes":[]},"ajax_fetch_embed":{"tokens":[["text","\/ajax\/fetch_embed"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]},"ajax_fetch_post_comments":{"tokens":[["variable","\/","[^\/]++","id",true],["text","\/ajax\/fetch_post_comments"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]},"ajax_fetch_entry":{"tokens":[["variable","\/","[^\/]++","id",true],["text","\/ajax\/fetch_entry"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]},"ajax_fetch_entry_comment":{"tokens":[["variable","\/","[^\/]++","id",true],["text","\/ajax\/fetch_entry_comment"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]},"ajax_fetch_post":{"tokens":[["variable","\/","[^\/]++","id",true],["text","\/ajax\/fetch_post"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]},"ajax_fetch_post_comment":{"tokens":[["variable","\/","[^\/]++","id",true],["text","\/ajax\/fetch_post_comment"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]},"post_comment_create":{"tokens":[["variable","\/","[^\/]++","parent_comment_id",true],["text","\/komentarz"],["variable","\/","[^\/]++","slug",true],["variable","\/","[^\/]++","post_id",true],["text","\/w"],["variable","\/","[^\/]++","magazine_name",true],["text","\/m"]],"defaults":{"slug":"-","parent_comment_id":null},"requirements":[],"hosttokens":[],"methods":["GET","POST"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]}
+{
+  "base_url": "",
+  "routes": {
+    "ajax_fetch_title": {
+      "tokens": [
+        [
+          "text",
+          "\/ajax\/fetch_title"
+        ]
+      ],
+      "defaults": [],
+      "requirements": [],
+      "hosttokens": [],
+      "methods": [
+        "POST"
+      ],
+      "schemes": []
+    },
+    "ajax_fetch_embed": {
+      "tokens": [
+        [
+          "text",
+          "\/ajax\/fetch_embed"
+        ]
+      ],
+      "defaults": [],
+      "requirements": [],
+      "hosttokens": [],
+      "methods": [
+        "GET"
+      ],
+      "schemes": []
+    },
+    "ajax_fetch_post_comments": {
+      "tokens": [
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "id",
+          true
+        ],
+        [
+          "text",
+          "\/ajax\/fetch_post_comments"
+        ]
+      ],
+      "defaults": [],
+      "requirements": [],
+      "hosttokens": [],
+      "methods": [
+        "GET"
+      ],
+      "schemes": []
+    },
+    "ajax_fetch_entry": {
+      "tokens": [
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "id",
+          true
+        ],
+        [
+          "text",
+          "\/ajax\/fetch_entry"
+        ]
+      ],
+      "defaults": [],
+      "requirements": [],
+      "hosttokens": [],
+      "methods": [
+        "GET"
+      ],
+      "schemes": []
+    },
+    "ajax_fetch_entry_comment": {
+      "tokens": [
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "id",
+          true
+        ],
+        [
+          "text",
+          "\/ajax\/fetch_entry_comment"
+        ]
+      ],
+      "defaults": [],
+      "requirements": [],
+      "hosttokens": [],
+      "methods": [
+        "GET"
+      ],
+      "schemes": []
+    },
+    "ajax_fetch_post": {
+      "tokens": [
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "id",
+          true
+        ],
+        [
+          "text",
+          "\/ajax\/fetch_post"
+        ]
+      ],
+      "defaults": [],
+      "requirements": [],
+      "hosttokens": [],
+      "methods": [
+        "GET"
+      ],
+      "schemes": []
+    },
+    "ajax_fetch_post_comment": {
+      "tokens": [
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "id",
+          true
+        ],
+        [
+          "text",
+          "\/ajax\/fetch_post_comment"
+        ]
+      ],
+      "defaults": [],
+      "requirements": [],
+      "hosttokens": [],
+      "methods": [
+        "GET"
+      ],
+      "schemes": []
+    },
+    "post_comment_create": {
+      "tokens": [
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "parent_comment_id",
+          true
+        ],
+        [
+          "text",
+          "\/reply"
+        ],
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "slug",
+          true
+        ],
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "post_id",
+          true
+        ],
+        [
+          "text",
+          "\/p"
+        ],
+        [
+          "variable",
+          "\/",
+          "[^\/]++",
+          "magazine_name",
+          true
+        ],
+        [
+          "text",
+          "\/m"
+        ]
+      ],
+      "defaults": {
+        "slug": "-",
+        "parent_comment_id": null
+      },
+      "requirements": [],
+      "hosttokens": [],
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "schemes": []
+    }
+  },
+  "prefix": "",
+  "host": "localhost",
+  "port": "",
+  "scheme": "http",
+  "locale": []
+}

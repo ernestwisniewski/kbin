@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Moderatorzy | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
+{% block title %}{{ 'stats'|trans }} | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-magazine-moderators-page">
         {% include 'magazine/panel/_tabs.html.twig' %}
 
-        <h2 class="font-weight-bold">Treści</h2>
+        <h2 class="font-weight-bold">{{'content'|trans}}</h2>
         {{ render_chart(contentChart) }}
 
-        <h2 class="font-weight-bold mt-4">Głosy</h2>
+        <h2 class="font-weight-bold mt-4">{{'votes'|trans}}</h2>
         {{ render_chart(voteChart) }}
     </div>
 {% endblock %}

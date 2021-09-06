@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}{{ user.username }} | Odpowiedzi | {{ parent() }}{% endblock %}
+{% block title %}{{ user.username }} | {{ 'replies'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-comments-page">

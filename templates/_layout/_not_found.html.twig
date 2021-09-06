@@ -10,23 +10,25 @@
     {% if is_entry_page() or is_post_page() %}
         <div class="text-center py-5 text-muted">
             <p class="display-4">
-                brak komentarzy
+                {{ 'no_comments'|trans }}
             </p>
         </div>
     {% elseif (is_magazine_page() or is_sub_page() or is_homepage()) and not is_magazine_panel_page() %}
         <div class="text-center py-5 text-muted">
             <p class="display-4">
-                brak treści
+                {{ 'no_threads'|trans }}
             </p>
             <p class="fs-5 mt-2">
-                dodaj nowy <a class="fw-bolder" href="{{ path('entry_create', { type: 'link' }) }}">link</a> lub <a href="{{ path('entry_create') }}"
-                                                                                                                    class="fw-bold">artykuł</a>
+                {{ 'add_new_link_or_article'|trans({
+                    '%link1_start%' : '<a class="fw-bolder" href="'~path('entry_create', { type: 'type.link'|trans })~'">',
+                    '%link2_start%' : '<a class="fw-bolder" href="'~path('entry_create', { type: 'type.article'|trans })~'">',
+                    '%link_end%' : '</a>'}) | raw }}
             </p>
         </div>
     {% else %}
         <div class="text-center py-5 text-muted">
             <p class="display-4">
-                nie znaleziono
+                {{ 'nothing_here'|trans }}
             </p>
         </div>
     {% endif %}

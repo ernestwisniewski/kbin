@@ -4,8 +4,8 @@
     <table class="table align-middle">
         <thead>
         <tr>
-            <td>Login</td>
-            <td>Dodno</td>
+            <td>{{ 'username'|trans }}</td>
+            <td>{{ 'added'|trans }}</td>
             <td></td>
         </tr>
         </thead>
@@ -24,5 +24,5 @@
 </div>
 
 {% if(moderators.haveToPaginate) %}
-    {{ pagerfanta(moderators, null, {'pageParameter':'[strona]'}) }}
+    {{ pagerfanta(moderators, null, {'pageParameter':'[p]'}) }}
 {% endif %}

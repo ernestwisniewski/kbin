@@ -1,16 +1,16 @@
 <ul class="nav nav-tabs justify-content-end mb-2">
     {% if is_comments_page() or is_posts_page() %}
         <li class=" kbin-nav-navbar-item">
-            <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('wazne', false) ? 'active' : '' }}"
-               href="{{ get_active_sort_option_path('wazne', get_active_time_option(), get_active_type_option(), false) }}">Najlepsze</a>
+            <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('sort.hot'|trans|lower, false) ? 'active' : '' }}"
+               href="{{ get_active_sort_option_path('sort.hot'|trans|lower, get_active_time_option(), get_active_type_option(), false) }}">{{ 'sort.hot'|trans }}</a>
         </li>
         <li class=" kbin-nav-navbar-item">
-            <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('najnowsze', false) ? 'active' : '' }}"
-               href="{{ get_active_sort_option_path('najnowsze', get_active_time_option(), get_active_type_option(), false) }}">Najnowsze</a>
+            <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('sort.newest'|trans|lower, false) ? 'active' : '' }}"
+               href="{{ get_active_sort_option_path('sort.newest'|trans|lower, get_active_time_option(), get_active_type_option(), false) }}">{{ 'sort.newest'|trans }}</a>
         </li>
         <li class=" kbin-nav-navbar-item">
-            <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('aktywne', false) ? 'active' : '' }}"
-               href="{{ get_active_sort_option_path('aktywne', get_active_time_option(), get_active_type_option(), false) }}">Aktywne</a>
+            <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('sort.active'|trans|lower, false) ? 'active' : '' }}"
+               href="{{ get_active_sort_option_path('sort.active'|trans|lower, get_active_time_option(), get_active_type_option(), false) }}">{{ 'sort.active'|trans }}</a>
         </li>
     {% endif %}
     <li class="nav-item">
@@ -23,17 +23,23 @@
                 <i class="fas fa-history"></i> {{ get_active_time_option() }}</a>
             <ul class="dropdown-menu" aria-labelledby="kbin-time-filter">
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '6h', get_active_type_option(), false) }}">6h</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), '6h'|trans, get_active_type_option(), false) }}">{{ '6h'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '12h', get_active_type_option(), false) }}">12h</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), '12h'|trans, get_active_type_option(), false) }}">{{ '12h'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1d', get_active_type_option(), false) }}">24h</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1d'|trans, get_active_type_option(), false) }}">{{ 'day'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1w', get_active_type_option(), false) }}">tydzień</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1w'|trans, get_active_type_option(), false) }}">{{ 'week'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1m', get_active_type_option(), false) }}">miesiąc</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1m'|trans, get_active_type_option(), false) }}">{{ 'month'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1y', get_active_type_option(), false) }}">rok</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1y'|trans, get_active_type_option(), false) }}">{{ 'year'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '∞', get_active_type_option(), false) }}">∞</a>
                 </li>
             </ul>
@@ -46,16 +52,20 @@
                id="kbin-type-filter"
                data-bs-toggle="dropdown"
                aria-expanded="false" href="#">
-                <i class="fas fa-photo-video"></i> {{ get_active_type_option() ?get_active_type_option() : 'wszystko' }}</a>
+                <i class="fas fa-photo-video"></i> {{ get_active_type_option() ?get_active_type_option() : 'filter.all'|trans }}</a>
             <ul class="dropdown-menu" aria-labelledby="kbin-type-filter">
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'link', false) }}">link</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'filter.link'|trans, false) }}">{{ 'filter.link'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'artykul', false) }}">artykuł</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'filter.article'|trans, false) }}">{{ 'filter.article'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'foto', false) }}">foto</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'filter.photo'|trans, false) }}">{{ 'filter.photo'|trans }}</a>
+                </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'video', false) }}">video</a></li>
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'filter.video'|trans, false) }}">{{ 'filter.video'|trans }}</a>
+                </li>
             </ul>
         </li>
     {% endif %}

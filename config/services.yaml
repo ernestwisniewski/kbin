@@ -5,12 +5,12 @@ framework:
 
 parameters:
     html5_validation: false
-    front_sort_options: wazne|wschodzace|aktywne|najnowsze|komentowane
-    front_time_options: 6h|12h|1d|1w|1m|1y|wszystko|∞
+    front_sort_options: top|hot|active|newest|commented|ważne|wschodzące|aktywne|najnowsze|komentowane
+    front_time_options: 6h|12h|1d|1w|1m|1y|all|wszystko|∞
     number_regex: '[1-9][0-9]{0,17}'
     username_regex: '\w{2,25}|!deleted\d+'
     uploads_dir_name: 'media'
-    uploads_base_url: '%env(SITE_BASE_URL)%/%uploads_dir_name%'
+    uploads_base_url: 'https://%env(KBIN_DOMAIN)%/%uploads_dir_name%'
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     env(MONGODB_URL): ''
     env(MONGODB_DB): ''
@@ -56,3 +56,7 @@ services:
         arguments:
             $decorated: '@App\Service\CloudflareIpResolver.inner'
             $requestStack: '@request_stack'
+
+    App\EventListener\LanguageListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }

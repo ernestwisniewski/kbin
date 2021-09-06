@@ -29,5 +29,5 @@
 {% endfor %}
 
 {% if(magazines.haveToPaginate) %}
-    {{ pagerfanta(magazines, null, {'pageParameter':'[strona]'}) }}
+    {{ pagerfanta(magazines, null, {'pageParameter':'[p]'}) }}
 {% endif %}

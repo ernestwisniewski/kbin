@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Komentarze | {{ is_sub_page() ? 'Subskrypcje' : 'Strona główna' }} | {{ parent() }}{% endblock %}
+{% block title %}{{ 'comments'|trans }} | {{ is_sub_page() ? 'topbar.subscriptions'|trans : 'topbar.homepage'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-comment-wrapper">

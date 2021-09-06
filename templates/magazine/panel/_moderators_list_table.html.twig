@@ -4,8 +4,8 @@
     <table class="table align-middle">
         <thead>
         <tr>
-            <td>Nazwa</td>
-            <td>Dodno</td>
+            <td>{{ 'name'|trans }}</td>
+            <td>{{ 'added'|trans }}</td>
             <td></td>
             {% if is_granted('edit', magazine) %}
                 <td></td>
@@ -16,16 +16,18 @@
         {% for moderator in moderators %}
             <tr>
                 <td>{{ user(moderator.user) }}</td>
-                <td><time data-controller="timeago"
+                <td>
+                    <time data-controller="timeago"
                           data-timeago-refresh-interval-value="10000"
-                          data-timeago-datetime-value="{{ moderator.createdAt|date('c') }}">{{ moderator.createdAt|ago }}</time></td>
+                          data-timeago-datetime-value="{{ moderator.createdAt|date('c') }}">{{ moderator.createdAt|ago }}</time>
+                </td>
                 <td>{% include 'user/_follow_button.html.twig' with {'user': moderator.user} %}</td>
                 <td>
                     {% if is_granted('edit', magazine) and not moderator.isOwner %}
                         <form action="{{ path('magazine_panel_moderator_purge', {magazine_name: magazine.name, moderator_id: moderator.id}) }}"
                               method="post">
                             <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">
-                            <button class="btn btn-sm btn-danger">usuń</button>
+                            <button class="btn btn-sm btn-danger">{{ 'delete'|trans }}</button>
                         </form>
                     {% endif %}
                 </td>
@@ -36,5 +38,5 @@
 </div>
 
 {% if(moderators.haveToPaginate) %}
-    {{ pagerfanta(moderators, null, {'pageParameter':'[strona]'}) }}
+    {{ pagerfanta(moderators, null, {'pageParameter':'[p]'}) }}
 {% endif %}

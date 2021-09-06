@@ -2,7 +2,7 @@
 <div class="col-xs-12 clearfix">
     <div class="kbin-comment-create-form my-3">
         <div class="mb-3">
-            {{ form_label(form.body, 'Wpis') }}
+            {{ form_label(form.body, 'post'|trans) }}
             {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
         </div>
 
@@ -11,12 +11,12 @@
                 {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
             </div>
             <div class="me-2 pt-2">
-                {{ form_label(form.isAdult, '+18') }}
+                {{ form_label(form.isAdult, '18+') }}
                 <div class="input-group input-group-lg">
-                    {{ form_widget(form.isAdult, {name: '+18'}) }}
+                    {{ form_widget(form.isAdult, {name: '18+'}) }}
                 </div>
             </div>
-            {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': {'class': 'kbin-comment-send btn-primary'} }) }}
+            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-comment-send btn-primary'} }) }}
         </div>
     </div>
 </div>

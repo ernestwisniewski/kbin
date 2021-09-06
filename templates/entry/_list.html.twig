@@ -17,6 +17,6 @@
         {{ not_found(0) }}
     {% endif %}
     {% if(entries.haveToPaginate) %}
-        {{ pagerfanta(entries, null, {'pageParameter':'[strona]'}) }}
+        {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
     {% endif %}
 </div>

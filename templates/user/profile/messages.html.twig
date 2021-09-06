@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}Wiadomości | {{ parent() }}{% endblock %}
+{% block title %}{{ 'messages'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-profile kbin-profile-threads-page">
@@ -29,7 +29,7 @@
                 </div>
 
                 {% if(threads.haveToPaginate) %}
-                    {{ pagerfanta(threads, null, {'pageParameter':'[strona]'}) }}
+                    {{ pagerfanta(threads, null, {'pageParameter':'[p]'}) }}
                 {% endif %}
             </div>
         {% else %}

@@ -4,7 +4,7 @@
         <div class="kbin-magazine-background"></div>
 
         <div class="mb-3">
-            {{ form_label(form.cover, 'Okładka') }}
+            {{ form_label(form.cover, 'cover'|trans) }}
             {{ form_widget(form.cover, {'attr':{ 'class': 'form-control' }}) }}
         </div>
 
@@ -19,7 +19,7 @@
         </div>
 
         <div class="input-group input-group-lg me-2">
-            {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': {'class': 'kbin-theme-send btn-primary'} }) }}
+            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-theme-send btn-primary'} }) }}
         </div>
     </div>
 </div>

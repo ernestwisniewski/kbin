@@ -17,7 +17,7 @@
 
             {% block comments %}
                 <section class="kbin-comment-wrapper mt-4">
-                    <h4 class="kbin-comment-wrapper-header pb-3 mb-0 font-weight-light">Komentarze</h4>
+                    <h4 class="kbin-comment-wrapper-header pb-3 mb-0 font-weight-light">{{ 'comments'|trans }}</h4>
 
                     <div class="mt-2">
                         {% include 'entry/comment/_filters.html.twig' %}
@@ -35,9 +35,9 @@
                     {% else %}
                         <div class="alert alert-secondary text-muted my-3" role="alert">
                             {% if not app.user %}
-                                <a href="{{ path('app_login') }}" class="font-weight-bold">Zaloguj się</a> aby dodać komentarz.
+                                {{ 'login_to_comment'|trans({'%link_start%' : '<a class="font-weight-bold" href="'~path('app_login')~'">', '%link_end%' : '</a>'}) | raw }}
                             {% else %}
-                                Nie możesz dodać komentarza.
+                                {{ 'cannot_add_comment'|trans }}
                             {% endif %}
                         </div>
                     {% endif %}

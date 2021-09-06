@@ -1,49 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'error'|trans }} | {{ parent() }}{% endblock %}
+
 {% block body %}
     <div class="kbin-login mt-lg-4">
         {# <div class="kbin-magazine-background"></div> #}
 
-        <h1 class="font-weight-bold">Błąd 404</h1>
-        <p class="kbin-magazine-create-lead lead mb-5">Coś poszło nie tak...</p>
-
-        <div class="col-lg-6">
-            <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
-
-                {% if app.user %}
-                    <div class="mb-3">
-                        Jesteś zalogowany jako {{ app.user.username }}, <a href="{{ path('app_logout') }}">Wyloguj</a>
-                    </div>
-                {% endif %}
-
-                <div class="input-group-lg mb-3">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-                </div>
-                <div class="input-group-lg mb-3">
-                    <label for="inputPassword">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" required>
-                </div>
-
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
-
-                <div class="input-group-lg checkbox mb-3">
-                    <input class="form-check-input" type="checkbox" name="_remember_me" id="inputRemember">
-                    <label class="form-check-label" for="inputRemember">
-                        Zapamiętaj mnie
-                    </label>
-                </div>
-
-
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Zaloguj się
-                </button>
-            </form>
-        </div>
+        <h1 class="font-weight-bold">{{ 'error'|trans }} 404</h1>
+        <p class="kbin-magazine-create-lead lead mb-5">{{ 'something_went_wrong'|trans }}</p>
     </div>
 {% endblock %}

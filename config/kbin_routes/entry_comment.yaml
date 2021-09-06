@@ -1,52 +1,64 @@
 entry_comment_create:
   controller: App\Controller\Entry\EntryCommentController::create
   defaults: { slug: -, parent_comment_id: null }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{parent_comment_id}
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{parent_comment_id}
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{parent_comment_id}
   methods: [ GET, POST ]
 
 entry_comment_edit:
   controller: App\Controller\Entry\EntryCommentController::edit
   defaults: { slug: -, }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/edytuj
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/edit
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/edytuj
   methods: [ GET, POST ]
 
 entry_comment_delete:
   controller: App\Controller\Entry\EntryCommentController::delete
   defaults: { slug: -, }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/delete
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/delete
   methods: [ POST ]
 
 entry_comment_purge:
   controller: App\Controller\Entry\EntryCommentController::purge
   defaults: { slug: -, }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/purge
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/purge
   methods: [ POST ]
 
 entry_comments_front:
   controller: App\Controller\Entry\EntryCommentController::front
   defaults: { sortBy: ~, time: ~ }
-  path: /komentarze/{sortBy}/{time}
+  path:
+    en: /comments/{sortBy}/{time}
+    pl: /komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_subscribed:
   controller: App\Controller\Entry\EntryCommentController::subscribed
   defaults: { sortBy: ~, time: ~ }
-  path: /sub/komentarze/{sortBy}/{time}
+  path:
+    en: /sub/comments/{sortBy}/{time}
+    pl: /sub/komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_moderated:
   controller: App\Controller\Entry\EntryCommentController::moderated
   defaults: { sortBy: ~, time: ~ }
-  path: /mod/komentarze/{sortBy}/{time}
+  path:
+    en: /mod/comments/{sortBy}/{time}
+    pl: /mod/komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_entry_comments:
   controller: App\Controller\Entry\EntryCommentController::front
   defaults: { sortBy: ~, time: ~ }
-  path: /m/{name}/komentarze/{sortBy}/{time}
+  path:
+    en: /m/{name}/comments/{sortBy}/{time}
+    pl: /m/{name}/komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 

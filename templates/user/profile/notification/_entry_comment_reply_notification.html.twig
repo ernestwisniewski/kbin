@@ -2,5 +2,5 @@
 {% from 'user/_macros.html.twig' import user %}
 {% from '_layout/_macros.html.twig' import entry_url %}
 
-{{ user(notification.user) }} odpowiedział/a na twój komentarz w {{ magazine(notification.comment.entry.magazine) }} - <strong><a
+{{ user(notification.user) }} {{ 'replied_to_your_comment'|trans }} {{ 'in'|trans }} {{ magazine(notification.comment.entry.magazine) }} - <strong><a
             href="{{ entry_url(notification.comment.entry) }}">{{ notification.comment.shortTitle }}</a></strong>

@@ -164,6 +164,15 @@ a {
   }
 }
 
+.choices__inner,
+.choices.is-disabled .choices__inner, .choices.is-disabled .choices__input {
+  background: #fff;
+
+  .kbin-dark & {
+    background: #1f1f1f;
+  }
+}
+
 .btn-link {
   text-decoration: none;
   background: none;
@@ -172,3 +181,21 @@ a {
 .turbo-progress-bar {
   background-color: $kbin-grey !important;
 }
+
+hr {
+  height: 5px !important;
+  color: $kbin-entry-list-item-border-color;
+
+  .kbin-dark & {
+    color: $kbin-dark-entry-list-item-border-color;
+  }
+}
+
+thead, tbody {
+  border-bottom: 5px solid $kbin-entry-list-item-border-color;
+
+  .kbin-dark & {
+    border-bottom: 5px solid $kbin-dark-entry-list-item-border-color;
+  }
+}
+

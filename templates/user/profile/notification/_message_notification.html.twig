@@ -1,4 +1,4 @@
 {% from 'user/_macros.html.twig' import user %}
 
-{{ user(notification.message.sender) }} napisał/a wiadomość w wątku <a
+{{ user(notification.message.sender) }} {{'wrote_message'|trans }} <a
         href="{{ path('user_profile_message', {'id': notification.message.thread.id}) }}">{{ notification.message.thread.title }}</a>

@@ -5,9 +5,9 @@
         <thead>
         <tr>
             {# <td>Zgłosił</td> #}
-            <td>Powód</td>
-            <td>Treść</td>
-            <td>Autor</td>
+            <td>{{'reason'|trans}}</td>
+            <td>{{'content'|trans}}</td>
+            <td>{{ 'author'|trans }}</td>
             <td></td>
         </tr>
         </thead>
@@ -23,14 +23,14 @@
                         <form method="post"
                               action="{{ path('magazine_panel_report_approve', {'magazine_name': report.subject.magazine.name, 'report_id': report.id} ) }}">
                             <input type="hidden" name="token" value="{{ csrf_token('report_approve') }}">
-                            <button type="submit" class="btn btn-danger btn-sm rounded-0 rounded-start">Usuń</button>
+                            <button type="submit" class="btn btn-danger btn-sm rounded-0 rounded-start">{{'delete'|trans}}</button>
                         </form>
                         <a href="{{ path('magazine_panel_ban', {'magazine_name': report.subject.magazine.name,'user_username': report.reported.username}) }}"
-                           class="btn btn-sm btn-dark">Zbanuj</a>
+                           class="btn btn-sm btn-dark">{{ 'ban'|trans }}</a>
                         <form method="post"
                               action="{{ path('magazine_panel_report_reject', {'magazine_name': report.subject.magazine.name, 'report_id': report.id}) }}">
                             <input type="hidden" name="token" value="{{ csrf_token('report_decline') }}">
-                            <button type="submit" class="btn btn-primary btn-sm rounded-0 rounded-end">Odrzuć</button>
+                            <button type="submit" class="btn btn-primary btn-sm rounded-0 rounded-end">{{'reject'|trans}}</button>
                         </form>
                     </div>
                 </td>
@@ -41,5 +41,5 @@
 </div>
 
 {% if(reports.haveToPaginate) %}
-    {{ pagerfanta(users, null, {'pageParameter':'[strona]'}) }}
+    {{ pagerfanta(users, null, {'pageParameter':'[p]'}) }}
 {% endif %}

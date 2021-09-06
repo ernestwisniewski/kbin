@@ -9,13 +9,15 @@ use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class PageContextRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private RequestStack $requestStack,
-        private UrlGeneratorInterface $urlGenerator
+        private UrlGeneratorInterface $urlGenerator,
+        private TranslatorInterface $translator
     ) {
     }
 
@@ -92,7 +94,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
             }
         }
 
-        return ($requestSort = $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT) === $sortOption;
+        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.EntryRepository::SORT_DEFAULT))) === $sortOption;
     }
 
     public function isCommentsPage(): bool
@@ -126,7 +128,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function getActiveTypeOption(): ?string
     {
-        return $this->getCurrentRequest()->get('typ', null);// @todo
+        return $this->getCurrentRequest()->get('type', null);// @todo
     }
 
     public function getActiveSortOptionPath(?string $sortOption = null, ?string $time = null, ?string $type = null, $entriesOnly = true): string
@@ -147,11 +149,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $routeParams['time'] = $time;
         }
 
-        if ($this->getCurrentRequest()->get('typ')) {
-            $routeParams['typ'] = $this->getCurrentRequest()->get('typ');
+        if ($this->getCurrentRequest()->get('type')) {
+            $routeParams['type'] = $this->getCurrentRequest()->get('type');
         }
         if ($type) {
-            $routeParams['typ'] = $type;
+            $routeParams['type'] = $type;
         }
 
         if (!$entriesOnly) {
@@ -241,7 +243,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
     public function getActiveCommentsPagePath()
     {
         $routeName   = 'entry_comments_front';
-        $routeParams = ['sortBy' => EntryCommentRepository::SORT_DEFAULT];
+        $routeParams = ['sortBy' => strtolower($this->translator->trans('sort.'.EntryCommentRepository::SORT_DEFAULT))];
 
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
@@ -271,7 +273,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
     public function getActivePostsPagePath()
     {
         $routeName   = 'posts_front';
-        $routeParams = ['sortBy' => PostRepository::SORT_DEFAULT];
+        $routeParams = ['sortBy' => strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT))];
 
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
@@ -326,6 +328,6 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function isActiveCommentFilter(string $sortOption): bool
     {
-        return ($this->getCurrentRequest()->get('sortBy') ?? EntryCommentRepository::SORT_DEFAULT) === $sortOption;
+        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT))) === $sortOption;
     }
 }

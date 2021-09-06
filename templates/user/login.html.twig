@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Zaloguj się | {{ parent() }}{% endblock %}
+{% block title %}{{ 'login'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-login-page">
@@ -9,7 +9,7 @@
 
             <div class="row">
                 <div class="col-lg-6 mb-3">
-                    <h1 class="font-weight-bold mb-5">Zaloguj się</h1>
+                    <h1 class="font-weight-bold mb-5">{{ 'login'|trans }}</h1>
 
                     <form method="post">
                         {% if error %}
@@ -17,14 +17,14 @@
                         {% endif %}
 
                         <div class="mb-3">
-                            <label for="inputEmail">Login lub email</label>
+                            <label for="inputEmail">{{ 'login_or_email'|trans }}</label>
                             <div class="input-group input-group-lg">
                                 <input value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="inputPassword">Hasło</label>
+                            <label for="inputPassword">{{ 'password'|trans }}</label>
                             <div class="input-group input-group-lg">
                                 <input type="password" name="password" id="inputPassword" class="form-control" required>
                             </div>
@@ -36,16 +36,16 @@
 
                         <div class="checkbox mb-3">
                             <label>
-                                <input type="checkbox" name="_remember_me"> Zapamiętaj mnie
+                                <input type="checkbox" name="_remember_me"> {{ 'remember_me'|trans }}
                             </label>
                         </div>
 
                         <button class="btn btn-lg btn-primary" type="submit">
-                            Zaloguj się
+                            {{ 'login'|trans }}
                         </button>
                     </form>
 
-                    <p class="mt-4">Nie masz konta? <a href="{{ path('app_register') }}">Zarejestruj się!</a></p>
+                    <p class="mt-4">{{ 'dont_have_account'|trans }} <a href="{{ path('app_register') }}">{{ 'register'|trans }}!</a></p>
                 </div>
             </div>
         </div>

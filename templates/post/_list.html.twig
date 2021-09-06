@@ -18,6 +18,6 @@
         {{ not_found() }}
     {% endif %}
     {% if(posts.haveToPaginate) %}
-        {{ pagerfanta(posts, null, {'pageParameter':'[strona]'}) }}
+        {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
     {% endif %}
 </div>

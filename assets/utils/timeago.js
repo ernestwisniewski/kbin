@@ -1,13 +1,14 @@
 import Timeago from "stimulus-timeago"
-import { pl } from 'date-fns/locale'
+import { pl, en } from 'date-fns/locale'
 
 export default class extends Timeago {
     load() {
         super.load();
-        this.element.append(' temu');
+        // @todo
+        this.element.append(` ${document.documentElement.lang === 'pl' ? 'temu': 'ago'}`);
     }
 
     get locale () {
-        return pl;
+        return document.documentElement.lang === 'pl' ? pl : en
     }
 }

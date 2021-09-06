@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edytuj profil | {{ parent() }}{% endblock %}
+{% block title %}{{ 'edit_profile'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-profile kbin-profile-edit-page">
@@ -10,19 +10,19 @@
             <div class="kbin-magazine-background"></div>
 
             <div class="row">
-                <h2 class="font-weight-bold">Edytuj profil</h2>
+                <h2 class="font-weight-bold">{{ 'edit_profile'|trans }}</h2>
                 <div class="col-lg-6 mb-3">
                     {% include 'user/profile/_form_basic.html.twig' with {'form': form_basic} %}
                     <hr>
                 </div>
 
-                <h2 class="font-weight-bold">Zmień hasło</h2>
+                <h2 class="font-weight-bold">{{ 'change_password'|trans }}</h2>
                 <div class="col-lg-6 mb-3">
                     {% include 'user/profile/_form_password.html.twig' with {'form': form_password} %}
                     <hr>
                 </div>
 
-                <h2 class="font-weight-bold">Zmień email</h2>
+                <h2 class="font-weight-bold">{{ 'change_email'|trans }}</h2>
                 <div class="col-lg-6 mb-3">
                     {% include 'user/profile/_form_email.html.twig' with {'form': form_email} %}
                     <hr>

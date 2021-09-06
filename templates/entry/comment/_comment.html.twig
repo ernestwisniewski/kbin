@@ -31,7 +31,7 @@
                     <a href="{{ entry_url(comment.entry) }}">
                         {% endif %}
                         <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
-                            <small class="text-muted">dodany
+                            <small class="text-muted">{{ 'posted'|trans }}
                                 <time data-controller="timeago"
                                 data-timeago-refresh-interval-value="10000"
                                 data-timeago-datetime-value="{{ comment.createdAt|date('c') }}">{{ comment.createdAt|ago }}</time>
@@ -41,14 +41,14 @@
                     </a>
                     {% endif %}
                     <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">przez {{ user(comment.user, {prefix: false, bolded: true}) }}</small>
+                        <small class="text-muted">{{ 'by'|trans }} {{ user(comment.user, {prefix: false, bolded: true}) }}</small>
                     </li>
 
                     {% if level is same as 1 %}
                         {% if is_comments_page() and not is_magazine_page() %}
                             <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
 
-                                <small class="text-muted">do <a class="font-weight-bold"
+                                <small class="text-muted">{{ 'to'|trans }} <a class="font-weight-bold"
                                                                 href="{{ path('front_magazine', {'name': comment.entry.magazine.name}) }}">/m/{{ comment.entry.magazine.name }}</a></small>
                             </li>
                         {% endif %}
@@ -80,9 +80,9 @@
                              alt="{{ comment.shortTitle }}">
                     {% endif %}
                 {% elseif comment.visibility is same as 'trashed' %}
-                    <p class="text-muted">[Treść usunięta przez moderatora]</p>
+                    <p class="text-muted">[{{ 'removed'|trans }}]</p>
                 {% elseif comment.visibility is same as 'soft_deleted' %}
-                    <p class="text-muted">[Treść usunięta przez użytkownika]</p>
+                    <p class="text-muted">[{{ 'deleted'|trans }}]</p>
                 {% endif %}
             </blockquote>
 
@@ -94,7 +94,7 @@
                                 <a data-action="comment#reply"
                                    class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
                                    href="{{ path('entry_comment_create', { 'magazine_name': comment.entry.magazine.name, 'entry_id': comment.entry.id, 'parent_comment_id': comment.id }) }}">
-                                    odpowiedz
+                                    {{ 'reply'|trans }}
                                 </a>
                             </small>
                         </li>
@@ -102,7 +102,7 @@
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted"><a href="{{ path('entry_comment_report', {id: comment.id}) }}"
                                                          class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
-                                                         data-action="report#report">zgłoś</a></small>
+                                                         data-action="report#report">{{ 'report'|trans }}</a></small>
                         </li>
                     </ul>
 
@@ -112,7 +112,7 @@
                                 <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                                     <small class="text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
                                         <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
-                                            zarządzaj
+                                            {{ 'moderate'|trans }}
                                         </button>
                                     </small>
                                 </li>
@@ -126,7 +126,7 @@
                                     <small class="text-muted">
                                         <a data-action="comment#edit"
                                            href="{{ path('entry_comment_edit', {'magazine_name': comment.entry.magazine.name,'entry_id': comment.entry.id, 'comment_id': comment.id}) }}">
-                                            edytuj
+                                            {{ 'edit'|trans }}
                                         </a>
                                     </small>
                                 </li>
@@ -135,7 +135,7 @@
                             {% if is_granted('moderate', comment.entry.magazine) %}
                                 <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                     <small class="kbin-entry-meta-edit text-muted">
-                                        <a href="{{ path('magazine_panel_ban', {'magazine_name': comment.entry.magazine.name, 'user_username': comment.entry.user.username}) }}">zbanuj</a>
+                                        <a href="{{ path('magazine_panel_ban', {'magazine_name': comment.entry.magazine.name, 'user_username': comment.entry.user.username}) }}">{{ 'ban'|trans }}</a>
                                     </small>
                                 </li>
                             {% endif %}
@@ -149,7 +149,7 @@
                                     }) }}" method="POST">
                                         <input type="hidden" name="token" value="{{ csrf_token('entry_comment_delete') }}">
                                         <button type="submit" class="btn btn-link">
-                                            <span>usuń</span>
+                                            <span>{{ 'delete'|trans }}</span>
                                         </button>
                                     </form>
                                 </li>
@@ -164,7 +164,7 @@
                                     }) }}" method="POST">
                                         <input type="hidden" name="token" value="{{ csrf_token('entry_comment_purge') }}">
                                         <button type="submit" class="btn btn-link">
-                                            <span>wyczyść</span>
+                                            <span>{{ 'purge'|trans }}</span>
                                         </button>
                                     </form>
                                 </li>

@@ -1,19 +1,25 @@
 entry_create:
   controller: App\Controller\Entry\EntryController::create
   defaults: { type: null }
-  path: /nowaTresc/{type}
+  path:
+    en: /new/{type}
+    pl: /nowy/{type}
   methods: [ GET, POST ]
 
 magazine_entry_create:
   controller: App\Controller\Entry\EntryController::create
   defaults: { type: null }
-  path: /m/{name}/nowaTresc/{type}
+  path:
+    en: /m/{name}/new/{type}
+    pl: /m/{name}/nowy/{type}
   methods: [ GET, POST ]
 
 entry_edit:
   controller: App\Controller\Entry\EntryController::edit
   defaults: { slug: -, sortBy: ~ }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/edytuj
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/edit
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/edytuj
   methods: [ GET, POST ]
 
 entry_delete:
@@ -37,7 +43,15 @@ entry_pin:
 entry_single:
   controller: App\Controller\Entry\EntryController::single
   defaults: { slug: -, sortBy: ~ }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarze/{sortBy}
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/{sortBy}
+  methods: [ GET ]
+
+entry_single_comments:
+  controller: App\Controller\Entry\EntryController::single
+  defaults: { slug: -, sortBy: ~ }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{sortBy}
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarze/{sortBy}
   methods: [ GET ]
 
 entry_vote:

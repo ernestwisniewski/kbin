@@ -10,7 +10,6 @@
 {% block after_entry %}
     {% if comment is defined and comment %}
         <section class="kbin-comment-wrapper mt-4">
-            <h4 class="font-weight-bold">Odpowiedz:</h4>
             {{ comment(parent, {
                 self: app.user,
                 comment: parent,

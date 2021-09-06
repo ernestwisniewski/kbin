@@ -2,12 +2,12 @@
 <div class="col-xs-12 clearfix">
     <div class="kbin-comment-create-form my-3">
         <div class="mb-3">
-            {{ form_label(form.body, 'Wiadomość') }}
+            {{ form_label(form.body, 'message'|trans) }}
             {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
         </div>
 
         <div class="mb-12 text-end btn-group float-end">
-            {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': {'class': 'kbin-comment-send btn-primary'} }) }}
+            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-comment-send btn-primary'} }) }}
         </div>
     </div>
 </div>
