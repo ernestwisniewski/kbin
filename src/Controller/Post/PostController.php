@@ -30,8 +30,8 @@ class PostController extends AbstractController
     public function front(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->translateSort($sortBy))
-            ->setTime($criteria->translateTime($time));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
 
         $posts = $repository->findByCriteria($criteria);
 
@@ -49,8 +49,8 @@ class PostController extends AbstractController
     public function subscribed(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->translateSort($sortBy))
-            ->setTime($criteria->translateTime($time));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
         $criteria->subscribed = true;
 
         $posts = $repository->findByCriteria($criteria);
@@ -69,8 +69,8 @@ class PostController extends AbstractController
     public function moderated(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->translateSort($sortBy))
-            ->setTime($criteria->translateTime($time));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
         $criteria->moderated = true;
 
         $posts = $repository->findByCriteria($criteria);
@@ -86,8 +86,8 @@ class PostController extends AbstractController
     public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->translateSort($sortBy))
-            ->setTime($criteria->translateTime($time));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
         $criteria->magazine = $magazine;
 
         $posts = $repository->findByCriteria($criteria);

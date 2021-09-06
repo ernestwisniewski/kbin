@@ -1,14 +1,14 @@
 {{ form_start(form) }}
 <div class="kbin-magazine-create-form my-3">
     <div class="mb-3">
-        {{ form_label(form.reason, 'Powód') }}
+        {{ form_label(form.reason, 'reason'|trans) }}
         <div class="input-group">
             {{ form_widget(form.reason) }}
         </div>
     </div>
 
     <div class="mb-12 text-end">
-        {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+        {{ form_row(form.submit, { 'label': 'done'|trans }) }}
     </div>
 </div>
 {{ form_end(form) }}

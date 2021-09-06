@@ -1,12 +1,6 @@
 <div class="kbin-instance mt-lg-0 px-2">
-    <h4 class="font-weight-bold kbin-logo-color">karab.in</h4>
-    <p class="small">Instancja testowa na wczesnym etapie developmentu.</p>
-    <p class="small">Karabin jest otwartym portalem agregującym treści oraz platformą do mikroblogowania.
-    <p class="small">Przeznaczony jest dla zdecentralizowanej sieci <a href="https://fediverse.pl">Fediverse.</a></p>
-    <p class="small">Strona nie profiluje użytkowników, nie wyświetla reklam. Nie jest farmą linków.</p>
-    <p class="small">Twórz i moderuj społeczności, poznawaj ludzi o podobnych zainteresowaniach, rozwijaj swoje pasje.</p>
-    <div class="alert alert-danger small">
-        Jest to bardzo wczesna wersja beta. Aktualnie trwają prace nad wieloma funkcjonalnościami, więc <strong>nie wszystko działa jeszcze
-            stabilnie</strong>. Wszelkie uwagi i sugestie mile widziane.
-    </div>
+    <h4 class="font-weight-bold kbin-logo-color">{{ kbin_domain }}</h4>
+    <p class="small">{{ 'about_2'|trans({'%name%': kbin_domain}) }}
+    <p class="small">{{ 'about_3'|trans }}</p>
+    <div class="alert alert-danger small">{{ 'about_note'|trans }}</div>
 </div>

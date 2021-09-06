@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edytuj magazyn | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
+{% block title %}{{ 'edit_magazine'|trans }} | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-magazine-edit-page">
@@ -8,9 +8,7 @@
         <div class="kbin-magazine-edit mt-lg-4">
             <div class="kbin-magazine-background"></div>
 
-            <p class="kbin-magazine-create-lead lead mb-5">Magazyn jest zbiorem treści o podobnej tematyce. Twórz społeczność i gromadź wokół niej
-                użytkowników o podobnych
-                zainteresowaniach. Na tobie będzie spoczywać odpowiedzialność za dbanie o jego jakość.</p>
+            <p class="kbin-magazine-create-lead lead mb-5">{{ 'what_magazine_is'|trans }}</p>
 
             {% include 'magazine/_form.html.twig' %}
             {% include 'magazine/_form_delete.html.twig' %}

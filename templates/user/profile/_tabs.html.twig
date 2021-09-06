@@ -1,52 +1,52 @@
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_front') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('user_profile_front') }}">Statystyki</a>
+           href="{{ path('user_profile_front') }}">{{ 'stats'|trans }}</a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_notifications') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('user_profile_notifications') }}">Powiadomienia</a>
+           href="{{ path('user_profile_notifications') }}">{{ 'notifications'|trans }}</a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_messages') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('user_profile_messages') }}">Wiadomości</a>
+           href="{{ path('user_profile_messages') }}">{{'messages'|trans}}</a>
     </li>
 
     {# todo: nojs #}
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_user_subscriptions') or is_active_route('user_profile_user_blocks') ? 'active font-weight-bold' : '' }}"
            data-bs-toggle="dropdown"
-           role="button" aria-expanded="false" href="{{ path('user_profile_user_subscriptions') }}">Ludzie</a>
+           role="button" aria-expanded="false" href="{{ path('user_profile_user_subscriptions') }}">{{ 'people'|trans }}</a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('user_profile_user_subscriptions') }}">Subskrypcje</a></li>
-            <li><a class="dropdown-item" href="{{ path('user_profile_user_blocks') }}">Blokady</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_user_subscriptions') }}">{{ 'subscriptions'|trans }}</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_user_blocks') }}">{{ 'blocks'|trans }}</a></li>
         </ul>
     </li>
 
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_magazine_subscriptions') or is_active_route('user_profile_magazine_blocks') ? 'active font-weight-bold' : '' }}"
            data-bs-toggle="dropdown"
-           role="button" aria-expanded="false" href="{{ path('user_profile_magazine_subscriptions') }}">Magazyny</a>
+           role="button" aria-expanded="false" href="{{ path('user_profile_magazine_subscriptions') }}">{{ 'magazines'|trans }}</a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('user_profile_magazine_subscriptions') }}">Subskrypcje</a></li>
-            <li><a class="dropdown-item" href="{{ path('user_profile_magazine_blocks') }}">Blokady</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_magazine_subscriptions') }}">{{ 'subscriptions'|trans }}</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_magazine_blocks') }}">{{ 'blocks'|trans }}</a></li>
         </ul>
     </li>
 
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_settings') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('user_profile_settings') }}">Ustawienia</a>
+           href="{{ path('user_profile_settings') }}">{{ 'settings'|trans }}</a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_edit') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('user_profile_edit') }}">Edytuj profil</a>
+           href="{{ path('user_profile_edit') }}">{{ 'edit_profile'|trans }}</a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" aria-current="page"
-           href="{{ path('app_logout') }}">Wyloguj</a>
+           href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
     </li>
 </ul>

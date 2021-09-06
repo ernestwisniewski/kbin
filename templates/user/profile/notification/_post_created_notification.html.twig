@@ -2,5 +2,5 @@
 {% from 'user/_macros.html.twig' import user %}
 {% from '_layout/_macros.html.twig' import post_url %}
 
-{{ user(notification.user) }} dodał/a nowy wpis w {{ magazine(notification.post.magazine) }} - <strong><a
+{{ user(notification.user) }} {{ 'added_new_post'|trans }} {{ 'in'|trans }} {{ magazine(notification.post.magazine) }} - <strong><a
             href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a></strong>

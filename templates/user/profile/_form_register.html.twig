@@ -1,27 +1,27 @@
 {{ form_start(form) }}
 <div class="mb-3">
-    {{ form_label(form.username, 'Nazwa użytkownika') }}
+    {{ form_label(form.username, 'username'|trans) }}
     <div class="input-group input-group-lg">
         {{ form_widget(form.username) }}
     </div>
 </div>
 
 <div class="mb-3">
-    {{ form_label(form.email, 'Email') }}
+    {{ form_label(form.email, 'email'|trans) }}
     <div class="input-group input-group-lg">
         {{ form_widget(form.email) }}
     </div>
 </div>
 
 <div class="mb-3">
-    {{ form_label(form.plainPassword.first, 'Hasło') }}
+    {{ form_label(form.plainPassword.first, 'password'|trans) }}
     <div class="input-group input-group-lg">
         {{ form_widget(form.plainPassword.first) }}
     </div>
 </div>
 
 <div class="mb-3">
-    {{ form_label(form.plainPassword.second, 'Powtórz hasło') }}
+    {{ form_label(form.plainPassword.second, 'repeat_password'|trans) }}
     <div class="input-group input-group-lg">
         {{ form_widget(form.plainPassword.second) }}
     </div>
@@ -29,7 +29,7 @@
 
 {% if form.avatar is defined %}
     <div class="mb-3">
-        {{ form_label(form.avatar, 'Avatar') }}
+        {{ form_label(form.avatar, 'avatar'|trans) }}
         <div class="input-group input-group-lg">
             {{ form_widget(form.avatar, {'attr':{ 'class': 'form-control' }}) }}
         </div>
@@ -37,13 +37,13 @@
 {% endif %}
 
 <div class="mb-3">
-    {{ form_label(form.agreeTerms, 'Zgoda na warunki i regulamin') }}
+    {{ form_label(form.agreeTerms, 'consent_terms'|trans) }}
     <div class="input-group input-group-lg">
-        {{ form_widget(form.agreeTerms, {name: 'Zgoda na warunki i regulamin'}) }}
+        {{ form_widget(form.agreeTerms, {name: 'consent_terms'|trans}) }}
     </div>
 </div>
 
 <div class="mb-12 text-end">
-    {{ form_row(form.submit, { 'label': 'Gotowe' }) }}
+    {{ form_row(form.submit, { 'label': 'done'|trans }) }}
 </div>
 {{ form_end(form) }}

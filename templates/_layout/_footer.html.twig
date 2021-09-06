@@ -2,42 +2,40 @@
     <div class="kbin-container container small">
         <div class="row">
             <div class="col-sm-2">
-                <h5 class="text-muted font-weight-bold">karab.in</h5>
+                <h5 class="text-muted font-weight-bold">{{ kbin_domain }}</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#">O instancji</a></li>
-                    <li><a href="#">Devlog</a></li>
-                    <li><a href="{{ path('modlog') }}">Log moderatorski</a></li>
+                    <li><a href="#">{{ 'about_instance'|trans }}</a></li>
+                    <li><a href="{{ path('magazine_list_all') }}">{{ 'topbar.all_magazines'|trans }}</a></li>
+                    <li><a href="{{ path('modlog') }}">{{ 'modlog'|trans }}</a></li>
                 </ul>
             </div>
             <div class="col-sm-2">
-                <h5 class="text-muted font-weight-bold">przydatne</h5>
+                <h5 class="text-muted font-weight-bold">{{ 'useful'|trans }}</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#">Lista magazynów</a></li>
-                    <li><a href="#">Odznaczenia</a></li>
-                    <li><a href="#">Ranking</a></li>
+                    <li><a href="#">{{ 'fediverse'|trans }}</a></li>
+                    <li><a href="#">{{ 'awards'|trans }}</a></li>
+                    <li><a href="#">{{ 'ranking'|trans }}</a></li>
                 </ul>
             </div>
             <div class="col-sm-2">
-                <h5 class="text-muted font-weight-bold">pomoc</h5>
+                <h5 class="text-muted font-weight-bold">{{ 'help'|trans }}</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#">Polityka prywatności</a></li>
-                    <li><a href="#">Regulamin</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Kontakt</a></li>
+                    <li><a href="#">{{ 'contact'|trans }}</a></li>
+                    <li><a href="#">{{ 'faq'|trans }}</a></li>
+                    <li><a href="#">{{ 'privacy_policy'|trans }}</a></li>
+                    <li><a href="#">{{ 'terms'|trans }}</a></li>
                 </ul>
             </div>
             <div class="col-sm-2">
                 <h5 class="text-muted font-weight-bold">kbin</h5>
                 <ul class="list-unstyled">
-                    <li><a href="https://kbin.info">Kod</a></li>
-                    <li><a href="https://kbin.info">Federacja</a></li>
-                    <li><a href="https://kbin.info">Narzędzia</a></li>
-                    <li><a href="https://kbin.info">Dokumentacja</a></li>
+                    <li><a href="https://kbin.info">{{ 'doc'|trans }}</a></li>
+                    <li><a href="https://kbin.info">{{ 'code'|trans }}</a></li>
                 </ul>
             </div>
 
             <div class="col-sm-4 text-center">
-                <p class="text-muted align-text-bottom pt-5">© 2021 karab.in</p>
+                <p class="text-muted align-text-bottom pt-5">© {{ 'now'|date('Y') }} {{ kbin_domain }}</p>
             </div>
         </div>
     </div>

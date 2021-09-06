@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}{{ user.username }} | Subskrypcje | {{ parent() }}{% endblock %}
+{% block title %}{{ user.username }} | {{ 'subscriptions'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-subscriptions-page">

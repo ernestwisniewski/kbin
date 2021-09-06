@@ -17,19 +17,19 @@
         <div class="mt-3">
             <ul class="list-unstyled clearfix">
                 <li>
-                    <span class="text-muted small">Dodano:</span> {{ entry.createdAt|date }}
+                    <span class="text-muted small">{{ 'added'|trans }}:</span> {{ entry.createdAt|date }}
                 </li>
                 <li>
-                    <span class="text-muted small">Głosy pozytywne:</span> {{ entry.countUpvotes }}
+                    <span class="text-muted small">{{ 'upvotes'|trans }}:</span> {{ entry.countUpvotes }}
                     {% if(entry.countVotes) %}
                         <small class="text-muted">({{ (entry.countUpvotes / entry.countVotes)|format_percent_number }})</small>
                     {% endif %}
                 </li>
                 <li>
-                    <span class="text-muted small">Głosy negatywne:</span> {{ entry.countDownvotes }}
+                    <span class="text-muted small">{{ 'downvotes'|trans }}:</span> {{ entry.countDownvotes }}
                 </li>
                 <li>
-                    <span class="text-muted small">Wyświetlenia:</span> {{ entry.views }}
+                    <span class="text-muted small">{{ 'views'|trans }}:</span> {{ entry.views }}
                 </li>
             </ul>
             <div class="input-group input-group-sm"
@@ -41,7 +41,7 @@
                        aria-describedby="copyUrl"
                        data-clipboard-target="source"
                        value="{{ app.request.uri }}">
-                <button class="input-group-text" id="copyUrl" data-action="clipboard#copy" data-clipboard-target="button">Skopiuj</button>
+                <button class="input-group-text" id="copyUrl" data-action="clipboard#copy" data-clipboard-target="button">{{ 'copy'|trans }}</button>
             </div>
         </div>
     </div>

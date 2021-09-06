@@ -12,7 +12,6 @@ use App\Form\EntryImageType;
 use App\Form\EntryLinkType;
 use App\PageView\EntryCommentPageView;
 use App\PageView\EntryPageView;
-use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Service\EntryManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -22,6 +21,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EntryController extends AbstractController
 {
@@ -43,7 +43,7 @@ class EntryController extends AbstractController
         Request $request
     ): Response {
         $criteria = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->translateSort($sortBy));
+        $criteria->showSortOption($criteria->resolveSort($sortBy));
         $criteria->entry = $entry;
 
         $comments = $repository->findByCriteria($criteria);
@@ -72,7 +72,7 @@ class EntryController extends AbstractController
         $dto->ip       = $request->getClientIp();
         $dto->magazine = $magazine;
 
-        $form = $this->createFormByType($dto, (new EntryPageView(1))->translateType($type));
+        $form = $this->createFormByType($dto, (new EntryPageView(1))->resolveType($type));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -86,7 +86,7 @@ class EntryController extends AbstractController
         }
 
         return $this->render(
-            $this->getTemplateName((new EntryPageView(1))->translateType($type)),
+            $this->getTemplateName((new EntryPageView(1))->resolveType($type)),
             [
                 'magazine' => $magazine,
                 'form'     => $form->createView(),
@@ -134,7 +134,7 @@ class EntryController extends AbstractController
     {
         $dto = $this->manager->createDto($entry);
 
-        $form = $this->createFormByType($dto, (new EntryPageView(1))->translateType($entry->type));
+        $form = $this->createFormByType($dto, (new EntryPageView(1))->resolveType($entry->type));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -148,7 +148,7 @@ class EntryController extends AbstractController
         }
 
         return $this->render(
-            $this->getTemplateName((new EntryPageView(1))->translateType($entry->type), true),
+            $this->getTemplateName((new EntryPageView(1))->resolveType($entry->type), true),
             [
                 'magazine' => $magazine,
                 'entry'    => $entry,

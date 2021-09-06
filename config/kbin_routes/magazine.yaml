@@ -1,6 +1,8 @@
 magazine_create:
   controller: App\Controller\Magazine\MagazineController::create
-  path: /nowyMagazyn
+  path:
+    en: /newMagazine
+    pl: /nowyMagazyn
   methods: [ GET, POST ]
 
 magazine_delete:
@@ -15,12 +17,16 @@ magazine_purge:
 
 magazine_list_all:
   controller: App\Controller\Magazine\MagazineController::listAll
-  path: /magazyny
+  path:
+    en: /magazines
+    pl: /magazyny
   methods: [ GET ]
 
 magazine_moderators:
   controller: App\Controller\Magazine\MagazineModController
-  path: /m/{name}/moderatorzy
+  path:
+    en: /m/{name}/moderators
+    pl: /m/{name}/moderatorzy
   methods: [ GET ]
 
 magazine_modlog:

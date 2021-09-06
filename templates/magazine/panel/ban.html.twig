@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Zbanuj użytkownika | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
+{% block title %}{{ 'bans'|trans }} | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-magazine-ban-page">
         {% include 'magazine/panel/_tabs.html.twig' %}
         <div class="kbin-magazine-ban mt-lg-4">
-            <h1 class="font-weight-bold mb-lg-5">Zbanuj użytkownika</h1>
             <div class="row">
 
                 <div class="col-lg-6 mb-3">

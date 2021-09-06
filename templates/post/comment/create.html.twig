@@ -8,10 +8,6 @@
 {% endblock %}
 
 {% block before_comments %}
-    <div class="kbin-comment-edit-wrapper mt-4">
-        <h4 class="font-weight-bold">Odpowiedz:</h4>
-    </div>
-
     {% if parent %}
         {{ comment(parent, {
             self: app.user,

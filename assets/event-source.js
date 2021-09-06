@@ -1,6 +1,6 @@
 export default function
     subscribe(topics, cb) {
-    const url = new URL('https://localhost/.well-known/mercure', window.origin);
+    const url = new URL(`https://${window.location.host}/.well-known/mercure`, window.origin);
 
     topics.forEach(topic => {
         url.searchParams.append('topic', topic);

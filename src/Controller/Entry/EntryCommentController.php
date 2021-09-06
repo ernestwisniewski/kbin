@@ -30,8 +30,8 @@ class EntryCommentController extends AbstractController
     {
         $params   = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->translateSort($sortBy))
-            ->setTime($criteria->translateTime($time));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
 
         if ($magazine) {
             $criteria->magazine = $params['magazine'] = $magazine;
@@ -55,8 +55,8 @@ class EntryCommentController extends AbstractController
     {
         $params   = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->translateSort($sortBy))
-            ->setTime($criteria->translateTime($time));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
         $criteria->subscribed = true;
 
         $params['comments'] = $this->repository->findByCriteria($criteria);
@@ -77,8 +77,8 @@ class EntryCommentController extends AbstractController
     {
         $params   = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->translateSort($sortBy))
-            ->setTime($criteria->translateTime($time));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
         $criteria->moderated = true;
 
         $params['comments'] = $this->repository->findByCriteria($criteria);

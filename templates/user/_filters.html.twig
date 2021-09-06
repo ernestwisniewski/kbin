@@ -1,20 +1,20 @@
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item {{ is_active_route('user') ? 'font-weight-bold' : '' }}">
         <a class="nav-link {{ is_active_route('user') ? 'active' : '' }}" aria-current="page"
-           href="{{ path('user', {username: user.username}) }}">Przegląd</a>
+           href="{{ path('user', {username: user.username}) }}">{{ 'overview'|trans }}</a>
     </li>
 
     <li class="nav-item {{ is_active_route('user_entries') ? 'font-weight-bold' : '' }}">
         <a class="nav-link {{ is_active_route('user_entries') ? 'active' : '' }}"
-           href="{{ path('user_entries', {username: user.username}) }}">Treści</a>
+           href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}</a>
     </li>
 
     <li class="nav-item {{ is_active_route('user_entry_comments') ? 'font-weight-bold' : '' }}">
         <a class="nav-link {{ is_active_route('user_entry_comments') ? 'active' : '' }}"
-           href="{{ path('user_entry_comments', {username: user.username}) }}">Komentarze</a>
+           href="{{ path('user_entry_comments', {username: user.username}) }}">{{ 'comments'|trans }}</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Wpisy</a>
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{ 'posts'|trans }}</a>
     </li>
 </ul>

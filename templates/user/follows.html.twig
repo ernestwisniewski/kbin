@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}{{ user.username }} | Obserwowani | {{ parent() }}{% endblock %}
+{% block title %}{{ user.username }} | {{ 'follows'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-follows-page">

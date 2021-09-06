@@ -27,42 +27,42 @@
 
     <div class="kbin-magazine-stats mb-4">
         <ul class="list-group list-group-flush mb-3">
-            <li class="list-group-item"><span class="text-muted">Utworzono:</span>
+            <li class="list-group-item"><span class="text-muted">{{ 'created'|trans }}:</span>
                 <time data-controller="timeago"
                       data-timeago-refresh-interval-value="10000"
                       data-timeago-datetime-value="{{ magazine.createdAt|date('c') }}">{{ magazine.createdAt|ago }}</time></li>
-            <li class="list-group-item"><span class="text-muted">Autor:</span> {{ user(magazine.getOwner, {prefix: false}) }}</li>
-            <li class="list-group-item"><span class="text-muted">Subskrybujących:</span> 1</li>
+            <li class="list-group-item"><span class="text-muted">{{ 'author'|trans }}:</span> {{ user(magazine.getOwner, {prefix: false}) }}</li>
+            <li class="list-group-item"><span class="text-muted">{{ 'subscribers'|trans }}:</span> 1</li>
         </ul>
 
         <ul class="list-group kbin-magazine-stats-links">
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ path('front_magazine', {'name': magazine.name }) }}">Treści</a>
+                <a class="stretched-link" href="{{ path('front_magazine', {'name': magazine.name }) }}">{{ 'threads'|trans }}</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.entryCount }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ get_active_comments_page_path() }}">Komentarze</a>
+                <a class="stretched-link" href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.entryCommentCount }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ get_active_posts_page_path() }}">Wpisy</a>
+                <a class="stretched-link" href="{{ get_active_posts_page_path() }}">{{ 'posts'|trans }}</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.postCount }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ get_active_posts_page_path() }}">Odpowiedzi do wpisów</a>
+                <a class="stretched-link" href="{{ get_active_posts_page_path() }}">{{ 'replies'|trans }}</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.postCommentCount }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ path('magazine_moderators', {'name': magazine.name}) }}">Moderatorzy</a>
+                <a class="stretched-link" href="{{ path('magazine_moderators', {'name': magazine.name}) }}">{{ 'moderators'|trans }}</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.moderators|length }}</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ path('magazine_modlog', {'name': magazine.name}) }}">Log moderatorski</a>
+                <a class="stretched-link" href="{{ path('magazine_modlog', {'name': magazine.name}) }}">{{ 'modlog'|trans }}</a>
                 <span class="badge bg-primary rounded-pill">{{ magazine.logs|length }}</span>
             </li>
         </ul>
@@ -72,7 +72,7 @@
         <div class="kbin-moderators mb-4">
             <div class="card">
                 <div class="card-header">
-                    Moderatorzy
+                    {{ 'moderators'|trans }}
                 </div>
                 <ul class="list-group list-group-flush">
                     {% for moderator in magazine.moderators|slice(0, 5) %}
@@ -85,7 +85,7 @@
                     {% if magazine.moderators|length > 5 %}
                         <li class="list-group-item text-center">
                             <a class="text-decoration-none stretched-link"
-                               href="{{ path('magazine_moderators', {'name': magazine.name}) }}">więcej...</a>
+                               href="{{ path('magazine_moderators', {'name': magazine.name}) }}">{{ 'more'|trans }}...</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -97,7 +97,7 @@
         <div class="kbin-moderators">
             <div class="card">
                 <div class="card-header">
-                    Etykiety
+                    {{ 'badges'|trans }}
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">

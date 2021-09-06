@@ -16,7 +16,7 @@
           data-action="subscribe#subOrUnsub"
           data-subscribe-target="form">
         <button type="submit" class="btn btn btn-sm btn-outline-light text-dark text-muted {{ is_granted('subscribe', magazine) ? '' : 'disabled' }}">
-            obserwuj
+            {{ 'subscribe'|trans }}
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
     </form>

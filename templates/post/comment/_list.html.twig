@@ -11,6 +11,6 @@
         {% endfor %}
     {% endif %}
     {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
-        {{ pagerfanta(comments, null, {'pageParameter':'[strona]'}) }}
+        {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
     {% endif %}
 </div>

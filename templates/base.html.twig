@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="pl">
+<html lang="{{ app.request.locale }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}karab.in{% endblock %}</title>
+    <title>{% block title %}{{ kbin_domain }}{% endblock %}</title>
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}

@@ -5,7 +5,7 @@
             <div class="row me-0 pe-0">
                 <div class="input-group-lg mb-3 row">
                     <div class="col-11">
-                        {{ form_label(form.image, 'Obraz') }}
+                        {{ form_label(form.image, 'cover'|trans) }}
                         {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
                     </div>
                     <div class="col-1 pt-4">
@@ -18,29 +18,29 @@
         {% endif %}
 
         <div class="input-group-lg mb-3">
-            {{ form_label(form.title, 'Tytuł') }}
+            {{ form_label(form.title, 'title'|trans) }}
             {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
         </div>
 
         <div class="input-group-lg mb-3">
-            {{ form_label(form.magazine, 'Magazyn') }}
+            {{ form_label(form.magazine, 'magazine'|trans) }}
             {{ form_widget(form.magazine, {'attr': {'class': 'kbin-choices'}}) }}
         </div>
 
         <div class="input-group-lg mb-3">
-            {{ form_label(form.badges, 'Etykiety') }}
+            {{ form_label(form.badges, 'badges'|trans) }}
             {{ form_widget(form.badges, {'attr': {'class': ''}}) }}
         </div>
 
         <div class="mb-3">
-            {{ form_label(form.isAdult, 'Wyłącznie dla dorosłych') }}
+            {{ form_label(form.isAdult, 'nsfw'|trans) }}
             <div class="input-group input-group-lg">
-                {{ form_widget(form.isAdult, {name: 'Wyłącznie dla dorosłych'}) }}
+                {{ form_widget(form.isAdult, {name: 'nsfw'|trans}) }}
             </div>
         </div>
 
         <div class="mb-12 text-end">
-            {{ form_row(form.submit, { 'label': 'Gotowe', 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
+            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
         </div>
     </div>
 </div>

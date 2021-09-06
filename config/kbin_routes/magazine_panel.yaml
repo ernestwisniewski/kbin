@@ -1,11 +1,15 @@
 magazine_panel_front:
   controller: App\Controller\Magazine\MagazinePanelController::front
-  path: /m/{name}/panel/statystyki
+  path:
+    en: /m/{name}/panel/stats
+    pl: /m/{name}/panel/statystyki
   methods: [ GET ]
 
 magazine_panel_bans:
   controller: App\Controller\Magazine\MagazinePanelBanController::bans
-  path: /m/{name}/panel/bany
+  path:
+    en: /m/{name}/panel/bans
+    pl: /m/{name}/panel/bany
   methods: [ GET, POST ]
 
 magazine_panel_ban:
@@ -20,12 +24,16 @@ magazine_panel_unban:
 
 magazine_panel_edit:
   controller: App\Controller\Magazine\MagazinePanelController::edit
-  path: /m/{name}/panel/edytuj
+  path:
+    en: /m/{name}/panel/edit
+    pl: /m/{name}/panel/edytuj
   methods: [ GET, POST ]
 
 magazine_panel_moderators:
   controller: App\Controller\Magazine\MagazinePanelModController::moderators
-  path: /m/{name}/panel/moderatorzy
+  path:
+    en: /m/{name}/panel/moderators
+    pl: /m/{name}/panel/moderatorzy
   methods: [ GET, POST ]
 
 magazine_panel_moderator_purge:
@@ -35,30 +43,36 @@ magazine_panel_moderator_purge:
 
 magazine_panel_reports:
   controller: App\Controller\Magazine\MagazinePanelReportController::reports
-  path: /m/{name}/panel/zgloszenia
+  path:
+    en: /m/{name}/panel/reports
+    pl: /m/{name}/panel/zgloszenia
   methods: [ GET ]
 
 magazine_panel_report_approve:
   controller: App\Controller\Magazine\MagazinePanelReportController::reportApprove
-  path: /m/{magazine_name}/panel/zgloszenia/{report_id}/approve
+  path: /m/{magazine_name}/panel/reports/{report_id}/approve
   methods: [ POST ]
 
 magazine_panel_report_reject:
   controller: App\Controller\Magazine\MagazinePanelReportController::reportReject
-  path: /m/{magazine_name}/panel/zgloszenia/{report_id}/reject
+  path: /m/{magazine_name}/panel/reports/{report_id}/reject
   methods: [ POST ]
 
 magazine_panel_theme:
   controller: App\Controller\Magazine\MagazinePanelController::theme
-  path: /m/{name}/panel/wyglad
+  path:
+    en: /m/{name}/panel/appearance
+    pl: /m/{name}/panel/wygląd
   methods: [ GET, POST ]
 
 magazine_panel_badges:
   controller: App\Controller\Magazine\MagazinePanelBadgeController::badges
-  path: /m/{name}/panel/etykiety
+  path:
+    en: /m/{name}/panel/badges
+    pl: /m/{name}/panel/etykiety
   methods: [ GET, POST ]
 
 magazine_panel_badge_remove:
   controller: App\Controller\MagazinePanelBadgeController::removeBadge
-  path: /m/{magazine_name}/panel/etykiety/{badge_id}/purge
+  path: /m/{magazine_name}/panel/badges/{badge_id}/purge
   methods: [ POST ]

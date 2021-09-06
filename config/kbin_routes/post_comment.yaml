@@ -1,25 +1,29 @@
 post_comment_create:
   controller: App\Controller\Post\PostCommentController::create
   defaults: { slug: -, parent_comment_id: null }
-  path: /m/{magazine_name}/w/{post_id}/{slug}/komentarz/{parent_comment_id}
+  path:
+    en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{parent_comment_id}
+    pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{parent_comment_id}
   methods: [ GET, POST ]
 
 post_comment_edit:
   controller: App\Controller\Post\PostCommentController::edit
   defaults: { slug: -, }
-  path: /m/{magazine_name}/w/{post_id}/{slug}/komentarz/{comment_id}/edytuj
+  path:
+    en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/edit
+    pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/edytuj
   methods: [ GET, POST ]
 
 post_comment_delete:
   controller: App\Controller\Post\PostCommentController::delete
   defaults: { slug: -, }
-  path: /m/{magazine_name}/w/{post_id}/{slug}/komentarz/{comment_id}/delete
+  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/delete
   methods: [ POST ]
 
 post_comment_purge:
   controller: App\Controller\Post\PostCommentController::purge
   defaults: { slug: -, }
-  path: /m/{magazine_name}/w/{post_id}/{slug}/komentarz/{comment_id}/purge
+  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/purge
   methods: [ POST ]
 
 post_comment_vote:

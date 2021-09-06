@@ -14,9 +14,9 @@
                 {% elseif magazine is defined %}
                     <div class="alert alert-secondary text-muted my-3" role="alert">
                         {% if not app.user %}
-                            <a href="{{ path('app_login') }}" class="font-weight-bold">Zaloguj się</a> aby dodać wpis.
+                            {{ 'login_to_post'|trans({'%link_start%' : '<a class="font-weight-bold" href="'~path('app_login')~'">', '%link_end%' : '</a>'}) | raw }}
                         {% else %}
-                            Nie możesz dodać posta.
+                            {{ 'cannot_add_post'|trans }}
                         {% endif %}
                     </div>
                 {% endif %}

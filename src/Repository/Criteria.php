@@ -82,21 +82,27 @@ abstract class Criteria
         return $this;
     }
 
-    public function translateSort(?string $value): string
+    public function resolveSort(?string $value): string
     {
         //@todo
         $routes = [
-            'wazne'       => Criteria::SORT_HOT,
-            'wschodzace'  => Criteria::SORT_TOP,
+            'top'       => Criteria::SORT_HOT,
+            'hot'       => Criteria::SORT_TOP,
+            'active'    => Criteria::SORT_ACTIVE,
+            'newest'    => Criteria::SORT_NEW,
+            'commented' => Criteria::SORT_COMMENTED,
+
+            'ważne'       => Criteria::SORT_HOT,
+            'wschodzące'  => Criteria::SORT_TOP,
             'aktywne'     => Criteria::SORT_ACTIVE,
             'najnowsze'   => Criteria::SORT_NEW,
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
 
-        return $routes[$value] ?? $routes['wschodzace'];
+        return $routes[$value] ?? $routes['hot'];
     }
 
-    public function translateTime(?string $value): ?string
+    public function resolveTime(?string $value): ?string
     {
         //@todo
         $routes = [
@@ -107,22 +113,32 @@ abstract class Criteria
             '1m'       => Criteria::TIME_MONTH,
             '1y'       => Criteria::TIME_YEAR,
             '∞'        => Criteria::TIME_ALL,
+            'all'      => Criteria::TIME_ALL,
             'wszystko' => Criteria::TIME_ALL,
+            '6g'       => Criteria::TIME_6_HOURS,
+            '12g'      => Criteria::TIME_12_HOURS,
+            '1t'       => Criteria::TIME_WEEK,
+            '1r'       => Criteria::TIME_YEAR,
             null       => null,
         ];
 
         return $routes[$value] ?? $value;
     }
 
-    public function translateType(?string $value): ?string
+    public function resolveType(?string $value): ?string
     {
         //@todo
         $routes = [
-            'artykul' => Entry::ENTRY_TYPE_ARTICLE,
-            'link'    => Entry::ENTRY_TYPE_LINK,
-            'video'   => Entry::ENTRY_TYPE_VIDEO,
-            'foto'    => Entry::ENTRY_TYPE_IMAGE,
-            null      => null,
+            'articles' => Entry::ENTRY_TYPE_ARTICLE,
+            'links'    => Entry::ENTRY_TYPE_LINK,
+            'videos'   => Entry::ENTRY_TYPE_VIDEO,
+            'photos'   => Entry::ENTRY_TYPE_IMAGE,
+
+            'artykuły' => Entry::ENTRY_TYPE_ARTICLE,
+            'linki'    => Entry::ENTRY_TYPE_LINK,
+            'zdjęcia'  => Entry::ENTRY_TYPE_IMAGE,
+            'video'    => Entry::ENTRY_TYPE_VIDEO,
+            null       => null,
         ];
 
         return $routes[$value] ?? $value;

@@ -1,16 +1,12 @@
 {% extends 'entry/single.html.twig' %}
 
-{% block title %}Edytuj komentarz | {{ parent() }}{% endblock %}
+{% block title %}{{ 'edit_comment'|trans }} | {{ parent() }}{% endblock %}
 
 {% block body %}
     {{ parent() }}
 {% endblock %}
 
 {% block before_comments %}
-    <div class="kbin-comment-edit-wrapper mt-4">
-        <h4 class="font-weight-bold">Edytuj:</h4>
-    </div>
-
     {% include 'entry/comment/_form.html.twig' %}
     {% include 'entry/comment/_form_delete.html.twig' %}
 {% endblock %}

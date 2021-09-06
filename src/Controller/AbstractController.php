@@ -72,7 +72,7 @@ abstract class AbstractController extends BaseAbstractController
 
     protected function getPageNb(Request $request): int
     {
-        return (int) $request->get('strona', 1);
+        return (int) $request->get('p', 1);
     }
 
     protected function redirectToEntry(Entry $entry): Response

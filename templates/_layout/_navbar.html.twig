@@ -3,7 +3,7 @@
 <header class="kbin-header container-fluid mt-auto">
     <nav class="kbin-nav navbar navbar-expand-lg navbar-light">
         <div class="kbin-container container">
-            <a class="kbin-nav-brand navbar-brand text-muted text-decoration-none kbin-logo" href="{{ app.user ? path('front_subscribed') : '/' }}">karab.in</a>
+            <a class="kbin-nav-brand navbar-brand text-muted text-decoration-none kbin-logo" href="{{ app.user ? path('front_subscribed') : '/' }}">{{ kbin_domain }}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kbin-nav"
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -39,52 +39,52 @@
 
                     {% if is_user_page() %}
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user', {username: user.username}) }}">Przegląd</a>
+                            <a href="{{ path('user', {username: user.username}) }}">{{ 'overview'|trans }}</a>
                         </li>
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_entries') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_entries', {username: user.username}) }}">Treści</a>
+                            <a href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}</a>
                         </li>
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_entry_comments') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_entry_comments', {username: user.username}) }}">Komentarze</a>
+                            <a href="{{ path('user_entry_comments', {username: user.username}) }}">{{ 'comments'|trans }}</a>
                         </li>
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_posts') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_posts', {username: user.username}) }}">Wpisy</a>
+                            <a href="{{ path('user_posts', {username: user.username}) }}">{{ 'posts'|trans }}</a>
                         </li>
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_replies') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_replies', {username: user.username}) }}">Odpowiedzi</a>
+                            <a href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}</a>
                         </li>
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_subscriptions') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_subscriptions', {username: user.username}) }}">Subskrypcje</a>
+                            <a href="{{ path('user_subscriptions', {username: user.username}) }}">{{ 'subscriptions'|trans }}</a>
                         </li>
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_follows') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_follows', {username: user.username}) }}">Obserwowani</a>
+                            <a href="{{ path('user_follows', {username: user.username}) }}">{{ 'follows'|trans }}</a>
                         </li>
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_followers') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_followers', {username: user.username}) }}">Obserwujący</a>
+                            <a href="{{ path('user_followers', {username: user.username}) }}">{{ 'followers'|trans }}</a>
                         </li>
                     {% else %}
-                        {{ navbar_link('Ważne', {
-                            sortBy: 'wazne',
+                        {{ navbar_link('sort.top'|trans, {
+                            sortBy: 'sort.top'|trans|lower,
                         }) }}
-                        {{ navbar_link('Wschodzące', {
-                            sortBy: 'wschodzace',
+                        {{ navbar_link('sort.hot'|trans, {
+                            sortBy: 'sort.hot'|trans|lower,
                         }) }}
-                        {{ navbar_link('Aktywne', {
-                            sortBy: 'aktywne',
+                        {{ navbar_link('sort.active'|trans, {
+                            sortBy: 'sort.active'|trans|lower,
                         }) }}
-                        {{ navbar_link('Najnowsze', {
-                            sortBy: 'najnowsze',
+                        {{ navbar_link('sort.newest'|trans, {
+                            sortBy: 'sort.newest'|trans|lower,
                         }) }}
-                        {{ navbar_link('Komentowane', {
-                            sortBy: 'komentowane',
+                        {{ navbar_link('sort.commented'|trans, {
+                            sortBy: 'sort.commented'|trans|lower,
                         }) }}
 
                         <li class="kbin-nav-navbar-item {{ is_comments_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ get_active_comments_page_path() }}">Komentarze</a>
+                            <a href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
                         </li>
 
                         <li class="kbin-nav-navbar-item {{ is_posts_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ get_active_posts_page_path() }}">Wpisy</a>
+                            <a href="{{ get_active_posts_page_path() }}">{{ 'microblog'|trans }}</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -111,7 +111,7 @@
                     {% endif %}
                     <li class="kbin-nav-navbar-item kbn-login-btn {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
                         <a href="{{ path('user_profile_front') }}" class="px-1">
-                            <i class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'Profil' : 'Zaloguj się' }}
+                            <i class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'profile'|trans : 'login'|trans }}
                         </a>
                     </li>
                 </ul>
