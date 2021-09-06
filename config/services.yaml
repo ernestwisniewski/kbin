@@ -60,3 +60,4 @@ services:
     App\EventListener\LanguageListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+        arguments: ['%env(KBIN_DEFAULT_LANG)%']
