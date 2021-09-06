@@ -18,7 +18,7 @@
           data-subscribe-target="form">
         <button type="submit"
                 class="btn btn-sm btn-outline-light text-dark text-muted {{ is_granted('follow', user) ? '' : 'disabled' }}">
-            {{ 'follows'|trans }}
+            {{ 'follow'|trans }}
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
     </form>
