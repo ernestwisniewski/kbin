@@ -4,6 +4,7 @@ framework:
             paths: ['%kernel.project_dir%/config/kbin_serialization']
 
 parameters:
+    kbin_domain: '%env(KBIN_DOMAIN)%'
     html5_validation: false
     front_sort_options: top|hot|active|newest|commented|ważne|wschodzące|aktywne|najnowsze|komentowane
     front_time_options: 6h|12h|1d|1w|1m|1y|all|wszystko|∞
@@ -14,6 +15,7 @@ parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     env(MONGODB_URL): ''
     env(MONGODB_DB): ''
+
 
 services:
     _defaults:
