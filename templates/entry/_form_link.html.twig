@@ -7,7 +7,7 @@
                 {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle', 'data-entry-create-target': 'url' }}) }}
             </div>
             <div class="col-1 pt-4">
-                <a href="{{ path('entry_create', { type: 'image' }) }}" class="link-dark">
+                <a href="{{ path('entry_create', { type: 'type.image'|trans }) }}" class="link-dark">
                     <i class="fas fa-image pt-2"></i>
                 </a>
             </div>

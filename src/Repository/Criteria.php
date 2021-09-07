@@ -129,15 +129,20 @@ abstract class Criteria
     {
         //@todo
         $routes = [
+            'article' => Entry::ENTRY_TYPE_ARTICLE,
             'articles' => Entry::ENTRY_TYPE_ARTICLE,
+            'link'    => Entry::ENTRY_TYPE_LINK,
             'links'    => Entry::ENTRY_TYPE_LINK,
+            'video'   => Entry::ENTRY_TYPE_VIDEO,
             'videos'   => Entry::ENTRY_TYPE_VIDEO,
+            'photo'   => Entry::ENTRY_TYPE_IMAGE,
             'photos'   => Entry::ENTRY_TYPE_IMAGE,
 
+            'artykuł' => Entry::ENTRY_TYPE_ARTICLE,
             'artykuły' => Entry::ENTRY_TYPE_ARTICLE,
             'linki'    => Entry::ENTRY_TYPE_LINK,
+            'zdjęcie'  => Entry::ENTRY_TYPE_IMAGE,
             'zdjęcia'  => Entry::ENTRY_TYPE_IMAGE,
-            'video'    => Entry::ENTRY_TYPE_VIDEO,
             null       => null,
         ];
 
