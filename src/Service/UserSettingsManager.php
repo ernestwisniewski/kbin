@@ -34,16 +34,8 @@ class UserSettingsManager
         $user->notifyOnNewEntryCommentReply = $dto->notifyOnNewEntryCommentReply;
         $user->notifyOnNewEntryReply        = $dto->notifyOnNewEntryReply;
         $user->notifyOnNewPostCommentReply  = $dto->notifyOnNewPostCommentReply;
-        if ($dto->darkTheme) {
-            $user->theme = User::THEME_DARK;
-        } else {
-            $user->theme = User::THEME_LIGHT;
-        }
-        if($dto->turboMode) {
-            $user->mode = User::MODE_TURBO;
-        } else {
-            $user->mode = User::MODE_NORMAL;
-        }
+        $user->theme                        = $dto->darkTheme ? User::THEME_DARK : User::THEME_LIGHT;
+        $user->mode                         = $dto->turboMode ? User::MODE_TURBO : User::MODE_NORMAL;
 
         $this->entityManager->flush();
     }

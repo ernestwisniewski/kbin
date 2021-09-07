@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
-class PostManager implements ContentManagerInterface
+class  PostManager implements ContentManagerInterface
 {
     public function __construct(
         private PostFactory $factory,
