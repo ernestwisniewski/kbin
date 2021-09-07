@@ -1,9 +1,9 @@
-<h1>Cześć! Potwierdź swój adres email!</h1>
+<h1>{{ 'email_confirm_header'|trans }}</h1>
 
 <p>
-    Jeżeli chcesz aktywować swoje konto kliknij w poniższy link: <br><br>
-    <a href="{{ signedUrl|raw }}">Potwierdź adres email</a>.
-    Link wygaśnie za 1 godzinę.
+    {{ 'email_confirm_content'|trans }} <br><br>
+    <a href="{{ signedUrl|raw }}">{{ 'email_verify'|trans }}</a>.
+    {{ 'email_confirm_expire'|trans }}
     {# Link wygaśnie za {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}. #}
 </p>
 
