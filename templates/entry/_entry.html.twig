@@ -20,11 +20,19 @@
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote', notification_type: 'Entry'}) }}
 
             {% if entry.image and entry.visibility is same as 'visible' %}
-                <div class="kbin-entry-image">
-                    <a href="{{- entry_url(entry) -}}">
-                        <img class="lazy" src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
-                    </a>
-                </div>
+                {% if is_entry_page() %}
+                    <div class="kbin-entry-image">
+                        <a href="{{- entry.type is same as 'link' ? entry.url : '/media/'~asset(entry.image.filePath) -}}">
+                            <img class="lazy" src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="kbin-entry-image">
+                        <a href="{{- entry_url(entry) -}}">
+                            <img class="lazy" src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
+                        </a>
+                    </div>
+                {% endif %}
             {% endif %}
 
             <div class="kbin-entry-main clearfix">
