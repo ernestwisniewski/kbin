@@ -3,40 +3,42 @@
 <header class="kbin-header container-fluid mt-auto">
     <nav class="kbin-nav navbar navbar-expand-lg navbar-light">
         <div class="kbin-container container">
-            <a class="kbin-nav-brand navbar-brand text-muted text-decoration-none kbin-logo" href="{{ app.user ? path('front_subscribed') : '/' }}">{{ kbin_domain }}</a>
+            <a class="kbin-nav-brand navbar-brand text-muted text-decoration-none kbin-logo"
+               href="{{ app.user ? path('front_subscribed') : '/' }}">{{ kbin_domain }}</a>
+            <div class="kbin-nav-navbar  me-auto">
+                {% if is_magazine_page() %}
+                    <span class="text-muted me-auto text-small size">
+                    /m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
+                                                         href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
+                </span>
+                {% elseif is_user_page() %}
+                    <span class="text-muted">
+                    {% if user is not defined %}
+                        {% set user = app.user %}
+                    {% endif %}
+                    /u/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
+                                                         href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a></span>
+                </span>
+                {% elseif is_sub_page() %}
+                    <span class="text-muted">
+                    /<span class="font-weight-bold">
+                                <a class="text-decoration-none text-reset" href="{{ path('front_subscribed') }}">sub</a>
+                            </span>
+                </span>
+                {% elseif is_mod_page() %}
+                    <span class="text-muted">
+                    /<span class="font-weight-bold">
+                                <a class="text-decoration-none text-reset" href="{{ path('front_moderated') }}">mod</a>
+                            </span>
+                </span>
+                {% endif %}
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kbin-nav"
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse {{ kbin_js_enabled ? '' : 'show' }}" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
-                    {% if is_magazine_page() %}
-                        <li class="text-muted me-3 pt-2">
-                            /m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
-                                                                 href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
-                        </li>
-                    {% elseif is_user_page() %}
-                        <li class="text-muted me-3 pt-2">
-                            {% if user is not defined %}
-                                {% set user = app.user %}
-                            {% endif %}
-                            /u/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
-                                                                 href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a></span>
-                        </li>
-                    {% elseif is_sub_page() %}
-                        <li class="text-muted me-3 pt-2">
-                            /<span class="font-weight-bold">
-                                <a class="text-decoration-none text-reset" href="{{ path('front_subscribed') }}">sub</a>
-                            </span>
-                        </li>
-                    {% elseif is_mod_page() %}
-                        <li class="text-muted me-3 pt-2">
-                            /<span class="font-weight-bold">
-                                <a class="text-decoration-none text-reset" href="{{ path('front_moderated') }}">mod</a>
-                            </span>
-                        </li>
-                    {% endif %}
-
                     {% if is_user_page() %}
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user') ? 'kbin-nav-navbar-item--active' : '' }}">
                             <a href="{{ path('user', {username: user.username}) }}">{{ 'overview'|trans }}</a>

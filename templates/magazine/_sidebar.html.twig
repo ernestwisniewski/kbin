@@ -2,7 +2,7 @@
 {% from 'user/_macros.html.twig' import user %}
 
 <div class="kbin-magazine mb-4 mt-lg-0">
-    <div class="kbin-magazine-header px-2">
+    <div class="kbin-magazine-header px-2 text-center">
         {% if magazine.cover %}
             <img class="img-thumbnail" src="{{ asset(magazine.cover.filePath) | imagine_filter('post_thumb') }}"
                  alt="{{ magazine.title }}">
@@ -25,15 +25,21 @@
         {% endif %}
     </div>
 
-    <div class="kbin-magazine-stats mb-4">
-        <ul class="list-group list-group-flush mb-3">
-            <li class="list-group-item"><span class="text-muted">{{ 'created'|trans }}:</span>
-                <time data-controller="timeago"
-                      data-timeago-refresh-interval-value="10000"
-                      data-timeago-datetime-value="{{ magazine.createdAt|date('c') }}">{{ magazine.createdAt|ago }}</time></li>
-            <li class="list-group-item"><span class="text-muted">{{ 'author'|trans }}:</span> {{ user(magazine.getOwner, {prefix: false}) }}</li>
-            <li class="list-group-item"><span class="text-muted">{{ 'subscribers'|trans }}:</span> 1</li>
-        </ul>
+    <div class="kbin-magazine-stats mb-4 col-sm-6 col-lg-12 float-sm-start">
+        <div class="card mb-3">
+            <div class="card-header d-lg-none">
+                {{ 'magazine'|trans }}
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><span class="text-muted">{{ 'created'|trans }}:</span>
+                    <time data-controller="timeago"
+                          data-timeago-refresh-interval-value="10000"
+                          data-timeago-datetime-value="{{ magazine.createdAt|date('c') }}">{{ magazine.createdAt|ago }}</time>
+                </li>
+                <li class="list-group-item"><span class="text-muted">{{ 'author'|trans }}:</span> {{ user(magazine.getOwner, {prefix: false}) }}</li>
+                <li class="list-group-item"><span class="text-muted">{{ 'subscribers'|trans }}:</span> 1</li>
+            </ul>
+        </div>
 
         <ul class="list-group kbin-magazine-stats-links">
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -69,7 +75,7 @@
     </div>
 
     {% if magazine.moderators|length %}
-        <div class="kbin-moderators mb-4">
+        <div class="kbin-moderators mb-4 col-sm-6 col-lg-12 float-sm-start">
             <div class="card">
                 <div class="card-header">
                     {{ 'moderators'|trans }}
@@ -94,7 +100,7 @@
     {% endif %}
 
     {% if magazine.badges|length %}
-        <div class="kbin-moderators">
+        <div class="kbin-badges mb-4 col-sm-6 col-lg-12 float-sm-start">
             <div class="card">
                 <div class="card-header">
                     {{ 'badges'|trans }}
