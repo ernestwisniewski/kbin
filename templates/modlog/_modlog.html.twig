@@ -40,7 +40,7 @@
     {% from 'user/_macros.html.twig' import user %}
     {% from '_layout/_macros.html.twig' import entry_url %}
 
-    {{ user(log.user) }} {{ 'removed_thread'|trans }} {{ user(log.entry.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ magazine(log.entry.magazine) }}{% endif %} -
+    {{ user(log.user) }} {{ 'removed_thread_by'|trans }} {{ user(log.entry.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ magazine(log.entry.magazine) }}{% endif %} -
     <a href="{{ entry_url(log.entry) }}">{{ log.entry.shortTitle }}</a>
 {% endblock log_entry_deleted %}
 
