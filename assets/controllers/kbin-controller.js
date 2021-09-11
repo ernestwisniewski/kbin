@@ -15,9 +15,9 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            this.element.classList.toggle('kbin-dark');
+            document.body.classList.toggle('kbin-dark');
         } catch (e) {
-            this.element.classList.toggle('kbin-dark');
+            document.body.classList.toggle('kbin-dark');
         } finally {
         }
     }
