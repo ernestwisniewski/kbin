@@ -3,7 +3,7 @@
 {% for magazine in magazines %}
     <div class="card mb-3">
         <div class="row g-0">
-            <div class="col-md-4">
+            <div class="col-md-4 text-center">
                 {% if magazine.cover %}
                     <a href="{{ path('front_magazine', {'name': magazine.name}) }}">
                         <img src="{{ asset(magazine.cover.filePath) | imagine_filter('post_thumb') }}" class="img-thumbnail"

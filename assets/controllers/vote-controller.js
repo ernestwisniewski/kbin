@@ -14,7 +14,7 @@ export default class extends Controller {
         downVoteCount: Number,
         loading: Boolean,
         uvUrl: String,
-        dvUrl: String
+        dvUrl: String,
     };
 
     async up(event) {
@@ -30,6 +30,11 @@ export default class extends Controller {
     async vote(event, val) {
         this.loadingValue = true;
         this.alreadyVotedValue = true;
+
+        if (!window.KBIN_LOGGED_IN) {
+            document.querySelector(".kbn-login-btn a").click()
+            return;
+        }
 
         try {
             let voteUrl = this.uvUrlValue;
@@ -52,6 +57,7 @@ export default class extends Controller {
                 this.downVoteCountValue = response.downVotes;
             }
         } catch (e) {
+            alert('Oops, something went wrong');
             throw e;
         } finally {
             this.loadingValue = false;

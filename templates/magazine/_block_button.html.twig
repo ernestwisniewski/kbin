@@ -10,7 +10,7 @@
           data-block-target="form"
           data-action="block#blockOrUnblock">
         <button type="submit"
-                class="btn btn-sm btn-outline-light text-dark text-muted rounded-end {{ is_granted('block', magazine) ? '' : 'disabled' }}"><i
+                class="btn btn-sm btn-outline-light text-dark text-muted rounded-end {{ app.user and magazine.userIsOwner(app.user) ? 'disabled' : '' }}"><i
                     class="fas fa-ban"></i></button>
         <input type="hidden" name="token" value="{{ csrf_token('block') }}">
     </form>

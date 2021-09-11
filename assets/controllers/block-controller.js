@@ -16,6 +16,11 @@ export default class extends Controller {
 
         this.loadingValue = true;
 
+        if (!window.KBIN_LOGGED_IN) {
+            document.querySelector(".kbn-login-btn a").click()
+            return;
+        }
+
         try {
             let response = await fetch(this.isBlockedValue ? this.removeUrlValue : this.addUrlValue, {
                 method: 'POST',
@@ -27,6 +32,7 @@ export default class extends Controller {
 
             this.isBlockedValue = response.isBlocked;
         } catch (e) {
+            alert('Oops, something went wrong.');
             throw e;
         } finally {
             this.loadingValue = false;

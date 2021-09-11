@@ -33,6 +33,7 @@ export default class extends ApplicationController {
 
             this.titleTarget.value = response.title;
         } catch (e) {
+            alert('Oops, something went wrong.');
             throw e;
         } finally {
             this.loadingValue = false;

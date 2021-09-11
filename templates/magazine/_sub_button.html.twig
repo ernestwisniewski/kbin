@@ -1,6 +1,6 @@
 {% set subscribed = is_subscribed(magazine) %}
 
-<div class="kbin-sub btn-group btn-group-sm {% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
+<div class="kbin-sub btn-group btn-group-sm"
      role="group"
      data-controller="subscribe"
      data-subscribe-add-url-value="{{ path('magazine_subscribe', {name: magazine.name}) }}"
@@ -15,7 +15,7 @@
           class="kbin-magazine-subscribe kbin-sub-form {{ subscribed ? 'kbin-sub--active' : '' }}"
           data-action="subscribe#subOrUnsub"
           data-subscribe-target="form">
-        <button type="submit" class="btn btn btn-sm btn-outline-light text-dark text-muted {{ is_granted('subscribe', magazine) ? '' : 'disabled' }}">
+        <button type="submit" class="btn btn btn-sm btn-outline-light text-dark text-muted">
             {{ 'subscribe'|trans }}
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
