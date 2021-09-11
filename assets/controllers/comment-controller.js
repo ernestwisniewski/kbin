@@ -58,9 +58,9 @@ export default class extends Controller {
             response = await response.json();
 
             if (edit) {
-                CommentFactory.edit(response.html, event.target.closest('blockquote'));
+                CommentFactory.edit(response.html, event.target.closest('.kbin-comment'));
             } else {
-                CommentFactory.create(response.html, event.target.closest('blockquote'));
+                CommentFactory.create(response.html, event.target.closest('.kbin-comment'));
             }
 
             event.target.parentNode.innerHTML = ''

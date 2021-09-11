@@ -189,7 +189,11 @@ abstract class WebTestCase extends BaseWebTestCase
 
         $user->isVerified       = $active;
         $user->notifyOnNewEntry = true;
+        $user->notifyOnNewEntryReply  = true;
+        $user->notifyOnNewEntryCommentReply  = true;
         $user->notifyOnNewPost  = true;
+        $user->notifyOnNewPostReply  = true;
+        $user->notifyOnNewPostCommentReply  = true;
 
         $manager->persist($user);
         $manager->flush();

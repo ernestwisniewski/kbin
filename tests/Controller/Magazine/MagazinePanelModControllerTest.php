@@ -23,7 +23,7 @@ class MagazinePanelModControllerTest extends WebTestCase
 
         $this->assertCount(1, $crawler->filter('.kbin-magazine-moderators tbody tr'));
 
-        $crawler = $client->submit(
+        $client->submit(
             $crawler->selectButton('Dodaj')->form(
                 [
                     'moderator[user]' => 'regularUser2',
@@ -33,7 +33,7 @@ class MagazinePanelModControllerTest extends WebTestCase
 
         $this->assertCount(2, $crawler->filter('.kbin-magazine-moderators tbody tr'));
 
-        $crawler = $client->submit(
+        $client->submit(
             $crawler->selectButton('Dodaj')->form(
                 [
                     'moderator[user]' => 'regularUser2',
@@ -67,7 +67,7 @@ class MagazinePanelModControllerTest extends WebTestCase
 
         $crawler = $client->click($crawler->filter('article .kbin-entry-meta-list-item')->selectLink('zbanuj')->link());
 
-        $crawler = $client->submit(
+        $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
                     'magazine_ban[reason]'    => 'spam',

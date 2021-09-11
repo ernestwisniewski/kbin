@@ -4,13 +4,13 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends BaseFixture
 {
     const USERS_COUNT = 21;
 
-    public function __construct(private UserPasswordEncoderInterface $encoder)
+    public function __construct(private UserPasswordHasherInterface $hasher)
     {
     }
 
@@ -24,7 +24,7 @@ class UserFixtures extends BaseFixture
             );
 
             $newUser->setPassword(
-                $this->encoder->encodePassword($newUser, $user['password'])
+                $this->hasher->hashPassword($newUser, $user['password'])
             );
 
             $manager->persist($newUser);
