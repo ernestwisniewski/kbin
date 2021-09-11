@@ -16,7 +16,7 @@
              data-embed-hidden-class="display-none"
              data-embed-loading-class="spinner-border"
              data-embed-embed-class="fa-photo-video">
-        <div class="kbin-entry-header clearfix">
+        <div class="clearfix">
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote', notification_type: 'Entry'}) }}
 
             {% if entry.image and entry.visibility is same as 'visible' %}
