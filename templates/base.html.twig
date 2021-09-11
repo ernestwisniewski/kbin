@@ -18,6 +18,9 @@
 
     {% block javascripts %}
         {% if kbin_js_enabled %}
+            <script>
+                window.KBIN_LOGGED_IN = {{ app.user ? 'true' : 'false' }};
+            </script>
             {{ encore_entry_script_tags('app') }}
         {% endif %}
     {% endblock %}

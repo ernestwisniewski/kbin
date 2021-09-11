@@ -95,7 +95,6 @@
 
                         <li class="kbin-entry-meta-report kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                             <small class="text-muted"><a href="{{ path('entry_report', {id: entry.id}) }}"
-                                                         class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
                                                          data-action="report#report">{{ 'report'|trans }}</a></small>
                         </li>
                     </ul>

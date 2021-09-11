@@ -12,6 +12,11 @@ export default class extends Controller {
 
         this.loadingValue = true;
 
+        if (!window.KBIN_LOGGED_IN) {
+            document.querySelector(".kbn-login-btn a").click()
+            return;
+        }
+
         try {
             let response = await fetch(event.target.href, {method: 'GET'});
 
@@ -25,7 +30,8 @@ export default class extends Controller {
                 self.send(e);
             });
         } catch (e) {
-            alert('Nie możesz dodać zgłoszenia.');
+            alert('Oops, something went wrong.');
+            throw e;
         } finally {
             this.loadingValue = false;
         }
@@ -36,6 +42,11 @@ export default class extends Controller {
 
         this.loadingValue = true;
 
+        if (!window.KBIN_LOGGED_IN) {
+            document.querySelector(".kbn-login-btn a").click()
+            return;
+        }
+
         try {
             let response = await fetch(event.target.action, {method: 'POST', body: new FormData(event.target)});
 
@@ -44,9 +55,10 @@ export default class extends Controller {
 
             event.target.parentNode.innerHTML = '';
 
-            alert('Zgłoszenie zostało wysłane, dzięki!');
+            alert('👍👍👍');
         } catch (e) {
-            alert('Nie możesz dodać zgłoszenia.');
+            alert('Oops, something went wrong.');
+            throw e;
         } finally {
             this.loadingValue = false;
         }

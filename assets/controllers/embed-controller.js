@@ -50,6 +50,7 @@ export default class extends Controller {
             this.htmlValue = response.html;
             this.show();
         } catch (e) {
+            alert('Oops, something went wrong.');
             throw e;
         } finally {
             this.loadingValue = false;
