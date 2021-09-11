@@ -22,22 +22,21 @@
         {% endif %}
     {% endblock %}
 </head>
-<body data-controller="kbin notify-counter"
-      data-action="notify:Notification->notify-counter#notification"
-      data-action="notify:Message->notify-counter#message"
-      data-notify-counter-hidden-class="visually-hidden"
-      class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : '' }}">
+<body class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : '' }}">
 <div data-controller="scroll-progress" class="bg-primary scroll-progress"></div>
-<div id="kbin" data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
+<div id="kbin"
+     data-controller="kbin notify-counter"
+     data-action="notify:Notification->notify-counter#notification"
+     data-action="notify:Message->notify-counter#message"
+     data-notify-counter-hidden-class="visually-hidden"
+     data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
     {% include '_layout/_topbar.html.twig' %}
     {% include '_layout/_navbar.html.twig' %}
     <section class="kbin-container container pt-3 pb-5">
         <div class="row">
-            <div class="col-lg-9">
-                <main class="kbin-main">
-                    {% block body %}{% endblock %}
-                </main>
-            </div>
+            <main class="kbin-main col-lg-9 mb-5">
+                {% block body %}{% endblock %}
+            </main>
             <aside class="col-lg-3 kbin-sidebar">
                 {% block sidebar %}
                     {% include '_layout/_sidebar.html.twig' %}

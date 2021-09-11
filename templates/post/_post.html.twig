@@ -13,7 +13,7 @@
                 data-comment-counter-subject-id-value="{{ post.id }}"
                 data-post-id-value="{{ post.id }}"
                 data-post-magazine-name-value="{{ post.magazine.name }}">
-        <div class="kbin-post-header mb-2">
+        <div class="mb-2">
             {{ vote(post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true, notification_type: 'Post'}) }}
 
             <div class="kbin-post-avatar">
