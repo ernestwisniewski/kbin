@@ -55,7 +55,7 @@ class PostCommentControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-post-main', 'zmieniona treść');
     }
 
-    public function testUnauthorizedUserCannotEditEntryMagazine()
+    public function testUnauthorizedUserCannotEditPostComment()
     {
         $this->expectException(AccessDeniedException::class);
 
@@ -65,7 +65,7 @@ class PostCommentControllerTest extends WebTestCase
 
         $post    = $this->createPost('przykladowa post.');
         $comment = $this->createPostComment('przykłądowy komentarz.', $post);
-        $crawler = $client->request('GET', "/m/polityka/w/{$post->getId()}/-/komentarz/{$comment->getId()}/edytuj");
+        $crawler = $client->request('GET', "/m/polityka/w/{$post->getId()}/-/odpowiedź/{$comment->getId()}/edytuj");
 
         $this->assertTrue($client->getResponse()->isServerError());
     }

@@ -15,7 +15,7 @@ class EntryControllerTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('polityka');
 
-        $crawler = $client->request('GET', '/nowaTresc/artykul');
+        $crawler = $client->request('GET', '/nowy/artykuł');
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -44,7 +44,7 @@ class EntryControllerTest extends WebTestCase
         $this->getEntryByTitle('test1');
         $this->getEntryByTitle('test2');
 
-        $crawler = $client->request('GET', '/nowaTresc');
+        $crawler = $client->request('GET', '/nowy/link');
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -56,11 +56,8 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        $this->assertResponseRedirects();
-
         $crawler = $client->followRedirect();
 
-        $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 3');
     }
@@ -85,11 +82,8 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}/zmieniona-tresc/komentarze");
-
         $crawler = $client->followRedirect();
 
-        $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
     }
 
@@ -112,11 +106,8 @@ class EntryControllerTest extends WebTestCase
             )
         );
 
-        $this->assertResponseRedirects("/m/polityka/t/{$entry->getId()}/zmieniona-tresc/komentarze");
-
         $crawler = $client->followRedirect();
 
-        $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
         $this->assertSelectorTextContains('.kbin-entry-content p', 'zmieniona treść wpisu');
     }
@@ -184,7 +175,7 @@ class EntryControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
-            $crawler->selectButton('Usuń')->form()
+            $crawler->selectButton('usuń')->form()
         );
 
         $this->assertResponseRedirects("/m/polityka");

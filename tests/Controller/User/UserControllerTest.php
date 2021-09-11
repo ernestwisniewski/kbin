@@ -34,7 +34,6 @@ class UserControllerTest extends WebTestCase
                 [
                     'user_password[plainPassword][first]'  => 'supersecret',
                     'user_password[plainPassword][second]' => 'supersecret',
-                    'user_password[agreeTerms]'            => true,
                 ]
             )
         );
@@ -71,10 +70,11 @@ class UserControllerTest extends WebTestCase
             $crawler->filter('button#user_email_submit')->form(
                 [
                     'user_email[email]'                 => 'ernest@karab.in',
-                    'user_email[agreeTerms]'            => true,
                 ]
             )
         );
+
+        $crawler = $client->followRedirect();
 
         $this->assertEmailCount(1);
 
@@ -84,8 +84,6 @@ class UserControllerTest extends WebTestCase
         $this->assertEmailHeaderSame($email, 'To', 'ernest@karab.in');
 
         $verifyLink = $email->getContext()['signedUrl'];
-
-        $crawler = $client->followRedirect();
 
         $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();

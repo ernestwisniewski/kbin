@@ -17,7 +17,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->filter('.kbin-entry-list .kbin-entry-meta')->selectLink('zgłoś')->link());
 
-        $crawler = $client->submit(
+        $client->submit(
             $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form(
                 [
                     'report[reason]' => 'Przykładowy report',
@@ -49,7 +49,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/polityka/t/'.$comment->entry->getId().'/-/komentarze');
         $crawler = $client->click($crawler->filter('.kbin-comment')->selectLink('zgłoś')->link());
 
-        $crawler = $client->submit(
+        $client->submit(
             $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form(
                 [
                     'report[reason]' => 'Przykładowy report',
@@ -72,7 +72,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
         $crawler = $client->click($crawler->filter('.kbin-post')->selectLink('zgłoś')->link());
 
-        $crawler = $client->submit(
+        $client->submit(
             $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form(
                 [
                     'report[reason]' => 'Przykładowy report',
@@ -96,7 +96,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
         $crawler = $client->click($crawler->filter('.kbin-comment')->selectLink('zgłoś')->link());
 
-        $crawler = $client->submit(
+        $client->submit(
             $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form(
                 [
                     'report[reason]' => 'Przykładowy report',

@@ -20,7 +20,7 @@ class ProfileControllerTest extends WebTestCase
 
         $client->loginUser($this->getUserByUsername('owner'));
         $crawler = $client->request('GET', '/profil/notyfikacje');
-        $this->assertCount(4, $crawler->filter('.table-responsive tr'));
+        $this->assertCount(2, $crawler->filter('.table-responsive tr'));
 
         $client->loginUser($this->getUserByUsername('actor'));
         $crawler = $client->request('GET', '/profil/notyfikacje');
@@ -38,18 +38,19 @@ class ProfileControllerTest extends WebTestCase
         $this->loadNotificationsFixture();
 
         $client->loginUser($this->getUserByUsername('owner'));
+
         $crawler = $client->request('GET', '/profil/notyfikacje');
         $crawler = $client->request('GET', '/profil/notyfikacje');
 
-        $this->assertCount(8, $crawler->filter('.table-responsive td'));
-        $this->assertCount(0, $crawler->filter('.table-responsive td.opacity-50'));
+        $this->assertCount(2, $crawler->filter('.table-responsive tr'));
+        $this->assertCount(0, $crawler->filter('.table-responsive tr td.opacity-50'));
 
-        $client->submit($crawler->selectButton('Odczytaj wszystkie')->form());
+        $client->submit($crawler->selectButton('odczytaj wszystkie')->form());
 
         $crawler = $client->followRedirect();
 
-        $this->assertCount(8, $crawler->filter('.table-responsive td'));
-        $this->assertCount(4, $crawler->filter('.table-responsive td.opacity-50'));
+        $this->assertCount(2, $crawler->filter('.table-responsive tr'));
+        $this->assertCount(2, $crawler->filter('.table-responsive tr td.opacity-50'));
     }
 
     public function testUserCanDeleteAllNotifications()
@@ -66,13 +67,13 @@ class ProfileControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/profil/notyfikacje');
         $crawler = $client->request('GET', '/profil/notyfikacje');
 
-        $this->assertCount(8, $crawler->filter('.table-responsive td'));
-        $this->assertCount(0, $crawler->filter('.table-responsive td.opacity-50'));
+        $this->assertCount(2, $crawler->filter('.table-responsive tr'));
+        $this->assertCount(0, $crawler->filter('.table-responsive tr td.opacity-50'));
 
-        $client->submit($crawler->selectButton('Wyczyść')->form());
+        $client->submit($crawler->selectButton('wyczyść')->form());
 
         $crawler = $client->followRedirect();
 
-        $this->assertCount(0, $crawler->filter('.table-responsive td'));
+        $this->assertCount(0, $crawler->filter('.table-responsive tr'));
     }
 }

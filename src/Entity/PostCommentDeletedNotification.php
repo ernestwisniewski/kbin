@@ -33,6 +33,6 @@ class PostCommentDeletedNotification extends Notification
 
     public function getType(): string
     {
-        return 'post_comment_created_notification';
+        return 'post_comment_deleted_notification';
     }
 }

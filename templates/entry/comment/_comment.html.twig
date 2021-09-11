@@ -12,6 +12,7 @@
             {%- endwith -%}
         {% endif %}
     {% endif %}
+
     <blockquote id="{{ comment.id }}"
                 class="kbin-comment {{ extra_classes }} kbin-comment--{{ level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ level >= 8 ? 'last' : level }} shadow-sm"
                 data-controller="comment report"
@@ -64,7 +65,7 @@
             </aside>
         </div>
         <div class="kbin-comment-main">
-            <blockquote class="kbin-comment-content"
+            <div class="kbin-comment-content"
                         data-controller="show-more"
                         data-action="image:thumbSelected->show-more#expand"
                         data-action="image:thumbLoaded->show-more#checkHeight">
@@ -84,7 +85,7 @@
                 {% elseif comment.visibility is same as 'soft_deleted' %}
                     <p class="text-muted">[{{ 'deleted'|trans }}]</p>
                 {% endif %}
-            </blockquote>
+            </div>
 
             {% if comment.visibility is same as 'visible' %}
                 <aside class="kbin-comment-meta clearfix">

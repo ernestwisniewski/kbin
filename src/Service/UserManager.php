@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -26,7 +26,7 @@ class UserManager
         private UserFactory $factory,
         private UserPasswordHasherInterface $passwordHasher,
         private TokenStorageInterface $tokenStorage,
-        private SessionInterface $session,
+        private RequestStack $requestStack,
         private EventDispatcherInterface $dispatcher,
         private MessageBusInterface $bus,
         private EmailVerifier $verifier,
@@ -152,6 +152,6 @@ class UserManager
     public function logout(): void
     {
         $this->tokenStorage->setToken(null);
-        $this->session->invalidate();
+        $this->requestStack->getSession()->invalidate();
     }
 }
