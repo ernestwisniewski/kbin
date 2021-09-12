@@ -63,7 +63,7 @@ export default class extends Controller {
         }
     }
 
-    async expandComments(event) {
+    async expand(event) {
         event.preventDefault();
 
         this.loadingValue = true;
@@ -82,10 +82,11 @@ export default class extends Controller {
             response = await response.json();
 
             this.element.parentElement
-                .querySelectorAll(`[data-comment-post-id="${this.idValue}"]`)
+                .querySelectorAll(`[data-comment-list-subject-id-value="${this.idValue}"]`)
                 .forEach(e => {
                     e.remove()
                 })
+
             this.element.insertAdjacentHTML('afterend', response.html);
         } catch (e) {
             alert('Coś poszło nie tak...')

@@ -82,7 +82,7 @@
                     {% if post.commentCount > 2 and not is_post_page() %}
                         <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                             <small class="text-muted">
-                                <a data-action="post#expandComments"
+                                <a data-action="post#expand"
                                    href="{{ post_url(post) }}">
                                     {{ 'expand'|trans }} (<span data-comment-counter-target="lenght">{{ post.commentCount }}</span>)
                                 </a>
