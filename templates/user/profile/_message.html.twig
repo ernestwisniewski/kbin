@@ -3,9 +3,11 @@
 
 <blockquote id="{{ message.id }}" class="kbin-comment shadow-sm">
     <div class="kbin-comment-header mb-2">
-        <div class="kbin-comment-avatar">
-            {{ avatar(message.sender) }}
-        </div>
+        {% if message.sender.avatar %}
+            <div class="kbin-comment-avatar">
+                {{ avatar(message.sender) }}
+            </div>
+        {% endif %}
 
         <aside class="kbin-comment-meta">
             <ul class="kbin-comment-meta-list list-inline m-0">

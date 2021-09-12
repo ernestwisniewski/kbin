@@ -22,9 +22,11 @@
         <div class="kbin-comment-header mb-2">
             {{ vote(comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment', notification_type: 'EntryComment'}) }}
 
-            <div class="kbin-comment-avatar">
-                {{ avatar(comment.user) }}
-            </div>
+            {% if comment.user.avatar %}
+                <div class="kbin-comment-avatar">
+                    {{ avatar(comment.user) }}
+                </div>
+            {% endif %}
 
             <aside class="kbin-comment-meta">
                 <ul class="kbin-comment-meta-list list-inline m-0">
@@ -34,8 +36,8 @@
                         <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
                             <small class="text-muted">{{ 'posted'|trans }}
                                 <time data-controller="timeago"
-                                data-timeago-refresh-interval-value="10000"
-                                data-timeago-datetime-value="{{ comment.createdAt|date('c') }}">{{ comment.createdAt|ago }}</time>
+                                      data-timeago-refresh-interval-value="10000"
+                                      data-timeago-datetime-value="{{ comment.createdAt|date('c') }}">{{ comment.createdAt|ago }}</time>
                             </small>
                         </li>
                         {% if not is_entry_page() %}
@@ -50,7 +52,7 @@
                             <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
 
                                 <small class="text-muted">{{ 'to'|trans }} <a class="font-weight-bold"
-                                                                href="{{ path('front_magazine', {'name': comment.entry.magazine.name}) }}">/m/{{ comment.entry.magazine.name }}</a></small>
+                                                                              href="{{ path('front_magazine', {'name': comment.entry.magazine.name}) }}">/m/{{ comment.entry.magazine.name }}</a></small>
                             </li>
                         {% endif %}
 
@@ -66,9 +68,9 @@
         </div>
         <div class="kbin-comment-main">
             <div class="kbin-comment-content"
-                        data-controller="show-more"
-                        data-action="image:thumbSelected->show-more#expand"
-                        data-action="image:thumbLoaded->show-more#checkHeight">
+                 data-controller="show-more"
+                 data-action="image:thumbSelected->show-more#expand"
+                 data-action="image:thumbLoaded->show-more#checkHeight">
                 {% if comment.visibility is same as 'visible' %}
                     {{ comment.body|markdown|raw }}
                     {% if comment.image %}

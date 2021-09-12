@@ -16,7 +16,9 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ avatar(user) }}</td>
+                <td>
+                    {% if user.avatar %}{{ avatar(user, {width:'50px'}) }}{% endif %}
+                </td>
                 <td>{{ user(user) }}</td>
                 <td>{{ user.entries|length }}</td>
                 <td>{{ user.entryComments|length }}</td>

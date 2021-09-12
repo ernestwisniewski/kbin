@@ -4,9 +4,9 @@
 <div class="kbin-post card mb-4 shadow-lg bg-white rounded">
     <div class="kbin-post-info card-body">
         <div class="kbin-post-info-user clearfix text-center">
-            <div class="kbin-post-avatar">
-                <a href="{{ path('user', {username: post.user.username }) }}">{{ avatar(post.user) }}</a>
-            </div>
+            {% if post.user.avatar %}
+                {{ avatar(post.user) }}
+            {% endif %}
             <div>
                 <h5 class="card-title font-weight-bold pt-2">
                     <a class="text-reset link-to-title" href="{{ path('user', {username: post.user.username }) }}">{{ post.user.username }}</a>

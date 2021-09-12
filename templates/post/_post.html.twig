@@ -16,9 +16,11 @@
         <div class="mb-2">
             {{ vote(post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true, notification_type: 'Post'}) }}
 
-            <div class="kbin-post-avatar">
-                {{ avatar(post.user) }}
-            </div>
+            {% if post.user.avatar %}
+                <div class="kbin-post-avatar">
+                    {{ avatar(post.user) }}
+                </div>
+            {% endif %}
 
             <aside class="kbin-post-meta">
                 <ul class="kbin-post-meta-list list-inline m-0">
