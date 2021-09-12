@@ -1,5 +1,5 @@
 import Timeago from "stimulus-timeago"
-import { pl, en } from 'date-fns/locale'
+import { pl, enGB } from 'date-fns/locale'
 
 export default class extends Timeago {
     load() {
@@ -9,6 +9,6 @@ export default class extends Timeago {
     }
 
     get locale () {
-        return document.documentElement.lang === 'pl' ? pl : en
+        return document.documentElement.lang === 'pl' ? pl : enGB
     }
 }
