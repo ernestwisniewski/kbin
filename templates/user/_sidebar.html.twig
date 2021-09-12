@@ -4,9 +4,11 @@
     <div class="kbin-entry card shadow-lg bg-white rounded mb-4">
         <div class="kbin-entry-info card-body">
             <div class="kbin-entry-info-user clearfix text-center">
-                <div class="kbin-entry-avatar">
-                    {{ avatar(user) }}
-                </div>
+                {% if user.avatar %}
+                    <div class="kbin-user-avatar">
+                        {{ avatar(user) }}
+                    </div>
+                {% endif %}
                 <div>
                     <h5 class="card-title font-weight-bold pt-2">{{ user.username }}</h5>
                     {% include 'user/_follow_button.html.twig' %}

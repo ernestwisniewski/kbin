@@ -3,9 +3,11 @@
 <div class="kbin-entry card mb-4 shadow-lg bg-white rounded">
     <div class="kbin-entry-info card-body">
         <div class="kbin-entry-info-user clearfix text-center">
-            <div class="kbin-entry-avatar">
-                <a href="{{ path('user', {username: entry.user.username }) }}">{{ avatar(entry.user) }}</a>
-            </div>
+            {% if entry.user.avatar %}
+                <div class="kbin-user-avatar">
+                    {{ avatar(entry.user) }}
+                </div>
+            {% endif %}
             <div>
                 <h5 class="card-title font-weight-bold pt-2">
                     <a class="text-reset link-to-title" href="{{ path('user', {username: entry.user.username }) }}">{{ entry.user.username }}</a>

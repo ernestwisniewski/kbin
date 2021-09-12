@@ -6,7 +6,7 @@
 {% block avatar %}
     <div class="kbin-avatar">
         {% if user.avatar %}
-            <img class="img-thumbnail" src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}" alt="{{ user.username }}"/>
+            <img class="img-thumbnail" src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}" alt="{{ user.username }}" style="{{ width ? 'max-width:'~width : '' }}"/>
         {% else %}
             <img class="img-thumbnail" src="{{ asset('build/images/avatar.jpg') }}" alt="{{ user.username }}"/>
         {% endif %}
