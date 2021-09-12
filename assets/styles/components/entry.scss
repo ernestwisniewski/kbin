@@ -174,7 +174,11 @@
 }
 
 .kbin-embed {
-  overflow: scroll;
+  //overflow: scroll;
+
+  img {
+    max-width: 100%;
+  }
 
   .ratio > * {
     position: absolute !important;
