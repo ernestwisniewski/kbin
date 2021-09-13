@@ -56,7 +56,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     /**
      * @ORM\ManyToOne(targetEntity=Domain::class, inversedBy="entries")
      */
-    public Domain $domain;
+    public ?Domain $domain = null;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */

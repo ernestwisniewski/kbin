@@ -16,6 +16,7 @@
         "doctrine/orm": "^2.8",
         "easycorp/easyadmin-bundle": "^3",
         "embed/embed": "dev-master",
+        "friendsofsymfony/elastica-bundle": "v6.0.0-beta4",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
         "jolicode/elastically": "^1.2",
         "karser/karser-recaptcha3-bundle": "^0.1.17",
