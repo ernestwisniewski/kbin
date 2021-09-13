@@ -1,122 +1,122 @@
-# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/setup.md
-fos_elastica:
-    clients:
-        default: { url: '%env(ELASTICSEARCH_URL)%' }
-    indexes:
-        entries:
-            properties:
-                id: ~
-                title: ~
-                url: ~
-                body: ~
-                type: ~
-                ranking: ~
-                score: ~
-                isAdult: ~
-                sticky: ~
-                createdAt: ~
-                lastActive: ~
-                visibility: ~
-                magazine:
-                    type: "object"
-                    properties:
-                        name: ~
-                domain:
-                    type: "object"
-                    properties:
-                        id: ~
-                        name: ~
-                user:
-                    type: "object"
-                    properties:
-                        username: ~
-                image:
-                    type: "object"
-                    properties:
-                        id: ~
-                        filePath: ~
-            persistence:
-                driver: orm
-                model: App\Entity\Entry
-        entry_comments:
-            properties:
-                id: ~
-                body: ~
-                createdAt: ~
-                lastActive: ~
-                visibility: ~
-                magazine:
-                    type: "object"
-                    properties:
-                        name: ~
-                entry:
-                    type: "object"
-                    properties:
-                        id: ~
-                user:
-                    type: "object"
-                    properties:
-                        username: ~
-                image:
-                    type: "object"
-                    properties:
-                        id: ~
-                        filePath: ~
-            persistence:
-                driver: orm
-                model: App\Entity\EntryComment
-
-        posts:
-            properties:
-                id: ~
-                body: ~
-                ranking: ~
-                score: ~
-                isAdult: ~
-                createdAt: ~
-                lastActive: ~
-                visibility: ~
-                magazine:
-                    type: "object"
-                    properties:
-                        name: ~
-                user:
-                    type: "object"
-                    properties:
-                        username: ~
-                image:
-                    type: "object"
-                    properties:
-                        id: ~
-                        filePath: ~
-            persistence:
-                driver: orm
-                model: App\Entity\Post
-
-        post_comments:
-            properties:
-                id: ~
-                body: ~
-                createdAt: ~
-                lastActive: ~
-                visibility: ~
-                magazine:
-                    type: "object"
-                    properties:
-                        name: ~
-                post:
-                    type: "object"
-                    properties:
-                        id: ~
-                user:
-                    type: "object"
-                    properties:
-                        username: ~
-                image:
-                    type: "object"
-                    properties:
-                        id: ~
-                        filePath: ~
-            persistence:
-                driver: orm
-                model: App\Entity\PostComment
+## Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/setup.md
+#fos_elastica:
+#    clients:
+#        default: { url: '%env(ELASTICSEARCH_URL)%' }
+#    indexes:
+#        entries:
+#            properties:
+#                id: ~
+#                title: ~
+#                url: ~
+#                body: ~
+#                type: ~
+#                ranking: ~
+#                score: ~
+#                isAdult: ~
+#                sticky: ~
+#                createdAt: ~
+#                lastActive: ~
+#                visibility: ~
+#                magazine:
+#                    type: "object"
+#                    properties:
+#                        name: ~
+#                domain:
+#                    type: "object"
+#                    properties:
+#                        id: ~
+#                        name: ~
+#                user:
+#                    type: "object"
+#                    properties:
+#                        username: ~
+#                image:
+#                    type: "object"
+#                    properties:
+#                        id: ~
+#                        filePath: ~
+#            persistence:
+#                driver: orm
+#                model: App\Entity\Entry
+#        entry_comments:
+#            properties:
+#                id: ~
+#                body: ~
+#                createdAt: ~
+#                lastActive: ~
+#                visibility: ~
+#                magazine:
+#                    type: "object"
+#                    properties:
+#                        name: ~
+#                entry:
+#                    type: "object"
+#                    properties:
+#                        id: ~
+#                user:
+#                    type: "object"
+#                    properties:
+#                        username: ~
+#                image:
+#                    type: "object"
+#                    properties:
+#                        id: ~
+#                        filePath: ~
+#            persistence:
+#                driver: orm
+#                model: App\Entity\EntryComment
+#
+#        posts:
+#            properties:
+#                id: ~
+#                body: ~
+#                ranking: ~
+#                score: ~
+#                isAdult: ~
+#                createdAt: ~
+#                lastActive: ~
+#                visibility: ~
+#                magazine:
+#                    type: "object"
+#                    properties:
+#                        name: ~
+#                user:
+#                    type: "object"
+#                    properties:
+#                        username: ~
+#                image:
+#                    type: "object"
+#                    properties:
+#                        id: ~
+#                        filePath: ~
+#            persistence:
+#                driver: orm
+#                model: App\Entity\Post
+#
+#        post_comments:
+#            properties:
+#                id: ~
+#                body: ~
+#                createdAt: ~
+#                lastActive: ~
+#                visibility: ~
+#                magazine:
+#                    type: "object"
+#                    properties:
+#                        name: ~
+#                post:
+#                    type: "object"
+#                    properties:
+#                        id: ~
+#                user:
+#                    type: "object"
+#                    properties:
+#                        username: ~
+#                image:
+#                    type: "object"
+#                    properties:
+#                        id: ~
+#                        filePath: ~
+#            persistence:
+#                driver: orm
+#                model: App\Entity\PostComment

@@ -85,6 +85,34 @@
                                 <small class="text-muted"><a href="{{ path('post_comment_report', {id: comment.id}) }}"
                                                              data-action="report#report">{{ 'report'|trans }}</a></small>
                             </li>
+
+                            {% if is_granted('edit', comment) %}
+                                <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                                    <small class="text-muted">
+                                        <a data-action="comment#edit"
+                                           href="{{ path('post_comment_edit', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'comment_id': comment.id}) }}">
+                                            {{ 'edit'|trans }}
+                                        </a>
+                                    </small>
+                                </li>
+                            {% endif %}
+
+                            {% if comment.isAuthor(app.user) %}
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <form method="post"
+                                          action="{{ path('post_comment_delete', {
+                                              magazine_name: comment.magazine.name,
+                                              post_id: comment.post.id,
+                                              comment_id: comment.id,
+                                          }) }}"
+                                          onsubmit="return confirm('You sure?');">
+                                        <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
+                                        <button type="submit" class="btn btn-link">
+                                            <span>{{ 'delete'|trans }}</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            {% endif %}
                         </ul>
 
                         <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
@@ -102,53 +130,44 @@
 
                             <ul class="kbin-comment-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
                                 data-reveal-target="item">
-                                {% if is_granted('edit', comment) %}
-                                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                                        <small class="text-muted">
-                                            <a data-action="comment#edit"
-                                               href="{{ path('post_comment_edit', {'magazine_name': comment.post.magazine.name, 'post_id': comment.post.id, 'comment_id': comment.id}) }}">
-                                                {{ 'edit'|trans }}
-                                            </a>
-                                        </small>
-                                    </li>
-                                {% endif %}
-
                                 {% if is_granted('moderate', comment.magazine) %}
                                     <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                         <small class="kbin-entry-meta-edit text-muted">
                                             <a href="{{ path('magazine_panel_ban', {'magazine_name': comment.post.magazine.name, 'user_username': comment.user.username}) }}">{{ 'ban'|trans }}</a>
                                         </small>
                                     </li>
-                                {% endif %}
 
-                                {% if is_granted('delete', comment) %}
                                     <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                        <form action="{{ path('post_comment_delete', {
-                                            magazine_name: comment.magazine.name,
-                                            post_id: comment.post.id,
-                                            comment_id: comment.id,
-                                        }) }}" method="POST">
+                                        <form method="post"
+                                              action="{{ path('post_comment_delete', {
+                                                  magazine_name: comment.magazine.name,
+                                                  post_id: comment.post.id,
+                                                  comment_id: comment.id,
+                                              }) }}"
+                                              onsubmit="return confirm('You sure?');">
                                             <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
                                             <button type="submit" class="btn btn-link">
                                                 <span>{{ 'delete'|trans }}</span>
                                             </button>
                                         </form>
                                     </li>
-                                {% endif %}
 
-                                {% if is_granted('purge', comment) %}
-                                    <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                        <form action="{{ path('post_comment_purge', {
-                                            magazine_name: comment.magazine.name,
-                                            post_id: comment.post.id,
-                                            comment_id: comment.id,
-                                        }) }}" method="POST">
-                                            <input type="hidden" name="token" value="{{ csrf_token('post_comment_purge') }}">
-                                            <button type="submit" class="btn btn-link">
-                                                <span>{{ 'purge'|trans }}</span>
-                                            </button>
-                                        </form>
-                                    </li>
+                                    {% if is_granted('purge', comment) %}
+                                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                            <form method="post"
+                                                  action="{{ path('post_comment_purge', {
+                                                      magazine_name: comment.magazine.name,
+                                                      post_id: comment.post.id,
+                                                      comment_id: comment.id,
+                                                  }) }}"
+                                                  onsubmit="return confirm('You sure?');">
+                                                <input type="hidden" name="token" value="{{ csrf_token('post_comment_purge') }}">
+                                                <button type="submit" class="btn btn-link">
+                                                    <span>{{ 'purge'|trans }}</span>
+                                                </button>
+                                            </form>
+                                        </li>
+                                    {% endif %}
                                 {% endif %}
                             </ul>
                         </section>

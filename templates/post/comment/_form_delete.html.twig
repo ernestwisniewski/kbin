@@ -1,14 +1,16 @@
 {% if is_granted('delete', comment) %}
-    <form action="{{ path('post_comment_delete', {
-        magazine_name: comment.post.magazine.name,
-        post_id: comment.post.id,
-        comment_id: comment.id
-    }) }}" method="POST">
+    <form method="post"
+          action="{{ path('post_comment_delete', {
+              magazine_name: comment.post.magazine.name,
+              post_id: comment.post.id,
+              comment_id: comment.id
+          }) }}"
+          onsubmit="return confirm('You sure?');">
         <div class="col-xs-12">
             <div class="kbin-post-create-form">
                 <div class="input-group-sm mb-3 text-end">
                     <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
-                    <button class="btn btn-danger">{{'delete'|trans}}</button>
+                    <button class="btn btn-danger">{{ 'delete'|trans }}</button>
                 </div>
             </div>
         </div>

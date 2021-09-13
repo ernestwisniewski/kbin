@@ -44,10 +44,6 @@ class PostCommentVoter extends Voter
             return true;
         }
 
-        if ($comment->post->magazine->userIsModerator($user)) {
-            return true;
-        }
-
         return false;
     }
 
