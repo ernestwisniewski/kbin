@@ -118,7 +118,7 @@
                             </li>
                         {% endif %}
 
-                        {% if comment.isAuthor(app.user) %}
+                        {% if app.user and comment.isAuthor(app.user) %}
                             <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                                 <form method="post"
                                       action="{{ path('entry_comment_delete', {

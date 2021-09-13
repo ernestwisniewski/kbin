@@ -106,7 +106,7 @@
                             </li>
                         {% endif %}
 
-                        {% if entry.isAuthor(app.user) %}
+                        {% if app.user and entry.isAuthor(app.user) %}
                             <li class="kbin-entry-meta-delete kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <form method="post"
                                       action="{{ path('entry_delete', {
