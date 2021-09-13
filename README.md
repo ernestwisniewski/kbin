@@ -5,7 +5,9 @@
 
 A reddit-like content aggregator and micro-blogging platform for the fediverse - https://kbin.info.
 
-https://dev.karab.in instance for testing purposes only
+* https://kbin.pub - main instance
+* https://karab.in - polish-lang instance
+* https://dev.karab.in - instance for testing purposes only
 
 This is a very early beta version, and a lot of features are currently broken or in active development, such as federation.
 
@@ -24,6 +26,15 @@ https://symfony.com/doc/5.3/reference/requirements.html
 * RabbitMQ (optional)
 * Elasticsearch (optional)
 
+### Frontend
+
+https://github.com/symfony/ux
+
+```console
+$ yarn install
+$ yarn build
+```
+
 ### Install with Docker
 
 Based on https://github.com/dunglas/symfony-docker
@@ -31,10 +42,12 @@ Based on https://github.com/dunglas/symfony-docker
 #### Develop
 
 ```console
-# Set SMTP creds if you need it.
+# Set SMTP, Postgres, Mercure, Elasticsearch, RabbitMQ url if you need it.
 $ cp .env.example .env
+
 $ docker-compose build --pull --no-cache
 $ docker-compose up
+
 $ docker-compose exec php bin/console doctrine:fixtures:load
 $ docker-compose exec php bin/phpunit
 ```
@@ -59,6 +72,12 @@ $ docker-compose exec php bin/console kbin:user:create username email@exmple.com
 $ docker-compose exec php bin/console kbin:user:admin username
 ```
 
+### Elasticsearch
+```console
+$ docker-compose exec php bin/console fos:elastica:create
+$ docker-compose exec php bin/console fos:elastica:populate
+```
+
 Next, setup your instance https://localhost/admin
 
 ## Federation
@@ -72,6 +91,11 @@ https://github.com/api-platform/activity-pub
 #### Code
 
 #### API
+* https://dev.karab.in/api/magazines.jsonld
+* https://dev.karab.in/api/entries.jsonld
+* https://dev.karab.in/api/entry_comments.jsonld
+* https://dev.karab.in/api/posts.jsonld
+* https://dev.karab.in/api/post_comments.jsonld
 
 ## Contributing
 
