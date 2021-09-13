@@ -1,8 +1,10 @@
 {% if is_granted('delete', entry) %}
-    <form action="{{ path('entry_delete', {
-        magazine_name: entry.magazine.name,
-        entry_id: entry.id,
-    }) }}" method="POST">
+    <form method="post"
+          action="{{ path('entry_delete', {
+              magazine_name: entry.magazine.name,
+              entry_id: entry.id,
+          }) }}"
+          onsubmit="return confirm('You sure?');">
         <div class="col-lg-6">
             <div class="kbin-magazine-create-form">
                 <div class="input-group-sm mb-3 text-end">

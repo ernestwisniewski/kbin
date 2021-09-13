@@ -21,7 +21,8 @@
                 <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Zgłoszenie">
                         <form method="post"
-                              action="{{ path('magazine_panel_report_approve', {'magazine_name': report.subject.magazine.name, 'report_id': report.id} ) }}">
+                              action="{{ path('magazine_panel_report_approve', {'magazine_name': report.subject.magazine.name, 'report_id': report.id} ) }}"
+                              onsubmit="return confirm('You sure?');">
                             <input type="hidden" name="token" value="{{ csrf_token('report_approve') }}">
                             <button type="submit" class="btn btn-danger btn-sm rounded-0 rounded-start">{{'delete'|trans}}</button>
                         </form>

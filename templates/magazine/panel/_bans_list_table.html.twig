@@ -5,7 +5,7 @@
         <thead>
         <tr>
             <td>{{ 'name'|trans }}</td>
-            <td>{{'reason'|trans}}</td>
+            <td>{{ 'reason'|trans }}</td>
             <td>{{ 'created'|trans }}</td>
             <td>{{ 'expires'|trans }}</td>
             <td></td>
@@ -23,8 +23,9 @@
                 </td>
                 <td>{{ ban.expiredAt ? ban.expiredAt|ago : 'Nigdy' }}</td>
                 <td>
-                    <form action="{{ path('magazine_panel_unban', {magazine_name: ban.magazine.name, user_username: ban.user.username}) }}"
-                          method="post">
+                    <form method="post"
+                          action="{{ path('magazine_panel_unban', {magazine_name: ban.magazine.name, user_username: ban.user.username}) }}"
+                          onsubmit="return confirm('You sure?');">
                         <input type="hidden" name="token" value="{{ csrf_token('magazine_unban') }}">
                         <button class="btn btn-sm btn-danger">{{ 'delete'|trans }}</button>
                     </form>

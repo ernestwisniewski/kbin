@@ -24,8 +24,9 @@
                 <td>{% include 'user/_follow_button.html.twig' with {'user': moderator.user} %}</td>
                 <td>
                     {% if is_granted('edit', magazine) and not moderator.isOwner %}
-                        <form action="{{ path('magazine_panel_moderator_purge', {magazine_name: magazine.name, moderator_id: moderator.id}) }}"
-                              method="post">
+                        <form method="post"
+                              action="{{ path('magazine_panel_moderator_purge', {magazine_name: magazine.name, moderator_id: moderator.id}) }}"
+                              onsubmit="return confirm('You sure?');">
                             <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">
                             <button class="btn btn-sm btn-danger">{{ 'delete'|trans }}</button>
                         </form>

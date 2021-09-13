@@ -52,10 +52,6 @@ class EntryVoter extends Voter
             return true;
         }
 
-        if ($entry->magazine->userIsModerator($user)) {
-            return true;
-        }
-
         return false;
     }
 
