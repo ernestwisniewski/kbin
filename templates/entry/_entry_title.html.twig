@@ -12,5 +12,7 @@
     <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
 {% endif %}
 {% for badge in entry.badges %}<span class="badge bg-secondary me-1">{{ badge.badge.name }}</span>{% endfor %}
-<small class="kbin-entry-title-domain small text-muted">(<a class="text-reset" href="#">{{ entry.domain.name }}</a>)</small>
+{% if entry.domain %}
+    <small class="kbin-entry-title-domain small text-muted">(<a class="text-reset" href="#">{{ entry.domain.name }}</a>)</small>
+{% endif %}
 </{{ title_tag }}>
