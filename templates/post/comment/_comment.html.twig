@@ -19,11 +19,11 @@
             <div class="kbin-comment-header mb-2">
                 {{ vote(comment, {user: app.user, form_dest: 'post_comment_vote', base_class: 'comment', hide_downvote: true, notification_type: 'PostVote'}) }}
 
-                {% if comment.user.avatar %}
-                    <div class="kbin-comment-avatar">
+                <div class="kbin-comment-avatar">
+                    {% if comment.user.avatar %}
                         {{ avatar(comment.user) }}
-                    </div>
-                {% endif %}
+                    {% endif %}
+                </div>
 
                 <aside class="kbin-comment-meta">
                     <ul class="kbin-comment-meta-list list-inline m-0">

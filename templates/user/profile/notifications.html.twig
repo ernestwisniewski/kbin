@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+
 {% use 'user/profile/_notifications.html.twig' %}
 
 {% from '_layout/_not_found.html.twig' import not_found %}
@@ -21,7 +22,7 @@
                     <form method="post" action="{{ path('user_profile_notifications_clear') }}" onsubmit="return confirm('You sure?');">
                         <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
                         <button class="btn btn-sm btn-danger" type="submit">
-                            <span>{{'purge'|trans}}</span>
+                            <span>{{ 'purge'|trans }}</span>
                         </button>
                     </form>
                 </div>

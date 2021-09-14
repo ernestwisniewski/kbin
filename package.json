@@ -3,6 +3,7 @@
         "@hotwired/turbo": "^7.0.0-beta.5",
         "@symfony/stimulus-bridge": "^2.0.0",
         "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets",
+        "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/Resources/assets",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/Resources/assets",
         "@symfony/webpack-encore": "^1.0.0",
         "bootstrap": "^5.0.0-beta1",
