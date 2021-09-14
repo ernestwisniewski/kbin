@@ -31,7 +31,7 @@ final class ExternalImagesRenderer implements InlineRendererInterface, Configura
 
         $url = $inline->getUrl();
 
-        return EmbedElement::buildEmbed($url);
+        return EmbedElement::buildEmbed($url, $url);
     }
 
     public function setConfiguration(

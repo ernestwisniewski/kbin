@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+
 {% from '_layout/_not_found.html.twig' import not_found %}
 
 {% block title %}{{ 'messages'|trans }} | {{ parent() }}{% endblock %}
@@ -7,8 +8,8 @@
     <div class="kbin-profile kbin-profile-threads-page">
         {% include 'user/profile/_tabs.html.twig' %}
 
-        {% if threads|length %}
-            <div class="kbin-profile-edit mt-lg-4">
+        <div class="kbin-profile-edit mt-lg-4">
+            {% if threads|length %}
                 <div class="table-responsive">
                     <table class="table align-middle small">
                         <tbody>
@@ -31,10 +32,10 @@
                 {% if(threads.haveToPaginate) %}
                     {{ pagerfanta(threads, null, {'pageParameter':'[p]'}) }}
                 {% endif %}
-            </div>
-        {% else %}
-            {{ not_found() }}
-        {% endif %}
+            {% else %}
+                {{ not_found() }}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 
