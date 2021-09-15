@@ -222,9 +222,6 @@
     "laminas/laminas-diactoros": {
         "version": "2.6.0"
     },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.3.0"
-    },
     "landrok/activitypub": {
         "version": "0.5.6"
     },
