@@ -85,6 +85,10 @@ class AwesomeBotFixtures extends Command
                             continue;
                         }
 
+                        if(!$li->firstChild) {
+                            var_dump('a');
+                            continue;
+                        }
                         if ($li->firstChild->nodeName !== 'a') {
                             continue;
                         }
