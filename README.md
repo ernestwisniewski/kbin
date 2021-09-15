@@ -11,6 +11,9 @@ A reddit-like content aggregator and micro-blogging platform for the fediverse -
 
 This is a very early beta version, and a lot of features are currently broken or in active development, such as federation.
 
+* [kbin-js-client](https://github.com/ernestwisniewski/kbin-js-client) (TypeScript)
+* [kbin-mobile](https://github.com/ernestwisniewski/kbin-mobile) (Flutter / Dart)
+
 ## Installation
 
 ### Requirements
@@ -42,7 +45,7 @@ Based on https://github.com/dunglas/symfony-docker
 #### Develop
 
 ```console
-# Set SMTP, Postgres, Mercure, Elasticsearch, RabbitMQ url if you need it.
+# Set SMTP, Postgres, Mercure, Elasticsearch, RabbitMQ creds if you need it.
 $ cp .env.example .env
 
 $ docker-compose build --pull --no-cache
@@ -78,13 +81,16 @@ $ docker-compose exec php bin/console fos:elastica:create
 $ docker-compose exec php bin/console fos:elastica:populate
 ```
 
+### JWT keys
+// todo 
+
 Next, setup your instance https://localhost/admin
 
 ## Federation
 
-https://dunglas.fr/2021/01/schema-generator-3-a-step-towards-redecentralizing-the-web/
+* https://dunglas.fr/2021/01/schema-generator-3-a-step-towards-redecentralizing-the-web/
 
-https://github.com/api-platform/activity-pub
+* https://github.com/api-platform/activity-pub
 
 ## Documentation
 
