@@ -3,8 +3,8 @@ App\DTO\ImageDto:
     id:
       groups: [ 'image_read' ]
     filePath:
-      groups: [ 'image_read', 'entry_read' ]
+      groups: [ 'image_read', 'entry:collection:get', 'entry:item:get' ]
     width:
-      groups: [ 'image_read', 'entry_read' ]
+      groups: [ 'image_read', 'entry:collection:get', 'entry:item:get' ]
     height:
-      groups: [ 'image_read', 'entry_read' ]
+      groups: [ 'image_read', 'entry:collection:get', 'entry:item:get' ]

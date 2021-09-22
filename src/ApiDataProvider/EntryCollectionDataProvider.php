@@ -7,6 +7,7 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\EntryDto;
 use App\Factory\EntryFactory;
 use App\PageView\EntryPageView;
+use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -29,6 +30,7 @@ final class EntryCollectionDataProvider implements ContextAwareCollectionDataPro
     {
         try {
             $criteria = new EntryPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria->sortOption = Criteria::SORT_NEW;
             $entries  = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];

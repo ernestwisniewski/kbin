@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\MagazineBlock;
@@ -61,9 +62,7 @@ class EntryCommentRepository extends ServiceEntityRepository
 
     private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('c')
-            ->addSelect('cc')
-            ->leftJoin('c.children', 'cc');
+        $qb = $this->createQueryBuilder('c');
 
         $this->addTimeClause($qb, $criteria);
         $this->filter($qb, $criteria);
@@ -92,11 +91,11 @@ class EntryCommentRepository extends ServiceEntityRepository
             $qb->join('c.entry', 'e', Join::WITH, 'e.magazine = :magazine')
                 ->setParameter('magazine', $criteria->magazine)
                 ->andWhere('e.visibility = :visible')
-                ->setParameter('visible', Entry::VISIBILITY_VISIBLE);
+                ->setParameter('visible', VisibilityInterface::VISIBILITY_VISIBLE);
         } else {
             $qb->leftJoin('c.entry', 'e')
                 ->andWhere('e.visibility = :visible')
-                ->setParameter('visible', Entry::VISIBILITY_VISIBLE);
+                ->setParameter('visible', VisibilityInterface::VISIBILITY_VISIBLE);
         }
 
         if ($criteria->user) {
@@ -206,7 +205,7 @@ class EntryCommentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->where('c.visibility != :visibility')
             ->andWhere('c.user = :user')
-            ->setParameters(['visibility' => EntryComment::VISIBILITY_SOFT_DELETED, 'user' => $user])
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_SOFT_DELETED, 'user' => $user])
             ->orderBy('c.id', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()

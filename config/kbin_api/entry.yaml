@@ -11,6 +11,8 @@ resources:
     collectionOperations:
       get:
         method: GET
+        normalization_context:
+          groups: [ 'entry:collection:get' ]
       post:
         method: POST
       comments:
@@ -22,8 +24,8 @@ resources:
     itemOperations:
       get:
         method: GET
+        normalization_context:
+          groups: [ 'entry:item:get' ]
     attributes:
-      normalization_context:
-        groups: [ 'entry_read' ]
       denormalization_context:
-        groups: [ 'entry_write' ]
+        groups: [ 'entry:write' ]

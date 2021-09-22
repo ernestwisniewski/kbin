@@ -12,6 +12,7 @@ class UserFactory
         return (new UserDto())->create(
             $user->username,
             $user->email,
+            $user->avatar,
             $user->getId(),
         );
     }

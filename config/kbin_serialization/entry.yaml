@@ -1,28 +1,34 @@
 App\DTO\EntryDto:
   attributes:
     id:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     magazine:
-      groups: [ 'entry_read', 'entry_write' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     user:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     image:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     title:
-      groups: [ 'entry_read', 'entry_write' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     url:
-      groups: [ 'entry_read', 'entry_write' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     body:
-      groups: [ 'entry_read', 'entry_write' ]
+      groups: [ 'entry:item:get' ]
     isAdult:
-      groups: [ 'entry_read', 'entry_write' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
+    hasEmbed:
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     type:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     comments:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     uv:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     dv:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     views:
-      groups: [ 'entry_read' ]
+      groups: [ 'entry:item:get' ]
+    score:
+      groups: [ 'entry:item:get' ]
+    createdAt:
+      groups: [ 'entry:item:get' ]
