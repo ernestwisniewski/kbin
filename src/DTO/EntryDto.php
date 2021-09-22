@@ -30,7 +30,10 @@ class EntryDto
     public ?bool $isAdult = false;
     public ?Collection $badges = null;
     public ?string $slug = null;
+    public ?int $views = null;
+    public ?int $score = null;
     public ?string $ip = null;
+    public ?\DateTimeImmutable $createdAt = null;
     private ?int $id = null;
 
     public function create(
@@ -46,23 +49,29 @@ class EntryDto
         ?bool $isAdult = false,
         ?Collection $badges = null,
         ?string $slug = null,
+        ?int $score = null,
+        ?int $views = null,
         ?string $ip = null,
+        ?\DateTimeImmutable $createdAt = null,
         ?int $id = null
     ): self {
-        $this->id       = $id;
-        $this->magazine = $magazine;
-        $this->user     = $user;
-        $this->title    = $title;
-        $this->url      = $url;
-        $this->body     = $body;
-        $this->comments = $comments;
-        $this->uv       = $uv;
-        $this->dv       = $dv;
-        $this->image    = $image;
-        $this->isAdult  = $isAdult;
-        $this->badges   = $badges;
-        $this->slug     = $slug;
-        $this->ip       = $ip;
+        $this->id        = $id;
+        $this->magazine  = $magazine;
+        $this->user      = $user;
+        $this->title     = $title;
+        $this->url       = $url;
+        $this->body      = $body;
+        $this->comments  = $comments;
+        $this->uv        = $uv;
+        $this->dv        = $dv;
+        $this->image     = $image;
+        $this->isAdult   = $isAdult;
+        $this->badges    = $badges;
+        $this->slug      = $slug;
+        $this->score     = $score;
+        $this->views     = $views;
+        $this->ip        = $ip;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

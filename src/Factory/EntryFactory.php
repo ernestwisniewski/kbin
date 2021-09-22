@@ -36,7 +36,10 @@ class EntryFactory
             $entry->isAdult,
             $entry->badges,
             $entry->slug,
+            $entry->score,
+            $entry->views,
             $entry->ip,
+            $entry->createdAt,
             $entry->getId()
         );
     }

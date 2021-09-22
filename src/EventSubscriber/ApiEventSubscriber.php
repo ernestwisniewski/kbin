@@ -2,7 +2,6 @@
 
 namespace App\EventSubscriber;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\ApiDataProvider\DtoPaginator;
 use App\DTO\EntryCommentDto;
@@ -25,8 +24,7 @@ final class ApiEventSubscriber implements EventSubscriberInterface
         private EntryFactory $entryFactory,
         private PostFactory $postFactory,
         private UserFactory $userFactory,
-        private ImageFactory $imageFactory,
-        private IriConverterInterface $iriConverter,
+        private ImageFactory $imageFactory
     ) {
     }
 
@@ -84,9 +82,10 @@ final class ApiEventSubscriber implements EventSubscriberInterface
 
     private function entry(EntryDto $dto): void
     {
-        $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
-        $dto->user     = $this->userFactory->createDto($dto->user);
-        $dto->image    = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine);
+        $dto->user         = $this->userFactory->createDto($dto->user);
+        $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
+        $dto->image        = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
     }
 
     private function entryComment(EntryCommentDto $dto): void

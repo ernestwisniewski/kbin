@@ -22,7 +22,7 @@ class UserDto implements UserDtoInterface
     public ?string $email = null;
     #[Assert\Length(min: 6, max: 4096)]
     public ?string $plainPassword = null;
-    public ?Image $avatar = null;
+    public Image|ImageDto|null $avatar = null;
     public ?int $id = null;
     #[Assert\IsTrue]
     public bool $agreeTerms;
@@ -32,11 +32,12 @@ class UserDto implements UserDtoInterface
         return $this->id;
     }
 
-    public function create(string $username, ?string $email = null, ?int $id = null): self
+    public function create(string $username, ?string $email = null, Image|ImageDto|null $avatar = null, ?int $id = null): self
     {
         $this->id       = $id;
         $this->username = $username;
         $this->email    = $email;
+        $this->avatar   = $avatar;
 
         return $this;
     }
