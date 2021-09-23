@@ -8,6 +8,7 @@ use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
+use App\Factory\DomainFactory;
 use App\Factory\EntryFactory;
 use App\Factory\ImageFactory;
 use App\Factory\MagazineFactory;
@@ -24,7 +25,8 @@ final class ApiEventSubscriber implements EventSubscriberInterface
         private EntryFactory $entryFactory,
         private PostFactory $postFactory,
         private UserFactory $userFactory,
-        private ImageFactory $imageFactory
+        private ImageFactory $imageFactory,
+        private DomainFactory $domainFactory
     ) {
     }
 
@@ -86,6 +88,7 @@ final class ApiEventSubscriber implements EventSubscriberInterface
         $dto->user         = $this->userFactory->createDto($dto->user);
         $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
         $dto->image        = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+        $dto->domain        = $dto->domain ? $this->domainFactory->createDto($dto->domain) : null;
     }
 
     private function entryComment(EntryCommentDto $dto): void

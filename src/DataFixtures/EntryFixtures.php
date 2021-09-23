@@ -45,6 +45,11 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
                 null,
                 null,
                 null,
+                null,
+                null,
+                null,
+                null,
+                null,
                 $entry['ip']
             );
 

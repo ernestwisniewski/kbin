@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Domain;
 use App\Entity\Entry;
 use App\Entity\Image;
 use App\Entity\Magazine;
@@ -17,6 +18,7 @@ class EntryDto
     public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
     public Image|ImageDto|null $image = null;
+    public Domain|DomainDto|null $domain = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
     public string $title;
@@ -45,6 +47,7 @@ class EntryDto
         ?int $comments = null,
         ?int $uv = null,
         ?int $dv = null,
+        ?Domain $domain = null,
         ?Image $image = null,
         ?bool $isAdult = false,
         ?Collection $badges = null,
@@ -57,6 +60,7 @@ class EntryDto
     ): self {
         $this->id        = $id;
         $this->magazine  = $magazine;
+        $this->domain    = $domain;
         $this->user      = $user;
         $this->title     = $title;
         $this->url       = $url;

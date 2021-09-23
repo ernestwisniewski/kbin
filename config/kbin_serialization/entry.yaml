@@ -4,6 +4,8 @@ App\DTO\EntryDto:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
     magazine:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
+    domain:
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     user:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
     image:
