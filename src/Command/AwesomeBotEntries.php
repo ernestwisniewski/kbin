@@ -118,6 +118,7 @@ class AwesomeBotEntries extends Command
                     null,
                     null,
                     null,
+                    null,
                     $item['badges']
                 ),
                 $user

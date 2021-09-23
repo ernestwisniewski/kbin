@@ -32,6 +32,7 @@ class EntryFactory
             $entry->commentCount,
             $entry->countUpVotes(),
             $entry->countDownVotes(),
+            $entry->domain,
             $entry->image,
             $entry->isAdult,
             $entry->badges,

@@ -5,6 +5,11 @@ namespace App\Repository;
 use App\Entity\Domain;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Domain|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,8 +20,30 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DomainRepository extends ServiceEntityRepository
 {
+    const PER_PAGE = 100;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Domain::class);
+    }
+
+    public function findAllPaginated(?int $page): PagerfantaInterface
+    {
+        $qb = $this->createQueryBuilder('d');
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $qb
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
     }
 }

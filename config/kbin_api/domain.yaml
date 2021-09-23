@@ -1,0 +1,21 @@
+resources:
+  App\DTO\DomainDto:
+    properties:
+      id:
+        identifier: true
+    shortName: 'domain'
+    collectionOperations:
+      get:
+        method: GET
+        normalization_context:
+          groups: [ 'domain:collection:get' ]
+      post:
+        method: POST
+    itemOperations:
+      get:
+        method: GET
+        normalization_context:
+          groups: [ 'domain:item:get' ]
+    attributes:
+      denormalization_context:
+        groups: [ 'domain:write' ]

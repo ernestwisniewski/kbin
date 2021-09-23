@@ -1,0 +1,6 @@
+App\DTO\DomainDto:
+  attributes:
+    name:
+      groups: [ 'domain:collection:get', 'domain:item:get', 'entry:collection:get', 'entry:item:get' ]
+    entryCount:
+      groups: [ 'domain:collection:get', 'domain:item:get', 'entry:item:get' ]
