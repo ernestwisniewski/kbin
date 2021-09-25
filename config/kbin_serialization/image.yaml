@@ -1,10 +1,10 @@
 App\DTO\ImageDto:
   attributes:
     id:
-      groups: [ 'image_read' ]
+      groups: [ 'image:get' ]
     filePath:
-      groups: [ 'image_read', 'entry:collection:get', 'entry:item:get' ]
+      groups: [ 'image:get', 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get' ]
     width:
-      groups: [ 'image_read', 'entry:collection:get', 'entry:item:get' ]
+      groups: [ 'image:get', 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get' ]
     height:
-      groups: [ 'image_read', 'entry:collection:get', 'entry:item:get' ]
+      groups: [ 'image:get', 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get' ]

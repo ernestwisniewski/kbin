@@ -12,6 +12,6 @@ resources:
         method: GET
     attributes:
       normalization_context:
-        groups: [ 'image_read' ]
+        groups: [ 'image:get' ]
       denormalization_context:
-        groups: [ 'image_write' ]
+        groups: [ 'image:write' ]

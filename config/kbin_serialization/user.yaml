@@ -1,10 +1,10 @@
 App\DTO\UserDto:
   attributes:
     email:
-      groups: [ 'user_write' ]
+      groups: [ 'user:write' ]
     plainPassword:
-      groups: [ 'user_write' ]
+      groups: [ 'user:write' ]
     username:
-      groups: [ 'user_read', 'user_write', 'entry:collection:get', 'entry:item:get' ]
+      groups: [ 'user:read', 'user_write', 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get' ]
     avatar:
-      groups: [ 'user_read' ]
+      groups: [ 'user:read', 'entry:item:get', 'entry:comment:collection:get' ]

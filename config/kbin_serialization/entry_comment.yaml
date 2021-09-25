@@ -1,12 +1,27 @@
 App\DTO\EntryCommentDto:
   attributes:
     id:
-      groups: [ 'entryComment_read' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
     magazine:
-      groups: [ 'entryComment_read', 'entryComment_write' ]
+      groups: [ 'entry:comment:item:get' ]
     user:
-      groups: [ 'entryComment_read' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
     entry:
-      groups: [ 'entryComment_read', 'entryComment_write' ]
+      groups: [ 'entry:comment:item:get' ]
+    image:
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+    parent:
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+    root:
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
     body:
-      groups: [ 'entryComment_read', 'entryComment_write' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+    uv:
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+    dv:
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+    createdAt:
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+    lastActive:
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+

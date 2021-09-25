@@ -34,6 +34,7 @@ class EntryDto
     public ?string $slug = null;
     public ?int $views = null;
     public ?int $score = null;
+    public ?string $visibility = null;
     public ?string $ip = null;
     public ?\DateTimeImmutable $createdAt = null;
     private ?int $id = null;
@@ -54,28 +55,30 @@ class EntryDto
         ?string $slug = null,
         ?int $score = null,
         ?int $views = null,
+        ?string $visibility = null,
         ?string $ip = null,
         ?\DateTimeImmutable $createdAt = null,
         ?int $id = null
     ): self {
-        $this->id        = $id;
-        $this->magazine  = $magazine;
-        $this->domain    = $domain;
-        $this->user      = $user;
-        $this->title     = $title;
-        $this->url       = $url;
-        $this->body      = $body;
-        $this->comments  = $comments;
-        $this->uv        = $uv;
-        $this->dv        = $dv;
-        $this->image     = $image;
-        $this->isAdult   = $isAdult;
-        $this->badges    = $badges;
-        $this->slug      = $slug;
-        $this->score     = $score;
-        $this->views     = $views;
-        $this->ip        = $ip;
-        $this->createdAt = $createdAt;
+        $this->id         = $id;
+        $this->magazine   = $magazine;
+        $this->domain     = $domain;
+        $this->user       = $user;
+        $this->title      = $title;
+        $this->url        = $url;
+        $this->body       = $body;
+        $this->comments   = $comments;
+        $this->uv         = $uv;
+        $this->dv         = $dv;
+        $this->image      = $image;
+        $this->isAdult    = $isAdult;
+        $this->badges     = $badges;
+        $this->slug       = $slug;
+        $this->score      = $score;
+        $this->views      = $views;
+        $this->visibility = $visibility;
+        $this->ip         = $ip;
+        $this->createdAt  = $createdAt;
 
         return $this;
     }
