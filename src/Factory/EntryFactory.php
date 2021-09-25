@@ -39,6 +39,7 @@ class EntryFactory
             $entry->slug,
             $entry->score,
             $entry->views,
+            $entry->visibility,
             $entry->ip,
             $entry->createdAt,
             $entry->getId()

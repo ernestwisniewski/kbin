@@ -11,7 +11,7 @@ trait VisibilityTrait
     /**
      * @ORM\Column(type="text", options={"default": "visible"})
      */
-    private string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+    public string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
 
     #[Pure] public function isVisible(): bool
     {

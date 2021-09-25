@@ -14,6 +14,6 @@ resources:
         method: GET
     attributes:
       normalization_context:
-        groups: [ 'user_read' ]
+        groups: [ 'user:read' ]
       denormalization_context:
-        groups: [ 'user_write' ]
+        groups: [ 'user:write' ]

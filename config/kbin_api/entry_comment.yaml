@@ -7,13 +7,15 @@ resources:
     collectionOperations:
       get:
         method: GET
+        normalization_context:
+          groups: [ 'entry:comment:collection:get' ]
       post:
         method: POST
     itemOperations:
       get:
         method: GET
+        normalization_context:
+          groups: [ 'entry:comment:item:get' ]
     attributes:
-      normalization_context:
-        groups: [ 'entryComment_read' ]
       denormalization_context:
-        groups: [ 'entryComment_write' ]
+        groups: [ 'entry:comment:write' ]

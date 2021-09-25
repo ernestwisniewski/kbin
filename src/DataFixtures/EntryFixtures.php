@@ -49,8 +49,8 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
                 null,
                 null,
                 null,
+                $entry['ip'],
                 null,
-                $entry['ip']
             );
 
             $entity = $this->entryManager->create($dto, $entry['user']);
