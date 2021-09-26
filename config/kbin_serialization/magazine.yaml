@@ -1,7 +1,7 @@
 App\DTO\MagazineDto:
   attributes:
     name:
-      groups: [ 'magazine_read', 'magazine_write', 'entry:collection:get', 'entry:item:get' ]
+      groups: [ 'magazine_read', 'magazine_write', 'entry:collection:get', 'entry:item:get', 'post:collection:get', 'post:item:get' ]
     title:
       groups: [ 'magazine_read', 'magazine_write' ]
     description:

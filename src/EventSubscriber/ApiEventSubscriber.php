@@ -102,9 +102,10 @@ final class ApiEventSubscriber implements EventSubscriberInterface
 
     private function post(PostDto $dto): void
     {
-        $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
-        $dto->user     = $this->userFactory->createDto($dto->user);
-        $dto->image    = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine);
+        $dto->user         = $this->userFactory->createDto($dto->user);
+        $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
+        $dto->image        = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
     }
 
     private function postComment(PostCommentDto $dto): void

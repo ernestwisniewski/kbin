@@ -29,10 +29,10 @@ App\DTO\EntryDto:
     dv:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
     views:
-      groups: [ 'entry:item:get' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     score:
-      groups: [ 'entry:item:get' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
     visibility:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
     createdAt:
-      groups: [ 'entry:item:get' ]
+      groups: [ 'entry:collection:get', 'entry:item:get' ]

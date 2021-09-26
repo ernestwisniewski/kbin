@@ -26,8 +26,14 @@ class PostFactory
             $post->user,
             $post->image,
             $post->body,
-            null,
+            $post->isAdult,
             $post->slug,
+            $post->commentCount,
+            $post->countUpVotes(),
+            $post->countDownVotes(),
+            $post->score,
+            $post->visibility,
+            $post->createdAt,
             $post->ip,
             $post->getId()
         );
