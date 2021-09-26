@@ -1,12 +1,26 @@
 App\DTO\PostDto:
   attributes:
     id:
-      groups: [ 'post_read' ]
-    user:
-      groups: [ 'post_read' ]
+      groups: [ 'post:collection:get', 'post:item:get' ]
     magazine:
-      groups: [ 'post_read', 'post_write' ]
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    user:
+      groups: [ 'post:collection:get', 'post:item:get' ]
     image:
-      groups: [ 'post_read', 'post_write' ]
+      groups: [ 'post:collection:get', 'post:item:get' ]
     body:
-      groups: [ 'post_read', 'post_write' ]
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    isAdult:
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    comments:
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    uv:
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    dv:
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    score:
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    visibility:
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    createdAt:
+      groups: [ 'post:collection:get', 'post:item:get' ]

@@ -7,6 +7,8 @@ resources:
     collectionOperations:
       get:
         method: GET
+        normalization_context:
+          groups: [ 'post:comment:collection:get' ]
       post:
         method: POST
     itemOperations:
@@ -14,6 +16,6 @@ resources:
         method: GET
     attributes:
       normalization_context:
-        groups: [ 'postComment_read' ]
+        groups: [ 'post:comment:item:get' ]
       denormalization_context:
-        groups: [ 'postComment_write' ]
+        groups: [ 'post:comment:write' ]

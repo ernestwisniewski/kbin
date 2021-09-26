@@ -17,6 +17,12 @@ class PostDto
     public ?string $body = null;
     public ?bool $isAdult = false;
     public ?string $slug = null;
+    public ?int $comments = null;
+    public ?int $uv = null;
+    public ?int $dv = null;
+    public ?int $score = null;
+    public ?string $visibility = null;
+    public ?\DateTimeImmutable $createdAt = null;
     public ?string $ip = null;
     private ?int $id = null;
 
@@ -27,17 +33,29 @@ class PostDto
         ?string $body = null,
         ?bool $isAdult = false,
         ?string $slug = null,
+        ?int $comments = null,
+        ?int $uv = null,
+        ?int $dv = null,
+        ?int $score = null,
+        ?string $visibility = null,
+        ?\DateTimeImmutable $createdAt = null,
         ?string $ip = null,
         ?int $id = null
     ): self {
-        $this->id       = $id;
-        $this->magazine = $magazine;
-        $this->user     = $user;
-        $this->body     = $body;
-        $this->image    = $image;
-        $this->isAdult  = $isAdult;
-        $this->slug     = $slug;
-        $this->ip       = $ip;
+        $this->id         = $id;
+        $this->magazine   = $magazine;
+        $this->user       = $user;
+        $this->body       = $body;
+        $this->image      = $image;
+        $this->isAdult    = $isAdult;
+        $this->comments   = $comments;
+        $this->slug       = $slug;
+        $this->uv         = $uv;
+        $this->dv         = $dv;
+        $this->score      = $score;
+        $this->visibility = $visibility;
+        $this->createdAt  = $createdAt;
+        $this->ip         = $ip;
 
         return $this;
     }

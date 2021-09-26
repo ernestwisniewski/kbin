@@ -50,7 +50,7 @@ abstract class WebTestCase extends BaseWebTestCase
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
         } else {
-            $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $body);
+            $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $user ?? $this->getUserByUsername('regularUser'), $body);
         }
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
@@ -187,12 +187,12 @@ abstract class WebTestCase extends BaseWebTestCase
 
         $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
 
-        $user->isVerified       = $active;
-        $user->notifyOnNewEntry = true;
-        $user->notifyOnNewEntryReply  = true;
-        $user->notifyOnNewEntryCommentReply  = true;
-        $user->notifyOnNewPost  = true;
-        $user->notifyOnNewPostReply  = true;
+        $user->isVerified                   = $active;
+        $user->notifyOnNewEntry             = true;
+        $user->notifyOnNewEntryReply        = true;
+        $user->notifyOnNewEntryCommentReply = true;
+        $user->notifyOnNewPost              = true;
+        $user->notifyOnNewPostReply         = true;
         $user->notifyOnNewPostCommentReply  = true;
 
         $manager->persist($user);

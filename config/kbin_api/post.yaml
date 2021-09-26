@@ -7,6 +7,8 @@ resources:
     collectionOperations:
       get:
         method: GET
+        normalization_context:
+          groups: [ 'post:collection:get' ]
       post:
         method: POST
       comments:
@@ -14,12 +16,12 @@ resources:
         path: /posts/{id}/comments.{_format}
         controller: App\Controller\Api\PostComments
         normalization_context:
-          groups: [ 'postComment_read' ]
+          groups: [ 'post:comment:collection:get' ]
     itemOperations:
       get:
         method: GET
+        normalization_context:
+          groups: [ 'post:item:get' ]
     attributes:
-      normalization_context:
-        groups: [ 'post_read' ]
       denormalization_context:
-        groups: [ 'post_write' ]
+        groups: [ 'post:write' ]

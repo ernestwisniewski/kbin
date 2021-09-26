@@ -5,6 +5,6 @@ App\DTO\UserDto:
     plainPassword:
       groups: [ 'user:write' ]
     username:
-      groups: [ 'user:read', 'user_write', 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get' ]
+      groups: [ 'user:read', 'user:write', 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get', 'post:item:get', 'post:collection:get' ]
     avatar:
-      groups: [ 'user:read', 'entry:item:get', 'entry:comment:collection:get' ]
+      groups: [ 'user:read', 'entry:item:get', 'entry:comment:collection:get', 'post:item:get', 'post:collection:get' ]
