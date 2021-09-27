@@ -33,8 +33,9 @@ class PostFactory
             $post->countDownVotes(),
             $post->score,
             $post->visibility,
-            $post->createdAt,
             $post->ip,
+            $post->createdAt,
+            $post->lastActive,
             $post->getId()
         );
     }

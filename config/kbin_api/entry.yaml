@@ -20,7 +20,7 @@ resources:
         path: /entries/{id}/comments.{_format}
         controller: App\Controller\Api\EntryComments
         normalization_context:
-          groups: [ 'entry:comment:collection:get' ]
+          groups: [ 'single:entry:comment:collection:get' ]
     itemOperations:
       get:
         method: GET

@@ -37,6 +37,7 @@ class EntryDto
     public ?string $visibility = null;
     public ?string $ip = null;
     public ?\DateTimeImmutable $createdAt = null;
+    public ?\DateTime $lastActive = null;
     private ?int $id = null;
 
     public function create(
@@ -58,6 +59,7 @@ class EntryDto
         ?string $visibility = null,
         ?string $ip = null,
         ?\DateTimeImmutable $createdAt = null,
+        ?\DateTime $lastActive = null,
         ?int $id = null
     ): self {
         $this->id         = $id;
@@ -79,6 +81,7 @@ class EntryDto
         $this->visibility = $visibility;
         $this->ip         = $ip;
         $this->createdAt  = $createdAt;
+        $this->lastActive  = $lastActive;
 
         return $this;
     }

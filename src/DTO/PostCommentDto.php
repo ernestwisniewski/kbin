@@ -15,20 +15,33 @@ class PostCommentDto
     public User|UserDto|null $user = null;
     public Post|PostDto $post;
     #[Assert\Length(min: 2, max: 5000)]
-    public ?string $body;
-    public ?string $ip = null;
     public ?PostComment $parent = null;
     public ?Image $image = null;
+    public ?string $body;
+    public ?int $uv = null;
+    public ?string $ip = null;
+    public ?\DateTimeImmutable $createdAt = null;
+    public ?\DateTime $lastActive = null;
     private ?int $id = null;
 
-    public function create(Post $post, string $body, ?Image $image = null, ?int $id = null): self
-    {
+    public function create(
+        Post $post,
+        string $body,
+        ?Image $image = null,
+        ?int $uv = null,
+        ?\DateTimeImmutable $createdAt = null,
+        ?\DateTime $lastActive = null,
+        ?int $id = null
+    ): self {
         $this->id       = $id;
         $this->magazine = $post->magazine;
         $this->user     = $post->user;
         $this->post     = $post;
-        $this->body     = $body;
         $this->image    = $image;
+        $this->body     = $body;
+        $this->uv         = $uv;
+        $this->createdAt  = $createdAt;
+        $this->lastActive = $lastActive;
 
         return $this;
     }

@@ -1,7 +1,7 @@
 App\DTO\EntryDto:
   attributes:
     id:
-      groups: [ 'entry:collection:get', 'entry:item:get' ]
+      groups: [ 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get' ]
     magazine:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
     domain:
@@ -11,7 +11,7 @@ App\DTO\EntryDto:
     image:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
     title:
-      groups: [ 'entry:collection:get', 'entry:item:get' ]
+      groups: [ 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get' ]
     url:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
     body:
@@ -35,4 +35,6 @@ App\DTO\EntryDto:
     visibility:
       groups: [ 'entry:collection:get', 'entry:item:get' ]
     createdAt:
+      groups: [ 'entry:collection:get', 'entry:item:get' ]
+    lastActive:
       groups: [ 'entry:collection:get', 'entry:item:get' ]

@@ -1,7 +1,7 @@
 App\DTO\PostDto:
   attributes:
     id:
-      groups: [ 'post:collection:get', 'post:item:get' ]
+      groups: [ 'post:collection:get', 'post:item:get', 'post:comment:collection:get' ]
     magazine:
       groups: [ 'post:collection:get', 'post:item:get' ]
     user:
@@ -23,4 +23,6 @@ App\DTO\PostDto:
     visibility:
       groups: [ 'post:collection:get', 'post:item:get' ]
     createdAt:
+      groups: [ 'post:collection:get', 'post:item:get' ]
+    lastActive:
       groups: [ 'post:collection:get', 'post:item:get' ]

@@ -1,27 +1,27 @@
 App\DTO\EntryCommentDto:
   attributes:
     id:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     magazine:
-      groups: [ 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     user:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     entry:
-      groups: [ 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get' ]
     image:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     parent:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     root:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     body:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     uv:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     dv:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     createdAt:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
     lastActive:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
 

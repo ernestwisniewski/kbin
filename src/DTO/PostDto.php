@@ -23,6 +23,7 @@ class PostDto
     public ?int $score = null;
     public ?string $visibility = null;
     public ?\DateTimeImmutable $createdAt = null;
+    public ?\DateTime $lastActive = null;
     public ?string $ip = null;
     private ?int $id = null;
 
@@ -38,8 +39,9 @@ class PostDto
         ?int $dv = null,
         ?int $score = null,
         ?string $visibility = null,
-        ?\DateTimeImmutable $createdAt = null,
         ?string $ip = null,
+        ?\DateTimeImmutable $createdAt = null,
+        ?\DateTime $lastActive = null,
         ?int $id = null
     ): self {
         $this->id         = $id;
@@ -54,8 +56,9 @@ class PostDto
         $this->dv         = $dv;
         $this->score      = $score;
         $this->visibility = $visibility;
-        $this->createdAt  = $createdAt;
         $this->ip         = $ip;
+        $this->createdAt  = $createdAt;
+        $this->lastActive  = $lastActive;
 
         return $this;
     }

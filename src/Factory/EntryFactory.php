@@ -42,6 +42,7 @@ class EntryFactory
             $entry->visibility,
             $entry->ip,
             $entry->createdAt,
+            $entry->lastActive,
             $entry->getId()
         );
     }

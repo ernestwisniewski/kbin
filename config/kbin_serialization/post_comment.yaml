@@ -1,12 +1,23 @@
 App\DTO\PostCommentDto:
   attributes:
     id:
-      groups: [ 'postComment_read' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
     magazine:
-      groups: [ 'postComment_read', 'postComment_read' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
     user:
-      groups: [ 'postComment_read' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
     post:
-      groups: [ 'postComment_read', 'postComment_read' ]
+      groups: [ 'post:comment:collection:get' ]
+    image:
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
+    parent:
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
     body:
-      groups: [ 'postComment_read', 'postComment_read' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+    uv:
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+    createdAt:
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+    lastActive:
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+
