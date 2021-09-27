@@ -16,7 +16,7 @@ resources:
         path: /posts/{id}/comments.{_format}
         controller: App\Controller\Api\PostComments
         normalization_context:
-          groups: [ 'post:comment:collection:get' ]
+          groups: [ 'single:post:comment:collection:get' ]
     itemOperations:
       get:
         method: GET

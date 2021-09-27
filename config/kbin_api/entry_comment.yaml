@@ -8,7 +8,7 @@ resources:
       get:
         method: GET
         normalization_context:
-          groups: [ 'entry:comment:collection:get' ]
+          groups: [ 'entry:comment:collection:get']
       post:
         method: POST
     itemOperations:

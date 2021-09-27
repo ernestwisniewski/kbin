@@ -25,6 +25,9 @@ class PostCommentFactory
             $comment->post,
             $comment->body,
             null,
+            $comment->countUpVotes(),
+            $comment->createdAt,
+            $comment->lastActive,
             $comment->getId()
         );
     }
