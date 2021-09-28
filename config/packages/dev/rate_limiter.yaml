@@ -2,21 +2,21 @@ framework:
   rate_limiter:
     vote:
       policy: 'sliding_window'
-      limit: 100
+      limit: 1000
       interval: '1 second'
     entry:
       policy: 'fixed_window'
-      limit: 100
+      limit: 1000
       interval: '1 second'
     entry_comment:
       policy: 'sliding_window'
-      limit: 100
+      limit: 1000
       interval: '1 second'
     post:
       policy: 'fixed_window'
-      limit: 100
+      limit: 1000
       interval: '1 second'
     post_comment:
       policy: 'sliding_window'
-      limit: 100
+      limit: 1000
       interval: '1 second'

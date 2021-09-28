@@ -33,6 +33,11 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
                 $post['body'],
                 false,
                 null,
+                null,
+                null,
+                null,
+                null,
+                null,
                 $post['ip']
             );
 
