@@ -31,6 +31,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
         foreach ($this->provideRandomComments(self::COMMENTS_COUNT) as $index => $comment) {
             $dto = (new PostCommentDto())->create(
                 $comment['post'],
+                $comment['user'],
                 $comment['body']
             );
 

@@ -26,6 +26,7 @@ class PostCommentDto
 
     public function create(
         Post $post,
+        User $user,
         string $body,
         ?Image $image = null,
         ?int $uv = null,
@@ -33,12 +34,13 @@ class PostCommentDto
         ?\DateTime $lastActive = null,
         ?int $id = null
     ): self {
-        $this->id       = $id;
-        $this->magazine = $post->magazine;
-        $this->user     = $post->user;
-        $this->post     = $post;
-        $this->image    = $image;
-        $this->body     = $body;
+        $this->id         = $id;
+        $this->user       = $user;
+        $this->magazine   = $post->magazine;
+        $this->user       = $post->user;
+        $this->post       = $post;
+        $this->image      = $image;
+        $this->body       = $body;
         $this->uv         = $uv;
         $this->createdAt  = $createdAt;
         $this->lastActive = $lastActive;
