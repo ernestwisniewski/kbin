@@ -22,6 +22,11 @@ class MagazineDto
     public ?string $description = null;
     #[Assert\Length(min: 3, max: 420)]
     public ?string $rules = null;
+    public ?int $subscriptionsCount = null;
+    public ?int $entryCount = null;
+    public ?int $entryCommentCount = null;
+    public ?int $postCount = null;
+    public ?int $postCommentCount = null;
     public ?bool $isAdult = false;
     public Collection $badges;
     private ?int $id = null;
@@ -32,16 +37,26 @@ class MagazineDto
         Collection $badges,
         ?string $description = null,
         ?string $rules = null,
+        ?int $subscriptionsCount = null,
+        ?int $entryCount = null,
+        ?int $entryCommentCount = null,
+        ?int $postCount = null,
+        ?int $postCommentCount = null,
         ?bool $isAdult = false,
         ?int $id = null
     ): self {
-        $this->id          = $id;
-        $this->name        = $name;
-        $this->title       = $title;
-        $this->badges      = $badges;
-        $this->description = $description;
-        $this->rules       = $rules;
-        $this->isAdult     = $isAdult;
+        $this->id                 = $id;
+        $this->name               = $name;
+        $this->title              = $title;
+        $this->badges             = $badges;
+        $this->description        = $description;
+        $this->rules              = $rules;
+        $this->subscriptionsCount = $subscriptionsCount;
+        $this->entryCount         = $entryCount;
+        $this->entryCommentCount  = $entryCommentCount;
+        $this->postCount          = $postCount;
+        $this->postCommentCount   = $postCommentCount;
+        $this->isAdult            = $isAdult;
 
         return $this;
     }

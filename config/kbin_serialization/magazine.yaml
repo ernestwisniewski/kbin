@@ -1,10 +1,22 @@
 App\DTO\MagazineDto:
   attributes:
     name:
-      groups: [ 'magazine_read', 'magazine_write', 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get', 'single:entry:comment:collection:get', 'post:collection:get', 'post:item:get', 'post:comment:collection:get', 'single:post:comment:collection:get' ]
+      groups: [ 'magazine:item:get', 'magazine:collection:get', 'entry:collection:get', 'entry:item:get', 'entry:comment:collection:get', 'single:entry:comment:collection:get', 'post:collection:get', 'post:item:get', 'post:comment:collection:get', 'single:post:comment:collection:get' ]
     title:
-      groups: [ 'magazine_read', 'magazine_write' ]
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
     description:
-      groups: [ 'magazine_read', 'magazine_write' ]
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
     rules:
-      groups: [ 'magazine_read', 'magazine_write' ]
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
+    subscriptionsCount:
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
+    entryCount:
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
+    entryCommentCount:
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
+    postCount:
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
+    postCommentCount:
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
+    isAdult:
+      groups: [ 'magazine:item:get', 'magazine:collection:get' ]
