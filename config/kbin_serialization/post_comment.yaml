@@ -1,23 +1,23 @@
 App\DTO\PostCommentDto:
   attributes:
     id:
-      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get', 'post:collection:get' ]
     magazine:
       groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
     user:
-      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get', 'post:collection:get' ]
     post:
       groups: [ 'post:comment:collection:get' ]
     image:
-      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get' ]
+      groups: [ 'entry:comment:collection:get', 'entry:comment:item:get', 'single:entry:comment:collection:get', 'post:collection:get' ]
     parent:
       groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
     body:
-      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get', 'post:collection:get' ]
     uv:
-      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get', 'post:collection:get' ]
     createdAt:
-      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get', 'post:collection:get' ]
     lastActive:
-      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get' ]
+      groups: [ 'post:comment:collection:get', 'post:comment:item:get', 'single:post:comment:collection:get', 'post:collection:get' ]
 

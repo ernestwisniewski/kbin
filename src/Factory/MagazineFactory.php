@@ -28,6 +28,11 @@ class MagazineFactory
             $magazine->badges,
             $magazine->description,
             $magazine->rules,
+            $magazine->subscriptionsCount,
+            $magazine->entryCount,
+            $magazine->entryCommentCount,
+            $magazine->postCount,
+            $magazine->postCommentCount,
             $magazine->isAdult,
             $magazine->getId()
         );

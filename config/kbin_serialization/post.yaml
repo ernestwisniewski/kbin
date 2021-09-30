@@ -26,3 +26,5 @@ App\DTO\PostDto:
       groups: [ 'post:collection:get', 'post:item:get' ]
     lastActive:
       groups: [ 'post:collection:get', 'post:item:get' ]
+    bestComments:
+      groups: [ 'post:collection:get', 'post:item:get', 'post:comment:collection:get' ]

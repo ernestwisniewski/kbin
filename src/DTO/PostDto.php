@@ -5,6 +5,8 @@ namespace App\DTO;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class PostDto
@@ -25,6 +27,7 @@ class PostDto
     public ?\DateTimeImmutable $createdAt = null;
     public ?\DateTime $lastActive = null;
     public ?string $ip = null;
+    public ?Collection $bestComments = null;
     private ?int $id = null;
 
     public function create(
@@ -44,21 +47,22 @@ class PostDto
         ?\DateTime $lastActive = null,
         ?int $id = null
     ): self {
-        $this->id         = $id;
-        $this->magazine   = $magazine;
-        $this->user       = $user;
-        $this->body       = $body;
-        $this->image      = $image;
-        $this->isAdult    = $isAdult;
-        $this->comments   = $comments;
-        $this->slug       = $slug;
-        $this->uv         = $uv;
-        $this->dv         = $dv;
-        $this->score      = $score;
-        $this->visibility = $visibility;
-        $this->ip         = $ip;
-        $this->createdAt  = $createdAt;
-        $this->lastActive  = $lastActive;
+        $this->id           = $id;
+        $this->magazine     = $magazine;
+        $this->user         = $user;
+        $this->body         = $body;
+        $this->image        = $image;
+        $this->isAdult      = $isAdult;
+        $this->comments     = $comments;
+        $this->slug         = $slug;
+        $this->uv           = $uv;
+        $this->dv           = $dv;
+        $this->score        = $score;
+        $this->visibility   = $visibility;
+        $this->ip           = $ip;
+        $this->createdAt    = $createdAt;
+        $this->lastActive   = $lastActive;
+        $this->bestComments = new ArrayCollection();
 
         return $this;
     }
