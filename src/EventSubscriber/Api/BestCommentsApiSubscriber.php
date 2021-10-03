@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber;
+namespace App\EventSubscriber\Api;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\ApiDataProvider\DtoPaginator;
