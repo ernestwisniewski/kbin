@@ -16,7 +16,8 @@ class MagazineFactory
             $user,
             $dto->description,
             $dto->rules,
-            $dto->isAdult
+            $dto->isAdult,
+            $dto->cover
         );
     }
 
@@ -28,6 +29,8 @@ class MagazineFactory
             $magazine->badges,
             $magazine->description,
             $magazine->rules,
+            $magazine->getOwner(),
+            $magazine->cover,
             $magazine->subscriptionsCount,
             $magazine->entryCount,
             $magazine->entryCommentCount,

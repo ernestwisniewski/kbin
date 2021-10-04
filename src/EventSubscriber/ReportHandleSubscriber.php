@@ -52,8 +52,8 @@ class ReportHandleSubscriber implements EventSubscriberInterface
 
         $report->status = Report::STATUS_APPROVED;
 
-        // Notification for reporting, reported user
-        // Reputation points for reporting user
+        // @todo Notification for reporting, reported user
+        // @todo Reputation points for reporting user
 
         return $report;
     }

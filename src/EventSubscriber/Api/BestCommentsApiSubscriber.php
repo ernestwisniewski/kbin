@@ -50,10 +50,10 @@ final class BestCommentsApiSubscriber implements EventSubscriberInterface
             $userFactory    = $this->userFactory;
             $imageFactory   = $this->imageFactory;
 
-            $comments = $comments->map(function ($val) use ($commentFactory, $userFactory, $imageFactory) {
+            $comments = $comments->map(function ($val) use ($commentFactory, $userFactory, $imageFactory, $post) {
                 $val               = $commentFactory->createDto($val);
                 $val->user         = $userFactory->createDto($val->user);
-                $val->user->avatar = $imageFactory->createDto($val->user->avatar);
+                $val->user->avatar = $val->user->avatar ? $imageFactory->createDto($val->user->avatar) : null;
 
                 return $val;
             });
