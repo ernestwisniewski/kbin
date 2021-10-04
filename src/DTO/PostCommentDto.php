@@ -37,7 +37,7 @@ class PostCommentDto
         $this->id         = $id;
         $this->user       = $user;
         $this->magazine   = $post->magazine;
-        $this->user       = $post->user;
+        $this->user       = $user;
         $this->post       = $post;
         $this->image      = $image;
         $this->body       = $body;

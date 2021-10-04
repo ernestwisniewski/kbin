@@ -3,28 +3,45 @@
 namespace App\DataFixtures;
 
 use App\DTO\MagazineDto;
+use App\Repository\ImageRepository;
+use App\Service\ImageManager;
 use App\Service\MagazineManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
     const MAGAZINES_COUNT = UserFixtures::USERS_COUNT / 3;
 
-    public function __construct(private MagazineManager $magazineManager)
-    {
+    public function __construct(
+        private MagazineManager $magazineManager,
+        private ImageManager $imageManager,
+        private ImageRepository $imageRepository,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomMagazines(self::MAGAZINES_COUNT) as $index => $magazine) {
+            $image    = null;
+            $width    = rand(100, 400);
+            $tempFile = $this->imageManager->download("https://picsum.photos/{$width}/?hash=$width");
+            if ($tempFile) {
+                $image = $this->imageRepository->findOrCreateFromPath($tempFile);
+                $this->entityManager->flush();
+            }
+
             $dto = (new MagazineDto())->create(
                 $magazine['name'],
                 $magazine['title'],
                 $magazine['badges'],
                 $magazine['description'],
-                $magazine['rules']
+                $magazine['rules'],
+                null,
+                $image
             );
 
             $entity = $this->magazineManager->create($dto, $magazine['user']);

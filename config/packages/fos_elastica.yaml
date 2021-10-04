@@ -3,6 +3,23 @@
 #    clients:
 #        default: { url: '%env(ELASTICSEARCH_URL)%' }
 #    indexes:
+#        magazines:
+#          properties:
+#            id: ~
+#            name: ~
+#            title: ~
+#            description: ~
+#            rules: ~
+#            createdAt: ~
+#            visibility: ~
+#            cover:
+#              type: "object"
+#              properties:
+#                id: ~
+#                filePath: ~
+#          persistence:
+#            driver: orm
+#            model: App\Entity\Magazine
 #        entries:
 #            properties:
 #                id: ~
@@ -65,7 +82,6 @@
 #            persistence:
 #                driver: orm
 #                model: App\Entity\EntryComment
-#
 #        posts:
 #            properties:
 #                id: ~
@@ -92,7 +108,6 @@
 #            persistence:
 #                driver: orm
 #                model: App\Entity\Post
-#
 #        post_comments:
 #            properties:
 #                id: ~

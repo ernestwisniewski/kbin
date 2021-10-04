@@ -6,6 +6,7 @@ use ApiPlatform\Core\EventListener\EventPriorities;
 use App\ApiDataProvider\DtoPaginator;
 use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
+use App\DTO\MagazineDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
 use App\Factory\DomainFactory;
@@ -59,6 +60,9 @@ final class ApiEventSubscriber implements EventSubscriberInterface
             case $dto instanceof PostCommentDto:
                 $this->postComment($dto);
                 break;
+            case $dto instanceof MagazineDto:
+                $this->magazine($dto);
+                break;
         }
     }
 
@@ -77,6 +81,9 @@ final class ApiEventSubscriber implements EventSubscriberInterface
                     break;
                 case $dto instanceof PostCommentDto:
                     $this->postComment($dto);
+                    break;
+                case $dto instanceof MagazineDto:
+                    $this->magazine($dto);
                     break;
             }
         }
@@ -115,5 +122,11 @@ final class ApiEventSubscriber implements EventSubscriberInterface
         $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
         $dto->post         = $this->postFactory->createDto($dto->post);
         $dto->image        = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+    }
+
+    private function magazine(MagazineDto $dto): void
+    {
+        $dto->user  = $this->userFactory->createDto($dto->user);
+        $dto->cover = $this->imageFactory->createDto($dto->cover);
     }
 }

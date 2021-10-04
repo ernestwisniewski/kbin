@@ -124,13 +124,14 @@ class Magazine implements VisibilityInterface
      */
     private int $id;
 
-    public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules, ?bool $isAdult)
+    public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules, ?bool $isAdult, ?Image $cover)
     {
         $this->name          = $name;
         $this->title         = $title;
         $this->description   = $description;
         $this->rules         = $rules;
         $this->isAdult       = $isAdult ?? false;
+        $this->cover         = $cover;
         $this->moderators    = new ArrayCollection();
         $this->entries       = new ArrayCollection();
         $this->posts         = new ArrayCollection();
