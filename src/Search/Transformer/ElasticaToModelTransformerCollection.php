@@ -87,7 +87,7 @@ class ElasticaToModelTransformerCollection implements ElasticaToModelTransformer
     public function hybridTransform(array $elasticaObjects)
     {
         $objects = $this->transform($elasticaObjects);
-dd($objects);
+
         $result = [];
         for ($i = 0, $j = count($elasticaObjects); $i < $j; ++$i) {
             if (!isset($objects[$i])) {
