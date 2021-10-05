@@ -118,7 +118,6 @@ class AwesomeBotFixtures extends Command
             $entry = $this->entryManager->create(
                 (new EntryDto())->create(
                     $item['magazine'],
-                    null,
                     $item['user'],
                     substr($item['title'], 0, 255),
                     $item['url'],
@@ -128,6 +127,7 @@ class AwesomeBotFixtures extends Command
                     null,
                     null,
                     null,
+                    false,
                     $item['badges']
                 ),
                 $item['user']

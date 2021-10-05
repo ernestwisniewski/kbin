@@ -1,0 +1,6 @@
+search:
+  controller: App\Controller\SearchController
+  path:
+    en: /search/{val}
+    pl: /szukaj/{val}
+  methods: [GET]

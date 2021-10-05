@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
+
+{% block title %}{{ 'search'|trans }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
+        {% if results|length %}
+            {% for subject in results %}
+{#                {% include '_layout/_subject.html.twig' with {subject: subject} %}#}
+            {% endfor %}
+        {% else %}
+            {{ not_found() }}
+        {% endif %}
+
+        {% if(results.haveToPaginate) %}
+            {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

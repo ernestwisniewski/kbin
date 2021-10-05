@@ -1,65 +1,95 @@
 framework:
-    serializer:
-        mapping:
-            paths: ['%kernel.project_dir%/config/kbin_serialization']
+  serializer:
+    mapping:
+      paths: [ '%kernel.project_dir%/config/kbin_serialization' ]
 
 parameters:
-    kbin_domain: '%env(KBIN_DOMAIN)%'
-    html5_validation: false
-    front_sort_options: top|hot|active|newest|commented|ważne|wschodzące|aktywne|najnowsze|komentowane
-    front_time_options: 6h|12h|1d|1w|1m|1y|all|wszystko|∞
-    number_regex: '[1-9][0-9]{0,17}'
-    username_regex: '\w{2,25}|!deleted\d+'
-    uploads_dir_name: 'media'
-    uploads_base_url: 'https://%env(KBIN_DOMAIN)%/%uploads_dir_name%'
-    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
-    env(MONGODB_URL): ''
-    env(MONGODB_DB): ''
+  kbin_domain: '%env(KBIN_DOMAIN)%'
+  html5_validation: false
+  front_sort_options: top|hot|active|newest|commented|ważne|wschodzące|aktywne|najnowsze|komentowane
+  front_time_options: 6h|12h|1d|1w|1m|1y|all|wszystko|∞
+  number_regex: '[1-9][0-9]{0,17}'
+  username_regex: '\w{2,25}|!deleted\d+'
+  uploads_dir_name: 'media'
+  uploads_base_url: 'https://%env(KBIN_DOMAIN)%/%uploads_dir_name%'
+  google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+  env(MONGODB_URL): ''
+  env(MONGODB_DB): ''
 
 
 services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        bind:
-            $html5Validation: '%html5_validation%'
-            $uploadedAssetsBaseUrl: '%uploads_base_url%'
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    bind:
+      $html5Validation: '%html5_validation%'
+      $uploadedAssetsBaseUrl: '%uploads_base_url%'
 
-    _instanceof:
-        League\CommonMark\Inline\Parser\InlineParserInterface:
-            tags: [commonmark.inline_parser]
+  _instanceof:
+    League\CommonMark\Inline\Parser\InlineParserInterface:
+      tags: [ commonmark.inline_parser ]
 
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
-            - '../src/Tests/'
+  App\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/Entity/'
+      - '../src/Kernel.php'
+      - '../src/Tests/'
 
-    App\Controller\:
-        resource: '../src/Controller/'
-        tags: ['controller.service_arguments']
+  App\Controller\:
+    resource: '../src/Controller/'
+    tags: [ 'controller.service_arguments' ]
 
-    App\Markdown\CommonMark\ExternalImagesRenderer:
-        tags:
-            - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Image, priority: 1 }
+  App\Markdown\CommonMark\ExternalImagesRenderer:
+    tags:
+      - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Image, priority: 1 }
 
-    App\Markdown\CommonMark\ExternalLinkRenderer:
-        tags:
-            - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Link, priority: 1 }
+  App\Markdown\CommonMark\ExternalLinkRenderer:
+    tags:
+      - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Link, priority: 1 }
 
-    App\Markdown\Factory\EnvironmentFactory:
-        $container: !service_locator
-            League\CommonMark\ConfigurableEnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
+  App\Markdown\Factory\EnvironmentFactory:
+    $container: !service_locator
+      League\CommonMark\ConfigurableEnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
 
-    App\Service\CloudflareIpResolver:
-        decorates: 'karser_recaptcha3.ip_resolver'
-        arguments:
-            $decorated: '@App\Service\CloudflareIpResolver.inner'
-            $requestStack: '@request_stack'
+  App\Service\CloudflareIpResolver:
+    decorates: 'karser_recaptcha3.ip_resolver'
+    arguments:
+      $decorated: '@App\Service\CloudflareIpResolver.inner'
+      $requestStack: '@request_stack'
 
-    App\EventListener\LanguageListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 200 }
-        arguments: ['%env(KBIN_DEFAULT_LANG)%']
+  App\EventListener\LanguageListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, priority: 200 }
+    arguments: [ '%env(KBIN_DEFAULT_LANG)%' ]
+
+  App\Search\Elastica\MultiIndex:
+    arguments:
+      $name: 'entries'
+    calls:
+      - [ addIndices, [ [
+          '@fos_elastica.index.magazines',
+          '@fos_elastica.index.entries',
+          '@fos_elastica.index.entry_comments',
+          '@fos_elastica.index.posts',
+          '@fos_elastica.index.post_comments'
+      ] ] ]
+
+  Elastica\SearchableInterface: '@App\Search\Elastica\MultiIndex'
+
+  App\Search\Transformer\ElasticaToModelTransformerCollection:
+    arguments:
+      - {
+        magazines: '@fos_elastica.elastica_to_model_transformer.magazines',
+        entries: '@fos_elastica.elastica_to_model_transformer.entries',
+        entry_comments: '@fos_elastica.elastica_to_model_transformer.entry_comments',
+        posts: '@fos_elastica.elastica_to_model_transformer.posts',
+        post_comments: '@fos_elastica.elastica_to_model_transformer.post_comments'
+      }
+
+  FOS\ElasticaBundle\Transformer\ElasticaToModelTransformerInterface: '@App\Search\Transformer\ElasticaToModelTransformerCollection'
+
+  FOS\ElasticaBundle\Finder\TransformedFinder: ~
+
+  FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@FOS\ElasticaBundle\Finder\TransformedFinder'
