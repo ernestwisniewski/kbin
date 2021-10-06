@@ -1,7 +1,7 @@
 <div class="kbin-search mb-4 mt-lg-0 mt-4">
-    <form>
-        <div class="input-group input-group-sm input-group-btn">
-            <input type="text" name="szukaj" class="form-control" placeholder="{{ 'type_search_term'|trans }}">
+    <form method="get" action="{{ path('search') }}">
+        <div  class="input-group input-group-sm input-group-btn">
+            <input type="text" name="s" class="form-control" placeholder="{{ 'type_search_term'|trans }}">
             <span class="input-group-btn input-group-sm">
         <button class="kbin-search-btn btn btn-default" type="submit">{{ 'search'|trans }}</button>
       </span>
