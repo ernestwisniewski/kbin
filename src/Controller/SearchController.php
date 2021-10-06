@@ -2,18 +2,21 @@
 
 namespace App\Controller;
 
-use App\Repository\SearchRepository;
+use App\Service\SearchManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends AbstractController
 {
-    public function __construct(private SearchRepository $repo)
+    public function __construct(private SearchManager $manager)
     {
     }
 
-    public function __invoke(string $val, Request $request): Response
+    public function __invoke(Request $request): Response
     {
-        return $this->render('search/front.html.twig', ['results' => $this->repo->search($val)]);
+        return $this->render(
+            'search/front.html.twig',
+            ['results' => $this->manager->findPaginated($request->query->get('s'), $this->getPageNb($request))]
+        );
     }
 }
