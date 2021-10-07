@@ -4,6 +4,7 @@ namespace App\Twig;
 
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use Twig\Extension\AbstractExtension;
@@ -32,6 +33,11 @@ final class SubjectExtension extends AbstractExtension
             new TwigTest(
                 'post_comment', function ($subject) {
                 return $subject instanceof PostComment;
+            }
+            ),
+            new TwigTest(
+                'magazine', function ($subject) {
+                return $subject instanceof Magazine;
             }
             ),
         ];

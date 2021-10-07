@@ -23,8 +23,8 @@ class PostCommentFactory
     {
         return (new PostCommentDto())->create(
             $comment->post,
-            $comment->user,
             $comment->body,
+            $comment->user,
             null,
             $comment->countUpVotes(),
             $comment->createdAt,

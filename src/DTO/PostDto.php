@@ -32,7 +32,7 @@ class PostDto
 
     public function create(
         Magazine $magazine,
-        User $user,
+        ?User $user = null,
         ?Image $image = null,
         ?string $body = null,
         ?bool $isAdult = false,

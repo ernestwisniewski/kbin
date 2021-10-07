@@ -29,8 +29,8 @@ class EntryCommentDto
 
     public function create(
         Entry $entry,
-        User $user,
         string $body,
+        ?User $user = null,
         ?Image $image = null,
         ?int $uv = null,
         ?int $dv = null,

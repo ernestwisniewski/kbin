@@ -1,5 +1,5 @@
-{% from 'magazine/_macros.html.twig' import magazine %}
+{% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from '_layout/_macros.html.twig' import entry_url %}
 
-{{'mod_remove_your_thread'|trans}} {{ 'in'|trans }} {{ magazine(notification.entry.magazine) }} - <strong><a
+{{'mod_remove_your_thread'|trans}} {{ 'in'|trans }} {{ magazine_inline(notification.entry.magazine) }} - <strong><a
             href="{{ entry_url(notification.entry) }}">{{ notification.entry.shortTitle }}</a></strong>

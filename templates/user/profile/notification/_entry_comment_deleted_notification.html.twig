@@ -1,5 +1,5 @@
-{% from 'magazine/_macros.html.twig' import magazine %}
+{% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from '_layout/_macros.html.twig' import entry_url %}
 
-{{ 'mod_deleted_your_comment'|trans }} {{ 'in'|trans }} {{ magazine(notification.comment.magazine) }} - <strong><a
+{{ 'mod_deleted_your_comment'|trans }} {{ 'in'|trans }} {{ magazine_inline(notification.comment.magazine) }} - <strong><a
             href="{{ entry_url(notification.comment.entry) }}">{{ notification.comment.shortTitle }}</a></strong>

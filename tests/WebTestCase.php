@@ -50,7 +50,10 @@ abstract class WebTestCase extends BaseWebTestCase
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
         } else {
-            $dto = (new EntryCommentDto())->create($entry ?? $this->getEntryByTitle('Przykladowa treść'), $user ?? $this->getUserByUsername('regularUser'), $body);
+            $dto = (new EntryCommentDto())->create(
+                $entry ?? $this->getEntryByTitle('Przykladowa treść'),
+                $body
+            );
         }
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
@@ -96,7 +99,7 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = self::$container->get(EntryManager::class);
 
-        $dto   = (new EntryDto())->create($magazine, $user, $title, $url, $body);
+        $dto   = (new EntryDto())->create($magazine, $title, null, $url, $body);
         $entry = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
 
         $this->entries->add($entry);
@@ -130,7 +133,7 @@ abstract class WebTestCase extends BaseWebTestCase
 
         $dto = (new PostDto())->create(
             $magazine ?: $this->getMagazineByName('polityka'),
-            $user ?: $this->getUserByUsername('regularUser'),
+            null,
             null,
             $body
         );
