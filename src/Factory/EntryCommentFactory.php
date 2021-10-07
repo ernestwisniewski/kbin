@@ -23,8 +23,8 @@ class EntryCommentFactory
     {
         return (new EntryCommentDto())->create(
             $comment->entry,
-            $comment->user,
             $comment->body,
+            $comment->user,
             $comment->image,
             $comment->countUpVotes(),
             $comment->countDownVotes(),

@@ -1,5 +1,5 @@
 {% block entry %}
-    {% from 'magazine/_macros.html.twig' import magazine %}
+    {% from 'magazine/_macros.html.twig' import magazine_inline %}
     {% from 'user/_macros.html.twig' import user %}
     {% from 'vote/_macros.html.twig' import vote %}
     {% from '_layout/_macros.html.twig' import entry_url %}
@@ -61,7 +61,7 @@
 
                         {% if not is_magazine_page() %}
                             <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
-                                <small class="text-muted">{{ 'to'|trans }}</small> {{ magazine(entry.magazine) }}
+                                <small class="text-muted">{{ 'to'|trans }}</small> {{ magazine_inline(entry.magazine) }}
                             </li>
                         {% endif %}
                     </ul>

@@ -26,8 +26,8 @@ class PostCommentDto
 
     public function create(
         Post $post,
-        User $user,
         string $body,
+        ?User $user =null,
         ?Image $image = null,
         ?int $uv = null,
         ?\DateTimeImmutable $createdAt = null,

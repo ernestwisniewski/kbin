@@ -109,8 +109,8 @@ class AwesomeBotEntries extends Command
             $this->entryManager->create(
                 (new EntryDto())->create(
                     $magazine,
-                    $user,
                     substr($item['title'], 0, 255),
+                    $user,
                     $item['url'],
                     null,
                     null,

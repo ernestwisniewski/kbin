@@ -1,0 +1,19 @@
+resources:
+  App\DTO\SearchDto:
+    properties:
+      val:
+        identifier: true
+    shortName: 'search'
+    collectionOperations:
+      get:
+        method: GET
+        normalization_context:
+          groups: [ 'entry:collection:get', 'entry:comment:collection:get', 'post:collection:get', 'post:comment:collection:get', 'magazine:collection:get' ]
+    itemOperations:
+      get:
+        method: GET
+    attributes:
+      normalization_context:
+        groups: [ 'search:get' ]
+      denormalization_context:
+        groups: [ 'search:write' ]

@@ -118,8 +118,8 @@ class AwesomeBotFixtures extends Command
             $entry = $this->entryManager->create(
                 (new EntryDto())->create(
                     $item['magazine'],
-                    $item['user'],
                     substr($item['title'], 0, 255),
+                    $item['user'],
                     $item['url'],
                     null,
                     null,

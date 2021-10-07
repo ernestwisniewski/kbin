@@ -42,8 +42,8 @@ class EntryDto
 
     public function create(
         Magazine $magazine,
-        User $user,
         string $title,
+        ?User $user,
         ?string $url = null,
         ?string $body = null,
         ?int $comments = null,

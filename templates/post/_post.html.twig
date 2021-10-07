@@ -1,7 +1,7 @@
 {% block post %}
     {% from 'user/_macros.html.twig' import avatar %}
     {% from 'user/_macros.html.twig' import user %}
-    {% from 'magazine/_macros.html.twig' import magazine %}
+    {% from 'magazine/_macros.html.twig' import magazine_inline %}
     {% from 'vote/_macros.html.twig' import vote %}
     {% from 'post/comment/_macros.html.twig' import comment %}
     {% from '_layout/_macros.html.twig' import post_url %}
@@ -45,7 +45,7 @@
 
                     {% if not is_magazine_page() %}
                         <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
-                            <small class="text-muted">{{ 'to'|trans }} {{ magazine(post.magazine, {bolded:true}) }}</small>
+                            <small class="text-muted">{{ 'to'|trans }} {{ magazine_inline(post.magazine, {bolded:true}) }}</small>
                         </li>
                     {% endif %}
                 </ul>
