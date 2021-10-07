@@ -31,7 +31,7 @@ final class SearchCollectionDataProvider implements ContextAwareCollectionDataPr
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
-        $query = $this->request->getCurrentRequest()->query->get('s');
+        $query = $this->request->getCurrentRequest()->query->get('q');
 
         $results = $this->manager->findPaginated($query);
 

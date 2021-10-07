@@ -3,13 +3,21 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/maintainability)](https://codeclimate.com/github/ernestwisniewski/kbin/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/test_coverage)](https://codeclimate.com/github/ernestwisniewski/kbin/test_coverage)
 
-A reddit-like content aggregator and micro-blogging platform for the fediverse - https://kbin.info.
+A reddit-like content aggregator and micro-blogging platform for the fediverse.
 
+This is a very early beta version, and a lot of features are currently broken or in active development, such as federation.
+
+
+
+|     |     |     |
+| --- | --- | --- |
+![](assets/images/s1.png)  |  ![](assets/images/s2.png)  |  ![](assets/images/s3.png)
+
+* https://kbin.info - project website
 * https://kbin.pub - main instance
 * https://karab.in - polish-lang instance
 * https://dev.karab.in - instance for testing purposes only
 
-This is a very early beta version, and a lot of features are currently broken or in active development, such as federation.
 
 * [kbin-js-client](https://github.com/ernestwisniewski/kbin-js-client) (TypeScript)
 * [kbin-mobile](https://github.com/ernestwisniewski/kbin-mobile) (Flutter / Dart)
@@ -84,7 +92,7 @@ $ docker-compose exec php bin/console fos:elastica:populate
 ### JWT keys
 // todo 
 
-Next, setup your instance https://localhost/admin
+Next, set up your instance https://localhost/admin
 
 ## Federation
 
@@ -99,8 +107,12 @@ Next, setup your instance https://localhost/admin
 #### API
 * https://dev.karab.in/api/magazines.jsonld
 * https://dev.karab.in/api/entries.jsonld
+* https://dev.karab.in/api/entries/{id}.jsonld
+* https://dev.karab.in/api/entries/{id}/comments.jsonld
 * https://dev.karab.in/api/entry_comments.jsonld
 * https://dev.karab.in/api/posts.jsonld
+* https://dev.karab.in/api/posts/{id}.jsonld
+* https://dev.karab.in/api/posts/{id}/comments.jsonld
 * https://dev.karab.in/api/post_comments.jsonld
 
 ## Contributing
