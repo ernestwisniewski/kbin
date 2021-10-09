@@ -7,11 +7,9 @@ A reddit-like content aggregator and micro-blogging platform for the fediverse.
 
 This is a very early beta version, and a lot of features are currently broken or in active development, such as federation.
 
-
-
 |     |     |     |
 | --- | --- | --- |
-![](assets/images/s1.png)  |  ![](assets/images/s2.png)  |  ![](assets/images/s3.png)
+![](assets/screenshots/s1.png)  |  ![](assets/screenshots/s2.png)  |  ![](assets/screenshots/s3.png)
 
 * https://kbin.info - project website
 * https://kbin.pub - main instance
@@ -23,7 +21,7 @@ This is a very early beta version, and a lot of features are currently broken or
 * [kbin-js-client](https://github.com/ernestwisniewski/kbin-js-client) (TypeScript)
 * [kbin-mobile](https://github.com/ernestwisniewski/kbin-mobile) (Flutter / Dart)
 
-## Installation
+## Getting Started
 
 ### Requirements
 
@@ -42,7 +40,7 @@ https://symfony.com/doc/5.3/reference/requirements.html
 
 https://github.com/symfony/ux
 
-```console
+```bash
 $ yarn install
 $ yarn build
 ```
@@ -53,7 +51,7 @@ Based on https://github.com/dunglas/symfony-docker
 
 #### Develop
 
-```console
+```bash
 # Set SMTP, Postgres, Mercure, Elasticsearch, RabbitMQ creds if you need it.
 $ cp .env.example .env
 
@@ -66,7 +64,7 @@ $ docker-compose exec php bin/phpunit
 
 #### Production
 
-```console
+```bash
 $ SERVER_NAME="beta.karab.in" \
 APP_SECRET=427f5e2940e5b2472c1b44b2d06e0525 \
 CADDY_MERCURE_JWT_SECRET='!ChangeMe!' \
@@ -77,7 +75,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 ### Admin user
 
-```console
+```bash
 # Create new user (without email verification)
 $ docker-compose exec php bin/console kbin:user:create username email@exmple.com password
 # Grant administrator privileges
@@ -85,7 +83,7 @@ $ docker-compose exec php bin/console kbin:user:admin username
 ```
 
 ### Elasticsearch
-```console
+```bash
 $ docker-compose exec php bin/console fos:elastica:create
 $ docker-compose exec php bin/console fos:elastica:populate
 ```
