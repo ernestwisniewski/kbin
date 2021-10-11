@@ -148,10 +148,10 @@ class EntryRepository extends ServiceEntityRepository
         }
 
         switch ($criteria->sortOption) {
-            case Criteria::SORT_HOT:
+            case Criteria::SORT_TOP:
                 $qb->addOrderBy('e.score', 'DESC');
                 break;
-            case Criteria::SORT_TOP:
+            case Criteria::SORT_HOT:
                 $qb->addOrderBy('e.ranking', 'DESC');
                 break;
             case Criteria::SORT_COMMENTED:
