@@ -19,7 +19,7 @@ abstract class Criteria
     public const FRONT_MODERATED = 'moderated';
     public const SORT_ACTIVE = 'active';
     public const SORT_HOT = 'hot';
-    public const SORT_NEW = 'new';
+    public const SORT_NEW = 'newest';
     public const SORT_TOP = 'top';
     public const SORT_COMMENTED = 'commented';
 
@@ -86,14 +86,14 @@ abstract class Criteria
     {
         //@todo
         $routes = [
-            'top'       => Criteria::SORT_HOT,
-            'hot'       => Criteria::SORT_TOP,
+            'top'       => Criteria::SORT_TOP,
+            'hot'       => Criteria::SORT_HOT,
             'active'    => Criteria::SORT_ACTIVE,
             'newest'    => Criteria::SORT_NEW,
             'commented' => Criteria::SORT_COMMENTED,
 
-            'ważne'       => Criteria::SORT_HOT,
-            'wschodzące'  => Criteria::SORT_TOP,
+            'ważne'       => Criteria::SORT_TOP,
+            'wschodzące'  => Criteria::SORT_HOT,
             'aktywne'     => Criteria::SORT_ACTIVE,
             'najnowsze'   => Criteria::SORT_NEW,
             'komentowane' => Criteria::SORT_COMMENTED,
