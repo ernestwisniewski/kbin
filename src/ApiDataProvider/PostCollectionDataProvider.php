@@ -7,6 +7,7 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\PostDto;
 use App\Factory\PostFactory;
 use App\PageView\PostPageView;
+use App\Repository\Criteria;
 use App\Repository\PostRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -29,6 +30,7 @@ final class PostCollectionDataProvider implements ContextAwareCollectionDataProv
     {
         try {
             $criteria = new PostPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
             $posts    = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];

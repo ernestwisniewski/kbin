@@ -132,8 +132,17 @@ class EntryCommentRepository extends ServiceEntityRepository
         }
 
         switch ($criteria->sortOption) {
+            case Criteria::SORT_TOP:
+                $qb->orderBy('c.upVotes', 'DESC');
+                break;
             case Criteria::SORT_HOT:
                 $qb->orderBy('c.upVotes', 'DESC');
+                break;
+            case Criteria::SORT_ACTIVE:
+                $qb->orderBy('c.lastActive', 'DESC');
+                break;
+            case Criteria::SORT_NEW:
+                $qb->orderBy('c.createdAt', 'DESC');
                 break;
             default:
                 $qb->addOrderBy('c.lastActive', 'DESC')
