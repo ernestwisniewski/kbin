@@ -30,7 +30,7 @@ final class EntryCollectionDataProvider implements ContextAwareCollectionDataPro
     {
         try {
             $criteria = new EntryPageView((int) $this->request->getCurrentRequest()->get('page', 1));
-            $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_NEW);
+            $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
             $entries  = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];

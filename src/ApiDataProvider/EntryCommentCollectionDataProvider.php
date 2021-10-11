@@ -7,6 +7,7 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\EntryCommentDto;
 use App\Factory\EntryCommentFactory;
 use App\PageView\EntryCommentPageView;
+use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -29,6 +30,7 @@ final class EntryCommentCollectionDataProvider implements ContextAwareCollection
     {
         try {
             $criteria = new EntryCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
             $comments = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];
