@@ -105,6 +105,10 @@ services:
 #    volumes:
 #      - mongodb_data_container:/data/db
 
+# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
+###> symfony/mercure-bundle ###
+###< symfony/mercure-bundle ###
+
 volumes:
   php_socket:
   caddy_data:
@@ -114,3 +118,5 @@ volumes:
   db-data:
 #  mongodb_data_container:
 
+###> symfony/mercure-bundle ###
+###< symfony/mercure-bundle ###
