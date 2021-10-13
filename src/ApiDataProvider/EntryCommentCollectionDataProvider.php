@@ -31,6 +31,7 @@ final class EntryCommentCollectionDataProvider implements ContextAwareCollection
         try {
             $criteria = new EntryCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
             $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
+            $criteria->time = $criteria->resolveTime($this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL));
             $comments = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];
