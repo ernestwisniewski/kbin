@@ -7,6 +7,7 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\PostCommentDto;
 use App\Factory\PostCommentFactory;
 use App\PageView\PostCommentPageView;
+use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -29,6 +30,8 @@ final class PostCommentCollectionDataProvider implements ContextAwareCollectionD
     {
         try {
             $criteria = new PostCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
+            $criteria->time = $criteria->resolveTime($this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL));
             $comments = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];
