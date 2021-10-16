@@ -12,7 +12,15 @@ class Site
     /**
      * @ORM\Column(type="string")
      */
+    public string $domain;
+    /**
+     * @ORM\Column(type="string")
+     */
     public string $title;
+    /**
+     * @ORM\Column(type="text")
+     */
+    public string $description;
     /**
      * @ORM\Column(type="boolean")
      */
