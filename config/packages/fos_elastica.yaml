@@ -19,6 +19,7 @@ fos_elastica:
       persistence:
         driver: orm
         model: App\Entity\Magazine
+        listener: '%elastica_listener%'
     entries:
       properties:
         id: ~
@@ -54,6 +55,7 @@ fos_elastica:
       persistence:
         driver: orm
         model: App\Entity\Entry
+        listener: '%elastica_listener%'
     entry_comments:
       properties:
         id: ~
@@ -81,6 +83,7 @@ fos_elastica:
       persistence:
         driver: orm
         model: App\Entity\EntryComment
+        listener: '%elastica_listener%'
     posts:
       properties:
         id: ~
@@ -107,6 +110,7 @@ fos_elastica:
       persistence:
         driver: orm
         model: App\Entity\Post
+        listener: '%elastica_listener%'
     post_comments:
       properties:
         id: ~
@@ -134,3 +138,4 @@ fos_elastica:
       persistence:
         driver: orm
         model: App\Entity\PostComment
+        listener: '%elastica_listener%'
