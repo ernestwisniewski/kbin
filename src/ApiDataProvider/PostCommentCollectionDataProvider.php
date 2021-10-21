@@ -8,6 +8,7 @@ use App\DTO\PostCommentDto;
 use App\Factory\PostCommentFactory;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
+use App\Repository\MagazineRepository;
 use App\Repository\PostCommentRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,6 +18,7 @@ final class PostCommentCollectionDataProvider implements ContextAwareCollectionD
     public function __construct(
         private PostCommentRepository $repository,
         private PostCommentFactory $factory,
+        private MagazineRepository $magazineRepository,
         private RequestStack $request
     ) {
     }
@@ -32,8 +34,10 @@ final class PostCommentCollectionDataProvider implements ContextAwareCollectionD
             $criteria = new PostCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
             $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
             $criteria->time = $criteria->resolveTime($this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL));
-            $criteria->magazine = $this->request->getCurrentRequest()->get('magazine');
 
+            if ($name = $this->request->getCurrentRequest()->get('magazine')) {
+                $criteria->magazine = $this->magazineRepository->findOneByName($name);
+            }
             $comments = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];
