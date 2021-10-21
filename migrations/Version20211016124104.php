@@ -42,7 +42,6 @@ final class Version20211016124104 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('CREATE SEQUENCE test_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('ALTER TABLE site DROP domain');
         $this->addSql('ALTER TABLE site DROP description');
         $this->addSql('ALTER TABLE "user" ALTER email DROP NOT NULL');
