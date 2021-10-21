@@ -8,6 +8,7 @@ use App\DTO\PostDto;
 use App\Factory\PostFactory;
 use App\PageView\PostPageView;
 use App\Repository\Criteria;
+use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,6 +18,7 @@ final class PostCollectionDataProvider implements ContextAwareCollectionDataProv
     public function __construct(
         private PostRepository $repository,
         private PostFactory $factory,
+        private MagazineRepository $magazineRepository,
         private RequestStack $request
     ) {
     }
@@ -32,7 +34,10 @@ final class PostCollectionDataProvider implements ContextAwareCollectionDataProv
             $criteria = new PostPageView((int) $this->request->getCurrentRequest()->get('page', 1));
             $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
             $criteria->time = $criteria->resolveTime($this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL));
-            $criteria->magazine = $this->request->getCurrentRequest()->get('magazine');
+
+            if ($name = $this->request->getCurrentRequest()->get('magazine')) {
+                $criteria->magazine = $this->magazineRepository->findOneByName($name);
+            }
 
             $posts    = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
