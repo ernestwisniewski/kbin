@@ -3,15 +3,15 @@ liip_imagine:
 
     filter_sets:
         entry_thumb:
-            quality: 100
+            quality: 80
             filters:
                 thumbnail: { size: [ 200, 350 ], mode: inset }
         avatar_thumb:
-            quality: 100
+            quality: 80
             filters:
                 thumbnail: { size: [ 100, 100 ], mode: fixed }
         post_thumb:
-            quality: 100
+            quality: 80
             filters:
                 thumbnail: { size: [ 600, 500 ], mode: inset }
 
