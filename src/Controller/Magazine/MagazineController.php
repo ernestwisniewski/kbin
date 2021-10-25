@@ -5,12 +5,15 @@ namespace App\Controller\Magazine;
 use App\Controller\AbstractController;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
+use App\Factory\MagazineFactory;
 use App\Form\MagazineType;
 use App\Repository\MagazineRepository;
 use App\Service\MagazineManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class MagazineController extends AbstractController
 {
@@ -95,5 +98,18 @@ class MagazineController extends AbstractController
                 'magazines' => $magazines,
             ]
         );
+    }
+
+    public function randomMagazine(MagazineRepository $repository)
+    {
+        $cache = new FilesystemAdapter();
+
+        return $cache->get('random_magazsinse', function (ItemInterface $item) use ($repository) {
+            $item->expiresAfter(60);
+
+            return $this->render('_layout/_random_magazine.html.twig', [
+                'magazine' => $repository->findRandom(),
+            ]);
+        });
     }
 }

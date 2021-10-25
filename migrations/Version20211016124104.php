@@ -19,8 +19,6 @@ final class Version20211016124104 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE test_id_seq CASCADE');
         $this->addSql('ALTER TABLE badge ALTER magazine_id DROP NOT NULL');
         $this->addSql('ALTER TABLE badge ALTER name SET NOT NULL');
         $this->addSql('ALTER TABLE entry ALTER is_adult SET NOT NULL');
