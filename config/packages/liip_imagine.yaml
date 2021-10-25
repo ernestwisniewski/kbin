@@ -1,17 +1,19 @@
 liip_imagine:
     driver: "gd"
+    webp:
+        generate: true
 
     filter_sets:
         entry_thumb:
-            quality: 80
+            quality: 90
             filters:
                 thumbnail: { size: [ 200, 350 ], mode: inset }
         avatar_thumb:
-            quality: 80
+            quality: 90
             filters:
                 thumbnail: { size: [ 100, 100 ], mode: fixed }
         post_thumb:
-            quality: 80
+            quality: 90
             filters:
                 thumbnail: { size: [ 600, 500 ], mode: inset }
 
