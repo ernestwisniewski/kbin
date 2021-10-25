@@ -11,6 +11,12 @@ resources:
           groups: [ 'magazine:collection:get' ]
       post:
         method: POST
+      random:
+        method: GET
+        path: /random_magazines.{_format}
+        controller: App\Controller\Api\RandomMagazine
+        normalization_context:
+          groups: [ 'magazine:item:get' ]
     itemOperations:
       get:
         method: GET

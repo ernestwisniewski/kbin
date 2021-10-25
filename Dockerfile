@@ -21,6 +21,9 @@ RUN apk add --no-cache \
 		jq \
         freetype-dev \
         libjpeg-turbo-dev \
+        libwebp-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
         libpng-dev \
         php-sysvsem \
 	;
@@ -43,7 +46,7 @@ RUN set -eux; \
 		intl \
 		zip \
 	; \
-    docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/; \
+    docker-php-ext-configure gd --with-freetype=/usr/include/ --with-webp=/usr/include/ --with-jpeg=/usr/include/; \
 	docker-php-ext-install -j$(nproc) gd; \
     docker-php-ext-configure sysvsem; \
 	docker-php-ext-install -j$(nproc) sysvsem; \

@@ -1,4 +1,4 @@
-<div class="kbin-search mb-4 mt-lg-0 mt-4">
+<div class="kbin-search mb-5 mt-lg-0 mt-4">
     <form method="get" action="{{ path('search') }}">
         <div  class="input-group input-group-sm input-group-btn">
             <input type="text" name="q" class="form-control" placeholder="{{ 'type_search_term'|trans }}">
@@ -58,6 +58,10 @@
     {% endif %}
     <div class="mb-4">
         {% include '_layout/_kbin_about.html.twig' %}
+    </div>
+
+    <div class="mb-4">
+        {{ render(controller('App\\Controller\\Magazine\\MagazineController::randomMagazine')) }}
     </div>
 {% endif %}
 

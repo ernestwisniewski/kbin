@@ -158,4 +158,25 @@ class MagazineRepository extends ServiceEntityRepository
     {
         return $magazine->badges;
     }
+
+    public function findRandom(): ?Magazine
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('COUNT(m)');
+
+        $totalRecords = $qb->getQuery()->getSingleScalarResult();
+
+        if ($totalRecords < 1) {
+            return null;
+        }
+
+        $rowToFetch = rand(0, $totalRecords - 1);
+
+        return $qb
+            ->select('m')
+            ->setMaxResults(1)
+            ->setFirstResult($rowToFetch)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
