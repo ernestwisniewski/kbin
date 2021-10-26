@@ -104,7 +104,7 @@ class MagazineController extends AbstractController
     {
         $cache = new FilesystemAdapter();
 
-        return $cache->get('random_magazsinse', function (ItemInterface $item) use ($repository) {
+        return $cache->get('random_magazine', function (ItemInterface $item) use ($repository) {
             $item->expiresAfter(60);
 
             return $this->render('_layout/_random_magazine.html.twig', [
