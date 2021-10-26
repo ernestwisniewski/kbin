@@ -14,9 +14,9 @@ class PostCommentDto
     public Magazine|MagazineDto|null $magazine;
     public User|UserDto|null $user = null;
     public Post|PostDto $post;
-    #[Assert\Length(min: 2, max: 5000)]
     public ?PostComment $parent = null;
     public ?Image $image = null;
+    #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
     public ?int $uv = null;
     public ?string $ip = null;
