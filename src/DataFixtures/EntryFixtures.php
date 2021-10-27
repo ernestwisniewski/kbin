@@ -34,8 +34,8 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
         foreach ($this->provideRandomEntries(self::ENTRIES_COUNT) as $index => $entry) {
             $dto = (new EntryDto())->create(
                 $entry['magazine'],
-                $entry['user'],
                 $entry['title'],
+                $entry['user'],
                 $entry['url'],
                 $entry['body'],
                 null,

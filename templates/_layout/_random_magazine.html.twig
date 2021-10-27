@@ -1,6 +1,6 @@
 {% if(magazine is defined and magazine is not null) %}
     <div class="kbin-instance mt-lg-0 px-2">
-        <h4 class="font-weight-bold kbin-logo-color">Losowy magazyn</h4>
+        <h4 class="font-weight-bold kbin-logo-color">{{ 'random_magazine'|trans }}</h4>
         <div class="kbin-magazine mt-lg-0">
             <div class="kbin-magazine-header text-center">
                 {% if magazine.cover %}
