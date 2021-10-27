@@ -48,6 +48,10 @@ class Embed
 
     private function cleanIframe(?string $html): ?string
     {
+        if(!$html || str_contains($html, 'wp-embedded-content')) {
+            return null;
+        }
+
         return $html;
 
 //        $types = [

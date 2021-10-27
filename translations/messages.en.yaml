@@ -202,3 +202,4 @@ email_confirm_content: 'If you want to activate your account click on the link b
 email_verify: 'Confirm email address'
 email_confirm_expire: 'The link will expire in 1 hour.'
 email_confirm_title: 'Confirm your email address'
+random_magazine: 'Random magazine'
