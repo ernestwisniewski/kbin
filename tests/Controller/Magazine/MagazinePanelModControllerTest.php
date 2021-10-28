@@ -52,7 +52,7 @@ class MagazinePanelModControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($user2 = $this->getUserByUsername('regularUser2'));
 
-        $manager = self::$container->get(MagazineManager::class);
+        $manager = static::getContainer()->get(MagazineManager::class);
 
         $user3 = $this->getUserByUsername('regularUser3');
 

@@ -24,7 +24,7 @@ class UserFollowControllerTest extends WebTestCase
     public function testUserCanFollow()
     {
         $client  = $this->createClient();
-        $manager = self::$container->get(UserManager::class);
+        $manager = static::getContainer()->get(UserManager::class);
 
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
 
@@ -75,7 +75,7 @@ class UserFollowControllerTest extends WebTestCase
     public function testUserCanBlock() //@todo
     {
         $client  = $this->createClient();
-        $manager = self::$container->get(UserManager::class);
+        $manager = static::getContainer()->get(UserManager::class);
 
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
 

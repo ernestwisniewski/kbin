@@ -19,7 +19,7 @@ class AdminCommandTest extends KernelTestCase
         $application = new Application(self::bootKernel());
 
         $this->command    = $application->find('kbin:user:admin');
-        $this->repository = self::$container->get(UserRepository::class);
+        $this->repository = static::getContainer()->get(UserRepository::class);
     }
 
     public function testCreateUser()
@@ -27,7 +27,7 @@ class AdminCommandTest extends KernelTestCase
         $dto                = (new UserDto())->create('actor', 'contact@example.com');
         $dto->plainPassword = 'secret';
 
-        self::$container->get('App\Service\UserManager')
+        static::getContainer()->get('App\Service\UserManager')
             ->create($dto, false);
 
         $this->assertFalse($this->repository->findOneByUsername('actor')->isAdmin());

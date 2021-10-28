@@ -45,7 +45,7 @@ abstract class WebTestCase extends BaseWebTestCase
         /**
          * @var $manager EntryCommentManager
          */
-        $manager = self::$container->get(EntryCommentManager::class);
+        $manager = static::getContainer()->get(EntryCommentManager::class);
 
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
@@ -97,7 +97,7 @@ abstract class WebTestCase extends BaseWebTestCase
         /**
          * @var $manager EntryManager
          */
-        $manager = self::$container->get(EntryManager::class);
+        $manager = static::getContainer()->get(EntryManager::class);
 
         $dto   = (new EntryDto())->create($magazine, $title, null, $url, $body);
         $entry = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
@@ -109,11 +109,11 @@ abstract class WebTestCase extends BaseWebTestCase
 
     public function createVote(int $choice, VoteInterface $subject, User $user): Vote
     {
-        $manager = self::$container->get(EntityManagerInterface::class);
+        $manager = static::getContainer()->get(EntityManagerInterface::class);
         /**
          * @var $voteManager VoteManager
          */
-        $voteManager = self::$container->get(VoteManager::class);
+        $voteManager = static::getContainer()->get(VoteManager::class);
 
         $vote = $voteManager->vote($choice, $subject, $user);
 
@@ -128,7 +128,7 @@ abstract class WebTestCase extends BaseWebTestCase
         /**
          * @var $manager PostManager
          */
-        $manager = self::$container->get(PostManager::class);
+        $manager = static::getContainer()->get(PostManager::class);
 
 
         $dto = (new PostDto())->create(
@@ -146,7 +146,7 @@ abstract class WebTestCase extends BaseWebTestCase
         /**
          * @var $manager PostCommentManager
          */
-        $manager = self::$container->get(PostCommentManager::class);
+        $manager = static::getContainer()->get(PostCommentManager::class);
 
         $dto = (new PostCommentDto())->create($post, $body);
 
@@ -186,7 +186,7 @@ abstract class WebTestCase extends BaseWebTestCase
 
     private function createUser(string $username, string $email = null, string $password = null, $active = true): User
     {
-        $manager = self::$container->get(EntityManagerInterface::class);
+        $manager = static::getContainer()->get(EntityManagerInterface::class);
 
         $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
 
@@ -237,7 +237,7 @@ abstract class WebTestCase extends BaseWebTestCase
         /**
          * @var $manager MagazineManager
          */
-        $manager = self::$container->get(MagazineManager::class);
+        $manager = static::getContainer()->get(MagazineManager::class);
 
         $dto      = (new MagazineDto())->create($name, $title ?? 'Przykładowy magazyn', new ArrayCollection());
         $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
@@ -256,15 +256,15 @@ abstract class WebTestCase extends BaseWebTestCase
 
         $entry   = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
         $comment = $this->createEntryComment('test', $entry, $actor);
-        (self::$container->get(EntryManager::class))->delete($owner, $entry);
-        (self::$container->get(EntryCommentManager::class))->delete($owner, $comment);
+        (static::getContainer()->get(EntryCommentManager::class))->delete($owner, $comment);
+        (static::getContainer()->get(EntryManager::class))->delete($owner, $entry);
 
         $post    = $this->createPost('test', $magazine, $actor);
         $comment = $this->createPostComment('test', $post, $actor);
-        (self::$container->get(PostManager::class))->delete($owner, $post);
-        (self::$container->get(PostCommentManager::class))->delete($owner, $comment);
+        (static::getContainer()->get(PostCommentManager::class))->delete($owner, $comment);
+        (static::getContainer()->get(PostManager::class))->delete($owner, $post);
 
-        (self::$container->get(MagazineManager::class))->ban(
+        (static::getContainer()->get(MagazineManager::class))->ban(
             $magazine,
             $actor,
             $owner,

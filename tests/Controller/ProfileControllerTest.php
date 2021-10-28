@@ -11,18 +11,21 @@ class ProfileControllerTest extends WebTestCase
     public function testUserReceiveNotifications()
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('owner'));
+        $client->loginUser($owner = $this->getUserByUsername('owner'));
 
-        (self::$container->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('owner'));
-        (self::$container->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('actor'));
+        $actor = $this->getUserByUsername('actor');
+
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $owner);
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $actor);
 
         $this->loadNotificationsFixture();
 
-        $client->loginUser($this->getUserByUsername('owner'));
         $crawler = $client->request('GET', '/profil/notyfikacje');
         $this->assertCount(2, $crawler->filter('.table-responsive tr'));
 
+        $client->restart();
         $client->loginUser($this->getUserByUsername('actor'));
+
         $crawler = $client->request('GET', '/profil/notyfikacje');
         $this->assertCount(5, $crawler->filter('.table-responsive tr'));
     }
@@ -32,8 +35,8 @@ class ProfileControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));
 
-        (self::$container->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('owner'));
-        (self::$container->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('actor'));
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('owner'));
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('actor'));
 
         $this->loadNotificationsFixture();
 
@@ -58,8 +61,8 @@ class ProfileControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));
 
-        (self::$container->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('owner'));
-        (self::$container->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('actor'));
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('owner'));
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('actor'));
 
         $this->loadNotificationsFixture();
 
