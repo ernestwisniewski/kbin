@@ -10,7 +10,7 @@ class MagazineBlockControllerTest extends WebTestCase
     public function testUserCanBlockMagazine() // @todo
     {
         $client  = $this->createClient();
-        $manager = self::$container->get(MagazineManager::class);
+        $manager = static::getContainer()->get(MagazineManager::class);
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
 
         $user2 = $this->getUserByUsername('regularUser2');

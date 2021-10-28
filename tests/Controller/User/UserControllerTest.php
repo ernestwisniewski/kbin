@@ -12,8 +12,8 @@ class UserControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('testUser'));
 
-        $entry = $this->getEntryByTitle('treść1');
-        $entry = $this->getEntryByTitle('treść2');
+        $this->getEntryByTitle('treść1');
+        $this->getEntryByTitle('treść2');
 
         $crawler = $client->request('GET', '/u/regularUser');
 

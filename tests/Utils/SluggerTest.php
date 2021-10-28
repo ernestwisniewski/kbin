@@ -13,7 +13,7 @@ class SluggerTest extends WebTestCase
     public function testCamelCase(string $input, string $output)
     {
         $this->createClient();
-        $slugger = self::$container->get(Slugger::class);
+        $slugger = static::getContainer()->get(Slugger::class);
         $this->assertEquals($output, $slugger->camelCase($input));
     }
 
