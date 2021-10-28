@@ -31,6 +31,8 @@ class MagazinePanelModControllerTest extends WebTestCase
             )
         );
 
+        $crawler = $client->request('GET', '/m/polityka/panel/moderatorzy');
+
         $this->assertCount(2, $crawler->filter('.kbin-magazine-moderators tbody tr'));
 
         $client->submit(

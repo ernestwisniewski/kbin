@@ -83,11 +83,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         ORDER BY created_at DESC
         ";
         $stmt = $conn->prepare($sql);
-        $stmt->execute();
+        $stmt->executeQuery();
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
-                $stmt->fetchAllAssociative()
+                $stmt->fetchAssociative()
             )
         );
 

@@ -89,9 +89,9 @@ class EntryCommentControllerTest extends WebTestCase
         );
         $crawler = $client->followRedirect();
 
-        $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$child1->getId()}/edytuj");
+        $crawler = $client->request('GET', "{$entryUrl}");
         $client->submit(
-            $crawler->filter('.kbin-comment-wrapper')->selectButton('usuń')->form()
+            $crawler->filter('[data-comment-id-value]')->selectButton('usuń')->form()
         );
         $crawler = $client->followRedirect();
 
