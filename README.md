@@ -101,18 +101,7 @@ Next, set up your instance https://localhost/admin
 
 ## Documentation
 
-#### Code
-
-#### API
-* https://dev.karab.in/api/magazines.jsonld
-* https://dev.karab.in/api/entries.jsonld
-* https://dev.karab.in/api/entries/{id}.jsonld
-* https://dev.karab.in/api/entries/{id}/comments.jsonld
-* https://dev.karab.in/api/entry_comments.jsonld
-* https://dev.karab.in/api/posts.jsonld
-* https://dev.karab.in/api/posts/{id}.jsonld
-* https://dev.karab.in/api/posts/{id}/comments.jsonld
-* https://dev.karab.in/api/post_comments.jsonld
+https://docs.kbin.info - Kbin API Reference
 
 ## Contributing
 
