@@ -46,6 +46,12 @@ services:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
 
+#  App\Http\RequestDTOResolver:
+#    arguments:
+#      - '@validator'
+#    tags:
+#      - { name: controller.request_value_resolver, priority: 50 }
+
   App\Markdown\CommonMark\ExternalImagesRenderer:
     tags:
       - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Image, priority: 1 }
