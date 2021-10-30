@@ -1,9 +1,9 @@
 {% block avatar %}
     <div class="kbin-avatar">
         {% if user.avatar %}
-            <img class="img-thumbnail" src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}" alt="{{ user.username }}"/>
+            <img width="100" height="100" class="img-thumbnail" src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}" alt="{{ user.username }}"/>
         {% else %}
-            <img class="img-thumbnail" src="{{ asset('build/images/avatar.jpg') }}" alt="{{ user.username }}"/>
+            <img width="100" height="100" class="img-thumbnail" src="{{ asset('build/images/avatar.jpg') }}" alt="{{ user.username }}"/>
         {% endif %}
     </div>
 {% endblock %}
