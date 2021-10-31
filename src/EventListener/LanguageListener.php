@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\EventListener;
 
@@ -16,6 +16,7 @@ class LanguageListener
 
         if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $request->setLocale($this->lang);
+
             return;
         }
 

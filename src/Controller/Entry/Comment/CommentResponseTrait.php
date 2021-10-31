@@ -49,7 +49,7 @@ trait CommentResponseTrait
     {
         return new JsonResponse(
             [
-                'id'   => $comment->getId(),
+                'id' => $comment->getId(),
                 'html' => $this->renderView(
                     'entry/comment/_comment.html.twig',
                     [

@@ -1,11 +1,10 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
-use App\Factory\MagazineFactory;
 use App\Form\MagazineType;
 use App\Repository\MagazineRepository;
 use App\Service\MagazineManager;

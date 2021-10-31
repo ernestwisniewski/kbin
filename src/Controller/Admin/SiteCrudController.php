@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Controller\Admin;
 
@@ -13,7 +13,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class SiteCrudController extends AbstractCrudController
 {
-    public function __construct(private SiteRepository $repository) {
+    public function __construct(private SiteRepository $repository)
+    {
 
     }
 
@@ -35,7 +36,7 @@ class SiteCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if(count($this->repository->findAll())) {
+        if (count($this->repository->findAll())) {
             return $actions
                 ->disable(Action::NEW, Action::DELETE);
         }

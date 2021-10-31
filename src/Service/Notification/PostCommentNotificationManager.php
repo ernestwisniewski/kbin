@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Service\Notification;
 
@@ -42,18 +42,6 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         $user = $this->sendUserReplyNotification($subject);
         $this->sendMagazineSubscribersNotification($subject, $user);
     }
-
-    public function sendDeleted(ContentInterface $subject): void
-    {
-        /**
-         * @var PostComment $subject
-         */
-        $notification = new PostCommentDeletedNotification($subject->getUser(), $subject);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
-    }
-
 
     private function sendUserReplyNotification(PostComment $comment): ?User
     {
@@ -145,13 +133,24 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     {
         return json_encode(
             [
-                'op'    => 'PostCommentCreatedNotification',
-                'id'    => $notification->getComment()->getId(),
-                'subject'  => [
+                'op'      => 'PostCommentCreatedNotification',
+                'id'      => $notification->getComment()->getId(),
+                'subject' => [
                     'id' => $notification->getComment()->post->getId(),
                 ],
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'toast'   => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
+    }
+
+    public function sendDeleted(ContentInterface $subject): void
+    {
+        /**
+         * @var PostComment $subject
+         */
+        $notification = new PostCommentDeletedNotification($subject->getUser(), $subject);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
     }
 }

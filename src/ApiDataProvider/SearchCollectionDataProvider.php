@@ -1,18 +1,13 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\DTO\PostCommentDto;
 use App\DTO\SearchDto;
-use App\Entity\Post;
-use App\Factory\PostCommentFactory;
-use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use App\Service\FactoryResolver;
 use App\Service\SearchManager;
-use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class SearchCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface

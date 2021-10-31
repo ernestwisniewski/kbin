@@ -1,12 +1,12 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Request;
 
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CreateEntryRequest implements RequestDtoInterface
 {

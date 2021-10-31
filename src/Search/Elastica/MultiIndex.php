@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /*
  * Created by Exploit.cz <insekticid AT exploit.cz>
@@ -10,6 +8,7 @@ namespace App\Search\Elastica;
 
 use Elastica\Exception\InvalidException;
 use Elastica\Index;
+use Elastica\Query;
 use Elastica\ResultSet\BuilderInterface;
 use Elastica\Search;
 
@@ -21,30 +20,6 @@ class MultiIndex extends Index
      * @var array
      */
     protected $_indices = [];
-
-    /**
-     * Adds a index to the list.
-     *
-     * @param \Elastica\Index|string $index Index object or string
-     *
-     * @throws \Elastica\Exception\InvalidException
-     *
-     * @return $this
-     */
-    public function addIndex($index)
-    {
-        if ($index instanceof Index) {
-            $index = $index->getName();
-        }
-
-        if (!is_scalar($index)) {
-            throw new InvalidException('Invalid param type');
-        }
-
-        $this->_indices[] = (string) $index;
-
-        return $this;
-    }
 
     /**
      * Add array of indices at once.
@@ -63,23 +38,37 @@ class MultiIndex extends Index
     }
 
     /**
-     * Return array of indices.
+     * Adds a index to the list.
      *
-     * @return array List of index names
+     * @param Index|string $index Index object or string
+     *
+     * @return $this
+     * @throws InvalidException
+     *
      */
-    public function getIndices()
+    public function addIndex($index)
     {
-        return $this->_indices;
+        if ($index instanceof Index) {
+            $index = $index->getName();
+        }
+
+        if (!is_scalar($index)) {
+            throw new InvalidException('Invalid param type');
+        }
+
+        $this->_indices[] = (string) $index;
+
+        return $this;
     }
 
     /**
-     * @param string|array|\Elastica\Query $query
-     * @param int|array                    $options
-     * @param BuilderInterface             $builder
+     * @param string|array|Query $query
+     * @param int|array          $options
+     * @param BuilderInterface   $builder
      *
      * @return Search
      */
-    public function createSearch($query = '', $options = null, BuilderInterface $builder = null): \Elastica\Search
+    public function createSearch($query = '', $options = null, BuilderInterface $builder = null): Search
     {
         $search = new Search($this->getClient(), $builder);
 //        $search->addIndex($this);
@@ -87,5 +76,15 @@ class MultiIndex extends Index
         $search->setOptionsAndQuery($options, $query);
 
         return $search;
+    }
+
+    /**
+     * Return array of indices.
+     *
+     * @return array List of index names
+     */
+    public function getIndices()
+    {
+        return $this->_indices;
     }
 }

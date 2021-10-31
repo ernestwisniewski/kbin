@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Search\Transformer;
 
@@ -31,19 +31,30 @@ class ElasticaToModelTransformerCollection implements ElasticaToModelTransformer
      */
     public function getObjectClass(): string
     {
-        return implode(',', array_map(function (ElasticaToModelTransformerInterface $transformer) {
-            return $transformer->getObjectClass();
-        }, $this->transformers));
+        return implode(
+            ',',
+            array_map(function (ElasticaToModelTransformerInterface $transformer) {
+                return $transformer->getObjectClass();
+            }, $this->transformers)
+        );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getIdentifierField(): string
+    public function hybridTransform(array $elasticaObjects)
     {
-        return array_map(function (ElasticaToModelTransformerInterface $transformer) {
-            return $transformer->getIdentifierField();
-        }, $this->transformers)[0];
+        $objects = $this->transform($elasticaObjects);
+
+        $result = [];
+        for ($i = 0, $j = count($elasticaObjects); $i < $j; ++$i) {
+            if (!isset($objects[$i])) {
+                continue;
+            }
+            $result[] = new HybridResult($elasticaObjects[$i], $objects[$i]);
+        }
+
+        return $result;
     }
 
     /**
@@ -59,7 +70,7 @@ class ElasticaToModelTransformerCollection implements ElasticaToModelTransformer
         $transformed = [];
         foreach ($sorted as $type => $objects) {
             $transformedObjects = $this->transformers[$type]->transform($objects);
-            $identifierGetter = 'get'.ucfirst($this->transformers[$type]->getIdentifierField());
+            $identifierGetter   = 'get'.ucfirst($this->transformers[$type]->getIdentifierField());
             $transformed[$type] = array_combine(
                 array_map(
                     function ($o) use ($identifierGetter) {
@@ -84,18 +95,10 @@ class ElasticaToModelTransformerCollection implements ElasticaToModelTransformer
     /**
      * {@inheritdoc}
      */
-    public function hybridTransform(array $elasticaObjects)
+    public function getIdentifierField(): string
     {
-        $objects = $this->transform($elasticaObjects);
-
-        $result = [];
-        for ($i = 0, $j = count($elasticaObjects); $i < $j; ++$i) {
-            if (!isset($objects[$i])) {
-                continue;
-            }
-            $result[] = new HybridResult($elasticaObjects[$i], $objects[$i]);
-        }
-
-        return $result;
+        return array_map(function (ElasticaToModelTransformerInterface $transformer) {
+            return $transformer->getIdentifierField();
+        }, $this->transformers)[0];
     }
 }

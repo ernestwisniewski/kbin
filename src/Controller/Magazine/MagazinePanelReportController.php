@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller\Magazine;
 
@@ -31,7 +31,7 @@ class MagazinePanelReportController extends AbstractController
         return $this->render(
             'magazine/panel/reports.html.twig',
             [
-                'reports'  => $reports,
+                'reports' => $reports,
                 'magazine' => $magazine,
             ]
         );

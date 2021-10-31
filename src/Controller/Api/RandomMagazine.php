@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller\Api;
 
@@ -6,7 +6,6 @@ use App\ApiDataProvider\DtoPaginator;
 use App\Controller\AbstractController;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineRepository;
-use App\Entity\Magazine;
 use Exception;
 
 class RandomMagazine extends AbstractController

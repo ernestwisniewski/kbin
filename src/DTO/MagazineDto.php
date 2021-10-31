@@ -1,9 +1,8 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DTO;
 
 use App\Entity\Image;
-use App\Entity\Magazine;
 use App\Entity\User;
 use App\Validator\Unique;
 use Doctrine\Common\Collections\Collection;

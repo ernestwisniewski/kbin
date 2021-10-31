@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DTO;
 
@@ -7,6 +7,8 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use DateTime;
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class PostCommentDto
@@ -20,18 +22,18 @@ class PostCommentDto
     public ?string $body;
     public ?int $uv = null;
     public ?string $ip = null;
-    public ?\DateTimeImmutable $createdAt = null;
-    public ?\DateTime $lastActive = null;
+    public ?DateTimeImmutable $createdAt = null;
+    public ?DateTime $lastActive = null;
     private ?int $id = null;
 
     public function create(
         Post $post,
         string $body,
-        ?User $user =null,
+        ?User $user = null,
         ?Image $image = null,
         ?int $uv = null,
-        ?\DateTimeImmutable $createdAt = null,
-        ?\DateTime $lastActive = null,
+        ?DateTimeImmutable $createdAt = null,
+        ?DateTime $lastActive = null,
         ?int $id = null
     ): self {
         $this->id         = $id;

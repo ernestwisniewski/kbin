@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller\Magazine;
 
@@ -15,7 +15,7 @@ class MagazineModController extends AbstractController
         return $this->render(
             'magazine/moderators.html.twig',
             [
-                'magazine'   => $magazine,
+                'magazine' => $magazine,
                 'moderators' => $repository->findModerators($magazine, $this->getPageNb($request)),
             ]
         );

@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DTO;
 
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,8 +26,8 @@ class PostDto
     public ?int $dv = null;
     public ?int $score = null;
     public ?string $visibility = null;
-    public ?\DateTimeImmutable $createdAt = null;
-    public ?\DateTime $lastActive = null;
+    public ?DateTimeImmutable $createdAt = null;
+    public ?DateTime $lastActive = null;
     public ?string $ip = null;
     public ?Collection $bestComments = null;
     private ?int $id = null;
@@ -43,8 +45,8 @@ class PostDto
         ?int $score = null,
         ?string $visibility = null,
         ?string $ip = null,
-        ?\DateTimeImmutable $createdAt = null,
-        ?\DateTime $lastActive = null,
+        ?DateTimeImmutable $createdAt = null,
+        ?DateTime $lastActive = null,
         ?int $id = null
     ): self {
         $this->id           = $id;

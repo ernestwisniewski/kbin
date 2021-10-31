@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Command;
 
@@ -10,6 +10,7 @@ use App\Service\BadgeManager;
 use App\Service\MagazineManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Exception;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\Console\Command\Command;
@@ -70,7 +71,7 @@ class AwesomeBotMagazine extends Command
                 $input->getArgument('url'),
                 $input->getArgument('tags') ? explode(',', $input->getArgument('tags')) : []
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $io->error('Can\'t create magazine');
 
             return Command::FAILURE;

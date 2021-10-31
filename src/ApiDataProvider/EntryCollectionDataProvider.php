@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\ApiDataProvider;
 
@@ -39,7 +39,7 @@ final class EntryCollectionDataProvider implements ContextAwareCollectionDataPro
                 $criteria->magazine = $this->magazineRepository->findOneByName($name);
             }
 
-            $entries  = $this->repository->findByCriteria($criteria);
+            $entries = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];
         }

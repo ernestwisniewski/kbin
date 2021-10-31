@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Controller;
 
@@ -38,9 +38,9 @@ class ReportController extends AbstractController
         return $this->render(
             'report/single.html.twig',
             [
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'magazine' => $subject->magazine,
-                'subject'  => $subject,
+                'subject' => $subject,
             ]
         );
     }

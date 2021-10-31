@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Service;
 
@@ -112,7 +112,7 @@ class ImageManager
 
             $this->validate($tempFile);
         } catch (Exception $e) {
-            if($fh) {
+            if ($fh) {
                 fclose($fh);
             }
             unlink($tempFile);

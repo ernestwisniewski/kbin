@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Form;
 
@@ -20,9 +20,9 @@ class MagazineBanType extends AbstractType
                 'expiredAt',
                 DateTimeType::class,
                 [
-                    'widget'      => 'single_text',
-                    'html5'       => false,
-                    'format'      => 'yyyy-MM-dd HH:mm',
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    'format' => 'yyyy-MM-dd HH:mm',
                     'placeholder' => 'Select a value',
                 ]
             )

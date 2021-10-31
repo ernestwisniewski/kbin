@@ -1,13 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Form;
 
 use App\DTO\UserDto;
-use App\Form\EventListener\AddFieldsOnUserEdit;
-use App\Form\EventListener\DisableFieldsOnUserEdit;
-use App\Form\EventListener\ImageListener;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,11 +19,11 @@ class UserPasswordType extends AbstractType
                 'plainPassword',
                 RepeatedType::class,
                 [
-                    'type'            => PasswordType::class,
+                    'type' => PasswordType::class,
                     'invalid_message' => 'Hasło musi być identyczne.',
-                    'required'        => true,
-                    'first_options'   => ['label' => 'password'],
-                    'second_options'  => ['label' => 'repeat password'],
+                    'required' => true,
+                    'first_options' => ['label' => 'password'],
+                    'second_options' => ['label' => 'repeat password'],
                 ]
             )
             ->add('submit', SubmitType::class);
