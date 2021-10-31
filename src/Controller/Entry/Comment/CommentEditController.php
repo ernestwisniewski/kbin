@@ -47,7 +47,7 @@ class CommentEditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->handleValidEditRequest($dto, $comment, $request);
+            return $this->handleValidRequest($dto, $comment, $request);
         }
 
         if ($request->isXmlHttpRequest()) {
@@ -78,7 +78,7 @@ class CommentEditController extends AbstractController
         );
     }
 
-    private function handleValidEditRequest(EntryCommentDto $dto, EntryComment $comment, Request $request): Response
+    private function handleValidRequest(EntryCommentDto $dto, EntryComment $comment, Request $request): Response
     {
         $comment = $this->manager->edit($comment, $dto);
 

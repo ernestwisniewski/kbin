@@ -1,5 +1,5 @@
 posts_front:
-  controller: App\Controller\Post\PostController::front
+  controller: App\Controller\Post\PostFrontController::front
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /posts/{sortBy}/{time}
@@ -8,7 +8,7 @@ posts_front:
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_subscribed:
-  controller: App\Controller\Post\PostController::subscribed
+  controller: App\Controller\Post\PostFrontController::subscribed
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /sub/posts/{sortBy}/{time}
@@ -17,7 +17,7 @@ posts_subscribed:
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_moderated:
-  controller: App\Controller\Post\PostController::moderated
+  controller: App\Controller\Post\PostFrontController::moderated
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /mod/posts/{sortBy}/{time}
@@ -26,7 +26,7 @@ posts_moderated:
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_posts:
-  controller: App\Controller\Post\PostController::magazine
+  controller: App\Controller\Post\PostFrontController::magazine
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /m/{name}/posts/{sortBy}/{time}
@@ -35,7 +35,7 @@ magazine_posts:
   requirements: { sortBy: "%front_sort_options%" }
 
 post_single:
-  controller: App\Controller\Post\PostController::single
+  controller: App\Controller\Post\PostSingleController
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}
@@ -43,12 +43,12 @@ post_single:
   methods: [GET]
 
 post_create:
-  controller: App\Controller\Post\PostController::create
+  controller: App\Controller\Post\PostCreateController
   path: /m/{name}/posts
   methods: [ POST ]
 
 post_edit:
-  controller: App\Controller\Post\PostController::edit
+  controller: App\Controller\Post\PostEditController
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/edit
@@ -56,19 +56,19 @@ post_edit:
   methods: [ GET, POST ]
 
 post_delete:
-  controller: App\Controller\Post\PostController::delete
+  controller: App\Controller\Post\PostDeleteController::delete
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/delete
   methods: [ POST ]
 
 post_purge:
-  controller: App\Controller\Post\PostController::purge
+  controller: App\Controller\Post\PostDeleteController::purge
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/purge
   methods: [ POST ]
 
 post:
-  controller: App\Controller\Post\PostController::front
+  controller: App\Controller\Post\PostFrontController::front
   defaults: { slug: -, sortBy: ~ }
   path:
     en: /m/{magazine_name}/t/{post_id}/{slug}/{sortBy}

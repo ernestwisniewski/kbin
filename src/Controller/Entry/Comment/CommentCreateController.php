@@ -49,7 +49,7 @@ class CommentCreateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->handleValidCreateRequest($dto, $request);
+            return $this->handleValidRequest($dto, $request);
         }
 
         if ($request->isXmlHttpRequest()) {
@@ -82,7 +82,7 @@ class CommentCreateController extends AbstractController
         );
     }
 
-    private function handleValidCreateRequest(EntryCommentDto $dto, Request $request): Response
+    private function handleValidRequest(EntryCommentDto $dto, Request $request): Response
     {
         $comment = $this->manager->create($dto, $this->getUserOrThrow());
 
