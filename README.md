@@ -12,9 +12,9 @@ This is a very early beta version, and a lot of features are currently broken or
 ![](assets/screenshots/s1.png)  |  ![](assets/screenshots/s2.png)  |  ![](assets/screenshots/s3.png)
 
 * https://kbin.info - project website
-* https://kbin.pub - main instance
+* **https://dev.karab.in - instance for testing purposes only**
 * https://karab.in - polish-lang instance
-* https://dev.karab.in - instance for testing purposes only
+* https://kbin.pub - english-lang instance
 
 ---
 
