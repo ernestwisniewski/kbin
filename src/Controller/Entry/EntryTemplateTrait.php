@@ -6,7 +6,7 @@ use App\Entity\Entry;
 
 trait EntryTemplateTrait
 {
-    public function getTemplateName(?string $type, ?bool $edit = false): string
+    private function getTemplateName(?string $type, ?bool $edit = false): string
     {
         $prefix = $edit ? 'edit' : 'create';
 

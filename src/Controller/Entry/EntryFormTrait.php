@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormInterface;
  */
 trait EntryFormTrait
 {
-    public function createFormByType(EntryDto $dto, ?string $type): FormInterface
+    private function createFormByType(EntryDto $dto, ?string $type): FormInterface
     {
         if ($type === Entry::ENTRY_TYPE_ARTICLE) {
             return $this->createForm(EntryArticleType::class, $dto);
