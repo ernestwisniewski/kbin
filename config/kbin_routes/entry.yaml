@@ -1,5 +1,5 @@
 entry_create:
-  controller: App\Controller\Entry\EntryController::create
+  controller: App\Controller\Entry\EntryCreateController
   defaults: { type: null }
   path:
     en: /new/{type}
@@ -7,7 +7,7 @@ entry_create:
   methods: [ GET, POST ]
 
 magazine_entry_create:
-  controller: App\Controller\Entry\EntryController::create
+  controller: App\Controller\Entry\EntryCreateController
   defaults: { type: null }
   path:
     en: /m/{name}/new/{type}
@@ -15,7 +15,7 @@ magazine_entry_create:
   methods: [ GET, POST ]
 
 entry_edit:
-  controller: App\Controller\Entry\EntryController::edit
+  controller: App\Controller\Entry\EntryEditController
   defaults: { slug: -, sortBy: ~ }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/edit
@@ -23,13 +23,13 @@ entry_edit:
   methods: [ GET, POST ]
 
 entry_delete:
-  controller: App\Controller\Entry\EntryController::delete
+  controller: App\Controller\Entry\EntryDeleteController::delete
   defaults: { slug: -, sortBy: ~ }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/delete
   methods: [ POST ]
 
 entry_purge:
-  controller: App\Controller\Entry\EntryController::purge
+  controller: App\Controller\Entry\EntryDeleteController::purge
   defaults: { slug: -, sortBy: ~ }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/purge
   methods: [ POST ]
@@ -41,13 +41,13 @@ entry_pin:
   methods: [ POST ]
 
 entry_single:
-  controller: App\Controller\Entry\EntryController::single
+  controller: App\Controller\Entry\EntrySingleController
   defaults: { slug: -, sortBy: ~ }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/{sortBy}
   methods: [ GET ]
 
 entry_single_comments:
-  controller: App\Controller\Entry\EntryController::single
+  controller: App\Controller\Entry\EntrySingleController
   defaults: { slug: -, sortBy: ~ }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{sortBy}
