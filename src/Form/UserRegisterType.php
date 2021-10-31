@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Form;
 
@@ -32,11 +32,11 @@ class UserRegisterType extends AbstractType
                 'plainPassword',
                 RepeatedType::class,
                 [
-                    'type'            => PasswordType::class,
+                    'type' => PasswordType::class,
                     'invalid_message' => 'Hasło musi być identyczne.',
-                    'required'        => true,
-                    'first_options'   => ['label' => 'password'],
-                    'second_options'  => ['label' => 'repeat password'],
+                    'required' => true,
+                    'first_options' => ['label' => 'password'],
+                    'second_options' => ['label' => 'repeat password'],
                 ]
             )
             ->add(

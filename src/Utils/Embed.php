@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Utils;
 
@@ -48,7 +48,7 @@ class Embed
 
     private function cleanIframe(?string $html): ?string
     {
-        if(!$html || str_contains($html, 'wp-embedded-content')) {
+        if (!$html || str_contains($html, 'wp-embedded-content')) {
             return null;
         }
 

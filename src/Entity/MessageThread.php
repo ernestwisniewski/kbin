@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Entity;
 
@@ -101,7 +101,7 @@ class MessageThread
 
     public function getTitle(): string
     {
-        $body      = $this->messages[0]->body;
+        $body = $this->messages[0]->body;
         $firstLine = preg_replace('/^# |\R.*/', '', $body);
 
         if (grapheme_strlen($firstLine) <= 80) {

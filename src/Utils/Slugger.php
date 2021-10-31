@@ -1,9 +1,9 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Utils;
 
+use ForceUTF8\Encoding;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use \ForceUTF8\Encoding;
 
 class Slugger
 {

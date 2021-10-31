@@ -1,12 +1,12 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DTO;
 
 class DomainDto
 {
-    private ?int $id;
     public string $name;
     public ?int $entryCount;
+    private ?int $id;
 
     public function create(string $name, ?int $entryCount, ?int $id = null): self
     {

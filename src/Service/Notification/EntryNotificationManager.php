@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Service\Notification;
 
@@ -50,17 +50,6 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         $this->entityManager->flush();
     }
 
-    public function sendDeleted(ContentInterface $subject): void
-    {
-        /**
-         * @var Entry $subject
-         */
-        $notification = new EntryDeletedNotification($subject->getUser(), $subject);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
-    }
-
     private function notifyMagazine(EntryCreatedNotification $notification): void
     {
         try {
@@ -89,5 +78,16 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
                 'toast'    => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
+    }
+
+    public function sendDeleted(ContentInterface $subject): void
+    {
+        /**
+         * @var Entry $subject
+         */
+        $notification = new EntryDeletedNotification($subject->getUser(), $subject);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Command;
 
@@ -93,7 +93,7 @@ class AwesomeBotEntries extends Command
                         'url'    => $li->firstChild->getAttribute('href'),
                         'badges' => new ArrayCollection(array_filter($tags, fn($v) => is_string($v))),
                     ];
-                };
+                }
             }
         }
 

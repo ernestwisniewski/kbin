@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller\Magazine;
 
@@ -44,9 +44,9 @@ class MagazinePanelBadgeController extends AbstractController
         return $this->render(
             'magazine/panel/badges.html.twig',
             [
-                'badges'   => $badges,
+                'badges' => $badges,
                 'magazine' => $magazine,
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

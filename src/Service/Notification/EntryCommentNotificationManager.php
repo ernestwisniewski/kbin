@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Service\Notification;
 
@@ -42,18 +42,6 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         $user = $this->sendUserReplyNotification($subject);
         $this->sendMagazineSubscribersNotification($subject, $user);
     }
-
-    public function sendDeleted(ContentInterface $subject): void
-    {
-        /**
-         * @var EntryComment $subject
-         */
-        $notification = new EntryCommentDeletedNotification($subject->getUser(), $subject);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
-    }
-
 
     private function sendUserReplyNotification(EntryComment $comment): ?User
     {
@@ -154,5 +142,16 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
                 'toast'   => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
+    }
+
+    public function sendDeleted(ContentInterface $subject): void
+    {
+        /**
+         * @var EntryComment $subject
+         */
+        $notification = new EntryCommentDeletedNotification($subject->getUser(), $subject);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
     }
 }

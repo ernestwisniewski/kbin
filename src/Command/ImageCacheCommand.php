@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Command;
 
@@ -37,6 +37,7 @@ class ImageCacheCommand extends Command
         $this->buildPostsCache();
         $this->buildPostCommentsCache();
         $this->buildMagazinesCache();
+
         return 1;
     }
 
@@ -74,7 +75,7 @@ class ImageCacheCommand extends Command
 
             $arguments = [
                 'paths'    => [$entry->image->filePath],
-                '--filter'  => ['entry_thumb'],
+                '--filter' => ['entry_thumb'],
             ];
 
             $greetInput = new ArrayInput($arguments);
@@ -95,7 +96,7 @@ class ImageCacheCommand extends Command
 
             $arguments = [
                 'paths'    => [$comment->image->filePath],
-                '--filter'  => ['post_thumb'],
+                '--filter' => ['post_thumb'],
             ];
 
             $greetInput = new ArrayInput($arguments);
@@ -103,7 +104,7 @@ class ImageCacheCommand extends Command
         }
     }
 
-    private function buildPostsCache():void
+    private function buildPostsCache(): void
     {
         $repo = $this->entityManager->getRepository(Post::class);
         $res  = $repo->createQueryBuilder('p')->select('p')
@@ -116,7 +117,7 @@ class ImageCacheCommand extends Command
 
             $arguments = [
                 'paths'    => [$post->image->filePath],
-                '--filter'  => ['post_thumb'],
+                '--filter' => ['post_thumb'],
             ];
 
             $greetInput = new ArrayInput($arguments);
@@ -124,7 +125,7 @@ class ImageCacheCommand extends Command
         }
     }
 
-    private function buildPostCommentsCache():void
+    private function buildPostCommentsCache(): void
     {
         $repo = $this->entityManager->getRepository(PostComment::class);
         $res  = $repo->createQueryBuilder('c')->select('c')
@@ -137,7 +138,7 @@ class ImageCacheCommand extends Command
 
             $arguments = [
                 'paths'    => [$comment->image->filePath],
-                '--filter'  => ['post_thumb'],
+                '--filter' => ['post_thumb'],
             ];
 
             $greetInput = new ArrayInput($arguments);
@@ -145,7 +146,7 @@ class ImageCacheCommand extends Command
         }
     }
 
-    private function buildMagazinesCache():void
+    private function buildMagazinesCache(): void
     {
         $repo = $this->entityManager->getRepository(Magazine::class);
         $res  = $repo->createQueryBuilder('m')->select('m')
@@ -158,7 +159,7 @@ class ImageCacheCommand extends Command
 
             $arguments = [
                 'paths'    => [$magazine->cover->filePath],
-                '--filter'  => ['post_thumb'],
+                '--filter' => ['post_thumb'],
             ];
 
             $greetInput = new ArrayInput($arguments);

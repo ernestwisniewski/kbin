@@ -1,9 +1,8 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Repository;
 
 use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;

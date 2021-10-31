@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DataFixtures;
 
@@ -42,7 +42,7 @@ class UserFixtures extends BaseFixture
                 $rand     = rand(1, 500);
                 $tempFile = $this->imageManager->download("https://picsum.photos/500/500?hash={$rand}");
                 if ($tempFile) {
-                    $image = $this->imageRepository->findOrCreateFromPath($tempFile);
+                    $image           = $this->imageRepository->findOrCreateFromPath($tempFile);
                     $newUser->avatar = $image;
                     $manager->flush();
                 }

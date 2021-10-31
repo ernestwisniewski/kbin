@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\ApiDataProvider;
 
@@ -26,7 +26,7 @@ final class DomainCollectionDataProvider implements ContextAwareCollectionDataPr
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         try {
-            $domains  = $this->repository->findAllPaginated(1);
+            $domains = $this->repository->findAllPaginated(1);
         } catch (Exception $e) {
             return [];
         }

@@ -14,13 +14,13 @@ use App\Service\EntryCommentManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommentEditController extends AbstractController
 {
     use CommentResponseTrait;
+
     public function __construct(
         private EntryCommentManager $manager,
         private EntryCommentRepository $repository,
@@ -54,7 +54,7 @@ class CommentEditController extends AbstractController
             return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
         }
 
-        $criteria        = new EntryCommentPageView($this->getPageNb($request));
+        $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->entry = $entry;
 
         return $this->getEntryCommentPageResponse('entry/comment/edit.html.twig', $criteria, $form, $request, $comment);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Command;
 
@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Service\EntryManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use DOMElement;
+use Exception;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -85,7 +86,7 @@ class AwesomeBotFixtures extends Command
                             continue;
                         }
 
-                        if(!$li->firstChild) {
+                        if (!$li->firstChild) {
                             var_dump('a');
                             continue;
                         }
@@ -100,7 +101,7 @@ class AwesomeBotFixtures extends Command
                             'url'      => $li->firstChild->getAttribute('href'),
                             'badges'   => new ArrayCollection(array_filter($tags, fn($v) => is_string($v))),
                         ];
-                    };
+                    }
                 }
             }
         }
@@ -354,7 +355,7 @@ class AwesomeBotFixtures extends Command
             ];
             $input     = new ArrayInput($arguments);
             $command->run($input, $output);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
 
         try {
@@ -368,7 +369,7 @@ class AwesomeBotFixtures extends Command
             ];
             $input     = new ArrayInput($arguments);
             $command->run($input, $output);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 }

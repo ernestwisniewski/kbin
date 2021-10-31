@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Form;
 
@@ -41,7 +41,7 @@ class EntryLinkType extends AbstractType
                 'magazine',
                 EntityType::class,
                 [
-                    'class'        => Magazine::class,
+                    'class' => Magazine::class,
                     'choice_label' => 'name',
                 ]
             )

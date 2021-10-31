@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\ApiDataProvider;
 
@@ -31,15 +31,15 @@ final class PostCollectionDataProvider implements ContextAwareCollectionDataProv
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         try {
-            $criteria = new PostPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria             = new PostPageView((int) $this->request->getCurrentRequest()->get('page', 1));
             $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
-            $criteria->time = $criteria->resolveTime($this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL));
+            $criteria->time       = $criteria->resolveTime($this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL));
 
             if ($name = $this->request->getCurrentRequest()->get('magazine')) {
                 $criteria->magazine = $this->magazineRepository->findOneByName($name);
             }
 
-            $posts    = $this->repository->findByCriteria($criteria);
+            $posts = $this->repository->findByCriteria($criteria);
         } catch (Exception $e) {
             return [];
         }

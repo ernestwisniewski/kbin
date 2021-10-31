@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DTO;
 
@@ -7,6 +7,8 @@ use App\Entity\EntryComment;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
+use DateTime;
+use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class EntryCommentDto
@@ -23,8 +25,8 @@ class EntryCommentDto
     public ?int $uv = null;
     public ?int $dv = null;
     public ?string $ip = null;
-    public ?\DateTimeImmutable $createdAt = null;
-    public ?\DateTime $lastActive = null;
+    public ?DateTimeImmutable $createdAt = null;
+    public ?DateTime $lastActive = null;
     private ?int $id = null;
 
     public function create(
@@ -34,8 +36,8 @@ class EntryCommentDto
         ?Image $image = null,
         ?int $uv = null,
         ?int $dv = null,
-        ?\DateTimeImmutable $createdAt = null,
-        ?\DateTime $lastActive = null,
+        ?DateTimeImmutable $createdAt = null,
+        ?DateTime $lastActive = null,
         ?int $id = null
     ): self {
         $this->id         = $id;

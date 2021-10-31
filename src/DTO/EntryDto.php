@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\DTO;
 
@@ -7,6 +7,8 @@ use App\Entity\Entry;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -36,8 +38,8 @@ class EntryDto
     public ?int $score = null;
     public ?string $visibility = null;
     public ?string $ip = null;
-    public ?\DateTimeImmutable $createdAt = null;
-    public ?\DateTime $lastActive = null;
+    public ?DateTimeImmutable $createdAt = null;
+    public ?DateTime $lastActive = null;
     private ?int $id = null;
 
     public function create(
@@ -58,8 +60,8 @@ class EntryDto
         ?int $views = null,
         ?string $visibility = null,
         ?string $ip = null,
-        ?\DateTimeImmutable $createdAt = null,
-        ?\DateTime $lastActive = null,
+        ?DateTimeImmutable $createdAt = null,
+        ?DateTime $lastActive = null,
         ?int $id = null
     ): self {
         $this->id         = $id;
@@ -81,7 +83,7 @@ class EntryDto
         $this->visibility = $visibility;
         $this->ip         = $ip;
         $this->createdAt  = $createdAt;
-        $this->lastActive  = $lastActive;
+        $this->lastActive = $lastActive;
 
         return $this;
     }

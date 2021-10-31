@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Service;
 
@@ -108,19 +108,19 @@ class UserManager
             }
 
             if ($dto->email !== $user->email) {
-                $mailUpdated = true;
+                $mailUpdated      = true;
                 $user->isVerified = false;
                 $user->email      = $dto->email;
             }
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->entityManager->rollback();
             throw $e;
         }
 
-        if($mailUpdated) {
+        if ($mailUpdated) {
             $this->bus->dispatch(new UserUpdatedMessage($user->getId()));
         }
 

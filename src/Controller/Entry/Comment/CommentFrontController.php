@@ -3,18 +3,10 @@
 namespace App\Controller\Entry\Comment;
 
 use App\Controller\AbstractController;
-use App\DTO\EntryCommentDto;
-use App\Entity\Entry;
-use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
-use App\Service\EntryCommentManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

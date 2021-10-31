@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\DependencyInjection\Compiler;
 
@@ -21,7 +21,7 @@ final class AddMarkdownExtensionsPass implements CompilerPassInterface
                 throw new RuntimeException('event missing');
             }
 
-            $method   = $tags[array_key_last($tags)]['method'] ?? '__invoke';
+            $method = $tags[array_key_last($tags)]['method'] ?? '__invoke';
             $priority = $tags[array_key_last($tags)]['priority'] ?? 0;
 
             $definition->addMethodCall(

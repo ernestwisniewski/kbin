@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Twig\Runtime;
 
@@ -94,7 +94,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
             }
         }
 
-        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.EntryRepository::SORT_DEFAULT))) === $sortOption;
+        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.EntryRepository::SORT_DEFAULT)))
+            === $sortOption;
     }
 
     public function isCommentsPage(): bool
@@ -328,6 +329,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function isActiveCommentFilter(string $sortOption): bool
     {
-        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT))) === $sortOption;
+        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT)))
+            === $sortOption;
     }
 }

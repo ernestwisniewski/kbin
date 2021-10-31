@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Repository;
 
@@ -129,16 +129,16 @@ abstract class Criteria
     {
         //@todo
         $routes = [
-            'article' => Entry::ENTRY_TYPE_ARTICLE,
+            'article'  => Entry::ENTRY_TYPE_ARTICLE,
             'articles' => Entry::ENTRY_TYPE_ARTICLE,
-            'link'    => Entry::ENTRY_TYPE_LINK,
+            'link'     => Entry::ENTRY_TYPE_LINK,
             'links'    => Entry::ENTRY_TYPE_LINK,
-            'video'   => Entry::ENTRY_TYPE_VIDEO,
+            'video'    => Entry::ENTRY_TYPE_VIDEO,
             'videos'   => Entry::ENTRY_TYPE_VIDEO,
-            'photo'   => Entry::ENTRY_TYPE_IMAGE,
+            'photo'    => Entry::ENTRY_TYPE_IMAGE,
             'photos'   => Entry::ENTRY_TYPE_IMAGE,
 
-            'artykuł' => Entry::ENTRY_TYPE_ARTICLE,
+            'artykuł'  => Entry::ENTRY_TYPE_ARTICLE,
             'artykuły' => Entry::ENTRY_TYPE_ARTICLE,
             'linki'    => Entry::ENTRY_TYPE_LINK,
             'zdjęcie'  => Entry::ENTRY_TYPE_IMAGE,
