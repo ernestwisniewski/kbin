@@ -56,15 +56,13 @@ class AwesomeBotMagazine extends Command
         }
 
         try {
-            $magazine = $this->magazineManager->create(
-                (new MagazineDto())->create(
-                    $input->getArgument('magazine_name'),
-                    $input->getArgument('magazine_title'),
-                    new ArrayCollection(),
-                    'Powered by '.$input->getArgument('url')
-                ),
-                $user
-            );
+            $dto              = new MagazineDto();
+            $dto->name        = $input->getArgument('magazine_name');
+            $dto->title       = $input->getArgument('magazine_title');
+            $dto->description = 'Powered by '.$input->getArgument('url');
+            $dto->user        = $user;
+
+            $magazine = $this->magazineManager->create($dto, $user);
 
             $this->createBadges(
                 $magazine,

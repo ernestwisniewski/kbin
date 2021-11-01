@@ -32,26 +32,13 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomEntries(self::ENTRIES_COUNT) as $index => $entry) {
-            $dto = (new EntryDto())->create(
-                $entry['magazine'],
-                $entry['title'],
-                $entry['user'],
-                $entry['url'],
-                $entry['body'],
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                $entry['ip'],
-                null,
-            );
+            $dto           = new EntryDto();
+            $dto->magazine = $entry['magazine'];
+            $dto->user     = $entry['user'];
+            $dto->title    = $entry['title'];
+            $dto->url      = $entry['url'];
+            $dto->body     = $entry['body'];
+            $dto->ip       = $entry['ip'];
 
             $entity = $this->entryManager->create($dto, $entry['user']);
 

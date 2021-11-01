@@ -21,15 +21,15 @@ class PostCommentFactory
 
     public function createDto(PostComment $comment): PostCommentDto
     {
-        return (new PostCommentDto())->create(
-            $comment->post,
-            $comment->body,
-            $comment->user,
-            null,
-            $comment->countUpVotes(),
-            $comment->createdAt,
-            $comment->lastActive,
-            $comment->getId()
-        );
+        $dto             = new PostCommentDto();
+        $dto->post       = $comment->post;
+        $dto->user       = $comment->user;
+        $dto->body       = $comment->body;
+        $dto->uv         = $comment->countUpVotes();
+        $dto->createdAt  = $comment->createdAt;
+        $dto->lastActive = $comment->lastActive;
+        $dto->setId($comment->getId());
+
+        return $dto;
     }
 }

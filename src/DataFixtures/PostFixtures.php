@@ -26,20 +26,11 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomPosts(self::ENTRIES_COUNT) as $index => $post) {
-            $dto = (new PostDto())->create(
-                $post['magazine'],
-                $post['user'],
-                null,
-                $post['body'],
-                false,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                $post['ip']
-            );
+            $dto           = new PostDto();
+            $dto->magazine = $post['magazine'];
+            $dto->user     = $post['user'];
+            $dto->body     = $post['body'];
+            $dto->ip       = $post['ip'];
 
             $entity = $this->postManager->create($dto, $post['user']);
 

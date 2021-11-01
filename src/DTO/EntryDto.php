@@ -28,14 +28,14 @@ class EntryDto
     public ?string $url = null;
     #[Assert\Length(min: 2, max: 15000)]
     public ?string $body = null;
-    public ?int $comments = null;
-    public ?int $uv = null;
-    public ?int $dv = null;
-    public ?bool $isAdult = false;
+    public int $comments = 0;
+    public int $uv = 0;
+    public int $dv = 0;
+    public bool $isAdult = false;
     public ?Collection $badges = null;
     public ?string $slug = null;
-    public ?int $views = null;
-    public ?int $score = null;
+    public int $views = 0;
+    public int $score = 0;
     public ?string $visibility = null;
     public ?string $ip = null;
     public ?DateTimeImmutable $createdAt = null;
@@ -115,6 +115,11 @@ class EntryDto
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getType(): string
