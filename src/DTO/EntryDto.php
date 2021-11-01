@@ -42,52 +42,6 @@ class EntryDto
     public ?DateTime $lastActive = null;
     private ?int $id = null;
 
-    public function create(
-        Magazine $magazine,
-        string $title,
-        ?User $user,
-        ?string $url = null,
-        ?string $body = null,
-        ?int $comments = null,
-        ?int $uv = null,
-        ?int $dv = null,
-        ?Domain $domain = null,
-        ?Image $image = null,
-        ?bool $isAdult = false,
-        ?Collection $badges = null,
-        ?string $slug = null,
-        ?int $score = null,
-        ?int $views = null,
-        ?string $visibility = null,
-        ?string $ip = null,
-        ?DateTimeImmutable $createdAt = null,
-        ?DateTime $lastActive = null,
-        ?int $id = null
-    ): self {
-        $this->id         = $id;
-        $this->magazine   = $magazine;
-        $this->domain     = $domain;
-        $this->user       = $user;
-        $this->title      = $title;
-        $this->url        = $url;
-        $this->body       = $body;
-        $this->comments   = $comments;
-        $this->uv         = $uv;
-        $this->dv         = $dv;
-        $this->image      = $image;
-        $this->isAdult    = $isAdult;
-        $this->badges     = $badges;
-        $this->slug       = $slug;
-        $this->score      = $score;
-        $this->views      = $views;
-        $this->visibility = $visibility;
-        $this->ip         = $ip;
-        $this->createdAt  = $createdAt;
-        $this->lastActive = $lastActive;
-
-        return $this;
-    }
-
     #[Assert\Callback]
     public function validate(
         ExecutionContextInterface $context,
