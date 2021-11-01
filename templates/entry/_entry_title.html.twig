@@ -2,7 +2,7 @@
 
 <{{ title_tag }} class="kbin-entry-title mb-0">
 {% if entry.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
-{% if is_entry_page() %}
+{% if direct_url %}
     {% if entry.url %}
         <a href="{{ entry.url }}">{{ entry.title }}</a>
     {% else %}
