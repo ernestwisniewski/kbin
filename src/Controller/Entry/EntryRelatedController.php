@@ -24,6 +24,8 @@ class EntryRelatedController extends AbstractController
 
         $id = $entry->getId();
         return $cache->get("related_$id", function (ItemInterface $item) use ($entry, $magazine) {
+            $item->expiresAfter(600);
+
             try {
                 $entries = $this->manager->findRelated($entry->title.' '.$magazine->name);
             } catch (\Exception $e) {
