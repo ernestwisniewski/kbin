@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\MessageHandler;
 
@@ -41,9 +41,7 @@ class SentUserConfirmationEmailHandler implements MessageHandlerInterface
                     ->subject($this->translator->trans('email_confirm_title'))
                     ->htmlTemplate('_email/confirmation_email.html.twig')
             );
-        }catch (\Exception $e ) {
-            dd($e->getMessage());
+        } catch (\Exception $e) {
         }
-
     }
 }
