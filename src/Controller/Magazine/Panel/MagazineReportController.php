@@ -1,6 +1,6 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
-namespace App\Controller\Magazine;
+namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MagazinePanelReportController extends AbstractController
+class MagazineReportController extends AbstractController
 {
     public function __construct(
         private MagazineRepository $repository,

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace App\Controller\Magazine;
+namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\DTO\MagazineBanDto;
@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MagazinePanelBanController extends AbstractController
+class MagazineBanController extends AbstractController
 {
     public function __construct(
         private MagazineManager $manager,

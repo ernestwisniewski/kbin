@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace App\Controller\Magazine;
+namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\DTO\BadgeDto;
@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MagazinePanelBadgeController extends AbstractController
+class MagazineBadgeController extends AbstractController
 {
     public function __construct(
         private MagazineRepository $repository,
@@ -58,7 +58,7 @@ class MagazinePanelBadgeController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("moderate", subject="magazine")
      */
-    public function removeBadge(Magazine $magazine, Badge $badge, BadgeManager $manager, Request $request): Response
+    public function remove(Magazine $magazine, Badge $badge, BadgeManager $manager, Request $request): Response
     {
         $this->validateCsrf('badge_remove', $request->request->get('token'));
 
@@ -67,3 +67,4 @@ class MagazinePanelBadgeController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 }
+
