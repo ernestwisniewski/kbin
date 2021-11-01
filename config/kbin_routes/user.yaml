@@ -1,52 +1,52 @@
 user:
-  controller: App\Controller\User\UserController::front
+  controller: App\Controller\User\UserFrontController::front
   path: /u/{username}
   methods: [ GET ]
 
 user_entries:
-  controller: App\Controller\User\UserController::entries
+  controller: App\Controller\User\UserFrontController::entries
   path:
     en: /u/{username}/threads
     pl: /u/{username}/treści
   methods: [ GET ]
 
 user_entry_comments:
-  controller: App\Controller\User\UserController::comments
+  controller: App\Controller\User\UserFrontController::comments
   path:
     en: /u/{username}/comments
     pl: /u/{username}/komentarze
   methods: [ GET ]
 
 user_posts:
-  controller: App\Controller\User\UserController::posts
+  controller: App\Controller\User\UserFrontController::posts
   path:
     en: /u/{username}/wpisy
     pl: /u/{username}/posts
   methods: [ GET ]
 
 user_replies:
-  controller: App\Controller\User\UserController::replies
+  controller: App\Controller\User\UserFrontController::replies
   path:
     en: /u/{username}/odpowiedzi
     pl: /u/{username}/replies
   methods: [ GET ]
 
 user_subscriptions:
-  controller: App\Controller\User\UserController::subscriptions
+  controller: App\Controller\User\UserFrontController::subscriptions
   path:
     en: /u/{username}/subscriptions
     pl: /u/{username}/subskrypcje
   methods: [ GET ]
 
 user_followers:
-  controller: App\Controller\User\UserFollowController::followers
+  controller: App\Controller\User\UserFrontController::followers
   path:
     en: /u/{username}/followers
     pl: /u/{username}/obserwujący
   methods: [ GET ]
 
 user_follows:
-  controller: App\Controller\User\UserFollowController::follows
+  controller: App\Controller\User\UserFrontController::follows
   path:
     en: /u/{username}/follows
     pl: /u/{username}/obserwowani
@@ -73,83 +73,83 @@ user_unblock:
   methods: [ POST ]
 
 user_purge:
-  controller: App\Controller\User\UserController::purge
+  controller: App\Controller\User\UserDeleteController::purge
   path: /u/{username}/purge
   methods: [ POST ]
 
 user_delete:
-  controller: App\Controller\User\UserController::delete
+  controller: App\Controller\User\UserDeleteController::delete
   path: /u/{username}/delete
   methods: [ POST ]
 
 user_profile_front:
-  controller: App\Controller\User\ProfileController::front
+  controller: App\Controller\User\Profile\UserStatController
   path:
     en: /profile
     pl: /profil
   methods: [ GET ]
 
 user_profile_notifications:
-  controller: App\Controller\User\ProfileController::notifications
+  controller: App\Controller\User\Profile\UserNotificationController::notifications
   path:
     en: /profile/notifications
     pl: /profil/notyfikacje
   methods: [ GET ]
 
 user_profile_notifications_read:
-  controller: App\Controller\User\ProfileController::readNotifications
+  controller: App\Controller\User\Profile\UserNotificationController::read
   path: /profile/notifications/read
   methods: [ POST ]
 
 user_profile_notifications_clear:
-  controller: App\Controller\User\ProfileController::clearNotifications
+  controller: App\Controller\User\Profile\UserNotificationController::clear
   path: /profile/notifications/clear
   methods: [ POST ]
 
 user_profile_magazine_blocks:
-  controller: App\Controller\User\ProfileController::blockedMagazines
+  controller: App\Controller\User\Profile\UserBlockController::magazines
   path:
     en: /profile/blocklist/magazines
     pl: /profil/blokady/magazyny
   methods: [ GET ]
 
 user_profile_user_blocks:
-  controller: App\Controller\User\ProfileController::blockedUsers
+  controller: App\Controller\User\Profile\UserBlockController::users
   path:
     en: /profile/blocklist/people
     pl: /profil/blokady/ludzie
   methods: [ GET ]
 
 user_profile_magazine_subscriptions:
-  controller: App\Controller\User\ProfileController::subMagazines
+  controller: App\Controller\User\Profile\UserSubController::magazines
   path:
     en: /profile/subscriptions/magazines
     pl: /profil/subskrypcje/magazyny
   methods: [ GET ]
 
 user_profile_user_subscriptions:
-  controller: App\Controller\User\ProfileController::subUsers
+  controller: App\Controller\User\Profile\UserSubController::users
   path:
     en: /profile/subscriptions/people
     pl: /profil/subskrypcje/ludzie
   methods: [ GET ]
 
 user_profile_settings:
-  controller: App\Controller\User\ProfileController::settings
+  controller: App\Controller\User\Profile\UserSettingsController
   path:
     en: /profile/settings
     pl: /profil/ustawienia
   methods: [ GET, POST ]
 
 user_profile_edit:
-  controller: App\Controller\User\UserController::edit
+  controller: App\Controller\User\UserEditController
   path:
     en: /profile/edit
     pl: /profil/edytuj
   methods: [ GET, POST ]
 
 user_profile_toggle_theme:
-  controller: App\Controller\User\UserController::theme
+  controller: App\Controller\User\UserThemeController
   path:
     en: /profile/edit/theme
     pl: /profil/edytuj/wyglad

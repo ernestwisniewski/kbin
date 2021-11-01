@@ -1,19 +1,19 @@
 app_register:
-  controller: App\Controller\SecurityController::register
+  controller: App\Controller\Security\RegisterController
   path:
     en: /register
     pl: /zarejestruj
   methods: [ GET, POST ]
 
 app_verify_email:
-  controller: App\Controller\SecurityController::verifyUserEmail
+  controller: App\Controller\Security\VerifyEmailController
   path:
     en: /verify/email
     pl: /zweryfikuj/email
   methods: [ GET ]
 
 app_login:
-  controller: App\Controller\SecurityController::login
+  controller: App\Controller\Security\LoginController
   path:
     en: /login
     pl: /zaloguj

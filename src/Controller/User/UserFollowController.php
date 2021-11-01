@@ -4,7 +4,6 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,28 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserFollowController extends AbstractController
 {
-    public function followers(User $user, UserRepository $repository, Request $request): Response
-    {
-        return $this->render(
-            'user/followers.html.twig',
-            [
-                'user'  => $user,
-                'users' => $repository->findFollowUsers($this->getPageNb($request), $user),
-            ]
-        );
-    }
-
-    public function follows(User $user, UserRepository $manager, Request $request): Response
-    {
-        return $this->render(
-            'user/follows.html.twig',
-            [
-                'user'  => $user,
-                'users' => $manager->findFollowedUsers($this->getPageNb($request), $user),
-            ]
-        );
-    }
-
     /**
      * @IsGranted("ROLE_USER")
      * @IsGranted("follow", subject="following")
