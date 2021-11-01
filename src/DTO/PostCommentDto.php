@@ -13,42 +13,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PostCommentDto
 {
-    public Magazine|MagazineDto|null $magazine;
+    public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
-    public Post|PostDto $post;
+    public Post|PostDto|null $post = null;
     public ?PostComment $parent = null;
     public ?Image $image = null;
     #[Assert\Length(min: 2, max: 5000)]
     public ?string $body;
-    public ?int $uv = null;
+    public int $uv = 0;
     public ?string $ip = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;
     private ?int $id = null;
-
-    public function create(
-        Post $post,
-        string $body,
-        ?User $user = null,
-        ?Image $image = null,
-        ?int $uv = null,
-        ?DateTimeImmutable $createdAt = null,
-        ?DateTime $lastActive = null,
-        ?int $id = null
-    ): self {
-        $this->id         = $id;
-        $this->user       = $user;
-        $this->magazine   = $post->magazine;
-        $this->user       = $user;
-        $this->post       = $post;
-        $this->image      = $image;
-        $this->body       = $body;
-        $this->uv         = $uv;
-        $this->createdAt  = $createdAt;
-        $this->lastActive = $lastActive;
-
-        return $this;
-    }
 
     public function createWithParent(Post $post, ?PostComment $parent, ?Image $image = null, ?string $body = null): self
     {
@@ -63,5 +39,10 @@ class PostCommentDto
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }

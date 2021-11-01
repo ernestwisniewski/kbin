@@ -26,10 +26,9 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
     public function loadData(ObjectManager $manager)
     {
         foreach ($this->provideRandomComments(self::COMMENTS_COUNT) as $index => $comment) {
-            $dto = (new EntryCommentDto())->create(
-                $comment['entry'],
-                $comment['body']
-            );
+            $dto        = new EntryCommentDto();
+            $dto->entry = $comment['entry'];
+            $dto->body  = $comment['body'];
 
             $entity = $this->commentManager->create($dto, $comment['user']);
 

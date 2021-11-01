@@ -50,10 +50,9 @@ abstract class WebTestCase extends BaseWebTestCase
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
         } else {
-            $dto = (new EntryCommentDto())->create(
-                $entry ?? $this->getEntryByTitle('Przykladowa treść'),
-                $body
-            );
+            $dto        = new EntryCommentDto();
+            $dto->entry = $entry ?? $this->getEntryByTitle('Przykladowa treść');
+            $dto->body  = $body;
         }
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
@@ -99,8 +98,14 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = static::getContainer()->get(EntryManager::class);
 
-        $dto   = (new EntryDto())->create($magazine, $title, null, $url, $body);
-        $entry = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
+        $dto           = new EntryDto();
+        $dto->magazine = $magazine;
+        $dto->title    = $title;
+        $dto->user     = $user;
+        $dto->url      = $url;
+        $dto->body     = $body;
+
+        $entry = $manager->create($dto, $user);
 
         $this->entries->add($entry);
 
@@ -130,13 +135,9 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = static::getContainer()->get(PostManager::class);
 
-
-        $dto = (new PostDto())->create(
-            $magazine ?: $this->getMagazineByName('polityka'),
-            null,
-            null,
-            $body
-        );
+        $dto           = new PostDto();
+        $dto->magazine = $magazine ?: $this->getMagazineByName('polityka');
+        $dto->body     = $body;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
@@ -148,7 +149,9 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = static::getContainer()->get(PostCommentManager::class);
 
-        $dto = (new PostCommentDto())->create($post, $body);
+        $dto       = new PostCommentDto();
+        $dto->post = $post;
+        $dto->body = $body;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
@@ -239,7 +242,10 @@ abstract class WebTestCase extends BaseWebTestCase
          */
         $manager = static::getContainer()->get(MagazineManager::class);
 
-        $dto      = (new MagazineDto())->create($name, $title ?? 'Przykładowy magazyn', new ArrayCollection());
+        $dto        = new MagazineDto();
+        $dto->name  = $name;
+        $dto->title = $title ?? 'Przykładowy magazyn';
+
         $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
 
         $this->magazines->add($magazine);

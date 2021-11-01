@@ -7,7 +7,6 @@ use App\Entity\Magazine;
 use App\Entity\User;
 use DateTime;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,12 +18,12 @@ class PostDto
     public Image|ImageDto|null $image = null;
     #[Assert\Length(min: 2, max: 15000)]
     public ?string $body = null;
-    public ?bool $isAdult = false;
+    public bool $isAdult = false;
     public ?string $slug = null;
-    public ?int $comments = null;
-    public ?int $uv = null;
-    public ?int $dv = null;
-    public ?int $score = null;
+    public int $comments = 0;
+    public int $uv = 0;
+    public int $dv = 0;
+    public int $score = 0;
     public ?string $visibility = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;
@@ -32,45 +31,13 @@ class PostDto
     public ?Collection $bestComments = null;
     private ?int $id = null;
 
-    public function create(
-        Magazine $magazine,
-        ?User $user = null,
-        ?Image $image = null,
-        ?string $body = null,
-        ?bool $isAdult = false,
-        ?string $slug = null,
-        ?int $comments = null,
-        ?int $uv = null,
-        ?int $dv = null,
-        ?int $score = null,
-        ?string $visibility = null,
-        ?string $ip = null,
-        ?DateTimeImmutable $createdAt = null,
-        ?DateTime $lastActive = null,
-        ?int $id = null
-    ): self {
-        $this->id           = $id;
-        $this->magazine     = $magazine;
-        $this->user         = $user;
-        $this->body         = $body;
-        $this->image        = $image;
-        $this->isAdult      = $isAdult;
-        $this->comments     = $comments;
-        $this->slug         = $slug;
-        $this->uv           = $uv;
-        $this->dv           = $dv;
-        $this->score        = $score;
-        $this->visibility   = $visibility;
-        $this->ip           = $ip;
-        $this->createdAt    = $createdAt;
-        $this->lastActive   = $lastActive;
-        $this->bestComments = new ArrayCollection();
-
-        return $this;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }

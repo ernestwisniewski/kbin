@@ -116,23 +116,14 @@ class AwesomeBotFixtures extends Command
                 continue;
             }
 
-            $entry = $this->entryManager->create(
-                (new EntryDto())->create(
-                    $item['magazine'],
-                    substr($item['title'], 0, 255),
-                    $item['user'],
-                    $item['url'],
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false,
-                    $item['badges']
-                ),
-                $item['user']
-            );
+            $dto           = new EntryDto();
+            $dto->magazine = $item['magazine'];
+            $dto->user     = $item['user'];
+            $dto->title    = substr($item['title'], 0, 255);
+            $dto->url      = $item['url'];
+            $dto->badges   = $item['badges'];
+
+            $entry = $this->entryManager->create($dto, $item['user']);
 
             $io->info("(m/{$entry->magazine->name}) {$entry->title}");
 
@@ -351,7 +342,7 @@ class AwesomeBotFixtures extends Command
             $arguments = [
                 'username' => $entry['username'],
                 'email'    => $entry['username'].'@karab.in',
-                'password' => md5(rand()),
+                'password' => md5((string) rand()),
             ];
             $input     = new ArrayInput($arguments);
             $command->run($input, $output);

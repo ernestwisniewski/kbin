@@ -23,27 +23,29 @@ class EntryFactory
 
     public function createDto(Entry $entry): EntryDto
     {
-        return (new EntryDto())->create(
-            $entry->magazine,
-            $entry->title,
-            $entry->user,
-            $entry->url,
-            $entry->body,
-            $entry->commentCount,
-            $entry->countUpVotes(),
-            $entry->countDownVotes(),
-            $entry->domain,
-            $entry->image,
-            $entry->isAdult,
-            $entry->badges,
-            $entry->slug,
-            $entry->score,
-            $entry->views,
-            $entry->visibility,
-            $entry->ip,
-            $entry->createdAt,
-            $entry->lastActive,
-            $entry->getId()
-        );
+        $dto = new EntryDto();
+
+        $dto->magazine   = $entry->magazine;
+        $dto->user       = $entry->user;
+        $dto->image      = $entry->image;
+        $dto->domain     = $entry->domain;
+        $dto->title      = $entry->title;
+        $dto->url        = $entry->url;
+        $dto->body       = $entry->body;
+        $dto->comments   = $entry->commentCount;
+        $dto->uv         = $entry->countUpVotes();
+        $dto->dv         = $entry->countDownVotes();
+        $dto->isAdult    = $entry->isAdult;
+        $dto->badges     = $entry->badges;
+        $dto->slug       = $entry->slug;
+        $dto->views      = $entry->views;
+        $dto->score      = $entry->score;
+        $dto->visibility = $entry->visibility;
+        $dto->ip         = $entry->ip;
+        $dto->createdAt  = $entry->createdAt;
+        $dto->lastActive = $entry->lastActive;
+        $dto->setId($entry->getId());
+
+        return $dto;
     }
 }

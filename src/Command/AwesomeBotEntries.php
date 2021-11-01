@@ -106,23 +106,14 @@ class AwesomeBotEntries extends Command
                 continue;
             }
 
-            $this->entryManager->create(
-                (new EntryDto())->create(
-                    $magazine,
-                    substr($item['title'], 0, 255),
-                    $user,
-                    $item['url'],
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    $item['badges']
-                ),
-                $user
-            );
+            $dto           = new EntryDto();
+            $dto->magazine = $magazine;
+            $dto->user     = $user;
+            $dto->title    = substr($item['title'], 0, 255);
+            $dto->url      = $item['url'];
+            $dto->badges   = $item['badges'];
+
+            $this->entryManager->create($dto, $user);
         }
 
         return Command::SUCCESS;

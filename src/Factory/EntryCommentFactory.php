@@ -21,16 +21,17 @@ class EntryCommentFactory
 
     public function createDto(EntryComment $comment): EntryCommentDto
     {
-        return (new EntryCommentDto())->create(
-            $comment->entry,
-            $comment->body,
-            $comment->user,
-            $comment->image,
-            $comment->countUpVotes(),
-            $comment->countDownVotes(),
-            $comment->createdAt,
-            $comment->lastActive,
-            $comment->getId()
-        );
+        $dto             = new EntryCommentDto();
+        $dto->entry      = $comment->entry;
+        $dto->user       = $comment->user;
+        $dto->body       = $comment->body;
+        $dto->image      = $comment->image;
+        $dto->uv         = $comment->countUpVotes();
+        $dto->dv         = $comment->countDownVotes();
+        $dto->createdAt  = $comment->createdAt;
+        $dto->lastActive = $comment->lastActive;
+        $dto->setId($comment->getId());
+
+        return $dto;
     }
 }

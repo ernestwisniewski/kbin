@@ -21,22 +21,24 @@ class PostFactory
 
     public function createDto(Post $post): PostDto
     {
-        return (new PostDto())->create(
-            $post->magazine,
-            $post->user,
-            $post->image,
-            $post->body,
-            $post->isAdult,
-            $post->slug,
-            $post->commentCount,
-            $post->countUpVotes(),
-            $post->countDownVotes(),
-            $post->score,
-            $post->visibility,
-            $post->ip,
-            $post->createdAt,
-            $post->lastActive,
-            $post->getId()
-        );
+        $dto = new PostDto();
+
+        $dto->magazine   = $post->magazine;
+        $dto->user       = $post->user;
+        $dto->image      = $post->image;
+        $dto->body       = $post->body;
+        $dto->isAdult    = $post->isAdult;
+        $dto->slug       = $post->slug;
+        $dto->comments   = $post->commentCount;
+        $dto->uv         = $post->countUpVotes();
+        $dto->dv         = $post->countDownVotes();
+        $dto->score      = $post->score;
+        $dto->visibility = $post->visibility;
+        $dto->createdAt  = $post->createdAt;
+        $dto->lastActive = $post->lastActive;
+        $dto->ip         = $post->ip;
+        $dto->setId($post->getId());
+
+        return $dto;
     }
 }
