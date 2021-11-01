@@ -31,14 +31,19 @@ class SentUserConfirmationEmailHandler implements MessageHandlerInterface
         }
 
         //@todo
-        $this->emailVerifier->sendEmailConfirmation(
-            'app_verify_email',
-            $user,
-            (new TemplatedEmail())
-                ->from(new Address('noreply@mg.karab.in ', $this->params->get('kbin_domain')))
-                ->to($user->email)
-                ->subject($this->translator->trans('email_confirm_title'))
-                ->htmlTemplate('_email/confirmation_email.html.twig')
-        );
+        try {
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
+                (new TemplatedEmail())
+                    ->from(new Address('noreply@mg.karab.in ', $this->params->get('kbin_domain')))
+                    ->to($user->email)
+                    ->subject($this->translator->trans('email_confirm_title'))
+                    ->htmlTemplate('_email/confirmation_email.html.twig')
+            );
+        }catch (\Exception $e ) {
+            dd($e->getMessage());
+        }
+
     }
 }
