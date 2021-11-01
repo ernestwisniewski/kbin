@@ -20,9 +20,9 @@
             {{ vote(entry, {user: app.user, form_dest: 'entry_vote', notification_type: 'Entry'}) }}
 
             {% if entry.image and entry.visibility is same as 'visible' %}
-                {% if direct_url and not entry.type is same as 'article' %}
+                {% if is_entry_page() %}
                     <div class="kbin-entry-image">
-                        <a href="{{- entry.type is same as 'link' ? entry.url : '/media/'~asset(entry.image.filePath) -}}">
+                        <a href="{{- entry.type is same as 'image' ? '/media/'~asset(entry.image.filePath) : entry.url -}}">
                             <img width="200" class="lazy" src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}" alt="{{ entry.title }}"/>
                         </a>
                     </div>

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Controller\Entry;
 
@@ -23,6 +23,7 @@ class EntryRelatedController extends AbstractController
         $cache = new FilesystemAdapter();
 
         $id = $entry->getId();
+
         return $cache->get("related_$id", function (ItemInterface $item) use ($entry, $magazine) {
             $item->expiresAfter(600);
 
