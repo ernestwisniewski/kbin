@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -26,5 +26,12 @@ class SearchManager
         );
 
         return $this->repo->search($query, $page);
+    }
+
+    public function findRelated(string $query): array
+    {
+        $repo = $this->manager->getRepository('entries');
+
+        return $repo->find($query, 4);
     }
 }

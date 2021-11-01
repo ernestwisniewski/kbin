@@ -27,6 +27,7 @@ services:
     autowire: true
     autoconfigure: true
     bind:
+      $elasticaEnabled: '%elastica_enabled%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
 
