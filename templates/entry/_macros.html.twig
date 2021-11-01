@@ -7,7 +7,8 @@
         extra_classes: options.extra_classes ?? null,
         show_content: options.show_content ?? null,
         title_tag: options.title_tag ?? 'h1',
-        direct_url: options.direct_url ?? false
+        direct_url: options.direct_url ?? false,
+        show_magazine: options.show_magazine ?? false
         } only -%}
         {{ block('entry') }}
     {%- endwith -%}

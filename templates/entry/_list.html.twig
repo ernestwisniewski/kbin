@@ -11,7 +11,8 @@
                 self: app.user,
                 extra_classes: 'kbin-entry-list-item',
                 title_tag: 'h4',
-                direct_url: false
+                direct_url: false,
+                show_magazine: show_magazine ?? false
             }) }}
         {% endfor %}
     {% else %}

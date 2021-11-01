@@ -20,22 +20,14 @@ class EntryRelatedController extends AbstractController
         Magazine $magazine,
         Entry $entry,
     ): Response {
-        $cache = new FilesystemAdapter();
+        try {
+            $entries = $this->manager->findRelated($entry->title.' '.$magazine->name);
+        } catch (\Exception $e) {
+            return new Response('');
+        }
 
-        $id = $entry->getId();
+        $entries = array_filter($entries, fn($e) => $e->getId() !== $entry->getId());
 
-        return $cache->get("related_$id", function (ItemInterface $item) use ($entry, $magazine) {
-            $item->expiresAfter(600);
-
-            try {
-                $entries = $this->manager->findRelated($entry->title.' '.$magazine->name);
-            } catch (\Exception $e) {
-                return new Response('');
-            }
-
-            $entries = array_filter($entries, fn($e) => $e->getId() !== $entry->getId());
-
-            return $this->render('entry/_related.html.twig', ['entries' => $entries]);
-        });
+        return $this->render('entry/_related.html.twig', ['entries' => $entries]);
     }
 }
