@@ -1,4 +1,12 @@
 .kbin-entry {
+  .kbin-related-wrapper & {
+    opacity:0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   padding: 1rem .3rem;
   display: flow-root;
   position: relative;
