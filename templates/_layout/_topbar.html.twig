@@ -17,5 +17,5 @@
             <a href="#">•</a>
         </li>
     </ul>
-    {{ render(controller('App\\Controller\\Magazine\\MagazineController::featuredList', {'magazine': magazine is defined ? magazine : null})) }}
+    {{ render(controller('App\\Controller\\Magazine\\MagazineFeaturedController', {'magazine': magazine is defined ? magazine : null})) }}
 </section>

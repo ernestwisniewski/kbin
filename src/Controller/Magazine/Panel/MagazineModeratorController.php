@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace App\Controller\Magazine;
+namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\DTO\ModeratorDto;
@@ -14,7 +14,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MagazinePanelModController extends AbstractController
+
+class MagazineModeratorController extends AbstractController
 {
     public function __construct(
         private MagazineManager $manager,
@@ -56,7 +57,7 @@ class MagazinePanelModController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="magazine")
      */
-    public function deleteModerator(Magazine $magazine, Moderator $moderator, Request $request): Response
+    public function remove(Magazine $magazine, Moderator $moderator, Request $request): Response
     {
         $this->validateCsrf('remove_moderator', $request->request->get('token'));
 
