@@ -59,7 +59,7 @@
                             </li>
                         {% endif %}
 
-                        {% if not is_magazine_page() %}
+                        {% if not is_magazine_page() or show_magazine %}
                             <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
                                 <small class="text-muted">{{ 'to'|trans }}</small> {{ magazine_inline(entry.magazine) }}
                             </li>

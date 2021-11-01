@@ -1,5 +1,5 @@
 <section class="kbin-related-wrapper mt-4">
     <h4 class="kbin-related-header pb-3 mb-0 font-weight-light">{{ 'related'|trans }}</h4>
 
-    {% include 'entry/_list.html.twig' %}
+    {% include 'entry/_list.html.twig' with {show_magazine: true} %}
 </section>
