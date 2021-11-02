@@ -6,6 +6,8 @@
 
     <title>{% block title %}{{ kbin_domain }}{% endblock %}</title>
 
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
 
