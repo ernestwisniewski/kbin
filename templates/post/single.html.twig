@@ -3,7 +3,7 @@
 {% from 'post/comment/_macros.html.twig' import comment %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}{{ post.body|slice(0, 35) ~ '...' }} | Wpisy | {{ parent() }}{% endblock %}
+{% block title %}{{ post.body|slice(0, 35) ~ '...' }} - {{ magazine.title }}{% endblock %}
 
     {% block body %}
         <div class="kbin-posts-page">
