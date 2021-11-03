@@ -1,16 +1,21 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
+use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
+use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
+use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
+use JetBrains\PhpStorm\Pure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class EntryCreateController extends AbstractController
 {
@@ -19,6 +24,8 @@ class EntryCreateController extends AbstractController
 
     public function __construct(
         private EntryManager $manager,
+        private EntryCommentManager $commentManager,
+        private ValidatorInterface $validator
     ) {
     }
 
@@ -41,6 +48,14 @@ class EntryCreateController extends AbstractController
 
             $entry = $this->manager->create($dto, $this->getUserOrThrow());
 
+            if ($form->has('comment') && $form->get('comment')->getData()) {
+                $comment = $this->createCommentDto($entry, $form->get('comment')->getData());
+                $errors  = $this->validator->validate($comment);
+                if (!count($errors)) {
+                    $this->commentManager->create($comment, $this->getUserOrThrow());
+                }
+            }
+
             return $this->redirectToEntry($entry);
         }
 
@@ -52,5 +67,16 @@ class EntryCreateController extends AbstractController
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
+    }
+
+    #[Pure] private function createCommentDto(Entry $entry, string $body): EntryCommentDto
+    {
+        $comment           = new EntryCommentDto();
+        $comment->magazine = $entry->magazine;
+        $comment->entry    = $entry;
+        $comment->user     = $entry->user;
+        $comment->body     = $body;
+
+        return $comment;
     }
 }

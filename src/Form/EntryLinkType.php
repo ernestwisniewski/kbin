@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
@@ -29,7 +29,13 @@ class EntryLinkType extends AbstractType
     {
         $builder
             ->add('url', UrlType::class)
-            ->add('title', TextareaType::class)
+            ->add('title', TextareaType::class, [
+                'required' => true,
+            ])
+            ->add('comment', TextareaType::class, [
+                'mapped'   => false,
+                'required' => false,
+            ])
             ->add(
                 'badges',
                 BadgesType::class,
@@ -41,7 +47,8 @@ class EntryLinkType extends AbstractType
                 'magazine',
                 EntityType::class,
                 [
-                    'class' => Magazine::class,
+
+                    'class'        => Magazine::class,
                     'choice_label' => 'name',
                 ]
             )
