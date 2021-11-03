@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -29,15 +29,14 @@ class EntryRelatedController extends AbstractController
 
             try {
                 $entries = $this->manager->findRelated($entry->title.' '.$magazine->name);
+                $entries = is_array($entries) ? array_filter($entries, fn($e) => $e->getId() !== $entry->getId()) : [];
 
-                if (!$entries || !count($entries)) {
+                if (!count($entries)) {
                     throw new \Exception('Empty related entries list.');
                 }
             } catch (\Exception $e) {
                 return new Response('');
             }
-
-            $entries = array_filter($entries, fn($e) => $e->getId() !== $entry->getId());
 
             return $this->render('entry/_related.html.twig', ['entries' => $entries]);
         });
