@@ -5,7 +5,7 @@
             <div class="row me-0 pe-0">
                 <div class="input-group-lg mb-3 row">
                     <div class="col-11">
-                        {{ form_label(form.image, 'cover'|trans) }}
+                        {{ form_label(form.image, 'image'|trans|capitalize) }}<sup class="required">*</sup>
                         {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
                     </div>
                     <div class="col-1 pt-4">
@@ -18,12 +18,12 @@
         {% endif %}
 
         <div class="input-group-lg mb-3">
-            {{ form_label(form.title, 'title'|trans) }}
+            {{ form_label(form.title, 'title'|trans) }}<sup class="required">*</sup>
             {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
         </div>
 
         <div class="input-group-lg mb-3">
-            {{ form_label(form.magazine, 'magazine'|trans) }}
+            {{ form_label(form.magazine, 'magazine'|trans) }}<sup class="required">*</sup>
             {{ form_widget(form.magazine, {'attr': {'class': 'kbin-choices'}}) }}
         </div>
 

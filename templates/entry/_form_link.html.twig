@@ -3,7 +3,7 @@
     <div class="kbin-magazine-create-form">
         <div class="input-group-lg mb-3 row">
             <div class="col-11">
-                {{ form_label(form.url, 'URL') }}
+                {{ form_label(form.url, 'URL') }}<sup class="required">*</sup>
                 {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle', 'data-entry-create-target': 'url' }}) }}
             </div>
             <div class="col-1 pt-4">
@@ -14,12 +14,17 @@
         </div>
 
         <div class="input-group-lg mb-3">
-            {{ form_label(form.title, 'title'|trans) }}
+            {{ form_label(form.title, 'title'|trans) }}<sup class="required">*</sup>
             {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
         </div>
 
         <div class="input-group-lg mb-3">
-            {{ form_label(form.magazine, 'magazine'|trans) }}
+            {{ form_label(form.comment, 'comment'|trans) }}
+            {{ form_widget(form.comment) }}
+        </div>
+
+        <div class="input-group-lg mb-3">
+            {{ form_label(form.magazine, 'magazine'|trans) }}<sup class="required">*</sup>
             {{ form_widget(form.magazine, {'attr': {'class': 'kbin-choices'}}) }}
         </div>
 
