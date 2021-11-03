@@ -200,3 +200,10 @@ thead, tbody {
   }
 }
 
+.kbin-users {
+  .kbin-avatar {
+    max-width: 2rem;
+    float: left;
+    margin-right: .5rem;
+  }
+}
