@@ -53,7 +53,7 @@ class EntryVotersController extends AbstractController
                 'magazine'  => $magazine,
                 'entry'     => $entry,
                 'votes'     => $entry->votes->slice(0, 5),
-                'show_more' => true,
+                'show_more' => $entry->votes->count() > 5,
             ]
         );
     }
