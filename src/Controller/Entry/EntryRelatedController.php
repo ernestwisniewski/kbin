@@ -29,6 +29,10 @@ class EntryRelatedController extends AbstractController
 
             try {
                 $entries = $this->manager->findRelated($entry->title.' '.$magazine->name);
+
+                if (!$entries || !count($entries)) {
+                    throw new \Exception('Empty related entries list.');
+                }
             } catch (\Exception $e) {
                 return new Response('');
             }
