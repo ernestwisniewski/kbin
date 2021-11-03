@@ -29,6 +29,10 @@ class EntryVotersController extends AbstractController
         Magazine $magazine,
         Entry $entry,
     ): Response {
+        if (!$entry->votes->count()) {
+            return new Response('');
+        }
+
         $cache = new FilesystemAdapter();
 
         $id       = $entry->getId();
