@@ -41,7 +41,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
             $dto->description = $magazine['description'];
             $dto->rules       = $magazine['rules'];
             $dto->badges      = $magazine['badges'];
-            $dto->cover       = $magazine['$image'];
+            $dto->cover       = $image;
 
             $entity = $this->magazineManager->create($dto, $magazine['user']);
 

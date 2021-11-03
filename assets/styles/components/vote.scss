@@ -1,3 +1,19 @@
+.kbin-color-up-vote {
+  color: $kbin-vote-up;
+
+  .kbin-dark & {
+    color: $kbin-dark-vote-up;
+  }
+}
+
+.kbin-color-down-vote {
+  color: $kbin-vote-down;
+
+  .kbin-dark & {
+    color: $kbin-dark-vote-down;
+  }
+}
+
 .kbin-vote {
   button {
     background-color: $kbin-entry-vote-button-background-color;

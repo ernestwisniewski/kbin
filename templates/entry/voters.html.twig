@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'votes'|trans }} - {{ entry.title }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-voters-page">
+        {% include 'entry/_voters_list_grid.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'entry/_sidebar.html.twig' %}
+
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
+{% endblock %}

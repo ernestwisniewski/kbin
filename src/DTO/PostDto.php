@@ -16,7 +16,7 @@ class PostDto
     public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
     public Image|ImageDto|null $image = null;
-    #[Assert\Length(min: 2, max: 15000)]
+    #[Assert\Length(min: 2, max: 2048)]
     public ?string $body = null;
     public bool $isAdult = false;
     public ?string $slug = null;

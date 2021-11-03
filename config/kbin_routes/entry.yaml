@@ -40,6 +40,14 @@ entry_pin:
   path: /m/{magazine_name}/t/{entry_id}/{slug}/pin
   methods: [ POST ]
 
+entry_voters:
+  controller: App\Controller\Entry\EntryVotersController
+  defaults: { slug: -, sortBy: ~ }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/votes
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/głosy
+  methods: [ GET ]
+
 entry_single:
   controller: App\Controller\Entry\EntrySingleController
   defaults: { slug: -, sortBy: ~ }
