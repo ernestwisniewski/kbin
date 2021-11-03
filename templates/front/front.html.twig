@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ is_sub_page() ? 'topbar.subscriptions'|trans : 'topbar.homepage'|trans }} | {{ parent() }}{% endblock %}
+{% block title %}{{ is_sub_page() ? 'topbar.subscriptions'|trans : is_mod_page()  ? 'topbar.moderated'|trans : kbin_title }}{% endblock %}
 
 {% block body %}
     <div class="kbin-front-page">
