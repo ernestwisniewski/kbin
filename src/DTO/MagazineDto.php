@@ -33,6 +33,7 @@ class MagazineDto
     public int $postCommentCount = 0;
     public bool $isAdult = false;
     public ?Collection $badges = null;
+    public ?string $ip = null;
     private ?int $id = null;
 
     public function getId(): ?int

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -16,8 +16,10 @@ use Exception;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserManager
@@ -30,7 +32,8 @@ class UserManager
         private EventDispatcherInterface $dispatcher,
         private MessageBusInterface $bus,
         private EmailVerifier $verifier,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private RateLimiterFactory $userRegisterLimiter
     ) {
     }
 
@@ -76,6 +79,11 @@ class UserManager
 
     public function create(UserDto $dto, bool $verifyUserEmail = true): User
     {
+        $limiter = $this->userRegisterLimiter->create($dto->ip);
+        if (false === $limiter->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         $user = new User($dto->email, $dto->username, '');
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));

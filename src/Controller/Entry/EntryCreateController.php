@@ -4,7 +4,6 @@ namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
 use App\DTO\EntryCommentDto;
-use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
@@ -12,6 +11,7 @@ use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
 use JetBrains\PhpStorm\Pure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -34,27 +34,20 @@ class EntryCreateController extends AbstractController
      */
     public function __invoke(?Magazine $magazine, ?string $type, Request $request): Response
     {
-        $dto           = new EntryDto();
-        $dto->ip       = $request->getClientIp();
-        $dto->magazine = $magazine;
-
-        $form = $this->createFormByType($dto, (new EntryPageView(1))->resolveType($type));
+        $form = $this->createFormByType((new EntryPageView(1))->resolveType($type));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $dto     = $form->getData();
+            $dto->ip = $request->getClientIp();
+
             if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();
             }
 
             $entry = $this->manager->create($dto, $this->getUserOrThrow());
 
-            if ($form->has('comment') && $form->get('comment')->getData()) {
-                $comment = $this->createCommentDto($entry, $form->get('comment')->getData());
-                $errors  = $this->validator->validate($comment);
-                if (!count($errors)) {
-                    $this->commentManager->create($comment, $this->getUserOrThrow());
-                }
-            }
+            $this->createComment($form, $entry);
 
             return $this->redirectToEntry($entry);
         }
@@ -78,5 +71,16 @@ class EntryCreateController extends AbstractController
         $comment->body     = $body;
 
         return $comment;
+    }
+
+    private function createComment(FormInterface $form, Entry $entry): void
+    {
+        if ($form->has('comment') && $form->get('comment')->getData()) {
+            $comment = $this->createCommentDto($entry, $form->get('comment')->getData());
+            $errors  = $this->validator->validate($comment);
+            if (!count($errors)) {
+                $this->commentManager->create($comment, $this->getUserOrThrow());
+            }
+        }
     }
 }

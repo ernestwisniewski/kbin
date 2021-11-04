@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
-use App\DTO\MagazineDto;
 use App\Form\MagazineType;
 use App\Service\MagazineManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -22,12 +21,12 @@ class MagazineCreateController extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $dto = new MagazineDto();
-
-        $form = $this->createForm(MagazineType::class, $dto);
+        $form = $this->createForm(MagazineType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $dto      = $form->getData();
+            $dto->ip  = $request->getClientIp();
             $magazine = $this->manager->create($dto, $this->getUserOrThrow());
 
             return $this->redirectToMagazine($magazine);

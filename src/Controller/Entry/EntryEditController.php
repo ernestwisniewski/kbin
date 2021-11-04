@@ -34,7 +34,7 @@ class EntryEditController extends AbstractController
     {
         $dto = $this->manager->createDto($entry);
 
-        $form = $this->createFormByType($dto, (new EntryPageView(1))->resolveType($entry->type));
+        $form = $this->createFormByType((new EntryPageView(1))->resolveType($entry->type), $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

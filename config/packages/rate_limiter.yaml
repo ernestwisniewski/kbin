@@ -2,7 +2,7 @@ framework:
   rate_limiter:
     vote:
       policy: 'sliding_window'
-      limit: 120
+      limit: 220
       interval: '60 minutes'
     entry:
       policy: 'fixed_window'
@@ -23,4 +23,8 @@ framework:
     user_register:
       policy: 'fixed_window'
       limit: 2
+      interval: '360 minutes'
+    magazine:
+      policy: 'fixed_window'
+      limit: 3
       interval: '360 minutes'

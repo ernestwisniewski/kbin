@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -42,28 +42,13 @@ class EntryManager implements ContentManagerInterface
 
         $entry       = $this->factory->createFromDto($dto, $user);
         $entry->slug = $this->slugger->slug($dto->title);
+        $entry->magazine->addEntry($entry);
 
-        if ($dto->url) {
-            $entry->type = Entry::ENTRY_TYPE_LINK;
-            $dto->url    = ($this->urlCleaner)($dto->url);
-        }
-
-        if ($dto->image) {
-            $entry->type     = Entry::ENTRY_TYPE_IMAGE;
-            $entry->image    = $dto->image;
-            $entry->hasEmbed = true;
-        }
-
-        if ($dto->body) {
-            $entry->type  = Entry::ENTRY_TYPE_ARTICLE;
-            $entry->image = $dto->image;
-        }
+        $entry = $this->setType($dto, $entry);
 
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);
         }
-
-        $entry->magazine->addEntry($entry);
 
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
@@ -137,5 +122,26 @@ class EntryManager implements ContentManagerInterface
     public function createDto(Entry $entry): EntryDto
     {
         return $this->factory->createDto($entry);
+    }
+
+    private function setType(EntryDto $dto, Entry $entry): Entry
+    {
+        if ($dto->url) {
+            $entry->type = Entry::ENTRY_TYPE_LINK;
+            $dto->url    = ($this->urlCleaner)($dto->url);
+        }
+
+        if ($dto->image) {
+            $entry->type     = Entry::ENTRY_TYPE_IMAGE;
+            $entry->image    = $dto->image;
+            $entry->hasEmbed = true;
+        }
+
+        if ($dto->body) {
+            $entry->type  = Entry::ENTRY_TYPE_ARTICLE;
+            $entry->image = $dto->image;
+        }
+
+        return $entry;
     }
 }
