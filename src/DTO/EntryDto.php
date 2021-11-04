@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -50,8 +50,10 @@ class EntryDto
         $image = Request::createFromGlobals()->files->filter('entry_image');
         if (is_array($image)) {
             $image = $image['image'];
+        } else {
+            $image = $context->getValue()->image;
         }
-        $image = empty($image) ? null : $image;
+
         if (null === $this->body && null === $this->url && null === $image) {
             $this->buildViolation($context, 'url');
             $this->buildViolation($context, 'body');
