@@ -16,6 +16,8 @@ use App\Factory\MagazineFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
 class MagazineManager
@@ -23,12 +25,18 @@ class MagazineManager
     public function __construct(
         private MagazineFactory $factory,
         private EventDispatcherInterface $dispatcher,
+        private RateLimiterFactory $magazineLimiter,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(MagazineDto $dto, User $user): Magazine
     {
+        $limiter = $this->magazineLimiter->create($dto->ip);
+        if (false === $limiter->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         $magazine = $this->factory->createFromDto($dto, $user);
 
         $this->entityManager->persist($magazine);

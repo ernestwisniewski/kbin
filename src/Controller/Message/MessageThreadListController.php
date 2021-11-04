@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Message;
 
@@ -15,12 +15,10 @@ class MessageThreadListController extends AbstractController
      */
     public function __invoke(MessageThreadRepository $repository, Request $request): Response
     {
-        $messageThreads = $repository->findUserMessages($this->getUser(), $this->getPageNb($request));
-
         return $this->render(
             'user/profile/messages.html.twig',
             [
-                'threads' => $messageThreads,
+                'threads' => $repository->findUserMessages($this->getUser(), $this->getPageNb($request)),
             ]
         );
     }

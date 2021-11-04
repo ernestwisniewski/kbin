@@ -14,8 +14,10 @@ use App\Factory\EntryCommentFactory;
 use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 
 class EntryCommentManager implements ContentManagerInterface

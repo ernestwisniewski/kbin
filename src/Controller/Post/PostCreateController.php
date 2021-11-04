@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Post;
 
 use App\Controller\AbstractController;
-use App\DTO\PostDto;
 use App\Entity\Magazine;
 use App\Form\PostType;
 use App\Service\PostManager;
@@ -25,16 +24,15 @@ class PostCreateController extends AbstractController
      */
     public function __invoke(Magazine $magazine, Request $request): Response
     {
-        $dto           = new PostDto();
-        $dto->magazine = $magazine;
-        $dto->user     = $this->getUserOrThrow();
-        $dto->ip       = $request->getClientIp();
-
-        $form = $this->createForm(PostType::class, $dto);
+        $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->isGranted('create_content', $magazine)) {
+            $dto           = $form->getData();
+            $dto->magazine = $magazine;
+            $dto->ip       = $request->getClientIp();
+
+            if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();
             }
 

@@ -43,7 +43,7 @@ class CommentEditController extends AbstractController
     ): Response {
         $dto = $this->manager->createDto($comment);
 
-        $form = $this->getEditForm($dto, $comment);
+        $form = $this->getForm($dto, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,7 +60,7 @@ class CommentEditController extends AbstractController
         return $this->getEntryCommentPageResponse('entry/comment/edit.html.twig', $criteria, $form, $request, $comment);
     }
 
-    private function getEditForm(EntryCommentDto $dto, EntryComment $comment): FormInterface
+    private function getForm(EntryCommentDto $dto, EntryComment $comment): FormInterface
     {
         return $this->createForm(
             EntryCommentType::class,

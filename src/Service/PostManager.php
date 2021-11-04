@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -38,12 +38,11 @@ class  PostManager implements ContentManagerInterface
 
         $post       = $this->factory->createFromDto($dto, $user);
         $post->slug = $this->slugger->slug($dto->body);
+        $post->magazine->addPost($post);
 
         if ($dto->image) {
             $post->image = $dto->image;
         }
-
-        $post->magazine->addPost($post);
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();

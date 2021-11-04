@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Message;
 
 use App\Controller\AbstractController;
-use App\DTO\MessageDto;
 use App\Entity\User;
 use App\Form\MessageType;
 use App\Service\MessageManager;
@@ -24,13 +23,11 @@ class MessageCreateThreadController extends AbstractController
      */
     public function __invoke(User $receiver, Request $request): Response
     {
-        $dto = new MessageDto();
-
-        $form = $this->createForm(MessageType::class, $dto);
+        $form = $this->createForm(MessageType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $thread = $this->manager->toThread($dto, $this->getUserOrThrow(), $receiver);
+            $this->manager->toThread($form->getData(), $this->getUserOrThrow(), $receiver);
 
             return $this->redirectToRoute(
                 'user_profile_messages'

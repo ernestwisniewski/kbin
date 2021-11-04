@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -10,11 +10,11 @@ use App\Form\EntryLinkType;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * @method createForm(string $class, EntryDto $dto)
+ * @method createForm(string $class)
  */
 trait EntryFormTrait
 {
-    private function createFormByType(EntryDto $dto, ?string $type): FormInterface
+    private function createFormByType(string $type, ?EntryDto $dto = null): FormInterface
     {
         if ($type === Entry::ENTRY_TYPE_ARTICLE) {
             return $this->createForm(EntryArticleType::class, $dto);

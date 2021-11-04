@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Entry\Comment;
 
@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class CommentCreateController extends AbstractController
 {
@@ -41,14 +42,20 @@ class CommentCreateController extends AbstractController
         ?EntryComment $parent,
         Request $request,
     ): Response {
-        $dto           = (new EntryCommentDto())->createWithParent($entry, $parent);
-        $dto->magazine = $magazine;
-        $dto->ip       = $request->getClientIp();
-
-        $form = $this->getCreateForm($dto, $parent);
+        $form = $this->getForm($entry, $parent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $dto           = $form->getData();
+            $dto->magazine = $magazine;
+            $dto->entry    = $entry;
+            $dto->parent   = $parent;
+            $dto->ip       = $request->getClientIp();
+
+            if (!$this->isGranted('create_content', $dto->magazine)) {
+                throw new AccessDeniedHttpException();
+            }
+
             return $this->handleValidRequest($dto, $request);
         }
 
@@ -62,13 +69,11 @@ class CommentCreateController extends AbstractController
         return $this->getEntryCommentPageResponse('entry/comment/create.html.twig', $criteria, $form, $request, $parent);
     }
 
-    private function getCreateForm(EntryCommentDto $dto, ?EntryComment $parent): FormInterface
+    private function getForm(Entry $entry, ?EntryComment $parent = null): FormInterface
     {
-        $entry = $dto->entry;
-
         return $this->createForm(
             EntryCommentType::class,
-            $dto,
+            null,
             [
                 'action' => $this->generateUrl(
                     'entry_comment_create',

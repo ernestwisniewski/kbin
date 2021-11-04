@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Post\Comment;
 
@@ -16,13 +16,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class CommentCreateController extends AbstractController
 {
     use CommentResponseTrait;
 
-    public function __construct(private PostCommentManager $manager, private PostCommentRepository $repository)
-    {
+    public function __construct(
+        private PostCommentManager $manager,
+        private PostCommentRepository $repository,
+    ) {
     }
 
     /**
@@ -39,25 +42,31 @@ class CommentCreateController extends AbstractController
         ?PostComment $parent,
         Request $request,
     ): Response {
-        $dto           = (new PostCommentDto())->createWithParent($post, $parent);
-        $dto->magazine = $magazine;
-        $dto->ip       = $request->getClientIp();
-
-        $form = $this->getCreateForm($dto, $parent);
+        $form = $this->getForm($post, $parent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $dto           = $form->getData();
+            $dto->post     = $post;
+            $dto->magazine = $magazine;
+            $dto->parent   = $parent;
+            $dto->ip       = $request->getClientIp();
+
+            if (!$this->isGranted('create_content', $dto->magazine)) {
+                throw new AccessDeniedHttpException();
+            }
+
             return $this->handleValidRequest($dto, $request);
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig');
         }
 
         $criteria       = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
         $comments = $this->repository->findByCriteria($criteria);
-
-        if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig');
-        }
 
         return $this->render(
             'post/comment/create.html.twig',
@@ -72,17 +81,17 @@ class CommentCreateController extends AbstractController
         );
     }
 
-    private function getCreateForm(PostCommentDto $dto, ?PostComment $parent): FormInterface
+    private function getForm(Post $post, ?PostComment $parent): FormInterface
     {
         return $this->createForm(
             PostCommentType::class,
-            $dto,
+            null,
             [
                 'action' => $this->generateUrl(
                     'post_comment_create',
                     [
-                        'magazine_name'     => $dto->post->magazine->name,
-                        'post_id'           => $dto->post->getId(),
+                        'magazine_name'     => $post->magazine->name,
+                        'post_id'           => $post->getId(),
                         'parent_comment_id' => $parent?->getId(),
                     ]
                 ),
