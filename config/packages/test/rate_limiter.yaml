@@ -20,3 +20,7 @@ framework:
       policy: 'sliding_window'
       limit: 1000
       interval: '1 second'
+    user_register:
+      policy: 'fixed_window'
+      limit: 1000
+      interval: '1 second'

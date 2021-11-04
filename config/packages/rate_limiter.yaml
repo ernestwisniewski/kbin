@@ -20,3 +20,7 @@ framework:
       policy: 'sliding_window'
       limit: 40
       interval: '60 minutes'
+    user_register:
+      policy: 'fixed_window'
+      limit: 2
+      interval: '360 minutes'
