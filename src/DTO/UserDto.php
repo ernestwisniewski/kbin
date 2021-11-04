@@ -23,9 +23,10 @@ class UserDto implements UserDtoInterface
     #[Assert\Length(min: 6, max: 4096)]
     public ?string $plainPassword = null;
     public Image|ImageDto|null $avatar = null;
-    public ?int $id = null;
     #[Assert\IsTrue]
-    public bool $agreeTerms;
+    public bool $agreeTerms = false;
+    public ?string $ip = null;
+    public ?int $id = null;
 
     public function getId(): ?int
     {

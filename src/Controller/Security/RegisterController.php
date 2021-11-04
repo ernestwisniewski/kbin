@@ -1,31 +1,38 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Security;
 
 use App\Controller\AbstractController;
-use App\DTO\UserDto;
 use App\Form\UserRegisterType;
 use App\Service\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 class RegisterController extends AbstractController
 {
     public function __invoke(
         UserManager $manager,
+        RateLimiterFactory $userRegisterLimiter,
         Request $request
     ): Response {
         if ($this->getUser()) {
             return $this->redirectToRoute('front_subscribed');
         }
-
-        $userDto = new UserDto();
-
-        $form = $this->createForm(UserRegisterType::class, $userDto);
+        $form = $this->createForm(UserRegisterType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->create($userDto);
+            $dto     = $form->getData();
+            $dto->ip = $request->getClientIp();
+
+            $limiter = $userRegisterLimiter->create($dto->ip);
+            if (false === $limiter->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
+
+            $manager->create($dto);
 
             return $this->redirectToRoute('front');
         }
