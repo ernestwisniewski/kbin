@@ -19,7 +19,7 @@ class PostCommentDto
     public ?PostComment $parent = null;
     public ?Image $image = null;
     #[Assert\Length(min: 2, max: 5000)]
-    public ?string $body;
+    public ?string $body = null;
     public int $uv = 0;
     public ?string $ip = null;
     public ?DateTimeImmutable $createdAt = null;

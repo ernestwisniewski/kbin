@@ -1,10 +1,19 @@
 <!doctype html>
 <html lang="{{ app.request.locale }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>{% block title %}{{ kbin_title }}{% endblock %}</title>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="{{ kbin_keywords }}">
+    <meta name="description" content="{% block description %}{{ kbin_description }}{% endblock %}">
+
+    <meta property="og:url" content="{{ app.request.uri }}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{ block('title') }}"/>
+    <meta property="og:description" content="{{ block('description') }}"/>
+    <meta property="og:image" content="{% block image %}{% endblock %}"/>
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 

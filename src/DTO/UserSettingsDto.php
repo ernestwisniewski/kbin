@@ -1,18 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
 class UserSettingsDto
 {
     public function __construct(
-        public bool $notifyOnNewEntry,
-        public bool $notifyOnNewEntryReply,
-        public bool $notifyOnNewEntryCommentReply,
-        public bool $notifyOnNewPost,
-        public bool $notifyOnNewPostReply,
-        public bool $notifyOnNewPostCommentReply,
-        public bool $darkTheme,
-        public bool $turboMode,
+        public bool $notifyOnNewEntry = false,
+        public bool $notifyOnNewEntryReply = false,
+        public bool $notifyOnNewEntryCommentReply = true,
+        public bool $notifyOnNewPost = false,
+        public bool $notifyOnNewPostReply = false,
+        public bool $notifyOnNewPostCommentReply = true,
+        public bool $darkTheme = false,
+        public bool $turboMode = false,
     ) {
     }
 }

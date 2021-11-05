@@ -4,9 +4,9 @@ namespace App\DTO;
 
 class ImageDto
 {
-    public string $filePath;
-    public ?int $width;
-    public ?int $height;
+    public ?string $filePath = null;
+    public ?int $width = null;
+    public ?int $height = null;
 
     public function create(string $filePath, ?int $width = null, ?int $height = null, ?int $id = null): self
     {

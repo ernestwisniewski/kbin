@@ -23,7 +23,7 @@ class EntryDto
     public Domain|DomainDto|null $domain = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
-    public string $title;
+    public ?string $title = null;
     #[Assert\Url]
     public ?string $url = null;
     #[Assert\Length(min: 2, max: 15000)]

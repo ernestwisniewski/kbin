@@ -7,7 +7,7 @@ use App\Entity\Magazine;
 
 class MagazineThemeDto
 {
-    public Magazine $magazine;
+    public ?Magazine $magazine = null;
     public ?Image $cover = null;
     public ?string $customCss = null;
     public ?string $customJs = null;

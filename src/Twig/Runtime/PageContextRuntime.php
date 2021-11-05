@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Twig\Runtime;
 
@@ -331,5 +331,17 @@ class PageContextRuntime implements RuntimeExtensionInterface
     {
         return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT)))
             === $sortOption;
+    }
+
+    public function getSentences(string $val): string
+    {
+        $subject = array_filter(explode('.', $val));
+
+        $sentences = $subject[0].'.';
+        if (isset($subject[1])) {
+            $sentences .= $subject[1];
+        }
+
+        return $sentences;
     }
 }

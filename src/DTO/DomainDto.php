@@ -4,8 +4,8 @@ namespace App\DTO;
 
 class DomainDto
 {
-    public string $name;
-    public ?int $entryCount;
+    public ?string $name = null;
+    public ?int $entryCount = null;
     private ?int $id;
 
     public function create(string $name, ?int $entryCount, ?int $id = null): self

@@ -2,57 +2,58 @@
 {% from 'entry/_macros.html.twig' import entry %}
 
 {% block title %}{{ entry.title }} - {{ magazine.title }}{% endblock %}
+{% block description %}{{ entry.body ? get_sentences(entry.body) : entry_author_comment(entry) ? get_sentences(entry_author_comment(entry).body) : '' }}{% endblock %}
+{% block image %}{{ entry.image ? uploaded_asset(entry.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
-    {% block body %}
-        <div class="kbin-entry-page">
+{% block body %}
+    <div class="kbin-entry-page">
+        {% block entry %}
+            {{ entry(entry, {
+                extra_classes: 'kbin-entry-single',
+                show_content: true,
+                direct_url: true
+            }) }}
+        {% endblock %}
 
-            {% block entry %}
-                {{ entry(entry, {
-                    extra_classes: 'kbin-entry-single',
-                    show_content: true,
-                    direct_url: true
-                }) }}
-            {% endblock %}
+        {% block after_entry %}{% endblock %}
 
-            {% block after_entry %}{% endblock %}
+        {% block related %}
+            {{ render(controller('App\\Controller\\Entry\\EntryRelatedController', {
+                'magazine': magazine,
+                'entry': entry,
+            })) }}
+        {% endblock %}
 
-            {% block related %}
-                {{ render(controller('App\\Controller\\Entry\\EntryRelatedController', {
-                    'magazine': magazine,
-                    'entry': entry,
-                })) }}
-            {% endblock %}
+        {% block comments %}
+            <section class="kbin-comment-wrapper mt-4">
+                <h4 class="kbin-comment-header pb-3 mb-0 font-weight-light">{{ 'comments'|trans }}</h4>
 
-            {% block comments %}
-                <section class="kbin-comment-wrapper mt-4">
-                    <h4 class="kbin-comment-header pb-3 mb-0 font-weight-light">{{ 'comments'|trans }}</h4>
+                <div class="mb-3">
+                    {% include 'entry/comment/_filters.html.twig' %}
+                </div>
 
-                    <div class="mb-3">
-                        {% include 'entry/comment/_filters.html.twig' %}
+                {% block before_comments %}{% endblock %}
+
+                {% include 'entry/comment/_list.html.twig' %}
+
+                {% if is_granted('comment', entry) %}
+                    {{ render(controller('App\\Controller\\Entry\\Comment\\CommentFormController', {
+                        'magazineName': entry.magazine.name,
+                        'entryId': entry.id
+                    })) }}
+                {% else %}
+                    <div class="alert alert-secondary text-muted my-3" role="alert">
+                        {% if not app.user %}
+                            {{ 'login_to_comment'|trans({'%link_start%' : '<a class="font-weight-bold" href="'~path('app_login')~'">', '%link_end%' : '</a>'}) | raw }}
+                        {% else %}
+                            {{ 'cannot_add_comment'|trans }}
+                        {% endif %}
                     </div>
-
-                    {% block before_comments %}{% endblock %}
-
-                    {% include 'entry/comment/_list.html.twig' %}
-
-                    {% if is_granted('comment', entry) %}
-                        {{ render(controller('App\\Controller\\Entry\\Comment\\CommentFormController', {
-                            'magazineName': entry.magazine.name,
-                            'entryId': entry.id
-                        })) }}
-                    {% else %}
-                        <div class="alert alert-secondary text-muted my-3" role="alert">
-                            {% if not app.user %}
-                                {{ 'login_to_comment'|trans({'%link_start%' : '<a class="font-weight-bold" href="'~path('app_login')~'">', '%link_end%' : '</a>'}) | raw }}
-                            {% else %}
-                                {{ 'cannot_add_comment'|trans }}
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                </section>
-            {% endblock %}
-        </div>
-    {% endblock %}
+                {% endif %}
+            </section>
+        {% endblock %}
+    </div>
+{% endblock %}
 
 {% block sidebar %}
     {% include 'entry/_sidebar.html.twig' %}

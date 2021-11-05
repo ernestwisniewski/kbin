@@ -21,7 +21,7 @@ class EntryCommentDto
     public Image|ImageDto|null $image = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 5000)]
-    public ?string $body;
+    public ?string $body = null;
     public ?int $uv = null;
     public ?int $dv = null;
     public ?string $ip = null;
