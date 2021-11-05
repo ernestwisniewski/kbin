@@ -15,7 +15,7 @@ class ReportDto
 {
     public ?Magazine $magazine = null;
     public ?User $reported = null;
-    public ReportInterface $subject;
+    public ?ReportInterface $subject = null;
     public ?string $reason = null;
     private ?int $id = null;
 

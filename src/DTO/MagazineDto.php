@@ -18,10 +18,10 @@ class MagazineDto
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 25)]
     #[Assert\Regex(pattern: "/^[a-zA-Z0-9_]{2,25}$/", match: true)]
-    public string $name;
+    public ?string $name = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 50)]
-    public string $title;
+    public ?string $title = null;
     #[Assert\Length(min: 3, max: 420)]
     public ?string $description = null;
     #[Assert\Length(min: 3, max: 420)]

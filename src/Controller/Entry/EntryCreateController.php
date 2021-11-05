@@ -4,6 +4,7 @@ namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
 use App\DTO\EntryCommentDto;
+use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
@@ -34,7 +35,10 @@ class EntryCreateController extends AbstractController
      */
     public function __invoke(?Magazine $magazine, ?string $type, Request $request): Response
     {
-        $form = $this->createFormByType((new EntryPageView(1))->resolveType($type));
+        $dto           = new EntryDto();
+        $dto->magazine = $magazine;
+
+        $form          = $this->createFormByType((new EntryPageView(1))->resolveType($type), $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

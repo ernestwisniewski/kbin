@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PostDto
 {
-    #[Assert\NotBlank]
     public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
     public Image|ImageDto|null $image = null;
