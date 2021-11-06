@@ -25,6 +25,6 @@ class FormattingRuntime implements RuntimeExtensionInterface
             $sentences .= $subject[1];
         }
 
-        return $sentences;
+        return $sentences . '.';
     }
 }
