@@ -11,7 +11,7 @@ final class EntryExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('entry_author_comment', [EntryRuntime::class, 'getAuthorEntryComment']),
+            new TwigFunction('get_author_entry_comment', [EntryRuntime::class, 'getAuthorEntryComment']),
         ];
     }
 }

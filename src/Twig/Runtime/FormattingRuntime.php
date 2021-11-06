@@ -15,4 +15,16 @@ class FormattingRuntime implements RuntimeExtensionInterface
     {
         return $this->markdownConverter->convertToHtml($value);
     }
+
+    public function getShortDesc(string $val): string
+    {
+        $subject = array_filter(explode('.', $val));
+
+        $sentences = $subject[0].'.';
+        if (isset($subject[1])) {
+            $sentences .= $subject[1];
+        }
+
+        return $sentences;
+    }
 }
