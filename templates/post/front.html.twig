@@ -6,7 +6,7 @@
     ? 'topbar.moderated'|trans: is_magazine_page()
     ? magazine.title: kbin_title }}
 {% endblock %}
-{% block description %}{{ magazine.description ? get_sentences(magazine.description) : '' }}{% endblock %}
+{% block description %}{{ magazine.description ? get_short_desc(magazine.description) : '' }}{% endblock %}
 {% block image %}{{ magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
     {% block body %}

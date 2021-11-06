@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ magazine.title }}{% endblock %}
-{% block description %}{{ magazine.description ? get_sentences(magazine.description) : '' }}{% endblock %}
+{% block description %}{{ magazine.description ? get_short_desc(magazine.description) : '' }}{% endblock %}
 {% block image %}{{ magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
 {% block body %}

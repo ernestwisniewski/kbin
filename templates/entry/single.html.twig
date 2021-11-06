@@ -2,7 +2,7 @@
 {% from 'entry/_macros.html.twig' import entry %}
 
 {% block title %}{{ entry.title }} - {{ magazine.title }}{% endblock %}
-{% block description %}{{ entry.body ? get_sentences(entry.body) : entry_author_comment(entry) ? get_sentences(entry_author_comment(entry).body) : '' }}{% endblock %}
+{% block description %}{{ entry.body ? get_short_desc(entry.body) : get_author_entry_comment(entry) ? get_short_desc(get_author_entry_comment(entry).body) : '' }}{% endblock %}
 {% block image %}{{ entry.image ? uploaded_asset(entry.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
 {% block body %}
