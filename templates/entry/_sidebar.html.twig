@@ -49,4 +49,4 @@
     </div>
 </div>
 
-{{ render(controller('App\\Controller\\Entry\\EntryVotersController::shortList', {'magazine': entry.magazine, 'entry': entry})) }}
+{{ component('entry_voters', {entry: entry}) }}

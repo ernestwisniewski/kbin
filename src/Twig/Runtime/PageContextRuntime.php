@@ -36,10 +36,14 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return $this->requestStack->getCurrentRequest();
     }
 
-    public function isCurrentMagazinePage(Magazine $magazine): bool
+    public function isCurrentMagazinePage(Magazine|string $magazine): bool
     {
         if (!$magazineRequest = $this->getCurrentRequest()->get('magazine')) {
             return false;
+        }
+
+        if (is_string($magazine)) {
+            return $magazine === $magazineRequest->name;
         }
 
         return $magazineRequest === $magazine;

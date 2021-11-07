@@ -17,14 +17,13 @@ class RandomMagazineComponent
 
     public function getHtml(): string
     {
-        $cache      = new FilesystemAdapter();
-        $repository = $this->repository;
+        $cache = new FilesystemAdapter();
 
-        return $cache->get('random_magazine', function (ItemInterface $item) use ($repository) {
+        return $cache->get('random_magazine', function (ItemInterface $item) {
             $item->expiresAfter(60);
 
             return $this->twig->render('_layout/_random_magazine.html.twig', [
-                'magazine' => $repository->findRandom(),
+                'magazine' => $this->repository->findRandom(),
             ]);
         });
     }
