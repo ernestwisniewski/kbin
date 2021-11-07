@@ -18,10 +18,7 @@
         {% block after_entry %}{% endblock %}
 
         {% block related %}
-            {{ render(controller('App\\Controller\\Entry\\EntryRelatedController', {
-                'magazine': magazine,
-                'entry': entry,
-            })) }}
+            {{ component('related_entries', {entry: entry}) }}
         {% endblock %}
 
         {% block comments %}
