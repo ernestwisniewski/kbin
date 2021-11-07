@@ -50,6 +50,7 @@ class EntryManager implements ContentManagerInterface
             $this->badgeManager->assign($entry, $dto->badges);
         }
 
+        $entry->magazine->lastActive = new \DateTime();
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
 

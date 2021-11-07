@@ -118,6 +118,10 @@ class Magazine implements VisibilityInterface
      */
     public Collection $logs;
     /**
+     * @ORM\Column(type="datetimetz", nullable=true)
+     */
+    public ?DateTime $lastActive = null;
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
