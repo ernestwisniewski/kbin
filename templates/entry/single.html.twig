@@ -34,10 +34,7 @@
                 {% include 'entry/comment/_list.html.twig' %}
 
                 {% if is_granted('comment', entry) %}
-                    {{ render(controller('App\\Controller\\Entry\\Comment\\CommentFormController', {
-                        'magazineName': entry.magazine.name,
-                        'entryId': entry.id
-                    })) }}
+                    {{ component('entry_comment_form', {entry: entry}) }}
                 {% else %}
                     <div class="alert alert-secondary text-muted my-3" role="alert">
                         {% if not app.user %}

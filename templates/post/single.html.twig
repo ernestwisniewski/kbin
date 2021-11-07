@@ -27,10 +27,7 @@
                     {% block before_comments %}
                         {% if is_granted('comment', post) %}
                             <div class="ps-sm-5">
-                                {{ render(controller('App\\Controller\\Post\\Comment\\CommentFormController', {
-                                    'magazineName': magazine.name,
-                                    'postId': post.id,
-                                })) }}
+                                {{ component('post_comment_form', {post: post}) }}
                             </div>
                         {% else %}
                             <div class="alert alert-secondary text-muted my-3" role="alert">
