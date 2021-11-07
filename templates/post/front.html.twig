@@ -6,8 +6,8 @@
     ? 'topbar.moderated'|trans: is_magazine_page()
     ? magazine.title: kbin_title }}
 {% endblock %}
-{% block description %}{{ magazine.description ? get_short_desc(magazine.description) : '' }}{% endblock %}
-{% block image %}{{ magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
+{% block description %}{{ magazine is defined ? magazine.description ? get_short_desc(magazine.description) : '' : kbin_description }}{% endblock %}
+{% block image %}{{ magazine is defined ? magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' : '' }}{% endblock %}
 
     {% block body %}
         <div class="kbin-posts-page">
@@ -15,9 +15,7 @@
                 {% include '_layout/_filters.html.twig' %}
 
                 {% if magazine is defined and is_granted('create_content', magazine) %}
-                    {{ render(controller('App\\Controller\\Post\\PostFormController', {
-                        'magazineName': magazine.name,
-                    })) }}
+                    {{ component('post_form', {magazine: magazine}) }}
                 {% elseif magazine is defined %}
                     <div class="alert alert-secondary text-muted my-3" role="alert">
                         {% if not app.user %}
