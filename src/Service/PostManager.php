@@ -36,8 +36,9 @@ class  PostManager implements ContentManagerInterface
             throw new TooManyRequestsHttpException();
         }
 
-        $post       = $this->factory->createFromDto($dto, $user);
-        $post->slug = $this->slugger->slug($dto->body);
+        $post                       = $this->factory->createFromDto($dto, $user);
+        $post->slug                 = $this->slugger->slug($dto->body);
+        $post->magazine->lastActive = new \DateTime();
         $post->magazine->addPost($post);
 
         if ($dto->image) {

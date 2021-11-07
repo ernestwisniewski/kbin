@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -14,10 +14,8 @@ use App\Factory\EntryCommentFactory;
 use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 
 class EntryCommentManager implements ContentManagerInterface
@@ -40,7 +38,8 @@ class EntryCommentManager implements ContentManagerInterface
         $comment = $this->factory->createFromDto($dto, $user);
 
         $comment->entry->addComment($comment);
-        $comment->magazine = $dto->entry->magazine;
+        $comment->magazine   = $dto->entry->magazine;
+        $comment->lastActive = new \DateTime();
 
         if ($dto->image) {
             $comment->image = $dto->image;
