@@ -37,7 +37,8 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment = $this->factory->createFromDto($dto, $user);
 
-        $comment->magazine = $dto->post->magazine;
+        $comment->magazine             = $dto->post->magazine;
+        $comment->magazine->lastActive = new \DateTime();
         $comment->post->addComment($comment);
 
         if ($dto->image) {

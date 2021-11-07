@@ -40,8 +40,9 @@ class EntryManager implements ContentManagerInterface
             throw new TooManyRequestsHttpException();
         }
 
-        $entry       = $this->factory->createFromDto($dto, $user);
-        $entry->slug = $this->slugger->slug($dto->title);
+        $entry                       = $this->factory->createFromDto($dto, $user);
+        $entry->slug                 = $this->slugger->slug($dto->title);
+        $entry->magazine->lastActive = new \DateTime();
         $entry->magazine->addEntry($entry);
 
         $entry = $this->setType($dto, $entry);
@@ -50,7 +51,6 @@ class EntryManager implements ContentManagerInterface
             $this->badgeManager->assign($entry, $dto->badges);
         }
 
-        $entry->magazine->lastActive = new \DateTime();
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
 
