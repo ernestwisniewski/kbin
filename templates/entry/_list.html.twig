@@ -1,19 +1,11 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
-{% from 'entry/_macros.html.twig' import entry %}
 
 <div class="kbin-entry-list" data-controller="entry-list"
     data-action="notify:EntryCreatedNotification@window->entry-list#add"
     {% if magazine is defined and magazine %}data-entry-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if entries|length %}
         {% for entry in entries %}
-            {{ entry(entry, {
-                entry: entry,
-                self: app.user,
-                extra_classes: 'kbin-entry-list-item',
-                title_tag: 'h4',
-                direct_url: false,
-                show_magazine: show_magazine ?? false
-            }) }}
+            {{ component('entry', { entry: entry, extraClass: 'kbin-entry-list-item', showMagazine: show_magazine ?? false }) }}
         {% endfor %}
     {% else %}
         {{ not_found(0) }}

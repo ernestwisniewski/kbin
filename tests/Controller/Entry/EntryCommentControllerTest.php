@@ -14,7 +14,8 @@ class EntryCommentControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('title');
 
-        $crawler = $client->request('GET', $entryUrl = '/m/polityka/t/'.$entry->getId().'/-/komentarze');
+        $crawler = $client->request('GET', '/m/polityka/t/'.$entry->getId().'/-/komentarze');
+
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [

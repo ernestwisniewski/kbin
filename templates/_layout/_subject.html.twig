@@ -1,11 +1,10 @@
 {% from 'magazine/_macros.html.twig' import magazine %}
-{% from 'entry/_macros.html.twig' import entry %}
 {% from 'entry/comment/_macros.html.twig' import comment as entry_comment %}
 {% from 'post/_macros.html.twig' import post %}
 {% from 'post/comment/_macros.html.twig' import comment as post_comment %}
 
 {% if subject is entry %}
-    {{ entry(subject) }}
+    {{ component('entry', {entry: subject}) }}
 {% elseif subject is entry_comment %}
     {{ entry_comment(subject, {with_parent: true}) }}
 {% elseif subject is post %}
