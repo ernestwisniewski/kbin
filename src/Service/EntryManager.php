@@ -134,13 +134,11 @@ class EntryManager implements ContentManagerInterface
 
         if ($dto->image) {
             $entry->type     = Entry::ENTRY_TYPE_IMAGE;
-            $entry->image    = $dto->image;
             $entry->hasEmbed = true;
         }
 
         if ($dto->body) {
-            $entry->type  = Entry::ENTRY_TYPE_ARTICLE;
-            $entry->image = $dto->image;
+            $entry->type = Entry::ENTRY_TYPE_ARTICLE;
         }
 
         return $entry;

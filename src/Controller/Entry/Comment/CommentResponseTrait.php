@@ -53,11 +53,7 @@ trait CommentResponseTrait
                 'html' => $this->renderView(
                     'entry/comment/_comment.html.twig',
                     [
-                        'extra_classes' => 'kbin-comment',
-                        'with_parent'   => false,
                         'comment'       => $comment,
-                        'level'         => 1,
-                        'nested'        => false,
                     ]
                 ),
             ]
