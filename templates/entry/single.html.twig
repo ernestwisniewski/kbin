@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% from 'entry/_macros.html.twig' import entry %}
 
 {% block title %}{{ entry.title }} - {{ magazine.title }}{% endblock %}
 {% block description %}{{ entry.body ? get_short_desc(entry.body) : get_author_entry_comment(entry) ? get_short_desc(get_author_entry_comment(entry).body) : '' }}{% endblock %}
@@ -8,11 +7,7 @@
 {% block body %}
     <div class="kbin-entry-page">
         {% block entry %}
-            {{ entry(entry, {
-                extra_classes: 'kbin-entry-single',
-                show_content: true,
-                direct_url: true
-            }) }}
+            {{ component('entry', {entry: entry, extraClass: 'kbin-entry-single', showContent: true, directUrl: true}) }}
         {% endblock %}
 
         {% block after_entry %}{% endblock %}

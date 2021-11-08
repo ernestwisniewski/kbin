@@ -39,7 +39,7 @@ class AjaxController extends AbstractController
         return new JsonResponse(
             [
                 'id'   => $entry->getId(),
-                'html' => $this->renderView('entry/__entry.html.twig', ['entry' => $entry, 'show_content' => true]),
+                'html' => $this->renderView('components/entry.html.twig', ['entry' => $entry, 'showContent' => true]),
             ]
         );
     }
