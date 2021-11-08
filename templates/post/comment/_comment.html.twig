@@ -2,11 +2,10 @@
     {% from 'user/_macros.html.twig' import avatar %}
     {% from 'user/_macros.html.twig' import user %}
     {% from 'vote/_macros.html.twig' import vote %}
-    {% from 'post/_macros.html.twig' import post %}
     {% from '_layout/_macros.html.twig' import post_url %}
 
     {% if with_parent %}
-        {{ post(comment.post) }}
+        {{ component('post', {post: comment.post, showMagazine:true}) }}
     {% endif %}
 
     {% if not app.user or (app.user and not app.user.isBlocked(comment.user)) %}

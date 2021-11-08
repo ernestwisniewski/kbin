@@ -1,18 +1,11 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
-{% from 'post/_macros.html.twig' import post %}
 
 <div class="kbin-post-list" data-controller="post-list"
     data-action="notify:PostCreatedNotification@window->post-list#add"
     {% if magazine is defined and magazine %}data-post-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if posts|length %}
         {% for post in posts %}
-            {{ post(post, {
-                post: post,
-                self: app.user,
-                extra_classes: 'kbin-post-list-item',
-                show_best_comments: true,
-                title_tag: 'h4'
-            }) }}
+            {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showBestComments: true, showMagazine: magazine is not defined }) }}
         {% endfor %}
     {% else %}
         {{ not_found() }}

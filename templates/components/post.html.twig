@@ -1,0 +1,194 @@
+{% from 'user/_macros.html.twig' import avatar %}
+{% from 'user/_macros.html.twig' import user %}
+{% from 'magazine/_macros.html.twig' import magazine_inline %}
+{% from 'vote/_macros.html.twig' import vote %}
+{% from 'post/comment/_macros.html.twig' import comment %}
+{% from '_layout/_macros.html.twig' import post_url %}
+
+<blockquote id="{{ this.post.id }}"
+            class="kbin-post {{ this.extraClass }} "
+            data-controller="post report comment-counter"
+            data-action="notify:PostCommentCreatedNotification@window->comment-counter#increase"
+            data-comment-counter-subject-id-value="{{ this.post.id }}"
+            data-post-id-value="{{ this.post.id }}"
+            data-post-magazine-name-value="{{ this.post.magazine.name }}">
+    <div class="mb-2">
+        {{ vote(this.post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true, notification_type: 'Post'}) }}
+
+        {% if this.post.user.avatar %}
+            <div class="kbin-post-avatar">
+                {{ avatar(this.post.user) }}
+            </div>
+        {% endif %}
+
+        <aside class="kbin-post-meta">
+            <ul class="kbin-post-meta-list list-inline m-0">
+                <li class="kbin-post-meta-date kbin-post-meta-list-item list-inline-item">
+                    {% if not is_post_page() %}
+                    <a href="{{ post_url(this.post) }}">
+                        {% endif %}
+                        {% if this.post.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
+                        <small class="text-muted">
+                            <time data-controller="timeago"
+                                  data-timeago-refresh-interval-value="10000"
+                                  data-timeago-datetime-value="{{ this.post.createdAt|date('c') }}">{{ this.post.createdAt|ago }}</time>
+                        </small>
+                        {% if not is_post_page() %}
+                    </a>
+                    {% endif %}
+                </li>
+
+                <li class="kbin-post-meta-user kbin-post-meta-list-item list-inline-item">
+                    <small class="text-muted">{{ 'by'|trans }} {{ user(this.post.user, {bolded: true, prefix: false}) }}</small>
+                </li>
+
+                {% if this.showMagazine %}
+                    <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
+                        <small class="text-muted">{{ 'to'|trans }} {{ magazine_inline(this.post.magazine, {bolded:true}) }}</small>
+                    </li>
+                {% endif %}
+            </ul>
+        </aside>
+    </div>
+    <div class="kbin-post-main clearfix">
+        <div class="kbin-post-content" data-controller="show-more" data-action="image:thumbSelected->show-more#expand"
+             data-action="image:thumbLoaded->show-more#checkHeight">
+            {% if this.post.visibility is same as 'visible' %}
+                {{ this.post.body|markdown|raw }}
+                {% if this.post.image %}
+                    <img data-controller="image"
+                         data-image-loading-class="loading-cursor"
+                         data-image-full-value="{{ uploaded_asset(this.post.image.filePath) }}"
+                         data-image-thumb-value="{{ asset(this.post.image.filePath) | imagine_filter('post_thumb') }}"
+                         data-action="click->image#toggle"
+                         src="{{ asset(this.post.image.filePath) | imagine_filter('post_thumb') }}"
+                         alt="{{ this.post.shortTitle }}">
+                {% endif %}
+            {% elseif this.post.visibility is same as 'trashed' %}
+                <p class="text-muted">[{{ 'removed'|trans }}]</p>
+            {% elseif this.post.visibility is same as 'soft_deleted' %}
+                <p class="text-muted">[{{ 'deleted'|trans }}]</p>
+            {% endif %}
+        </div>
+        <aside class="kbin-post-meta">
+            <ul class="kbin-post-meta-list list-inline mb-0 float-start">
+                <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
+                    <small class="text-muted">
+                        <a href="{{ post_url(this.post) }}" data-action="post#reply">
+                            {{ 'reply'|trans }}
+                        </a>
+                    </small>
+                </li>
+
+                {% if this.post.commentCount > 2 and not is_post_page() %}
+                    <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
+                        <small class="text-muted">
+                            <a data-action="post#expand"
+                               href="{{ post_url(this.post) }}">
+                                {{ 'expand'|trans }} (<span data-comment-counter-target="lenght">{{ this.post.commentCount }}</span>)
+                            </a>
+                        </small>
+                    </li>
+                {% endif %}
+
+                <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
+                    <small class="text-muted"><a href="{{ path('post_report', {id: this.post.id}) }}"
+                                                 data-action="report#report">{{ 'report'|trans }}</a></small>
+                </li>
+
+                {% if is_granted('edit', this.post) %}
+                    <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
+                        <small class="text-muted">
+                            <a href="{{ path('post_edit', {'magazine_name': this.post.magazine.name, 'post_id': this.post.id}) }}">
+                                {{ 'edit'|trans }}
+                            </a>
+                        </small>
+                    </li>
+                {% endif %}
+
+                {% if app.user and this.post.isAuthor(app.user) %}
+                    <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                        <form method="post"
+                              action="{{ path('post_delete', {
+                                  magazine_name: this.post.magazine.name,
+                                  post_id: this.post.id,
+                              }) }}"
+                              onsubmit="return confirm('You sure?');">
+                            <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
+                            <button type="submit" class="btn btn-link">
+                                <span>{{ 'delete'|trans }}</span>
+                            </button>
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
+                {% if is_granted('moderate', this.post.magazine) or is_granted('delete', this.post) %}
+                    <ul class="kbin-post-meta-list list-inline mb-0">
+                        <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
+                            <small class="kbin-post-meta-edit text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
+                                <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
+                                    {{ 'moderate'|trans }}
+                                </button>
+                            </small>
+                        </li>
+                    </ul>
+                {% endif %}
+
+                <ul class="kbin-post-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
+                    data-reveal-target="item">
+                    {% if is_granted('moderate', this.post.magazine) %}
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="kbin-entry-meta-edit text-muted">
+                                <a href="{{ path('magazine_panel_ban', {'magazine_name': this.post.magazine.name, 'user_username': this.post.user.username}) }}">{{ 'ban'|trans }}</a>
+                            </small>
+                        </li>
+
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <form method="post"
+                                  action="{{ path('post_delete', {
+                                      magazine_name: this.post.magazine.name,
+                                      post_id: this.post.id,
+                                  }) }}"
+                                  onsubmit="return confirm('You sure?');">
+                                <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
+                                <button type="submit" class="btn btn-link">
+                                    <span>{{ 'delete'|trans }}</span>
+                                </button>
+                            </form>
+                        </li>
+
+                        {% if is_granted('purge', this.post) %}
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <form method="post"
+                                      action="{{ path('post_purge', {
+                                          magazine_name: this.post.magazine.name,
+                                          post_id: this.post.id,
+                                      }) }}"
+                                      onsubmit="return confirm('You sure?');">
+                                    <input type="hidden" name="token" value="{{ csrf_token('post_purge') }}">
+                                    <button type="submit" class="btn btn-link">
+                                        <span>{{ 'purge'|trans }}</span>
+                                    </button>
+                                </form>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </section>
+        </aside>
+        <div class="clearfix"></div>
+        <div data-post-target="form" data-report-target="form"></div>
+    </div>
+</blockquote>
+
+{% block before_comments %}{% endblock %}
+
+{% if(this.showAllComments) %}
+    {% include 'post/comment/_list.html.twig' %}
+{% endif %}
+
+{% if(this.showBestComments) %}
+    {% include 'post/comment/_list.html.twig' with {comments: this.post.lastComments} %}
+{% endif %}

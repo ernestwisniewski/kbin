@@ -5,7 +5,7 @@
     {% if magazine is defined and magazine %}data-entry-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if entries|length %}
         {% for entry in entries %}
-            {{ component('entry', { entry: entry, extraClass: 'kbin-entry-list-item', showMagazine: show_magazine ?? false }) }}
+            {{ component('entry', { entry: entry, extraClass: 'kbin-entry-list-item', showMagazine: magazine is not defined }) }}
         {% endfor %}
     {% else %}
         {{ not_found(0) }}

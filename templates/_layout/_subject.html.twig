@@ -1,14 +1,13 @@
 {% from 'magazine/_macros.html.twig' import magazine %}
 {% from 'entry/comment/_macros.html.twig' import comment as entry_comment %}
-{% from 'post/_macros.html.twig' import post %}
 {% from 'post/comment/_macros.html.twig' import comment as post_comment %}
 
 {% if subject is entry %}
-    {{ component('entry', {entry: subject}) }}
+    {{ component('entry', {entry: subject, showMagazine: true}) }}
 {% elseif subject is entry_comment %}
     {{ entry_comment(subject, {with_parent: true}) }}
 {% elseif subject is post %}
-    {{ post(subject) }}
+    {{ component('post', {post: subject, showMagazine: true}) }}
 {% elseif subject is post_comment %}
     {{ post_comment(subject, {'with_parent': true}) }}
 {% elseif subject is magazine %}

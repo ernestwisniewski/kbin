@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% from 'post/_macros.html.twig' import post %}
 {% from 'post/comment/_macros.html.twig' import comment %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
@@ -17,12 +16,8 @@
                      data-controller="comment-list"
                      data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
                      {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
-                    {{ post(post, {
-                        post: post,
-                        self: app.user,
-                        extra_classes: 'kbin-post-list-item',
-                        title_tag: 'h4'
-                    }) }}
+
+                    {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showMagazine: false}) }}
 
                     {% block before_comments %}
                         {% if is_granted('comment', post) %}
