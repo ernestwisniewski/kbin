@@ -20,7 +20,7 @@ class EntryVotersComponent
 
     public function getHtml(): string
     {
-        if (!$this->entry->votes->count()) {
+        if ($this->entry->votes->isEmpty()) {
             return '';
         }
 

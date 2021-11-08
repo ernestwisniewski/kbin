@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -39,7 +39,7 @@ class AjaxController extends AbstractController
         return new JsonResponse(
             [
                 'id'   => $entry->getId(),
-                'html' => $this->renderView('components/entry.html.twig', ['entry' => $entry, 'showContent' => true]),
+                'html' => $this->renderView('entry/_entry.html.twig', ['entry' => $entry]),
             ]
         );
     }
@@ -52,11 +52,11 @@ class AjaxController extends AbstractController
                 'html' => $this->renderView(
                     'entry/comment/_comment.html.twig',
                     [
-                        'extra_classes' => 'kbin-comment',
-                        'with_parent'   => false,
-                        'comment'       => $comment,
-                        'level'         => 1,
-                        'nested'        => false,
+                        'extraClass' => 'kbin-comment',
+                        'withParent' => false,
+                        'comment'    => $comment,
+                        'level'      => 1,
+                        'nested'     => false,
                     ]
                 ),
             ]
@@ -68,7 +68,7 @@ class AjaxController extends AbstractController
         return new JsonResponse(
             [
                 'id'   => $post->getId(),
-                'html' => $this->renderView('components/post.html.twig', ['post' => $post]),
+                'html' => $this->renderView('post/_post.html.twig', ['post' => $post]),
             ]
         );
     }

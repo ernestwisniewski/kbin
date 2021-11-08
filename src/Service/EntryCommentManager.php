@@ -37,13 +37,10 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment = $this->factory->createFromDto($dto, $user);
 
-        $comment->entry->addComment($comment);
         $comment->magazine   = $dto->entry->magazine;
+        $comment->image      = $dto->image;
         $comment->lastActive = new \DateTime();
-
-        if ($dto->image) {
-            $comment->image = $dto->image;
-        }
+        $comment->entry->addComment($comment);
 
         $this->entityManager->persist($comment);
         $this->entityManager->flush();

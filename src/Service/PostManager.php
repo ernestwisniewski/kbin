@@ -38,12 +38,9 @@ class  PostManager implements ContentManagerInterface
 
         $post                       = $this->factory->createFromDto($dto, $user);
         $post->slug                 = $this->slugger->slug($dto->body);
+        $post->image                = $dto->image;
         $post->magazine->lastActive = new \DateTime();
         $post->magazine->addPost($post);
-
-        if ($dto->image) {
-            $post->image = $dto->image;
-        }
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();
