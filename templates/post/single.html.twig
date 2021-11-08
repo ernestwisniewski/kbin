@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% from 'post/comment/_macros.html.twig' import comment %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
 {% block title %}{{ get_short_desc(post.body) }} - {{ magazine.title }}{% endblock %}
@@ -17,7 +16,7 @@
                      data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
                      {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
 
-                    {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showMagazine: false}) }}
+                    {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showMagazine: magazine is not defined}) }}
 
                     {% block before_comments %}
                         {% if is_granted('comment', post) %}
@@ -37,7 +36,7 @@
 
                     {% if comments|length %}
                         {% for comment in comments %}
-                            {{ comment(comment) }}
+                            {{ component('post_comment', {comment: comment}) }}
                         {% endfor %}
                     {% else %}
                         {{ not_found() }}
