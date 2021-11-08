@@ -1,6 +1,5 @@
 {% from 'magazine/_macros.html.twig' import magazine %}
 {% from 'entry/comment/_macros.html.twig' import comment as entry_comment %}
-{% from 'post/comment/_macros.html.twig' import comment as post_comment %}
 
 {% if subject is entry %}
     {{ component('entry', {entry: subject, showMagazine: true}) }}
@@ -9,7 +8,7 @@
 {% elseif subject is post %}
     {{ component('post', {post: subject, showMagazine: true}) }}
 {% elseif subject is post_comment %}
-    {{ post_comment(subject, {'with_parent': true}) }}
+    {{ component('post_comment',{comment: subject, withParent: true}) }}
 {% elseif subject is magazine %}
     {{ magazine(subject) }}
 {% endif %}

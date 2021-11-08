@@ -1,5 +1,4 @@
 {% extends 'post/single.html.twig' %}
-{% from 'post/comment/_macros.html.twig' import comment %}
 
 {% block title %}{{ 'reply'|trans }}{% endblock %}
 
@@ -9,11 +8,7 @@
 
 {% block before_comments %}
     {% if parent %}
-        {{ comment(parent, {
-            self: app.user,
-            comment: parent,
-            extra_classes: 'kbin-comment-list-item mb-0'
-        }) }}
+        {{ component('post_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0'}) }}
     {% endif %}
 
     {% include 'post/comment/_form.html.twig' %}

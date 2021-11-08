@@ -1,13 +1,9 @@
-{% from 'post/comment/_macros.html.twig' import comment %}
-
 <div class="kbin--list" data-controller="comment-list"
    data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
    {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
     {% if comments|length %}
         {% for comment in comments %}
-            {{ comment(comment,{
-                with_parent: with_parent ?? false
-            }) }}
+            {{ component('post_comment', {comment: comment, withParent: false}) }}
         {% endfor %}
     {% endif %}
     {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}

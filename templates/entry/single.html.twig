@@ -7,7 +7,7 @@
 {% block body %}
     <div class="kbin-entry-page">
         {% block entry %}
-            {{ component('entry', {entry: entry, extraClass: 'kbin-entry-single', showContent: true, directUrl: true, showMagazine: false}) }}
+            {{ component('entry', {entry: entry, extraClass: 'kbin-entry-single', showContent: true, directUrl: true, showMagazine: magazine is not defined}) }}
         {% endblock %}
 
         {% block after_entry %}{% endblock %}
