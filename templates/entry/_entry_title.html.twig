@@ -1,18 +1,18 @@
 {% from '_layout/_macros.html.twig' import entry_url %}
 
-<{{ this.titleTag }} class="kbin-entry-title mb-0">
-{% if this.entry.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
-{% if this.directUrl %}
-    {% if this.entry.url %}
-        <a href="{{ this.entry.url }}" rel="nofollow">{{ this.entry.title }}</a>
+<{{ title_tag }} class="kbin-entry-title mb-0">
+{% if entry.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
+{% if direct_url %}
+    {% if entry.url %}
+        <a href="{{ entry.url }}" rel="nofollow">{{ entry.title }}</a>
     {% else %}
-        {{ this.entry.title }}
+        {{ entry.title }}
     {% endif %}
 {% else %}
-    <a href="{{ entry_url(this.entry) }}">{{ this.entry.title }}</a>
+    <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
 {% endif %}
-{% for badge in this.entry.badges %}<span class="badge bg-secondary me-1">{{ badge.badge.name }}</span>{% endfor %}
-{% if this.entry.domain %}
-    <small class="kbin-entry-title-domain small text-muted">(<a class="text-reset" href="#">{{ this.entry.domain.name }}</a>)</small>
+{% for badge in entry.badges %}<span class="badge bg-secondary me-1">{{ badge.badge.name }}</span>{% endfor %}
+{% if entry.domain %}
+    <small class="kbin-entry-title-domain small text-muted">(<a class="text-reset" href="#">{{ entry.domain.name }}</a>)</small>
 {% endif %}
-</{{ this.titleTag }}>
+</{{ title_tag }}>

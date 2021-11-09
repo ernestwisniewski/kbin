@@ -1,7 +1,11 @@
 {% from 'magazine/_macros.html.twig' import magazine %}
 
 {% for magazine in magazines %}
-    {{ magazine(magazine) }}
+    <div class="px-lg-5 mx-lg-5 row mb-5">
+        <div class="px-lg-5 mx-lg-5">
+        {{ component('magazine', {magazine: magazine}) }}
+        </div>
+    </div>
 {% endfor %}
 
 {% if(magazines.haveToPaginate) %}

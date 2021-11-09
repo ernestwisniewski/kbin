@@ -1,0 +1,73 @@
+{% from 'user/_macros.html.twig' import user %}
+
+<div class="kbin-magazine-header px-2 text-center">
+    {% if this.magazine.cover %}
+        <img class="img-thumbnail" src="{{ asset(this.magazine.cover.filePath) | imagine_filter('post_thumb') }}"
+             alt="{{ this.magazine.title }}">
+    {% endif %}
+    <h2 class="font-weight-bold">{{ this.magazine.title }}</h2>
+    <h3 class="lead mb-2"><span class="text-muted">/m/</span>{{ this.magazine.name }}</h3>
+
+    <div class="mb-3">
+        {% include 'magazine/_sub_button.html.twig' with {magazine: this.magazine} %}
+    </div>
+</div>
+
+<div class="kbin-magazine-desc px-2 small">
+    {% if this.magazine.description %}
+        <p class="small">{{ this.magazine.description|markdown|raw }}</p>
+    {% endif %}
+
+    {% if this.magazine.rules %}
+        <p class="small">{{ this.magazine.rules|markdown|raw }}</p>
+    {% endif %}
+</div>
+
+<div class="kbin-magazine-stats mb-4 col-12 px-sm-1 px-lg-0 float-sm-start">
+    <div class="card mb-3">
+        <div class="card-header d-none">
+            {{ 'magazine'|trans }}
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="text-muted">{{ 'created'|trans }}:</span>
+                <time data-controller="timeago"
+                      data-timeago-refresh-interval-value="10000"
+                      data-timeago-datetime-value="{{ this.magazine.createdAt|date('c') }}">{{ this.magazine.createdAt|ago }}</time>
+            </li>
+            <li class="list-group-item"><span class="text-muted">{{ 'author'|trans }}:</span> {{ user(this.magazine.getOwner, {prefix: false}) }}</li>
+            <li class="list-group-item"><span class="text-muted">{{ 'subscribers'|trans }}:</span> 1</li>
+        </ul>
+    </div>
+
+    <ul class="list-group kbin-magazine-stats-links">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a class="stretched-link" href="{{ path('front_magazine', {'name': this.magazine.name }) }}">{{ 'threads'|trans }}</a>
+            <span class="badge bg-primary rounded-pill">{{ this.magazine.entryCount }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a class="stretched-link" href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
+            <span class="badge bg-primary rounded-pill">{{ this.magazine.entryCommentCount }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a class="stretched-link" href="{{ get_active_posts_page_path() }}">{{ 'posts'|trans }}</a>
+            <span class="badge bg-primary rounded-pill">{{ this.magazine.postCount }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a class="stretched-link" href="{{ get_active_posts_page_path() }}">{{ 'replies'|trans }}</a>
+            <span class="badge bg-primary rounded-pill">{{ this.magazine.postCommentCount }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a class="stretched-link" href="{{ path('magazine_moderators', {'name': this.magazine.name}) }}">{{ 'moderators'|trans }}</a>
+            <span class="badge bg-primary rounded-pill">{{ this.magazine.moderators|length }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a class="stretched-link" href="{{ path('magazine_modlog', {'name': this.magazine.name}) }}">{{ 'modlog'|trans }}</a>
+            <span class="badge bg-primary rounded-pill">{{ this.magazine.logs|length }}</span>
+        </li>
+    </ul>
+</div>
