@@ -1,6 +1,5 @@
 {% from 'user/_macros.html.twig' import avatar %}
 {% from 'user/_macros.html.twig' import user %}
-{% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from '_layout/_macros.html.twig' import post_url %}
 
 <blockquote id="{{ this.post.id }}"
@@ -42,7 +41,7 @@
 
                 {% if this.showMagazine %}
                     <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">{{ 'to'|trans }} {{ magazine_inline(this.post.magazine, {bolded:true}) }}</small>
+                        <small class="text-muted">{{ 'to'|trans }} {{ component('magazine_inline', { magazine: this.post.magazine, bolded:true }) }}</small>
                     </li>
                 {% endif %}
             </ul>

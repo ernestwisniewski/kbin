@@ -1,4 +1,0 @@
-{% block magazine_inline %}
-    {% if prefix %}<small class="text-muted">/m/</small>{% endif %}<a class="{{ bolded ? 'font-weight-bold' : '' }}"
-                                                                      href="{{ path('front_magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a>
-{% endblock magazine_inline %}

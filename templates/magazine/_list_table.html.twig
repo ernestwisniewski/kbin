@@ -1,5 +1,3 @@
-{% from 'magazine/_macros.html.twig' import magazine_inline %}
-
 <div class="table-responsive">
     <table class="table align-middle">
         <thead>
@@ -14,7 +12,7 @@
         <tbody>
         {% for magazine in magazines %}
             <tr>
-                <td>{{ magazine_inline(magazine) }}</td>
+                <td>{{ component('magazine_inline', { magazine: magazine }) }}</td>
                 <td>{{ magazine.entryCount }}</td>
                 <td>{{ magazine.entryCommentCount }}</td>
                 <td>{{ magazine.postCount }}</td>

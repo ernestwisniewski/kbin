@@ -1,4 +1,3 @@
-{% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from 'user/_macros.html.twig' import user %}
 {% from '_layout/_macros.html.twig' import entry_url %}
 
@@ -60,7 +59,7 @@
 
                 {% if this.showMagazine %}
                     <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
-                        <small class="text-muted">{{ 'to'|trans }}</small> {{ magazine_inline(this.entry.magazine) }}
+                        <small class="text-muted">{{ 'to'|trans }}</small> {{ component('magazine_inline', { magazine: this.entry.magazine }) }}
                     </li>
                 {% endif %}
             </ul>
