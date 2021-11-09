@@ -9,5 +9,5 @@
 {% elseif subject is post_comment %}
     {{ component('post_comment',{comment: subject, withParent: true}) }}
 {% elseif subject is magazine %}
-    {{ magazine(subject) }}
+    {{ component('magazine',{magazine: subject}) }}
 {% endif %}

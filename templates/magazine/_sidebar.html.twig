@@ -2,77 +2,7 @@
 {% from 'user/_macros.html.twig' import user %}
 
 <div class="kbin-magazine mb-4 mt-lg-0">
-    <div class="kbin-magazine-header px-2 text-center">
-        {% if magazine.cover %}
-            <img class="img-thumbnail" src="{{ asset(magazine.cover.filePath) | imagine_filter('post_thumb') }}"
-                 alt="{{ magazine.title }}">
-        {% endif %}
-        <h2 class="font-weight-bold">{{ magazine.title }}</h2>
-        <h3 class="lead mb-2"><span class="text-muted">/m/</span>{{ magazine.name }}</h3>
-
-        <div class="mb-3">
-            {% include 'magazine/_sub_button.html.twig' %}
-        </div>
-    </div>
-
-    <div class="kbin-magazine-desc px-2 small">
-        {% if magazine.description %}
-            <p class="small">{{ magazine.description|markdown|raw }}</p>
-        {% endif %}
-
-        {% if magazine.rules %}
-            <p class="small">{{ magazine.rules|markdown|raw }}</p>
-        {% endif %}
-    </div>
-
-    <div class="kbin-magazine-stats mb-4 col-sm-6 col-lg-12 px-sm-1 px-lg-0 float-sm-start">
-        <div class="card mb-3">
-            <div class="card-header d-lg-none">
-                {{ 'magazine'|trans }}
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><span class="text-muted">{{ 'created'|trans }}:</span>
-                    <time data-controller="timeago"
-                          data-timeago-refresh-interval-value="10000"
-                          data-timeago-datetime-value="{{ magazine.createdAt|date('c') }}">{{ magazine.createdAt|ago }}</time>
-                </li>
-                <li class="list-group-item"><span class="text-muted">{{ 'author'|trans }}:</span> {{ user(magazine.getOwner, {prefix: false}) }}</li>
-                <li class="list-group-item"><span class="text-muted">{{ 'subscribers'|trans }}:</span> 1</li>
-            </ul>
-        </div>
-
-        <ul class="list-group kbin-magazine-stats-links">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ path('front_magazine', {'name': magazine.name }) }}">{{ 'threads'|trans }}</a>
-                <span class="badge bg-primary rounded-pill">{{ magazine.entryCount }}</span>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
-                <span class="badge bg-primary rounded-pill">{{ magazine.entryCommentCount }}</span>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ get_active_posts_page_path() }}">{{ 'posts'|trans }}</a>
-                <span class="badge bg-primary rounded-pill">{{ magazine.postCount }}</span>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ get_active_posts_page_path() }}">{{ 'replies'|trans }}</a>
-                <span class="badge bg-primary rounded-pill">{{ magazine.postCommentCount }}</span>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ path('magazine_moderators', {'name': magazine.name}) }}">{{ 'moderators'|trans }}</a>
-                <span class="badge bg-primary rounded-pill">{{ magazine.moderators|length }}</span>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="stretched-link" href="{{ path('magazine_modlog', {'name': magazine.name}) }}">{{ 'modlog'|trans }}</a>
-                <span class="badge bg-primary rounded-pill">{{ magazine.logs|length }}</span>
-            </li>
-        </ul>
-    </div>
+    {{ component('magazine', {magazine: magazine}) }}
 
     {% if magazine.moderators|length %}
         <div class="kbin-users mb-4 col-sm-6 col-lg-12 px-sm-1 px-lg-0 float-sm-start">

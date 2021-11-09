@@ -6,7 +6,7 @@
                     <div class="card">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                {% if row is not null %}
+                                {% if vote is not null %}
                                     {% include 'user/_avatar.html.twig' with { user: vote.user } %}<span class="text-muted">/u/</span><a
                                         class="text-decoration-none stretched-link"
                                         href="{{ path('user', {'username': vote.user.username}) }}">{{ vote.user.username }}</a>

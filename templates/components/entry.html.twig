@@ -36,7 +36,7 @@
 
         <div class="kbin-entry-main clearfix">
             {% if this.entry.visibility is same as 'visible' %}
-                {% include 'entry/_entry_title.html.twig' with {}%}
+                {% include 'entry/_entry_title.html.twig' with {entry: this.entry, title_tag: this.titleTag, direct_url: this.directUrl} %}
             {% elseif this.entry.visibility is same as 'trashed' %}
                 <p class="text-muted">[{{ 'removed'|trans }}]</p>
             {% elseif this.entry.visibility is same as 'soft_deleted' %}

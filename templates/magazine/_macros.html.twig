@@ -9,11 +9,3 @@
         {{ block('magazine_inline') }}
     {%- endwith -%}
 {%- endmacro -%}
-
-{%- macro magazine(magazine, options) -%}
-    {%- with {
-        magazine: magazine,
-        } only -%}
-        {{ block('magazine') }}
-    {%- endwith -%}
-{%- endmacro -%}
