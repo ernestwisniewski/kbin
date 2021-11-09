@@ -1,7 +1,6 @@
 {% from 'user/_macros.html.twig' import avatar %}
 {% from 'user/_macros.html.twig' import user %}
 {% from 'magazine/_macros.html.twig' import magazine_inline %}
-{% from 'vote/_macros.html.twig' import vote %}
 {% from '_layout/_macros.html.twig' import post_url %}
 
 <blockquote id="{{ this.post.id }}"
@@ -12,7 +11,7 @@
             data-post-id-value="{{ this.post.id }}"
             data-post-magazine-name-value="{{ this.post.magazine.name }}">
     <div class="mb-2">
-        {{ vote(this.post, {user: app.user, form_dest: 'post_vote', base_class: 'post', hide_downvote: true, notification_type: 'Post'}) }}
+        {{ component('vote', { votable: this.post, notificationType: 'Post', formDest: 'post_vote', baseClass: 'post', hideDownvote: true }) }}
 
         {% if this.post.user.avatar %}
             <div class="kbin-post-avatar">
