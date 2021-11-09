@@ -1,6 +1,5 @@
 {% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from 'user/_macros.html.twig' import user %}
-{% from 'vote/_macros.html.twig' import vote %}
 {% from '_layout/_macros.html.twig' import entry_url %}
 
 <article id="{{ this.entry.id }}"
@@ -15,7 +14,7 @@
          data-embed-hidden-class="display-none"
          data-embed-loading-class="spinner-border"
          data-embed-embed-class="fa-photo-video">
-    {{ vote(this.entry, {user: app.user, form_dest: 'entry_vote', notification_type: 'Entry'}) }}
+    {{ component('vote', { votable: this.entry, notificationType: 'Entry', formDest: 'entry_vote', baseClass: 'entry' }) }}
 
     {% if this.entry.image and this.entry.visibility is same as 'visible' %}
         {% if is_entry_page() and this.directUrl %}
@@ -195,7 +194,7 @@
     <div class="clearfix"></div>
 
     {% if(this.entry.body and this.showContent) %}
-        <div class="kbin-entry-content mt-3 clearfix">
+        <div class="kbin-entry-content mt-5">
             {{ this.entry.body|markdown|raw }}
         </div>
     {% endif %}

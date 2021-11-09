@@ -1,0 +1,51 @@
+{%- set VOTE_UP = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_UP') -%}
+{%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_DOWN') -%}
+{%- set VOTE_NONE = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_NONE') -%}
+{%- set user_choice = is_granted('ROLE_USER') ? this.votable.userChoice(app.user) : null -%}
+
+{% set upUrl = path(this.formDest, {id: this.votable.id, choice: VOTE_UP}) %}
+{% set downUrl = path(this.formDest, {id: this.votable.id, choice: VOTE_DOWN}) %}
+
+{% if(user_choice is same as(VOTE_UP)) %}
+    {% set choice = VOTE_UP %}
+{% elseif(user_choice is same as(VOTE_DOWN)) %}
+    {% set choice = VOTE_DOWN %}
+{% else %}
+    {% set choice = VOTE_NONE %}
+{% endif %}
+
+<div class="kbin-{{ this.baseClass }}-vote"
+     data-controller="vote vote-counter"
+     data-action="notify:{{ this.notificationType }}Vote@window->vote-counter#refresh"
+     data-vote-uv-class="kbin-vote-uv--active"
+     data-vote-dv-class="kbin-vote-dv--active"
+     data-vote-uv-url-value="{{ upUrl }}"
+     data-vote-dv-url-value="{{ downUrl }}"
+     data-vote-choice-value="{{ choice }}"
+     data-vote-counter-subject-id-value="{{ this.votable.id }}">
+    <ul class="kbin-{{ this.baseClass }}-vote-list">
+        <li class="kbin-{{ this.baseClass }}-vote-list-item kbin-vote kbin-vote-uv {% if (choice is same as VOTE_UP) %}kbin-vote-uv--active{% endif %}"
+            data-vote-target="upVote">
+            <form action="{{ upUrl }}" method="POST" data-action="vote#up">
+                <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
+                <button type="submit">
+                    <span data-vote-target="upVoteCount" data-vote-counter-target="upVotes">{{ this.votable.countUpvotes }}</span>
+                    <span class="fa fa-arrow-up"></span>
+                </button>
+            </form>
+        </li>
+
+        {% if not this.hideDownvote %}
+            <li class="kbin-{{ this.baseClass }}-vote-list-item kbin-vote kbin-vote-dv {% if (choice is same as VOTE_DOWN) %}kbin-vote-dv--active{% endif %}"
+                data-vote-target="downVote">
+                <form action="{{ path(this.formDest, {id: this.votable.id,choice: VOTE_DOWN}) }}" method="POST" data-action="vote#down">
+                    <button type="submit">
+                        <span data-vote-target="downVoteCount" data-vote-counter-target="downVotes">{{ this.votable.countDownvotes }}</span>
+                        <span class="fa fa-arrow-down"></span>
+                    </button>
+                    <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
+                </form>
+            </li>
+        {% endif %}
+    </ul>
+</div>

@@ -1,6 +1,5 @@
 {% from 'user/_macros.html.twig' import avatar %}
 {% from 'user/_macros.html.twig' import user %}
-{% from 'vote/_macros.html.twig' import vote %}
 {% from '_layout/_macros.html.twig' import entry_url %}
 
 {% if this.withParent %}
@@ -16,7 +15,7 @@
             data-comment-level-value="{{ this.level >= 7 ? '7' : this.level }}"
             data-comment-parent-value="{{ this.comment.parent ? this.comment.parent.id : null }}">
     <div class="kbin-comment-header mb-2">
-        {{ vote(this.comment, {user: app.user, form_dest: 'entry_comment_vote', base_class: 'comment', notification_type: 'EntryComment'}) }}
+        {{ component('vote', { votable: this.comment, notificationType: 'EntryComment', formDest: 'entry_comment_vote', baseClass: 'comment' }) }}
 
         <div class="kbin-comment-avatar">
             {% if this.comment.user.avatar %}
