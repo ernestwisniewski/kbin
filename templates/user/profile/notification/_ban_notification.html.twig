@@ -1,4 +1,3 @@
-{% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from 'user/_macros.html.twig' import user %}
 
-{{ user(notification.ban.bannedBy) }} {{ 'banned'|trans }} {{ 'in'|trans }} {{ magazine_inline(notification.ban.magazine) }}. Ban wygasa {{ notification.ban.expiredAt|ago }}. {{ notification.ban.reason }}
+{{ user(notification.ban.bannedBy) }} {{ 'banned'|trans }} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: notification.ban.magazine }) }}. Ban wygasa {{ notification.ban.expiredAt|ago }}. {{ notification.ban.reason }}

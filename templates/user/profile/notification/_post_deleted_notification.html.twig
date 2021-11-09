@@ -1,5 +1,4 @@
-{% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from '_layout/_macros.html.twig' import post_url %}
 
-{{ 'mod_remove_your_post'|trans }} {{ 'in'|trans }} {{ magazine_inline(notification.post.magazine) }} - <strong><a
+{{ 'mod_remove_your_post'|trans }} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: notification.post.magazine }) }} - <strong><a
             href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a></strong>

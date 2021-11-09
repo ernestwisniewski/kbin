@@ -1,5 +1,3 @@
-{% from 'magazine/_macros.html.twig' import magazine %}
-
 {% if subject is entry %}
     {{ component('entry', {entry: subject, showMagazine: true}) }}
 {% elseif subject is entry_comment %}

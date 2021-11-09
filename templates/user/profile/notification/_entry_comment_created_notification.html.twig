@@ -1,6 +1,5 @@
-{% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from 'user/_macros.html.twig' import user %}
 {% from '_layout/_macros.html.twig' import entry_url %}
 
-{{ user(notification.user) }} {{ 'added_new_comment'|trans }} {{ 'in'|trans }} {{ magazine_inline(notification.comment.entry.magazine) }} - <strong><a
-            href="{{ entry_url(notification.comment.entry) }}">{{ notification.comment.shortTitle }}</a></strong>
+{{ user(notification.user) }} {{ 'added_new_comment'|trans }} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: notification.comment.entry.magazine }) }} -
+<strong><a href="{{ entry_url(notification.comment.entry) }}">{{ notification.comment.shortTitle }}</a></strong>

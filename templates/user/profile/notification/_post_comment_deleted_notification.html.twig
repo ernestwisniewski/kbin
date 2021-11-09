@@ -1,5 +1,4 @@
-{% from 'magazine/_macros.html.twig' import magazine_inline %}
 {% from '_layout/_macros.html.twig' import post_url %}
 
-{{ 'mod_deleted_your_comment'|trans }} {{ 'in'|trans }} {{ magazine_inline(notification.comment.post.magazine) }} - <strong>
+{{ 'mod_deleted_your_comment'|trans }} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: notification.comment.post.magazine }) }} - <strong>
     <a href="{{ post_url(notification.comment.post) }}">{{ notification.comment.post.shortTitle }}</a></strong>

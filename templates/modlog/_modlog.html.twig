@@ -36,41 +36,36 @@
 {% endblock modlog %}
 
 {% block log_entry_deleted %}
-    {% from 'magazine/_macros.html.twig' import magazine_inline %}
     {% from 'user/_macros.html.twig' import user %}
     {% from '_layout/_macros.html.twig' import entry_url %}
 
-    {{ user(log.user) }} {{ 'removed_thread_by'|trans }} {{ user(log.entry.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ magazine_inline(log.entry.magazine) }}{% endif %} -
+    {{ user(log.user) }} {{ 'removed_thread_by'|trans }} {{ user(log.entry.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.entry.magazine }) }}{% endif %} -
     <a href="{{ entry_url(log.entry) }}">{{ log.entry.shortTitle }}</a>
 {% endblock log_entry_deleted %}
 
 {% block log_entry_comment_deleted %}
-    {% from 'magazine/_macros.html.twig' import magazine_inline %}
     {% from 'user/_macros.html.twig' import user %}
 
-    {{ user(log.user) }} {{ 'removed_comment_by'|trans }} {{ user(log.comment.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ magazine_inline(log.comment.magazine) }}{% endif %} - {{ log.comment.shortTitle }}
+    {{ user(log.user) }} {{ 'removed_comment_by'|trans }} {{ user(log.comment.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.comment.magazine }) }}{% endif %} - {{ log.comment.shortTitle }}
 {% endblock log_entry_comment_deleted %}
 
 {% block log_post_deleted %}
-    {% from 'magazine/_macros.html.twig' import magazine_inline %}
     {% from 'user/_macros.html.twig' import user %}
     {% from '_layout/_macros.html.twig' import post_url %}
 
-    {{ user(log.user) }} {{ 'removed_post_by'|trans }} {{ user(log.post.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ magazine_inline(log.post.magazine) }}{% endif %} -
+    {{ user(log.user) }} {{ 'removed_post_by'|trans }} {{ user(log.post.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.post.magazine }) }}{% endif %} -
     <a href="{{ post_url(log.post) }}">{{ log.post.shortTitle }}</a>
 {% endblock log_post_deleted %}
 
 {% block log_post_comment_deleted %}
-    {% from 'magazine/_macros.html.twig' import magazine_inline %}
     {% from 'user/_macros.html.twig' import user %}
 
-    {{ user(log.user) }} {{ 'removed_comment_by'|trans }} {{ user(log.comment.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ magazine_inline(log.comment.magazine) }}{% endif %} - {{ log.comment.shortTitle }}
+    {{ user(log.user) }} {{ 'removed_comment_by'|trans }} {{ user(log.comment.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.comment.magazine }) }}{% endif %} - {{ log.comment.shortTitle }}
 {% endblock log_post_comment_deleted %}
 
 {% block log_ban %}
-    {% from 'magazine/_macros.html.twig' import magazine_inline %}
     {% from 'user/_macros.html.twig' import user %}
 
     {{ user(log.user) }} {% if log.meta is same as 'ban' %}{{ 'he_banned'|trans }}{% else %}{{ 'he_unbanned'|trans }}{% endif %} {{ user(log.ban.user) }}
-    {% if log.ban.reason %}{% if show_magazine %} {{ 'in'|trans }} {{ magazine_inline(log.ban.magazine) }}{% endif %} - {{ log.ban.reason }}{% endif %}
+    {% if log.ban.reason %}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.ban.magazine }) }}{% endif %} - {{ log.ban.reason }}{% endif %}
 {% endblock log_ban %}
