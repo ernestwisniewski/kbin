@@ -1,28 +1,12 @@
 {% if(magazine is defined and magazine is not null) %}
-    <div class="kbin-instance mt-lg-0 px-2">
+    <div class="kbin-random-magazine px-2">
         <h4 class="font-weight-bold kbin-logo-color">{{ 'random_magazine'|trans }}</h4>
-        <div class="kbin-magazine mt-lg-0">
-            <div class="kbin-magazine-header text-center">
-                {% if magazine.cover %}
-                    <a href="{{ path('front_magazine', {'name': magazine.name}) }}">
-                        <img class="img-thumbnail" src="{{ asset(magazine.cover.filePath) | imagine_filter('post_thumb') }}"
-                             alt="{{ magazine.title }}">
-                    </a>
-                {% endif %}
-                <a href="{{ path('front_magazine', {'name': magazine.name}) }}" class="link-dark">
-                    <h2 class="font-weight-bold">{{ magazine.title }}</h2>
-                    <h3 class="lead mb-2"><span class="text-muted">/m/</span>{{ magazine.name }}</h3>
-                </a>
-                <div class="mb-3">
-                    {% include 'magazine/_sub_button.html.twig' %}
-                </div>
-            </div>
-
-            <div class="kbin-magazine-desc px-2 small">
-                {% if magazine.description %}
-                    <p class="small">{{ magazine.description|markdown|raw }}</p>
-                {% endif %}
-            </div>
-        </div>
+        {{ component('magazine', {
+            magazine: magazine,
+            showRules: false,
+            showInfo: false,
+            showStats: false,
+            asLink: true
+        }) }}
     </div>
 {% endif %}

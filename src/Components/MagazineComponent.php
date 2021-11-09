@@ -12,5 +12,7 @@ class MagazineComponent
     public bool $showCover = true;
     public bool $showDescription = true;
     public bool $showRules = true;
+    public bool $showInfo = true;
     public bool $showStats = true;
+    public bool $asLink = false;
 }
