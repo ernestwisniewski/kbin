@@ -2,7 +2,6 @@
 
 namespace App\Twig\Runtime;
 
-use App\Entity\Magazine;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
@@ -26,6 +25,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return in_array($this->getCurrentRouteName(), ['front', 'entry_comments_front', 'posts_front']);
     }
 
+    public function isFrontPage(): bool
+    {
+        return $this->isRouteContains('front');
+    }
+
     private function getCurrentRouteName(): string
     {
         return $this->getCurrentRequest()->get('_route') ?? 'front';
@@ -34,19 +38,6 @@ class PageContextRuntime implements RuntimeExtensionInterface
     private function getCurrentRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
-    }
-
-    public function isCurrentMagazinePage(Magazine|string $magazine): bool
-    {
-        if (!$magazineRequest = $this->getCurrentRequest()->get('magazine')) {
-            return false;
-        }
-
-        if (is_string($magazine)) {
-            return $magazine === $magazineRequest->name;
-        }
-
-        return $magazineRequest === $magazine;
     }
 
     public function isUserProfilePage(): bool

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Twig;
 
@@ -12,13 +12,13 @@ final class PageContextExtension extends AbstractExtension
     {
         return [
             new TwigFunction('is_homepage', [PageContextRuntime::class, 'isHomePage']),
+            new TwigFunction('is_front_page', [PageContextRuntime::class, 'isFrontPage']),
             new TwigFunction('is_sub_page', [PageContextRuntime::class, 'isSubPage']),
             new TwigFunction('is_mod_page', [PageContextRuntime::class, 'isModPage']),
             new TwigFunction('is_magazine_page', [PageContextRuntime::class, 'isMagazinePage']),
             new TwigFunction('is_entry_page', [PageContextRuntime::class, 'isEntryPage']),
             new TwigFunction('is_user_page', [PageContextRuntime::class, 'isUserPage']),
             new TwigFunction('is_user_profile_page', [PageContextRuntime::class, 'isUserProfilePage']),
-            new TwigFunction('is_current_magazine_page', [PageContextRuntime::class, 'isCurrentMagazinePage']),
             new TwigFunction('is_comments_page', [PageContextRuntime::class, 'isCommentsPage']),
             new TwigFunction('get_active_comments_page_path', [PageContextRuntime::class, 'getActiveCommentsPagePath']),
             new TwigFunction('is_posts_page', [PageContextRuntime::class, 'isPostsPage']),
