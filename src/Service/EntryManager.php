@@ -42,6 +42,7 @@ class EntryManager implements ContentManagerInterface
 
         $entry                       = $this->factory->createFromDto($dto, $user);
         $entry->slug                 = $this->slugger->slug($dto->title);
+        $entry->image                = $dto->image;
         $entry->magazine->lastActive = new \DateTime();
         $entry->magazine->addEntry($entry);
 
@@ -67,11 +68,8 @@ class EntryManager implements ContentManagerInterface
         $entry->url     = $dto->url;
         $entry->body    = $dto->body;
         $entry->isAdult = $dto->isAdult;
+        $entry->image   = $dto->image;
         $entry->slug    = $this->slugger->slug($dto->title);
-
-        if ($dto->image) {
-            $entry->image = $dto->image;
-        }
 
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);
@@ -138,7 +136,8 @@ class EntryManager implements ContentManagerInterface
         }
 
         if ($dto->body) {
-            $entry->type = Entry::ENTRY_TYPE_ARTICLE;
+            $entry->type     = Entry::ENTRY_TYPE_ARTICLE;
+            $entry->hasEmbed = false;
         }
 
         return $entry;
