@@ -29,7 +29,7 @@ class VotersListShortComponent
         $id = $this->subject->getId();
         $this->more = $this->subject->votes->count() > 5 ? $this->subject->votes->count() - 5 : null;
 
-        return $this->cache->get($this->cacheService->getVotersCacheKey($id, $this->subject), function (ItemInterface $item) {
+        return $this->cache->get($this->cacheService->getVotersCacheKey($this->subject), function (ItemInterface $item) {
             $item->expiresAfter(3600);
 
             return $this->render();

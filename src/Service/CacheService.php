@@ -11,12 +11,12 @@ class CacheService
     {
     }
 
-    public function getVotersCacheKey(int $id, VoteInterface $subject): string
+    public function getVotersCacheKey(VoteInterface $subject): string
     {
         $className = $this->entityManager->getClassMetadata(get_class($subject))->name;
         $className = explode('\\', $className);
         $className = end($className);
 
-        return "voters_{$className}_$id";
+        return "voters_{$className}_{$subject->getId()}";
     }
 }

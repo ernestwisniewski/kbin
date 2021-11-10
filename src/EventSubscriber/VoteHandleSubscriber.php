@@ -2,16 +2,19 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Contracts\VoteInterface;
 use App\Event\VoteEvent;
 use App\Message\Notification\VoteNotificationMessage;
+use App\Service\CacheService;
 use Doctrine\Common\Util\ClassUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class VoteHandleSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $bus)
+    public function __construct(private MessageBusInterface $bus, private CacheService $cacheService, private CacheInterface $cache)
     {
     }
 
@@ -24,7 +27,8 @@ class VoteHandleSubscriber implements EventSubscriberInterface
 
     public function onVote(VoteEvent $event): void
     {
-        $this-
+        $this->clearCache($event->votable);
+
         $this->bus->dispatch(
             (
             new VoteNotificationMessage(
@@ -32,5 +36,10 @@ class VoteHandleSubscriber implements EventSubscriberInterface
                 ClassUtils::getRealClass(get_class($event->votable))
             ))
         );
+    }
+
+    private function clearCache(VoteInterface $votable)
+    {
+        $this->cache->delete($this->cacheService->getVotersCacheKey($votable));
     }
 }
