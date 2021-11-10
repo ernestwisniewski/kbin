@@ -49,4 +49,4 @@
     </div>
 </div>
 
-{{ component('entry_voters', {entry: entry}) }}
+{{ component('voters_list_short', { subject: entry, url: path('entry_voters', {'magazine_name': magazine.name, 'entry_id': entry.id }) }) }}

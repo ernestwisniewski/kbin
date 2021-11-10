@@ -170,7 +170,11 @@
                     </section>
                 </aside>
             {% endif %}
+
             <div class="clearfix"></div>
+
+            {{ component('voters_inline', { subject: this.comment, url: '#' }) }}
+
             <div data-comment-target="form" data-report-target="form" class=""></div>
         </div>
     </blockquote>

@@ -16,10 +16,10 @@
                     {% endif %}
                 </li>
             {% endfor %}
-            {% if show_more %}
+            {% if more %}
                 <li class="list-group-item text-center">
                     <a class="text-decoration-none stretched-link"
-                       href="{{ path('entry_voters', {'magazine_name': magazine.name, 'entry_id': entry.id}) }}">{{ 'more'|trans }}...</a>
+                       href="{{ url }}">+{{ more }} {{ 'more'|trans }}...</a>
                 </li>
             {% endif %}
         </ul>

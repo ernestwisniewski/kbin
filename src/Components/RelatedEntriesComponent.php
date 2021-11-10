@@ -3,10 +3,8 @@
 namespace App\Components;
 
 use App\Entity\Entry;
-use App\Entity\Magazine;
-use App\Repository\MagazineRepository;
 use App\Service\SearchManager;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Twig\Environment;
@@ -16,18 +14,16 @@ class RelatedEntriesComponent
 {
     public Entry $entry;
 
-    public function __construct(private SearchManager $manager, private Environment $twig)
+    public function __construct(private SearchManager $manager, private Environment $twig, private CacheInterface $cache)
     {
     }
 
     public function getHtml(): string
     {
-        $cache = new FilesystemAdapter();
-
         $id = $this->entry->getId();
 
-        return $cache->get("related_$id", function (ItemInterface $item) {
-            $item->expiresAfter(600);
+        return $this->cache->get("related_$id", function (ItemInterface $item) {
+            $item->expiresAfter(3600);
 
             try {
                 $entries = $this->manager->findRelated($this->entry->title.' '.$this->entry->magazine->name);
