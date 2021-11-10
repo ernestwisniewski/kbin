@@ -175,7 +175,11 @@
                 </ul>
             </section>
         </aside>
+
         <div class="clearfix"></div>
+
+        {{ component('voters_inline', { subject: this.post, url: '#' }) }}
+
         <div data-post-target="form" data-report-target="form"></div>
     </div>
 </blockquote>

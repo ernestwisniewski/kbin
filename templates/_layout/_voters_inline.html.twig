@@ -1,0 +1,14 @@
+<div class="kbin-inline-voters">
+    <small><span class="text-muted small">+</span></small>
+    {% for vote in votes %}
+    <a class="text-muted small"
+       href="{{ path('user', { username: vote.user.username }) }}">
+        <small>{{ vote.user.username }}</small></a>{{ loop.last ? '' : '<small><span class="text-muted small">,</span></small>' }}
+    {% endfor %}
+    {% if more %}
+        <a class="text-muted small"
+           href="{{ url }}">
+            <small>+{{ more }} {{ 'more'|trans }}</small>
+        </a>
+    {% endif %}
+</div>

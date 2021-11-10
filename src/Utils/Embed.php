@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Utils;
 
@@ -6,11 +6,15 @@ use App\Entity\Entry;
 use App\Service\ImageManager;
 use Embed\Embed as BaseEmbed;
 use Exception;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
 class Embed
 {
+    public function __construct(private CacheInterface $cache)
+    {
+    }
+
     public ?string $url = null;
     public ?string $title = null;
     public ?string $image = null;
@@ -18,9 +22,7 @@ class Embed
 
     public function fetch($url): self
     {
-        $cache = new FilesystemAdapter();
-
-        return $cache->get(
+        return $this->cache->get(
             'embed_'.md5($url),
             function (ItemInterface $item) use ($url) {
                 $item->expiresAfter(3600);
