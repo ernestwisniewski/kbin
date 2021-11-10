@@ -27,7 +27,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function isFrontPage(): bool
     {
-        return $this->isRouteContains('front');
+        return $this->isRouteContains('front') || in_array($this->getCurrentRouteName(), ['magazine_entry_comments', 'magazine_posts']);
     }
 
     private function getCurrentRouteName(): string

@@ -1,7 +1,7 @@
 {% from 'user/_macros.html.twig' import user %}
 {% from '_layout/_macros.html.twig' import entry_url %}
 
-<section id="{{ this.entry.id }}"
+<article id="{{ this.entry.id }}"
          class="kbin-entry {{ this.extraClass }} {{ this.entry.image ? 'kbin-has-image' : '' }}"
          data-controller="embed report comment-counter"
          data-action="notify:EntryCommentCreatedNotification@window->comment-counter#increase"
@@ -14,7 +14,7 @@
          data-embed-loading-class="spinner-border"
          data-embed-embed-class="fa-photo-video">
     {{ component('vote', { votable: this.entry, notificationType: 'Entry', formDest: 'entry_vote', baseClass: 'entry' }) }}
-    <section>
+    <section class="clearfix">
         {% if this.entry.image and this.entry.visibility is same as 'visible' %}
             {% if is_entry_page() and this.directUrl %}
                 <div class="kbin-entry-image">
@@ -190,22 +190,19 @@
             <div data-report-target="form"></div>
         </div>
     </section>
-</section>
 
-<div class="clearfix"></div>
+    {% if(this.entry.body and this.showContent) %}
+        <article class="kbin-entry-content mt-3 mt-sm-5">
+            {{ this.entry.body|markdown|raw }}
+        </article>
+    {% endif %}
 
-{% if(this.entry.body and this.showContent) %}
-    <article class="kbin-entry-content mt-5">
-        {{ this.entry.body|markdown|raw }}
-    </article>
-{% endif %}
-
-{% if this.entry.hasEmbed %}
-    <button type="button" class="btn-close mt-3 display-none" data-embed-target="close" aria-label="Zamknij"
-            data-action="embed#close"></button>
-    <div class="kbin-embed">
-        <div class="{{ this.entry.type is same as 'image' ? '' : 'ratio ratio-16x9' }} mt-4 display-none" data-embed-target="container">
+    {% if this.entry.hasEmbed %}
+        <button type="button" class="btn-close mt-3 display-none" data-embed-target="close" aria-label="Zamknij"
+                data-action="embed#close"></button>
+        <div class="kbin-embed">
+            <div class="{{ this.entry.type is same as 'image' ? '' : 'ratio ratio-16x9' }} mt-4 display-none" data-embed-target="container">
+            </div>
         </div>
-    </div>
-{% endif %}
-
+    {% endif %}
+</article>
