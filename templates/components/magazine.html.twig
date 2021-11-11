@@ -34,7 +34,7 @@
 {% endif %}
 
 {% if this.showInfo %}
-    <div class="kbin-magazine-info mb-4 col-12 px-sm-1 px-lg-0">
+    <div class="kbin-magazine-info mb-4 col-12">
         <div class="card mb-3">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -56,7 +56,7 @@
 {% endif %}
 
 {% if this.showStats %}
-    <div class="kbin-magazine-stats mb-4 col-12 px-sm-1 px-lg-0 float-sm-start">
+    <div class="kbin-magazine-stats mb-4 col-12 float-sm-start">
         <ul class="list-group kbin-magazine-stats-links">
             {{ _self.stats_item( 'threads'|trans, path('front_magazine', {'name': this.magazine.name }), this.magazine.entryCount) }}
             {{ _self.stats_item( 'comments'|trans, get_active_comments_page_path(), this.magazine.entryCommentCount) }}

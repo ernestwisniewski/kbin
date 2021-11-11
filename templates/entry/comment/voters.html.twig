@@ -1,0 +1,11 @@
+{% extends 'entry/single.html.twig' %}
+
+{% block title %}{{ 'votes'|trans }}{% endblock %}
+
+{% block body %}
+    <section class="kbin-comment-wrapper mt-4 mb-4">
+        {{ component('entry_comment', { comment: comment, withParent: false, nested: false }) }}
+    </section>
+
+    {% include '_layout/_voters_list_grid.html.twig' with { subject: comment } %}
+{% endblock %}

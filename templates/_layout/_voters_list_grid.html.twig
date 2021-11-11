@@ -2,7 +2,7 @@
     {% for row in votes|batch(2, null) %}
         <div class="row mb-1">
             {% for vote in row %}
-                <div class="col">
+                <div class="col-12 col-md-6">
                     <div class="card">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
@@ -13,7 +13,7 @@
                                     <small class="text-muted">
                                         <time data-controller="timeago"
                                               data-timeago-refresh-interval-value="10000"
-                                              data-timeago-datetime-value="{{ entry.createdAt|date('c') }}">{{ entry.createdAt|ago }}</time>
+                                              data-timeago-datetime-value="{{ subject.createdAt|date('c') }}">{{ subject.createdAt|ago }}</time>
                                     </small>
                                     {% if vote.choice is same as 1 %}
                                         <span class="fa fa-arrow-up float-end kbin-color-up-vote"></span>

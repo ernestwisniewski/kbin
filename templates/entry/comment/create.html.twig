@@ -9,7 +9,7 @@
 {% block after_entry %}
     {% if comment is defined and comment %}
         <section class="kbin-comment-wrapper mt-4">
-            {{ component('entry_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0'}) }}
+            {{ component('entry_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0', withParent: false, nested:false }) }}
         </section>
     {% endif %}
 

@@ -26,6 +26,14 @@ entry_comment_purge:
   path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/purge
   methods: [ POST ]
 
+entry_comment_voters:
+  controller: App\Controller\Entry\Comment\EntryCommentVotersController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/votes
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/głosy
+  methods: [ GET ]
+
 entry_comments_front:
   controller: App\Controller\Entry\Comment\CommentFrontController::front
   defaults: { sortBy: ~, time: ~ }
