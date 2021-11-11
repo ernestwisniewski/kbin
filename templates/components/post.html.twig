@@ -178,7 +178,7 @@
 
         <div class="clearfix"></div>
 
-        {{ component('voters_inline', { subject: this.post, url: '#' }) }}
+        {{ component('voters_inline', { subject: this.post, url: path('post_voters', { magazine_name: this.post.magazine.name, post_id: this.post.id }) }) }}
 
         <div data-post-target="form" data-report-target="form"></div>
     </div>

@@ -26,8 +26,7 @@ class VotersInlineComponent
             return '';
         }
 
-        $id = $this->subject->getId();
-        $this->more = $this->subject->votes->count() >= 5 ? $this->subject->votes->count() - 5 : null;
+        $this->more = $this->subject->votes->count() >= 4 ? $this->subject->votes->count() - 4 : null;
 
         return $this->cache->get($this->cacheService->getVotersCacheKey($this->subject), function (ItemInterface $item) {
             $item->expiresAfter(3600);
@@ -41,7 +40,7 @@ class VotersInlineComponent
         return $this->twig->render(
             '_layout/_voters_inline.html.twig',
             [
-                'votes' => $this->subject->votes->slice(0, 5),
+                'votes' => $this->subject->votes->slice(0, 4),
                 'more'  => $this->more,
                 'url'   => $this->url,
             ]

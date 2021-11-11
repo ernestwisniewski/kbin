@@ -3,8 +3,9 @@
 {% block title %}{{ 'votes'|trans }} - {{ entry.title }}{% endblock %}
 
 {% block body %}
-    <div class="kbin-voters-page">
-        {% include 'entry/_voters_list_grid.html.twig' %}
+    {{ component('entry', {entry: entry}) }}
+    <div class="kbin-voters-page mt-3 mt-sm-5">
+        {% include '_layout/_voters_list_grid.html.twig' with { subject: entry } %}
     </div>
 {% endblock %}
 

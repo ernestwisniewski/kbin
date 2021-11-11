@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'votes'|trans }} - {{ get_short_desc(post.body) }}{% endblock %}
+
+{% block body %}
+    <section class="kbin-post-wrapper mt-4 mb-4">
+        {{ component('post', {post: post}) }}
+    </section>
+
+    {% include '_layout/_voters_list_grid.html.twig' with { subject: post } %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'post/_sidebar.html.twig' %}
+
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
+{% endblock %}

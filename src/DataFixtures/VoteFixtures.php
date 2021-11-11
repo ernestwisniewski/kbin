@@ -26,7 +26,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             EntryFixtures::ENTRIES_COUNT,
-            intval(EntryFixtures::ENTRIES_COUNT / rand(2, 5))
+            intval(rand(0, 155))
         );
 
         foreach ($randomNb as $e) {
@@ -56,7 +56,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             EntryCommentFixtures::COMMENTS_COUNT,
-            intval((EntryCommentFixtures::COMMENTS_COUNT / 5) / rand(2, 5))
+            intval(rand(0, 155))
         );
 
         foreach ($randomNb as $c) {
@@ -78,7 +78,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             PostFixtures::ENTRIES_COUNT,
-            intval(PostFixtures::ENTRIES_COUNT / rand(2, 5))
+            intval(rand(0, 155))
         );
 
         foreach ($randomNb as $e) {
@@ -100,7 +100,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             PostCommentFixtures::COMMENTS_COUNT,
-            intval((PostCommentFixtures::COMMENTS_COUNT / 5) / rand(2, 5))
+            intval(rand(0, 155))
         );
 
         foreach ($randomNb as $c) {

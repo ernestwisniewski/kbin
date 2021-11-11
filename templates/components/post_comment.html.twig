@@ -173,7 +173,10 @@
 
             <div class="clearfix"></div>
 
-            {{ component('voters_inline', { subject: this.comment, url: '#' }) }}
+            {{ component('voters_inline', {
+                subject: this.comment,
+                url: path('post_comment_voters', { magazine_name: this.comment.magazine.name, post_id: this.comment.post.id, comment_id: this.comment.id })
+            }) }}
 
             <div data-comment-target="form" data-report-target="form" class=""></div>
         </div>

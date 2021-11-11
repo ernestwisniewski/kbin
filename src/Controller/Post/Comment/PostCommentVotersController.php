@@ -1,36 +1,43 @@
 <?php declare(strict_types=1);
 
-namespace App\Controller\Entry;
+namespace App\Controller\Post\Comment;
 
 use App\Controller\AbstractController;
-use App\Entity\Entry;
 use App\Entity\Magazine;
+use App\Entity\Post;
+use App\Entity\PostComment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EntryVotersController extends AbstractController
+class PostCommentVotersController extends AbstractController
 {
     /**
      * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
      */
-    public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
-    {
+    public function __invoke(
+        Magazine $magazine,
+        Post $post,
+        PostComment $comment,
+        Request $request,
+    ): Response {
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $entry->votes,
+                    'votes' => $comment->votes,
                     'more'  => null,
                 ]),
             ]);
         }
 
-        return $this->render('entry/voters.html.twig', [
+        return $this->render('post/comment/voters.html.twig', [
             'magazine' => $magazine,
-            'entry'    => $entry,
-            'votes'    => $entry->votes,
+            'post'     => $post,
+            'comment'  => $comment,
+            'votes'    => $comment->votes,
         ]);
     }
 }

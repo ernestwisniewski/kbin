@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Contracts\VoteInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;

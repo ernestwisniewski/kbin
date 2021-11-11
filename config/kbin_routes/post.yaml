@@ -34,6 +34,14 @@ magazine_posts:
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
+post_voters:
+  controller: App\Controller\Post\PostVotersController
+  defaults: { slug: -, sortBy: ~ }
+  path:
+    en: /m/{magazine_name}/p/{post_id}/{slug}/votes
+    pl: /m/{magazine_name}/w/{post_id}/{slug}/głosy
+  methods: [ GET ]
+
 post_single:
   controller: App\Controller\Post\PostSingleController
   defaults: { slug: -, }
