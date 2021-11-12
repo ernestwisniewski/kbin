@@ -38,12 +38,6 @@ $comment-margin-sm: .5rem;
       }
     }
 
-    &-header {
-      .kbin-comment-meta-list {
-        padding-left: 0.6rem;
-      }
-    }
-
     &-mask {
       background: red;
       width: 20px;
@@ -81,7 +75,6 @@ $comment-margin-sm: .5rem;
 
     &-main {
       display: flow-root;
-      padding: .6rem;
 
       @include media-breakpoint-down(sm) {
         clear: both;
@@ -125,6 +118,7 @@ $comment-margin-sm: .5rem;
 
     &-avatar {
       float: left;
+      margin-right: .6rem;
       margin-bottom: 0;
       display: table-cell;
       height: 100%;

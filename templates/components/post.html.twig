@@ -3,13 +3,13 @@
 {% from '_layout/_macros.html.twig' import post_url %}
 
 <blockquote id="{{ this.post.id }}"
-            class="kbin-post {{ this.extraClass }} "
+            class="kbin-post {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }}"
             data-controller="post report comment-counter"
             data-action="notify:PostCommentCreatedNotification@window->comment-counter#increase"
             data-comment-counter-subject-id-value="{{ this.post.id }}"
             data-post-id-value="{{ this.post.id }}"
             data-post-magazine-name-value="{{ this.post.magazine.name }}">
-    <div class="mb-2">
+    <div class="kbin-post-header mb-2">
         {{ component('vote', { votable: this.post, notificationType: 'Post', formDest: 'post_vote', baseClass: 'post', hideDownvote: true }) }}
 
         {% if this.post.user.avatar %}
@@ -47,7 +47,7 @@
             </ul>
         </aside>
     </div>
-    <div class="kbin-post-main clearfix">
+    <div class="kbin-post-main">
         <div class="kbin-post-content" data-controller="show-more" data-action="image:thumbSelected->show-more#expand"
              data-action="image:thumbLoaded->show-more#checkHeight">
             {% if this.post.visibility is same as 'visible' %}

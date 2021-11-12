@@ -9,7 +9,8 @@
 {% endif %}
 
 <blockquote id="{{ this.comment.id }}"
-            class="kbin-comment {{ this.extraClass }} kbin-comment--{{ this.level > 1 ? 'nested' : 'top-level' }} kbin-comment-level--{{ this.level >= 8 ? 'last' : this.level }} shadow-sm"
+            class="kbin-comment {{ this.extraClass }} kbin-comment--{{ this.level > 1 ? 'nested' : 'top-level' }}
+             kbin-comment-level--{{ this.level >= 8 ? 'last' : this.level }} shadow-sm  {{ this.comment.user.avatar ? '' : 'ps-2' }}"
             data-controller="comment report"
             data-comment-id-value="{{ this.comment.id }}"
             data-comment-level-value="{{ this.level >= 7 ? '7' : this.level }}"
@@ -17,11 +18,11 @@
     <div class="kbin-comment-header mb-2">
         {{ component('vote', { votable: this.comment, notificationType: 'EntryComment', formDest: 'entry_comment_vote', baseClass: 'comment' }) }}
 
-        <div class="kbin-comment-avatar">
-            {% if this.comment.user.avatar %}
+        {% if this.comment.user.avatar %}
+            <div class="kbin-comment-avatar">
                 {{ avatar(this.comment.user) }}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
 
         <aside class="kbin-comment-meta">
             <ul class="kbin-comment-meta-list list-inline m-0">
