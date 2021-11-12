@@ -36,6 +36,11 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_tips') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('user_profile_tips') }}">{{ 'tips'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_settings') ? 'active font-weight-bold' : '' }}" aria-current="page"
            href="{{ path('user_profile_settings') }}">{{ 'settings'|trans }}</a>
     </li>

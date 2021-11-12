@@ -32,7 +32,7 @@ class EmbedElement
                     ],
                     ''
                 ),
-                new HtmlElement('a', ['href' => $url], $label),
+                new HtmlElement('a', ['href' => $url, 'rel' => 'nofollow noopener noreferrer'], $label),
                 new HtmlElement('span', ['class' => 'clearfix'], ''),
                 new HtmlElement(
                     'button', [

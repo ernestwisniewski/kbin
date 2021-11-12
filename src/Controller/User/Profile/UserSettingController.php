@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserSettingsController extends AbstractController
+class UserSettingController extends AbstractController
 {
     /**
      * @IsGranted("ROLE_USER")

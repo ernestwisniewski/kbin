@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% from '_layout/_not_found.html.twig' import not_found %}
+
+{% block title %}{{ 'messages'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-profile kbin-profile-threads-page">
+        {% include 'user/profile/_tabs.html.twig' %}
+
+        <div class="kbin-profile-tips mt-lg-4">
+            <div class="kbin-cardano-background"></div>
+
+            <div class="row">
+                <h2 class="font-weight-bold">{{ 'add_wallet_address'|trans }}</h2>
+
+                <a href="#">{{ 'create_wallet'|trans }}</a>
+                <div class="col-lg-6 mb-3">
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <div class="kbin-profile-transactions mt-lg-4">
+            <h2 class="font-weight-bold">{{ 'transactions'|trans }}</h2>
+            <hr>
+            {% if transactions|length %}
+                <div class="table-responsive">
+                    <table class="table align-middle small">
+                        <tbody>
+                        {% for transaction in transactions %}
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+{#                {% if(threads.haveToPaginate) %}#}
+{#                    {{ pagerfanta(transactions, null, {'pageParameter':'[p]'}) }}#}
+{#                {% endif %}#}
+            {% else %}
+                {{ not_found() }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' with {user: app.user} %}
+    {% include 'user/profile/_sidebar.html.twig' %}
+    {{ parent() }}
+    <div class="mb-4">
+        {% include 'user/_moderator_list_card.html.twig'with {user: app.user} %}
+    </div>
+{% endblock %}
+
+{% block message %}
+    {% from 'user/_macros.html.twig' import user %}
+
+    {{ (thread.messages|length - 1)|format_number }} odpowiedzi w wątku z {{ user(thread.otherParticipants(app.user)[0]) }} -
+    <strong><a href="{{ path('user_profile_message', {'id': thread.id}) }}">{{ thread.title }}</a></strong>
+{% endblock message %}

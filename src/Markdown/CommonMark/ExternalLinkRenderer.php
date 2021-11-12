@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
@@ -53,7 +53,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             return EmbedElement::buildEmbed($url, $title);
         }
 
-        return new HtmlElement('a', ['href' => $url] + ['class' => 'kbin-media-link'], $title);
+        return new HtmlElement('a', ['href' => $url, 'class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer'], $title);
     }
 
     public function setConfiguration(

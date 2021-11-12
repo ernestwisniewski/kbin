@@ -134,8 +134,15 @@ user_profile_user_subscriptions:
     pl: /profil/subskrypcje/ludzie
   methods: [ GET ]
 
+user_profile_tips:
+  controller: App\Controller\User\Profile\UserTipController
+  path:
+    en: /profile/ada
+    pl: /profil/ada
+  methods: [ GET, POST ]
+
 user_profile_settings:
-  controller: App\Controller\User\Profile\UserSettingsController
+  controller: App\Controller\User\Profile\UserSettingController
   path:
     en: /profile/settings
     pl: /profil/ustawienia
