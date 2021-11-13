@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% from '_layout/_not_found.html.twig' import not_found %}
+{% from '_layout/_not_found.html.twig' import not_found_transactions %}
 
 {% block title %}{{ 'messages'|trans }}{% endblock %}
 
@@ -9,21 +9,54 @@
         {% include 'user/profile/_tabs.html.twig' %}
 
         <div class="kbin-profile-tips mt-lg-4">
-            <div class="kbin-cardano-background"></div>
+            <div class="col-lg-6">
+                <div class="kbin-cardano-background"></div>
 
-            <div class="row">
-                <h2 class="font-weight-bold">{{ 'add_wallet_address'|trans }}</h2>
+                <div class="container">
+                    <div class="row">
 
-                <a href="#">{{ 'create_wallet'|trans }}</a>
-                <div class="col-lg-6 mb-3">
-                    <hr>
+                        {% include 'user/profile/_form_cardano_wallet.html.twig' %}
+
+                        <p class="mt-5">
+                            {{ 'dont_have_wallet_yet'|trans({'%link_start%' : '<a class="font-weight-bold" href="#"  data-bs-toggle="modal" data-bs-target="#cardanoWallet">', '%link_end%' : '</a>'}) | raw }}
+                        </p>
+
+                        <div class="modal" tabindex="-1" data-bs-toggle="modal" id="cardanoWallet">
+                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">{{ 'create_new_wallet'|trans }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>{{ 'create_new_wallet_desc'|trans|raw }}</p>
+
+                                        <div class="my-5">
+                                            <input class="form-control" placeholder="coming soon...">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary">{{ 'create_new_wallet_apply'|trans }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="ms-5">
+                            <li><a href="#">Czym są i jak działają tipy za wartościowe treści?</a></li>
+                            <li><a href="#">Jak utworzyć nowy portfel w Daedalus?</a> <small>(zalecane)</small></li>
+                            <li><a href="#">Jak kupić ADA i przelać środki na portfel Daedalus?</a></li>
+                            <li><a href="#">Jak wypłacić środki z portfela Daedalus?</a></li>
+                            <li><a href="#">Czym jest Cardano Karabin Stake Pool?</a></li>
+                        </ul>
+
+                        <hr class="my-4">
+                    </div>
                 </div>
             </div>
         </div>
-
         <div class="kbin-profile-transactions mt-lg-4">
             <h2 class="font-weight-bold">{{ 'transactions'|trans }}</h2>
-            <hr>
             {% if transactions|length %}
                 <div class="table-responsive">
                     <table class="table align-middle small">
@@ -35,12 +68,14 @@
                     </table>
                 </div>
 
-{#                {% if(threads.haveToPaginate) %}#}
-{#                    {{ pagerfanta(transactions, null, {'pageParameter':'[p]'}) }}#}
-{#                {% endif %}#}
+                {# {% if(threads.haveToPaginate) %} #}
+                {# {{ pagerfanta(transactions, null, {'pageParameter':'[p]'}) }} #}
+                {# {% endif %} #}
             {% else %}
-                {{ not_found() }}
+                {{ not_found_transactions() }}
             {% endif %}
+            <hr>
+
         </div>
     </div>
 {% endblock %}
@@ -54,9 +89,3 @@
     </div>
 {% endblock %}
 
-{% block message %}
-    {% from 'user/_macros.html.twig' import user %}
-
-    {{ (thread.messages|length - 1)|format_number }} odpowiedzi w wątku z {{ user(thread.otherParticipants(app.user)[0]) }} -
-    <strong><a href="{{ path('user_profile_message', {'id': thread.id}) }}">{{ thread.title }}</a></strong>
-{% endblock message %}

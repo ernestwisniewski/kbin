@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\DTO\CardanoWalletAddressDto;
 use App\DTO\UserDto;
 use App\Entity\User;
 use App\Event\User\UserBlockEvent;
@@ -161,5 +162,13 @@ class UserManager
     {
         $this->tokenStorage->setToken(null);
         $this->requestStack->getSession()->invalidate();
+    }
+
+    public function attachWallet(User $user, CardanoWalletAddressDto $dto)
+    {
+        $user->cardanoWalletId = $dto->walletId;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 }
