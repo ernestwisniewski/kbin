@@ -48,6 +48,14 @@ entry_voters:
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/głosy
   methods: [ GET ]
 
+entry_tips:
+  controller: App\Controller\Entry\EntryTipController
+  defaults: { slug: -, sortBy: ~ }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/tips
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/tipy
+  methods: [ GET ]
+
 entry_single:
   controller: App\Controller\Entry\EntrySingleController
   defaults: { slug: -, sortBy: ~ }

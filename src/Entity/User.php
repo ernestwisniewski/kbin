@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -57,6 +57,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", options={"default": User::MODE_NORMAL})
      */
     public string $mode = self::MODE_NORMAL;
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $cardanoWalletId = null;
     /**
      * @ORM\Column(type="boolean")
      */

@@ -61,6 +61,25 @@ $primary: #556880;
   }
 }
 
+.kbin-cardano-background {
+  background: url("../images/ada.png") no-repeat 90% 20%;
+  background-size: 40%;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: .7;
+
+  @include media-breakpoint-down(xxl) {
+    opacity: .1;
+  }
+
+  @include media-breakpoint-up(lg) {
+    top: -1rem;
+    right: -1.5rem;
+  }
+}
+
 .font-weight-bold {
   font-weight: bold;
 }

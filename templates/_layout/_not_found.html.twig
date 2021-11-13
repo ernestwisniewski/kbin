@@ -6,6 +6,22 @@
     {%- endwith -%}
 {%- endmacro -%}
 
+{%- macro not_found_transactions(type, options) -%}
+    {%- with {
+        type: type,
+        } only -%}
+        {{ block('not_found_transactions') }}
+    {%- endwith -%}
+{%- endmacro -%}
+
+{% block not_found_transactions %}
+    <div class="text-center py-5 text-muted">
+        <p class="display-4">
+            {{ 'no_transactions'|trans }}
+        </p>
+    </div>
+{% endblock %}
+
 {% block not_found %}
     {% if is_entry_page() or is_post_page() %}
         <div class="text-center py-5 text-muted">

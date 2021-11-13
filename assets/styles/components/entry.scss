@@ -1,6 +1,6 @@
 .kbin-entry {
   .kbin-related-wrapper & {
-    opacity:0.7;
+    opacity: 0.7;
 
     &:hover {
       opacity: 1;
@@ -152,6 +152,20 @@
             font-weight: bold;
             color: gray;
             margin-right: .5rem;
+
+            fill: gray !important;
+
+            svg {
+              width: .6rem;
+
+              &:hover {
+                fill: black !important;
+
+                .kbin-dark & {
+                  fill: $white !important;
+                }
+              }
+            }
           }
         }
       }

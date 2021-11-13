@@ -16,7 +16,6 @@ final class Version20210527210529 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE badge_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE domain_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE entry_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -261,7 +260,6 @@ final class Version20210527210529 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE entry_badge DROP CONSTRAINT FK_7AEA2BBBF7A2C2FC');
         $this->addSql('ALTER TABLE entry DROP CONSTRAINT FK_2B219D70115F0EE5');

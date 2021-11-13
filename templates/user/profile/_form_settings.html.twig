@@ -1,6 +1,6 @@
 {{ form_start(form) }}
 
-<h2 class="font-weight-bold">{{ 'appearance'|trans }}</h2>
+<h2 class="font-weight-bold mb-4">{{ 'appearance'|trans }}</h2>
 
 <div class="mb-3">
     {{ form_label(form.darkTheme, 'dark_mode'|trans) }}
@@ -25,7 +25,9 @@
     </div>
 </div>
 
-<h2 class="font-weight-bold mt-4">{{ 'notifications'|trans }}</h2>
+<hr class="mb-4">
+
+<h2 class="font-weight-bold mb-4">{{ 'notifications'|trans }}</h2>
 
 <h5 class="">{{ 'your_content'|trans }}</h5>
 {{ form_label(form.notifyOnNewEntryReply, 'notify_on_new_entry_reply'|trans) }}
@@ -60,9 +62,12 @@
     {{ form_widget(form.notifyOnNewPost, {name: 'notify_on_new_posts'|trans}) }}
 </div>
 
+<hr>
 
 <div class="mb-12 text-end">
     {{ form_row(form.submit, { 'label': 'done'|trans }) }}
 </div>
+
+<hr>
 
 {{ form_end(form) }}
