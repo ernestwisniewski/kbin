@@ -21,8 +21,8 @@ class EntryTipController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_tips.html.twig', [
-                    'magazine'     => $magazine,
-                    'entry'        => $entry,
+                    'subject'      => $entry,
+                    'key'          => 'entry',
                     'transactions' => [],
                 ]),
             ]);

@@ -5,7 +5,7 @@
 {% block body %}
     {{ component('entry', {entry: entry}) }}
 
-    {% include '_layout/_tips.html.twig' %}
+    {{ component('tip', { subject: entry, key: 'entry', transactions: transactions }) }}
 {% endblock %}
 
 {% block sidebar %}
