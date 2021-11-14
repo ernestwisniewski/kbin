@@ -12,47 +12,43 @@
             <div class="col-lg-6">
                 <div class="kbin-cardano-background"></div>
 
-                <div class="container">
-                    <div class="row">
 
-                        {% include 'user/profile/_form_cardano_wallet.html.twig' %}
+                {% include 'user/profile/_form_cardano_wallet.html.twig' %}
 
-                        <p class="mt-5">
-                            {{ 'dont_have_wallet_yet'|trans({'%link_start%' : '<a class="font-weight-bold" href="#"  data-bs-toggle="modal" data-bs-target="#cardanoWallet">', '%link_end%' : '</a>'}) | raw }}
-                        </p>
+                <p class="mt-5">
+                    {{ 'dont_have_wallet_yet'|trans({'%link_start%' : '<a class="font-weight-bold" href="#"  data-bs-toggle="modal" data-bs-target="#cardanoWallet">', '%link_end%' : '</a>'}) | raw }}
+                </p>
 
-                        <div class="modal" tabindex="-1" data-bs-toggle="modal" id="cardanoWallet">
-                            <div class="modal-dialog modal-dialog-centered modal-xl">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">{{ 'create_new_wallet'|trans }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>{{ 'create_new_wallet_desc'|trans|raw }}</p>
+                <div class="modal" tabindex="-1" data-bs-toggle="modal" id="cardanoWallet">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">{{ 'create_new_wallet'|trans }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>{{ 'create_new_wallet_desc'|trans|raw }}</p>
 
-                                        <div class="my-5">
-                                            <input class="form-control" placeholder="coming soon...">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary">{{ 'create_new_wallet_apply'|trans }}</button>
-                                    </div>
+                                <div class="my-5 input-group-lg">
+                                    <input class="form-control" placeholder="coming soon...">
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">{{ 'create_new_wallet_apply'|trans }}</button>
+                            </div>
                         </div>
-
-                        <ul class="ms-5">
-                            <li><a href="#">Czym są i jak działają tipy za wartościowe treści?</a></li>
-                            <li><a href="#">Jak utworzyć nowy portfel w Daedalus?</a> <small>(zalecane)</small></li>
-                            <li><a href="#">Jak kupić ADA i przelać środki na portfel Daedalus?</a></li>
-                            <li><a href="#">Jak wypłacić środki z portfela Daedalus?</a></li>
-                            <li><a href="#">Czym jest Cardano Karabin Stake Pool?</a></li>
-                        </ul>
-
-                        <hr class="my-4">
                     </div>
                 </div>
+
+                <ul class="ms-3">
+                    <li><a href="#">{{ 'tip_link_1'|trans }}</a></li>
+                    <li><a href="#">{{ 'tip_link_2'|trans }}</a> <small>({{ 'recommended'|trans }})</small></li>
+                    <li><a href="#">{{ 'tip_link_3'|trans }}</a></li>
+                    <li><a href="#">{{ 'tip_link_4'|trans }}</a></li>
+                    <li><a href="#">{{ 'tip_link_5'|trans }}</a></li>
+                </ul>
+
+                <hr class="my-4">
             </div>
         </div>
         <div class="kbin-profile-transactions mt-lg-4">
