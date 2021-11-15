@@ -28,6 +28,9 @@ parameters:
     update: '%elastica_enabled%'
     delete: '%elastica_enabled%'
 
+  cardano_api_url: '%env(CARDANO_API_URL)%'
+  cardano_api_key: '%env(CARDANO_API_KEY)%'
+
 services:
   _defaults:
     autowire: true
@@ -36,6 +39,8 @@ services:
       $elasticaEnabled: '%elastica_enabled%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
+      $cardanoApiUrl: '%cardano_api_url%'
+      $cardanoApiKey: '%cardano_api_key%'
 
   _instanceof:
     League\CommonMark\Inline\Parser\InlineParserInterface:
