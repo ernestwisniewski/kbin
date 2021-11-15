@@ -48,6 +48,11 @@
             <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_video_desc'|trans }}</p>
         </a>
 
+        <a href="#" class="list-group-item disabled">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_smart_contract'|trans }}</h4>
+            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_smart_contract_desc'|trans }}</p>
+        </a>
+
         <a href="{% if magazine is defined and magazine %}{{ path('magazine_posts', { name: magazine.name }) }}{% else %}{{ '/m/karabin/wpisy/aktywne' }}{% endif %}"
            class="list-group-item">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_post'|trans }}</h4>
