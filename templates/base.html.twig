@@ -36,7 +36,7 @@
         {% endif %}
     {% endblock %}
 </head>
-<body class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : '' }}">
+<body class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : 'kbin-light' }}">
 <div data-controller="scroll-progress" class="bg-primary scroll-progress"></div>
 <div id="kbin"
      data-controller="kbin notify-counter"
