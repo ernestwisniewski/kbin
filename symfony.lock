@@ -177,6 +177,9 @@
             "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
         }
     },
+    "furqansiddiqui/bip39-mnemonic-php": {
+        "version": "0.1.4"
+    },
     "fzaninotto/faker": {
         "version": "1.9-dev"
     },

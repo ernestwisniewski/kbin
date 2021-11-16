@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace App\Command;
+namespace App\Command\AwesomeBot;
 
 use App\DTO\BadgeDto;
 use App\DTO\MagazineDto;

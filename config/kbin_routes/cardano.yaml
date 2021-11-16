@@ -1,0 +1,6 @@
+ajax_fetch_title:
+  controller: App\Controller\Cardano\CardanoCreateWalletController
+  defaults: { _format: json }
+  path: /cardano/wallet
+  methods: [POST]
+

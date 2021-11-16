@@ -81,3 +81,9 @@ entry_report:
   defaults: { entityClass: App\Entity\Entry }
   path: /er/{id}
   methods: [ GET, POST ]
+
+entry_cpr:
+  controller: App\Controller\Entry\EntryCardanoPaymentInitController
+  defaults: { entityClass: App\Entity\Entry }
+  path: /ecpi/{id}
+  methods: [ POST ]
