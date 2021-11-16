@@ -13,7 +13,7 @@ class CardanoWallet
 
     public function create(): string
     {
-        $mnemonic = BIP39::Generate(24);
+        $mnemonic = BIP39::Generate(24)->words;
 
         $response = $this->client->request(
             'POST',
@@ -21,12 +21,12 @@ class CardanoWallet
             [
                 'json' => [
                     'name' => 'Kbin Wallet',
-                    'mnemonic_sentence' => $mnemonic->words,
+                    'mnemonic_sentence' => $mnemonic,
                     'passphrase' => 'kbin tips',
                 ],
             ]
         );
 
-        return implode(' ', $mnemonic->words);
+        return implode(' ', $mnemonic);
     }
 }

@@ -3,16 +3,15 @@
 namespace App\Repository;
 
 use App\Entity\CardanoPaymentInit;
-use App\Entity\Domain;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Domain|null find($id, $lockMode = null, $lockVersion = null)
- * @method Domain|null findOneBy(array $criteria, array $orderBy = null)
- * @method Domain|null findOneByName(string $name)
- * @method Domain[]    findAll()
- * @method Domain[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CardanoPaymentInit|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CardanoPaymentInit|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CardanoPaymentInit|null findOneByName(string $name)
+ * @method CardanoPaymentInit[]    findAll()
+ * @method CardanoPaymentInit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CardanoPaymentInitRepository extends ServiceEntityRepository
 {
