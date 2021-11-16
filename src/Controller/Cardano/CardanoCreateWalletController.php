@@ -12,10 +12,26 @@ class CardanoCreateWalletController extends AbstractController
 {
     public function __invoke(CardanoWallet $wallet, Request $request): Response
     {
-        return new JsonResponse(
+        $response = new JsonResponse(
             [
                 'mnemonic' => $wallet->create(),
             ]
         );
+
+        return $this->send($response);
+    }
+
+    private function send(Response $response): Response
+    {
+        $response->setCache([
+            'must_revalidate' => true,
+            'no_cache' => true,
+            'no_store' => true,
+            'no_transform' => true,
+            'private' => true,
+            'proxy_revalidate' => true,
+        ]);
+
+        return $response;
     }
 }
