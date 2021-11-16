@@ -3,7 +3,6 @@
 namespace App\MessageHandler\Cardano;
 
 use App\Cardano\CardanoTransactions;
-use App\Entity\Contracts\ContentInterface;
 use App\Message\Cardano\SubjectTransactionsRefreshMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -18,8 +17,8 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
 
     public function __invoke(SubjectTransactionsRefreshMessage $message): void
     {
-        $subject      = $this->entityManager->getRepository($message->className)->find($message->id);
-        $user         = $subject->user;
+        $subject = $this->entityManager->getRepository($message->className)->find($message->id);
+        $user    = $subject->user;
 
         // fetch transaction list
         $transactions = $this->transactions->fetch($user->cardanoWalletId, $message->createdAt);
