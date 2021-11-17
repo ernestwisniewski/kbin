@@ -1,4 +1,4 @@
-ajax_fetch_title:
+cardano_wallet_create:
   controller: App\Controller\Cardano\CardanoCreateWalletController
   defaults: { _format: json }
   path: /cardano/wallet
