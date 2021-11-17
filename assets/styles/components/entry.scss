@@ -7,7 +7,7 @@
     }
   }
 
-  padding: 1rem .3rem;
+  padding: 1.5rem .3rem;
   display: flow-root;
   position: relative;
 
@@ -153,9 +153,9 @@
             color: gray;
             margin-right: .5rem;
 
-            fill: gray !important;
+            .ada {
+              fill: gray !important;
 
-            svg {
               width: .6rem;
 
               &:hover {

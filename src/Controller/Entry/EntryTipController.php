@@ -5,6 +5,7 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
+use App\Form\CardanoTransactionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,11 +19,16 @@ class EntryTipController extends AbstractController
      */
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
+        $form = $this->createForm(CardanoTransactionType::class, null, [
+            'walletId' => $entry->user->cardanoWalletId,
+        ]);
+
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_tips.html.twig', [
                     'subject'      => $entry,
                     'key'          => 'entry',
+                    'form'         => $form->createView(),
                     'transactions' => [],
                 ]),
             ]);
@@ -31,6 +37,7 @@ class EntryTipController extends AbstractController
         return $this->render('entry/tips.html.twig', [
             'magazine'     => $magazine,
             'entry'        => $entry,
+            'form'         => $form->createView(),
             'transactions' => [],
         ]);
     }

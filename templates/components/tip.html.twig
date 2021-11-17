@@ -9,24 +9,31 @@
 
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home-tab" data-bs-toggle="pill" data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" type="button"
-                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" aria-selected="true"><small>{{ 'external_transfer'|trans }}</small>
+                    <button class="nav-link active" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home-tab" data-bs-toggle="pill"
+                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" type="button"
+                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" aria-selected="true">
+                        <small>{{ 'external_transfer'|trans }}</small>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile-tab" data-bs-toggle="pill" data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" type="button"
-                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" aria-selected="false"><small>{{ 'mnemonic'|trans }}</small>
+                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile-tab" data-bs-toggle="pill"
+                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" type="button"
+                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" aria-selected="false">
+                        <small>{{ 'mnemonic'|trans }}</small>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact-tab" data-bs-toggle="pill" data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" type="button"
-                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" aria-selected="false"><small>{{ 'hardware_wallet'|trans }}</small>
+                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact-tab" data-bs-toggle="pill"
+                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" type="button"
+                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" aria-selected="false">
+                        <small>{{ 'hardware_wallet'|trans }}</small>
                     </button>
                 </li>
             </ul>
 
             <div class="tab-content clearfix" id="kbin-tab-content">
-                <div class="tab-pane fade show active my-5" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" role="tabpanel" aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home-tab">
+                <div class="tab-pane fade show active my-5" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" role="tabpanel"
+                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home-tab">
                     <label for="copyWallet">{{ 'wallet_address'|trans }}</label>
                     <div class="input-group input-group-xl"
                          data-controller="clipboard"
@@ -51,9 +58,10 @@
                         <li><a href="#">{{ 'tip_link_2'|trans }}</a> <small>({{ 'recommended'|trans }})</small></li>
                         <li><a href="#">{{ 'tip_link_3'|trans }}</a></li>
                         <li><a href="#">{{ 'tip_link_4'|trans }}</a></li>
-                        <li><a href="#">{{ 'tip_link_5'|trans }}</a></li>
+                        <li><a href="https://ksp.karab.in">{{ 'tip_link_5'|trans }}</a></li>
                     </ul>
 
+                    {# Popup #}
                     <div class="modal" tabindex="-1" data-bs-toggle="modal" id="cardanoWallet">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
@@ -75,22 +83,71 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" role="tabpanel" aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile-tab">
+
+                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" role="tabpanel"
+                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile-tab">
                     <div class="alert alert-primary" role="alert">
                         <small>Here you can use your mnemonic to access your wallet.</small>
                     </div>
 
                     <div class="my-5  input-group-lg">
-                        <label for="{{ this.key ~ '-' ~ this.subject.id }}-cardano-wallet" class="form-label"><small>Enter the 12, 15, 24 or 27-word wallet mnemonic seed
-                                phrase</small></label>
-                        <input class="form-control" id="{{ this.key ~ '-' ~ this.subject.id }}-cardano-wallet" placeholder="coming soon...">
-                        <button type="submit" class="btn btn-primary float-end my-3">Unlock</button>
+                        {{ form_start(this.form) }}
+                        <div class="col-xs-12 clearfix">
+                            <div class="kbin-cardano-transaction-form my-3">
+                                <div class="mb-3">
+                                    {{ form_label(this.form.mnemonic, 'mnemonic'|trans) }} <small class="text-muted"
+                                                                                                  style="font-size:12px">({{ 'mnemonic_desc'|trans }}
+                                        )</small>
+                                    {{ form_widget(this.form.mnemonic) }}
+                                </div>
+
+                                <div class="mb-5">
+                                    {{ form_label(this.form.walletId, 'wallet_id'|trans) }}
+                                    {{ form_widget(this.form.walletId) }}
+                                </div>
+
+                                <div class="mb-3 row">
+                                    {{ form_label(this.form.asset, 'asset'|trans, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+
+                                    <div class="col-sm-8">
+                                        {{ form_widget(this.form.asset, {'attr': {'class': 'form-select'}}) }}
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    {{ form_label(this.form.amount, 'amount'|trans, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                                    <div class="col-sm-8">
+                                        {{ form_widget(this.form.amount, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="fee" class="col-sm-4 col-form-label">{{ 'fee'|trans }}</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" readonly class="form-control-plaintext" id="fee" value="0.000000">
+                                    </div>
+                                </div>
+
+                                <hr style="height: 1px!important; color:grey;" class="my-4">
+
+                                <div class="mb-3 mt-3 row">
+                                    <label for="total" class="col-sm-4 col-form-label"><strong class="h4">{{ 'total'|trans }}</strong></label>
+                                    <div class="col-sm-8">
+                                       <strong class="h4">0.000000</strong> <span>{{ component('ada_symbol') }}</span>
+                                    </div>
+                                </div>
+                                {{ form_row(this.form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-cardano-transaction-send btn-primary float-end'} }) }}
+                            </div>
+                        </div>
+                        {{ form_end(this.form) }}
 
                     </div>
                 </div>
-                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" role="tabpanel" aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact-tab">
-                    <div class="container text-center my-5">
-                        coming soon...
+
+                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" role="tabpanel"
+                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact-tab">
+                    <div class="container text-center my-5 py-5">
+                        <div class="py-5">
+                            coming soon...
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,26 +155,22 @@
             <hr class="my-4">
         </div>
     </div>
-    <div class="kbin-profile-transactions mt-lg-4">
-        <h2 class="font-weight-bold">{{ 'transactions'|trans }}</h2>
-        {% if this.transactions|length %}
-            <div class="table-responsive">
-                <table class="table align-middle small">
-                    <tbody>
-                    {% for transaction in this.transactions %}
+</div>
 
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+<div class="kbin-profile-transactions mt-lg-4">
+    <h2 class="font-weight-bold">{{ 'transactions'|trans }}</h2>
+    {% if this.transactions|length %}
+        <div class="table-responsive">
+            <table class="table align-middle small">
+                <tbody>
+                {% for transaction in this.transactions %}
 
-            {# {% if(threads.haveToPaginate) %} #}
-            {# {{ pagerfanta(transactions, null, {'pageParameter':'[p]'}) }} #}
-            {# {% endif %} #}
-        {% else %}
-            {{ not_found_transactions() }}
-        {% endif %}
-        <hr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        {{ not_found_transactions() }}
+    {% endif %}
 
-    </div>
 </div>
