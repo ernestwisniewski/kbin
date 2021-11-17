@@ -3,6 +3,16 @@ $link-hover-color: #23527c;
 $primary: #556880;
 
 @import "~bootstrap/scss/bootstrap";
+
+svg.ada {
+  fill: $body-color;
+  width: 1.5rem;
+
+  .kbin-dark & {
+    fill: #d4d4d4;
+  }
+}
+
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import "~choices.js/src/styles/choices.scss";
 @import "~simplemde/dist/simplemde.min.css";
@@ -70,13 +80,13 @@ $primary: #556880;
   position: absolute;
   opacity: .7;
 
-  @include media-breakpoint-down(xxl) {
+  @include media-breakpoint-down(lg) {
     opacity: .1;
   }
 
-  @include media-breakpoint-up(lg) {
-    top: -1rem;
-    right: -1.5rem;
+  @include media-breakpoint-down(lg) {
+    bottom: 0;
+    right: 0;
   }
 }
 
