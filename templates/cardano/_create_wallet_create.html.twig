@@ -1,0 +1,33 @@
+<div data-controller="cardano-wallet-create">
+    <p class="mt-5">
+        {{ 'dont_have_wallet_yet'|trans({'%link_start%' : '<a class="font-weight-bold" href="#"  data-bs-toggle="modal" data-bs-target="#cardano-wallet-create" data-action="click->cardano-wallet-create#create">', '%link_end%' : '</a>'}) | raw }}
+    </p>
+
+    <div class="modal" tabindex="-1" data-bs-toggle="modal" id="cardano-wallet-create">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ 'create_new_wallet'|trans }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'create_new_wallet_desc'|trans|raw }}</p>
+
+                    <div class="text-center" data-cardano-wallet-create-target="loading">
+                        <div class="mt-5 spinner-border text-primary text-center" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group-lg">
+                        <input class="form-control" placeholder="loading..." data-cardano-wallet-create-target="walletId">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary" href="#" role="button" data-cardano-wallet-create-target="button">{{ 'create_new_wallet_apply'|trans }}</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
