@@ -15,9 +15,9 @@
 
                 {% include 'user/profile/_form_cardano_wallet.html.twig' %}
 
-                <p class="mt-5">
-                    {{ 'dont_have_wallet_yet'|trans({'%link_start%' : '<a class="font-weight-bold" href="#"  data-bs-toggle="modal" data-bs-target="#cardanoWallet">', '%link_end%' : '</a>'}) | raw }}
-                </p>
+                {% include 'cardano/_create_wallet_create.html.twig' %}
+
+                {% include 'cardano/_create_wallet_desc.html.twig' %}
 
                 <div class="modal" tabindex="-1" data-bs-toggle="modal" id="cardanoWallet">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -39,14 +39,6 @@
                         </div>
                     </div>
                 </div>
-
-                <ul class="ms-3">
-                    <li><a href="#">{{ 'tip_link_1'|trans }}</a></li>
-                    <li><a href="#">{{ 'tip_link_2'|trans }}</a> <small>({{ 'recommended'|trans }})</small></li>
-                    <li><a href="#">{{ 'tip_link_3'|trans }}</a></li>
-                    <li><a href="#">{{ 'tip_link_4'|trans }}</a></li>
-                    <li><a href="https://ksp.karab.in">{{ 'tip_link_5'|trans }}</a></li>
-                </ul>
 
                 <hr class="my-4">
             </div>
