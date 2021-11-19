@@ -1,6 +1,9 @@
-cardano_wallet_create:
+cardano_wallet_new:
   controller: App\Controller\Cardano\CardanoCreateWalletController
-  defaults: { _format: json }
   path: /cardano/wallet
-  methods: [POST]
+  methods: [ GET, POST ]
 
+cardano_transaction:
+  controller: App\Controller\Cardano\CardanoTransactionController
+  path: /cardano/transaction
+  methods: [ POST ]

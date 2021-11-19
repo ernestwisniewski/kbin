@@ -7,10 +7,10 @@ use App\Entity\User;
 class CardanoWalletAddressDto
 {
     // @todo string <hex> 40 characters
-    public ?string $walletId;
+    public ?string $walletAddress;
 
     public function __construct(User $user)
     {
-        $this->walletId = $user->cardanoWalletId;
+        $this->walletAddress = $user->cardanoWalletAddress;
     }
 }

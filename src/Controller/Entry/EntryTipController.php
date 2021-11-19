@@ -3,6 +3,7 @@
 namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
+use App\DTO\CardanoTransactionDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Form\CardanoTransactionType;
@@ -19,8 +20,11 @@ class EntryTipController extends AbstractController
      */
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
-        $form = $this->createForm(CardanoTransactionType::class, null, [
-            'walletId' => $entry->user->cardanoWalletId,
+        $dto = new CardanoTransactionDto();
+        $dto->walletAddress = $entry->user->cardanoWalletAddress;
+
+        $form = $this->createForm(CardanoTransactionType::class, $dto, [
+            'action' => $this->generateUrl('cardano_transaction'),
         ]);
 
         if ($request->isXmlHttpRequest()) {

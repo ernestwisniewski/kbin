@@ -2,20 +2,29 @@
 
 namespace App\Controller\Cardano;
 
-use App\Cardano\CardanoWallet;
+use App\Cardano\CardanoTransactions;
 use App\Controller\AbstractController;
+use App\Form\CardanoTransactionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CardanoCreateWalletController extends AbstractController
+class CardanoTransactionController extends AbstractController
 {
-    public function __invoke(CardanoWallet $wallet, Request $request): Response
+    public function __invoke(CardanoTransactions $wallet, Request $request): Response
     {
+        $form = $this->createForm(CardanoTransactionType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dto = $form->getData();
+            $wallet->create($dto->mnemonic, $dto->walletAddress, $dto->amount);
+        }
+
         if ($request->isXmlHttpRequest()) {
-            $response = new JsonResponse($wallet->create());
+            $response = new JsonResponse(['success' => true]);
         } else {
-            $response = $this->render('cardano/create_wallet.html.twig', $wallet->create());
+            return $this->redirectToRefererOrHome($request);
         }
 
         return $this->send($response);

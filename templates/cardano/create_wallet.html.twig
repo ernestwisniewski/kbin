@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'wallet'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <p class="mb-5">{{ 'create_new_wallet_desc'|trans|raw }}</p>
+
+        <div class="input-group-lg mb-4">
+            <label for="mnemonic" class="form-label">{{ 'mnemonic'|trans }}</label>
+            <input id="mnemonic" readonly autocomplete="false" class="form-control" placeholder="loading..." value="{{ mnemonic }}">
+        </div>
+
+        <div class="mb-5">
+            <label for="address" class="form-label">{{ 'wallet_address'|trans }}</label>
+            <div class="input-group input-group-lg"
+                 data-controller="clipboard"
+                 data-clipboard-success-content="Skopiowano!">
+
+                <input type="text"
+                       class="form-control"
+                       aria-label="Copy address"
+                       aria-describedby="address"
+                       data-clipboard-target="source"
+                       readonly
+                       value="{{ address }}">
+                <button class="input-group-text" id="copyUrl" data-action="clipboard#copy" data-clipboard-target="button">{{ 'copy'|trans }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn btn-primary float-end" href="{{ path('front') }}" role="button">{{ 'create_new_wallet_apply'|trans }}</a>
+    </div>
+
+{% endblock %}

@@ -5,7 +5,6 @@ namespace App\Cardano;
 use FurqanSiddiqui\BIP39\BIP39;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CardanoWallet
 {
@@ -16,28 +15,41 @@ class CardanoWallet
     #[ArrayShape(['mnemonic' => "string", 'address' => "string"])] public function create(): array
     {
         $wallet   = $this->createWallet($mnemonic = BIP39::Generate(15)->words);
-        $walletId = $wallet->toArray()['id'];
+        $walletId = $wallet['id'];
 
         $addresses = $this->client->request('GET', "$this->cardanoApiUrl/wallets/$walletId/addresses");
         $address   = $addresses->toArray()[0]['id'];
 
-        $this->client->request('DELETE', "$this->cardanoApiUrl/wallets/$walletId");
+        $this->delete($walletId);
 
         return ['mnemonic' => implode(' ', $mnemonic), 'address' => $address];
     }
 
-    private function createWallet(array $mnemonic): ResponseInterface
+    public function createWallet(array $mnemonic): array
     {
         return $this->client->request(
-            'POST',
+                'POST',
+                "$this->cardanoApiUrl/wallets",
+                [
+                    'json' => [
+                        'name'              => 'Karabin',
+                        'mnemonic_sentence' => $mnemonic,
+                        'passphrase'        => $pp = bin2hex(random_bytes(15)),
+                    ],
+                ]
+            )->toArray() + ['pp' => $pp];
+    }
+
+    public function getWallets(): array
+    {
+        return $this->client->request(
+            'GET',
             "$this->cardanoApiUrl/wallets",
-            [
-                'json' => [
-                    'name'              => 'Karabin',
-                    'mnemonic_sentence' => $mnemonic,
-                    'passphrase'        => bin2hex(random_bytes(15))
-                ],
-            ]
-        );
+        )->toArray();
+    }
+
+    public function delete(string $walletId)
+    {
+//        $this->client->request('DELETE', "$this->cardanoApiUrl/wallets/$walletId");
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\DTO\CardanoWalletAddressDto;
+use App\DTO\CardanoTransactionDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -16,7 +16,7 @@ class CardanoTransactionType extends AbstractType
     {
         $builder
             ->add('mnemonic')
-            ->add('walletId')
+            ->add('walletAddress')
             ->add('asset', ChoiceType::class, [
                 'choices' => [
                     'ADA'=>'ADA',
@@ -30,8 +30,8 @@ class CardanoTransactionType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'walletId' => null,
-                'data_class' => CardanoWalletAddressDto::class,
+                'walletAddress' => null,
+                'data_class' => CardanoTransactionDto::class,
             ]
         );
     }
