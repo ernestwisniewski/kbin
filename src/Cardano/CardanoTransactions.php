@@ -8,29 +8,49 @@ class CardanoTransactions
 {
     // https://forum.cardano.org/t/how-to-get-started-with-metadata-on-cardano/45111
 
-    public function __construct(public string $cardanoApiUrl, public $cardanoApiKey, public HttpClientInterface $client)
-    {
+    public function __construct(
+        private string $cardanoApiUrl,
+        private $cardanoApiKey,
+        private HttpClientInterface $client,
+        private CardanoWallet $wallet
+    ) {
     }
 
-    public function balance(string $walletId)
+    public function create(string $mnemonic, string $authorAddress, float $amount): array
     {
-    }
+        try {
+            $wallet = $this->wallet->createWallet(explode(' ', $mnemonic));
+        } catch (\Exception $e) {
+            foreach ($this->wallet->getWallets() as $wallet) {
+                $this->wallet->delete($wallet['id']);
+            }
 
-    public function fetch(string $walletId, \DateTimeImmutable $start): array
-    {
-        $response = $this->client->request(
-            'GET',
-            "$this->cardanoApiUrl/wallets/$walletId/transactions",
-            [
-                'query' => [
-                    'start' => $start,
-                ],
-                'headers' => [
-                    'project_id' => $this->cardanoApiKey,
-                ],
-            ]
+            $wallet = $this->wallet->createWallet(explode(' ', $mnemonic));
+        }
+
+        dd(
+            $resp = $this->client->request(
+                'POST',
+                "$this->cardanoApiUrl/wallets/{$wallet['id']}/transactions",
+                [
+                    'json' => [
+                        'passphrase' => $wallet['pp'],
+                        'payments'   => [
+                            [
+                                'address' => $authorAddress,
+                                'amount'  => [
+                                    'quantity' => $amount * 1000000,
+                                    'unit'     => 'lovelace',
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            )->getContent(false)
         );
 
-        return $response->toArray();
+        $this->wallet->delete($wallet['id']);
+
+        return $resp;
     }
 }

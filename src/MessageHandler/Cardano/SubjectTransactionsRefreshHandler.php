@@ -21,7 +21,7 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
         $user    = $subject->user;
 
         // fetch transaction list
-        $transactions = $this->transactions->fetch($user->cardanoWalletId, $message->createdAt);
+        $transactions = $this->transactions->fetch($user->cardanoWalletAddress, $message->createdAt);
 
         // set subject metadata
         // delete payment request

@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", nullable=true, options={"default": null})
      */
-    public ?string $cardanoWalletId = null;
+    public ?string $cardanoWalletAddress = null;
     /**
      * @ORM\Column(type="boolean")
      */

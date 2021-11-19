@@ -166,7 +166,7 @@ class UserManager
 
     public function attachWallet(User $user, CardanoWalletAddressDto $dto)
     {
-        $user->cardanoWalletId = $dto->walletId;
+        $user->cardanoWalletAddress = $dto->walletId;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

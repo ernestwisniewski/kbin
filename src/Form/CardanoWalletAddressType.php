@@ -13,7 +13,7 @@ class CardanoWalletAddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('walletId')
+            ->add('walletAddress')
             ->add('submit', SubmitType::class);
     }
 

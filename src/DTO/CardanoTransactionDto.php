@@ -2,18 +2,16 @@
 
 namespace App\DTO;
 
-use App\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CardanoTransactionDto
 {
     // @todo string <hex> 40 characters
+    #[Assert\NotBlank]
     public string $mnemonic;
-    public string $walletId;
+    #[Assert\NotBlank]
+    public string $walletAddress;
     public string $asset = 'ADA';
+    #[Assert\NotBlank]
     public float $amount = 0;
-
-    public function __construct(User $user)
-    {
-        $this->walletId = $user->cardanoWalletId;
-    }
 }
