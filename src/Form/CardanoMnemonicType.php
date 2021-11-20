@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\DTO\CardanoMnemonicDto;
 use App\DTO\CardanoWalletAddressDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,7 +22,7 @@ class CardanoMnemonicType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => CardanoWalletAddressDto::class,
+                'data_class' => CardanoMnemonicDto::class,
             ]
         );
     }
