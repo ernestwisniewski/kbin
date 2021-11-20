@@ -8,14 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Entity(repositoryClass="App\Repository\CardanoPaymentInitRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CardanoTxInitRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="cpi_type", type="text")
  * @ORM\DiscriminatorMap({
- *   "entry": "EntryCardanoPaymentInit",
+ *   "entry": "EntryCardanoTxInit",
  * })
  */
-abstract class CardanoPaymentInit
+abstract class CardanoTxInit
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
@@ -32,16 +32,21 @@ abstract class CardanoPaymentInit
      */
     public ?User $user = null;
     /**
+     * @ORM\Column(type="string")
+     */
+    public string $sessionId;
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
 
-    public function __construct(Magazine $magazine, ?User $user = null)
+    public function __construct(Magazine $magazine, string $sessionId, ?User $user = null)
     {
-        $this->user     = $user;
-        $this->magazine = $magazine;
+        $this->user      = $user;
+        $this->magazine  = $magazine;
+        $this->sessionId = $sessionId;
 
         $this->createdAtTraitConstruct();
     }

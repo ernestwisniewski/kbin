@@ -16,8 +16,9 @@ class CardanoTransactionController extends CardanoController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dto = $form->getData();
-            $wallet->create($dto->walletId, $dto->walletAddress, $dto->amount);
+            $dto  = $form->getData();
+            $user = $this->getUserOrThrow();
+            dd($wallet->create($user->getPassword(), $user->cardanoWalletId, $dto->walletAddress, $dto->amount));
         }
 
         if ($request->isXmlHttpRequest()) {

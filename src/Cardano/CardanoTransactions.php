@@ -9,47 +9,33 @@ class CardanoTransactions
     // https://forum.cardano.org/t/how-to-get-started-with-metadata-on-cardano/45111
 
     public function __construct(
-        private string $cardanoApiUrl,
+        private string $cardanoWalletUrl,
         private HttpClientInterface $client,
-        private CardanoWallet $wallet
     ) {
     }
 
-    public function create(string $mnemonic, string $authorAddress, float $amount): array
+    public function create(string $passphrase, string $walletId, string $receiverAddress, float $amount): array
     {
-        try {
-            $wallet = $this->wallet->createWallet(explode(' ', $mnemonic));
-        } catch (\Exception $e) {
-            foreach ($this->wallet->getWallets() as $wallet) {
-                $this->wallet->delete($wallet['id']);
-            }
+        $amount *= 1000000;
+        $amount = explode('.', (string) $amount)[0];
 
-            $wallet = $this->wallet->createWallet(explode(' ', $mnemonic));
-        }
-
-        dd(
-            $resp = $this->client->request(
-                'POST',
-                "$this->cardanoApiUrl/wallets/{$wallet['id']}/transactions",
-                [
-                    'json' => [
-                        'passphrase' => $wallet['pp'],
-                        'payments'   => [
-                            [
-                                'address' => $authorAddress,
-                                'amount'  => [
-                                    'quantity' => $amount * 1000000,
-                                    'unit'     => 'lovelace',
-                                ],
+        return $this->client->request(
+            'POST',
+            "$this->cardanoWalletUrl/wallets/$walletId/transactions",
+            [
+                'json' => [
+                    'passphrase' => $passphrase,
+                    'payments'   => [
+                        [
+                            'address' => $receiverAddress,
+                            'amount'  => [
+                                'quantity' => (int) $amount,
+                                'unit'     => 'lovelace',
                             ],
                         ],
                     ],
-                ]
-            )->getContent(false)
-        );
-
-        $this->wallet->delete($wallet['id']);
-
-        return $resp;
+                ],
+            ]
+        )->toArray();
     }
 }

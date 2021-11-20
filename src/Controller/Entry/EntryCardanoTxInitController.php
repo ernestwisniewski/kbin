@@ -8,12 +8,17 @@ use App\Service\CardanoManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class EntryCardanoPaymentInitController extends AbstractController
+class EntryCardanoTxInitController extends AbstractController
 {
-    public function __invoke(ContentInterface $subject, Request $request, CardanoManager $manager): Response
+    public function __construct(private CardanoManager $manager, private SessionInterface $session)
     {
-        $manager->paymentInit($subject, $this->getUser());
+    }
+
+    public function __invoke(ContentInterface $subject, Request $request): Response
+    {
+        $this->manager->txInit($subject, $this->session->getId(), $this->getUser());
 
         return new JsonResponse(
             [

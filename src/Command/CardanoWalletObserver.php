@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\CardanoPaymentInit;
+use App\Entity\CardanoTxInit;
 use App\Message\Cardano\SubjectTransactionsRefreshMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -27,11 +27,11 @@ class CardanoWalletObserver extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $requests = $this->entityManager->getRepository(CardanoPaymentInit::class)->findForRefresh();
+        $requests = $this->entityManager->getRepository(CardanoTxInit::class)->findForRefresh();
 
         foreach ($requests as $request) {
             /**
-             * @var $request CardanoPaymentInit
+             * @var $request CardanoTxInit
              */
             $this->bus->dispatch(
                 new SubjectTransactionsRefreshMessage(

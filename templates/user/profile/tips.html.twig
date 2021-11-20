@@ -18,7 +18,10 @@
 
                 {% include 'cardano/_mnemonic.html.twig' %}
 
-                {% include 'cardano/_create_wallet_modal.html.twig' %}
+                {% if app.user and app.user.cardanoWalletId %}
+                {% else %}
+                    {% include 'cardano/_create_wallet_modal.html.twig' %}
+                {% endif %}
 
                 {% include 'cardano/_create_wallet_desc.html.twig' %}
 

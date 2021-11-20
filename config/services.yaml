@@ -28,8 +28,8 @@ parameters:
     update: '%elastica_enabled%'
     delete: '%elastica_enabled%'
 
-  cardano_api_url: '%env(CARDANO_API_URL)%'
-  cardano_api_key: '%env(CARDANO_API_KEY)%'
+  cardano_wallet_url: '%env(CARDANO_WALLET_URL)%'
+  cardano_explorer_url: '%env(CARDANO_EXPLORER_URL)%'
 
 services:
   _defaults:
@@ -39,8 +39,8 @@ services:
       $elasticaEnabled: '%elastica_enabled%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
-      $cardanoApiUrl: '%cardano_api_url%'
-      $cardanoApiKey: '%cardano_api_key%'
+      $cardanoWalletUrl: '%cardano_wallet_url%'
+      $cardanoExplorerUrl: '%cardano_explorer_url%'
 
   _instanceof:
     League\CommonMark\Inline\Parser\InlineParserInterface:
@@ -58,11 +58,11 @@ services:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
 
-#  App\Http\RequestDTOResolver:
-#    arguments:
-#      - '@validator'
-#    tags:
-#      - { name: controller.request_value_resolver, priority: 50 }
+  #  App\Http\RequestDTOResolver:
+  #    arguments:
+  #      - '@validator'
+  #    tags:
+  #      - { name: controller.request_value_resolver, priority: 50 }
 
   App\Markdown\CommonMark\ExternalImagesRenderer:
     tags:

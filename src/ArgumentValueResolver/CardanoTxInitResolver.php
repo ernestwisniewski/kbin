@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use function in_array;
 
-class CardanoPaymentInitResolver implements ArgumentValueResolverInterface
+class CardanoTxInitResolver implements ArgumentValueResolverInterface
 {
     public function __construct(
         private EntryRepository $entryRepository,

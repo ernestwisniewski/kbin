@@ -1,5 +1,5 @@
 <div data-controller="cardano-wallet-create">
-    <p class="mt-5">
+    <p>
         {{ 'dont_have_wallet_yet'|trans(
             {'%link_start%' : '<a class="font-weight-bold" href="'~path('cardano_wallet_new')~'"  data-bs-toggle="modal" data-bs-target="#cardano-wallet-create" data-action="click->cardano-wallet-create#create">', '%link_end%' : '</a>'}
         ) | raw }}

@@ -19,6 +19,7 @@
         "friendsofsymfony/elastica-bundle": "v6.0.0-beta4",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
         "furqansiddiqui/bip39-mnemonic-php": "^0.1.4",
+        "gmostafa/php-graphql-client": "^1.13",
         "jolicode/elastically": "^1.2",
         "karser/karser-recaptcha3-bundle": "^0.1.17",
         "knplabs/knp-time-bundle": "^1.15",

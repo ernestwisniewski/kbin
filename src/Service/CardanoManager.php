@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Cardano\CardanoWallet;
+use App\Entity\Contracts\ContentInterface;
+use App\Entity\EntryCardanoTxInit;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
@@ -22,7 +24,7 @@ class CardanoManager
         }
         $walletInfo = $this->wallet->create($user->getPassword(), $mnemonic); // @todo
 
-        $user->cardanoWalletId = $walletInfo['walletId'];
+        $user->cardanoWalletId      = $walletInfo['walletId'];
         $user->cardanoWalletAddress = $walletInfo['address'];
 
         $this->entityManager->persist($user);
@@ -46,6 +48,14 @@ class CardanoManager
         $user->cardanoWalletId = null;
 
         $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    public function txInit(ContentInterface $subject, string $sessionId, ?User $user = null)
+    {
+        $req = new EntryCardanoTxInit($subject, $sessionId, $user);
+
+        $this->entityManager->persist($req);
         $this->entityManager->flush();
     }
 }
