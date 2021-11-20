@@ -183,6 +183,9 @@
     "fzaninotto/faker": {
         "version": "1.9-dev"
     },
+    "gmostafa/php-graphql-client": {
+        "version": "v1.13"
+    },
     "google/recaptcha": {
         "version": "1.1",
         "recipe": {

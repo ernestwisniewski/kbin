@@ -8,16 +8,16 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
-class EntryCardanoPaymentInit extends CardanoPaymentInit
+class EntryCardanoTxInit extends CardanoTxInit
 {
     /**
      * @ORM\ManyToOne(targetEntity="Entry")
      */
     public ?Entry $entry;
 
-    public function __construct(ContentInterface $entry, ?User $user = null)
+    public function __construct(ContentInterface $entry, string $sessionId, ?User $user = null)
     {
-        parent::__construct($entry->magazine, $user);
+        parent::__construct($entry->magazine, $sessionId, $user);
 
         $this->entry = $entry;
     }
@@ -27,7 +27,7 @@ class EntryCardanoPaymentInit extends CardanoPaymentInit
         return $this->entry;
     }
 
-    public function clearSubject(): EntryCardanoPaymentInit
+    public function clearSubject(): EntryCardanoTxInit
     {
         $this->entry = null;
 

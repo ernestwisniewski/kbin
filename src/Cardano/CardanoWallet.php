@@ -8,7 +8,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CardanoWallet
 {
-    public function __construct(public string $cardanoApiUrl, public HttpClientInterface $client)
+    public function __construct(public string $cardanoWalletUrl, public HttpClientInterface $client)
     {
     }
 
@@ -21,7 +21,7 @@ class CardanoWallet
         $wallet   = $this->createWallet($mnemonic, $passphrase);
         $walletId = $wallet['id'];
 
-        $addresses = $this->client->request('GET', "$this->cardanoApiUrl/wallets/$walletId/addresses");
+        $addresses = $this->client->request('GET', "$this->cardanoWalletUrl/wallets/$walletId/addresses");
 
         return ['mnemonic' => implode(' ', $mnemonic), 'address' => $addresses->toArray()[0]['id'], 'walletId' => $walletId];
     }
@@ -30,7 +30,7 @@ class CardanoWallet
     {
         return $this->client->request(
             'POST',
-            "$this->cardanoApiUrl/wallets",
+            "$this->cardanoWalletUrl/wallets",
             [
                 'json' => [
                     'name'              => 'Karabin',
@@ -45,13 +45,13 @@ class CardanoWallet
     {
         return $this->client->request(
             'GET',
-            "$this->cardanoApiUrl/wallets",
+            "$this->cardanoWalletUrl/wallets",
         )->toArray();
     }
 
     public function delete(string $walletId): void
     {
-        $this->client->request('DELETE', "$this->cardanoApiUrl/wallets/$walletId");
+        $this->client->request('DELETE', "$this->cardanoWalletUrl/wallets/$walletId");
     }
 
     public function deleteAll(): void

@@ -35,8 +35,9 @@
                 <div class="tab-pane fade show active my-5" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-transfer" role="tabpanel"
                      aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-tab">
                     <label for="copyWallet">{{ 'wallet_address'|trans }}</label>
-                    <div class="input-group input-group-xl"
-                         data-controller="clipboard"
+                    <div class="input-group input-group-xl mb-5"
+                         data-controller="clipboard cardano-tx"
+                         data-cardano-tx-url-value="{{ path('entry_cti', {id: this.subject.id}) }}"
                          data-clipboard-success-content="Skopiowano!">
                         <input type="text"
                                id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button"
@@ -46,11 +47,15 @@
                                data-clipboard-target="source"
                                readonly
                                value="{{ this.subject.user.cardanoWalletAddress }}">
-                        <button class="input-group-text" id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button" data-action="clipboard#copy"
+                        <button class="input-group-text" id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button"
+                                data-action="cardano-tx#init clipboard#copy"
                                 data-clipboard-target="button">{{ 'copy'|trans }}</button>
                     </div>
 
-                    {% include 'cardano/_create_wallet_modal.html.twig' %}
+                    {% if app.user and app.user.cardanoWalletId %}
+                    {% else %}
+                        {% include 'cardano/_create_wallet_modal.html.twig' %}
+                    {% endif %}
 
                     {% include 'cardano/_create_wallet_desc.html.twig' %}
                 </div>
