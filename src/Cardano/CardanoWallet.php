@@ -16,7 +16,7 @@ class CardanoWallet
         string $passphrase,
         ?string $mnemonic = null
     ): array {
-        $mnemonic = $mnemonic ?? BIP39::Generate(15)->words;
+        $mnemonic = $mnemonic ? explode(' ', $mnemonic) : BIP39::Generate(15)->words;
 
         $wallet   = $this->createWallet($mnemonic, $passphrase);
         $walletId = $wallet['id'];
