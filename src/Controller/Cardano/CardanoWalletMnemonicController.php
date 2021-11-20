@@ -10,6 +10,8 @@ class CardanoWalletMnemonicController extends CardanoController
 {
     public function __invoke(CardanoManager $wallet, Request $request): Response
     {
+        $wallet->createWallet($this->getUserOrThrow(), $request->get('mnemonic'));
+
         return $this->redirectToRefererOrHome($request);
     }
 }

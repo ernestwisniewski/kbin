@@ -12,9 +12,13 @@ class CardanoWallet
     {
     }
 
-    #[ArrayShape(['mnemonic' => "string", 'address' => "string", 'walletId' => "string"])] public function create(string $passphrase): array
-    {
-        $wallet   = $this->createWallet($mnemonic = BIP39::Generate(15)->words, $passphrase);
+    #[ArrayShape(['mnemonic' => "string", 'address' => "string", 'walletId' => "string"])] public function create(
+        string $passphrase,
+        ?string $mnemonic = null
+    ): array {
+        $mnemonic = $mnemonic ?? BIP39::Generate(15)->words;
+
+        $wallet   = $this->createWallet($mnemonic, $passphrase);
         $walletId = $wallet['id'];
 
         $addresses = $this->client->request('GET', "$this->cardanoApiUrl/wallets/$walletId/addresses");
@@ -31,7 +35,7 @@ class CardanoWallet
                 'json' => [
                     'name'              => 'Karabin',
                     'mnemonic_sentence' => $mnemonic,
-                    'passphrase'        => $passphrase, // @todo
+                    'passphrase'        => $passphrase,
                 ],
             ]
         )->toArray();
@@ -45,12 +49,12 @@ class CardanoWallet
         )->toArray();
     }
 
-    public function delete(string $walletId)
+    public function delete(string $walletId): void
     {
         $this->client->request('DELETE', "$this->cardanoApiUrl/wallets/$walletId");
     }
 
-    public function deleteAll()
+    public function deleteAll(): void
     {
         foreach ($this->getWallets() as $wallet) {
             $this->delete($wallet['id']);

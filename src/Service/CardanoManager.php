@@ -13,15 +13,16 @@ class CardanoManager
     {
     }
 
-    #[ArrayShape(['mnemonic' => "string", 'address' => "string", 'walletId' => "string"])] public function createWallet(User $user): array
-    {
+    #[ArrayShape(['mnemonic' => "string", 'address' => "string", 'walletId' => "string"])] public function createWallet(
+        User $user,
+        ?string $mnemonic = null
+    ): array {
         if ($user->cardanoWalletId) {
             $this->detachWallet($user);
         }
+        $walletInfo = $this->wallet->create($user->getPassword(), $mnemonic); // @todo
 
-        $walletInfo = $this->wallet->create($user->getPassword()); // @todo
-
-        $user->cardanoWalletId      = $walletInfo['walletId'];
+        $user->cardanoWalletId = $walletInfo['walletId'];
         $user->cardanoWalletAddress = $walletInfo['address'];
 
         $this->entityManager->persist($user);
