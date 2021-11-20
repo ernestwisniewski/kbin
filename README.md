@@ -35,6 +35,7 @@ https://symfony.com/doc/5.3/reference/requirements.html
 * Mercure (optional)
 * RabbitMQ (optional)
 * Elasticsearch (optional)
+* Cardano Node, Cardano Wallet (optional)
 
 ### Frontend
 

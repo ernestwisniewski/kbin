@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+<div class="mb-3">
+    {{ form_label(form.mnemonic, 'mnemonic'|trans) }}
+    <div class="input-group input-group-lg">
+        {{ form_widget(form.mnemonic, { 'attr': {'autocomplete': 'off'}}) }}
+    </div>
+</div>
+
+<div class="mb-12 text-end">
+    {{ form_row(form.submit, { 'label': 'done'|trans }) }}
+</div>
+{{ form_end(form) }}

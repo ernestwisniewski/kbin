@@ -1,0 +1,22 @@
+<div class="kbin-cardano-mnemonic">
+    {% if(app.user and app.user.cardanoWalletId) %}
+        <div class="mb-3">
+            <label for="walletId" class="col-sm-2 col-form-label">{{ 'wallet_id'|trans }}</label>
+            <div class="input-group input-group-lg">
+                <input type="text" readonly class="form-control-plaintext" id="walletId" value="{{ app.user.cardanoWalletId }}">
+            </div>
+        </div>
+
+        <div class="mb-12 text-end input-group-sm">
+            <form method="post" action="{{ path('cardano_wallet_detach') }}">
+                <button type="submit" class="btn btn-danger mb-3">Odłącz</button>
+            </form>
+        </div>
+    {% else %}
+        <div class="alert alert-primary" role="alert">
+            <small>{{ 'mnemonic_info'|trans }}</small>
+        </div>
+
+        {% include 'cardano/_form_mnemonic.html.twig' with { form: mnemonicForm } %}
+    {% endif %}
+</div>

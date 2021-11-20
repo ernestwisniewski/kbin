@@ -1,7 +1,7 @@
 {% from '_layout/_not_found.html.twig' import not_found_transactions %}
 
 <div class="kbin-tips-page mt-3">
-    <div class="kbin-profile-tips mt-lg-4">
+    <div class="kbin-profile-tips mt-lg-4 position-relative">
         <button type="button" class="btn-close mb-3" data-tip-target="close" aria-label="Zamknij"
                 data-action="tip#close"></button>
         <div class="col-lg-6">
@@ -9,31 +9,31 @@
 
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" type="button"
-                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" aria-selected="true">
+                    <button class="nav-link active" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-transfer-tab" data-bs-toggle="pill"
+                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-transfer" type="button"
+                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-transfer" aria-selected="true">
                         <small>{{ 'external_transfer'|trans }}</small>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" type="button"
-                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" aria-selected="false">
+                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic-tab" data-bs-toggle="pill"
+                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" type="button"
+                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" aria-selected="false">
                         <small>{{ 'mnemonic'|trans }}</small>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact-tab" data-bs-toggle="pill"
-                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" type="button"
-                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" aria-selected="false">
+                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware-tab" data-bs-toggle="pill"
+                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" type="button"
+                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" aria-selected="false">
                         <small>{{ 'hardware_wallet'|trans }}</small>
                     </button>
                 </li>
             </ul>
 
             <div class="tab-content clearfix" id="kbin-tab-content">
-                <div class="tab-pane fade show active my-5" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home" role="tabpanel"
-                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-home-tab">
+                <div class="tab-pane fade show active my-5" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-transfer" role="tabpanel"
+                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-tab">
                     <label for="copyWallet">{{ 'wallet_address'|trans }}</label>
                     <div class="input-group input-group-xl"
                          data-controller="clipboard"
@@ -55,68 +55,20 @@
                     {% include 'cardano/_create_wallet_desc.html.twig' %}
                 </div>
 
-                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile" role="tabpanel"
-                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-profile-tab">
-                    <div class="alert alert-primary" role="alert">
-                        <small>{{ 'mnemonic_info'|trans }}</small>
-                    </div>
+                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" role="tabpanel"
+                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic-tab">
+                    {% include 'cardano/_mnemonic.html.twig' with { mnemonicForm: this.mnemonicForm } %}
 
-                    <div class="my-5  input-group-lg">
-                        {{ form_start(this.form) }}
-                        <div class="col-xs-12 clearfix">
-                            <div class="kbin-cardano-transaction-form my-3">
-                                <div class="mb-3">
-                                    {{ form_label(this.form.mnemonic, 'mnemonic'|trans) }}
-                                    <small class="text-muted" style="font-size:12px">({{ 'mnemonic_desc'|trans }})</small>
-                                    {{ form_widget(this.form.mnemonic, {'attr': {'autocomplete': 'off' }}) }}
-                                </div>
-
-                                <div class="mb-5">
-                                    {{ form_label(this.form.walletAddress, 'wallet_address'|trans) }}
-                                    {{ form_widget(this.form.walletAddress, {'attr': {'class': 'form-control-plaintext'}}) }}
-                                </div>
-
-                                <div class="mb-3 row">
-                                    {{ form_label(this.form.asset, 'asset'|trans, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-
-                                    <div class="col-sm-8">
-                                        {{ form_widget(this.form.asset, {'attr': {'class': 'form-select'}}) }}
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    {{ form_label(this.form.amount, 'amount'|trans, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                                    <div class="col-sm-8">
-                                        {{ form_widget(this.form.amount, {'attr': {'class': 'form-control'}}) }}
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="fee" class="col-sm-4 col-form-label">{{ 'fee'|trans }}</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" readonly class="form-control-plaintext" id="fee" value="0.000000">
-                                    </div>
-                                </div>
-
-                                <hr style="height: 1px!important; color:grey;" class="my-4">
-
-                                <div class="mb-3 mt-3 row">
-                                    <label for="total" class="col-sm-4 col-form-label"><strong class="h4">{{ 'total'|trans }}</strong></label>
-                                    <div class="col-sm-8">
-                                        <strong class="h4">0.000000</strong> <span>{{ component('ada_symbol') }}</span>
-                                    </div>
-                                </div>
-                                {{ form_row(this.form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-cardano-transaction-send btn-primary float-end'} }) }}
-                            </div>
-                        </div>
-                        {{ form_end(this.form) }}
-
+                    <div class="kbin-cardano-trasaction" style="{{ app.user and app.user.cardanoWalletId ? '' : 'opacity:.4' }}">
+                        {% include 'cardano/_form_transaction.html.twig' with { form: this.transactionForm } %}
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact" role="tabpanel"
-                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-contact-tab">
+                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" role="tabpanel"
+                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware-tab">
                     <div class="container text-center my-5 py-5">
                         <div class="py-5">
-                            coming soon...
+                            <div class="my-5">coming soon...</div>
                         </div>
                     </div>
                 </div>

@@ -2,43 +2,25 @@
 
 {% from '_layout/_not_found.html.twig' import not_found_transactions %}
 
-{% block title %}{{ 'messages'|trans }}{% endblock %}
+{% block title %}{{ 'tips'|trans }}{% endblock %}
 
 {% block body %}
     <div class="kbin-tips kbin-profile-tips-page position-relative">
         {% include 'user/profile/_tabs.html.twig' %}
 
-        <div class="kbin-profile-tips mt-lg-4">
+        <div class="kbin-profile-tips mt-lg-4  position-relative">
             <div class="col-lg-6">
                 <div class="kbin-cardano-background"></div>
 
+                <div class="kbin-cardano-wallet-address mb-5">
+                    {% include 'cardano/_form_cardano_wallet_address.html.twig' with { form: addressForm } %}
+                </div>
 
-                {% include 'user/profile/_form_cardano_wallet.html.twig' %}
+                {% include 'cardano/_mnemonic.html.twig' %}
 
                 {% include 'cardano/_create_wallet_modal.html.twig' %}
 
                 {% include 'cardano/_create_wallet_desc.html.twig' %}
-
-                <div class="modal" tabindex="-1" data-bs-toggle="modal" id="cardanoWallet">
-                    <div class="modal-dialog modal-dialog-centered modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">{{ 'create_new_wallet'|trans }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>{{ 'create_new_wallet_desc'|trans|raw }}</p>
-
-                                <div class="my-5 input-group-lg">
-                                    <input class="form-control" placeholder="coming soon...">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">{{ 'create_new_wallet_apply'|trans }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <hr class="my-4">
             </div>
@@ -55,10 +37,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                {# {% if(threads.haveToPaginate) %} #}
-                {# {{ pagerfanta(transactions, null, {'pageParameter':'[p]'}) }} #}
-                {# {% endif %} #}
             {% else %}
                 {{ not_found_transactions() }}
             {% endif %}

@@ -12,7 +12,8 @@ class TipComponent
     public ContentInterface $subject;
     public array $transactions = [];
     public string $key = '';
-    public FormView $form;
+    public FormView $mnemonicForm;
+    public FormView $transactionForm;
 
     public function __construct()
     {

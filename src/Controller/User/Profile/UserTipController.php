@@ -4,6 +4,7 @@ namespace App\Controller\User\Profile;
 
 use App\Controller\AbstractController;
 use App\DTO\CardanoWalletAddressDto;
+use App\Form\CardanoMnemonicType;
 use App\Form\CardanoWalletAddressType;
 use App\Service\UserManager;
 use App\Service\UserSettingsManager;
@@ -20,10 +21,14 @@ class UserTipController extends AbstractController
     {
         $dto = new CardanoWalletAddressDto($this->getUserOrThrow());
 
-        $form = $this->createForm(CardanoWalletAddressType::class, $dto);
-        $form->handleRequest($request);
+        $mnemonicForm = $this->createForm(CardanoMnemonicType::class, null, [
+            'action' => $this->generateUrl('cardano_wallet_mnemonic'),
+        ]);
+        $addressForm  = $this->createForm(CardanoWalletAddressType::class, $dto);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $addressForm->handleRequest($request);
+
+        if ($addressForm->isSubmitted() && $addressForm->isValid()) {
             $userManager->attachWallet($this->getUserOrThrow(), $dto);
 
             $this->redirectToRefererOrHome($request);
@@ -32,10 +37,12 @@ class UserTipController extends AbstractController
         return $this->render(
             'user/profile/tips.html.twig',
             [
-                'form'         => $form->createView(),
+
+                'mnemonicForm' => $mnemonicForm->createView(),
+                'addressForm'  => $addressForm->createView(),
                 'transactions' => [],
             ],
-            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
+            new Response(null, $addressForm->isSubmitted() && !$addressForm->isValid() ? 422 : 200)
         );
     }
 }
