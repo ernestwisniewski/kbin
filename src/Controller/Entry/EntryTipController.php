@@ -6,6 +6,7 @@ use App\Controller\AbstractController;
 use App\DTO\CardanoTransactionDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
+use App\Form\CardanoMnemonicType;
 use App\Form\CardanoTransactionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,10 +21,14 @@ class EntryTipController extends AbstractController
      */
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
-        $dto = new CardanoTransactionDto();
+        $dto                = new CardanoTransactionDto();
         $dto->walletAddress = $entry->user->cardanoWalletAddress;
 
-        $form = $this->createForm(CardanoTransactionType::class, $dto, [
+        $mnemonicForm = $this->createForm(CardanoMnemonicType::class, null, [
+            'action' => $this->generateUrl('cardano_wallet_mnemonic'),
+        ]);
+
+        $transactionForm = $this->createForm(CardanoTransactionType::class, $dto, [
             'action' => $this->generateUrl('cardano_transaction'),
         ]);
 
@@ -32,17 +37,19 @@ class EntryTipController extends AbstractController
                 'html' => $this->renderView('_layout/_tips.html.twig', [
                     'subject'      => $entry,
                     'key'          => 'entry',
-                    'form'         => $form->createView(),
+                    'mnemonicForm'   => $mnemonicForm->createView(),
+                    'transactionForm' => $transactionForm->createView(),
                     'transactions' => [],
                 ]),
             ]);
         }
 
         return $this->render('entry/tips.html.twig', [
-            'magazine'     => $magazine,
-            'entry'        => $entry,
-            'form'         => $form->createView(),
-            'transactions' => [],
+            'magazine'        => $magazine,
+            'entry'           => $entry,
+            'mnemonicForm'   => $mnemonicForm->createView(),
+            'transactionForm' => $transactionForm->createView(),
+            'transactions'    => [],
         ]);
     }
 }

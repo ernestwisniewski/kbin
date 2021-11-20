@@ -2,22 +2,49 @@
 
 namespace App\Service;
 
-use App\Entity\Contracts\ContentInterface;
-use App\Entity\EntryCardanoPaymentInit;
+use App\Cardano\CardanoWallet;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use JetBrains\PhpStorm\ArrayShape;
 
 class CardanoManager
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private CardanoWallet $wallet, private EntityManagerInterface $entityManager)
     {
     }
 
-    public function paymentInit(ContentInterface $subject, ?User $user = null): void
+    #[ArrayShape(['mnemonic' => "string", 'address' => "string", 'walletId' => "string"])] public function createWallet(User $user): array
     {
-        $paymentRequest = new EntryCardanoPaymentInit($subject, $user);
+        if ($user->cardanoWalletId) {
+            $this->detachWallet($user);
+        }
 
-        $this->entityManager->persist($paymentRequest);
+        $walletInfo = $this->wallet->create($user->getPassword()); // @todo
+
+        $user->cardanoWalletId      = $walletInfo['walletId'];
+        $user->cardanoWalletAddress = $walletInfo['address'];
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $walletInfo;
+    }
+
+    public function detachWallet(User $user): void
+    {
+        if (!$user->cardanoWalletId) {
+            return;
+        }
+
+        try {
+            $this->wallet->delete($user->cardanoWalletId);
+        } catch (\Exception $e) {
+
+        }
+
+        $user->cardanoWalletId = null;
+
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
 }

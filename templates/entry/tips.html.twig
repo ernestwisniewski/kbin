@@ -5,7 +5,7 @@
 {% block body %}
     {{ component('entry', {entry: entry}) }}
 
-    {{ component('tip', { subject: entry, key: 'entry', transactions: transactions, form: form }) }}
+    {{ component('tip', { subject: entry, key: 'entry', transactions: transactions, mnemonicForm: mnemonicForm, transactionForm: transactionForm }) }}
 {% endblock %}
 
 {% block sidebar %}

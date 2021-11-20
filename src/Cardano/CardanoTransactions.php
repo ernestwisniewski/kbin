@@ -10,7 +10,6 @@ class CardanoTransactions
 
     public function __construct(
         private string $cardanoApiUrl,
-        private $cardanoApiKey,
         private HttpClientInterface $client,
         private CardanoWallet $wallet
     ) {
