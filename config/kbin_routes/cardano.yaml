@@ -12,8 +12,3 @@ cardano_wallet_detach:
   controller: App\Controller\Cardano\CardanoWalletDetachController
   path: /cardano/wallet/detach
   methods: [ POST ]
-
-cardano_transaction:
-  controller: App\Controller\Cardano\CardanoTransactionController
-  path: /cardano/transaction
-  methods: [ POST ]

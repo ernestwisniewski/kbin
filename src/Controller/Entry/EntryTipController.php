@@ -29,17 +29,17 @@ class EntryTipController extends AbstractController
         ]);
 
         $transactionForm = $this->createForm(CardanoTransactionType::class, $dto, [
-            'action' => $this->generateUrl('cardano_transaction'),
+            'action' => $this->generateUrl('entry_cardano_transaction', ['id' => $entry->getId()]),
         ]);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_tips.html.twig', [
-                    'subject'      => $entry,
-                    'key'          => 'entry',
-                    'mnemonicForm'   => $mnemonicForm->createView(),
+                    'subject'         => $entry,
+                    'key'             => 'entry',
+                    'mnemonicForm'    => $mnemonicForm->createView(),
                     'transactionForm' => $transactionForm->createView(),
-                    'transactions' => [],
+                    'transactions'    => [],
                 ]),
             ]);
         }
@@ -47,7 +47,7 @@ class EntryTipController extends AbstractController
         return $this->render('entry/tips.html.twig', [
             'magazine'        => $magazine,
             'entry'           => $entry,
-            'mnemonicForm'   => $mnemonicForm->createView(),
+            'mnemonicForm'    => $mnemonicForm->createView(),
             'transactionForm' => $transactionForm->createView(),
             'transactions'    => [],
         ]);

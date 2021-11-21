@@ -3,7 +3,10 @@
 namespace App\Service;
 
 use App\Cardano\CardanoWallet;
+use App\Cardano\CardanoWalletTransactions;
+use App\Entity\CardanoTx;
 use App\Entity\Contracts\ContentInterface;
+use App\Entity\EntryCardanoTx;
 use App\Entity\EntryCardanoTxInit;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,8 +14,11 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class CardanoManager
 {
-    public function __construct(private CardanoWallet $wallet, private EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private CardanoWallet $wallet,
+        private CardanoWalletTransactions $walletTransactions,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     #[ArrayShape(['mnemonic' => "string", 'address' => "string", 'walletId' => "string"])] public function createWallet(
@@ -57,5 +63,26 @@ class CardanoManager
 
         $this->entityManager->persist($req);
         $this->entityManager->flush();
+    }
+
+    public function createTransaction(
+        User $sender,
+        ContentInterface $subject,
+        string $passphrase,
+        string $walletId,
+        string $receiverAddress,
+        float $amount
+    ): CardanoTx {
+        $tx     = $this->walletTransactions->create($passphrase, $walletId, $receiverAddress, $amount);
+        $entity = new EntryCardanoTx($subject, $tx['amount']['quantity'], $tx['id'], (new \DateTimeImmutable()), $sender);
+
+        $subject->adaAmount += $tx['amount']['quantity'];
+
+        $this->entityManager->persist($subject);
+        $this->entityManager->persist($entity);
+
+        $this->entityManager->flush();
+
+        return $entity;
     }
 }

@@ -102,7 +102,7 @@
                             <a href="{{ path('entry_tips', { magazine_name: this.entry.magazine.name, entry_id: this.entry.id }) }}"
                                data-action="tip#fetch">
                                 {{ component('ada_symbol') }}
-                                {# <small style="font-weight: lighter" class="font-weight-lighter">1.43</small> #}
+                                 <small style="font-weight: lighter" class="font-weight-lighter">{{ this.entry.getAdaAmount }}</small>
                             </a>
                         </li>
                     {% endif %}
