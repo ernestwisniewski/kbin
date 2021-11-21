@@ -4,7 +4,7 @@ namespace App\Message\Cardano;
 
 class SubjectTransactionsRefreshMessage
 {
-    public function __construct(public int $id, public string $className, public \DateTimeImmutable $createdAt)
+    public function __construct(public int $txInitId)
     {
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class CardanoWalletObserver extends Command
+class CardanoWalletObserverCommand extends Command
 {
     protected static $defaultName = 'kbin:cardano:refresh';
 
@@ -35,9 +35,7 @@ class CardanoWalletObserver extends Command
              */
             $this->bus->dispatch(
                 new SubjectTransactionsRefreshMessage(
-                    $request->getSubject()->getId(),
-                    $this->entityManager->getClassMetadata(get_class($request->getSubject()))->name,
-                    $request->createdAt
+                    $request->getId()
                 )
             );
         }
