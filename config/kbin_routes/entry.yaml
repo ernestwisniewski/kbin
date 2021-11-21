@@ -87,3 +87,9 @@ entry_cti:
   defaults: { entityClass: App\Entity\Entry }
   path: /ecti/{id}
   methods: [ POST ]
+
+entry_cardano_transaction:
+  controller: App\Controller\Cardano\CardanoTransactionController
+  defaults: { entityClass: App\Entity\Entry }
+  path: /ect/{id}
+  methods: [ POST ]

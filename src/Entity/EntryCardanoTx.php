@@ -17,15 +17,15 @@ class EntryCardanoTx extends CardanoTx
 
     public function __construct(
         ContentInterface $entry,
-        User $receiver,
         int $amount,
         string $txHash,
         \DateTimeImmutable $createdAt,
         ?User $sender = null,
     ) {
 
-        parent::__construct($entry->magazine, $receiver, $amount, $txHash, $createdAt, $sender);
-        $this->entry = $entry;
+        parent::__construct($entry->magazine, $amount, $txHash, $createdAt, $sender);
+        $this->entry    = $entry;
+        $this->receiver = $entry->user;
     }
 
     public function getSubject(): Entry

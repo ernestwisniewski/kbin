@@ -53,7 +53,6 @@ abstract class CardanoTx
 
     public function __construct(
         Magazine $magazine,
-        User $receiver,
         int $amount,
         string $txHash,
         \DateTimeImmutable $createdAt,
@@ -61,7 +60,6 @@ abstract class CardanoTx
     ) {
         $this->magazine  = $magazine;
         $this->sender    = $sender;
-        $this->receiver  = $receiver;
         $this->amount    = $amount;
         $this->txHash    = $txHash;
         $this->createdAt = $createdAt;

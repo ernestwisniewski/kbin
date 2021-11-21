@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -109,6 +109,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      * @ORM\Column(type="string", nullable=true)
      */
     public ?string $ip = null;
+    /**
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    public int $adaAmount = 0;
     /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
      */
@@ -351,6 +355,13 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public function setViews($views)
     {
         $this->views = $views;
+    }
+
+    public function getAdaAmount(): string
+    {
+        $amount = $this->adaAmount / 1000000;
+
+        return $amount > 0 ? (string) $amount : '';
     }
 
     public function __sleep()

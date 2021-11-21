@@ -4,8 +4,8 @@ namespace App\MessageHandler\Cardano;
 
 use App\Cardano\CardanoExplorer;
 use App\Entity\Contracts\ContentInterface;
+use App\Entity\Entry;
 use App\Entity\EntryCardanoTx;
-use App\Entity\User;
 use App\Message\Cardano\SubjectTransactionsRefreshMessage;
 use App\Repository\CardanoTxInitRepository;
 use App\Repository\CardanoTxRepository;
@@ -27,17 +27,16 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
 
     public function __invoke(SubjectTransactionsRefreshMessage $message): void
     {
-        $txInit = $this->initRepository->find($message->txInitId);
-        if (!$txInit) {
+        if (!$txInit = $this->initRepository->find($message->txInitId)) {
             return;
         }
 
         $className = $this->entityManager->getClassMetadata(get_class($txInit->getSubject()))->name;
-        $subject   = $this->entityManager->getRepository($className)->find($txInit->getSubject()->getId());
 
         /**
-         * @var User $receiver
+         * @var $subject Entry
          */
+        $subject  = $this->entityManager->getRepository($className)->find($txInit->getSubject()->getId());
         $receiver = $subject->user;
 
         // fetch transaction list
@@ -46,11 +45,15 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
         try {
             $this->entityManager->beginTransaction();
 
-            // @todo
-            foreach ($this->createTx($subject, $transactions) as $t) {
-                $this->entityManager->persist($t);
-                $this->entityManager->remove($txInit);
+            if (!$tx = $this->createTx($subject, $transactions)) {
+                return;
             }
+
+            $subject->adaAmount += $tx->amount;
+
+            $this->entityManager->persist($subject);
+            $this->entityManager->persist($tx);
+            $this->entityManager->remove($txInit);
 
             $this->entityManager->flush();
             $this->entityManager->commit();
@@ -58,17 +61,15 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
             $this->entityManager->rollback();
             throw $e;
         }
-        // set subject metadata
-        // delete payment request
     }
 
-    private function createTx(ContentInterface $subject, StdClass $transactions): \Generator
+    private function createTx(ContentInterface $subject, StdClass $transactions): ?EntryCardanoTx
     {
-        foreach ($transactions->data->transactions as $t) {
-            $senderAddress = end($t->inputs)->address;
-            $txHash        = end($t->outputs)->txHash;
-            $amount        = end($t->outputs)->value;
-            $createdAt     = new \DateTimeImmutable(end($t->outputs)->transaction->includedAt);
+        foreach ($transactions->data->transactions as $tx) {
+            $senderAddress = end($tx->inputs)->address;
+            $txHash        = end($tx->outputs)->txHash;
+            $amount        = end($tx->outputs)->value;
+            $createdAt     = new \DateTimeImmutable(end($tx->outputs)->transaction->includedAt);
 
             if ($this->txRepository->findOneBy(['txHash' => $txHash])) {
                 continue;
@@ -76,7 +77,9 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
 
             $sender = $this->userRepository->findOneBy(['cardanoWalletAddress' => $senderAddress]);
 
-            yield new EntryCardanoTx($subject, $subject->user, (int) $amount, $txHash, $createdAt, $sender);
+            return new EntryCardanoTx($subject, (int) $amount, $txHash, $createdAt, $sender);
         }
+
+        return null;
     }
 }
