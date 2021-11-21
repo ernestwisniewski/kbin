@@ -28,6 +28,7 @@ class CardanoManager
         if ($user->cardanoWalletId) {
             $this->detachWallet($user);
         }
+
         $walletInfo = $this->wallet->create($user->getPassword(), $mnemonic); // @todo
 
         $user->cardanoWalletId      = $walletInfo['walletId'];
