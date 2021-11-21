@@ -4,7 +4,7 @@ namespace App\Cardano;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class CardanoTransactions
+class CardanoWalletTransactions
 {
     // https://forum.cardano.org/t/how-to-get-started-with-metadata-on-cardano/45111
 
