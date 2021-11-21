@@ -26,6 +26,7 @@ RUN apk add --no-cache \
         libjpeg-turbo-dev \
         libpng-dev \
         php-sysvsem \
+        apk-cron \
 	;
 
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
