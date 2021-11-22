@@ -19,7 +19,7 @@ export default class extends Controller {
         this.loadingValue = true;
 
         try {
-            let url = router().generate('post_comment_create', {'magazine_name': this.magazineNameValue, 'post_id': this.idValue});
+            const url = router().generate('post_comment_create', {'magazine_name': this.magazineNameValue, 'post_id': this.idValue});
 
             let response = await fetch(url, {method: 'GET'});
 
@@ -46,7 +46,7 @@ export default class extends Controller {
         this.loadingValue = true;
 
         try {
-            let url = router().generate('post_comment_create', {'magazine_name': this.magazineNameValue, 'post_id': this.idValue});
+            const url = router().generate('post_comment_create', {'magazine_name': this.magazineNameValue, 'post_id': this.idValue});
 
             let response = await fetch(url, {method: 'POST', body: new FormData(event.target)});
 
@@ -74,7 +74,7 @@ export default class extends Controller {
         event.target.parentNode.replaceChild(loader, event.target);
 
         try {
-            let url = router().generate('ajax_fetch_post_comments', {'id': this.idValue});
+            const url = router().generate('ajax_fetch_post_comments', {'id': this.idValue});
 
             let response = await fetch(url, {method: 'GET'});
 

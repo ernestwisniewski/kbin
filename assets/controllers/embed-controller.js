@@ -40,7 +40,7 @@ export default class extends Controller {
                 return;
             }
 
-            let url = router().generate('ajax_fetch_embed', {url: this.urlValue});
+            const url = router().generate('ajax_fetch_embed', {url: this.urlValue});
 
             let response = await fetch(url, {method: 'GET'});
 

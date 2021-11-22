@@ -25,7 +25,7 @@ export default class extends ApplicationController {
         this.loadingValue = true;
 
         try {
-            let url = router().generate('ajax_fetch_title');
+            const url = router().generate('ajax_fetch_title');
             let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': this.urlTarget.value})});
 
             response = await ok(response);

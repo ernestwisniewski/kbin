@@ -3,7 +3,6 @@
 namespace App\Cardano;
 
 use FurqanSiddiqui\BIP39\BIP39;
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CardanoWallet

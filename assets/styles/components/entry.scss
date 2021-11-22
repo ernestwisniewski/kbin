@@ -1,4 +1,8 @@
 .kbin-entry {
+  @include media-breakpoint-down(sm) {
+    margin: 0 -10px 0 -10px;
+  }
+
   .kbin-related-wrapper & {
     opacity: 0.7;
 
