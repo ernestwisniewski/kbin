@@ -1,9 +1,9 @@
-{{ form_start(form) }}
+{{ form_start(form, { 'attr': {'data-controller': 'cardano-tx', 'data-cardano-tx-walletid-value': app.user.cardanoWalletId }}) }}
 <div class="col-xs-12 clearfix">
     <div class="kbin-cardano-transaction-form my-3">
         <div class="mb-5">
-            {{ form_label(form.walletAddress, 'wallet_address'|trans) }}
-            {{ form_widget(form.walletAddress, {'attr': {'class': 'form-control-plaintext'}}) }}
+            {{ form_label(form.walletAddress, 'receiver_address'|trans) }}
+            {{ form_widget(form.walletAddress, {'attr': {'class': 'form-control-plaintext', 'data-cardano-tx-target': 'address'}}) }}
         </div>
 
         <div class="mb-3 row">
@@ -16,13 +16,13 @@
         <div class="mb-3 row">
             {{ form_label(form.amount, 'amount'|trans, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
             <div class="col-sm-8">
-                {{ form_widget(form.amount, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.amount, {'attr': {'class': 'form-control', 'data-action': 'cardano-tx#calculateFee'}}) }}
             </div>
         </div>
         <div class="mb-3 row">
             <label for="fee" class="col-sm-4 col-form-label">{{ 'fee'|trans }}</label>
             <div class="col-sm-8">
-                <input type="text" readonly class="form-control-plaintext" id="fee" value="0.000000">
+                <input type="text" readonly class="form-control-plaintext" id="fee" value="0.000000" data-cardano-tx-target="fee">
             </div>
         </div>
 
@@ -31,10 +31,10 @@
         <div class="mb-3 mt-3 row">
             <label for="total" class="col-sm-4 col-form-label"><strong class="h4">{{ 'total'|trans }}</strong></label>
             <div class="col-sm-8">
-                <strong class="h4">0.000000</strong> <span>{{ component('ada_symbol') }}</span>
+                <strong class="h4" data-cardano-tx-target="sum">0.000000</strong> <span>{{ component('ada_symbol') }}</span>
             </div>
         </div>
-        {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-cardano-transaction-send btn-primary float-end ' ~ (app.user and app.user.cardanoWalletId ? '' : 'visually-hidden')} }) }}
+        {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-cardano-transaction-send btn-primary float-end ' ~ (app.user and app.user.cardanoWalletId ? '' : 'visually-hidden'), 'data-action': 'cardano-tx#send' } }) }}
     </div>
 </div>
 {{ form_end(form) }}

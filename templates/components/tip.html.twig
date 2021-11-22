@@ -15,20 +15,22 @@
                         <small>{{ 'external_transfer'|trans }}</small>
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic-tab" data-bs-toggle="pill"
-                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" type="button"
-                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" aria-selected="false">
-                        <small>{{ 'mnemonic'|trans }}</small>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware-tab" data-bs-toggle="pill"
-                            data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" type="button"
-                            role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" aria-selected="false">
-                        <small>{{ 'hardware_wallet'|trans }}</small>
-                    </button>
-                </li>
+                {% if not app.user or not this.subject.isAuthor(app.user) %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic-tab" data-bs-toggle="pill"
+                                data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" type="button"
+                                role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" aria-selected="false">
+                            <small>{{ 'mnemonic'|trans }}</small>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware-tab" data-bs-toggle="pill"
+                                data-bs-target="#kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" type="button"
+                                role="tab" aria-controls="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" aria-selected="false">
+                            <small>{{ 'hardware_wallet'|trans }}</small>
+                        </button>
+                    </li>
+                {% endif %}
             </ul>
 
             <div class="tab-content clearfix" id="kbin-tab-content">
@@ -36,8 +38,8 @@
                      aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-tab">
                     <label for="copyWallet">{{ 'wallet_address'|trans }}</label>
                     <div class="input-group input-group-xl mb-5"
-                         data-controller="clipboard cardano-tx"
-                         data-cardano-tx-url-value="{{ path('entry_cti', {id: this.subject.id}) }}"
+                         data-controller="clipboard cardano-tx-init"
+                         data-cardano-tx-init-url-value="{{ path('entry_cti', {id: this.subject.id}) }}"
                          data-clipboard-success-content="Skopiowano!">
                         <input type="text"
                                id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button"
@@ -48,7 +50,7 @@
                                readonly
                                value="{{ this.subject.user.cardanoWalletAddress }}">
                         <button class="input-group-text" id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button"
-                                data-action="cardano-tx#init clipboard#copy"
+                                data-action="cardano-tx-init#observe clipboard#copy"
                                 data-clipboard-target="button">{{ 'copy'|trans }}</button>
                     </div>
 
@@ -60,23 +62,25 @@
                     {% include 'cardano/_create_wallet_desc.html.twig' %}
                 </div>
 
-                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" role="tabpanel"
-                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic-tab">
-                    {% include 'cardano/_mnemonic.html.twig' with { mnemonicForm: this.mnemonicForm } %}
+                {% if not app.user or not this.subject.isAuthor(app.user) %}
+                    <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic" role="tabpanel"
+                         aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-mnemonic-tab">
+                        {% include 'cardano/_mnemonic.html.twig' with { mnemonicForm: this.mnemonicForm } %}
 
-                    <div class="kbin-cardano-trasaction" style="{{ app.user and app.user.cardanoWalletId ? '' : 'opacity:.4' }}">
-                        {% include 'cardano/_form_transaction.html.twig' with { form: this.transactionForm } %}
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" role="tabpanel"
-                     aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware-tab">
-                    <div class="container text-center my-5 py-5">
-                        <div class="py-5">
-                            <div class="my-5">coming soon...</div>
+                        <div class="kbin-cardano-trasaction" style="{{ app.user and app.user.cardanoWalletId ? '' : 'opacity:.4' }}">
+                            {% include 'cardano/_form_transaction.html.twig' with { form: this.transactionForm } %}
                         </div>
                     </div>
-                </div>
+
+                    <div class="tab-pane fade" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware" role="tabpanel"
+                         aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-hardware-tab">
+                        <div class="container text-center my-5 py-5">
+                            <div class="py-5">
+                                <div class="my-5">coming soon...</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
 
             <hr class="my-4">

@@ -227,6 +227,7 @@ mnemonic_info: 'Tu możesz użyć frazy mnemonic aby uzyskać dostęp do portfel
 hardware_wallet: 'Portfel sprzętowy'
 no_transactions: 'brak transakcji'
 wallet_address: 'Adres portfela'
+receiver_address: 'Adres odbiorcy'
 asset: 'Asset'
 amount: 'Kwota'
 fee: 'Prowizja'

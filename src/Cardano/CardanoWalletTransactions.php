@@ -2,10 +2,6 @@
 
 namespace App\Cardano;
 
-use App\Entity\Contracts\ContentInterface;
-use App\Entity\EntryCardanoTx;
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CardanoWalletTransactions
@@ -15,32 +11,11 @@ class CardanoWalletTransactions
     public function __construct(
         private string $cardanoWalletUrl,
         private HttpClientInterface $client,
-        private EntityManagerInterface $entityManager
     ) {
     }
 
-//    public function create(
-//        User $sender,
-//        ContentInterface $content,
-//        string $passphrase,
-//        string $receiverAddress,
-//        float $amount
-//    ): EntryCardanoTx {
-//        $tx = $this->send($passphrase, $sender->cardanoWalletId, $receiverAddress, $amount);
-//
-//        $entity = new EntryCardanoTx($content, $tx['amount']['quantity'], $tx['id'], (new \DateTimeImmutable()), $sender);
-//
-//        $this->entityManager->persist($entity);
-//        $this->entityManager->flush();
-//
-//        return $entity;
-//    }
-
-    public function create(string $passphrase, string $walletId, string $receiverAddress, float $amount)
+    public function create(string $passphrase, string $walletId, string $receiverAddress, float $amount): array
     {
-        $amount *= 1000000;
-        $amount = explode('.', (string) $amount)[0];
-
         return $this->client->request(
             'POST',
             "$this->cardanoWalletUrl/wallets/$walletId/transactions",
@@ -51,7 +26,7 @@ class CardanoWalletTransactions
                         [
                             'address' => $receiverAddress,
                             'amount'  => [
-                                'quantity' => (int) $amount,
+                                'quantity' => $this->adaToLovelace($amount),
                                 'unit'     => 'lovelace',
                             ],
                         ],
@@ -59,5 +34,35 @@ class CardanoWalletTransactions
                 ],
             ]
         )->toArray();
+    }
+
+    public function calculateFee(string $receiverAddress, string $walletId, float $amount): array
+    {
+        return $this->client->request(
+            'POST',
+            "$this->cardanoWalletUrl/wallets/$walletId/payment-fees",
+            [
+                'json' => [
+                    'payments' => [
+                        [
+                            'address' => $receiverAddress,
+                            'amount'  => [
+                                'quantity' => $this->adaToLovelace($amount),
+                                'unit'     => 'lovelace',
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        )->toArray();
+    }
+
+    public function adaToLovelace(float $amount): int
+    {
+        $amount *= 1000000;
+
+        $amount = explode('.', (string) $amount)[0];
+
+        return (int) $amount;
     }
 }

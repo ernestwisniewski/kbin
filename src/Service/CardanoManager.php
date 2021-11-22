@@ -74,10 +74,12 @@ class CardanoManager
         string $receiverAddress,
         float $amount
     ): CardanoTx {
-        $tx     = $this->walletTransactions->create($passphrase, $walletId, $receiverAddress, $amount);
-        $entity = new EntryCardanoTx($subject, $tx['amount']['quantity'], $tx['id'], (new \DateTimeImmutable()), $sender);
+        $tx = $this->walletTransactions->create($passphrase, $walletId, $receiverAddress, $amount);
 
-        $subject->adaAmount += $tx['amount']['quantity'];
+        $amount = $tx['amount']['quantity'] - $tx['fee']['quantity'];
+        $entity = new EntryCardanoTx($subject, $amount, $tx['id'], (new \DateTimeImmutable()), $sender);
+
+        $subject->adaAmount += $amount;
 
         $this->entityManager->persist($subject);
         $this->entityManager->persist($entity);
@@ -85,5 +87,15 @@ class CardanoManager
         $this->entityManager->flush();
 
         return $entity;
+    }
+
+    #[ArrayShape(['sum' => "int", 'fee' => "int"])] public function calculateFee(string $receiverAddress, string $walletId, float $amount): array
+    {
+        $fee = $this->walletTransactions->calculateFee($receiverAddress, $walletId, $amount);
+
+        return [
+            'sum' => ($this->walletTransactions->adaToLovelace($amount) + $fee['estimated_max']['quantity']) / 1000000,
+            'fee' => $fee['estimated_max']['quantity'] / 1000000,
+        ];
     }
 }

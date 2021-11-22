@@ -1,19 +1,39 @@
-import {Controller} from 'stimulus';
-import {fetch, ok} from "../utils/http";
+import {ApplicationController, useDebounce} from 'stimulus-use'
+import router from "../utils/routing";
+import {ok} from "../utils/http";
 
-export default class extends Controller {
+export default class extends ApplicationController {
+    static debounces = ['calculateFee']
+    static targets = ['fee', 'sum', 'address'];
     static values = {
-        url: String
+        walletid: String
     }
-    static targets = ['counter'];
 
-    async init(event) {
-        event.preventDefault();
+    connect() {
+        useDebounce(this, {wait: 500})
+    }
 
+    async send(event) {
+    }
+
+    async calculateFee(e) {
         try {
-            let response = await fetch(this.urlValue, {method: 'POST'});
+            const url = router().generate('cardano_estimate_fee');
+
+            let response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({
+                    'address': this.addressTarget.value,
+                    'amount': e.target.value,
+                    'walletId': this.walletidValue
+                }),
+            });
 
             response = await ok(response);
+            response = await response.json();
+
+            this.sumTarget.innerHTML = response.sum;
+            this.feeTarget.value = response.fee;
         } catch (e) {
             throw e;
         }

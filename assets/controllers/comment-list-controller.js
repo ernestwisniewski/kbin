@@ -17,7 +17,7 @@ export default class extends ApplicationController {
         }
 
         try {
-            let url = router().generate(route, {'id': notification.detail.id});
+            const url = router().generate(route, {'id': notification.detail.id});
 
             let response = await fetch(url, {method: 'GET'});
 
