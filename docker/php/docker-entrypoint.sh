@@ -60,7 +60,8 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
 fi
 
-echo "* * * * * /srv/app/bin/console kbin:cardano:refresh" >> /etc/crontabs/root
-crond -l 2 -f > /dev/stdout 2> /dev/stderr &
+# todo cardano cron
+#echo "* * * * * /srv/app/bin/console kbin:cardano:refresh" >> /etc/crontabs/root
+#crond -l 2 -f > /dev/stdout 2> /dev/stderr &
 
 exec docker-php-entrypoint "$@"
