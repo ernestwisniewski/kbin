@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\CardanoTxInit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,8 +21,12 @@ class CardanoTxInitRepository extends ServiceEntityRepository
         parent::__construct($registry, CardanoTxInit::class);
     }
 
-    public function findForRefresh(): array
+    public function findForRefresh()
     {
-        return $this->findAll();
+        return $this->createQueryBuilder('c')
+            ->andWhere(':date < c.createdAt')
+            ->setParameter('date', new \DateTimeImmutable('-15 minutes'), Types::DATETIMETZ_IMMUTABLE)
+            ->getQuery()
+            ->getResult();
     }
 }

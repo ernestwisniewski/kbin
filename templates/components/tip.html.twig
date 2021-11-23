@@ -37,23 +37,28 @@
                 <div class="tab-pane fade show active my-5" id="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-transfer" role="tabpanel"
                      aria-labelledby="kbin-{{ this.key ~ '-' ~ this.subject.id }}-external-tab">
                     <label for="copyWallet">{{ 'wallet_address'|trans }}</label>
-                    <div class="input-group input-group-xl mb-5"
-                         data-controller="clipboard cardano-tx-init"
-                         data-cardano-tx-init-url-value="{{ path('entry_cti', {id: this.subject.id}) }}"
-                         data-clipboard-success-content="Skopiowano!">
-                        <input type="text"
-                               id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button"
-                               class="form-control"
-                               aria-label="Skopiuj"
-                               aria-describedby="Skopiuj ID portfela"
-                               data-clipboard-target="source"
-                               readonly
-                               value="{{ this.subject.user.cardanoWalletAddress }}">
-                        <button class="input-group-text" id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button"
-                                data-action="cardano-tx-init#observe clipboard#copy"
-                                data-clipboard-target="button">{{ 'copy'|trans }}</button>
-                    </div>
+                    <div data-controller="cardano-tx-init"
+                         data-cardano-tx-init-url-value="{{ path('entry_cti', {id: this.subject.id}) }}">
+                        <div class="input-group input-group-xl mb-5"
+                             data-controller="clipboard"
+                             data-clipboard-success-content="Skopiowano!">
+                            <input type="text"
+                                   id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button"
+                                   class="form-control"
+                                   aria-label="Skopiuj"
+                                   aria-describedby="Skopiuj ID portfela"
+                                   data-clipboard-target="source"
+                                   readonly
+                                   value="{{ this.subject.user.cardanoWalletAddress }}">
+                            <button class="input-group-text" id="{{ this.key ~ '-' ~ this.subject.id }}-copy-wallet-button"
+                                    data-action="cardano-tx-init#observe clipboard#copy"
+                                    data-clipboard-target="button">{{ 'copy'|trans }}</button>
+                        </div>
 
+                        <div class="mb-5">
+                            <h2 class="text-center" data-cardano-tx-init-target="counter"></h2>
+                        </div>
+                    </div>
                     {% if app.user and app.user.cardanoWalletId %}
                     {% else %}
                         {% include 'cardano/_create_wallet_modal.html.twig' %}
