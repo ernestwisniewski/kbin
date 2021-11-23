@@ -1,4 +1,4 @@
-{{ form_start(form, { 'attr': {'data-controller': 'cardano-tx', 'data-cardano-tx-walletid-value': app.user.cardanoWalletId }}) }}
+{{ form_start(form, { 'attr': {'data-controller': 'cardano-tx', 'data-cardano-tx-walletid-value': app.user.cardanoWalletId ?? null }}) }}
 <div class="col-xs-12 clearfix">
     <div class="kbin-cardano-transaction-form my-3">
         <div class="mb-5">
