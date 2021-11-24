@@ -1,6 +1,9 @@
 .kbin-entry {
   @include media-breakpoint-down(sm) {
-    margin: 0 -10px 0 -10px;
+    margin-left: -.8rem;
+    margin-right: -.8rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
   }
 
   .kbin-related-wrapper & {

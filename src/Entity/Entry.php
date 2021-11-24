@@ -139,6 +139,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public Collection $badges;
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryCardanoTx", mappedBy="entry", cascade={"remove", "persist"}, orphanRemoval=true)
+     */
+    public Collection $cardanoTx;
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")

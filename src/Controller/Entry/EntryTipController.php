@@ -8,6 +8,7 @@ use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Form\CardanoMnemonicType;
 use App\Form\CardanoTransactionType;
+use App\Repository\CardanoTxRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +40,7 @@ class EntryTipController extends AbstractController
                     'key'             => 'entry',
                     'mnemonicForm'    => $mnemonicForm->createView(),
                     'transactionForm' => $transactionForm->createView(),
-                    'transactions'    => [],
+                    'transactions'    => $entry->cardanoTx,
                 ]),
             ]);
         }
@@ -49,7 +50,7 @@ class EntryTipController extends AbstractController
             'entry'           => $entry,
             'mnemonicForm'    => $mnemonicForm->createView(),
             'transactionForm' => $transactionForm->createView(),
-            'transactions'    => [],
+            'transactions'    => $entry->cardanoTx,
         ]);
     }
 }
