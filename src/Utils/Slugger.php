@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Utils;
 
-use ForceUTF8\Encoding;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Slugger
@@ -21,6 +20,14 @@ class Slugger
 
     public function slug(string $val): string
     {
-        return (new AsciiSlugger())->slug(substr(Encoding::fixUTF8($val), 0, 60))->toString();
+        return (new AsciiSlugger())->slug($this->getWords($val), '-', 'pl')->toString();
     }
+
+    private function getWords(string $sentence, int $count = 10): string
+    {
+        preg_match("/(?:\w+(?:\W+|$)){0,$count}/", $sentence, $matches);
+
+        return $matches[0];
+    }
+
 }

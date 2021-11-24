@@ -94,13 +94,28 @@
 </div>
 
 <div class="kbin-profile-transactions mt-lg-4">
-    <h2 class="font-weight-bold">{{ 'transactions'|trans }}</h2>
+    <h2 class="font-weight-bold mb-4">{{ 'transactions'|trans }}</h2>
     {% if this.transactions|length %}
         <div class="table-responsive">
             <table class="table align-middle small">
                 <tbody>
                 {% for transaction in this.transactions %}
-
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>
+                            <p class="mb-0">{{ transaction.txHash }}</p>
+                            <small>
+                                <a rel="nofollow noopener noreferrer"
+                                   target="_blank"
+                                   href="https://explorer.cardano.org/en/block?id={{ transaction.txHash }}">CardanoExplorer</a>
+                                | <a rel="nofollow noopener noreferrer"
+                                     target="_blank"
+                                     href="https://cardanoscan.io/transaction/{{ transaction.txHash }}">CardanoScan</a>
+                                | <a rel="nofollow noopener noreferrer"
+                                     target="_blank"
+                                     href="https://adaex.org/{{ transaction.txHash }}">ADAex</a></small>
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>

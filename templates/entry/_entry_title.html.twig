@@ -4,7 +4,7 @@
 {% if entry.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
 {% if direct_url %}
     {% if entry.url %}
-        <a href="{{ entry.url }}" rel="nofollow noopener noreferrer">{{ entry.title }}</a>
+        <a href="{{ entry.url }}" rel="nofollow noopener noreferrer" target="_blank">{{ entry.title }}</a>
     {% else %}
         {{ entry.title }}
     {% endif %}
