@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -131,10 +131,8 @@ class EntryCommentRepository extends ServiceEntityRepository
         }
 
         switch ($criteria->sortOption) {
-            case Criteria::SORT_TOP:
-                $qb->orderBy('c.upVotes', 'DESC');
-                break;
             case Criteria::SORT_HOT:
+            case Criteria::SORT_TOP:
                 $qb->orderBy('c.upVotes', 'DESC');
                 break;
             case Criteria::SORT_ACTIVE:
@@ -182,9 +180,11 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->select('PARTIAL c.{id}')
             ->addSelect('cc')
             ->addSelect('ccu')
+            ->addSelect('ccua')
             ->addSelect('ccv')
             ->leftJoin('c.children', 'cc')
             ->leftJoin('cc.user', 'ccu')
+            ->leftJoin('ccu.avatar', 'ccua')
             ->leftJoin('cc.votes', 'ccv')
             ->where('c IN (?1)')
             ->setParameter(1, $comments)

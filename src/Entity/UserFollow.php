@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     )
  * })
  * @ORM\Entity()
+ * @ORM\Cache()
  */
 class UserFollow
 {

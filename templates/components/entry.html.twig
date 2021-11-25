@@ -18,7 +18,8 @@
         {% if this.entry.image and this.entry.visibility is same as 'visible' %}
             {% if is_entry_page() and this.directUrl %}
                 <div class="kbin-entry-image">
-                    <a href="{{- this.entry.type is same as 'image' or this.entry.type is same as 'article' ? '/media/'~asset(this.entry.image.filePath) : this.entry.url -}}">
+                    <a href="{{- this.entry.type is same as 'image' or this.entry.type is same as 'article' ? '/media/'~asset(this.entry.image.filePath) : this.entry.url -}}"
+                       target="_blank" rel="nofollow noopener noreferrer">
                         <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
                              alt="{{ this.entry.title }}"/>
                     </a>
@@ -102,7 +103,7 @@
                             <a href="{{ path('entry_tips', { magazine_name: this.entry.magazine.name, entry_id: this.entry.id }) }}"
                                data-action="tip#fetch">
                                 {{ component('ada_symbol') }}
-                                 <small style="font-weight: lighter" class="font-weight-lighter">{{ this.entry.getAdaAmount }}</small>
+                                <small style="font-weight: lighter" class="font-weight-lighter">{{ this.entry.getAdaAmount }}</small>
                             </a>
                         </li>
                     {% endif %}

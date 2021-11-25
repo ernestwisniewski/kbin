@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\AssociationOverrides({
  *     @ORM\AssociationOverride(name="user", inversedBy="postCommentVotes")
  * })
+ * @ORM\Cache()
  */
 class PostCommentVote extends Vote
 {
