@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryCardanoTx extends CardanoTx
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Entry")
+     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="cardanoTx")
      */
     public ?Entry $entry;
 
