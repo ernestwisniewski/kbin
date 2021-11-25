@@ -4,49 +4,52 @@
 <div class="kbin-magazine mt-lg-0">
     {{ component('magazine', {magazine: magazine}) }}
 
-    <div class="row">
-        <div class="col-lg-12 mb-4 {{ magazine.badges|length ? 'col-sm-6 float-sm-start' : '' }}">
-            <div class="kbin-moderators">
-                <div class="kbin-users card">
-                    <div class="card-header">
-                        {{ 'moderators'|trans }}
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        {% for moderator in magazine.moderators|slice(0, 5) %}
-                            <li class="list-group-item">
-                                {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<span class="text-muted">/u/</span><a
-                                        class="text-decoration-none stretched-link"
-                                        href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
-                            </li>
-                        {% endfor %}
-                        {% if magazine.moderators|length > 5 %}
-                            <li class="list-group-item text-center">
-                                <a class="text-decoration-none stretched-link"
-                                   href="{{ path('magazine_moderators', {'name': magazine.name}) }}">{{ 'more'|trans }}...</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        {% if magazine.badges|length %}
-            <div class="col-sm-6 col-lg-12 mb-4">
-                <div class="kbin-badges">
-                    <div class="card">
+    <div class="col-12" style="clear:both">
+        <div class="row">
+            <div class="col-lg-12 mb-4 {{ magazine.badges|length ? 'col-sm-6 float-sm-start' : '' }}">
+                <div class="kbin-moderators">
+                    <div class="kbin-users card">
                         <div class="card-header">
-                            {{ 'badges'|trans }}
+                            {{ 'moderators'|trans }}
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                {% for badge in magazine.badges %}
-                                    <span class="badge bg-secondary me-1">{{ badge.name }}</span>
-                                {% endfor %}
-                            </li>
+                            {% for moderator in magazine.moderators|slice(0, 5) %}
+                                <li class="list-group-item">
+                                    {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<span class="text-muted">/u/</span><a
+                                            class="text-decoration-none stretched-link"
+                                            href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if magazine.moderators|length > 5 %}
+                                <li class="list-group-item text-center">
+                                    <a class="text-decoration-none stretched-link"
+                                       href="{{ path('magazine_moderators', {'name': magazine.name}) }}">{{ 'more'|trans }}...</a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
             </div>
-        {% endif %}
+
+            <div class="col-sm-6 col-lg-12 mb-4">
+                {% if magazine.badges|length %}
+
+                    <div class="kbin-badges">
+                        <div class="card">
+                            <div class="card-header">
+                                {{ 'badges'|trans }}
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    {% for badge in magazine.badges %}
+                                        <span class="badge bg-secondary me-1">{{ badge.name }}</span>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
