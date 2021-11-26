@@ -25,7 +25,7 @@ class Slugger
 
     private function getWords(string $sentence, int $count = 10): string
     {
-        preg_match("/(?:\w+(?:\W+|$)){0,$count}/", $sentence, $matches);
+        preg_match("/(?:\S+(?:\W+|$)){0,$count}/", $sentence, $matches);
 
         return $matches[0];
     }
