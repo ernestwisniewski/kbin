@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\AssociationOverrides({
  *     @ORM\AssociationOverride(name="user", inversedBy="entryCommentVotes")
  * })
- * @ORM\Cache()
+ * @ORM\Cache("NONSTRICT_READ_WRITE")
  */
 class EntryCommentVote extends Vote
 {
