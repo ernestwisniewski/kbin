@@ -77,12 +77,6 @@ services:
     $container: !service_locator
       League\CommonMark\ConfigurableEnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
 
-  App\Service\CloudflareIpResolver:
-    decorates: 'karser_recaptcha3.ip_resolver'
-    arguments:
-      $decorated: '@App\Service\CloudflareIpResolver.inner'
-      $requestStack: '@request_stack'
-
   App\EventListener\LanguageListener:
     tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 200 }

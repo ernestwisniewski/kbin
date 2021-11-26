@@ -11,6 +11,7 @@ use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
 use App\Service\EntryCommentManager;
+use Karser\Recaptcha3Bundle\Services\IpResolver;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
@@ -25,6 +26,7 @@ class CommentCreateController extends AbstractController
     public function __construct(
         private EntryCommentManager $manager,
         private EntryCommentRepository $repository,
+        private IpResolver $ipResolver
     ) {
     }
 
@@ -50,7 +52,7 @@ class CommentCreateController extends AbstractController
             $dto->magazine = $magazine;
             $dto->entry    = $entry;
             $dto->parent   = $parent;
-            $dto->ip       = $request->getClientIp();
+            $dto->ip       = $this->ipResolver->resolveIp();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();

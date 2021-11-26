@@ -11,6 +11,7 @@ use App\PageView\EntryPageView;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
 use JetBrains\PhpStorm\Pure;
+use Karser\Recaptcha3Bundle\Services\IpResolver;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,8 @@ class EntryCreateController extends AbstractController
     public function __construct(
         private EntryManager $manager,
         private EntryCommentManager $commentManager,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
+        private IpResolver $ipResolver
     ) {
     }
 
@@ -38,12 +40,12 @@ class EntryCreateController extends AbstractController
         $dto           = new EntryDto();
         $dto->magazine = $magazine;
 
-        $form          = $this->createFormByType((new EntryPageView(1))->resolveType($type), $dto);
+        $form = $this->createFormByType((new EntryPageView(1))->resolveType($type), $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto     = $form->getData();
-            $dto->ip = $request->getClientIp();
+            $dto->ip = $this->ipResolver->resolveIp();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();
