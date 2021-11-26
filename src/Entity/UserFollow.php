@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     )
  * })
  * @ORM\Entity()
- * @ORM\Cache()
+ * @ORM\Cache("NONSTRICT_READ_WRITE")
  */
 class UserFollow
 {
