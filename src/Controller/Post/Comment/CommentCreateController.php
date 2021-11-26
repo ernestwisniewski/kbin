@@ -10,8 +10,8 @@ use App\Entity\PostComment;
 use App\Form\PostCommentType;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
+use App\Service\CloudflareIpResolver;
 use App\Service\PostCommentManager;
-use Karser\Recaptcha3Bundle\Services\IpResolver;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
@@ -26,7 +26,7 @@ class CommentCreateController extends AbstractController
     public function __construct(
         private PostCommentManager $manager,
         private PostCommentRepository $repository,
-        private IpResolver $ipResolver
+        private CloudflareIpResolver $ipResolver
     ) {
     }
 
@@ -52,7 +52,7 @@ class CommentCreateController extends AbstractController
             $dto->post     = $post;
             $dto->magazine = $magazine;
             $dto->parent   = $parent;
-            $dto->ip       = $this->ipResolver->resolveIp();
+            $dto->ip       = $this->ipResolver->resolve();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();

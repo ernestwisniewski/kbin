@@ -4,8 +4,8 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Form\MagazineType;
+use App\Service\CloudflareIpResolver;
 use App\Service\MagazineManager;
-use Karser\Recaptcha3Bundle\Services\IpResolver;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ class MagazineCreateController extends AbstractController
 {
     public function __construct(
         private MagazineManager $manager,
-        private IpResolver $ipResolver
+        private CloudflareIpResolver $ipResolver
     ) {
     }
 
@@ -28,7 +28,7 @@ class MagazineCreateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto      = $form->getData();
-            $dto->ip  = $this->ipResolver->resolveIp();
+            $dto->ip  = $this->ipResolver->resolve();
             $magazine = $this->manager->create($dto, $this->getUserOrThrow());
 
             return $this->redirectToMagazine($magazine);

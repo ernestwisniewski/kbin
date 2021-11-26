@@ -4,8 +4,8 @@ namespace App\Controller\Security;
 
 use App\Controller\AbstractController;
 use App\Form\UserRegisterType;
+use App\Service\CloudflareIpResolver;
 use App\Service\UserManager;
-use Karser\Recaptcha3Bundle\Services\IpResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,7 @@ class RegisterController extends AbstractController
     public function __invoke(
         UserManager $manager,
         Request $request,
-        IpResolver $ipResolver
+        CloudflareIpResolver $ipResolver
     ): Response {
         if ($this->getUser()) {
             return $this->redirectToRoute('front_subscribed');
@@ -25,7 +25,7 @@ class RegisterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto     = $form->getData();
-            $dto->ip = $ipResolver->resolveIp();
+            $dto->ip = $ipResolver->resolve();
 
             $manager->create($dto);
 
