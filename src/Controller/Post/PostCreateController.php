@@ -6,6 +6,7 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Form\PostType;
 use App\Service\PostManager;
+use Karser\Recaptcha3Bundle\Services\IpResolver;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ class PostCreateController extends AbstractController
 {
     public function __construct(
         private PostManager $manager,
+        private IpResolver $ipResolver
     ) {
     }
 
@@ -30,7 +32,7 @@ class PostCreateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto           = $form->getData();
             $dto->magazine = $magazine;
-            $dto->ip       = $request->getClientIp();
+            $dto->ip       = $this->ipResolver->resolveIp();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();
