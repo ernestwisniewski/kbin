@@ -1,12 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\User\Profile;
 
 use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
-class ProfileControllerTest extends WebTestCase
+class UserNotificationControllerTest extends WebTestCase
 {
     public function testUserReceiveNotifications()
     {

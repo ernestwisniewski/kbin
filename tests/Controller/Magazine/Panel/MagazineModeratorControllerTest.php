@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller\Magazine;
+namespace App\Tests\Controller\Magazine\Panel;
 
 use App\DTO\ModeratorDto;
 use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 use DateTime;
 
-class MagazinePanelModControllerTest extends WebTestCase
+class MagazineModeratorControllerTest extends WebTestCase
 {
     public function testOwnerCanAddModerator()
     {
