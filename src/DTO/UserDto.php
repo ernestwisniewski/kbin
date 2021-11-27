@@ -1,11 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
 use App\DTO\Contracts\UserDtoInterface;
 use App\Entity\Image;
 use App\Validator\Unique;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @Unique(entityClass="App\Entity\User", errorPath="username", fields={"username"}, idFields="id")
@@ -23,10 +25,23 @@ class UserDto implements UserDtoInterface
     #[Assert\Length(min: 6, max: 4096)]
     public ?string $plainPassword = null;
     public Image|ImageDto|null $avatar = null;
-    #[Assert\IsTrue]
     public bool $agreeTerms = false;
     public ?string $ip = null;
     public ?int $id = null;
+
+    #[Assert\Callback]
+    public function validate(
+        ExecutionContextInterface $context,
+        $payload
+    ) {
+        if (!Request::createFromGlobals()->request->has('user_register')) {
+            return;
+        }
+
+        if (false === $this->agreeTerms) {
+            $this->buildViolation($context, 'agreeTerms');
+        }
+    }
 
     public function getId(): ?int
     {
@@ -41,5 +56,12 @@ class UserDto implements UserDtoInterface
         $this->avatar   = $avatar;
 
         return $this;
+    }
+
+    private function buildViolation(ExecutionContextInterface $context, $path)
+    {
+        $context->buildViolation('This value should not be blank.')
+            ->atPath($path)
+            ->addViolation();
     }
 }
