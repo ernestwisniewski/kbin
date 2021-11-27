@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Security;
 
 use App\Tests\WebTestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
-class SecurityControllerTest extends WebTestCase
+class RegisterControllerTest extends WebTestCase
 {
     public function testUserCanVerifyAccount()
     {

@@ -5,21 +5,8 @@ namespace App\Tests\Controller\User;
 use App\Tests\WebTestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
-class UserControllerTest extends WebTestCase
+class UserEditControllerTest extends WebTestCase
 {
-    public function testCanShowPublicProfile()
-    {
-        $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('testUser'));
-
-        $this->getEntryByTitle('treść1');
-        $this->getEntryByTitle('treść2');
-
-        $crawler = $client->request('GET', '/u/regularUser');
-
-        $this->assertCount(2, $crawler->filter('article.kbin-entry'));
-    }
-
     public function testUserCanChangePassword()
     {
         $client = $this->createClient();
@@ -69,7 +56,7 @@ class UserControllerTest extends WebTestCase
         $client->submit(
             $crawler->filter('button#user_email_submit')->form(
                 [
-                    'user_email[email]'                 => 'ernest@karab.in',
+                    'user_email[email]' => 'ernest@karab.in',
                 ]
             )
         );

@@ -4,7 +4,7 @@ namespace App\Tests\Controller\Magazine;
 
 use App\Tests\WebTestCase;
 
-class MagazineControllerTest extends WebTestCase
+class MagazineCreateControllerTest extends WebTestCase
 {
     public function testCanCreateMagazine()
     {
