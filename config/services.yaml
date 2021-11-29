@@ -17,6 +17,8 @@ parameters:
   uploads_dir_name: 'media'
   uploads_base_url: 'https://%env(KBIN_DOMAIN)%/%uploads_dir_name%'
 
+  mercure_publish_url: '%env(MERCURE_PUBLISH_URL)%'
+
   google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 
   env(MONGODB_URL): ''
@@ -42,6 +44,7 @@ services:
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
       $cardanoWalletUrl: '%cardano_wallet_url%'
       $cardanoExplorerUrl: '%cardano_explorer_url%'
+      $mercurePublishUrl: '%mercure_publish_url%'
 
   _instanceof:
     League\CommonMark\Inline\Parser\InlineParserInterface:
