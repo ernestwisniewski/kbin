@@ -1,3 +1,87 @@
+entry_comment_create:
+  controller: App\Controller\Entry\Comment\CommentCreateController
+  defaults: { slug: -, parent_comment_id: null }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{parent_comment_id}
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{parent_comment_id}
+  methods: [ GET, POST ]
+
+entry_comment_edit:
+  controller: App\Controller\Entry\Comment\CommentEditController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/edit
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/edytuj
+  methods: [ GET, POST ]
+
+entry_comment_delete:
+  controller: App\Controller\Entry\Comment\CommentDeleteController::delete
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/delete
+  methods: [ POST ]
+
+entry_comment_purge:
+  controller: App\Controller\Entry\Comment\CommentDeleteController::purge
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/purge
+  methods: [ POST ]
+
+entry_comment_voters:
+  controller: App\Controller\Entry\Comment\EntryCommentVotersController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/votes
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/głosy
+  methods: [ GET ]
+
+entry_comments_front:
+  controller: App\Controller\Entry\Comment\CommentFrontController::front
+  defaults: { sortBy: ~, time: ~ }
+  path:
+    en: /comments/{sortBy}/{time}
+    pl: /komentarze/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+entry_comments_subscribed:
+  controller: App\Controller\Entry\Comment\CommentFrontController::subscribed
+  defaults: { sortBy: ~, time: ~ }
+  path:
+    en: /sub/comments/{sortBy}/{time}
+    pl: /sub/komentarze/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+entry_comments_moderated:
+  controller: App\Controller\Entry\Comment\CommentFrontController::moderated
+  defaults: { sortBy: ~, time: ~ }
+  path:
+    en: /mod/comments/{sortBy}/{time}
+    pl: /mod/komentarze/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+magazine_entry_comments:
+  controller: App\Controller\Entry\Comment\CommentFrontController::front
+  defaults: { sortBy: ~, time: ~ }
+  path:
+    en: /m/{name}/comments/{sortBy}/{time}
+    pl: /m/{name}/komentarze/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+entry_comment_vote:
+  controller: App\Controller\VoteController
+  defaults: { entityClass: App\Entity\EntryComment }
+  path: /ecv/{id}/{choice}
+  methods: [POST]
+
+entry_comment_report:
+  controller: App\Controller\ReportController
+  defaults: { entityClass: App\Entity\EntryComment }
+  path: /ecr/{id}
+  methods: [ GET, POST ]
+
 entry_create:
   controller: App\Controller\Entry\EntryCreateController
   defaults: { type: null }

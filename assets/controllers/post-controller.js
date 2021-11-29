@@ -8,7 +8,6 @@ export default class extends Controller {
     static values = {
         loading: Boolean,
         id: Number,
-        magazineName: String,
         commentList: String,
         form: String,
     };
@@ -19,7 +18,7 @@ export default class extends Controller {
         this.loadingValue = true;
 
         try {
-            const url = router().generate('post_comment_create', {'magazine_name': this.magazineNameValue, 'post_id': this.idValue});
+            const url = event.target.href;
 
             let response = await fetch(url, {method: 'GET'});
 
@@ -46,7 +45,7 @@ export default class extends Controller {
         this.loadingValue = true;
 
         try {
-            const url = router().generate('post_comment_create', {'magazine_name': this.magazineNameValue, 'post_id': this.idValue});
+            const url = event.target.action;
 
             let response = await fetch(url, {method: 'POST', body: new FormData(event.target)});
 
@@ -71,7 +70,7 @@ export default class extends Controller {
         let loader = document.createElement("span");
         loader.classList.add('spinner-border', 'me-2');
 
-        event.target.parentNode.replaceChild(loader, event.target);
+        this.expandTarget.parentNode.replaceChild(loader, this.expandTarget)
 
         try {
             const url = router().generate('ajax_fetch_post_comments', {'id': this.idValue});

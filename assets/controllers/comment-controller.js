@@ -9,7 +9,8 @@ export default class extends Controller {
         loading: Boolean,
         url: String,
         form: String,
-        level: Number
+        level: Number,
+        nested: Boolean
     };
 
     async reply(event) {
@@ -60,7 +61,7 @@ export default class extends Controller {
             if (edit) {
                 CommentFactory.edit(response.html, event.target.closest('.kbin-comment'));
             } else {
-                CommentFactory.create(response.html, event.target.closest('.kbin-comment'));
+                CommentFactory.create(response.html, event.target.closest('.kbin-comment'), this.nestedValue);
             }
 
             event.target.parentNode.innerHTML = ''

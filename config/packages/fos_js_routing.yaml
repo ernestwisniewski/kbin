@@ -7,6 +7,5 @@ fos_js_routing:
             'ajax_fetch_post',
             'ajax_fetch_post_comment',
             'ajax_fetch_post_comments',
-            'post_comment_create',
             'cardano_estimate_fee'
     ]
