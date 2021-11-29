@@ -169,6 +169,11 @@ $comment-margin-sm: .5rem;
       word-break: break-word;
       overflow: hidden;
 
+      blockquote {
+        color: green;
+        padding-left: 20px;
+      }
+
       img {
         max-width: 100%;
         height: auto;
