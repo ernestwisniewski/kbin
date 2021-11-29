@@ -1,5 +1,5 @@
 export default class CommentFactory {
-    static create(html, parent) {
+    static create(html, parent, nested) {
         const id = parent.dataset.commentIdValue;
 
         let level = parent.dataset.commentLevelValue;
@@ -15,7 +15,7 @@ export default class CommentFactory {
             .parentNode
             .querySelectorAll(`[data-comment-parent-value='${id}']`);
 
-        if (children.length) {
+        if (children.length && nested) {
             let child = children[children.length - 1];
 
             while (true) {

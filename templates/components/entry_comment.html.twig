@@ -13,6 +13,7 @@
              kbin-comment-level--{{ this.level >= 8 ? 'last' : this.level }} shadow-sm  {{ this.comment.user.avatar ? '' : 'ps-2' }}"
             data-controller="comment report"
             data-comment-id-value="{{ this.comment.id }}"
+            data-comment-nested-value="true"
             data-comment-level-value="{{ this.level >= 7 ? '7' : this.level }}"
             data-comment-parent-value="{{ this.comment.parent ? this.comment.parent.id : null }}">
     <div class="kbin-comment-header mb-2">

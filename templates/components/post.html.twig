@@ -7,8 +7,7 @@
             data-controller="post report comment-counter"
             data-action="notify:PostCommentCreatedNotification@window->comment-counter#increase"
             data-comment-counter-subject-id-value="{{ this.post.id }}"
-            data-post-id-value="{{ this.post.id }}"
-            data-post-magazine-name-value="{{ this.post.magazine.name }}">
+            data-post-id-value="{{ this.post.id }}">
     <div class="kbin-post-header mb-2">
         {{ component('vote', { votable: this.post, notificationType: 'Post', formDest: 'post_vote', baseClass: 'post', hideDownvote: true }) }}
 
@@ -71,7 +70,8 @@
             <ul class="kbin-post-meta-list list-inline mb-0 float-start">
                 <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                     <small class="text-muted">
-                        <a href="{{ post_url(this.post) }}" data-action="post#reply">
+                        <a href="{{ path('post_comment_create', {'magazine_name': this.post.magazine.name, 'post_id': this.post.id, 'slug': this.post.slug ? this.post.slug : '-'}) }}"
+                           data-action="post#reply">
                             {{ 'reply'|trans }}
                         </a>
                     </small>
@@ -81,6 +81,7 @@
                     <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                         <small class="text-muted">
                             <a data-action="post#expand"
+                               data-post-target="expand"
                                href="{{ post_url(this.post) }}">
                                 {{ 'expand'|trans }} (<span data-comment-counter-target="lenght">{{ this.post.commentCount }}</span>)
                             </a>

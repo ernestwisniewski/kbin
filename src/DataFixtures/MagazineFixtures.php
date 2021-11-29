@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -26,9 +26,15 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomMagazines(self::MAGAZINES_COUNT) as $index => $magazine) {
-            $image    = null;
-            $width    = rand(100, 400);
-            $tempFile = $this->imageManager->download("https://picsum.photos/{$width}/?hash=$width");
+            $image = null;
+            $width = rand(100, 400);
+
+            try {
+                $tempFile = $this->imageManager->download("https://picsum.photos/{$width}/?hash=$width");
+            } catch (\Exception $e) {
+                $tempFile = null;
+            }
+
             if ($tempFile) {
                 $image = $this->imageRepository->findOrCreateFromPath($tempFile);
                 $this->entityManager->flush();
@@ -44,6 +50,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
             $dto->cover       = $image;
 
             $entity = $this->magazineManager->create($dto, $magazine['user']);
+            var_dump($index);
 
             $this->addReference('magazine'.'_'.$index, $entity);
         }
@@ -58,7 +65,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
             $title = substr($this->faker->words($this->faker->numberBetween(1, 5), true), 0, 50);
 
             if (in_array($title, $titles)) {
-                continue;
+                $title = $title . bin2hex(random_bytes(5));
             }
 
             $titles[] = $title;

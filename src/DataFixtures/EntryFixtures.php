@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -46,7 +46,12 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
             if ($roll % 5) {
                 $entity = $this->entryManager->create($dto, $entry['user']);
 
-                $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
+                try {
+                    $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
+                } catch (\Exception $e) {
+                    $tempFile = null;
+                }
+
                 if ($tempFile) {
                     $image = $this->imageRepository->findOrCreateFromPath($tempFile);
 

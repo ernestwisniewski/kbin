@@ -12,6 +12,7 @@
                 data-controller="comment report"
                 data-comment-id-value="{{ this.comment.id }}"
                 data-comment-level-value="2"
+                data-comment-nested-value="false"
                 data-comment-parent-value="{{ this.comment.parent ? this.comment.parent.id : null }}">
         <div class="kbin-comment-header mb-2">
             {{ component('vote', { votable: this.comment, formDest: 'post_comment_vote', notificationType: 'PostVote', baseClass: 'comment', hideDownvote: true }) }}
