@@ -119,7 +119,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
 
             $update = new Update(
-                $iri,
+                ['pub', $iri],
                 $this->getCreatedResponse($notification)
             );
 
