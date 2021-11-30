@@ -5,13 +5,20 @@ import Subscribe from '../event-source';
 export default class extends ApplicationController {
     static values = {
         magazineName: String,
-        username: String
+        username: String,
+        entryId: Number
     };
 
     connect() {
         this.es(
             this.getTopics()
         );
+
+        window.onbeforeunload = function (event) {
+            if (document.es !== undefined) {
+                document.es.close();
+            }
+        };
     }
 
     es(topics) {
@@ -36,7 +43,7 @@ export default class extends ApplicationController {
 
         document.es = Subscribe(topics, cb);
         // firefox bug: https://github.com/dunglas/mercure/issues/339#issuecomment-650978605
-        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+        if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
             document.es.onerror = (e) => {
                 Subscribe(topics, cb);
             };
@@ -46,19 +53,27 @@ export default class extends ApplicationController {
     getTopics() {
         let topics = [
             'pub',
+            'count'
         ];
 
-        if(this.hasMagazineNameValue) {
+        if (this.hasMagazineNameValue || this.hasUsernameValue || this.hasPostIdValue) {
             topics = [
-                `/api/magazines/${this.magazineNameValue}`,
+                'count',
             ]
-        }
-        
-        if (this.hasUsernameValue) {
-            topics = [
-                `/api/magazines/${this.hasMagazineNameValue ? this.magazineNameValue : '{id}'}`,
-                `/api/user/${this.usernameValue}`,
-            ]
+
+            if (this.hasMagazineNameValue) {
+                topics.push(`/api/magazines/${this.magazineNameValue}`);
+            } else {
+                topics.push(`/api/magazines/{id}`);
+            }
+
+            if (this.hasUsernameValue) {
+                topics.push(`/api/user/${this.usernameValue}`);
+            }
+
+            if (this.hasEntryIdValue) {
+                topics.push(`/api/entries/${this.entryIdValue}`);
+            }
         }
 
         return topics;

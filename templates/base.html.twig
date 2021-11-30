@@ -32,6 +32,7 @@
             <script>
                 window.KBIN_LOGGED_IN = {{ app.user ? 'true' : 'false' }};
                 window.MERCURE_PUBLISH_URL = "{{ mercure_publish_url }}";
+                window.MERCURE_SUBSCRIPTIONS_TOKEN = "{{ mercure_subscriptions_token }}";
             </script>
             {{ encore_entry_script_tags('app') }}
         {% endif %}

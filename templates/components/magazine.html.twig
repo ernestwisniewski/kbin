@@ -50,9 +50,9 @@
                 <li class="list-group-item">
                     <span class="text-muted">{{ 'subscribers'|trans }}:</span> 1
                 </li>
-{#                <li class="list-group-item">#}
-{#                    <span class="text-muted">Online:</span> {{ component('magazine_online', { magazine: this.magazine }) }}#}
-{#                </li>#}
+                <li class="list-group-item" data-controller="online" data-online-magazine-name-value="{{ this.magazine.name }}">
+                    <span class="text-muted">Online:</span> <span data-online-target="counter">-</span>
+                </li>
             </ul>
         </div>
     </div>

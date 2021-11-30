@@ -18,6 +18,7 @@ parameters:
   uploads_base_url: 'https://%env(KBIN_DOMAIN)%/%uploads_dir_name%'
 
   mercure_publish_url: '%env(MERCURE_PUBLISH_URL)%'
+  mercure_subscriptions_token: '%env(MERCURE_SUBSCRIPTIONS_TOKEN)%'
 
   google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 

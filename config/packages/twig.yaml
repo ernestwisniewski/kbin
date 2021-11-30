@@ -1,11 +1,12 @@
 twig:
-    globals:
-        kbin_domain: '%env(KBIN_DOMAIN)%'
-        kbin_title: '%env(KBIN_TITLE)%'
-        kbin_description: '%env(KBIN_DESCRIPTION)%'
-        kbin_keywords: '%env(KBIN_KEYWORDS)%'
-        kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
-        mercure_publish_url: '%env(MERCURE_PUBLISH_URL)%'
+  globals:
+    kbin_domain: '%env(KBIN_DOMAIN)%'
+    kbin_title: '%env(KBIN_TITLE)%'
+    kbin_description: '%env(KBIN_DESCRIPTION)%'
+    kbin_keywords: '%env(KBIN_KEYWORDS)%'
+    kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
+    mercure_publish_url: '%env(MERCURE_PUBLISH_URL)%'
+    mercure_subscriptions_token: '%env(MERCURE_SUBSCRIPTIONS_TOKEN)%'
 
-    default_path: '%kernel.project_dir%/templates'
-    form_themes: ['_layout/bootstrap_4_layout.html.twig']
+  default_path: '%kernel.project_dir%/templates'
+  form_themes: [ '_layout/bootstrap_4_layout.html.twig' ]
