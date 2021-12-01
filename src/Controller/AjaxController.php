@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Contracts\VoteInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
@@ -12,6 +11,7 @@ use App\Repository\PostCommentRepository;
 use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AjaxController extends AbstractController
 {
@@ -105,5 +105,20 @@ class AjaxController extends AbstractController
                 'html' => $this->renderView('post/comment/_list.html.twig', ['comments' => $comments]),
             ]
         );
+    }
+
+    public function fetchOnline(
+        string $topic,
+        string $mercurePublishUrl,
+        string $mercureSubscriptionsToken,
+        HttpClientInterface $httpClient
+    ): JsonResponse {
+        $resp = $httpClient->request('GET', $mercurePublishUrl.'/subscriptions/'.$topic, [
+            'auth_bearer' => $mercureSubscriptionsToken,
+        ]);
+
+        return new JsonResponse([
+            'online' => count($resp->toArray()['subscriptions']) + 1,
+        ]);
     }
 }

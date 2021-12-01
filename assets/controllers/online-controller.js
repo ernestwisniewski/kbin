@@ -1,5 +1,6 @@
 import {Controller} from 'stimulus';
 import {fetch, ok} from "../utils/http";
+import router from "../utils/routing";
 
 export default class extends Controller {
     static targets = ['counter'];
@@ -11,30 +12,25 @@ export default class extends Controller {
 
 
     async connect() {
-        console.log('ac');
-        let url = `https://${window.location.host}/.well-known/mercure/subscriptions/` + 'count';
+        let topic = 'count';
 
-        if(this.hasEntryIdValue) {
-            url = `https://${window.location.host}/.well-known/mercure/subscriptions/` + encodeURIComponent('/api/entries/' + this.entryIdValue);
-        } else if(this.hasMagazineNameValue) {
-            url = `https://${window.location.host}/.well-known/mercure/subscriptions/` + encodeURIComponent('/api/magazines/' + this.magazineNameValue);
+        if (this.hasEntryIdValue) {
+            topic = encodeURIComponent('/api/entries/' + this.entryIdValue);
+        } else if (this.hasMagazineNameValue) {
+            topic = encodeURIComponent('/api/magazines/' + this.magazineNameValue);
         }
 
         try {
-            let response = await fetch(url, {
-                method: 'GET',
-                withCredentials: true,
-                credentials: 'include',
-                headers: {
-                    Authorization: 'Bearer ' + window.MERCURE_SUBSCRIPTIONS_TOKEN,
-                }
-            });
+            const url = router().generate('ajax_fetch_online', { topic: topic });
+
+            let response = await fetch(url);
 
             response = await ok(response);
             response = await response.json();
 
-            this.counterTarget.innerHTML = response.subscriptions.length + 1;
+            this.counterTarget.innerHTML = response.online;
         } catch (e) {
+            throw e;
         }
 
     }
