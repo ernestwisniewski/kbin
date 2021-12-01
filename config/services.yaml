@@ -25,7 +25,7 @@ parameters:
   env(MONGODB_URL): ''
   env(MONGODB_DB): ''
 
-#  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
+  #  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
   elastica_enabled: false
   elastica_listener:
     insert: '%elastica_enabled%'
@@ -46,6 +46,7 @@ services:
       $cardanoWalletUrl: '%cardano_wallet_url%'
       $cardanoExplorerUrl: '%cardano_explorer_url%'
       $mercurePublishUrl: '%mercure_publish_url%'
+      $mercureSubscriptionsToken: '%mercure_subscriptions_token%'
 
   _instanceof:
     League\CommonMark\Inline\Parser\InlineParserInterface:

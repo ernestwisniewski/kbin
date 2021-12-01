@@ -39,3 +39,9 @@ ajax_fetch_post_comment:
   defaults: { _format: json }
   path: /ajax/fetch_post_comment/{id}
   methods: [GET]
+
+ajax_fetch_online:
+  controller: App\Controller\AjaxController::fetchOnline
+  defaults: { _format: json }
+  path: /ajax/fetch_online/{topic}
+  methods: [ GET ]
