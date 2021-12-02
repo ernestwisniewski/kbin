@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -167,7 +167,10 @@ class MagazineManager
     {
         $magazine = $dto->magazine;
 
-        $magazine->cover     = $dto->cover;
+        if ($dto->cover) {
+            $magazine->cover = $dto->cover;
+        }
+
         $magazine->customCss = $dto->customCss;
         $magazine->customJs  = $dto->customJs;
 
