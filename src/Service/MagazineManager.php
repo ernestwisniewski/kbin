@@ -163,17 +163,69 @@ class MagazineManager
         $this->entityManager->flush();
     }
 
-    public function changeTheme(MagazineThemeDto $dto)
+    public function changeTheme(MagazineThemeDto $dto): Magazine
     {
         $magazine = $dto->magazine;
 
-        if ($dto->cover) {
-            $magazine->cover = $dto->cover;
+        $magazine->cover = $dto->cover ?? $magazine->cover;
+
+        $background = null;
+        $customCss  = null;
+
+        // Background
+        if ($dto->backgroundImage) {
+            $background = match ($dto->backgroundImage) {
+                'shape1' => 'https://karab.in/build/images/shape.png',
+                'shape2' => 'https://karab.in/build/images/shape2.png',
+                default => null,
+            };
+            $background = $background ? "#kbin, .kbin-dark #kbin { background: url($background); height: 100%; }" : null;
         }
 
-        $magazine->customCss = $dto->customCss;
-        $magazine->customJs  = $dto->customJs;
+        // Colors
+        if ($dto->primaryColor !== '#000000' || $dto->primaryDarkerColor !== '#000000') {
+            $customCss = <<<EOL
+                    .bg-primary {
+                      background-color: $dto->primaryColor
+                    }
+                    
+                    .kbin-featured-magazines {
+                      background-color: $dto->primaryColor
+                    }
+                    
+                    .kbin-featured-magazines-list-item a.highlighted {
+                      background-color: $dto->primaryDarkerColor;
+                    }
+                    
+                    .kbin-featured-magazines-list-item a.highlighted:hover,
+                    .kbin-featured-magazines-list-item a:hover {
+                      background-color: $dto->primaryDarkerColor;
+                    }
+                    
+                    .scroll-progress {
+                      background-color: $dto->primaryDarkerColor !important;
+                    }
+                    
+                    .kbin-featured-magazines-list-item--active a:hover {
+                      background-color: #fbfbfb !important;
+                      color: $dto->primaryColor !important;
+                    }
+                EOL;
+        }
 
+        if ($background || $customCss) {
+            $magazine->customCss = ($background ?? '').($customCss ?? '');
+        } else if ($dto->customCss) {
+            $magazine->customCss = $dto->customCss;
+        } else {
+            $magazine->customCss = null;
+        }
+
+        //        $magazine->customJs = $dto->customJs;
+
+        $this->entityManager->persist($magazine);
         $this->entityManager->flush();
+
+        return $magazine;
     }
 }

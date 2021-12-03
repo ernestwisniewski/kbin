@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
@@ -6,6 +6,8 @@ use App\DTO\MagazineThemeDto;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\ImageListener;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -31,6 +33,18 @@ class MagazineThemeType extends AbstractType
             )
             ->add('customCss', TextareaType::class)
             ->add('customJs', TextareaType::class)
+            ->add('primaryColor', ColorType::class)
+            ->add('primaryDarkerColor', ColorType::class)
+            ->add('backgroundImage', ChoiceType::class, [
+                'multiple' => false,
+                'expanded' => true,
+                'choices'  => [
+                    'none' => 'none',
+                    'shape1' => 'shape1',
+                    'shape2' => 'shape2',
+                    'url' => 'url',
+                ],
+            ])
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber($this->imageListener->setFieldName('cover'));
