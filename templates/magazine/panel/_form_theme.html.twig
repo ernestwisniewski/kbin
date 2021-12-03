@@ -1,4 +1,4 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'data-controller': 'magazine-panel-theme'}}) }}
 <div class="col-lg-6 mb-3">
     <div class="kbin-magazine-theme-form">
         <div class="kbin-magazine-background"></div>
@@ -8,18 +8,55 @@
             {{ form_widget(form.cover, {'attr':{ 'class': 'form-control' }}) }}
         </div>
 
-        <div class="mb-3">
-            {{ form_label(form.customCss, 'CSS') }}
-            {{ form_widget(form.customCss) }}
+        <div class="mb-3" data-magazine-panel-theme-target="advanced">
+            <div class="mb-3">
+                {{ form_label(form.customCss, 'CSS') }}
+                {{ form_widget(form.customCss) }}
+            </div>
+
+            <driv class="mb-3">
+                {{ form_label(form.customJs, 'JS') }}
+                {{ form_widget(form.customJs) }}
+            </driv>
         </div>
 
-        <div class="mb-3">
-            {{ form_label(form.customJs, 'JS') }}
-            {{ form_widget(form.customJs) }}
+        <div class="container mb-3 visually-hidden" data-magazine-panel-theme-target="basic">
+            <h2 class="mb-5">Utwórz nowy styl</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        {{ form_label(form.primaryColor, 'Primary color') }}
+                        {{ form_widget(form.primaryColor) }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        {{ form_label(form.primaryDarkerColor, 'Primary darker color') }}
+                        {{ form_widget(form.primaryDarkerColor) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    {{ form_label(form.backgroundImage, 'Background') }}
+                    {{ form_widget(form.backgroundImage) }}
+                </div>
+            </div>
         </div>
 
-        <div class="input-group input-group-lg me-2">
-            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-theme-send btn-primary'} }) }}
+        <div class="float-end">
+            <div class="input-group input-group-lg me-2">
+                <div class="form-group">
+                    <button id="magazine_theme_submit"
+                            class="kbin-theme-send btn-secondary btn"
+                            data-action="magazine-panel-theme#changeMode">
+                        Zmień tryb
+                    </button>
+                </div>
+
+                {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-theme-send btn-primary ms-3'} }) }}
+            </div>
         </div>
     </div>
 </div>

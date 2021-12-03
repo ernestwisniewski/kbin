@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -11,6 +11,9 @@ class MagazineThemeDto
     public ?Image $cover = null;
     public ?string $customCss = null;
     public ?string $customJs = null;
+    public ?string $primaryColor = null;
+    public ?string $primaryDarkerColor = null;
+    public ?string $backgroundImage = null;
 
     public function __construct(Magazine $magazine)
     {

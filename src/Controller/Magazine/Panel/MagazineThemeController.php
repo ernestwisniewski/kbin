@@ -30,7 +30,7 @@ class MagazineThemeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->changeTheme($dto);
+            $magazine = $this->manager->changeTheme($dto);
         }
 
         return $this->render(
