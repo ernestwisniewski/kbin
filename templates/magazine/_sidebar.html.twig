@@ -1,7 +1,7 @@
 {% include 'magazine/panel/_sidebar.html.twig' %}
 {% from 'user/_macros.html.twig' import user %}
 
-<div class="kbin-magazine mt-lg-0">
+<div class="kbin-magazine mt-lg-0 mb-5">
     {{ component('magazine', {magazine: magazine}) }}
 
     <div class="col-12" style="clear:both">
@@ -31,9 +31,8 @@
                 </div>
             </div>
 
-            <div class="col-sm-6 col-lg-12 mb-4">
-                {% if magazine.badges|length %}
-
+            {% if magazine.badges|length %}
+                <div class="col-sm-6 col-lg-12 mb-4">
                     <div class="kbin-badges">
                         <div class="card">
                             <div class="card-header">
@@ -48,8 +47,8 @@
                             </ul>
                         </div>
                     </div>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

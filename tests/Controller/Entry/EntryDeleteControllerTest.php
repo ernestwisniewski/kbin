@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller\Entry;
 
+use App\Repository\EntryRepository;
 use App\Tests\WebTestCase;
-use InvalidArgumentException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryDeleteControllerTest extends WebTestCase
@@ -61,5 +61,28 @@ class EntryDeleteControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
 
         $this->assertTrue($client->getResponse()->isForbidden());
+    }
+
+    public function testAuthorizedUserCanPurgeEntry()
+    {
+        $client = $this->createClient();
+        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+
+        $entry    = $this->createEntry('entry example', $this->getMagazineByName('polityka'), $user);
+        $comment1 = $this->createEntryComment('comment', $entry, $user);
+
+        $this->createEntryComment('comment2', $entry, $this->getUserByUsername('regularUser2'));
+        $this->createEntryComment('comment3', $entry, $this->getUserByUsername('regularUser3'), $comment1);
+
+        $client->loginUser($admin = $this->getUserByUsername('admin', true));
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}");
+
+        $client->submit($crawler->filter('.kbin-entry-main')->selectButton('wyczyść')->form());
+
+        $repository = static::getContainer()->get(EntryRepository::class);
+        $entries    = $repository->findAll();
+
+        $this->assertCount(0, $entries);
     }
 }
