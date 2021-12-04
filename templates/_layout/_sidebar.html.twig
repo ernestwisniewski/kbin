@@ -9,7 +9,7 @@
     </form>
 </div>
 
-<div class="kbin-add d-grid gap-2 mb-4"
+<div class="kbin-add d-grid gap-2 mb-5"
      data-controller="reveal"
      data-reveal-hidden-class="visually-hidden">
     <button type="button"
@@ -68,15 +68,15 @@
 
 {% if not is_magazine_page() and not is_user_page() and not is_user_profile_page() and not is_report_page() %}
     {% if app.user %}
-        <div class="mb-4">
+        <div class="mb-5">
             {% include 'user/_moderator_list_card.html.twig' with {'user':app.user} %}
         </div>
     {% endif %}
-    <div class="mb-4">
+    <div class="mb-5">
         {% include '_layout/_kbin_about.html.twig' %}
     </div>
 
-    <div class="mb-4">
+    <div class="mb-5">
         {{ component('random_magazine') }}
     </div>
 {% endif %}
