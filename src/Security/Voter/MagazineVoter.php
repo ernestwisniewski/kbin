@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Security\Voter;
 
@@ -71,7 +71,7 @@ class MagazineVoter extends Voter
 
     private function canModerate(Magazine $magazine, User $user): bool
     {
-        return $magazine->userIsModerator($user);
+        return $magazine->userIsModerator($user) || $user->isAdmin();
     }
 
     public function canSubscribe(Magazine $magazine, User $user): bool

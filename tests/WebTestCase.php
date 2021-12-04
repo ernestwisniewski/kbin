@@ -91,7 +91,7 @@ abstract class WebTestCase extends BaseWebTestCase
         return $magazine ?: $this->createMagazine($name, null, $user);
     }
 
-    private function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
+    protected function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
     {
         /**
          * @var $manager EntryManager
@@ -224,7 +224,7 @@ abstract class WebTestCase extends BaseWebTestCase
         ];
     }
 
-    protected function getUserByUsername(string $username): User
+    protected function getUserByUsername(string $username, bool $isAdmin = false): User
     {
         $user = $this->users->filter(
             static function (User $user) use ($username) {
@@ -232,7 +232,17 @@ abstract class WebTestCase extends BaseWebTestCase
             }
         )->first();
 
-        return $user ?: $this->createUser($username);
+        $user = $user ?: $this->createUser($username);
+
+        if ($isAdmin) {
+            $user->roles = ['ROLE_ADMIN'];
+            $manager       = static::getContainer()->get(EntityManagerInterface::class);
+
+            $manager->persist($user);
+            $manager->flush();
+        }
+
+        return $user;
     }
 
     private function createMagazine(string $name, string $title = null, User $user = null): Magazine
