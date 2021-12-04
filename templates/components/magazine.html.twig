@@ -13,7 +13,7 @@
         <h3 class="lead mb-2">
             <span class="text-muted">/m/</span>{{ this.magazine.name }}
         </h3>
-        {% if not is_front_page() %}
+        {% if this.asLink or not is_front_page() %}
     </a>
     {% endif %}
     <div class="mb-3">

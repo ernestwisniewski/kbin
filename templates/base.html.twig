@@ -58,6 +58,9 @@
                 {% block sidebar %}
                     {% include '_layout/_sidebar.html.twig' %}
                 {% endblock %}
+                {% block ads %}
+                    {{ component('ads') }}
+                {% endblock %}
             </aside>
         </div>
     </section>
