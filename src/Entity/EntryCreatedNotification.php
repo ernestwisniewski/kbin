@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\EntryCreatedNotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=EntryCreatedNotificationRepository::class)
+ * @ORM\Entity()
  */
 class EntryCreatedNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="notifications")
+     * @ORM\JoinColumn(onDelete="cascade")
+     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="notifications", cascade={"remove"})
      */
     public ?Entry $entry;
 

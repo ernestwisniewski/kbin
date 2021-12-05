@@ -45,7 +45,7 @@ class EntryDeleteController extends AbstractController
     {
         $this->validateCsrf('entry_purge', $request->request->get('token'));
 
-        $this->manager->purge($this->getUserOrThrow(), $entry);
+        $this->manager->purge($entry);
 
         return $this->redirectToMagazine($magazine);
     }

@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryDeletedNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="notifications")
+     * @ORM\JoinColumn(onDelete="cascade")
+     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="notifications", cascade={"remove"})
      */
     public ?Entry $entry;
 

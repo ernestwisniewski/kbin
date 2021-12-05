@@ -114,24 +114,23 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public int $adaAmount = 0;
     /**
-     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $comments;
     /**
-     * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry", cascade={"persist"},
-     *     fetch="EXTRA_LAZY", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry", cascade={"persist"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $votes;
     /**
-     * @ORM\OneToMany(targetEntity="EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $reports;
     /**
-     * @ORM\OneToMany(targetEntity="EntryCreatedNotification", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EntryCreatedNotification", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $notifications;
     /**
-     * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $viewCounters;
     /**

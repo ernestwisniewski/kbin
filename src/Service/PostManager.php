@@ -71,7 +71,7 @@ class  PostManager implements ContentManagerInterface
     public function delete(User $user, Post $post): void
     {
         if ($post->isAuthor($user) && $post->comments->isEmpty()) {
-            $this->purge($user, $post);
+            $this->purge($post);
 
             return;
         }
@@ -83,7 +83,7 @@ class  PostManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostDeletedEvent($post, $user));
     }
 
-    public function purge(User $user, Post $post): void
+    public function purge(Post $post): void
     {
         $this->dispatcher->dispatch(new PostBeforePurgeEvent($post));
 

@@ -85,7 +85,7 @@ class EntryManager implements ContentManagerInterface
     public function delete(User $user, Entry $entry): void
     {
         if ($entry->isAuthor($user) && $entry->comments->isEmpty()) {
-            $this->purge($user, $entry);
+            $this->purge($entry);
 
             return;
         }
@@ -97,7 +97,7 @@ class EntryManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new EntryDeletedEvent($entry, $user));
     }
 
-    public function purge(User $user, Entry $entry): void
+    public function purge(Entry $entry): void
     {
         $this->dispatcher->dispatch(new EntryBeforePurgeEvent($entry));
 
@@ -127,7 +127,7 @@ class EntryManager implements ContentManagerInterface
     {
         if ($dto->url) {
             $entry->type = Entry::ENTRY_TYPE_LINK;
-            $entry->url    = ($this->urlCleaner)($dto->url);
+            $entry->url  = ($this->urlCleaner)($dto->url);
         }
 
         if ($dto->image) {

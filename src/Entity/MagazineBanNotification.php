@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class MagazineBanNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="MagazineBan")
+     * @ORM\JoinColumn(onDelete="cascade")
+     * @ORM\ManyToOne(targetEntity="MagazineBan", cascade={"remove"})
      */
     public ?MagazineBan $ban;
 

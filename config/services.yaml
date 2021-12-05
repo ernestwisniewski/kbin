@@ -25,8 +25,8 @@ parameters:
   env(MONGODB_URL): ''
   env(MONGODB_DB): ''
 
-  #  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
-  elastica_enabled: false
+  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
+#  elastica_enabled: false
   elastica_listener:
     insert: '%elastica_enabled%'
     update: '%elastica_enabled%'

@@ -46,7 +46,7 @@ class CommentDeleteController extends AbstractController
     {
         $this->validateCsrf('post_comment_purge', $request->request->get('token'));
 
-        $this->manager->purge($this->getUserOrThrow(), $comment);
+        $this->manager->purge($comment);
 
         return $this->redirectToRoute(
             'front_magazine',
