@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller\Entry;
 
+use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Tests\WebTestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -71,8 +72,12 @@ class EntryDeleteControllerTest extends WebTestCase
         $entry    = $this->createEntry('entry example', $this->getMagazineByName('polityka'), $user);
         $comment1 = $this->createEntryComment('comment', $entry, $user);
 
-        $this->createEntryComment('comment2', $entry, $this->getUserByUsername('regularUser2'));
+        $comment2 = $this->createEntryComment('comment2', $entry, $this->getUserByUsername('regularUser2'));
         $this->createEntryComment('comment3', $entry, $this->getUserByUsername('regularUser3'), $comment1);
+
+        $this->createVote(1, $entry, $this->getUserByUsername('regularUser2'));
+        $this->createVote(1, $comment1, $this->getUserByUsername('regularUser2'));
+        $this->createVote(1, $comment2, $this->getUserByUsername('regularUser3'));
 
         $client->loginUser($admin = $this->getUserByUsername('admin', true));
 
@@ -80,9 +85,14 @@ class EntryDeleteControllerTest extends WebTestCase
 
         $client->submit($crawler->filter('.kbin-entry-main')->selectButton('wyczyść')->form());
 
+        $crawler = $client->followRedirect();
+
         $repository = static::getContainer()->get(EntryRepository::class);
         $entries    = $repository->findAll();
-
         $this->assertCount(0, $entries);
+
+        $repository = static::getContainer()->get(EntryCommentRepository::class);
+        $comments   = $repository->findAll();
+        $this->assertCount(0, $comments);
     }
 }

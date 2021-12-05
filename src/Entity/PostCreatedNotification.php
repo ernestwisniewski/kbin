@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -6,12 +6,13 @@ use App\Repository\PostCreatedNotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PostCreatedNotificationRepository::class)
+ * @ORM\Entity()
  */
 class PostCreatedNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="notifications")
+     * @ORM\JoinColumn(onDelete="cascade")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="notifications", cascade={"remove"})
      */
     public ?Post $post;
 

@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class MessageNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Message", inversedBy="notifications")
+     * @ORM\JoinColumn(onDelete="cascade")
+     * @ORM\ManyToOne(targetEntity="Message", inversedBy="notifications", cascade={"remove"})
      */
     public ?Message $message;
 
