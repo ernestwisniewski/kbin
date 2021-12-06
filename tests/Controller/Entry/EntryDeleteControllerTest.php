@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class EntryDeleteControllerTest extends WebTestCase
 {
 
-    public function testCanDeleteEntry()
+    public function testAuthorCanDeleteEntry()
     {
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
@@ -43,6 +43,14 @@ class EntryDeleteControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextNotContains('.kbin-entry-title', 'przykladowa tresc');
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 2');
+
+        $repository = static::getContainer()->get(EntryRepository::class);
+        $entries    = $repository->findAll();
+        $this->assertCount(3, $entries);
+
+        $repository = static::getContainer()->get(EntryCommentRepository::class);
+        $comments   = $repository->findAll();
+        $this->assertCount(2, $comments);
     }
 
     public function testUnauthorizedUserCannotEditOrPurgeEntry()
@@ -64,7 +72,7 @@ class EntryDeleteControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isForbidden());
     }
 
-    public function testAuthorizedUserCanPurgeEntry()
+    public function testAdminUserCanPurgeEntry()
     {
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
