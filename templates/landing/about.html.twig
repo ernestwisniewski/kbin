@@ -1,0 +1,27 @@
+{% extends 'landing.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
+
+{% block title %}{{ 'OCB' }}{% endblock %}
+
+{% block body %}
+
+    <section class="kbin-about kbin-container container pb-5 section1">
+        <div class="row" style="position:relative;z-index: 100">
+            <h1>Twórz, Dziel się,<br> Odkrywaj</h1>
+            <h4 class="mb-4 font-weight-bold">Portal społecznościowy, który ma sens</h4>
+            <p><strong>karab.in</strong> ma w sumie więcej wspólnego z forami tematycznymi niż ze współczesnymi portalami społecznościowymi. To
+                miejsce kształtuje
+                społeczność, tworząc autorskie lub tematyczne <strong>magazyny</strong>.</p>
+        </div>
+        <div class="bg-images"><img src="{{ asset('build/images/render1.jpg') }}"/></div>
+    </section>
+
+    <section class="kbin-about kbin-container container mb-5 pb-5">
+        <div class="row">
+            <h1>Autonomiczne<br> Magazyny</h1>
+            <h4 class="font-weight-bold">Decyduj o tym, jak wyglądać będzie twój zakątek internetu</h4>
+        </div>
+    </section>
+{% endblock %}
+
+

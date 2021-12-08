@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <title>{% block title %}{{ kbin_title }}{% endblock %}</title>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="{{ kbin_keywords }}">
+    <meta name="description" content="{% block description %}{{ kbin_description }}{% endblock %}">
+
+    <meta property="og:url" content="{{ app.request.uri }}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{ block('title') }}"/>
+    <meta property="og:description" content="{{ block('description') }}"/>
+    <meta property="og:image" content="{% block image %}{% endblock %}"/>
+
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+
+        {% if magazine is defined and magazine %}
+            <style>
+                {{ magazine.customCss }}
+            </style>
+        {% endif %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {% if kbin_js_enabled %}
+            <script>
+                window.KBIN_LOGGED_IN = {{ app.user ? 'true' : 'false' }};
+                window.MERCURE_PUBLISH_URL = "{{ mercure_publish_url }}";
+            </script>
+            {{ encore_entry_script_tags('app') }}
+        {% endif %}
+    {% endblock %}
+</head>
+<body>
+<div data-controller="scroll-progress" class="bg-primary scroll-progress"></div>
+<div id="kbin"
+     data-controller="kbin notify-counter"
+     data-action="notify:Notification->notify-counter#notification"
+     data-action="notify:Message->notify-counter#message"
+     data-notify-counter-hidden-class="visually-hidden"
+     data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
+    <div class="fixed-top">
+        {% include '_layout/_topbar.html.twig' %}
+        {% include '_layout/_navbar.html.twig' %}
+    </div>
+
+    {% block body %}{% endblock %}
+
+    {% include '_layout/_footer.html.twig' %}
+
+    <div aria-live="polite" aria-atomic="true" class="position-relative d-none d-xl-block">
+        <div class="kbin-toast-container toast-container position-fixed bottom-0 end-0 p-3">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

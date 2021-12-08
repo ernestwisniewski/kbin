@@ -18,7 +18,6 @@ class PostFrontControllerTest extends WebTestCase
         $user  = $this->getUserByUsername('user');
         $user1 = $this->getUserByUsername('regularUser');
 
-
         $this->createPost('post test', null, $user);
         $this->createPost('post test2', null, $user1);
 
