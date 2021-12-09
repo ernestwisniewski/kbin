@@ -36,6 +36,11 @@
         background-color: $kbin-topbar-link-active-background-color;
 
         a {
+          &:hover,
+          &.highlighted:hover {
+            background-color: $kbin-topbar-link-active-background-color;
+          }
+
           &.highlighted {
             background: transparent;
           }

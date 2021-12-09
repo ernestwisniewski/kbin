@@ -2,8 +2,19 @@
   position: relative;
   margin-top: 25vh;
 
-  p {
+  .row {
+    position: relative;
+    z-index: 100;
+  }
+
+  p, h1, h4 {
     max-width: 800px;
+  }
+
+  p {
+    @include media-breakpoint-down(md) {
+      background: white;
+    }
   }
 
   h1 {
@@ -15,7 +26,7 @@
     font-weight: 700;
     letter-spacing: -2.5px;
 
-    @include media-breakpoint-down(xl) {
+    @include media-breakpoint-down(md) {
       font-size: 44px;
       line-height: 46px;
       letter-spacing: 0;
@@ -29,8 +40,33 @@
     }
   }
 
-  p {
-    background: white;
+  &.section2 {
+    .bg-images {
+      top: 70px !important;
+      left: 140px !important;
+    }
+  }
+
+  &.section2 {
+    .bg-images {
+      top: 210px !important;
+      left: 375px !important;
+
+      img {
+        width: 700px;
+      }
+    }
+  }
+
+  &.section3 {
+    .bg-images {
+      top: 210px !important;
+      left: 213px !important;
+
+      img {
+        width: 900px;
+      }
+    }
   }
 }
 
