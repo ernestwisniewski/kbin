@@ -5,68 +5,90 @@
 
 {% block body %}
 
-    <section class="kbin-about kbin-container container pb-5 section1">
-        <div class="row">
-            <h1>Twórz, Dziel się,<br> Odkrywaj</h1>
-            <h4 class="mb-4 font-weight-bold">Portal społecznościowy, który ma sens</h4>
-            <p><strong>karab.in</strong> ma w sumie więcej wspólnego z oldschoolowymi forami tematycznymi niż ze współczesnymi portalami
-                społecznościowymi. Miejsce to kształtuje społeczność, tworząc autorskie lub tematyczne <strong>magazyny</strong> i dodając do nich
-                ciekawe i wartościowe treści.</p>
+    <section class="section1">
+        <div class="kbin-about kbin-container container">
+            <div class="row">
+                <h1>Twórz, Dziel się,<br> Odkrywaj</h1>
+                <h4 class="mb-4 font-weight-bold">Portal społecznościowy, który ma sens</h4>
+                <p><strong>karab.in</strong> ma w sumie więcej wspólnego z oldschoolowymi forami tematycznymi niż ze współczesnymi portalami
+                    społecznościowymi. Miejsce to kształtuje społeczność, tworząc autorskie lub tematyczne <strong>magazyny</strong> i dodając do nich
+                    ciekawe i wartościowe treści.</p>
+            </div>
+            <div class="bg-images"><img src="{{ asset('build/images/render1.png') }}" alt="Portal społecznościowy, który ma sens"/></div>
         </div>
-        <div class="bg-images"><img src="{{ asset('build/images/render1.jpg') }}" alt="Portal społecznościowy, który ma sens"/></div>
     </section>
 
-    <section class="kbin-about kbin-container container mb-5 pb-5 section2">
-        <div class="row">
-            <h1>Autonomiczne<br> Magazyny</h1>
-            <h4 class="mb-4 font-weight-bold">Decyduj o tym, jak wyglądać będzie twój kawałek internetu</h4>
-            <p>Każdy magazyn jest odrębną i niezależną częścią portalu. Założyciel magazynu ustala własne zasady, wybiera moderację a nawet może
-                zmienić
-                jego wygląd.</p>
-            <p>Możesz stworzyć magazyn ogólnotematyczny lub taki na którym dyskutuje się na z góry określony temat - nie ma żadnych ograniczeń. Jeżeli
-                jesteś twórcą, prowadzisz bloga lub pracujesz nad czymś, czym chciałbyś się podzielić - możesz założyć własny prywatny mag.</p>
-            <p>Jako administrator dostajesz do dyspozycji szereg narzędzi moderacyjnych, które pomogają ci w zarządzaniu i utrzymaniu porządku w twoim
-                magazynie.</p>
+    <section class="section2">
+        <div class="kbin-about kbin-container container">
+            <div class="row justify-content-end">
+                <div class="col col-sm-12 col-lg-7">
+                    <h1>Autonomiczne<br> Magazyny</h1>
+                    <h4 class="mb-4 font-weight-bold">Decyduj o tym, jak wyglądać będzie twój kawałek internetu</h4>
+                    <p>Każdy magazyn jest odrębną i niezależną częścią portalu. Założyciel magazynu ustala własne zasady, wybiera moderację a nawet
+                        może
+                        zmienić
+                        jego wygląd.</p>
+                    <p>Możesz stworzyć magazyn ogólnotematyczny lub taki na którym dyskutuje się na z góry określony temat - nie ma żadnych
+                        ograniczeń.
+                        Jeżeli
+                        jesteś twórcą, prowadzisz bloga lub pracujesz nad czymś, czym chciałbyś się podzielić - możesz założyć własny prywatny
+                        mag.</p>
+                    <p>Jako administrator dostajesz do dyspozycji szereg narzędzi moderacyjnych, które pomogają ci w zarządzaniu i utrzymaniu porządku
+                        w
+                        twoim
+                        magazynie.</p>
+                </div>
+            </div>
+
+            <div class="bg-images"><img src="{{ asset('build/images/render2.png') }}" alt="Autonomiczne magazyny"/></div>
         </div>
-        <div class="bg-images"><img src="{{ asset('build/images/render2.jpg') }}" alt="Autonomiczne magazyny"/></div>
     </section>
 
-    <section class="kbin-about kbin-container container mb-5 pb-5 section3">
-        <div class="row">
-            <h1>Decytujesz Ty,<br> Nie Algorytm</h1>
-            <h4 class="mb-4 font-weight-bold">Decyduj o tym co chcesz zobaczyć, bez natrętynych reklam i treści sponsorowanych</h4>
-            <p>Po zalogowaniu na stronie głównej widoczne są tylko treści pochodzące z magazynów i od użytkowników których obserwujesz. Możesz też
-                skutecznie blokować niechciane treści, kiedy będziesz przeglądał główny strumień.</p>
+    <section class="section3">
+        <div class="kbin-about kbin-container container">
+            <div class="row">
+                <h1>Decytujesz Ty,<br> Nie Algorytm</h1>
+                <h4 class="mb-4 font-weight-bold">Decyduj o tym co chcesz zobaczyć, bez natrętynych reklam i treści sponsorowanych</h4>
+                <p>Po zalogowaniu na stronie głównej widoczne są tylko treści pochodzące z magazynów i od użytkowników których obserwujesz. Możesz też
+                    skutecznie blokować niechciane treści, kiedy będziesz przeglądał główny strumień.</p>
+            </div>
+            <div class="bg-images"><img src="{{ asset('build/images/render3.png') }}" alt="Autonomiczne magazyny"/></div>
         </div>
-         <div class="bg-images"><img src="{{ asset('build/images/render3.jpg') }}" alt="Autonomiczne magazyny"/></div>
     </section>
 
-    <section class="kbin-about kbin-container container mb-5 pb-5 section4">
-        <div class="row">
-            <h1 id="cardano">Ekosystem portalu oparty na Cardano</h1>
-            <h4 class="mb-4 font-weight-bold">Walutą obowiązującą na portalu jest ADA - blockchain Cardano</h4>
-            <p>Jeżeli znalazłeś coś wyjątkowo ciekawego lub przydatnego możesz docenić autora takiego tekstu lub znaleziska przez przekazanie
-                jednorazowego tipa w dowolnej wysokości. Wpłata wykonywana jest <strong>bezpośrednio</strong> na portfel autora. karab.in nie
-                pośredniczy w transakcjach a jedynie przetwarza o nich informacje.</p>
-            <p>Będąc zarejestrowanym użytkownikiem karab.in możesz także utworzyć lub przypisać do konta własny portfel i <strong>zdobywać
-                    ADA</strong>.</p>
-            <p>Na stronie przeznaczony jest <strong>jeden blok</strong> na reklamę. Reklama wyświetlana jest w rozmiarach [200x220] - nieruchomy obraz
-                png. Część z tej kwoty przeznaczona jest na utrzymanie serwerów a pozostała przechodzi do puli K.</p>
-            <p>Monety rozlosowane będą spośród użytkowników zamieszczających najlepsze treści na podstawie rankingu, w pierwszym etapie proces ten
-                będzie nadzorowany przez administratora w celu ukształtowania charakteru instancji.</p>
-            <p>W kolejnych wydaniach proces dystrybucji zostanie zautomatyzowany przy pomocy algorytmów wypracowanych wraz ze społecznością za pomocą
-                <strong>Smart Contractu</strong>.</p>
+    <section class="section4">
+        <div class="kbin-about kbin-container container">
+            <div class="row">
+                <h1 id="cardano">Ekosystem portalu oparty na Cardano</h1>
+                <h4 class="mb-4 font-weight-bold">Walutą obowiązującą na portalu jest ADA - blockchain Cardano</h4>
+                <p>Jeżeli znalazłeś coś wyjątkowo ciekawego lub przydatnego możesz docenić autora takiego tekstu lub znaleziska przez przekazanie
+                    jednorazowego tipa w dowolnej wysokości. Wpłata wykonywana jest <strong>bezpośrednio</strong> na portfel autora. karab.in nie
+                    pośredniczy w transakcjach a jedynie przetwarza o nich informacje.</p>
+                <p>Będąc zarejestrowanym użytkownikiem karab.in możesz także utworzyć lub przypisać do konta własny portfel i <strong>zdobywać
+                        ADA</strong>.</p>
+                <p>Na stronie przeznaczony jest <strong>jeden blok</strong> na reklamę. Reklama wyświetlana jest w rozmiarach [200x220] - nieruchomy
+                    obraz
+                    png. Część z tej kwoty przeznaczona jest na utrzymanie serwerów a pozostała przechodzi do puli K.</p>
+                <p>Monety rozlosowane będą spośród użytkowników zamieszczających najlepsze treści na podstawie rankingu, w pierwszym etapie proces ten
+                    będzie nadzorowany przez administratora w celu ukształtowania charakteru instancji.</p>
+                <p>W kolejnych wydaniach proces dystrybucji zostanie zautomatyzowany przy pomocy algorytmów wypracowanych wraz ze społecznością za
+                    pomocą
+                    <strong>Smart Contractu</strong>.</p>
+            </div>
+            {# <div class="bg-images"><img src="{{ asset('build/images/render3.jpg') }}" alt="Autonomiczne magazyny"/></div> #}
         </div>
-{#         <div class="bg-images"><img src="{{ asset('build/images/render3.jpg') }}" alt="Autonomiczne magazyny"/></div>#}
     </section>
 
-    <section class="kbin-about kbin-container container mb-5 pb-5 section2">
-        <div class="row">
-            <h1>Prywatny Portal<br> Społecznościowy</h1>
-            <h4 class="mb-4 font-weight-bold">Utwórz własną instancję i dziel treści z innymi w sieci Fediverse</h4>
-            <p>Internet nie znosi centralizacji.</p>
+    <section class="section5">
+        <div class="kbin-about kbin-container container">
+            <div class="row">
+                <h1>Prywatny Portal<br> Społecznościowy</h1>
+                <h4 class="mb-4 font-weight-bold">Utwórz własną instancję i dziel treści z innymi w sieci <a href="https://fediverse.pl"
+                                                                                                             target="_blank">Fediverse</a></h4>
+                <p>Internet nie znosi centralizacji...</p>
+            </div>
+            {# <div class="bg-images"><img src="{{ asset('build/images/render2.jpg') }}" alt="Autonomiczne magazyny"/></div> #}
         </div>
-        {# <div class="bg-images"><img src="{{ asset('build/images/render2.jpg') }}" alt="Autonomiczne magazyny"/></div> #}
     </section>
 {% endblock %}
 

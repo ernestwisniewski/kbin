@@ -2,19 +2,17 @@
   position: relative;
   margin-top: 25vh;
 
+  @include media-breakpoint-down(sm) {
+    margin-top: 10vh;
+  }
+
   .row {
     position: relative;
-    z-index: 100;
+    z-index: 1;
   }
 
   p, h1, h4 {
     max-width: 800px;
-  }
-
-  p {
-    @include media-breakpoint-down(md) {
-      background: white;
-    }
   }
 
   h1 {
@@ -33,44 +31,90 @@
     }
   }
 
-  &.section1 {
+  .section1 & {
+    padding-bottom: 220px !important;
+
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 5vh !important;
+    }
+
     .bg-images {
-      top: 70px !important;
       left: 140px !important;
+      top: 172px !important;
     }
   }
 
-  &.section2 {
-    .bg-images {
-      top: 70px !important;
-      left: 140px !important;
+  .section2 & {
+    color: white;
+    padding-top: 25vh;
+    padding-bottom: 220px !important;
+
+    @include media-breakpoint-down(sm) {
+      padding-top: 5vh;
+      padding-bottom: 5vh !important;
     }
-  }
 
-  &.section2 {
+    h1 {
+      color: white;
+    }
+
     .bg-images {
-      top: 210px !important;
-      left: 375px !important;
-
-      img {
-        width: 700px;
+      top: 230px !important;
+      left: -685px !important;
+      @include media-breakpoint-down(lg) {
+        display: none;
       }
     }
   }
 
-  &.section3 {
+  .section3 & {
+    padding-bottom: 15vh;
+
+    @include media-breakpoint-down(sm) {
+      padding-top: 5vh;
+      padding-bottom: 5vh !important;
+    }
+
     .bg-images {
-      top: 210px !important;
-      left: 213px !important;
+      left: 215px !important;
+      top: 150px !important;
 
       img {
         width: 900px;
       }
     }
   }
+
+  .section4 & {
+    color: white;
+    padding-top: 25vh;
+    padding-bottom: 15vh;
+
+    @include media-breakpoint-down(sm) {
+      padding-top: 5vh;
+      padding-bottom: 5vh !important;
+    }
+
+    h1 {
+      color: white;
+    }
+  }
+
+  .section5 & {
+    padding-bottom: 15vh;
+
+    @include media-breakpoint-down(sm) {
+      padding-top: 5vh;
+      padding-bottom: 5vh !important;
+    }
+  }
 }
 
 .bg-images {
+  @include media-breakpoint-down(sm) {
+    display: none !important;
+  }
+
   position: absolute;
   left: 0;
   top: 0;
@@ -90,4 +134,12 @@
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.section2 {
+  background: #6767AB;
+}
+
+.section4 {
+  background: #0F3BA8;
 }
