@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 class PostCommentDeletedNotification extends Notification
 {
     /**
-     * @ORM\JoinColumn(onDelete="cascade")
      * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="notifications", cascade={"remove"})
      */
     public ?PostComment $postComment;
