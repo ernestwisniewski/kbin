@@ -9,4 +9,6 @@
     <a href="{{ post_url(subject) }}">{{ subject.shortTitle }}</a>
 {% elseif subject is post_comment %}
     <a href="{{ post_url(subject.post) }}">{{ subject.shortTitle }}</a>
+{% else %}
+    {{ 'deleted'|trans }}
 {% endif %}

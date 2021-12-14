@@ -50,7 +50,6 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
             $dto->cover       = $image;
 
             $entity = $this->magazineManager->create($dto, $magazine['user']);
-            var_dump($index);
 
             $this->addReference('magazine'.'_'.$index, $entity);
         }

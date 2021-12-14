@@ -273,7 +273,11 @@ class DeleteUserHandler implements MessageHandlerInterface
 
             foreach ($comments as $comment) {
                 $retry = true;
-                $this->entryCommentManager->{$this->op}($this->user, $comment);
+                if($this->op === 'delete') {
+                    $this->entryCommentManager->{$this->op}($this->user, $comment);
+                } else {
+                    $this->entryCommentManager->{$this->op}($comment);
+                }
             }
 
             $this->entityManager->commit();
@@ -310,7 +314,11 @@ class DeleteUserHandler implements MessageHandlerInterface
 
             foreach ($entries as $entry) {
                 $retry = true;
-                $this->entryManager->{$this->op}($this->user, $entry);
+                if($this->op === 'delete') {
+                    $this->entryManager->{$this->op}($this->user, $entry);
+                } else {
+                    $this->entryManager->{$this->op}($entry);
+                }
             }
 
             $this->entityManager->commit();
@@ -347,7 +355,11 @@ class DeleteUserHandler implements MessageHandlerInterface
 
             foreach ($comments as $comment) {
                 $retry = true;
-                $this->postCommentManager->{$this->op}($this->user, $comment);
+                if($this->op === 'delete') {
+                    $this->postCommentManager->{$this->op}($this->user, $comment);
+                } else {
+                    $this->postCommentManager->{$this->op}($comment);
+                }
             }
 
             $this->entityManager->commit();
@@ -384,7 +396,11 @@ class DeleteUserHandler implements MessageHandlerInterface
 
             foreach ($posts as $post) {
                 $retry = true;
-                $this->postManager->{$this->op}($this->user, $post);
+                if($this->op === 'delete') {
+                    $this->postManager->{$this->op}($this->user, $post);
+                } else {
+                    $this->postManager->{$this->op}($post);
+                }
             }
 
             $this->entityManager->commit();
