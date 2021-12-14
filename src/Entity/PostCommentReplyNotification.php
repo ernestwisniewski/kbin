@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PostCommentReplyNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="notifications", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="notifications")
      */
     public ?PostComment $postComment;
 
