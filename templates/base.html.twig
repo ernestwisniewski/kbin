@@ -32,6 +32,11 @@
     {% endblock %}
 </head>
 <body class="{{ app.user and app.user.theme is same as 'dark' ? 'kbin-dark' : 'kbin-light' }}">
+{% if magazine is defined and magazine %}
+    <style>
+        {{ magazine.customCss }}
+    </style>
+{% endif %}
 <div data-controller="scroll-progress" class="bg-primary scroll-progress"></div>
 <div id="kbin"
      data-controller="kbin notify-counter"
@@ -66,12 +71,5 @@
         </div>
     </div>
 </div>
-
-{% if magazine is defined and magazine %}
-    <style>
-        {{ magazine.customCss }}
-    </style>
-{% endif %}
-
 </body>
 </html>
