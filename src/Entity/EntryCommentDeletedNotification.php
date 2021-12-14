@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryCommentDeletedNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="notifications", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="notifications")
      */
     public ?EntryComment $entryComment;
 

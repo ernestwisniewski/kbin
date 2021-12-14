@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PostCreatedNotification extends Notification
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="notifications", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="notifications")
      */
     public ?Post $post;
 
