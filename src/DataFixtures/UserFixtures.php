@@ -10,7 +10,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends BaseFixture
 {
-    const USERS_COUNT = 21;
+    const USERS_COUNT = 15;
 
     public function __construct(
         private UserPasswordHasherInterface $hasher,
@@ -31,6 +31,13 @@ class UserFixtures extends BaseFixture
             $newUser->setPassword(
                 $this->hasher->hashPassword($newUser, $user['password'])
             );
+
+            $newUser->notifyOnNewEntry = true;
+            $newUser->notifyOnNewEntryReply = true;
+            $newUser->notifyOnNewEntryCommentReply = true;
+            $newUser->notifyOnNewPostReply = true;
+            $newUser->notifyOnNewPostReply = true;
+            $newUser->notifyOnNewPostCommentReply = true;
 
             $manager->persist($newUser);
 

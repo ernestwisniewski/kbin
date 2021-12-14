@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\MessageHandler;
 
@@ -36,7 +36,11 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
             return;
         }
 
-        $embed = $this->embed->fetch($entry->url);
+        try {
+            $embed = $this->embed->fetch($entry->url);
+        } catch (\Exception $e) {
+            return;
+        }
 
         $html    = $embed->html;
         $type    = $embed->getType();
@@ -77,6 +81,10 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
 
     private function fetchImage(string $url): ?string
     {
-        return $this->manager->download($url);
+        try {
+            return $this->manager->download($url);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
