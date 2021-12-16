@@ -99,7 +99,7 @@
                     </li>
 
                     {% if this.entry.user.cardanoWalletAddress %}
-                        <li class="kbin-entry-meta-report kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                        <li class="kbin-entry-meta-tip kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                             <a href="{{ path('entry_tips', { magazine_name: this.entry.magazine.name, entry_id: this.entry.id }) }}"
                                data-action="tip#fetch">
                                 {{ component('ada_symbol') }}

@@ -163,6 +163,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->notifications = new ArrayCollection();
         $this->viewCounters  = new ArrayCollection();
         $this->badges        = new ArrayCollection();
+        $this->cardanoTx        = new ArrayCollection();
 
         $user->addEntry($this);
 

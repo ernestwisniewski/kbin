@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CardanoTransactionDto
 {
     #[Assert\NotBlank]
-    public string $walletAddress;
+    public ?string $walletAddress = null;
     #[Assert\NotBlank]
     public string $asset = 'ADA';
     #[Assert\NotBlank]
