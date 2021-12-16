@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MagazineBlockControllerTest extends WebTestCase
 {
-    public function testUserCanBlockMagazine() // @todo
+    public function testUserCanBlockAndUnblockMagazine() // @todo
     {
         $client  = $this->createClient();
         $manager = static::getContainer()->get(MagazineManager::class);
@@ -41,6 +41,15 @@ class MagazineBlockControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->attr('class'));
+        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
+
+        $client->submit(
+            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block ')->selectButton('')->form()
+        );
+
+        $crawler = $client->followRedirect();
+
+        $this->assertStringNotContainsString('kbin-block--active', $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->attr('class'));
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
     }
 
