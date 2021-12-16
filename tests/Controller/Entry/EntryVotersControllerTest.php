@@ -45,4 +45,26 @@ class EntryVotersControllerTest extends WebTestCase
 
         $this->assertCount(6, $crawler->filter('.kbin-main .kbin-voters .card'));
     }
+
+    public function testXmlUserCanSeeEntryVoters()
+    {
+        $client = $this->createClient();
+
+        $magazine = $this->getMagazineByName('polityka');
+
+        $user  = $this->getUserByUsername('user');
+        $user1 = $this->getUserByUsername('regularUser');
+        $user2 = $this->getUserByUsername('regularUser2');
+
+        $entry = $this->createEntry('entry test', $magazine, $user);
+
+        $this->createVote(1, $entry, $user1);
+        $this->createVote(1, $entry, $user2);
+
+        $id = $entry->getId();
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->request('GET', "/m/polityka/t/$id/-/głosy");
+
+        $this->assertStringContainsString('regularUser2', $client->getResponse()->getContent());
+    }
 }
