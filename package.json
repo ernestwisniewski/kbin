@@ -1,19 +1,19 @@
 {
     "devDependencies": {
-        "@hotwired/turbo": "^7.0.0-beta.5",
-        "@symfony/stimulus-bridge": "^2.0.0",
+        "@hotwired/stimulus": "^3.0.0",
+        "@hotwired/turbo": "^7.0.1",
+        "@symfony/stimulus-bridge": "^3.0.0",
         "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets",
         "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/Resources/assets",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/Resources/assets",
-        "@symfony/webpack-encore": "^1.0.0",
+        "@symfony/webpack-encore": "^1.7.0",
         "bootstrap": "^5.0.0-beta1",
-        "chart.js": "^2.9.4",
+        "chart.js": "^3.4.1",
         "core-js": "^3.0.0",
         "file-loader": "^6.0.0",
         "node-sass": "^4.0.0",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^9.0.1",
-        "stimulus": "^2.0.0",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -30,12 +30,11 @@
         "choices.js": "^9.0.1",
         "js-cookie": "^2.2.1",
         "simplemde": "^1.11.2",
-        "stimulus-clipboard": "^1.0.0",
-        "stimulus-content-loader": "^2.1.0",
-        "stimulus-reveal-controller": "^2.0.0",
-        "stimulus-scroll-progress": "^2.0.0",
-        "stimulus-timeago": "^3.0.0",
-        "stimulus-use": "^0.23.0",
+        "stimulus-clipboard": "^3.0.0",
+        "stimulus-reveal-controller": "^4.0.0",
+        "stimulus-scroll-progress": "^4.0.0",
+        "stimulus-timeago": "^4.0.0",
+        "stimulus-use": "^0.50.0-2",
         "vanillajs-datepicker": "^1.1.2"
     }
 }

@@ -1,8 +1,9 @@
-import {ApplicationController, useDebounce} from 'stimulus-use'
+import {Controller} from '@hotwired/stimulus';
+import {useDebounce} from 'stimulus-use'
 import router from "../utils/routing";
 import {ok} from "../utils/http";
 
-export default class extends ApplicationController {
+export default class extends Controller {
     static debounces = ['calculateFee']
     static targets = ['fee', 'sum', 'address'];
     static values = {

@@ -1,4 +1,4 @@
-import {Controller} from 'stimulus';
+import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import KEditor from "../utils/editor";
 import CommentFactory from "../utils/comment-factory";

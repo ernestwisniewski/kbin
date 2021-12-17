@@ -1,4 +1,4 @@
-import {Controller} from 'stimulus';
+import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 
 export default class extends Controller {

@@ -1,8 +1,9 @@
-import {ApplicationController, useDebounce} from 'stimulus-use'
+import {Controller} from '@hotwired/stimulus';
+import {useDebounce} from 'stimulus-use'
 import {fetch, ok} from '../utils/http';
 import router from '../utils/routing';
 
-export default class extends ApplicationController {
+export default class extends Controller {
     static debounces = ['fetchTitle']
     static targets = ['sendButton', 'url', 'title'];
     static values = {

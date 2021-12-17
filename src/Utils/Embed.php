@@ -43,7 +43,10 @@ class Embed
                     $this->html = $this->cleanIframe($embed->code->html);
                 }
 
-                return $this;
+                $c = clone $this;
+                unset($c->cache);
+
+                return $c;
             }
         );
     }
