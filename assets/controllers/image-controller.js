@@ -1,6 +1,6 @@
-import {ApplicationController} from 'stimulus-use'
+import {Controller} from '@hotwired/stimulus';
 
-export default class extends ApplicationController {
+export default class extends Controller {
     static classes = ['loading']
     static values = {
         loading: Boolean,

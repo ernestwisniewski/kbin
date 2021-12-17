@@ -4,6 +4,7 @@ namespace App\Components;
 
 use App\Entity\Magazine;
 use App\Repository\MagazineRepository;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -14,14 +15,19 @@ class FeaturedMagazinesComponent
 {
     public ?Magazine $magazine;
 
-    public function __construct(private MagazineRepository $repository, private Environment $twig, private CacheInterface $cache)
-    {
+    public function __construct(
+        private MagazineRepository $repository,
+        private Environment $twig,
+        private CacheInterface $cache,
+        private KernelInterface $kernel
+    ) {
     }
 
     public function getHtml(): string
     {
-        $magazines = $this->cache->get('featured_magazines', function (ItemInterface $item) {
-            $item->expiresAfter(60);
+        $env       = $this->kernel->getEnvironment(); // @todo
+        $magazines = $this->cache->get('featured_magazines', function (ItemInterface $item) use ($env) {
+            $item->expiresAfter($env === 'test' ? 0 : 60);
 
             $magazines = $this->repository->findBy([], ['lastActive' => 'DESC'], 55);
 
@@ -37,7 +43,7 @@ class FeaturedMagazinesComponent
         return $this->twig->render(
             'magazine/_featured.html.twig',
             [
-                'magazine' => $this->magazine,
+                'magazine'  => $this->magazine,
                 'magazines' => $magazines,
             ]
         );

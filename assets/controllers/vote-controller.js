@@ -1,4 +1,4 @@
-import {Controller} from 'stimulus';
+import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 
 const VOTE_UP = 1;
