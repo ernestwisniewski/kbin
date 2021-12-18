@@ -34,7 +34,7 @@ class UserManager
         private MessageBusInterface $bus,
         private EmailVerifier $verifier,
         private EntityManagerInterface $entityManager,
-        private RateLimiterFactory $userRegisterLimiter
+        private RateLimiterFactory $userRegisterLimiter,
     ) {
     }
 
@@ -167,6 +167,22 @@ class UserManager
     public function attachWallet(User $user, CardanoWalletAddressDto $dto)
     {
         $user->cardanoWalletAddress = $dto->walletAddress;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    public function ban(User $user)
+    {
+        $user->isBanned = true;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    public function unban(User $user)
+    {
+        $user->isBanned = false;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

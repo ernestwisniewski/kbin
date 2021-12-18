@@ -82,6 +82,16 @@ user_delete:
   path: /u/{username}/delete
   methods: [ POST ]
 
+user_ban:
+  controller: App\Controller\User\UserBanController::ban
+  path: /u/{username}/ban
+  methods: [ POST ]
+
+user_unban:
+  controller: App\Controller\User\UserBanController::unban
+  path: /u/{username}/unban
+  methods: [ POST ]
+
 user_profile_front:
   controller: App\Controller\User\Profile\UserStatController
   path:
