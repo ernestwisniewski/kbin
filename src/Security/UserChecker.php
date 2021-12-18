@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Security;
 
@@ -17,6 +17,10 @@ class UserChecker implements UserCheckerInterface
 
         if (!$user->isVerified) {
             throw new CustomUserMessageAccountStatusException('Twoje konto nie jest aktywne.');
+        }
+
+        if ($user->isBanned) {
+            throw new CustomUserMessageAccountStatusException('Twoje konto jest zbanowane.');
         }
     }
 

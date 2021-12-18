@@ -72,6 +72,15 @@
                             </button>
                         </form>
                     </li>
+                    <li>
+                        <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}" method="POST"
+                              onsubmit="return confirm('You sure?');">
+                            <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
+                            <button type="submit" class="btn btn-link">
+                                <span class="small"><i class="fa fa-trash"></i> {{ user.isBanned ? 'unban_account': 'ban_account'|trans }}</span>
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>

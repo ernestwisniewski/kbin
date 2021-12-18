@@ -44,7 +44,6 @@ class FrontControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
 
         // Magazine
-        (new \Symfony\Component\Filesystem\Filesystem())->remove(__DIR__.'/../var/cache/test');
         $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('polityka')->link());
         $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
 
