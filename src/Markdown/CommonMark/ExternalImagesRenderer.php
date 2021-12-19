@@ -7,6 +7,7 @@ use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Image;
+use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
@@ -29,9 +30,13 @@ final class ExternalImagesRenderer implements InlineRendererInterface, Configura
             );
         }
 
-        $url = $inline->getUrl();
+        $url = $title = $inline->getUrl();
 
-        return EmbedElement::buildEmbed($url, $url);
+        if ($inline->firstChild() instanceof Text) {
+            $title = $htmlRenderer->renderInline($inline->firstChild());
+        }
+
+        return EmbedElement::buildEmbed($url, $title);
     }
 
     public function setConfiguration(
