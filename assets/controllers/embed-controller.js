@@ -61,6 +61,7 @@ export default class extends Controller {
         this.containerTarget.innerHTML = '';
         this.containerTarget.classList.add(this.hiddenClass);
         this.closeTarget.classList.add(this.hiddenClass);
+        this.embedTarget.classList.add('d-inline');
         this.isVisibleValue = false;
     }
 
@@ -68,7 +69,7 @@ export default class extends Controller {
         this.containerTarget.innerHTML = this.htmlValue
         this.containerTarget.classList.remove(this.hiddenClass);
         this.closeTarget.classList.remove(this.hiddenClass);
-
+        this.embedTarget.classList.remove('d-inline');
         this.isVisibleValue = true;
     }
 
