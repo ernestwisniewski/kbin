@@ -31,7 +31,10 @@ class Embed
                     $embed  = (new BaseEmbed())->get($url);
                     $oembed = $embed->getOEmbed();
                 } catch (Exception $e) {
-                    return $this;
+                    $c = clone $this;
+                    unset($c->cache);
+
+                    return $c;
                 }
 
                 $this->url   = $url;
