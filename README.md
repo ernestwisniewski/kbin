@@ -14,7 +14,6 @@ This is a very early beta version, and a lot of features are currently broken or
 * https://kbin.info - project website
 * **https://dev.karab.in - instance for testing purposes only**
 * https://karab.in - polish-lang instance
-* https://kbin.pub - english-lang instance
 
 ---
 
