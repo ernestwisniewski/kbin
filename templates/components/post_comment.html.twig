@@ -19,11 +19,11 @@
             {{ component('vote', { votable: this.comment, formDest: 'post_comment_vote', notificationType: 'PostVote', baseClass: 'comment', hideDownvote: true }) }}
 
             {% if this.comment.user.avatar %}
-            <div class="kbin-comment-avatar">
-                {% if this.comment.user.avatar %}
-                    {{ avatar(this.comment.user) }}
-                {% endif %}
-            </div>
+                <div class="kbin-comment-avatar">
+                    {% if this.comment.user.avatar %}
+                        {{ avatar(this.comment.user) }}
+                    {% endif %}
+                </div>
             {% endif %}
 
             <aside class="kbin-comment-meta">
@@ -53,15 +53,6 @@
                  data-action="image:thumbLoaded->show-more#checkHeight">
                 {% if this.comment.visibility is same as 'visible' %}
                     {{ this.comment.body|markdown|raw }}
-                    {% if this.comment.image %}
-                        <img data-controller="image"
-                             data-image-loading-class="loading-cursor"
-                             data-image-full-value="{{ uploaded_asset(this.comment.image.filePath) }}"
-                             data-image-thumb-value="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
-                             data-action="click->image#toggle"
-                             src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
-                             alt="{{ this.comment.shortTitle }}">
-                    {% endif %}
                 {% elseif this.comment.visibility is same as 'trashed' %}
                     <p class="text-muted">[{{ 'removed'|trans }}]</p>
                 {% elseif this.comment.visibility is same as 'soft_deleted' %}
@@ -70,6 +61,17 @@
             </div>
 
             {% if this.comment.visibility is same as 'visible' %}
+                {% if this.comment.image %}
+                    <div class="clearfix my-2 kbin-comment-content">
+                        <img data-controller="image"
+                             data-image-loading-class="loading-cursor"
+                             data-image-full-value="{{ uploaded_asset(this.comment.image.filePath) }}"
+                             data-image-thumb-value="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
+                             data-action="click->image#toggle"
+                             src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
+                             alt="{{ this.comment.shortTitle }}">
+                    </div>
+                {% endif %}
                 <aside class="kbin-comment-meta">
                     <ul class="kbin-comment-meta-list list-inline mb-0 float-start">
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
