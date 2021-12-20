@@ -51,6 +51,10 @@ svg.ada {
   }
 
   .kbin-main {
+    a {
+      font-weight: bold;
+    }
+
     @include media-breakpoint-up(lg) {
       position: relative;
     }
@@ -245,14 +249,16 @@ thead, tbody {
   }
 }
 
-.scrolled-down{
-  transform:translateY(-100%); transition: all 0.3s ease-in-out;
+.scrolled-down {
+  transform: translateY(-100%);
+  transition: all 0.3s ease-in-out;
 }
 
-.scrolled-up{
-  transform:translateY(0); transition: all 0.3s ease-in-out;
+.scrolled-up {
+  transform: translateY(0);
+  transition: all 0.3s ease-in-out;
 }
 
 .kbin-embed, .kbin-embed-container {
-display: block;
+  display: block;
 }
