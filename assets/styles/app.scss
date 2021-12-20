@@ -51,10 +51,6 @@ svg.ada {
   }
 
   .kbin-main {
-    a {
-      font-weight: bold;
-    }
-
     @include media-breakpoint-up(lg) {
       position: relative;
     }

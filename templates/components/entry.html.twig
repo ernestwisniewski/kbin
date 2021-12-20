@@ -42,129 +42,84 @@
             {% elseif this.entry.visibility is same as 'soft_deleted' %}
                 <p class="text-muted">[{{ 'deleted'|trans }}]</p>
             {% endif %}
-            <aside class="kbin-entry-meta">
-                <ul class="kbin-entry-meta-list list-inline mb-0">
-                    <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
-                        <small class="text-muted">{{ 'posted'|trans }}
-                            <time data-controller="timeago"
-                                  data-timeago-refresh-interval-value="10000"
-                                  data-timeago-datetime-value="{{ this.entry.createdAt|date('c') }}">{{ this.entry.createdAt|ago }}</time>
-                        </small>
-                    </li>
 
-                    {% if not is_user_page() %}
-                        <li class="kbin-entry-meta-user kbin-entry-meta-list-item list-inline-item">
-                            <small class="text-muted">{{ 'by'|trans }} {{ user(this.entry.user, {prefix: false}) }}</small>
-                        </li>
-                    {% endif %}
-
-                    {% if this.showMagazine %}
-                        <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
-                            <small class="text-muted">{{ 'to'|trans }}</small> {{ component('magazine_inline', { magazine: this.entry.magazine }) }}
-                        </li>
-                    {% endif %}
-                </ul>
-
-                <ul class="kbin-entry-meta-list list-inline mb-0 float-start">
-                    {% if this.entry.sticky %}
-                        <li class="kbin-entry-meta-sticky kbin-entry-meta-list-item list-inline-item">
-                            <i class="kbin-sticky fas fa-thumbtack text-muted me-1"></i>
-                        </li>
-                    {% endif %}
-
-                    {% if this.entry.hasEmbed %}
-                        <li class="kbin-entry-meta-embed kbin-entry-meta-list-item list-inline-item" data-action="click->embed#fetch">
-                            <i class="kbin-preview fas fa-photo-video text-muted me-1" data-embed-target="embed"></i>
-                        </li>
-                    {% endif %}
-
-                    {% if this.entry.type is same as 'article' %}
-                        <li class="kbin-entry-meta-article kbin-entry-meta-list-item list-inline-item">
-                            <i class="kbin-preview fas fa-newspaper text-muted me-1"></i>
-                        </li>
-                    {% endif %}
-
-                    <li class="kbin-entry-meta-entry kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                        <small class="text-muted">
-                            <a href="{{ entry_url(this.entry) }}">
-                                <span data-comment-counter-target="lenght">{{ this.entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}
-                            </a>
-                        </small>
-                    </li>
-
-                    <li class="kbin-entry-meta-report kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                        <small class="text-muted">
-                            <a href="{{ path('entry_report', {id: this.entry.id}) }}" data-action="report#report">{{ 'report'|trans }}</a>
-                        </small>
-                    </li>
-
-                    {% if this.entry.user.cardanoWalletAddress %}
-                        <li class="kbin-entry-meta-tip kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <a href="{{ path('entry_tips', { magazine_name: this.entry.magazine.name, entry_id: this.entry.id }) }}"
-                               data-action="tip#fetch">
-                                {{ component('ada_symbol') }}
-                                <small style="font-weight: lighter" class="font-weight-lighter">{{ this.entry.getAdaAmount }}</small>
-                            </a>
-                        </li>
-                    {% endif %}
-
-                    {% if is_granted('edit', this.entry) %}
-                        <li class="kbin-entry-meta-edit kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <small class="kbin-entry-meta-edit text-muted">
-                                <a href="{{ path('entry_edit', {'magazine_name': this.entry.magazine.name, 'entry_id': this.entry.id}) }}">{{ 'edit'|trans }}</a>
+            {% if this.entry.visibility is same as 'visible' %}
+                <aside class="kbin-entry-meta">
+                    <ul class="kbin-entry-meta-list list-inline mb-0">
+                        <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
+                            <small class="text-muted">{{ 'posted'|trans }}
+                                <time data-controller="timeago"
+                                      data-timeago-refresh-interval-value="10000"
+                                      data-timeago-datetime-value="{{ this.entry.createdAt|date('c') }}">{{ this.entry.createdAt|ago }}</time>
                             </small>
                         </li>
-                    {% endif %}
 
-                    {% if app.user and this.entry.isAuthor(app.user) %}
-                        <li class="kbin-entry-meta-delete kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <form method="post"
-                                  action="{{ path('entry_delete', {
-                                      magazine_name: this.entry.magazine.name,
-                                      entry_id: this.entry.id,
-                                  }) }}"
-                                  onsubmit="return confirm('You sure?');">
-                                <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
-                                <button type="submit" class="btn btn-link">
-                                    <span>{{ 'delete'|trans }}</span>
-                                </button>
-                            </form>
+                        {% if not is_user_page() %}
+                            <li class="kbin-entry-meta-user kbin-entry-meta-list-item list-inline-item">
+                                <small class="text-muted">{{ 'by'|trans }} {{ user(this.entry.user, {prefix: false}) }}</small>
+                            </li>
+                        {% endif %}
+
+                        {% if this.showMagazine %}
+                            <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
+                                <small class="text-muted">{{ 'to'|trans }}</small> {{ component('magazine_inline', { magazine: this.entry.magazine }) }}
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    <ul class="kbin-entry-meta-list list-inline mb-0 float-start">
+                        {% if this.entry.sticky %}
+                            <li class="kbin-entry-meta-sticky kbin-entry-meta-list-item list-inline-item">
+                                <i class="kbin-sticky fas fa-thumbtack text-muted me-1"></i>
+                            </li>
+                        {% endif %}
+
+                        {% if this.entry.hasEmbed %}
+                            <li class="kbin-entry-meta-embed kbin-entry-meta-list-item list-inline-item" data-action="click->embed#fetch">
+                                <i class="kbin-preview fas fa-photo-video text-muted me-1" data-embed-target="embed"></i>
+                            </li>
+                        {% endif %}
+
+                        {% if this.entry.type is same as 'article' %}
+                            <li class="kbin-entry-meta-article kbin-entry-meta-list-item list-inline-item">
+                                <i class="kbin-preview fas fa-newspaper text-muted me-1"></i>
+                            </li>
+                        {% endif %}
+
+                        <li class="kbin-entry-meta-entry kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="text-muted">
+                                <a href="{{ entry_url(this.entry) }}">
+                                    <span data-comment-counter-target="lenght">{{ this.entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}
+                                </a>
+                            </small>
                         </li>
-                    {% endif %}
-                </ul>
 
-                <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
-                    {% if is_granted('moderate', this.entry.magazine) %}
-                        <ul class="kbin-entry-meta-list list-inline mb-0">
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <small class="kbin-entry-meta-edit text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
-                                    <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
-                                        {{ 'moderate'|trans }}
-                                    </button>
-                                </small>
+                        <li class="kbin-entry-meta-report kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <small class="text-muted">
+                                <a href="{{ path('entry_report', {id: this.entry.id}) }}" data-action="report#report">{{ 'report'|trans }}</a>
+                            </small>
+                        </li>
+
+                        {% if this.entry.user.cardanoWalletAddress %}
+                            <li class="kbin-entry-meta-tip kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <a href="{{ path('entry_tips', { magazine_name: this.entry.magazine.name, entry_id: this.entry.id }) }}"
+                                   data-action="tip#fetch">
+                                    {{ component('ada_symbol') }}
+                                    <small style="font-weight: lighter" class="font-weight-lighter">{{ this.entry.getAdaAmount }}</small>
+                                </a>
                             </li>
-                        </ul>
-                    {% endif %}
-                    <ul class="kbin-entry-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
-                        data-reveal-target="item">
-                        {% if is_granted('moderate', this.entry.magazine) %}
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                        {% endif %}
+
+                        {% if is_granted('edit', this.entry) %}
+                            <li class="kbin-entry-meta-edit kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <small class="kbin-entry-meta-edit text-muted">
-                                    <a href="{{ path('magazine_panel_ban', {'magazine_name': this.entry.magazine.name, 'user_username': this.entry.user.username}) }}">{{ 'ban'|trans }}</a>
+                                    <a href="{{ path('entry_edit', {'magazine_name': this.entry.magazine.name, 'entry_id': this.entry.id}) }}">{{ 'edit'|trans }}</a>
                                 </small>
                             </li>
+                        {% endif %}
 
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <form action="{{ path('entry_pin', {'magazine_name': this.entry.magazine.name, 'entry_id': this.entry.id}) }}"
-                                      method="POST">
-                                    <input type="hidden" name="token" value="{{ csrf_token('entry_pin') }}">
-                                    <button type="submit" class="btn btn-link">
-                                        <span>{{ this.entry.sticky ? 'unpin'|trans : 'pin'|trans }}</span>
-                                    </button>
-                                </form>
-                            </li>
-
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                        {% if app.user and this.entry.isAuthor(app.user) %}
+                            <li class="kbin-entry-meta-delete kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <form method="post"
                                       action="{{ path('entry_delete', {
                                           magazine_name: this.entry.magazine.name,
@@ -177,27 +132,77 @@
                                     </button>
                                 </form>
                             </li>
+                        {% endif %}
+                    </ul>
 
-                            {% if is_granted('purge', this.entry) %}
+                    <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
+                        {% if is_granted('moderate', this.entry.magazine) %}
+                            <ul class="kbin-entry-meta-list list-inline mb-0">
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <small class="kbin-entry-meta-edit text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
+                                        <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
+                                            {{ 'moderate'|trans }}
+                                        </button>
+                                    </small>
+                                </li>
+                            </ul>
+                        {% endif %}
+                        <ul class="kbin-entry-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
+                            data-reveal-target="item">
+                            {% if is_granted('moderate', this.entry.magazine) %}
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <small class="kbin-entry-meta-edit text-muted">
+                                        <a href="{{ path('magazine_panel_ban', {'magazine_name': this.entry.magazine.name, 'user_username': this.entry.user.username}) }}">{{ 'ban'|trans }}</a>
+                                    </small>
+                                </li>
+
+                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                    <form action="{{ path('entry_pin', {'magazine_name': this.entry.magazine.name, 'entry_id': this.entry.id}) }}"
+                                          method="POST">
+                                        <input type="hidden" name="token" value="{{ csrf_token('entry_pin') }}">
+                                        <button type="submit" class="btn btn-link">
+                                            <span>{{ this.entry.sticky ? 'unpin'|trans : 'pin'|trans }}</span>
+                                        </button>
+                                    </form>
+                                </li>
+
                                 <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                     <form method="post"
-                                          action="{{ path('entry_purge', {
+                                          action="{{ path('entry_delete', {
                                               magazine_name: this.entry.magazine.name,
                                               entry_id: this.entry.id,
                                           }) }}"
                                           onsubmit="return confirm('You sure?');">
-                                        <input type="hidden" name="token" value="{{ csrf_token('entry_purge') }}">
+                                        <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
                                         <button type="submit" class="btn btn-link">
-                                            <span>{{ 'purge'|trans }}</span>
+                                            <span>{{ 'delete'|trans }}</span>
                                         </button>
                                     </form>
                                 </li>
+
+                                {% if is_granted('purge', this.entry) %}
+                                    <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                        <form method="post"
+                                              action="{{ path('entry_purge', {
+                                                  magazine_name: this.entry.magazine.name,
+                                                  entry_id: this.entry.id,
+                                              }) }}"
+                                              onsubmit="return confirm('You sure?');">
+                                            <input type="hidden" name="token" value="{{ csrf_token('entry_purge') }}">
+                                            <button type="submit" class="btn btn-link">
+                                                <span>{{ 'purge'|trans }}</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </ul>
-                </section>
-            </aside>
+                        </ul>
+                    </section>
+                </aside>
+            {% endif %}
+
             <div class="clearfix"></div>
+
             <div data-report-target="form"></div>
         </div>
     </section>
