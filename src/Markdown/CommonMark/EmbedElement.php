@@ -10,7 +10,7 @@ class EmbedElement
 
     public static function buildEmbed(string $url, ?string $label = null): HtmlElement
     {
-        $embedClass = ImageManager::isImageUrl($url) ? '' : 'ratio ratio-16x9 ';
+        $embedClass = ImageManager::isImageUrl($url) ? 'mb-2 ' : 'mb-2 ratio ratio-16x9 ';
 
         return new HtmlElement(
             'span',
@@ -21,7 +21,7 @@ class EmbedElement
                 'data-embed-hidden-class'     => 'display-none',
                 'data-embed-loading-class'    => 'spinner-border',
                 'data-embed-embed-class'      => 'fa-photo-video',
-                'class'                       => 'me-1',
+                'class'                       => 'me-1 kbin-embed-content',
             ],
             [
                 new HtmlElement(
@@ -36,7 +36,7 @@ class EmbedElement
                 new HtmlElement('a', ['href' => $url, 'rel' => 'nofollow noopener noreferrer'], $label),
                 new HtmlElement(
                     'button', [
-                    'class'             => 'btn-close mt-3 display-none',
+                    'class'             => 'btn-close mt-3 ms-1 display-none',
                     'data-embed-target' => 'close',
                     'data-action'       => 'embed#close',
                 ], ''
