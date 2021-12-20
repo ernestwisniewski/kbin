@@ -27,7 +27,7 @@ export default class extends Controller {
             return;
         }
 
-        if(this.typeValue === 'image' && this.hasImageValue) {
+        if (this.typeValue === 'image' && this.hasImageValue) {
             this.htmlValue = `<img src='${window.location.origin}/media/${this.imageValue}'>`;
             this.show();
             return;
@@ -36,7 +36,7 @@ export default class extends Controller {
         this.loadingValue = true;
 
         try {
-            if(this.typeValue === 'image'){
+            if (this.typeValue === 'image') {
                 return;
             }
 
@@ -63,6 +63,10 @@ export default class extends Controller {
         this.closeTarget.classList.add(this.hiddenClass);
         this.embedTarget.classList.add('d-inline');
         this.isVisibleValue = false;
+
+        if (this.element.classList.contains('kbin-embed-content')) {
+            this.element.getElementsByClassName('kbin-clearfix')[0].remove();
+        }
     }
 
     show() {
@@ -71,6 +75,14 @@ export default class extends Controller {
         this.closeTarget.classList.remove(this.hiddenClass);
         this.embedTarget.classList.remove('d-inline');
         this.isVisibleValue = true;
+
+        if (this.element.classList.contains('kbin-embed-content')) {
+            const span = document.createElement('span')
+            span.classList.add('clearfix', 'kbin-clearfix');
+
+            const link = this.element.getElementsByTagName('a')[0];
+            link.parentNode.insertBefore(span, link.nextSibling);
+        }
     }
 
     loadingValueChanged() {
