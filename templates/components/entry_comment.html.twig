@@ -9,7 +9,7 @@
 {% endif %}
 
 <blockquote id="{{ this.comment.id }}"
-            class="kbin-comment {{ this.extraClass }} kbin-comment--{{ this.level > 1 ? 'nested' : 'top-level' }}
+            class="kbin-comment {{ this.extraClass }} py-3 kbin-comment--{{ this.level > 1 ? 'nested' : 'top-level' }}
              kbin-comment-level--{{ this.level >= 8 ? 'last' : this.level }} shadow-sm  {{ this.comment.user.avatar ? '' : 'ps-2' }}"
             data-controller="comment report"
             data-comment-id-value="{{ this.comment.id }}"
