@@ -76,7 +76,6 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     public ?string $ip = null;
     /**
      * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="post", orphanRemoval=true)
-     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     public Collection $comments;
     /**
