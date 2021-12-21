@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -24,7 +25,8 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $repository,
+        private NotificationRepository $notificationRepository,
+        private MagazineSubscriptionRepository $magazineRepository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private UserFactory $userFactory,
@@ -153,5 +155,14 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
+    }
+
+    public function purgeNotifications(EntryComment $comment)
+    {
+        $notificationsIds = $this->notificationRepository->findEntryCommentNotificationsIds($comment);
+
+        foreach ($notificationsIds as $id) {
+            $this->entityManager->remove($this->notificationRepository->find($id));
+        }
     }
 }

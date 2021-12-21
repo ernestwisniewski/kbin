@@ -258,12 +258,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function getModeratedMagazines(): Collection
     {
+        // Tokens
         $this->moderatorTokens->get(-1);
-
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('isConfirmed', true));
+        $tokens = $this->moderatorTokens->matching($criteria);
 
-        return $this->moderatorTokens->matching($criteria);
+        // Magazines
+        $magazines = $tokens->map(fn($token) => $token->magazine);
+        $criteria = Criteria::create()
+            ->orderBy(['lastActive' => Criteria::DESC]);
+
+        return $magazines->matching($criteria);
     }
 
     public function addEntry(Entry $entry): self

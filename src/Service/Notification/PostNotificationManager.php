@@ -9,6 +9,7 @@ use App\Entity\PostCreatedNotification;
 use App\Entity\PostDeletedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -21,7 +22,8 @@ class PostNotificationManager implements ContentNotificationManagerInterface
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $repository,
+        private NotificationRepository $notificationRepository,
+        private MagazineSubscriptionRepository $magazineRepository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private PublisherInterface $publisher,
@@ -37,7 +39,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
          */
         $this->notifyMagazine($subject, new PostCreatedNotification($subject->user, $subject));
 
-        $subs    = $this->getUsersToNotify($this->repository->findNewPostSubscribers($subject));
+        $subs    = $this->getUsersToNotify($this->magazineRepository->findNewPostSubscribers($subject));
         $follows = [];
 
         $usersToNotify = $this->merge($subs, $follows);
@@ -89,5 +91,14 @@ class PostNotificationManager implements ContentNotificationManagerInterface
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
+    }
+
+    public function purgeNotifications(Post $post)
+    {
+        $notificationsIds = $this->notificationRepository->findPostNotificationsIds($post);
+
+        foreach ($notificationsIds as $id) {
+            $this->entityManager->remove($this->notificationRepository->find($id));
+        }
     }
 }

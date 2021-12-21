@@ -23,7 +23,7 @@ class EntryComments extends AbstractController
     public function __invoke(Entry $entry)
     {
         try {
-            $criteria              = new EntryCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria              = new EntryCommentPageView((int) $this->request->getCurrentRequest()->get('p', 1));
             $criteria->entry       = $entry;
             $criteria->onlyParents = false;
 

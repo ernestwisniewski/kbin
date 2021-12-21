@@ -23,7 +23,7 @@ class PostComments extends AbstractController
     public function __invoke(Post $post)
     {
         try {
-            $criteria              = new PostCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria              = new PostCommentPageView((int) $this->request->getCurrentRequest()->get('p', 1));
             $criteria->post        = $post;
             $criteria->onlyParents = false;
 

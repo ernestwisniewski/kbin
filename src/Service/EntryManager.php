@@ -12,6 +12,7 @@ use App\Event\Entry\EntryPinEvent;
 use App\Event\Entry\EntryUpdatedEvent;
 use App\Factory\EntryFactory;
 use App\Service\Contracts\ContentManagerInterface;
+use App\Service\Notification\EntryNotificationManager;
 use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,7 @@ class EntryManager implements ContentManagerInterface
         private UrlCleaner $urlCleaner,
         private Slugger $slugger,
         private RateLimiterFactory $postLimiter,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     ) {
     }
 

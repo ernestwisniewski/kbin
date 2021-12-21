@@ -31,6 +31,13 @@ user_replies:
     pl: /u/{username}/replies
   methods: [ GET ]
 
+user_moderated:
+  controller: App\Controller\User\UserFrontController::moderated
+  path:
+    en: /u/{username}/moderated
+    pl: /u/{username}/moderowane
+  methods: [ GET ]
+
 user_subscriptions:
   controller: App\Controller\User\UserFrontController::subscriptions
   path:

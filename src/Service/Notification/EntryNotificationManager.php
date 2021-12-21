@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -9,6 +9,7 @@ use App\Entity\EntryCreatedNotification;
 use App\Entity\EntryDeletedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -21,7 +22,8 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $repository,
+        private NotificationRepository $notificationRepository,
+        private MagazineSubscriptionRepository $magazineRepository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private PublisherInterface $publisher,
@@ -37,7 +39,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
          */
         $this->notifyMagazine(new EntryCreatedNotification($subject->user, $subject));
 
-        $subs      = $this->getUsersToNotify($this->repository->findNewEntrySubscribers($subject));
+        $subs      = $this->getUsersToNotify($this->magazineRepository->findNewEntrySubscribers($subject));
         $followers = [];
 
         $usersToNotify = $this->merge($subs, $followers);
@@ -89,5 +91,14 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
+    }
+
+    public function purgeNotifications(Entry $entry)
+    {
+        $notificationsIds = $this->notificationRepository->findEntryNotificationsIds($entry);
+
+        foreach ($notificationsIds as $id) {
+            $this->entityManager->remove($this->notificationRepository->find($id));
+        }
     }
 }
