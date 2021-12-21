@@ -76,6 +76,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     public ?string $ip = null;
     /**
      * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="post", orphanRemoval=true)
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     public Collection $comments;
     /**
@@ -140,12 +141,22 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
 
     public function getBestComments(): Collection
     {
-        return new ArrayCollection($this->comments->slice(0, 2));
+        $criteria = Criteria::create()
+            ->orderBy(['upVotes'=> 'DESC', 'createdAt' => 'DESC']);
+
+        $comments =  $this->comments->matching($criteria);
+
+        return new ArrayCollection($comments->slice(0, 2));
     }
 
     public function getLastComments(): Collection
     {
-        return new ArrayCollection($this->comments->slice(-2, 2));
+        $criteria = Criteria::create()
+            ->orderBy(['createdAt' => 'ASC']);
+
+        $comments =  $this->comments->matching($criteria);
+
+        return new ArrayCollection($comments->slice(-2, 2));
     }
 
     public function addComment(PostComment $comment): self
