@@ -33,6 +33,8 @@ export default class extends Controller {
             } finally {
             }
         } else {
+            alert('Zaloguj się, aby uniknąć efektu miagania.')
+
             if (!Cookies.get('theme')) {
                 document.body.classList.add('kbin-dark');
                 Cookies.set('theme', 'kbin-dark');
@@ -41,8 +43,6 @@ export default class extends Controller {
 
             Cookies.set('theme', document.body.classList.contains('kbin-dark') ? 'kbin-light' : 'kbin-dark');
             document.body.classList.toggle('kbin-dark');
-
-            alert('Zaloguj się, aby uniknąć efektu miagania.')
         }
     }
 }
