@@ -7,6 +7,7 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\PageView\PostCommentPageView;
+use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;
 use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -95,8 +96,9 @@ class AjaxController extends AbstractController
 
     public function fetchPostComments(Post $post, PostCommentRepository $repository): JsonResponse
     {
-        $criteria       = new PostCommentPageView(1);
-        $criteria->post = $post;
+        $criteria             = new PostCommentPageView(1);
+        $criteria->post       = $post;
+        $criteria->sortOption = Criteria::SORT_NEW;
 
         $comments = $repository->findByCriteria($criteria);
 

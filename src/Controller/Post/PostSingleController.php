@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Post;
 
@@ -7,6 +7,7 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
 use App\PageView\PostCommentPageView;
+use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -27,6 +28,7 @@ class PostSingleController extends AbstractController
         Request $request
     ): Response {
         $criteria = new PostCommentPageView($this->getPageNb($request));
+        $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->post = $post;
 
         $dispatcher->dispatch((new PostHasBeenSeenEvent($post)));
