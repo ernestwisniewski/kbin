@@ -65,6 +65,12 @@
     </section>
     {% include '_layout/_footer.html.twig' %}
 
+    <div class="kbin-cookies d-none" data-controller="cookie-info">
+        <div class="container py-3 text-center">
+            <p>Ta strona korzysta z ciasteczek (cookies), które używane są do obsługi logowania i zapamiętania motywu niezalogowanego użytkownika.</p>
+            <button data-action="click->cookie-info#close" type="button" class="btn btn-primary">Rozumiem</button>
+        </div>
+    </div>
     <div aria-live="polite" aria-atomic="true" class="position-relative d-none d-xl-block">
         <div class="kbin-toast-container toast-container position-fixed bottom-0 end-0 p-3">
 

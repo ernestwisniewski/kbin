@@ -3,7 +3,7 @@
 {% from '_layout/_macros.html.twig' import post_url %}
 
 <blockquote id="{{ this.post.id }}"
-            class="kbin-post {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }}"
+            class="kbin-post py-3 {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }}"
             data-controller="post report comment-counter"
             data-action="notify:PostCommentCreatedNotification@window->comment-counter#increase"
             data-comment-counter-subject-id-value="{{ this.post.id }}"
