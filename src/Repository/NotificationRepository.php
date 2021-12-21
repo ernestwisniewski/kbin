@@ -1,10 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
 use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\Notification;
 use App\Entity\Post;
+use App\Entity\PostComment;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -82,5 +84,61 @@ class NotificationRepository extends ServiceEntityRepository
             fn($notification) => (isset($notification->post) && $notification->post === $post)
                 || (isset($notification->postComment) && $notification->postComment->post === $post)
         );
+    }
+
+    public function findEntryNotificationsIds(Entry $entry): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        $sql = 'SELECT id FROM notification n WHERE n.entry_id = :entry';
+
+        $stmt = $conn->prepare($sql);
+
+        $results = $stmt->executeQuery(['entry' => $entry->getId()])->fetchAllAssociative();
+
+        return array_map(fn($val) => $val['id'], $results);
+    }
+
+    public function findEntryCommentNotificationsIds(EntryComment $comment): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        $sql = 'SELECT id FROM notification n WHERE n.entry_comment_id = :comment';
+
+        $stmt = $conn->prepare($sql);
+
+        $results = $stmt->executeQuery(['comment' => $comment->getId()])->fetchAllAssociative();
+
+        return array_map(fn($val) => $val['id'], $results);
+    }
+
+    public function findPostNotificationsIds(Post $post): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        $sql = 'SELECT id FROM notification n WHERE n.post_id = :post';
+
+        $stmt = $conn->prepare($sql);
+
+        $results = $stmt->executeQuery(['post' => $post->getId()])->fetchAllAssociative();
+
+        return array_map(fn($val) => $val['id'], $results);
+    }
+
+    public function findPostCommentNotificationsIds(PostComment $comment): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        $sql = 'SELECT id FROM notification n WHERE n.post_comment_id = :comment';
+
+        $stmt = $conn->prepare($sql);
+
+        $results = $stmt->executeQuery(['comment' => $comment->getId()])->fetchAllAssociative();
+
+        return array_map(fn($val) => $val['id'], $results);
     }
 }

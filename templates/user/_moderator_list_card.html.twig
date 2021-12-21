@@ -5,12 +5,18 @@
                 {{ 'topbar.moderated'|trans }}
             </div>
             <ul class="list-group list-group-flush">
-                {% for moderator in user.moderatorTokens %}
+                {% for magazine in user.moderatedMagazines|slice(0, 5) %}
                     <li class="list-group-item">
                         <span class="text-muted">/m/</span><a class="text-decoration-none stretched-link"
-                                                              href="{{ path('front_magazine', {'name': moderator.magazine.name}) }}">{{ moderator.magazine.name }}</a>
+                                                              href="{{ path('front_magazine', {'name': magazine.name}) }}">{{ magazine.name }}</a>
                     </li>
                 {% endfor %}
+                {% if user.moderatorTokens|length > 5 %}
+                    <li class="list-group-item text-center">
+                        <a class="text-decoration-none stretched-link"
+                           href="{{ path('user_moderated', {username: user.username}) }}">{{ 'more'|trans }}...</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

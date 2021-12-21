@@ -55,6 +55,9 @@
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_replies') ? 'kbin-nav-navbar-item--active' : '' }}">
                             <a href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}</a>
                         </li>
+                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_moderated') ? 'kbin-nav-navbar-item--active' : '' }}">
+                            <a href="{{ path('user_moderated', {username: user.username}) }}">{{ 'topbar.moderated'|trans }}</a>
+                        </li>
                         <li class=" kbin-nav-navbar-item {{ is_active_route('user_subscriptions') ? 'kbin-nav-navbar-item--active' : '' }}">
                             <a href="{{ path('user_subscriptions', {username: user.username}) }}">{{ 'subscriptions'|trans }}</a>
                         </li>

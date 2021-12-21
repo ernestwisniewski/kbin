@@ -62,7 +62,7 @@ class DeleteUserHandler implements MessageHandlerInterface
 
         $retry =
             $this->removeMeta()
-            || $this->removeNotifications()
+//            || $this->removeNotifications()
             || $this->removeMagazineSubscriptions()
             || $this->removeMagazineBlocks()
             || $this->removeUserFollows()

@@ -31,7 +31,7 @@ final class PostCommentCollectionDataProvider implements ContextAwareCollectionD
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         try {
-            $criteria             = new PostCommentPageView((int) $this->request->getCurrentRequest()->get('page', 1));
+            $criteria             = new PostCommentPageView((int) $this->request->getCurrentRequest()->get('p', 1));
             $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
             $criteria->time       = $criteria->resolveTime($this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL));
 

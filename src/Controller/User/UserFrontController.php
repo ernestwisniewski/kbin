@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\User;
 
@@ -92,6 +92,17 @@ class UserFrontController extends AbstractController
             [
                 'user'     => $user,
                 'comments' => $comments,
+            ]
+        );
+    }
+
+    public function moderated(User $user, MagazineRepository $repository, Request $request): Response
+    {
+        return $this->render(
+            'user/moderated.html.twig',
+            [
+                'user'      => $user,
+                'magazines' => $repository->findModeratedMagazines($user, (int) $request->get('p', 1)),
             ]
         );
     }

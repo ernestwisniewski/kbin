@@ -1,10 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
+use App\Entity\Moderator;
 use App\Entity\Report;
 use App\Entity\User;
 use DateTime;
@@ -37,7 +38,8 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findAllPaginated(?int $page): PagerfantaInterface
     {
-        $qb = $this->createQueryBuilder('m');
+        $qb         = $this->createQueryBuilder('m')
+            ->orderBy('m.subscriptionsCount', 'DESC');
 
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -178,5 +180,30 @@ class MagazineRepository extends ServiceEntityRepository
             ->setFirstResult($rowToFetch)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findModeratedMagazines(User $user, ?int $page = 1): PagerfantaInterface
+    {
+        $dql =
+            'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
+            'SELECT IDENTITY(md.magazine) FROM '.Moderator::class.' md WHERE md.user = :user'.') ORDER BY m.lastActive DESC';
+
+        $query = $this->getEntityManager()->createQuery($dql)
+            ->setParameter('user', $user);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
     }
 }

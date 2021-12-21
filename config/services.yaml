@@ -116,3 +116,7 @@ services:
   FOS\ElasticaBundle\Finder\TransformedFinder: ~
 
   FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@FOS\ElasticaBundle\Finder\TransformedFinder'
+
+  App\EventListener\ContentNotificationPurgeListener:
+    tags:
+      - { name: doctrine.event_listener, event: preRemove }

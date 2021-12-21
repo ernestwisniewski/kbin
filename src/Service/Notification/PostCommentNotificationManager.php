@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -24,7 +25,8 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $repository,
+        private NotificationRepository $notificationRepository,
+        private MagazineSubscriptionRepository $magazineRepository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private UserFactory $userFactory,
@@ -152,5 +154,14 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
+    }
+
+    public function purgeNotifications(PostComment $comment)
+    {
+        $notificationsIds = $this->notificationRepository->findPostCommentNotificationsIds($comment);
+
+        foreach ($notificationsIds as $id) {
+            $this->entityManager->remove($this->notificationRepository->find($id));
+        }
     }
 }
