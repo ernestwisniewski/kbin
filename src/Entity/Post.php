@@ -141,7 +141,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     public function getBestComments(): Collection
     {
         $criteria = Criteria::create()
-            ->orderBy(['upVotes'=> 'DESC', 'createdAt' => 'DESC']);
+            ->orderBy(['upVotes'=> 'DESC', 'createdAt' => 'ASC']);
 
         $comments =  $this->comments->matching($criteria);
 
