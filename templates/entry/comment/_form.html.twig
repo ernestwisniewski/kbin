@@ -1,4 +1,4 @@
-{{ form_start(form) }}
+{{ form_start(form, { 'attr': {'data-controller': 'media', class: 'kbin-media' }}) }}
 <div class="col-xs-12 clearfix">
     <div class="kbin-comment-create-form my-3">
         <div class="mb-3">
@@ -7,10 +7,36 @@
         </div>
 
         <div class="mb-12 text-end btn-group float-end">
-            <div class="input-group input-group-lg me-2">
-                {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
+            <div class="input-group me-2">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#media-modal-{{ comment is null ? entry.id : comment.id }}" data-media-target="modalButton">
+                    <i class="fas fa-camera"></i>
+                </button>
             </div>
+
+            <canvas data-media-target="canvas" class="d-none me-2"></canvas>
+
             {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-comment-send btn-primary'} }) }}
+        </div>
+    </div>
+</div>
+
+<div id="media-modal-{{ comment is null ? entry.id : comment.id }}" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dodaj zdjęcie <strike>lub film</strike></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-media-target="close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                    <small>wklej adres</small>
+                    <small class="ms-2 font-weight-bold" data-action="click->media#add">wybierz plik</small>
+                </div>
+                <div class="input-group input-group-lg me-2">
+                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-action': 'media#add' }}) }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

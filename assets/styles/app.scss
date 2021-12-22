@@ -21,6 +21,7 @@ svg.ada {
 @import "components/toast";
 @import "components/featured-magazines";
 @import "components/cookies";
+@import "components/media";
 @import "components/navbar";
 @import "components/footer";
 @import "components/sidebar";
@@ -153,30 +154,6 @@ a {
 .spinner-border {
   width: 1rem;
   height: 1rem;
-}
-
-.kbin-comment-main,
-.kbin-post-main,
-.kbin-entry-page,
-.kbin-posts-page {
-
-  input[type=file] {
-    opacity: .7;
-    max-width: 10rem;
-  }
-
-  input[type=file]::-webkit-file-upload-button {
-    width: 0;
-    padding: 0;
-    -webkit-appearance: none;
-    border: none;
-  }
-
-  ::-webkit-file-upload-button, input[type=file]:after {
-    left: 100%;
-    position: relative;
-    -webkit-appearance: button;
-  }
 }
 
 .scroll-progress {

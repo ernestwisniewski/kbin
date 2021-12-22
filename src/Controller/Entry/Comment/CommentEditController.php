@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Entry\Comment;
 
@@ -51,7 +51,7 @@ class CommentEditController extends AbstractController
         }
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
+            return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig', ['comment' => $comment]);
         }
 
         $criteria = new EntryCommentPageView($this->getPageNb($request));
