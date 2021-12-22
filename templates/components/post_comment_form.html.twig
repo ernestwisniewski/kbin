@@ -1,3 +1,3 @@
 {% set form = this.form %}
 
-{{ include('post/comment/_form.html.twig') }}
+{% include 'post/comment/_form.html.twig' with {'post': this.post} %}

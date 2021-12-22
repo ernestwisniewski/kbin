@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Post\Comment;
 
@@ -52,7 +52,7 @@ class CommentEditController extends AbstractController
         $criteria->post = $post;
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig');
+            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig', ['comment' => $comment]);
         }
 
         $comments = $this->repository->findByCriteria($criteria);

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -56,7 +56,7 @@ abstract class AbstractController extends BaseAbstractController
         );
     }
 
-    protected function getJsonFormResponse(FormInterface $form, string $template): JsonResponse
+    protected function getJsonFormResponse(FormInterface $form, string $template, ?array $variables = null): JsonResponse
     {
         return new JsonResponse(
             [
@@ -64,7 +64,7 @@ abstract class AbstractController extends BaseAbstractController
                     $template,
                     [
                         'form' => $form->createView(),
-                    ]
+                    ] + ($variables ?? [])
                 ),
             ]
         );
