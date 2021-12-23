@@ -11,10 +11,12 @@ use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Event\PostComment\PostCommentUpdatedEvent;
 use App\Factory\PostCommentFactory;
+use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
@@ -24,6 +26,7 @@ class PostCommentManager implements ContentManagerInterface
         private PostCommentFactory $factory,
         private EventDispatcherInterface $dispatcher,
         private RateLimiterFactory $postCommentLimiter,
+        private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -87,12 +90,17 @@ class PostCommentManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostCommentBeforePurgeEvent($comment));
 
         $magazine = $comment->post->magazine;
+        $image    = $comment->image?->filePath;
         $comment->post->removeComment($comment);
 
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new PostCommentPurgedEvent($magazine));
+
+        if ($image) {
+            $this->bus->dispatch(new DeleteImageMessage($image));
+        }
     }
 
     private function isTrashed(User $user, PostComment $comment): bool

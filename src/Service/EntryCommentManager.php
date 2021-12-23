@@ -11,10 +11,12 @@ use App\Event\EntryComment\EntryCommentDeletedEvent;
 use App\Event\EntryComment\EntryCommentPurgedEvent;
 use App\Event\EntryComment\EntryCommentUpdatedEvent;
 use App\Factory\EntryCommentFactory;
+use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
@@ -24,6 +26,7 @@ class EntryCommentManager implements ContentManagerInterface
         private EntryCommentFactory $factory,
         private EventDispatcherInterface $dispatcher,
         private RateLimiterFactory $entryCommentLimiter,
+        private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -86,10 +89,15 @@ class EntryCommentManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new EntryCommentBeforePurgeEvent($comment));
 
         $magazine = $comment->entry->magazine;
+        $image    = $comment->image?->filePath;
         $comment->entry->removeComment($comment);
 
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
+
+        if ($image) {
+            $this->bus->dispatch(new DeleteImageMessage($image));
+        }
 
         $this->dispatcher->dispatch(new EntryCommentPurgedEvent($magazine));
     }

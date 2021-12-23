@@ -10,11 +10,13 @@ use App\Event\Post\PostCreatedEvent;
 use App\Event\Post\PostDeletedEvent;
 use App\Event\Post\PostUpdatedEvent;
 use App\Factory\PostFactory;
+use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
@@ -25,6 +27,7 @@ class  PostManager implements ContentManagerInterface
         private EventDispatcherInterface $dispatcher,
         private Slugger $slugger,
         private RateLimiterFactory $postLimiter,
+        private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -87,10 +90,16 @@ class  PostManager implements ContentManagerInterface
     {
         $this->dispatcher->dispatch(new PostBeforePurgeEvent($post));
 
+        $image    = $post->image?->filePath;
+
         $post->magazine->removePost($post);
 
         $this->entityManager->remove($post);
         $this->entityManager->flush();
+
+        if ($image) {
+            $this->bus->dispatch(new DeleteImageMessage($image));
+        }
     }
 
     private function isTrashed(User $user, Post $post): bool
