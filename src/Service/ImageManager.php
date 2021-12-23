@@ -1,9 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Exception\CorruptedFileException;
 use App\Exception\ImageDownloadTooLargeException;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use League\Flysystem\FilesystemInterface;
 use RuntimeException;
@@ -24,7 +25,8 @@ class ImageManager
         private FilesystemInterface $publicUploadsFilesystem,
         private HttpClientInterface $httpClient,
         private MimeTypesInterface $mimeTypeGuesser,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -146,7 +148,8 @@ class ImageManager
         return sprintf('%s.%s', $hash, $ext);
     }
 
-    public function remove(\App\Entity\Image $image)
+    public function remove(string $path):void
     {
+        $this->publicUploadsFilesystem->delete($path);
     }
 }

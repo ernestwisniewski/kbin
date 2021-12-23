@@ -11,13 +11,14 @@ use App\Event\Entry\EntryDeletedEvent;
 use App\Event\Entry\EntryPinEvent;
 use App\Event\Entry\EntryUpdatedEvent;
 use App\Factory\EntryFactory;
+use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
-use App\Service\Notification\EntryNotificationManager;
 use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Webmozart\Assert\Assert;
 
@@ -29,14 +30,15 @@ class EntryManager implements ContentManagerInterface
         private BadgeManager $badgeManager,
         private UrlCleaner $urlCleaner,
         private Slugger $slugger,
-        private RateLimiterFactory $postLimiter,
+        private RateLimiterFactory $entryLimiter,
+        private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager,
     ) {
     }
 
     public function create(EntryDto $dto, User $user): Entry
     {
-        $limiter = $this->postLimiter->create($dto->ip);
+        $limiter = $this->entryLimiter->create($dto->ip);
         if (false === $limiter->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }
@@ -102,10 +104,16 @@ class EntryManager implements ContentManagerInterface
     {
         $this->dispatcher->dispatch(new EntryBeforePurgeEvent($entry));
 
+        $image = $entry->image?->filePath;
+
         $entry->magazine->removeEntry($entry);
 
         $this->entityManager->remove($entry);
         $this->entityManager->flush();
+
+        if ($image) {
+            $this->bus->dispatch(new DeleteImageMessage($image));
+        }
     }
 
     public function pin(Entry $entry): Entry
