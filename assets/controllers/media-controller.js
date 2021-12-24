@@ -1,7 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = ['modalButton', 'canvas', 'close']
+    static targets = ['modalButton', 'deleteButton', 'fileInput', 'canvas', 'close']
 
     add(e) {
         let reader = new FileReader();
@@ -19,8 +19,22 @@ export default class extends Controller {
         reader.readAsDataURL(e.target.files[0]);
 
         this.canvasTarget.classList.remove('d-none');
+        this.deleteButtonTarget.classList.remove('d-none');
         this.modalButtonTarget.classList.add('d-none');
 
         this.closeTarget.click();
+    }
+
+    async delete() {
+        if (this.hasCanvasTarget) {
+            this.canvasTarget.getContext('2d').clearRect(0, 0, 0, 0);
+
+            this.canvasTarget.classList.add('d-none');
+            this.deleteButtonTarget.classList.add('d-none');
+
+            this.modalButtonTarget.classList.remove('d-none');
+
+            this.fileInputTarget.value = '';
+        }
     }
 }
