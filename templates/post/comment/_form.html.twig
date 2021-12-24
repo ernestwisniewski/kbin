@@ -14,6 +14,7 @@
                 </button>
             </div>
 
+            <button data-action="media#delete" data-media-target="deleteButton" type="button" class="btn-close me-2 d-none" aria-label="Close"></button>
             <canvas data-media-target="canvas" class="d-none me-2"></canvas>
 
             {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-comment-send btn-primary'} }) }}
@@ -34,7 +35,7 @@
                     <small class="ms-2 font-weight-bold" data-action="click->media#add">wybierz plik</small>
                 </div>
                 <div class="input-group input-group-lg me-2">
-                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-action': 'media#add' }}) }}
+                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-action': 'media#add', 'data-media-target': 'fileInput' }}) }}
                 </div>
             </div>
         </div>
