@@ -21,9 +21,15 @@ post_comment_delete:
   methods: [ POST ]
 
 post_comment_purge:
-  controller: App\Controller\Comment\CommentDeleteController::purge
+  controller: App\Controller\Post\Comment\CommentDeleteController::purge
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/purge
+  methods: [ POST ]
+
+post_comment_image_delete:
+  controller: App\Controller\Post\Comment\CommentDeleteImageController
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/delete_image
   methods: [ POST ]
 
 post_comment_voters:

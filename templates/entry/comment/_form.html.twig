@@ -26,7 +26,6 @@
                     class="btn-close me-2 {{ hasImage ? '' : 'd-none' }}"
                     aria-label="Close"></button>
 
-
             {% if hasImage %}
                 <img data-media-target="thumb" src="{{ asset(comment.image.filePath) | imagine_filter('post_thumb') }}" alt="" class="me-2"/>
             {% else %}
