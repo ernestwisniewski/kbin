@@ -112,4 +112,16 @@ class PostCommentManager implements ContentManagerInterface
     {
         return $this->factory->createDto($comment);
     }
+
+    public function detachImage(PostComment $comment): void
+    {
+        $image = $comment->image->filePath;
+
+        $comment->image = null;
+
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush();
+
+        $this->bus->dispatch(new DeleteImageMessage($image));
+    }
 }

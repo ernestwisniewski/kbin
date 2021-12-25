@@ -20,7 +20,9 @@
                 </button>
             </div>
 
-            <button data-action="media#delete" data-media-target="deleteButton" type="button"
+            <button data-action="media#delete"
+                    data-media-url-param="{{ hasImage ? path('post_comment_image_delete', {magazine_name: comment.magazine.name, post_id: comment.post.id, comment_id: comment.id}) : '' }}"
+                    data-media-target="deleteButton" type="button"
                     class="btn-close me-2 {{ hasImage ? '' : 'd-none' }}"
                     aria-label="Close"></button>
 

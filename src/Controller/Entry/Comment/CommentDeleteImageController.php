@@ -40,6 +40,6 @@ class CommentDeleteImageController extends AbstractController
             );
         }
 
-        return $this->redirectToEntry($entry);
+        return $this->redirectToRefererOrHome($request);
     }
 }

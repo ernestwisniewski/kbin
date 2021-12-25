@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Post\Comment;
 
@@ -48,11 +48,6 @@ class CommentDeleteController extends AbstractController
 
         $this->manager->purge($comment);
 
-        return $this->redirectToRoute(
-            'front_magazine',
-            [
-                'name' => $magazine->name,
-            ]
-        );
+        return $this->redirectToRefererOrHome($request);
     }
 }
