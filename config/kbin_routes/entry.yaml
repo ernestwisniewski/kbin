@@ -26,6 +26,12 @@ entry_comment_purge:
   path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/purge
   methods: [ POST ]
 
+entry_comment_image_delete:
+  controller: App\Controller\Entry\Comment\CommentDeleteImageController
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/delete_image
+  methods: [ POST ]
+
 entry_comment_voters:
   controller: App\Controller\Entry\Comment\EntryCommentVotersController
   defaults: { slug: -, }
