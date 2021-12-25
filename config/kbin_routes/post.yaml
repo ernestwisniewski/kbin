@@ -123,6 +123,12 @@ post_purge:
   path: /m/{magazine_name}/p/{post_id}/{slug}/purge
   methods: [ POST ]
 
+post_image_delete:
+  controller: App\Controller\Post\PostDeleteImageController
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/delete_image
+  methods: [ POST ]
+
 post:
   controller: App\Controller\Post\PostFrontController::front
   defaults: { slug: -, sortBy: ~ }

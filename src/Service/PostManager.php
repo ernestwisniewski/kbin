@@ -90,7 +90,7 @@ class  PostManager implements ContentManagerInterface
     {
         $this->dispatcher->dispatch(new PostBeforePurgeEvent($post));
 
-        $image    = $post->image?->filePath;
+        $image = $post->image?->filePath;
 
         $post->magazine->removePost($post);
 
@@ -110,5 +110,17 @@ class  PostManager implements ContentManagerInterface
     public function createDto(Post $post): PostDto
     {
         return $this->factory->createDto($post);
+    }
+
+    public function detachImage(Post $post)
+    {
+        $image = $post->image->filePath;
+
+        $post->image = null;
+
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+
+        $this->bus->dispatch(new DeleteImageMessage($image));
     }
 }
