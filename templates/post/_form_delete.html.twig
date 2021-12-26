@@ -4,7 +4,7 @@
               magazine_name: post.magazine.name,
               post_id: post.id,
           }) }}"
-          onsubmit="return confirm('You sure?');">
+          onsubmit="return confirm({{ 'are_you_sure'|trans }});">
         <div class="col-xs-12">
             <div class="kbin-magazine-create-form">
                 <div class="input-group-sm mb-3 text-end">

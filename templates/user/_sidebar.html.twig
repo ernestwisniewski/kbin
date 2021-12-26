@@ -57,7 +57,7 @@
             <div class="card-body">
                 <ul class="list-unstyled clearfix mb-0 pb-0">
                     <li>
-                        <form action="{{ path('user_delete', {username: user.username}) }}" method="POST" onsubmit="return confirm('You sure?');">
+                        <form action="{{ path('user_delete', {username: user.username}) }}" method="POST" onsubmit="return confirm({{ 'are_you_sure'|trans }});">
                             <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
                             <button type="submit" class="btn btn-link">
                                 <span class="small"><i class="fa fa-trash"></i> {{ 'delete_account'|trans }}</span>
@@ -65,7 +65,7 @@
                         </form>
                     </li>
                     <li>
-                        <form action="{{ path('user_purge', {username: user.username}) }}" method="POST" onsubmit="return confirm('You sure?');">
+                        <form action="{{ path('user_purge', {username: user.username}) }}" method="POST" onsubmit="return confirm({{ 'are_you_sure'|trans }});">
                             <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
                             <button type="submit" class="btn btn-link">
                                 <span class="small"><i class="fa fa-trash"></i> {{ 'purge_account'|trans }}</span>
@@ -74,7 +74,7 @@
                     </li>
                     <li>
                         <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}" method="POST"
-                              onsubmit="return confirm('You sure?');">
+                              onsubmit="return confirm({{ 'are_you_sure'|trans }});">
                             <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
                             <button type="submit" class="btn btn-link">
                                 <span class="small"><i class="fa fa-trash"></i> {{ user.isBanned ? 'unban_account': 'ban_account'|trans }}</span>

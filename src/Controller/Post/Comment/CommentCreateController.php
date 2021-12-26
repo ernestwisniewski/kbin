@@ -62,7 +62,7 @@ class CommentCreateController extends AbstractController
         }
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig', ['post' => $post, 'comment' => $parent]);
+            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig', ['post' => $post, 'parent' => $parent]);
         }
 
         $criteria       = new PostCommentPageView($this->getPageNb($request));

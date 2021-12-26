@@ -29,6 +29,10 @@ export default class extends Controller {
     async delete(event) {
         event.preventDefault();
 
+        if (confirm('Jesteś pewien?') === false) {
+            return;
+        }
+
         if (this.hasCanvasTarget) {
             this.canvasTarget.getContext('2d').clearRect(0, 0, 0, 0);
 

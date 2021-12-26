@@ -126,7 +126,7 @@
                                       entry_id: this.comment.entry.id,
                                       comment_id: this.comment.id,
                                   }) }}"
-                                  onsubmit="return confirm('You sure?');">
+                                  onsubmit="return confirm({{ 'are_you_sure'|trans }});">
                                 <input type="hidden" name="token" value="{{ csrf_token('entry_comment_delete') }}">
                                 <button type="submit" class="btn btn-link">
                                     <span>{{ 'delete'|trans }}</span>
@@ -165,7 +165,7 @@
                                           entry_id: this.comment.entry.id,
                                           comment_id: this.comment.id,
                                       }) }}"
-                                      onsubmit="return confirm('You sure?');">
+                                      onsubmit="return confirm({{ 'are_you_sure'|trans }});">
                                     <input type="hidden" name="token" value="{{ csrf_token('entry_comment_delete') }}">
                                     <button type="submit" class="btn btn-link">
                                         <span>{{ 'delete'|trans }}</span>
@@ -181,7 +181,7 @@
                                               entry_id: this.comment.entry.id,
                                               comment_id: this.comment.id,
                                           }) }}"
-                                          onsubmit="return confirm('You sure?');">
+                                          onsubmit="return confirm({{ 'are_you_sure'|trans }});">
                                         <input type="hidden" name="token" value="{{ csrf_token('entry_comment_purge') }}">
                                         <button type="submit" class="btn btn-link">
                                             <span>{{ 'purge'|trans }}</span>
