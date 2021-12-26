@@ -14,7 +14,7 @@
         <div class="mb-12 text-end btn-group float-end">
             <div class="input-group me-2">
                 <button type="button" class="btn btn-secondary {{ hasImage ? 'd-none' : '' }}" data-bs-toggle="modal"
-                        data-bs-target="#media-modal-{{ comment is null ? entry.id : comment.id }}"
+                        data-bs-target="#media-modal-{{ comment is not defined or comment is null ? entry.id : comment.id }}"
                         data-media-target="modalButton">
                     <i class="fas fa-camera"></i>
                 </button>
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div id="media-modal-{{ comment is null ? entry.id : comment.id }}" class="modal" tabindex="-1">
+<div id="media-modal-{{ comment is not defined or comment is null ? entry.id : comment.id }}" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

@@ -25,7 +25,7 @@
                 <td>
                     <form method="post"
                           action="{{ path('magazine_panel_unban', {magazine_name: ban.magazine.name, user_username: ban.user.username}) }}"
-                          onsubmit="return confirm('You sure?');">
+                          onsubmit="return confirm({{ 'are_you_sure'|trans }});">
                         <input type="hidden" name="token" value="{{ csrf_token('magazine_unban') }}">
                         <button class="btn btn-sm btn-danger">{{ 'delete'|trans }}</button>
                     </form>
