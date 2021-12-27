@@ -10,7 +10,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends BaseFixture
 {
-    const USERS_COUNT = 15;
+    const USERS_COUNT = 9;
 
     public function __construct(
         private UserPasswordHasherInterface $hasher,

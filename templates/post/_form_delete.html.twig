@@ -1,5 +1,6 @@
 {% if is_granted('delete', post) %}
     <form method="post"
+          class="mt-2"
           action="{{ path('post_delete', {
               magazine_name: post.magazine.name,
               post_id: post.id,
