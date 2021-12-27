@@ -7,5 +7,7 @@
 {% elseif subject is post_comment %}
     {{ component('post_comment',{comment: subject, withParent: true}) }}
 {% elseif subject is magazine %}
-    {{ component('magazine',{magazine: subject}) }}
+    <div class="my-5">
+        {{ component('magazine',{magazine: subject}) }}
+    </div>
 {% endif %}
