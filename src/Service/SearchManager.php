@@ -15,17 +15,26 @@ class SearchManager
 
     public function findPaginated(string $val, int $page = 1): PagerfantaInterface
     {
-//        if($magazine)
-//        {
-//            $repo = $this->manager->getRepository('magazines');
-//        }
-
         $query = new MultiMatch();
         $query->setQuery(
             $val
         );
 
         return $this->repo->search($query, $page);
+    }
+
+    public function findMagazinesPaginated(string $magazine, int $page = 1): PagerfantaInterface
+    {
+        $repo = $this->manager->getRepository('magazines');
+
+        $query = new MultiMatch();
+        $query->setQuery(
+            $magazine
+        );
+
+        return $repo->findPaginated($query)
+            ->setCurrentPage($page)
+            ->setMaxPerPage(50);
     }
 
     public function findRelated(string $query): array

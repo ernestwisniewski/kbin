@@ -48,7 +48,7 @@
                     <span class="text-muted">{{ 'author'|trans }}:</span> {{ user(this.magazine.getOwner, {prefix: false}) }}
                 </li>
                 <li class="list-group-item">
-                    <span class="text-muted">{{ 'subscribers'|trans }}:</span> 1
+                    <span class="text-muted">{{ 'subscribers'|trans }}:</span> {{ this.magazine.subscriptionsCount }}
                 </li>
                 <li class="list-group-item" data-controller="online" data-online-magazine-name-value="{{ this.magazine.name }}">
                     <span class="text-muted">Online:</span> <span data-online-target="counter">-</span>
