@@ -6,7 +6,7 @@
     <div class="kbin-magazines-list-page mt-lg-4">
         <form method="get" action="{{ path('magazine_list_all') }}">
             <div class="input-group input-group-lg mb-5 mt-5" style="max-width: 500px;margin:auto;">
-                <input name="q" type="text" class="form-control">
+                <input name="q" type="text" class="form-control" value="{{ app.request.get('q') }}">
                 <button class="btn btn-outline-secondary" type="submit">{{ 'search'|trans }}</button>
             </div>
         </form>
