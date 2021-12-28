@@ -40,7 +40,7 @@
                 <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'bans'|trans }}</h4>
             </a>
 
-            <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}"
+            <a href="{{ path('magazine_panel_trash', {'name': magazine.name}) }}"
                class="list-group-item {{ is_active_route('magazine_panel_trash') ? 'active font-weight-bold' : '' }}">
                 <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'trash'|trans }}</h4>
             </a>

@@ -76,3 +76,10 @@ magazine_panel_badge_remove:
   controller: App\Controller\Magazine\Panel\MagazineBadgeController::remove
   path: /m/{magazine_name}/panel/badges/{badge_id}/purge
   methods: [ POST ]
+
+magazine_panel_trash:
+  controller: App\Controller\Magazine\Panel\MagazineTrashController
+  path:
+    en: /m/{name}/panel/trash
+    pl: /m/{name}/panel/kosz
+  methods: [ GET ]
