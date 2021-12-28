@@ -62,9 +62,9 @@
     <div class="kbin-magazine-stats mb-4 col-12 float-sm-start">
         <ul class="list-group kbin-magazine-stats-links">
             {{ _self.stats_item( 'threads'|trans, path('front_magazine', {'name': this.magazine.name }), this.magazine.entryCount) }}
-            {{ _self.stats_item( 'comments'|trans, get_active_comments_page_path(), this.magazine.entryCommentCount) }}
-            {{ _self.stats_item( 'posts'|trans, get_active_posts_page_path(), this.magazine.postCount) }}
-            {{ _self.stats_item( 'replies'|trans, get_active_posts_page_path(), this.magazine.postCommentCount) }}
+            {{ _self.stats_item( 'comments'|trans, path('magazine_entry_comments', {'name': this.magazine.name}), this.magazine.entryCommentCount) }}
+            {{ _self.stats_item( 'posts'|trans, path('magazine_posts', {'name': this.magazine.name}), this.magazine.postCount) }}
+            {{ _self.stats_item( 'replies'|trans, path('magazine_posts', {'name': this.magazine.name}), this.magazine.postCommentCount) }}
             {{ _self.stats_item( 'moderators'|trans, path('magazine_moderators', {'name': this.magazine.name}), this.magazine.moderators|length) }}
             {{ _self.stats_item( 'modlog'|trans, path('magazine_modlog', {'name': this.magazine.name}), this.magazine.logs|length) }}
         </ul>
