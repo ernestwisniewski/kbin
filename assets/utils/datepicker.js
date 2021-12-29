@@ -1,7 +1,7 @@
 import {Datepicker} from 'vanillajs-datepicker';
 // import pl from 'vanillajs-datepicker/dist/js/locales/pl';
 
-export default class KChoices {
+export default class KDatepicker {
     constructor() {
         Object.assign(Datepicker.locales, this.getLocale());
 
