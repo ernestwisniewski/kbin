@@ -115,7 +115,7 @@
                                       magazine_name: this.post.magazine.name,
                                       post_id: this.post.id,
                                   }) }}"
-                                  onsubmit="return confirm({{ 'are_you_sure'|trans }});">
+                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                                 <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
                                 <button type="submit" class="btn btn-link">
                                     <span>{{ 'delete'|trans }}</span>
@@ -153,7 +153,7 @@
                                           magazine_name: this.post.magazine.name,
                                           post_id: this.post.id,
                                       }) }}"
-                                      onsubmit="return confirm({{ 'are_you_sure'|trans }});">
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                                     <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
                                     <button type="submit" class="btn btn-link">
                                         <span>{{ 'delete'|trans }}</span>

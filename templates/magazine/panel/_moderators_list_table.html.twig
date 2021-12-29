@@ -26,7 +26,7 @@
                     {% if is_granted('edit', magazine) and not moderator.isOwner %}
                         <form method="post"
                               action="{{ path('magazine_panel_moderator_purge', {magazine_name: magazine.name, moderator_id: moderator.id}) }}"
-                              onsubmit="return confirm({{ 'are_you_sure'|trans }});">
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">
                             <button class="btn btn-sm btn-danger">{{ 'delete'|trans }}</button>
                         </form>
