@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('magazine_delete', {name: magazine.name}) }}" onsubmit="return confirm({{ 'are_you_sure'|trans }});">
+<form method="post" action="{{ path('magazine_delete', {name: magazine.name}) }}" onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
     <div class="col-lg-6">
         <div class="kbin-magazine-create-form">
             <div class="input-group-sm mb-3 text-end">

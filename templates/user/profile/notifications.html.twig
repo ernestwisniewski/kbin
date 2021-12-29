@@ -19,7 +19,7 @@
                             {{ 'read_all'|trans }}
                         </button>
                     </form>
-                    <form method="post" action="{{ path('user_profile_notifications_clear') }}" onsubmit="return confirm({{ 'are_you_sure'|trans }});">
+                    <form method="post" action="{{ path('user_profile_notifications_clear') }}" onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
                         <button class="btn btn-sm btn-danger" type="submit">
                             <span>{{ 'purge'|trans }}</span>
