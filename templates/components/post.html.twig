@@ -49,7 +49,7 @@
     <div class="kbin-post-main">
         <div class="kbin-post-content" data-controller="show-more" data-action="image:thumbSelected->show-more#expand"
              data-action="image:thumbLoaded->show-more#checkHeight">
-            {% if this.post.visibility is same as 'visible' or (this.post.visibility is same as 'trashed' and is_granted('moderate', this.post.magazine)) %}
+            {% if this.post.visibility is same as 'visible' or this.canSeeTrashed %}
                 {{ this.post.body|markdown|raw }}
             {% elseif this.post.visibility is same as 'trashed' %}
                 <p class="text-muted">[{{ 'removed'|trans }}]</p>
@@ -58,7 +58,7 @@
             {% endif %}
         </div>
 
-        {% if this.post.visibility is same as 'visible' or (this.post.visibility is same as 'trashed' and is_granted('moderate', this.post.magazine)) %}
+        {% if this.post.visibility is same as 'visible' or this.canSeeTrashed %}
             {% if this.post.image %}
                 <div class="clearfix my-2 kbin-post-content">
                     <img data-controller="image"

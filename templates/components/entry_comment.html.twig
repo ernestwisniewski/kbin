@@ -68,7 +68,8 @@
              data-controller="show-more"
              data-action="image:thumbSelected->show-more#expand"
              data-action="image:thumbLoaded->show-more#checkHeight">
-            {% if this.comment.visibility is same as 'visible' or (this.comment.visibility is same as 'trashed' and is_granted('moderate', this.comment.magazine)) %}
+
+            {% if this.comment.visibility is same as 'visible' or this.canSeeTrashed %}
                 {{ this.comment.body|markdown|raw }}
             {% elseif this.comment.visibility is same as 'trashed' %}
                 <p class="text-muted">[{{ 'removed'|trans }}]</p>
@@ -77,7 +78,7 @@
             {% endif %}
         </div>
 
-        {% if this.comment.visibility is same as 'visible' or (this.comment.visibility is same as 'trashed' and is_granted('moderate', this.comment.magazine)) %}
+        {% if this.comment.visibility is same as 'visible' or this.canSeeTrashed %}
             {% if this.comment.image %}
                 <div class="clearfix my-2 kbin-comment-content">
                     <img data-controller="image"
