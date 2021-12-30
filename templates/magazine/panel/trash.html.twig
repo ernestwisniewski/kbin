@@ -1,14 +1,21 @@
 {% extends 'base.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}{{ 'moderators'|trans }} | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
+{% block title %}{{ 'trash'|trans }} | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="kbin-magazine-moderators-page">
-        {% include 'magazine/panel/_tabs.html.twig' %}
+    <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
+        {% if results|length %}
+            {% for subject in results %}
+                {% include '_layout/_subject.html.twig' with {subject: subject} %}
+            {% endfor %}
+        {% else %}
+            {{ not_found() }}
+        {% endif %}
 
-        <div class="kbin-magazine-trash mt-md-4">
-            coming soon...
-        </div>
+        {% if(results.haveToPaginate) %}
+            {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
     </div>
 {% endblock %}
 

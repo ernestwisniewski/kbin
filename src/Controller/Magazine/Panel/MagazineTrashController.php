@@ -4,6 +4,7 @@ namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
+use App\Repository\MagazineRepository;
 use App\Service\BadgeManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MagazineTrashController extends AbstractController
 {
-    public function __construct()
+    public function __construct(private MagazineRepository $repository)
     {
     }
 
@@ -25,6 +26,7 @@ class MagazineTrashController extends AbstractController
             'magazine/panel/trash.html.twig',
             [
                 'magazine' => $magazine,
+                'results'  => $this->repository->findTrashed($this->getPageNb($request), $magazine),
             ]
         );
     }
