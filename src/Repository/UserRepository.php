@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -91,9 +91,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             )
         );
 
+        $countAll = $pagerfanta->count();
+
         try {
-            $pagerfanta->setMaxPerPage(35);
-            $pagerfanta->setCurrentPage($page);
+            $pagerfanta->setMaxPerPage(10000);
+            $pagerfanta->setCurrentPage(1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -119,8 +121,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         );
 
         try {
-            $pagerfanta->setMaxPerPage(35);
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil(($countAll / self::PER_PAGE))) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }

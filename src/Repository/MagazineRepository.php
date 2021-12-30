@@ -2,10 +2,14 @@
 
 namespace App\Repository;
 
+use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
+use App\Entity\Post;
+use App\Entity\PostComment;
 use App\Entity\Report;
 use App\Entity\User;
 use DateTime;
@@ -13,6 +17,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Doctrine\Collections\SelectableAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
@@ -38,7 +43,7 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findAllPaginated(?int $page): PagerfantaInterface
     {
-        $qb         = $this->createQueryBuilder('m')
+        $qb = $this->createQueryBuilder('m')
             ->orderBy('m.subscriptionsCount', 'DESC');
 
         $pagerfanta = new Pagerfanta(
@@ -205,5 +210,75 @@ class MagazineRepository extends ServiceEntityRepository
         }
 
         return $pagerfanta;
+    }
+
+    public function findTrashed(int $page, Magazine $magazine): PagerfantaInterface
+    {
+        // @todo union adapter
+        $conn = $this->_em->getConnection();
+        $sql  = "
+        (SELECT id, created_at, magazine_id, 'entry' AS type FROM entry WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed') 
+        UNION 
+        (SELECT id, created_at, magazine_id, 'entry_comment' AS type FROM entry_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
+        UNION 
+        (SELECT id, created_at, magazine_id, 'post' AS type FROM post WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
+        UNION 
+        (SELECT id, created_at, magazine_id, 'post_comment' AS type FROM post_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
+        ORDER BY created_at DESC
+        ";
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+
+        $pagerfanta = new Pagerfanta(
+            new ArrayAdapter(
+                $stmt->fetchAllAssociative()
+            )
+        );
+
+        $countAll = $pagerfanta->count();
+
+        try {
+            $pagerfanta->setMaxPerPage(10000);
+            $pagerfanta->setCurrentPage(1);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        $result = $pagerfanta->getCurrentPageResults();
+
+        $entries = $this->_em->getRepository(Entry::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'entry')]);
+        $this->_em->getRepository(Entry::class)->hydrate(...$entries);
+        $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'entry_comment')]);
+        $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
+        $this->_em->getRepository(Post::class)->hydrate(...$post);
+        $postComment = $this->_em->getRepository(PostComment::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post_comment')]);
+        $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
+
+        $result = array_merge($entries, $entryComments, $post, $postComment);
+        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+
+        $pagerfanta = new Pagerfanta(
+            new ArrayAdapter(
+                $result
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil(($countAll / self::PER_PAGE))) : 1);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    private function getOverviewIds(array $result, string $type): array
+    {
+        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
+
+        return array_map(fn($subject) => $subject['id'], $result);
     }
 }
