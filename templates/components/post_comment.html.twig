@@ -62,15 +62,17 @@
 
             {% if this.comment.visibility is same as 'visible' or this.canSeeTrashed %}
                 {% if this.comment.image %}
-                    <div class="clearfix my-2 kbin-comment-content">
-                        <img data-controller="image"
-                             data-image-loading-class="loading-cursor"
-                             data-image-full-value="{{ uploaded_asset(this.comment.image.filePath) }}"
-                             data-image-thumb-value="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
-                             data-action="click->image#toggle"
-                             src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
-                             alt="{{ this.comment.shortTitle }}">
-                    </div>
+                    {% if not app.user or (app.user and not app.user.hideImages) %}
+                        <div class="clearfix my-2 kbin-comment-content">
+                            <img data-controller="image"
+                                 data-image-loading-class="loading-cursor"
+                                 data-image-full-value="{{ uploaded_asset(this.comment.image.filePath) }}"
+                                 data-image-thumb-value="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
+                                 data-action="click->image#toggle"
+                                 src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
+                                 alt="{{ this.comment.shortTitle }}">
+                        </div>
+                    {% endif %}
                 {% endif %}
                 <aside class="kbin-comment-meta">
                     <ul class="kbin-comment-meta-list list-inline mb-0 float-start">
@@ -137,61 +139,61 @@
 
                     {% if this.comment.visibility is same as 'visible' %}
                         <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
-                        {% if is_granted('moderate', this.comment.magazine) or is_granted('delete', this.comment) %}
-                            <ul class="kbin-comment-meta-list  list-inline mb-0">
-                                <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                                    <small class="text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
-                                        <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
-                                            {{ 'moderate'|trans }}
-                                        </button>
-                                    </small>
-                                </li>
-                            </ul>
-                        {% endif %}
+                            {% if is_granted('moderate', this.comment.magazine) or is_granted('delete', this.comment) %}
+                                <ul class="kbin-comment-meta-list  list-inline mb-0">
+                                    <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
+                                        <small class="text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
+                                            <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
+                                                {{ 'moderate'|trans }}
+                                            </button>
+                                        </small>
+                                    </li>
+                                </ul>
+                            {% endif %}
 
-                        <ul class="kbin-comment-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
-                            data-reveal-target="item">
-                            {% if is_granted('moderate', this.comment.magazine) %}
-                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                    <small class="kbin-entry-meta-edit text-muted">
-                                        <a href="{{ path('magazine_panel_ban', {'magazine_name': this.comment.post.magazine.name, 'user_username': this.comment.user.username}) }}">{{ 'ban'|trans }}</a>
-                                    </small>
-                                </li>
+                            <ul class="kbin-comment-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
+                                data-reveal-target="item">
+                                {% if is_granted('moderate', this.comment.magazine) %}
+                                    <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                        <small class="kbin-entry-meta-edit text-muted">
+                                            <a href="{{ path('magazine_panel_ban', {'magazine_name': this.comment.post.magazine.name, 'user_username': this.comment.user.username}) }}">{{ 'ban'|trans }}</a>
+                                        </small>
+                                    </li>
 
-                                <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                    <form method="post"
-                                          action="{{ path('post_comment_delete', {
-                                              magazine_name: this.comment.magazine.name,
-                                              post_id: this.comment.post.id,
-                                              comment_id: this.comment.id,
-                                          }) }}"
-                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                        <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
-                                        <button type="submit" class="btn btn-link">
-                                            <span>{{ 'delete'|trans }}</span>
-                                        </button>
-                                    </form>
-                                </li>
-
-                                {% if is_granted('purge', this.comment) %}
                                     <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                         <form method="post"
-                                              action="{{ path('post_comment_purge', {
+                                              action="{{ path('post_comment_delete', {
                                                   magazine_name: this.comment.magazine.name,
                                                   post_id: this.comment.post.id,
                                                   comment_id: this.comment.id,
                                               }) }}"
                                               onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                            <input type="hidden" name="token" value="{{ csrf_token('post_comment_purge') }}">
+                                            <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
                                             <button type="submit" class="btn btn-link">
-                                                <span>{{ 'purge'|trans }}</span>
+                                                <span>{{ 'delete'|trans }}</span>
                                             </button>
                                         </form>
                                     </li>
+
+                                    {% if is_granted('purge', this.comment) %}
+                                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                            <form method="post"
+                                                  action="{{ path('post_comment_purge', {
+                                                      magazine_name: this.comment.magazine.name,
+                                                      post_id: this.comment.post.id,
+                                                      comment_id: this.comment.id,
+                                                  }) }}"
+                                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                                <input type="hidden" name="token" value="{{ csrf_token('post_comment_purge') }}">
+                                                <button type="submit" class="btn btn-link">
+                                                    <span>{{ 'purge'|trans }}</span>
+                                                </button>
+                                            </form>
+                                        </li>
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                        </ul>
-                    </section>
+                            </ul>
+                        </section>
                     {% endif %}
                 </aside>
             {% endif %}

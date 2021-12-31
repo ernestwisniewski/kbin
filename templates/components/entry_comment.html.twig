@@ -80,15 +80,17 @@
 
         {% if this.comment.visibility is same as 'visible' or this.canSeeTrashed %}
             {% if this.comment.image %}
-                <div class="clearfix my-2 kbin-comment-content">
-                    <img data-controller="image"
-                         data-image-loading-class="loading-cursor"
-                         data-image-full-value="{{ uploaded_asset(this.comment.image.filePath) }}"
-                         data-image-thumb-value="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
-                         data-action="click->image#toggle"
-                         src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
-                         alt="{{ this.comment.shortTitle }}">
-                </div>
+                {% if not app.user or (app.user and not app.user.hideImages) %}
+                    <div class="clearfix my-2 kbin-comment-content">
+                        <img data-controller="image"
+                             data-image-loading-class="loading-cursor"
+                             data-image-full-value="{{ uploaded_asset(this.comment.image.filePath) }}"
+                             data-image-thumb-value="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
+                             data-action="click->image#toggle"
+                             src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
+                             alt="{{ this.comment.shortTitle }}">
+                    </div>
+                {% endif %}
             {% endif %}
 
             <aside class="kbin-comment-meta clearfix">

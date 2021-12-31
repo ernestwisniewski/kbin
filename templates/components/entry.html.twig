@@ -15,22 +15,24 @@
          data-embed-embed-class="fa-photo-video">
     {{ component('vote', { votable: this.entry, notificationType: 'Entry', formDest: 'entry_vote', baseClass: 'entry' }) }}
     <section class="clearfix">
-        {% if this.entry.image and this.entry.visibility is same as 'visible' %}
-            {% if is_entry_page() and this.directUrl %}
-                <div class="kbin-entry-image">
-                    <a href="{{- this.entry.type is same as 'image' or this.entry.type is same as 'article' ? '/media/'~asset(this.entry.image.filePath) : this.entry.url -}}"
-                       target="_blank" rel="nofollow noopener noreferrer">
-                        <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                             alt="{{ this.entry.title }}"/>
-                    </a>
-                </div>
-            {% else %}
-                <div class="kbin-entry-image">
-                    <a href="{{- entry_url(this.entry) -}}">
-                        <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                             alt="{{ this.entry.title }}"/>
-                    </a>
-                </div>
+        {% if this.entry.image %}
+            {% if not app.user or (app.user and not app.user.hideImages) %}
+                {% if is_entry_page() and this.directUrl %}
+                    <div class="kbin-entry-image">
+                        <a href="{{- this.entry.type is same as 'image' or this.entry.type is same as 'article' ? '/media/'~asset(this.entry.image.filePath) : this.entry.url -}}"
+                           target="_blank" rel="nofollow noopener noreferrer">
+                            <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                                 alt="{{ this.entry.title }}"/>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="kbin-entry-image">
+                        <a href="{{- entry_url(this.entry) -}}">
+                            <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                                 alt="{{ this.entry.title }}"/>
+                        </a>
+                    </div>
+                {% endif %}
             {% endif %}
         {% endif %}
 

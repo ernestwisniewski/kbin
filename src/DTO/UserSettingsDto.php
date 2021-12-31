@@ -13,6 +13,9 @@ class UserSettingsDto
         public bool $notifyOnNewPostCommentReply = true,
         public bool $darkTheme = false,
         public bool $turboMode = false,
+        public bool $hideImages = false,
+        public bool $showProfileSubscriptions = false,
+        public bool $showProfileFollowings = false,
     ) {
     }
 }

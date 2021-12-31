@@ -5,7 +5,7 @@
 {% block body %}
     <div class="kbin-user-comments-page">
         <div class="kbin-comment-wrapper">
-            {% include 'entry/comment/_list.html.twig' with {'nested': false, 'with_parent':true} %}
+            {% include 'entry/comment/_list.html.twig' with {withParent: false, nested:false} %}
         </div>
     </div>
 {% endblock %}

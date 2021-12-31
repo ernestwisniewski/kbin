@@ -7,7 +7,7 @@
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
         {% if results|length %}
             {% for subject in results %}
-                {% include '_layout/_subject.html.twig' with {subject: subject} %}
+                {% include '_layout/_subject.html.twig' with {subject: subject, withParent: false, nested:false} %}
             {% endfor %}
         {% else %}
             {{ not_found() }}
