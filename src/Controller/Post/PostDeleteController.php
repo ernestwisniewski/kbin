@@ -39,6 +39,22 @@ class PostDeleteController extends AbstractController
      * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
+     * @IsGranted("delete", subject="post")
+     */
+    public function restore(Magazine $magazine, Post $post, Request $request): Response
+    {
+        $this->validateCsrf('post_restore', $request->request->get('token'));
+
+        $this->manager->restore($this->getUserOrThrow(), $post);
+
+        return $this->redirectToRefererOrHome($request);
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="post")
      */
     public function purge(Magazine $magazine, Post $post, Request $request): Response

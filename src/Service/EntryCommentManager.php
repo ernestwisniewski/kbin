@@ -3,12 +3,14 @@
 namespace App\Service;
 
 use App\DTO\EntryCommentDto;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\EntryComment;
 use App\Entity\User;
 use App\Event\EntryComment\EntryCommentBeforePurgeEvent;
 use App\Event\EntryComment\EntryCommentCreatedEvent;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
 use App\Event\EntryComment\EntryCommentPurgedEvent;
+use App\Event\EntryComment\EntryCommentRestoredEvent;
 use App\Event\EntryComment\EntryCommentUpdatedEvent;
 use App\Factory\EntryCommentFactory;
 use App\Message\DeleteImageMessage;
@@ -82,6 +84,20 @@ class EntryCommentManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new EntryCommentDeletedEvent($comment, $user));
+    }
+
+    public function restore(User $user, EntryComment $comment):void
+    {
+        if($comment->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+            throw new \Exception('Invalid visibility');
+        }
+
+        $comment->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new EntryCommentRestoredEvent($comment, $user));
     }
 
     public function purge(EntryComment $comment): void

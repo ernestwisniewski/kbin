@@ -12,9 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="log_type", type="text")
  * @ORM\DiscriminatorMap({
  *   "entry_deleted": "MagazineLogEntryDeleted",
+ *   "entry_restored": "MagazineLogEntryRestored",
  *   "entry_comment_deleted": "MagazineLogEntryCommentDeleted",
+ *   "entry_comment_restored": "MagazineLogEntryCommentRestored",
  *   "post_deleted": "MagazineLogPostDeleted",
+ *   "post_restored": "MagazineLogPostRestored",
  *   "post_comment_deleted": "MagazineLogPostCommentDeleted",
+ *   "post_comment_restored": "MagazineLogPostCommentRestored",
  *   "ban": "MagazineLogBan",
  * })
  */

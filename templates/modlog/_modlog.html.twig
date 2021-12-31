@@ -43,11 +43,25 @@
     <a href="{{ entry_url(log.entry) }}">{{ log.entry.shortTitle }}</a>
 {% endblock log_entry_deleted %}
 
+{% block log_entry_restored %}
+    {% from 'user/_macros.html.twig' import user %}
+    {% from '_layout/_macros.html.twig' import entry_url %}
+
+    {{ user(log.user) }} {{ 'restored_thread_by'|trans }} {{ user(log.entry.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.entry.magazine }) }}{% endif %} -
+    <a href="{{ entry_url(log.entry) }}">{{ log.entry.shortTitle }}</a>
+{% endblock log_entry_restored %}
+
 {% block log_entry_comment_deleted %}
     {% from 'user/_macros.html.twig' import user %}
 
     {{ user(log.user) }} {{ 'removed_comment_by'|trans }} {{ user(log.comment.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.comment.magazine }) }}{% endif %} - {{ log.comment.shortTitle }}
 {% endblock log_entry_comment_deleted %}
+
+{% block log_entry_comment_restored %}
+    {% from 'user/_macros.html.twig' import user %}
+
+    {{ user(log.user) }} {{ 'restored_comment_by'|trans }} {{ user(log.comment.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.comment.magazine }) }}{% endif %} - {{ log.comment.shortTitle }}
+{% endblock log_entry_comment_restored %}
 
 {% block log_post_deleted %}
     {% from 'user/_macros.html.twig' import user %}
@@ -57,11 +71,25 @@
     <a href="{{ post_url(log.post) }}">{{ log.post.shortTitle }}</a>
 {% endblock log_post_deleted %}
 
+{% block log_post_restored %}
+    {% from 'user/_macros.html.twig' import user %}
+    {% from '_layout/_macros.html.twig' import post_url %}
+
+    {{ user(log.user) }} {{ 'restored_post_by'|trans }} {{ user(log.post.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.post.magazine }) }}{% endif %} -
+    <a href="{{ post_url(log.post) }}">{{ log.post.shortTitle }}</a>
+{% endblock log_post_restored %}
+
 {% block log_post_comment_deleted %}
     {% from 'user/_macros.html.twig' import user %}
 
     {{ user(log.user) }} {{ 'removed_comment_by'|trans }} {{ user(log.comment.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.comment.magazine }) }}{% endif %} - {{ log.comment.shortTitle }}
 {% endblock log_post_comment_deleted %}
+
+{% block log_post_comment_restored %}
+    {% from 'user/_macros.html.twig' import user %}
+
+    {{ user(log.user) }} {{ 'restored_comment_by'|trans }} {{ user(log.comment.user) }}{% if show_magazine %} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: log.comment.magazine }) }}{% endif %} - {{ log.comment.shortTitle }}
+{% endblock log_post_comment_restored %}
 
 {% block log_ban %}
     {% from 'user/_macros.html.twig' import user %}

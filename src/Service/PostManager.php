@@ -3,11 +3,13 @@
 namespace App\Service;
 
 use App\DTO\PostDto;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Event\Post\PostBeforePurgeEvent;
 use App\Event\Post\PostCreatedEvent;
 use App\Event\Post\PostDeletedEvent;
+use App\Event\Post\PostRestoredEvent;
 use App\Event\Post\PostUpdatedEvent;
 use App\Factory\PostFactory;
 use App\Message\DeleteImageMessage;
@@ -84,6 +86,20 @@ class  PostManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new PostDeletedEvent($post, $user));
+    }
+
+    public function restore(User $user, Post $post):void
+    {
+        if($post->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+            throw new \Exception('Invalid visibility');
+        }
+
+        $post->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new PostRestoredEvent($post, $user));
     }
 
     public function purge(Post $post): void

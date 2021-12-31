@@ -3,12 +3,14 @@
 namespace App\Service;
 
 use App\DTO\EntryDto;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\User;
 use App\Event\Entry\EntryBeforePurgeEvent;
 use App\Event\Entry\EntryCreatedEvent;
 use App\Event\Entry\EntryDeletedEvent;
 use App\Event\Entry\EntryPinEvent;
+use App\Event\Entry\EntryRestoredEvent;
 use App\Event\Entry\EntryUpdatedEvent;
 use App\Factory\EntryFactory;
 use App\Message\DeleteImageMessage;
@@ -98,6 +100,20 @@ class EntryManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new EntryDeletedEvent($entry, $user));
+    }
+
+    public function restore(User $user, Entry $entry): void
+    {
+        if($entry->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+            throw new \Exception('Invalid visibility');
+        }
+
+        $entry->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($entry);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new EntryRestoredEvent($entry, $user));
     }
 
     public function purge(Entry $entry): void

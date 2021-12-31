@@ -3,12 +3,14 @@
 namespace App\Service;
 
 use App\DTO\PostCommentDto;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Event\PostComment\PostCommentBeforePurgeEvent;
 use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
+use App\Event\PostComment\PostCommentRestoredEvent;
 use App\Event\PostComment\PostCommentUpdatedEvent;
 use App\Factory\PostCommentFactory;
 use App\Message\DeleteImageMessage;
@@ -83,6 +85,20 @@ class PostCommentManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new PostCommentDeletedEvent($comment, $user));
+    }
+
+    public function restore(User $user, PostComment $comment):void
+    {
+        if($comment->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+            throw new \Exception('Invalid visibility');
+        }
+
+        $comment->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new PostCommentRestoredEvent($comment, $user));
     }
 
     public function purge(PostComment $comment): void

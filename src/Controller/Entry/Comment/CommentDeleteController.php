@@ -42,6 +42,23 @@ class CommentDeleteController extends AbstractController
      * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
+     * @IsGranted("delete", subject="comment")
+     */
+    public function restore(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
+    {
+        $this->validateCsrf('entry_comment_restore', $request->request->get('token'));
+
+        $this->manager->restore($this->getUserOrThrow(), $comment);
+
+        return $this->redirectToEntry($entry);
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="comment")
      */
     public function purge(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response

@@ -126,7 +126,17 @@
                         {% endif %}
                     {% else %}
                         <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <small class="text-muted"><a href="#">przywróć</a></small>
+                            <form method="post"
+                                  action="{{ path('post_restore', {
+                                      magazine_name: this.post.magazine.name,
+                                      post_id: this.post.id,
+                                  }) }}"
+                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                <input type="hidden" name="token" value="{{ csrf_token('post_restore') }}">
+                                <button type="submit" class="btn btn-link">
+                                    <span>{{ 'restore'|trans }}</span>
+                                </button>
+                            </form>
                         </li>
                     {% endif %}
                 </ul>

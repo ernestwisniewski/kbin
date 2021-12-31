@@ -39,6 +39,22 @@ class EntryDeleteController extends AbstractController
      * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
      *
      * @IsGranted("ROLE_USER")
+     * @IsGranted("delete", subject="entry")
+     */
+    public function restore(Magazine $magazine, Entry $entry, Request $request): Response
+    {
+        $this->validateCsrf('entry_restore', $request->request->get('token'));
+
+        $this->manager->restore($this->getUserOrThrow(), $entry);
+
+        return $this->redirectToMagazine($magazine);
+    }
+
+    /**
+     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
+     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
+     *
+     * @IsGranted("ROLE_USER")
      * @IsGranted("purge", subject="entry")
      */
     public function purge(Magazine $magazine, Entry $entry, Request $request): Response
