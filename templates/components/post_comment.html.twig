@@ -119,7 +119,18 @@
                             {% endif %}
                         {% else %}
                             <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
-                                <small class="text-muted"><a href="#">przywróć</a></small>
+                                <form method="post"
+                                      action="{{ path('post_comment_restore', {
+                                          magazine_name: this.comment.magazine.name,
+                                          post_id: this.comment.post.id,
+                                          comment_id: this.comment.id,
+                                      }) }}"
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                    <input type="hidden" name="token" value="{{ csrf_token('post_comment_restore') }}">
+                                    <button type="submit" class="btn btn-link">
+                                        <span>{{ 'restore'|trans }}</span>
+                                    </button>
+                                </form>
                             </li>
                         {% endif %}
                     </ul>

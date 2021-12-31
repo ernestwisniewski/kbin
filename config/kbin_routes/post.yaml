@@ -20,6 +20,12 @@ post_comment_delete:
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/delete
   methods: [ POST ]
 
+post_comment_restore:
+  controller: App\Controller\Post\Comment\CommentDeleteController::restore
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/restore
+  methods: [ POST ]
+
 post_comment_purge:
   controller: App\Controller\Post\Comment\CommentDeleteController::purge
   defaults: { slug: -, }
@@ -121,6 +127,12 @@ post_delete:
   controller: App\Controller\Post\PostDeleteController::delete
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/delete
+  methods: [ POST ]
+
+post_restore:
+  controller: App\Controller\Post\PostDeleteController::restore
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/restore
   methods: [ POST ]
 
 post_purge:

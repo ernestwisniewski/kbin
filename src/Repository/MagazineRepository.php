@@ -238,7 +238,7 @@ class MagazineRepository extends ServiceEntityRepository
         $countAll = $pagerfanta->count();
 
         try {
-            $pagerfanta->setMaxPerPage(10000);
+            $pagerfanta->setMaxPerPage(20000);
             $pagerfanta->setCurrentPage(1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();

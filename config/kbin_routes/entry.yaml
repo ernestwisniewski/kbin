@@ -20,6 +20,12 @@ entry_comment_delete:
   path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/delete
   methods: [ POST ]
 
+entry_comment_restore:
+  controller: App\Controller\Entry\Comment\CommentDeleteController::restore
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/restore
+  methods: [ POST ]
+
 entry_comment_purge:
   controller: App\Controller\Entry\Comment\CommentDeleteController::purge
   defaults: { slug: -, }
@@ -116,6 +122,12 @@ entry_delete:
   controller: App\Controller\Entry\EntryDeleteController::delete
   defaults: { slug: -, sortBy: ~ }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/delete
+  methods: [ POST ]
+
+entry_restore:
+  controller: App\Controller\Entry\EntryDeleteController::restore
+  defaults: { slug: -, sortBy: ~ }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/restore
   methods: [ POST ]
 
 entry_purge:
