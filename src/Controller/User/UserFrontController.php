@@ -16,6 +16,8 @@ use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UserFrontController extends AbstractController
 {
@@ -109,6 +111,10 @@ class UserFrontController extends AbstractController
 
     public function subscriptions(User $user, MagazineRepository $repository, Request $request): Response
     {
+        if (!$user->showProfileSubscriptions) {
+            throw new AccessDeniedException();
+        }
+
         return $this->render(
             'user/subscriptions.html.twig',
             [
@@ -131,6 +137,10 @@ class UserFrontController extends AbstractController
 
     public function follows(User $user, UserRepository $manager, Request $request): Response
     {
+        if (!$user->showProfileFollowings) {
+            throw new AccessDeniedException();
+        }
+
         return $this->render(
             'user/follows.html.twig',
             [

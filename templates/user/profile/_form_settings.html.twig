@@ -18,11 +18,26 @@
             <label class="form-check-label required" for="adult">{{ 'hide_nsfw'|trans }}</label>
         </div>
     </div>
+
+    {{ form_label(form.hideImages, 'hide_images'|trans) }}
     <div class="input-group input-group-lg">
-        <div class="form-check"><input id="images" type="checkbox" name="" disabled="disabled" novalidate="novalidate" class="form-check-input">
-            <label class="form-check-label required" for="images">{{ 'hide_images'|trans }}</label>
-        </div>
+        {{ form_widget(form.hideImages, {name: 'hide_images'|trans}) }}
     </div>
+</div>
+
+<hr class="mb-4">
+
+<h2 class="font-weight-bold mb-4">{{ 'privacy'|trans }}</h2>
+
+<h5 class="">{{ 'profile'|trans }}</h5>
+{{ form_label(form.showProfileSubscriptions, 'show_profile_subscriptions'|trans) }}
+<div class="input-group input-group-lg">
+    {{ form_widget(form.showProfileSubscriptions, {name: 'show_profile_subscriptions'|trans}) }}
+</div>
+
+{{ form_label(form.showProfileFollowings, 'show_profile_followings'|trans) }}
+<div class="input-group input-group-lg">
+    {{ form_widget(form.showProfileFollowings, {name: 'show_profile_followings'|trans}) }}
 </div>
 
 <hr class="mb-4">

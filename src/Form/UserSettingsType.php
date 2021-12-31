@@ -23,6 +23,18 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class
             )
             ->add(
+                'hideImages',
+                CheckboxType::class
+            )
+            ->add(
+                'showProfileSubscriptions',
+                CheckboxType::class
+            )
+            ->add(
+                'showProfileFollowings',
+                CheckboxType::class
+            )
+            ->add(
                 'notifyOnNewEntry',
                 CheckboxType::class
             )

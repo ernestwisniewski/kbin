@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -22,7 +22,10 @@ class UserSettingsManager
             $user->notifyOnNewPostReply,
             $user->notifyOnNewPostCommentReply,
             $user->theme === User::THEME_DARK,
-            $user->mode === User::MODE_TURBO
+            $user->mode === User::MODE_TURBO,
+            $user->hideImages,
+            $user->showProfileSubscriptions,
+            $user->showProfileFollowings
         );
     }
 
@@ -36,6 +39,9 @@ class UserSettingsManager
         $user->notifyOnNewPostCommentReply  = $dto->notifyOnNewPostCommentReply;
         $user->theme                        = $dto->darkTheme ? User::THEME_DARK : User::THEME_LIGHT;
         $user->mode                         = $dto->turboMode ? User::MODE_TURBO : User::MODE_NORMAL;
+        $user->hideImages                   = $dto->hideImages;
+        $user->showProfileSubscriptions     = $dto->showProfileSubscriptions;
+        $user->showProfileFollowings        = $dto->showProfileFollowings;
 
         $this->entityManager->flush();
     }

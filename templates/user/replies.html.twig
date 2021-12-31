@@ -7,7 +7,7 @@
     <div class="kbin-user-comments-page">
         <div class="kbin-comments-list kbin-comment-wrapper kbin-post-wrapper">
             {% if comments|length %}
-                {% include 'post/comment/_list.html.twig' with {with_parent:true} %}
+                {% include 'post/comment/_list.html.twig' with {withParent: false, nested:false} %}
             {% else %}
                 {{ not_found() }}
             {% endif %}

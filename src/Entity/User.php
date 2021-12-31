@@ -67,6 +67,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public ?string $cardanoWalletAddress = null;
     /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    public bool $hideImages = false;
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    public bool $showProfileSubscriptions = false;
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    public bool $showProfileFollowings = false;
+    /**
      * @ORM\Column(type="boolean")
      */
     public bool $notifyOnNewEntry = false;
@@ -262,11 +274,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->moderatorTokens->get(-1);
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('isConfirmed', true));
-        $tokens = $this->moderatorTokens->matching($criteria);
+        $tokens   = $this->moderatorTokens->matching($criteria);
 
         // Magazines
         $magazines = $tokens->map(fn($token) => $token->magazine);
-        $criteria = Criteria::create()
+        $criteria  = Criteria::create()
             ->orderBy(['lastActive' => Criteria::DESC]);
 
         return $magazines->matching($criteria);
