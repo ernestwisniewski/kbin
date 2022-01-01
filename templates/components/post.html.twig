@@ -217,5 +217,5 @@
 {% endif %}
 
 {% if(this.showBestComments) %}
-    {% include 'post/comment/_list.html.twig' with {comments: this.post.bestComments} %}
+    {% include 'post/comment/_list.html.twig' with {comments: this.post.bestComments, post: this.post} %}
 {% endif %}
