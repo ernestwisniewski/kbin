@@ -13,7 +13,7 @@
                 </div>
                 <div class="kbin-comment-list"
                      data-controller="comment-list"
-                     data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
+                     data-action="notify:PostCommentCreatedNotification@window->comment-list#add notify:PostCommentDeletedNotification@window->comment-list#remove"
                      {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
 
                     {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showMagazine: magazine is not defined}) }}

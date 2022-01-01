@@ -1,4 +1,5 @@
 {% from '_layout/_macros.html.twig' import post_url %}
 
-{{ 'mod_remove_your_post'|trans }} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: notification.post.magazine }) }} - <strong><a
-            href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a></strong>
+<strong><a href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a></strong>
+{% if notification.post.isTrashed %}{{ 'removed'|trans }}{% else %}{{ 'deleted'|trans }}{% endif %} {{ 'in'|trans }}
+{{ component('magazine_inline', { magazine: notification.post.magazine }) }}

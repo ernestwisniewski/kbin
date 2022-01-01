@@ -7,6 +7,7 @@ use App\Entity\Contracts\ContentInterface;
 use App\Entity\Entry;
 use App\Entity\EntryCreatedNotification;
 use App\Entity\EntryDeletedNotification;
+use App\Entity\Notification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
@@ -52,7 +53,12 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         $this->entityManager->flush();
     }
 
-    private function notifyMagazine(EntryCreatedNotification $notification): void
+    public function sendEdited(ContentInterface $subject): void
+    {
+
+    }
+
+    private function notifyMagazine(Notification $notification): void
     {
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->entry->magazine));
@@ -68,11 +74,13 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         }
     }
 
-    private function getResponse(EntryCreatedNotification $notification): string
+    private function getResponse(Notification $notification): string
     {
+        $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
+
         return json_encode(
             [
-                'op'       => 'EntryCreatedNotification',
+                'op'       => end($class),
                 'id'       => $notification->entry->getId(),
                 'magazine' => [
                     'name' => $notification->entry->magazine->name,
@@ -87,7 +95,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         /**
          * @var Entry $subject
          */
-        $notification = new EntryDeletedNotification($subject->getUser(), $subject);
+        $this->notifyMagazine($notification = new EntryDeletedNotification($subject->user, $subject));
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();

@@ -139,7 +139,7 @@
 
                     {% if this.comment.visibility is same as 'visible' %}
                         <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
-                            {% if is_granted('moderate', this.comment.magazine) or is_granted('delete', this.comment) %}
+                            {% if is_granted('moderate', this.comment.magazine) %}
                                 <ul class="kbin-comment-meta-list  list-inline mb-0">
                                     <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                                         <small class="text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">

@@ -26,6 +26,12 @@ class NotificationManager
         ($this->resolver->resolve($subject))->sendCreated($subject);
     }
 
+    public function sendEdited(ContentInterface $subject): void
+    {
+        ($this->resolver->resolve($subject))->sendEdited($subject);
+    }
+
+
     public function sendDeleted(ContentInterface $subject): void
     {
         ($this->resolver->resolve($subject))->sendDeleted($subject);

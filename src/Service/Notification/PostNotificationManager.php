@@ -1,9 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
+use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostCreatedNotification;
 use App\Entity\PostDeletedNotification;
@@ -37,7 +38,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         /**
          * @var Post $subject
          */
-        $this->notifyMagazine($subject, new PostCreatedNotification($subject->user, $subject));
+        $this->notifyMagazine(new PostCreatedNotification($subject->user, $subject));
 
         $subs    = $this->getUsersToNotify($this->magazineRepository->findNewPostSubscribers($subject));
         $follows = [];
@@ -52,14 +53,19 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         $this->entityManager->flush();
     }
 
-    private function notifyMagazine(Post $post, PostCreatedNotification $notification)
+    public function sendEdited(ContentInterface $subject): void
+    {
+
+    }
+
+    private function notifyMagazine(Notification $notification)
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($post->magazine));
+            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->post->magazine));
 
             $update = new Update(
                 ['pub', $iri],
-                $this->getResponse($post, $notification)
+                $this->getResponse($notification)
             );
 
             ($this->publisher)($update);
@@ -68,14 +74,16 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         }
     }
 
-    private function getResponse(Post $post, PostCreatedNotification $notification): string
+    private function getResponse(Notification $notification): string
     {
+        $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
+
         return json_encode(
             [
-                'op'       => 'PostCreatedNotification',
-                'id'       => $post->getId(),
+                'op'       => end($class),
+                'id'       => $notification->post->getId(),
                 'magazine' => [
-                    'name' => $post->magazine->name,
+                    'name' => $notification->post->magazine->name,
                 ],
                 'toast'    => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
@@ -87,7 +95,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         /**
          * @var Post $post
          */
-        $notification = new PostDeletedNotification($post->getUser(), $post);
+        $this->notifyMagazine($notification = new PostDeletedNotification($post->user, $post));
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
