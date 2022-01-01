@@ -127,14 +127,16 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
 
     private function getResponse(Notification $notification): string
     {
+        $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
+
         return json_encode(
             [
-                'op' => 'PostCommentCreatedNotification',
-                'id' => $notification->getComment()->getId(),
+                'op'      => end($class),
+                'id'      => $notification->getComment()->getId(),
                 'subject' => [
                     'id' => $notification->getComment()->post->getId(),
                 ],
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'toast'   => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
