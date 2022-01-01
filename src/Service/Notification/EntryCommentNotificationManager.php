@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -8,6 +8,7 @@ use App\Entity\EntryComment;
 use App\Entity\EntryCommentCreatedNotification;
 use App\Entity\EntryCommentDeletedNotification;
 use App\Entity\EntryCommentReplyNotification;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
@@ -45,6 +46,11 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         $this->sendMagazineSubscribersNotification($subject, $user);
     }
 
+    public function sendEdited(ContentInterface $subject): void
+    {
+
+    }
+
     private function sendUserReplyNotification(EntryComment $comment): ?User
     {
         if (!$comment->parent || $comment->parent->isAuthor($comment->user)) {
@@ -71,25 +77,13 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
 
             $update = new Update(
                 $iri,
-                $this->getReplyResponse($notification)
+                $this->getResponse($notification)
             );
 
             ($this->publisher)($update);
 
         } catch (Exception $e) {
         }
-    }
-
-    private function getReplyResponse(EntryCommentReplyNotification $notification): string
-    {
-        return json_encode(
-            [
-                'op'    => 'EntryCommentReplyNotification',
-                'id'    => $notification->getComment()->getId(),
-                'data'  => [],
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-            ]
-        );
     }
 
     private function sendMagazineSubscribersNotification(EntryComment $comment, ?User $exclude): void
@@ -115,15 +109,14 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         $this->entityManager->flush();
     }
 
-    private function notifyMagazine(EntryCommentCreatedNotification $notification): void
+    private function notifyMagazine(Notification $notification): void
     {
-
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
 
             $update = new Update(
                 ['pub', $iri],
-                $this->getCreatedResponse($notification)
+                $this->getResponse($notification)
             );
 
             ($this->publisher)($update);
@@ -132,11 +125,13 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         }
     }
 
-    private function getCreatedResponse(EntryCommentCreatedNotification $notification): string
+    private function getResponse(Notification $notification): string
     {
+        $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
+
         return json_encode(
             [
-                'op'      => 'EntryCommentCreatedNotification',
+                'op'      => end($class),
                 'id'      => $notification->getComment()->getId(),
                 'subject' => [
                     'id' => $notification->getComment()->entry->getId(),
@@ -151,7 +146,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         /**
          * @var EntryComment $subject
          */
-        $notification = new EntryCommentDeletedNotification($subject->getUser(), $subject);
+        $this->notifyMagazine($notification = new EntryCommentDeletedNotification($subject->user, $subject));
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();

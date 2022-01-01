@@ -49,4 +49,8 @@ export default class extends ApplicationController {
         } catch (e) {
         }
     }
+
+    async remove(notification) {
+        document.getElementById(notification.detail.id).remove();
+    }
 }

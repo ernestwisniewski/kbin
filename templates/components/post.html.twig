@@ -145,7 +145,7 @@
 
                 {% if this.post.visibility is same as 'visible' %}
                     <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
-                        {% if is_granted('moderate', this.post.magazine) or is_granted('delete', this.post) %}
+                        {% if is_granted('moderate', this.post.magazine) %}
                             <ul class="kbin-post-meta-list list-inline mb-0">
                                 <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                                     <small class="kbin-post-meta-edit text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">

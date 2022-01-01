@@ -4,6 +4,7 @@ namespace App\Service\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
+use App\Entity\Notification;
 use App\Entity\PostComment;
 use App\Entity\PostCommentCreatedNotification;
 use App\Entity\PostCommentDeletedNotification;
@@ -45,6 +46,11 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         $this->sendMagazineSubscribersNotification($subject, $user);
     }
 
+    public function sendEdited(ContentInterface $subject): void
+    {
+
+    }
+
     private function sendUserReplyNotification(PostComment $comment): ?User
     {
         if (!$comment->parent || $comment->parent->isAuthor($comment->user)) {
@@ -71,25 +77,13 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
 
             $update = new Update(
                 $iri,
-                $this->getReplyResponse($notification)
+                $this->getResponse($notification)
             );
 
             ($this->publisher)($update);
 
         } catch (Exception $e) {
         }
-    }
-
-    private function getReplyResponse(PostCommentReplyNotification $notification): string
-    {
-        return json_encode(
-            [
-                'op'    => 'PostCommentReplyNotification',
-                'id'    => $notification->getComment()->getId(),
-                'data'  => [],
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-            ]
-        );
     }
 
     public function sendMagazineSubscribersNotification(PostComment $comment, ?User $exclude): void
@@ -115,14 +109,14 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         $this->entityManager->flush();
     }
 
-    private function notifyMagazine(PostCommentCreatedNotification $notification): void
+    private function notifyMagazine(Notification $notification): void
     {
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
 
             $update = new Update(
                 ['pub', $iri],
-                $this->getCreatedResponse($notification)
+                $this->getResponse($notification)
             );
 
             ($this->publisher)($update);
@@ -131,16 +125,16 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         }
     }
 
-    private function getCreatedResponse(PostCommentCreatedNotification $notification): string
+    private function getResponse(Notification $notification): string
     {
         return json_encode(
             [
-                'op'      => 'PostCommentCreatedNotification',
-                'id'      => $notification->getComment()->getId(),
+                'op' => 'PostCommentCreatedNotification',
+                'id' => $notification->getComment()->getId(),
                 'subject' => [
                     'id' => $notification->getComment()->post->getId(),
                 ],
-                'toast'   => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
@@ -150,7 +144,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         /**
          * @var PostComment $subject
          */
-        $notification = new PostCommentDeletedNotification($subject->getUser(), $subject);
+        $this->notifyMagazine($notification = new PostCommentDeletedNotification($subject->user, $subject));
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
