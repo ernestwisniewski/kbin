@@ -104,7 +104,7 @@ class AjaxController extends AbstractController
 
         return new JsonResponse(
             [
-                'html' => $this->renderView('post/comment/_list.html.twig', ['comments' => $comments]),
+                'html' => $this->renderView('post/comment/_list.html.twig', ['comments' => $comments, 'post' => $post]),
             ]
         );
     }
