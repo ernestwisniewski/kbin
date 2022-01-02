@@ -1,7 +1,7 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 
 <div class="kbin-comment-list mb-5" data-controller="comment-list"
-   data-action="notify:EntryCommentCreatedNotification@window->comment-list#add notify:EntryCommentDeletedNotification@window->comment-list#remove"
+   data-action="notify:EntryCommentCreatedNotification@window->comment-list#add"
    {% if entry is defined and entry %}data-comment-list-subject-id-value="{{ entry.id }}"{% endif %}>
     {% if comments|length %}
         {% for comment in comments %}

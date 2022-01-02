@@ -5,6 +5,10 @@ export default class extends ApplicationController {
     static classes = ['hidden']
 
     notification(event) {
+        if(!this.hasNotificationsTarget) {
+            return;
+        }
+
         let elem = this.notificationsTarget.getElementsByTagName('span')[0];
         elem.innerHTML = parseInt(elem.innerHTML) + 1;
 
@@ -12,6 +16,10 @@ export default class extends ApplicationController {
     }
 
     message(event) {
+        if(!this.hasMessagesTarget) {
+            return;
+        }
+
         let elem = this.messagesTarget.getElementsByTagName('span')[0];
         elem.innerHTML = parseInt(elem.innerHTML) + 1;
 

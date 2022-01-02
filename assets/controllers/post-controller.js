@@ -4,7 +4,7 @@ import router from "../utils/routing";
 import KEditor from "../utils/editor";
 
 export default class extends Controller {
-    static targets = ['expand', 'form'];
+    static targets = ['expand', 'form', 'commentCounter'];
     static values = {
         loading: Boolean,
         id: Number,
@@ -92,6 +92,45 @@ export default class extends Controller {
         } finally {
             loader.remove();
             this.loadingValue = false;
+        }
+    }
+
+    remove(notification) {
+        if (this.idValue !== notification.detail.id) {
+            return;
+        }
+
+        this.element.remove();
+        document.querySelector(`[data-comment-list-subject-id-value='${notification.detail.id}']`).remove()
+    }
+
+    async edit(notification) {
+        if (this.idValue !== notification.detail.id) {
+            return;
+        }
+
+        try {
+            const url = router().generate('ajax_fetch_post', {'id': notification.detail.id});
+
+            let response = await fetch(url, {method: 'GET'});
+
+            response = await ok(response);
+            response = await response.json();
+
+            this.element.outerHTML = response.html;
+        } catch (e) {
+        }
+    }
+
+    increaseComments(notification) {
+        if (this.idValue === notification.detail.subject.id && this.hasCommentCounterTarget) {
+            this.commentCounterTarget.textContent = Number(this.commentCounterTarget.textContent) + 1;
+        }
+    }
+
+    decreaseComments(notification) {
+        if (this.idValue === notification.detail.subject.id && this.hasCommentCounterTarget) {
+            this.commentCounterTarget.textContent = Number(this.commentCounterTarget.textContent) - 1;
         }
     }
 }

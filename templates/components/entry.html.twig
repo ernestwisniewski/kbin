@@ -3,9 +3,9 @@
 
 <article id="{{ this.entry.id }}"
          class="kbin-entry {{ this.extraClass }} {{ this.entry.image ? 'kbin-has-image' : '' }}"
-         data-controller="embed report comment-counter tip"
-         data-action="notify:EntryCommentCreatedNotification@window->comment-counter#increase"
-         data-comment-counter-subject-id-value="{{ this.entry.id }}"
+         data-controller="embed report tip entry"
+         data-action="notify:EntryCommentCreatedNotification@window->entry#increaseComments notify:EntryCommentDeletedNotification@window->entry#decreaseComments notify:EntryDeletedNotification@window->entry#remove notify:EntryEditedNotification@window->entry#edit"
+         data-entry-id-value="{{ this.entry.id }}"
          data-embed-url-value="{{ this.entry.url }}"
          data-embed-type-value="{{ this.entry.type }}"
          data-embed-image-value="{{ this.entry.image ? this.entry.image.filePath : '' }}"
@@ -92,7 +92,7 @@
                             <li class="kbin-entry-meta-entry kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <small class="text-muted">
                                     <a href="{{ entry_url(this.entry) }}">
-                                        <span data-comment-counter-target="lenght">{{ this.entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}
+                                        <span data-entry-target="commentCounter">{{ this.entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}
                                     </a>
                                 </small>
                             </li>
