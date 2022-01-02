@@ -9,9 +9,9 @@ use App\Entity\User;
 use App\Event\EntryComment\EntryCommentBeforePurgeEvent;
 use App\Event\EntryComment\EntryCommentCreatedEvent;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
+use App\Event\EntryComment\EntryCommentEditedEvent;
 use App\Event\EntryComment\EntryCommentPurgedEvent;
 use App\Event\EntryComment\EntryCommentRestoredEvent;
-use App\Event\EntryComment\EntryCommentUpdatedEvent;
 use App\Factory\EntryCommentFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
@@ -66,7 +66,7 @@ class EntryCommentManager implements ContentManagerInterface
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new EntryCommentUpdatedEvent($comment));
+        $this->dispatcher->dispatch(new EntryCommentEditedEvent($comment));
 
         return $comment;
     }
@@ -84,20 +84,6 @@ class EntryCommentManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new EntryCommentDeletedEvent($comment, $user));
-    }
-
-    public function restore(User $user, EntryComment $comment):void
-    {
-        if($comment->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
-            throw new \Exception('Invalid visibility');
-        }
-
-        $comment->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
-
-        $this->entityManager->persist($comment);
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new EntryCommentRestoredEvent($comment, $user));
     }
 
     public function purge(EntryComment $comment): void
@@ -121,6 +107,20 @@ class EntryCommentManager implements ContentManagerInterface
     private function isTrashed(User $user, EntryComment $comment): bool
     {
         return !$comment->isAuthor($user);
+    }
+
+    public function restore(User $user, EntryComment $comment): void
+    {
+        if ($comment->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+            throw new \Exception('Invalid visibility');
+        }
+
+        $comment->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new EntryCommentRestoredEvent($comment, $user));
     }
 
     public function createDto(EntryComment $comment): EntryCommentDto

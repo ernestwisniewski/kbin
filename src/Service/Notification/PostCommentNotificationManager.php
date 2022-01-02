@@ -8,6 +8,7 @@ use App\Entity\Notification;
 use App\Entity\PostComment;
 use App\Entity\PostCommentCreatedNotification;
 use App\Entity\PostCommentDeletedNotification;
+use App\Entity\PostCommentEditedNotification;
 use App\Entity\PostCommentReplyNotification;
 use App\Entity\User;
 use App\Factory\MagazineFactory;
@@ -48,7 +49,10 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
 
     public function sendEdited(ContentInterface $subject): void
     {
-
+        /**
+         * @var PostComment $subject
+         */
+        $this->notifyMagazine(new PostCommentEditedNotification($subject->user, $subject));
     }
 
     private function sendUserReplyNotification(PostComment $comment): ?User
@@ -131,12 +135,12 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
 
         return json_encode(
             [
-                'op'      => end($class),
-                'id'      => $notification->getComment()->getId(),
+                'op' => end($class),
+                'id' => $notification->getComment()->getId(),
                 'subject' => [
                     'id' => $notification->getComment()->post->getId(),
                 ],
-                'toast'   => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

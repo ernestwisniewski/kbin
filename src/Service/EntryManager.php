@@ -9,9 +9,9 @@ use App\Entity\User;
 use App\Event\Entry\EntryBeforePurgeEvent;
 use App\Event\Entry\EntryCreatedEvent;
 use App\Event\Entry\EntryDeletedEvent;
+use App\Event\Entry\EntryEditedEvent;
 use App\Event\Entry\EntryPinEvent;
 use App\Event\Entry\EntryRestoredEvent;
-use App\Event\Entry\EntryUpdatedEvent;
 use App\Factory\EntryFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
@@ -82,7 +82,7 @@ class EntryManager implements ContentManagerInterface
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new EntryUpdatedEvent($entry));
+        $this->dispatcher->dispatch(new EntryEditedEvent($entry));
 
         return $entry;
     }
@@ -104,7 +104,7 @@ class EntryManager implements ContentManagerInterface
 
     public function restore(User $user, Entry $entry): void
     {
-        if($entry->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+        if ($entry->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
             throw new \Exception('Invalid visibility');
         }
 

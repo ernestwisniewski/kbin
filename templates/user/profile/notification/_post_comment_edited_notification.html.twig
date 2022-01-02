@@ -1,0 +1,5 @@
+{% from 'user/_macros.html.twig' import user %}
+{% from '_layout/_macros.html.twig' import post_url %}
+
+{{ user(notification.user) }} {{ 'edit_reply'|trans }} {{ 'in'|trans }} {{ component('magazine_inline', { magazine: notification.comment.post.magazine }) }} -
+<strong><a href="{{ post_url(notification.comment.post) }}">{{ notification.comment.post.shortTitle }}</a></strong>

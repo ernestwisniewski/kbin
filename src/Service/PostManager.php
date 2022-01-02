@@ -10,7 +10,7 @@ use App\Event\Post\PostBeforePurgeEvent;
 use App\Event\Post\PostCreatedEvent;
 use App\Event\Post\PostDeletedEvent;
 use App\Event\Post\PostRestoredEvent;
-use App\Event\Post\PostUpdatedEvent;
+use App\Event\Post\PostEditedEvent;
 use App\Factory\PostFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
@@ -68,7 +68,7 @@ class  PostManager implements ContentManagerInterface
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new PostUpdatedEvent($post));
+        $this->dispatcher->dispatch(new PostEditedEvent($post));
 
         return $post;
     }

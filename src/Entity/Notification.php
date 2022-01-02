@@ -11,13 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="notification_type", type="text")
  * @ORM\DiscriminatorMap({
  *   "entry_created": "EntryCreatedNotification",
+ *   "entry_edited": "EntryEditedNotification",
  *   "entry_deleted": "EntryDeletedNotification",
  *   "entry_comment_created": "EntryCommentCreatedNotification",
+ *   "entry_comment_edited": "EntryCommentEditedNotification",
  *   "entry_comment_reply": "EntryCommentReplyNotification",
  *   "entry_comment_deleted": "EntryCommentDeletedNotification",
  *   "post_created": "PostCreatedNotification",
+ *   "post_edited": "PostEditedNotification",
  *   "post_deleted": "PostDeletedNotification",
  *   "post_comment_created": "PostCommentCreatedNotification",
+ *   "post_comment_edited": "PostCommentEditedNotification",
  *   "post_comment_reply": "PostCommentReplyNotification",
  *   "post_comment_deleted": "PostCommentDeletedNotification",
  *   "message": "MessageNotification",

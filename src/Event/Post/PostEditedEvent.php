@@ -4,7 +4,7 @@ namespace App\Event\Post;
 
 use App\Entity\Post;
 
-class PostUpdatedEvent
+class PostEditedEvent
 {
     public function __construct(public Post $post)
     {

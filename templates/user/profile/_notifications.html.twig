@@ -2,6 +2,10 @@
     {% include 'user/profile/notification/_entry_created_notification.html.twig' %}
 {% endblock entry_created_notification %}
 
+{% block entry_edited_notification %}
+    {% include 'user/profile/notification/_entry_edited_notification.html.twig' %}
+{% endblock entry_edited_notification %}
+
 {% block entry_deleted_notification %}
     {% include 'user/profile/notification/_entry_deleted_notification.html.twig' %}
 {% endblock entry_deleted_notification %}
@@ -9,6 +13,10 @@
 {% block entry_comment_created_notification %}
     {% include 'user/profile/notification/_entry_comment_created_notification.html.twig' %}
 {% endblock entry_comment_created_notification %}
+
+{% block entry_comment_edited_notification %}
+    {% include 'user/profile/notification/_entry_comment_edited_notification.html.twig' %}
+{% endblock entry_comment_edited_notification %}
 
 {% block entry_comment_reply_notification %}
     {% include 'user/profile/notification/_entry_comment_reply_notification.html.twig' %}
@@ -22,6 +30,10 @@
     {% include 'user/profile/notification/_post_created_notification.html.twig' %}
 {% endblock post_created_notification %}
 
+{% block post_edited_notification %}
+    {% include 'user/profile/notification/_post_edited_notification.html.twig' %}
+{% endblock post_edited_notification %}
+
 {% block post_deleted_notification %}
     {% include 'user/profile/notification/_post_deleted_notification.html.twig' %}
 {% endblock post_deleted_notification %}
@@ -29,6 +41,10 @@
 {% block post_comment_created_notification %}
     {% include 'user/profile/notification/_post_comment_created_notification.html.twig' %}
 {% endblock post_comment_created_notification %}
+
+{% block post_comment_edited_notification %}
+    {% include 'user/profile/notification/_post_comment_edited_notification.html.twig' %}
+{% endblock post_comment_edited_notification %}
 
 {% block post_comment_reply_notification %}
     {% include 'user/profile/notification/_post_comment_reply_notification.html.twig' %}
