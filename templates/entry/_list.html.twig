@@ -1,7 +1,7 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 
 <div class="kbin-entry-list" data-controller="entry-list"
-    data-action="notify:EntryCreatedNotification@window->entry-list#add notify:EntryDeletedNotification@window->entry-list#remove"
+    data-action="notify:EntryCreatedNotification@window->entry-list#add"
     {% if magazine is defined and magazine %}data-entry-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if entries|length %}
         {% for entry in entries %}

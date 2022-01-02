@@ -1,5 +1,5 @@
 <div class="kbin--list" data-controller="comment-list"
-   data-action="notify:PostCommentCreatedNotification@window->comment-list#add notify:PostCommentDeletedNotification@window->comment-list#remove"
+   data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
    {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
     {% if comments|length %}
         {% for comment in comments %}

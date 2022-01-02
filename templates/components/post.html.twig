@@ -4,8 +4,8 @@
 
 <blockquote id="{{ this.post.id }}"
             class="kbin-post py-3 {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }}"
-            data-controller="post report comment-counter"
-            data-action="notify:PostCommentCreatedNotification@window->comment-counter#increase"
+            data-controller="post report"
+            data-action="notify:PostCommentCreatedNotification@window->post#increaseComments notify:PostCommentDeletedNotification@window->post#decreaseComments notify:PostDeletedNotification@window->post#remove notify:PostEditedNotification@window->post#edit"
             data-comment-counter-subject-id-value="{{ this.post.id }}"
             data-post-id-value="{{ this.post.id }}">
     <div class="kbin-post-header mb-2">
@@ -90,7 +90,7 @@
                                     <a data-action="post#expand"
                                        data-post-target="expand"
                                        href="{{ post_url(this.post) }}">
-                                        {{ 'expand'|trans }} (<span data-comment-counter-target="lenght">{{ this.post.commentCount }}</span>)
+                                        {{ 'expand'|trans }} (<span data-post-target="commentCounter">{{ this.post.commentCount }}</span>)
                                     </a>
                                 </small>
                             </li>

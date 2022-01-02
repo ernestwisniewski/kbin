@@ -11,7 +11,9 @@
 <blockquote id="{{ this.comment.id }}"
             class="kbin-comment {{ this.extraClass }} py-3 kbin-comment--{{ this.level > 1 ? 'nested' : 'top-level' }}
              kbin-comment-level--{{ this.level >= 8 ? 'last' : this.level }} shadow-sm  {{ this.comment.user.avatar ? '' : 'ps-2' }}"
-            data-controller="comment report"
+            data-controller="comment report entry-comment"
+            data-action="notify:EntryCommentDeletedNotification@window->entry-comment#remove notify:EntryCommentEditedNotification@window->entry-comment#edit"
+            data-entry-comment-id-value="{{ this.comment.id }}"
             data-comment-id-value="{{ this.comment.id }}"
             data-comment-nested-value="true"
             data-comment-level-value="{{ this.level >= 7 ? '7' : this.level }}"

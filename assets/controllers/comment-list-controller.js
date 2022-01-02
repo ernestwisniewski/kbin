@@ -49,10 +49,4 @@ export default class extends ApplicationController {
         } catch (e) {
         }
     }
-
-    async remove(notification) {
-        console.log('notification.detail.id')
-        console.log(notification.detail.id)
-        document.getElementById(notification.detail.id).remove();
-    }
 }
