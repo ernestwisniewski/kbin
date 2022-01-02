@@ -4,7 +4,7 @@ namespace App\Event\Entry;
 
 use App\Entity\Entry;
 
-class EntryUpdatedEvent
+class EntryEditedEvent
 {
     public function __construct(public Entry $entry)
     {

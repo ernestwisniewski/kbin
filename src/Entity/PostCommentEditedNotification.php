@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
-class PostCommentCreatedNotification extends Notification
+class PostCommentEditedNotification extends Notification
 {
     /**
      * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="notifications")

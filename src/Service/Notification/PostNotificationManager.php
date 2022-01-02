@@ -8,6 +8,7 @@ use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostCreatedNotification;
 use App\Entity\PostDeletedNotification;
+use App\Entity\PostEditedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
@@ -55,7 +56,10 @@ class PostNotificationManager implements ContentNotificationManagerInterface
 
     public function sendEdited(ContentInterface $subject): void
     {
-
+        /**
+         * @var Post $subject
+         */
+        $this->notifyMagazine(new PostEditedNotification($subject->user, $subject));
     }
 
     private function notifyMagazine(Notification $notification)

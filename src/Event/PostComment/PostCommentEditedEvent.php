@@ -4,7 +4,7 @@ namespace App\Event\PostComment;
 
 use App\Entity\PostComment;
 
-class PostCommentUpdatedEvent
+class PostCommentEditedEvent
 {
     public function __construct(public PostComment $comment)
     {

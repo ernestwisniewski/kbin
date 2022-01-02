@@ -7,6 +7,7 @@ use App\Entity\Contracts\ContentInterface;
 use App\Entity\Entry;
 use App\Entity\EntryCreatedNotification;
 use App\Entity\EntryDeletedNotification;
+use App\Entity\EntryEditedNotification;
 use App\Entity\Notification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
@@ -55,7 +56,10 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
 
     public function sendEdited(ContentInterface $subject): void
     {
-
+        /**
+         * @var Entry $subject
+         */
+        $this->notifyMagazine(new EntryEditedNotification($subject->user, $subject));
     }
 
     private function notifyMagazine(Notification $notification): void

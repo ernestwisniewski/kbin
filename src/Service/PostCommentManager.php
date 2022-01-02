@@ -11,7 +11,7 @@ use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Event\PostComment\PostCommentRestoredEvent;
-use App\Event\PostComment\PostCommentUpdatedEvent;
+use App\Event\PostComment\PostCommentEditedEvent;
 use App\Factory\PostCommentFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
@@ -67,7 +67,7 @@ class PostCommentManager implements ContentManagerInterface
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new PostCommentUpdatedEvent($comment));
+        $this->dispatcher->dispatch(new PostCommentEditedEvent($comment));
 
         return $comment;
     }
