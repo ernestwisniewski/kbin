@@ -14,6 +14,10 @@ export default class extends Controller {
         useDebounce(this, {wait: 800})
     }
 
+    async fetchDuplicates() {
+
+    }
+
     async fetchTitle() {
         if (this.titleTarget.value) {
             return;
