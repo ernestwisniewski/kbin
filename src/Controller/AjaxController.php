@@ -12,6 +12,8 @@ use App\Repository\PostCommentRepository;
 use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AjaxController extends AbstractController
@@ -113,14 +115,22 @@ class AjaxController extends AbstractController
         string $topic,
         string $mercurePublishUrl,
         string $mercureSubscriptionsToken,
-        HttpClientInterface $httpClient
+        HttpClientInterface $httpClient,
+        CacheInterface $cache
     ): JsonResponse {
         $resp = $httpClient->request('GET', $mercurePublishUrl.'/subscriptions/'.$topic, [
             'auth_bearer' => $mercureSubscriptionsToken,
         ]);
 
+        // @todo cloudflare bug
+        $online = $cache->get($topic, function (ItemInterface $item) use ($resp) {
+            $item->expiresAfter(45);
+
+            return count($resp->toArray()['subscriptions']) + 1;
+        });
+
         return new JsonResponse([
-            'online' => count($resp->toArray()['subscriptions']) + 1,
+            'online' => $online,
         ]);
     }
 }
