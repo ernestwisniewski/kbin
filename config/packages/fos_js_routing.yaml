@@ -1,6 +1,7 @@
 fos_js_routing:
     routes_to_expose: [
             'ajax_fetch_title',
+            'ajax_fetch_duplicates',
             'ajax_fetch_embed',
             'ajax_fetch_entry',
             'ajax_fetch_entry_comment',

@@ -4,6 +4,12 @@ ajax_fetch_title:
   path: /ajax/fetch_title
   methods: [POST]
 
+ajax_fetch_duplicates:
+  controller: App\Controller\AjaxController::fetchDuplicates
+  defaults: { _format: json }
+  path: /ajax/fetch_duplicates
+  methods: [POST]
+
 ajax_fetch_embed:
   controller: App\Controller\AjaxController::fetchEmbed
   defaults: { _format: json }

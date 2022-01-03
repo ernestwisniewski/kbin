@@ -8,6 +8,7 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
+use App\Repository\EntryRepository;
 use App\Repository\PostCommentRepository;
 use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,6 +26,18 @@ class AjaxController extends AbstractController
         return new JsonResponse(
             [
                 'title' => $embed->fetch($url)->title,
+            ]
+        );
+    }
+
+    public function fetchDuplicates(EntryRepository $repository, Request $request): JsonResponse
+    {
+        $url     = json_decode($request->getContent())->url;
+        $entries = $repository->findBy(['url' => $url]);
+
+        return new JsonResponse(
+            [
+                'entries' => [],
             ]
         );
     }
