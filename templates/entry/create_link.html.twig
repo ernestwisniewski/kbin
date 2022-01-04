@@ -13,10 +13,27 @@
             </p>
 
             {% include 'entry/_form_link.html.twig' %}
+
+            {# Duplicates modal #}
+            <div class="modal fade" id="duplicatesModal" tabindex="-1" aria-labelledby="duplicatesModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="duplicatesModalLabel">{{ 'duplicates'|trans }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" data-entry-create-target="entries">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'add_anyway'|trans }}</button>
+                            <a href="{{ path('front') }}" class="btn btn-primary" tabindex="-1" role="button">{{ 'resigns'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
-
 
 {% block sidebar %}
     {{ parent() }}

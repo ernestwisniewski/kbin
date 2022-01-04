@@ -20,6 +20,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
     ) {
     }
 
+    public function isStartPage(): bool
+    {
+        return $this->isRouteContains('front') || in_array($this->getCurrentRouteName(), ['magazine_entry_comments', 'magazine_posts']);
+    }
+
     public function isHomePage(): bool
     {
         return in_array($this->getCurrentRouteName(), ['front', 'entry_comments_front', 'posts_front']);
