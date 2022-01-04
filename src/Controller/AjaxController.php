@@ -37,7 +37,8 @@ class AjaxController extends AbstractController
 
         return new JsonResponse(
             [
-                'entries' => [],
+                'total' => count($entries),
+                'html'  => $this->renderView('entry/_list.html.twig', ['entries' => $entries]),
             ]
         );
     }

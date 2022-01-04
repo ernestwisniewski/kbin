@@ -2,10 +2,12 @@ import {Controller} from '@hotwired/stimulus';
 import {useDebounce} from 'stimulus-use'
 import {fetch, ok} from '../utils/http';
 import router from '../utils/routing';
+import {Modal} from 'bootstrap/dist/js/bootstrap.bundle.js';
+
 
 export default class extends Controller {
     static debounces = ['fetchTitle']
-    static targets = ['sendButton', 'url', 'title'];
+    static targets = ['sendButton', 'url', 'title', 'entries'];
     static values = {
         loading: Boolean,
     };
@@ -15,7 +17,21 @@ export default class extends Controller {
     }
 
     async fetchDuplicates() {
+        try {
+            const url = router().generate('ajax_fetch_duplicates');
+            let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': this.urlTarget.value})});
 
+            response = await ok(response);
+            response = await response.json();
+
+            if (response.total > 0) {
+                this.entriesTarget.innerHTML = response.html;
+                (new Modal(document.getElementById('duplicatesModal'))).show();
+
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     async fetchTitle() {

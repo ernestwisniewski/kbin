@@ -4,7 +4,7 @@
         <div class="input-group-lg mb-3 row">
             <div class="col-11">
                 {{ form_label(form.url, 'URL') }}<sup class="required">*</sup>
-                {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle', 'data-entry-create-target': 'url' }}) }}
+                {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle entry-create#fetchDuplicates', 'data-entry-create-target': 'url' }}) }}
             </div>
             <div class="col-1 pt-4">
                 <a href="{{ path('entry_create', { type: 'type.image'|trans }) }}" class="link-dark">
