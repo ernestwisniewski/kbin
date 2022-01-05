@@ -5,6 +5,8 @@
         {{ 'topbar.subscriptions'|trans }} - {{ 'comments'|trans }}
     {% elseif is_mod_page() %}
         {{ 'topbar.moderated'|trans }} - {{ 'comments'|trans }}
+    {% elseif is_magazine_page() %}
+        {{ magazine.title }} - {{ 'comments'|trans }}
     {% else %}
         {{ 'comments'|trans ~ ' - ' ~ kbin_title }}
     {% endif %}
