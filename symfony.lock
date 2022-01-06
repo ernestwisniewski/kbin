@@ -195,6 +195,9 @@
             "ref": "d087df3e087f50da3955f2def05079380da5894b"
         }
     },
+    "gumlet/php-image-resize": {
+        "version": "2.0.1"
+    },
     "guzzlehttp/guzzle": {
         "version": "7.3.0"
     },

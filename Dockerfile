@@ -40,6 +40,8 @@ RUN set -eux; \
 		icu-dev \
 		libzip-dev \
 		zlib-dev \
+		imagemagick \
+		imagemagick-dev \
 	; \
 	\
 	docker-php-ext-configure zip; \
@@ -53,6 +55,7 @@ RUN set -eux; \
 	docker-php-ext-install -j$(nproc) sysvsem; \
 	pecl install \
 		apcu-${APCU_VERSION} \
+		imagick \
 	; \
 #    pecl install \
 #        mongodb \
@@ -62,6 +65,7 @@ RUN set -eux; \
 		apcu \
 		opcache \
 		sysvsem \
+		imagick \
 	; \
 	\
 	runDeps="$( \
