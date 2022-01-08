@@ -23,9 +23,9 @@ final class MagazineStandardLinkParser extends AbstractLocalLinkParser
     public function getUrl(string $suffix): string
     {
         return $this->urlGenerator->generate(
-            'user',
+            'front_magazine',
             [
-                'username' => $suffix,
+                'name' => $suffix,
             ]
         );
     }
