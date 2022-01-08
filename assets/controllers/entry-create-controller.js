@@ -2,8 +2,6 @@ import {Controller} from '@hotwired/stimulus';
 import {useDebounce} from 'stimulus-use'
 import {fetch, ok} from '../utils/http';
 import router from '../utils/routing';
-import {Modal} from 'bootstrap/dist/js/bootstrap.bundle.js';
-
 
 export default class extends Controller {
     static debounces = ['fetchTitle']
@@ -26,7 +24,7 @@ export default class extends Controller {
 
             if (response.total > 0) {
                 this.entriesTarget.innerHTML = response.html;
-                (new Modal(document.getElementById('duplicatesModal'))).show();
+                (new bootstrap.Modal(document.getElementById('duplicatesModal'))).show();
 
             }
         } catch (e) {
