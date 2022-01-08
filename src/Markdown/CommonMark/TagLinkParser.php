@@ -4,7 +4,7 @@ namespace App\Markdown\CommonMark;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class MagazineLinkParser extends AbstractLocalLinkParser
+final class TagLinkParser extends AbstractLocalLinkParser
 {
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
@@ -12,18 +12,23 @@ final class MagazineLinkParser extends AbstractLocalLinkParser
 
     public function getPrefix(): string
     {
-        return 'm';
+        return '#';
+    }
+
+    protected function kbinPrefix(): bool
+    {
+        return false;
     }
 
     public function getRegex(): string
     {
-        return '/^\w{2,25}\b/';
+        return '/^#\w{2,35}\b/';
     }
 
     public function getUrl(string $suffix): string
     {
         return $this->urlGenerator->generate(
-            'front_magazine',
+            'tag',
             [
                 'name' => $suffix,
             ]
