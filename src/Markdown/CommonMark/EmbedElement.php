@@ -33,7 +33,7 @@ class EmbedElement
                     ],
                     ''
                 ),
-                new HtmlElement('a', ['href' => $url, 'rel' => 'nofollow noopener noreferrer'], $label),
+                new HtmlElement('a', ['href' => $url, 'rel' => 'nofollow noopener noreferrer', 'target' => '_blank'], $label),
                 new HtmlElement(
                     'button', [
                     'class'             => 'btn-close mt-3 ms-1 display-none',
