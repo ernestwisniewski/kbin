@@ -5,6 +5,7 @@
 
 {% block body %}
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
+        <h1 class="mb-4 font-weight-bold">{{ q }}</h1>
         {% if results|length %}
             {% for subject in results %}
                 {% include '_layout/_subject.html.twig' with {subject: subject} %}

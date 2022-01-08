@@ -1,0 +1,4 @@
+tag:
+  controller: App\Controller\TagController
+  path: /tag/{name}
+  methods: [GET]

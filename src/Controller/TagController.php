@@ -6,20 +6,17 @@ use App\Service\SearchManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SearchController extends AbstractController
+class TagController extends AbstractController
 {
     public function __construct(private SearchManager $manager)
     {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(string $name, Request $request): Response
     {
         return $this->render(
             'search/front.html.twig',
-            [
-                'results' => $this->manager->findPaginated($request->query->get('q'), $this->getPageNb($request)),
-                'q'       => $request->query->get('q'),
-            ]
+            ['q' => '#'.$name, 'results' => $this->manager->findPaginated($name, $this->getPageNb($request))]
         );
     }
 }

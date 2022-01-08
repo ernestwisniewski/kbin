@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
@@ -21,6 +21,11 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
      */
     abstract public function getPrefix(): string;
 
+    protected function kbinPrefix(): bool
+    {
+        return true;
+    }
+
     final public function parse(InlineParserContext $inlineContext): bool
     {
         $cursor = $inlineContext->getCursor();
@@ -33,7 +38,7 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
 
         $previousState = $cursor->saveState();
 
-        $prefix = $cursor->match('@^/?'.$this->getPrefix().'/@');
+        $prefix = $this->kbinPrefix() ? $cursor->match('@^/?'.$this->getPrefix().'/@') : $this->getPrefix();
 
         if ($prefix === null) {
             return false;
@@ -47,7 +52,7 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
             return false;
         }
 
-        $link = new Link($this->getUrl($name), $prefix.$name);
+        $link = new Link($this->getUrl($this->kbinPrefix() ? $name : substr($name, 1)), ($this->kbinPrefix() ? $prefix : '').$name);
 
         $inlineContext->getContainer()->appendChild($link);
 

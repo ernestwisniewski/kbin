@@ -53,7 +53,18 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             return EmbedElement::buildEmbed($url, $title);
         }
 
-        return new HtmlElement('a', ['href' => $url, 'class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer'], $title);
+        $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer', 'target' => '_blank'];
+        foreach (['@', '!', '#', 'm/', '/m/', 'u/', '/u/'] as $tag) {
+            if (str_starts_with($title, $tag)) {
+                $attr = [];
+            }
+        }
+
+        return new HtmlElement(
+            'a',
+            ['href' => $url] + $attr,
+            $title
+        );
     }
 
     public function setConfiguration(
