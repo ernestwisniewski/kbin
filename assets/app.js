@@ -5,9 +5,6 @@ import KDatepicker from "./utils/datepicker";
 import KEditor from "./utils/editor";
 import KLoginAlert from "./utils/login-alert";
 import Navbar from "./utils/navbar";
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.js';
-
-window.bootstrap = bootstrap;
 
 window.addEventListener('load', function (event) {
     const choices = new KChoices();
