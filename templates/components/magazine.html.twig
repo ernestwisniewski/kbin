@@ -22,13 +22,13 @@
 </div>
 
 {% if this.showDescription and this.magazine.description %}
-    <div class="kbin-magazine-desc px-2 small">
+    <div class="kbin-magazine-desc px-2 my-5 small">
         <p class="small">{{ this.magazine.description|markdown|raw }}</p>
     </div>
 {% endif %}
 
 {% if this.showRules and this.magazine.rules %}
-    <div class="kbin-magazine-rules px-2 small">
+    <div class="kbin-magazine-rules px-2 my-5 small">
         <p class="small">{{ this.magazine.rules|markdown|raw }}</p>
     </div>
 {% endif %}
