@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -141,11 +141,17 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     public function getBestComments(): Collection
     {
         $criteria = Criteria::create()
-            ->orderBy(['upVotes'=> 'DESC', 'createdAt' => 'ASC']);
+            ->orderBy(['upVotes' => 'DESC', 'createdAt' => 'ASC']);
 
-        $comments =  $this->comments->matching($criteria);
+        $comments = $this->comments->matching($criteria);
+        $comments = new ArrayCollection($comments->slice(0, 2));
 
-        return new ArrayCollection($comments->slice(0, 2));
+        $iterator = $comments->getIterator();
+        $iterator->uasort(function ($a, $b) {
+            return ($a->createdAt < $b->createdAt) ? -1 : 1;
+        });
+
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 
     public function getLastComments(): Collection
@@ -153,7 +159,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $criteria = Criteria::create()
             ->orderBy(['createdAt' => 'ASC']);
 
-        $comments =  $this->comments->matching($criteria);
+        $comments = $this->comments->matching($criteria);
 
         return new ArrayCollection($comments->slice(-2, 2));
     }
