@@ -100,9 +100,6 @@ class PostNotificationManager implements ContentNotificationManagerInterface
          * @var Post $post
          */
         $this->notifyMagazine($notification = new PostDeletedNotification($post->user, $post));
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
     }
 
     public function purgeNotifications(Post $post)

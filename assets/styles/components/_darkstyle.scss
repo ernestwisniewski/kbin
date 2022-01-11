@@ -691,6 +691,14 @@
     background-color: #202020;
     border-color: #2e2f2f;
   }
+
+  .kbin-post-content,
+  .kbin-comment-content,
+  .kbin-entry-content {
+    a {
+      color: #718db1;
+    }
+  }
 }
 
 .disabled {

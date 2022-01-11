@@ -151,9 +151,6 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
          * @var PostComment $subject
          */
         $this->notifyMagazine($notification = new PostCommentDeletedNotification($subject->user, $subject));
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
     }
 
     public function purgeNotifications(PostComment $comment)

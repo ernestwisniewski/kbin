@@ -100,9 +100,6 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
          * @var Entry $subject
          */
         $this->notifyMagazine($notification = new EntryDeletedNotification($subject->user, $subject));
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
     }
 
     public function purgeNotifications(Entry $entry)

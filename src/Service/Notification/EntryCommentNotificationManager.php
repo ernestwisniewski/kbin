@@ -151,9 +151,6 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
          * @var EntryComment $subject
          */
         $this->notifyMagazine($notification = new EntryCommentDeletedNotification($subject->user, $subject));
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
     }
 
     public function purgeNotifications(EntryComment $comment)
