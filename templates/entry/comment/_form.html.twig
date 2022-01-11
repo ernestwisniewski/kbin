@@ -11,14 +11,18 @@
             {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
         </div>
 
-        <div class="mb-12 text-end btn-group float-end">
-            <div class="input-group me-2">
-                <button type="button" class="btn btn-secondary {{ hasImage ? 'd-none' : '' }}" data-bs-toggle="modal"
-                        data-bs-target="#media-modal-{{ comment is not defined or comment is null ? entry.id : comment.id }}"
-                        data-media-target="modalButton">
-                    <i class="fas fa-camera"></i>
-                </button>
-            </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-secondary me-1" href="{{ kbin_domain }}{{ kbin_markdown_howto_url }}" role="button">
+                <i class="fas fa-question"></i>
+            </a>
+
+
+            <button type="button" class="btn btn-secondary me-1 {{ hasImage ? 'd-none' : '' }}" data-bs-toggle="modal"
+                    data-bs-target="#media-modal-{{ comment is not defined or comment is null ? entry.id : comment.id }}"
+                    data-media-target="modalButton">
+                <i class="fas fa-camera"></i>
+            </button>
+
 
             <button data-action="media#delete"
                     data-media-url-param="{{ hasImage ? path('entry_comment_image_delete', {magazine_name: comment.magazine.name, entry_id: comment.entry.id, comment_id: comment.id}) : '' }}"
