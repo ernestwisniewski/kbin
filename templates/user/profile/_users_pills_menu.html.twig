@@ -1,0 +1,10 @@
+<ul class="nav nav-pills mb-5">
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_user_subscriptions') ? 'active bg-gradient': '' }}" aria-current="page"
+           href="{{ path('user_profile_user_subscriptions') }}">{{ 'follows'|trans }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_user_blocks') ? 'active bg-gradient': '' }}"
+           href="{{ path('user_profile_user_blocks') }}">{{ 'blocks'|trans }}</a>
+    </li>
+</ul>

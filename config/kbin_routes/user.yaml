@@ -118,6 +118,13 @@ user_profile_notifications_read:
   path: /profile/notifications/read
   methods: [ POST ]
 
+user_profile_reports:
+  controller: App\Controller\User\Profile\UserReportsController
+  path:
+    en: /profile/reports
+    pl: /profil/zgłoszenia
+  methods: [ GET ]
+
 user_profile_notifications_clear:
   controller: App\Controller\User\Profile\UserNotificationController::clear
   path: /profile/notifications/clear

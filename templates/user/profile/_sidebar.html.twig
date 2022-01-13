@@ -12,14 +12,22 @@
            class="list-group-item {{ is_active_route('user_profile_messages') ? 'active font-weight-bold' : '' }}">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{'messages'|trans}}</h4>
         </a>
+        <a href="#"
+           class="list-group-item {{ is_active_route('user_profile_reports') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{'reports'|trans}}</h4>
+        </a>
         {# todo: nojs #}
         <a href="{{ path('user_profile_user_subscriptions') }}"
            class="list-group-item {{ is_active_route('user_profile_user_subscriptions') or is_active_route('user_profile_user_blocks') ? 'active font-weight-bold' : '' }}">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'people'|trans }}</h4>
         </a>
         <a href="{{ path('user_profile_magazine_subscriptions') }}"
-           class="list-group-item {{ is_active_route('user_profile_magazine_subscriptions') ? 'active font-weight-bold' : '' }}">
+           class="list-group-item {{ is_active_route('user_profile_magazine_subscriptions') or is_active_route('user_profile_magazine_blocks') ? 'active font-weight-bold' : '' }}">
             <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'magazines'|trans }}</h4>
+        </a>
+        <a href="{{ path('user_profile_tips') }}"
+           class="list-group-item {{ is_active_route('user_profile_tips') ? 'active font-weight-bold' : '' }}">
+            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'tips'|trans }}</h4>
         </a>
         <a href="{{ path('user_profile_settings') }}"
            class="list-group-item {{ is_active_route('user_profile_settings') ? 'active font-weight-bold' : '' }}">
