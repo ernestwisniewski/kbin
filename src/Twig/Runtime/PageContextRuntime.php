@@ -219,7 +219,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function getActiveSortOption()
     {
-        return $this->getCurrentRequest()->get('sortBy') ?? EntryRepository::SORT_DEFAULT;
+        return $this->getCurrentRequest()->get('sortBy') ?? $this->translator->trans('sort.' . EntryRepository::SORT_DEFAULT);
     }
 
     public function isMagazinePage(): bool

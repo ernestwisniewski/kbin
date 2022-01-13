@@ -7,6 +7,8 @@
     <div class="kbin-profile kbin-profile-sub-magazines-page">
         {% include 'user/profile/_tabs.html.twig' %}
 
+        {{ include('user/profile/_magazines_pills_menu.html.twig') }}
+
         <div class="kbin-profile-edit mt-lg-4">
             {% if magazines|length %}
                 {% include 'magazine/_list_table.html.twig' %}

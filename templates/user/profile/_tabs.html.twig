@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_front') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('user_profile_front') }}">{{ 'stats'|trans }}</a>
+           href="{{ path('user_profile_front') }}"><i class="fas fa-chart-line"></i> </a>
     </li>
 
     <li class="nav-item">
@@ -14,13 +14,18 @@
            href="{{ path('user_profile_messages') }}">{{'messages'|trans}}</a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_profile_reports') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('user_profile_reports') }}">{{'reports'|trans}}</a>
+    </li>
+
     {# todo: nojs #}
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle {{ is_active_route('user_profile_user_subscriptions') or is_active_route('user_profile_user_blocks') ? 'active font-weight-bold' : '' }}"
            data-bs-toggle="dropdown"
            role="button" aria-expanded="false" href="{{ path('user_profile_user_subscriptions') }}">{{ 'people'|trans }}</a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('user_profile_user_subscriptions') }}">{{ 'subscriptions'|trans }}</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_user_subscriptions') }}">{{ 'follows'|trans }}</a></li>
             <li><a class="dropdown-item" href="{{ path('user_profile_user_blocks') }}">{{ 'blocks'|trans }}</a></li>
         </ul>
     </li>
