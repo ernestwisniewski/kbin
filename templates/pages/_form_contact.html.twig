@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+
+<div class="kbin-contact-form">
+    <div class="col-lg-6 mb-3">
+        <div class="input-group-lg mb-3">
+            {{ form_label(form.name, 'name'|trans) }}<sup class="required">*</sup>
+            {{ form_widget(form.name) }}
+        </div>
+
+        <div class="input-group-lg mb-3">
+            {{ form_label(form.email, 'email'|trans) }}<sup class="required">*</sup>
+            {{ form_widget(form.email) }}
+        </div>
+
+        <div class="input-group-lg mb-3">
+            {{ form_label(form.message, 'message'|trans) }}<sup class="required">*</sup>
+            {{ form_widget(form.message, {'attr': {'class': ''}}) }}
+        </div>
+
+        <div class="text-end">
+            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
+        </div>
+    </div>
+
+
+</div>
+{{ form_end(form) }}
