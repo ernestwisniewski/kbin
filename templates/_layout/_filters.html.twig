@@ -23,22 +23,22 @@
                 <i class="fas fa-history"></i> {{ get_active_time_option() }}</a>
             <ul class="dropdown-menu" aria-labelledby="kbin-time-filter">
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '6h'|trans, get_active_type_option(), false) }}">{{ '6h'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, '6h'|trans, get_active_type_option(), false) }}">{{ '6h'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '12h'|trans, get_active_type_option(), false) }}">{{ '12h'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, '12h'|trans, get_active_type_option(), false) }}">{{ '12h'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1d'|trans, get_active_type_option(), false) }}">{{ 'day'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, '1d'|trans, get_active_type_option(), false) }}">{{ 'day'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1w'|trans, get_active_type_option(), false) }}">{{ 'week'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, '1w'|trans, get_active_type_option(), false) }}">{{ 'week'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1m'|trans, get_active_type_option(), false) }}">{{ 'month'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, '1m'|trans, get_active_type_option(), false) }}">{{ 'month'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), '1y'|trans, get_active_type_option(), false) }}">{{ 'year'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, '1y'|trans, get_active_type_option(), false) }}">{{ 'year'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '∞', get_active_type_option(), false) }}">∞</a>
                 </li>
