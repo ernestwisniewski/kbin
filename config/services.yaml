@@ -5,6 +5,7 @@ framework:
 
 parameters:
   kbin_domain: '%env(KBIN_DOMAIN)%'
+  kbin_contact_email: '%env(KBIN_CONTACT_EMAIL)%'
 
   html5_validation: false
 
@@ -26,7 +27,7 @@ parameters:
   env(MONGODB_DB): ''
 
   elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
-#  elastica_enabled: false
+  #  elastica_enabled: false
   elastica_listener:
     insert: '%elastica_enabled%'
     update: '%elastica_enabled%'
@@ -40,6 +41,8 @@ services:
     autowire: true
     autoconfigure: true
     bind:
+      $kbinDomain: '%kbin_domain%'
+      $kbinContactEmail: '%kbin_contact_email%'
       $elasticaEnabled: '%elastica_enabled%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'

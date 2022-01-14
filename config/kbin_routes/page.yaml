@@ -1,0 +1,6 @@
+page_contact:
+  controller: App\Controller\ContactController
+  path:
+    en: /contact
+    pl: /kontakt
+  methods: [ GET, POST ]
