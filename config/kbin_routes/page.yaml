@@ -4,3 +4,22 @@ page_contact:
     en: /contact
     pl: /kontakt
   methods: [ GET, POST ]
+
+page_faq:
+  controller: App\Controller\FaqController
+  path: /faq
+  methods: [ GET ]
+
+page_privacy_policy:
+  controller: App\Controller\PrivacyPolicyController
+  path:
+    en: /privacy-policy
+    pl: /polityka-prywatności
+  methods: [ GET ]
+
+page_terms:
+  controller: App\Controller\TermsController
+  path:
+    en: /terms
+    pl: /regulamin
+  methods: [ GET ]
