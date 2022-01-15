@@ -55,16 +55,16 @@
                 <i class="fas fa-photo-video"></i> {{ get_active_type_option() ?get_active_type_option() : 'filter.all'|trans }}</a>
             <ul class="dropdown-menu" aria-labelledby="kbin-type-filter">
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'filter.link'|trans, false) }}">{{ 'filter.link'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, get_active_time_option(), 'filter.link'|trans, false) }}">{{ 'filter.link'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'filter.article'|trans, false) }}">{{ 'filter.article'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, get_active_time_option(), 'filter.article'|trans, false) }}">{{ 'filter.article'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'filter.photo'|trans, false) }}">{{ 'filter.photo'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, get_active_time_option(), 'filter.photo'|trans, false) }}">{{ 'filter.photo'|trans }}</a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="{{ get_active_sort_option_path(get_active_sort_option(), get_active_time_option(), 'filter.video'|trans, false) }}">{{ 'filter.video'|trans }}</a>
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, get_active_time_option(), 'filter.video'|trans, false) }}">{{ 'filter.video'|trans }}</a>
                 </li>
             </ul>
         </li>

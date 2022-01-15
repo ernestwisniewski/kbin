@@ -60,12 +60,14 @@ class PostCommentManager implements ContentManagerInterface
         Assert::same($comment->post->getId(), $dto->post->getId());
 
         $comment->body = $dto->body;
-
-        if ($dto->image) {
-            $comment->image = $dto->image;
-        }
+        $oldImage       = $comment->image;
+        $comment->image = $dto->image;
 
         $this->entityManager->flush();
+
+        if ($oldImage && $dto->image !== $oldImage) {
+            $this->bus->dispatch(new DeleteImageMessage($oldImage->filePath));
+        }
 
         $this->dispatcher->dispatch(new PostCommentEditedEvent($comment));
 
