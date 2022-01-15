@@ -59,12 +59,15 @@ class EntryCommentManager implements ContentManagerInterface
     {
         Assert::same($comment->entry->getId(), $dto->entry->getId());
 
-        $comment->body = $dto->body;
-        if ($dto->image) {
-            $comment->image = $dto->image;
-        }
+        $comment->body  = $dto->body;
+        $oldImage       = $comment->image;
+        $comment->image = $dto->image;
 
         $this->entityManager->flush();
+
+        if ($oldImage && $dto->image !== $oldImage) {
+            $this->bus->dispatch(new DeleteImageMessage($oldImage->filePath));
+        }
 
         $this->dispatcher->dispatch(new EntryCommentEditedEvent($comment));
 

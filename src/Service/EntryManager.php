@@ -73,14 +73,19 @@ class EntryManager implements ContentManagerInterface
         $entry->url     = $dto->url;
         $entry->body    = $dto->body;
         $entry->isAdult = $dto->isAdult;
-        $entry->image   = $dto->image;
         $entry->slug    = $this->slugger->slug($dto->title);
+        $oldImage       = $entry->image;
+        $entry->image   = $dto->image;
 
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);
         }
 
         $this->entityManager->flush();
+
+        if ($oldImage && $dto->image !== $oldImage) {
+            $this->bus->dispatch(new DeleteImageMessage($oldImage->filePath));
+        }
 
         $this->dispatcher->dispatch(new EntryEditedEvent($entry));
 

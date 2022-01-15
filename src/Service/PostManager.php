@@ -9,8 +9,8 @@ use App\Entity\User;
 use App\Event\Post\PostBeforePurgeEvent;
 use App\Event\Post\PostCreatedEvent;
 use App\Event\Post\PostDeletedEvent;
-use App\Event\Post\PostRestoredEvent;
 use App\Event\Post\PostEditedEvent;
+use App\Event\Post\PostRestoredEvent;
 use App\Factory\PostFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
@@ -61,12 +61,14 @@ class  PostManager implements ContentManagerInterface
 
         $post->body    = $dto->body;
         $post->isAdult = $dto->isAdult;
-
-        if ($dto->image) {
-            $post->image = $dto->image;
-        }
+        $oldImage      = $post->image;
+        $post->image   = $dto->image;
 
         $this->entityManager->flush();
+
+        if ($oldImage && $dto->image !== $oldImage) {
+            $this->bus->dispatch(new DeleteImageMessage($oldImage->filePath));
+        }
 
         $this->dispatcher->dispatch(new PostEditedEvent($post));
 
@@ -88,9 +90,9 @@ class  PostManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostDeletedEvent($post, $user));
     }
 
-    public function restore(User $user, Post $post):void
+    public function restore(User $user, Post $post): void
     {
-        if($post->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+        if ($post->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
             throw new \Exception('Invalid visibility');
         }
 

@@ -9,6 +9,52 @@
 
             <h1 class="font-weight-bold mb-5">FAQ</h1>
 
+            <p>Masz pytania dotyczące działania strony? <a href="{{ path('page_contact') }}">Skontaktuj się</a>.</p>
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                aria-expanded="false" aria-controls="flush-collapseOne">
+                            Czy mogę zarejestrować konto? Moje dane są bezpieczne?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="collapse-"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body"><p>Aktualnie rejestracja jest otwarta, przywiązuję dużą wagę do bezpieczeństwa danych
+                                użytkowników, lecz warto pamiętać, że portal jest w stadium prototypu. Część funkcji nie działa jeszcze tak jak jak
+                                powinno.</p>
+                            <p>Sugeruję, żeby rejestrować konto z użyciem hasła nieużywanego w innych miejscach.
+                            <p>Adres email używany jest wyłącznie do odzyskania hasła, nie będzie przekazany w ręce osób lub firm trzecich. Dozwolone
+                                jest korzystanie z usług typu 10-minutes mail.</p></div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
+                                aria-expanded="false" aria-controls="flush-collapseTwo">
+                            Dlaczego regulamin i polityka prywatności jest pusta?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body"><p>W lutym zaczyna się procedura tworzenia regulaminu i polityki prywatności przeznaczonych dla
+                                portalu. Całość potrwa to od 4 do 6 tygodni.</p></div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
+                                aria-expanded="false" aria-controls="flush-collapseThree">
+                            Jak finansowany jest portal?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">Portal finansowany jest wyłącznie ze środków prywatnych.</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
