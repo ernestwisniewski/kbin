@@ -34,7 +34,8 @@
           color: $kbin-navbar-link-color !important;
           border: 1px solid transparent;
           display: block;
-          padding: .5rem 1rem;
+          font-size: 0.74rem;
+          padding: 0.53rem 1rem;
           transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
 
           @include media-breakpoint-down(lg) {
