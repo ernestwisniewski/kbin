@@ -12,4 +12,5 @@ class ContactDto
     public string $email;
     #[Assert\NotBlank]
     public string $message;
+    public ?string $ip = null;
 }
