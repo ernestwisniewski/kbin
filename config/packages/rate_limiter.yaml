@@ -28,3 +28,7 @@ framework:
       policy: 'fixed_window'
       limit: 3
       interval: '360 minutes'
+    contact:
+      policy: 'fixed_window'
+      limit: 3
+      interval: '2 minutes'
