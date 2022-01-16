@@ -27,6 +27,10 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class
             )
             ->add(
+                'rightPosImages',
+                CheckboxType::class
+            )
+            ->add(
                 'showProfileSubscriptions',
                 CheckboxType::class
             )
