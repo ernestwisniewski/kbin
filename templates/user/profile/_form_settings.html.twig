@@ -1,85 +1,99 @@
 {{ form_start(form) }}
+<ul class="nav nav-pills mb-5" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active text-reset" id="pills-appearance-tab" data-bs-toggle="pill" data-bs-target="#pills-appearance" type="button" role="tab"
+                aria-controls="pills-appearance" aria-selected="true">{{ 'appearance'|trans }}</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-reset" id="pills-privacy-tab" data-bs-toggle="pill" data-bs-target="#pills-privacy" type="button" role="tab"
+                aria-controls="pills-privacy" aria-selected="false">{{ 'privacy'|trans }}
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-reset" id="pills-notifications-tab" data-bs-toggle="pill" data-bs-target="#pills-notifications" type="button" role="tab"
+                aria-controls="pills-notifications" aria-selected="false">{{ 'notifications'|trans }}
+        </button>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-appearance" role="tabpanel" aria-labelledby="pills-appearance-tab">
+        <div class="mb-3">
+            {{ form_label(form.darkTheme, 'dark_mode'|trans) }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.darkTheme, {name: 'dark_mode'|trans}) }}
+            </div>
 
-<h2 class="font-weight-bold mb-4">{{ 'appearance'|trans }}</h2>
+            {{ form_label(form.turboMode, 'turbo_mode'|trans) }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.turboMode, {name: 'turbo_mode'|trans}) }} <small class="ms-1 text-muted">(experimental)</small>
+            </div>
 
-<div class="mb-3">
-    {{ form_label(form.darkTheme, 'dark_mode'|trans) }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.darkTheme, {name: 'dark_mode'|trans}) }}
-    </div>
+            <div class="input-group input-group-lg">
+                <div class="form-check"><input id="adult" type="checkbox" name="" disabled="disabled" novalidate="novalidate"
+                                               class="form-check-input">
+                    <label class="form-check-label required" for="adult">{{ 'hide_nsfw'|trans }}</label>
+                </div>
+            </div>
 
-    {{ form_label(form.turboMode, 'turbo_mode'|trans) }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.turboMode, {name: 'turbo_mode'|trans}) }} <small class="ms-1 text-muted">(experimental)</small>
-    </div>
+            {{ form_label(form.hideImages, 'hide_images'|trans) }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.hideImages, {name: 'hide_images'|trans}) }}
+            </div>
 
-    <div class="input-group input-group-lg">
-        <div class="form-check"><input id="adult" type="checkbox" name="" disabled="disabled" novalidate="novalidate" class="form-check-input">
-            <label class="form-check-label required" for="adult">{{ 'hide_nsfw'|trans }}</label>
+            {{ form_label(form.rightPosImages, 'right_pos_images'|trans) }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.rightPosImages, {name: 'right_pos_images'|trans}) }}
+            </div>
         </div>
     </div>
+    <div class="tab-pane fade" id="pills-privacy" role="tabpanel" aria-labelledby="pills-privacy-tab">
+        <h5 class="">{{ 'profile'|trans }}</h5>
+        {{ form_label(form.showProfileSubscriptions, 'show_profile_subscriptions'|trans) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.showProfileSubscriptions, {name: 'show_profile_subscriptions'|trans}) }}
+        </div>
 
-    {{ form_label(form.hideImages, 'hide_images'|trans) }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.hideImages, {name: 'hide_images'|trans}) }}
+        {{ form_label(form.showProfileFollowings, 'show_profile_followings'|trans) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.showProfileFollowings, {name: 'show_profile_followings'|trans}) }}
+        </div>
+
     </div>
+    <div class="tab-pane fade" id="pills-notifications" role="tabpanel" aria-labelledby="pills-notifications-tab">
 
-    {{ form_label(form.rightPosImages, 'right_pos_images'|trans) }}
-    <div class="input-group input-group-lg">
-        {{ form_widget(form.rightPosImages, {name: 'right_pos_images'|trans}) }}
+        <h5 class="">{{ 'your_content'|trans }}</h5>
+        {{ form_label(form.notifyOnNewEntryReply, 'notify_on_new_entry_reply'|trans) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.notifyOnNewEntryReply, {name: 'notify_on_new_entry_reply'|trans}) }}
+        </div>
+
+        {{ form_label(form.notifyOnNewEntryCommentReply, 'notify_on_new_entry_comment_reply'|trans) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.notifyOnNewEntryCommentReply, {name: 'notify_on_new_entry_comment_reply'|trans}) }}
+        </div>
+
+        {{ form_label(form.notifyOnNewPostReply, 'notify_on_new_post_reply'|trans) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.notifyOnNewPostReply, {name: 'notify_on_new_post_reply'|trans}) }}
+        </div>
+
+        {{ form_label(form.notifyOnNewPostCommentReply, 'notify_on_new_post_comment_reply'|trans) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.notifyOnNewPostCommentReply, {name: 'notify_on_new_post_comment_reply'|trans}) }}
+        </div>
+
+        <h5 class="mt-3">{{ 'subscriptions'|trans }}</h5>
+
+        {{ form_label(form.notifyOnNewEntry, 'notify_on_new_entry'|trans) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.notifyOnNewEntry, {name: 'notify_on_new_entry'|trans}) }}
+        </div>
+
+        {{ form_label(form.notifyOnNewPost, 'notify_on_new_posts'|trans) }}
+        <div class="input-group input-group-lg">
+            {{ form_widget(form.notifyOnNewPost, {name: 'notify_on_new_posts'|trans}) }}
+        </div>
     </div>
-</div>
-
-<hr class="mb-4">
-
-<h2 class="font-weight-bold mb-4">{{ 'privacy'|trans }}</h2>
-
-<h5 class="">{{ 'profile'|trans }}</h5>
-{{ form_label(form.showProfileSubscriptions, 'show_profile_subscriptions'|trans) }}
-<div class="input-group input-group-lg">
-    {{ form_widget(form.showProfileSubscriptions, {name: 'show_profile_subscriptions'|trans}) }}
-</div>
-
-{{ form_label(form.showProfileFollowings, 'show_profile_followings'|trans) }}
-<div class="input-group input-group-lg">
-    {{ form_widget(form.showProfileFollowings, {name: 'show_profile_followings'|trans}) }}
-</div>
-
-<hr class="mb-4">
-
-<h2 class="font-weight-bold mb-4">{{ 'notifications'|trans }}</h2>
-
-<h5 class="">{{ 'your_content'|trans }}</h5>
-{{ form_label(form.notifyOnNewEntryReply, 'notify_on_new_entry_reply'|trans) }}
-<div class="input-group input-group-lg">
-    {{ form_widget(form.notifyOnNewEntryReply, {name: 'notify_on_new_entry_reply'|trans}) }}
-</div>
-
-{{ form_label(form.notifyOnNewEntryCommentReply, 'notify_on_new_entry_comment_reply'|trans) }}
-<div class="input-group input-group-lg">
-    {{ form_widget(form.notifyOnNewEntryCommentReply, {name: 'notify_on_new_entry_comment_reply'|trans}) }}
-</div>
-
-{{ form_label(form.notifyOnNewPostReply, 'notify_on_new_post_reply'|trans) }}
-<div class="input-group input-group-lg">
-    {{ form_widget(form.notifyOnNewPostReply, {name: 'notify_on_new_post_reply'|trans}) }}
-</div>
-
-{{ form_label(form.notifyOnNewPostCommentReply, 'notify_on_new_post_comment_reply'|trans) }}
-<div class="input-group input-group-lg">
-    {{ form_widget(form.notifyOnNewPostCommentReply, {name: 'notify_on_new_post_comment_reply'|trans}) }}
-</div>
-
-<h5 class="mt-3">{{ 'subscriptions'|trans }}</h5>
-
-{{ form_label(form.notifyOnNewEntry, 'notify_on_new_entry'|trans) }}
-<div class="input-group input-group-lg">
-    {{ form_widget(form.notifyOnNewEntry, {name: 'notify_on_new_entry'|trans}) }}
-</div>
-
-{{ form_label(form.notifyOnNewPost, 'notify_on_new_posts'|trans) }}
-<div class="input-group input-group-lg">
-    {{ form_widget(form.notifyOnNewPost, {name: 'notify_on_new_posts'|trans}) }}
 </div>
 
 <hr>

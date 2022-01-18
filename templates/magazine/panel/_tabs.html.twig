@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
-        <a class="nav-link {{ is_active_route('magazine_stats') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('magazine_panel_front', {'name': magazine.name}) }}">{{ 'stats'|trans }}</a>
+        <a class="nav-link {{ is_active_route('magazine_panel_front') ? 'active font-weight-bold' : '' }}" aria-current="page"
+           href="{{ path('magazine_panel_front', {'name': magazine.name}) }}"><i class="fas fa-chart-line"></i></a>
     </li>
 
     <li class="nav-item">
