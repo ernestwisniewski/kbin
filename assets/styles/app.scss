@@ -241,3 +241,8 @@ thead, tbody {
 .accordion-item {
   background: none;
 }
+
+.nav-pills .active {
+  color: white !important;
+  background-image: var(--bs-gradient) !important;
+}
