@@ -16,7 +16,7 @@ class TagController extends AbstractController
     {
         return $this->render(
             'search/front.html.twig',
-            ['q' => '#'.$name, 'results' => $this->manager->findPaginated($name, $this->getPageNb($request))]
+            ['q' => '#'.$name, 'results' => $this->manager->findPaginated( '#'.$name, $this->getPageNb($request))]
         );
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Repository\SearchRepository;
+use Elastica\Query\MatchPhrase;
+use Elastica\Query\MatchQuery;
 use Elastica\Query\MultiMatch;
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use Pagerfanta\PagerfantaInterface;

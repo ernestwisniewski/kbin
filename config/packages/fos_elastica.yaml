@@ -21,11 +21,23 @@ fos_elastica:
         model: App\Entity\Magazine
         listener: '%elastica_listener%'
     entries:
+      settings:
+        index:
+          analysis:
+            filter:
+              tag_filter:
+                type: word_delimiter
+                type_table: [ "# => ALPHA", "@ => ALPHA" ]
+            analyzer:
+              tag_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: ["lowercase", "tag_filter"]
       properties:
         id: ~
         title: ~
         url: ~
-        body: ~
+        body: { analyzer: tag_analyzer }
         type: ~
         ranking: ~
         score: ~
@@ -57,9 +69,21 @@ fos_elastica:
         model: App\Entity\Entry
         listener: '%elastica_listener%'
     entry_comments:
+      settings:
+        index:
+          analysis:
+            filter:
+              tag_filter:
+                type: word_delimiter
+                type_table: [ "# => ALPHA", "@ => ALPHA" ]
+            analyzer:
+              tag_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: [ "lowercase", "tag_filter" ]
       properties:
         id: ~
-        body: ~
+        body: { analyzer: tag_analyzer }
         createdAt: ~
         lastActive: ~
         visibility: ~
@@ -85,9 +109,21 @@ fos_elastica:
         model: App\Entity\EntryComment
         listener: '%elastica_listener%'
     posts:
+      settings:
+        index:
+          analysis:
+            filter:
+              tag_filter:
+                type: word_delimiter
+                type_table: [ "# => ALPHA", "@ => ALPHA" ]
+            analyzer:
+              tag_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: [ "lowercase", "tag_filter" ]
       properties:
         id: ~
-        body: ~
+        body: { analyzer: tag_analyzer }
         ranking: ~
         score: ~
         isAdult: ~
@@ -112,9 +148,21 @@ fos_elastica:
         model: App\Entity\Post
         listener: '%elastica_listener%'
     post_comments:
+      settings:
+        index:
+          analysis:
+            filter:
+              tag_filter:
+                type: word_delimiter
+                type_table: [ "# => ALPHA", "@ => ALPHA" ]
+            analyzer:
+              tag_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: [ "lowercase", "tag_filter" ]
       properties:
         id: ~
-        body: ~
+        body: { analyzer: tag_analyzer }
         createdAt: ~
         lastActive: ~
         visibility: ~
