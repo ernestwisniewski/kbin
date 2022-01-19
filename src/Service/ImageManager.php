@@ -26,7 +26,6 @@ class ImageManager
         private HttpClientInterface $httpClient,
         private MimeTypesInterface $mimeTypeGuesser,
         private ValidatorInterface $validator,
-        private EntityManagerInterface $entityManager
     ) {
     }
 
