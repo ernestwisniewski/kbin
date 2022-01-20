@@ -8,7 +8,7 @@ use Pagerfanta\PagerfantaInterface;
 
 class SearchRepository extends Repository
 {
-    public function search(AbstractQuery $query, int $page = 1, int $limit = 48): PagerfantaInterface
+    public function search($query, int $page = 1, int $limit = 48): PagerfantaInterface
     {
         $items = $this->findPaginated($query);
         $items->setMaxPerPage($limit);
