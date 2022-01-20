@@ -34,7 +34,7 @@ class SearchManager
 
         $query = new Query($boolQuery);
         $query = $query->addSort([
-            'createdAt' => ['order' => 'asc'],
+            'createdAt' => ['order' => 'desc'],
         ]);
 
         return $this->repo->search($query, $page);
