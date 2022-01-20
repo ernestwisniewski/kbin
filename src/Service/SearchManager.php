@@ -3,9 +3,10 @@
 namespace App\Service;
 
 use App\Repository\SearchRepository;
-use Elastica\Query\MatchPhrase;
-use Elastica\Query\MatchQuery;
+use Elastica\Query;
+use Elastica\Query\BoolQuery;
 use Elastica\Query\MultiMatch;
+use Elastica\Query\Terms;
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use Pagerfanta\PagerfantaInterface;
 
@@ -21,6 +22,20 @@ class SearchManager
         $query->setQuery(
             $val
         );
+
+        return $this->repo->search($query, $page);
+    }
+
+    public function findByTagPaginated(string $val, int $page = 1): PagerfantaInterface
+    {
+        $boolQuery = new BoolQuery();
+        $tagQuery  = new Terms('tags', [$val]);
+        $boolQuery->addMust($tagQuery);
+
+        $query = new Query($boolQuery);
+        $query = $query->addSort([
+            'createdAt' => ['order' => 'asc'],
+        ]);
 
         return $this->repo->search($query, $page);
     }

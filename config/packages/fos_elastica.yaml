@@ -5,45 +5,37 @@ fos_elastica:
     magazines:
       properties:
         id: ~
-        name: ~
+        name: { "type": "keyword" }
         title: ~
         description: ~
         rules: ~
-        createdAt: ~
+        createdAt: { "type": "date" }
         visibility: ~
         cover:
           type: "object"
           properties:
             id: ~
             filePath: ~
+        tags:
+          property_path: false
+        body:
+          property_path: false
       persistence:
         driver: orm
         model: App\Entity\Magazine
         listener: '%elastica_listener%'
     entries:
-      settings:
-        index:
-          analysis:
-            filter:
-              tag_filter:
-                type: word_delimiter
-                type_table: [ "# => ALPHA", "@ => ALPHA" ]
-            analyzer:
-              tag_analyzer:
-                type: custom
-                tokenizer: whitespace
-                filter: ["lowercase", "tag_filter"]
       properties:
         id: ~
         title: ~
         url: ~
-        body: { analyzer: tag_analyzer }
+        body: ~
         type: ~
         ranking: ~
         score: ~
         isAdult: ~
         sticky: ~
-        createdAt: ~
+        createdAt: { "type": "date" }
         lastActive: ~
         visibility: ~
         magazine:
@@ -58,39 +50,29 @@ fos_elastica:
         user:
           type: "object"
           properties:
-            username: ~
+            username: { "type": "keyword" }
         image:
           type: "object"
           properties:
             id: ~
             filePath: ~
+        tags:
+          property_path: false
       persistence:
         driver: orm
         model: App\Entity\Entry
         listener: '%elastica_listener%'
     entry_comments:
-      settings:
-        index:
-          analysis:
-            filter:
-              tag_filter:
-                type: word_delimiter
-                type_table: [ "# => ALPHA", "@ => ALPHA" ]
-            analyzer:
-              tag_analyzer:
-                type: custom
-                tokenizer: whitespace
-                filter: [ "lowercase", "tag_filter" ]
       properties:
         id: ~
-        body: { analyzer: tag_analyzer }
-        createdAt: ~
+        body: ~
+        createdAt: { "type": "date" }
         lastActive: ~
         visibility: ~
         magazine:
           type: "object"
           properties:
-            name: ~
+            name: { "type": "keyword" }
         entry:
           type: "object"
           properties:
@@ -98,78 +80,58 @@ fos_elastica:
         user:
           type: "object"
           properties:
-            username: ~
+            username: { "type": "keyword" }
         image:
           type: "object"
           properties:
             id: ~
             filePath: ~
+        tags:
+          property_path: false
       persistence:
         driver: orm
         model: App\Entity\EntryComment
         listener: '%elastica_listener%'
     posts:
-      settings:
-        index:
-          analysis:
-            filter:
-              tag_filter:
-                type: word_delimiter
-                type_table: [ "# => ALPHA", "@ => ALPHA" ]
-            analyzer:
-              tag_analyzer:
-                type: custom
-                tokenizer: whitespace
-                filter: [ "lowercase", "tag_filter" ]
       properties:
         id: ~
-        body: { analyzer: tag_analyzer }
+        body: ~
         ranking: ~
         score: ~
         isAdult: ~
-        createdAt: ~
+        createdAt: { "type": "date" }
         lastActive: ~
         visibility: ~
         magazine:
           type: "object"
           properties:
-            name: ~
+            name: { "type": "keyword" }
         user:
           type: "object"
           properties:
-            username: ~
+            username: { "type": "keyword" }
         image:
           type: "object"
           properties:
             id: ~
             filePath: ~
+        tags:
+          property_path: false
       persistence:
         driver: orm
         model: App\Entity\Post
         listener: '%elastica_listener%'
     post_comments:
-      settings:
-        index:
-          analysis:
-            filter:
-              tag_filter:
-                type: word_delimiter
-                type_table: [ "# => ALPHA", "@ => ALPHA" ]
-            analyzer:
-              tag_analyzer:
-                type: custom
-                tokenizer: whitespace
-                filter: [ "lowercase", "tag_filter" ]
       properties:
         id: ~
-        body: { analyzer: tag_analyzer }
-        createdAt: ~
+        body: ~
+        createdAt: { "type": "date" }
         lastActive: ~
         visibility: ~
         magazine:
           type: "object"
           properties:
-            name: ~
+            name: { "type": "keyword" }
         post:
           type: "object"
           properties:
@@ -177,12 +139,14 @@ fos_elastica:
         user:
           type: "object"
           properties:
-            username: ~
+            username: { "type": "keyword" }
         image:
           type: "object"
           properties:
             id: ~
             filePath: ~
+        tags:
+          property_path: false
       persistence:
         driver: orm
         model: App\Entity\PostComment
