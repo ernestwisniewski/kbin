@@ -39,7 +39,7 @@ fos_elastica:
             analyzer:
               kbin_analyzer:
                 type: custom
-                tokenizer: whitespace
+                tokenizer: standard
                 filter: [ 'lowercase', 'morfologik_stem' ]
       properties:
         id: ~
@@ -85,7 +85,7 @@ fos_elastica:
             analyzer:
               kbin_analyzer:
                 type: custom
-                tokenizer: whitespace
+                tokenizer: standard
                 filter: [ 'lowercase', 'morfologik_stem' ]
       properties:
         id: ~
@@ -123,7 +123,7 @@ fos_elastica:
             analyzer:
               kbin_analyzer:
                 type: custom
-                tokenizer: whitespace
+                tokenizer: standard
                 filter: [ 'lowercase', 'morfologik_stem' ]
       properties:
         id: ~
@@ -160,7 +160,7 @@ fos_elastica:
             analyzer:
               kbin_analyzer:
                 type: custom
-                tokenizer: whitespace
+                tokenizer: standard
                 filter: [ 'lowercase', 'morfologik_stem' ]
       properties:
         id: ~
