@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
-use Elastica\Query\AbstractQuery;
 use FOS\ElasticaBundle\Repository;
 use Pagerfanta\PagerfantaInterface;
 

@@ -6,9 +6,9 @@ fos_elastica:
       properties:
         id: ~
         name: { "type": "keyword" }
-        title: ~
-        description: ~
-        rules: ~
+        title: { boost: 20, analyzer: morfologik }
+        description: { analyzer: morfologik }
+        rules: { analyzer: morfologik }
         createdAt: { "type": "date" }
         visibility: ~
         cover:
@@ -27,9 +27,9 @@ fos_elastica:
     entries:
       properties:
         id: ~
-        title: ~
+        title: { boost: 10, analyzer: morfologik }
         url: ~
-        body: ~
+        body: { boost: 10, analyzer: morfologik }
         type: ~
         ranking: ~
         score: ~
@@ -65,7 +65,7 @@ fos_elastica:
     entry_comments:
       properties:
         id: ~
-        body: ~
+        body: { analyzer: morfologik }
         createdAt: { "type": "date" }
         lastActive: ~
         visibility: ~
@@ -95,7 +95,7 @@ fos_elastica:
     posts:
       properties:
         id: ~
-        body: ~
+        body: { analyzer: morfologik }
         ranking: ~
         score: ~
         isAdult: ~
@@ -124,7 +124,7 @@ fos_elastica:
     post_comments:
       properties:
         id: ~
-        body: ~
+        body: { analyzer: morfologik }
         createdAt: { "type": "date" }
         lastActive: ~
         visibility: ~
