@@ -3,12 +3,20 @@ fos_elastica:
     default: { url: '%env(ELASTICSEARCH_URL)%' }
   indexes:
     magazines:
+      settings:
+        index:
+          analysis:
+            analyzer:
+              kbin_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: ['lowercase', 'morfologik_stem']
       properties:
         id: ~
-        name: { "type": "keyword" }
-        title: { boost: 20, analyzer: morfologik }
-        description: { analyzer: morfologik }
-        rules: { analyzer: morfologik }
+        name: {  boost: 30, type: "keyword" }
+        title: { boost: 20, analyzer: kbin_analyzer }
+        description: { analyzer: kbin_analyzer }
+        rules: { analyzer: kbin_analyzer }
         createdAt: { "type": "date" }
         visibility: ~
         cover:
@@ -25,11 +33,19 @@ fos_elastica:
         model: App\Entity\Magazine
         listener: '%elastica_listener%'
     entries:
+      settings:
+        index:
+          analysis:
+            analyzer:
+              kbin_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: [ 'lowercase', 'morfologik_stem' ]
       properties:
         id: ~
-        title: { boost: 10, analyzer: morfologik }
+        title: { boost: 20, analyzer: kbin_analyzer }
         url: ~
-        body: { boost: 10, analyzer: morfologik }
+        body: { boost: 10, analyzer: kbin_analyzer }
         type: ~
         ranking: ~
         score: ~
@@ -63,9 +79,17 @@ fos_elastica:
         model: App\Entity\Entry
         listener: '%elastica_listener%'
     entry_comments:
+      settings:
+        index:
+          analysis:
+            analyzer:
+              kbin_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: [ 'lowercase', 'morfologik_stem' ]
       properties:
         id: ~
-        body: { analyzer: morfologik }
+        body: { boost: 10, analyzer: kbin_analyzer }
         createdAt: { "type": "date" }
         lastActive: ~
         visibility: ~
@@ -93,9 +117,17 @@ fos_elastica:
         model: App\Entity\EntryComment
         listener: '%elastica_listener%'
     posts:
+      settings:
+        index:
+          analysis:
+            analyzer:
+              kbin_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: [ 'lowercase', 'morfologik_stem' ]
       properties:
         id: ~
-        body: { analyzer: morfologik }
+        body: { boost: 10, analyzer: kbin_analyzer }
         ranking: ~
         score: ~
         isAdult: ~
@@ -122,9 +154,17 @@ fos_elastica:
         model: App\Entity\Post
         listener: '%elastica_listener%'
     post_comments:
+      settings:
+        index:
+          analysis:
+            analyzer:
+              kbin_analyzer:
+                type: custom
+                tokenizer: whitespace
+                filter: [ 'lowercase', 'morfologik_stem' ]
       properties:
         id: ~
-        body: { analyzer: morfologik }
+        body: { boost: 10, analyzer: kbin_analyzer }
         createdAt: { "type": "date" }
         lastActive: ~
         visibility: ~
