@@ -59,7 +59,10 @@ services:
         protocol: udp
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    build:
+      context: .
+      target: symfony_elastic
     container_name: elasticsearch
     environment:
       - xpack.security.enabled=false

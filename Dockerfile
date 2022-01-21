@@ -6,6 +6,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG PHP_VERSION=8.0
 ARG CADDY_VERSION=2
+ARG ELASTIC_VERSION=7.4.0
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
@@ -169,3 +170,5 @@ COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
 #	docker-php-ext-enable xdebug; \
 #	apk del .build-deps
 
+FROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION} as symfony_elastic
+RUN bin/elasticsearch-plugin install pl.allegro.tech.elasticsearch.plugin:elasticsearch-analysis-morfologik:7.4.0
