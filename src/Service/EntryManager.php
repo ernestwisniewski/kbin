@@ -47,6 +47,7 @@ class EntryManager implements ContentManagerInterface
 
         $entry                       = $this->factory->createFromDto($dto, $user);
         $entry->slug                 = $this->slugger->slug($dto->title);
+        $entry->lang                 = $dto->lang;
         $entry->image                = $dto->image;
         $entry->magazine->lastActive = new \DateTime();
         $entry->magazine->addEntry($entry);
@@ -76,6 +77,8 @@ class EntryManager implements ContentManagerInterface
         $entry->slug    = $this->slugger->slug($dto->title);
         $oldImage       = $entry->image;
         $entry->image   = $dto->image;
+        $entry->isOc    = $dto->isOc;
+        $entry->lang    = $dto->lang;
 
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);
@@ -171,5 +174,17 @@ class EntryManager implements ContentManagerInterface
         }
 
         return $entry;
+    }
+
+    public function detachImage(Entry $entry): void
+    {
+        $image = $entry->image->filePath;
+
+        $entry->image = null;
+
+        $this->entityManager->persist($entry);
+        $this->entityManager->flush();
+
+        $this->bus->dispatch(new DeleteImageMessage($image));
     }
 }

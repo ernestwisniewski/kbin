@@ -131,9 +131,15 @@ entry_restore:
   methods: [ POST ]
 
 entry_purge:
-  controller: App\Controller\Entry\EntryDeleteController::purge
+  controller: App\Controller\Entry\EntryDeleteController
   defaults: { slug: -, sortBy: ~ }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/purge
+  methods: [ POST ]
+
+entry_image_delete:
+  controller: App\Controller\Entry\EntryDeleteImageController
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/e/{entry_id}/{slug}/delete_image
   methods: [ POST ]
 
 entry_pin:

@@ -1,17 +1,19 @@
 {% if is_granted('delete', entry) %}
-    <form method="post"
-          action="{{ path('entry_delete', {
-              magazine_name: entry.magazine.name,
-              entry_id: entry.id,
-          }) }}"
-          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-        <div class="col-lg-6">
-            <div class="kbin-magazine-create-form">
-                <div class="input-group-sm mb-3 text-end">
-                    <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
-                    <button class="btn btn-danger">{{ 'delete'|trans }}</button>
+    <div class="text-end btn-group float-end">
+        <form method="post"
+              action="{{ path('entry_delete', {
+                  magazine_name: entry.magazine.name,
+                  entry_id: entry.id,
+              }) }}"
+              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+            <div class="col-lg-6">
+                <div class="kbin-magazine-create-form">
+                    <div class="input-group-sm mb-3 text-end">
+                        <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                        <button class="btn btn-danger">{{ 'delete'|trans }}</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 {% endif %}

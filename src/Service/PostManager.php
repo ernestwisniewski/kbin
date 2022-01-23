@@ -130,7 +130,7 @@ class  PostManager implements ContentManagerInterface
         return $this->factory->createDto($post);
     }
 
-    public function detachImage(Post $post)
+    public function detachImage(Post $post): void
     {
         $image = $post->image->filePath;
 

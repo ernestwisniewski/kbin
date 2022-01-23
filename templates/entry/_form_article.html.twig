@@ -1,7 +1,11 @@
-{{ form_start(form) }}
+{% set hasImage = false %}
+{% if entry is defined and entry is not null and entry.image %}
+    {% set hasImage = true %}
+{% endif %}
 
+{{ form_start(form, { 'attr': {'data-controller': 'media', class: 'kbin-media' }}) }}
 <div class="kbin-magazine-create-form">
-    <div class="col-lg-6 mb-3">
+    <div class="col-lg-6">
         <div class="input-group-lg mb-3">
             {{ form_label(form.title, 'title'|trans) }}<sup class="required">*</sup>
             {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
@@ -16,24 +20,71 @@
             {{ form_label(form.badges, 'badges'|trans) }}
             {{ form_widget(form.badges, {'attr': {'class': ''}}) }}
         </div>
-        <div class="input-group-lg mb-3">
-            {{ form_label(form.image, 'cover'|trans) }}
-            {{ form_widget(form.image, {'attr':{ 'class': 'form-control' }}) }}
-        </div>
     </div>
+
     <div class="col-lg-12 mb-3">
         <div class="mb-3">
             {{ form_label(form.body, 'content'|trans) }}<sup class="required">*</sup>
             {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
         </div>
-        <div class="mb-12">
-            {{ form_label(form.isAdult, 'nsfw'|trans) }}
-            <div class="input-group input-group-lg">
-                {{ form_widget(form.isAdult, {name: 'nsfw'|trans}) }}
+
+        <div class="text-end float-end">
+            <div class="float-start row">
+                <div class="pt-2 col-auto">
+                    {{ form_widget(form.isOc, {label: 'oc'|trans }) }}
+                </div>
+                <div class="pt-2 col-auto">
+                    {{ form_widget(form.isEng, {label: 'lang'|trans }) }}
+                </div>
+                <div class="pt-2 me-4 col-auto">
+                    {{ form_widget(form.isAdult, {label: '18+'}) }}
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a class="btn btn-secondary me-1" href="https://{{ kbin_domain }}{{ kbin_markdown_howto_url }}" role="button">
+                    <i class="fas fa-question"></i>
+                </a>
+
+                <button type="button" class="btn btn-secondary me-1 {{ hasImage ? 'd-none' : '' }}" data-bs-toggle="modal"
+                        data-bs-target="#media-modal-entry" data-media-target="modalButton">
+                    <i class="fas fa-camera"></i>
+                </button>
+
+                <button data-action="media#delete"
+                        data-media-target="deleteButton"
+                        data-media-url-param="{{ hasImage ? path('entry_image_delete', {magazine_name: entry.magazine.name, entry_id: entry.id}) : '' }}"
+                        type="button"
+                        class="btn-close me-1 {{ hasImage ? '' : 'd-none' }}"
+                        aria-label="Close"></button>
+
+                {% if hasImage %}
+                    <img data-media-target="thumb" src="{{ asset(entry.image.filePath) | imagine_filter('post_thumb') }}" alt="" class="me-2"/>
+                {% else %}
+                    <canvas data-media-target="canvas" class="d-none me-2"></canvas>
+                {% endif %}
+                {{ form_widget(form.submit, { 'label': 'done'|trans, 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
             </div>
         </div>
-        <div class="mb-12 text-end">
-            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
+    </div>
+</div>
+
+<div id="media-modal-entry" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dodaj zdjęcie <strike>lub film</strike></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-media-target="close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                    <small>wklej adres</small>
+                    <small class="ms-2 font-weight-bold" data-action="click->media#add">wybierz plik</small>
+                </div>
+                <div class="input-group input-group-lg me-2">
+                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-action': 'media#add', 'data-media-target': 'fileInput' }}) }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

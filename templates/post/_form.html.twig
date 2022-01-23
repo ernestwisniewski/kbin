@@ -4,21 +4,21 @@
 {% endif %}
 
 {{ form_start(form, { 'attr': {'data-controller': 'media', class: 'kbin-media' }}) }}
-<div class="col-xs-12 clearfix">
-    <div class="kbin-post-create-form my-3">
-        <div class="mb-3">
-            {{ form_label(form.body, 'post'|trans) }}
-            {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
+<div class="kbin-post-create-form my-3">
+    <div class="mb-3">
+        {{ form_label(form.body, 'post'|trans) }}
+        {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
+    </div>
+
+    <div class="text-end float-end">
+        <div class="me-2 pt-2 float-start">
+            {{ form_label(form.isAdult, '18+') }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.isAdult, {name: '18+'}) }}
+            </div>
         </div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <div class="me-1 pt-2">
-                {{ form_label(form.isAdult, '18+') }}
-                <div class="input-group input-group-lg">
-                    {{ form_widget(form.isAdult, {name: '18+'}) }}
-                </div>
-            </div>
-
+        <div class="btn-group">
             <a class="btn btn-secondary me-1" href="https://{{ kbin_domain }}{{ kbin_markdown_howto_url }}" role="button">
                 <i class="fas fa-question"></i>
             </a>
@@ -32,7 +32,7 @@
                     data-media-target="deleteButton"
                     data-media-url-param="{{ hasImage ? path('post_image_delete', {magazine_name: post.magazine.name, post_id: post.id}) : '' }}"
                     type="button"
-                    class="btn-close {{ hasImage ? '' : 'd-none' }}"
+                    class="btn-close me-1 {{ hasImage ? '' : 'd-none' }}"
                     aria-label="Close"></button>
 
             {% if hasImage %}
@@ -41,10 +41,12 @@
                 <canvas data-media-target="canvas" class="d-none me-2"></canvas>
             {% endif %}
 
-            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-post-send btn-primary'} }) }}
+            {{ form_widget(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-post-send btn-primary'} }) }}
         </div>
     </div>
 </div>
+
+<div class="clearfix"></div>
 
 <div id="media-modal-post" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">

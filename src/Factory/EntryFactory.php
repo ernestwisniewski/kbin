@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -17,6 +17,8 @@ class EntryFactory
             $dto->magazine,
             $user,
             $dto->isAdult,
+            $dto->isOc,
+            $dto->lang,
             $dto->ip,
         );
     }
@@ -36,6 +38,8 @@ class EntryFactory
         $dto->uv         = $entry->countUpVotes();
         $dto->dv         = $entry->countDownVotes();
         $dto->isAdult    = $entry->isAdult;
+        $dto->isOc       = $entry->isOc;
+        $dto->lang       = $entry->lang;
         $dto->badges     = $entry->badges;
         $dto->slug       = $entry->slug;
         $dto->views      = $entry->views;

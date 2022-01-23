@@ -61,6 +61,8 @@ class EntryLinkType extends AbstractType
                 ]
             )
             ->add('isAdult', CheckboxType::class)
+            ->add('isEng', CheckboxType::class)
+            ->add('isOc', CheckboxType::class)
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber(new RemoveFieldsOnEntryLinkCreate());
