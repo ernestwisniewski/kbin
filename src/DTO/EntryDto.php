@@ -28,9 +28,11 @@ class EntryDto
     public ?string $url = null;
     #[Assert\Length(min: 2, max: 15000)]
     public ?string $body = null;
+    public ?string $lang = null;
     public int $comments = 0;
     public int $uv = 0;
     public int $dv = 0;
+    public bool $isOc = false;
     public bool $isAdult = false;
     public ?Collection $badges = null;
     public ?string $slug = null;
@@ -91,5 +93,14 @@ class EntryDto
         }
 
         return $type;
+    }
+
+    public function setIsEng(string $lang) {
+        $this->lang = $lang ? 'en' : null;
+    }
+
+    public function isEng(): bool
+    {
+        return (bool) $this->lang;
     }
 }

@@ -12,7 +12,9 @@
                 {{ 'add_new_link_desc'|trans }}
             </p>
 
-            {% include 'entry/_form_link.html.twig' %}
+            <div class="col-lg-6">
+                {% include 'entry/_form_link.html.twig' %}
+            </div>
 
             {# Duplicates modal #}
             <div class="modal fade" id="duplicatesModal" tabindex="-1" aria-labelledby="duplicatesModalLabel" aria-hidden="true">

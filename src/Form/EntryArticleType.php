@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
@@ -52,6 +52,8 @@ class EntryArticleType extends AbstractType
                 ]
             )
             ->add('isAdult', CheckboxType::class)
+            ->add('isEng', CheckboxType::class)
+            ->add('isOc', CheckboxType::class)
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());

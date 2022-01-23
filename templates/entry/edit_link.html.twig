@@ -12,8 +12,15 @@
                 {{ 'add_new_article_desc'|trans }}
             </p>
 
-            {% include 'entry/_form_link.html.twig' %}
-            {% include 'entry/_form_delete.html.twig' %}
+            <div class="col-lg-6">
+                {% include 'entry/_form_link.html.twig' %}
+            </div>
+
+            <div class="clearfix mb-4"></div>
+
+            <div class="col-lg-6">
+                {% include 'entry/_form_delete.html.twig' %}
+            </div>
         </div>
     </div>
 {% endblock %}

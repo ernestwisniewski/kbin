@@ -78,6 +78,14 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public string $type = self::ENTRY_TYPE_ARTICLE;
     /**
+     * @ORM\Column(type="string", nullable=true, options={"default" : null})
+     */
+    public ?string $lang = null;
+    /**
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    public bool $isOc = false;
+    /**
      * @ORM\Column(type="boolean")
      */
     public bool $hasEmbed = false;
@@ -148,14 +156,25 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     private int $id;
 
-    public function __construct(string $title, ?string $url, ?string $body, Magazine $magazine, User $user, ?bool $isAdult = null, ?string $ip = null)
-    {
+    public function __construct(
+        string $title,
+        ?string $url,
+        ?string $body,
+        Magazine $magazine,
+        User $user,
+        ?bool $isAdult = false,
+        ?bool $isOc,
+        ?string $lang,
+        ?string $ip = null
+    ) {
         $this->title         = $title;
         $this->url           = $url;
         $this->body          = $body;
         $this->magazine      = $magazine;
         $this->user          = $user;
         $this->isAdult       = $isAdult ?? false;
+        $this->isOc          = $isOc;
+        $this->lang          = $lang;
         $this->ip            = $ip;
         $this->comments      = new ArrayCollection();
         $this->votes         = new ArrayCollection();
@@ -163,7 +182,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->notifications = new ArrayCollection();
         $this->viewCounters  = new ArrayCollection();
         $this->badges        = new ArrayCollection();
-        $this->cardanoTx        = new ArrayCollection();
+        $this->cardanoTx     = new ArrayCollection();
 
         $user->addEntry($this);
 

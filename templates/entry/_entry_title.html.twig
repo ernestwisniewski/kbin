@@ -2,6 +2,7 @@
 
 <{{ title_tag }} class="kbin-entry-title mb-0">
 {% if entry.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
+{% if entry.isOc %}<span class="badge me-1" style="background: #4e805dff">OC</span>{% endif %}
 {% if direct_url %}
     {% if entry.url %}
         <a href="{{ entry.url }}" rel="nofollow noopener noreferrer" target="_blank">{{ entry.title }}</a>
@@ -11,6 +12,7 @@
 {% else %}
     <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
 {% endif %}
+{% if entry.lang is same as 'en' %}<span class="badge bg-secondary me-1">ENG</span>{% endif %}
 {% for badge in entry.badges %}<span class="badge bg-secondary me-1">{{ badge.badge.name }}</span>{% endfor %}
 {% if entry.domain %}
     <small class="kbin-entry-title-domain small text-muted">(<a class="text-reset" href="#">{{ entry.domain.name }}</a>)</small>
