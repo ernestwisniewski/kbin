@@ -8,7 +8,7 @@
                 {{ avatar(post.user) }}
             {% endif %}
             <div>
-                <h5 class="card-title font-weight-bold pt-2">
+                <h5 class="card-title font-weight-bold py-2">
                     <a class="text-reset link-to-title" href="{{ path('user', {username: post.user.username }) }}">{{ post.user.username }}</a>
                 </h5>
                 {% include 'user/_follow_button.html.twig' with { 'user': post.user } %}
