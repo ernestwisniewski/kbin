@@ -162,7 +162,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         ?string $body,
         Magazine $magazine,
         User $user,
-        ?bool $isAdult = false,
+        ?bool $isAdult,
         ?bool $isOc,
         ?string $lang,
         ?string $ip = null
