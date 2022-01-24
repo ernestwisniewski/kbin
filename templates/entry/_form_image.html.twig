@@ -42,7 +42,7 @@
         {{ form_widget(form.badges, {'attr': {'class': ''}}) }}
     </div>
 
-    <div class="mb-12 text-end">
+    <div class="text-end float-end">
         <div class="float-start row">
             <div class="pt-2 col-auto">
                 {{ form_widget(form.isOc, {label: 'oc'|trans }) }}
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
+        {{ form_widget(form.submit, { 'label': 'done'|trans, 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
     </div>
 </div>
 
