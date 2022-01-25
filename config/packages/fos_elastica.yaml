@@ -26,8 +26,6 @@ fos_elastica:
             filePath: ~
         tags:
           property_path: false
-        body:
-          property_path: false
       persistence:
         driver: orm
         model: App\Entity\Magazine
@@ -72,8 +70,7 @@ fos_elastica:
           properties:
             id: ~
             filePath: ~
-        tags:
-          property_path: false
+        tags: ~
       persistence:
         driver: orm
         model: App\Entity\Entry
@@ -110,8 +107,7 @@ fos_elastica:
           properties:
             id: ~
             filePath: ~
-        tags:
-          property_path: false
+        tags: ~
       persistence:
         driver: orm
         model: App\Entity\EntryComment
@@ -147,8 +143,7 @@ fos_elastica:
           properties:
             id: ~
             filePath: ~
-        tags:
-          property_path: false
+        tags: ~
       persistence:
         driver: orm
         model: App\Entity\Post
@@ -185,8 +180,7 @@ fos_elastica:
           properties:
             id: ~
             filePath: ~
-        tags:
-          property_path: false
+        tags: ~
       persistence:
         driver: orm
         model: App\Entity\PostComment

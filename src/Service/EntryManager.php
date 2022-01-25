@@ -27,11 +27,12 @@ use Webmozart\Assert\Assert;
 class EntryManager implements ContentManagerInterface
 {
     public function __construct(
-        private EntryFactory $factory,
-        private EventDispatcherInterface $dispatcher,
-        private BadgeManager $badgeManager,
+        private TagManager $tagManager,
         private UrlCleaner $urlCleaner,
         private Slugger $slugger,
+        private BadgeManager $badgeManager,
+        private EntryFactory $factory,
+        private EventDispatcherInterface $dispatcher,
         private RateLimiterFactory $entryLimiter,
         private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager,
@@ -49,6 +50,9 @@ class EntryManager implements ContentManagerInterface
         $entry->slug                 = $this->slugger->slug($dto->title);
         $entry->lang                 = $dto->lang;
         $entry->image                = $dto->image;
+        $entry->tags                 = $dto->tags ? $this->tagManager->extract(
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags))
+        ) : null;
         $entry->magazine->lastActive = new \DateTime();
         $entry->magazine->addEntry($entry);
 
@@ -77,8 +81,12 @@ class EntryManager implements ContentManagerInterface
         $entry->slug    = $this->slugger->slug($dto->title);
         $oldImage       = $entry->image;
         $entry->image   = $dto->image;
-        $entry->isOc    = $dto->isOc;
-        $entry->lang    = $dto->lang;
+        $entry->tags    = $dto->tags ? $this->tagManager->extract(
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags))
+        ) : null;
+
+        $entry->isOc = $dto->isOc;
+        $entry->lang = $dto->lang;
 
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);

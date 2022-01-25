@@ -25,9 +25,10 @@ use Webmozart\Assert\Assert;
 class  PostManager implements ContentManagerInterface
 {
     public function __construct(
+        private Slugger $slugger,
+        private TagManager $tagManager,
         private PostFactory $factory,
         private EventDispatcherInterface $dispatcher,
-        private Slugger $slugger,
         private RateLimiterFactory $postLimiter,
         private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager
@@ -44,6 +45,7 @@ class  PostManager implements ContentManagerInterface
         $post                       = $this->factory->createFromDto($dto, $user);
         $post->slug                 = $this->slugger->slug($dto->body);
         $post->image                = $dto->image;
+        $post->tags                 = $this->tagManager->extract($post->body);
         $post->magazine->lastActive = new \DateTime();
         $post->magazine->addPost($post);
 
@@ -63,6 +65,7 @@ class  PostManager implements ContentManagerInterface
         $post->isAdult = $dto->isAdult;
         $oldImage      = $post->image;
         $post->image   = $dto->image;
+        $post->tags    = $this->tagManager->extract($post->body);
 
         $this->entityManager->flush();
 

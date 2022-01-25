@@ -122,6 +122,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public int $adaAmount = 0;
     /**
+     * @ORM\Column(type="array", nullable=true, options={"default" : null})
+     */
+    public ?array $tags = null;
+    /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $comments;

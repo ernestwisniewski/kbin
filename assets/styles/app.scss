@@ -246,3 +246,22 @@ thead, tbody {
   color: white !important;
   background-image: var(--bs-gradient) !important;
 }
+
+.choices__list--multiple .choices__item {
+  background-color: $primary !important;
+  border: 0 !important;
+}
+
+.choices[data-type*=select-multiple] .choices__button, .choices[data-type*=text] .choices__button {
+  border-color: $kbin-blue-shadow;
+}
+
+.choices__input {
+  background: none !important;
+}
+
+.choices__input {
+  .kbin-dark & {
+    color: white;
+  }
+}

@@ -18,11 +18,25 @@ export default class KChoices {
     }
 
     build(el) {
-        return new Choices(el, {
+        let options = {
             loadingText: 'Czekaj...',
             noResultsText: 'Brak wyników',
             noChoicesText: 'Brak wyników',
             itemSelectText: 'Wybierz',
-        });
+            addItemText: 'Wciśnij enter aby dodać'
+        };
+
+        if (el.classList.contains('kbin-choices-text')) {
+            options = {
+                ...{
+                    delimiter: ',',
+                    editItems: true,
+                    maxItemCount: 6,
+                    removeItemButton: true,
+                }, ...options
+            };
+        }
+
+        return new Choices(el, options);
     }
 }

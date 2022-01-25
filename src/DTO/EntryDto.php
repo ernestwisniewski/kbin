@@ -40,6 +40,7 @@ class EntryDto
     public int $score = 0;
     public ?string $visibility = null;
     public ?string $ip = null;
+    public ?array $tags = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;
     private ?int $id = null;
@@ -95,7 +96,8 @@ class EntryDto
         return $type;
     }
 
-    public function setIsEng(string $lang) {
+    public function setIsEng(string $lang)
+    {
         $this->lang = $lang ? 'en' : null;
     }
 

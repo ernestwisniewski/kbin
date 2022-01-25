@@ -5,6 +5,7 @@ namespace App\Form;
 use App\DTO\EntryDto;
 use App\Entity\Magazine;
 use App\Form\Constraint\ImageConstraint;
+use App\Form\DataTransformer\TagTransformer;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
 use App\Form\Type\BadgesType;
@@ -28,6 +29,7 @@ class EntryArticleType extends AbstractType
         $builder
             ->add('title', TextareaType::class)
             ->add('body', TextareaType::class)
+            ->add('tags')
             ->add(
                 'badges',
                 BadgesType::class,
@@ -56,6 +58,9 @@ class EntryArticleType extends AbstractType
             ->add('isOc', CheckboxType::class)
             ->add('submit', SubmitType::class);
 
+        $builder->get('tags')->addModelTransformer(
+            new TagTransformer()
+        );
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());
         $builder->addEventSubscriber($this->imageListener);
     }

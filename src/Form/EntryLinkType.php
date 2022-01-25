@@ -5,6 +5,7 @@ namespace App\Form;
 use App\DTO\EntryDto;
 use App\Entity\Magazine;
 use App\Form\Constraint\ImageConstraint;
+use App\Form\DataTransformer\TagTransformer;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
 use App\Form\EventListener\RemoveFieldsOnEntryLinkCreate;
@@ -32,6 +33,7 @@ class EntryLinkType extends AbstractType
             ->add('title', TextareaType::class, [
                 'required' => true,
             ])
+            ->add('tags')
             ->add('comment', TextareaType::class, [
                 'mapped'   => false,
                 'required' => false,
@@ -65,6 +67,9 @@ class EntryLinkType extends AbstractType
             ->add('isOc', CheckboxType::class)
             ->add('submit', SubmitType::class);
 
+        $builder->get('tags')->addModelTransformer(
+            new TagTransformer()
+        );
         $builder->addEventSubscriber(new RemoveFieldsOnEntryLinkCreate());
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());
         $builder->addEventSubscriber($this->imageListener);
