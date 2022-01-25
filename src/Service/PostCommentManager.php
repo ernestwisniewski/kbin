@@ -9,9 +9,9 @@ use App\Entity\User;
 use App\Event\PostComment\PostCommentBeforePurgeEvent;
 use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
+use App\Event\PostComment\PostCommentEditedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Event\PostComment\PostCommentRestoredEvent;
-use App\Event\PostComment\PostCommentEditedEvent;
 use App\Factory\PostCommentFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
@@ -25,6 +25,7 @@ use Webmozart\Assert\Assert;
 class PostCommentManager implements ContentManagerInterface
 {
     public function __construct(
+        private TagManager $tagManager,
         private PostCommentFactory $factory,
         private EventDispatcherInterface $dispatcher,
         private RateLimiterFactory $postCommentLimiter,
@@ -44,6 +45,7 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment->magazine             = $dto->post->magazine;
         $comment->image                = $dto->image;
+        $comment->tags                 = $this->tagManager->extract($comment->body);
         $comment->magazine->lastActive = new \DateTime();
         $comment->post->addComment($comment);
 
@@ -59,9 +61,10 @@ class PostCommentManager implements ContentManagerInterface
     {
         Assert::same($comment->post->getId(), $dto->post->getId());
 
-        $comment->body = $dto->body;
+        $comment->body  = $dto->body;
         $oldImage       = $comment->image;
         $comment->image = $dto->image;
+        $comment->tags  = $this->tagManager->extract($comment->body);
 
         $this->entityManager->flush();
 
@@ -89,9 +92,9 @@ class PostCommentManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostCommentDeletedEvent($comment, $user));
     }
 
-    public function restore(User $user, PostComment $comment):void
+    public function restore(User $user, PostComment $comment): void
     {
-        if($comment->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+        if ($comment->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
             throw new \Exception('Invalid visibility');
         }
 

@@ -25,9 +25,10 @@ use Webmozart\Assert\Assert;
 class EntryCommentManager implements ContentManagerInterface
 {
     public function __construct(
+        private TagManager $tagManager,
         private EntryCommentFactory $factory,
-        private EventDispatcherInterface $dispatcher,
         private RateLimiterFactory $entryCommentLimiter,
+        private EventDispatcherInterface $dispatcher,
         private MessageBusInterface $bus,
         private EntityManagerInterface $entityManager
     ) {
@@ -44,6 +45,7 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment->magazine   = $dto->entry->magazine;
         $comment->image      = $dto->image;
+        $comment->tags       = $this->tagManager->extract($comment->body);
         $comment->lastActive = new \DateTime();
         $comment->entry->addComment($comment);
 
@@ -62,6 +64,7 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->body  = $dto->body;
         $oldImage       = $comment->image;
         $comment->image = $dto->image;
+        $comment->tags  = $this->tagManager->extract($comment->body);
 
         $this->entityManager->flush();
 

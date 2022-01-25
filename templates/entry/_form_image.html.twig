@@ -38,12 +38,17 @@
     </div>
 
     <div class="input-group-lg mb-3">
+        {{ form_label(form.tags, 'tags'|trans) }}
+        {{ form_widget(form.tags, {'attr': {'class': 'kbin-choices kbin-choices-text'}}) }}
+    </div>
+
+    <div class="input-group-lg mb-3">
         {{ form_label(form.badges, 'badges'|trans) }}
-        {{ form_widget(form.badges, {'attr': {'class': ''}}) }}
+        {{ form_widget(form.badges, {'attr': {'class': 'kbin-choices kbin-choices-text'}}) }}
     </div>
 
     <div class="text-end float-end">
-        <div class="float-start row">
+        <div class="float-start row mb-5">
             <div class="pt-2 col-auto">
                 {{ form_widget(form.isOc, {label: 'oc'|trans }) }}
             </div>

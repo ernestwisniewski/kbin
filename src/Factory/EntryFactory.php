@@ -46,6 +46,7 @@ class EntryFactory
         $dto->score      = $entry->score;
         $dto->visibility = $entry->visibility;
         $dto->ip         = $entry->ip;
+        $dto->tags       = $entry->tags;
         $dto->createdAt  = $entry->createdAt;
         $dto->lastActive = $entry->lastActive;
         $dto->setId($entry->getId());

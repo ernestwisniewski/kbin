@@ -70,6 +70,10 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      */
     public ?string $ip = null;
     /**
+     * @ORM\Column(type="array", nullable=true, options={"default" : null})
+     */
+    public ?array $tags = null;
+    /**
      * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="parent", orphanRemoval=true)
      * @OrderBy({"id" = "ASC"})
      */

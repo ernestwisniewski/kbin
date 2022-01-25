@@ -38,6 +38,21 @@
             </section>
         {% endblock %}
 
+        {% block tags %}
+            {% if entry.tags %}
+                <section class="kbin-tags-wrapper mt-5">
+                    <h4 class="kbin-tags-header pb-3 mb-0 font-weight-light">{{ 'tags'|trans }}</h4>
+                    <ul class="list-inline">
+                        {% for tag in entry.tags %}
+                            <li class="list-inline-item text-muted">
+                                <span class="badge bg-light"><a href="{{ path('tag', {'name': tag}) }}">#{{ tag }}</a></span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endif %}
+        {% endblock %}
+
         {% block related %}
             {{ component('related_entries', {entry: entry}) }}
         {% endblock %}

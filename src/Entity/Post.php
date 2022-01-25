@@ -75,6 +75,10 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     public ?string $ip = null;
     /**
+     * @ORM\Column(type="array", nullable=true, options={"default" : null})
+     */
+    public ?array $tags = null;
+    /**
      * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="post", orphanRemoval=true)
      */
     public Collection $comments;

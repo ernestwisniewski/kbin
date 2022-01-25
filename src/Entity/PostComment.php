@@ -61,6 +61,10 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
      */
     public ?string $ip = null;
     /**
+     * @ORM\Column(type="array", nullable=true, options={"default" : null})
+     */
+    public ?array $tags = null;
+    /**
      * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="children")
      * @ORM\JoinColumn(onDelete="cascade")
      */
