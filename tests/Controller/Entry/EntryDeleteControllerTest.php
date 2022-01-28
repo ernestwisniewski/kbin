@@ -93,8 +93,6 @@ class EntryDeleteControllerTest extends WebTestCase
 
         $client->submit($crawler->filter('.kbin-entry-main')->selectButton('wyczyść')->form());
 
-        $crawler = $client->followRedirect();
-
         $repository = static::getContainer()->get(EntryRepository::class);
         $entries    = $repository->findAll();
         $this->assertCount(0, $entries);

@@ -200,6 +200,8 @@ abstract class WebTestCase extends BaseWebTestCase
         $user->notifyOnNewPost              = true;
         $user->notifyOnNewPostReply         = true;
         $user->notifyOnNewPostCommentReply  = true;
+        $user->showProfileFollowings        = true;
+        $user->showProfileSubscriptions     = true;
 
         $manager->persist($user);
         $manager->flush();
@@ -236,7 +238,7 @@ abstract class WebTestCase extends BaseWebTestCase
 
         if ($isAdmin) {
             $user->roles = ['ROLE_ADMIN'];
-            $manager       = static::getContainer()->get(EntityManagerInterface::class);
+            $manager     = static::getContainer()->get(EntityManagerInterface::class);
 
             $manager->persist($user);
             $manager->flush();

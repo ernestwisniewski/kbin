@@ -131,7 +131,7 @@ entry_restore:
   methods: [ POST ]
 
 entry_purge:
-  controller: App\Controller\Entry\EntryDeleteController
+  controller: App\Controller\Entry\EntryDeleteController::purge
   defaults: { slug: -, sortBy: ~ }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/purge
   methods: [ POST ]

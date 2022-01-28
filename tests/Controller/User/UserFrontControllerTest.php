@@ -19,6 +19,6 @@ class UserFrontControllerTest extends WebTestCase
         
         $crawler = $client->request('GET', '/u/regularUser');
 
-        $this->assertCount(6, $crawler->filter('.kbin-user-front-page')->children());
+        $this->assertCount(5, $crawler->filter('.kbin-user-front-page')->children());
     }
 }
