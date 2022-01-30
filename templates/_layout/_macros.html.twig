@@ -14,6 +14,18 @@
     {%- endwith -%}
 {%- endmacro -%}
 
+{%- macro navbar_tab_link(name, options) -%}
+    {%- with {
+        name: name,
+        sortBy: options.sortBy ?? null,
+        magazine: options.magazine ?? null,
+        isSubPage: options.isSubPage ?? false,
+        isCommentsPage: options.isCommentsPage ?? false,
+        } only -%}
+        {{ block('navbar_tag_link') }}
+    {%- endwith -%}
+{%- endmacro -%}
+
 {%- macro entry_url(entry, options) -%}
     {%- with {
         entry: entry,

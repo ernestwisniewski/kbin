@@ -58,6 +58,7 @@ abstract class Criteria
     public string $time = EntryRepository::TIME_DEFAULT;
     public string $visibility = Entry::VISIBILITY_VISIBLE;
     public bool $subscribed = false;
+    public ?string $tag = null;
 
     public function __construct(int $page)
     {
@@ -69,6 +70,13 @@ abstract class Criteria
         if ($type) {
             $this->type = $type;
         }
+
+        return $this;
+    }
+
+    public function setTag(string $name): self
+    {
+        $this->tag = $name;
 
         return $this;
     }

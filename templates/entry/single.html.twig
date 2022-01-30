@@ -45,7 +45,7 @@
                     <ul class="list-inline">
                         {% for tag in entry.tags %}
                             <li class="list-inline-item text-muted">
-                                <span class="badge bg-light"><a href="{{ path('tag', {'name': tag}) }}">#{{ tag }}</a></span>
+                                <span class="badge bg-light"><a href="{{ path('tag_overall', {'name': tag}) }}">#{{ tag }}</a></span>
                             </li>
                         {% endfor %}
                     </ul>

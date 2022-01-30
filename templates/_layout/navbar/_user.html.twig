@@ -1,0 +1,31 @@
+<li class=" kbin-nav-navbar-item {{ is_active_route('user') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('user', {username: user.username}) }}">{{ 'overview'|trans }}</a>
+</li>
+<li class=" kbin-nav-navbar-item {{ is_active_route('user_entries') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}</a>
+</li>
+<li class=" kbin-nav-navbar-item {{ is_active_route('user_entry_comments') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('user_entry_comments', {username: user.username}) }}">{{ 'comments'|trans }}</a>
+</li>
+<li class=" kbin-nav-navbar-item {{ is_active_route('user_posts') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('user_posts', {username: user.username}) }}">{{ 'posts'|trans }}</a>
+</li>
+<li class=" kbin-nav-navbar-item {{ is_active_route('user_replies') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}</a>
+</li>
+<li class=" kbin-nav-navbar-item {{ is_active_route('user_moderated') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('user_moderated', {username: user.username}) }}">{{ 'topbar.moderated'|trans }}</a>
+</li>
+{% if user.showProfileSubscriptions %}
+    <li class=" kbin-nav-navbar-item {{ is_active_route('user_subscriptions') ? 'kbin-nav-navbar-item--active' : '' }}">
+        <a href="{{ path('user_subscriptions', {username: user.username}) }}">{{ 'subscriptions'|trans }}</a>
+    </li>
+{% endif %}
+{% if user.showProfileFollowings %}
+    <li class=" kbin-nav-navbar-item {{ is_active_route('user_follows') ? 'kbin-nav-navbar-item--active' : '' }}">
+        <a href="{{ path('user_follows', {username: user.username}) }}">{{ 'follows'|trans }}</a>
+    </li>
+{% endif %}
+<li class=" kbin-nav-navbar-item {{ is_active_route('user_followers') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('user_followers', {username: user.username}) }}">{{ 'followers'|trans }}</a>
+</li>
