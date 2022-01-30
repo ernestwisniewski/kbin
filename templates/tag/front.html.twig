@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    #{{ q ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) }}
+{% endblock %}
+
+{% block body %}
+    <div class="kbin-front-page">
+        {% include '_layout/_filters.html.twig' %}
+        {% include 'entry/_list.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'tag/_sidebar.html.twig' %}
+
+    {{ parent() }}
+{% endblock %}

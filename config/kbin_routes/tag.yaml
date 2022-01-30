@@ -1,4 +1,20 @@
-tag:
-  controller: App\Controller\TagController
+tag_overall:
+  controller: App\Controller\Tag\OverallController
   path: /tag/{name}
   methods: [GET]
+
+tag_front:
+  controller: App\Controller\Tag\FrontController
+  defaults: { sortBy: ~, time: ~ }
+  path: /tag/{name}/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
+tag_entry_comments_front:
+  controller: App\Controller\Entry\Comment\CommentFrontController
+  defaults: { sortBy: ~, time: ~ }
+  path:
+    en: tag/{name}/comments/{sortBy}/{time}
+    pl: tag/{name}/komentarze/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }

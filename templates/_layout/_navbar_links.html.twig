@@ -3,3 +3,9 @@
         <a href="{{ get_active_sort_option_path(sortBy) }}">{{ name }}</a>
     </li>
 {% endblock %}
+
+{% block navbar_tag_link %}
+    <li class=" kbin-nav-navbar-item {{ (is_active_sort_option(sortBy) and is_route_contains('tag_front')) ? 'kbin-nav-navbar-item--active' : '' }}">
+        <a href="{{ get_active_sort_option_path(sortBy) }}">{{ name }}</a>
+    </li>
+{% endblock %}

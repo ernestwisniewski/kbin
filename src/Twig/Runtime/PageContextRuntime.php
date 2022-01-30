@@ -103,6 +103,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return str_contains($this->getCurrentRouteName(), 'comments');
     }
 
+    public function isTagCommentsPage(): bool
+    {
+        return str_contains($this->getCurrentRouteName(), 'tag_entry_comments_front');
+    }
+
     public function isPostsPage(): bool
     {
         return str_contains($this->getCurrentRouteName(), 'posts');
@@ -120,6 +125,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
     public function isUserPage(): bool
     {
         return str_starts_with($this->getCurrentRouteName(), 'user');
+    }
+
+    public function isTagPage(): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), 'tag');
     }
 
     public function getActiveTimeOption()
@@ -211,6 +221,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
             }
         }
 
+        if ($this->isTagPage()) {
+            $routeName           = 'tag_front';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
+        }
+
         return $this->urlGenerator->generate(
             $routeName,
             $routeParams
@@ -219,7 +234,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function getActiveSortOption()
     {
-        return $this->getCurrentRequest()->get('sortBy') ?? $this->translator->trans('sort.' . EntryRepository::SORT_DEFAULT);
+        return $this->getCurrentRequest()->get('sortBy') ?? $this->translator->trans('sort.'.EntryRepository::SORT_DEFAULT);
     }
 
     public function isMagazinePage(): bool
@@ -261,6 +276,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $routeName = 'entry_comments_moderated';
         }
 
+        if ($this->isTagPage()) {
+            $routeName           = 'tag_overall';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
+        }
+
         if ($time = $this->getCurrentRequest()->get('time')) {
             $routeParams['time'] = $time;
         }
@@ -289,6 +309,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
         if ($this->isModPage()) {
             $routeName = 'posts_moderated';
+        }
+
+        if ($this->isTagPage()) {
+            $routeName           = 'tag_overall';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
         }
 
         if ($time = $this->getCurrentRequest()->get('time')) {

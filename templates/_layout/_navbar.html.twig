@@ -1,5 +1,3 @@
-{% from '_layout/_macros.html.twig' import navbar_link %}
-
 <header class="kbin-header container-fluid mt-auto autohide position-relative">
     <nav class="kbin-nav navbar navbar-expand-lg navbar-light">
         <div class="kbin-container container">
@@ -10,6 +8,12 @@
                     <span class="text-muted me-auto text-small size">
                     /m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
                                                          href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
+                    </span>
+                {% elseif is_tag_page() %}
+                    <span class="text-muted me-auto text-small size">
+                    <span class="font-weight-bold">
+                        <a class="text-decoration-none text-reset" href="{{ path('tag_overall', {name: q|trim('#')}) }}">#{{ q }}</a>
+                    </span>
                 </span>
                 {% elseif is_user_page() %}
                     <span class="text-muted">
@@ -40,61 +44,11 @@
             <div class="collapse navbar-collapse ms-3 {{ kbin_js_enabled ? '' : 'show' }}" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
                     {% if is_user_page() %}
-                        <li class=" kbin-nav-navbar-item {{ is_active_route('user') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user', {username: user.username}) }}">{{ 'overview'|trans }}</a>
-                        </li>
-                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_entries') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}</a>
-                        </li>
-                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_entry_comments') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_entry_comments', {username: user.username}) }}">{{ 'comments'|trans }}</a>
-                        </li>
-                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_posts') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_posts', {username: user.username}) }}">{{ 'posts'|trans }}</a>
-                        </li>
-                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_replies') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}</a>
-                        </li>
-                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_moderated') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_moderated', {username: user.username}) }}">{{ 'topbar.moderated'|trans }}</a>
-                        </li>
-                        {% if user.showProfileSubscriptions %}
-                            <li class=" kbin-nav-navbar-item {{ is_active_route('user_subscriptions') ? 'kbin-nav-navbar-item--active' : '' }}">
-                                <a href="{{ path('user_subscriptions', {username: user.username}) }}">{{ 'subscriptions'|trans }}</a>
-                            </li>
-                        {% endif %}
-                        {% if user.showProfileFollowings %}
-                            <li class=" kbin-nav-navbar-item {{ is_active_route('user_follows') ? 'kbin-nav-navbar-item--active' : '' }}">
-                                <a href="{{ path('user_follows', {username: user.username}) }}">{{ 'follows'|trans }}</a>
-                            </li>
-                        {% endif %}
-                        <li class=" kbin-nav-navbar-item {{ is_active_route('user_followers') ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ path('user_followers', {username: user.username}) }}">{{ 'followers'|trans }}</a>
-                        </li>
+                        {% include '_layout/navbar/_user.html.twig' %}
+                    {% elseif is_tag_page() %}
+                        {% include '_layout/navbar/_tag.html.twig' %}
                     {% else %}
-                        {{ navbar_link('sort.top'|trans, {
-                            sortBy: 'sort.top'|trans|lower,
-                        }) }}
-                        {{ navbar_link('sort.hot'|trans, {
-                            sortBy: 'sort.hot'|trans|lower,
-                        }) }}
-                        {{ navbar_link('sort.active'|trans, {
-                            sortBy: 'sort.active'|trans|lower,
-                        }) }}
-                        {{ navbar_link('sort.newest'|trans, {
-                            sortBy: 'sort.newest'|trans|lower,
-                        }) }}
-                        {{ navbar_link('sort.commented'|trans, {
-                            sortBy: 'sort.commented'|trans|lower,
-                        }) }}
-
-                        <li class="kbin-nav-navbar-item {{ is_comments_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
-                        </li>
-
-                        <li class="kbin-nav-navbar-item {{ is_posts_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                            <a href="{{ get_active_posts_page_path() }}">{{ 'microblog'|trans }}</a>
-                        </li>
+                        {% include '_layout/navbar/_front.html.twig' %}
                     {% endif %}
                 </ul>
 
