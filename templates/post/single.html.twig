@@ -6,7 +6,7 @@
 {% block image %}{{ post.image ? uploaded_asset(post.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
     {% block body %}
-        {% if post.isAdult and (app.user is not defined or app.user.hideAdult) %}
+        {% if post.isAdult and (not app.user or app.user.hideAdult) %}
             {% include '_layout/_adult.html.twig' %}
         {% else %}
             <div class="kbin-posts-page">
