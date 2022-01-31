@@ -14,6 +14,7 @@ class UserSettingsDto
         public bool $darkTheme = false,
         public bool $turboMode = false,
         public bool $hideImages = false,
+        public bool $hideAdult = true,
         public bool $rightPosImages = false,
         public bool $showProfileSubscriptions = false,
         public bool $showProfileFollowings = false,

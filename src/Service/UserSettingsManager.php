@@ -24,6 +24,7 @@ class UserSettingsManager
             $user->theme === User::THEME_DARK,
             $user->mode === User::MODE_TURBO,
             $user->hideImages,
+            $user->hideAdult,
             $user->rightPosImages,
             $user->showProfileSubscriptions,
             $user->showProfileFollowings
@@ -41,6 +42,7 @@ class UserSettingsManager
         $user->theme                        = $dto->darkTheme ? User::THEME_DARK : User::THEME_LIGHT;
         $user->mode                         = $dto->turboMode ? User::MODE_TURBO : User::MODE_NORMAL;
         $user->hideImages                   = $dto->hideImages;
+        $user->hideAdult                    = $dto->hideAdult;
         $user->rightPosImages               = $dto->rightPosImages;
         $user->showProfileSubscriptions     = $dto->showProfileSubscriptions;
         $user->showProfileFollowings        = $dto->showProfileFollowings;

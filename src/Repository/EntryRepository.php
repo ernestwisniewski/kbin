@@ -158,6 +158,11 @@ class EntryRepository extends ServiceEntityRepository
             $qb->setParameter('magazineBlocker', $user);
         }
 
+        if(!$user || $user->hideAdult) {
+            $qb->andWhere('m.isAdult = :isAdult')
+                ->setParameter('isAdult', false);
+        }
+
         switch ($criteria->sortOption) {
             case Criteria::SORT_TOP:
                 $qb->addOrderBy('e.score', 'DESC');
