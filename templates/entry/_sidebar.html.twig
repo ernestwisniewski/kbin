@@ -40,6 +40,20 @@
                             <span class="text-muted small">Online:</span> <span data-online-target="counter">-</span>
                         </li>
                     </ul>
+                    {% block tags %}
+                        {% if entry.tags %}
+                            <section class="kbin-tags-wrapper my-3">
+                                <ul class="list-inline">
+                                    {% for tag in entry.tags %}
+                                        <li class="list-inline-item text-muted">
+                                            <span class="badge bg-light"><a href="{{ path('tag_overall', {'name': tag}) }}">#{{ tag }}</a></span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
+                        {% endif %}
+                    {% endblock %}
+
                     <div class="input-group input-group-sm"
                          data-controller="clipboard"
                          data-clipboard-success-content="Skopiowano!">

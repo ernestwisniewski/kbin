@@ -102,6 +102,11 @@ class PostRepository extends ServiceEntityRepository
                 ->setParameter('user', $criteria->user);
         }
 
+        if ($criteria->tag) {
+            $qb->andWhere($qb->expr()->like('p.tags', ':tag'))
+                ->setParameter('tag', "%{$criteria->tag}%");
+        }
+
         if ($criteria->subscribed) {
             $qb->andWhere(
                 'p.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 

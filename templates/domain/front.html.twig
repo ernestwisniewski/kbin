@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    #{{ tag ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) }}
+    {{ domain ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) }}
 {% endblock %}
 
 {% block body %}
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% include 'tag/_sidebar.html.twig' %}
+    {% include 'domain/_sidebar.html.twig' %}
 
     {{ parent() }}
 {% endblock %}

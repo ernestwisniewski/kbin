@@ -102,6 +102,18 @@ class EntryCommentRepository extends ServiceEntityRepository
                 ->setParameter('user', $criteria->user);
         }
 
+        if ($criteria->tag) {
+            $qb->andWhere($qb->expr()->like('c.tags', ':tag'))
+                ->setParameter('tag', "%{$criteria->tag}%");
+        }
+
+        if ($criteria->domain) {
+            $qb->andWhere('ced.name = :domain')
+                ->join('c.entry', 'ce')
+                ->join('ce.domain', 'ced')
+                ->setParameter('domain', $criteria->domain);
+        }
+
         if ($criteria->subscribed) {
             $qb->andWhere(
                 'c.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :follower) 

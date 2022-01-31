@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace App\Controller\Tag;
+namespace App\Controller\Domain;
 
 use App\Controller\AbstractController;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
-use App\Repository\TagRepository;
+use App\Repository\DomainRepository;
 use App\Service\SearchManager;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,14 +24,14 @@ class FrontController extends AbstractController
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($request->get('type', null)))
-            ->setTag($name);
+            ->setDomain($name);
         $method  = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
 
         return $this->render(
-            'tag/front.html.twig',
+            'domain/front.html.twig',
             [
-                'tag'       => $name,
+                'domain'       => $name,
                 'entries' => $listing,
             ]
         );

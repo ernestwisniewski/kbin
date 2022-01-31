@@ -124,6 +124,12 @@ class EntryRepository extends ServiceEntityRepository
                 ->setParameter('tag', "%{$criteria->tag}%");
         }
 
+        if ($criteria->domain) {
+            $qb->andWhere('ed.name = :domain')
+                ->join('e.domain', 'ed')
+                ->setParameter('domain', $criteria->domain);
+        }
+
         if ($criteria->subscribed) {
             $qb->andWhere(
                 'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 

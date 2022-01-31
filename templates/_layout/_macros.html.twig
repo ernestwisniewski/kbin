@@ -14,15 +14,29 @@
     {%- endwith -%}
 {%- endmacro -%}
 
-{%- macro navbar_tab_link(name, options) -%}
+{%- macro navbar_tag_link(name, options) -%}
     {%- with {
         name: name,
         sortBy: options.sortBy ?? null,
         magazine: options.magazine ?? null,
         isSubPage: options.isSubPage ?? false,
         isCommentsPage: options.isCommentsPage ?? false,
+        onlyEntries: true
         } only -%}
         {{ block('navbar_tag_link') }}
+    {%- endwith -%}
+{%- endmacro -%}
+
+{%- macro navbar_domain_link(name, options) -%}
+    {%- with {
+        name: name,
+        sortBy: options.sortBy ?? null,
+        magazine: options.magazine ?? null,
+        isSubPage: options.isSubPage ?? false,
+        isCommentsPage: options.isCommentsPage ?? false,
+        onlyEntries: true
+        } only -%}
+        {{ block('navbar_domain_link') }}
     {%- endwith -%}
 {%- endmacro -%}
 

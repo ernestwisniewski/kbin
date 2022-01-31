@@ -3,38 +3,40 @@
         <div class="kbin-container container">
             <a class="kbin-nav-brand navbar-brand text-muted text-decoration-none kbin-logo"
                href="{{ app.user ? path('front_subscribed') : '/' }}">{{ kbin_domain }}</a>
-            <div class="kbin-nav-navbar  me-auto">
+            <div class="kbin-nav-navbar me-auto text-muted">
                 {% if is_magazine_page() %}
                     <span class="text-muted me-auto text-small size">
-                    /m/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
-                                                         href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a></span>
+                    /m/<a class="text-decoration-none text-reset font-weight-bold"
+                          href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
                     </span>
                 {% elseif is_tag_page() %}
                     <span class="text-muted me-auto text-small size">
-                    <span class="font-weight-bold">
-                        <a class="text-decoration-none text-reset" href="{{ path('tag_overall', {name: q|trim('#')}) }}">#{{ q }}</a>
+                    #<a class="text-decoration-none text-reset font-weight-bold"
+                        href="{{ path('tag_overall', {name: tag|trim('#')}) }}">{{ tag }}</a>
                     </span>
-                </span>
+                {% elseif is_domain_page() %}
+                    <span class="text-muted me-auto text-small size">
+                    /d/<a class="text-decoration-none text-reset font-weight-bold"
+                          href="{{ path('domain_front', {name: domain}) }}">{{ domain }}</a>
+                    </span>
                 {% elseif is_user_page() %}
-                    <span class="text-muted">
                     {% if user is not defined %}
                         {% set user = app.user %}
                     {% endif %}
-                    /u/<span class="font-weight-bold"><a class="text-decoration-none text-reset"
-                                                         href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a></span>
-                </span>
+                    <span class="text-muted me-auto text-small size">
+                    /u/<a class="text-decoration-none text-reset font-weight-bold"
+                          href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a>
+                    </span>
                 {% elseif is_sub_page() %}
-                    <span class="text-muted">
-                    /<span class="font-weight-bold">
-                                <a class="text-decoration-none text-reset" href="{{ path('front_subscribed') }}">sub</a>
-                            </span>
-                </span>
+                    <span class="text-muted me-auto text-small size">
+                    /<a class="text-decoration-none text-reset font-weight-bold"
+                          href="{{ path('front_subscribed') }}">sub</a>
+                    </span>
                 {% elseif is_mod_page() %}
-                    <span class="text-muted">
-                    /<span class="font-weight-bold">
-                                <a class="text-decoration-none text-reset" href="{{ path('front_moderated') }}">mod</a>
-                            </span>
-                </span>
+                    <span class="text-muted me-auto text-small size">
+                    /<a class="text-decoration-none text-reset font-weight-bold"
+                        href="{{ path('front_moderated') }}">mod</a>
+                    </span>
                 {% endif %}
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kbin-nav"
@@ -47,11 +49,12 @@
                         {% include '_layout/navbar/_user.html.twig' %}
                     {% elseif is_tag_page() %}
                         {% include '_layout/navbar/_tag.html.twig' %}
+                    {% elseif is_domain_page() %}
+                        {% include '_layout/navbar/_domain.html.twig' %}
                     {% else %}
                         {% include '_layout/navbar/_front.html.twig' %}
                     {% endif %}
                 </ul>
-
                 <ul class="kbin-nav-navbar navbar-nav mb-2 mb-lg-0 float-lg-end"
                     data-controller="notify"
                     {% if magazine is defined and magazine %}data-notify-magazine-name-value="{{ magazine.name }}"{% endif %}

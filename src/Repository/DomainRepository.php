@@ -3,8 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\Domain;
+use App\Entity\Entry;
+use App\Entity\EntryComment;
+use App\Entity\Post;
+use App\Entity\PostComment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;

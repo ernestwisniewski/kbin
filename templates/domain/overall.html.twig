@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}#{{ tag }}{% endblock %}
+{% block title %}{{ domain }}{% endblock %}
 
 {% block body %}
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% include 'tag/_sidebar.html.twig' %}
+    {% include 'domain/_sidebar.html.twig' %}
 
     {{ parent() }}
 {% endblock %}

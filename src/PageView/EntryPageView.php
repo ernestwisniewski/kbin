@@ -15,5 +15,4 @@ class EntryPageView extends Criteria
     ];
 
     public bool $stickiesFirst = false;
-    public ?string $domain = null;
 }
