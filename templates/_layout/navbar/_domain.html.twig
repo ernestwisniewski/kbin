@@ -1,0 +1,21 @@
+{% from '_layout/_macros.html.twig' import navbar_domain_link %}
+
+{{ navbar_domain_link('sort.top'|trans, {
+    sortBy: 'sort.top'|trans|lower,
+}) }}
+{{ navbar_domain_link('sort.hot'|trans, {
+    sortBy: 'sort.hot'|trans|lower,
+}) }}
+{{ navbar_domain_link('sort.active'|trans, {
+    sortBy: 'sort.active'|trans|lower,
+}) }}
+{{ navbar_domain_link('sort.newest'|trans, {
+    sortBy: 'sort.newest'|trans|lower,
+}) }}
+{{ navbar_domain_link('sort.commented'|trans, {
+    sortBy: 'sort.commented'|trans|lower,
+}) }}
+
+<li class="kbin-nav-navbar-item {{ is_comments_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
+</li>

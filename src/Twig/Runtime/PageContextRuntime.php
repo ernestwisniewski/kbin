@@ -103,11 +103,6 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return str_contains($this->getCurrentRouteName(), 'comments');
     }
 
-    public function isTagCommentsPage(): bool
-    {
-        return str_contains($this->getCurrentRouteName(), 'tag_entry_comments_front');
-    }
-
     public function isPostsPage(): bool
     {
         return str_contains($this->getCurrentRouteName(), 'posts');
@@ -131,6 +126,12 @@ class PageContextRuntime implements RuntimeExtensionInterface
     {
         return str_starts_with($this->getCurrentRouteName(), 'tag');
     }
+
+    public function isDomainPage(): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), 'domain');
+    }
+
 
     public function getActiveTimeOption()
     {
@@ -224,6 +225,25 @@ class PageContextRuntime implements RuntimeExtensionInterface
         if ($this->isTagPage()) {
             $routeName           = 'tag_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
+
+
+            if($this->isCommentsPage() && !$entriesOnly) {
+                $routeName  = 'tag_entry_comments_front';
+            }
+
+            if($this->isPostsPage() && !$entriesOnly) {
+                $routeName  = 'tag_posts_front';
+            }
+        }
+
+        if ($this->isDomainPage()) {
+            $routeName           = 'domain_front';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
+
+
+            if($this->isCommentsPage() && !$entriesOnly) {
+                $routeName  = 'domain_entry_comments_front';
+            }
         }
 
         return $this->urlGenerator->generate(
@@ -256,10 +276,14 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return str_contains($this->getCurrentRouteName(), 'moderated');
     }
 
-    public function getActiveCommentsPagePath()
+    public function getActiveCommentsPagePath(): string
     {
         $routeName   = 'entry_comments_front';
         $routeParams = ['sortBy' => strtolower($this->translator->trans('sort.'.EntryCommentRepository::SORT_DEFAULT))];
+
+        if ($time = $this->getCurrentRequest()->get('time')) {
+            $routeParams['time'] = $time;
+        }
 
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
@@ -277,12 +301,13 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         if ($this->isTagPage()) {
-            $routeName           = 'tag_overall';
+            $routeName           = 'tag_entry_comments_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
         }
 
-        if ($time = $this->getCurrentRequest()->get('time')) {
-            $routeParams['time'] = $time;
+        if ($this->isDomainPage()) {
+            $routeName           = 'domain_entry_comments_front';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
         }
 
         return $this->urlGenerator->generate(
@@ -291,10 +316,14 @@ class PageContextRuntime implements RuntimeExtensionInterface
         );
     }
 
-    public function getActivePostsPagePath()
+    public function getActivePostsPagePath(): string
     {
         $routeName   = 'posts_front';
         $routeParams = ['sortBy' => strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT))];
+
+        if ($time = $this->getCurrentRequest()->get('time')) {
+            $routeParams['time'] = $time;
+        }
 
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
@@ -312,12 +341,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         if ($this->isTagPage()) {
-            $routeName           = 'tag_overall';
+            $routeName           = 'tag_posts_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
-        }
-
-        if ($time = $this->getCurrentRequest()->get('time')) {
-            $routeParams['time'] = $time;
         }
 
         return $this->urlGenerator->generate(

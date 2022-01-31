@@ -59,6 +59,7 @@ abstract class Criteria
     public string $visibility = Entry::VISIBILITY_VISIBLE;
     public bool $subscribed = false;
     public ?string $tag = null;
+    public ?string $domain = null;
 
     public function __construct(int $page)
     {
@@ -77,6 +78,13 @@ abstract class Criteria
     public function setTag(string $name): self
     {
         $this->tag = $name;
+
+        return $this;
+    }
+
+    public function setDomain(string $name): self
+    {
+        $this->domain = $name;
 
         return $this;
     }

@@ -11,10 +11,19 @@ tag_front:
   requirements: { sortBy: "%front_sort_options%" }
 
 tag_entry_comments_front:
-  controller: App\Controller\Entry\Comment\CommentFrontController
+  controller: App\Controller\Tag\CommentFrontController
   defaults: { sortBy: ~, time: ~ }
   path:
     en: tag/{name}/comments/{sortBy}/{time}
     pl: tag/{name}/komentarze/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+tag_posts_front:
+  controller: App\Controller\Tag\PostFrontController
+  defaults: { sortBy: ~, time: ~ }
+  path:
+    en: tag/{name}/p/{sortBy}/{time}
+    pl: tag/{name}/w/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }

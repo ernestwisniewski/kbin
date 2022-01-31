@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    #{{ tag ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) }}
+{% endblock %}
+{% block description %}{{ magazine is defined ? magazine.description ? get_short_desc(magazine.description) : '' : kbin_description }}{% endblock %}
+{% block image %}{{ magazine is defined ? magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' : '' }}{% endblock %}
+
+    {% block body %}
+        <div class="kbin-posts-page">
+            <section class="kbin-post-wrapper kbin-comment-wrapper">
+                {% include '_layout/_filters.html.twig' %}
+                {% include 'post/_list.html.twig' %}
+            </section>
+        </div>
+    {% endblock %}
+
+{% block sidebar %}
+    {% include 'tag/_sidebar.html.twig' %}
+
+    {{ parent() }}
+{% endblock %}
