@@ -18,7 +18,11 @@
 {% block body %}
     <div class="kbin-comment-wrapper">
         {% include '_layout/_filters.html.twig' %}
-        {% include 'entry/comment/_list.html.twig' %}
+        {% if magazine.isAdult and (not app.user or app.user.hideAdult) %}
+            {% include '_layout/_adult.html.twig' %}
+        {% else %}
+            {% include 'entry/comment/_list.html.twig' %}
+        {% endif %}
     </div>
 {% endblock %}
 
