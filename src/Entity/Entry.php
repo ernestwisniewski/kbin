@@ -391,6 +391,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $amount > 0 ? (string) $amount : '';
     }
 
+    public function isAdult(): bool
+    {
+        return $this->isAdult || $this->magazine->isAdult;
+    }
+
     public function __sleep()
     {
         return [];

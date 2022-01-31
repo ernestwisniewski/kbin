@@ -135,6 +135,12 @@ class PostRepository extends ServiceEntityRepository
             $qb->setParameter('magazineBlocker', $user);
         }
 
+        if(!$user || $user->hideAdult) {
+            $qb->andWhere('m.isAdult = :isAdult')
+                ->andWhere('p.isAdult = :isAdult')
+                ->setParameter('isAdult', false);
+        }
+
         switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('p.score', 'DESC');

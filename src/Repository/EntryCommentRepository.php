@@ -81,6 +81,8 @@ class EntryCommentRepository extends ServiceEntityRepository
 
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
+        $user = $this->security->getUser();
+
         if ($criteria->entry) {
             $qb->andWhere('c.entry = :entry')
                 ->setParameter('entry', $criteria->entry);
@@ -140,6 +142,13 @@ class EntryCommentRepository extends ServiceEntityRepository
 
         if ($criteria->onlyParents) {
             $qb->andWhere('c.parent IS NULL');
+        }
+
+        if(!$user || $user->hideAdult) {
+            $qb->join('e.magazine', 'm')
+                ->andWhere('m.isAdult = :isAdult')
+                ->andWhere('e.isAdult = :isAdult')
+                ->setParameter('isAdult', false);
         }
 
         switch ($criteria->sortOption) {
