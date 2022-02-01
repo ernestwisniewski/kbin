@@ -3,7 +3,7 @@
     {% set hasImage = true %}
 {% endif %}
 
-{{ form_start(form, { 'attr': {'data-controller': 'media', class: 'kbin-media' }}) }}
+{{ form_start(form, { 'attr': {'data-controller': 'media', class: 'kbin-media mb-5' }}) }}
 <div class="kbin-post-create-form my-3">
     <div class="mb-3">
         {{ form_label(form.body, 'post'|trans) }}
