@@ -194,6 +194,7 @@
   @include media-breakpoint-down(sm) {
     .kbin-no-image {
       clear: both;
+      padding-top: 1rem;
     }
   }
 }
