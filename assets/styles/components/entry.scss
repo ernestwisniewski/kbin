@@ -38,7 +38,6 @@
       .kbin-has-image & {
         clear: both;
         padding-top: 1rem;
-        padding-left: 3.8rem;
       }
     }
   }
@@ -88,7 +87,7 @@
 
     @include media-breakpoint-down(sm) {
       img {
-        max-width: 100%;
+        max-width: 7rem;
       }
     }
   }
