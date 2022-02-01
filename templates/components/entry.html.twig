@@ -14,28 +14,29 @@
          data-embed-loading-class="spinner-border"
          data-embed-embed-class="fa-photo-video">
     {{ component('vote', { votable: this.entry, notificationType: 'Entry', formDest: 'entry_vote', baseClass: 'entry' }) }}
-    <section class="clearfix">
-        {% if this.entry.image %}
-            {% if not app.user or (app.user and not app.user.hideImages) %}
-                {% if is_entry_page() and this.directUrl %}
-                    <div class="kbin-entry-image {{ app.user and app.user.rightPosImages ? 'float-xs-start float-sm-end ms-3' : 'float-start me-3' }}">
-                        <a href="{{- this.entry.type is same as 'image' or this.entry.type is same as 'article' ? '/media/'~asset(this.entry.image.filePath) : this.entry.url -}}"
-                           target="_blank" rel="nofollow noopener noreferrer">
-                            <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                                 alt="{{ this.entry.title }}"/>
-                        </a>
-                    </div>
-                {% else %}
-                    <div class="kbin-entry-image {{ app.user and app.user.rightPosImages ? 'float-xs-start float-sm-end ms-3' : 'float-start me-3' }}">
-                        <a href="{{- entry_url(this.entry) -}}">
-                            <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                                 alt="{{ this.entry.title }}"/>
-                        </a>
-                    </div>
-                {% endif %}
+
+    {% if this.entry.image %}
+        {% if not app.user or (app.user and not app.user.hideImages) %}
+            {% if is_entry_page() and this.directUrl %}
+                <div class="kbin-entry-image {{ app.user and app.user.rightPosImages ? 'float-xs-start float-sm-end ms-3' : 'float-start me-3' }}">
+                    <a href="{{- this.entry.type is same as 'image' or this.entry.type is same as 'article' ? '/media/'~asset(this.entry.image.filePath) : this.entry.url -}}"
+                       target="_blank" rel="nofollow noopener noreferrer">
+                        <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                             alt="{{ this.entry.title }}"/>
+                    </a>
+                </div>
+            {% else %}
+                <div class="kbin-entry-image {{ app.user and app.user.rightPosImages ? 'float-xs-start float-sm-end ms-3' : 'float-start me-3' }}">
+                    <a href="{{- entry_url(this.entry) -}}">
+                        <img width="200" class="lazy" src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                             alt="{{ this.entry.title }}"/>
+                    </a>
+                </div>
             {% endif %}
         {% endif %}
+    {% endif %}
 
+    <section class="clearfix">
         <div class="kbin-entry-main">
             {% if this.entry.visibility is same as 'visible' or this.canSeeTrashed %}
                 {% include 'entry/_entry_title.html.twig' with {entry: this.entry, title_tag: this.titleTag, direct_url: this.directUrl} %}
