@@ -19,7 +19,7 @@
             <section class="kbin-post-wrapper kbin-comment-wrapper">
                 {% include '_layout/_filters.html.twig' %}
 
-                {% if magazine.isAdult and (not app.user or app.user.hideAdult) %}
+                {% if magazine is defined and magazine.isAdult and (not app.user or app.user.hideAdult) %}
                     {% include '_layout/_adult.html.twig' %}
                 {% else %}
                     {% if magazine is defined and is_granted('create_content', magazine) %}

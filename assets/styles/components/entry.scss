@@ -14,7 +14,7 @@
     }
   }
 
-  padding: 1.5rem .3rem;
+  padding: 2rem .3rem;
   display: flow-root;
   position: relative;
 
@@ -188,6 +188,13 @@
       @include media-breakpoint-down(lg) {
         max-width: 100%;
       }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .kbin-no-image {
+      padding-top: 1rem;
+      clear: both;
     }
   }
 }
