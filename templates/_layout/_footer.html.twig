@@ -1,23 +1,50 @@
 <footer class="container-fluid footer mt-auto py-3 kbin-footer mt-5">
     <div class="kbin-container container small">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-lg-3 col-sm-6">
                 <h5 class="text-muted font-weight-bold">{{ kbin_domain }}</h5>
                 <ul class="list-unstyled">
                     <li><a href="{{ path('about') }}">{{ 'about_instance'|trans }}</a></li>
                     <li><a href="{{ path('magazine_list_all') }}">{{ 'topbar.all_magazines'|trans }}</a></li>
                     <li><a href="{{ path('modlog') }}">{{ 'modlog'|trans }}</a></li>
+                    <li class="text-muted">{{ 'fediverse'|trans }}</li>
+                    <li class="text-muted">{{ 'awards'|trans }}</li>
+                    <li class="text-muted">{{ 'ranking'|trans }}</li>
                 </ul>
             </div>
-            <div class="col-sm-2">
+            <div class="col-lg-3 col-sm-6">
                 <h5 class="text-muted font-weight-bold">{{ 'useful'|trans }}</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#">{{ 'fediverse'|trans }}</a></li>
-                    <li><a href="#">{{ 'awards'|trans }}</a></li>
-                    <li><a href="#">{{ 'ranking'|trans }}</a></li>
+                    <li>
+                        <a href="{% if magazine is defined and magazine %}{{ path('magazine_posts', { name: magazine.name }) }}{% else %}{{ '/m/karabin/wpisy/aktywne' }}{% endif %}">
+                            {{ 'create_new_magazine'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.article'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.article'|trans }) }}{% endif %}">
+                            {{ 'add_new_article'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'link' }) }}{% else %}{{ path('entry_create', { type: 'link' }) }}{% endif %}">
+                            {{ 'add_new_link'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.image'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.image'|trans }) }}{% endif %}">
+                            {{ 'add_new_photo'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% if magazine is defined and magazine %}{{ path('magazine_posts', { name: magazine.name }) }}{% else %}{{ '/m/karabin/wpisy/aktywne' }}{% endif %}">
+                            {{ 'add_new_post'|trans }}
+                        </a>
+                    </li>
+                    <li class="text-muted">{{ 'add_new_video'|trans }}</li>
+                    <li class="text-muted">{{ 'add_new_smart_contract'|trans }}</li>
                 </ul>
             </div>
-            <div class="col-sm-2">
+            <div class="col-lg-3 col-sm-6">
                 <h5 class="text-muted font-weight-bold">{{ 'help'|trans }}</h5>
                 <ul class="list-unstyled">
                     <li><a href="{{ path('page_contact') }}">{{ 'contact'|trans }}</a></li>
@@ -26,16 +53,12 @@
                     <li><a href="{{ path('page_privacy_policy') }}">{{ 'privacy_policy'|trans }}</a></li>
                 </ul>
             </div>
-            <div class="col-sm-2">
-                <h5 class="text-muted font-weight-bold">kbin</h5>
-                <ul class="list-unstyled">
-                    <li><a href="https://kbin.info">{{ 'doc'|trans }}</a></li>
-                    <li><a href="https://kbin.ernest.dev">{{ 'code'|trans }}</a></li>
-                </ul>
-            </div>
 
-            <div class="col-sm-4 text-center">
-                <p class="text-muted align-text-bottom pt-5">© {{ 'now'|date('Y') }} {{ kbin_domain }}</p>
+            <div class="col-md-12 col-lg-3 text-center">
+                <p class="text-muted align-text-bottom pt-5 font-weight-bold mb-1">© {{ 'now'|date('Y') }} {{ kbin_domain }}</p>
+                <small>
+                    Powered by <a href="https://kbin.info">kbin</a>
+                </small>
             </div>
         </div>
     </div>
