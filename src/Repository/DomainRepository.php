@@ -1,15 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
 use App\Entity\Domain;
-use App\Entity\Entry;
-use App\Entity\EntryComment;
-use App\Entity\Post;
-use App\Entity\PostComment;
+use App\Entity\DomainBlock;
+use App\Entity\DomainSubscription;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -39,6 +37,56 @@ class DomainRepository extends ServiceEntityRepository
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
                 $qb
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    public function findSubscribedDomains(int $page, User $user): PagerfantaInterface
+    {
+        $dql =
+            'SELECT d FROM '.Domain::class.' d WHERE d IN ('.
+            'SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user'.')';
+
+        $query = $this->getEntityManager()->createQuery($dql)
+            ->setParameter('user', $user);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    public function findBlockedDomains(int $page, User $user): PagerfantaInterface
+    {
+        $dql =
+            'SELECT d FROM '.Domain::class.' d WHERE d IN ('.
+            'SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :user'.')';
+
+        $query = $this->getEntityManager()->createQuery($dql)
+            ->setParameter('user', $user);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
             )
         );
 

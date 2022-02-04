@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\DomainBlock;
+use App\Entity\DomainSubscription;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
@@ -135,10 +137,12 @@ class EntryRepository extends ServiceEntityRepository
                 'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
                 OR 
                 e.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
+                OR 
+                e.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user)
                 OR
                 e.user = :user'
-            );
-            $qb->setParameter('user', $this->security->getUser());
+            )
+                ->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->moderated) {
@@ -156,9 +160,16 @@ class EntryRepository extends ServiceEntityRepository
                 'e.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
             );
             $qb->setParameter('magazineBlocker', $user);
+
+            if (!$criteria->domain) {
+                $qb->andWhere(
+                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :domainBlocker)'
+                );
+                $qb->setParameter('domainBlocker', $user);
+            }
         }
 
-        if(!$user || $user->hideAdult) {
+        if (!$user || $user->hideAdult) {
             $qb->andWhere('m.isAdult = :isAdult')
                 ->setParameter('isAdult', false);
         }

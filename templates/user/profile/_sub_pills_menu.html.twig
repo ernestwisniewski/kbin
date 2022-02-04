@@ -8,6 +8,7 @@
            href="{{ path('user_profile_user_subscriptions') }}">{{ 'people'|trans }}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">{{ 'domains'|trans }}</a>
+        <a class="nav-link {{ is_active_route('user_profile_domain_subscriptions') ? 'active': '' }}"
+           href="{{ path('user_profile_domain_subscriptions') }}">{{ 'domains'|trans }}</a>
     </li>
 </ul>

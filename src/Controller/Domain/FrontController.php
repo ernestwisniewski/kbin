@@ -5,21 +5,24 @@ namespace App\Controller\Domain;
 use App\Controller\AbstractController;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
-use App\Repository\EntryRepository;
 use App\Repository\DomainRepository;
-use App\Service\SearchManager;
+use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class FrontController extends AbstractController
 {
-    public function __construct(private EntryRepository $entryRepository)
+    public function __construct(private EntryRepository $entryRepository, private DomainRepository $domainRepository)
     {
     }
 
     public function __invoke(?string $name, ?string $sortBy, ?string $time, Request $request): Response
     {
+        if (!$domain = $this->domainRepository->findOneBy(['name' => $name])) {
+            throw $this->createNotFoundException();
+        }
+
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
@@ -31,7 +34,7 @@ class FrontController extends AbstractController
         return $this->render(
             'domain/front.html.twig',
             [
-                'domain'       => $name,
+                'domain'  => $domain,
                 'entries' => $listing,
             ]
         );

@@ -17,7 +17,7 @@
                 {% elseif is_domain_page() %}
                     <span class="text-muted me-auto text-small size">
                     /d/<a class="text-decoration-none text-reset font-weight-bold"
-                          href="{{ path('domain_front', {name: domain}) }}">{{ domain }}</a>
+                          href="{{ path('domain_front', {name: domain.name}) }}">{{ domain.name }}</a>
                     </span>
                 {% elseif is_user_page() %}
                     {% if user is not defined %}

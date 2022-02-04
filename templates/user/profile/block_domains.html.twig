@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% from '_layout/_not_found.html.twig' import not_found %}
+
+{% block title %}{{ 'domains'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="kbin-profile kbin-profile-sub-domains-page">
+        {% include 'user/profile/_tabs.html.twig' %}
+
+        {{ include('user/profile/_block_pills_menu.html.twig') }}
+
+        <div class="kbin-profile-edit mt-lg-4">
+            {% if domains|length %}
+                {% include 'domain/_list_table.html.twig' %}
+            {% else %}
+                {{ not_found() }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'user/_sidebar.html.twig' with {user: app.user} %}
+    {% include 'user/profile/_sidebar.html.twig' %}
+    {{ parent() }}
+    <div class="mb-4">
+        {% include 'user/_moderator_list_card.html.twig'with {user: app.user} %}
+    </div>
+{% endblock %}

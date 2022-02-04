@@ -1,18 +1,22 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Entity\Contracts\DomainInterface;
 use App\Entity\Domain;
+use App\Entity\User;
+use App\Event\DomainBlockedEvent;
+use App\Event\DomainSubscribedEvent;
 use App\Repository\DomainRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
-class
-DomainManager
+class DomainManager
 {
     public function __construct(
         private DomainRepository $repository,
-        private EntityManagerInterface $manager
+        private EventDispatcherInterface $dispatcher,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -28,14 +32,55 @@ DomainManager
         if (!$domain) {
             $domain          = new Domain($subject, $domainName);
             $subject->domain = $domain;
-            $this->manager->persist($domain);
+            $this->entityManager->persist($domain);
         }
 
         $domain->addEntry($subject);
         $domain->updateCounts();
 
-        $this->manager->flush();
+        $this->entityManager->flush();
 
         return $subject;
     }
+
+    public function subscribe(Domain $domain, User $user): void
+    {
+        $user->unblockDomain($domain);
+
+        $domain->subscribe($user);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new DomainSubscribedEvent($domain, $user));
+    }
+
+    public function unsubscribe(Domain $domain, User $user): void
+    {
+        $domain->unsubscribe($user);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new DomainSubscribedEvent($domain, $user));
+    }
+
+    public function block(Domain $domain, User $user): void
+    {
+        $this->unsubscribe($domain, $user);
+
+        $user->blockDomain($domain);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new DomainBlockedEvent($domain, $user));
+    }
+
+    public function unblock(Domain $domain, User $user): void
+    {
+        $user->unblockDomain($domain);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new DomainBlockedEvent($domain, $user));
+    }
+
 }

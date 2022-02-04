@@ -1,0 +1,17 @@
+{% set blocked = is_domain_blocked(domain) %}
+<div class="kbin-block" data-controller="block"
+     data-block-add-url-value="{{ path('domain_block', {name: domain.name}) }}"
+     data-block-remove-url-value="{{ path('domain_unblock', {name: domain.name}) }}"
+     data-block-is-blocked-value="{{ blocked ? 'true' : 'false' }}"
+     data-block-active-class="kbin-block--active">
+    <form action="{{ path('domain_' ~ (blocked ? 'unblock' : 'block'), {name: domain.name}) }}"
+          method="POST"
+          class="kbin-domain-block kbin-block-form {{ blocked ? 'kbin-block--active' : '' }}"
+          data-block-target="form"
+          data-action="block#blockOrUnblock">
+        <button type="submit"
+                class="btn btn-sm btn-outline-light text-dark text-muted rounded-end"><i
+                    class="fas fa-ban"></i></button>
+        <input type="hidden" name="token" value="{{ csrf_token('block') }}">
+    </form>
+</div>

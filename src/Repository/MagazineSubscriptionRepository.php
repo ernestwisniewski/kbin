@@ -10,10 +10,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Moderator|null find($id, $lockMode = null, $lockVersion = null)
- * @method Moderator|null findOneBy(array $criteria, array $orderBy = null)
- * @method Moderator[]    findAll()
- * @method Moderator[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MagazineSubscription|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MagazineSubscription|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MagazineSubscription[]    findAll()
+ * @method MagazineSubscription[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class MagazineSubscriptionRepository extends ServiceEntityRepository
 {

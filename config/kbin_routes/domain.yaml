@@ -13,3 +13,23 @@ domain_entry_comments_front:
     pl: d/{name}/komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
+
+domain_subscribe:
+  controller: App\Controller\Domain\DomainSubController::subscribe
+  path: /d/{name}/subscribe
+  methods: [ POST ]
+
+domain_unsubscribe:
+  controller: App\Controller\Domain\DomainSubController::unsubscribe
+  path: /d/{name}/unsubscribe
+  methods: [ POST ]
+
+domain_block:
+  controller: App\Controller\Domain\DomainBlockController::block
+  path: /d/{name}/block
+  methods: [ POST ]
+
+domain_unblock:
+  controller: App\Controller\Domain\DomainBlockController::unblock
+  path: /d/{name}/unblock
+  methods: [ POST ]

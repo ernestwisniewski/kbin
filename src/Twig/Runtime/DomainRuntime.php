@@ -1,33 +1,35 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Twig\Runtime;
 
-use App\Entity\Magazine;
+use App\Entity\Domain;
+use App\Repository\DomainRepository;
 use Symfony\Component\Security\Core\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
-class MagazineRuntime implements RuntimeExtensionInterface
+class DomainRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private Security $security,
     ) {
     }
 
-    public function isSubscribed(Magazine $magazine): bool
+    public function isSubscribed(Domain $domain): bool
     {
         if (!$this->security->getUser()) {
             return false;
         }
 
-        return $magazine->isSubscribed($this->security->getUser());
+        return $domain->isSubscribed($this->security->getUser());
     }
 
-    public function isBlocked(Magazine $magazine): bool
+    public function isBlocked(Domain $domain): bool
     {
         if (!$this->security->getUser()) {
             return false;
         }
 
-        return $this->security->getUser()->isBlockedMagazine($magazine);
+        return $this->security->getUser()->isBlockedDomain($domain);
     }
 }
+

@@ -137,6 +137,13 @@ user_profile_magazine_blocks:
     pl: /profil/blokady/magazyny
   methods: [ GET ]
 
+user_profile_domain_blocks:
+  controller: App\Controller\User\Profile\UserBlockController::domains
+  path:
+    en: /profile/blocklist/domains
+    pl: /profil/blokady/domeny
+  methods: [ GET ]
+
 user_profile_user_blocks:
   controller: App\Controller\User\Profile\UserBlockController::users
   path:
@@ -149,6 +156,13 @@ user_profile_magazine_subscriptions:
   path:
     en: /profile/subscriptions/magazines
     pl: /profil/subskrypcje/magazyny
+  methods: [ GET ]
+
+user_profile_domain_subscriptions:
+  controller: App\Controller\User\Profile\UserSubController::domains
+  path:
+    en: /profile/subscriptions/domains
+    pl: /profil/subskrypcje/domeny
   methods: [ GET ]
 
 user_profile_user_subscriptions:
