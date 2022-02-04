@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -6,6 +6,7 @@ use App\Entity\Contracts\DomainInterface;
 use App\Repository\DomainRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,6 +30,14 @@ class Domain
      */
     public int $entryCount = 0;
     /**
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    public int $subscriptionsCount = 0;
+    /**
+     * @ORM\OneToMany(targetEntity=DomainSubscription::class, mappedBy="domain", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    public Collection $subscriptions;
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -37,8 +46,9 @@ class Domain
 
     public function __construct(DomainInterface $entry, string $name)
     {
-        $this->name    = $name;
-        $this->entries = new ArrayCollection();
+        $this->name          = $name;
+        $this->entries       = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
 
         $this->addEntry($entry);
     }
@@ -76,6 +86,47 @@ class Domain
         $this->updateCounts();
 
         return $this;
+    }
+
+    public function subscribe(User $user): self
+    {
+        if (!$this->isSubscribed($user)) {
+            $this->subscriptions->add($sub = new DomainSubscription($user, $this));
+            $sub->domain = $this;
+        }
+
+        $this->updateSubscriptionsCount();
+
+        return $this;
+    }
+
+    public function isSubscribed(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return $this->subscriptions->matching($criteria)->count() > 0;
+    }
+
+    private function updateSubscriptionsCount(): void
+    {
+        $this->subscriptionsCount = $this->subscriptions->count();
+    }
+
+    public function unsubscribe(User $user): void
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        $subscription = $this->subscriptions->matching($criteria)->first();
+
+        if ($this->subscriptions->removeElement($subscription)) {
+            if ($subscription->domain === $this) {
+                $subscription->domain = null;
+            }
+        }
+
+        $this->updateSubscriptionsCount();
     }
 
     public function __sleep()

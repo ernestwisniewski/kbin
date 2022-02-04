@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -290,11 +290,9 @@ class Magazine implements VisibilityInterface
         return $this->subscriptions->matching($criteria)->count() > 0;
     }
 
-    private function updateSubscriptionsCount(): self
+    private function updateSubscriptionsCount(): void
     {
         $this->subscriptionsCount = $this->subscriptions->count();
-
-        return $this;
     }
 
     public function unsubscribe(User $user): void

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ domain ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) }}
+    {{ domain.name ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) }}
 {% endblock %}
 {% block description %}{{ magazine is defined ? magazine.description ? get_short_desc(magazine.description) : '' : kbin_description }}{% endblock %}
 {% block image %}{{ magazine is defined ? magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' : '' }}{% endblock %}

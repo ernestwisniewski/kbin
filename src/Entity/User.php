@@ -159,6 +159,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public Collection $subscriptions;
     /**
+     * @ORM\OneToMany(targetEntity=DomainSubscription::class, mappedBy="user", orphanRemoval=true)
+     */
+    public Collection $subscribedDomains;
+    /**
      * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="follower", orphanRemoval=true, cascade={"persist", "remove"})
      */
     public Collection $follows;
@@ -178,6 +182,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      * @ORM\OneToMany(targetEntity=MagazineBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     public Collection $blockedMagazines;
+    /**
+     * @ORM\OneToMany(targetEntity=DomainBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    public Collection $blockedDomains;
     /**
      * @ORM\OneToMany(targetEntity="Report", mappedBy="reporting", fetch="EXTRA_LAZY", cascade={"persist"})
      * @ORM\OrderBy({"id": "DESC"})
@@ -220,11 +228,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->postComments      = new ArrayCollection();
         $this->postCommentVotes  = new ArrayCollection();
         $this->subscriptions     = new ArrayCollection();
+        $this->subscribedDomains = new ArrayCollection();
         $this->follows           = new ArrayCollection();
         $this->followers         = new ArrayCollection();
         $this->blocks            = new ArrayCollection();
         $this->blockers          = new ArrayCollection();
         $this->blockedMagazines  = new ArrayCollection();
+        $this->blockedDomains    = new ArrayCollection();
         $this->reports           = new ArrayCollection();
         $this->violations        = new ArrayCollection();
         $this->notifications     = new ArrayCollection();
@@ -475,7 +485,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function blockMagazine(Magazine $magazine): self
     {
         if (!$this->isBlockedMagazine($magazine)) {
-            $this->blockedMagazines->add($magazineBlock = new MagazineBlock($this, $magazine));
+            $this->blockedMagazines->add(new MagazineBlock($this, $magazine));
         }
 
         return $this;
@@ -503,6 +513,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
             if ($magazineBlock->user === $this) {
                 $magazineBlock->magazine = null;
                 $this->blockedMagazines->removeElement($magazineBlock);
+            }
+        }
+    }
+
+    public function blockDomain(Domain $domain): self
+    {
+        if (!$this->isBlockedDomain($domain)) {
+            $this->blockedDomains->add(new DomainBlock($this, $domain));
+        }
+
+        return $this;
+    }
+
+    public function isBlockedDomain(Domain $domain): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('domain', $domain));
+
+        return $this->blockedDomains->matching($criteria)->count() > 0;
+    }
+
+    public function unblockDomain(Domain $domain): void
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('domain', $domain));
+
+        /**
+         * @var $domainBlock DomainBlock
+         */
+        $domainBlock = $this->blockedDomains->matching($criteria)->first();
+
+        if ($this->blockedDomains->removeElement($domainBlock)) {
+            if ($domainBlock->user === $this) {
+                $domainBlock->domain = null;
+                $this->blockedMagazines->removeElement($domainBlock);
             }
         }
     }

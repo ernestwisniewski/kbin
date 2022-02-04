@@ -1,0 +1,24 @@
+{% set subscribed = is_domain_subscribed(domain) %}
+
+<div class="kbin-sub btn-group btn-group-sm"
+     role="group"
+     data-controller="subscribe"
+     data-subscribe-add-url-value="{{ path('domain_subscribe', {name: domain.name}) }}"
+     data-subscribe-remove-url-value="{{ path('domain_unsubscribe', {name: domain.name}) }}"
+     data-subscribe-is-subscribed-value="{{ subscribed ? 'true' : 'false' }}"
+     data-subscribe-sub-count-value="{{ domain.subscriptionsCount }}"
+     data-subscribe-active-class="kbin-sub--active">
+    <button type="button" class="btn btn-sm btn-light" disabled>
+        <i class="fas fa-eye"></i> <span data-subscribe-target="subCount">{{ domain.subscriptionsCount }}</span></button>
+    <form action="{{ path('domain_' ~ (subscribed ? 'unsubscribe' : 'subscribe'), {name: domain.name}) }}"
+          method="POST"
+          class="kbin-domain-subscribe kbin-sub-form {{ subscribed ? 'kbin-sub--active' : '' }}"
+          data-action="subscribe#subOrUnsub"
+          data-subscribe-target="form">
+        <button type="submit" class="btn btn btn-sm btn-outline-light text-dark text-muted">
+            {{ 'subscribe'|trans }}
+        </button>
+        <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
+    </form>
+    {% include 'domain/_block_button.html.twig' %}
+</div>

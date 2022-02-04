@@ -22,11 +22,12 @@ class InstanceStatsManager
         private PostRepository $postRepository,
         private PostCommentRepository $postCommentRepository,
         private VoteRepository $voteRepository,
-         private CacheInterface $cache
+        private CacheInterface $cache
     ) {
     }
 
-    public function count() {
+    public function count()
+    {
         return $this->cache->get('instance_stats', function (ItemInterface $item) {
             $item->expiresAfter(60);
 

@@ -1,0 +1,22 @@
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <td>{{ 'name'|trans }}</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for domain in domains %}
+            <tr>
+                <td>{{ domain.name }}</td>
+                <td>{% include 'domain/_sub_button.html.twig' %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if(domains.haveToPaginate) %}
+    {{ pagerfanta(domains, null, {'pageParameter':'[p]'}) }}
+{% endif %}

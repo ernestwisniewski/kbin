@@ -16,7 +16,7 @@
 
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_profile_reports') ? 'active font-weight-bold' : '' }}" aria-current="page"
-           href="{{ path('user_profile_reports') }}">{{'reports'|trans}}</a>
+           href="{{ path('user_profile_reports') }}">{{ 'reports'|trans }}</a>
     </li>
 
     {# todo: nojs #}
@@ -27,7 +27,7 @@
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ path('user_profile_magazine_subscriptions') }}">{{ 'magazines'|trans }}</a></li>
             <li><a class="dropdown-item" href="{{ path('user_profile_user_subscriptions') }}">{{ 'people'|trans }}</a></li>
-            <li><a class="dropdown-item" href="#">{{ 'domains'|trans }}</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_domain_subscriptions') }}">{{ 'domains'|trans }}</a></li>
         </ul>
     </li>
 
@@ -38,7 +38,7 @@
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ path('user_profile_magazine_blocks') }}">{{ 'magazines'|trans }}</a></li>
             <li><a class="dropdown-item" href="{{ path('user_profile_user_blocks') }}">{{ 'people'|trans }}</a></li>
-            <li><a class="dropdown-item" href="#">{{ 'domains'|trans }}</a></li>
+            <li><a class="dropdown-item" href="{{ path('user_profile_domain_blocks') }}">{{ 'domains'|trans }}</a></li>
         </ul>
     </li>
 
