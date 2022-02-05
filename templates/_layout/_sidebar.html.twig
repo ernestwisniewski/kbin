@@ -1,6 +1,6 @@
 <div class="kbin-search mb-4 mt-lg-0 mt-4">
     <form method="get" action="{{ path('search') }}">
-        <div  class="input-group input-group-sm input-group-btn">
+        <div class="input-group input-group-sm input-group-btn">
             <input type="text" name="q" class="form-control" placeholder="{{ 'type_search_term'|trans }}">
             <span class="input-group-btn input-group-sm">
         <button class="kbin-search-btn btn btn-default" type="submit">{{ 'search'|trans }}</button>
@@ -9,7 +9,7 @@
     </form>
 </div>
 
-<div class="kbin-add d-grid gap-2 mb-5"
+<div class="kbin-add  d-grid gap-2 mb-5"
      data-controller="reveal"
      data-reveal-hidden-class="visually-hidden">
     <button type="button"
@@ -23,47 +23,58 @@
             data-reveal-target="item"
             data-action="click->reveal#toggle"></button>
 
-    <div class="kbin-quick-links list-group {{ not kbin_js_enabled or is_route_contains('_create') ? '' : 'visually-hidden' }}"
-         data-reveal-target="item">
+    <nav class="d-grid {{ not kbin_js_enabled or is_route_contains('_create') ? '' : 'visually-hidden' }}" data-reveal-target="item">
         <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.article'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.article'|trans }) }}{% endif %}"
-           class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_article'|trans }}</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_article_desc'|trans }}</p>
+           class="btn btn-hover-light align-items-center py-3 lh-sm">
+            <div>
+                <strong class="d-block">{{ 'add_new_article'|trans }}</strong>
+                <small>{{ 'add_new_article_desc'|trans }}</small>
+            </div>
         </a>
-
         <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'link' }) }}{% else %}{{ path('entry_create', { type: 'link' }) }}{% endif %}"
-           class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_link'|trans }}</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_link_desc'|trans }}</p>
+           class="btn btn-hover-light align-items-center py-3 lh-sm">
+            <div>
+                <strong class="d-block">{{ 'add_new_link'|trans }}</strong>
+                <small>{{ 'add_new_link_desc'|trans }}</small>
+            </div>
         </a>
-
         <a href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.image'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.image'|trans }) }}{% endif %}"
-           class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_photo'|trans }}</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_photo_desc'|trans }}</p>
+           class="btn btn-hover-light align-items-center py-3 lh-sm">
+            <div>
+                <strong class="d-block">{{ 'add_new_photo'|trans }}</strong>
+                <small>{{ 'add_new_photo_desc'|trans }}</small>
+            </div>
         </a>
-
-        <a href="#" class="list-group-item disabled">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_video'|trans }}</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_video_desc'|trans }}</p>
+        <a href="#"
+           class="btn btn-hover-light align-items-center py-3 lh-sm disabled">
+            <div>
+                <strong class="d-block">{{ 'add_new_video'|trans }}</strong>
+                <small>{{ 'add_new_video_desc'|trans }}</small>
+            </div>
         </a>
-
-        <a href="#" class="list-group-item disabled">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_smart_contract'|trans }}</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_smart_contract_desc'|trans }}</p>
+        <a href="#"
+           class="btn btn-hover-light align-items-center py-3 lh-sm disabled">
+            <div>
+                <strong class="d-block">{{ 'add_new_smart_contract'|trans }}</strong>
+                <small>{{ 'add_new_smart_contract_desc'|trans }}</small>
+            </div>
         </a>
-
         <a href="{% if magazine is defined and magazine %}{{ path('magazine_posts', { name: magazine.name }) }}{% else %}{{ '/m/karabin/wpisy/aktywne' }}{% endif %}"
-           class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'add_new_post'|trans }}</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'add_new_post_desc'|trans }}</p>
+           class="btn btn-hover-light align-items-center py-3 lh-sm">
+            <div>
+                <strong class="d-block">{{ 'add_new_post'|trans }}</strong>
+                <small>{{ 'add_new_post_desc'|trans }}</small>
+            </div>
         </a>
+        <a href="{{ path('magazine_create') }}"
+           class="btn btn-hover-light align-items-center py-3 lh-sm">
+            <div>
+                <strong class="d-block">{{ 'create_new_magazine'|trans }}</strong>
+                <small>{{ 'create_new_magazine_desc'|trans }}</small>
+            </div>
+        </a>
+    </nav>
 
-        <a href="{{ path('magazine_create') }}" class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'create_new_magazine'|trans }}</h4>
-            <p class="kbin-quick-links-text list-group-item-text text-muted">{{ 'create_new_magazine_desc'|trans }}</p>
-        </a>
-    </div>
 </div>
 
 {% if not is_magazine_page() and not is_user_page() and not is_user_profile_page() and not is_report_page() %}
