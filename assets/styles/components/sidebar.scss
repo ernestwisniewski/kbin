@@ -7,6 +7,10 @@
   }
 
   .kbin-add {
+    a {
+      border-bottom: 1px solid #c5c5c5;
+    }
+
     &-btn {
       border-bottom: 1px solid $kbin-entry-list-item-border-color;
 
