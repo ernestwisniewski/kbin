@@ -20,8 +20,8 @@ user_entry_comments:
 user_posts:
   controller: App\Controller\User\UserFrontController::posts
   path:
-    en: /u/{username}/wpisy
-    pl: /u/{username}/posts
+    pl: /u/{username}/wpisy
+    en: /u/{username}/posts
   methods: [ GET ]
 
 user_replies:
@@ -97,6 +97,11 @@ user_ban:
 user_unban:
   controller: App\Controller\User\UserBanController::unban
   path: /u/{username}/unban
+  methods: [ POST ]
+
+user_note:
+  controller: App\Controller\User\UserNoteController
+  path: /u/{username}/note
   methods: [ POST ]
 
 user_profile_front:
