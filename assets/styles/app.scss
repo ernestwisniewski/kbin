@@ -22,6 +22,7 @@ svg.ada {
 @import "components/toast";
 @import "components/featured-magazines";
 @import "components/cookies";
+@import "components/user_popup";
 @import "components/media";
 @import "components/navbar";
 @import "components/footer";
@@ -40,7 +41,7 @@ svg.ada {
 #kbin {
   padding-top: 1.7rem;
   //background: url(../images/shape.png) center center;
-  background-image: linear-gradient(#e5e5e5 0%, #ffffff 100%);
+  background-image: linear-gradient(#e5e5e5 0%, $kbin-background 100%);
   height: 100px;
 
   .kbin-dark & {

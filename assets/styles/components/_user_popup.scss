@@ -1,0 +1,12 @@
+#kbin-user-popup {
+  textarea {
+    width: 100%;
+    border: 1px solid $kbin-entry-list-item-border-color;
+
+    .kbin-dark & {
+      color: #fff;
+      border: 1px solid $kbin-dark-entry-list-item-border-color;
+      background: $kbin-dark-entry-list-item-border-color;
+    }
+  }
+}

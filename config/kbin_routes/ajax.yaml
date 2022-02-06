@@ -51,3 +51,9 @@ ajax_fetch_online:
   defaults: { _format: json }
   path: /ajax/fetch_online/{topic}
   methods: [ GET ]
+
+ajax_fetch_user_popup:
+  controller: App\Controller\AjaxController::fetchUserPopup
+  defaults: { _format: json }
+  path: /ajax/fetch_user_popup/{username}
+  methods: [ GET ]

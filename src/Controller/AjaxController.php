@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+use App\DTO\UserNoteDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\User;
+use App\Form\UserNoteType;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use App\Repository\PostCommentRepository;
+use App\Service\UserNoteManager;
 use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -145,6 +149,24 @@ class AjaxController extends AbstractController
 
         return new JsonResponse([
             'online' => $online,
+        ]);
+    }
+
+    public function fetchUserPopup(User $user, UserNoteManager $manager): JsonResponse
+    {
+        if($this->getUser()) {
+            $dto = $manager->createDto($this->getUserOrThrow(), $user);
+        } else {
+            $dto = new UserNoteDto();
+            $dto->target = $user;
+        }
+
+        $form = $this->createForm(UserNoteType::class, $dto, [
+            'action' => $this->generateUrl('user_note', ['username' => $dto->target->username]),
+        ]);
+
+        return new JsonResponse([
+            'html' => $this->renderView('user/user_popup.html.twig', ['user' => $user, 'form' => $form->createView()]),
         ]);
     }
 }

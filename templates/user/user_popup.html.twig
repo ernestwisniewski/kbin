@@ -1,0 +1,71 @@
+<div class="modal fade" id="kbin-user-popup" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex flex-row bd-highlight mb-3">
+                    <div class="p-2 bd-highlight avatar" style="width:120px">
+                        <a href="{{ path('user', {'username': user.username}) }}">
+                            {% include 'user/_avatar.html.twig' %}
+                        </a>
+                    </div>
+                    <div class="p-2">
+                        <div>
+                            <span class="font-weight-bold h4">
+                                <a class="text-reset" href="{{ path('user', {'username': user.username}) }}">{{ user.username }}</a>
+                            </span>
+                        </div>
+                        <div class="mb-2 small">
+                            <span class="text-muted small">{{ 'joined'|trans }}:</span>
+                            <time data-controller="timeago"
+                                  data-timeago-refresh-interval-value="10000"
+                                  data-timeago-datetime-value="{{ user.createdAt|date('c') }}"{{ user.createdAt|ago }}></time>
+                        </div>
+                        <div>{% include 'user/_follow_button.html.twig' %}</div>
+                    </div>
+                </div>
+                <div>
+                    {{ form_start(form, { 'attr': { class: 'kbin-user-note' }}) }}
+                    <div class="col-xs-12 clearfix">
+                        <div class="kbin-comment-create-form my-3">
+                            <div class="mb-3">
+                                {{ form_widget(form.body) }}
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr':{'class': 'btn-primary btn-sm'} }) }}
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+                <hr>
+                <div class="d-flex justify-content-center bd-highlight text-center">
+                    <div class="p-3 bd-highlight small font-weight-bold">
+                        <a href="{{ path('user_entries', {username: user.username}) }}">
+                            <small>{{ user.entries.count }}</small><br>
+                            {{ 'threads'|trans }}
+                        </a>
+                    </div>
+                    <div class="p-3 bd-highlight small font-weight-bold">
+                        <a href="{{ path('user_entry_comments', {username: user.username}) }}">
+                            <small>{{ user.entryComments.count }}</small><br>
+                            {{ 'comments'|trans }}
+                        </a>
+                    </div>
+                    <div class="p-3 bd-highlight small font-weight-bold">
+                        <a href="{{ path('user_posts', {username: user.username}) }}">
+                            <small>{{ user.posts.count }}</small><br>
+                            {{ 'posts'|trans }}
+                        </a>
+                    </div>
+                    <div class="p-3 bd-highlight small font-weight-bold">
+                        <a href="{{ path('user_posts', {username: user.username}) }}">
+                            <small>{{ user.postComments.count }}</small><br>
+                            {{ 'replies'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
