@@ -118,6 +118,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         $this->votes         = new ArrayCollection();
         $this->children      = new ArrayCollection();
         $this->reports       = new ArrayCollection();
+        $this->favourites    = new ArrayCollection();
         $this->notifications = new ArrayCollection();
 
         if ($parent) {
