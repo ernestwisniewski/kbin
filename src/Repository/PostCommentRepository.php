@@ -101,6 +101,8 @@ class PostCommentRepository extends ServiceEntityRepository
             default:
                 $qb->addOrderBy('c.id', 'ASC');
         }
+
+        $qb->addOrderBy('c.createdAt', 'DESC');
     }
 
     public function hydrate(PostComment ...$comment): void
@@ -123,8 +125,10 @@ class PostCommentRepository extends ServiceEntityRepository
             $this->_em->createQueryBuilder()
                 ->select('PARTIAL c.{id}')
                 ->addSelect('cv')
+                ->addSelect('cf')
                 ->from(PostComment::class, 'c')
                 ->leftJoin('c.votes', 'cv')
+                ->leftJoin('c.favourites', 'cf')
                 ->where('c IN (?1)')
                 ->setParameter(1, $comment)
                 ->getQuery()

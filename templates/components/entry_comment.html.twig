@@ -113,6 +113,15 @@
                                                          data-action="report#report">{{ 'report'|trans }}</a></small>
                         </li>
 
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                            <form method="post" action="{{ path('entry_comment_favourite', {id: this.comment.id}) }}">
+                                <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
+                                <button type="submit" class="btn btn-link">
+                                    <span class="{{ app.user and this.comment.isFavored(app.user) ? 'text-decoration-underline' : '' }}">{{ 'favourite'|trans }}</span>
+                                </button>
+                            </form>
+                        </li>
+
                         {% if is_granted('edit', this.comment) %}
                             <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                                 <small class="text-muted">

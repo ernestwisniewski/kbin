@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
@@ -22,7 +23,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
-class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface
+class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface
 {
     use VotableTrait;
     use RankingTrait;
@@ -59,6 +60,10 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     public int $commentCount = 0;
     /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     */
+    public int $favouriteCount = 0;
+    /**
      * @ORM\Column(type="integer")
      */
     public int $score = 0;
@@ -92,6 +97,10 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     public Collection $reports;
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostFavourite", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
+     */
+    public Collection $favourites;
+    /**
      * @ORM\OneToMany(targetEntity="PostCreatedNotification", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
      */
     public Collection $notifications;
@@ -112,6 +121,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $this->comments      = new ArrayCollection();
         $this->votes         = new ArrayCollection();
         $this->reports       = new ArrayCollection();
+        $this->favourites    = new ArrayCollection();
         $this->notifications = new ArrayCollection();
 
         $user->addPost($this);
@@ -187,7 +197,8 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
-        $this->commentCount = $this->comments->matching($criteria)->count();
+        $this->commentCount   = $this->comments->matching($criteria)->count();
+        $this->favouriteCount = $this->favourites->count();
 
         return $this;
     }
@@ -289,6 +300,14 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    public function isFavored(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return $this->favourites->matching($criteria)->count() > 0;
     }
 
     public function __sleep()

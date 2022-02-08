@@ -192,6 +192,8 @@ class EntryRepository extends ServiceEntityRepository
                 $qb->addOrderBy('e.id', 'DESC');
         }
 
+        $qb->addOrderBy('e.createdAt', 'DESC');
+
         return $qb;
     }
 
@@ -219,7 +221,9 @@ class EntryRepository extends ServiceEntityRepository
             $this->_em->createQueryBuilder()
                 ->select('PARTIAL e.{id}')
                 ->addSelect('ev')
+                ->addSelect('ef')
                 ->from(Entry::class, 'e')
+                ->leftJoin('e.favourites', 'ef')
                 ->leftJoin('e.votes', 'ev')
                 ->where('e IN (?1)')
                 ->setParameter(1, $entries)

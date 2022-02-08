@@ -50,7 +50,7 @@ post_comment_vote:
   controller: App\Controller\VoteController
   defaults: { entityClass: App\Entity\PostComment }
   path: /pcv/{id}/{choice}
-  methods: [POST]
+  methods: [ POST ]
 
 post_comment_report:
   controller: App\Controller\ReportController
@@ -58,13 +58,19 @@ post_comment_report:
   path: /pcr/{id}
   methods: [ GET, POST ]
 
+post_comment_favourite:
+  controller: App\Controller\FavouriteController
+  defaults: { entityClass: App\Entity\PostComment }
+  path: /pcf/{id}
+  methods: [ POST ]
+
 posts_front:
   controller: App\Controller\Post\PostFrontController::front
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /posts/{sortBy}/{time}
     pl: /wpisy/{sortBy}/{time}
-  methods: [GET]
+  methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_subscribed:
@@ -108,7 +114,7 @@ post_single:
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}
     pl: /m/{magazine_name}/w/{post_id}/{slug}
-  methods: [GET]
+  methods: [ GET ]
 
 post_create:
   controller: App\Controller\Post\PostCreateController
@@ -159,10 +165,16 @@ post_vote:
   controller: App\Controller\VoteController
   defaults: { entityClass: App\Entity\Post }
   path: /pv/{id}/{choice}
-  methods: [POST]
+  methods: [ POST ]
 
 post_report:
   controller: App\Controller\ReportController
   defaults: { entityClass: App\Entity\Post }
   path: /pr/{id}
   methods: [ GET, POST ]
+
+post_favourite:
+  controller: App\Controller\FavouriteController
+  defaults: { entityClass: App\Entity\Post }
+  path: /pf/{id}
+  methods: [ POST ]

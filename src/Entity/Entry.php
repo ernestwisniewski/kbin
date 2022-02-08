@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\CommentInterface;
 use App\Entity\Contracts\DomainInterface;
+use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
@@ -25,7 +26,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, ViewCountable
+class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable
 {
     use VotableTrait;
     use RankingTrait;
@@ -94,6 +95,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public int $commentCount = 0;
     /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     */
+    public int $favouriteCount = 0;
+    /**
      * @ORM\Column(type="integer")
      */
     public int $score = 0;
@@ -137,6 +142,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      * @ORM\OneToMany(targetEntity="EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $reports;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryFavourite", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
+     */
+    public Collection $favourites;
     /**
      * @ORM\OneToMany(targetEntity="EntryCreatedNotification", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
@@ -183,6 +192,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $this->comments      = new ArrayCollection();
         $this->votes         = new ArrayCollection();
         $this->reports       = new ArrayCollection();
+        $this->favourites    = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->viewCounters  = new ArrayCollection();
         $this->badges        = new ArrayCollection();
@@ -261,7 +271,8 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
-        $this->commentCount = $this->comments->matching($criteria)->count();
+        $this->commentCount   = $this->comments->matching($criteria)->count();
+        $this->favouriteCount = $this->favourites->count();
 
         return $this;
     }
@@ -394,6 +405,14 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public function isAdult(): bool
     {
         return $this->isAdult || $this->magazine->isAdult;
+    }
+
+    public function isFavored(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return $this->favourites->matching($criteria)->count() > 0;
     }
 
     public function __sleep()

@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
@@ -12,6 +13,7 @@ use App\Repository\EntryCommentRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OrderBy;
 use Traversable;
@@ -20,7 +22,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryCommentRepository::class)
  */
-class EntryComment implements VoteInterface, VisibilityInterface, ReportInterface
+class EntryComment implements VoteInterface, VisibilityInterface, ReportInterface, FavouriteInterface
 {
     use VotableTrait;
     use VisibilityTrait;
@@ -62,6 +64,10 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      */
     public ?string $body;
     /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     */
+    public int $favouriteCount = 0;
+    /**
      * @ORM\Column(type="datetimetz")
      */
     public DateTime $lastActive;
@@ -87,6 +93,10 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      * @ORM\OneToMany(targetEntity="App\Entity\EntryCommentReport", mappedBy="entryComment", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $reports;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EntryCommentFavourite", mappedBy="entryComment", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
+     */
+    public Collection $favourites;
     /**
      * @ORM\OneToMany(targetEntity="EntryCommentCreatedNotification", mappedBy="entryComment", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
@@ -210,6 +220,21 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    public function updateCounts(): self
+    {
+        $this->favouriteCount = $this->favourites->count();
+
+        return $this;
+    }
+
+    public function isFavored(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return $this->favourites->matching($criteria)->count() > 0;
     }
 
     public function __sleep()

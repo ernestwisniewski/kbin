@@ -94,6 +94,12 @@ entry_comment_report:
   path: /ecr/{id}
   methods: [ GET, POST ]
 
+entry_comment_favourite:
+  controller: App\Controller\FavouriteController
+  defaults: { entityClass: App\Entity\EntryComment }
+  path: /ecf/{id}
+  methods: [ POST ]
+
 entry_create:
   controller: App\Controller\Entry\EntryCreateController
   defaults: { type: null }
@@ -189,6 +195,12 @@ entry_report:
   defaults: { entityClass: App\Entity\Entry }
   path: /er/{id}
   methods: [ GET, POST ]
+
+entry_favourite:
+  controller: App\Controller\FavouriteController
+  defaults: { entityClass: App\Entity\Entry }
+  path: /ef/{id}
+  methods: [ POST ]
 
 entry_cti:
   controller: App\Controller\Entry\EntryCardanoTxInitController
