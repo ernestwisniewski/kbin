@@ -34,7 +34,7 @@ class ReportManager
         }
 
         if (!$report) {
-            $report = $this->factory->createFromDto($dto, $reporting);
+            $report = $this->factory->createFromDto($dto);
         } elseif ($report->status === Report::STATUS_PENDING) {
             $report->increaseWeight();
         }

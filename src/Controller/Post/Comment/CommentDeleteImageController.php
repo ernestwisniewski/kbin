@@ -33,11 +33,7 @@ class CommentDeleteImageController extends AbstractController
         $this->manager->detachImage($comment);
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'success' => true,
-                ]
-            );
+            return $this->getJsonSuccessResponse();
         }
 
         return $this->redirectToRefererOrHome($request);

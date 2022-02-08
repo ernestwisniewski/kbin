@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
@@ -12,6 +13,7 @@ use App\Repository\PostCommentRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OrderBy;
 use Traversable;
@@ -20,7 +22,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=PostCommentRepository::class)
  */
-class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
+class PostComment implements VoteInterface, VisibilityInterface, ReportInterface, FavouriteInterface
 {
     use VotableTrait;
     use VisibilityTrait;
@@ -53,6 +55,10 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
      */
     public ?string $body;
     /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     */
+    public int $favouriteCount = 0;
+    /**
      * @ORM\Column(type="datetimetz")
      */
     public DateTime $lastActive;
@@ -84,6 +90,10 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
      */
     public Collection $reports;
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostCommentFavourite", mappedBy="postComment", cascade={"remove"}, orphanRemoval=true)
+     */
+    public Collection $favourites;
+    /**
      * @ORM\OneToMany(targetEntity="PostCommentCreatedNotification", mappedBy="postComment", cascade={"remove"}, orphanRemoval=true)
      */
     public Collection $notifications;
@@ -96,14 +106,15 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
 
     public function __construct(string $body, ?Post $post, User $user, ?PostComment $parent = null, ?string $ip = null)
     {
-        $this->body     = $body;
-        $this->post     = $post;
-        $this->user     = $user;
-        $this->parent   = $parent;
-        $this->ip       = $ip;
-        $this->votes    = new ArrayCollection();
-        $this->children = new ArrayCollection();
-        $this->reports  = new ArrayCollection();
+        $this->body       = $body;
+        $this->post       = $post;
+        $this->user       = $user;
+        $this->parent     = $parent;
+        $this->ip         = $ip;
+        $this->votes      = new ArrayCollection();
+        $this->children   = new ArrayCollection();
+        $this->reports    = new ArrayCollection();
+        $this->favourites = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
         $this->updateLastActive();
@@ -196,6 +207,21 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    public function updateCounts(): self
+    {
+        $this->favouriteCount = $this->favourites->count();
+
+        return $this;
+    }
+
+    public function isFavored(User $user): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        return $this->favourites->matching($criteria)->count() > 0;
     }
 
     public function __sleep()

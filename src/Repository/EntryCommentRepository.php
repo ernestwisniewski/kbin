@@ -167,6 +167,8 @@ class EntryCommentRepository extends ServiceEntityRepository
                     ->addOrderBy('c.id', 'DESC');
         }
 
+        $qb->addOrderBy('c.createdAt', 'DESC');
+
         return $qb;
     }
 
@@ -188,9 +190,11 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->addSelect('e')
             ->addSelect('v')
             ->addSelect('em')
+            ->addSelect('f')
             ->join('c.user', 'u')
             ->join('c.entry', 'e')
             ->join('c.votes', 'v')
+            ->leftJoin('c.favourites', 'f')
             ->join('e.magazine', 'em')
             ->where('c IN (?1)')
             ->setParameter(1, $comments)
@@ -203,10 +207,12 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->addSelect('ccu')
             ->addSelect('ccua')
             ->addSelect('ccv')
+            ->addSelect('ccf')
             ->leftJoin('c.children', 'cc')
             ->leftJoin('cc.user', 'ccu')
             ->leftJoin('ccu.avatar', 'ccua')
             ->leftJoin('cc.votes', 'ccv')
+            ->leftJoin('cc.favourites', 'ccf')
             ->where('c IN (?1)')
             ->setParameter(1, $comments)
             ->getQuery()

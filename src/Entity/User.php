@@ -192,6 +192,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public Collection $reports;
     /**
+     * @ORM\OneToMany(targetEntity="Favourite", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\OrderBy({"id": "DESC"})
+     */
+    public Collection $favourites;
+    /**
      * @ORM\OneToMany(targetEntity="Report", mappedBy="reported", fetch="EXTRA_LAZY", cascade={"persist"})
      * @ORM\OrderBy({"id": "DESC"})
      */
@@ -236,6 +241,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->blockedMagazines  = new ArrayCollection();
         $this->blockedDomains    = new ArrayCollection();
         $this->reports           = new ArrayCollection();
+        $this->favourites        = new ArrayCollection();
         $this->violations        = new ArrayCollection();
         $this->notifications     = new ArrayCollection();
 

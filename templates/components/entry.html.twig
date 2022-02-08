@@ -105,6 +105,15 @@
                                 </small>
                             </li>
 
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                <form method="post" action="{{ path('entry_favourite', {id: this.entry.id}) }}">
+                                    <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
+                                    <button type="submit" class="btn btn-link">
+                                        <span class="{{ app.user and this.entry.isFavored(app.user) ? 'text-decoration-underline' : '' }}">{{ 'favourite'|trans }}</span>
+                                    </button>
+                                </form>
+                            </li>
+
                             {% if this.entry.user.cardanoWalletAddress %}
                                 <li class="kbin-entry-meta-tip kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                     <a href="{{ path('entry_tips', { magazine_name: this.entry.magazine.name, entry_id: this.entry.id }) }}"

@@ -159,6 +159,8 @@ class PostRepository extends ServiceEntityRepository
                 $qb->orderBy('p.id', 'DESC');
         }
 
+        $qb->addOrderBy('p.createdAt', 'DESC');
+
         return $qb;
     }
 
@@ -182,8 +184,10 @@ class PostRepository extends ServiceEntityRepository
             $this->_em->createQueryBuilder()
                 ->select('PARTIAL p.{id}')
                 ->addSelect('pv')
+                ->addSelect('pf')
                 ->from(Post::class, 'p')
                 ->leftJoin('p.votes', 'pv')
+                ->leftJoin('p.favourites', 'pf')
                 ->where('p IN (?1)')
                 ->setParameter(1, $posts)
                 ->getQuery()
