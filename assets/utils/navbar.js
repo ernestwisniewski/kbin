@@ -19,9 +19,15 @@ export default class Navbar {
                 if (last_scroll_top < 20 || last_scroll_top < 20) {
                     el_autohide.classList.remove('scrolled-down');
                     el_autohide.classList.add('scrolled-up');
+                    setTimeout(() => {
+                        el_autohide.classList.remove('scrolled-up');
+                    }, 500);
                 } else if (scroll_top < last_scroll_top) {
                     el_autohide.classList.remove('scrolled-down');
                     el_autohide.classList.add('scrolled-up');
+                    setTimeout(() => {
+                        el_autohide.classList.remove('scrolled-up');
+                    }, 500);
                 } else {
                     el_autohide.classList.remove('scrolled-up');
                     el_autohide.classList.add('scrolled-down');

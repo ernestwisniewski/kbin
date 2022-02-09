@@ -39,12 +39,18 @@
                     </span>
                 {% endif %}
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kbin-nav"
-                    aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#kbin-nav"
+                    aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters">
+              <i class="fas fa-sort-amount-down p-1"></i>
             </button>
-            <div class="collapse navbar-collapse ms-3 {{ kbin_js_enabled ? '' : 'show' }}" id="kbin-nav">
-                <ul class="kbin-nav-navbar navbar-nav me-auto mb-2 mb-lg-0">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#kbin-sidebar"
+                    aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar">
+                <i class="fas fa-bars p-1"></i>
+            </button>
+            <div class="ms-3 mb-0 {{ kbin_js_enabled ? '' : 'show' }} offcanvas offcanvas-end" id="kbin-nav">
+                <button type="button" class="navbar-toggler btn-close my-4 ms-1" data-bs-toggle="offcanvas" data-bs-target="#kbin-nav"
+                        aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters"></button>
+                <ul class="kbin-nav-navbar navbar-nav me-lg-auto mb-2 mb-lg-0">
                     {% if is_user_page() %}
                         {% include '_layout/navbar/_user.html.twig' %}
                     {% elseif is_tag_page() %}
