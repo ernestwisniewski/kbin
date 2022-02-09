@@ -9,6 +9,33 @@
 
     @include media-breakpoint-up(lg) {
       position: relative;
+
+      .offcanvas {
+        flex-direction: row;
+
+        .kbin-dark & {
+          background-color: $kbin-navbar-background-color !important;
+        }
+      }
+    }
+
+    @include media-breakpoint-down(lg) {
+      .offcanvas {
+        margin-left: 0 !important;
+        background: $kbin-background;
+        padding: $spacer * .5;
+
+        .navbar-nav {
+          width: 100%;
+          text-align: center;
+        }
+
+        .kbin-dark & {
+          .btn-close {
+            filter: none;
+          }
+        }
+      }
     }
 
     &-brand, span a {

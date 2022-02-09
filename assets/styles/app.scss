@@ -266,3 +266,13 @@ thead, tbody {
     color: white;
   }
 }
+
+.offcanvas {
+  @include media-breakpoint-down(lg) {
+    overflow:auto;
+  }
+
+  .kbin-dark & {
+    background: $kbin-dark-background;
+  }
+}
