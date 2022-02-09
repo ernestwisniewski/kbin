@@ -1,7 +1,7 @@
 {% from 'user/_macros.html.twig' import avatar %}
 
 <div class="row">
-    <div class="col-lg-12 mb-5 {{ entry.countVotes ? 'col-sm-6 float-sm-start' : '' }}">
+    <div class="mb-5">
         <div class="kbin-entry card shadow-lg bg-white rounded">
             <div class="kbin-entry-info card-body">
                 <div class="kbin-entry-info-user clearfix text-center">
@@ -70,7 +70,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-lg-12">
+    <div>
         {{ component('voters_list_short', { subject: entry, url: path('entry_voters', {'magazine_name': magazine.name, 'entry_id': entry.id }) }) }}
     </div>
 </div>
