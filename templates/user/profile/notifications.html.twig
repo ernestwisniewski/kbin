@@ -19,7 +19,8 @@
                             {{ 'read_all'|trans }}
                         </button>
                     </form>
-                    <form method="post" action="{{ path('user_profile_notifications_clear') }}" onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <form method="post" action="{{ path('user_profile_notifications_clear') }}"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
                         <button class="btn btn-sm btn-danger" type="submit">
                             <span>{{ 'purge'|trans }}</span>
@@ -33,16 +34,7 @@
                 <table class="table align-middle small">
                     <tbody>
                     {% for notification in notifications %}
-                        <tr>
-                            <td class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }}">{{ block(notification.type) }}</td>
-                            <td class="text-end text-">
-                                <small class="text-muted">
-                                    <time data-controller="timeago"
-                                          data-timeago-refresh-interval-value="10000"
-                                          data-timeago-datetime-value="{{ notification.createdAt|date('c') }}">{{ notification.createdAt|ago }}</time>
-                                </small>
-                            </td>
-                        </tr>
+                        <div class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }}">{{ block(notification.type) }}</div>
                     {% endfor %}
                     </tbody>
                 </table>

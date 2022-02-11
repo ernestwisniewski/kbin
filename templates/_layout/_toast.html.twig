@@ -1,12 +1,7 @@
 {% use 'user/profile/_notifications.html.twig' %}
 
 {% block body %}
-    <div class="kbin-toast toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="15000">
-        <div class="d-flex">
-            <div class="toast-body">
-                {{ block(notification.type) }}
-            </div>
-            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
+    <div class="kbin-toast toast align-items-center mt-auto" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="15000">
+            {{ block(notification.type) }}
     </div>
 {% endblock %}

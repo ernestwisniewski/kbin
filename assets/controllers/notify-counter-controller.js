@@ -5,14 +5,22 @@ export default class extends ApplicationController {
     static classes = ['hidden']
 
     notification(event) {
-        if(!this.hasNotificationsTarget) {
+        if(!this.hasNotificationsTarget || !window.KBIN_LOGGED_IN) {
             return;
         }
 
-        let elem = this.notificationsTarget.getElementsByTagName('span')[0];
-        elem.innerHTML = parseInt(elem.innerHTML) + 1;
+        if(window.notifyCounter) {
+            clearTimeout(window.notifyCounter);
+        }
 
-        this.notificationsTarget.classList.remove(this.hiddenClass);
+        window.notifyCounter = setTimeout(() => {
+            // retrieve notifications count
+        }, Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000);
+
+        // let elem = this.notificationsTarget.getElementsByTagName('span')[0];
+        // elem.innerHTML = parseInt(elem.innerHTML) + 1;
+        //
+        // this.notificationsTarget.classList.remove(this.hiddenClass);
     }
 
     message(event) {

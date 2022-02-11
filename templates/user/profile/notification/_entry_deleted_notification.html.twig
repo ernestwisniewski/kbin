@@ -1,5 +1,15 @@
 {% from '_layout/_macros.html.twig' import entry_url %}
 
-<strong><a href="{{ entry_url(notification.entry) }}">{{ notification.entry.shortTitle }}</a></strong>
-{% if notification.entry.isTrashed %}{{ 'removed'|trans }}{% else %}{{ 'deleted'|trans }}{% endif %} {{ 'in'|trans }}
-{{ component('magazine_inline', { magazine: notification.entry.magazine }) }}
+<div class="toast-header">
+    <strong class="me-auto">{{ component('magazine_inline', { magazine: notification.entry.magazine }) }}</strong>
+    <small class="text-muted">
+        <time data-controller="timeago"
+              data-timeago-refresh-interval-value="10000"
+              data-timeago-datetime-value="{{ 'now'|date('c') }}">{{ 'now'|ago }}</time>
+    </small>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+</div>
+<div class="toast-body">
+    <strong><a href="{{ entry_url(notification.entry) }}">{{ notification.entry.shortTitle }}</a></strong>
+    {% if notification.entry.isTrashed %}{{ 'removed'|trans }}{% else %}{{ 'deleted'|trans }}{% endif %}
+</div>

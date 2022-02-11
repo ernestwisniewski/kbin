@@ -1,17 +1,18 @@
 .kbin-sidebar {
-  @include media-breakpoint-up(lg){
+  @include media-breakpoint-up(lg) {
     .offcanvas {
       z-index: 100;
-      visibility: visible!important;
-      display: block!important;
-      position: relative!important;
-      width: auto!important;
-      transform: none!important;
-      border: none!important;
+      visibility: visible !important;
+      display: block !important;
+      position: relative !important;
+      width: auto !important;
+      transform: none !important;
+      border: none !important;
+      background: none !important;
     }
   }
 
-  @include media-breakpoint-down(lg){
+  @include media-breakpoint-down(lg) {
     .offcanvas {
       padding: $spacer * .5;
     }
