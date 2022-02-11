@@ -1,5 +1,11 @@
-.kbin-toast {
-  .kbin-dark & {
-    color: #fff !important;
+.kbin-toast-container {
+  z-index: 10000;
+  height: 40%;
+
+  .kbin-toast {
+    .kbin-dark & {
+      color: #fff !important;
+    }
   }
 }
+

@@ -33,6 +33,6 @@ class PostCommentCreatedNotification extends Notification
 
     public function getType(): string
     {
-        return 'post_comment_edited_notification';
+        return 'post_comment_created_notification';
     }
 }
