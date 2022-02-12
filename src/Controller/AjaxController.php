@@ -12,7 +12,9 @@ use App\Form\UserNoteType;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
+use App\Repository\NotificationRepository;
 use App\Repository\PostCommentRepository;
+use App\Service\NotificationManager;
 use App\Service\UserNoteManager;
 use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -167,6 +169,13 @@ class AjaxController extends AbstractController
 
         return new JsonResponse([
             'html' => $this->renderView('user/user_popup.html.twig', ['user' => $user, 'form' => $form->createView()]),
+        ]);
+    }
+
+    public function fetchNotificationsCount(User $user, NotificationRepository $repository): JsonResponse
+    {
+        return new JsonResponse([
+            'count' => $repository->countUnreadNotifications($user)
         ]);
     }
 }

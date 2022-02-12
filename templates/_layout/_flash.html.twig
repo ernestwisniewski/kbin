@@ -1,0 +1,10 @@
+{% for label, messages in app.flashes %}
+    <div class="mt-4">
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message|trans }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

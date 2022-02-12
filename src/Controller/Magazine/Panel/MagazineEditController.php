@@ -31,6 +31,11 @@ class MagazineEditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->edit($magazine, $magazineDto);
 
+            $this->addFlash(
+                'success',
+                'flash_magazine_edit_success'
+            );
+
             return $this->redirectToMagazine($magazine);
         }
 

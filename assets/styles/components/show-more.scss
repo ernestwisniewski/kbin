@@ -6,8 +6,9 @@
 
 .kbin-more {
   font-size: .8rem;
-  background: $primary;
-  color: white;
+  background: transparent;
+  border: 1px solid black;
+  color: black;
   cursor: pointer;
   opacity: .5;
   max-width: 600px;
@@ -16,6 +17,7 @@
   }
 
   .kbin-dark & {
-    color: black;
+    border: 1px solid white;
+    color: white;
   }
 }
