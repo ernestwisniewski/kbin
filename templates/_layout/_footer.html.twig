@@ -17,7 +17,7 @@
                 <h5 class="text-muted font-weight-bold">{{ 'useful'|trans }}</h5>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="{% if magazine is defined and magazine %}{{ path('magazine_create') }}{% else %}{{ '/m/karabin/wpisy/aktywne' }}{% endif %}">
+                        <a href="{{ path('magazine_create') }}">
                             {{ 'create_new_magazine'|trans }}
                         </a>
                     </li>
