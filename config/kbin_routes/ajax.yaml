@@ -57,3 +57,9 @@ ajax_fetch_user_popup:
   defaults: { _format: json }
   path: /ajax/fetch_user_popup/{username}
   methods: [ GET ]
+
+ajax_fetch_user_notifications_count:
+  controller: App\Controller\AjaxController::fetchNotificationsCount
+  defaults: { _format: json }
+  path: /ajax/fetch_user_notifications_count/{username}
+  methods: [ GET ]

@@ -29,6 +29,11 @@ class RegisterController extends AbstractController
 
             $manager->create($dto);
 
+            $this->addFlash(
+                'success',
+                'flash_register_success'
+            );
+
             return $this->redirectToRoute('front');
         }
 

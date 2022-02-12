@@ -25,6 +25,7 @@
         {% if kbin_js_enabled %}
             <script>
                 window.KBIN_LOGGED_IN = {{ app.user ? 'true' : 'false' }};
+                window.KBIN_USERNAME = "{{ app.user ? app.user.username : null }}";
                 window.MERCURE_PUBLISH_URL = "{{ mercure_publish_url }}";
             </script>
             {{ encore_entry_script_tags('app') }}

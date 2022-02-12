@@ -46,6 +46,11 @@ class EntryEditController extends AbstractController
 
             $entry = $this->manager->edit($entry, $dto);
 
+            $this->addFlash(
+                'success',
+                'flash_thread_edit_success'
+            );
+
             return $this->redirectToEntry($entry);
         }
 

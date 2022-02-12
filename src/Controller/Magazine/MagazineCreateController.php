@@ -31,6 +31,11 @@ class MagazineCreateController extends AbstractController
             $dto->ip  = $this->ipResolver->resolve();
             $magazine = $this->manager->create($dto, $this->getUserOrThrow());
 
+            $this->addFlash(
+                'success',
+                'flash_magazine_new_success'
+            );
+
             return $this->redirectToMagazine($magazine);
         }
 

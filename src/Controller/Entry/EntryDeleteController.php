@@ -31,6 +31,11 @@ class EntryDeleteController extends AbstractController
 
         $this->manager->delete($this->getUserOrThrow(), $entry);
 
+        $this->addFlash(
+            'danger',
+            'flash_thread_delete_success'
+        );
+
         return $this->redirectToMagazine($magazine);
     }
 

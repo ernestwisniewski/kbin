@@ -29,7 +29,12 @@ class EntryPinController extends AbstractController
     {
         $this->validateCsrf('entry_pin', $request->request->get('token'));
 
-        $this->manager->pin($entry);
+        $entry = $this->manager->pin($entry);
+
+        $this->addFlash(
+            'success',
+            $entry->sticky ? 'flash_thread_pin_success' : 'flash_thread_unpin_success'
+        );
 
         return $this->redirectToRefererOrHome($request);
     }

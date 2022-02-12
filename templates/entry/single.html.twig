@@ -8,6 +8,7 @@
     {% if entry.isAdult and (not app.user or app.user.hideAdult) %}
         {% include '_layout/_adult.html.twig' %}
     {% else %}
+        {% include '_layout/_flash.html.twig' %}
         <div class="kbin-entry-page">
             {% block entry %}
                 {{ component('entry', {entry: entry, extraClass: 'kbin-entry-single', showContent: true, directUrl: true, showMagazine: magazine is not defined}) }}

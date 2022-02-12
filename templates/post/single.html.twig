@@ -9,6 +9,7 @@
         {% if post.isAdult and (not app.user or app.user.hideAdult) %}
             {% include '_layout/_adult.html.twig' %}
         {% else %}
+            {% include '_layout/_flash.html.twig' %}
             <div class="kbin-posts-page">
                 <section class="kbin-post-wrapper kbin-comment-wrapper mt-4">
                     <div class="mt-2">

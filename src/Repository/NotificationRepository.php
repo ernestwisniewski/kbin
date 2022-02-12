@@ -65,7 +65,7 @@ class NotificationRepository extends ServiceEntityRepository
         );
     }
 
-    private function findUnreadNotifications(User $user): array
+    public function findUnreadNotifications(User $user): array
     {
         $dql = 'SELECT n FROM '.Notification::class.' n WHERE n.user = :user AND n.status = :status';
 
@@ -73,6 +73,16 @@ class NotificationRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->setParameter('status', Notification::STATUS_NEW)
             ->getResult();
+    }
+
+    public function countUnreadNotifications(User $user): int
+    {
+        $dql = 'SELECT count(n.id) FROM '.Notification::class.' n WHERE n.user = :user AND n.status = :status';
+
+        return $this->getEntityManager()->createQuery($dql)
+            ->setParameter('user', $user)
+            ->setParameter('status', Notification::STATUS_NEW)
+            ->getSingleScalarResult();
     }
 
     public function findUnreadPostNotifications(User $user, Post $post): iterable

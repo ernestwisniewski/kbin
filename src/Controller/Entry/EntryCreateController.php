@@ -8,6 +8,7 @@ use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
+use App\Repository\Criteria;
 use App\Service\CloudflareIpResolver;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
@@ -57,7 +58,12 @@ class EntryCreateController extends AbstractController
 
             $this->createComment($form, $entry);
 
-            return $this->redirectToEntry($entry);
+            $this->addFlash(
+                'success',
+                'flash_thread_new_success'
+            );
+
+            return $this->redirectToMagazine($entry->magazine);
         }
 
         return $this->render(
