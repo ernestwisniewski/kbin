@@ -16,7 +16,6 @@ export default class extends ApplicationController {
         }
 
         window.notifyCounter = setTimeout(() => {
-
             try {
                 this.updateCounter()
             } catch (e) {

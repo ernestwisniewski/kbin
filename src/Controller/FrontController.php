@@ -22,7 +22,7 @@ class FrontController extends AbstractController
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setType($criteria->resolveType($request->get('type', null)));
+            ->setType($criteria->resolveType($request->get('type')));
 
         $method  = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
@@ -43,7 +43,7 @@ class FrontController extends AbstractController
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setType($criteria->resolveType($request->get('type', null)));
+            ->setType($criteria->resolveType($request->get('type')));
         $criteria->subscribed = true;
 
         $method  = $criteria->resolveSort($sortBy);
@@ -84,7 +84,7 @@ class FrontController extends AbstractController
         $criteria = (new EntryPageView($this->getPageNb($request)));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setType($criteria->resolveType($request->get('type', null)));
+            ->setType($criteria->resolveType($request->get('type')));
         $criteria->magazine      = $magazine;
         $criteria->stickiesFirst = true;
 
