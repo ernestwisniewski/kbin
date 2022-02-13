@@ -33,4 +33,5 @@ return [
     Symfony\UX\Dropzone\DropzoneBundle::class => ['all' => true],
     FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true],
     Symfony\UX\TwigComponent\TwigComponentBundle::class => ['all' => true],
+    Debril\RssAtomBundle\DebrilRssAtomBundle::class => ['all' => true],
 ];
