@@ -31,6 +31,22 @@
     "dealerdirect/phpcodesniffer-composer-installer": {
         "version": "v0.7.1"
     },
+    "debril/feed-io": {
+        "version": "v5.0.10"
+    },
+    "debril/rss-atom-bundle": {
+        "version": "5.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "2c23ed747eda9f4c13f5e7eb55fffa1091fdd505"
+        },
+        "files": [
+            "config/packages/rss_atom.yaml",
+            "config/routes/rss_atom.yaml"
+        ]
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {

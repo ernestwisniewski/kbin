@@ -5,6 +5,8 @@ framework:
 
 parameters:
   kbin_domain: '%env(KBIN_DOMAIN)%'
+  kbin_title: '%env(KBIN_TITLE)%'
+  kbin_description: '%env(KBIN_DESCRIPTION)%'
   kbin_contact_email: '%env(KBIN_CONTACT_EMAIL)%'
 
   html5_validation: false
@@ -42,6 +44,8 @@ services:
     autoconfigure: true
     bind:
       $kbinDomain: '%kbin_domain%'
+      $kbinTitle: '%kbin_title%'
+      $kbinDescription: '%kbin_description%'
       $kbinContactEmail: '%kbin_contact_email%'
       $elasticaEnabled: '%elastica_enabled%'
       $html5Validation: '%html5_validation%'
@@ -123,3 +127,8 @@ services:
   App\EventListener\ContentNotificationPurgeListener:
     tags:
       - { name: doctrine.event_listener, event: preRemove }
+
+  # Feeds
+  debril.rss_atom.provider:
+    class: App\Feed\Provider
+    arguments: [ '@App\Service\FeedManager' ]

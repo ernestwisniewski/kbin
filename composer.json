@@ -10,6 +10,7 @@
         "api-platform/core": "^2.6",
         "babdev/pagerfanta-bundle": "^2.8",
         "composer/package-versions-deprecated": "1.11.99.1",
+        "debril/rss-atom-bundle": "^5.1",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
@@ -20,6 +21,7 @@
         "friendsofsymfony/jsrouting-bundle": "^2.7",
         "furqansiddiqui/bip39-mnemonic-php": "^0.1.4",
         "gmostafa/php-graphql-client": "^1.13",
+        "gumlet/php-image-resize": "2.0.*",
         "jolicode/elastically": "^1.2",
         "karser/karser-recaptcha3-bundle": "^0.1.17",
         "knplabs/knp-time-bundle": "^1.15",
@@ -76,8 +78,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.2",
         "twig/twig": "^2.12|^3.0",
-        "webmozart/assert": "^1.9",
-        "gumlet/php-image-resize": "2.0.*"
+        "webmozart/assert": "^1.9"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.5",

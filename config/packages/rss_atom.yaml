@@ -1,0 +1,5 @@
+debril_rss_atom:
+    # switch to true if you need to set cache-control: private
+    private: false
+    # switch to true if you need to always send status 200
+    force_refresh: true
