@@ -7,8 +7,11 @@ use App\Entity\Entry;
 use App\Factory\EntryFactory;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
+use App\Repository\DomainRepository;
 use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
+use App\Repository\TagRepository;
+use App\Repository\UserRepository;
 use ArrayIterator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +29,9 @@ class FeedManager
         private string $kbinDescription,
         private EntryRepository $entryRepository,
         private MagazineRepository $magazineRepository,
+        private UserRepository $userRepository,
+        private DomainRepository $domainRepository,
+        private TagRepository $tagRepository,
         private RouterInterface $router,
         private EntryFactory $entryFactory,
         private IriConverterInterface $iriConverter,
@@ -43,6 +49,18 @@ class FeedManager
 
         if ($magazine = $request->get('magazine')) {
             $criteria->magazine = $this->magazineRepository->findOneBy(['name' => $magazine]);
+        }
+
+        if ($user = $request->get('user')) {
+            $criteria->user = $this->userRepository->findOneByUsername($user);
+        }
+
+        if ($domain = $request->get('domain')) {
+            $criteria->domain = $this->domainRepository->findOneBy(['name' => $domain]);
+        }
+
+        if ($tag = $request->get('tag')) {
+            $criteria->tag = $tag;
         }
 
         if ($sortBy = $request->get('sortBy')) {
