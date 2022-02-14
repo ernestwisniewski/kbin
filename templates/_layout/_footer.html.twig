@@ -64,7 +64,7 @@
                     {% elseif is_tag_page() %}
                         {% set args = {'tag': tag} %}
                     {% elseif is_domain_page() %}
-                        {% set args = {'domain': domain} %}
+                        {% set args = {'domain': domain.name} %}
                     {% else %}
                         {% set args = {} %}
                     {% endif %}

@@ -7,7 +7,6 @@ use App\Entity\Entry;
 use App\Factory\EntryFactory;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
-use App\Repository\DomainRepository;
 use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\TagRepository;
@@ -30,7 +29,6 @@ class FeedManager
         private EntryRepository $entryRepository,
         private MagazineRepository $magazineRepository,
         private UserRepository $userRepository,
-        private DomainRepository $domainRepository,
         private TagRepository $tagRepository,
         private RouterInterface $router,
         private EntryFactory $entryFactory,
@@ -56,7 +54,7 @@ class FeedManager
         }
 
         if ($domain = $request->get('domain')) {
-            $criteria->domain = $this->domainRepository->findOneBy(['name' => $domain]);
+            $criteria->setDomain($domain);
         }
 
         if ($tag = $request->get('tag')) {
