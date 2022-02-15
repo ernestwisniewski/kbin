@@ -21,12 +21,7 @@ export default class extends ApplicationController {
             response = await ok(response);
             response = await response.json();
 
-            const html = response.html;
-
-            let div = document.createElement('div');
-            div.innerHTML = html;
-
-            this.element.prepend(div);
+            this.element.insertAdjacentHTML('afterbegin', response.html);
         } catch (e) {
         }
     }

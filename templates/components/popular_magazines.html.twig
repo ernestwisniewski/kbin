@@ -1,0 +1,18 @@
+<div class="mt-5">
+    {% for row in this.getMagazines()|batch(2, null) %}
+        <div class="row my-5">
+            {% for magazine in row %}
+                <div class="col-12 col-md-6">
+                    {{ component('magazine', {
+                            magazine:magazine,
+                            showStats: false,
+                            showInfo:false,
+                            showRules: false,
+                            showCover: false,
+                            showDescription: false
+                    }) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>

@@ -50,21 +50,25 @@
                 <ul class="list-unstyled">
                     <li><a href="{{ path('page_contact') }}">{{ 'contact'|trans }}</a></li>
                     <li><a href="{{ path('page_faq') }}">{{ 'faq'|trans }}</a></li>
-                    <li><a href="{{ path('page_terms') }}">{{ 'terms'|trans }}</a></li>
-                    <li><a href="{{ path('page_privacy_policy') }}">{{ 'privacy_policy'|trans }}</a></li>
+
+{#                    <li><a href="{{ path('page_terms') }}">{{ 'terms'|trans }}</a></li>#}
+{#                    <li><a href="{{ path('page_privacy_policy') }}">{{ 'privacy_policy'|trans }}</a></li>#}
+
+                    <li class="text-muted">{{ 'terms'|trans }}</li>
+                    <li class="text-muted">{{ 'privacy_policy'|trans }}</li>
                 </ul>
             </div>
 
             <div class="col-md-12 col-lg-3 text-center">
                 <p class="text-muted align-text-bottom pt-5 mb-2 pb-0">
                     {% if is_magazine_page() %}
-                        {% set args = {'magazine': magazine.name} %}
+                        {% set args = {'magazine': magazine.name ?? '' } %}
                     {% elseif is_user_page() %}
-                        {% set args = {'user': user.username} %}
+                        {% set args = {'user': user.username ?? '' } %}
                     {% elseif is_tag_page() %}
-                        {% set args = {'tag': tag} %}
+                        {% set args = {'tag': tag ?? '' } %}
                     {% elseif is_domain_page() %}
-                        {% set args = {'domain': domain.name} %}
+                        {% set args = {'domain': domain.name ?? '' } %}
                     {% else %}
                         {% set args = {} %}
                     {% endif %}

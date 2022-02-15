@@ -28,7 +28,13 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            this.element.outerHTML = response.html;
+            const classList = this.element.classList;
+
+            let div = document.createElement('div');
+            div.innerHTML = response.html;
+            div.classList = classList;
+
+            this.element.innerHTML = div.firstElementChild.innerHTML;
         } catch (e) {
         }
     }

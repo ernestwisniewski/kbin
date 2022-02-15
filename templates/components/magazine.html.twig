@@ -16,9 +16,11 @@
         {% if this.asLink or not is_front_page() %}
     </a>
     {% endif %}
-    <div class="mb-3">
-        {% include 'magazine/_sub_button.html.twig' with {magazine: this.magazine} %}
-    </div>
+    {% if this.showSubButtons %}
+        <div class="mb-3">
+            {% include 'magazine/_sub_button.html.twig' with {magazine: this.magazine} %}
+        </div>
+    {% endif %}
 </div>
 
 {% if this.showDescription and this.magazine.description %}
