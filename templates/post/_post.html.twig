@@ -2,3 +2,5 @@
     post: post,
     extraClass: 'kbin-post-list-item'
 }) }}
+<div class="kbin--list" data-controller="comment-list" data-action="notify:PostCommentCreatedNotification@window->comment-list#add" data-comment-list-subject-id-value="{{ post.id }}">
+</div>

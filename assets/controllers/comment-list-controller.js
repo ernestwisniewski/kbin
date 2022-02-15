@@ -12,7 +12,7 @@ export default class extends ApplicationController {
         const subjectId = notification.detail.subject.id;
         const route = notification.detail.op === 'EntryCommentCreatedNotification' ? 'ajax_fetch_entry_comment' : 'ajax_fetch_post_comment';
 
-        if (this.subjectIdValue !== subjectId) {
+        if (this.hasSubjectIdValue && this.subjectIdValue !== subjectId) {
             return;
         }
 

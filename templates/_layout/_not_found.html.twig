@@ -29,7 +29,15 @@
                 {{ 'no_comments'|trans }}
             </p>
         </div>
-    {% elseif (is_magazine_page() or is_sub_page() or is_homepage()) and not is_magazine_panel_page() %}
+    {% elseif(is_sub_page()) %}
+        <div class="text-center py-5 text-muted">
+            <p class="display-4">
+                {{ 'no_threads'|trans }}
+            </p>
+        </div>
+
+        {{ component('popular_magazines') }}
+    {% elseif (is_magazine_page() or is_homepage()) and not is_magazine_panel_page() %}
         <div class="text-center py-5 text-muted">
             <p class="display-4">
                 {{ 'no_threads'|trans }}
