@@ -3,20 +3,6 @@ import {fetch, ok} from "../utils/http";
 import Cookies from 'js-cookie';
 
 export default class extends Controller {
-    connect() {
-        if (window.KBIN_LOGGED_IN) {
-            return true;
-        }
-
-        if (!document.body.classList.contains('kbin-light') && !document.body.classList.contains('kbin-dark')) {
-            return true
-        }
-
-        if (Cookies.get('theme') === 'kbin-dark') {
-            document.body.classList.add('kbin-dark');
-        }
-    }
-
     async toggleTheme(e) {
         e.preventDefault();
 
@@ -33,8 +19,6 @@ export default class extends Controller {
             } finally {
             }
         } else {
-            alert('Zaloguj się, aby uniknąć efektu miagania.')
-
             if (!Cookies.get('theme')) {
                 document.body.classList.add('kbin-dark');
                 Cookies.set('theme', 'kbin-dark');

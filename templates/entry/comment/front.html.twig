@@ -18,6 +18,7 @@
 {% block body %}
     <div class="kbin-comment-wrapper">
         {% include '_layout/_filters.html.twig' %}
+        {% include '_layout/_flash.html.twig' %}
         {% if magazine is defined and magazine.isAdult and (not app.user or app.user.hideAdult) %}
             {% include '_layout/_adult.html.twig' %}
         {% else %}

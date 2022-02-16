@@ -710,3 +710,17 @@
 .choices__input {
   caret-color: white !important;
 }
+
+.alert {
+  .btn-close {
+    filter: none;
+  }
+
+  a {
+    color: $primary;
+
+    &:hover {
+      color: black !important;
+    }
+  }
+}

@@ -18,6 +18,13 @@
 <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-appearance" role="tabpanel" aria-labelledby="pills-appearance-tab">
         <div class="mb-3">
+
+            <div class="mb-3" style="max-width:300px">
+                {{ form_label(form.homepage, 'homepage'|trans) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.homepage, {'attr': {'class': 'form-select'}}) }}
+                </div>
+            </div>
             {{ form_label(form.darkTheme, 'dark_mode'|trans) }}
             <div class="input-group input-group-lg">
                 {{ form_widget(form.darkTheme, {name: 'dark_mode'|trans}) }}
@@ -94,12 +101,8 @@
     </div>
 </div>
 
-<hr>
-
-<div class="mb-12 text-end">
+<div class="col-xl-8 me-lg-5 text-end mt-5">
     {{ form_row(form.submit, { 'label': 'done'|trans }) }}
 </div>
-
-<hr>
 
 {{ form_end(form) }}

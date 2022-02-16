@@ -1,5 +1,5 @@
 {% for label, messages in app.flashes %}
-    <div class="mt-4">
+    <div class="mt-2">
         {% for message in messages %}
             <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
                 {{ message|trans }}
@@ -8,3 +8,7 @@
         {% endfor %}
     </div>
 {% endfor %}
+
+{% if is_sub_page() %}
+    {% include '_layout/_new_account_sub_info.html.twig' %}
+{% endif %}

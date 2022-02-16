@@ -1,4 +1,5 @@
-topbar.homepage: 'Homepage'
+homepage: 'Homepage'
+topbar.all: 'All'
 topbar.subscriptions: 'Subscriptions'
 topbar.moderated: 'Moderated'
 topbar.all_magazines: 'All magazines'
