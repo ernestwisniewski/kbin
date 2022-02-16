@@ -30,6 +30,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public const MODE_NORMAL = 'normal';
     public const MODE_TURBO = 'turbo';
 
+    public const HOMEPAGE_ALL = 'front';
+    public const HOMEPAGE_SUB = 'front_subscribed';
+    public const HOMEPAGE_MOD = 'front_moderated';
+
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
      */
@@ -58,6 +62,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      * @ORM\Column(type="string", options={"default": User::MODE_NORMAL})
      */
     public string $mode = self::MODE_NORMAL;
+    /**
+     * @ORM\Column(type="string", options={"default": User::HOMEPAGE_SUB})
+     */
+    public string $homepage = self::HOMEPAGE_SUB;
     /**
      * @ORM\Column(type="string", nullable=true, options={"default": null})
      */

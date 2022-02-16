@@ -1,4 +1,5 @@
-topbar.homepage: 'Strona główna'
+homepage: 'Strona główna'
+topbar.all: 'Wszystkie'
 topbar.subscriptions: 'Obserwowane'
 topbar.moderated: 'Moderowane'
 topbar.all_magazines: 'Wszystkie magazyny'

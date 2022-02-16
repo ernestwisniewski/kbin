@@ -18,6 +18,7 @@ class UserSettingsDto
         public bool $rightPosImages = false,
         public bool $showProfileSubscriptions = false,
         public bool $showProfileFollowings = false,
+        public string $homepage = 'sub',
     ) {
     }
 }

@@ -1,0 +1,9 @@
+{% if kbin_js_enabled and not app.request.cookies.get('channel-info') %}
+    <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+        Przeglądasz teraz kanał <strong>Obserwowane</strong>. Wyświetlane treści pochodzą wyłącznie z subskrybowanych magazynów, domen i użytkowników.
+        Kanał możesz przełączyć w lewym górnym rogu lub zmienić domyślny w <a href="{{ path('user_profile_settings') }}"><strong>Ustawieniach profilu</strong></a>.
+
+        <button data-controller="channel-info" data-action="channel-info#close" type="button" class="btn-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
+    </div>
+{% endif %}

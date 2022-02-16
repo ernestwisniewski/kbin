@@ -1,7 +1,7 @@
 <section class="kbin-featured-magazines container-fluid position-relative">
     <ul class="kbin-featured-magazines-list">
         <li class="kbin-featured-magazines-list-item {{ is_homepage() ? 'kbin-featured-magazines-list-item--active' : '' }}">
-            <a href="/">{{ 'topbar.homepage'|trans }}</a>
+            <a href="/">{{ 'topbar.all'|trans }}</a>
         </li>
         <li class="kbin-featured-magazines-list-item {{ is_sub_page() ? 'kbin-featured-magazines-list-item--active' : '' }}">
             <a href="{{ path('front_subscribed') }}">{{ 'topbar.subscriptions'|trans }}</a>
