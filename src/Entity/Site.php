@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -18,9 +18,17 @@ class Site
      */
     public string $title;
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true, options={"default" : null})
      */
-    public string $description;
+    public ?string $description;
+    /**
+     * @ORM\Column(type="text", nullable=true, options={"default" : null})
+     */
+    public ?string $terms = null;
+    /**
+     * @ORM\Column(type="text", nullable=true, options={"default" : null})
+     */
+    public ?string $privacyPolicy = null;
     /**
      * @ORM\Column(type="boolean")
      */

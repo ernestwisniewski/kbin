@@ -2,16 +2,22 @@
 
 namespace App\Controller;
 
+use App\Repository\SiteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PrivacyPolicyController extends AbstractController
 {
 
-    public function __invoke(Request $request): Response
+    public function __invoke(string $kbinDomain, SiteRepository $repository, Request $request): Response
     {
+        $site = $repository->findOneBy(['domain' => $kbinDomain]);
+
         return $this->render(
-            'page/privacy_policy.html.twig'
+            'page/privacy_policy.html.twig',
+            [
+                'body' => $site ? $site->privacyPolicy : ''
+            ]
         );
     }
 }

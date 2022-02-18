@@ -19,7 +19,7 @@ class CreateEntryRequestTmp implements RequestDtoInterface
     public string $title;
     #[Assert\Url]
     public ?string $url = null;
-    #[Assert\Length(min: 2, max: 15000)]
+    #[Assert\Length(min: 2, max: 35000)]
     public ?string $body = null;
 
     public function __construct(Request $request)

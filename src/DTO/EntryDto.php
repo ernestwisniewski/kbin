@@ -26,7 +26,7 @@ class EntryDto
     public ?string $title = null;
     #[Assert\Url]
     public ?string $url = null;
-    #[Assert\Length(min: 2, max: 15000)]
+    #[Assert\Length(min: 2, max: 35000)]
     public ?string $body = null;
     public ?string $lang = null;
     public int $comments = 0;

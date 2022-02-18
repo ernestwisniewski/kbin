@@ -4,11 +4,8 @@
 
 {% block body %}
     <div class="kbin-terms-page">
-        <div class="col-lg-6">
-            <div class="kbin-magazine-background"></div>
+        <h1 class="font-weight-bold mb-5">{{ 'terms'|trans }}</h1>
 
-            <h1 class="font-weight-bold mb-5">{{ 'terms'|trans }}</h1>
-
-        </div>
+        {{ body|markdown|raw }}
     </div>
 {% endblock %}
