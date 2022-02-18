@@ -2,16 +2,22 @@
 
 namespace App\Controller;
 
+use App\Repository\SiteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TermsController extends AbstractController
 {
 
-    public function __invoke(Request $request): Response
+    public function __invoke(string $kbinDomain, SiteRepository $repository, Request $request): Response
     {
+        $site = $repository->findOneBy(['domain' => $kbinDomain]);
+
         return $this->render(
-            'page/terms.html.twig'
+            'page/terms.html.twig',
+            [
+                'body' => $site ? $site->terms : '',
+            ]
         );
     }
 }

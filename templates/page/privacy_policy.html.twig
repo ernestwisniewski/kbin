@@ -4,11 +4,8 @@
 
 {% block body %}
     <div class="kbin-privacy-policy-page">
-        <div class="col-lg-6">
-            <div class="kbin-magazine-background"></div>
+        <h1 class="font-weight-bold mb-5">{{ 'privacy_policy'|trans }}</h1>
 
-            <h1 class="font-weight-bold mb-5">{{ 'privacy_policy'|trans }}</h1>
-
-        </div>
+        {{ body|markdown|raw }}
     </div>
 {% endblock %}

@@ -1,6 +1,8 @@
 .kbin-post-content,
 .kbin-comment-content,
-.kbin-entry-content {
+.kbin-entry-content,
+.kbin-terms-page,
+.kbin-privacy-policy-page {
   h1, h2, h3, h4, h5, h6 {
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
@@ -28,5 +30,11 @@
     .kbin-dark & {
       background: $kbin-dark-entry-list-item-nth-background-color;
     }
+  }
+
+  table {
+    font-size: .7rem;
+    margin-bottom: $spacer * .5;;
+    margin-top: $spacer * .5;;
   }
 }
