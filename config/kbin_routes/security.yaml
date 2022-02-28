@@ -25,3 +25,33 @@ app_logout:
     en: /logout
     pl: /wyloguj
   methods: [ GET ]
+
+oauth_facebook_connect:
+  controller: App\Controller\Security\FacebookController::connect
+  path: /oauth/facebook/connect
+  methods: [ GET ]
+
+oauth_facebook_verify:
+  controller: App\Controller\Security\FacebookController::verify
+  path: /oauth/facebook/verify
+  methods: [ GET ]
+
+oauth_google_connect:
+  controller: App\Controller\Security\GoogleController::connect
+  path: /oauth/google/connect
+  methods: [ GET ]
+
+oauth_google_verify:
+  controller: App\Controller\Security\GoogleController::verify
+  path: /oauth/google/verify
+  methods: [ GET ]
+
+oauth_github_connect:
+  controller: App\Controller\Security\GithubController::connect
+  path: /oauth/github/connect
+  methods: [ GET ]
+
+oauth_github_verify:
+  controller: App\Controller\Security\GithubController::verify
+  path: /oauth/github/verify
+  methods: [ GET ]

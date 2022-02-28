@@ -1,0 +1,21 @@
+knpu_oauth2_client:
+  clients:
+    facebook:
+      type: facebook
+      client_id: '%env(OAUTH_FACEBOOK_ID)%'
+      client_secret: '%env(OAUTH_FACEBOOK_SECRET)%'
+      redirect_route: oauth_facebook_verify
+      redirect_params: { }
+      graph_api_version: v2.12
+    google:
+      type: google
+      client_id: '%env(OAUTH_GOOGLE_ID)%'
+      client_secret: '%env(OAUTH_GOOGLE_SECRET)%'
+      redirect_route: oauth_google_verify
+      redirect_params: { }
+    github:
+      type: github
+      client_id: '%env(OAUTH_GITHUB_ID)%'
+      client_secret: '%env(OAUTH_GITHUB_SECRET)%'
+      redirect_route: oauth_github_verify
+      redirect_params: { }
