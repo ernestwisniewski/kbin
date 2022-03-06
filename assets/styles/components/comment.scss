@@ -223,5 +223,9 @@ $comment-margin-sm: .5rem;
 
   .kbin-post-comment {
     border-left: 1px solid $kbin-comment-list-item-border-color !important;
+
+    .kbin-dark & {
+      border-left: 1px solid $kbin-dark-comment-list-item-border-color !important;
+    }
   }
 }
