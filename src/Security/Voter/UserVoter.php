@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Security\Voter;
 
@@ -13,11 +13,17 @@ class UserVoter extends Voter
     const FOLLOW = 'follow';
     const BLOCK = 'block';
     const EDIT_PROFILE = 'edit_profile';
+    const EDIT_USERNAME = 'edit_username';
     const MESSAGE = 'message';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof User && in_array($attribute, [self::FOLLOW, self::BLOCK, self::MESSAGE, self::EDIT_PROFILE], true);
+        return $subject instanceof User
+            && in_array(
+                $attribute,
+                [self::FOLLOW, self::BLOCK, self::MESSAGE, self::EDIT_PROFILE, self::EDIT_USERNAME],
+                true
+            );
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -33,6 +39,7 @@ class UserVoter extends Voter
             self::BLOCK => $this->canBlock($subject, $user),
             self::MESSAGE => $this->canMessage($subject, $user),
             self::EDIT_PROFILE => $this->canEditProfile($subject, $user),
+            self::EDIT_USERNAME => $this->canEditUsername($subject, $user),
             default => throw new LogicException(),
         };
     }
@@ -68,9 +75,13 @@ class UserVoter extends Voter
         return true;
     }
 
-
     private function canEditProfile(User $subject, User $user): bool
     {
         return $subject === $user;
+    }
+
+    private function canEditUsername(User $subject, User $user): bool
+    {
+        return $this->canEditProfile($subject, $user) && $user->createdAt > (new \DateTime())->modify('-1 hour');
     }
 }

@@ -75,6 +75,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public ?string $cardanoWalletAddress = null;
     /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $oauthGithubId = null;
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $oauthGoogleId = null;
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $oauthFacebookId = null;
+    /**
      * @ORM\Column(type="boolean", options={"default": false})
      */
     public bool $hideImages = false;

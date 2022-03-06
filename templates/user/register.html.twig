@@ -10,8 +10,12 @@
             <div class="row">
                 <div class="col-lg-6 mb-3">
                     <h1 class="font-weight-bold mb-5">{{ 'create_account'|trans }}</h1>
+
                     {% include 'user/profile/_form_register.html.twig' %}
-                    <p class="mt-4">{{ 'already_have_account'|trans }} <a href="{{ path('app_login') }}">{{ 'login'|trans }}!</a></p>
+
+                    <p class="my-5">{{ 'already_have_account'|trans }} <a href="{{ path('app_login') }}">{{ 'login'|trans }}!</a></p>
+
+                    {% include 'user/_oauth_social.html.twig' %}
                 </div>
             </div>
         </div>

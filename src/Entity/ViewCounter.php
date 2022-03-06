@@ -19,7 +19,7 @@ class ViewCounter extends BaseViewCounter
      */
     public ViewCountable $entry;
 
-    public function getPage(): ViewCountable
+    public function getPage():  ?ViewCountable
     {
         return $this->entry;
     }

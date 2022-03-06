@@ -16,7 +16,9 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\AppAuthenticator
+            custom_authenticators:
+                - App\Security\KbinAuthenticator
+                - App\Security\FacebookAuthenticator
             logout:
                 path: app_logout
             user_checker: App\Security\UserChecker
