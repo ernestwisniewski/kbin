@@ -13,10 +13,7 @@ class GithubController extends AbstractController
     {
         return $clientRegistry
             ->getClient('github')
-            ->redirect([
-                'public_profile',
-                'email',
-            ]);
+            ->redirect();
     }
 
     public function verify(Request $request, ClientRegistry $client)

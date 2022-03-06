@@ -13,10 +13,7 @@ class GoogleController extends AbstractController
     {
         return $clientRegistry
             ->getClient('google')
-            ->redirect([
-                'public_profile',
-                'email',
-            ]);
+            ->redirect();
     }
 
     public function verify(Request $request, ClientRegistry $client)
