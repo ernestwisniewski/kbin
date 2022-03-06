@@ -11,7 +11,8 @@
   color: black;
   cursor: pointer;
   opacity: .5;
-  max-width: 600px;
+  width: 100%;
+
   &:hover {
     opacity: 1;
   }

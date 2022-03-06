@@ -22,6 +22,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
 class UserManager
 {
@@ -35,6 +36,7 @@ class UserManager
         private EmailVerifier $verifier,
         private EntityManagerInterface $entityManager,
         private RateLimiterFactory $userRegisterLimiter,
+        private Security $security
     ) {
     }
 
@@ -120,6 +122,10 @@ class UserManager
                 $mailUpdated      = true;
                 $user->isVerified = false;
                 $user->email      = $dto->email;
+            }
+
+            if ($this->security->isGranted('edit_profile', $user)) {
+                $user->username = $dto->username;
             }
 
             $this->entityManager->flush();
