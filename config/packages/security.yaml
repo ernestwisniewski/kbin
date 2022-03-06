@@ -19,6 +19,8 @@ security:
             custom_authenticators:
                 - App\Security\KbinAuthenticator
                 - App\Security\FacebookAuthenticator
+                - App\Security\GoogleAuthenticator
+                - App\Security\GithubAuthenticator
             logout:
                 path: app_logout
             user_checker: App\Security\UserChecker
