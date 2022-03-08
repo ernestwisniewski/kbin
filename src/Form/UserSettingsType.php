@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\DTO\UserSettingsDto;
 use App\Entity\User;
+use App\Form\DataTransformer\FeaturedMagazinesBarTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -49,6 +51,7 @@ class UserSettingsType extends AbstractType
                     ],
                 ]
             )
+            ->add('featuredMagazines', TextareaType::class)
             ->add(
                 'showProfileSubscriptions',
                 CheckboxType::class
@@ -82,6 +85,10 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class
             )
             ->add('submit', SubmitType::class);
+
+        $builder->get('featuredMagazines')->addModelTransformer(
+            new FeaturedMagazinesBarTransformer()
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)

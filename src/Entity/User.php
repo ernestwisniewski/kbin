@@ -87,6 +87,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public ?string $oauthFacebookId = null;
     /**
+     * @ORM\Column(type="array", nullable=true, options={"default" : null})
+     */
+    public ?array $featuredMagazines = null;
+    /**
      * @ORM\Column(type="boolean", options={"default": false})
      */
     public bool $hideImages = false;

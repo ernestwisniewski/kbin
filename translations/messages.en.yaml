@@ -273,3 +273,6 @@ flash_thread_unpin_success: 'The thread has been correctly unpinned.'
 flash_magazine_new_success: "The magazine has been created correctly. You can now add new content or explore the magazine's administration panel."
 flash_magazine_edit_success: 'The magazine has been correctly edited.'
 too_many_requests: 'Limit exceeded, please try again later.'
+set_magazines_bar: 'Magazines bar'
+set_magazines_bar_desc: 'add the magazine names after the comma'
+set_magazines_bar_empty_desc: 'if the field is empty, active magazines are displayed on the bar.'

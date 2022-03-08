@@ -29,6 +29,7 @@ class UserSettingsManager
             $user->showProfileSubscriptions,
             $user->showProfileFollowings,
             $user->homepage,
+            $user->featuredMagazines,
         );
     }
 
@@ -48,6 +49,7 @@ class UserSettingsManager
         $user->rightPosImages               = $dto->rightPosImages;
         $user->showProfileSubscriptions     = $dto->showProfileSubscriptions;
         $user->showProfileFollowings        = $dto->showProfileFollowings;
+        $user->featuredMagazines            = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;
 
         $this->entityManager->flush();
     }
