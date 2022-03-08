@@ -1,7 +1,8 @@
 {{ form_start(form) }}
 <ul class="nav nav-pills mb-5" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active text-reset" id="pills-appearance-tab" data-bs-toggle="pill" data-bs-target="#pills-appearance" type="button" role="tab"
+        <button class="nav-link active text-reset" id="pills-appearance-tab" data-bs-toggle="pill" data-bs-target="#pills-appearance" type="button"
+                role="tab"
                 aria-controls="pills-appearance" aria-selected="true">{{ 'appearance'|trans }}</button>
     </li>
     <li class="nav-item" role="presentation">
@@ -10,7 +11,8 @@
         </button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link text-reset" id="pills-notifications-tab" data-bs-toggle="pill" data-bs-target="#pills-notifications" type="button" role="tab"
+        <button class="nav-link text-reset" id="pills-notifications-tab" data-bs-toggle="pill" data-bs-target="#pills-notifications" type="button"
+                role="tab"
                 aria-controls="pills-notifications" aria-selected="false">{{ 'notifications'|trans }}
         </button>
     </li>
@@ -19,12 +21,20 @@
     <div class="tab-pane fade show active" id="pills-appearance" role="tabpanel" aria-labelledby="pills-appearance-tab">
         <div class="mb-3">
 
-            <div class="mb-3" style="max-width:300px">
+            <div class="col col-6 mb-3">
                 {{ form_label(form.homepage, 'homepage'|trans) }}
-                <div class="col-sm-10">
+                <div class="input-group input-group-lg">
                     {{ form_widget(form.homepage, {'attr': {'class': 'form-select'}}) }}
                 </div>
             </div>
+
+            <div class="col col-6 mb-3">
+                {{ form_label(form.featuredMagazines, 'set_magazines_bar'|trans) }} <small>({{ 'set_magazines_bar_desc'|trans }})</small>
+                <div class="input-group  input-group-lg">
+                    {{ form_widget(form.featuredMagazines, {'attr': {'placeholder': 'set_magazines_bar_empty_desc'|trans }}) }}
+                </div>
+            </div>
+
             {{ form_label(form.darkTheme, 'dark_mode'|trans) }}
             <div class="input-group input-group-lg">
                 {{ form_widget(form.darkTheme, {name: 'dark_mode'|trans}) }}

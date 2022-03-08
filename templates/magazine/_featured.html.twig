@@ -1,7 +1,15 @@
 <ul class="kbin-featured-magazines-list">
-    {% for mag in magazines %}
-        <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as mag ? 'kbin-featured-magazines-list-item--active' : '' }}">
-            <a href="{{ path('front_magazine', {'name': mag}) }}">{{ mag }}</a>
-        </li>
-    {% endfor %}
+    {% if app.user and app.user.featuredMagazines %}
+        {% for mag in app.user.featuredMagazines %}
+            <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as mag ? 'kbin-featured-magazines-list-item--active' : '' }}">
+                <a href="{{ path('front_magazine', {'name': mag}) }}">{{ mag }}</a>
+            </li>
+        {% endfor %}
+    {% else %}
+        {% for mag in magazines %}
+            <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as mag ? 'kbin-featured-magazines-list-item--active' : '' }}">
+                <a href="{{ path('front_magazine', {'name': mag}) }}">{{ mag }}</a>
+            </li>
+        {% endfor %}
+    {% endif %}
 </ul>

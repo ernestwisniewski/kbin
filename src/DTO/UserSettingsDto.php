@@ -19,6 +19,7 @@ class UserSettingsDto
         public bool $showProfileSubscriptions = false,
         public bool $showProfileFollowings = false,
         public string $homepage = 'front_subscribed',
+        public ?array $featuredMagazines = null,
     ) {
     }
 }
