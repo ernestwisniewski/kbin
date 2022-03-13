@@ -935,16 +935,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.3.2",
+            "version": "3.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "35eae239ef515d55ebb24e9d4715cad09a4f58ed"
+                "reference": "82331b861727c15b1f457ef05a8729e508e7ead5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/35eae239ef515d55ebb24e9d4715cad09a4f58ed",
-                "reference": "35eae239ef515d55ebb24e9d4715cad09a4f58ed",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/82331b861727c15b1f457ef05a8729e508e7ead5",
+                "reference": "82331b861727c15b1f457ef05a8729e508e7ead5",
                 "shasum": ""
             },
             "require": {
@@ -959,14 +959,14 @@
             "require-dev": {
                 "doctrine/coding-standard": "9.0.0",
                 "jetbrains/phpstorm-stubs": "2021.1",
-                "phpstan/phpstan": "1.4.0",
+                "phpstan/phpstan": "1.4.6",
                 "phpstan/phpstan-strict-rules": "^1.1",
-                "phpunit/phpunit": "9.5.11",
+                "phpunit/phpunit": "9.5.16",
                 "psalm/plugin-phpunit": "0.16.1",
                 "squizlabs/php_codesniffer": "3.6.2",
                 "symfony/cache": "^5.2|^6.0",
                 "symfony/console": "^2.7|^3.0|^4.0|^5.0|^6.0",
-                "vimeo/psalm": "4.16.1"
+                "vimeo/psalm": "4.22.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -1026,7 +1026,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.3.2"
+                "source": "https://github.com/doctrine/dbal/tree/3.3.3"
             },
             "funding": [
                 {
@@ -1042,7 +1042,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-05T16:33:45+00:00"
+            "time": "2022-03-09T15:39:50+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1724,16 +1724,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.11.1",
+            "version": "2.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "4b88ce787d3916c8366abf52f6c658a7a27ed3a6"
+                "reference": "9c351e044478135aec1755e2c0c0493a4b6309db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/4b88ce787d3916c8366abf52f6c658a7a27ed3a6",
-                "reference": "4b88ce787d3916c8366abf52f6c658a7a27ed3a6",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/9c351e044478135aec1755e2c0c0493a4b6309db",
+                "reference": "9c351e044478135aec1755e2c0c0493a4b6309db",
                 "shasum": ""
             },
             "require": {
@@ -1749,7 +1749,6 @@
                 "doctrine/lexer": "^1.0",
                 "doctrine/persistence": "^2.2",
                 "ext-ctype": "*",
-                "ext-pdo": "*",
                 "php": "^7.1 || ^8.0",
                 "psr/cache": "^1 || ^2 || ^3",
                 "symfony/console": "^3.0 || ^4.0 || ^5.0 || ^6.0",
@@ -1763,12 +1762,12 @@
                 "doctrine/annotations": "^1.13",
                 "doctrine/coding-standard": "^9.0",
                 "phpbench/phpbench": "^0.16.10 || ^1.0",
-                "phpstan/phpstan": "1.4.3",
+                "phpstan/phpstan": "1.4.6",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
                 "squizlabs/php_codesniffer": "3.6.2",
                 "symfony/cache": "^4.4 || ^5.4 || ^6.0",
                 "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0",
-                "vimeo/psalm": "4.19.0"
+                "vimeo/psalm": "4.22.0"
             },
             "suggest": {
                 "symfony/cache": "Provides cache support for Setup Tool with doctrine/cache 2.0",
@@ -1817,9 +1816,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.11.1"
+                "source": "https://github.com/doctrine/orm/tree/2.11.2"
             },
-            "time": "2022-01-30T21:47:06+00:00"
+            "time": "2022-03-09T15:23:58+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -2194,12 +2193,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/oscarotero/Embed.git",
-                "reference": "84631fa16f2a669de66218774a20b6c1c5f9ba03"
+                "reference": "2ac32581a8617c3bbe593e3d7799ca9db6974471"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oscarotero/Embed/zipball/84631fa16f2a669de66218774a20b6c1c5f9ba03",
-                "reference": "84631fa16f2a669de66218774a20b6c1c5f9ba03",
+                "url": "https://api.github.com/repos/oscarotero/Embed/zipball/2ac32581a8617c3bbe593e3d7799ca9db6974471",
+                "reference": "2ac32581a8617c3bbe593e3d7799ca9db6974471",
                 "shasum": ""
             },
             "require": {
@@ -2260,7 +2259,7 @@
             "support": {
                 "email": "oom@oscarotero.com",
                 "issues": "https://github.com/oscarotero/Embed/issues",
-                "source": "https://github.com/oscarotero/Embed/tree/v4.4.2"
+                "source": "https://github.com/oscarotero/Embed/tree/v4.4.3"
             },
             "funding": [
                 {
@@ -2276,7 +2275,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-02-13T16:03:59+00:00"
+            "time": "2022-03-13T01:27:51+00:00"
         },
         {
             "name": "ezimuel/guzzlestreams",
@@ -12367,16 +12366,16 @@
         },
         {
             "name": "symfony/ux-chartjs",
-            "version": "v2.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-chartjs.git",
-                "reference": "1bcbef6069ce9e8aee089d769fb00d72aa8e23d4"
+                "reference": "8fcb3c362c4d9f641bf20d0acfdc43b1bd7206f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/1bcbef6069ce9e8aee089d769fb00d72aa8e23d4",
-                "reference": "1bcbef6069ce9e8aee089d769fb00d72aa8e23d4",
+                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/8fcb3c362c4d9f641bf20d0acfdc43b1bd7206f7",
+                "reference": "8fcb3c362c4d9f641bf20d0acfdc43b1bd7206f7",
                 "shasum": ""
             },
             "require": {
@@ -12431,7 +12430,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-chartjs/tree/v2.0.1"
+                "source": "https://github.com/symfony/ux-chartjs/tree/v2.1.0"
             },
             "funding": [
                 {
@@ -12447,20 +12446,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-09T16:09:32+00:00"
+            "time": "2022-01-25T15:40:02+00:00"
         },
         {
             "name": "symfony/ux-dropzone",
-            "version": "v2.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-dropzone.git",
-                "reference": "7987024502d1bc73d14812849631f716f82c6429"
+                "reference": "e5115ed7fc894248b77bffebb7f57bc2f584d219"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-dropzone/zipball/7987024502d1bc73d14812849631f716f82c6429",
-                "reference": "7987024502d1bc73d14812849631f716f82c6429",
+                "url": "https://api.github.com/repos/symfony/ux-dropzone/zipball/e5115ed7fc894248b77bffebb7f57bc2f584d219",
+                "reference": "e5115ed7fc894248b77bffebb7f57bc2f584d219",
                 "shasum": ""
             },
             "require": {
@@ -12511,7 +12510,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-dropzone/tree/v2.0.1"
+                "source": "https://github.com/symfony/ux-dropzone/tree/v2.1.0"
             },
             "funding": [
                 {
@@ -12527,20 +12526,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-09T14:02:21+00:00"
+            "time": "2022-02-01T04:57:29+00:00"
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "d8f8aa42f616beff9482fa5c42bfd93333ba7ca8"
+                "reference": "e71a0c26123355d7e5eb23f9683dbca80e95abba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/d8f8aa42f616beff9482fa5c42bfd93333ba7ca8",
-                "reference": "d8f8aa42f616beff9482fa5c42bfd93333ba7ca8",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/e71a0c26123355d7e5eb23f9683dbca80e95abba",
+                "reference": "e71a0c26123355d7e5eb23f9683dbca80e95abba",
                 "shasum": ""
             },
             "require": {
@@ -12608,7 +12607,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.0.1"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.1.0"
             },
             "funding": [
                 {
@@ -12624,35 +12623,36 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-12T11:00:03+00:00"
+            "time": "2022-03-03T19:34:54+00:00"
         },
         {
             "name": "symfony/ux-twig-component",
-            "version": "v2.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-twig-component.git",
-                "reference": "bbfb4a3f1a2ff1f707c1eb953af6d466eafbdf47"
+                "reference": "4193b5d870070fd6df0bf880a542dcc6fcf2e5fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/bbfb4a3f1a2ff1f707c1eb953af6d466eafbdf47",
-                "reference": "bbfb4a3f1a2ff1f707c1eb953af6d466eafbdf47",
+                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/4193b5d870070fd6df0bf880a542dcc6fcf2e5fc",
+                "reference": "4193b5d870070fd6df0bf880a542dcc6fcf2e5fc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.0",
-                "symfony/dependency-injection": "^4.4|^5.0|^6.0",
-                "symfony/property-access": "^4.4|^5.0|^6.0",
+                "symfony/dependency-injection": "^5.4|^6.0",
+                "symfony/event-dispatcher": "^5.4|^6.0",
+                "symfony/property-access": "^5.4|^6.0",
                 "twig/twig": "^2.0|^3.0"
             },
             "conflict": {
-                "symfony/dependency-injection": "<4.4.18,<5.1.10,<5.2.1"
+                "symfony/config": "<5.4.0"
             },
             "require-dev": {
-                "symfony/framework-bundle": "^4.4|^5.0|^6.0",
-                "symfony/phpunit-bridge": "^5.2|^6.0",
-                "symfony/twig-bundle": "^4.4|^5.0|^6.0"
+                "symfony/framework-bundle": "^5.4|^6.0",
+                "symfony/phpunit-bridge": "^6.0",
+                "symfony/twig-bundle": "^5.4|^6.0"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -12684,7 +12684,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-twig-component/tree/v2.0.1"
+                "source": "https://github.com/symfony/ux-twig-component/tree/v2.1.0"
             },
             "funding": [
                 {
@@ -12700,7 +12700,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-03T21:37:12+00:00"
+            "time": "2022-02-22T14:21:01+00:00"
         },
         {
             "name": "symfony/validator",
@@ -13294,16 +13294,16 @@
         },
         {
             "name": "symfonycasts/verify-email-bundle",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SymfonyCasts/verify-email-bundle.git",
-                "reference": "1b843f75398f2ab44b1d282945988d635b87f561"
+                "reference": "7b9b1f59093dd260afa91eb6b3a220906a0fe0e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyCasts/verify-email-bundle/zipball/1b843f75398f2ab44b1d282945988d635b87f561",
-                "reference": "1b843f75398f2ab44b1d282945988d635b87f561",
+                "url": "https://api.github.com/repos/SymfonyCasts/verify-email-bundle/zipball/7b9b1f59093dd260afa91eb6b3a220906a0fe0e2",
+                "reference": "7b9b1f59093dd260afa91eb6b3a220906a0fe0e2",
                 "shasum": ""
             },
             "require": {
@@ -13337,9 +13337,9 @@
             "description": "Simple, stylish Email Verification for Symfony",
             "support": {
                 "issues": "https://github.com/SymfonyCasts/verify-email-bundle/issues",
-                "source": "https://github.com/SymfonyCasts/verify-email-bundle/tree/v1.9.0"
+                "source": "https://github.com/SymfonyCasts/verify-email-bundle/tree/v1.10.0"
             },
-            "time": "2022-02-23T14:33:41+00:00"
+            "time": "2022-03-08T22:08:27+00:00"
         },
         {
             "name": "tchoulom/view-counter-bundle",

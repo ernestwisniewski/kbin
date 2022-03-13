@@ -10,6 +10,8 @@ use Exception;
 
 class RandomMagazine extends AbstractController
 {
+    public string $titleTag = 'span';
+
     public function __construct(
         private MagazineFactory $factory,
         private MagazineRepository $repository,

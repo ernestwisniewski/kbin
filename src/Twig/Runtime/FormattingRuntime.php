@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Twig\Runtime;
 
@@ -25,6 +25,6 @@ class FormattingRuntime implements RuntimeExtensionInterface
             $sentences .= $subject[1];
         }
 
-        return $sentences . '.';
+        return $sentences.(str_ends_with($sentences, '.') ? '' : '.');
     }
 }
