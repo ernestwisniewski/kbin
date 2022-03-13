@@ -6,6 +6,7 @@ use App\Controller\AbstractController;
 use App\Repository\MagazineRepository;
 use App\Service\SearchManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MagazineListController extends AbstractController
 {
@@ -13,7 +14,7 @@ class MagazineListController extends AbstractController
     {
     }
 
-    public function __invoke(MagazineRepository $repository, Request $request)
+    public function __invoke(MagazineRepository $repository, Request $request): Response
     {
         if ($q = $request->get('q')) {
             $magazines = $this->searchManager->findMagazinesPaginated($q);

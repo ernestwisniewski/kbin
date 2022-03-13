@@ -11,7 +11,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 class EntryComponent
 {
     public Entry $entry;
-    public string $titleTag = 'h4';
+    public string $titleTag = 'h2';
     public ?string $extraClass = null;
     public bool $showContent = false;
     public bool $directUrl = false;

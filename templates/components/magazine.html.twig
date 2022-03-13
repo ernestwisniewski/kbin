@@ -9,10 +9,10 @@
                  class="img-thumbnail"
                  alt="{{ this.magazine.title }}">
         {% endif %}
-        <h2 class="font-weight-bold">{{ this.magazine.title }}</h2>
-        <h3 class="lead mb-2">
+        <{{ this.titleTag }} class="font-weight-bold h2 clearfix">{{ this.magazine.title }}</{{ this.titleTag }}>
+        <span class="lead mb-2">
             <span class="text-muted">/m/</span>{{ this.magazine.name }}
-        </h3>
+        </span>
         {% if this.asLink or not is_front_page() %}
     </a>
     {% endif %}

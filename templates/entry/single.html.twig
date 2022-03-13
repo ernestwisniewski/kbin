@@ -11,7 +11,10 @@
         {% include '_layout/_flash.html.twig' %}
         <div class="kbin-entry-page">
             {% block entry %}
-                {{ component('entry', {entry: entry, extraClass: 'kbin-entry-single', showContent: true, directUrl: true, showMagazine: magazine is not defined}) }}
+                {{ component('entry', {entry: entry, titleTag: 'h1', extraClass: 'kbin-entry-single', showContent: true, directUrl: true, showMagazine: magazine is not defined}) }}
+                {% if not entry.body and get_author_entry_comment(entry) %}
+                    <h2 class="text-muted display-none">{{ get_short_desc(get_author_entry_comment(entry).body) }}</h2>
+                {% endif %}
             {% endblock %}
 
             {% block after_entry %}{% endblock %}

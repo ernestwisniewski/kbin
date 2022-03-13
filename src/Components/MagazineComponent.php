@@ -16,4 +16,5 @@ class MagazineComponent
     public bool $showStats = true;
     public bool $showSubButtons = true;
     public bool $asLink = false;
+    public string $titleTag = 'h3';
 }

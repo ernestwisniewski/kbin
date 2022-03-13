@@ -1,0 +1,6 @@
+award_list_all:
+  controller: App\Controller\Award\AwardListController
+  path:
+    en: /awards
+    pl: /odznaczenia
+  methods: [ GET ]

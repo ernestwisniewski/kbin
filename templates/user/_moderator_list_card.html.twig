@@ -2,7 +2,7 @@
     <div class="kbin-moderators">
         <div class="card">
             <div class="card-header">
-                {{ 'topbar.moderated'|trans }}
+                <h4 class="h6 my-0">{{ 'topbar.moderated'|trans }}</h4>
             </div>
             <ul class="list-group list-group-flush">
                 {% for magazine in user.moderatedMagazines|slice(0, 5) %}
