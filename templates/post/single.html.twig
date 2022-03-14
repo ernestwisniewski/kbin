@@ -15,6 +15,7 @@
                     <div class="mt-2">
                         {# {% include 'entry/comment/_filters.html.twig' %} #}
                     </div>
+                    <h1 class="mt-2 text-muted display-none">{{ get_short_desc(post.body) }}</h1>
                     <div class="kbin-comment-list"
                          data-controller="comment-list"
                          data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
