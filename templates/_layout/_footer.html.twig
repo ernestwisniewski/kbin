@@ -2,7 +2,7 @@
     <div class="kbin-container container small">
         <div class="row">
             <div class="col-lg-3 col-sm-6">
-                <h5 class="text-muted font-weight-bold">{{ kbin_domain }}</h5>
+                <h6 class="text-muted font-weight-bold h5">{{ kbin_domain }}</h6>
                 <ul class="list-unstyled">
                     <li><a href="{{ path('about') }}">{{ 'about_instance'|trans }}</a></li>
                     <li><a href="{{ path('magazine_list_all') }}">{{ 'topbar.all_magazines'|trans }}</a></li>
@@ -14,7 +14,7 @@
                 </ul>
             </div>
             <div class="col-lg-3 col-sm-6">
-                <h5 class="text-muted font-weight-bold">{{ 'useful'|trans }}</h5>
+                <h6 class="text-muted font-weight-bold h5">{{ 'useful'|trans }}</h6>
                 <ul class="list-unstyled">
                     <li>
                         <a href="{{ path('magazine_create') }}">
@@ -46,7 +46,7 @@
                 </ul>
             </div>
             <div class="col-lg-3 col-sm-6">
-                <h5 class="text-muted font-weight-bold">{{ 'help'|trans }}</h5>
+                <h6 class="text-muted font-weight-bold h5">{{ 'help'|trans }}</h6>
                 <ul class="list-unstyled">
                     <li><a href="{{ path('page_contact') }}">{{ 'contact'|trans }}</a></li>
                     <li><a href="{{ path('page_faq') }}">{{ 'faq'|trans }}</a></li>
