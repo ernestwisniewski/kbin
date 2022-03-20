@@ -231,6 +231,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public Collection $notifications;
     /**
+     * @ORM\OneToMany(targetEntity="Award", mappedBy="user", fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt": "DESC"})
+     */
+    public Collection $awards;
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -268,6 +273,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->favourites        = new ArrayCollection();
         $this->violations        = new ArrayCollection();
         $this->notifications     = new ArrayCollection();
+        $this->awards            = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }

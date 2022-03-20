@@ -276,3 +276,13 @@ too_many_requests: 'Limit exceeded, please try again later.'
 set_magazines_bar: 'Magazines bar'
 set_magazines_bar_desc: 'add the magazine names after the comma'
 set_magazines_bar_empty_desc: 'if the field is empty, active magazines are displayed on the bar.'
+all: 'All'
+gold: "Gold"
+silver: "Silver"
+brown: "Brown"
+autobiographer: "Autobiographer"
+autobiographer_desc: "For completing all fields in the profile"
+brown_personality: "Brown personality"
+brown_personality_desc: "20 followers"
+brown_commentator: "Brown commentator"
+brown_commentator_desc: "For adding 10 good comments"

@@ -64,6 +64,14 @@ user_follow:
   path: /u/{username}/follow
   methods: [ POST ]
 
+user_awards:
+  controller: App\Controller\User\UserAwardController
+  defaults: { category: ~ }
+  path:
+    en: /u/{username}/awards/{category}
+    pl: /u/{username}/odznaczenia/{category}
+  methods: [ GET ]
+
 user_unfollow:
   controller: App\Controller\User\UserFollowController::unfollow
   path: /u/{username}/unfollow

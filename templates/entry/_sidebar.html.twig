@@ -11,10 +11,10 @@
                         </div>
                     {% endif %}
                     <div>
-                        <h5 class="card-title font-weight-bold py-2">
+                        <h3 class="card-title font-weight-bold py-2 h5">
                             <a class="text-reset link-to-title"
                                href="{{ path('user', {username: entry.user.username }) }}">{{ entry.user.username }}</a>
-                        </h5>
+                        </h3>
                         {% include 'user/_follow_button.html.twig' with { 'user': entry.user } %}
                     </div>
                 </div>
