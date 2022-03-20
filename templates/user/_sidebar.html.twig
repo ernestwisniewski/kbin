@@ -41,6 +41,9 @@
                     <li>
                         <span class="text-muted small">{{ 'thread_views'|trans }}:</span> {{ user.entriesViewsCount }}
                     </li>
+                    <li>
+                        <span class="text-muted small">{{ 'awards'|trans }}:</span> {{ user.awards|length }}
+                    </li>
                     {% if not app.user or user is not same as app.user %}
                         <li class="mt-2">
                         <span class="text-muted small"><a href="{{ path('user_message', {'username': user.username}) }}"><i

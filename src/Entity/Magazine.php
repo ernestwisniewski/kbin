@@ -118,6 +118,11 @@ class Magazine implements VisibilityInterface
      */
     public Collection $logs;
     /**
+     * @ORM\OneToMany(targetEntity="Award", mappedBy="magazine", fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"id": "DESC"})
+     */
+    public Collection $awards;
+    /**
      * @ORM\Column(type="datetimetz", nullable=true)
      */
     public ?DateTime $lastActive = null;
@@ -144,6 +149,7 @@ class Magazine implements VisibilityInterface
         $this->reports       = new ArrayCollection();
         $this->badges        = new ArrayCollection();
         $this->logs          = new ArrayCollection();
+        $this->awards        = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true, true));
 
