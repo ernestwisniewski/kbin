@@ -1,0 +1,21 @@
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link {{ category is null ? 'active' : '' }}" aria-current="page"
+           href="{{ path('user_awards', { username: user.username }) }}">{{ 'all'|trans }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ category is same as 'gold' ? 'active' : '' }}"
+           href="{{ path('user_awards', { category: 'gold', username: user.username }) }}">
+            <span class="dot me-2" style="background: gold"></span>{{ 'gold'|trans }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ category is same as 'silver' ? 'active' : '' }}"
+           href="{{ path('user_awards', { category: 'silver', username: user.username }) }}">
+            <span class="dot me-2" style="background: silver"></span> {{ 'silver'|trans }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ category is same as 'brown' ? 'active' : '' }}"
+           href="{{ path('user_awards', { category: 'brown', username: user.username }) }}">
+            <span class="dot me-2" style="background: brown"></span> {{ 'brown'|trans }}</a>
+    </li>
+</ul>
