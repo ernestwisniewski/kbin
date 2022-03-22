@@ -34,6 +34,14 @@ magazine_modlog:
   path: /m/{name}/modlog
   methods: [ GET ]
 
+magazine_awards:
+  controller: App\Controller\Magazine\MagazineAwardController
+  defaults: { category: ~ }
+  path:
+    en: /m/{name}/awards/{category}
+    pl: /m/{name}/odznaczenia/{category}
+  methods: [ GET ]
+
 magazine_subscribe:
   controller: App\Controller\Magazine\MagazineSubController::subscribe
   path: /m/{name}/subscribe

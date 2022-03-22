@@ -6,27 +6,13 @@
     <div class="kbin-award-list-page">
         <h1 class="text-muted display-none">{{ 'awards'|trans }}</h1>
 
-        <ul class="nav nav-tabs mb-3">
-            <li class="nav-item">
-                <a class="nav-link {{ category is null ? 'active' : '' }}" aria-current="page"
-                   href="{{ path(user is defined ? 'user_awards' : 'award_list_all', user is defined ? { username: user.username } : {}) }}">{{ 'all'|trans }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ category is same as 'gold' ? 'active' : '' }}"
-                   href="{{ path(user is defined ? 'user_awards' : 'award_list_all', { category: 'gold', username: user is defined ? user.username : null }) }}">
-                    <span class="dot me-2" style="background: gold"></span>{{ 'gold'|trans }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ category is same as 'silver' ? 'active' : '' }}"
-                   href="{{ path(user is defined ? 'user_awards' : 'award_list_all', { category: 'silver', username: user is defined ? user.username : null  }) }}">
-                    <span class="dot me-2" style="background: silver"></span> {{ 'silver'|trans }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ category is same as 'brown' ? 'active' : '' }}"
-                   href="{{ path(user is defined ? 'user_awards' : 'award_list_all', { category: 'brown', username: user is defined ? user.username : null  }) }}">
-                    <span class="dot me-2" style="background: brown"></span> {{ 'brown'|trans }}</a>
-            </li>
-        </ul>
+        {% if user is defined %}
+            {% include 'award/_tabs_user.html.twig' %}
+        {% elseif magazine is defined %}
+            {% include 'award/_tabs_magazine.html.twig' %}
+        {% else %}
+            {% include 'award/_tabs_all.html.twig' %}
+        {% endif %}
 
         <table class="table">
             <tbody>
