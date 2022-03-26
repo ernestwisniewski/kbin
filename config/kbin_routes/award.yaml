@@ -1,7 +1,0 @@
-award_list_all:
-  controller: App\Controller\AwardListController
-  defaults: { category: ~ }
-  path:
-    en: /awards/{category}
-    pl: /odznaczenia/{category}
-  methods: [ GET ]
