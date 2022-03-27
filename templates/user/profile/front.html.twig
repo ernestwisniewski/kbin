@@ -6,24 +6,35 @@
     <div class="kbin-profile kbin-profile-page">
         {% include 'user/profile/_tabs.html.twig' %}
 
-        <ul class="nav nav-pills mb-5" id="pills-tab" role="tablist">
+        <ul class="nav nav-pills mb-5">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active text-reset" id="pills-activity-tab" data-bs-toggle="pill" data-bs-target="#pills-activity"
-                        type="button" role="tab"
-                        aria-controls="pills-activity" aria-selected="true">{{ 'activity'|trans }}</button>
+                        type="button" role="tab" aria-controls="pills-activity" aria-selected="true">{{ 'activity'|trans }}</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link text-reset" id="pills-votes-tab" data-bs-toggle="pill" data-bs-target="#pills-votes" type="button" role="tab"
-                        aria-controls="pills-votes" aria-selected="false">{{ 'votes'|trans }}
-                </button>
+                <button class="nav-link text-reset" aria-selected="false">{{ 'votes'|trans }}</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-reset" aria-selected="false">{{ 'views'|trans }}</button>
             </li>
         </ul>
-        <div class="tab-content" id="pills-tabContent">
+
+        <div class="mb-3">
+            <label>
+                <select name="forma" onchange="location = this.value;">
+                    <option value="{{ path('user_profile_front') }}">Wszystkie</option>
+                    <option value="{{ path('user_profile_front', {type: '-', period: 7}) }}"  {{ period is same as '7' ? 'selected' : '' }}>{{ 'week'|trans }}</option>
+                    <option value="{{ path('user_profile_front', {type: '-', period: 14}) }}" {{ period is same as '14' ? 'selected' : '' }}>2 {{ 'weeks'|trans }}</option>
+                    <option value="{{ path('user_profile_front', {type: '-', period: 31}) }}" {{ period is same as '31' ? 'selected' : '' }}>{{ 'month'|trans }}</option>
+                    <option value="{{ path('user_profile_front', {type: '-', period: 183}) }}" {{ period is same as '183' ? 'selected' : '' }}>6 {{ 'months'|trans }}</option>
+                    <option value="{{ path('user_profile_front', {type: '-', period: 256}) }}" {{ period is same as '256' ? 'selected' : '' }}>{{ 'year'|trans }}</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="tab-content">
             <div class="tab-pane fade show active" id="pills-activity" role="tabpanel" aria-labelledby="pills-activity-tab">
                 {{ render_chart(contentChart) }}
-            </div>
-            <div class="tab-pane fade" id="pills-votes" role="tabpanel" aria-labelledby="pills-votes-tab">
-{#                {{ render_chart(voteChart) }}#}
             </div>
         </div>
     </div>

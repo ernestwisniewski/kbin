@@ -4,7 +4,33 @@
 
 {% block body %}
     <div class="kbin-stats">
-        <h1 class="font-weight-bold mb-5">{{ 'stats'|trans }}</h1>
+        <h1 class="font-weight-bold mb-3 display-none">{{ 'stats'|trans }}</h1>
+
+        <ul class="nav nav-pills mb-5">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active text-reset" id="pills-activity-tab" data-bs-toggle="pill" data-bs-target="#pills-activity"
+                        type="button" role="tab" aria-controls="pills-activity" aria-selected="true">{{ 'activity'|trans }}</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-reset" aria-selected="false">{{ 'votes'|trans }}</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-reset" aria-selected="false">{{ 'views'|trans }}</button>
+            </li>
+        </ul>
+
+        <div class="mb-3">
+            <label>
+                <select name="forma" onchange="location = this.value;">
+                    <option value="{{ path('stats') }}">Wszystkie</option>
+                    <option value="{{ path('stats', {type: '-', period: 7}) }}"  {{ period is same as '7' ? 'selected' : '' }}>{{ 'week'|trans }}</option>
+                    <option value="{{ path('stats', {type: '-', period: 14}) }}" {{ period is same as '14' ? 'selected' : '' }}>2 {{ 'weeks'|trans }}</option>
+                    <option value="{{ path('stats', {type: '-', period: 31}) }}" {{ period is same as '31' ? 'selected' : '' }}>{{ 'month'|trans }}</option>
+                    <option value="{{ path('stats', {type: '-', period: 183}) }}" {{ period is same as '183' ? 'selected' : '' }}>6 {{ 'months'|trans }}</option>
+                    <option value="{{ path('stats', {type: '-', period: 256}) }}" {{ period is same as '256' ? 'selected' : '' }}>{{ 'year'|trans }}</option>
+                </select>
+            </label>
+        </div>
 
         <div>
             {{ render_chart(contentChart) }}

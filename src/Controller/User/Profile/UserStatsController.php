@@ -1,17 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace App\Controller\Magazine\Panel;
+namespace App\Controller\User\Profile;
 
 use App\Controller\AbstractController;
-use App\Entity\Magazine;
-use App\Repository\StatsRepository;
 use App\Service\StatsManager;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MagazineStatsController extends AbstractController
+class UserStatsController extends AbstractController
 {
     public function __construct(private StatsManager $manager)
     {
@@ -19,9 +17,8 @@ class MagazineStatsController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
      */
-    public function __invoke(Magazine $magazine, ?string $type, ?int $period, Request $request): Response
+    public function __invoke(?string $type, ?int $period, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
@@ -31,14 +28,12 @@ class MagazineStatsController extends AbstractController
         }
 
         return $this->render(
-            'magazine/panel/front.html.twig', [
-                'period'       => $request->get('period'),
-                'magazine'     => $magazine,
+            'user/profile/front.html.twig', [
+                'period' => $request->get('period'),
                 'contentChart' => $period
-                    ? $this->manager->drawDailyStatsByTime($start, null, $magazine)
-                    : $this->manager->drawMonthlyChart(null, $magazine),
+                    ? $this->manager->drawDailyStatsByTime($start, $this->getUserOrThrow())
+                    : $this->manager->drawMonthlyChart($this->getUserOrThrow()),
             ]
         );
     }
 }
-
