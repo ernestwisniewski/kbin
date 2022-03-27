@@ -1,11 +1,3 @@
-magazine_panel_front:
-  controller: App\Controller\Magazine\Panel\MagazineStatsController
-  defaults: { type: ~, period: ~ }
-  path:
-    en: /m/{name}/panel/stats/{type}/{period}
-    pl: /m/{name}/panel/statystyki/{type}/{period}
-  methods: [ GET ]
-
 magazine_panel_bans:
   controller: App\Controller\Magazine\Panel\MagazineBanController::bans
   path:
@@ -83,4 +75,12 @@ magazine_panel_trash:
   path:
     en: /m/{name}/panel/trash
     pl: /m/{name}/panel/kosz
+  methods: [ GET ]
+
+magazine_panel_front:
+  controller: App\Controller\Magazine\Panel\MagazineStatsController
+  defaults: { type: ~, period: ~ }
+  path:
+    en: /m/{name}/panel/stats/{type}/{period}
+    pl: /m/{name}/panel/statystyki/{type}/{period}
   methods: [ GET ]

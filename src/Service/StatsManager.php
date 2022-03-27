@@ -19,7 +19,7 @@ class StatsManager
 
     public function drawDailyStatsByTime(DateTime $start, ?User $user = null, ?Magazine $magazine = null): Chart
     {
-        $stats = $this->repository->getContentStatsByTime($start);
+        $stats = $this->repository->getContentStatsByTime($start, $user, $magazine);
 
         $labels = array_map(fn($val) => $val['day']->format('Y-m-d'), $stats['entries']);
 
