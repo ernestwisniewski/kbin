@@ -1,8 +1,9 @@
 magazine_panel_front:
   controller: App\Controller\Magazine\Panel\MagazineStatsController
+  defaults: { type: ~, period: ~ }
   path:
-    en: /m/{name}/panel/stats
-    pl: /m/{name}/panel/statystyki
+    en: /m/{name}/panel/stats/{type}/{period}
+    pl: /m/{name}/panel/statystyki/{type}/{period}
   methods: [ GET ]
 
 magazine_panel_bans:

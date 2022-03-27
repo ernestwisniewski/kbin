@@ -113,10 +113,11 @@ user_note:
   methods: [ POST ]
 
 user_profile_front:
-  controller: App\Controller\User\Profile\UserStatController
+  controller: App\Controller\User\Profile\UserStatsController
+  defaults: { type: ~, period: ~ }
   path:
-    en: /profile
-    pl: /profil
+    en: /profile/{type}/{period}
+    pl: /profil/{type}/{period}
   methods: [ GET ]
 
 user_profile_notifications:

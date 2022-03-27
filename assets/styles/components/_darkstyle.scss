@@ -695,32 +695,9 @@
       color: #718db1;
     }
   }
-}
 
-.disabled {
-  cursor: not-allowed;
-}
-
-.CodeMirror-cursor {
-  .kbin-dark & {
-    border-color: white !important;
-  }
-}
-
-.choices__input {
-  caret-color: white !important;
-}
-
-.alert {
-  .btn-close {
-    filter: none;
-  }
-
-  a {
-    color: $primary;
-
-    &:hover {
-      color: black !important;
-    }
+  select {
+    color: #fff;
+    background-color: #1f1f1f;
   }
 }

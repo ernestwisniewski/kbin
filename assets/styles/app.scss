@@ -284,3 +284,35 @@ thead, tbody {
   border-radius: 50%;
   display: inline-block;
 }
+
+select {
+  padding: 7px;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.CodeMirror-cursor {
+  .kbin-dark & {
+    border-color: white !important;
+  }
+}
+
+.choices__input {
+  caret-color: white !important;
+}
+
+.alert {
+  .btn-close {
+    filter: none;
+  }
+
+  a {
+    color: $primary;
+
+    &:hover {
+      color: black !important;
+    }
+  }
+}

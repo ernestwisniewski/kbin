@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Magazine;
 use App\Entity\Site;
 use App\Entity\User;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use JetBrains\PhpStorm\ArrayShape;
@@ -12,9 +15,54 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class StatsRepository extends ServiceEntityRepository
 {
+    private ?DateTime $start;
+    private ?User $user;
+    private ?Magazine $magazine;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Site::class);
+    }
+
+    #[ArrayShape(['entries' => "array", 'comments' => "array", 'posts' => "array", 'replies' => "array"])]
+    public function getContentStatsByTime(DateTime $start, ?User $user = null, ?Magazine $magazine = null): array
+    {
+        $this->start    = $start;
+        $this->user     = $user;
+        $this->magazine = $magazine;
+
+        return [
+            'entries'  => $this->prepareDaily($this->getDailyStats('entry')),
+            'comments' => $this->prepareDaily($this->getDailyStats('entry_comment')),
+            'posts'    => $this->prepareDaily($this->getDailyStats('post')),
+            'replies'  => $this->prepareDaily($this->getDailyStats('post_comment')),
+        ];
+    }
+
+    private function getDailyStats(string $type): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        if ($this->user) {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' WHERE e.user_id = ".$this->user->getId()." GROUP BY 1";
+        } elseif ($this->magazine) {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' WHERE e.magazine_id = ".$this->magazine->getId()." GROUP BY 1";
+        } else {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' GROUP BY 1";
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+
+        $results = $stmt->fetchAllAssociative();
+
+        usort($results, fn($a, $b): int => $a['day'] <=> $b['day']);
+
+        return $results;
     }
 
     #[ArrayShape(['entries' => "array", 'comments' => "array", 'posts' => "array", 'replies' => "array"])]
@@ -22,10 +70,13 @@ class StatsRepository extends ServiceEntityRepository
         User $user = null,
         Magazine $magazine = null
     ): array {
-        $entries  = $this->getStats('entry', $user, $magazine);
-        $comments = $this->getStats('entry_comment', $user, $magazine);
-        $posts    = $this->getStats('post', $user, $magazine);
-        $replies  = $this->getStats('post_comment', $user, $magazine);
+        $this->user     = $user;
+        $this->magazine = $magazine;
+
+        $entries  = $this->getMonthlyStats('entry');
+        $comments = $this->getMonthlyStats('entry_comment');
+        $posts    = $this->getMonthlyStats('post');
+        $replies  = $this->getMonthlyStats('post_comment');
 
         $startDate = $this->sort(
             array_merge(
@@ -46,24 +97,24 @@ class StatsRepository extends ServiceEntityRepository
         }
 
         return [
-            'entries'  => $this->prepare($this->sort($entries), $startDate[0]['year'], $startDate[0]['month']),
-            'comments' => $this->prepare($this->sort($comments), $startDate[0]['year'], $startDate[0]['month']),
-            'posts'    => $this->prepare($this->sort($posts), $startDate[0]['year'], $startDate[0]['month']),
-            'replies'  => $this->prepare($this->sort($replies), $startDate[0]['year'], $startDate[0]['month']),
+            'entries'  => $this->prepareOverall($this->sort($entries), $startDate[0]['year'], $startDate[0]['month']),
+            'comments' => $this->prepareOverall($this->sort($comments), $startDate[0]['year'], $startDate[0]['month']),
+            'posts'    => $this->prepareOverall($this->sort($posts), $startDate[0]['year'], $startDate[0]['month']),
+            'replies'  => $this->prepareOverall($this->sort($replies), $startDate[0]['year'], $startDate[0]['month']),
         ];
     }
 
-    private function getStats(string $table, User $user = null, Magazine $magazine = null): array
+    private function getMonthlyStats(string $table): array
     {
         $conn = $this->getEntityManager()
             ->getConnection();
 
-        if ($user) {
+        if ($this->user) {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, COUNT(e.id) as count FROM ".$table
-                ." e WHERE e.user_id = ".$user->getId()." GROUP BY 1,2";
-        } elseif ($magazine) {
+                ." e WHERE e.user_id = ".$this->user->getId()." GROUP BY 1,2";
+        } elseif ($this->magazine) {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, COUNT(e.id) as count FROM ".$table
-                ." e WHERE e.magazine_id = ".$magazine->getId()." GROUP BY 1,2";
+                ." e WHERE e.magazine_id = ".$this->magazine->getId()." GROUP BY 1,2";
         } else {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, COUNT(e.id) as count FROM ".$table
                 ." e GROUP BY 1,2";
@@ -89,12 +140,12 @@ class StatsRepository extends ServiceEntityRepository
         return $results;
     }
 
-    private function prepare(array $entries, int $startYear, int $startMonth): array
+    private function prepareOverall(array $entries, int $startYear, int $startMonth): array
     {
         $currentMonth = (int) (new \DateTime('now'))->format('n');
         $currentYear  = (int) (new \DateTime('now'))->format('Y');
 
-        $result = [];
+        $results = [];
         for ($y = $startYear; $y <= $currentYear; $y++) {
             for ($m = 1; $m <= 12; $m++) {
                 if ($y === $currentYear && $m > $currentMonth) {
@@ -108,20 +159,46 @@ class StatsRepository extends ServiceEntityRepository
                 $existed = array_filter($entries, fn($entry) => $entry['month'] === $m && (int) $entry['year'] === $y);
 
                 if (!empty($existed)) {
-                    $result[] = current($existed);
+                    $results[] = current($existed);
                     continue;
                 }
 
-                $result[] = [
+                $results[] = [
                     'month' => $m,
                     'year'  => $y,
                     'count' => 0,
                 ];
             }
-
         }
 
-        return $result;
+        return $results;
+    }
+
+    private function prepareDaily(array $entries): array
+    {
+        $to       = new DateTime();
+        $interval = DateInterval::createFromDateString('1 day');
+        $period   = new DatePeriod($this->start, $interval, $to);
+
+        $results = [];
+        foreach ($period as $d) {
+            $existed = array_filter($entries, fn($entry) => (new DateTime($entry['day']))->format('Y-m-d') === $d->format('Y-m-d'));
+
+            if (!empty($existed)) {
+                $existed        = current($existed);
+                $existed['day'] = new DateTime($existed['day']);
+
+                $results[] = $existed;
+                continue;
+            }
+
+            $results[] = [
+                'day'   => $d,
+                'count' => 0,
+            ];
+        }
+
+        return $results;
     }
 
     private function getStartDate(array $values): array

@@ -34,7 +34,8 @@ award_list_all:
 
 stats:
   controller: App\Controller\StatsController
+  defaults: { type: ~, period: ~ }
   path:
-    en: /stats
-    pl: /statystyki
+    en: /stats/{type}/{period}
+    pl: /statystyki/{type}/{period}
   methods: [ GET ]
