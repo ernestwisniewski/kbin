@@ -18,7 +18,6 @@ RUN apk add --no-cache \
 		file \
 		gettext \
 		git \
-        gnu-libiconv \
 		jq \
         freetype-dev \
         libjpeg-turbo-dev \
@@ -29,10 +28,6 @@ RUN apk add --no-cache \
         php-sysvsem \
         apk-cron \
 	;
-
-# install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
-# see https://github.com/docker-library/php/issues/240#issuecomment-763112749
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 ARG APCU_VERSION=5.1.21
 RUN set -eux; \
