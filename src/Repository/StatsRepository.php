@@ -15,6 +15,11 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class StatsRepository extends ServiceEntityRepository
 {
+    const TYPE_GENERAL = 'general';
+    const TYPE_CONTENT = 'content';
+    const TYPE_VIEWS = 'views';
+    const TYPE_VOTES = 'votes';
+
     private ?DateTime $start;
     private ?User $user;
     private ?Magazine $magazine;
@@ -24,46 +29,6 @@ class StatsRepository extends ServiceEntityRepository
         parent::__construct($registry, Site::class);
     }
 
-    #[ArrayShape(['entries' => "array", 'comments' => "array", 'posts' => "array", 'replies' => "array"])]
-    public function getContentStatsByTime(DateTime $start, ?User $user = null, ?Magazine $magazine = null): array
-    {
-        $this->start    = $start;
-        $this->user     = $user;
-        $this->magazine = $magazine;
-
-        return [
-            'entries'  => $this->prepareDaily($this->getDailyStats('entry')),
-            'comments' => $this->prepareDaily($this->getDailyStats('entry_comment')),
-            'posts'    => $this->prepareDaily($this->getDailyStats('post')),
-            'replies'  => $this->prepareDaily($this->getDailyStats('post_comment')),
-        ];
-    }
-
-    private function getDailyStats(string $type): array
-    {
-        $conn = $this->getEntityManager()
-            ->getConnection();
-
-        if ($this->user) {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
-                .$this->start->format('Y-m-d H:i:s')."' AND e.user_id = ".$this->user->getId()." GROUP BY 1";
-        } elseif ($this->magazine) {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
-                .$this->start->format('Y-m-d H:i:s')."' AND e.magazine_id = ".$this->magazine->getId()." GROUP BY 1";
-        } else {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
-                .$this->start->format('Y-m-d H:i:s')."' GROUP BY 1";
-        }
-
-        $stmt = $conn->prepare($sql);
-        $stmt = $stmt->executeQuery();
-
-        $results = $stmt->fetchAllAssociative();
-
-        usort($results, fn($a, $b): int => $a['day'] <=> $b['day']);
-
-        return $results;
-    }
 
     #[ArrayShape(['entries' => "array", 'comments' => "array", 'posts' => "array", 'replies' => "array"])]
     public function getOverallContentStats(
@@ -73,10 +38,10 @@ class StatsRepository extends ServiceEntityRepository
         $this->user     = $user;
         $this->magazine = $magazine;
 
-        $entries  = $this->getMonthlyStats('entry');
-        $comments = $this->getMonthlyStats('entry_comment');
-        $posts    = $this->getMonthlyStats('post');
-        $replies  = $this->getMonthlyStats('post_comment');
+        $entries  = $this->getMonthlyContentStats('entry');
+        $comments = $this->getMonthlyContentStats('entry_comment');
+        $posts    = $this->getMonthlyContentStats('post');
+        $replies  = $this->getMonthlyContentStats('post_comment');
 
         $startDate = $this->sort(
             array_merge(
@@ -104,7 +69,41 @@ class StatsRepository extends ServiceEntityRepository
         ];
     }
 
-    private function getMonthlyStats(string $table): array
+    #[ArrayShape(['entries' => "array", 'comments' => "array", 'posts' => "array", 'replies' => "array"])]
+    public function getContentStatsByTime(DateTime $start, ?User $user = null, ?Magazine $magazine = null): array
+    {
+        $this->start    = $start;
+        $this->user     = $user;
+        $this->magazine = $magazine;
+
+        return [
+            'entries'  => $this->prepareDaily($this->getDailyContentStats('entry')),
+            'comments' => $this->prepareDaily($this->getDailyContentStats('entry_comment')),
+            'posts'    => $this->prepareDaily($this->getDailyContentStats('post')),
+            'replies'  => $this->prepareDaily($this->getDailyContentStats('post_comment')),
+        ];
+    }
+
+    public function getOverallViewsStats(
+        User $user = null,
+        Magazine $magazine = null
+    ): array {
+        $this->user     = $user;
+        $this->magazine = $magazine;
+
+        return $this->sort($this->getMonthlyViewsStats());
+    }
+
+    public function getViewsStatsByTime(DateTime $start, ?User $user, ?Magazine $magazine): array
+    {
+        $this->start    = $start;
+        $this->user     = $user;
+        $this->magazine = $magazine;
+
+        return $this->prepareDaily($this->getDailyViewsStats());
+    }
+
+    private function getMonthlyContentStats(string $table): array
     {
         $conn = $this->getEntityManager()
             ->getConnection();
@@ -128,6 +127,83 @@ class StatsRepository extends ServiceEntityRepository
             'year'  => (int) $val['year'],
             'count' => (int) $val['count'],
         ], $stmt->fetchAllAssociative());
+    }
+
+    private function getDailyContentStats(string $type): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        if ($this->user) {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' AND e.user_id = ".$this->user->getId()." GROUP BY 1";
+        } elseif ($this->magazine) {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' AND e.magazine_id = ".$this->magazine->getId()." GROUP BY 1";
+        } else {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' GROUP BY 1";
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+
+        $results = $stmt->fetchAllAssociative();
+
+        usort($results, fn($a, $b): int => $a['day'] <=> $b['day']);
+
+        return $results;
+    }
+
+    private function getMonthlyViewsStats(): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        if ($this->user) {
+            $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, SUM(e.views) as count FROM entry e WHERE e.user_id = "
+                .$this->user->getId()." GROUP BY 1,2";
+        } elseif ($this->magazine) {
+            $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, SUM(e.views) as count FROM entry e WHERE e.magazine_id = "
+                .$this->magazine->getId()." GROUP BY 1,2";
+        } else {
+            $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, SUM(e.views) as count FROM entry e GROUP BY 1,2";
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+
+        return array_map(fn($val) => [
+            'month' => date_parse($val['month'])['month'],
+            'year'  => (int) $val['year'],
+            'count' => (int) $val['count'],
+        ], $stmt->fetchAllAssociative());
+    }
+
+    private function getDailyViewsStats(): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        if ($this->user) {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, SUM(e.views) as count FROM entry e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' AND e.user_id = ".$this->user->getId()." GROUP BY 1";
+        } elseif ($this->magazine) {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, SUM(e.views) as count FROM entry e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' AND e.magazine_id = ".$this->magazine->getId()." GROUP BY 1";
+        } else {
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, SUM(e.views) as count FROM entry e WHERE e.created_at >= '"
+                .$this->start->format('Y-m-d H:i:s')."' GROUP BY 1";
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+
+        $results = $stmt->fetchAllAssociative();
+
+        usort($results, fn($a, $b): int => $a['day'] <=> $b['day']);
+
+        return $results;
     }
 
     private function sort(array $results): array

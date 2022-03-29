@@ -13,6 +13,7 @@ parameters:
 
   front_sort_options: top|hot|active|newest|commented|ważne|wschodzące|aktywne|najnowsze|komentowane
   front_time_options: 6h|12h|1d|1w|1m|1y|all|wszystko|∞
+  stats_type: general|content|views|votes|ogólne|treści|głosy|wyświetlenia
 
   number_regex: '[1-9][0-9]{0,17}'
   username_regex: '\w{2,25}|!deleted\d+'

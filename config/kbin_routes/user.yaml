@@ -208,9 +208,9 @@ user_profile_toggle_theme:
 
 user_profile_front:
   controller: App\Controller\User\Profile\UserStatsController
-  defaults: { type: ~, period: ~ }
+  defaults: { statsType: ~, statsPeriod: ~ }
   path:
-    en: /profile/{type}/{period}
-    pl: /profil/{type}/{period}
+    en: /profile/{statsType}/{statsPeriod}
+    pl: /profil/{statsType}/{statsPeriod}
   methods: [ GET ]
 
