@@ -8,7 +8,6 @@ use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
-use App\Repository\Criteria;
 use App\Service\CloudflareIpResolver;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
@@ -63,7 +62,7 @@ class EntryCreateController extends AbstractController
                 'flash_thread_new_success'
             );
 
-            return $this->redirectToMagazine($entry->magazine);
+            return $this->redirectToMagazine($entry->magazine, (new EntryPageView(1))::SORT_NEW);
         }
 
         return $this->render(

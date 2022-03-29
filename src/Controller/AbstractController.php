@@ -6,6 +6,7 @@ use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\User;
+use App\PageView\EntryPageView;
 use BadMethodCallException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -99,12 +100,13 @@ abstract class AbstractController extends BaseAbstractController
         );
     }
 
-    protected function redirectToMagazine(Magazine $magazine): Response
+    protected function redirectToMagazine(Magazine $magazine, ?string $sortBy = null): Response
     {
         return $this->redirectToRoute(
             'front_magazine',
             [
                 'name' => $magazine->name,
+                'sortBy' => $sortBy ?? (new EntryPageView(1))::SORT_TOP,
             ]
         );
     }
