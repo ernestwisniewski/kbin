@@ -12,10 +12,10 @@ use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
-use League\OAuth2\Client\Provider\FacebookUser;
 use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -33,6 +33,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
         private UserManager $userManager,
         private ImageManager $imageManager,
         private ImageRepository $imageRepository,
+        private RequestStack $requestStack,
         private Slugger $slugger
     ) {
     }
@@ -44,9 +45,19 @@ class GoogleAuthenticator extends OAuth2Authenticator
 
     public function authenticate(Request $request): Passport
     {
-        $client      = $this->clientRegistry->getClient('google');
-        $accessToken = $this->fetchAccessToken($client);
-        $slugger     = $this->slugger;
+        $client  = $this->clientRegistry->getClient('google');
+        $slugger = $this->slugger;
+        $session = $this->requestStack->getSession();
+
+        $accessToken = $this->fetchAccessToken($client, ['accessType'   => 'offline']);
+        $session->set('access_token', $accessToken);
+
+        $accessToken = $session->get('access_token');
+
+        if ($accessToken->hasExpired()) {
+            $accessToken = $client->refreshAccessToken($accessToken->getRefreshToken());
+            $session->set('access_token', $accessToken);
+        }
 
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client, $slugger) {

@@ -411,6 +411,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
              $routeName = 'magazine_panel_front';
             $routeParams += ['name' => $magazine->name];
         }
+
         return $this->urlGenerator->generate($routeName, $routeParams);
     }
 
