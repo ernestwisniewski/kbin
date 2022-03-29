@@ -49,7 +49,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
         $slugger = $this->slugger;
         $session = $this->requestStack->getSession();
 
-        $accessToken = $this->fetchAccessToken($client, ['accessType'   => 'offline']);
+        $accessToken = $this->fetchAccessToken($client, ['prompt' => 'consent', 'accessType'   => 'offline']);
         $session->set('access_token', $accessToken);
 
         $accessToken = $session->get('access_token');
