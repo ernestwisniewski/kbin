@@ -3,6 +3,7 @@
 namespace App\Controller\User\Profile;
 
 use App\Controller\AbstractController;
+use App\Repository\StatsRepository;
 use App\Service\StatsManager;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -18,21 +19,32 @@ class UserStatsController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function __invoke(?string $type, ?int $period, Request $request): Response
+    public function __invoke(?string $statsType, ?int $statsPeriod, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        if ($period) {
-            $period = min($period, 256);
-            $start  = (new DateTime())->modify("-$period days");
+        $statsType = $this->manager->resolveType($statsType);
+
+        if ($statsPeriod) {
+            $statsPeriod = min($statsPeriod, 256);
+            $start       = (new DateTime())->modify("-$statsPeriod days");
         }
+
+        $results = match ($statsType) {
+            StatsRepository::TYPE_VIEWS => $statsPeriod
+                ? $this->manager->drawDailyViewsStatsByTime($start, $this->getUserOrThrow())
+                : $this->manager->drawMonthlyViewsChart($this->getUserOrThrow()),
+            StatsRepository::TYPE_VOTES => null,
+            default => $statsPeriod
+                ? $this->manager->drawDailyContentStatsByTime($start, $this->getUserOrThrow())
+                : $this->manager->drawMonthlyContentChart($this->getUserOrThrow())
+        };
 
         return $this->render(
             'user/profile/front.html.twig', [
-                'period' => $request->get('period'),
-                'contentChart' => $period
-                    ? $this->manager->drawDailyStatsByTime($start, $this->getUserOrThrow())
-                    : $this->manager->drawMonthlyChart($this->getUserOrThrow()),
+                'user'         => $this->getUserOrThrow(),
+                'period'       => $request->get('period'),
+                'contentChart' => $results,
             ]
         );
     }

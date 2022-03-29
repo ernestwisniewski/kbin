@@ -21,22 +21,32 @@ class MagazineStatsController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @IsGranted("edit", subject="magazine")
      */
-    public function __invoke(Magazine $magazine, ?string $type, ?int $period, Request $request): Response
+    public function __invoke(Magazine $magazine, ?string $statsType, ?int $statsPeriod, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        if ($period) {
-            $period = min($period, 256);
-            $start  = (new DateTime())->modify("-$period days");
+        $statsType = $this->manager->resolveType($statsType);
+
+        if ($statsPeriod) {
+            $statsPeriod = min($statsPeriod, 256);
+            $start       = (new DateTime())->modify("-$statsPeriod days");
         }
+
+        $results = match ($statsType) {
+            StatsRepository::TYPE_VIEWS => $statsPeriod
+                ? $this->manager->drawDailyViewsStatsByTime($start, null, $magazine)
+                : $this->manager->drawMonthlyViewsChart(null, $magazine),
+            StatsRepository::TYPE_VOTES => null,
+            default => $statsPeriod
+                ? $this->manager->drawDailyContentStatsByTime($start, null, $magazine)
+                : $this->manager->drawMonthlyContentChart(null, $magazine)
+        };
 
         return $this->render(
             'magazine/panel/front.html.twig', [
-                'period'       => $request->get('period'),
-                'magazine'     => $magazine,
-                'contentChart' => $period
-                    ? $this->manager->drawDailyStatsByTime($start, null, $magazine)
-                    : $this->manager->drawMonthlyChart(null, $magazine),
+                'magazine' => $magazine,
+                'period' => $request->get('period'),
+                'contentChart' => $results,
             ]
         );
     }

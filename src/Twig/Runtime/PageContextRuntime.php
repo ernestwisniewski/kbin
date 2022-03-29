@@ -2,9 +2,13 @@
 
 namespace App\Twig\Runtime;
 
+use App\Entity\Magazine;
+use App\Entity\User;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
+use App\Repository\StatsRepository;
+use App\Service\StatsManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -16,7 +20,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
     public function __construct(
         private RequestStack $requestStack,
         private UrlGeneratorInterface $urlGenerator,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        private StatsManager $statsManager
     ) {
     }
 
@@ -227,12 +232,12 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
 
 
-            if($this->isCommentsPage() && !$entriesOnly) {
-                $routeName  = 'tag_entry_comments_front';
+            if ($this->isCommentsPage() && !$entriesOnly) {
+                $routeName = 'tag_entry_comments_front';
             }
 
-            if($this->isPostsPage() && !$entriesOnly) {
-                $routeName  = 'tag_posts_front';
+            if ($this->isPostsPage() && !$entriesOnly) {
+                $routeName = 'tag_posts_front';
             }
         }
 
@@ -241,8 +246,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
 
 
-            if($this->isCommentsPage() && !$entriesOnly) {
-                $routeName  = 'domain_entry_comments_front';
+            if ($this->isCommentsPage() && !$entriesOnly) {
+                $routeName = 'domain_entry_comments_front';
             }
         }
 
@@ -381,5 +386,36 @@ class PageContextRuntime implements RuntimeExtensionInterface
     {
         return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT)))
             === $sortOption;
+    }
+
+    public function isActiveStatsType(string $type, ?string $default = null): bool
+    {
+        return $this->statsManager->resolveType($this->getCurrentRequest()->get('statsType'), $default) === $type;
+    }
+
+    public function getStatsPagePath(?string $type = null, ?int $period = null, ?User $user = null, ?Magazine $magazine = null): string
+    {
+        $type = $type ? $this->translator->trans('stats.'.$type) : $this->translator->trans('stats.'.$this->getActiveStatsType());
+
+        $routeName = 'stats';
+        $routeParams = [
+            'statsType'   => $type,
+            'statsPeriod' => $period,
+        ];
+
+        if($user) {
+            $routeName = 'user_profile_front';
+        }
+
+        if($magazine) {
+             $routeName = 'magazine_panel_front';
+            $routeParams += ['name' => $magazine->name];
+        }
+        return $this->urlGenerator->generate($routeName, $routeParams);
+    }
+
+    private function getActiveStatsType(): string
+    {
+        return $this->statsManager->resolveType($this->getCurrentRequest()->get('statsType')) ?? StatsRepository::TYPE_GENERAL;
     }
 }

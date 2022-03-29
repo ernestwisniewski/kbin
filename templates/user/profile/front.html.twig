@@ -1,39 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'profile'|trans }}{% endblock %}
+{% block title %}{{ 'profile'|trans }} | {{ user.username }}{% endblock %}
 
 {% block body %}
-    <div class="kbin-profile kbin-profile-page">
+    {%- set TYPE_GENERAL = constant('App\\Repository\\StatsRepository::TYPE_GENERAL') -%}
+    {%- set TYPE_CONTENT = constant('App\\Repository\\StatsRepository::TYPE_CONTENT') -%}
+    {%- set TYPE_VIEWS = constant('App\\Repository\\StatsRepository::TYPE_VIEWS') -%}
+    {%- set TYPE_VOTES = constant('App\\Repository\\StatsRepository::TYPE_VOTES') -%}
+
+    <div class="kbin-magazine-moderators-page">
         {% include 'user/profile/_tabs.html.twig' %}
+        {% include '_layout/_flash.html.twig' %}
 
         <ul class="nav nav-pills mb-5">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active text-reset" id="pills-activity-tab" data-bs-toggle="pill" data-bs-target="#pills-activity"
-                        type="button" role="tab" aria-controls="pills-activity" aria-selected="true">{{ 'threads'|trans }}</button>
+                <a href="{{ get_stats_page_path(TYPE_CONTENT, null, user) }}"
+                   class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_CONTENT, TYPE_CONTENT) ? 'active' : '' }}" tabindex="-1" role="button"
+                   aria-disabled="true">{{ 'threads'|trans }}</a>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link text-reset" aria-selected="false">{{ 'votes'|trans }}</button>
+                <a href="#" class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_VOTES) ? 'active' : '' }}" tabindex="-1"
+                   role="button"
+                   aria-disabled="true">{{ 'votes'|trans }}</a>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link text-reset" aria-selected="false">{{ 'views'|trans }}</button>
+                <a href="{{ get_stats_page_path(TYPE_VIEWS, null, user) }}"
+                   class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_VIEWS) ? 'active' : '' }}" tabindex="-1" role="button"
+                   aria-disabled="true">{{ 'views'|trans }}</a>
             </li>
         </ul>
 
         <div class="mb-3">
             <label>
-                <select name="forma" onchange="location = this.value;">
-                    <option value="{{ path('user_profile_front') }}">Wszystkie</option>
-                    <option value="{{ path('user_profile_front', {type: '-', period: 7}) }}"  {{ period is same as '7' ? 'selected' : '' }}>{{ 'week'|trans }}</option>
-                    <option value="{{ path('user_profile_front', {type: '-', period: 14}) }}" {{ period is same as '14' ? 'selected' : '' }}>2 {{ 'weeks'|trans }}</option>
-                    <option value="{{ path('user_profile_front', {type: '-', period: 31}) }}" {{ period is same as '31' ? 'selected' : '' }}>{{ 'month'|trans }}</option>
-                    <option value="{{ path('user_profile_front', {type: '-', period: 183}) }}" {{ period is same as '183' ? 'selected' : '' }}>6 {{ 'months'|trans }}</option>
-                    <option value="{{ path('user_profile_front', {type: '-', period: 256}) }}" {{ period is same as '256' ? 'selected' : '' }}>{{ 'year'|trans }}</option>
+                <select onchange="location = this.value;">
+                    <option value="{{ get_stats_page_path(null, null, user) }}">{{ 'all'|trans }}</option>
+                    <option value="{{ get_stats_page_path(null, 7, user) }}" {{ period is same as '7' ? 'selected' : '' }}>{{ 'week'|trans }}</option>
+                    <option value="{{ get_stats_page_path(null, 14, user) }}" {{ period is same as '14' ? 'selected' : '' }}>
+                        2 {{ 'weeks'|trans }}</option>
+                    <option value="{{ get_stats_page_path(null, 31, user) }}" {{ period is same as '31' ? 'selected' : '' }}>{{ 'month'|trans }}</option>
+                    <option value="{{ get_stats_page_path(null, 183, user) }}" {{ period is same as '183' ? 'selected' : '' }}>
+                        6 {{ 'months'|trans }}</option>
+                    <option value="{{ get_stats_page_path(null, 256, user) }}" {{ period is same as '256' ? 'selected' : '' }}>{{ 'year'|trans }}</option>
                 </select>
             </label>
         </div>
 
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="pills-activity" role="tabpanel" aria-labelledby="pills-activity-tab">
+            <div>
                 {{ render_chart(contentChart) }}
             </div>
         </div>
