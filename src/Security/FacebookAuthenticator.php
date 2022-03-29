@@ -12,6 +12,7 @@ use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
+use League\OAuth2\Client\Provider\Facebook;
 use League\OAuth2\Client\Provider\FacebookUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,8 +45,15 @@ class FacebookAuthenticator extends OAuth2Authenticator
     public function authenticate(Request $request): Passport
     {
         $client      = $this->clientRegistry->getClient('facebook');
-        $accessToken = $this->fetchAccessToken($client);
         $slugger     = $this->slugger;
+
+        $accessToken = $this->fetchAccessToken($client);
+
+        try {
+            $provider = $client->getOAuth2Provider();
+            $accessToken = $provider->getLongLivedAccessToken($accessToken->getToken());
+        }catch (\Exception $e) {
+        }
 
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client, $slugger) {
