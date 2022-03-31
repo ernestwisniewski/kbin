@@ -15,7 +15,8 @@
         <ul class="nav nav-pills mb-5">
             <li class="nav-item" role="presentation">
                 <a href="{{ get_stats_page_path(TYPE_CONTENT, null, user) }}"
-                   class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_CONTENT, TYPE_CONTENT) ? 'active' : '' }}" tabindex="-1" role="button"
+                   class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_CONTENT, TYPE_CONTENT) ? 'active' : '' }}" tabindex="-1"
+                   role="button"
                    aria-disabled="true">{{ 'threads'|trans }}</a>
             </li>
             <li class="nav-item" role="presentation">
@@ -44,11 +45,13 @@
                     <option value="{{ get_stats_page_path(null, 256, user) }}" {{ period is same as '256' ? 'selected' : '' }}>{{ 'year'|trans }}</option>
                 </select>
             </label>
-            <label>
-                <select onchange="location = this.value;">
-                    <option value="">Przyznane głosy</option>
-                </select>
-            </label>
+            {% if is_active_stats_type(TYPE_VOTES) %}
+                <label>
+                    <select onchange="location = this.value;">
+                        <option value="">Przyznane głosy</option>
+                    </select>
+                </label>
+            {% endif %}
         </div>
 
         <div class="tab-content">
