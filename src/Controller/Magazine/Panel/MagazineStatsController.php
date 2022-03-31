@@ -36,7 +36,9 @@ class MagazineStatsController extends AbstractController
             StatsRepository::TYPE_VIEWS => $statsPeriod
                 ? $this->manager->drawDailyViewsStatsByTime($start, null, $magazine)
                 : $this->manager->drawMonthlyViewsChart(null, $magazine),
-            StatsRepository::TYPE_VOTES => null,
+            StatsRepository::TYPE_VOTES => $statsPeriod
+                ? $this->manager->drawDailyVotesStatsByTime($start, null, $magazine)
+                : $this->manager->drawMonthlyVotesChart(null, $magazine),
             default => $statsPeriod
                 ? $this->manager->drawDailyContentStatsByTime($start, null, $magazine)
                 : $this->manager->drawMonthlyContentChart(null, $magazine)
