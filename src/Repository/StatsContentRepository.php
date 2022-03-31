@@ -76,7 +76,10 @@ class StatsContentRepository extends StatsRepository
                     FROM ".$table." e WHERE e.magazine_id = ".$this->magazine->getId()." GROUP BY 1,2";
         } else {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, COUNT(e.id) as count 
-                    FROM ".$table." e GROUP BY 1,2";
+                    FROM ".$table." e GROUP
+                     
+                     
+                     BY 1,2";
         }
 
         $stmt = $conn->prepare($sql);

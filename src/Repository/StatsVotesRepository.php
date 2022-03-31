@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Magazine;
 use App\Entity\User;
+use DateInterval;
+use DatePeriod;
 use DateTime;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -155,6 +157,34 @@ class StatsVotesRepository extends StatsRepository
                     'down'  => 0,
                 ];
             }
+        }
+
+        return $results;
+    }
+
+    protected function prepareContentDaily(array $entries): array
+    {
+        $to       = new DateTime();
+        $interval = DateInterval::createFromDateString('1 day');
+        $period   = new DatePeriod($this->start, $interval, $to);
+
+        $results = [];
+        foreach ($period as $d) {
+            $existed = array_filter($entries, fn($entry) => (new DateTime($entry['day']))->format('Y-m-d') === $d->format('Y-m-d'));
+
+            if (!empty($existed)) {
+                $existed        = current($existed);
+                $existed['day'] = new DateTime($existed['day']);
+
+                $results[] = $existed;
+                continue;
+            }
+
+            $results[] = [
+                'day'   => $d,
+                'up' => 0,
+                'down' => 0
+            ];
         }
 
         return $results;

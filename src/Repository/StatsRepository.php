@@ -57,8 +57,7 @@ class StatsRepository extends ServiceEntityRepository
 
             $results[] = [
                 'day'   => $d,
-                'up' => 0,
-                'down' => 0,
+                'count' => 0
             ];
         }
 
