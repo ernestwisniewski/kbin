@@ -34,7 +34,9 @@ class UserStatsController extends AbstractController
             StatsRepository::TYPE_VIEWS => $statsPeriod
                 ? $this->manager->drawDailyViewsStatsByTime($start, $this->getUserOrThrow())
                 : $this->manager->drawMonthlyViewsChart($this->getUserOrThrow()),
-            StatsRepository::TYPE_VOTES => null,
+            StatsRepository::TYPE_VOTES => $statsPeriod
+                ? $this->manager->drawDailyVotesStatsByTime($start, $this->getUserOrThrow())
+                : $this->manager->drawMonthlyVotesChart($this->getUserOrThrow()),
             default => $statsPeriod
                 ? $this->manager->drawDailyContentStatsByTime($start, $this->getUserOrThrow())
                 : $this->manager->drawMonthlyContentChart($this->getUserOrThrow())
@@ -42,9 +44,9 @@ class UserStatsController extends AbstractController
 
         return $this->render(
             'user/profile/front.html.twig', [
-                'user'         => $this->getUserOrThrow(),
-                'period'       => $request->get('period'),
-                'contentChart' => $results,
+                'user' => $this->getUserOrThrow(),
+                'period' => $request->get('period'),
+                'chart' => $results,
             ]
         );
     }

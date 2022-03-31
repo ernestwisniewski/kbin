@@ -25,14 +25,16 @@ class StatsController extends AbstractController
         }
 
         $results = match ($statsType) {
-            StatsRepository::TYPE_VIEWS => $statsPeriod
-                ? $this->manager->drawDailyViewsStatsByTime($start)
-                : $this->manager->drawMonthlyViewsChart(),
-            StatsRepository::TYPE_VOTES => null,
             StatsRepository::TYPE_CONTENT => $statsPeriod
                 ? $this->manager->drawDailyContentStatsByTime($start)
                 : $this->manager->drawMonthlyContentChart(),
-            default => null
+            StatsRepository::TYPE_VIEWS => $statsPeriod
+                ? $this->manager->drawDailyViewsStatsByTime($start)
+                : $this->manager->drawMonthlyViewsChart(),
+            StatsRepository::TYPE_VOTES => $statsPeriod
+                ? $this->manager->drawDailyVotesStatsByTime($start)
+                : $this->manager->drawMonthlyVotesChart(),
+            default => null,
         };
 
         return $this->render(

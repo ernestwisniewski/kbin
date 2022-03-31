@@ -15,11 +15,13 @@
         <ul class="nav nav-pills mb-5">
             <li class="nav-item" role="presentation">
                 <a href="{{ get_stats_page_path(TYPE_CONTENT, null, null, magazine) }}"
-                   class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_CONTENT, TYPE_CONTENT) ? 'active' : '' }}" tabindex="-1" role="button"
+                   class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_CONTENT, TYPE_CONTENT) ? 'active' : '' }}" tabindex="-1"
+                   role="button"
                    aria-disabled="true">{{ 'threads'|trans }}</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a href="#" class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_VOTES) ? 'active' : '' }}" tabindex="-1"
+                <a href="{{ get_stats_page_path(TYPE_VOTES, null, null, magazine) }}"
+                   class="btn btn-primary nav-link text-reset {{ is_active_stats_type(TYPE_VOTES) ? 'active' : '' }}" tabindex="-1"
                    role="button"
                    aria-disabled="true">{{ 'votes'|trans }}</a>
             </li>
