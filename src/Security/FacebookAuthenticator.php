@@ -38,17 +38,13 @@ class FacebookAuthenticator extends OAuth2Authenticator
     ) {
     }
 
-    public
-    function supports(
-        Request $request
-    ): ?bool {
+    public function supports(Request $request): ?bool
+    {
         return $request->attributes->get('_route') === 'oauth_facebook_verify';
     }
 
-    public
-    function authenticate(
-        Request $request
-    ): Passport {
+    public function authenticate(Request $request): Passport
+    {
         $client  = $this->clientRegistry->getClient('facebook');
         $slugger = $this->slugger;
 
@@ -99,32 +95,22 @@ class FacebookAuthenticator extends OAuth2Authenticator
         );
     }
 
-    public
-    function onAuthenticationSuccess(
-        Request $request,
-        TokenInterface $token,
-        string $firewallName
-    ): ?Response {
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    {
         $targetUrl = $this->router->generate('user_profile_edit');
 
         return new RedirectResponse($targetUrl);
 
     }
 
-    public
-    function onAuthenticationFailure(
-        Request $request,
-        AuthenticationException $exception
-    ): ?Response {
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
-    private
-    function getAvatar(
-        ?string $pictureUrl
-    ): ?Image {
+    private function getAvatar(?string $pictureUrl): ?Image {
         if (!$pictureUrl) {
             return null;
         }
