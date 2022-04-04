@@ -60,7 +60,7 @@
 
                         {% if not is_user_page() %}
                             <li class="kbin-entry-meta-user kbin-entry-meta-list-item list-inline-item">
-                                <small class="text-muted">{{ 'by'|trans }} {{ user(this.entry.user, {prefix: false}) }}</small>
+                                <small class="text-muted">{{ 'by'|trans }} {{ user(this.entry.user, {prefix: false, avatar: true}) }}</small>
                             </li>
                         {% endif %}
 
