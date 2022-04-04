@@ -12,6 +12,7 @@
 {%- macro user(user, options) -%}
     {%- with {
         user: user,
+        avatar: options.avatar ?? false,
         prefix: options.prefix ?? true,
         bolded: options.bolded ?? false
         } only -%}

@@ -50,8 +50,7 @@
                     {% if is_comments_page() and not is_magazine_page() %}
                         <li class="kbin-comment-meta-magazine kbin-comment-meta-list-item list-inline-item">
 
-                            <small class="text-muted">{{ 'to'|trans }} <a class="font-weight-bold"
-                                                                          href="{{ path('front_magazine', {'name': this.comment.entry.magazine.name}) }}">/m/{{ this.comment.entry.magazine.name }}</a></small>
+                            <small class="text-muted">{{ 'to'|trans }} {{ component('magazine_inline', { magazine: this.comment.entry.magazine, bolded: true }) }}</small>
                         </li>
                     {% endif %}
 

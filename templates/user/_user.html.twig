@@ -5,7 +5,7 @@
        data-action="user-popup#show"
        data-user-popup-username-value="{{ user.username }}"
        href="{{ path('user', {'username': user.username}) }}">
-        {%- if user.avatar and (app.user and not app.user.hideUserAvatars) -%}
+        {%- if avatar and user.avatar and (app.user and not app.user.hideUserAvatars) -%}
             <img width="30" height="30" class="rounded-circle me-1"
                  src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
                  alt="{{ user.username }}"/>
