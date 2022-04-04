@@ -11,7 +11,8 @@ export default class extends Controller {
         isVisible: Boolean,
         loading: Boolean,
         url: String,
-        html: String
+        html: String,
+        script: String
     };
 
     async fetch(event) {
@@ -48,6 +49,7 @@ export default class extends Controller {
             response = await response.json();
 
             this.htmlValue = response.html;
+            this.loadScripts();
             this.show();
         } catch (e) {
             alert('Oops, something went wrong.');
@@ -94,6 +96,28 @@ export default class extends Controller {
                 this.embedTarget.classList.remove(this.loadingClass);
                 this.embedTarget.classList.add(this.embedClass);
             }
+        }
+    }
+
+    loadScripts() {
+        let tmp = document.createElement("div");
+        tmp.innerHTML = this.htmlValue;
+        let el = tmp.getElementsByTagName('script');
+
+        if (el.length) {
+            let script = document.createElement("script");
+            script.setAttribute("src", el[0].getAttribute('src'));
+            script.setAttribute("async", "false");
+
+            // let exists = [...document.head.querySelectorAll('script')]
+            //     .filter(value => value.getAttribute('src') >= script.getAttribute('src'));
+            //
+            // if (exists.length) {
+            //     return;
+            // }
+
+            let head = document.head;
+            head.insertBefore(script, head.firstElementChild);
         }
     }
 }
