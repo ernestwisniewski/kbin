@@ -11,8 +11,7 @@ export default class extends Controller {
         isVisible: Boolean,
         loading: Boolean,
         url: String,
-        html: String,
-        script: String
+        html: String
     };
 
     async fetch(event) {
@@ -24,6 +23,7 @@ export default class extends Controller {
         }
 
         if (this.htmlValue) {
+            this.loadScripts();
             this.show();
             return;
         }
@@ -118,6 +118,9 @@ export default class extends Controller {
 
             let head = document.head;
             head.insertBefore(script, head.firstElementChild);
+
+            this.containerTarget.classList.remove('ratio')
+            this.containerTarget.classList.remove('ratio-16x9')
         }
     }
 }
