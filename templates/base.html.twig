@@ -11,8 +11,8 @@
 
     <meta property="og:url" content="{{ app.request.uri }}"/>
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="{{ block('title') }}"/>
-    <meta property="og:description" content="{{ block('description') }}"/>
+    <meta property="og:title" content="{{ block('title')|trim }}"/>
+    <meta property="og:description" content="{{ block('description')|trim }}"/>
     <meta property="og:image" content="{% block image %}{% endblock %}"/>
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
