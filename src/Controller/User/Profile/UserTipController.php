@@ -17,7 +17,7 @@ class UserTipController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function __invoke(UserSettingsManager $manager, Request $request, UserManager $userManager): Response
+    public function __invoke(Request $request, UserManager $manager): Response
     {
         $dto = new CardanoWalletAddressDto($this->getUserOrThrow());
 
@@ -29,7 +29,7 @@ class UserTipController extends AbstractController
         $addressForm->handleRequest($request);
 
         if ($addressForm->isSubmitted() && $addressForm->isValid()) {
-            $userManager->attachWallet($this->getUserOrThrow(), $dto);
+            $manager->attachWallet($this->getUserOrThrow(), $dto);
 
             $this->redirectToRefererOrHome($request);
         }

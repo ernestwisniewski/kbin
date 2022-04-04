@@ -1,2 +1,11 @@
-{% if this.prefix %}<small class="text-muted">/m/</small>{% endif %}<a class="{{ this.bolded ? 'font-weight-bold' : '' }}"
-                                                                       href="{{ path('front_magazine', {'name': this.magazine.name}) }}">{{ this.magazine.name }}</a>
+{% set hasCover = this.magazine.cover and (app.user and not app.user.hideMagazineAvatars) %}
+
+{% if this.prefix and not hasCover %}<small class="text-muted">/m/</small>{% endif %}
+<a class="{{ this.bolded ? 'font-weight-bold' : '' }}" href="{{ path('front_magazine', {'name': this.magazine.name}) }}">
+    {%- if hasCover -%}
+        <img width="30" height="30" class="rounded-circle me-1"
+             src="{{ asset(this.magazine.cover.filePath) | imagine_filter('avatar_thumb') }}"
+             alt="{{ this.magazine.title }}"/>
+    {%- endif -%}
+    {{ this.magazine.name }}
+</a>

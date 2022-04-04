@@ -4,12 +4,16 @@ import router from "../utils/routing";
 import Modal from "bootstrap/js/dist/modal";
 
 export default class extends Controller {
+    static values = {
+        username: String,
+    };
+
     async show(e) {
         e.preventDefault();
 
         this.element.classList.add('visually-hidden');
 
-        const url = router().generate('ajax_fetch_user_popup', {username: this.element.innerHTML});
+        const url = router().generate('ajax_fetch_user_popup', {username: this.usernameValue});
 
         let response = await fetch(url, {method: 'GET'});
 
