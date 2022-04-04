@@ -6,6 +6,7 @@ use App\DTO\UserDto;
 use App\Entity\Image;
 use App\Entity\User;
 use App\Repository\ImageRepository;
+use App\Service\CloudflareIpResolver;
 use App\Service\ImageManager;
 use App\Service\UserManager;
 use App\Utils\Slugger;
@@ -32,17 +33,22 @@ class FacebookAuthenticator extends OAuth2Authenticator
         private UserManager $userManager,
         private ImageManager $imageManager,
         private ImageRepository $imageRepository,
+        private CloudflareIpResolver $ipResolver,
         private Slugger $slugger
     ) {
     }
 
-    public function supports(Request $request): ?bool
-    {
+    public
+    function supports(
+        Request $request
+    ): ?bool {
         return $request->attributes->get('_route') === 'oauth_facebook_verify';
     }
 
-    public function authenticate(Request $request): Passport
-    {
+    public
+    function authenticate(
+        Request $request
+    ): Passport {
         $client  = $this->clientRegistry->getClient('facebook');
         $slugger = $this->slugger;
 
@@ -77,6 +83,7 @@ class FacebookAuthenticator extends OAuth2Authenticator
                     );
 
                     $dto->plainPassword = bin2hex(random_bytes(20));
+                    $dto->ip            = $this->ipResolver->resolve();
 
                     $user                  = $this->userManager->create($dto, false);
                     $user->oauthFacebookId = $facebookUser->getId();
@@ -92,7 +99,8 @@ class FacebookAuthenticator extends OAuth2Authenticator
         );
     }
 
-    public function onAuthenticationSuccess(
+    public
+    function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
         string $firewallName
@@ -103,15 +111,20 @@ class FacebookAuthenticator extends OAuth2Authenticator
 
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
-    {
+    public
+    function onAuthenticationFailure(
+        Request $request,
+        AuthenticationException $exception
+    ): ?Response {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
-    private function getAvatar(?string $pictureUrl): ?Image
-    {
+    private
+    function getAvatar(
+        ?string $pictureUrl
+    ): ?Image {
         if (!$pictureUrl) {
             return null;
         }

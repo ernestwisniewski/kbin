@@ -6,6 +6,7 @@ use App\DTO\UserDto;
 use App\Entity\Image;
 use App\Entity\User;
 use App\Repository\ImageRepository;
+use App\Service\CloudflareIpResolver;
 use App\Service\ImageManager;
 use App\Service\UserManager;
 use App\Utils\Slugger;
@@ -34,6 +35,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
         private ImageManager $imageManager,
         private ImageRepository $imageRepository,
         private RequestStack $requestStack,
+        private CloudflareIpResolver $ipResolver,
         private Slugger $slugger
     ) {
     }
@@ -82,6 +84,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     );
 
                     $dto->plainPassword = bin2hex(random_bytes(20));
+                    $dto->ip            = $this->ipResolver->resolve();
 
                     $user                  = $this->userManager->create($dto, false);
                     $user->oauthFacebookId = $googleUser->getId();
