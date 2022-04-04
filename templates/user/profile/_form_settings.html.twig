@@ -55,6 +55,16 @@
                 {{ form_widget(form.hideImages, {name: 'hide_images'|trans}) }}
             </div>
 
+            {{ form_label(form.hideUserAvatars, 'hide_user_avatars'|trans) }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.hideUserAvatars, {name: 'hide_user_avatars'|trans}) }}
+            </div>
+
+            {{ form_label(form.hideMagazineAvatars, 'hide_magazine_avatars'|trans) }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.hideMagazineAvatars, {name: 'hide_magazine_avatars'|trans}) }}
+            </div>
+
             {{ form_label(form.rightPosImages, 'right_pos_images'|trans) }}
             <div class="input-group input-group-lg">
                 {{ form_widget(form.rightPosImages, {name: 'right_pos_images'|trans}) }}

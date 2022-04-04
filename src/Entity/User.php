@@ -99,6 +99,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public bool $hideAdult = false;
     /**
+     * @ORM\Column(type="boolean", options={"default": true})
+     */
+    public bool $hideUserAvatars = false;
+    /**
+     * @ORM\Column(type="boolean", options={"default": true})
+     */
+    public bool $hideMagazineAvatars = false;
+    /**
      * @ORM\Column(type="boolean", options={"default": false})
      */
     public bool $rightPosImages = false;

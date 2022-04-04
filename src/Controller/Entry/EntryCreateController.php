@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EntryCreateController extends AbstractController
 {
@@ -28,6 +29,7 @@ class EntryCreateController extends AbstractController
         private EntryManager $manager,
         private EntryCommentManager $commentManager,
         private ValidatorInterface $validator,
+        private TranslatorInterface $translator,
         private CloudflareIpResolver $ipResolver
     ) {
     }
@@ -62,7 +64,10 @@ class EntryCreateController extends AbstractController
                 'flash_thread_new_success'
             );
 
-            return $this->redirectToMagazine($entry->magazine, (new EntryPageView(1))::SORT_NEW);
+            return $this->redirectToMagazine(
+                $entry->magazine,
+                strtolower($this->translator->trans('sort.'.(new EntryPageView(1))::SORT_NEW))
+            );
         }
 
         return $this->render(

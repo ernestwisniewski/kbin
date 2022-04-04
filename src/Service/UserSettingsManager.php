@@ -25,6 +25,8 @@ class UserSettingsManager
             $user->mode === User::MODE_TURBO,
             $user->hideImages,
             $user->hideAdult,
+            $user->hideUserAvatars,
+            $user->hideMagazineAvatars,
             $user->rightPosImages,
             $user->showProfileSubscriptions,
             $user->showProfileFollowings,
@@ -46,6 +48,8 @@ class UserSettingsManager
         $user->homepage                     = $dto->homepage;
         $user->hideImages                   = $dto->hideImages;
         $user->hideAdult                    = $dto->hideAdult;
+        $user->hideUserAvatars              = $dto->hideUserAvatars;
+        $user->hideMagazineAvatars          = $dto->hideMagazineAvatars;
         $user->rightPosImages               = $dto->rightPosImages;
         $user->showProfileSubscriptions     = $dto->showProfileSubscriptions;
         $user->showProfileFollowings        = $dto->showProfileFollowings;

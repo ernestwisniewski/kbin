@@ -40,6 +40,14 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class
             )
             ->add(
+                'hideUserAvatars',
+                CheckboxType::class
+            )
+            ->add(
+                'hideMagazineAvatars',
+                CheckboxType::class
+            )
+            ->add(
                 'rightPosImages',
                 CheckboxType::class
             )
