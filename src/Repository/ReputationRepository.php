@@ -33,8 +33,8 @@ class ReputationRepository extends ServiceEntityRepository
 
         $table = $this->getEntityManager()->getClassMetadata($className)->getTableName().'_vote';
 
-        $sql = "SELECT  date_trunc('day', v.created_at) as day, sum(v.choice) as points FROM ".$table." v 
-                WHERE v.author_id = ".$user->getId()." GROUP BY 1";
+        $sql = "SELECT date_trunc('day', v.created_at) as day, sum(v.choice) as points FROM ".$table." v 
+                WHERE v.author_id = ".$user->getId()." GROUP BY day ORDER BY day DESC";
 
         $stmt = $conn->prepare($sql);
 
@@ -62,10 +62,10 @@ class ReputationRepository extends ServiceEntityRepository
             ->getConnection();
 
         $sql = "SELECT
-                    (SELECT SUM(choice) FROM entry_vote WHERE author_id = :user) +
-                    (SELECT SUM(choice) FROM entry_comment_vote WHERE author_id = :user) +
-                    (SELECT SUM(choice) FROM post_vote WHERE author_id = :user) +
-                    (SELECT SUM(choice) FROM post_comment_vote WHERE author_id = :user) as total";
+                    (SELECT coalesce(SUM(choice), 0) FROM entry_vote WHERE author_id = :user) +
+                    (SELECT coalesce(SUM(choice), 0) FROM entry_comment_vote WHERE author_id = :user) +
+                    (SELECT coalesce(SUM(choice), 0) FROM post_vote WHERE author_id = :user) +
+                    (SELECT coalesce(SUM(choice), 0) FROM post_comment_vote WHERE author_id = :user) as total";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('user', $user->getId());
