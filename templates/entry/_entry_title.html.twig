@@ -10,11 +10,15 @@
         {{ entry.title }}
     {% endif %}
 {% else %}
-    <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
+    <a href="{{ is_entry_page() ? '#comments' : entry_url(this.entry) }}"
+       data-controller="{{ app.user and app.user.entryPopup and not is_entry_page() ? 'content-popup' : '' }}"
+       data-action="click->content-popup#open">{{ entry.title }}</a>
 {% endif %}
 {% if entry.lang is same as 'en' %}<span class="badge bg-secondary me-1">ENG</span>{% endif %}
 {% for badge in entry.badges %}<span class="badge bg-secondary me-1">{{ badge.badge.name }}</span>{% endfor %}
 {% if entry.domain %}
-    <small class="kbin-entry-title-domain small text-muted">(<a class="text-reset" href="{{ path('domain_front', {name: entry.domain.name}) }}">{{ entry.domain.name }}</a>)</small>
+    <small class="kbin-entry-title-domain small text-muted">
+        (<a class="text-reset" href="{{ path('domain_front', {name: entry.domain.name}) }}">{{ entry.domain.name }}</a>)
+    </small>
 {% endif %}
 </{{ title_tag }}>

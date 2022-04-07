@@ -28,6 +28,8 @@ class UserSettingsManager
             $user->hideUserAvatars,
             $user->hideMagazineAvatars,
             $user->rightPosImages,
+            $user->entryPopup,
+            $user->postPopup,
             $user->showProfileSubscriptions,
             $user->showProfileFollowings,
             $user->homepage,
@@ -51,6 +53,8 @@ class UserSettingsManager
         $user->hideUserAvatars              = $dto->hideUserAvatars;
         $user->hideMagazineAvatars          = $dto->hideMagazineAvatars;
         $user->rightPosImages               = $dto->rightPosImages;
+        $user->entryPopup                   = $dto->entryPopup;
+        $user->postPopup                    = $dto->postPopup;
         $user->showProfileSubscriptions     = $dto->showProfileSubscriptions;
         $user->showProfileFollowings        = $dto->showProfileFollowings;
         $user->featuredMagazines            = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;

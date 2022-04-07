@@ -69,6 +69,16 @@
             <div class="input-group input-group-lg">
                 {{ form_widget(form.rightPosImages, {name: 'right_pos_images'|trans}) }}
             </div>
+
+            {{ form_label(form.entryPopup, 'open_entry_popup'|trans) }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.entryPopup, {name: 'open_entry_popup'|trans}) }}
+            </div>
+
+            {{ form_label(form.postPopup, 'open_post_popup'|trans) }}
+            <div class="input-group input-group-lg">
+                {{ form_widget(form.postPopup, {name: 'open_post_popup'|trans}) }}
+            </div>
         </div>
     </div>
     <div class="tab-pane fade" id="pills-privacy" role="tabpanel" aria-labelledby="pills-privacy-tab">

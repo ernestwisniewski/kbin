@@ -18,6 +18,8 @@ class UserSettingsDto
         public bool $hideUserAvatars = true,
         public bool $hideMagazineAvatars = true,
         public bool $rightPosImages = false,
+        public bool $entryPopup = false,
+        public bool $postPopup = false,
         public bool $showProfileSubscriptions = false,
         public bool $showProfileFollowings = false,
         public string $homepage = 'front_subscribed',

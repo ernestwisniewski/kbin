@@ -1,0 +1,18 @@
+<div class="modal show" tabindex="-1" id="entry-popup" style="display: block">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        data-controller="{{ app.user and app.user.entryPopup ? 'content-popup' : '' }}"
+                        data-action="click->content-popup#close"
+                        class="btn-close float-start"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        style="margin:0;"></button>
+            </div>
+            <div class="modal-body">
+                {% include 'post/_single.html.twig' %}
+            </div>
+        </div>
+    </div>
+</div>

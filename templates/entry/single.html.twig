@@ -5,51 +5,7 @@
 {% block image %}{{ entry.image ? uploaded_asset(entry.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
 {% block body %}
-    {% if entry.isAdult and (not app.user or app.user.hideAdult) %}
-        {% include '_layout/_adult.html.twig' %}
-    {% else %}
-        {% include '_layout/_flash.html.twig' %}
-        <div class="kbin-entry-page">
-            {% block entry %}
-                {{ component('entry', {entry: entry, titleTag: 'h1', extraClass: 'kbin-entry-single', showContent: true, directUrl: true, showMagazine: magazine is not defined}) }}
-                {% if not entry.body and get_author_entry_comment(entry) %}
-                    <h2 class="text-muted display-none">{{ get_short_desc(get_author_entry_comment(entry).body) }}</h2>
-                {% endif %}
-            {% endblock %}
-
-            {% block after_entry %}{% endblock %}
-
-            {% block comments %}
-                <section class="kbin-comment-wrapper mt-4">
-                    <h4 class="kbin-comment-header pb-3 mb-0 font-weight-light">{{ 'comments'|trans }}</h4>
-
-                    <div class="mb-3">
-                        {% include 'entry/comment/_filters.html.twig' %}
-                    </div>
-
-                    {% block before_comments %}{% endblock %}
-
-                    {% include 'entry/comment/_list.html.twig' %}
-
-                    {% if is_granted('comment', entry) %}
-                        {{ component('entry_comment_form', {entry: entry}) }}
-                    {% else %}
-                        <div class="alert alert-secondary text-muted my-3" role="alert">
-                            {% if not app.user %}
-                                {{ 'login_to_comment'|trans({'%link_start%' : '<a class="font-weight-bold" href="'~path('app_login')~'">', '%link_end%' : '</a>'}) | raw }}
-                            {% else %}
-                                {{ 'cannot_add_comment'|trans }}
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                </section>
-            {% endblock %}
-
-            {% block related %}
-                {{ component('related_entries', {entry: entry}) }}
-            {% endblock %}
-        </div>
-    {% endif %}
+    {% include 'entry/_single.html.twig' %}
 {% endblock %}
 
 {% block sidebar %}

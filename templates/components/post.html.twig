@@ -2,7 +2,7 @@
 {% from 'user/_macros.html.twig' import user %}
 {% from '_layout/_macros.html.twig' import post_url %}
 
-<blockquote id="{{ this.post.id }}"
+<article id="{{ this.post.id }}"
             class="kbin-post py-4 {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }}"
             data-controller="post report"
             data-action="notify:PostCommentCreatedNotification@window->post#increaseComments notify:PostCommentDeletedNotification@window->post#decreaseComments notify:PostDeletedNotification@window->post#remove notify:PostEditedNotification@window->post#edit"
@@ -21,7 +21,9 @@
             <ul class="kbin-post-meta-list list-inline m-0">
                 <li class="kbin-post-meta-date kbin-post-meta-list-item list-inline-item">
                     {% if not is_post_page() %}
-                    <a href="{{ post_url(this.post) }}">
+                    <a href="{{ is_post_page() ? '#comments' : post_url(this.post) }}"
+                       data-controller="{{ app.user and app.user.postPopup and not is_post_page() ? 'content-popup' : '' }}"
+                       data-action="click->content-popup#open">
                         {% endif %}
                         {% if this.post.isAdult %}<span class="badge bg-danger me-1">+18</span>{% endif %}
                         <small class="text-muted">
@@ -217,7 +219,7 @@
 
         <div data-post-target="form" data-report-target="form"></div>
     </div>
-</blockquote>
+</article>
 
 {% block before_comments %}{% endblock %}
 

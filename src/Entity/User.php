@@ -113,6 +113,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     /**
      * @ORM\Column(type="boolean", options={"default": false})
      */
+    public bool $entryPopup = false;
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    public bool $postPopup = false;
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
     public bool $showProfileSubscriptions = false;
     /**
      * @ORM\Column(type="boolean", options={"default": false})
