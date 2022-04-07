@@ -24,7 +24,7 @@ export default class extends Controller {
         }
     }
 
-    close(e) {
-        e.target.closest('#entry-popup').remove();
+    close() {
+        document.getElementById('content-popup').remove();
     }
 }
