@@ -24,28 +24,30 @@
                               data-timeago-datetime-value="{{ user.createdAt|date('c') }}"{{ user.createdAt|ago }}></time>
                     </li>
                     <li>
-                        <span class="text-muted small">{{ 'reputation_points'|trans }}:</span> {{ user.entries|length + user.entryComments|length + user.posts|length + user.postComments|length }}
-                    </li>
-                    <li>
-                        <span class="text-muted small">{{ 'comments'|trans }}:</span> {{ user.entryComments|length }}
-                    </li>
-                    <li>
-                        <span class="text-muted small">{{ 'threads'|trans }}:</span> {{ user.entries|length }}
-                    </li>
-                    <li>
-                        <span class="text-muted small">{{ 'posts'|trans }}:</span> {{ user.posts|length }}
-                    </li>
-                    <li>
-                        <span class="text-muted small">{{ 'replies'|trans }}:</span> {{ user.postComments|length }}
-                    </li>
-                    <li>
                         <span class="text-muted small">{{ 'thread_views'|trans }}:</span> {{ user.entriesViewsCount }}
                     </li>
                     <li>
                         <span class="text-muted small">{{ 'awards'|trans }}:</span> {{ user.awards|length }}
                     </li>
+                    <li>
+                        <a class="small" href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}:</a> {{ user.entries|length }}
+                    </li>
+                    <li>
+                        <a class="small" href="{{ path('user_comments', {username: user.username}) }}">{{ 'comments'|trans }}:</a> {{ user.entryComments|length }}
+                    </li>
+                    <li>
+                        <a class="small" href="{{ path('user_posts', {username: user.username}) }}">{{ 'posts'|trans }}:</a> {{ user.posts|length }}
+                    </li>
+                    <li>
+                        <a class="small" href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}:</a> {{ user.postComments|length }}
+                    </li>
+                    <li>
+                        <a class="small" href="{{ path('user_reputation', {username: user.username}) }}">
+                            {{ 'reputation_points'|trans }}:
+                        </a> {{ get_reputation_total(user) }}
+                    </li>
                     {% if not app.user or user is not same as app.user %}
-                        <li class="mt-2">
+                        <li class="my-2">
                         <span class="text-muted small"><a href="{{ path('user_message', {'username': user.username}) }}"><i
                                         class="fa fa-envelope"></i> {{ 'send_message'|trans }}</a></span>
                         </li>
@@ -60,7 +62,8 @@
             <div class="card-body">
                 <ul class="list-unstyled clearfix mb-0 pb-0">
                     <li>
-                        <form action="{{ path('user_delete', {username: user.username}) }}" method="POST" onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <form action="{{ path('user_delete', {username: user.username}) }}" method="POST"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
                             <button type="submit" class="btn btn-link">
                                 <span class="small"><i class="fa fa-trash"></i> {{ 'delete_account'|trans }}</span>
@@ -68,7 +71,8 @@
                         </form>
                     </li>
                     <li>
-                        <form action="{{ path('user_purge', {username: user.username}) }}" method="POST" onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <form action="{{ path('user_purge', {username: user.username}) }}" method="POST"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
                             <button type="submit" class="btn btn-link">
                                 <span class="small"><i class="fa fa-trash"></i> {{ 'purge_account'|trans }}</span>

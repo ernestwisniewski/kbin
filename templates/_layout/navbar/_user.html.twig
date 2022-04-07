@@ -4,8 +4,8 @@
 <li class=" kbin-nav-navbar-item {{ is_active_route('user_entries') ? 'kbin-nav-navbar-item--active' : '' }}">
     <a href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}</a>
 </li>
-<li class=" kbin-nav-navbar-item {{ is_active_route('user_entry_comments') ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a href="{{ path('user_entry_comments', {username: user.username}) }}">{{ 'comments'|trans }}</a>
+<li class=" kbin-nav-navbar-item {{ is_active_route('user_comments') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('user_comments', {username: user.username}) }}">{{ 'comments'|trans }}</a>
 </li>
 <li class=" kbin-nav-navbar-item {{ is_active_route('user_posts') ? 'kbin-nav-navbar-item--active' : '' }}">
     <a href="{{ path('user_posts', {username: user.username}) }}">{{ 'posts'|trans }}</a>

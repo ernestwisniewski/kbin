@@ -1,0 +1,19 @@
+{% from '_layout/_not_found.html.twig' import not_found %}
+
+{% if results|length %}
+    <table class="table" style="max-width:350px">
+        <tbody>
+        {% for subject in results %}
+            <tr>
+                <td class="text-center color-green {{ subject.points > 0 ? 'text-success' : 'text-danger' }}">{{ subject.points }}</td>
+                <td class="text-center">{{ subject.day >= date('-2 days') ? subject.day|ago : subject.day|date('Y-m-d') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if(results.haveToPaginate) %}
+        {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+{% else %}
+    {{ not_found() }}
+{% endif %}
