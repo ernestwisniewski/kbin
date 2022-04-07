@@ -51,6 +51,14 @@ class UserSettingsType extends AbstractType
                 'rightPosImages',
                 CheckboxType::class
             )
+            ->add(
+                'entryPopup',
+                CheckboxType::class
+            )
+            ->add(
+                'postPopup',
+                CheckboxType::class
+            )
             ->add('homepage', ChoiceType::class, [
                     'choices' => [
                         $this->translator->trans('topbar.all') => User::HOMEPAGE_ALL,

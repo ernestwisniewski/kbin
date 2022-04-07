@@ -6,50 +6,7 @@
 {% block image %}{{ post.image ? uploaded_asset(post.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
     {% block body %}
-        {% if post.isAdult and (not app.user or app.user.hideAdult) %}
-            {% include '_layout/_adult.html.twig' %}
-        {% else %}
-            {% include '_layout/_flash.html.twig' %}
-            <div class="kbin-posts-page">
-                <section class="kbin-post-wrapper kbin-comment-wrapper mt-4">
-                    <div class="mt-2">
-                        {# {% include 'entry/comment/_filters.html.twig' %} #}
-                    </div>
-                    <h1 class="mt-2 text-muted display-none">{{ get_short_desc(post.body) }}</h1>
-                    <div class="kbin-comment-list"
-                         data-controller="comment-list"
-                         data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
-                         {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
-
-                        {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showMagazine: magazine is not defined}) }}
-
-                        {% block before_comments %}
-                            {% if is_granted('comment', post) %}
-                                <div class="ps-sm-5">
-                                    {{ component('post_comment_form', {post: post}) }}
-                                </div>
-                            {% else %}
-                                <div class="alert alert-secondary text-muted my-3" role="alert">
-                                    {% if not app.user %}
-                                        {{ 'login_to_comment'|trans({'%link_start%' : '<a class="font-weight-bold" href="'~path('app_login')~'">', '%link_end%' : '</a>'}) | raw }}
-                                    {% else %}
-                                        {{ 'cannot_add_comment'|trans }}
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                        {% endblock %}
-
-                        {% if comments|length %}
-                            {% for comment in comments %}
-                                {{ component('post_comment', {comment: comment}) }}
-                            {% endfor %}
-                        {% else %}
-                            {{ not_found() }}
-                        {% endif %}
-                    </div>
-                </section>
-            </div>
-        {% endif %}
+        {% include 'post/_single.html.twig' %}
     {% endblock %}
 
 {% block sidebar %}
