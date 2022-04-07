@@ -33,6 +33,8 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('get_sentences', [PageContextRuntime::class, 'getSentences']),
             new TwigFunction('is_active_stats_type', [PageContextRuntime::class, 'isActiveStatsType']),
             new TwigFunction('get_stats_page_path', [PageContextRuntime::class, 'getStatsPagePath']),
+            new TwigFunction('is_active_reputation_type', [PageContextRuntime::class, 'isActiveReputationType']),
+            new TwigFunction('get_reputation_page_path', [PageContextRuntime::class, 'getReputationPagePath']),
         ];
     }
 }

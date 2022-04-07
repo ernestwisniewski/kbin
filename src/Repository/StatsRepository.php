@@ -11,7 +11,7 @@ use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class StatsRepository extends ServiceEntityRepository
+abstract class StatsRepository extends ServiceEntityRepository
 {
     const TYPE_GENERAL = 'general';
     const TYPE_CONTENT = 'content';
@@ -57,7 +57,7 @@ class StatsRepository extends ServiceEntityRepository
 
             $results[] = [
                 'day'   => $d,
-                'count' => 0
+                'count' => 0,
             ];
         }
 

@@ -9,13 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserAwardController extends AbstractController
 {
-    public function __invoke(User $user, ?string $category, Request $request): Response
+    public function __invoke(User $user, ?string $awardsCategory, Request $request): Response
     {
         return $this->render(
             'award/list_all.html.twig',
             [
                 'user' => $user,
-                'category' => $category,
+                'category' => $awardsCategory,
                 'types' => [],
             ]
         );

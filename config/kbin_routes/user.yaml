@@ -10,7 +10,7 @@ user_entries:
     pl: /u/{username}/treści
   methods: [ GET ]
 
-user_entry_comments:
+user_comments:
   controller: App\Controller\User\UserFrontController::comments
   path:
     en: /u/{username}/comments
@@ -68,8 +68,16 @@ user_awards:
   controller: App\Controller\User\UserAwardController
   defaults: { category: ~ }
   path:
-    en: /u/{username}/awards/{category}
-    pl: /u/{username}/odznaczenia/{category}
+    en: /u/{username}/awards/{awardsCategory}
+    pl: /u/{username}/odznaczenia/{awardsCategory}
+  methods: [ GET ]
+
+user_reputation:
+  controller: App\Controller\User\UserReputationController
+  defaults: { reputationType: ~ }
+  path:
+    en: /u/{username}/reputation/{reputationType}
+    pl: /u/{username}/reputacja/{reputationType}
   methods: [ GET ]
 
 user_unfollow:

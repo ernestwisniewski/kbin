@@ -9,9 +9,9 @@
            href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}</a>
     </li>
 
-    <li class="nav-item {{ is_active_route('user_entry_comments') ? 'font-weight-bold' : '' }}">
-        <a class="nav-link {{ is_active_route('user_entry_comments') ? 'active' : '' }}"
-           href="{{ path('user_entry_comments', {username: user.username}) }}">{{ 'comments'|trans }}</a>
+    <li class="nav-item {{ is_active_route('user_comments') ? 'font-weight-bold' : '' }}">
+        <a class="nav-link {{ is_active_route('user_comments') ? 'active' : '' }}"
+           href="{{ path('user_comments', {username: user.username}) }}">{{ 'comments'|trans }}</a>
     </li>
 
     <li class="nav-item">

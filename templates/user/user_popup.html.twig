@@ -47,7 +47,7 @@
                         </a>
                     </div>
                     <div class="p-3 bd-highlight small font-weight-bold">
-                        <a href="{{ path('user_entry_comments', {username: user.username}) }}">
+                        <a href="{{ path('user_comments', {username: user.username}) }}">
                             <small>{{ user.entryComments.count }}</small><br>
                             {{ 'comments'|trans }}
                         </a>

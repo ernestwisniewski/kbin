@@ -7,7 +7,9 @@ use App\Entity\User;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
+use App\Repository\ReputationRepository;
 use App\Repository\StatsRepository;
+use App\Service\ReputationManager;
 use App\Service\StatsManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -21,7 +23,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
         private RequestStack $requestStack,
         private UrlGeneratorInterface $urlGenerator,
         private TranslatorInterface $translator,
-        private StatsManager $statsManager
+        private StatsManager $statsManager,
+        private ReputationManager $reputationManager
     ) {
     }
 
@@ -397,18 +400,18 @@ class PageContextRuntime implements RuntimeExtensionInterface
     {
         $type = $type ? $this->translator->trans('stats.'.$type) : $this->translator->trans('stats.'.$this->getActiveStatsType());
 
-        $routeName = 'stats';
+        $routeName   = 'stats';
         $routeParams = [
             'statsType'   => $type,
             'statsPeriod' => $period,
         ];
 
-        if($user) {
+        if ($user) {
             $routeName = 'user_profile_front';
         }
 
-        if($magazine) {
-             $routeName = 'magazine_panel_front';
+        if ($magazine) {
+            $routeName   = 'magazine_panel_front';
             $routeParams += ['name' => $magazine->name];
         }
 
@@ -418,5 +421,22 @@ class PageContextRuntime implements RuntimeExtensionInterface
     private function getActiveStatsType(): string
     {
         return $this->statsManager->resolveType($this->getCurrentRequest()->get('statsType')) ?? StatsRepository::TYPE_GENERAL;
+    }
+
+    public function isActiveReputationType(string $type, ?string $default = null): bool
+    {
+        return $this->reputationManager->resolveType($this->getCurrentRequest()->get('reputationType'), $default) === $type;
+    }
+
+    public function getReputationPagePath(?string $type = null, User $user = null): string
+    {
+        $type = $type ? strtolower($this->translator->trans($type)) : strtolower($this->translator->trans($this->getActiveReputationType()));
+
+        return $this->urlGenerator->generate('user_reputation', ['username' => $user->username, 'reputationType' => $type]);
+    }
+
+    private function getActiveReputationType(): string
+    {
+        return $this->reputationManager->resolveType($this->getCurrentRequest()->get('reputationType')) ?? ReputationRepository::TYPE_ENTRY;
     }
 }
