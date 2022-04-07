@@ -5,6 +5,7 @@ $comment-margin-sm: .5rem;
 
 .kbin-comment-wrapper {
   blockquote {
+    z-index: 2;
     margin: 0;
   }
 
@@ -56,7 +57,7 @@ $comment-margin-sm: .5rem;
         bottom: 0;
         position: absolute;
         opacity: .4;
-        z-index: -100;
+        z-index: 1;
         height: 100%;
 
         border-left: .12rem dashed unquote(nth($levels, $i));
