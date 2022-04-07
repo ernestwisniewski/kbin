@@ -1,5 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
+import Modal from 'bootstrap/js/dist/modal';
 
 export default class extends Controller {
     async open(e) {
@@ -15,6 +16,8 @@ export default class extends Controller {
             div.innerHTML = response.html;
 
             e.target.closest('article').after(div);
+
+            (new Modal(document.getElementById('content-popup'))).show();
         } catch (e) {
             alert('Oops, something went wrong.');
         } finally {
