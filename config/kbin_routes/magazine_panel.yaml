@@ -79,7 +79,7 @@ magazine_panel_trash:
 
 magazine_panel_front:
   controller: App\Controller\Magazine\Panel\MagazineStatsController
-  defaults: { statsType: ~, statsPeriod: ~ }
+  defaults: { statsType: content, statsPeriod: ~ }
   path:
     en: /m/{name}/panel/stats/{statsType}/{statsPeriod}
     pl: /m/{name}/panel/statystyki/{statsType}/{statsPeriod}
