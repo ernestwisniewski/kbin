@@ -47,7 +47,7 @@ class MagazineStatsController extends AbstractController
         return $this->render(
             'magazine/panel/front.html.twig', [
                 'magazine' => $magazine,
-                'period' => $request->get('period'),
+                'period' => $request->get('statsPeriod'),
                 'contentChart' => $results,
             ]
         );
