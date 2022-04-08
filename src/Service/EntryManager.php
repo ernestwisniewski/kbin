@@ -17,6 +17,7 @@ use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -85,8 +86,9 @@ class EntryManager implements ContentManagerInterface
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags))
         ) : null;
 
-        $entry->isOc = $dto->isOc;
-        $entry->lang = $dto->lang;
+        $entry->isOc     = $dto->isOc;
+        $entry->lang     = $dto->lang;
+        $entry->editedAt = new DateTimeImmutable('@'.time());
 
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);

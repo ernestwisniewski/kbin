@@ -75,18 +75,19 @@ class MagazineBlockControllerTest extends WebTestCase
 
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
         $client->submit(
-            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block ')->selectButton('')->form()
+            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->selectButton('')->form()
         );
 
         $this->assertStringContainsString('{"isBlocked":true}', $client->getResponse()->getContent());
 
+        $client->setServerParameter('HTTP_X-Requested-With', 'none');
         $client->request('GET', "/m/polityka/t/$id/-/");
 
         $crawler = $client->followRedirect();
 
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
         $client->submit(
-            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block ')->selectButton('')->form()
+            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->selectButton('')->form()
         );
 
         $this->assertStringContainsString('{"isBlocked":false}', $client->getResponse()->getContent());

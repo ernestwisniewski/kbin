@@ -129,6 +129,11 @@ class Domain
         $this->updateSubscriptionsCount();
     }
 
+    public function shouldRatio(): bool
+    {
+        return in_array($this->name, ['youtube.com', 'streamable.com']);
+    }
+
     public function __sleep()
     {
         return [];

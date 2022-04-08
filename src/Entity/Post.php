@@ -9,6 +9,7 @@ use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\EditedAtTrait;
 use App\Entity\Traits\RankingTrait;
 use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\VotableTrait;
@@ -31,6 +32,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
+    use EditedAtTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")

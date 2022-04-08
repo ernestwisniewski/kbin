@@ -248,10 +248,13 @@
     {% endif %}
 
     {% if this.entry.hasEmbed %}
-        <button type="button" class="btn-close mt-3 display-none" data-embed-target="close" aria-label="Zamknij"
+        <button type="button" class="btn-close mt-3 display-none"
+                aria-label="Zamknij"
+                data-embed-target="close"
                 data-action="embed#close"></button>
         <div class="kbin-embed">
-            <div class="{{ this.entry.type is same as 'image' ? '' : 'ratio ratio-16x9' }} mt-4 display-none" data-embed-target="container">
+            <div class="{{ this.entry.domain and this.entry.domain.shouldRatio ? 'ratio ratio-16x9' : '' }} mt-4 display-none"
+                 data-embed-target="container">
             </div>
         </div>
     {% endif %}
