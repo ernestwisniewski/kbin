@@ -15,6 +15,7 @@ class EntryComponent
     public ?string $extraClass = null;
     public bool $showContent = false;
     public bool $directUrl = false;
+    public bool $related = false;
     public bool $showMagazine = false;
     public bool $canSeeTrash = false;
 
