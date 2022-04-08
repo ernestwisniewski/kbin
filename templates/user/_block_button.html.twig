@@ -8,7 +8,7 @@
           method="POST"
           class="kbin-user-block kbin-block-form {{ blocked ? 'kbin-block--active' : '' }}"
           data-block-target="form"
-          data-action="block#blockOrUnblock">
+          data-action="block#toggle">
         <button type="submit"
                 class="btn btn-sm btn-outline-light text-dark text-muted rounded-end  {{ app.user and app.user is same as user ? 'disabled' : '' }}">
             <i class="fas fa-ban"></i></button>

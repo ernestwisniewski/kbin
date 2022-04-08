@@ -15,6 +15,7 @@ use App\Factory\PostFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -61,11 +62,12 @@ class  PostManager implements ContentManagerInterface
     {
         Assert::same($post->magazine->getId(), $dto->magazine->getId());
 
-        $post->body    = $dto->body;
-        $post->isAdult = $dto->isAdult;
-        $oldImage      = $post->image;
-        $post->image   = $dto->image;
-        $post->tags    = $this->tagManager->extract($post->body);
+        $post->body     = $dto->body;
+        $post->isAdult  = $dto->isAdult;
+        $oldImage       = $post->image;
+        $post->image    = $dto->image;
+        $post->tags     = $this->tagManager->extract($post->body);
+        $post->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();
 

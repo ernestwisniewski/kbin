@@ -11,7 +11,7 @@ export default class extends Controller {
         removeUrl: String,
     };
 
-    async blockOrUnblock(event) {
+    async toggle(event) {
         event.preventDefault();
 
         this.loadingValue = true;

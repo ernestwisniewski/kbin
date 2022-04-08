@@ -15,6 +15,7 @@ use App\Event\PostComment\PostCommentRestoredEvent;
 use App\Factory\PostCommentFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -61,10 +62,11 @@ class PostCommentManager implements ContentManagerInterface
     {
         Assert::same($comment->post->getId(), $dto->post->getId());
 
-        $comment->body  = $dto->body;
-        $oldImage       = $comment->image;
-        $comment->image = $dto->image;
-        $comment->tags  = $this->tagManager->extract($comment->body);
+        $comment->body     = $dto->body;
+        $oldImage          = $comment->image;
+        $comment->image    = $dto->image;
+        $comment->tags     = $this->tagManager->extract($comment->body);
+        $comment->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Service;
 
@@ -7,13 +7,10 @@ use App\Entity\User;
 use App\Entity\Vote;
 use App\Event\VoteEvent;
 use App\Factory\VoteFactory;
-use App\Message\Notification\VoteNotificationMessage;
-use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 class VoteManager
@@ -38,11 +35,6 @@ class VoteManager
         if ($vote) {
             $choice       = $this->guessUserChoice($choice, $votable->getUserChoice($user));
             $vote->choice = $choice;
-
-            if ($choice === VoteInterface::VOTE_NONE) {
-                $votable->updateVoteCounts();
-                $this->entityManager->remove($vote);
-            }
         } else {
             $vote = $this->factory->create($choice, $votable, $user);
             $this->entityManager->persist($vote);
@@ -79,6 +71,6 @@ class VoteManager
             };
         }
 
-        throw new LogicException();
+        return $choice;
     }
 }
