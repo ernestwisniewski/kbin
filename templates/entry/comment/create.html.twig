@@ -1,17 +1,17 @@
-{% extends 'entry/single.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}{{ 'reply'|trans }}{% endblock %}
 
 {% block body %}
-    {{ parent() }}
-{% endblock %}
+    {% embed 'entry/_single.html.twig' %}
+        {% block after_entry %}
+            {% if comment is defined and comment %}
+                <section class="kbin-comment-wrapper mt-4">
+                    {{ component('entry_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0', withParent: false, nested:false }) }}
+                </section>
+            {% endif %}
 
-{% block after_entry %}
-    {% if comment is defined and comment %}
-        <section class="kbin-comment-wrapper mt-4">
-            {{ component('entry_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0', withParent: false, nested:false }) }}
-        </section>
-    {% endif %}
-
-    {% include 'entry/comment/_form.html.twig' %}
+            {% include 'entry/comment/_form.html.twig' %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
