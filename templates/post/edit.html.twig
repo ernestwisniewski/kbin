@@ -1,14 +1,14 @@
-{% extends 'post/single.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}{{ 'edit_post'|trans }}{% endblock %}
 
 {% block body %}
-    {{ parent() }}
-{% endblock %}
-
-{% block before_comments %}
-    <div class="kbin-comment-edit-wrapper mt-4 ps-sm-5">
-        {% include 'post/_form.html.twig' %}
-        {% include 'post/_form_delete.html.twig' %}
-    </div>
+    {% embed 'post/_single.html.twig' %}
+        {% block before_comments %}
+            <div class="kbin-comment-edit-wrapper mt-4 ps-sm-5">
+                {% include 'post/_form.html.twig' %}
+                {% include 'post/_form_delete.html.twig' %}
+            </div>
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
