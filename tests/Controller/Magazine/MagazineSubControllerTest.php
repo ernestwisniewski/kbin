@@ -41,9 +41,9 @@ class MagazineSubControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '3');
 
-        $crawler = $client->request('GET', '/sub');
+        $crawler = $client->request('GET', '/sub/najnowsze');
 
-        $this->assertSelectorTextContains('.kbin-entry-title', 'treść ');
+        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 1');
         $this->assertCount(3, $crawler->filter('.kbin-entry-title'));
 
         $crawler = $client->click($crawler->filter('.kbin-entry-title a')->link());
@@ -56,9 +56,9 @@ class MagazineSubControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
 
-        $crawler = $client->request('GET', '/sub');
+        $crawler = $client->request('GET', '/sub/najnowsze');
 
-        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 5');
+        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 1');
         $this->assertCount(2, $crawler->filter('.kbin-entry-title'));
     }
 }

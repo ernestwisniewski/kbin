@@ -27,7 +27,7 @@ class MagazineCreateControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine h2', 'magazyn polityczny');
+        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine h3', 'magazyn polityczny');
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine', 'Subskrybujących: 1');
     }
 }

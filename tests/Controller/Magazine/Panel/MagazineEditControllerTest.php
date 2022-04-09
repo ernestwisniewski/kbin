@@ -29,7 +29,7 @@ class MagazineEditControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine h2', 'Przepisy kuchenne');
+        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine h3', 'Przepisy kuchenne');
     }
 
     public function testCannotEditMagazineName()

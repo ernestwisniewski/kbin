@@ -20,7 +20,7 @@ class FrontControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/magazyny');
         $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
 
-        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Strona główna');
+        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Wszystkie');
         $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
         $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));

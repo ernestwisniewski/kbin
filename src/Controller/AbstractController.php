@@ -106,7 +106,6 @@ abstract class AbstractController extends BaseAbstractController
             'front_magazine',
             [
                 'name' => $magazine->name,
-                'sortBy' => $sortBy ?? (new EntryPageView(1))::SORT_TOP,
             ]
         );
     }
