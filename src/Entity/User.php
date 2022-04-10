@@ -327,9 +327,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+        return null;
     }
 
     public function eraseCredentials()
@@ -688,7 +689,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         // TODO: Implement @method string getUserIdentifier()
     }
 
-    public function isEqualTo(UserInterface $user)
+    public function isEqualTo(UserInterface $user): bool
     {
         return !$user->isBanned;
     }

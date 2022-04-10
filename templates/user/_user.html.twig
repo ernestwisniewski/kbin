@@ -1,5 +1,5 @@
 {% block user %}
-    {% if prefix %}<small class="text-muted">/u/</small>{% endif %}
+    {%- if prefix -%}<small class="text-muted">/u/</small>{%- endif -%}
     <a class="{{ bolded ? 'font-weight-bold' : '' }}"
        data-controller="user-popup"
        data-action="user-popup#show"
