@@ -18,6 +18,10 @@ export default class extends Controller {
             e.target.closest('article').after(div);
 
             (new Modal(document.getElementById('content-popup'))).show();
+
+            document.getElementById('content-popup').addEventListener('hidden.bs.modal', (e) => {
+                e.target.remove();
+            });
         } catch (e) {
             alert('Oops, something went wrong.');
         } finally {
