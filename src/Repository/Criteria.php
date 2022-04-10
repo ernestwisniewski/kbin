@@ -100,7 +100,7 @@ abstract class Criteria
 
     public function resolveSort(?string $value): string
     {
-        //@todo
+        //@todo getRoute EntryManager
         $routes = [
             'top'       => Criteria::SORT_TOP,
             'hot'       => Criteria::SORT_HOT,

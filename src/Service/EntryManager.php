@@ -23,6 +23,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
 class EntryManager implements ContentManagerInterface
@@ -36,6 +37,7 @@ class EntryManager implements ContentManagerInterface
         private EventDispatcherInterface $dispatcher,
         private RateLimiterFactory $entryLimiter,
         private MessageBusInterface $bus,
+        private TranslatorInterface $translator,
         private EntityManagerInterface $entityManager,
     ) {
     }
@@ -196,5 +198,10 @@ class EntryManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->bus->dispatch(new DeleteImageMessage($image));
+    }
+
+    public function getSortRoute(string $sortBy): string
+    {
+        return strtolower($this->translator->trans('sort.'.$sortBy));
     }
 }

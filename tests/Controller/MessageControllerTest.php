@@ -68,9 +68,9 @@ class MessageControllerTest extends WebTestCase
             )
         );
 
-
         $crawler = $client->request('GET', '/profil/wiadomości');
-        $this->assertSelectorTextContains('.kbin-profile-threads-page tr', '1 odpowiedzi w wątku z /u/testUser - Testowa odpowiedź.');
+
+        $this->assertSelectorTextContains('.kbin-profile-threads-page tr', '1 odpowiedzi w wątku z /u/testUser');
 
         // Read reply
         $client->restart();
@@ -78,7 +78,7 @@ class MessageControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/profil/wiadomości');
 
-        $this->assertSelectorTextContains('.kbin-profile-threads-page', '1 odpowiedzi w wątku z /u/testUser1 - Testowa odpowiedź.');
+        $this->assertSelectorTextContains('.kbin-profile-threads-page', '1 odpowiedzi w wątku z /u/testUser1');
         $this->assertSelectorTextContains('.kbin-nav .bg-danger', '1');
     }
 }

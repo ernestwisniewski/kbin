@@ -8,6 +8,7 @@ use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
+use App\Repository\Criteria;
 use App\Service\CloudflareIpResolver;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
@@ -18,7 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EntryCreateController extends AbstractController
 {
@@ -29,7 +29,6 @@ class EntryCreateController extends AbstractController
         private EntryManager $manager,
         private EntryCommentManager $commentManager,
         private ValidatorInterface $validator,
-        private TranslatorInterface $translator,
         private CloudflareIpResolver $ipResolver
     ) {
     }
@@ -66,7 +65,7 @@ class EntryCreateController extends AbstractController
 
             return $this->redirectToMagazine(
                 $entry->magazine,
-                strtolower($this->translator->trans('sort.'.(new EntryPageView(1))::SORT_NEW))
+                $this->manager->getSortRoute(Criteria::SORT_NEW)
             );
         }
 
