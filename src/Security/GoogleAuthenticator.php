@@ -87,7 +87,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $dto->ip            = $this->ipResolver->resolve();
 
                     $user                  = $this->userManager->create($dto, false);
-                    $user->oauthFacebookId = $googleUser->getId();
+                    $user->oauthGoogleId = $googleUser->getId();
                     $user->isVerified      = true;
                 }
 

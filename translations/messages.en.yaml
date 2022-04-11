@@ -385,3 +385,10 @@ gold_comment_month: "Komentarz tygodnia"
 gold_comment_month_desc: "Najlepszy komentarz tygodnia"
 gold_post_month: "Post miesiąca"
 gold_post_month_desc: "Najlepszy post tygodnia"
+you_cant_login: "You can't login?"
+reset_password: 'Reset your password'
+reset_password_desc: 'Enter your email address and we will send you a link to reset your password.'
+reset_check_email_desc: 'If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password. This link will expire in'
+reset_check_email_desc2: "If you don't receive an email please check your spam folder or try again."
+reset_visit_link: 'To reset your password, please visit the following link'
+try_again: 'try again'

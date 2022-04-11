@@ -304,6 +304,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this->username;
     }
 
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
     public function setOrRemoveAdminRole(bool $remove = false): self
     {
         $this->roles = ['ROLE_ADMIN'];

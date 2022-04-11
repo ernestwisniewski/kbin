@@ -30,9 +30,7 @@
                             </div>
                         </div>
 
-                        <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}"
-                        >
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                         <div class="checkbox mb-3">
                             <label>
@@ -45,7 +43,8 @@
                         </button>
                     </form>
 
-                    <p class="my-5">{{ 'dont_have_account'|trans }} <a href="{{ path('app_register') }}">{{ 'register'|trans }}!</a></p>
+                    <p class="mt-5">{{ 'dont_have_account'|trans }} <a href="{{ path('app_register') }}">{{ 'register'|trans }}.</a></p>
+                    <p class="mb-5">{{ 'you_cant_login'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}.</a></p>
 
                     {% include 'user/_oauth_social.html.twig' %}
                 </div>

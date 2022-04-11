@@ -12,6 +12,26 @@ app_verify_email:
     pl: /zweryfikuj/email
   methods: [ GET ]
 
+app_forgot_password_request:
+  controller: App\Controller\Security\ResetPasswordController::request
+  path:
+    en: /reset-password
+    pl: /resetuj-hasło
+  methods: [ GET, POST ]
+
+app_check_email:
+  controller: App\Controller\Security\ResetPasswordController::checkEmail
+  path: /reset-password/check-email
+  methods: [ GET, POST ]
+
+app_reset_password:
+  controller: App\Controller\Security\ResetPasswordController::reset
+  defaults: { token: ~ }
+  path:
+    en: /reset-password/reset/{token}
+    pl: /resetuj-hasło/reset/{token}
+  methods: [ GET, POST ]
+
 app_login:
   controller: App\Controller\Security\LoginController
   path:
@@ -20,7 +40,7 @@ app_login:
   methods: [ GET, POST ]
 
 app_logout:
-  controller: App\Controller\SecurityController::logout
+  controller: App\Controller\Security\LogoutController
   path:
     en: /logout
     pl: /wyloguj
