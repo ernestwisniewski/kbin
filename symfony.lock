@@ -891,6 +891,18 @@
     "symfony/yaml": {
         "version": "v5.3.3"
     },
+    "symfonycasts/reset-password-bundle": {
+        "version": "1.13",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "97c1627c0384534997ae1047b93be517ca16de43"
+        },
+        "files": [
+            "config/packages/reset_password.yaml"
+        ]
+    },
     "symfonycasts/verify-email-bundle": {
         "version": "v1.5.0"
     },

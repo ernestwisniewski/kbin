@@ -29,7 +29,7 @@ class ContactManager
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('noreply@mg.karab.in ', $this->kbinDomain))
+            ->from(new Address('noreply@mg.karab.in', $this->kbinDomain))
             ->to($this->kbinContactEmail)
             ->subject($this->translator->trans('contact').' - '.$this->kbinDomain)
             ->htmlTemplate('_email/contact.html.twig')
