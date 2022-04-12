@@ -21,6 +21,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Contracts\Cache\CacheInterface;
 use Webmozart\Assert\Assert;
 
 class PostCommentManager implements ContentManagerInterface

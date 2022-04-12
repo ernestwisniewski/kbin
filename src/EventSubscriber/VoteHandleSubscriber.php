@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\PostComment;
 use App\Event\VoteEvent;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\CacheService;
@@ -41,5 +42,8 @@ class VoteHandleSubscriber implements EventSubscriberInterface
     private function clearCache(VoteInterface $votable)
     {
         $this->cache->delete($this->cacheService->getVotersCacheKey($votable));
+        if ($votable instanceof PostComment) {
+            $this->cache->delete('comments_preview_post_'.$votable->post->getId());
+        }
     }
 }

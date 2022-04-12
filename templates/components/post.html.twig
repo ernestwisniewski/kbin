@@ -3,11 +3,11 @@
 {% from '_layout/_macros.html.twig' import post_url %}
 
 <article id="{{ this.post.id }}"
-            class="kbin-post py-4 {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }}"
-            data-controller="post report"
-            data-action="notify:PostCommentCreatedNotification@window->post#increaseComments notify:PostCommentDeletedNotification@window->post#decreaseComments notify:PostDeletedNotification@window->post#remove notify:PostEditedNotification@window->post#edit"
-            data-comment-counter-subject-id-value="{{ this.post.id }}"
-            data-post-id-value="{{ this.post.id }}">
+         class="kbin-post py-4 {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }}"
+         data-controller="post report"
+         data-action="notify:PostCommentCreatedNotification@window->post#increaseComments notify:PostCommentDeletedNotification@window->post#decreaseComments notify:PostDeletedNotification@window->post#remove notify:PostEditedNotification@window->post#edit"
+         data-comment-counter-subject-id-value="{{ this.post.id }}"
+         data-post-id-value="{{ this.post.id }}">
     <div class="kbin-post-header mb-2">
         {{ component('vote', { votable: this.post, notificationType: 'Post', formDest: 'post_vote', baseClass: 'post', hideDownvote: true }) }}
 
@@ -228,5 +228,5 @@
 {% endif %}
 
 {% if(this.showBestComments) %}
-    {% include 'post/comment/_list.html.twig' with {comments: this.post.bestComments, post: this.post} %}
+    {{ component('post_comments_preview', {post: this.post}) }}
 {% endif %}

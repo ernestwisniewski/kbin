@@ -5,6 +5,7 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Form\PostType;
+use App\Repository\Criteria;
 use App\Service\CloudflareIpResolver;
 use App\Service\PostManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -38,9 +39,20 @@ class PostCreateController extends AbstractController
                 throw new AccessDeniedHttpException();
             }
 
-            $post = $this->manager->create($dto, $this->getUserOrThrow());
+            $this->manager->create($dto, $this->getUserOrThrow());
 
-            return $this->redirectToPost($post);
+            $this->addFlash(
+                'success',
+                'flash_thread_new_success'
+            );
+
+            return $this->redirectToRoute(
+                'magazine_posts',
+                [
+                    'name'   => $magazine->name,
+                    'sortBy' => $this->manager->getSortRoute(Criteria::SORT_NEW),
+                ]
+            );
         }
 
         return $this->redirectToRefererOrHome($request);
