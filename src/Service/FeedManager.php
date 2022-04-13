@@ -9,7 +9,6 @@ use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
-use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use ArrayIterator;
 use DateTime;
@@ -29,7 +28,6 @@ class FeedManager
         private EntryRepository $entryRepository,
         private MagazineRepository $magazineRepository,
         private UserRepository $userRepository,
-        private TagRepository $tagRepository,
         private RouterInterface $router,
         private EntryFactory $entryFactory,
         private IriConverterInterface $iriConverter,

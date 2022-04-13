@@ -234,11 +234,5 @@
 </blockquote>
 
 {% if this.nested %}
-    {% if this.comment.children|length %}
-        {%- for reply in this.comment.children -%}
-            {% if not app.user or (app.user and not app.user.isBlocked(reply.user)) %}
-                {{ component('entry_comment', {comment: reply, level: this.level + 1}) }}
-            {% endif %}
-        {%- endfor -%}
-    {% endif %}
+    {{ component('entry_comments_nested', {comment: this.comment, level: this.level}) }}
 {% endif %}

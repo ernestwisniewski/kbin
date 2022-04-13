@@ -4,6 +4,7 @@ namespace App\Components;
 
 use App\Entity\Entry;
 use App\Service\SearchManager;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -14,7 +15,7 @@ class RelatedEntriesComponent
 {
     public Entry $entry;
 
-    public function __construct(private SearchManager $manager, private Environment $twig, private CacheInterface $cache)
+    public function __construct(private SearchManager $manager, private Environment $twig, private Security $security, private CacheInterface $cache)
     {
     }
 
@@ -22,8 +23,8 @@ class RelatedEntriesComponent
     {
         $id = $this->entry->getId();
 
-        return $this->cache->get("related_$id", function (ItemInterface $item) {
-            $item->expiresAfter(0);
+        return $this->cache->get('related_'.$id.'_'.$this->security->getUser()?->getId(), function (ItemInterface $item) {
+            $item->expiresAfter(3600);
 
             try {
                 $entries = $this->manager->findRelated($this->entry->title.' '.$this->entry->magazine->name);

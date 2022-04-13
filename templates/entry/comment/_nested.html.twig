@@ -1,0 +1,7 @@
+{% if comment.children|length %}
+    {%- for reply in comment.children -%}
+        {% if not app.user or (app.user and not app.user.isBlocked(reply.user)) %}
+            {{ component('entry_comment', {comment: reply, level: level + 1}) }}
+        {% endif %}
+    {%- endfor -%}
+{% endif %}

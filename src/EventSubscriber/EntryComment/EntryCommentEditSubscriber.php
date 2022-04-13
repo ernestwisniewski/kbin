@@ -6,10 +6,12 @@ use App\Event\EntryComment\EntryCommentEditedEvent;
 use App\Message\Notification\EntryCommentEditedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class EntryCommentEditSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $bus)
+    public function __construct(private Security $security, private CacheInterface $cache, private MessageBusInterface $bus)
     {
     }
 
@@ -22,6 +24,8 @@ class EntryCommentEditSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentEdited(EntryCommentEditedEvent $event): void
     {
+        $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
+
         $this->bus->dispatch(new EntryCommentEditedNotificationMessage($event->comment->getId()));
     }
 }

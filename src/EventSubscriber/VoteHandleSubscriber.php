@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Event\VoteEvent;
 use App\Message\Notification\VoteNotificationMessage;
@@ -15,8 +16,11 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class VoteHandleSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $bus, private CacheService $cacheService, private CacheInterface $cache)
-    {
+    public function __construct(
+        private MessageBusInterface $bus,
+        private CacheService $cacheService,
+        private CacheInterface $cache
+    ) {
     }
 
     #[ArrayShape([VoteEvent::class => "string"])] public static function getSubscribedEvents(): array
@@ -42,8 +46,13 @@ class VoteHandleSubscriber implements EventSubscriberInterface
     private function clearCache(VoteInterface $votable)
     {
         $this->cache->delete($this->cacheService->getVotersCacheKey($votable));
+
         if ($votable instanceof PostComment) {
-            $this->cache->delete('comments_preview_post_'.$votable->post->getId());
+            $this->cache->invalidateTags(['post_'.$votable->post->getId()]);
+        }
+
+        if ($votable instanceof EntryComment && $votable->root) {
+            $this->cache->invalidateTags(['entry_comment_'.$votable?->root->getId() ?? $votable->getId()]);
         }
     }
 }
