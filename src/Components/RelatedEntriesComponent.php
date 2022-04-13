@@ -23,7 +23,7 @@ class RelatedEntriesComponent
         $id = $this->entry->getId();
 
         return $this->cache->get("related_$id", function (ItemInterface $item) {
-            $item->expiresAfter(3600);
+            $item->expiresAfter(0);
 
             try {
                 $entries = $this->manager->findRelated($this->entry->title.' '.$this->entry->magazine->name);
