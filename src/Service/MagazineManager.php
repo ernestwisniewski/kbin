@@ -240,8 +240,8 @@ class MagazineManager
     private function clearCommentsCache(User $user)
     {
         $this->cache->invalidateTags([
-            'post_comments_'.$user->getId(),
-            'entry_comments_'.$user->getId(),
+            'post_comments_user_'.$user->getId(),
+            'entry_comments_user_'.$user->getId(),
         ]);
     }
 }
