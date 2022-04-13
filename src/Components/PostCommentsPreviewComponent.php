@@ -22,7 +22,7 @@ class PostCommentsPreviewComponent
         $id = $this->post->getId();
 
         return $this->cache->get("comments_preview_post_$id", function (ItemInterface $item) {
-            $item->expiresAfter(3600);
+            $item->expiresAfter(0);
 
             return $this->twig->render(
                 'post/comment/_list.html.twig',
