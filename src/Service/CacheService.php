@@ -4,10 +4,11 @@ namespace App\Service;
 
 use App\Entity\Contracts\VoteInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class CacheService
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private CacheInterface $cache, private EntityManagerInterface $entityManager)
     {
     }
 

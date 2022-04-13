@@ -29,7 +29,7 @@ class VotersInlineComponent
         $this->more = $this->subject->votes->count() >= 4 ? $this->subject->votes->count() - 4 : null;
 
         return $this->cache->get($this->cacheService->getVotersCacheKey($this->subject).'s', function (ItemInterface $item) {
-            $item->expiresAfter(0);
+            $item->expiresAfter(3600);
 
             return $this->render();
         });

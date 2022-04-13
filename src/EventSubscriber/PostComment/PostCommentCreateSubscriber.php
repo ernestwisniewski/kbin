@@ -6,11 +6,12 @@ use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Message\Notification\PostCommentCreatedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class PostCommentCreateSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private CacheInterface $cache, private MessageBusInterface $bus)
+    public function __construct(private CacheInterface $cache, private Security $security, private MessageBusInterface $bus)
     {
     }
 
@@ -23,7 +24,8 @@ class PostCommentCreateSubscriber implements EventSubscriberInterface
 
     public function onPostCommentCreated(PostCommentCreatedEvent $event)
     {
-        $this->cache->delete('comments_preview_post_'.$event->comment->post->getId());
+        $this->cache->invalidateTags(['post_'.$event->comment->post->getId()]);
+
         $this->bus->dispatch(new PostCommentCreatedNotificationMessage($event->comment->getId()));
     }
 }

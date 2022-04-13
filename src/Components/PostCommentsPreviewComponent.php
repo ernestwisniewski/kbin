@@ -3,6 +3,7 @@
 namespace App\Components;
 
 use App\Entity\Post;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -13,16 +14,19 @@ class PostCommentsPreviewComponent
 {
     public Post $post;
 
-    public function __construct(private Environment $twig, private CacheInterface $cache)
+    public function __construct(private Environment $twig, private CacheInterface $cache, private Security $security)
     {
     }
 
     public function getHtml(): string
     {
-        $id = $this->post->getId();
+        $post = $this->post->getId();
+        $user = $this->security->getUser()?->getId();
 
-        return $this->cache->get("comments_preview_post_$id", function (ItemInterface $item) {
-            $item->expiresAfter(0);
+        return $this->cache->get('preview_post_comment_'.$post.'_'.$user, function (ItemInterface $item) use ($post, $user) {
+            $item->expiresAfter(3600);
+            $item->tag(['post_comments_user_'.$user]);
+            $item->tag(['post_'.$post]);
 
             return $this->twig->render(
                 'post/comment/_list.html.twig',

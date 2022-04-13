@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Contracts\Cache\CacheInterface;
 use Webmozart\Assert\Assert;
 
 class MagazineManager
@@ -26,6 +27,7 @@ class MagazineManager
         private MagazineFactory $factory,
         private EventDispatcherInterface $dispatcher,
         private RateLimiterFactory $magazineLimiter,
+        private CacheInterface $cache,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -155,12 +157,18 @@ class MagazineManager
         $magazine->addModerator(new Moderator($magazine, $dto->user, false, true));
 
         $this->entityManager->flush();
+
+        $this->clearCommentsCache($dto->user);
     }
 
     public function removeModerator(Moderator $moderator): void
     {
+        $user = $moderator->user;
+
         $this->entityManager->remove($moderator);
         $this->entityManager->flush();
+
+        $this->clearCommentsCache($user);
     }
 
     public function changeTheme(MagazineThemeDto $dto): Magazine
@@ -221,11 +229,19 @@ class MagazineManager
             $magazine->customCss = null;
         }
 
-        //        $magazine->customJs = $dto->customJs;
+        // $magazine->customJs = $dto->customJs;
 
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();
 
         return $magazine;
+    }
+
+    private function clearCommentsCache(User $user)
+    {
+        $this->cache->invalidateTags([
+            'post_comments_'.$user->getId(),
+            'entry_comments_'.$user->getId(),
+        ]);
     }
 }
