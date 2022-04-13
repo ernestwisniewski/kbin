@@ -49,7 +49,7 @@ class FavouriteRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    private function findByEntryComment(User $user, EntryComment $comment): ?EntryFavourite
+    private function findByEntryComment(User $user, EntryComment $comment): ?EntryCommentFavourite
     {
         $dql = 'SELECT f FROM '.EntryCommentFavourite::class.' f WHERE f.entryComment = :comment AND f.user = :user';
 
@@ -58,7 +58,7 @@ class FavouriteRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    private function findByPost(User $user, Post $post): ?EntryFavourite
+    private function findByPost(User $user, Post $post): ?PostFavourite
     {
         $dql = 'SELECT f FROM '.PostFavourite::class.' f WHERE f.post = :post AND f.user = :user';
 
@@ -67,7 +67,7 @@ class FavouriteRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    private function findByPostComment(User $user, PostComment $comment): ?EntryFavourite
+    private function findByPostComment(User $user, PostComment $comment): ?PostCommentFavourite
     {
         $dql = 'SELECT f FROM '.PostCommentFavourite::class.' f WHERE f.postComment = :comment AND f.user = :user';
 
