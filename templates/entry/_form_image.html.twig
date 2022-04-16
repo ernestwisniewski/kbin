@@ -3,7 +3,7 @@
     {% set hasImage = true %}
 {% endif %}
 
-{{ form_start(form, { 'attr': {'data-controller': 'media', class: 'kbin-media' }}) }}
+{{ form_start(form, { 'attr': {'data-controller': 'media title-counter', 'data-title-counter-max-value': 255, class: 'kbin-media' }}) }}
 <div class="kbin-magazine-create-form mb-3">
     {% if form.image is defined %}
         <div class="input-group-lg mb-3">
@@ -29,7 +29,11 @@
 
     <div class="input-group-lg mb-3">
         {{ form_label(form.title, 'title'|trans) }}<sup class="required">*</sup>
-        {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
+        {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title', 'data-title-counter-target': 'input' }}) }}
+        <div class="float-end">
+            <small><strong data-title-counter-target="counter">0</strong> / 255</small>
+        </div>
+        <div class="clearfix"></div>
     </div>
 
     <div class="input-group-lg mb-3">

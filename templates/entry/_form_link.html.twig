@@ -3,17 +3,20 @@
     {% set hasImage = true %}
 {% endif %}
 
-{{ form_start(form, { 'attr': {'data-controller': 'media', class: 'kbin-media' }}) }}
+{{ form_start(form, { 'attr': {'data-controller': 'media title-counter', 'data-title-counter-max-value': 255, class: 'kbin-media' }}) }}
 <div class="kbin-magazine-create-form">
     <div class="input-group-lg mb-3">
         {{ form_label(form.url, 'URL') }}<sup class="required">*</sup>
         {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle entry-create#fetchDuplicates', 'data-entry-create-target': 'url' }}) }}
-
     </div>
 
     <div class="input-group-lg mb-3">
         {{ form_label(form.title, 'title'|trans) }}<sup class="required">*</sup>
-        {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title' }}) }}
+        {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title', 'data-title-counter-target': 'input' }}) }}
+        <div class="float-end">
+            <small><strong data-title-counter-target="counter">0</strong> / 255</small>
+        </div>
+        <div class="clearfix"></div>
     </div>
 
     <div class="input-group-lg mb-3">
@@ -50,7 +53,11 @@
         </div>
 
         <div class="btn-group">
-            <a class="btn btn-secondary me-1" href="https://{{ kbin_domain }}{{ kbin_markdown_howto_url }}" role="button">
+            <a class="btn btn-secondary me-1"
+               href="https://{{ kbin_domain }}{{ kbin_markdown_howto_url }}"
+               data-controller="markdown-popup"
+               data-action="click->markdown-popup#open"
+               role="button">
                 <i class="fas fa-question"></i>
             </a>
             {% if form.image is defined %}

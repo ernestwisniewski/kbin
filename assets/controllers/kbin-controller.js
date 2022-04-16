@@ -11,7 +11,7 @@ export default class extends Controller {
                 let response = await fetch(e.target.href, {method: 'POST'});
 
                 response = await ok(response);
-                response = await response.json();
+                await response.json();
 
                 document.body.classList.toggle('kbin-dark');
             } catch (e) {

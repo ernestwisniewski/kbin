@@ -19,12 +19,19 @@
         </div>
 
         <div class="btn-group">
-            <a class="btn btn-secondary me-1" href="https://{{ kbin_domain }}{{ kbin_markdown_howto_url }}" role="button">
+            <a class="btn btn-secondary me-1"
+               href="https://{{ kbin_domain }}{{ kbin_markdown_howto_url }}"
+               data-controller="markdown-popup"
+               data-action="click->markdown-popup#open"
+               role="button">
                 <i class="fas fa-question"></i>
             </a>
 
-            <button type="button" class="btn btn-secondary me-1 {{ hasImage ? 'd-none' : '' }}" data-bs-toggle="modal"
-                    data-bs-target="#media-modal-post" data-media-target="modalButton">
+            <button class="btn btn-secondary me-1 {{ hasImage ? 'd-none' : '' }}"
+                    data-media-target="modalButton"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#media-modal-post">
                 <i class="fas fa-camera"></i>
             </button>
 
