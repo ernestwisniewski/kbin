@@ -1,7 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import Modal from 'bootstrap/js/dist/modal';
-import KEditor from "../utils/editor";
 
 export default class extends Controller {
     async open(e) {
@@ -16,18 +15,13 @@ export default class extends Controller {
             let div = document.createElement('div');
             div.innerHTML = response.html;
 
-            e.target.closest('article').after(div);
+            div.firstElementChild.setAttribute('id', 'markdown-popup')
 
-            (new Modal(document.getElementById('content-popup'))).show();
+            document.body.appendChild(div);
 
-            const popup = document.getElementById('content-popup');
+            (new Modal(document.getElementById('markdown-popup'))).show();
 
-            // const commentForm = popup.getElementsByClassName('kbin-editor');
-            // if(commentForm.length){
-            //     new KEditor(commentForm[0]);
-            // } // @todo fix editor
-
-            popup.addEventListener('hidden.bs.modal', (e) => {
+            document.getElementById('markdown-popup').addEventListener('hidden.bs.modal', (e) => {
                 this.close();
             });
         } catch (e) {
@@ -37,6 +31,6 @@ export default class extends Controller {
     }
 
     close() {
-        document.getElementById('content-popup').remove();
+        document.getElementById('markdown-popup').remove();
     }
 }

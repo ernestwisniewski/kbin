@@ -23,7 +23,7 @@ export default class Keditor {
             hideIcons: ['guide', 'fullscreen', 'side-by-side', 'preview', 'heading'],
             showIcons: ['code', 'table'],
             spellChecker: false,
-            status: false,
+            status: true,
             toolbarTips: false,
             styleSelectedText: false,
             autofocus: focus,
