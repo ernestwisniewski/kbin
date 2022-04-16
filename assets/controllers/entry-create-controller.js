@@ -28,7 +28,6 @@ export default class extends Controller {
                 (new Modal(document.getElementById('duplicatesModal'))).show();
             }
         } catch (e) {
-            console.log(e);
         }
     }
 
@@ -51,6 +50,7 @@ export default class extends Controller {
             response = await response.json();
 
             this.titleTarget.value = response.title;
+            this.titleTarget.dispatchEvent(new Event('input'));
         } catch (e) {
             alert('Oops, something went wrong.');
             throw e;
