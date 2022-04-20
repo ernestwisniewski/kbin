@@ -30,6 +30,7 @@
         "choices.js": "^9.0.1",
         "js-cookie": "^2.2.1",
         "simplemde": "^1.11.2",
+        "stimulus-animated-number": "^4.0.0",
         "stimulus-character-counter": "^4.0.0",
         "stimulus-clipboard": "^3.0.0",
         "stimulus-reveal-controller": "^4.0.0",

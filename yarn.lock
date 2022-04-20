@@ -4955,6 +4955,11 @@ stdout-stream@^1.4.0:
   dependencies:
     readable-stream "^2.0.1"
 
+stimulus-animated-number@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/stimulus-animated-number/-/stimulus-animated-number-4.0.0.tgz#28fc17cb4ce214bff71ddad3d5d2037b53aa3b68"
+  integrity sha512-CqyOsYGPAGi2sYOiOrMNov1gqLu14BkuybdAkPxt1bUdmUkpZq4rYglzYXS7iCTpMpytA5no6BUArZGQEPIuBg==
+
 stimulus-character-counter@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/stimulus-character-counter/-/stimulus-character-counter-4.0.0.tgz#38f50fc32de67702c0bd106738b74ba4bbe5c927"

@@ -442,6 +442,9 @@
             "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
         }
     },
+    "stella-maris/clock": {
+        "version": "0.1.4"
+    },
     "symfony/amqp-messenger": {
         "version": "v5.3.2"
     },
