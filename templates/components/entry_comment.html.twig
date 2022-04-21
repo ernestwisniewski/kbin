@@ -100,7 +100,7 @@
                         <li class="kbin-comment-meta-list-item kbin-comment-meta-list-item-links list-inline-item">
                             <small class="text-muted">
                                 <a data-action="comment#reply"
-                                   class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert kbin-link-block{% endif %}"
+                                   class="{% if not (is_granted('ROLE_USER') ) %}kbin-login-alert{% endif %}"
                                    href="{{ path('entry_comment_create', { 'magazine_name': this.comment.entry.magazine.name, 'entry_id': this.comment.entry.id, 'parent_comment_id': this.comment.id }) }}">
                                     {{ 'reply'|trans }}
                                 </a>

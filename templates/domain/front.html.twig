@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ domain.name ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) }}
-{% endblock %}
+{%- block title -%}
+    {{- domain.name ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) -}}
+{%- endblock -%}
 
 {% block body %}
     <div class="kbin-front-page">

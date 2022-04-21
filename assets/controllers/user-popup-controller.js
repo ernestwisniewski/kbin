@@ -11,7 +11,7 @@ export default class extends Controller {
     async show(e) {
         e.preventDefault();
 
-        this.element.classList.add('visually-hidden');
+        this.element.classList.add('kbin-link-block');
 
         const url = router().generate('ajax_fetch_user_popup', {username: this.usernameValue});
 
@@ -31,6 +31,6 @@ export default class extends Controller {
 
         (new Modal(document.getElementById("kbin-user-popup")).show());
 
-        this.element.classList.remove('visually-hidden');
+        this.element.classList.remove('kbin-link-block');
     }
 }

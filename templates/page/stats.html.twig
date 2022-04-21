@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'stats'|trans }}{% endblock %}
+{%- block title -%}{{- 'stats'|trans -}}{%- endblock -%}
 
 {% block body %}
     {%- set TYPE_GENERAL = constant('App\\Repository\\StatsRepository::TYPE_GENERAL') -%}

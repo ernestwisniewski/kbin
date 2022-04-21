@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}{{ user.username }} - {{ 'overview'|trans }}{% endblock %}
+{%- block title -%}{{- user.username }} - {{ 'overview'|trans -}}{%- endblock -%}
 
 {% block body %}
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">

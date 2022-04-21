@@ -2,11 +2,11 @@
 
 {% block title %}
     {% if is_sub_page() %}
-        {{ 'topbar.subscriptions'|trans }} - {{ get_active_sort_option()|capitalize }}
+        {{- 'topbar.subscriptions'|trans }} - {{ get_active_sort_option()|capitalize -}}
     {% elseif is_mod_page() %}
-        {{ 'topbar.moderated'|trans }} - {{ get_active_sort_option()|capitalize }}
+        {{- 'topbar.moderated'|trans }} - {{ get_active_sort_option()|capitalize -}}
     {% else %}
-        {{ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : get_active_sort_option()|capitalize ~ ' - ') ~ kbin_title }}
+        {{- (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : get_active_sort_option()|capitalize ~ ' - ') ~ kbin_title -}}
     {% endif %}
 {% endblock %}
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'bans'|trans }} | /m/{{ magazine.name }} | {{ parent() }}{% endblock %}
+{%- block title -%}{{- 'bans'|trans }} | /m/{{ magazine.name }} | {{ parent() -}}{%- endblock -%}
 
 {% block body %}
     {% from '_layout/_not_found.html.twig' import not_found %}
