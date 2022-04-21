@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}{{ user.username }} - {{ 'reputation_points'|trans }}{% endblock %}
+{%- block title -%}{{- user.username }} - {{ 'reputation_points'|trans -}}{%- endblock -%}
 
 {% block body %}
     {%- set TYPE_ENTRY = constant('App\\Repository\\ReputationRepository::TYPE_ENTRY') -%}

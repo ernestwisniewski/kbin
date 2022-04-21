@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
 
-{% block title %}{{ get_short_desc(post.body) }} - {{ magazine.title }}{% endblock %}
-{% block description %}{{ magazine.description ? get_short_desc(magazine.description) : '' }}{% endblock %}
+{%- block title -%}{{- get_short_desc(post.body) }} - {{ magazine.title -}}{%- endblock -%}
+
+{%- block description -%}{{- magazine.description ? get_short_desc(magazine.description) : '' -}}{%- endblock -%}
+
 {% block image %}{{ post.image ? uploaded_asset(post.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
 {% block body %}
