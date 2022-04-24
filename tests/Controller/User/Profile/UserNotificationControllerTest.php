@@ -20,13 +20,21 @@ class UserNotificationControllerTest extends WebTestCase
         $this->loadNotificationsFixture();
 
         $crawler = $client->request('GET', '/profil/notyfikacje');
-        $this->assertCount(2, $crawler->filter('.table-responsive tr'));
+        $this->assertCount(2, $crawler->filter('.kbin-notifications .toast-header'));
 
         $client->restart();
-        $client->loginUser($this->getUserByUsername('actor'));
+        $client->loginUser($actor);
 
+        $crawler = $client->request('GET', '/');
         $crawler = $client->request('GET', '/profil/notyfikacje');
-        $this->assertCount(5, $crawler->filter('.table-responsive tr'));
+        $this->assertCount(3, $crawler->filter('.kbin-notifications .toast-header'));
+
+        $client->restart();
+        $client->loginUser($this->getUserByUsername('regularUser'));
+
+        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/profil/notyfikacje');
+        $this->assertCount(2, $crawler->filter('.kbin-notifications .toast-header'));
     }
 
     public function testUserCanReadAllNotifications()
@@ -44,15 +52,14 @@ class UserNotificationControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/profil/notyfikacje');
         $crawler = $client->request('GET', '/profil/notyfikacje');
 
-        $this->assertCount(2, $crawler->filter('.table-responsive tr'));
-        $this->assertCount(0, $crawler->filter('.table-responsive tr td.opacity-50'));
+        $this->assertCount(2, $crawler->filter('.table-responsive .toast-header'));
+        $this->assertCount(0, $crawler->filter('.table-responsive .opacity-50 .toast-header'));
 
         $client->submit($crawler->selectButton('odczytaj wszystkie')->form());
 
         $crawler = $client->followRedirect();
 
-        $this->assertCount(2, $crawler->filter('.table-responsive tr'));
-        $this->assertCount(2, $crawler->filter('.table-responsive tr td.opacity-50'));
+        $this->assertCount(2, $crawler->filter('.kbin-notifications .opacity-50 .toast-header'));
     }
 
     public function testUserCanDeleteAllNotifications()
@@ -69,13 +76,12 @@ class UserNotificationControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/profil/notyfikacje');
         $crawler = $client->request('GET', '/profil/notyfikacje');
 
-        $this->assertCount(2, $crawler->filter('.table-responsive tr'));
-        $this->assertCount(0, $crawler->filter('.table-responsive tr td.opacity-50'));
+        $this->assertCount(2, $crawler->filter('.table-responsive .toast-header'));
 
         $client->submit($crawler->selectButton('wyczyść')->form());
 
         $crawler = $client->followRedirect();
 
-        $this->assertCount(0, $crawler->filter('.table-responsive tr'));
+        $this->assertCount(0, $crawler->filter('.table-responsive .toast-header'));
     }
 }

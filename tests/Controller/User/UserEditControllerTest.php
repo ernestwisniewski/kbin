@@ -27,7 +27,7 @@ class UserEditControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
+        $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();
 
         $client->submit(
@@ -39,7 +39,7 @@ class UserEditControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
     }
@@ -47,7 +47,7 @@ class UserEditControllerTest extends WebTestCase
     public function testUserCanChangeEmail()
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('testUser'));
+        $client->loginUser($user = $this->getUserByUsername('testUser'));
 
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Profil')->link());
@@ -61,8 +61,6 @@ class UserEditControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
-
         $this->assertEmailCount(1);
 
         /** @var TemplatedEmail $email */
@@ -72,7 +70,8 @@ class UserEditControllerTest extends WebTestCase
 
         $verifyLink = $email->getContext()['signedUrl'];
 
-        $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
+        $crawler = $client->request('GET', '/');
+        $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();
 
         $client->submit(
@@ -84,11 +83,15 @@ class UserEditControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.alert-danger', 'Twoje konto nie jest aktywne.');
 
-        $crawler = $client->request('GET', $verifyLink);
+        $client->request('GET', $verifyLink);
+        $crawler = $client->followRedirect();
+
+        $crawler = $client->request('GET', '/');
+        $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();
 
         $client->submit(
@@ -100,8 +103,8 @@ class UserEditControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
+        $this->assertSelectorTextNotContains('.alert-danger', 'Twoje konto nie jest aktywne.');
     }
 }

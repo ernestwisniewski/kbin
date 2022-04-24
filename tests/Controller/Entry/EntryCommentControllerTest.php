@@ -75,7 +75,7 @@ class EntryCommentControllerTest extends WebTestCase
         $this->createVote(1, $child1, $user2);
 
         $entryUrl = "/m/polityka/t/{$child1->entry->getId()}/-";
-        $crawler  = $client->request('GET', $entryUrl);
+        $crawler  = $client->request('GET', '/');
         $crawler  = $client->request('GET', $entryUrl);
 
         $crawler = $client->request('GET', "{$entryUrl}/komentarz/{$comment->getId()}/edytuj");

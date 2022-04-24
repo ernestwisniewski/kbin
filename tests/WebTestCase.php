@@ -191,7 +191,7 @@ abstract class WebTestCase extends BaseWebTestCase
     {
         $manager = static::getContainer()->get(EntityManagerInterface::class);
 
-        $user = new User($email ? $email : $username.'@example.com', $username, $password ? $password : 'secret');
+        $user = new User($email ?: $username.'@example.com', $username, $password ?: 'secret');
 
         $user->isVerified                   = $active;
         $user->notifyOnNewEntry             = true;
@@ -271,14 +271,15 @@ abstract class WebTestCase extends BaseWebTestCase
         $magazine = $this->getMagazineByName('polityka', $owner);
 
         $actor = $this->getUserByUsername('actor');
+        $regular = $this->getUserByUsername('regularUser');
 
         $entry   = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
-        $comment = $this->createEntryComment('test', $entry, $actor);
+        $comment = $this->createEntryComment('test', $entry, $regular);
         (static::getContainer()->get(EntryCommentManager::class))->delete($owner, $comment);
         (static::getContainer()->get(EntryManager::class))->delete($owner, $entry);
 
         $post    = $this->createPost('test', $magazine, $actor);
-        $comment = $this->createPostComment('test', $post, $actor);
+        $comment = $this->createPostComment('test', $post, $regular);
         (static::getContainer()->get(PostCommentManager::class))->delete($owner, $comment);
         (static::getContainer()->get(PostManager::class))->delete($owner, $post);
 
