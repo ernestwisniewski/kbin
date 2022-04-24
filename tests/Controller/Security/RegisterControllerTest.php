@@ -45,7 +45,7 @@ class RegisterControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();
-        $crawler = $client->click($crawler->filter('.kbin-login')->selectLink('Zarejestruj się!')->link());
+        $crawler = $client->click($crawler->filter('.kbin-login')->selectLink('Zarejestruj się.')->link());
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(

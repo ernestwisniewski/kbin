@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
+{%- block title -%}
     {% if is_sub_page() %}
         {{- 'topbar.subscriptions'|trans }} - {{ get_active_sort_option()|capitalize -}}
     {% elseif is_mod_page() %}
@@ -8,7 +8,7 @@
     {% else %}
         {{- (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : get_active_sort_option()|capitalize ~ ' - ') ~ kbin_title -}}
     {% endif %}
-{% endblock %}
+{%- endblock -%}
 
 {% block body %}
     <div class="kbin-front-page">
