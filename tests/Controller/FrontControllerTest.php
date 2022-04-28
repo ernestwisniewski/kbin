@@ -186,7 +186,7 @@ class FrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-comment-meta-entry', 'w testowa treść');
     }
 
-    public function provider()
+    public function provider(): array
     {
         return [
             ['Ważne'],
@@ -195,6 +195,7 @@ class FrontControllerTest extends WebTestCase
             ['Wschodzące'],
             ['Komentowane'],
             ['Komentarze'],
+            ['Wpisy'],
         ];
     }
 }
