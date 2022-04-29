@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -135,7 +135,7 @@ class PostRepository extends ServiceEntityRepository
             $qb->setParameter('magazineBlocker', $user);
         }
 
-        if(!$user || $user->hideAdult) {
+        if (!$user || $user->hideAdult) {
             $qb->andWhere('m.isAdult = :isAdult')
                 ->andWhere('p.isAdult = :isAdult')
                 ->setParameter('isAdult', false);

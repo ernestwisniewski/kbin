@@ -4,7 +4,7 @@ namespace App\Tests\Controller\Domain;
 
 trait DomainFixturesTrait
 {
-    private function createFixtures(): void
+    private function createEntryFixtures(): void
     {
         $this->createEntry(
             'karabin1',
@@ -24,5 +24,12 @@ trait DomainFixturesTrait
             $this->getUserByUsername('regularUser'),
             'https://google.pl'
         );
+    }
+
+    private function createCommentFixtures(): void
+    {
+        $this->createEntryComment('comment1', $this->getEntryByTitle('karabin1'));
+        $this->createEntryComment('comment2', $this->getEntryByTitle('karabin2'));
+        $this->createEntryComment('comment3', $this->getEntryByTitle('google'));
     }
 }

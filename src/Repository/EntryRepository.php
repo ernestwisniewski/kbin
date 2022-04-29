@@ -154,19 +154,18 @@ class EntryRepository extends ServiceEntityRepository
             $qb->andWhere(
                 'e.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
             );
-            $qb->setParameter('blocker', $user);
 
             $qb->andWhere(
-                'e.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
+                'e.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :blocker)'
             );
-            $qb->setParameter('magazineBlocker', $user);
 
             if (!$criteria->domain) {
                 $qb->andWhere(
-                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :domainBlocker)'
+                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :blocker)'
                 );
-                $qb->setParameter('domainBlocker', $user);
             }
+
+            $qb->setParameter('blocker', $user);
         }
 
         if (!$user || $user->hideAdult) {
