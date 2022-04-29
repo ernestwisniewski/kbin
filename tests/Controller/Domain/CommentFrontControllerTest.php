@@ -12,11 +12,8 @@ class CommentFrontControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $this->createFixtures();
-
-        $this->createEntryComment('comment1', $this->getEntryByTitle('karabin1'));
-        $this->createEntryComment('comment2', $this->getEntryByTitle('karabin2'));
-        $this->createEntryComment('comment3', $this->getEntryByTitle('google'));
+        $this->createEntryFixtures();
+        $this->createCommentFixtures();
 
         $crawler = $client->request('GET', '/d/karab.in/komentarze/najnowsze');
 

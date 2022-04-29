@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\DomainBlock;
+use App\Entity\DomainSubscription;
 use App\Entity\EntryComment;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
@@ -109,9 +111,10 @@ class EntryCommentRepository extends ServiceEntityRepository
                 ->setParameter('tag', "%{$criteria->tag}%");
         }
 
+        $qb->join('c.entry', 'ce');
+
         if ($criteria->domain) {
             $qb->andWhere('ced.name = :domain')
-                ->join('c.entry', 'ce')
                 ->join('ce.domain', 'ced')
                 ->setParameter('domain', $criteria->domain);
         }
@@ -122,29 +125,40 @@ class EntryCommentRepository extends ServiceEntityRepository
                 OR 
                 c.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :follower)
                 OR
-                c.user = :user'
+                c.user = :follower
+                OR
+                ce.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :follower)'
             );
-            $qb->setParameter('follower', $this->security->getUser());
-            $qb->setParameter('user', $this->security->getUser());
+            $qb->setParameter('follower', $user);
         }
 
-        if ($user = $this->security->getUser()) {
+        if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
             $qb->andWhere(
                 'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
             );
-            $qb->setParameter('blocker', $user);
 
             $qb->andWhere(
-                'c.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
+                'ce.user NOT IN (SELECT IDENTITY(ubc.blocked) FROM '.UserBlock::class.' ubc WHERE ubc.blocker = :blocker)'
             );
-            $qb->setParameter('magazineBlocker', $user);
+
+            $qb->andWhere(
+                'c.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :blocker)'
+            );
+
+            if (!$criteria->domain) {
+                $qb->andWhere(
+                    'ce.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :blocker)'
+                );
+            }
+
+            $qb->setParameter('blocker', $user);
         }
 
         if ($criteria->onlyParents) {
             $qb->andWhere('c.parent IS NULL');
         }
 
-        if(!$user || $user->hideAdult) {
+        if (!$user || $user->hideAdult) {
             $qb->join('e.magazine', 'm')
                 ->andWhere('m.isAdult = :isAdult')
                 ->andWhere('e.isAdult = :isAdult')

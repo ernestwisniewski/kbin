@@ -14,7 +14,7 @@ class DomainSubControllerTest extends WebTestCase
 
         $client->loginUser($this->getUserByUsername('testUser'));
 
-        $this->createFixtures();
+        $this->createEntryFixtures();
 
         $crawler = $client->request('GET', '/d/karab.in');
 
@@ -35,15 +35,12 @@ class DomainSubControllerTest extends WebTestCase
 
         $client->loginUser($this->getUserByUsername('testUser'));
 
-        $this->createFixtures();
-
-        $this->createEntryComment('comment1', $this->getEntryByTitle('karabin1'));
-        $this->createEntryComment('comment2', $this->getEntryByTitle('karabin2'));
-        $this->createEntryComment('comment3', $this->getEntryByTitle('google'));
+        $this->createEntryFixtures();
+        $this->createCommentFixtures();
 
         $crawler = $client->request('GET', '/d/karab.in');
 
-        $client->submit(
+        $crawler = $client->submit(
             $crawler->filter('.kbin-domain-subscribe')->selectButton('obserwuj')->form()
         );
 
@@ -51,6 +48,6 @@ class DomainSubControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/sub/komentarze');
 
-        $this->assertEquals(2, $crawler->filter('.kbin-entry-title-domain')->count());
+        $this->assertEquals(2, $crawler->filter('.kbin-comment')->count());
     }
 }

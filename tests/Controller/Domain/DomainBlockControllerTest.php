@@ -14,12 +14,8 @@ class DomainBlockControllerTest extends WebTestCase
 
         $client->loginUser($this->getUserByUsername('testUser'));
 
-        $this->createFixtures();
-
-        $this->createEntryComment('comment1', $this->getEntryByTitle('karabin1'));
-        $this->createEntryComment('comment2', $this->getEntryByTitle('karabin2'));
-        $this->createEntryComment('comment3', $this->getEntryByTitle('google'));
-
+        $this->createEntryFixtures();
+        $this->createCommentFixtures();
 
         $crawler = $client->request('GET', '/d/karab.in');
 
@@ -40,7 +36,7 @@ class DomainBlockControllerTest extends WebTestCase
 
         $client->loginUser($this->getUserByUsername('testUser'));
 
-        $this->createFixtures();
+        $this->createEntryFixtures();
 
         $this->createEntryComment('comment1', $this->getEntryByTitle('karabin1'));
         $this->createEntryComment('comment2', $this->getEntryByTitle('karabin2'));
