@@ -15,6 +15,7 @@ class CommentFrontControllerTest extends WebTestCase
         $this->createEntryFixtures();
         $this->createCommentFixtures();
 
+        $crawler = $client->request('GET', '/');
         $crawler = $client->request('GET', '/d/karab.in/komentarze/najnowsze');
 
         $this->assertSelectorTextContains('.kbin-comment-content', 'comment2');
