@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\ContactDto;
 use App\Form\ContactType;
 use App\Service\CloudflareIpResolver;
 use App\Service\ContactManager;
@@ -16,10 +17,17 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var ContactDto $dto
+             */
             $dto = $form->getData();
             $dto->ip = $ipResolver->resolve();
 
-            $manager->send($dto);
+            if(!$dto->surname){
+                $manager->send($dto);
+            }
+
+            $this->addFlash('success', 'email_was_sent');
 
             return $this->redirectToRefererOrHome($request);
         }

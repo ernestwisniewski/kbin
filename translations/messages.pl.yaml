@@ -394,3 +394,4 @@ reset_check_email_desc: 'Jeśli istnieje konto pasujące do Twojego adresu e-mai
 reset_check_email_desc2: 'Jeśli nie otrzymasz wiadomości e-mail, sprawdź folder ze spamem lub'
 reset_visit_link: 'Aby zresetować hasło, odwiedź poniższy link'
 try_again: 'spróbuj ponownie'
+email_was_sent: 'Email został wysłany'

@@ -1,5 +1,8 @@
-{{ form_start(form) }}
+<div class="col-lg-6 mb-3">
+    {% include '_layout/_flash.html.twig' %}
+</div>
 
+{{ form_start(form) }}
 <div class="kbin-contact-form">
     <div class="col-lg-6 mb-3">
         <div class="input-group-lg mb-3">
@@ -18,10 +21,9 @@
         </div>
 
         <div class="text-end">
+            {{ form_widget(form.surname, { 'attr': {style: 'display:none !important'}}) }}
             {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
         </div>
     </div>
-
-
 </div>
 {{ form_end(form) }}
