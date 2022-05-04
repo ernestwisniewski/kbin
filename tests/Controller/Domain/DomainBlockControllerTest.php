@@ -8,7 +8,7 @@ class DomainBlockControllerTest extends WebTestCase
 {
     use DomainFixturesTrait;
 
-    public function testDomainBlockController()
+    public function testDomainBlockAndUnblockController()
     {
         $client = static::createClient();
 
@@ -25,9 +25,30 @@ class DomainBlockControllerTest extends WebTestCase
 
         $client->followRedirect();
 
+        $this->assertSelectorExists('.kbin-block--active');
+
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(1, $crawler->filter('.kbin-entry-title-domain')->count());
+
+        $crawler = $client->request('GET', '/d/karab.in');
+
+        $client->submit(
+            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('')->form()
+        );
+
+        $client->submit(
+            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('')->form()
+        );
+
+        $client->followRedirect();
+
+        $this->assertSelectorNotExists('.kbin-block--active');
+
+        $crawler = $client->request('GET', '/');
+
+        $this->assertEquals(3, $crawler->filter('.kbin-entry-title-domain')->count());
+
     }
 
     public function testDomainBlockCommentsController()

@@ -8,7 +8,7 @@ class DomainSubControllerTest extends WebTestCase
 {
     use DomainFixturesTrait;
 
-    public function testDomainSubController()
+    public function testDomainSubAndUnsubController()
     {
         $client = static::createClient();
 
@@ -24,9 +24,25 @@ class DomainSubControllerTest extends WebTestCase
 
         $client->followRedirect();
 
+        $this->assertSelectorExists('.kbin-sub--active');
+
         $crawler = $client->request('GET', '/sub');
 
         $this->assertEquals(2, $crawler->filter('.kbin-entry-title-domain')->count());
+
+        $crawler = $client->request('GET', '/d/karab.in');
+
+        $client->submit(
+            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('obserwuj')->form()
+        );
+
+        $client->followRedirect();
+
+        $this->assertSelectorNotExists('.kbin-sub--active');
+
+        $crawler = $client->request('GET', '/sub');
+
+        $this->assertEquals(0, $crawler->filter('.kbin-entry-title-domain')->count());
     }
 
     public function testDomainSubCommentsController()
