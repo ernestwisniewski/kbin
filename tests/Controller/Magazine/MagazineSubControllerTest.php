@@ -7,7 +7,7 @@ use App\Tests\WebTestCase;
 
 class MagazineSubControllerTest extends WebTestCase
 {
-    public function testUserCanSubscribeMagazine()
+    public function testUserCanSubAndUnsubMagazine()
     {
         $client  = $this->createClient();
         $manager = static::getContainer()->get(MagazineManager::class);
