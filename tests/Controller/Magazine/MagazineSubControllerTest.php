@@ -29,6 +29,7 @@ class MagazineSubControllerTest extends WebTestCase
 
         $manager->subscribe($magazine, $user3);
 
+        // subscribe
         $crawler = $client->request('GET', '/m/polityka');
 
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
@@ -46,6 +47,7 @@ class MagazineSubControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-entry-title', 'treść 1');
         $this->assertCount(3, $crawler->filter('.kbin-entry-title'));
 
+        // unsubscribe
         $crawler = $client->click($crawler->filter('.kbin-entry-title a')->link());
 
         $client->submit(

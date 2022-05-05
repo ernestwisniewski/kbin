@@ -18,6 +18,7 @@ class DomainSubControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/d/karab.in');
 
+        // subscribe
         $client->submit(
             $crawler->filter('.kbin-domains .kbin-sub')->selectButton('obserwuj')->form()
         );
@@ -32,6 +33,7 @@ class DomainSubControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/d/karab.in');
 
+        // usubscribe
         $client->submit(
             $crawler->filter('.kbin-domains .kbin-sub')->selectButton('obserwuj')->form()
         );
@@ -45,25 +47,33 @@ class DomainSubControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('.kbin-entry-title-domain')->count());
     }
 
-    public function testDomainSubCommentsController()
-    {
+    public function testXmlDomainSubAndUnsubController() {
         $client = static::createClient();
 
         $client->loginUser($this->getUserByUsername('testUser'));
 
         $this->createEntryFixtures();
-        $this->createCommentFixtures();
 
+        // subscribe
         $crawler = $client->request('GET', '/d/karab.in');
 
-        $crawler = $client->submit(
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+
+        $client->submit(
             $crawler->filter('.kbin-domain-subscribe')->selectButton('obserwuj')->form()
         );
 
-        $client->followRedirect();
+        $this->assertStringContainsString('{"subCount":1,"isSubscribed":true}', $client->getResponse()->getContent());
 
-        $crawler = $client->request('GET', '/sub/komentarze');
+        // unsubscribe
+        $crawler = $client->request('GET', '/d/karab.in');
 
-        $this->assertEquals(2, $crawler->filter('.kbin-comment')->count());
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+
+        $client->submit(
+            $crawler->filter('.kbin-domain-subscribe')->selectButton('obserwuj')->form()
+        );
+
+        $this->assertStringContainsString('{"subCount":0,"isSubscribed":false}', $client->getResponse()->getContent());
     }
 }

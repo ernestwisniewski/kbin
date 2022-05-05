@@ -17,6 +17,7 @@ class DomainBlockControllerTest extends WebTestCase
         $this->createEntryFixtures();
         $this->createCommentFixtures();
 
+        // block
         $crawler = $client->request('GET', '/d/karab.in');
 
         $client->submit(
@@ -31,11 +32,8 @@ class DomainBlockControllerTest extends WebTestCase
 
         $this->assertEquals(1, $crawler->filter('.kbin-entry-title-domain')->count());
 
+        // unblock
         $crawler = $client->request('GET', '/d/karab.in');
-
-        $client->submit(
-            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('')->form()
-        );
 
         $client->submit(
             $crawler->filter('.kbin-domains .kbin-sub')->selectButton('')->form()
@@ -48,7 +46,6 @@ class DomainBlockControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(3, $crawler->filter('.kbin-entry-title-domain')->count());
-
     }
 
     public function testDomainBlockCommentsController()
@@ -63,6 +60,7 @@ class DomainBlockControllerTest extends WebTestCase
         $this->createEntryComment('comment2', $this->getEntryByTitle('karabin2'));
         $this->createEntryComment('comment3', $this->getEntryByTitle('google'));
 
+        //block
         $crawler = $client->request('GET', '/d/karab.in');
 
         $client->submit(
@@ -74,5 +72,46 @@ class DomainBlockControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(1, $crawler->filter('.kbin-entry-title-domain')->count());
+
+        // unblock
+        $crawler = $client->request('GET', '/d/karab.in');
+
+        $client->submit(
+            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('')->form()
+        );
+
+        $client->followRedirect();
+
+        $crawler = $client->request('GET', '/');
+
+        $this->assertEquals(3, $crawler->filter('.kbin-entry-title-domain')->count());
+    }
+
+    public function testXmlDomainBlockAndUnblockController() {
+        $client = static::createClient();
+
+        $client->loginUser($this->getUserByUsername('testUser'));
+
+        $this->createEntryFixtures();
+
+        // block
+        $crawler = $client->request('GET', '/d/karab.in');
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+
+        $client->submit(
+            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('')->form()
+        );
+
+        $this->assertStringContainsString('{"isBlocked":true}', $client->getResponse()->getContent());
+
+        // unblock
+        $crawler = $client->request('GET', '/d/karab.in');
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+
+        $client->submit(
+            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('')->form()
+        );
     }
 }
