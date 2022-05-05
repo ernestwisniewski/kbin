@@ -59,11 +59,6 @@ class MagazineBlockControllerTest extends WebTestCase
         $client->loginUser($user = $this->getUserByUsername('regularUser'));
 
         $user2 = $this->getUserByUsername('regularUser2');
-        $user2->cardanoWalletAddress('abc');
-
-        $manager = static::getContainer()->get(EntityManagerInterface::class);
-        $manager->persist($user2);
-        $manager->flush();
 
         $magazine = $this->getMagazineByName('polityka', $user2);
         $entry    = $this->getEntryByTitle('treść 2', null, null, $magazine, $user2);
@@ -74,6 +69,7 @@ class MagazineBlockControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+
         $client->submit(
             $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->selectButton('')->form()
         );
@@ -81,11 +77,13 @@ class MagazineBlockControllerTest extends WebTestCase
         $this->assertStringContainsString('{"isBlocked":true}', $client->getResponse()->getContent());
 
         $client->setServerParameter('HTTP_X-Requested-With', 'none');
+
         $client->request('GET', "/m/polityka/t/$id/-/");
 
         $crawler = $client->followRedirect();
 
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+
         $client->submit(
             $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->selectButton('')->form()
         );
