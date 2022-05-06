@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryDeleteControllerTest extends WebTestCase
 {
-
     public function testAuthorCanDeleteEntry()
     {
         $client = $this->createClient();
@@ -100,5 +99,42 @@ class EntryDeleteControllerTest extends WebTestCase
         $repository = static::getContainer()->get(EntryCommentRepository::class);
         $comments   = $repository->findAll();
         $this->assertCount(0, $comments);
+    }
+
+    public function testModeratorCanRestoreEntry()
+    {
+        $client = $this->createClient();
+        $client->loginUser($moderator = $this->getUserByUsername('moderator'));
+
+        $this->getMagazineByName('polityka', $moderator);
+
+        $entry = $this->createEntry('entry example', $this->getMagazineByName('polityka'), $this->getUserByUsername('regular'));
+        $this->createEntryComment('comment', $entry, $moderator);
+
+        $crawler = $client->request('GET', "/");
+
+        $client->submit(
+            $crawler->selectButton('usuń')->form()
+        );
+
+        $crawler = $client->followRedirect();
+
+        $this->assertCount(0, $crawler->filter('article'));
+
+        $crawler = $client->click($crawler->filter('.kbin-sidebar')->selectLink('Kosz')->link());
+
+        $this->assertCount(1, $crawler->filter('article'));
+
+        $client->submit(
+            $crawler->selectButton('przywróć')->form()
+        );
+
+        $crawler = $client->followRedirect();
+
+        $this->assertCount(1, $crawler->filter('article'));
+
+        $crawler = $client->click($crawler->filter('.kbin-sidebar')->selectLink('Kosz')->link());
+
+        $this->assertCount(0, $crawler->filter('article'));
     }
 }
