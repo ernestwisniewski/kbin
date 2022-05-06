@@ -113,5 +113,7 @@ class DomainBlockControllerTest extends WebTestCase
         $client->submit(
             $crawler->filter('.kbin-domains .kbin-sub')->selectButton('')->form()
         );
+
+        $this->assertStringContainsString('{"isBlocked":false}', $client->getResponse()->getContent());
     }
 }

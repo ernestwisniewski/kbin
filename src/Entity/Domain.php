@@ -131,7 +131,7 @@ class Domain
 
     public function shouldRatio(): bool
     {
-        return in_array($this->name, ['youtube.com', 'streamable.com', 'youtu.be']); // @todo change youtu.be to youtube.com
+        return in_array($this->name, ['youtube.com', 'streamable.com', 'youtu.be', 'm.youtube.com']); // @todo change youtu.be, m.youtube.com to youtube.com
     }
 
     public function __sleep()
