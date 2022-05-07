@@ -37,7 +37,7 @@ class EntryCommentVotersController extends AbstractController
             'magazine' => $magazine,
             'entry'    => $entry,
             'comment'  => $comment,
-            'votes'    => $entry->votes,
+            'votes'    => $comment->votes,
         ]);
     }
 }

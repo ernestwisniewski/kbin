@@ -3,7 +3,6 @@
 namespace App\Tests\Controller\Entry\Comment;
 
 use App\Tests\WebTestCase;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryCommentEditControllerTest extends WebTestCase
 {
@@ -32,5 +31,21 @@ class EntryCommentEditControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('blockquote', 'zmieniona treść');
+    }
+
+    public function testXmlCanEditEntryComment()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('regularUser'));
+
+        $comment = $this->createEntryComment('przykładowy komentarz');
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$comment->entry->getId()}/-/komentarze");
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+
+        $client->click($crawler->filter('blockquote.kbin-comment')->selectLink('edytuj')->link());
+
+        $this->assertStringContainsString('kbin-comment-create-form', $client->getResponse()->getContent());
     }
 }
