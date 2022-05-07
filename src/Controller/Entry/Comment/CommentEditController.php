@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class CommentEditController extends AbstractController
 {
@@ -47,6 +48,10 @@ class CommentEditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isGranted('create_content', $dto->magazine)) {
+                throw new AccessDeniedHttpException();
+            }
+
             return $this->handleValidRequest($dto, $comment, $request);
         }
 

@@ -71,4 +71,21 @@ class EntryCommentCreateControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-comment-level--3', 'komentarz poziomu 3');
         $this->assertCount(1, $crawler->filter('.kbin-comment-level--3'));
     }
+
+
+    public function testXmlCanReplyEntryComment()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('regularUser'));
+
+        $comment = $this->createEntryComment('przykładowy komentarz');
+
+        $crawler = $client->request('GET', "/m/polityka/t/{$comment->entry->getId()}/-/komentarze");
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+
+        $client->click($crawler->filter('blockquote.kbin-comment')->selectLink('odpowiedz')->link());
+
+        $this->assertStringContainsString('kbin-comment-create-form', $client->getResponse()->getContent());
+    }
 }

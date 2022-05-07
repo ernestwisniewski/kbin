@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -22,6 +22,7 @@ class PostCommentFactory
     public function createDto(PostComment $comment): PostCommentDto
     {
         $dto             = new PostCommentDto();
+        $dto->magazine   = $comment->magazine;
         $dto->post       = $comment->post;
         $dto->user       = $comment->user;
         $dto->body       = $comment->body;

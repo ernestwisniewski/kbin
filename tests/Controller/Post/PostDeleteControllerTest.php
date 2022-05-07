@@ -87,4 +87,39 @@ class PostDeleteControllerTest extends WebTestCase
         $comments   = $repository->findAll();
         $this->assertCount(0, $comments);
     }
+
+    public function testModeratorCanRestorePost() {
+        $client = $this->createClient();
+        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+
+        $user1 = $this->getUserByUsername('regularUser');
+        $user2 = $this->getUserByUsername('regularUser2');
+
+        $post = $this->createPost('post test', null, $user2);
+        $post = $this->createPost('post test2', null, $user2);
+
+        $crawler = $client->request('GET', "/m/polityka/wpisy");
+
+        $this->assertCount(2, $crawler->filter('.kbin-post'));
+
+        $client->submit(
+            $crawler->selectButton('usuń')->form()
+        );
+
+        $crawler = $client->followRedirect();
+
+        $this->assertCount(1, $crawler->filter('.kbin-post'));
+
+        $crawler = $client->click($crawler->filter('.kbin-sidebar')->selectLink('Kosz')->link());
+
+        $this->assertCount(1, $crawler->filter('.kbin-post'));
+
+        $client->submit(
+            $crawler->selectButton('przywróć')->form()
+        );
+
+        $crawler = $client->request('GET', "/m/polityka/wpisy");
+
+        $this->assertCount(2, $crawler->filter('.kbin-post'));
+    }
 }

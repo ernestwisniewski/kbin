@@ -54,6 +54,10 @@ class EntryCommentVoter extends Voter
 
     private function canDelete(EntryComment $comment, User $user): bool
     {
+        if($user->isAdmin()) {
+            return true;
+        }
+
         if ($comment->user === $user) {
             return true;
         }

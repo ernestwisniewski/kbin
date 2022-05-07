@@ -2,7 +2,9 @@
 
 namespace App\Tests\Controller\Entry\Comment;
 
+use App\Entity\EntryComment;
 use App\Tests\WebTestCase;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryCommentDeleteControllerTest extends WebTestCase
@@ -51,6 +53,44 @@ class EntryCommentDeleteControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Komentarze 1');
         $this->assertSelectorTextContains('.kbin-entry .kbin-entry-meta', '1 komentarz');
+    }
+
+    public function testCanPurgeEntryComment()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('regularUser'));
+
+        $moderator = $this->getUserByUsername('regularUser');
+        $moderator->roles = ['ROLE_ADMIN'];
+
+        $manager = static::getContainer()->get(EntityManagerInterface::class);
+        $manager->persist($moderator);
+        $manager->flush();
+
+        $repo = $manager->getRepository(EntryComment::class);
+
+        $user2 = $this->getUserByUsername('regularUser2');
+        $user3 = $this->getUserByUsername('regularUser3');
+
+        $comment = $this->createEntryComment('przykładowy komentarz', null,$user2);
+        $comment2 = $this->createEntryComment('test', null, $user2);
+        $child1 = $this->createEntryComment('child', null, $user3, $comment);
+        $child2 = $this->createEntryComment('child2', null, null, $child1);
+
+        $this->createVote(1, $comment, $user3);
+        $this->createVote(1, $child1, $user2);
+        $this->createVote(1, $child2, $user2);
+
+        $this->assertCount(4, $repo->findAll());
+
+        $crawler = $client->request('GET', "/");
+        $crawler = $client->request('GET', "/m/polityka/t/{$child1->entry->getId()}/-");
+
+        $client->submit(
+            $crawler->filter('blockquote#'.$comment->getId())->selectButton('wyczyść')->form()
+        );
+
+        $this->assertCount(1, $repo->findAll());
     }
 
     public function testUnauthorizedUserCannotPurgeEntryComment()
