@@ -1,0 +1,3 @@
+api_platform:
+    defaults:
+        pagination_items_per_page: 2
