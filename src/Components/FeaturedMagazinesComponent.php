@@ -2,6 +2,7 @@
 
 namespace App\Components;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Magazine;
 use App\Repository\MagazineRepository;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -29,7 +30,11 @@ class FeaturedMagazinesComponent
         $magazines = $this->cache->get('featured_magazines', function (ItemInterface $item) use ($env) {
             $item->expiresAfter($env === 'test' ? 0 : 60);
 
-            $magazines = $this->repository->findBy([], ['lastActive' => 'DESC'], 55);
+            $magazines = $this->repository->findBy(
+                ['visibility' => VisibilityInterface::VISIBILITY_VISIBLE],
+                ['lastActive' => 'DESC'],
+                55
+            );
 
             if ($this->magazine && !in_array($this->magazine, $magazines)) {
                 array_unshift($magazines, $this->magazine);
