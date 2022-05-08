@@ -44,12 +44,10 @@ class PostDeleteControllerTest extends WebTestCase
         $this->assertCount(0, $crawler->filter('.kbin-post'));
 
         $repository = static::getContainer()->get(PostRepository::class);
-        $posts    = $repository->findAll();
-        $this->assertCount(1, $posts);
+        $this->assertSame(1, $repository->count([]));
 
         $repository = static::getContainer()->get(PostCommentRepository::class);
-        $comments   = $repository->findAll();
-        $this->assertCount(3, $comments);
+        $this->assertSame(3, $repository->count([]));
     }
 
     public function testAdminCanPurgePost()
@@ -80,12 +78,10 @@ class PostDeleteControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $repository = static::getContainer()->get(PostRepository::class);
-        $posts    = $repository->findAll();
-        $this->assertCount(0, $posts);
+        $this->assertSame(0, $repository->count([]));
 
         $repository = static::getContainer()->get(PostCommentRepository::class);
-        $comments   = $repository->findAll();
-        $this->assertCount(0, $comments);
+        $this->assertSame(0, $repository->count([]));
     }
 
     public function testModeratorCanRestorePost() {

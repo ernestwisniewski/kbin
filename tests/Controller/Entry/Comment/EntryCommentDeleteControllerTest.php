@@ -81,7 +81,7 @@ class EntryCommentDeleteControllerTest extends WebTestCase
         $this->createVote(1, $child1, $user2);
         $this->createVote(1, $child2, $user2);
 
-        $this->assertCount(4, $repo->findAll());
+        $this->assertSame(4, $repo->count([]));
 
         $crawler = $client->request('GET', "/");
         $crawler = $client->request('GET', "/m/polityka/t/{$child1->entry->getId()}/-");
@@ -90,7 +90,7 @@ class EntryCommentDeleteControllerTest extends WebTestCase
             $crawler->filter('blockquote#'.$comment->getId())->selectButton('wyczyść')->form()
         );
 
-        $this->assertCount(1, $repo->findAll());
+        $this->assertSame(1, $repo->count([]));
     }
 
     public function testUnauthorizedUserCannotPurgeEntryComment()

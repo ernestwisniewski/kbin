@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
 class AjaxControllerTest extends WebTestCase
@@ -63,7 +64,8 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
     }
 
-    public function testFetchPost() {
+    public function testFetchPost()
+    {
         $client = $this->createClient();
 
         $client->loginUser($this->getUserByUsername('regularUser'));
@@ -76,7 +78,8 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
     }
 
-    public function testFetchPostComment() {
+    public function testFetchPostComment()
+    {
         $client = $this->createClient();
 
         $client->loginUser($this->getUserByUsername('regularUser'));
@@ -91,13 +94,43 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum comment', $client->getResponse()->getContent());
     }
 
-    public function testFetchUserPopup() {
+    public function testFetchUserPopup()
+    {
         $client = $this->createClient();
 
         $client->loginUser($this->getUserByUsername('regularUser'));
 
-        $client->jsonRequest('GET', '/ajax/fetch_user_popup/regularUser');
+        $user2 = $this->getUserByUsername('regularUser2');
+
+        $client->jsonRequest('GET', '/ajax/fetch_user_popup/regularUser2');
 
         $this->assertStringContainsString('kbin-user-popup', $client->getResponse()->getContent());
+    }
+
+    public function testNotificationCount()
+    {
+        $client = $this->createClient();
+        $client->loginUser($owner = $this->getUserByUsername('owner'));
+
+        $actor = $this->getUserByUsername('actor');
+
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $actor);
+
+        $this->createEntry('tets', $this->getMagazineByName('polityka'), $owner);
+        $entry = $this->createEntry('test', $this->getMagazineByName('polityka'), $actor);
+
+        $comment = $this->createEntryComment('test', $entry, $owner);
+
+        $this->createPost('test', $this->getMagazineByName('polityka'), $owner);
+        $post = $this->createPost('test', $this->getMagazineByName('polityka'), $actor);
+
+        $reply = $this->createPostComment('test', $post, $owner);
+
+        $client->restart();
+        $client->loginUser($this->getUserByUsername('actor'));
+
+        $client->jsonRequest('GET', '/ajax/fetch_user_notifications_count/actor');
+
+        $this->assertStringContainsString('"count":4', $client->getResponse()->getContent());
     }
 }

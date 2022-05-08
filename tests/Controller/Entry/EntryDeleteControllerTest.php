@@ -44,12 +44,10 @@ class EntryDeleteControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 2');
 
         $repository = static::getContainer()->get(EntryRepository::class);
-        $entries    = $repository->findAll();
-        $this->assertCount(3, $entries);
+        $this->assertSame(3, $repository->count([]));
 
         $repository = static::getContainer()->get(EntryCommentRepository::class);
-        $comments   = $repository->findAll();
-        $this->assertCount(2, $comments);
+        $this->assertSame(2, $repository->count([]));
     }
 
     public function testUnauthorizedUserCannotEditOrPurgeEntry()
@@ -93,12 +91,10 @@ class EntryDeleteControllerTest extends WebTestCase
         $client->submit($crawler->filter('.kbin-entry-main')->selectButton('wyczyść')->form());
 
         $repository = static::getContainer()->get(EntryRepository::class);
-        $entries    = $repository->findAll();
-        $this->assertCount(0, $entries);
+        $this->assertSame(0, $repository->count([]));
 
         $repository = static::getContainer()->get(EntryCommentRepository::class);
-        $comments   = $repository->findAll();
-        $this->assertCount(0, $comments);
+        $this->assertSame(0, $repository->count([]));
     }
 
     public function testModeratorCanRestoreEntry()
