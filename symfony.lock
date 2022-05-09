@@ -232,6 +232,9 @@
     "jolicode/elastically": {
         "version": "v1.3.0"
     },
+    "justinrainbow/json-schema": {
+        "version": "5.2.12"
+    },
     "karser/karser-recaptcha3-bundle": {
         "version": "0.1",
         "recipe": {

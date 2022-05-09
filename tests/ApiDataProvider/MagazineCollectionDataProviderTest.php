@@ -3,6 +3,7 @@
 namespace App\Tests\ApiDataProvider;
 
 
+use App\DTO\MagazineDto;
 use App\Tests\ApiTestCase;
 use App\Tests\FactoryTrait;
 
@@ -14,12 +15,17 @@ class MagazineCollectionDataProviderTest extends ApiTestCase
     {
         $client = $this->createClient();
 
-        // @todo badges magazine
-        $this->createMagazine('Magazine1', 'Magazine 1 title');
+        $this->createEntryComment('test entry comment');
+        $this->createPostComment('test post comment');
+
         $this->createMagazine('Magazine2', 'Magazine 2 title');
         $this->createMagazine('Magazine3', 'Magazine 3 title');
 
-        $crawler = $client->request('GET', '/api/magazines');
+        $response = $client->request('GET', '/api/magazines');
+
+        $this->assertCount(14, $response->toArray()['hydra:member'][0]);
+
+        $this->assertMatchesResourceCollectionJsonSchema(MagazineDto::class);
 
         $this->assertJsonContains([
             '@context'         => '/api/contexts/magazine',
@@ -27,7 +33,7 @@ class MagazineCollectionDataProviderTest extends ApiTestCase
             '@type'            => 'hydra:Collection',
             'hydra:member'     => [
                 [
-                    '@id'                => '/api/magazines/Magazine1',
+                    '@id'                => '/api/magazines/polityka',
                     '@type'              => 'magazine',
                     'user'               => [
                         '@id'      => '/api/users/regularUser',
@@ -35,15 +41,15 @@ class MagazineCollectionDataProviderTest extends ApiTestCase
                         'username' => 'regularUser',
                     ],
                     'cover'              => null,
-                    'name'               => 'Magazine1',
-                    'title'              => 'Magazine 1 title',
+                    'name'               => 'polityka',
+                    'title'              => 'Przykładowy magazyn',
                     'description'        => null,
                     'rules'              => null,
                     'subscriptionsCount' => 1,
-                    'entryCount'         => 0,
-                    'entryCommentCount'  => 0,
-                    'postCount'          => 0,
-                    'postCommentCount'   => 0,
+                    'entryCount'         => 1,
+                    'entryCommentCount'  => 1,
+                    'postCount'          => 1,
+                    'postCommentCount'   => 1,
                     'isAdult'            => false,
                 ],
             ],
