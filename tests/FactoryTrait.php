@@ -128,7 +128,7 @@ trait FactoryTrait
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
 
-    public function createPostComment(string $body, Post $post, ?User $user = null): PostComment
+    public function createPostComment(string $body, ?Post $post = null, ?User $user = null): PostComment
     {
         /**
          * @var $manager PostCommentManager
@@ -136,7 +136,7 @@ trait FactoryTrait
         $manager = static::getContainer()->get(PostCommentManager::class);
 
         $dto       = new PostCommentDto();
-        $dto->post = $post;
+        $dto->post = $post ?? $this->createPost('testowy post');
         $dto->body = $body;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
