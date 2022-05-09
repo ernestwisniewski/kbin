@@ -3,12 +3,12 @@
 namespace App\Tests;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 
-abstract class WebTestCase extends BaseWebTestCase
+abstract class ApiTestCase extends BaseApiTestCase
 {
     use FactoryTrait;
-
+    
     protected ArrayCollection $users;
     protected ArrayCollection $magazines;
     protected ArrayCollection $entries;

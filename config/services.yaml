@@ -8,6 +8,7 @@ parameters:
   kbin_title: '%env(KBIN_TITLE)%'
   kbin_description: '%env(KBIN_DESCRIPTION)%'
   kbin_contact_email: '%env(KBIN_CONTACT_EMAIL)%'
+  kbin_api_items_per_page: '%env(KBIN_API_ITEMS_PER_PAGE)%'
 
   html5_validation: false
 
@@ -55,6 +56,7 @@ services:
       $cardanoExplorerUrl: '%cardano_explorer_url%'
       $mercurePublishUrl: '%mercure_publish_url%'
       $mercureSubscriptionsToken: '%mercure_subscriptions_token%'
+      $kbinApiItemsPerPage: '%kbin_api_items_per_page%'
 
   _instanceof:
     League\CommonMark\Inline\Parser\InlineParserInterface:
@@ -143,6 +145,6 @@ services:
     class: Symfony\Component\Cache\Adapter\FilesystemTagAwareAdapter
     parent: cache.adapter.filesystem
     tags:
-      -   name: cache.pool
-          clearer: cache.app_clearer
-          namespace: cache.app
+      - name: cache.pool
+        clearer: cache.app_clearer
+        namespace: cache.app

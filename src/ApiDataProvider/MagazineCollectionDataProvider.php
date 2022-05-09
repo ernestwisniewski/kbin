@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class MagazineCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
+        private int $kbinApiItemsPerPage,
         private MagazineRepository $repository,
         private MagazineFactory $factory,
         private RequestStack $request
@@ -35,6 +36,6 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
 
         $dtos = array_map(fn($magazine) => $this->factory->createDto($magazine), (array) $magazines->getCurrentPageResults());
 
-        return new DtoPaginator($dtos, 0, MagazineRepository::PER_PAGE, $magazines->getNbResults());
+        return new DtoPaginator($dtos, 0, $this->kbinApiItemsPerPage, $magazines->getNbResults());
     }
 }
