@@ -24,6 +24,7 @@ class MagazineCollectionDataProviderTest extends ApiTestCase
         $response = $client->request('GET', '/api/magazines');
 
         $this->assertCount(14, $response->toArray()['hydra:member'][0]);
+        $this->assertCount(3, $response->toArray()['hydra:member'][0]['user']);
 
         $this->assertMatchesResourceCollectionJsonSchema(MagazineDto::class);
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\EventSubscriber\Api;
 
@@ -100,7 +100,7 @@ final class ApiEventSubscriber implements EventSubscriberInterface
 
     private function entryComment(EntryCommentDto $dto): void
     {
-        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine);
+        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine ?: $dto->entry->magazine);
         $dto->user         = $this->userFactory->createDto($dto->user);
         $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
         $dto->entry        = $this->entryFactory->createDto($dto->entry);
@@ -117,7 +117,7 @@ final class ApiEventSubscriber implements EventSubscriberInterface
 
     private function postComment(PostCommentDto $dto): void
     {
-        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine);
+        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine ?: $dto->post->magazine);
         $dto->user         = $this->userFactory->createDto($dto->user);
         $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
         $dto->post         = $this->postFactory->createDto($dto->post);
