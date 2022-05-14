@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class EntryCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
+        private int $kbinApiItemsPerPage,
         private EntryRepository $repository,
         private EntryFactory $factory,
         private MagazineRepository $magazineRepository,
@@ -46,7 +47,7 @@ final class EntryCollectionDataProvider implements ContextAwareCollectionDataPro
 
         $dtos = array_map(fn($entry) => $this->factory->createDto($entry), (array) $entries->getCurrentPageResults());
 
-        return new DtoPaginator($dtos, 0, EntryRepository::PER_PAGE, $entries->getNbResults());
+        return new DtoPaginator($dtos, 0, $this->kbinApiItemsPerPage, $entries->getNbResults());
     }
 }
 
