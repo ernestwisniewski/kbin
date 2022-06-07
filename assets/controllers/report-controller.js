@@ -23,7 +23,8 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            this.formTarget.innerHTML = response.form;
+            this.formTarget.innerHTML = '<div class="clearfix"></div>';
+            this.formTarget.innerHTML += response.form;
 
             let self = this;
             this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {

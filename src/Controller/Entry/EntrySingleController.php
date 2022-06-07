@@ -29,6 +29,10 @@ class EntrySingleController extends AbstractController
         EventDispatcherInterface $dispatcher,
         Request $request
     ): Response {
+        if($entry->magazine !== $magazine) {
+            throw $this->createNotFoundException();
+        }
+
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy));
         $criteria->entry = $entry;
