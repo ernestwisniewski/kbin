@@ -39,8 +39,8 @@ final class UniqueValidator extends ConstraintValidator
 
             $fieldValue = $propertyAccessor->getValue($value, $dtoField);
 
-            $qb->andWhere($qb->expr()->eq("e.$entityField", ":f_$entityField"));
-            $qb->setParameter("f_$entityField", $fieldValue);
+            $qb->andWhere($qb->expr()->eq("LOWER(e.$entityField)", ":f_$entityField"));
+            $qb->setParameter("f_$entityField", mb_strtolower($fieldValue));
         }
 
         foreach ((array) $constraint->idFields as $dtoField => $entityField) {
