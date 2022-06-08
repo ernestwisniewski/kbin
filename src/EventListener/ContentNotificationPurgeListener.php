@@ -12,7 +12,6 @@ use App\Service\Notification\EntryCommentNotificationManager;
 use App\Service\Notification\EntryNotificationManager;
 use App\Service\Notification\PostCommentNotificationManager;
 use App\Service\Notification\PostNotificationManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class ContentNotificationPurgeListener
