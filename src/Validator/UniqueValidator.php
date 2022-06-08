@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Validator;
 
@@ -39,8 +39,13 @@ final class UniqueValidator extends ConstraintValidator
 
             $fieldValue = $propertyAccessor->getValue($value, $dtoField);
 
-            $qb->andWhere($qb->expr()->eq("LOWER(e.$entityField)", ":f_$entityField"));
-            $qb->setParameter("f_$entityField", mb_strtolower($fieldValue));
+            if (is_string($fieldValue)) {
+                $qb->andWhere($qb->expr()->eq("LOWER(e.$entityField)", ":f_$entityField"));
+                $qb->setParameter("f_$entityField", mb_strtolower($fieldValue));
+            } else {
+                $qb->andWhere($qb->expr()->eq("e.$entityField", ":f_$entityField"));
+                $qb->setParameter("f_$entityField", $fieldValue);
+            }
         }
 
         foreach ((array) $constraint->idFields as $dtoField => $entityField) {
