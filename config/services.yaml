@@ -80,6 +80,7 @@ services:
   #    tags:
   #      - { name: controller.request_value_resolver, priority: 50 }
 
+  # Markdown
   App\Markdown\CommonMark\ExternalImagesRenderer:
     tags:
       - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Image, priority: 1 }
@@ -92,11 +93,13 @@ services:
     $container: !service_locator
       League\CommonMark\ConfigurableEnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
 
+  # Language
   App\EventListener\LanguageListener:
     tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 200 }
     arguments: [ '%env(KBIN_DEFAULT_LANG)%' ]
 
+  # Elastic
   App\Search\Elastica\MultiIndex:
     arguments:
       $name: 'entries'
@@ -127,10 +130,12 @@ services:
 
   FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@FOS\ElasticaBundle\Finder\TransformedFinder'
 
+  # Notifications
   App\EventListener\ContentNotificationPurgeListener:
     tags:
       - { name: doctrine.event_listener, event: preRemove }
 
+  # Magazine
   App\EventListener\MagazineVisibilityListener:
     tags:
       - { name: kernel.event_listener, event: kernel.controller_arguments }
@@ -140,6 +145,7 @@ services:
     class: App\Feed\Provider
     arguments: [ '@App\Service\FeedManager' ]
 
+  # Cache
   cache.tagaware.filesystem:
     public: true
     class: Symfony\Component\Cache\Adapter\FilesystemTagAwareAdapter
