@@ -38,6 +38,7 @@ class UsernameConverter implements ParamConverterInterface
             return false;
         }
 
-        return true;
+        // @todo test coverage
+        return false;
     }
 }
