@@ -40,6 +40,7 @@ final class BestCommentsApiSubscriber implements EventSubscriberInterface
             return;
         }
 
+        // @todo array_filter
         if (!iterator_to_array($event->getControllerResult()->getIterator())[0] instanceof PostDto) {
             return;
         }
