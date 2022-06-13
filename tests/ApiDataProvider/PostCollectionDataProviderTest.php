@@ -14,9 +14,9 @@ class PostCollectionDataProviderTest extends ApiTestCase
     {
         $client = $this->createClient();
 
-        $post = $this->createPost('testowy post', $this->getMagazineByName('polityka'), $this->getUserByUsername('regularUser'));
-        $this->createPost('test2', $this->getMagazineByName('polityka'), $this->getUserByUsername('regularUser'));
-        $this->createPost('test3', $this->getMagazineByName('polityka'), $this->getUserByUsername('regularUser'));
+        $post = $this->createPost('testowy post', $this->getMagazineByName('acme'), $this->getUserByUsername('JohnDoe'));
+        $this->createPost('test2', $this->getMagazineByName('acme'), $this->getUserByUsername('JohnDoe'));
+        $this->createPost('test3', $this->getMagazineByName('acme'), $this->getUserByUsername('JohnDoe'));
 
         $comment = $this->createPostComment('test post comment', $post);
 
@@ -38,35 +38,35 @@ class PostCollectionDataProviderTest extends ApiTestCase
             '@type'            => 'hydra:Collection',
             'hydra:member'     => [
                 [
-                    '@id'           => '/api/posts/'.$post->getId(),
-                    '@type'         => 'post',
-                    'magazine'      => [
-                        '@id'   => '/api/magazines/polityka',
+                    '@id'          => '/api/posts/'.$post->getId(),
+                    '@type'        => 'post',
+                    'magazine'     => [
+                        '@id'   => '/api/magazines/acme',
                         '@type' => 'magazine',
-                        'name'  => 'polityka',
+                        'name'  => 'acme',
                     ],
-                    'user'          => [
-                        '@id'      => '/api/users/regularUser',
+                    'user'         => [
+                        '@id'      => '/api/users/JohnDoe',
                         '@type'    => 'user',
-                        'username' => 'regularUser',
+                        'username' => 'JohnDoe',
                     ],
-                    'image'         => null,
-                    'comments'      => 1,
-                    'uv'            => 2,
-                    'isAdult'       => false,
-                    'score'         => 2,
-                    'visibility'    => 'visible',
-                    'createdAt'     => $post->createdAt->format(DateTimeInterface::RFC3339),
-                    'lastActive'    => $post->lastActive->format(DateTimeInterface::RFC3339),
-                    'id'            => $post->getId(),
+                    'image'        => null, // @todo
+                    'comments'     => 1,
+                    'uv'           => 2,
+                    'isAdult'      => false,
+                    'score'        => 2,
+                    'visibility'   => 'visible',
+                    'createdAt'    => $post->createdAt->format(DateTimeInterface::RFC3339),
+                    'lastActive'   => $post->lastActive->format(DateTimeInterface::RFC3339),
+                    'id'           => $post->getId(),
                     'bestComments' => [
                         [
                             '@id'        => '/api/post_comments/'.$comment->getId(),
                             '@type'      => 'post_comment',
                             'user'       => [
-                                '@id'      => '/api/users/regularUser',
+                                '@id'      => '/api/users/JohnDoe',
                                 '@type'    => 'user',
-                                'username' => 'regularUser',
+                                'username' => 'JohnDoe',
                                 'avatar'   => null,
                             ],
                             'uv'         => 2,

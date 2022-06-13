@@ -8,7 +8,7 @@ class FrontControllerTest extends WebTestCase
 {
     use DomainFixturesTrait;
 
-    public function testDomainFrontPage()
+    public function testDomainFrontPage(): void
     {
         $client = static::createClient();
 
@@ -32,7 +32,7 @@ class FrontControllerTest extends WebTestCase
     /**
      * @dataProvider provider
      */
-    public function testDomainFrontPageFilters($linkName)
+    public function testDomainFrontPageFilters($linkName): void
     {
         $client = static::createClient();
 

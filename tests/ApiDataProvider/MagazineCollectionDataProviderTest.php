@@ -34,15 +34,15 @@ class MagazineCollectionDataProviderTest extends ApiTestCase
             '@type'            => 'hydra:Collection',
             'hydra:member'     => [
                 [
-                    '@id'                => '/api/magazines/polityka',
+                    '@id'                => '/api/magazines/acme',
                     '@type'              => 'magazine',
                     'user'               => [
-                        '@id'      => '/api/users/regularUser',
+                        '@id'      => '/api/users/JohnDoe',
                         '@type'    => 'user',
-                        'username' => 'regularUser',
+                        'username' => 'JohnDoe',
                     ],
                     'cover'              => null,
-                    'name'               => 'polityka',
+                    'name'               => 'acme',
                     'title'              => 'Przykładowy magazyn',
                     'description'        => null,
                     'rules'              => null,

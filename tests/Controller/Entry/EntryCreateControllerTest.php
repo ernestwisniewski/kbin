@@ -6,19 +6,19 @@ use App\Tests\WebTestCase;
 
 class EntryCreateControllerTest extends WebTestCase
 {
-    public function testCanCreateArticle()
+    public function testCanCreateArticle(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('user'));
 
-        $magazine = $this->getMagazineByName('polityka');
+        $magazine = $this->getMagazineByName('acme');
 
         $crawler = $client->request('GET', '/nowy/artykuł');
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'entry_article[title]'    => 'przykladowa tresc',
+                    'entry_article[title]'    => 'example content',
                     'entry_article[body]'     => 'Lorem ipsum',
                     'entry_article[magazine]' => $magazine->getId(),
                 ]
@@ -27,18 +27,18 @@ class EntryCreateControllerTest extends WebTestCase
 
         $this->assertResponseRedirects();
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
+        $this->assertSelectorTextContains('.kbin-entry-title', 'example content');
     }
 
-    public function testCanCreateLink()
+    public function testCanCreateLink(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('user'));
 
-        $magazine = $this->getMagazineByName('polityka');
+        $magazine = $this->getMagazineByName('acme');
         $this->getEntryByTitle('test1');
         $this->getEntryByTitle('test2');
 
@@ -47,7 +47,7 @@ class EntryCreateControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'entry_link[title]'    => 'przykladowa tresc',
+                    'entry_link[title]'    => 'example content',
                     'entry_link[url]'      => 'https://example.pl',
                     'entry_link[magazine]' => $magazine->getId(),
                     'entry_link[comment]'  => 'example comment',
@@ -55,9 +55,9 @@ class EntryCreateControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-entry-title', 'przykladowa tresc');
+        $this->assertSelectorTextContains('.kbin-entry-title', 'example content');
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 3');
         $this->assertSelectorTextContains('.kbin-entry-meta-entry', '1 komentarz');
     }

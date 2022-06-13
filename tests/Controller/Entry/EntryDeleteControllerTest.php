@@ -9,15 +9,15 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryDeleteControllerTest extends WebTestCase
 {
-    public function testAuthorCanDeleteEntry()
+    public function testAuthorCanDeleteEntry(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user1 = $this->getUserByUsername('regularUser');
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user1 = $this->getUserByUsername('JohnDoe');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
-        $entry = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
+        $entry = $this->getEntryByTitle('example content', null, 'example post content');
         $this->getEntryByTitle('test1');
         $this->getEntryByTitle('test2');
 
@@ -29,18 +29,18 @@ class EntryDeleteControllerTest extends WebTestCase
         $this->createVote(1, $comment2, $user2);
         $this->createVote(1, $comment2, $user1);
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
             $crawler->selectButton('usuń')->form()
         );
 
-        $this->assertResponseRedirects("/m/polityka");
+        $this->assertResponseRedirects("/m/acme");
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextNotContains('.kbin-entry-title', 'przykladowa tresc');
+        $this->assertSelectorTextNotContains('.kbin-entry-title', 'example content');
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 2');
 
         $repository = static::getContainer()->get(EntryRepository::class);
@@ -50,7 +50,7 @@ class EntryDeleteControllerTest extends WebTestCase
         $this->assertSame(2, $repository->count([]));
     }
 
-    public function testUnauthorizedUserCannotEditOrPurgeEntry()
+    public function testUnauthorizedUserCannotEditOrPurgeEntry(): void
     {
         $this->expectException(AccessDeniedException::class);
 
@@ -58,35 +58,35 @@ class EntryDeleteControllerTest extends WebTestCase
         $client->loginUser($user = $this->getUserByUsername('secondUser'));
         $client->catchExceptions(false);
 
-        $entry = $this->getEntryByTitle('przykładowy wpis');
+        $entry = $this->getEntryByTitle('example post');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/komentarze");
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/komentarze");
 
         $this->assertEmpty($crawler->filter('.kbin-entry-meta')->selectLink('edytuj'));
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
+        $client->request('GET', "/m/acme/t/{$entry->getId()}/-/edytuj");
 
         $this->assertTrue($client->getResponse()->isForbidden());
     }
 
-    public function testAdminUserCanPurgeEntry()
+    public function testAdminUserCanPurgeEntry(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $entry    = $this->createEntry('entry example', $this->getMagazineByName('polityka'), $user);
+        $entry    = $this->createEntry('entry example', $this->getMagazineByName('acme'), $user);
         $comment1 = $this->createEntryComment('comment', $entry, $user);
 
-        $comment2 = $this->createEntryComment('comment2', $entry, $this->getUserByUsername('regularUser2'));
-        $this->createEntryComment('comment3', $entry, $this->getUserByUsername('regularUser3'), $comment1);
+        $comment2 = $this->createEntryComment('comment2', $entry, $this->getUserByUsername('JaneDoe'));
+        $this->createEntryComment('comment3', $entry, $this->getUserByUsername('MaryJane'), $comment1);
 
-        $this->createVote(1, $entry, $this->getUserByUsername('regularUser2'));
-        $this->createVote(1, $comment1, $this->getUserByUsername('regularUser2'));
-        $this->createVote(1, $comment2, $this->getUserByUsername('regularUser3'));
+        $this->createVote(1, $entry, $this->getUserByUsername('JaneDoe'));
+        $this->createVote(1, $comment1, $this->getUserByUsername('JaneDoe'));
+        $this->createVote(1, $comment2, $this->getUserByUsername('MaryJane'));
 
-        $client->loginUser($admin = $this->getUserByUsername('admin', true));
+        $client->loginUser($this->getUserByUsername('admin', true));
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}");
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}");
 
         $client->submit($crawler->filter('.kbin-entry-main')->selectButton('wyczyść')->form());
 
@@ -97,14 +97,14 @@ class EntryDeleteControllerTest extends WebTestCase
         $this->assertSame(0, $repository->count([]));
     }
 
-    public function testModeratorCanRestoreEntry()
+    public function testModeratorCanRestoreEntry(): void
     {
         $client = $this->createClient();
         $client->loginUser($moderator = $this->getUserByUsername('moderator'));
 
-        $this->getMagazineByName('polityka', $moderator);
+        $this->getMagazineByName('acme', $moderator);
 
-        $entry = $this->createEntry('entry example', $this->getMagazineByName('polityka'), $this->getUserByUsername('regular'));
+        $entry = $this->createEntry('entry example', $this->getMagazineByName('acme'), $this->getUserByUsername('regular'));
         $this->createEntryComment('comment', $entry, $moderator);
 
         $crawler = $client->request('GET', "/");

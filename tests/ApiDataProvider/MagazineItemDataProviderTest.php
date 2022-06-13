@@ -18,7 +18,7 @@ class MagazineItemDataProviderTest extends ApiTestCase
         $this->createEntryComment('test entry comment');
         $this->createPostComment('test post comment');
 
-        $response = $client->request('GET', '/api/magazines/polityka');
+        $response = $client->request('GET', '/api/magazines/acme');
 
         $this->assertCount(15, $response->toArray());
 
@@ -26,16 +26,16 @@ class MagazineItemDataProviderTest extends ApiTestCase
 
         $this->assertJsonEquals([
             '@context'           => '/api/contexts/magazine',
-            '@id'                => '/api/magazines/polityka',
+            '@id'                => '/api/magazines/acme',
             '@type'              => 'magazine',
             'user'               => [
-                '@id'      => '/api/users/regularUser',
+                '@id'      => '/api/users/JohnDoe',
                 '@type'    => 'user',
-                'username' => 'regularUser',
+                'username' => 'JohnDoe',
                 'avatar'   => null,
             ],
             'cover'              => null,
-            'name'               => 'polityka',
+            'name'               => 'acme',
             'title'              => 'Przykładowy magazyn',
             'description'        => null,
             'rules'              => null,

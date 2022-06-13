@@ -14,15 +14,7 @@ class UserCommandTest extends KernelTestCase
     private Command $command;
     private ?UserRepository $repository;
 
-    protected function setUp(): void
-    {
-        $application = new Application(self::bootKernel());
-
-        $this->command    = $application->find('kbin:user:create');
-        $this->repository = static::getContainer()->get(UserRepository::class);
-    }
-
-    public function testCreateUser()
+    public function testCreateUser(): void
     {
         $tester = new CommandTester($this->command);
         $tester->execute(
@@ -34,6 +26,14 @@ class UserCommandTest extends KernelTestCase
         );
 
         $this->assertStringContainsString('A user has been created.', $tester->getDisplay());
-        $this->assertInstanceOf(User::class, $this->repository->findOneByUsername('actor'));;
+        $this->assertInstanceOf(User::class, $this->repository->findOneByUsername('actor'));
+    }
+
+    protected function setUp(): void
+    {
+        $application = new Application(self::bootKernel());
+
+        $this->command = $application->find('kbin:user:create');
+        $this->repository = static::getContainer()->get(UserRepository::class);
     }
 }

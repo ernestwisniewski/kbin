@@ -6,12 +6,12 @@ use App\Tests\WebTestCase;
 
 class MessageControllerTest extends WebTestCase
 {
-    public function testUserCanSendMessage()
+    public function testUserCanSendMessage(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('testUser'));
 
-        $u1 = $this->getUserByUsername('testUser1');
+        $this->getUserByUsername('testUser1');
 
         // First thread
         $crawler = $client->request('GET', '/u/testUser1');
@@ -25,7 +25,7 @@ class MessageControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z /u/testUser1 - Testowa wiadomość.');
 
@@ -41,7 +41,7 @@ class MessageControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z /u/testUser1 - Testowa wiadomość2.');
 
@@ -68,7 +68,7 @@ class MessageControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->request('GET', '/profil/wiadomości');
+        $client->request('GET', '/profil/wiadomości');
 
         $this->assertSelectorTextContains('.kbin-profile-threads-page tr', '1 odpowiedzi w wątku z /u/testUser');
 
@@ -76,7 +76,7 @@ class MessageControllerTest extends WebTestCase
         $client->restart();
         $client->loginUser($this->getUserByUsername('testUser'));
 
-        $crawler = $client->request('GET', '/profil/wiadomości');
+        $client->request('GET', '/profil/wiadomości');
 
         $this->assertSelectorTextContains('.kbin-profile-threads-page', '1 odpowiedzi w wątku z /u/testUser1');
         $this->assertSelectorTextContains('.kbin-nav .bg-danger', '1');

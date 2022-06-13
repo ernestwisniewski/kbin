@@ -8,7 +8,7 @@ class DomainSubControllerTest extends WebTestCase
 {
     use DomainFixturesTrait;
 
-    public function testDomainSubAndUnsubController()
+    public function testDomainSubAndUnsubController(): void
     {
         $client = static::createClient();
 
@@ -47,7 +47,8 @@ class DomainSubControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('.kbin-entry-title-domain')->count());
     }
 
-    public function testXmlDomainSubAndUnsubController() {
+    public function testXmlDomainSubAndUnsubController(): void
+    {
         $client = static::createClient();
 
         $client->loginUser($this->getUserByUsername('testUser'));

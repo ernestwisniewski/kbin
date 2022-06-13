@@ -4,20 +4,19 @@ namespace App\Tests\Controller\Magazine;
 
 use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
-use Doctrine\ORM\EntityManagerInterface;
 
 class MagazineBlockControllerTest extends WebTestCase
 {
-    public function testUserCanBlockAndUnblockMagazine() // @todo
+    public function testUserCanBlockAndUnblockMagazine(): void // @todo
     {
         $client  = $this->createClient();
         $manager = static::getContainer()->get(MagazineManager::class);
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
-        $user3 = $this->getUserByUsername('regularUser3');
+        $user2 = $this->getUserByUsername('JaneDoe');
+        $user3 = $this->getUserByUsername('MaryJane');
 
-        $magazine  = $this->getMagazineByName('polityka', $user2);
+        $magazine  = $this->getMagazineByName('acme', $user2);
         $magazine2 = $this->getMagazineByName('kuchnia', $user2);
         $magazine3 = $this->getMagazineByName('muzyka', $user2);
 
@@ -30,7 +29,7 @@ class MagazineBlockControllerTest extends WebTestCase
 
         $manager->subscribe($magazine, $user);
 
-        $crawler = $client->request('GET', '/m/polityka');
+        $crawler = $client->request('GET', '/m/acme');
 
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
 
@@ -49,22 +48,25 @@ class MagazineBlockControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        $this->assertStringNotContainsString('kbin-block--active', $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->attr('class'));
+        $this->assertStringNotContainsString(
+            'kbin-block--active',
+            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->attr('class')
+        );
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
     }
 
-    public function testXmlUserCanBlockAndUnblockMagazine() // @todo
+    public function testXmlUserCanBlockAndUnblockMagazine(): void // @todo
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
-        $magazine = $this->getMagazineByName('polityka', $user2);
+        $magazine = $this->getMagazineByName('acme', $user2);
         $entry    = $this->getEntryByTitle('treść 2', null, null, $magazine, $user2);
 
         $id = $entry->getId();
-        $client->request('GET', "/m/polityka/t/$id/-/");
+        $client->request('GET', "/m/acme/t/$id/-/");
 
         $crawler = $client->followRedirect();
 
@@ -78,7 +80,7 @@ class MagazineBlockControllerTest extends WebTestCase
 
         $client->setServerParameter('HTTP_X-Requested-With', 'none');
 
-        $client->request('GET', "/m/polityka/t/$id/-/");
+        $client->request('GET', "/m/acme/t/$id/-/");
 
         $crawler = $client->followRedirect();
 

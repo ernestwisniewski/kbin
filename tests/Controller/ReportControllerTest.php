@@ -6,12 +6,12 @@ use App\Tests\WebTestCase;
 
 class ReportControllerTest extends WebTestCase
 {
-    public function testCanAddEntryReport()
+    public function testCanAddEntryReport(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user2 = $this->getUserByUsername('JaneDoe');
         $this->getEntryByTitle('testowy wpis', null, null, null, $user2);
 
         $crawler = $client->request('GET', '/');
@@ -28,25 +28,25 @@ class ReportControllerTest extends WebTestCase
         $this->assertReportPanel($client);
     }
 
-    public function assertReportPanel($client)
+    public function assertReportPanel($client): void
     {
-        $crawler = $client->followRedirect();
-        $crawler = $client->request('GET', '/m/polityka/najnowsze');
-        $crawler = $client->click($crawler->filter('.kbin-sidebar')->selectLink('Zgłoszenia')->link());
+        $client->followRedirect();
+        $crawler = $client->request('GET', '/m/acme/najnowsze');
+        $client->click($crawler->filter('.kbin-sidebar')->selectLink('Zgłoszenia')->link());
 
         $this->assertSelectorTextContains('.kbin-magazine-bans', 'Przykładowy report');
     }
 
-    public function testCanAddEntryCommentReport()
+    public function testCanAddEntryCommentReport(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
-        $comment = $this->createEntryComment('przykładowy komentarz', null, $user2);
+        $comment = $this->createEntryComment('example comment', null, $user2);
 
-        $crawler = $client->request('GET', '/m/polityka/t/'.$comment->entry->getId().'/-/komentarze');
+        $crawler = $client->request('GET', '/m/acme/t/'.$comment->entry->getId().'/-/komentarze');
         $crawler = $client->click($crawler->filter('.kbin-comment')->selectLink('zgłoś')->link());
 
         $client->submit(
@@ -60,16 +60,16 @@ class ReportControllerTest extends WebTestCase
         $this->assertReportPanel($client);
     }
 
-    public function testCanAddPostReport()
+    public function testCanAddPostReport(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
-        $post = $this->createPost('przykładowy post', null, $user2);
+        $post = $this->createPost('example post', null, $user2);
 
-        $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
+        $crawler = $client->request('GET', '/m/acme/w/'.$post->getId());
         $crawler = $client->click($crawler->filter('.kbin-post')->selectLink('zgłoś')->link());
 
         $client->submit(
@@ -83,17 +83,17 @@ class ReportControllerTest extends WebTestCase
         $this->assertReportPanel($client);
     }
 
-    public function testCanAddPostCommentReport()
+    public function testCanAddPostCommentReport(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
-        $post    = $this->createPost('przykładowy post', null, $user2);
-        $comment = $this->createPostComment('przykładowy komentarz', $post, $user2);
+        $post = $this->createPost('example post', null, $user2);
+        $this->createPostComment('example comment', $post, $user2);
 
-        $crawler = $client->request('GET', '/m/polityka/w/'.$post->getId());
+        $crawler = $client->request('GET', '/m/acme/w/'.$post->getId());
         $crawler = $client->click($crawler->filter('.kbin-comment')->selectLink('zgłoś')->link());
 
         $client->submit(

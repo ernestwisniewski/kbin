@@ -9,19 +9,19 @@ trait DomainFixturesTrait
         $this->createEntry(
             'karabin1',
             $this->getMagazineByName('karabin'),
-            $this->getUserByUsername('regularUser'),
+            $this->getUserByUsername('JohnDoe'),
             'https://karab.in/statystyki'
         );
         $this->createEntry(
             'karabin2',
             $this->getMagazineByName('karabin'),
-            $this->getUserByUsername('regularUser'),
+            $this->getUserByUsername('JohnDoe'),
             'https://karab.in/statystyki'
         );
         $this->createEntry(
             'google',
             $this->getMagazineByName('karabin'),
-            $this->getUserByUsername('regularUser'),
+            $this->getUserByUsername('JohnDoe'),
             'https://google.pl'
         );
     }

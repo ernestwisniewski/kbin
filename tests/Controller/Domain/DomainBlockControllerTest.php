@@ -8,7 +8,7 @@ class DomainBlockControllerTest extends WebTestCase
 {
     use DomainFixturesTrait;
 
-    public function testDomainBlockAndUnblockController()
+    public function testDomainBlockAndUnblockController(): void
     {
         $client = static::createClient();
 
@@ -48,7 +48,7 @@ class DomainBlockControllerTest extends WebTestCase
         $this->assertEquals(3, $crawler->filter('.kbin-entry-title-domain')->count());
     }
 
-    public function testDomainBlockCommentsController()
+    public function testDomainBlockCommentsController(): void
     {
         $client = static::createClient();
 
@@ -87,7 +87,8 @@ class DomainBlockControllerTest extends WebTestCase
         $this->assertEquals(3, $crawler->filter('.kbin-entry-title-domain')->count());
     }
 
-    public function testXmlDomainBlockAndUnblockController() {
+    public function testXmlDomainBlockAndUnblockController(): void
+    {
         $client = static::createClient();
 
         $client->loginUser($this->getUserByUsername('testUser'));

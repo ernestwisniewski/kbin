@@ -2,17 +2,11 @@
 
 namespace App\Tests\Controller;
 
-use App\DTO\MagazineBanDto;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
-use App\Service\MagazineManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
 use App\Tests\WebTestCase;
 
 class ModlogControllerTest extends WebTestCase
 {
-    public function testModlog()
+    public function testModlog(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));

@@ -22,82 +22,11 @@ use App\Service\MagazineManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
 use App\Service\VoteManager;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 trait FactoryTrait
 {
-    public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null, ?EntryComment $parent = null): EntryComment
-    {
-        /**
-         * @var $manager EntryCommentManager
-         */
-        $manager = static::getContainer()->get(EntryCommentManager::class);
-
-        if ($parent) {
-            $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
-        } else {
-            $dto        = new EntryCommentDto();
-            $dto->entry = $entry ?? $this->getEntryByTitle('Przykladowa treść');
-            $dto->body  = $body;
-        }
-
-        return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
-    }
-
-    protected function getEntryByTitle(
-        string $title,
-        ?string $url = null,
-        ?string $body = null,
-        ?Magazine $magazine = null,
-        ?User $user = null
-    ): Entry {
-        $entry = $this->entries->filter(
-            static function (Entry $entry) use ($title) {
-                return $entry->title === $title;
-            }
-        )->first();
-
-        if (!$entry) {
-            $magazine = $magazine ?? $this->getMagazineByName('polityka');
-            $user     = $user ?? $this->getUserByUsername('regularUser');
-            $entry    = $this->createEntry($title, $magazine, $user, $url, $body);
-        }
-
-        return $entry;
-    }
-
-    protected function getMagazineByName(string $name, ?User $user = null): Magazine
-    {
-        $magazine = $this->magazines->filter(
-            static function (Magazine $magazine) use ($name) {
-                return $magazine->name === $name;
-            }
-        )->first();
-
-        return $magazine ?: $this->createMagazine($name, null, $user);
-    }
-
-    protected function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
-    {
-        /**
-         * @var $manager EntryManager
-         */
-        $manager = static::getContainer()->get(EntryManager::class);
-
-        $dto           = new EntryDto();
-        $dto->magazine = $magazine;
-        $dto->title    = $title;
-        $dto->user     = $user;
-        $dto->url      = $url;
-        $dto->body     = $body;
-
-        $entry = $manager->create($dto, $user);
-
-        $this->entries->add($entry);
-
-        return $entry;
-    }
-
     public function createVote(int $choice, VoteInterface $subject, User $user): Vote
     {
         $manager = static::getContainer()->get(EntityManagerInterface::class);
@@ -112,34 +41,6 @@ trait FactoryTrait
         $manager->flush();
 
         return $vote;
-    }
-
-    public function createPost(string $body, ?Magazine $magazine = null, ?User $user = null): Post
-    {
-        /**
-         * @var $manager PostManager
-         */
-        $manager = static::getContainer()->get(PostManager::class);
-
-        $dto           = new PostDto();
-        $dto->magazine = $magazine ?: $this->getMagazineByName('polityka');
-        $dto->body     = $body;
-
-        return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
-    }
-
-    public function createPostComment(string $body, ?Post $post = null, ?User $user = null): PostComment
-    {
-        /**
-         * @var $manager PostCommentManager
-         */
-        $manager = static::getContainer()->get(PostCommentManager::class);
-
-        $dto       = new PostCommentDto();
-        $dto->post = $post ?? $this->createPost('testowy post');
-        $dto->body = $body;
-
-        return $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
     }
 
     protected function loadExampleMagazines(): void
@@ -167,9 +68,9 @@ trait FactoryTrait
         ];
 
         yield [
-            'username' => 'regularUser',
-            'password' => 'regularUser123',
-            'email'    => 'regularUser@example.com',
+            'username' => 'JohnDoe',
+            'password' => 'JohnDoe123',
+            'email'    => 'JohnDoe@example.com',
         ];
     }
 
@@ -200,9 +101,9 @@ trait FactoryTrait
     private function provideMagazines(): iterable
     {
         yield [
-            'name'  => 'polityka',
+            'name'  => 'acme',
             'title' => 'Magazyn polityczny',
-            'user'  => $this->getUserByUsername('regularUser'),
+            'user'  => $this->getUserByUsername('JohnDoe'),
         ];
 
         yield [
@@ -244,7 +145,7 @@ trait FactoryTrait
         $dto->name  = $name;
         $dto->title = $title ?? 'Przykładowy magazyn';
 
-        $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('regularUser'));
+        $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
 
         $this->magazines->add($magazine);
 
@@ -254,10 +155,10 @@ trait FactoryTrait
     protected function loadNotificationsFixture()
     {
         $owner    = $this->getUserByUsername('owner');
-        $magazine = $this->getMagazineByName('polityka', $owner);
+        $magazine = $this->getMagazineByName('acme', $owner);
 
-        $actor = $this->getUserByUsername('actor');
-        $regular = $this->getUserByUsername('regularUser');
+        $actor   = $this->getUserByUsername('actor');
+        $regular = $this->getUserByUsername('JohnDoe');
 
         $entry   = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
         $comment = $this->createEntryComment('test', $entry, $regular);
@@ -273,7 +174,107 @@ trait FactoryTrait
             $magazine,
             $actor,
             $owner,
-            (new MagazineBanDto())->create('test', new \DateTime('+1 day'))
+            (new MagazineBanDto())->create('test', new DateTime('+1 day'))
         );
+    }
+
+    protected function getMagazineByName(string $name, ?User $user = null): Magazine
+    {
+        $magazine = $this->magazines->filter(
+            static function (Magazine $magazine) use ($name) {
+                return $magazine->name === $name;
+            }
+        )->first();
+
+        return $magazine ?: $this->createMagazine($name, null, $user);
+    }
+
+    protected function getEntryByTitle(
+        string $title,
+        ?string $url = null,
+        ?string $body = null,
+        ?Magazine $magazine = null,
+        ?User $user = null
+    ): Entry {
+        $entry = $this->entries->filter(
+            static function (Entry $entry) use ($title) {
+                return $entry->title === $title;
+            }
+        )->first();
+
+        if (!$entry) {
+            $magazine = $magazine ?? $this->getMagazineByName('acme');
+            $user     = $user ?? $this->getUserByUsername('JohnDoe');
+            $entry    = $this->createEntry($title, $magazine, $user, $url, $body);
+        }
+
+        return $entry;
+    }
+
+    protected function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
+    {
+        /**
+         * @var $manager EntryManager
+         */
+        $manager = static::getContainer()->get(EntryManager::class);
+
+        $dto           = new EntryDto();
+        $dto->magazine = $magazine;
+        $dto->title    = $title;
+        $dto->user     = $user;
+        $dto->url      = $url;
+        $dto->body     = $body;
+
+        $entry = $manager->create($dto, $user);
+
+        $this->entries->add($entry);
+
+        return $entry;
+    }
+
+    public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null, ?EntryComment $parent = null): EntryComment
+    {
+        /**
+         * @var $manager EntryCommentManager
+         */
+        $manager = static::getContainer()->get(EntryCommentManager::class);
+
+        if ($parent) {
+            $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
+        } else {
+            $dto        = new EntryCommentDto();
+            $dto->entry = $entry ?? $this->getEntryByTitle('Przykladowa treść');
+            $dto->body  = $body;
+        }
+
+        return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+    }
+
+    public function createPost(string $body, ?Magazine $magazine = null, ?User $user = null): Post
+    {
+        /**
+         * @var $manager PostManager
+         */
+        $manager = static::getContainer()->get(PostManager::class);
+
+        $dto           = new PostDto();
+        $dto->magazine = $magazine ?: $this->getMagazineByName('acme');
+        $dto->body     = $body;
+
+        return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+    }
+
+    public function createPostComment(string $body, ?Post $post = null, ?User $user = null): PostComment
+    {
+        /**
+         * @var $manager PostCommentManager
+         */
+        $manager = static::getContainer()->get(PostCommentManager::class);
+
+        $dto       = new PostCommentDto();
+        $dto->post = $post ?? $this->createPost('testowy post');
+        $dto->body = $body;
+
+        return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 }

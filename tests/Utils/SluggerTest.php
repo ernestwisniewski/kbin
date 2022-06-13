@@ -10,7 +10,7 @@ class SluggerTest extends WebTestCase
     /**
      * @dataProvider provider
      */
-    public function testCamelCase(string $input, string $output)
+    public function testCamelCase(string $input, string $output): void
     {
         $this->createClient();
         $slugger = static::getContainer()->get(Slugger::class);

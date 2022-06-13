@@ -7,25 +7,25 @@ use App\Tests\WebTestCase;
 
 class MagazineDeleteControllerTest extends WebTestCase
 {
-    public function testUserCanDeleteMagazine()
+    public function testUserCanDeleteMagazine(): void
     {
         $client = $this->createClient();
 
-        $client->loginUser($owner = $this->getUserByUsername('regularUser'));
+        $client->loginUser($owner = $this->getUserByUsername('JohnDoe'));
 
         $actor = $this->getUserByUsername('actor');
 
-        $this->createEntry('test', $this->getMagazineByName('polityka'), $owner);
-        $entry = $this->createEntry('test', $this->getMagazineByName('polityka'), $actor);
+        $this->createEntry('test', $this->getMagazineByName('acme'), $owner);
+        $entry = $this->createEntry('test', $this->getMagazineByName('acme'), $actor);
 
         $this->createEntryComment('test', $entry, $owner);
 
-        $this->createPost('test', $this->getMagazineByName('polityka'), $owner);
-        $post = $this->createPost('test', $this->getMagazineByName('polityka'), $actor);
+        $this->createPost('test', $this->getMagazineByName('acme'), $owner);
+        $post = $this->createPost('test', $this->getMagazineByName('acme'), $actor);
 
         $this->createPostComment('test', $post, $owner);
 
-        $crawler = $client->request('GET', '/m/polityka');
+        $crawler = $client->request('GET', '/m/acme');
 
         $crawler = $client->click($crawler->filter('.kbin-sidebar .kbin-magazine-panel .kbin-quick-links')->selectLink('Ogólne')->link());
 
@@ -35,7 +35,7 @@ class MagazineDeleteControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $client->request('GET', '/m/polityka');
+        $client->request('GET', '/m/acme');
 
         $this->assertResponseStatusCodeSame(404);
 

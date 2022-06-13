@@ -7,14 +7,14 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MagazineEditControllerTest extends WebTestCase
 {
-    public function testCanEditMagazine()
+    public function testCanEditMagazine(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $magazine = $this->getMagazineByName('polityka');
+        $this->getMagazineByName('acme');
 
-        $crawler = $client->request('GET', '/m/polityka/panel/edytuj');
+        $crawler = $client->request('GET', '/m/acme/panel/edytuj');
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -24,50 +24,50 @@ class MagazineEditControllerTest extends WebTestCase
             )
         );
 
-        $this->assertResponseRedirects('/m/polityka');
+        $this->assertResponseRedirects('/m/acme');
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine h3', 'Przepisy kuchenne');
     }
 
-    public function testCannotEditMagazineName()
+    public function testCannotEditMagazineName(): void
     {
         $client = $this->createClient();
         $client->catchExceptions(false);
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $magazine = $this->getMagazineByName('polityka');
+        $this->getMagazineByName('acme');
 
-        $crawler = $client->request('GET', '/m/polityka/panel/edytuj');
+        $crawler = $client->request('GET', '/m/acme/panel/edytuj');
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
                 [
-                    'magazine[name]'  => 'kuchnia',
+                    'magazine[name]' => 'kuchnia',
                     'magazine[title]' => 'Przepisy kuchenne',
                 ]
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .lead', 'polityka');
+        $this->assertSelectorTextContains('.kbin-magazine-header .lead', 'acme');
         $this->assertSelectorTextNotContains('.kbin-magazine-header .lead', 'kuchnia');
     }
 
-    public function testUnauthorizedUserCannotEditOrPurgeMagazine()
+    public function testUnauthorizedUserCannotEditOrPurgeMagazine(): void
     {
         $this->expectException(AccessDeniedException::class);
 
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('secondUser'));
+        $client->loginUser($this->getUserByUsername('secondUser'));
         $client->catchExceptions(false);
 
-        $magazine = $this->getMagazineByName('polityka');
+        $this->getMagazineByName('acme');
 
-        $crawler = $client->request('GET', '/m/polityka/panel/edytuj');
+        $client->request('GET', '/m/acme/panel/edytuj');
 
         $this->assertTrue($client->getResponse()->isForbidden());
     }

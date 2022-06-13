@@ -7,17 +7,17 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CommentEditControllerTest extends WebTestCase
 {
-    public function testUnauthorizedUserCannotEditPostComment()
+    public function testUnauthorizedUserCannotEditPostComment(): void
     {
         $this->expectException(AccessDeniedException::class);
 
         $client = $this->createClient();
         $client->catchExceptions(false);
-        $client->loginUser($user = $this->getUserByUsername('regularUser2'));
+        $client->loginUser($user = $this->getUserByUsername('JaneDoe'));
 
-        $post    = $this->createPost('przykladowa post.');
-        $comment = $this->createPostComment('przykłądowy komentarz.', $post);
-        $crawler = $client->request('GET', "/m/polityka/w/{$post->getId()}/-/odpowiedź/{$comment->getId()}/edytuj");
+        $post    = $this->createPost('example post.');
+        $comment = $this->createPostComment('example comment.', $post);
+        $client->request('GET', "/m/acme/w/{$post->getId()}/-/odpowiedź/{$comment->getId()}/edytuj");
 
         $this->assertTrue($client->getResponse()->isServerError());
     }

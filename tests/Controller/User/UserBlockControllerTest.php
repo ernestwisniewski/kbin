@@ -7,18 +7,18 @@ use App\Tests\WebTestCase;
 
 class UserBlockControllerTest extends WebTestCase
 {
-    public function testUserCanBlock() //@todo
+    public function testUserCanBlock(): void //@todo
     {
         $client  = $this->createClient();
         $manager = static::getContainer()->get(UserManager::class);
 
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
-        $user3 = $this->getUserByUsername('regularUser3');
-        $user4 = $this->getUserByUsername('regularUser4');
+        $user2 = $this->getUserByUsername('JaneDoe');
+        $user3 = $this->getUserByUsername('MaryJane');
+        $user4 = $this->getUserByUsername('PeterParker');
 
-        $magazine  = $this->getMagazineByName('polityka', $user2);
+        $magazine  = $this->getMagazineByName('acme', $user2);
         $magazine2 = $this->getMagazineByName('kuchnia', $user2);
 
         $this->getEntryByTitle('treść 1', null, null, $magazine, $user2);
@@ -30,7 +30,7 @@ class UserBlockControllerTest extends WebTestCase
 
         $manager->follow($user, $user2);
 
-        $crawler = $client->request('GET', '/u/regularUser2');
+        $crawler = $client->request('GET', '/u/JaneDoe');
 
         $client->submit(
             $crawler->filter('.kbin-entry-info-user .kbin-user-block button')->selectButton('')->form()
@@ -50,5 +50,4 @@ class UserBlockControllerTest extends WebTestCase
         $this->assertStringContainsString('kbin-block', $crawler->filter('.kbin-user-block')->attr('class'));
         $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '0');
     }
-
 }
