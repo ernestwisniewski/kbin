@@ -15,9 +15,9 @@ class EntryCollectionDataProviderTest extends ApiTestCase
     {
         $client = $this->createClient();
 
-        $entry = $this->createEntry('test1', $this->getMagazineByName('polityka'), $this->getUserByUsername('regularUser'), 'https://karab.in/');
-        $this->createEntry('test2', $this->getMagazineByName('polityka'), $this->getUserByUsername('regularUser'), 'https://karab.in/');
-        $this->createEntry('test3', $this->getMagazineByName('polityka'), $this->getUserByUsername('regularUser'), 'https://karab.in/');
+        $entry = $this->createEntry('test1', $this->getMagazineByName('acme'), $this->getUserByUsername('JohnDoe'), 'https://karab.in/');
+        $this->createEntry('test2', $this->getMagazineByName('acme'), $this->getUserByUsername('JohnDoe'), 'https://karab.in/');
+        $this->createEntry('test3', $this->getMagazineByName('acme'), $this->getUserByUsername('JohnDoe'), 'https://karab.in/');
 
         $this->createEntryComment('test entry comment', $entry);
 
@@ -41,16 +41,16 @@ class EntryCollectionDataProviderTest extends ApiTestCase
                     '@id'        => '/api/entries/'.$entry->getId(),
                     '@type'      => 'entry',
                     'magazine'   => [
-                        '@id'   => '/api/magazines/polityka',
+                        '@id'   => '/api/magazines/acme',
                         '@type' => 'magazine',
-                        'name'  => 'polityka',
+                        'name'  => 'acme',
                     ],
                     'user'       => [
-                        '@id'      => '/api/users/regularUser',
+                        '@id'      => '/api/users/JohnDoe',
                         '@type'    => 'user',
-                        'username' => 'regularUser',
+                        'username' => 'JohnDoe',
                     ],
-                    'image'      => null,
+                    'image'      => null, // @todo
                     'domain'     => [
                         '@id'   => '/api/domains/'.$entry->domain->getId(),
                         '@type' => 'domain',

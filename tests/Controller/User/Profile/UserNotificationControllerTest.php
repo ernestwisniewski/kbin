@@ -7,15 +7,15 @@ use App\Tests\WebTestCase;
 
 class UserNotificationControllerTest extends WebTestCase
 {
-    public function testUserReceiveNotifications()
+    public function testUserReceiveNotifications(): void
     {
         $client = $this->createClient();
         $client->loginUser($owner = $this->getUserByUsername('owner'));
 
         $actor = $this->getUserByUsername('actor');
 
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $owner);
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $actor);
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $owner);
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $actor);
 
         $this->loadNotificationsFixture();
 
@@ -30,26 +30,26 @@ class UserNotificationControllerTest extends WebTestCase
         $this->assertCount(3, $crawler->filter('.kbin-notifications .toast-header'));
 
         $client->restart();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $crawler = $client->request('GET', '/');
+        $client->request('GET', '/');
         $crawler = $client->request('GET', '/profil/notyfikacje');
         $this->assertCount(2, $crawler->filter('.kbin-notifications .toast-header'));
     }
 
-    public function testUserCanReadAllNotifications()
+    public function testUserCanReadAllNotifications(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));
 
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('owner'));
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('actor'));
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('owner'));
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('actor'));
 
         $this->loadNotificationsFixture();
 
         $client->loginUser($this->getUserByUsername('owner'));
 
-        $crawler = $client->request('GET', '/profil/notyfikacje');
+        $client->request('GET', '/profil/notyfikacje');
         $crawler = $client->request('GET', '/profil/notyfikacje');
 
         $this->assertCount(2, $crawler->filter('.table-responsive .toast-header'));
@@ -62,18 +62,18 @@ class UserNotificationControllerTest extends WebTestCase
         $this->assertCount(2, $crawler->filter('.kbin-notifications .opacity-50 .toast-header'));
     }
 
-    public function testUserCanDeleteAllNotifications()
+    public function testUserCanDeleteAllNotifications(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));
 
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('owner'));
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $this->getUserByUsername('actor'));
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('owner'));
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('actor'));
 
         $this->loadNotificationsFixture();
 
         $client->loginUser($this->getUserByUsername('owner'));
-        $crawler = $client->request('GET', '/profil/notyfikacje');
+        $client->request('GET', '/profil/notyfikacje');
         $crawler = $client->request('GET', '/profil/notyfikacje');
 
         $this->assertCount(2, $crawler->filter('.table-responsive .toast-header'));

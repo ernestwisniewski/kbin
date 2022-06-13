@@ -7,7 +7,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class UserEditControllerTest extends WebTestCase
 {
-    public function testUserCanChangePassword()
+    public function testUserCanChangePassword(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('testUser'));
@@ -44,10 +44,10 @@ class UserEditControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
     }
 
-    public function testUserCanChangeEmail()
+    public function testUserCanChangeEmail(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('testUser'));
+        $client->loginUser($this->getUserByUsername('testUser'));
 
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Profil')->link());
@@ -88,7 +88,7 @@ class UserEditControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.alert-danger', 'Twoje konto nie jest aktywne.');
 
         $client->request('GET', $verifyLink);
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $crawler = $client->request('GET', '/');
         $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());

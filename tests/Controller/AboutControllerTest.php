@@ -6,7 +6,7 @@ use App\Tests\WebTestCase;
 
 class AboutControllerTest extends WebTestCase
 {
-    public function testAbout()
+    public function testAbout(): void
     {
         $client = $this->createClient();
 

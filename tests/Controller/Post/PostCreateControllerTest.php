@@ -6,14 +6,14 @@ use App\Tests\WebTestCase;
 
 class PostCreateControllerTest extends WebTestCase
 {
-    public function testCanCreatePost()
+    public function testCanCreatePost(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('user'));
 
-        $magazine = $this->getMagazineByName('polityka');
+        $this->getMagazineByName('acme');
 
-        $crawler = $client->request('GET', '/m/polityka/wpisy');
+        $crawler = $client->request('GET', '/m/acme/wpisy');
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -25,7 +25,7 @@ class PostCreateControllerTest extends WebTestCase
 
         $this->assertResponseRedirects();
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.kbin-post-main', 'Lorem ipsum');

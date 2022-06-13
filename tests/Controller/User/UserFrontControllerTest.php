@@ -6,7 +6,7 @@ use App\Tests\WebTestCase;
 
 class UserFrontControllerTest extends WebTestCase
 {
-    public function testCanShowPublicProfile()
+    public function testCanShowPublicProfile(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('testUser'));
@@ -16,8 +16,8 @@ class UserFrontControllerTest extends WebTestCase
         $this->createEntryComment('createEntryComment', $entry);
         $post = $this->createPost('createPost');
         $this->createPostComment('createPostComment', $post);
-        
-        $crawler = $client->request('GET', '/u/regularUser');
+
+        $crawler = $client->request('GET', '/u/JohnDoe');
 
         $this->assertCount(5, $crawler->filter('.kbin-user-front-page')->children());
     }

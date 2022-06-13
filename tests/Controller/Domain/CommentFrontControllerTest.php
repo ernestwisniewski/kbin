@@ -8,14 +8,14 @@ class CommentFrontControllerTest extends WebTestCase
 {
     use DomainFixturesTrait;
 
-    public function testDomainCommentPage()
+    public function testDomainCommentPage(): void
     {
         $client = static::createClient();
 
         $this->createEntryFixtures();
         $this->createCommentFixtures();
 
-        $crawler = $client->request('GET', '/');
+        $client->request('GET', '/');
         $crawler = $client->request('GET', '/d/karab.in/komentarze/najnowsze');
 
         $this->assertSelectorTextContains('.kbin-comment-content', 'comment2');

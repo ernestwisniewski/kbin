@@ -8,14 +8,14 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntryEditControllerTest extends WebTestCase
 {
-    public function testCanEditLink()
+    public function testCanEditLink(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('przykladowa tresc', 'https://wp.pl');
+        $entry = $this->getEntryByTitle('example content', 'https://wp.pl');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/komentarze");
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/komentarze");
         $crawler = $client->click($crawler->filter('.kbin-entry-meta')->selectLink('edytuj')->link());
 
         $client->submit(
@@ -28,19 +28,19 @@ class EntryEditControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
     }
 
-    public function testCanEditArticle()
+    public function testCanEditArticle(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('przykladowa tresc', null, 'przykładowa treść wpisu');
+        $entry = $this->getEntryByTitle('example content', null, 'example post content');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -52,23 +52,23 @@ class EntryEditControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbin-entry-title', 'zmieniona treść');
         $this->assertSelectorTextContains('.kbin-entry-content p', 'zmieniona treść wpisu');
     }
 
-    public function testCannotEditEntryMagazine()
+    public function testCannotEditEntryMagazine(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $client = $this->createClient();
         $client->catchExceptions(false);
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('przykladowa tresc');
+        $entry = $this->getEntryByTitle('example content');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -83,17 +83,17 @@ class EntryEditControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isServerError());
     }
 
-    public function testUnauthorizedUserCannotEditEntry()
+    public function testUnauthorizedUserCannotEditEntry(): void
     {
         $this->expectException(AccessDeniedException::class);
 
         $client = $this->createClient();
         $client->catchExceptions(false);
-        $client->loginUser($user = $this->getUserByUsername('regularUser2'));
+        $client->loginUser($user = $this->getUserByUsername('JaneDoe'));
 
-        $entry = $this->getEntryByTitle('przykladowa tresc');
+        $entry = $this->getEntryByTitle('example content');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$entry->getId()}/-/edytuj");
+        $client->request('GET', "/m/acme/t/{$entry->getId()}/-/edytuj");
 
         $this->assertTrue($client->getResponse()->isServerError());
     }

@@ -6,16 +6,16 @@ use App\Tests\WebTestCase;
 
 class EntryCommentEditControllerTest extends WebTestCase
 {
-    public function testCanEditEntryComment()
+    public function testCanEditEntryComment(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $comment = $this->createEntryComment('przykładowy komentarz');
+        $comment = $this->createEntryComment('example comment');
 
-        $entryUrl = "/m/polityka/t/{$comment->entry->getId()}/-/komentarze";
+        $entryUrl = "/m/acme/t/{$comment->entry->getId()}/-/komentarze";
 
-        $crawler = $client->request('GET', '/');
+        $client->request('GET', '/');
         $crawler = $client->request('GET', $entryUrl);
         $crawler = $client->click($crawler->filter('.kbin-comment-meta-list-item a')->selectLink('edytuj')->link());
 
@@ -27,20 +27,20 @@ class EntryCommentEditControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('blockquote', 'zmieniona treść');
     }
 
-    public function testXmlCanEditEntryComment()
+    public function testXmlCanEditEntryComment(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $comment = $this->createEntryComment('przykładowy komentarz');
+        $comment = $this->createEntryComment('example comment');
 
-        $crawler = $client->request('GET', "/m/polityka/t/{$comment->entry->getId()}/-/komentarze");
+        $crawler = $client->request('GET', "/m/acme/t/{$comment->entry->getId()}/-/komentarze");
 
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
 

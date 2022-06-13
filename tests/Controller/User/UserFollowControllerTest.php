@@ -4,11 +4,10 @@ namespace App\Tests\Controller\User;
 
 use App\Service\UserManager;
 use App\Tests\WebTestCase;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class UserFollowControllerTest extends WebTestCase
 {
-    public function testCanShowPublicProfile()
+    public function testCanShowPublicProfile(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('testUser'));
@@ -16,23 +15,23 @@ class UserFollowControllerTest extends WebTestCase
         $entry = $this->getEntryByTitle('treść1');
         $entry = $this->getEntryByTitle('treść2');
 
-        $crawler = $client->request('GET', '/u/regularUser');
+        $crawler = $client->request('GET', '/u/JohnDoe');
 
         $this->assertCount(2, $crawler->filter('article.kbin-entry'));
     }
 
-    public function testUserCanFollow()
+    public function testUserCanFollow(): void
     {
         $client  = $this->createClient();
         $manager = static::getContainer()->get(UserManager::class);
 
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
-        $user3 = $this->getUserByUsername('regularUser3');
-        $user4 = $this->getUserByUsername('regularUser4');
+        $user2 = $this->getUserByUsername('JaneDoe');
+        $user3 = $this->getUserByUsername('MaryJane');
+        $user4 = $this->getUserByUsername('PeterParker');
 
-        $magazine  = $this->getMagazineByName('polityka', $user2);
+        $magazine  = $this->getMagazineByName('acme', $user2);
         $magazine2 = $this->getMagazineByName('kuchnia', $user2);
 
         $this->getEntryByTitle('treść 1', null, null, $magazine, $user2);
@@ -44,7 +43,7 @@ class UserFollowControllerTest extends WebTestCase
 
         $manager->follow($user3, $user2);
 
-        $crawler = $client->request('GET', '/u/regularUser2');
+        $crawler = $client->request('GET', '/u/JaneDoe');
 
         $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '1');
 
@@ -52,7 +51,7 @@ class UserFollowControllerTest extends WebTestCase
             $crawler->filter('.kbin-entry-info-user .kbin-sub button')->selectButton('obserwuj')->form()
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '2');
 
@@ -61,29 +60,29 @@ class UserFollowControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-entry-title', 'treść 2 (karab.in)');
         $this->assertCount(2, $crawler->filter('.kbin-entry-title'));
 
-        $crawler = $client->request('GET', '/u/regularUser2');
+        $crawler = $client->request('GET', '/u/JaneDoe');
 
         $client->submit(
             $crawler->filter('.kbin-entry-info-user .kbin-sub button')->selectButton('obserwuj')->form()
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '1');
     }
 
-    public function testUserCanBlock() //@todo
+    public function testUserCanBlock(): void //@todo
     {
         $client  = $this->createClient();
         $manager = static::getContainer()->get(UserManager::class);
 
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
-        $user3 = $this->getUserByUsername('regularUser3');
-        $user4 = $this->getUserByUsername('regularUser4');
+        $user2 = $this->getUserByUsername('JaneDoe');
+        $user3 = $this->getUserByUsername('MaryJane');
+        $user4 = $this->getUserByUsername('PeterParker');
 
-        $magazine  = $this->getMagazineByName('polityka', $user2);
+        $magazine  = $this->getMagazineByName('acme', $user2);
         $magazine2 = $this->getMagazineByName('kuchnia', $user2);
 
         $this->getEntryByTitle('treść 1', null, null, $magazine, $user2);
@@ -95,7 +94,7 @@ class UserFollowControllerTest extends WebTestCase
 
         $manager->follow($user, $user2);
 
-        $crawler = $client->request('GET', '/u/regularUser2');
+        $crawler = $client->request('GET', '/u/JaneDoe');
 
         $client->submit(
             $crawler->filter('.kbin-entry-info-user .kbin-user-block button')->selectButton('')->form()

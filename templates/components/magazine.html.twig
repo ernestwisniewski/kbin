@@ -7,14 +7,16 @@
         {% if this.showCover and this.magazine.cover %}
             <img src="{{ asset(this.magazine.cover.filePath) | imagine_filter('post_thumb') }}"
                  class="img-thumbnail"
-                 alt="{{ this.magazine.title }}">
+                 alt="{{ this.magazine.title }}"
+                 style="max-height: 12rem">
+            <div class="clearfix"></div>
         {% endif %}
         <{{ this.titleTag }} class="font-weight-bold h2 clearfix">{{ this.magazine.title }}</{{ this.titleTag }}>
-        <span class="lead mb-2">
+    <div class="lead mb-2 mt-2">
             <span class="text-muted">/m/</span>{{ this.magazine.name }}
-        </span>
-        {% if this.asLink or not is_front_page() %}
-    </a>
+        </div>
+    {% if this.asLink or not is_front_page() %}
+        </a>
     {% endif %}
     {% if this.showSubButtons %}
         <div class="mb-3">
@@ -24,13 +26,13 @@
 </div>
 
 {% if this.showDescription and this.magazine.description %}
-    <div class="kbin-magazine-desc px-2 my-5 small">
+    <div class="kbin-magazine-desc px-2 my-4 small">
         <p class="small">{{ this.magazine.description|markdown|raw }}</p>
     </div>
 {% endif %}
 
 {% if this.showRules and this.magazine.rules %}
-    <div class="kbin-magazine-rules px-2 my-5 small">
+    <div class="kbin-magazine-rules px-2 my-4 small">
         <p class="small">{{ this.magazine.rules|markdown|raw }}</p>
     </div>
 {% endif %}

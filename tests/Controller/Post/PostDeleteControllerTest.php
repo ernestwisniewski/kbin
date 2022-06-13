@@ -8,13 +8,13 @@ use App\Tests\WebTestCase;
 
 class PostDeleteControllerTest extends WebTestCase
 {
-    public function testAuthorCanDeletePost()
+    public function testAuthorCanDeletePost(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user1 = $this->getUserByUsername('regularUser');
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user1 = $this->getUserByUsername('JohnDoe');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
         $post = $this->createPost('post test', null, $user1);
 
@@ -27,7 +27,7 @@ class PostDeleteControllerTest extends WebTestCase
         $this->createVote(1, $comment2, $user2);
         $this->createVote(1, $comment3, $user);
 
-        $crawler = $client->request('GET', "/m/polityka/wpisy");
+        $crawler = $client->request('GET', "/m/acme/wpisy");
 
         $this->assertCount(1, $crawler->filter('.kbin-post'));
 
@@ -50,13 +50,13 @@ class PostDeleteControllerTest extends WebTestCase
         $this->assertSame(3, $repository->count([]));
     }
 
-    public function testAdminCanPurgePost()
+    public function testAdminCanPurgePost(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user1 = $this->getUserByUsername('regularUser');
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user1 = $this->getUserByUsername('JohnDoe');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
         $post = $this->createPost('post test', null, $user1);
 
@@ -71,11 +71,11 @@ class PostDeleteControllerTest extends WebTestCase
 
         $client->loginUser($admin = $this->getUserByUsername('admin', true));
 
-        $crawler = $client->request('GET', "/m/polityka/w/{$post->getId()}");
+        $crawler = $client->request('GET', "/m/acme/w/{$post->getId()}");
 
         $client->submit($crawler->filter('.kbin-post-main')->selectButton('wyczyść')->form());
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $repository = static::getContainer()->get(PostRepository::class);
         $this->assertSame(0, $repository->count([]));
@@ -84,17 +84,18 @@ class PostDeleteControllerTest extends WebTestCase
         $this->assertSame(0, $repository->count([]));
     }
 
-    public function testModeratorCanRestorePost() {
+    public function testModeratorCanRestorePost(): void
+    {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $user1 = $this->getUserByUsername('regularUser');
-        $user2 = $this->getUserByUsername('regularUser2');
+        $this->getUserByUsername('JohnDoe');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
-        $post = $this->createPost('post test', null, $user2);
-        $post = $this->createPost('post test2', null, $user2);
+        $this->createPost('post test', null, $user2);
+        $this->createPost('post test2', null, $user2);
 
-        $crawler = $client->request('GET', "/m/polityka/wpisy");
+        $crawler = $client->request('GET', "/m/acme/wpisy");
 
         $this->assertCount(2, $crawler->filter('.kbin-post'));
 
@@ -114,7 +115,7 @@ class PostDeleteControllerTest extends WebTestCase
             $crawler->selectButton('przywróć')->form()
         );
 
-        $crawler = $client->request('GET', "/m/polityka/wpisy");
+        $crawler = $client->request('GET', "/m/acme/wpisy");
 
         $this->assertCount(2, $crawler->filter('.kbin-post'));
     }

@@ -2,43 +2,40 @@
 
 namespace App\Tests\Controller\Post;
 
-use App\DTO\ModeratorDto;
-use App\Service\MagazineManager;
-use App\Service\UserManager;
 use App\Tests\WebTestCase;
 
 class PostVotersControllerTest extends WebTestCase
 {
-    public function testUserCanSeePostVoters()
+    public function testUserCanSeePostVoters(): void
     {
         $client = $this->createClient();
 
-        $this->getMagazineByName('polityka');
+        $this->getMagazineByName('acme');
 
         $user  = $this->getUserByUsername('user');
-        $user1 = $this->getUserByUsername('regularUser');
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user1 = $this->getUserByUsername('JohnDoe');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
         $post = $this->createPost('post test', null, $user);
 
         $this->createVote(1, $post, $user1);
         $this->createVote(1, $post, $user2);
 
-        $id = $post->getId();
-        $crawler = $client->request('GET', "/m/polityka/w/$id/-/głosy");
+        $id      = $post->getId();
+        $crawler = $client->request('GET', "/m/acme/w/$id/-/głosy");
 
         $this->assertCount(2, $crawler->filter('.kbin-voters .card'));
     }
 
-    public function testXmlUserCanSeePostVoters()
+    public function testXmlUserCanSeePostVoters(): void
     {
         $client = $this->createClient();
 
-        $this->getMagazineByName('polityka');
+        $this->getMagazineByName('acme');
 
         $user  = $this->getUserByUsername('user');
-        $user1 = $this->getUserByUsername('regularUser');
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user1 = $this->getUserByUsername('JohnDoe');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
         $post = $this->createPost('post test', null, $user);
 
@@ -47,8 +44,8 @@ class PostVotersControllerTest extends WebTestCase
 
         $id = $post->getId();
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
-        $crawler = $client->request('GET', "/m/polityka/w/$id/-/głosy");
+        $client->request('GET', "/m/acme/w/$id/-/głosy");
 
-        $this->assertStringContainsString('regularUser2', $client->getResponse()->getContent());
+        $this->assertStringContainsString('JaneDoe', $client->getResponse()->getContent());
     }
 }

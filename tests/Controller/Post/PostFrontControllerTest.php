@@ -9,14 +9,14 @@ use App\Tests\WebTestCase;
 
 class PostFrontControllerTest extends WebTestCase
 {
-    public function testUserCanSeeFrontPosts()
+    public function testUserCanSeeFrontPosts(): void
     {
         $client = $this->createClient();
 
-        $magazine = $this->getMagazineByName('polityka');
+        $magazine = $this->getMagazineByName('acme');
 
         $user  = $this->getUserByUsername('user');
-        $user1 = $this->getUserByUsername('regularUser');
+        $user1 = $this->getUserByUsername('JohnDoe');
 
         $this->createPost('post test', null, $user);
         $this->createPost('post test2', null, $user1);
@@ -27,15 +27,15 @@ class PostFrontControllerTest extends WebTestCase
     }
 
 
-    public function testUserCanSeeSubscribedMagazinePosts()
+    public function testUserCanSeeSubscribedMagazinePosts(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
-        $user3 = $this->getUserByUsername('regularUser3');
+        $user2 = $this->getUserByUsername('JaneDoe');
+        $user3 = $this->getUserByUsername('MaryJane');
 
-        $magazine = $this->getMagazineByName('polityka', $user2);
+        $magazine = $this->getMagazineByName('acme', $user2);
 
         $magazineManager = static::getContainer()->get(MagazineManager::class);
         $magazineManager->subscribe($magazine, $user);
@@ -49,15 +49,15 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertCount(3, $crawler->filter('.kbin-post'));
     }
 
-    public function testUserCanSeeSubscribedUserPosts()
+    public function testUserCanSeeSubscribedUserPosts(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
-        $user3 = $this->getUserByUsername('regularUser3');
+        $user2 = $this->getUserByUsername('JaneDoe');
+        $user3 = $this->getUserByUsername('MaryJane');
 
-        $magazine = $this->getMagazineByName('polityka', $user2);
+        $this->getMagazineByName('acme', $user2);
 
         $userManager = static::getContainer()->get(UserManager::class);
         $userManager->follow($user, $user3);
@@ -71,17 +71,17 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertCount(2, $crawler->filter('.kbin-post'));
     }
 
-    public function testUserCanSeeModeratedPosts()
+    public function testUserCanSeeModeratedPosts(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
-        $user3 = $this->getUserByUsername('regularUser3');
+        $user2 = $this->getUserByUsername('JaneDoe');
+        $user3 = $this->getUserByUsername('MaryJane');
 
-        $magazine1 = $this->getMagazineByName('polityka', $user);
-        $magazine2 = $this->getMagazineByName('polityka2', $user2);
-        $magazine3 = $this->getMagazineByName('polityka3', $user2);
+        $magazine1 = $this->getMagazineByName('acme', $user);
+        $magazine2 = $this->getMagazineByName('acme2', $user2);
+        $magazine3 = $this->getMagazineByName('acme3', $user2);
 
         $magazineManager    = static::getContainer()->get(MagazineManager::class);
         $moderatorDto       = new ModeratorDto($magazine2);

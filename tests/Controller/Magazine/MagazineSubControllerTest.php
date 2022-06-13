@@ -7,16 +7,16 @@ use App\Tests\WebTestCase;
 
 class MagazineSubControllerTest extends WebTestCase
 {
-    public function testUserCanSubAndUnsubMagazine()
+    public function testUserCanSubAndUnsubMagazine(): void
     {
         $client  = $this->createClient();
         $manager = static::getContainer()->get(MagazineManager::class);
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
-        $user3 = $this->getUserByUsername('regularUser3');
+        $user2 = $this->getUserByUsername('JaneDoe');
+        $user3 = $this->getUserByUsername('MaryJane');
 
-        $magazine  = $this->getMagazineByName('polityka', $user2);
+        $magazine  = $this->getMagazineByName('acme', $user2);
         $magazine2 = $this->getMagazineByName('kuchnia', $user2);
         $magazine3 = $this->getMagazineByName('muzyka', $user2);
 
@@ -30,7 +30,7 @@ class MagazineSubControllerTest extends WebTestCase
         $manager->subscribe($magazine, $user3);
 
         // subscribe
-        $crawler = $client->request('GET', '/m/polityka');
+        $crawler = $client->request('GET', '/m/acme');
 
         $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
 

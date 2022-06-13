@@ -14,15 +14,7 @@ class AdminCommandTest extends KernelTestCase
     private Command $command;
     private ?UserRepository $repository;
 
-    protected function setUp(): void
-    {
-        $application = new Application(self::bootKernel());
-
-        $this->command    = $application->find('kbin:user:admin');
-        $this->repository = static::getContainer()->get(UserRepository::class);
-    }
-
-    public function testCreateUser()
+    public function testCreateUser(): void
     {
         $dto                = (new UserDto())->create('actor', 'contact@example.com');
         $dto->plainPassword = 'secret';
@@ -37,5 +29,13 @@ class AdminCommandTest extends KernelTestCase
 
         $this->assertStringContainsString('Administrator privileges has been granted.', $tester->getDisplay());
         $this->assertTrue($this->repository->findOneByUsername('actor')->isAdmin());
+    }
+
+    protected function setUp(): void
+    {
+        $application = new Application(self::bootKernel());
+
+        $this->command    = $application->find('kbin:user:admin');
+        $this->repository = static::getContainer()->get(UserRepository::class);
     }
 }

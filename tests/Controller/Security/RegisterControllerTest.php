@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class RegisterControllerTest extends WebTestCase
 {
-    public function testUserCanVerifyAccount()
+    public function testUserCanVerifyAccount(): void
     {
         $client = $this->createClient();
 
@@ -35,7 +35,7 @@ class RegisterControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
     }
@@ -43,7 +43,7 @@ class RegisterControllerTest extends WebTestCase
     private function registerUserAccount(KernelBrowser $client)
     {
         $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
+        $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();
         $crawler = $client->click($crawler->filter('.kbin-login')->selectLink('Zarejestruj się.')->link());
 
@@ -66,11 +66,11 @@ class RegisterControllerTest extends WebTestCase
     {
         $client = $this->createClient();
 
-        $crawler = $this->registerUserAccount($client);
+        $this->registerUserAccount($client);
 
         $crawler = $client->followRedirect();
 
-        $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
+        $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
         $crawler = $client->followRedirect();
 
         $client->submit(
@@ -82,7 +82,7 @@ class RegisterControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertSelectorTextContains('.alert-danger', 'Twoje konto nie jest aktywne.');
     }

@@ -7,7 +7,7 @@ use App\Tests\WebTestCase;
 
 class AjaxControllerTest extends WebTestCase
 {
-    public function testFetchEntryArticle()
+    public function testFetchEntryArticle(): void
     {
         $client = $this->createClient();
 
@@ -18,7 +18,7 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
     }
 
-    public function testFetchEntryLink()
+    public function testFetchEntryLink(): void
     {
         $client = $this->createClient();
 
@@ -29,7 +29,7 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
     }
 
-    public function testFetchDuplicates()
+    public function testFetchDuplicates(): void
     {
         $client = $this->createClient();
 
@@ -50,11 +50,11 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('"total":1', $client->getResponse()->getContent());
     }
 
-    public function testFetchEntryComment()
+    public function testFetchEntryComment(): void
     {
         $client = $this->createClient();
 
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
         $comment = $this->createEntryComment('Lorem ipsum');
 
@@ -64,11 +64,11 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
     }
 
-    public function testFetchPost()
+    public function testFetchPost(): void
     {
         $client = $this->createClient();
 
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
         $post = $this->createPost('Lorem ipsum');
 
@@ -78,11 +78,11 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
     }
 
-    public function testFetchPostComment()
+    public function testFetchPostComment(): void
     {
         $client = $this->createClient();
 
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
         $post = $this->createPost('Lorem ipsum');
 
@@ -94,35 +94,35 @@ class AjaxControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum comment', $client->getResponse()->getContent());
     }
 
-    public function testFetchUserPopup()
+    public function testFetchUserPopup(): void
     {
         $client = $this->createClient();
 
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
-        $client->jsonRequest('GET', '/ajax/fetch_user_popup/regularUser2');
+        $client->jsonRequest('GET', '/ajax/fetch_user_popup/JaneDoe');
 
         $this->assertStringContainsString('kbin-user-popup', $client->getResponse()->getContent());
     }
 
-    public function testNotificationCount()
+    public function testNotificationCount(): void
     {
         $client = $this->createClient();
         $client->loginUser($owner = $this->getUserByUsername('owner'));
 
         $actor = $this->getUserByUsername('actor');
 
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('polityka'), $actor);
+        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $actor);
 
-        $this->createEntry('tets', $this->getMagazineByName('polityka'), $owner);
-        $entry = $this->createEntry('test', $this->getMagazineByName('polityka'), $actor);
+        $this->createEntry('tets', $this->getMagazineByName('acme'), $owner);
+        $entry = $this->createEntry('test', $this->getMagazineByName('acme'), $actor);
 
         $comment = $this->createEntryComment('test', $entry, $owner);
 
-        $this->createPost('test', $this->getMagazineByName('polityka'), $owner);
-        $post = $this->createPost('test', $this->getMagazineByName('polityka'), $actor);
+        $this->createPost('test', $this->getMagazineByName('acme'), $owner);
+        $post = $this->createPost('test', $this->getMagazineByName('acme'), $actor);
 
         $reply = $this->createPostComment('test', $post, $owner);
 

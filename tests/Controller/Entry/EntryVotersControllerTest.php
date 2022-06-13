@@ -6,10 +6,10 @@ use App\Tests\WebTestCase;
 
 class EntryVotersControllerTest extends WebTestCase
 {
-    public function testCanSeeSidebarEntryVoters()
+    public function testCanSeeSidebarEntryVoters(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
         $entry = $this->getEntryByTitle('example');
         $this->createVote(1, $entry, $this->getUserByUsername('user1'));
@@ -19,15 +19,15 @@ class EntryVotersControllerTest extends WebTestCase
         $this->createVote(2, $entry, $this->getUserByUsername('user5'));
         $this->createVote(2, $entry, $this->getUserByUsername('user6'));
 
-        $crawler = $client->request('GET', '/m/polityka/t/'.$entry->getId());
+        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
 
         $this->assertCount(6, $crawler->filter('.kbin-sidebar .kbin-voters ul li'));
     }
 
-    public function testCanSeeEntryVotersPage()
+    public function testCanSeeEntryVotersPage(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
         $entry = $this->getEntryByTitle('example');
         $this->createVote(1, $entry, $this->getUserByUsername('user1'));
@@ -37,7 +37,7 @@ class EntryVotersControllerTest extends WebTestCase
         $this->createVote(2, $entry, $this->getUserByUsername('user5'));
         $this->createVote(2, $entry, $this->getUserByUsername('user6'));
 
-        $crawler = $client->request('GET', '/m/polityka/t/'.$entry->getId());
+        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
 
         $this->assertCount(6, $crawler->filter('.kbin-sidebar .kbin-voters ul li'));
 
@@ -46,15 +46,15 @@ class EntryVotersControllerTest extends WebTestCase
         $this->assertCount(6, $crawler->filter('.kbin-main .kbin-voters .card'));
     }
 
-    public function testXmlUserCanSeeEntryVoters()
+    public function testXmlUserCanSeeEntryVoters(): void
     {
         $client = $this->createClient();
 
-        $magazine = $this->getMagazineByName('polityka');
+        $magazine = $this->getMagazineByName('acme');
 
         $user  = $this->getUserByUsername('user');
-        $user1 = $this->getUserByUsername('regularUser');
-        $user2 = $this->getUserByUsername('regularUser2');
+        $user1 = $this->getUserByUsername('JohnDoe');
+        $user2 = $this->getUserByUsername('JaneDoe');
 
         $entry = $this->createEntry('entry test', $magazine, $user);
 
@@ -63,8 +63,8 @@ class EntryVotersControllerTest extends WebTestCase
 
         $id = $entry->getId();
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
-        $client->request('GET', "/m/polityka/t/$id/-/głosy");
+        $client->request('GET', "/m/acme/t/$id/-/głosy");
 
-        $this->assertStringContainsString('regularUser2', $client->getResponse()->getContent());
+        $this->assertStringContainsString('JaneDoe', $client->getResponse()->getContent());
     }
 }

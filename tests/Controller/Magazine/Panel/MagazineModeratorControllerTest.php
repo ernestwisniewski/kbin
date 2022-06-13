@@ -9,16 +9,16 @@ use DateTime;
 
 class MagazineModeratorControllerTest extends WebTestCase
 {
-    public function testOwnerCanAddModerator()
+    public function testOwnerCanAddModerator(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $this->getUserByUsername('regularUser2');
+        $this->getUserByUsername('JaneDoe');
 
-        $this->getMagazineByName('polityka');
+        $this->getMagazineByName('acme');
 
-        $crawler = $client->request('GET', '/m/polityka');
+        $crawler = $client->request('GET', '/m/acme');
         $crawler = $client->click($crawler->filter('.kbin-quick-links')->selectLink('Moderatorzy')->link());
 
         $this->assertCount(1, $crawler->filter('.kbin-magazine-moderators tbody tr'));
@@ -26,19 +26,19 @@ class MagazineModeratorControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Dodaj')->form(
                 [
-                    'moderator[user]' => 'regularUser2',
+                    'moderator[user]' => 'JaneDoe',
                 ]
             )
         );
 
-        $crawler = $client->request('GET', '/m/polityka/panel/moderatorzy');
+        $crawler = $client->request('GET', '/m/acme/panel/moderatorzy');
 
         $this->assertCount(2, $crawler->filter('.kbin-magazine-moderators tbody tr'));
 
         $client->submit(
             $crawler->selectButton('Dodaj')->form(
                 [
-                    'moderator[user]' => 'regularUser2',
+                    'moderator[user]' => 'JaneDoe',
                 ]
             )
         );
@@ -47,16 +47,16 @@ class MagazineModeratorControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-magazine-moderator-form', 'Moderator istnieje');
     }
 
-    public function testModeratorCanBanUser()
+    public function testModeratorCanBanUser(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user2 = $this->getUserByUsername('regularUser2'));
+        $client->loginUser($user2 = $this->getUserByUsername('JaneDoe'));
 
         $manager = static::getContainer()->get(MagazineManager::class);
 
-        $user3 = $this->getUserByUsername('regularUser3');
+        $user3 = $this->getUserByUsername('MaryJane');
 
-        $magazine = $this->getMagazineByName('polityka');
+        $magazine = $this->getMagazineByName('acme');
 
         $this->getEntryByTitle('testowa treść', null, 'test', $magazine, $user3);
 
@@ -65,7 +65,7 @@ class MagazineModeratorControllerTest extends WebTestCase
 
         $manager->addModerator($moderatorDto);
 
-        $crawler = $client->request('GET', '/m/polityka');
+        $crawler = $client->request('GET', '/m/acme');
 
         $crawler = $client->click($crawler->filter('article .kbin-entry-meta-list-item')->selectLink('zbanuj')->link());
 

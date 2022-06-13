@@ -3,11 +3,10 @@
 namespace App\Tests\Controller\Entry;
 
 use App\Tests\WebTestCase;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EntrySingleControllerTest extends WebTestCase
 {
-    public function testCanSeeEntryArticle()
+    public function testCanSeeEntryArticle(): void
     {
         $client = $this->createClient();
 
@@ -15,14 +14,14 @@ class EntrySingleControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
 
-        $crawler = $client->click($crawler->filter('h2.kbin-entry-title a')->selectLink('Lorem ipsum')->link());
+        $client->click($crawler->filter('h2.kbin-entry-title a')->selectLink('Lorem ipsum')->link());
 
         $this->assertSelectorTextContains('h1', 'Lorem ipsum');
         $this->assertSelectorTextContains('article.kbin-entry-content', 'dolor sit amet');
         $this->assertSelectorTextContains('.kbin-entry.card', 'Wyświetlenia: 1');
     }
 
-    public function testCanSeeEntryLink()
+    public function testCanSeeEntryLink(): void
     {
         $client = $this->createClient();
 
@@ -30,13 +29,13 @@ class EntrySingleControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
 
-        $crawler = $client->click($crawler->filter('h2.kbin-entry-title a')->selectLink('Lorem ipsum')->link());
+        $client->click($crawler->filter('h2.kbin-entry-title a')->selectLink('Lorem ipsum')->link());
 
         $this->assertSelectorTextContains('h1 a', 'Lorem ipsum');
         $this->assertSelectorTextContains('.kbin-entry.card', 'Wyświetlenia: 1');
     }
 
-    public function testXmlCanSeeEntryArticle()
+    public function testXmlCanSeeEntryArticle(): void
     {
         $client = $this->createClient();
 
@@ -52,7 +51,7 @@ class EntrySingleControllerTest extends WebTestCase
         $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
     }
 
-    public function testXmlCanSeeEntryLink()
+    public function testXmlCanSeeEntryLink(): void
     {
         $client = $this->createClient();
 

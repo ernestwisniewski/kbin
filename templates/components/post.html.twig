@@ -106,8 +106,9 @@
                         <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                             <form method="post" action="{{ path('post_favourite', {id: this.post.id}) }}">
                                 <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
-                                <button type="submit" class="btn btn-link">
-                                    <span class="{{ app.user and this.post.isFavored(app.user) ? 'text-decoration-underline' : '' }}">{{ 'favourite'|trans }}</span>
+                                <button type="submit"
+                                        class="btn btn-link {{ app.user and this.post.isFavored(app.user) ? 'text-decoration-underline' : '' }}">
+                                    {{ 'favourite'|trans }}
                                 </button>
                             </form>
                         </li>

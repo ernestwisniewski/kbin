@@ -7,14 +7,14 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PostEditControllerTest extends WebTestCase
 {
-    public function testCanEditPost()
+    public function testCanEditPost(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('regularUser'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $post = $this->createPost('przykladowa tresc');
+        $this->createPost('example content');
 
-        $crawler = $client->request('GET', "/m/polityka/wpisy");
+        $crawler = $client->request('GET', "/m/acme/wpisy");
         $crawler = $client->click($crawler->filter('.kbin-post-meta')->selectLink('edytuj')->link());
 
         $client->submit(
@@ -25,23 +25,23 @@ class PostEditControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.kbin-post-main', 'zmieniona treść');
     }
 
-    public function testUnauthorizedUserCannotEditPost()
+    public function testUnauthorizedUserCannotEditPost(): void
     {
         $this->expectException(AccessDeniedException::class);
 
         $client = $this->createClient();
         $client->catchExceptions(false);
-        $client->loginUser($user = $this->getUserByUsername('regularUser2'));
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        $post = $this->createPost('przykladowa tresc');
+        $post = $this->createPost('example content');
 
-        $crawler = $client->request('GET', "/m/polityka/w/{$post->getId()}/-/edytuj");
+        $client->request('GET', "/m/acme/w/{$post->getId()}/-/edytuj");
 
         $this->assertTrue($client->getResponse()->isServerError());
     }
