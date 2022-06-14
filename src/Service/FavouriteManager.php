@@ -24,8 +24,12 @@ class FavouriteManager
         if (!($favourite = $this->repository->findBySubject($user, $subject))) {
             $favourite = $this->factory->createFromEntity($user, $subject);
             $this->entityManager->persist($favourite);
+
+            $subject->favourites->add($favourite);
+            $subject->updateCounts();
         } else {
-            $this->entityManager->remove($favourite);
+            $subject->favourites->removeElement($favourite);
+            $subject->updateCounts();
         }
 
         $this->entityManager->flush();
