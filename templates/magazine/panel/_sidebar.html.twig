@@ -3,7 +3,7 @@
          data-controller="reveal"
          data-reveal-hidden-class="visually-hidden">
         <button type="button"
-                class="btn btn-light btn-lg mb-1 kbin-add-btn {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}"
+                class="btn btn-secondary btn-lg mb-1 kbin-add-btn {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}"
                 data-reveal-target="item"
                 data-action="click->reveal#toggle">
             {{ 'magazine_panel'|trans }}
@@ -13,46 +13,70 @@
                 data-reveal-target="item"
                 data-action="click->reveal#toggle"></button>
 
-        <div class="kbin-quick-links list-group {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
-             data-reveal-target="item">
+        <div class="list-group w-auto {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}" data-reveal-target="item">
             <a href="{{ path('magazine_panel_front', {'name': magazine.name}) }}"
-               class="list-group-item {{ is_active_route('magazine_panel_front') ? 'active' : '' }}">
-                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'stats'|trans }}</h4>
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_front') ? 'active' : '' }}" aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'stats'|trans }}</span>
+                    </div>
+                </div>
             </a>
-
             <a href="{{ path('magazine_panel_reports', {'name': magazine.name}) }}"
-               class="list-group-item {{ is_active_route('magazine_panel_reports') ? 'active font-weight-bold' : '' }}">
-                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'reports'|trans }}</h4>
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_reports') ? 'active' : '' }}" aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'reports'|trans }}</span>
+                    </div>
+                </div>
             </a>
-
             <a href="{{ path('magazine_panel_moderators', {'name': magazine.name}) }}"
-               class="list-group-item {{ is_active_route('magazine_panel_moderators') ? 'active font-weight-bold' : '' }}">
-                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'moderators'|trans }}</h4>
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_moderators') ? 'active' : '' }}" aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'moderators'|trans }}</span>
+                    </div>
+                </div>
             </a>
-
             <a href="{{ path('magazine_panel_badges', {'name': magazine.name}) }}"
-               class="list-group-item {{ is_active_route('magazine_panel_badges') ? 'active font-weight-bold' : '' }}">
-                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'badges'|trans }}</h4>
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_badges') ? 'active' : '' }}" aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'badges'|trans }}</span>
+                    </div>
+                </div>
             </a>
-
             <a href="{{ path('magazine_panel_bans', {'name': magazine.name}) }}"
-               class="list-group-item {{ is_active_route('magazine_panel_bans') ? 'active font-weight-bold' : '' }}">
-                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'bans'|trans }}</h4>
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_bans') ? 'active' : '' }}" aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'bans'|trans }}</span>
+                    </div>
+                </div>
             </a>
-
             <a href="{{ path('magazine_panel_trash', {'name': magazine.name}) }}"
-               class="list-group-item {{ is_active_route('magazine_panel_trash') ? 'active font-weight-bold' : '' }}">
-                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'trash'|trans }}</h4>
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_trash') ? 'active' : '' }}" aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'trash'|trans }}</span>
+                    </div>
+                </div>
             </a>
-
             <a href="{{ path('magazine_panel_theme', {'name': magazine.name}) }}"
-               class="list-group-item {{ is_active_route('magazine_panel_theme') ? 'active font-weight-bold' : '' }}">
-                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'appearance'|trans }}</h4>
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_theme') ? 'active' : '' }}" aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'appearance'|trans }}</span>
+                    </div>
+                </div>
             </a>
-
             <a href="{{ path('magazine_panel_edit', {'name': magazine.name}) }}"
-               class="list-group-item {{ is_active_route('magazine_panel_edit') ? 'active font-weight-bold' : '' }}">
-                <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{'general'|trans}}</h4>
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_edit') ? 'active' : '' }}" aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'general'|trans }}</span>
+                    </div>
+                </div>
             </a>
         </div>
     </div>

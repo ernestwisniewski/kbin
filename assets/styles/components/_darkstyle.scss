@@ -281,7 +281,7 @@
   .dropdown-menu .dropdown-item.active,
   .dropdown-menu .dropdown-item:active {
     color: #fff;
-    background-color: #0d6efd;
+    background-color: #333;
   }
 
   .dropdown-menu .dropdown-item.disabled,
@@ -335,8 +335,8 @@
 
   .list-group-item.active {
     color: #fff;
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background-color: #333;
+    border-color: #333;
   }
 
   /* TABS */
@@ -382,8 +382,8 @@
 
   .page-item.active .page-link {
     color: #fff;
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background-color: #333;
+    border-color: #333;
   }
 
   .page-item.disabled .page-link {
@@ -615,7 +615,7 @@
   }
 
   .form-range::-moz-range-thumb {
-    background-color: #0d6efd;
+    background-color: #333;
   }
 
   .form-range::-moz-range-thumb:active {
