@@ -1,45 +1,94 @@
 <div class="kbin-add d-grid gap-2 mb-4">
-    <div class="kbin-quick-links list-group">
+    <div class="list-group w-auto" data-reveal-target="item">
         <a href="{{ path('user_profile_front') }}"
-           class="list-group-item {{ is_active_route('user_profile_front') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'stats'|trans }}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_front') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'stats'|trans }}</span>
+                </div>
+            </div>
         </a>
         <a href="{{ path('user_profile_notifications') }}"
-           class="list-group-item {{ is_active_route('user_profile_notifications') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'notifications'|trans }}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_notifications') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'notifications'|trans }}</span>
+                </div>
+            </div>
         </a>
         <a href="{{ path('user_profile_messages') }}"
-           class="list-group-item {{ is_active_route('user_profile_messages') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{'messages'|trans}}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_messages') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'messages'|trans }}</span>
+                </div>
+            </div>
         </a>
-        <a href="#"
-           class="list-group-item {{ is_active_route('user_profile_reports') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{'reports'|trans}}</h4>
+        <a href="{{ path('user_profile_reports') }}"
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_reports') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'reports'|trans }}</span>
+                </div>
+            </div>
         </a>
-        {# todo: nojs #}
         <a href="{{ path('user_profile_magazine_subscriptions') }}"
-           class="list-group-item {{ is_active_route('user_profile_magazine_subscriptions') or is_active_route('user_profile_user_subscriptions') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'subscriptions'|trans }}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_magazine_subscriptions') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'subscriptions'|trans }}</span>
+                </div>
+            </div>
         </a>
         <a href="{{ path('user_profile_magazine_blocks') }}"
-           class="list-group-item {{ is_active_route('user_profile_magazine_blocks') or is_active_route('user_profile_user_blocks') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'blocks'|trans }}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_magazine_blocks') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'blocks'|trans }}</span>
+                </div>
+            </div>
         </a>
         <a href="{{ path('user_profile_tips') }}"
-           class="list-group-item {{ is_active_route('user_profile_tips') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'tips'|trans }}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_tips') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'tips'|trans }}</span>
+                </div>
+            </div>
         </a>
         <a href="{{ path('user_profile_settings') }}"
-           class="list-group-item {{ is_active_route('user_profile_settings') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'settings'|trans }}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_settings') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'settings'|trans }}</span>
+                </div>
+            </div>
         </a>
         <a href="{{ path('user_profile_edit') }}"
-           class="list-group-item {{ is_active_route('user_profile_edit') ? 'active font-weight-bold' : '' }}">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'edit_profile'|trans }}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('user_profile_edit') ? 'active' : '' }}"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'edit_profile'|trans }}</span>
+                </div>
+            </div>
         </a>
         <a href="{{ path('app_logout') }}"
-           class="list-group-item">
-            <h4 class="kbin-quick-links-heading list-group-item-heading font-weight-light">{{ 'logout'|trans }}</h4>
+           class="list-group-item list-group-item-action d-flex gap-3 py-3"
+           aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <span class="mb-0 h6">{{ 'logout'|trans }}</span>
+                </div>
+            </div>
         </a>
     </div>
 </div>

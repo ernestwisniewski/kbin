@@ -27,16 +27,11 @@
   }
 
   .kbin-add {
-    a {
-      border-bottom: 1px solid #c5c5c5;
-    }
-
-    &-btn {
-      border-bottom: 1px solid $kbin-entry-list-item-border-color;
-
-      .kbin-dark & {
-        border-bottom: 1px solid $kbin-dark-entry-list-item-border-color;
-      }
+    .list-group-item + .list-group-item.active,
+    .list-group-item.active {
+      background-color: #e9ecef;
+      border-color: #e9ecef;
+      color: #000;
     }
 
     .kbin-quick-links {
