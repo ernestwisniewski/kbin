@@ -29,9 +29,15 @@
   .kbin-add {
     .list-group-item + .list-group-item.active,
     .list-group-item.active {
-      background-color: #e9ecef;
-      border-color: #e9ecef;
+      background-color: #f8f9fa;
+      border-color: #f8f9fa;
       color: #000;
+
+      .kbin-dark & {
+        background-color: #333;
+        border-color: #333;
+        color: #fff;
+      }
     }
 
     .kbin-quick-links {
