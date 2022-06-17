@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SlugUpdateCommand extends Command
 {
-    protected static $defaultName = 'kbin:update:slug';
+    protected static $defaultName = 'kbin:slug:update';
 
     public function __construct(private Slugger $slugger, private EntityManagerInterface $entityManager)
     {

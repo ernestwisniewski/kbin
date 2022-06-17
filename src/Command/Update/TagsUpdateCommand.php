@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TagsUpdateCommand extends Command
 {
-    protected static $defaultName = 'kbin:update:tag';
+    protected static $defaultName = 'kbin:tag:update';
 
     public function __construct(private TagManager $tagManager, private EntityManagerInterface $entityManager)
     {
@@ -30,19 +30,19 @@ class TagsUpdateCommand extends Command
     {
         $comments = $this->entityManager->getRepository(EntryComment::class)->findAll();
         foreach ($comments as $comment) {
-            $comment->tags = $this->tagManager->extract($comment->body);
+            $comment->tags = $this->tagManager->extract($comment->body, $comment->magazine->name);
             $this->entityManager->persist($comment);
         }
 
         $posts = $this->entityManager->getRepository(Post::class)->findAll();
         foreach ($posts as $post) {
-            $post->tags = $this->tagManager->extract($post->body);
+            $post->tags = $this->tagManager->extract($post->body, $post->magazine->name);
             $this->entityManager->persist($post);
         }
 
         $comments = $this->entityManager->getRepository(PostComment::class)->findAll();
         foreach ($comments as $comment) {
-            $comment->tags = $this->tagManager->extract($comment->body);
+            $comment->tags = $this->tagManager->extract($comment->body, $comment->magazine->name);
             $this->entityManager->persist($comment);
         }
 
