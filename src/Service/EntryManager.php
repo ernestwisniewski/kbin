@@ -54,7 +54,8 @@ class EntryManager implements ContentManagerInterface
         $entry->lang                 = $dto->lang;
         $entry->image                = $dto->image;
         $entry->tags                 = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags))
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            $entry->magazine->name
         ) : null;
         $entry->magazine->lastActive = new \DateTime();
         $entry->magazine->addEntry($entry);
@@ -85,7 +86,8 @@ class EntryManager implements ContentManagerInterface
         $oldImage       = $entry->image;
         $entry->image   = $dto->image;
         $entry->tags    = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags))
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            $entry->magazine->name
         ) : null;
 
         $entry->isOc     = $dto->isOc;

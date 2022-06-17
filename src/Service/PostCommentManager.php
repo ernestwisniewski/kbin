@@ -47,7 +47,7 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment->magazine             = $dto->post->magazine;
         $comment->image                = $dto->image;
-        $comment->tags                 = $this->tagManager->extract($comment->body);
+        $comment->tags                 = $this->tagManager->extract($comment->body, $comment->magazine->name);
         $comment->magazine->lastActive = new \DateTime();
         $comment->post->addComment($comment);
 
@@ -66,7 +66,7 @@ class PostCommentManager implements ContentManagerInterface
         $comment->body     = $dto->body;
         $oldImage          = $comment->image;
         $comment->image    = $dto->image;
-        $comment->tags     = $this->tagManager->extract($comment->body);
+        $comment->tags     = $this->tagManager->extract($comment->body, $comment->magazine->name);
         $comment->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();
