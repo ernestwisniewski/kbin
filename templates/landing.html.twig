@@ -33,6 +33,11 @@
     {% endblock %}
 </head>
 
+{% set theme = app.request.cookies.get('theme') ?? 'kbin-light' %}
+{% if app.user %}
+    {% set theme = app.user.theme is same as 'dark' ? 'kbin-dark' : 'kbin-light' %}
+{% endif %}
+
 <body>
 {% if magazine is defined and magazine %}
     <style>

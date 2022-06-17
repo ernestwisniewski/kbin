@@ -104,7 +104,7 @@ class PostRepository extends ServiceEntityRepository
 
         if ($criteria->tag) {
             $qb->andWhere($qb->expr()->like('p.tags', ':tag'))
-                ->setParameter('tag', "%{$criteria->tag}%");
+                ->setParameter('tag', "%\"{$criteria->tag}\"%");
         }
 
         if ($criteria->subscribed) {

@@ -33,7 +33,7 @@ use Symfony\Component\Security\Core\Security;
 class EntryRepository extends ServiceEntityRepository
 {
     const SORT_DEFAULT = 'hot';
-    const  TIME_DEFAULT = EntryPageView::TIME_ALL;
+    const  TIME_DEFAULT = Criteria::TIME_ALL;
     const PER_PAGE = 25;
 
     private Security $security;
@@ -83,7 +83,7 @@ class EntryRepository extends ServiceEntityRepository
 
     private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria)
     {
-        if ($criteria->time !== EntryPageView::TIME_ALL) {
+        if ($criteria->time !== Criteria::TIME_ALL) {
             $since = $criteria->getSince();
 
             $qb->andWhere('e.createdAt > :time')
@@ -123,7 +123,7 @@ class EntryRepository extends ServiceEntityRepository
 
         if ($criteria->tag) {
             $qb->andWhere($qb->expr()->like('e.tags', ':tag'))
-                ->setParameter('tag', "%{$criteria->tag}%");
+                ->setParameter('tag', "%\"{$criteria->tag}\"%");
         }
 
         if ($criteria->domain) {
