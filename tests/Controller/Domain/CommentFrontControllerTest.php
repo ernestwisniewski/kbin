@@ -18,7 +18,7 @@ class CommentFrontControllerTest extends WebTestCase
         $client->request('GET', '/');
         $crawler = $client->request('GET', '/d/karab.in/komentarze/najnowsze');
 
-        $this->assertSelectorTextContains('.kbin-comment-content', 'comment2');
+        $this->assertSelectorTextContains('.kbin-comment-content', 'comment');
 
         $this->assertSelectorTextContains('.kbin-nav-navbar', '/d/karab.in');
         $this->assertEquals(2, $crawler->filter('.kbin-comment-content')->count());

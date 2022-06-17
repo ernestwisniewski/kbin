@@ -108,7 +108,7 @@ class EntryCommentRepository extends ServiceEntityRepository
 
         if ($criteria->tag) {
             $qb->andWhere($qb->expr()->like('c.tags', ':tag'))
-                ->setParameter('tag', "%{$criteria->tag}%");
+                ->setParameter('tag', "%\"{$criteria->tag}\"%");
         }
 
         $qb->join('c.entry', 'ce');
