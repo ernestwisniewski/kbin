@@ -30,7 +30,7 @@ https://symfony.com/doc/5.3/reference/requirements.html
 * GD or Imagemagick php extension
 * NGINX / Apache / Caddy
 * PostgreSQL
-* Mongodb (optional)
+* Redis (optional)
 * Mercure (optional)
 * RabbitMQ (optional)
 * Elasticsearch (optional)
