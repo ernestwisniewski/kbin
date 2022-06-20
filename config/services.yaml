@@ -7,7 +7,9 @@ parameters:
   kbin_domain: '%env(KBIN_DOMAIN)%'
   kbin_title: '%env(KBIN_TITLE)%'
   kbin_description: '%env(KBIN_DESCRIPTION)%'
+  kbin_keywords: '%env(KBIN_KEYWORDS)%'
   kbin_contact_email: '%env(KBIN_CONTACT_EMAIL)%'
+  kbin_default_lang: '%env(KBIN_DEFAULT_LANG)%'
   kbin_api_items_per_page: '%env(KBIN_API_ITEMS_PER_PAGE)%'
 
   html5_validation: false
@@ -45,10 +47,6 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $kbinDomain: '%kbin_domain%'
-      $kbinTitle: '%kbin_title%'
-      $kbinDescription: '%kbin_description%'
-      $kbinContactEmail: '%kbin_contact_email%'
       $elasticaEnabled: '%elastica_enabled%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
@@ -80,6 +78,16 @@ services:
   #    tags:
   #      - { name: controller.request_value_resolver, priority: 50 }
 
+  # Instance settings
+  App\Service\SettingsManager:
+    arguments:
+      $kbinDomain: '%kbin_domain%'
+      $kbinTitle: '%kbin_title%'
+      $kbinDescription: '%kbin_description%'
+      $kbinKeywords: '%kbin_keywords%'
+      $kbinDefaultLang: '%kbin_default_lang%'
+      $kbinContactEmail: '%kbin_contact_email%'
+
   # Markdown
   App\Markdown\CommonMark\ExternalImagesRenderer:
     tags:
@@ -97,7 +105,7 @@ services:
   App\EventListener\LanguageListener:
     tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 200 }
-    arguments: [ '%env(KBIN_DEFAULT_LANG)%' ]
+    arguments: [ '%kbin_default_lang%' ]
 
   # Elastic
   App\Search\Elastica\MultiIndex:

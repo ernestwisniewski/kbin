@@ -6,8 +6,8 @@
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="{{ kbin_keywords }}">
-    <meta name="description" content="{% block description %}{{ kbin_description }}{% endblock %}">
+    <meta name="keywords" content="{{ kbin_keywords() }}">
+    <meta name="description" content="{% block description %}{{ kbin_description() }}{% endblock %}">
 
     <meta property="og:url" content="{{ app.request.uri }}"/>
     <meta property="og:type" content="article"/>

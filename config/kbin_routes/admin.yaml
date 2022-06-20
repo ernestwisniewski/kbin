@@ -1,0 +1,6 @@
+admin_settings:
+  controller: App\Controller\Admin\SettingsController
+  path:
+    en: /admin/settings
+    pl: /admin/ustawienia
+  methods: [ GET ]
