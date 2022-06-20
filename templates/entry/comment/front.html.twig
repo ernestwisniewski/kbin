@@ -8,7 +8,7 @@
     {% elseif is_magazine_page() %}
         {{- magazine.title }}: {{ 'comments'|trans -}}
     {% else %}
-        {{- 'comments'|trans ~ ' - ' ~ kbin_title -}}
+        {{- 'comments'|trans ~ ' - ' ~ kbin_title() -}}
     {% endif %}
 {%- endblock -%}
 

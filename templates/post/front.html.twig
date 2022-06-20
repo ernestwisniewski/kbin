@@ -8,7 +8,7 @@
     {% elseif is_magazine_page() %}
         {{- magazine.title }}: {{ 'posts'|trans -}}
     {% else %}
-        {{- 'posts'|trans ~ ' - ' ~ kbin_title -}}
+        {{- 'posts'|trans ~ ' - ' ~ kbin_title() -}}
     {% endif %}
 {%- endblock -%}
 
