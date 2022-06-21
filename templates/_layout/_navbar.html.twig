@@ -47,7 +47,7 @@
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar">
                 <i class="fas fa-bars p-1"></i>
             </button>
-            <div class="ms-3 mb-0 {{ kbin_js_enabled ? '' : 'show' }} offcanvas offcanvas-end" id="kbin-nav">
+            <div class="ms-3 mb-0 {{ kbin_js_enabled() ? '' : 'show' }} offcanvas offcanvas-end" id="kbin-nav">
                 <button type="button" class="navbar-toggler btn-close my-4 ms-1" data-bs-toggle="offcanvas" data-bs-target="#kbin-nav"
                         aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters"></button>
                 <ul class="kbin-nav-navbar navbar-nav me-lg-auto mb-2 mb-lg-0">

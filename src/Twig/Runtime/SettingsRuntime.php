@@ -32,4 +32,14 @@ class SettingsRuntime implements RuntimeExtensionInterface
     {
         return $this->settings->get('KBIN_KEYWORDS');
     }
+
+    #[Pure] public function kbinMarkdownHowtoUrl(): string
+    {
+        return $this->settings->get('KBIN_MARKDOWN_HOWTO_URL');
+    }
+
+    #[Pure] public function kbinJsEnabled(): bool
+    {
+        return $this->settings->get('KBIN_JS_ENABLED');
+    }
 }

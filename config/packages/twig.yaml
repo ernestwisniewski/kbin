@@ -1,7 +1,5 @@
 twig:
   globals:
-    kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
-    kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_TODO_URL)%'
     mercure_publish_url: '%env(MERCURE_PUBLISH_URL)%'
 
   default_path: '%kernel.project_dir%/templates'

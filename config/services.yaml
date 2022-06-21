@@ -11,6 +11,8 @@ parameters:
   kbin_contact_email: '%env(KBIN_CONTACT_EMAIL)%'
   kbin_default_lang: '%env(KBIN_DEFAULT_LANG)%'
   kbin_api_items_per_page: '%env(KBIN_API_ITEMS_PER_PAGE)%'
+  kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
+  kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
 
   html5_validation: false
 
@@ -87,6 +89,8 @@ services:
       $kbinKeywords: '%kbin_keywords%'
       $kbinDefaultLang: '%kbin_default_lang%'
       $kbinContactEmail: '%kbin_contact_email%'
+      $kbinMarkdownHowtoUrl: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
+      $kbinJsEnabled: '%env(bool:KBIN_JS_ENABLED)%'
 
   # Markdown
   App\Markdown\CommonMark\ExternalImagesRenderer:
