@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AbstractController;
 
-class DashboardController extends AbstractController
+class UserController extends AbstractController
 {
     public function __construct()
     {
@@ -12,6 +12,6 @@ class DashboardController extends AbstractController
 
     public function __invoke()
     {
-       return $this->render('admin/dashboard.html.twig');
+        throw $this->createAccessDeniedException();
     }
 }

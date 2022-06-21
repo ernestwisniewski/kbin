@@ -1,6 +1,19 @@
+admin_dashboard:
+  controller: App\Controller\Admin\DashboardController
+  path: /admin
+  methods: [ GET ]
+
+admin_users:
+  controller: App\Controller\Admin\UserController
+  path:
+    en: /admin/users
+    pl: /admin/użytkownicy
+  methods: [ GET ]
+
 admin_settings:
   controller: App\Controller\Admin\SettingsController
   path:
     en: /admin/settings
     pl: /admin/ustawienia
   methods: [ GET ]
+

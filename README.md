@@ -54,7 +54,6 @@ $ yarn build
 Based on https://github.com/dunglas/symfony-docker
 
 #### Develop
-
 ```bash
 # Set SMTP, Postgres, Mercure, Elasticsearch, RabbitMQ creds if you need it.
 $ cp .env.example .env
@@ -67,7 +66,6 @@ $ docker-compose exec php bin/phpunit
 ```
 
 #### Production
-
 ```bash
 $ SERVER_NAME="beta.karab.in" \
 APP_SECRET=427f5e2940e5b2472c1b44b2d06e0525 \
@@ -78,7 +76,6 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ## Configuration
 
 ### Admin user
-
 ```bash
 # Create new user (without email verification)
 $ docker-compose exec php bin/console kbin:user:create username email@exmple.com password
@@ -131,14 +128,13 @@ $ docker-compose exec php bin/console cache:clear
 
 ### Official Documents
 * [ActivityPub standard](https://www.w3.org/TR/activitypub/)
-* [Activitypub vocabulary](https://www.w3.org/TR/activitystreams-vocabulary/)
+* [ActivityPub vocabulary](https://www.w3.org/TR/activitystreams-vocabulary/)
 
-
+### Unofficial sources
 * [A highly opinionated guide to learning about ActivityPub](https://tinysubversions.com/notes/reading-activitypub/)
 * [ActivityPub as it has been understood](https://flak.tedunangst.com/post/ActivityPub-as-it-has-been-understood)
 * [Schema Generator 3: A Step Towards Redecentralizing the Web!](https://dunglas.fr/2021/01/schema-generator-3-a-step-towards-redecentralizing-the-web/)
 * [API Platform ActivityPub](https://github.com/api-platform/activity-pub)
-
 
 ## Documentation
 
