@@ -17,14 +17,18 @@ This is a very early beta version, and a lot of features are currently broken or
 
 ---
 
-* [kbin-js-client](https://github.com/ernestwisniewski/kbin-js-client) (TypeScript)
+### Apps
 * [kbin-mobile](https://github.com/ernestwisniewski/kbin-mobile) (Flutter / Dart)
+
+### Libraries
+* [kbin-js-client](https://github.com/ernestwisniewski/kbin-js-client) (TypeScript)
+* [kbin-dart-client](#) (Dart)
 
 ## Getting Started
 
 ### Requirements
 
-https://symfony.com/doc/5.3/reference/requirements.html
+https://symfony.com/doc/5.4/reference/requirements.html
 
 * PHP version: 8.0 or higher
 * GD or Imagemagick php extension
@@ -89,15 +93,52 @@ $ docker-compose exec php bin/console fos:elastica:populate
 ```
 
 ### JWT keys
-// todo 
+```bash
+// @todo 
+```
 
 Next, set up your instance https://localhost/admin
 
+## Backup and restore
+
+### Database
+```bash
+# Backup
+$ docker exec -t [container_id] PGPASSWORD="acme" pg_dump -U kbin kbin dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+# Restore
+$ docker exec -t [container_id] PGPASSWORD="acme" psql kbin < dump.sql // @todo
+```
+
+### Images
+```bash
+// @todo rsync
+```
+
+## Troubleshooting
+
+### Logs
+```bash
+$ docker-compose logs -f
+$ docker-compose exec php tail var/log/prod.log
+```
+
+### Cache
+```bash
+$ docker-compose exec php bin/console cache:clear
+```
+
 ## Federation
 
-* https://dunglas.fr/2021/01/schema-generator-3-a-step-towards-redecentralizing-the-web/
+### Official Documents
+* [ActivityPub standard](https://www.w3.org/TR/activitypub/)
+* [Activitypub vocabulary](https://www.w3.org/TR/activitystreams-vocabulary/)
 
-* https://github.com/api-platform/activity-pub
+
+* [A highly opinionated guide to learning about ActivityPub](https://tinysubversions.com/notes/reading-activitypub/)
+* [ActivityPub as it has been understood](https://flak.tedunangst.com/post/ActivityPub-as-it-has-been-understood)
+* [Schema Generator 3: A Step Towards Redecentralizing the Web!](https://dunglas.fr/2021/01/schema-generator-3-a-step-towards-redecentralizing-the-web/)
+* [API Platform ActivityPub](https://github.com/api-platform/activity-pub)
+
 
 ## Documentation
 
@@ -106,3 +147,5 @@ https://docs.kbin.info - Kbin API Reference
 ## Contributing
 
 ## License
+
+[AGPL-3.0 license](https://github.com/ernestwisniewski/kbin/blob/main/LICENSE)
