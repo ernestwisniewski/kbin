@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="{{ app.request.locale }}">
 <head>
-    <title>{%- block title -%}{{- kbin_title -}}{%- endblock -%}</title>
+    <title>{%- block title -%}{{- kbin_title() -}}{%- endblock -%}</title>
 
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="{{ kbin_keywords }}">
-    <meta name="description" content="{% block description %}{{ kbin_description }}{% endblock %}">
+    <meta name="keywords" content="{{ kbin_keywords() }}">
+    <meta name="description" content="{% block description %}{{ kbin_description() }}{% endblock %}">
 
     <meta property="og:url" content="{{ app.request.uri }}"/>
     <meta property="og:type" content="article"/>
@@ -22,7 +22,7 @@
     {% endblock %}
 
     {% block javascripts %}
-        {% if kbin_js_enabled %}
+        {% if kbin_js_enabled() %}
             <script>
                 window.KBIN_LOGGED_IN = {{ app.user ? 'true' : 'false' }};
                 window.KBIN_USERNAME = "{{ app.user ? app.user.username : null }}";
@@ -77,7 +77,7 @@
     </section>
     {% include '_layout/_footer.html.twig' %}
 
-    {% if kbin_js_enabled and not app.request.cookies.get('cookie-info') %}
+    {% if kbin_js_enabled() and not app.request.cookies.get('cookie-info') %}
         <div class="kbin-cookies" data-controller="cookie-info">
             <div class="container py-3 text-center">
                 <p>Ta strona korzysta z ciasteczek (cookies), które używane są do obsługi logowania i zapamiętania motywu niezalogowanego

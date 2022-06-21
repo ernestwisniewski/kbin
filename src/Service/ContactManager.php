@@ -13,8 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ContactManager
 {
     public function __construct(
-        private string $kbinDomain,
-        private string $kbinContactEmail,
+        private SettingsManager $settings,
         private MailerInterface $mailer,
         private TranslatorInterface $translator,
         private RateLimiterFactory $contactLimiter
@@ -29,9 +28,9 @@ class ContactManager
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('noreply@mg.karab.in', $this->kbinDomain))
-            ->to($this->kbinContactEmail)
-            ->subject($this->translator->trans('contact').' - '.$this->kbinDomain)
+            ->from(new Address('noreply@mg.karab.in', $this->settings->get('KBIN_DOMAIN')))
+            ->to($this->settings->get('KBIN_CONTACT_EMAIL'))
+            ->subject($this->translator->trans('contact').' - '.$this->settings->get('KBIN_DOMAIN'))
             ->htmlTemplate('_email/contact.html.twig')
             ->context([
                 'name'        => $dto->name,

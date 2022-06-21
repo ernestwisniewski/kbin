@@ -3,7 +3,7 @@
          data-controller="reveal"
          data-reveal-hidden-class="visually-hidden">
         <button type="button"
-                class="btn btn-secondary btn-lg mb-1 kbin-add-btn {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}"
+                class="btn btn-secondary btn-lg mb-1 kbin-add-btn {{ not kbin_js_enabled() or is_magazine_panel_page() ? 'visually-hidden' : '' }}"
                 data-reveal-target="item"
                 data-action="click->reveal#toggle">
             {{ 'magazine_panel'|trans }}
@@ -13,7 +13,7 @@
                 data-reveal-target="item"
                 data-action="click->reveal#toggle"></button>
 
-        <div class="list-group w-auto {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}" data-reveal-target="item">
+        <div class="list-group w-auto {{ not kbin_js_enabled() or is_magazine_panel_page() ? '' : 'visually-hidden' }}" data-reveal-target="item">
             <a href="{{ path('magazine_panel_front', {'name': magazine.name}) }}"
                class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('magazine_panel_front') ? 'active' : '' }}" aria-current="true">
                 <div class="d-flex gap-2 w-100 justify-content-between">

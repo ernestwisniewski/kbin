@@ -8,11 +8,11 @@
     {% elseif is_magazine_page() %}
         {{- magazine.title }}: {{ 'posts'|trans -}}
     {% else %}
-        {{- 'posts'|trans ~ ' - ' ~ kbin_title -}}
+        {{- 'posts'|trans ~ ' - ' ~ kbin_title() -}}
     {% endif %}
 {%- endblock -%}
 
-{%- block description -%}{{- magazine is defined ? magazine.description ? get_short_desc(magazine.description) : '' : kbin_description -}}{%- endblock -%}
+{%- block description -%}{{- magazine is defined ? magazine.description ? get_short_desc(magazine.description) : '' : kbin_description() -}}{%- endblock -%}
 
 {% block image %}{{ magazine is defined ? magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' : '' }}{% endblock %}
 

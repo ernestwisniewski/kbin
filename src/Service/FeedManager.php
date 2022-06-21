@@ -22,9 +22,7 @@ use Symfony\Component\Routing\RouterInterface;
 class FeedManager
 {
     public function __construct(
-        private string $kbinDomain,
-        private string $kbinTitle,
-        private string $kbinDescription,
+        private SettingsManager $settings,
         private EntryRepository $entryRepository,
         private MagazineRepository $magazineRepository,
         private UserRepository $userRepository,
@@ -90,7 +88,7 @@ class FeedManager
             $item->setTitle($entry->title);
             $item->setLastModified(DateTime::createFromImmutable($entry->createdAt));
             $item->setLink(
-                'https://'.$this->kbinDomain.
+                'https://'.$this->settings->get('KBIN_DOMAIN').
                 $this->router->generate('entry_single', [
                     'magazine_name' => $entry->magazine->name,
                     'entry_id'      => $entry->getId(),
@@ -106,9 +104,9 @@ class FeedManager
     private function createFeed(): Feed
     {
         $feed = new Feed();
-        $feed->setTitle($this->kbinTitle);
-        $feed->setDescription($this->kbinDescription);
-        $feed->setUrl($this->kbinDomain);
+        $feed->setTitle($this->settings->get('KBIN_TITLE'));
+        $feed->setDescription($this->settings->get('KBIN_DESCRIPTION'));
+        $feed->setUrl($this->settings->get('KBIN_DOMAIN'));
 
         return $feed;
     }

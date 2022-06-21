@@ -160,7 +160,7 @@
                         {% if is_granted('moderate', this.post.magazine) %}
                             <ul class="kbin-post-meta-list list-inline mb-0">
                                 <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
-                                    <small class="kbin-post-meta-edit text-muted {{ not kbin_js_enabled or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
+                                    <small class="kbin-post-meta-edit text-muted {{ not kbin_js_enabled() or is_magazine_panel_page() ? 'visually-hidden' : '' }}">
                                         <button type="submit" class="btn btn-link" data-action="click->reveal#toggle">
                                             {{ 'moderate'|trans }}
                                         </button>
@@ -169,7 +169,7 @@
                             </ul>
                         {% endif %}
 
-                        <ul class="kbin-post-meta-list list-inline mb-0 {{ not kbin_js_enabled or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
+                        <ul class="kbin-post-meta-list list-inline mb-0 {{ not kbin_js_enabled() or is_magazine_panel_page() ? '' : 'visually-hidden' }}"
                             data-reveal-target="item">
                             {% if is_granted('moderate', this.post.magazine) %}
                                 <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">

@@ -23,7 +23,7 @@ class UserDto implements UserDtoInterface
     #[Assert\Email]
     public ?string $email = null;
     #[Assert\Length(min: 6, max: 4096)]
-    public ?string $plainPassword = null;
+    public ?string $plainPassword = null; // @todo move password and agreeTerms to RegisterDto
     public Image|ImageDto|null $avatar = null;
     public bool $agreeTerms = false;
     public ?string $ip = null;

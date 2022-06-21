@@ -1,12 +1,6 @@
 twig:
   globals:
-    kbin_domain: '%env(KBIN_DOMAIN)%'
-    kbin_title: '%env(KBIN_TITLE)%'
-    kbin_description: '%env(KBIN_DESCRIPTION)%'
-    kbin_keywords: '%env(KBIN_KEYWORDS)%'
-    kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
     mercure_publish_url: '%env(MERCURE_PUBLISH_URL)%'
-    kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_TODO_URL)%'
 
   default_path: '%kernel.project_dir%/templates'
   form_themes: [ '_layout/bootstrap_4_layout.html.twig' ]
