@@ -12,6 +12,6 @@ class SettingsController extends AbstractController
     }
 
     public function __invoke() {
-        dd($this->manager->get('KBIN_DOMAIN'));
+       throw $this->createAccessDeniedException();
     }
 }

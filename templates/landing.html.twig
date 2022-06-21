@@ -22,7 +22,7 @@
     {% endblock %}
 
     {% block javascripts %}
-        {% if kbin_js_enabled %}
+        {% if kbin_js_enabled() %}
             <script>
                 window.KBIN_LOGGED_IN = {{ app.user ? 'true' : 'false' }};
                 window.KBIN_USERNAME = "{{ app.user ? app.user.username : null }}";

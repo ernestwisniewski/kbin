@@ -17,6 +17,8 @@ class SettingsManager
         private string $kbinKeywords,
         private string $kbinDefaultLang,
         private string $kbinContactEmail,
+        private string $kbinMarkdownHowtoUrl,
+        private bool $kbinJsEnabled,
     ) {
         if (!$this->dto) {
             $results = $this->repository->findAll();
@@ -28,6 +30,10 @@ class SettingsManager
                 array_filter($results, fn($s) => $s->name === 'KBIN_DESCRIPTION')[0]->value ?? $this->kbinDescription,
                 array_filter($results, fn($s) => $s->name === 'KBIN_DEFAULT_LANG')[0]->value ?? $this->kbinDefaultLang,
                 array_filter($results, fn($s) => $s->name === 'KBIN_CONTACT_EMAIL')[0]->value ?? $this->kbinContactEmail,
+                array_filter($results, fn($s) => $s->name === 'KBIN_MARKDOWN_HOWTO_URL')[0]->value ?? $this->kbinMarkdownHowtoUrl,
+                isset(array_filter($results, fn($s) => $s->name === 'KBIN_JS_ENABLED')[0])
+                    ? filter_var(array_filter($results, fn($s) => $s->name === 'KBIN_JS_ENABLED')[0]->value, FILTER_VALIDATE_BOOLEAN)
+                    : $this->kbinJsEnabled,
             );
         }
     }
