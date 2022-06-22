@@ -145,15 +145,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
-    "easycorp/easyadmin-bundle": {
-        "version": "3.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.0",
-            "ref": "b131e6cbfe1b898a508987851963fff485986285"
-        }
-    },
     "egulias/email-validator": {
         "version": "3.1.1"
     },
@@ -623,6 +614,15 @@
             "config/packages/mercure.yaml"
         ]
     },
+    "symfony/mercure-notifier": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "ae4620ee823a67e41f65aabec525fa52c79a8b09"
+        }
+    },
     "symfony/messenger": {
         "version": "4.3",
         "recipe": {
@@ -654,6 +654,18 @@
             "config/packages/prod/deprecations.yaml",
             "config/packages/prod/monolog.yaml",
             "config/packages/test/monolog.yaml"
+        ]
+    },
+    "symfony/notifier": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.0",
+            "ref": "c31585e252b32fe0e1f30b1f256af553f4a06eb9"
+        },
+        "files": [
+            "config/packages/notifier.yaml"
         ]
     },
     "symfony/options-resolver": {
@@ -702,9 +714,6 @@
         "version": "v1.23.0"
     },
     "symfony/polyfill-php81": {
-        "version": "v1.23.0"
-    },
-    "symfony/polyfill-uuid": {
         "version": "v1.23.0"
     },
     "symfony/process": {
@@ -809,14 +818,14 @@
             "templates/base.html.twig"
         ]
     },
-    "symfony/uid": {
-        "version": "v5.3.3"
-    },
     "symfony/ux-chartjs": {
         "version": "v1.3.0"
     },
     "symfony/ux-dropzone": {
         "version": "v1.3.0"
+    },
+    "symfony/ux-notify": {
+        "version": "v2.2.0"
     },
     "symfony/ux-turbo": {
         "version": "v1.3.0"

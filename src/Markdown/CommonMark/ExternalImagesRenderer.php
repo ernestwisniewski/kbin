@@ -41,7 +41,7 @@ final class ExternalImagesRenderer implements InlineRendererInterface, Configura
 
     public function setConfiguration(
         ConfigurationInterface $configuration
-    ) {
+    ): void {
         $this->config = $configuration;
     }
 }

@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\HubInterface;
 
 class MessageNotificationManager
 {
@@ -19,7 +19,7 @@ class MessageNotificationManager
         private MagazineSubscriptionRepository $repository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
-        private PublisherInterface $publisher,
+        private HubInterface $publisher,
         private EntityManagerInterface $entityManager
     ) {
     }

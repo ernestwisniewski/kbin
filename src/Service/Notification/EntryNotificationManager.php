@@ -16,7 +16,7 @@ use App\Repository\UserRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Twig\Environment;
 
@@ -29,7 +29,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         private MagazineSubscriptionRepository $magazineRepository,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
-        private PublisherInterface $publisher,
+        private HubInterface $publisher,
         private Environment $twig,
         private EntityManagerInterface $entityManager
     ) {

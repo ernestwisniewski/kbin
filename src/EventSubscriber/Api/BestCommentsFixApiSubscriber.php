@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 // @todo serialization temporary fix
 final class BestCommentsFixApiSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['transform', EventPriorities::POST_SERIALIZE],

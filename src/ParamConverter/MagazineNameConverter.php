@@ -16,7 +16,7 @@ class MagazineNameConverter implements ParamConverterInterface
     {
     }
 
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): void
     {
         $magazineName = $request->attributes->get('magazine_name') ?? $request->attributes->get('name');
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\MessageHandler\Notification;
 
@@ -8,7 +8,7 @@ use App\Factory\MagazineFactory;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\VotableRepositoryResolver;
 use Exception;
-use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -18,11 +18,11 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private VotableRepositoryResolver $resolver,
-        private PublisherInterface $publisher,
+        private HubInterface $publisher,
     ) {
     }
 
-    public function __invoke(VoteNotificationMessage $message)
+    public function __invoke(VoteNotificationMessage $message): void
     {
         $repo = $this->resolver->resolve($message->subjectClass);
         $this->notifyMagazine($repo->find($message->subjectId));

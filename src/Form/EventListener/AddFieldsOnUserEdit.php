@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\Image as ImageConstraint;
 
 final class AddFieldsOnUserEdit implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [FormEvents::PRE_SET_DATA => 'preSetData'];
     }

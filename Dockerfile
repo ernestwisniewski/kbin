@@ -4,7 +4,7 @@
 
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG PHP_VERSION=8.0
+ARG PHP_VERSION=8.1
 ARG CADDY_VERSION=2
 ARG ELASTIC_VERSION=7.4.0
 

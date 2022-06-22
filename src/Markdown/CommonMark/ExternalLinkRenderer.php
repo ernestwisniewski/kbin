@@ -69,7 +69,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
 
     public function setConfiguration(
         ConfigurationInterface $configuration
-    ) {
+    ): void {
         $this->config = $configuration;
     }
 }

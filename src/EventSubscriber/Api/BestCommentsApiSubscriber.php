@@ -23,7 +23,7 @@ final class BestCommentsApiSubscriber implements EventSubscriberInterface
     ) {
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['transform', EventPriorities::PRE_SERIALIZE],

@@ -387,14 +387,16 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this->user;
     }
 
-    public function getViews()
+    public function getViews(): int
     {
         return $this->views;
     }
 
-    public function setViews($views)
+    public function setViews($views): self
     {
         $this->views = $views;
+
+        return $this;
     }
 
     public function getAdaAmount(): string

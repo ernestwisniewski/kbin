@@ -4,9 +4,8 @@ namespace App\Service;
 
 use App\Exception\CorruptedFileException;
 use App\Exception\ImageDownloadTooLargeException;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use RuntimeException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Mime\MimeTypesInterface;
@@ -22,7 +21,7 @@ class ImageManager
     const MAX_IMAGE_BYTES = 12000000;
 
     public function __construct(
-        private FilesystemInterface $publicUploadsFilesystem,
+        private FilesystemOperator $publicUploadsFilesystem,
         private HttpClientInterface $httpClient,
         private MimeTypesInterface $mimeTypeGuesser,
         private ValidatorInterface $validator,
@@ -147,7 +146,7 @@ class ImageManager
         return sprintf('%s.%s', $hash, $ext);
     }
 
-    public function remove(string $path):void
+    public function remove(string $path): void
     {
         $this->publicUploadsFilesystem->delete($path);
     }

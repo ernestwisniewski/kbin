@@ -16,7 +16,7 @@ class UsernameConverter implements ParamConverterInterface
     {
     }
 
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): void
     {
         $username = $request->attributes->get('username') ?? $request->attributes->get('user');
 
