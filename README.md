@@ -28,9 +28,9 @@ This is a very early beta version, and a lot of features are currently broken or
 
 ### Requirements
 
-https://symfony.com/doc/5.4/reference/requirements.html
+https://symfony.com/doc/6.1/reference/requirements.html
 
-* PHP version: 8.0 or higher
+* PHP version: 8.1 or higher
 * GD or Imagemagick php extension
 * NGINX / Apache / Caddy
 * PostgreSQL
