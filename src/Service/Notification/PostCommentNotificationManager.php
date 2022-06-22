@@ -84,7 +84,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
                 $this->getResponse($notification)
             );
 
-            ($this->publisher)($update);
+            $this->publisher->publish($update);
 
         } catch (Exception $e) {
         }
@@ -123,7 +123,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
                 $this->getResponse($notification)
             );
 
-            ($this->publisher)($update);
+            $this->publisher->publish($update);
 
         } catch (Exception $e) {
         }

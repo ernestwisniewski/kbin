@@ -72,7 +72,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
                 $this->getResponse($notification)
             );
 
-            ($this->publisher)($update);
+            $this->publisher->publish($update);
 
         } catch (Exception $e) {
         }

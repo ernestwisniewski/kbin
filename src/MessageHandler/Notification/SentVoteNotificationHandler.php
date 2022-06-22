@@ -38,7 +38,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
                 $this->getNotification($votable)
             );
 
-            ($this->publisher)($update);
+            $this->publisher->publish($update);
 
         } catch (Exception $e) {
         }
