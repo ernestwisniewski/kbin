@@ -9,6 +9,8 @@ use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Repository\VoteRepository;
+use DateTimeImmutable;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -26,18 +28,29 @@ class InstanceStatsManager
     ) {
     }
 
-    public function count()
+    public function count(?string $period = null)
     {
-        return $this->cache->get('instance_stats', function (ItemInterface $item) {
-            $item->expiresAfter(60);
+        $period = $period ? DateTimeImmutable::createFromMutable(new \DateTime($period)) : null;
+
+        return $this->cache->get('instance_stats', function (ItemInterface $item) use ($period) {
+            $item->expiresAfter(0);
+
+            $criteria = Criteria::create();
+
+            if ($period) {
+                $criteria->where(
+                    Criteria::expr()
+                        ->gt('createdAt', $period)
+                );
+            }
 
             return [
-                'users'     => $this->userRepository->count([]),
-                'magazines' => $this->magazineRepository->count([]),
-                'entries'   => $this->entryRepository->count([]),
-                'comments'  => $this->entryCommentRepository->count([]),
-                'posts'     => $this->postRepository->count([]) + $this->postCommentRepository->count([]),
-                'votes'     => $this->voteRepository->count(),
+                'users'     => $this->userRepository->matching($criteria)->count(),
+                'magazines' => $this->magazineRepository->matching($criteria)->count(),
+                'entries'   => $this->entryRepository->matching($criteria)->count(),
+                'comments'  => $this->entryCommentRepository->matching($criteria)->count(),
+                'posts'     => $this->postRepository->matching($criteria)->count() + $this->postCommentRepository->matching($criteria)->count(),
+                'votes'     => $this->voteRepository->count($period),
             ];
         });
     }

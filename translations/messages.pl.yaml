@@ -395,3 +395,6 @@ reset_check_email_desc2: 'Jeśli nie otrzymasz wiadomości e-mail, sprawdź fold
 reset_visit_link: 'Aby zresetować hasło, odwiedź poniższy link'
 try_again: 'spróbuj ponownie'
 email_was_sent: 'Email został wysłany'
+'admin_panel': 'Zarządzaj instancją'
+'dashboard': 'Dashboard'
+'is_banned': 'Zbanowany'

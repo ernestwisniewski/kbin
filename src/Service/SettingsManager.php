@@ -42,4 +42,9 @@ class SettingsManager
     {
         return $this->dto->{$name};
     }
+
+    public function getDto(): SettingsDto
+    {
+        return $this->dto;
+    }
 }

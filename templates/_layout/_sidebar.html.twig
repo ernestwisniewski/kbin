@@ -95,7 +95,7 @@
     <div class="kbin-add kbin-magazine-panel d-grid gap-2 {{ app.user and magazine is defined and is_granted('edit', magazine) ? 'mb-2' : 'mb-5' }}">
         <a href="{{ path('admin_dashboard') }}"
            type="button"
-           class="btn btn-secondary btn-lg mb-1 kbin-add-btn {{ is_admin_panel_page() ? 'visually-hidden' : '' }}">
+           class="btn btn-secondary btn-lg mb-1 kbin-add-btn {{ is_admin_panel_page() ? 'visually-hidden' : '' }} text-light">
             {{ 'admin_panel'|trans }}
         </a>
     </div>

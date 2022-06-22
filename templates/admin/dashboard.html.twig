@@ -3,7 +3,10 @@
 {%- block title -%}{{ 'dashbord'|trans }} - {{ 'admin_panel'|trans }}{%- endblock -%}
 
 {% block body %}
-    Dashboard
+    <h1 class="mb-5">{{ 'dashboard'|trans }}</h1>
+    <h2 class="font-weight-bold">24h</h2>
+
+    {% include 'page/_instance_stats.html.twig' %}
 {% endblock %}
 
 {% block sidebar %}

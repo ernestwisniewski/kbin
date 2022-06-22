@@ -69,7 +69,7 @@
                         {% include '_layout/_sidebar.html.twig' %}
                     {% endblock %}
                     {% block ads %}
-                        {% if not is_granted('ROLE_ADMIN') %}
+                        {% if not is_admin_panel_page() %}
                             {{ component('ads') }}
                         {% endif %}
                     {% endblock %}

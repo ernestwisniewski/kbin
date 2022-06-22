@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}{{ 'settings'|trans }} - {{ 'admin_panel'|trans }}{%- endblock -%}
+
+{% block body %}
+    <h1>{{ 'settings'|trans }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_label(form.KBIN_DOMAIN, 'domain'|trans) }}
+    {{ form_widget(form.KBIN_DOMAIN) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'admin/_sidebar.html.twig' %}
+{% endblock %}
