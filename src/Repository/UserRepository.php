@@ -19,6 +19,7 @@ use Pagerfanta\PagerfantaInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use function get_class;
@@ -52,20 +53,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->setParameter('email', $val)
             ->getQuery()
             ->getOneOrNullResult();
-    }
-
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     */
-    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
-    {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
-        }
-
-        $user->setPassword($newEncodedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
     }
 
     public function findPublicActivity(int $page, User $user): PagerfantaInterface
@@ -234,5 +221,17 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         }
 
         return $pagerfanta;
+    }
+
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+        }
+
+        $user->setPassword($newHashedPassword);
+
+        $this->_em->persist($user);
+        $this->_em->flush();
     }
 }

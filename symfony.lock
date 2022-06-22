@@ -439,9 +439,6 @@
     "stella-maris/clock": {
         "version": "0.1.4"
     },
-    "symfony/amqp-messenger": {
-        "version": "v5.3.2"
-    },
     "symfony/asset": {
         "version": "v5.3.2"
     },
@@ -480,9 +477,6 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v5.3.3"
-    },
-    "symfony/doctrine-messenger": {
-        "version": "v5.3.2"
     },
     "symfony/dom-crawler": {
         "version": "v5.3.0"
@@ -713,9 +707,6 @@
     "symfony/polyfill-php80": {
         "version": "v1.23.0"
     },
-    "symfony/polyfill-php81": {
-        "version": "v1.23.0"
-    },
     "symfony/process": {
         "version": "v5.3.2"
     },
@@ -730,9 +721,6 @@
     },
     "symfony/rate-limiter": {
         "version": "v5.3.0"
-    },
-    "symfony/redis-messenger": {
-        "version": "v5.3.2"
     },
     "symfony/routing": {
         "version": "5.3",
@@ -767,9 +755,6 @@
     },
     "symfony/security-csrf": {
         "version": "v5.3.3"
-    },
-    "symfony/security-guard": {
-        "version": "v5.3.0"
     },
     "symfony/security-http": {
         "version": "v5.3.3"
