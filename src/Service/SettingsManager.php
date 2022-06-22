@@ -12,9 +12,9 @@ class SettingsManager
     public function __construct(
         private SettingsRepository $repository,
         private string $kbinDomain,
-        private string $kbinTitle,
-        private string $kbinDescription,
-        private string $kbinKeywords,
+        private string $kbinMetaTitle,
+        private string $kbinMetaDescription,
+        private string $kbinMetaKeywords,
         private string $kbinDefaultLang,
         private string $kbinContactEmail,
         private string $kbinMarkdownHowtoUrl,
@@ -25,9 +25,9 @@ class SettingsManager
 
             $this->dto = new SettingsDto(
                 array_filter($results, fn($s) => $s->name === 'KBIN_DOMAIN')[0]->value ?? $this->kbinDomain,
-                array_filter($results, fn($s) => $s->name === 'KBIN_TITLE')[0]->value ?? $this->kbinTitle,
-                array_filter($results, fn($s) => $s->name === 'KBIN_KEYWORDS')[0]->value ?? $this->kbinKeywords,
-                array_filter($results, fn($s) => $s->name === 'KBIN_DESCRIPTION')[0]->value ?? $this->kbinDescription,
+                array_filter($results, fn($s) => $s->name === 'KBIN_META_TITLE')[0]->value ?? $this->kbinMetaTitle,
+                array_filter($results, fn($s) => $s->name === 'KBIN_META_KEYWORDS')[0]->value ?? $this->kbinMetaKeywords,
+                array_filter($results, fn($s) => $s->name === 'KBIN_META_DESCRIPTION')[0]->value ?? $this->kbinMetaDescription,
                 array_filter($results, fn($s) => $s->name === 'KBIN_DEFAULT_LANG')[0]->value ?? $this->kbinDefaultLang,
                 array_filter($results, fn($s) => $s->name === 'KBIN_CONTACT_EMAIL')[0]->value ?? $this->kbinContactEmail,
                 array_filter($results, fn($s) => $s->name === 'KBIN_MARKDOWN_HOWTO_URL')[0]->value ?? $this->kbinMarkdownHowtoUrl,

@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="{{ app.request.locale }}">
 <head>
-    <title>{%- block title -%}{{- kbin_title() -}}{%- endblock -%}</title>
+    <title>{%- block title -%}{{- kbin_meta_title() -}}{%- endblock -%}</title>
 
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="{{ kbin_keywords() }}">
-    <meta name="description" content="{% block description %}{{ kbin_description() }}{% endblock %}">
+    <meta name="keywords" content="{{ kbin_meta_keywords() }}">
+    <meta name="description" content="{% block description %}{{ kbin_meta_description() }}{% endblock %}">
 
     <meta property="og:url" content="{{ app.request.uri }}"/>
     <meta property="og:type" content="article"/>

@@ -104,8 +104,8 @@ class FeedManager
     private function createFeed(): Feed
     {
         $feed = new Feed();
-        $feed->setTitle($this->settings->get('KBIN_TITLE'));
-        $feed->setDescription($this->settings->get('KBIN_DESCRIPTION'));
+        $feed->setTitle($this->settings->get('KBIN_META_TITLE'));
+        $feed->setDescription($this->settings->get('KBIN_META_DESCRIPTION'));
         $feed->setUrl($this->settings->get('KBIN_DOMAIN'));
 
         return $feed;

@@ -16,6 +16,15 @@
                     </div>
                 </div>
             </a>
+            <a href="{{ path('admin_settings') }}"
+               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('admin_settings') ? 'active' : '' }}"
+               aria-current="true">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        <span class="mb-0 h6">{{ 'settings'|trans }}</span>
+                    </div>
+                </div>
+            </a>
             <a href="{{ path('admin_users') }}"
                class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('admin_users') ? 'active' : '' }}"
                aria-current="true">
@@ -25,12 +34,12 @@
                     </div>
                 </div>
             </a>
-            <a href="{{ path('admin_settings') }}"
-               class="list-group-item list-group-item-action d-flex gap-3 py-3 {{ is_active_route('admin_settings') ? 'active' : '' }}"
+            <a href="#"
+               class="list-group-item list-group-item-action d-flex gap-3 py-3"
                aria-current="true">
                 <div class="d-flex gap-2 w-100 justify-content-between">
                     <div>
-                        <span class="mb-0 h6">{{ 'settings'|trans }}</span>
+                        <span class="mb-0 h6">{{ 'faq'|trans }}</span>
                     </div>
                 </div>
             </a>

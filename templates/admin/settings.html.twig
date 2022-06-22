@@ -3,12 +3,52 @@
 {%- block title -%}{{ 'settings'|trans }} - {{ 'admin_panel'|trans }}{%- endblock -%}
 
 {% block body %}
-    <h1>{{ 'settings'|trans }}</h1>
+    <h1 class="mb-5">{{ 'settings'|trans }}</h1>
 
-    {{ form_start(form) }}
-    {{ form_label(form.KBIN_DOMAIN, 'domain'|trans) }}
-    {{ form_widget(form.KBIN_DOMAIN) }}
-    {{ form_end(form) }}
+    <div class="col-lg-6 mb-3">
+        <div class="kbin-magazine-theme-form">
+            <div class="kbin-magazine-background"></div>
+
+            <div class="mb-5">
+                <h3>{{ 'general'|trans }}</h3>
+
+                <div class="mb-3">
+                    {{ form_label(form.KBIN_DOMAIN, 'domain'|trans ) }}
+                    {{ form_widget(form.KBIN_DOMAIN) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.KBIN_CONTACT_EMAIL, 'contact_email'|trans ) }}
+                    {{ form_widget(form.KBIN_CONTACT_EMAIL) }}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <h3>{{ 'meta'|trans }}</h3>
+
+                <div class="mb-3">
+                    {{ form_label(form.KBIN_META_TITLE, 'title'|trans ) }}
+                    {{ form_widget(form.KBIN_META_TITLE) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.KBIN_META_DESCRIPTION, 'description'|trans ) }}
+                    {{ form_widget(form.KBIN_META_DESCRIPTION) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.KBIN_META_KEYWORDS, 'keywords'|trans ) }}
+                    {{ form_widget(form.KBIN_META_KEYWORDS) }}
+                </div>
+            </div>
+
+            <div class="float-end">
+                <div class="input-group input-group-lg me-2">
+                    {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-theme-send btn-primary ms-3'} }) }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block sidebar %}

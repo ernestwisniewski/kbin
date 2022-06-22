@@ -14,6 +14,10 @@ class SettingsType extends AbstractType
     {
         $builder
             ->add('KBIN_DOMAIN')
+            ->add('KBIN_CONTACT_EMAIL')
+            ->add('KBIN_META_TITLE')
+            ->add('KBIN_META_DESCRIPTION')
+            ->add('KBIN_META_KEYWORDS')
             ->add('submit', SubmitType::class);
     }
 
