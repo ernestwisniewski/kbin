@@ -6,3 +6,15 @@
     }
   }
 }
+
+.ts-wrapper.single .ts-control {
+  background: $white;
+  border-color: #ddd;
+  min-height: 47px;
+  padding-top: 14px;
+  font-size: 1.1rem;
+
+  .clear-button {
+    padding-top: 5px;
+  }
+}

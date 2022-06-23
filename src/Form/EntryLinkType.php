@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\DTO\EntryDto;
 use App\Entity\Magazine;
+use App\Form\Autocomplete\MagazineAutocompleteField;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\DataTransformer\TagTransformer;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
@@ -45,15 +46,7 @@ class EntryLinkType extends AbstractType
                     'label' => 'Etykiety',
                 ]
             )
-            ->add(
-                'magazine',
-                EntityType::class,
-                [
-
-                    'class'        => Magazine::class,
-                    'choice_label' => 'name',
-                ]
-            )
+            ->add('magazine', MagazineAutocompleteField::class)
             ->add(
                 'image',
                 FileType::class,
