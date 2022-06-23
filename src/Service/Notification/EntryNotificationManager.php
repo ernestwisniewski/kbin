@@ -8,16 +8,17 @@ use App\Entity\Entry;
 use App\Entity\EntryCreatedNotification;
 use App\Entity\EntryDeletedNotification;
 use App\Entity\EntryEditedNotification;
+use App\Entity\Magazine;
 use App\Entity\Notification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
-use App\Repository\UserRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class EntryNotificationManager implements ContentNotificationManagerInterface
@@ -31,6 +32,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         private MagazineFactory $magazineFactory,
         private HubInterface $publisher,
         private Environment $twig,
+        private UrlGeneratorInterface $urlGenerator,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -83,13 +85,28 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     {
         $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
 
+        /**
+         * @var Magazine $magazine
+         * @var Entry    $entry
+         */
+        $entry    = $notification->entry;
+        $magazine = $notification->entry->magazine->name;
+
         return json_encode(
             [
                 'op'       => end($class),
-                'id'       => $notification->entry->getId(),
+                'id'       => $entry->getId(),
                 'magazine' => [
-                    'name' => $notification->entry->magazine->name,
+                    'name' => $magazine,
                 ],
+                'title'    => $magazine,
+                'body'     => $entry->title,
+                'icon'     => null,
+                'url'      => $this->urlGenerator->generate('entry_single', [
+                    'magazine_name' => $magazine,
+                    'entry_id'      => $entry->getId(),
+                    'slug'          => $entry->slug,
+                ]),
                 'toast'    => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );

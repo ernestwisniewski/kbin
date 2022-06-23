@@ -608,15 +608,6 @@
             "config/packages/mercure.yaml"
         ]
     },
-    "symfony/mercure-notifier": {
-        "version": "5.4",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "5.3",
-            "ref": "ae4620ee823a67e41f65aabec525fa52c79a8b09"
-        }
-    },
     "symfony/messenger": {
         "version": "4.3",
         "recipe": {
@@ -648,18 +639,6 @@
             "config/packages/prod/deprecations.yaml",
             "config/packages/prod/monolog.yaml",
             "config/packages/test/monolog.yaml"
-        ]
-    },
-    "symfony/notifier": {
-        "version": "5.4",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "5.0",
-            "ref": "c31585e252b32fe0e1f30b1f256af553f4a06eb9"
-        },
-        "files": [
-            "config/packages/notifier.yaml"
         ]
     },
     "symfony/options-resolver": {
@@ -803,14 +782,23 @@
             "templates/base.html.twig"
         ]
     },
+    "symfony/ux-autocomplete": {
+        "version": "2.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.2",
+            "ref": "f8fa49e4547904ab278c100564ae1102df774243"
+        },
+        "files": [
+            "config/routes/ux_autocomplete.yaml"
+        ]
+    },
     "symfony/ux-chartjs": {
         "version": "v1.3.0"
     },
     "symfony/ux-dropzone": {
         "version": "v1.3.0"
-    },
-    "symfony/ux-notify": {
-        "version": "v2.2.0"
     },
     "symfony/ux-turbo": {
         "version": "v1.3.0"

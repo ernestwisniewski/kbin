@@ -3,11 +3,7 @@
 
 <div class="toast-header">
     <strong class="me-auto">{{ component('magazine_inline', { magazine: notification.post.magazine }) }}</strong>
-    <small class="text-muted">
-        <time data-controller="timeago"
-              data-timeago-refresh-interval-value="10000"
-              data-timeago-datetime-value="{{ notification.createdAt|date('c') }}">{{ notification.createdAt|ago }}</time>
-    </small>
+
     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
 </div>
 <div class="toast-body">

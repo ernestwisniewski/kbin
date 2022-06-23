@@ -3,9 +3,9 @@
         "@hotwired/stimulus": "^3.0.0",
         "@hotwired/turbo": "^7.0.1",
         "@symfony/stimulus-bridge": "^3.0.0",
+        "@symfony/ux-autocomplete": "file:vendor/symfony/ux-autocomplete/assets",
         "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets",
         "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/Resources/assets",
-        "@symfony/ux-notify": "file:vendor/symfony/ux-notify/Resources/assets",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/Resources/assets",
         "@symfony/webpack-encore": "^1.7.0",
         "bootstrap": "^5.0.0-beta1",
@@ -15,6 +15,7 @@
         "node-sass": "^4.0.0",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^9.0.1",
+        "tom-select": "^2.0.1",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",

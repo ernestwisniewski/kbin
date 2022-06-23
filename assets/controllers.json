@@ -1,5 +1,14 @@
 {
     "controllers": {
+        "@symfony/ux-autocomplete": {
+            "autocomplete": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": {
+                    "tom-select/dist/css/tom-select.default.css": true
+                }
+            }
+        },
         "@symfony/ux-chartjs": {
             "chart": {
                 "enabled": true,
@@ -13,12 +22,6 @@
                 "autoimport": {
                     "@symfony/ux-dropzone/src/style.css": true
                 }
-            }
-        },
-        "@symfony/ux-notify": {
-            "notify": {
-                "enabled": true,
-                "fetch": "eager"
             }
         },
         "@symfony/ux-turbo": {

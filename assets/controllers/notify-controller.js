@@ -38,6 +38,10 @@ export default class extends ApplicationController {
                 self.dispatch('Notification', data);
             }
 
+            if (data.op.includes('Created')) {
+                self.notify(data);
+            }
+
             self.dispatch(data.op, data);
         }
 
@@ -89,5 +93,21 @@ export default class extends ApplicationController {
 
         let t = new bootstrap.Toast(div);
         t.show();
+    }
+
+    notify(content) {
+        if ('granted' === Notification.permission) {
+            new Notification(content.title, {body: content.body, icon: content.icon});
+
+            return;
+        }
+
+        if ('denied' !== Notification.permission) {
+            Notification.requestPermission().then((permission) => {
+                if ('granted' === permission) {
+                    new Notification(content.title, {body: content.body, icon: content.icon});
+                }
+            });
+        }
     }
 }

@@ -20,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class EntryCommentNotificationManager implements ContentNotificationManagerInterface
@@ -34,6 +35,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         private UserFactory $userFactory,
         private HubInterface $publisher,
         private Environment $twig,
+        private UrlGeneratorInterface $urlGenerator,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -129,17 +131,31 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         }
     }
 
+
     private function getResponse(Notification $notification): string
     {
         $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
 
+        /**
+         * @var EntryComment $comment ;
+         */
+        $comment = $notification->getComment();
+
         return json_encode(
             [
                 'op' => end($class),
-                'id' => $notification->getComment()->getId(),
+                'id' => $comment->getId(),
                 'subject' => [
-                    'id' => $notification->getComment()->entry->getId(),
+                    'id' => $comment->entry->getId(),
                 ],
+                'title' => $comment->entry->title,
+                'body' => $comment->body,
+                'icon' => null,
+                'url' => $this->urlGenerator->generate('entry_single', [
+                    'magazine_name' => $comment->magazine->name,
+                    'entry_id'      => $comment->entry->getId(),
+                    'slug'          => $comment->entry->slug,
+                ]),
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );

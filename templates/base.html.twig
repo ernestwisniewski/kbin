@@ -77,7 +77,12 @@
             </aside>
         </div>
     </section>
+
     {% include '_layout/_footer.html.twig' %}
+
+    <div class="toast-container position-absolute top-0 end-0 p-3">
+
+    </div>
 
     {% if kbin_js_enabled() and not app.request.cookies.get('cookie-info') %}
         <div class="kbin-cookies" data-controller="cookie-info">

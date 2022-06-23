@@ -20,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class PostCommentNotificationManager implements ContentNotificationManagerInterface
@@ -34,6 +35,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         private UserFactory $userFactory,
         private HubInterface $publisher,
         private Environment $twig,
+        private UrlGeneratorInterface $urlGenerator,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -133,13 +135,26 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     {
         $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
 
+        /**
+         * @var PostComment $comment
+         */
+        $comment = $notification->getComment();
+
         return json_encode(
             [
                 'op' => end($class),
-                'id' => $notification->getComment()->getId(),
+                'id' => $comment->getId(),
                 'subject' => [
-                    'id' => $notification->getComment()->post->getId(),
+                    'id' => $comment->post->getId(),
                 ],
+                'title' => $comment->post->body,
+                'body' => $comment->body,
+                'icon' => null,
+                'url' => $this->urlGenerator->generate('post_single', [
+                    'magazine_name' => $comment->magazine->name,
+                    'post_id'       => $comment->post->getId(),
+                    'slug'          => $comment->post->slug,
+                ]),
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );

@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class PostNotificationManager implements ContentNotificationManagerInterface
@@ -30,6 +31,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         private MagazineFactory $magazineFactory,
         private HubInterface $publisher,
         private Environment $twig,
+        private UrlGeneratorInterface $urlGenerator,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -82,13 +84,26 @@ class PostNotificationManager implements ContentNotificationManagerInterface
     {
         $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
 
+        /**
+         * @var Post $post ;
+         */
+        $post = $notification->post;
+
         return json_encode(
             [
                 'op'       => end($class),
-                'id'       => $notification->post->getId(),
+                'id'       => $post->getId(),
                 'magazine' => [
-                    'name' => $notification->post->magazine->name,
+                    'name' => $post->magazine->name,
                 ],
+                'title'    => $post->magazine->name,
+                'body'     => $post->body,
+                'icon'     => null,
+                'url'      => $this->urlGenerator->generate('post_single', [
+                    'magazine_name' => $post->magazine->name,
+                    'post_id'       => $post->getId(),
+                    'slug'          => $post->slug,
+                ]),
                 'toast'    => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );

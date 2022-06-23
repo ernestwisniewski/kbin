@@ -419,6 +419,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this->favourites->matching($criteria)->count() > 0;
     }
 
+    public function getAuthorComment(): ?string
+    {
+        return null;
+    }
+
     public function __sleep()
     {
         return [];
