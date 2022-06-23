@@ -352,7 +352,7 @@ class AwesomeBotFixtures extends Command
         try {
             $command   = $this->getApplication()->find('kbin:awesome-bot:magazine:create');
             $arguments = [
-                'username'       => 'ernest',
+                'username'       => 'demo',
                 'magazine_name'  => $entry['magazine_name'],
                 'magazine_title' => $entry['magazine_title'],
                 'url'            => $entry['url'],

@@ -90,20 +90,20 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
          * @var Entry    $entry
          */
         $entry    = $notification->entry;
-        $magazine = $notification->entry->magazine->name;
+        $magazine = $notification->entry->magazine;
 
         return json_encode(
             [
                 'op'       => end($class),
                 'id'       => $entry->getId(),
                 'magazine' => [
-                    'name' => $magazine,
+                    'name' => $magazine->name,
                 ],
-                'title'    => $magazine,
+                'title'    => $magazine->title,
                 'body'     => $entry->title,
                 'icon'     => null,
                 'url'      => $this->urlGenerator->generate('entry_single', [
-                    'magazine_name' => $magazine,
+                    'magazine_name' => $magazine->name,
                     'entry_id'      => $entry->getId(),
                     'slug'          => $entry->slug,
                 ]),
