@@ -2,7 +2,12 @@
     <nav class="kbin-nav navbar navbar-expand-lg navbar-light">
         <div class="kbin-container container">
             <a class="kbin-nav-brand navbar-brand text-muted text-decoration-none kbin-logo"
-               href="{{ app.user ? path(app.user.homepage) : '/' }}">{{ kbin_domain() }}</a>
+               href="{{ app.user ? path(app.user.homepage) : '/' }}">
+                 <img height="25"
+                      class="rounded-circle ms-4"
+                      alt="{{ kbin_domain() }}"
+                      src="{{ asset('kbin-logo.png') }}" />
+            </a>
             <div class="kbin-nav-navbar me-auto text-muted">
                 {% if is_magazine_page() %}
                     <span class="text-muted me-auto text-small size">
