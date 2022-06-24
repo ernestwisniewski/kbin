@@ -10,7 +10,7 @@
         {{ entry.title }}
     {% endif %}
 {% else %}
-    <a href="{{ is_entry_page() and not related ? '#comments' : entry_url(entry) }}"
+    <a href="{{ (is_entry_page() and not related) and not is_ajax ? '#comments' : entry_url(entry) }}"
        data-controller="{{ app.user and app.user.entryPopup and not is_entry_page() ? 'content-popup' : '' }}"
        data-action="click->content-popup#open">{{ entry.title }}</a>
 {% endif %}

@@ -42,7 +42,7 @@
 
         <section class="kbin-entry-main">
             {% if this.entry.visibility is same as 'visible' or this.canSeeTrashed %}
-                {% include 'entry/_entry_title.html.twig' with {entry: this.entry, title_tag: this.titleTag, direct_url: this.directUrl, related: this.related} %}
+                {% include 'entry/_entry_title.html.twig' with {entry: this.entry, title_tag: this.titleTag, direct_url: this.directUrl, related: this.related, is_ajax: this.isAjax} %}
             {% elseif this.entry.visibility is same as 'trashed' %}
                 <p class="text-muted">[{{ 'removed'|trans }}]</p>
             {% elseif this.entry.visibility is same as 'soft_deleted' %}
@@ -95,7 +95,7 @@
                         {% if this.entry.visibility is same as 'visible' %}
                             <li class="kbin-entry-meta-entry kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <small class="text-muted">
-                                    <a href="{{ is_entry_page() and not related ? '#comments' : entry_url(this.entry) }}"
+                                    <a href="{{ (is_entry_page() and not this.related) and not this.isAjax ? '#comments' : entry_url(this.entry) }}"
                                        data-controller="{{ app.user and app.user.entryPopup and not is_entry_page() ? 'content-popup' : '' }}"
                                        data-action="click->content-popup#open">
                                         <span data-entry-target="commentCounter">{{ this.entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}

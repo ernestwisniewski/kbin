@@ -13,6 +13,7 @@ class EntryComponent
     public Entry $entry;
     public string $titleTag = 'h2';
     public ?string $extraClass = null;
+    public bool $isAjax = false;
     public bool $showContent = false;
     public bool $directUrl = false;
     public bool $related = false;
