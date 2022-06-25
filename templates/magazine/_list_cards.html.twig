@@ -1,12 +1,10 @@
-{% for magazine in magazines %}
-    <div class="px-lg-5 mx-lg-5 row mb-5">
-        <div class="px-lg-5">
-            <div class="px-lg-5">
-                {{ component('magazine', {magazine: magazine}) }}
-            </div>
+<div class="row" data-masonry='{ "itemSelector": ".grid-item" }'>
+    {% for magazine in magazines %}
+        <div class="col-md-6 col-lg-6 mb-5 grid-item">
+            {{ component('magazine', {magazine: magazine}) }}
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>
 
 {% if(magazines.haveToPaginate) %}
     {{ pagerfanta(magazines, null, {'pageParameter':'[p]'}) }}

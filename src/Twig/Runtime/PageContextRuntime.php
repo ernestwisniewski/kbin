@@ -148,7 +148,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function getActiveTypeOption(): ?string
     {
-        return $this->getCurrentRequest()->get('type', null);// @todo
+        return $this->getCurrentRequest()->get('type');// @todo
     }
 
     public function getActiveSortOptionPath(?string $sortOption = null, ?string $time = null, ?string $type = null, $entriesOnly = true): string

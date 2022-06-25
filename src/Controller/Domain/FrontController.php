@@ -17,7 +17,7 @@ class FrontController extends AbstractController
     {
     }
 
-    public function __invoke(?string $name, ?string $sortBy, ?string $time, Request $request): Response
+    public function __invoke(?string $name, ?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
         if (!$domain = $this->domainRepository->findOneBy(['name' => $name])) {
             throw $this->createNotFoundException();
@@ -26,7 +26,7 @@ class FrontController extends AbstractController
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setType($criteria->resolveType($request->get('type', null)))
+            ->setType($criteria->resolveType($type))
             ->setDomain($name);
         $method  = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);

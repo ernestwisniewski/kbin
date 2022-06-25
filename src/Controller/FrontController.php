@@ -17,12 +17,12 @@ class FrontController extends AbstractController
     {
     }
 
-    public function front(?string $sortBy, ?string $time, Request $request): Response
+    public function front(?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setType($criteria->resolveType($request->get('type')));
+            ->setType($criteria->resolveType($type));
 
         $method  = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
@@ -38,12 +38,12 @@ class FrontController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function subscribed(?string $sortBy, ?string $time, Request $request): Response
+    public function subscribed(?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setType($criteria->resolveType($request->get('type')));
+            ->setType($criteria->resolveType($type));
         $criteria->subscribed = true;
 
         $method  = $criteria->resolveSort($sortBy);
@@ -60,12 +60,12 @@ class FrontController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function moderated(?string $sortBy, ?string $time, Request $request): Response
+    public function moderated(?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setType($criteria->resolveType($request->get('type', null)));
+            ->setType($criteria->resolveType($type));
         $criteria->moderated = true;
 
         $method  = $criteria->resolveSort($sortBy);
@@ -79,12 +79,12 @@ class FrontController extends AbstractController
         );
     }
 
-    public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, Request $request): Response
+    public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
         $criteria = (new EntryPageView($this->getPageNb($request)));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setType($criteria->resolveType($request->get('type')));
+            ->setType($criteria->resolveType($type));
         $criteria->magazine      = $magazine;
         $criteria->stickiesFirst = true;
 

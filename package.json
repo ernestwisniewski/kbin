@@ -31,6 +31,7 @@
         "@popperjs/core": "^2.6.0",
         "choices.js": "^9.0.1",
         "js-cookie": "^2.2.1",
+        "masonry-layout": "^4.2.2",
         "simplemde": "^1.11.2",
         "stimulus-animated-number": "^4.0.0",
         "stimulus-character-counter": "^4.0.0",
