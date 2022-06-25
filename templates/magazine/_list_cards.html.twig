@@ -1,6 +1,6 @@
-<div class="row" data-masonry='{ "itemSelector": ".grid-item" }'>
+<div class="row kbin-masonry">
     {% for magazine in magazines %}
-        <div class="col-md-6 col-lg-6 mb-5 grid-item">
+        <div class="col-md-6 col-lg-6 mb-5 kbin-masonry-item">
             {{ component('magazine', {magazine: magazine}) }}
         </div>
     {% endfor %}

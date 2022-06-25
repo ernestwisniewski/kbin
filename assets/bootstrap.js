@@ -5,7 +5,6 @@ import ScrollProgress from '@symfony/stimulus-bridge/lazy-controller-loader?lazy
 import CharacterCounter from '@symfony/stimulus-bridge/lazy-controller-loader?lazy=true!stimulus-character-counter';
 import AnimatedNumber from '@symfony/stimulus-bridge/lazy-controller-loader?lazy=true!stimulus-animated-number';
 import Timeago from "./utils/timeago";
-import Masonry from 'masonry-layout';
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 const app = startStimulusApp(require.context(
