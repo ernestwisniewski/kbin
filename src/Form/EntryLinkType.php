@@ -11,6 +11,7 @@ use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
 use App\Form\EventListener\RemoveFieldsOnEntryLinkCreate;
 use App\Form\Type\BadgesType;
+use App\Service\SettingsManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntryLinkType extends AbstractType
 {
-    public function __construct(private ImageListener $imageListener)
+    public function __construct(private ImageListener $imageListener, private SettingsManager $settingsManager)
     {
     }
 
@@ -45,16 +46,29 @@ class EntryLinkType extends AbstractType
                 [
                     'label' => 'Etykiety',
                 ]
-            )
-            ->add('magazine', MagazineAutocompleteField::class)
-            ->add(
-                'image',
-                FileType::class,
+            );
+
+        if ($this->settingsManager->get('KBIN_JS_ENABLED')) {
+            $builder->add('magazine', MagazineAutocompleteField::class);
+        } else {
+            $builder->add(
+                'magazine',
+                EntityType::class,
                 [
-                    'constraints' => ImageConstraint::default(),
-                    'mapped'      => false,
+                    'class'        => Magazine::class,
+                    'choice_label' => 'name',
                 ]
-            )
+            );
+        }
+
+        $builder->add(
+            'image',
+            FileType::class,
+            [
+                'constraints' => ImageConstraint::default(),
+                'mapped'      => false,
+            ]
+        )
             ->add('isAdult', CheckboxType::class)
             ->add('isEng', CheckboxType::class)
             ->add('isOc', CheckboxType::class)

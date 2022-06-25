@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\DTO\EntryDto;
+use App\Entity\Magazine;
 use App\Form\Autocomplete\MagazineAutocompleteField;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\DataTransformer\TagTransformer;
@@ -10,6 +11,8 @@ use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
 use App\Form\EventListener\RemoveFieldsOnEntryImageEdit;
 use App\Form\Type\BadgesType;
+use App\Service\SettingsManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntryImageType extends AbstractType
 {
-    public function __construct(private ImageListener $imageListener)
+    public function __construct(private ImageListener $imageListener, private SettingsManager $settingsManager)
     {
     }
 
@@ -43,9 +46,22 @@ class EntryImageType extends AbstractType
                     'constraints' => ImageConstraint::default(),
                     'mapped'      => false,
                 ]
-            )
-            ->add('magazine', MagazineAutocompleteField::class)
-            ->add('isAdult', CheckboxType::class)
+            );
+
+        if ($this->settingsManager->get('KBIN_JS_ENABLED')) {
+            $builder->add('magazine', MagazineAutocompleteField::class);
+        } else {
+            $builder->add(
+                'magazine',
+                EntityType::class,
+                [
+                    'class' => Magazine::class,
+                    'choice_label' => 'name',
+                ]
+            );
+        }
+
+        $builder->add('isAdult', CheckboxType::class)
             ->add('isEng', CheckboxType::class)
             ->add('isOc', CheckboxType::class)
             ->add('submit', SubmitType::class);

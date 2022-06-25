@@ -1,7 +1,7 @@
 domain_front:
   controller: App\Controller\Domain\FrontController
-  defaults: { sortBy: ~, time: ~ }
-  path: /d/{name}/{sortBy}/{time}
+  defaults: { sortBy: ~, time: '∞', type: ~ }
+  path: /d/{name}/{sortBy}/{time}/{type}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
