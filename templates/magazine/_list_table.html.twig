@@ -15,7 +15,7 @@
                 <td>{{ component('magazine_inline', { magazine: magazine }) }}</td>
                 <td>{{ magazine.entryCount }}</td>
                 <td>{{ magazine.entryCommentCount }}</td>
-                <td>{{ magazine.postCount }}</td>
+                <td>{{ magazine.postCount + magazine.postCommentCount }}</td>
                 <td>{% include 'magazine/_sub_button.html.twig' %}</td>
             </tr>
         {% endfor %}

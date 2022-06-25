@@ -3,6 +3,21 @@
 {%- block title -%}{{- 'topbar.all_magazines'|trans -}}{%- endblock -%}
 
 {% block body %}
+    <ul class="nav nav-tabs justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link {{ listView is same as 'cards' ? 'active' : '' }}" aria-current="page" href="{{ path('magazine_list_all') }}">
+                <i class="fas fa-grip-vertical text-muted"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ listView is same as 'table' ? 'active' : '' }}"
+               aria-current="page"
+               href="{{ path('magazine_list_all', {listView: 'tabela'}) }}">
+                <i class="fas fa-table text-muted"></i>
+            </a>
+        </li>
+    </ul>
+
     <div class="kbin-magazines-list-page mt-lg-4">
         <form method="get" action="{{ path('magazine_list_all') }}">
             <div class="input-group input-group-lg mb-5 mt-5" style="max-width: 500px;margin:auto;">
@@ -12,7 +27,11 @@
         </form>
 
         <div class="pt-5">
-            {% include'magazine/_list_cards.html.twig' %}
+            {% if listView is same as 'cards' %}
+                {% include'magazine/_list_cards.html.twig' %}
+            {% else %}
+                {% include'magazine/_list_table.html.twig' %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

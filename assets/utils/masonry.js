@@ -15,7 +15,6 @@ export default class KMasonry {
     }
 
     build(el) {
-        console.log('aaaaa');
         let grid = new Masonry(el, {
             itemSelector: '.kbin-masonry-item',
         });
