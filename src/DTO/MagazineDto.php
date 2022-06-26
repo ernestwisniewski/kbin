@@ -22,9 +22,9 @@ class MagazineDto
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 50)]
     public ?string $title = null;
-    #[Assert\Length(min: 3, max: 420)]
+    #[Assert\Length(min: 3, max: 10000)]
     public ?string $description = null;
-    #[Assert\Length(min: 3, max: 420)]
+    #[Assert\Length(min: 3, max: 10000)]
     public ?string $rules = null;
     public int $subscriptionsCount = 0;
     public int $entryCount = 0;

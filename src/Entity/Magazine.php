@@ -43,11 +43,11 @@ class Magazine implements VisibilityInterface
      */
     public ?string $title;
     /**
-     * @ORM\Column(type="text", nullable=true, length=420)
+     * @ORM\Column(type="text", nullable=true, length=10000)
      */
     public ?string $description = null;
     /**
-     * @ORM\Column(type="text", nullable=true, length=420)
+     * @ORM\Column(type="text", nullable=true, length=10000)
      */
     public ?string $rules = null;
     /**
