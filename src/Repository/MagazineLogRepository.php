@@ -26,7 +26,7 @@ class MagazineLogRepository extends ServiceEntityRepository
     {
         {
             $qb = $this->createQueryBuilder('ml')
-                ->orderBy('ml.id', 'DESC');
+                ->orderBy('ml.createdAt', 'DESC');
 
             $pager = new Pagerfanta(new QueryAdapter($qb));
             $pager->setMaxPerPage(25);

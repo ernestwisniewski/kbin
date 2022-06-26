@@ -156,7 +156,7 @@ class PostRepository extends ServiceEntityRepository
                 break;
             case Criteria::SORT_NEW:
             default:
-                $qb->orderBy('p.id', 'DESC');
+                $qb->orderBy('p.createdAt', 'DESC');
         }
 
         $qb->addOrderBy('p.createdAt', 'DESC');

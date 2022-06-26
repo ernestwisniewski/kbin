@@ -99,7 +99,7 @@ class PostCommentRepository extends ServiceEntityRepository
                 $qb->orderBy('c.upVotes', 'DESC');
                 break;
             default:
-                $qb->addOrderBy('c.id', 'ASC');
+                $qb->addOrderBy('c.createdAt', 'ASC');
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');

@@ -178,7 +178,7 @@ class EntryCommentRepository extends ServiceEntityRepository
                 break;
             default:
                 $qb->addOrderBy('c.lastActive', 'DESC')
-                    ->addOrderBy('c.id', 'DESC');
+                    ->addOrderBy('c.createdAt', 'DESC');
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
