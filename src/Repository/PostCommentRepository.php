@@ -52,7 +52,7 @@ class PostCommentRepository extends ServiceEntityRepository
             throw new NotFoundHttpException();
         }
 
-        $this->hydrate(...$pagerfanta);
+        $this->hydrate(...$pagerfanta->getCurrentPageResults());
 
         return $pagerfanta;
     }
