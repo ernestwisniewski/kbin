@@ -32,7 +32,7 @@ abstract class Peertube extends OntologyBase
             'permanentLive',
         ],
         'Image'        => ['width', 'height'],
-        'Link'         => ['fps', 'mimeType', 'size'],
+        'Link'         => ['fps', 'mimeType', 'size', 'tag'],
         'Hashtag'      => ['type'],
         'Person|Group' => ['uuid', 'publicKey', 'playlists'],
     ];

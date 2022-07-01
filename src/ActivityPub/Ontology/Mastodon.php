@@ -8,7 +8,7 @@ abstract class Mastodon extends OntologyBase
 {
     protected static $definitions = [
         'Note'     => ['sensitive', 'atomUri', 'inReplyToAtomUri', 'conversation'],
-        'Document' => ['blurhash'],
+        'Document' => ['blurhash', 'width'],
         'Hashtag'  => ['href'],
     ];
 }

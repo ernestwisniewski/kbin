@@ -1,0 +1,13 @@
+<?php declare(strict_types=1);
+
+namespace App\ActivityPub\Type\Validator;
+
+use ActivityPhp\Type\ValidatorInterface;
+
+class NullableValidator implements ValidatorInterface
+{
+    public function validate($value, $container): bool
+    {
+        return true;
+    }
+}
