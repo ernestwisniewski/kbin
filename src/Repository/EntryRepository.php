@@ -186,9 +186,7 @@ class EntryRepository extends ServiceEntityRepository
             case Criteria::SORT_ACTIVE:
                 $qb->addOrderBy('e.lastActive', 'DESC');
                 break;
-            case Criteria::SORT_NEW:
             default:
-                $qb->addOrderBy('e.createdAt', 'DESC');
         }
 
         $qb->addOrderBy('e.createdAt', 'DESC');

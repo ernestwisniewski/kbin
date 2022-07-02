@@ -16,7 +16,7 @@ class FrontControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/najnowsze');
 
-        $this->assertSelectorTextContains('.kbin-entry-title-domain', 'google.pl');
+        $this->assertSelectorTextContains('.kbin-entry-title-domain', 'karab.in');
 
         $crawler = $client->click($crawler->filter('.kbin-entry-title-domain')->selectLink('karab.in')->link());
 

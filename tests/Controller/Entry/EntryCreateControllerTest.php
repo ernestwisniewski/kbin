@@ -55,7 +55,9 @@ class EntryCreateControllerTest extends WebTestCase
             )
         );
 
-        $client->followRedirect();
+        $crawler = $client->followRedirect();
+
+        $client->click($crawler->filter('.kbin-entry-title')->selectLink('example content')->link());
 
         $this->assertSelectorTextContains('.kbin-entry-title', 'example content');
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 3');

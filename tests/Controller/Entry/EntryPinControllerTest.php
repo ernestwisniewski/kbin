@@ -11,15 +11,15 @@ class EntryPinControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $this->getEntryByTitle('Sticky entry');
         $this->getEntryByTitle('Test entry');
         $this->createEntryComment('test', $this->getEntryByTitle('Test entry2'));
+        $sticky = $this->getEntryByTitle('Sticky entry');
 
         $crawler = $client->request('GET', '/m/acme/najnowsze');
 
-        $this->assertSelectorTextContains('article.kbin-entry:nth-last-of-type(1)', 'Sticky');
+        $this->assertSelectorTextContains('article#'.$sticky->getId(), 'Sticky');
 
-        $client->click($crawler->filter('article.kbin-entry:nth-last-of-type(1)')->selectButton('przypnij')->form([]));
+        $client->click($crawler->filter('article#'.$sticky->getId())->selectButton('przypnij')->form([]));
         $crawler = $client->followRedirect();
 
         $this->assertSelectorTextContains('article.kbin-entry', 'Sticky');
@@ -28,6 +28,6 @@ class EntryPinControllerTest extends WebTestCase
         $client->click($crawler->filter('article.kbin-entry')->selectButton('odepnij')->form([]));
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('article.kbin-entry:nth-last-of-type(1)', 'Sticky');
+        $this->assertSelectorTextNotContains('article.kbin-entry:nth-last-of-type(1)', 'Sticky');
     }
 }

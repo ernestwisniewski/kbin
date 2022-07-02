@@ -22,9 +22,9 @@ class MagazineSubControllerTest extends WebTestCase
 
         $this->getEntryByTitle('treść 2', null, null, $magazine, $user2);
         $this->getEntryByTitle('treść 3', null, null, $magazine2, $user3);
+        $this->getEntryByTitle('treść 5', null, null, $magazine3, $user);
         $this->getEntryByTitle('treść 4', null, null, $magazine3, $user2);
         $this->getEntryByTitle('treść 4', null, null, $magazine, $user3);
-        $this->getEntryByTitle('treść 5', null, null, $magazine3, $user);
         $this->getEntryByTitle('treść 1', null, null, $magazine, $user);
 
         $manager->subscribe($magazine, $user3);

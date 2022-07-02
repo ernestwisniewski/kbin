@@ -27,7 +27,7 @@ class MagazineDeleteControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/m/acme');
 
-        $crawler = $client->click($crawler->filter('.kbin-sidebar .kbin-magazine-panel .kbin-quick-links')->selectLink('Ogólne')->link());
+        $crawler = $client->click($crawler->filter('.kbin-sidebar .kbin-magazine-panel')->selectLink('Ogólne')->link());
 
         $client->submit(
             $crawler->filter('.kbin-magazine-edit')->selectButton('usuń')->form()

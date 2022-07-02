@@ -35,11 +35,11 @@ class UserFollowControllerTest extends WebTestCase
         $magazine2 = $this->getMagazineByName('kuchnia', $user2);
 
         $this->getEntryByTitle('treść 1', null, null, $magazine, $user2);
-        $this->getEntryByTitle('treść 2', null, null, $magazine2, $user2);
         $this->getEntryByTitle('treść 3', null, null, $magazine, $user3);
         $this->getEntryByTitle('treść 4', null, null, $magazine2, $user3);
         $this->getEntryByTitle('treść 5', null, null, $magazine, $user4);
         $this->getEntryByTitle('treść 6', null, null, $magazine2, $user4);
+        $this->getEntryByTitle('treść 2', null, null, $magazine2, $user2);
 
         $manager->follow($user3, $user2);
 

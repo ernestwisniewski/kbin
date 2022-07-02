@@ -19,7 +19,7 @@ class MagazineModeratorControllerTest extends WebTestCase
         $this->getMagazineByName('acme');
 
         $crawler = $client->request('GET', '/m/acme');
-        $crawler = $client->click($crawler->filter('.kbin-quick-links')->selectLink('Moderatorzy')->link());
+        $crawler = $client->click($crawler->filter('.kbin-magazine-panel')->selectLink('Moderatorzy')->link());
 
         $this->assertCount(1, $crawler->filter('.kbin-magazine-moderators tbody tr'));
 
