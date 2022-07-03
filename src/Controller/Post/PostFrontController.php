@@ -28,9 +28,7 @@ class PostFrontController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function subscribed(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
@@ -48,9 +46,7 @@ class PostFrontController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function moderated(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));

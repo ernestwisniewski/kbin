@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserSettingController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(UserSettingsManager $manager, Request $request): Response
     {
         $dto = $manager->createDto($this->getUserOrThrow());

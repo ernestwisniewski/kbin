@@ -23,10 +23,8 @@ class MagazineModeratorController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('edit', subject: 'magazine')]
     public function moderators(Magazine $magazine, Request $request): Response
     {
         $dto = new ModeratorDto($magazine);
@@ -50,13 +48,10 @@ class MagazineModeratorController extends AbstractController
         );
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("moderator", options={"mapping": {"moderator_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('moderator', options: ['mapping' => ['moderator_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('edit', subject: 'magazine')]
     public function remove(Magazine $magazine, Moderator $moderator, Request $request): Response
     {
         $this->validateCsrf('remove_moderator', $request->request->get('token'));

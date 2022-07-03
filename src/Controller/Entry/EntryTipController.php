@@ -9,6 +9,7 @@ use App\Entity\Magazine;
 use App\Form\CardanoMnemonicType;
 use App\Form\CardanoTransactionType;
 use App\Repository\CardanoTxRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EntryTipController extends AbstractController
 {
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
         $dto                = new CardanoTransactionDto();

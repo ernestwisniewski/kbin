@@ -17,10 +17,8 @@ class MessageThreadController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("show", subject="thread", statusCode=403)
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('show', subject: 'thread', statusCode: 403)]
     public function __invoke(MessageThread $thread, Request $request): Response
     {
         $form = $this->createForm(MessageType::class);

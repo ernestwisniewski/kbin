@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserBanController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[IsGranted('ROLE_ADMIN')]
     public function ban(User $user, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('user_ban', $request->request->get('token'));
@@ -32,9 +30,7 @@ class UserBanController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[IsGranted('ROLE_ADMIN')]
     public function unban(User $user, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('user_ban', $request->request->get('token'));

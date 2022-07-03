@@ -12,10 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserFollowController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("follow", subject="following")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('follow', subject: 'following')]
     public function follow(User $following, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
@@ -34,10 +32,8 @@ class UserFollowController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("follow", subject="following")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('follow', subject: 'following')]
     public function unfollow(User $following, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));

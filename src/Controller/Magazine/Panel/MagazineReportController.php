@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -20,10 +20,8 @@ class MagazineReportController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function reports(Magazine $magazine, Request $request): Response
     {
         $reports = $this->repository->findReports($magazine, $this->getPageNb($request));
@@ -37,13 +35,10 @@ class MagazineReportController extends AbstractController
         );
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("report", options={"mapping": {"report_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('report', options: ['mapping' => ['report_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function reportApprove(Magazine $magazine, Report $report, ContentManagerFactory $managerFactory, Request $request): Response
     {
         $this->validateCsrf('report_approve', $request->request->get('token'));
@@ -55,13 +50,10 @@ class MagazineReportController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("report", options={"mapping": {"report_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('report', options: ['mapping' => ['report_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function reportReject(Magazine $magazine, Report $report, ReportManager $manager, Request $request): Response
     {
         $this->validateCsrf('report_decline', $request->request->get('token'));

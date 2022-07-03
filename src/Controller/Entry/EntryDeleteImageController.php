@@ -9,6 +9,7 @@ use App\Service\EntryManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class EntryDeleteImageController extends AbstractController
@@ -18,14 +19,11 @@ class EntryDeleteImageController extends AbstractController
     ) {
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("delete", subject="entry")
-     */
-    public function __invoke(Magazine $magazine, Entry $entry, Request $request): JsonResponse
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('delete', subject: 'entry')]
+    public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
         $this->manager->detachImage($entry);
 

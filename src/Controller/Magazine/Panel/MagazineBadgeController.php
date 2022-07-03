@@ -21,10 +21,8 @@ class MagazineBadgeController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function badges(Magazine $magazine, BadgeManager $manager, Request $request): Response
     {
         $badges = $this->repository->findBadges($magazine);
@@ -51,13 +49,10 @@ class MagazineBadgeController extends AbstractController
         );
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("badge", options={"mapping": {"badge_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('badge', options: ['mapping' => ['badge_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function remove(Magazine $magazine, Badge $badge, BadgeManager $manager, Request $request): Response
     {
         $this->validateCsrf('badge_remove', $request->request->get('token'));

@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserReportsModController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(): Response
     {
         return new Response();

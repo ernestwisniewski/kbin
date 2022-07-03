@@ -10,9 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MessageThreadListController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(MessageThreadRepository $repository, Request $request): Response
     {
         return $this->render(

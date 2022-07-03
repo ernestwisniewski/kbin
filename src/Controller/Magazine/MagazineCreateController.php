@@ -18,9 +18,7 @@ class MagazineCreateController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(Request $request): Response
     {
         $form = $this->createForm(MagazineType::class);

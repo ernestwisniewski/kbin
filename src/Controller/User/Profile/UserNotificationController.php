@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserNotificationController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function notifications(NotificationRepository $repository, Request $request): Response
     {
         return $this->render(
@@ -24,9 +22,7 @@ class UserNotificationController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function read(NotificationManager $manager, Request $request): Response
     {
         $this->validateCsrf('read_notifications', $request->request->get('token'));
@@ -36,9 +32,7 @@ class UserNotificationController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function clear(NotificationManager $manager, Request $request): Response
     {
         $this->validateCsrf('clear_notifications', $request->request->get('token'));

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -23,10 +23,8 @@ class MagazineBanController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function bans(Magazine $magazine, UserRepository $repository, Request $request): Response
     {
         if ($request->isMethod('POST')) {
@@ -56,13 +54,10 @@ class MagazineBanController extends AbstractController
         );
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("user", options={"mapping": {"user_username": "username"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('user', options: ['mapping' => ['user_username' => 'username']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function ban(Magazine $magazine, User $user, Request $request): Response
     {
         $form = $this->createForm(MagazineBanType::class, $magazineBanDto = new MagazineBanDto());
@@ -84,13 +79,10 @@ class MagazineBanController extends AbstractController
         );
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("user", options={"mapping": {"user_username": "username"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('user', options: ['mapping' => ['user_username' => 'username']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function unban(Magazine $magazine, User $user, Request $request): Response
     {
         $this->validateCsrf('magazine_unban', $request->request->get('token'));

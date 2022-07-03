@@ -17,10 +17,8 @@ class MagazineStatsController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('edit', subject: 'magazine')]
     public function __invoke(Magazine $magazine, ?string $statsType, ?int $statsPeriod, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());

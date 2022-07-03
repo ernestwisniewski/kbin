@@ -14,9 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserTipController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(Request $request, UserManager $manager): Response
     {
         $dto = new CardanoWalletAddressDto($this->getUserOrThrow());

@@ -15,10 +15,8 @@ class VoteController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @isGranted("vote", subject="votable")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('vote', subject: 'votable')]
     public function __invoke(VoteInterface $votable, int $choice, Request $request): Response
     {
         $this->validateCsrf('vote', $request->request->get('token'));

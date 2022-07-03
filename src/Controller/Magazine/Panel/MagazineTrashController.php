@@ -16,10 +16,8 @@ class MagazineTrashController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function __invoke(Magazine $magazine, BadgeManager $manager, Request $request): Response
     {
         return $this->render(

@@ -12,10 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EntryVotersController extends AbstractController
 {
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
         if ($request->isXmlHttpRequest()) {

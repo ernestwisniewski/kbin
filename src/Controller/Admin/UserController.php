@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AbstractController;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class UserController extends AbstractController
@@ -12,6 +13,7 @@ class UserController extends AbstractController
     {
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     public function __invoke()
     {
         return $this->render(

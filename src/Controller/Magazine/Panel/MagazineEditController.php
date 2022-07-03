@@ -17,10 +17,8 @@ class MagazineEditController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('edit', subject: 'magazine')]
     public function __invoke(Magazine $magazine, Request $request): Response
     {
         $magazineDto = $this->manager->createDto($magazine);

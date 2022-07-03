@@ -30,14 +30,11 @@ class CommentCreateController extends AbstractController
     ) {
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
-     * @ParamConverter("parent", options={"mapping": {"parent_comment_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("comment", subject="post")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    #[ParamConverter('parent', options: ['mapping' => ['parent_comment_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('comment', subject: 'post')]
     public function __invoke(
         Magazine $magazine,
         Post $post,

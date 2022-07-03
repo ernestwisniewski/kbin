@@ -26,14 +26,11 @@ class CommentEditController extends AbstractController
     {
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
-     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="comment")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('edit', subject: 'comment')]
     public function __invoke(
         Magazine $magazine,
         Post $post,

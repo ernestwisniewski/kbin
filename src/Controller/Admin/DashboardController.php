@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AbstractController;
 use App\Service\InstanceStatsManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class DashboardController extends AbstractController
 {
@@ -11,6 +12,7 @@ class DashboardController extends AbstractController
     {
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     public function __invoke()
     {
        return $this->render('admin/dashboard.html.twig', $this->counter->count('-24 hours'));

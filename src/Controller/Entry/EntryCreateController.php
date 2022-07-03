@@ -33,9 +33,7 @@ class EntryCreateController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(?Magazine $magazine, ?string $type, Request $request): Response
     {
         $dto           = new EntryDto();

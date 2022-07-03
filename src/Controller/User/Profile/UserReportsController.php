@@ -12,9 +12,7 @@ class UserReportsController extends AbstractController
 {
     const MODERATED = 'moderated';
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(MagazineRepository $repository, Request $request): Response
     {
 

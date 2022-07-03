@@ -16,9 +16,7 @@ class UserStatsController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(?string $statsType, ?int $statsPeriod, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());

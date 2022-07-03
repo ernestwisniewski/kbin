@@ -19,9 +19,7 @@ class DomainSubController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function subscribe(Domain $domain, Request $request): Response
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
@@ -40,9 +38,7 @@ class DomainSubController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function unsubscribe(Domain $domain, Request $request): Response
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));

@@ -18,13 +18,10 @@ class EntryPinController extends AbstractController
     ) {
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("entry", options={"mapping": {"entry_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("moderate", subject="magazine")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
         $this->validateCsrf('entry_pin', $request->request->get('token'));

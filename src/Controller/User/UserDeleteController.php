@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserDeleteController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(User $user, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('user_delete', $request->request->get('token'));
@@ -23,9 +21,7 @@ class UserDeleteController extends AbstractController
         return $this->redirectToRoute('front');
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[IsGranted('ROLE_ADMIN')]
     public function purge(User $user, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('user_purge', $request->request->get('token'));

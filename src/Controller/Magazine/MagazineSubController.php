@@ -17,10 +17,8 @@ class MagazineSubController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("subscribe", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('subscribe', subject: 'magazine')]
     public function subscribe(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
@@ -39,10 +37,8 @@ class MagazineSubController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("subscribe", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('subscribe', subject: 'magazine')]
     public function unsubscribe(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));

@@ -19,9 +19,7 @@ class DomainBlockController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function block(Domain $domain, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));
@@ -39,9 +37,7 @@ class DomainBlockController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function unblock(Domain $domain, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));

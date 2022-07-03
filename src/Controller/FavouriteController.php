@@ -10,9 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FavouriteController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(FavouriteInterface $subject, Request $request, FavouriteManager $manager): Response
     {
         $this->validateCsrf('favourite', $request->request->get('token'));

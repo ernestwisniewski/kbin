@@ -16,9 +16,7 @@ class UserNoteController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function __invoke(User $user, Request $request): Response
     {
         $dto         = $this->manager->createDto($this->getUserOrThrow(), $user);

@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserBlockController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function block(User $blocked, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));
@@ -32,9 +30,7 @@ class UserBlockController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function unblock(User $blocked, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));

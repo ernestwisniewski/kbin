@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserSubController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function magazines(MagazineRepository $repository, Request $request): Response
     {
         return $this->render(
@@ -25,9 +23,7 @@ class UserSubController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function users(UserRepository $repository, Request $request): Response
     {
         return $this->render(
@@ -38,9 +34,7 @@ class UserSubController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     public function domains(DomainRepository $repository, Request $request): Response
     {
         return $this->render(

@@ -22,13 +22,10 @@ class PostEditController extends AbstractController
     ) {
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("edit", subject="post")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('edit', subject: 'post')]
     public function __invoke(Magazine $magazine, Post $post, Request $request, PostCommentRepository $repository): Response
     {
         $dto = $this->manager->createDto($post);

@@ -18,13 +18,10 @@ class PostDeleteController extends AbstractController
     ) {
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("delete", subject="post")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('delete', subject: 'post')]
     public function delete(Magazine $magazine, Post $post, Request $request): Response
     {
         $this->validateCsrf('post_delete', $request->request->get('token'));
@@ -34,13 +31,10 @@ class PostDeleteController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("delete", subject="post")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('delete', subject: 'post')]
     public function restore(Magazine $magazine, Post $post, Request $request): Response
     {
         $this->validateCsrf('post_restore', $request->request->get('token'));
@@ -50,13 +44,10 @@ class PostDeleteController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("purge", subject="post")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('purge', subject: 'post')]
     public function purge(Magazine $magazine, Post $post, Request $request): Response
     {
         $this->validateCsrf('post_purge', $request->request->get('token'));

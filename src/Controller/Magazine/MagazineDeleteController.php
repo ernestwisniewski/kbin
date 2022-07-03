@@ -16,10 +16,8 @@ class MagazineDeleteController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("delete", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('delete', subject: 'magazine')]
     public function delete(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('magazine_delete', $request->request->get('token'));
@@ -29,10 +27,8 @@ class MagazineDeleteController extends AbstractController
         return $this->redirectToRoute('front');
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("purge", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('purge', subject: 'magazine')]
     public function purge(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('magazine_purge', $request->request->get('token'));

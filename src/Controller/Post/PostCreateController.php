@@ -21,10 +21,8 @@ class PostCreateController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("create_content", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('create_content', subject: 'magazine')]
     public function __invoke(Magazine $magazine, Request $request): Response
     {
         $form = $this->createForm(PostType::class);

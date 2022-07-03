@@ -17,10 +17,8 @@ class MagazineBlockController extends AbstractController
     ) {
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("block", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('block', subject: 'magazine')]
     public function block(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));
@@ -38,10 +36,8 @@ class MagazineBlockController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    /**
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("block", subject="magazine")
-     */
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('block', subject: 'magazine')]
     public function unblock(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));

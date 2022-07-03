@@ -20,14 +20,11 @@ class CommentDeleteImageController extends AbstractController
     ) {
     }
 
-    /**
-     * @ParamConverter("magazine", options={"mapping": {"magazine_name": "name"}})
-     * @ParamConverter("post", options={"mapping": {"post_id": "id"}})
-     * @ParamConverter("comment", options={"mapping": {"comment_id": "id"}})
-     *
-     * @IsGranted("ROLE_USER")
-     * @IsGranted("delete", subject="comment")
-     */
+    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('delete', subject: 'comment')]
     public function __invoke(Magazine $magazine, Post $post, PostComment $comment, Request $request): Response
     {
         $this->manager->detachImage($comment);
