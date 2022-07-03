@@ -57,7 +57,6 @@ class UserFollowControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/sub/najnowsze');
 
-        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 2 (karab.in)');
         $this->assertCount(2, $crawler->filter('.kbin-entry-title'));
 
         $crawler = $client->request('GET', '/u/JaneDoe');

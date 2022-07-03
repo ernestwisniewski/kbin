@@ -44,10 +44,10 @@ class MagazineSubControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/sub/najnowsze');
 
-        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 1');
         $this->assertCount(3, $crawler->filter('.kbin-entry-title'));
 
         // unsubscribe
+        $crawler = $client->request('GET', '/m/acme');
         $crawler = $client->click($crawler->filter('.kbin-entry-title a')->link());
 
         $client->submit(
@@ -60,7 +60,6 @@ class MagazineSubControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/sub/najnowsze');
 
-        $this->assertSelectorTextContains('.kbin-entry-title', 'treść 1');
         $this->assertCount(2, $crawler->filter('.kbin-entry-title'));
     }
 }

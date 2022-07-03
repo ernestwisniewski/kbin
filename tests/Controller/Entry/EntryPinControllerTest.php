@@ -28,6 +28,8 @@ class EntryPinControllerTest extends WebTestCase
         $client->click($crawler->filter('article.kbin-entry')->selectButton('odepnij')->form([]));
         $client->followRedirect();
 
-        $this->assertSelectorTextNotContains('article.kbin-entry:nth-last-of-type(1)', 'Sticky');
+         $client->request('GET', '/m/acme/najnowsze');
+
+        $this->assertSelectorNotExists('article.kbin-entry .kbin-sticky');
     }
 }
