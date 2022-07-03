@@ -1,4 +1,4 @@
-import SimpleMDE from 'simplemde';
+import SimpleMDE from 'simplemde/dist/simplemde.min';
 
 export default class Keditor {
     constructor(form, focus = false) {
