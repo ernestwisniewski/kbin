@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Entry\Comment;
 
@@ -21,7 +21,6 @@ trait CommentResponseTrait
         FormInterface $form,
         Request $request,
         ?EntryComment $parent = null,
-
     ): Response {
         if ($request->isXmlHttpRequest()) {
             $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
@@ -53,7 +52,7 @@ trait CommentResponseTrait
                 'html' => $this->renderView(
                     'entry/comment/_comment.html.twig',
                     [
-                        'comment'       => $comment,
+                        'comment' => $comment,
                     ]
                 ),
             ]

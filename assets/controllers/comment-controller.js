@@ -2,6 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import KEditor from "../utils/editor";
 import CommentFactory from "../utils/comment-factory";
+import Modal from 'bootstrap/js/dist/modal';
 
 export default class extends Controller {
     static targets = ['form'];
@@ -40,6 +41,17 @@ export default class extends Controller {
             this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {
                 self.send(e, edit);
             });
+
+            let modal = Modal.getOrCreateInstance(this.formTarget.getElementsByClassName('modal')[0]);
+            modal._element.addEventListener('shown.bs.modal', function (event) {
+                self.formTarget.classList.add('position-relative')
+                event.target.classList.add('postition-absolute')
+
+                document.getElementsByClassName('modal-backdrop')[0].remove();
+
+                document.body.style.removeProperty('overflow')
+                document.body.style.removeProperty('padding-right')
+            })
         } catch (e) {
             alert('Nie możesz dodać komentarza.');
         } finally {
