@@ -30,6 +30,7 @@ class EntryManager implements ContentManagerInterface
 {
     public function __construct(
         private TagManager $tagManager,
+        private MentionManager $mentionManager,
         private UrlCleaner $urlCleaner,
         private Slugger $slugger,
         private BadgeManager $badgeManager,
