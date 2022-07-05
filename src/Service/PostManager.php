@@ -28,6 +28,7 @@ class  PostManager implements ContentManagerInterface
 {
     public function __construct(
         private Slugger $slugger,
+        private MentionManager $mentionManager,
         private TagManager $tagManager,
         private PostFactory $factory,
         private EventDispatcherInterface $dispatcher,
@@ -49,6 +50,7 @@ class  PostManager implements ContentManagerInterface
         $post->slug                 = $this->slugger->slug($dto->body);
         $post->image                = $dto->image;
         $post->tags                 = $this->tagManager->extract($post->body, $post->magazine->name);
+        $post->mentions             = $this->mentionManager->extract($post->body);
         $post->magazine->lastActive = new \DateTime();
         $post->magazine->addPost($post);
 
@@ -69,6 +71,7 @@ class  PostManager implements ContentManagerInterface
         $oldImage       = $post->image;
         $post->image    = $dto->image;
         $post->tags     = $this->tagManager->extract($post->body, $post->magazine->name);
+        $post->mentions = $this->mentionManager->extract($post->body);
         $post->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();

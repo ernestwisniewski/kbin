@@ -133,6 +133,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public ?array $tags = null;
     /**
+     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
+     */
+    public ?array $mentions = null;
+    /**
      * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     public Collection $comments;

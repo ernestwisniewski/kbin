@@ -21,13 +21,13 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Contracts\Cache\CacheInterface;
 use Webmozart\Assert\Assert;
 
 class PostCommentManager implements ContentManagerInterface
 {
     public function __construct(
         private TagManager $tagManager,
+        private MentionManager $mentionManager,
         private PostCommentFactory $factory,
         private EventDispatcherInterface $dispatcher,
         private RateLimiterFactory $postCommentLimiter,
@@ -48,6 +48,7 @@ class PostCommentManager implements ContentManagerInterface
         $comment->magazine             = $dto->post->magazine;
         $comment->image                = $dto->image;
         $comment->tags                 = $this->tagManager->extract($comment->body, $comment->magazine->name);
+        $comment->mentions             = $this->mentionManager->extract($comment->body);
         $comment->magazine->lastActive = new \DateTime();
         $comment->post->addComment($comment);
 
@@ -67,6 +68,7 @@ class PostCommentManager implements ContentManagerInterface
         $oldImage          = $comment->image;
         $comment->image    = $dto->image;
         $comment->tags     = $this->tagManager->extract($comment->body, $comment->magazine->name);
+        $comment->mentions = $this->mentionManager->extract($comment->body);
         $comment->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();

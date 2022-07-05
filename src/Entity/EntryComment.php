@@ -82,6 +82,10 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      */
     public ?array $tags = null;
     /**
+     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
+     */
+    public ?array $mentions = null;
+    /**
      * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="parent", orphanRemoval=true)
      * @OrderBy({"id" = "ASC"})
      */

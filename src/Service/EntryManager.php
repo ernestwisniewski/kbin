@@ -58,6 +58,7 @@ class EntryManager implements ContentManagerInterface
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
+        $entry->mentions             = $this->mentionManager->extract($dto->body);
         $entry->magazine->lastActive = new \DateTime();
         $entry->magazine->addEntry($entry);
 
@@ -79,18 +80,18 @@ class EntryManager implements ContentManagerInterface
     {
         Assert::same($entry->magazine->getId(), $dto->magazine->getId());
 
-        $entry->title   = $dto->title;
-        $entry->url     = $dto->url;
-        $entry->body    = $dto->body;
-        $entry->isAdult = $dto->isAdult;
-        $entry->slug    = $this->slugger->slug($dto->title);
-        $oldImage       = $entry->image;
-        $entry->image   = $dto->image;
-        $entry->tags    = $dto->tags ? $this->tagManager->extract(
+        $entry->title    = $dto->title;
+        $entry->url      = $dto->url;
+        $entry->body     = $dto->body;
+        $entry->isAdult  = $dto->isAdult;
+        $entry->slug     = $this->slugger->slug($dto->title);
+        $oldImage        = $entry->image;
+        $entry->image    = $dto->image;
+        $entry->tags     = $dto->tags ? $this->tagManager->extract(
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
-
+        $entry->mentions = $this->mentionManager->extract($dto->body);
         $entry->isOc     = $dto->isOc;
         $entry->lang     = $dto->lang;
         $entry->editedAt = new DateTimeImmutable('@'.time());

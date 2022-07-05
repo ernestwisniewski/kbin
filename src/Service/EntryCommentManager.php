@@ -27,6 +27,7 @@ class EntryCommentManager implements ContentManagerInterface
 {
     public function __construct(
         private TagManager $tagManager,
+        private MentionManager $mentionManager,
         private EntryCommentFactory $factory,
         private RateLimiterFactory $entryCommentLimiter,
         private EventDispatcherInterface $dispatcher,
@@ -66,6 +67,7 @@ class EntryCommentManager implements ContentManagerInterface
         $oldImage          = $comment->image;
         $comment->image    = $dto->image;
         $comment->tags     = $this->tagManager->extract($comment->body, $comment->magazine->name);
+        $comment->mentions = $this->mentionManager->extract($comment->body);
         $comment->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();
