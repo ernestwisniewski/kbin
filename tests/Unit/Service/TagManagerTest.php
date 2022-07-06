@@ -25,7 +25,7 @@ class TagManagerTest extends WebTestCase
             ['Lorem #acme ipsum', ['acme']],
             ['#acme lorem ipsum', ['acme']],
             ['Lorem #acme #kbin #acme2 ipsum', ['acme', 'acme2']],
-            ['Lorem ipsum#example', ['example']],
+            ['Lorem ipsum#example', null],
             ['Lorem #acme#example', ['acme']],
             ['Lorem #Acme #acme ipsum', ['acme']],
             ['Lorem ipsum', null],

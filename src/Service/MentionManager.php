@@ -13,7 +13,7 @@ class MentionManager
         $result = array_merge(
             $this->byPrefix('@'),
             $this->byPrefix('\\/u\\/'),
-            $this->byPrefix('u\\/')
+            $this->byUserPrefix()
         );
 
         return count($result) ? array_unique($result) : null;
@@ -21,7 +21,14 @@ class MentionManager
 
     private function byPrefix(string $prefix): array
     {
-        preg_match_all("/\s*{$prefix}(\w{2,35}).?/", $this->val, $matches);
+        preg_match_all("/\B{$prefix}(\w{2,35})/", $this->val, $matches);
+
+        return count($matches[1]) ? array_unique(array_values($matches[1])) : [];
+    }
+
+    private function byUserPrefix(): array
+    {
+        preg_match_all('/\bu\\/(\w{2,35})/', $this->val, $matches);
 
         return count($matches[1]) ? array_unique(array_values($matches[1])) : [];
     }

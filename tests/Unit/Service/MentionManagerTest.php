@@ -23,7 +23,7 @@ class MentionManagerTest extends WebTestCase
         return [
             ['Lorem @john ipsum', ['john']],
             ['@john lorem ipsum', ['john']],
-            ['Lorem ipsum@john', ['john']],
+            ['Lorem ipsum@john', null],
 
             ['Lorem /u/john ipsum', ['john']],
             ['/u/john lorem ipsum', ['john']],
