@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Collection;
 use Exception;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,10 +21,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpClient\HttpClient;
 
+#[AsCommand(name: 'kbin:awesome-bot:magazine:create')]
 class AwesomeBotMagazine extends Command
 {
-    protected static $defaultName = 'kbin:awesome-bot:magazine:create';
-
     public function __construct(
         private UserRepository $repository,
         private MagazineManager $magazineManager,

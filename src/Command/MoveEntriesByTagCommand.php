@@ -12,16 +12,16 @@ use App\Repository\MagazineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'kbin:entries:move')]
 class MoveEntriesByTagCommand extends Command
 {
-    protected static $defaultName = 'kbin:entries:move';
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private MagazineRepository $magazineRepository,

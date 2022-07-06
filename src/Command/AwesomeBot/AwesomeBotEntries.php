@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Command\AwesomeBot;
 
@@ -10,6 +10,7 @@ use App\Service\EntryManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use DOMElement;
 use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,10 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpClient\HttpClient;
 
+#[AsCommand(name: 'kbin:awesome-bot:entries:create')]
 class AwesomeBotEntries extends Command
 {
-    protected static $defaultName = 'kbin:awesome-bot:entries:create';
-
     // bin/console kbin:user:create awesome-vue-bot awesome-vue-bot@karab.in awesome-vue-bot
     // bin/console kbin:awesome-bot:magazine:create ernest vue Vue https://github.com/vuejs/awesome-vue h3
     // bin/console kbin:awesome-bot:entries:create awesome-vue-bot vue https://github.com/vuejs/awesome-vue h3

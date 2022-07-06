@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,10 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'kbin:user:admin')]
 class AdminCommand extends Command
 {
-    protected static $defaultName = 'kbin:user:admin';
-
     public function __construct(private EntityManagerInterface $entityManager, private UserRepository $repository)
     {
         parent::__construct();

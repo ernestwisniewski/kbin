@@ -5,15 +5,15 @@ namespace App\Command;
 use App\Entity\CardanoTxInit;
 use App\Message\Cardano\SubjectTransactionsRefreshMessage;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
+#[AsCommand(name: 'kbin:cardano:refresh')]
 class CardanoWalletObserverCommand extends Command
 {
-    protected static $defaultName = 'kbin:cardano:refresh';
-
     public function __construct(private MessageBusInterface $bus, private EntityManagerInterface $entityManager)
     {
         parent::__construct();
