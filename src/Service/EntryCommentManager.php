@@ -47,7 +47,8 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment->magazine   = $dto->entry->magazine;
         $comment->image      = $dto->image;
-        $comment->tags       = $this->tagManager->extract($comment->body, $comment->magazine->name);
+        $comment->tags       = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->mentions   = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $comment->lastActive = new \DateTime();
         $comment->entry->addComment($comment);
 
@@ -66,8 +67,8 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->body     = $dto->body;
         $oldImage          = $comment->image;
         $comment->image    = $dto->image;
-        $comment->tags     = $this->tagManager->extract($comment->body, $comment->magazine->name);
-        $comment->mentions = $this->mentionManager->extract($comment->body);
+        $comment->tags     = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $comment->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();

@@ -58,7 +58,7 @@ class EntryManager implements ContentManagerInterface
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
-        $entry->mentions             = $this->mentionManager->extract($dto->body);
+        $entry->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $entry->magazine->lastActive = new \DateTime();
         $entry->magazine->addEntry($entry);
 
@@ -91,7 +91,7 @@ class EntryManager implements ContentManagerInterface
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
-        $entry->mentions = $this->mentionManager->extract($dto->body);
+        $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $entry->isOc     = $dto->isOc;
         $entry->lang     = $dto->lang;
         $entry->editedAt = new DateTimeImmutable('@'.time());
