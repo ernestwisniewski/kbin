@@ -9,10 +9,12 @@ use App\Entity\Post;
 use App\Entity\PostCreatedNotification;
 use App\Entity\PostDeletedNotification;
 use App\Entity\PostEditedNotification;
+use App\Entity\PostMentionedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\HubInterface;
@@ -25,6 +27,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
     use NotificationTrait;
 
     public function __construct(
+        private MentionManager $mentionManager,
         private NotificationRepository $notificationRepository,
         private MagazineSubscriptionRepository $magazineRepository,
         private IriConverterInterface $iriConverter,
@@ -36,6 +39,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
     ) {
     }
 
+    // @todo check if author is on the block list
     public function sendCreated(ContentInterface $subject): void
     {
         /**
@@ -43,12 +47,21 @@ class PostNotificationManager implements ContentNotificationManagerInterface
          */
         $this->notifyMagazine(new PostCreatedNotification($subject->user, $subject));
 
-        $subs    = $this->getUsersToNotify($this->magazineRepository->findNewPostSubscribers($subject));
-        $follows = [];
+        // Notify mentioned
+        foreach ($this->mentionManager->getUsersFromArray($subject->mentions) as $user) {
+            $notification = new PostMentionedNotification($user, $subject);
+            $this->entityManager->persist($notification);
+        }
 
-        $usersToNotify = $this->merge($subs, $follows);
+        // Notify subscribers
+        $subscribers = $this->merge(
+            $this->getUsersToNotify($this->magazineRepository->findNewPostSubscribers($subject)),
+            [] // @todo user followers
+        );
 
-        foreach ($usersToNotify as $subscriber) {
+        $subscribers = array_filter($subscribers, fn($s) => !in_array($s->username, $subject->mentions ?? []));
+
+        foreach ($subscribers as $subscriber) {
             $notify = new PostCreatedNotification($subscriber, $subject);
             $this->entityManager->persist($notify);
         }
@@ -91,20 +104,20 @@ class PostNotificationManager implements ContentNotificationManagerInterface
 
         return json_encode(
             [
-                'op'       => end($class),
-                'id'       => $post->getId(),
+                'op' => end($class),
+                'id' => $post->getId(),
                 'magazine' => [
                     'name' => $post->magazine->name,
                 ],
-                'title'    => $post->magazine->name,
-                'body'     => $post->body,
-                'icon'     => null,
-                'url'      => $this->urlGenerator->generate('post_single', [
+                'title' => $post->magazine->name,
+                'body' => $post->body,
+                'icon' => null,
+                'url' => $this->urlGenerator->generate('post_single', [
                     'magazine_name' => $post->magazine->name,
                     'post_id'       => $post->getId(),
                     'slug'          => $post->slug,
                 ]),
-                'toast'    => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

@@ -9,13 +9,14 @@ use App\Entity\PostComment;
 use App\Entity\PostCommentCreatedNotification;
 use App\Entity\PostCommentDeletedNotification;
 use App\Entity\PostCommentEditedNotification;
+use App\Entity\PostCommentMentionedNotification;
 use App\Entity\PostCommentReplyNotification;
-use App\Entity\User;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\HubInterface;
@@ -28,6 +29,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     use NotificationTrait;
 
     public function __construct(
+        private MentionManager $mentionManager,
         private NotificationRepository $notificationRepository,
         private MagazineSubscriptionRepository $magazineRepository,
         private IriConverterInterface $iriConverter,
@@ -40,13 +42,15 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     ) {
     }
 
+    // @todo check if author is on the block list
     public function sendCreated(ContentInterface $subject): void
     {
         /**
          * @var PostComment $subject
          */
-        $user = $this->sendUserReplyNotification($subject);
-        $this->sendMagazineSubscribersNotification($subject, $user);
+        $users = $this->sendMentionedNotification($subject);
+        $users = $this->sendUserReplyNotification($subject, $users);
+        $this->sendMagazineSubscribersNotification($subject, $users);
     }
 
     public function sendEdited(ContentInterface $subject): void
@@ -57,14 +61,31 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         $this->notifyMagazine(new PostCommentEditedNotification($subject->user, $subject));
     }
 
-    private function sendUserReplyNotification(PostComment $comment): ?User
+    private function sendMentionedNotification(PostComment $subject): array
+    {
+        $users = [];
+        foreach ($this->mentionManager->getUsersFromArray($subject->mentions) as $user) {
+            $notification = new PostCommentMentionedNotification($user, $subject);
+            $this->entityManager->persist($notification);
+
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
+    private function sendUserReplyNotification(PostComment $comment, array $exclude): array
     {
         if (!$comment->parent || $comment->parent->isAuthor($comment->user)) {
-            return null;
+            return $exclude;
         }
 
         if (!$comment->parent->user->notifyOnNewPostCommentReply) {
-            return null;
+            return $exclude;
+        }
+
+        if (in_array($comment->parent->user, $exclude)) {
+            return $exclude;
         }
 
         $notification = new PostCommentReplyNotification($comment->parent->user, $comment);
@@ -73,7 +94,9 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
-        return $notification->user;
+        $exclude[] = $notification->user;
+
+        return $exclude;
     }
 
     private function notifyUser(PostCommentReplyNotification $notification): void
@@ -92,19 +115,20 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         }
     }
 
-    public function sendMagazineSubscribersNotification(PostComment $comment, ?User $exclude): void
+    public function sendMagazineSubscribersNotification(PostComment $comment, array $exclude): void
     {
         $this->notifyMagazine(new PostCommentCreatedNotification($comment->user, $comment));
 
-        // @todo user followers
-        $usersToNotify = [];
-
+        $usersToNotify = []; // @todo user followers
         if ($comment->user->notifyOnNewPostReply && !$comment->isAuthor($comment->post->user)) {
-            $usersToNotify = $this->merge($usersToNotify, [$comment->post->user]);
+            $usersToNotify = $this->merge(
+                $usersToNotify,
+                [$comment->post->user]
+            );
         }
 
-        if ($exclude) {
-            $usersToNotify = array_filter($usersToNotify, fn($user) => $user !== $exclude);
+        if (count($exclude)) {
+            $usersToNotify = array_filter($usersToNotify, fn($user) => !in_array($user, $exclude));
         }
 
         foreach ($usersToNotify as $subscriber) {

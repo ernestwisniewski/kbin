@@ -2,9 +2,24 @@
 
 namespace App\Service;
 
+use App\Repository\UserRepository;
+
 class MentionManager
 {
+    public function __construct(private UserRepository $userRepository)
+    {
+    }
+
     private string $val;
+
+    public function getUsersFromArray(?array $users): array
+    {
+        if ($users) {
+            return $this->userRepository->findByUsernames($users);
+        }
+
+        return [];
+    }
 
     public function extract(string $val): ?array
     {

@@ -8,12 +8,14 @@ use App\Entity\Entry;
 use App\Entity\EntryCreatedNotification;
 use App\Entity\EntryDeletedNotification;
 use App\Entity\EntryEditedNotification;
+use App\Entity\EntryMentionedNotification;
 use App\Entity\Magazine;
 use App\Entity\Notification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Mercure\HubInterface;
@@ -28,6 +30,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     public function __construct(
         private NotificationRepository $notificationRepository,
         private MagazineSubscriptionRepository $magazineRepository,
+        private MentionManager $mentionManager,
         private IriConverterInterface $iriConverter,
         private MagazineFactory $magazineFactory,
         private HubInterface $publisher,
@@ -37,6 +40,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     ) {
     }
 
+    // @todo check if author is on the block list
     public function sendCreated(ContentInterface $subject): void
     {
         /**
@@ -44,12 +48,21 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
          */
         $this->notifyMagazine(new EntryCreatedNotification($subject->user, $subject));
 
-        $subs      = $this->getUsersToNotify($this->magazineRepository->findNewEntrySubscribers($subject));
-        $followers = [];
+        // Notify mentioned
+        foreach ($this->mentionManager->getUsersFromArray($subject->mentions) as $user) {
+            $notification = new EntryMentionedNotification($user, $subject);
+            $this->entityManager->persist($notification);
+        }
 
-        $usersToNotify = $this->merge($subs, $followers);
+        // Notify subscribers
+        $subscribers = $this->merge(
+            $this->getUsersToNotify($this->magazineRepository->findNewEntrySubscribers($subject)),
+            [] // @todo user followers
+        );
 
-        foreach ($usersToNotify as $subscriber) {
+        $subscribers = array_filter($subscribers, fn($s) => !in_array($s->username, $subject->mentions ?? []));
+
+        foreach ($subscribers as $subscriber) {
             $notification = new EntryCreatedNotification($subscriber, $subject);
             $this->entityManager->persist($notification);
         }

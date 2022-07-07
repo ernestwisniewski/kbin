@@ -21,8 +21,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use function get_class;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -233,5 +231,14 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function findByUsernames(array $users): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username IN (?1)')
+            ->setParameter(1, $users)
+            ->getQuery()
+            ->getResult();
     }
 }
