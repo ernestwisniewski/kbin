@@ -32,16 +32,20 @@ class RelatedPostsSidebarComponent
         return $this->cache->get(
             'related_posts_sidebar_'.$this->magazine->name.'_'.$this->security->getUser()?->getId(),
             function (ItemInterface $item) {
-//            $item->expiresAfter(3600);
-                $item->expiresAfter(0);
+                $item->expiresAfter(300);
 
-                $posts = $this->repository->findRelatedByTag($this->magazine->name, self::RELATED_LIMIT);
+                $posts = $this->repository->findRelatedByTag($this->magazine->name, self::RELATED_LIMIT + 20);
                 if ($this->post) {
                     $posts = array_filter($posts, fn($e) => $e->getId() !== $this->post->getId());
                 }
 
                 if (!count($posts)) {
                     return '';
+                }
+
+                if (count($posts) > self::RELATED_LIMIT) {
+                    shuffle($posts); // randomize the order
+                    $posts = array_slice($posts, 0, self::RELATED_LIMIT);
                 }
 
                 return $this->twig->render('post/_related_sidebar.html.twig', ['posts' => $posts]);

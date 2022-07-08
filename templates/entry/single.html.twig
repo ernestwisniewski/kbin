@@ -17,3 +17,7 @@
 
     {% include 'magazine/_sidebar.html.twig' %}
 {% endblock %}
+
+{% block sidebar_bottom %}
+    {{ component('related_entries_sidebar', {magazine: magazine}) }}
+{% endblock %}
