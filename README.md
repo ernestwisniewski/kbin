@@ -101,9 +101,9 @@ Next, set up your instance https://localhost/admin
 ### Database
 ```bash
 # Backup
-$ docker exec -t [container_id] PGPASSWORD="acme" pg_dump -U kbin kbin dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+$ docker exec -it [container_id] pg_dump -U kbin kbin > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
 # Restore
-$ docker exec -t [container_id] PGPASSWORD="acme" psql kbin < dump.sql // @todo
+$ docker exec -it [container_id] psql kbin < dump.sql // @todo
 ```
 
 ### Images

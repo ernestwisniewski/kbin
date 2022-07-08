@@ -50,3 +50,9 @@
         {% include 'magazine/_sidebar.html.twig' %}
     {% endif %}
 {% endblock %}
+
+{% block sidebar_bottom %}
+    {% if magazine is defined %}
+        {{ component('related_posts_sidebar', {magazine: magazine}) }}
+    {% endif %}
+{% endblock %}

@@ -208,15 +208,11 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
 
     public function getShortTitle(): string
     {
-        $body = $this->body;
-        preg_match('/^(.*)$/m', $body, $firstLine);
-        $firstLine = $firstLine[0];
-
-        if (grapheme_strlen($firstLine) <= 60) {
-            return $firstLine;
+        if (grapheme_strlen($this->body) <= 60) {
+            return $this->body;
         }
 
-        return grapheme_substr($firstLine, 0, 60).'…';
+        return grapheme_substr($this->body, 0, 60).'…';
     }
 
     public function getMagazine(): ?Magazine

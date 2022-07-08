@@ -275,17 +275,13 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $user === $this->user;
     }
 
-    public function getShortTitle(): string
+    public function getShortTitle(?int $length = 60): string
     {
-        $body = $this->body;
-        preg_match('/^(.*)$/m', $body, $firstLine);
-        $firstLine = $firstLine[0];
-
-        if (grapheme_strlen($firstLine) <= 60) {
-            return $firstLine;
+        if (grapheme_strlen($this->body) <= $length) {
+            return $this->body;
         }
 
-        return grapheme_substr($firstLine, 0, 60).'…';
+        return grapheme_substr($this->body, 0, $length).'…';
     }
 
     public function getCommentCount(): int

@@ -13,8 +13,8 @@ fos_elastica:
                 filter: ['lowercase', 'morfologik_stem']
       properties:
         id: ~
-        name: {  boost: 30, type: "keyword" }
-        title: { boost: 20, analyzer: kbin_analyzer }
+        name: {  boost: 60, type: "keyword" }
+        title: { boost: 60, analyzer: kbin_analyzer }
         description: { analyzer: kbin_analyzer }
         rules: { analyzer: kbin_analyzer }
         createdAt: { "type": "date" }
@@ -55,7 +55,8 @@ fos_elastica:
         magazine:
           type: "object"
           properties:
-            name: ~
+            name: { boost: 20 }
+            title: { boost: 20 }
         domain:
           type: "object"
           properties:
@@ -70,7 +71,7 @@ fos_elastica:
           properties:
             id: ~
             filePath: ~
-        tags: ~
+        tags: { boost: 30 }
       persistence:
         driver: orm
         model: App\Entity\Entry
@@ -93,7 +94,8 @@ fos_elastica:
         magazine:
           type: "object"
           properties:
-            name: { "type": "keyword" }
+            name: { boost: 20 }
+            title: { boost: 20 }
         entry:
           type: "object"
           properties:
@@ -107,7 +109,7 @@ fos_elastica:
           properties:
             id: ~
             filePath: ~
-        tags: ~
+        tags: { boost: 30 }
       persistence:
         driver: orm
         model: App\Entity\EntryComment
@@ -133,7 +135,8 @@ fos_elastica:
         magazine:
           type: "object"
           properties:
-            name: { "type": "keyword" }
+            name: { boost: 20 }
+            title: { boost: 20 }
         user:
           type: "object"
           properties:
@@ -143,7 +146,7 @@ fos_elastica:
           properties:
             id: ~
             filePath: ~
-        tags: ~
+        tags: { boost: 30 }
       persistence:
         driver: orm
         model: App\Entity\Post
@@ -166,7 +169,8 @@ fos_elastica:
         magazine:
           type: "object"
           properties:
-            name: { "type": "keyword" }
+            name: { boost: 20 }
+            title: { boost: 20 }
         post:
           type: "object"
           properties:
@@ -180,7 +184,7 @@ fos_elastica:
           properties:
             id: ~
             filePath: ~
-        tags: ~
+        tags: { boost: 30 }
       persistence:
         driver: orm
         model: App\Entity\PostComment

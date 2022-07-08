@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
@@ -215,5 +216,17 @@ class PostRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findRelatedByTag(string $name, ?int $limit = 1): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->where($qb->expr()->like('p.tags', ':tag'))
+            ->andWhere('p.visibility = :visibility')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setParameters(['tag' => "%\"{$name}\"%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setMaxResults($limit)
+            ->getQuery()->getResult();
     }
 }

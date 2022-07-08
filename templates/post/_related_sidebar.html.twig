@@ -1,0 +1,21 @@
+{% from '_layout/_macros.html.twig' import post_url %}
+
+{% for post in posts %}
+    <div class="card mb-3">
+        {% if post.image %}
+            <a href="{{ post_url(post) }}">
+                <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}" class="card-img-top" alt="{{ post.shortTitle }}">
+            </a>
+        {% endif %}
+        <div class="card-body">
+            <a href="{{ post_url(post) }}">
+                <small class="card-title small">
+                    {{ post.shortTitle(250)  }}
+                </small>
+            </a>
+            <div class="float-end mt-4">
+                <small>{{ component('magazine_inline', { magazine: post.magazine }) }}</small>
+            </div>
+        </div>
+    </div>
+{% endfor %}

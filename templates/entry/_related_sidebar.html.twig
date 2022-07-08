@@ -1,0 +1,21 @@
+{% from '_layout/_macros.html.twig' import entry_url %}
+
+{% for entry in entries %}
+    <div class="card mb-3">
+        {% if entry.image %}
+            <a href="{{ entry_url(entry) }}">
+                <img src="{{ asset(entry.image.filePath) |imagine_filter('post_thumb') }}" class="card-img-top" alt="{{ entry.title }}">
+            </a>
+        {% endif %}
+        <div class="card-body">
+            <a href="{{ entry_url(entry) }}">
+                <h5 class="card-title h6">
+                    {% include 'entry/_entry_title.html.twig' with {entry: entry, title_tag: 'span', direct_url: true} %}
+                </h5>
+            </a>
+            <div class="float-end mt-4">
+                <small>{{ component('magazine_inline', { magazine: entry.magazine }) }}</small>
+            </div>
+        </div>
+    </div>
+{% endfor %}
