@@ -26,10 +26,14 @@ class RelatedEntriesComponent
         return $this->cache->get('related_'.$id.'_'.$this->security->getUser()?->getId(), function (ItemInterface $item) {
             $item->expiresAfter(3600);
 
-            $entries = $this->manager->findRelated($this->entry->title.' '.$this->entry->magazine->name);
-            $entries = array_filter($entries, fn($e) => $e->getId() !== $this->entry->getId());
+            try {
+                $entries = $this->manager->findRelated($this->entry->title.' '.$this->entry->magazine->name);
+                $entries = is_array($entries) ? array_filter($entries, fn($e) => $e->getId() !== $this->entry->getId()) : [];
 
-            if (!count($entries)) {
+                if (!count($entries)) {
+                    throw new \Exception('Empty related entries list.');
+                }
+            } catch (\Exception $e) {
                 return '';
             }
 
