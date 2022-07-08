@@ -11,10 +11,9 @@
 {% elseif subject is post_comment %}
     {{ component('post_comment', {comment: subject, withParent: withParent, canSeeTrash: canSeeTrash}) }}
 {% elseif subject is magazine %}
-
     <div class="my-5 clearfix">
-        <div class="mx-5 px-5">
-            <div class="mx-5 px-5">
+        <div class="mx-xl-5 px-xl-5">
+            <div class="mx-xl-5 px-xl-5">
                 {{ component('magazine',{magazine: subject}) }}
             </div>
         </div>
