@@ -10,7 +10,7 @@
         <div class="card-body">
             <a href="{{ entry_url(entry) }}">
                 <h5 class="card-title h6">
-                    {% include 'entry/_entry_title.html.twig' with {entry: entry, title_tag: 'span', direct_url: true} %}
+                    {% include 'entry/_entry_title.html.twig' with {entry: entry, title_tag: 'span', direct_url: false} %}
                 </h5>
             </a>
             <div class="float-end mt-4">
