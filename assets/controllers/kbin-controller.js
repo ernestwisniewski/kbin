@@ -3,6 +3,19 @@ import {fetch, ok} from "../utils/http";
 import Cookies from 'js-cookie';
 
 export default class extends Controller {
+    connect() {
+        if (window.KBIN_LOGGED_IN) {
+            return true;
+        }
+
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+        if(prefersDarkScheme.matches && !Cookies.get('theme')) {
+            Cookies.set('theme', 'kbin-dark');
+            document.body.classList.toggle('kbin-dark');
+        }
+    }
+
     async toggleTheme(e) {
         e.preventDefault();
 
