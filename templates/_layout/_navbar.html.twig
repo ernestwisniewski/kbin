@@ -3,10 +3,10 @@
         <div class="kbin-container container">
             <a class="kbin-nav-brand navbar-brand text-muted text-decoration-none kbin-logo"
                href="{{ app.user ? path(app.user.homepage) : '/' }}">
-                 <img height="25"
-                      class="rounded-circle ms-3"
-                      alt="{{ kbin_domain() }}"
-                      src="{{ asset('kbin-logo.png') }}" />
+                <img height="25"
+                     class="rounded-circle ms-3"
+                     alt="{{ kbin_domain() }}"
+                     src="{{ asset('kbin-logo.png') }}"/>
             </a>
             <div class="kbin-nav-navbar me-auto text-muted">
                 {% if is_magazine_page() %}
@@ -35,7 +35,7 @@
                 {% elseif is_sub_page() %}
                     <span class="text-muted me-auto text-small size">
                     /<a class="text-decoration-none text-reset font-weight-bold"
-                          href="{{ path('front_subscribed') }}">sub</a>
+                        href="{{ path('front_subscribed') }}">sub</a>
                     </span>
                 {% elseif is_mod_page() %}
                     <span class="text-muted me-auto text-small size">
@@ -46,15 +46,19 @@
             </div>
             <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#kbin-nav"
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters">
-              <i class="fas fa-sort-amount-down p-1"></i>
+                <i class="fas fa-sort-amount-down p-1"></i>
             </button>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#kbin-sidebar"
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar">
                 <i class="fas fa-bars p-1"></i>
             </button>
             <div class="ms-3 mb-0 {{ kbin_js_enabled() ? '' : 'show' }} offcanvas offcanvas-end" id="kbin-nav">
-                <button type="button" class="navbar-toggler btn-close my-4 ms-1" data-bs-toggle="offcanvas" data-bs-target="#kbin-nav"
-                        aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters"></button>
+                <div class="d-block d-lg-none kbin-sidebar--close">
+                    <button type="button" class="navbar-toggler btn-close my-4 ms-1" data-bs-toggle="offcanvas" data-bs-target="#kbin-nav"
+                            aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters"></button>
+                </div>
+                <div class="mb-4 mt-4 d-lg-none">
+                </div>
                 <ul class="kbin-nav-navbar navbar-nav me-lg-auto mb-2 mb-lg-0">
                     {% if is_user_page() %}
                         {% include '_layout/navbar/_user.html.twig' %}

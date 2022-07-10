@@ -94,4 +94,11 @@
       font-size: .83rem;
     }
   }
+
+  &--close {
+    width: 100%;
+    position: fixed;
+    background: inherit;
+    z-index: 10;
+  }
 }

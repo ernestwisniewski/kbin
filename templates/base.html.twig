@@ -60,10 +60,12 @@
                 {% block body %}{% endblock %}
             </main>
             <aside class="col-lg-3 kbin-sidebar">
-                <aside class="offcanvas offcanvas-end" id="kbin-sidebar">
-                    <div class="d-block d-lg-none">
+                <div class="offcanvas offcanvas-end" id="kbin-sidebar">
+                    <div class="d-block d-lg-none kbin-sidebar--close">
                         <button type="button" class="btn-close my-4 ms-1" data-bs-toggle="offcanvas" data-bs-target="#kbin-sidebar"
                                 aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar"></button>
+                    </div>
+                    <div class="mb-4 mt-4 d-lg-none">
                     </div>
                     {% block sidebar %}
                         {% include '_layout/_sidebar.html.twig' %}
@@ -75,7 +77,7 @@
                     {% endblock %}
                     {% block sidebar_bottom %}
                     {% endblock %}
-                </aside>
+                </div>
             </aside>
         </div>
     </section>
