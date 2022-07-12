@@ -13,6 +13,7 @@ parameters:
   kbin_api_items_per_page: '%env(KBIN_API_ITEMS_PER_PAGE)%'
   kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
   kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
+  kbin_ap_route_condition: 'request.getAcceptableContentTypes() and request.getAcceptableContentTypes()[0] === "application/ld+json"'
 
   html5_validation: false
 

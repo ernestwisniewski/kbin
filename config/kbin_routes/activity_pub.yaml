@@ -1,4 +1,86 @@
-ap_inbox:
-  controller: App\Controller\ActivityPub\InboxController
-  path: /ap/inbox
+ap_webfinger:
+  controller: App\Controller\ActivityPub\WebfingerController
+  path: '/.well-known/webfinger'
   methods: [ GET ]
+
+ap_hostmeta:
+  controller: App\Controller\ActivityPub\HostMetaController
+  path: '/.well-known/host-meta'
+  methods: [ GET ]
+
+ap_nodeinfo:
+  controller: App\Controller\ActivityPub\NodeInfoController
+  path: '/.well-known/nodeinfo'
+  methods: [ GET ]
+
+ap_user:
+  controller: App\Controller\ActivityPub\User\UserController
+  path: /u/{username}
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
+ap_user_inbox:
+  controller: App\Controller\ActivityPub\User\UserInboxController
+  path: /u/{username}/inbox
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
+ap_user_outbox:
+  controller: App\Controller\ActivityPub\User\UserOutboxController
+  path: /u/{username}/outbox
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
+ap_user_followers:
+  controller: App\Controller\ActivityPub\User\UserFollowersController
+  path: /u/{username}/followers
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
+ap_user_following:
+  controller: App\Controller\ActivityPub\User\UserFollowingController
+  path: /u/{username}/following
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
+ap_magazine:
+  controller: App\Controller\ActivityPub\Magazine\MagazineController
+  path: /m/{name}
+  methods: [GET]
+  condition: '%kbin_ap_route_condition%'
+
+ap_magazine_inbox:
+  controller: App\Controller\ActivityPub\Magazine\MagazineInboxController
+  path: /m/{name}/inbox
+  methods: [GET]
+  condition: '%kbin_ap_route_condition%'
+
+ap_magazine_outbox:
+  controller: App\Controller\ActivityPub\Magazine\MagazineOutboxController
+  path: /m/{name}/outbox
+  methods: [GET]
+  condition: '%kbin_ap_route_condition%'
+
+ap_magazine_followers:
+  controller: App\Controller\ActivityPub\Magazine\MagazineFollowersController
+  path: /m/{name}/followers
+  methods: [GET]
+  condition: '%kbin_ap_route_condition%'
+
+ap_magazine_following:
+  controller: App\Controller\ActivityPub\Magazine\MagazineFollowingController
+  path: /m/{name}/following
+  methods: [GET]
+  condition: '%kbin_ap_route_condition%'
+
+ap_entry:
+  controller: App\Controller\ActivityPub\EntryController
+  path: /m/{magazine_name}/t/{entry_id}
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
+ap_posts:
+  controller: App\Controller\ActivityPub\PostController
+  path: /m/{magazine_name}/p/{post_id}
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'

@@ -55,7 +55,7 @@ user_followers:
 user_follows:
   controller: App\Controller\User\UserFrontController::follows
   path:
-    en: /u/{username}/follows
+    en: /u/{username}/following
     pl: /u/{username}/obserwowani
   methods: [ GET ]
 
