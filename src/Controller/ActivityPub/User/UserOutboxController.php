@@ -18,12 +18,12 @@ class UserOutboxController
 
     public function __invoke(User $user, Request $request): JsonResponse
     {
-        $page = $request->get('page');
+        $page = $request->get('page', 0);
 
         if (!$page) {
             $data = $this->getCollectionInfo($user);
         } else {
-            $data = $this->getCollectionItems();
+            $data = $this->getCollectionItems($user, (int) $page);
         }
 
         $response = new JsonResponse($data);
@@ -33,11 +33,12 @@ class UserOutboxController
         return $response;
     }
 
-    #[ArrayShape(['@context'   => "string",
-                  'type'       => "string",
-                  'id'         => "string",
-                  'first'      => "string",
-                  'totalItems' => "int",
+    #[ArrayShape([
+        '@context'   => "string",
+        'type'       => "string",
+        'id'         => "string",
+        'first'      => "string",
+        'totalItems' => "int",
     ])] private function getCollectionInfo(User $user): array
     {
         return [
@@ -53,8 +54,24 @@ class UserOutboxController
         ];
     }
 
-    private function getCollectionItems(): array
-    {
-        return [];
+    private function getCollectionItems(
+        User $user,
+        int $page
+    ): array {
+
+        $items = $this->userRepository->findPublicActivity($page, $user);
+
+        return [
+            '@context'     => ActivityPubActivityInterface::CONTEXT_URL,
+            'type'         => 'OrderedCollectionPage',
+            'partOf'       => $this->urlGenerator->generate('ap_user_outbox', ['username' => $user->username], UrlGeneratorInterface::ABS_URL),
+            'id'           => $this->urlGenerator->generate(
+                'ap_user_outbox',
+                ['username' => $user->username, 'page' => $page],
+                UrlGeneratorInterface::ABS_URL
+            ),
+            'totalItems'   => $items->getNbResults(),
+            'orderedItems' => [],
+        ];
     }
 }

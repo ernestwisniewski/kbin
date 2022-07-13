@@ -93,7 +93,11 @@ class UserFollowController
             '@context'     => ActivityPubActivityInterface::CONTEXT_URL,
             'type'         => 'OrderedCollectionPage',
             'partOf'       => $this->urlGenerator->generate($routeName, ['username' => $user->username], UrlGeneratorInterface::ABS_URL),
-            'id'           => $this->urlGenerator->generate($routeName, ['username' => $user->username], UrlGeneratorInterface::ABS_URL),
+            'id'           => $this->urlGenerator->generate(
+                $routeName,
+                ['username' => $user->username, 'page' => $page],
+                UrlGeneratorInterface::ABS_URL
+            ),
             'totalItems'   => $items->getNbResults(),
             'orderedItems' => [],
         ];
