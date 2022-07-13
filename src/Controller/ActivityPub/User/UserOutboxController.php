@@ -26,7 +26,11 @@ class UserOutboxController
             $data = $this->getCollectionItems();
         }
 
-        return new JsonResponse($data);
+        $response = new JsonResponse($data);
+
+        $response->headers->set('Content-Type', 'application/activity+json');
+
+        return $response;
     }
 
     #[ArrayShape(['@context'   => "string",
