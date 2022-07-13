@@ -53,22 +53,15 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getOneOrNullResult();
     }
 
+    public function countPublicActivity(User $user): int
+    {
+        return $this->getPublicActivityQuery($user)->rowCount();
+    }
+
     public function findPublicActivity(int $page, User $user): PagerfantaInterface
     {
         // @todo union adapter
-        $conn = $this->_em->getConnection();
-        $sql  = "
-        (SELECT id, created_at, 'entry' AS type FROM entry WHERE user_id = {$user->getId()}) 
-        UNION 
-        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE user_id = {$user->getId()})
-        UNION 
-        (SELECT id, created_at, 'post' AS type FROM post WHERE user_id = {$user->getId()})
-        UNION 
-        (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE user_id = {$user->getId()})
-        ORDER BY created_at DESC
-        ";
-        $stmt = $conn->prepare($sql);
-        $stmt = $stmt->executeQuery();
+        $stmt = $this->getPublicActivityQuery($user);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -114,6 +107,25 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         }
 
         return $pagerfanta;
+    }
+
+    private function getPublicActivityQuery(User $user)
+    {
+        $conn = $this->_em->getConnection();
+        $sql  = "
+        (SELECT id, created_at, 'entry' AS type FROM entry WHERE user_id = {$user->getId()}) 
+        UNION 
+        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE user_id = {$user->getId()})
+        UNION 
+        (SELECT id, created_at, 'post' AS type FROM post WHERE user_id = {$user->getId()})
+        UNION 
+        (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE user_id = {$user->getId()})
+        ORDER BY created_at DESC
+        ";
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->executeQuery();
     }
 
     private function getOverviewIds(array $result, string $type): array
