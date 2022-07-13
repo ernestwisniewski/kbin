@@ -79,7 +79,7 @@ ap_entry:
   methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
-ap_posts:
+ap_post:
   controller: App\Controller\ActivityPub\PostController
   path: /m/{magazine_name}/p/{post_id}
   methods: [ GET ]

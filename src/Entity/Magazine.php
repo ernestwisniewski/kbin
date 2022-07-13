@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\VisibilityTrait;
@@ -22,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
  * })
  * @ORM\Entity(repositoryClass=MagazineRepository::class)
  */
-class Magazine implements VisibilityInterface
+class Magazine implements VisibilityInterface, ActivityPubActorInterface
 {
     use VisibilityTrait;
     use CreatedAtTrait {
@@ -411,5 +412,10 @@ class Magazine implements VisibilityInterface
     public function __sleep()
     {
         return [];
+    }
+
+    public function getActivityPubId(): string
+    {
+        return $this->name;
     }
 }
