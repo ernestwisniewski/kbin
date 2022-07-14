@@ -67,12 +67,6 @@ ap_magazine_followers:
   methods: [GET]
   condition: '%kbin_ap_route_condition%'
 
-ap_magazine_following:
-  controller: App\Controller\ActivityPub\Magazine\MagazineFollowingController
-  path: /m/{name}/following
-  methods: [GET]
-  condition: '%kbin_ap_route_condition%'
-
 ap_entry:
   controller: App\Controller\ActivityPub\EntryController
   path: /m/{magazine_name}/t/{entry_id}

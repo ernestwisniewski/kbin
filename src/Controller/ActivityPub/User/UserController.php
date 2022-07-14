@@ -5,13 +5,12 @@ namespace App\Controller\ActivityPub\User;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\ActivityPub\ActivityPubActivityInterface;
 use App\Entity\User;
-use App\Service\ActivityPubManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController
 {
-    public function __construct(private ActivityPubManager $activityPubUtility, private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
 
@@ -39,7 +38,7 @@ class UserController
             'publicKey'         => [
                 'owner'        => $this->getActivityPubId($user),
                 'id'           => $this->getActivityPubId($user).'#main-key',
-                'publicKeyPem' => '',
+                'publicKeyPem' => '', // @todo public key
             ],
         ];
 
