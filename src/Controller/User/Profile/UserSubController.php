@@ -29,7 +29,7 @@ class UserSubController extends AbstractController
         return $this->render(
             'user/profile/sub_users.html.twig',
             [
-                'users' => $repository->findFollowedUsers($this->getPageNb($request), $this->getUserOrThrow()),
+                'users' => $repository->findFollowing($this->getPageNb($request), $this->getUserOrThrow()),
             ]
         );
     }

@@ -135,7 +135,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return array_map(fn($subject) => $subject['id'], $result);
     }
 
-    public function findFollowedUsers(int $page, User $user): PagerfantaInterface
+    public function findFollowing(int $page, User $user): PagerfantaInterface
     {
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
@@ -161,11 +161,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     }
 
 
-    public function findFollowUsers(int $page, User $user): PagerfantaInterface
+    public function findFollowers(int $page, User $user): PagerfantaInterface
     {
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.follower = :user'.')';
+            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user'.')';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);

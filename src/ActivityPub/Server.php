@@ -49,6 +49,11 @@ class Server
         Validator::add('url', NullableValidator::class);
     }
 
+    public function create(): \ActivityPhp\Server
+    {
+        return $this->server;
+    }
+
     #[NoReturn] public function __invoke($actor)
     {
 //        $outbox = $this->server->outbox('harcesz@szmer.info');
@@ -72,7 +77,7 @@ class Server
 
         foreach ($pages as $page) {
             foreach ($page->orderedItems as $item) {
-                if($item->toArray()['object']){
+                if ($item->toArray()['object']) {
                     dump($item->toArray()['object']);
                 }
             }

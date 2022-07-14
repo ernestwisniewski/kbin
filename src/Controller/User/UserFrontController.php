@@ -129,7 +129,7 @@ class UserFrontController extends AbstractController
             'user/followers.html.twig',
             [
                 'user'  => $user,
-                'users' => $repository->findFollowUsers($this->getPageNb($request), $user),
+                'users' => $repository->findFollowers($this->getPageNb($request), $user),
             ]
         );
     }
@@ -144,7 +144,7 @@ class UserFrontController extends AbstractController
             'user/follows.html.twig',
             [
                 'user'  => $user,
-                'users' => $manager->findFollowedUsers($this->getPageNb($request), $user),
+                'users' => $manager->findFollowing($this->getPageNb($request), $user),
             ]
         );
     }

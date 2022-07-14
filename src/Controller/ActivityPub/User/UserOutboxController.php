@@ -54,11 +54,16 @@ class UserOutboxController
         ];
     }
 
-    private function getCollectionItems(
+    #[ArrayShape(['@context'     => "string",
+                  'type'         => "string",
+                  'partOf'       => "string",
+                  'id'           => "string",
+                  'totalItems'   => "int",
+                  'orderedItems' => "array"
+    ])] private function getCollectionItems(
         User $user,
         int $page
     ): array {
-
         $items = $this->userRepository->findPublicActivity($page, $user);
 
         return [
