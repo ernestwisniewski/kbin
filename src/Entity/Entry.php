@@ -428,4 +428,9 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     {
         return [];
     }
+
+    public function getDescription(): string
+    {
+        return ''; // @todo get first author comment
+    }
 }

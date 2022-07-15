@@ -69,7 +69,8 @@ ap_magazine_followers:
 
 ap_entry:
   controller: App\Controller\ActivityPub\EntryController
-  path: /m/{magazine_name}/t/{entry_id}
+  defaults: { slug: -, sortBy: ~ }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/{sortBy}
   methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
