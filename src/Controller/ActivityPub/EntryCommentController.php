@@ -2,28 +2,31 @@
 
 namespace App\Controller\ActivityPub;
 
+use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Entity\Post;
-use App\Factory\ActivityPub\PostNoteFactory;
+use App\Factory\ActivityPub\EntryNoteFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PostController
+class EntryCommentController
 {
-    public function __construct(private PostNoteFactory $postNoteFactory)
+    public function __construct(private EntryNoteFactory $pageFactory)
     {
     }
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
+    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     public function __invoke(
         Magazine $magazine,
-        Post $post,
+        Entry $entry,
+        EntryComment $comment,
         Request $request
     ): Response {
-        $response = new JsonResponse($this->postNoteFactory->create($post));
+        $response = new JsonResponse($this->pageFactory->create($comment));
 
         $response->headers->set('Content-Type', 'application/activity+json');
 

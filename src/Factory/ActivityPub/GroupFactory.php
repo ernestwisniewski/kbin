@@ -5,6 +5,7 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\ActivityPub\ActivityPubActivityInterface;
 use App\Entity\Magazine;
+use DateTimeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class GroupFactory
@@ -15,7 +16,7 @@ class GroupFactory
 
     public function create(Magazine $magazine): array
     {
-        return [
+        $group = [
             'type'              => 'Group',
             '@context'          => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'                => $this->getActivityPubId($magazine),
@@ -35,7 +36,24 @@ class GroupFactory
                 'publicKeyPem' => '', // @todo public key
             ],
             'summary'           => $magazine->description,
+            'sensitive'         => $magazine->isAdult,
+            'moderators'        => $this->urlGenerator->generate(
+                'ap_magazine_moderators',
+                ['name' => $magazine->name],
+                UrlGeneratorInterface::ABS_URL
+            ),
+            'published'         => $magazine->createdAt->format(DateTimeInterface::ISO8601),
+            'updated'           => $magazine->lastActive->format(DateTimeInterface::ISO8601),
         ];
+
+        if ($magazine->cover) {
+            $group['icon'] = [
+                'type' => 'Image',
+                'url'  => $this->requestStack->getCurrentRequest()->getUriForPath('/media/'.$magazine->cover->filePath) // @todo media url
+            ];
+        }
+
+        return $group;
     }
 
 

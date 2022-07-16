@@ -5,6 +5,8 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\ActivityPub\ActivityPubActivityInterface;
 use App\Entity\Entry;
+use DateTime;
+use DateTimeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PageFactory
@@ -31,6 +33,7 @@ class PageFactory
             'cc'              => [],
             'name'            => $entry->title,
             'content'         => $entry->body ?? $entry->getDescription(),
+            'mediaType'       => 'text/html',
             'url'             => $this->getActivityPubId($entry),
             'attachment'      => [
                 'href' => $entry->url ?? $this->getActivityPubId($entry),
@@ -39,6 +42,7 @@ class PageFactory
             'commentsEnabled' => true,
             'sensitive'       => $entry->isAdult(),
             'stickied'        => $entry->sticky,
+            'published'       => $entry->createdAt->format(DateTimeInterface::ISO8601),
         ];
 
         if ($entry->image) {
@@ -47,7 +51,6 @@ class PageFactory
                 'url'  => $this->requestStack->getCurrentRequest()->getUriForPath('/media/'.$entry->image->filePath) // @todo media url
             ];
         }
-
 
         return $page;
     }

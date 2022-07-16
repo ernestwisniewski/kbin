@@ -46,25 +46,31 @@ ap_user_following:
 ap_magazine:
   controller: App\Controller\ActivityPub\Magazine\MagazineController
   path: /m/{name}
-  methods: [GET]
+  methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
 ap_magazine_inbox:
   controller: App\Controller\ActivityPub\Magazine\MagazineInboxController
   path: /m/{name}/inbox
-  methods: [GET]
+  methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
 ap_magazine_outbox:
   controller: App\Controller\ActivityPub\Magazine\MagazineOutboxController
   path: /m/{name}/outbox
-  methods: [GET]
+  methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
 ap_magazine_followers:
   controller: App\Controller\ActivityPub\Magazine\MagazineFollowersController
   path: /m/{name}/followers
-  methods: [GET]
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
+ap_magazine_moderators:
+  controller: App\Controller\ActivityPub\Magazine\MagazineModeratorsController
+  path: /m/{name}/moderators
+  methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
 ap_entry:
@@ -74,8 +80,23 @@ ap_entry:
   methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
+ap_entry_comment:
+  controller: App\Controller\ActivityPub\EntryCommentController
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
 ap_post:
   controller: App\Controller\ActivityPub\PostController
-  path: /m/{magazine_name}/p/{post_id}
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/p/{post_id}/{slug}
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
+ap_post_comment:
+  controller: App\Controller\ActivityPub\PostCommentController
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}
   methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
