@@ -16,7 +16,7 @@ class ApInbox
     }
 
     /**
-     * @ORM\Column(type="json", nullable=false)
+     * @ORM\Column(type="json", nullable=false, options={"jsonb" = true})
      */
     public string $body;
     /**

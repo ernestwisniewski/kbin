@@ -28,7 +28,15 @@ class ApOutbox
     /**
      * @ORM\Column(type="string", nullable=false)
      */
+    public int $subjectId;
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
     public string $type;
+    /**
+     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
+     */
+    public string $body;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
