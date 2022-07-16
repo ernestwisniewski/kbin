@@ -346,13 +346,13 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $user === $this->user;
     }
 
-    public function getShortTitle(): string
+    public function getShortTitle(?int $length = 60): string
     {
-        if (grapheme_strlen($this->title) <= 60) {
+        if (grapheme_strlen($this->title) <= $length) {
             return $this->title;
         }
 
-        return grapheme_substr($this->title, 0, 60).'…';
+        return grapheme_substr($this->title, 0, $length).'…';
     }
 
     public function getUrl(): ?string

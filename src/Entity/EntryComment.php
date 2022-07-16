@@ -206,13 +206,13 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         return $user === $this->user;
     }
 
-    public function getShortTitle(): string
+    public function getShortTitle(?int $length = 60): string
     {
-        if (grapheme_strlen($this->body) <= 60) {
+        if (grapheme_strlen($this->body) <= $length) {
             return $this->body;
         }
 
-        return grapheme_substr($this->body, 0, 60).'…';
+        return grapheme_substr($this->body, 0, $length).'…';
     }
 
     public function getMagazine(): ?Magazine
