@@ -92,6 +92,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public ?array $featuredMagazines = null;
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public ?string $privateKey = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public ?string $publicKey = null;
+    /**
      * @ORM\Column(type="boolean", options={"default": false})
      */
     public bool $hideImages = false;
@@ -703,5 +711,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function getActivityPubId(): string
     {
         return $this->username;
+    }
+
+    public function getPrivateKey(): ?string
+    {
+        return $this->privateKey;
+    }
+
+    public function getPublicKey(): ?string
+    {
+        return $this->publicKey;
     }
 }

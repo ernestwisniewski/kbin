@@ -253,4 +253,12 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getQuery()
             ->getResult();
     }
+
+    public function findWithoutKeys(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.privateKey IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }

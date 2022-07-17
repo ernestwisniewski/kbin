@@ -102,12 +102,7 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true,
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": false,
-            "symfony/flex": true,
-            "symfony/runtime": true
-        }
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {

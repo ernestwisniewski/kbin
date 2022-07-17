@@ -73,6 +73,11 @@ CADDY_MERCURE_JWT_SECRET='!ChangeMe!' \
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
+#### Deploying on Multiple Nodes
+
+If you want to deploy your app on a cluster of machines, you can use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/),
+which is compatible with the provided Compose files.
+
 ## Configuration
 
 ### Admin user

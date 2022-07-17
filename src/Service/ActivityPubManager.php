@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\ActivityPub\Server;
 use App\Entity\Contracts\ActivityPubActorInterface;
+use phpseclib3\Crypt\RSA;
 
 class ActivityPubManager
 {
@@ -23,14 +24,13 @@ class ActivityPubManager
         return $this->server->create()->actor($subject)->webfinger()->getProfileId();
     }
 
-    public function getActivityPubSubject(ActivityPubActorInterface $actor): string
+    public function generateKeys(ActivityPubActorInterface $actor): ActivityPubActorInterface
     {
-        $subject = $actor->getActivityPubId();
+        $private_key = RSA::createKey(4096);
 
-        if (!str_contains($subject, '@')) {
-            $subject .= '@'.$this->settings->getDto()->KBIN_DOMAIN;
-        }
+        $actor->publicKey  = (string) $private_key->getPublicKey();
+        $actor->privateKey = (string) $private_key;
 
-        return $this->server->create()->actor($subject)->webfinger()->getSubject();
+        return $actor;
     }
 }

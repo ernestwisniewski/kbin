@@ -84,6 +84,14 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
      */
     public ?string $customJs = null;
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public ?string $privateKey = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    public ?string $publicKey = null;
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     public Collection $moderators;
@@ -417,5 +425,15 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
     public function getActivityPubId(): string
     {
         return $this->name;
+    }
+
+    public function getPrivateKey(): ?string
+    {
+        return $this->privateKey;
+    }
+
+    public function getPublicKey(): ?string
+    {
+        return $this->publicKey;
     }
 }

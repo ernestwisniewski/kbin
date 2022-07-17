@@ -281,4 +281,12 @@ class MagazineRepository extends ServiceEntityRepository
 
         return array_map(fn($subject) => $subject['id'], $result);
     }
+
+    public function findWithoutKeys(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.privateKey IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }

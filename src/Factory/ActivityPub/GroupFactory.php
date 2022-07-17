@@ -10,8 +10,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class GroupFactory
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private RequestStack $requestStack)
-    {
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator,
+        private RequestStack $requestStack
+    ) {
     }
 
     public function create(Magazine $magazine): array
@@ -33,7 +35,7 @@ class GroupFactory
             'publicKey'         => [
                 'owner'        => $this->getActivityPubId($magazine),
                 'id'           => $this->getActivityPubId($magazine).'#main-key',
-                'publicKeyPem' => '', // @todo public key
+                'publicKeyPem' => $magazine->publicKey,
             ],
             'summary'           => $magazine->description,
             'sensitive'         => $magazine->isAdult,

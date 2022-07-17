@@ -9,8 +9,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PersonFactory
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private RequestStack $requestStack)
-    {
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator,
+        private RequestStack $requestStack
+    ) {
     }
 
     public function create(User $user): array
@@ -37,7 +39,7 @@ class PersonFactory
             'publicKey'         => [
                 'owner'        => $this->getActivityPubId($user),
                 'id'           => $this->getActivityPubId($user).'#main-key',
-                'publicKeyPem' => '', // @todo public key
+                'publicKeyPem' => $user->publicKey,
             ],
         ];
 
