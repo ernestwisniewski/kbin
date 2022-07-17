@@ -26,10 +26,10 @@ class ActivityPubManager
 
     public function generateKeys(ActivityPubActorInterface $actor): ActivityPubActorInterface
     {
-        $private_key = RSA::createKey(4096);
+        $privateKey = RSA::createKey(4096);
 
-        $actor->publicKey  = (string) $private_key->getPublicKey();
-        $actor->privateKey = (string) $private_key;
+        $actor->publicKey  = (string) $privateKey->getPublicKey();
+        $actor->privateKey = (string) $privateKey;
 
         return $actor;
     }
