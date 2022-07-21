@@ -26,4 +26,3 @@ final class EntryCommentItemDataProvider implements ItemDataProviderInterface, R
         return $comment ? $this->factory->createDto($comment) : null;
     }
 }
-
