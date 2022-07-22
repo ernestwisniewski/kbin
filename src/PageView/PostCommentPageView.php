@@ -9,6 +9,7 @@ class PostCommentPageView extends Criteria
 {
     public const SORT_OPTIONS = [
         self::SORT_NEW,
+        self::SORT_OLD,
         self::SORT_TOP,
     ];
 

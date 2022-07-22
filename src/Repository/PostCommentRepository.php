@@ -98,6 +98,9 @@ class PostCommentRepository extends ServiceEntityRepository
             case Criteria::SORT_HOT:
                 $qb->orderBy('c.upVotes', 'DESC');
                 break;
+            case Criteria::SORT_OLD:
+                $qb->orderBy('c.createdAt', 'ASC');
+                break;
             default:
         }
 
