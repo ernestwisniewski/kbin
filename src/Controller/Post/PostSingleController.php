@@ -28,7 +28,7 @@ class PostSingleController extends AbstractController
         Request $request
     ): Response {
         $criteria = new PostCommentPageView($this->getPageNb($request));
-        $criteria->sortOption = Criteria::SORT_NEW;
+        $criteria->sortOption = Criteria::SORT_OLD;
         $criteria->post = $post;
 
         $comments = $repository->findByCriteria($criteria);

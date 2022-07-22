@@ -20,6 +20,7 @@ abstract class Criteria
     public const SORT_ACTIVE = 'active';
     public const SORT_HOT = 'hot';
     public const SORT_NEW = 'newest';
+    public const SORT_OLD = 'oldest';
     public const SORT_TOP = 'top';
     public const SORT_COMMENTED = 'commented';
 
