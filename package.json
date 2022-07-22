@@ -14,7 +14,7 @@
         "file-loader": "^6.0.0",
         "node-sass": "^4.0.0",
         "regenerator-runtime": "^0.13.2",
-        "sass-loader": "^13.0.0",
+        "sass-loader": "^12.0.0",
         "tom-select": "^2.0.1",
         "webpack-notifier": "^1.6.0"
     },

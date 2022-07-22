@@ -80,13 +80,15 @@ class EntryManager implements ContentManagerInterface
     {
         Assert::same($entry->magazine->getId(), $dto->magazine->getId());
 
-        $entry->title    = $dto->title;
-        $entry->url      = $dto->url;
-        $entry->body     = $dto->body;
-        $entry->isAdult  = $dto->isAdult;
-        $entry->slug     = $this->slugger->slug($dto->title);
-        $oldImage        = $entry->image;
-        $entry->image    = $dto->image;
+        $entry->title   = $dto->title;
+        $entry->url     = $dto->url;
+        $entry->body    = $dto->body;
+        $entry->isAdult = $dto->isAdult;
+        $entry->slug    = $this->slugger->slug($dto->title);
+        $oldImage       = $entry->image;
+        if ($dto->image) {
+            $entry->image = $dto->image;
+        }
         $entry->tags     = $dto->tags ? $this->tagManager->extract(
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
@@ -102,7 +104,7 @@ class EntryManager implements ContentManagerInterface
 
         $this->entityManager->flush();
 
-        if ($oldImage && $dto->image !== $oldImage) {
+        if ($oldImage && $entry->image !== $oldImage) {
             $this->bus->dispatch(new DeleteImageMessage($oldImage->filePath));
         }
 

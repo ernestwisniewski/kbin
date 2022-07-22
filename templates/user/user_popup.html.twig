@@ -33,7 +33,9 @@
                         </div>
 
                         <div class="text-end">
-                            {{ form_row(form.submit, { 'label': 'done'|trans, 'attr':{'class': 'btn-primary btn-sm'} }) }}
+                            <a class="btn btn-primary btn-sm" href="{{ path('user_message', {username: user.username}) }}"><i
+                                        class="fas fa-envelope"></i></a>
+                            {{ form_widget(form.submit, { 'label': 'done'|trans, 'attr':{'class': 'btn-primary btn-sm'} }) }}
                         </div>
                     </div>
                     {{ form_end(form) }}

@@ -44,9 +44,9 @@
 
             {% if hasImage %}
                 <img data-media-target="thumb" src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}" alt="" class="me-2"/>
-            {% else %}
-                <canvas data-media-target="canvas" class="d-none me-2"></canvas>
             {% endif %}
+
+            <canvas data-media-target="canvas" class="d-none me-2"></canvas>
 
             {{ form_widget(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-post-send btn-primary'} }) }}
         </div>

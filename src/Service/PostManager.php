@@ -66,17 +66,19 @@ class  PostManager implements ContentManagerInterface
     {
         Assert::same($post->magazine->getId(), $dto->magazine->getId());
 
-        $post->body     = $dto->body;
-        $post->isAdult  = $dto->isAdult;
-        $oldImage       = $post->image;
-        $post->image    = $dto->image;
+        $post->body    = $dto->body;
+        $post->isAdult = $dto->isAdult;
+        $oldImage      = $post->image;
+        if ($dto->image) {
+            $post->image = $dto->image;
+        }
         $post->tags     = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();
 
-        if ($oldImage && $dto->image !== $oldImage) {
+        if ($oldImage && $post->image !== $oldImage) {
             $this->bus->dispatch(new DeleteImageMessage($oldImage->filePath));
         }
 

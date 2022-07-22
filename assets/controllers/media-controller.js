@@ -33,7 +33,7 @@ export default class extends Controller {
             return;
         }
 
-        if (this.hasCanvasTarget) {
+        if (!this.canvasTarget.classList.contains('d-none')) {
             this.canvasTarget.getContext('2d').clearRect(0, 0, 0, 0);
 
             this.canvasTarget.classList.add('d-none');
