@@ -2,8 +2,10 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
 use App\Utils\Embed;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
 use League\CommonMark\ElementRendererInterface;
@@ -20,7 +22,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
 {
     protected ConfigurationInterface $config;
 
-    public function __construct(private Embed $embed)
+    public function __construct(private Embed $embed, private EmbedRepository $embedRepository, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -43,10 +45,26 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             $title = $htmlRenderer->renderInline($inline->firstChild());
         }
 
-        try {
-            $embed = $this->embed->fetch($url)->html;
-        } catch (Exception $e) {
-            $embed = null;
+        $embed = false;
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
+                $embed = $entity->hasEmbed;
+            } else {
+                try {
+                    $embed = $this->embed->fetch($url)->html;
+                    if ($embed) {
+                        $entity = new \App\Entity\Embed($url, (bool) $embed);
+                        $this->embedRepository->add($entity);
+                    }
+                } catch (Exception $e) {
+                    $embed = false;
+                }
+
+                if (!$embed) {
+                    $entity = new \App\Entity\Embed($url, $embed = false);
+                    $this->embedRepository->add($entity);
+                }
+            }
         }
 
         if (ImageManager::isImageUrl($url) || $embed) {
