@@ -49,7 +49,7 @@
      data-action="notify:Notification->notify-counter#notification"
      data-action="notify:Message->notify-counter#message"
      data-notify-counter-hidden-class="v-hidden"
-     data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
+     data-turbo="{% if not app.user or app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
     <div class="fixed-top">
         {% include '_layout/_topbar.html.twig' %}
         {% include '_layout/_navbar.html.twig' %}

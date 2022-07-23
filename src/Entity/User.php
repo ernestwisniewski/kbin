@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public ?Image $avatar = null;
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", unique=true)
      */
     public ?string $email;
     /**
@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public array $roles = [];
     /**
-     * @ORM\Column(type="string", length=35)
+     * @ORM\Column(type="string")
      */
     public string $username;
     /**
@@ -91,6 +91,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      * @ORM\Column(type="array", nullable=true, options={"default" : null})
      */
     public ?array $featuredMagazines = null;
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $apId = null;
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $apProfileId = null;
     /**
      * @ORM\Column(type="text", nullable=true)
      */

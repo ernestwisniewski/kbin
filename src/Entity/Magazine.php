@@ -84,6 +84,14 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
      */
     public ?string $customJs = null;
     /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $apId = null;
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $apProfileId = null;
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     public ?string $privateKey = null;
