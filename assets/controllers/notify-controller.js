@@ -87,20 +87,20 @@ export default class extends ApplicationController {
         let div = document.createElement('div');
         div.innerHTML = html;
         div = div.firstElementChild;
+        let container = document.getElementById('kbin-toast-container')
 
-        if (document.querySelectorAll('.kbin-toast-container div').length > 3) {
-
-        }
-
-        let container = document.querySelector('.kbin-toast-container')
         container.append(div);
-
-        let t = new bootstrap.Toast(div);
-        // t.on('hidden.bs.toast', function (e) {
-        //     e.target.remove();
-        // })
+        let t = new bootstrap.Toast(div, {delay: 100000});
 
         t.show();
+
+        if (container.children.length >= 2) {
+            container.removeChild(container.firstChild);
+        }
+
+        t._element.addEventListener('hidden.bs.toast', function (e) {
+            e.target.remove();
+        })
     }
 
     notify(content) {
