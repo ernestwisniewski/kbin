@@ -17,6 +17,7 @@ use FeedIo\Feed;
 use FeedIo\Feed\Item;
 use FeedIo\FeedInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
 class FeedManager
@@ -68,6 +69,10 @@ class FeedManager
         }
 
         $items = $this->entryRepository->findByCriteria($criteria);
+
+        if ($items->count() === 0) {
+            throw new NotFoundHttpException();
+        }
 
         $items = $this->getEntries($items->getCurrentPageResults());
 
