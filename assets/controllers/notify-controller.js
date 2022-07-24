@@ -88,10 +88,18 @@ export default class extends ApplicationController {
         div.innerHTML = html;
         div = div.firstElementChild;
 
+        if (document.querySelectorAll('.kbin-toast-container div').length > 3) {
+
+        }
+
         let container = document.querySelector('.kbin-toast-container')
         container.append(div);
 
         let t = new bootstrap.Toast(div);
+        // t.on('hidden.bs.toast', function (e) {
+        //     e.target.remove();
+        // })
+
         t.show();
     }
 
@@ -111,7 +119,10 @@ export default class extends ApplicationController {
     }
 
     createNotification(content) {
-        const notification = new Notification(content.title, {body: content.body, icon: content.icon});
+        const notification = new Notification(content.title, {
+            ...{body: content.body},
+            ...(content.icon && {icon: content.icon})
+        });
 
         notification.addEventListener('click', function (event) {
             window.focus();
