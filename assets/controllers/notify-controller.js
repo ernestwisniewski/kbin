@@ -97,17 +97,28 @@ export default class extends ApplicationController {
 
     notify(content) {
         if ('granted' === Notification.permission) {
-            new Notification(content.title, {body: content.body, icon: content.icon});
-
+            this.createNotification(content);
             return;
         }
 
         if ('denied' !== Notification.permission) {
             Notification.requestPermission().then((permission) => {
                 if ('granted' === permission) {
-                    new Notification(content.title, {body: content.body, icon: content.icon});
+                    this.createNotification(content);
                 }
             });
         }
+    }
+
+    createNotification(content) {
+        const notification = new Notification(content.title, {body: content.body, icon: content.icon});
+
+        notification.addEventListener('click', function (event) {
+            window.focus();
+
+            if (content.url) {
+                window.location = content.url;
+            }
+        })
     }
 }
