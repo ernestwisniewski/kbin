@@ -90,7 +90,7 @@ export default class extends ApplicationController {
         let container = document.getElementById('kbin-toast-container')
 
         container.append(div);
-        let t = new bootstrap.Toast(div, {delay: 100000});
+        let t = new bootstrap.Toast(div);
 
         t.show();
 
