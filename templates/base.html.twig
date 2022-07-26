@@ -88,15 +88,15 @@
 
     </div>
 
-    {% if kbin_js_enabled() and not app.request.cookies.get('cookie-info') %}
-        <div class="kbin-cookies" data-controller="cookie-info">
-            <div class="container py-3 text-center">
-                <p>Ta strona korzysta z ciasteczek (cookies), które używane są do obsługi logowania i zapamiętania motywu niezalogowanego
-                    użytkownika.</p>
-                <button data-action="click->cookie-info#close" type="button" class="btn btn-primary">Rozumiem</button>
-            </div>
-        </div>
-    {% endif %}
+{#    {% if kbin_js_enabled() and not app.request.cookies.get('cookie-info') %}#}
+{#        <div class="kbin-cookies" data-controller="cookie-info">#}
+{#            <div class="container py-3 text-center">#}
+{#                <p>Ta strona korzysta z ciasteczek (cookies), które używane są do obsługi logowania i zapamiętania motywu niezalogowanego#}
+{#                    użytkownika.</p>#}
+{#                <button data-action="click->cookie-info#close" type="button" class="btn btn-primary">Rozumiem</button>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% endif %}#}
 
     <div aria-live="polite" aria-atomic="true" class="position-relative d-none d-lg-block">
         <div id="kbin-toast-container" class="kbin-toast-container toast-container position-fixed bottom-0 end-0 p-3 d-flex flex-column">

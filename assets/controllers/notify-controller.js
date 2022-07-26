@@ -1,6 +1,7 @@
 import bootstrap from "bootstrap/dist/js/bootstrap.min";
 import {ApplicationController} from 'stimulus-use'
 import Subscribe from '../event-source';
+import Cookies from "js-cookie";
 
 export default class extends ApplicationController {
     static values = {
@@ -31,7 +32,9 @@ export default class extends ApplicationController {
             let data = JSON.parse(e.data);
 
             if (data.toast) {
-                self.toast(data.toast);
+                if(Cookies.get('notifications') === undefined || Cookies.get('notifications') === 'true') {
+                    self.toast(data.toast);
+                }
             }
 
             if (data.op.includes('Notification')) {
@@ -42,7 +45,9 @@ export default class extends ApplicationController {
                 self.notify(data);
             }
 
-            self.dispatch(data.op, data);
+            if(Cookies.get('autorefresh') === undefined || Cookies.get('autorefresh') === 'true') {
+                self.dispatch(data.op, data);
+            }
         }
 
         document.es = Subscribe(topics, cb);
