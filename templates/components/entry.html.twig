@@ -119,7 +119,7 @@
                                 </form>
                             </li>
 
-                            {% if this.entry.user.cardanoWalletAddress %}
+                            {% if this.entry.user.cardanoWalletAddress and (this.entry.isOc or this.entry.type is same as 'article') %}
                                 <li class="kbin-entry-meta-tip kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                     <a href="{{ path('entry_tips', { magazine_name: this.entry.magazine.name, entry_id: this.entry.id }) }}"
                                        data-action="tip#fetch">

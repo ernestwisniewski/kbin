@@ -5,7 +5,9 @@
 {% block body %}
     {{ component('entry', {entry: entry}) }}
 
-    {{ component('tip', { subject: entry, key: 'entry', transactions: transactions, mnemonicForm: mnemonicForm, transactionForm: transactionForm }) }}
+    {% if entry.user.cardanoWalletAddress and (entry.isOc or entry.type is same as 'article') %}
+        {{ component('tip', { subject: entry, key: 'entry', transactions: transactions, mnemonicForm: mnemonicForm, transactionForm: transactionForm }) }}
+    {% endif %}
 {% endblock %}
 
 {% block sidebar %}

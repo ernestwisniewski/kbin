@@ -8,8 +8,6 @@ use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Form\CardanoMnemonicType;
 use App\Form\CardanoTransactionType;
-use App\Repository\CardanoTxRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +19,14 @@ class EntryTipController extends AbstractController
     #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
+        if (!$entry->user->cardanoWalletAddress) {
+            throw $this->createNotFoundException();
+        }
+
+        if ($entry->type !== Entry::ENTRY_TYPE_ARTICLE || !$entry->isOc) {
+            throw $this->createNotFoundException();
+        }
+
         $dto                = new CardanoTransactionDto();
         $dto->walletAddress = $entry->user->cardanoWalletAddress;
 
