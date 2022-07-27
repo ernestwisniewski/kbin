@@ -134,6 +134,7 @@ export default class extends ApplicationController {
 
             if (content.url) {
                 window.location = content.url;
+                event.close();
             }
         })
     }
