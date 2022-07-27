@@ -23,7 +23,7 @@ class EntryTipController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        if ($entry->type !== Entry::ENTRY_TYPE_ARTICLE || !$entry->isOc) {
+        if ($entry->type !== Entry::ENTRY_TYPE_ARTICLE && !$entry->isOc) {
             throw $this->createNotFoundException();
         }
 
