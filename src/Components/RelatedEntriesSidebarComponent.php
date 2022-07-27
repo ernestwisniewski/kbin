@@ -3,7 +3,6 @@
 namespace App\Components;
 
 use App\Entity\Entry;
-use App\Entity\Magazine;
 use App\Repository\EntryRepository;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -16,7 +15,7 @@ class RelatedEntriesSidebarComponent
 {
     const RELATED_LIMIT = 3;
 
-    public Magazine $magazine;
+    public string $tag;
     public ?Entry $entry = null;
 
     public function __construct(
@@ -30,11 +29,11 @@ class RelatedEntriesSidebarComponent
     public function getHtml(): string
     {
         return $this->cache->get(
-            'related_entries_sidebar_'.$this->magazine->name.'_'.$this->security->getUser()?->getId(),
+            'related_entries_sidebar_'.$this->tag.'_'.$this->security->getUser()?->getId(),
             function (ItemInterface $item) {
             $item->expiresAfter(300);
 
-                $entries = $this->repository->findRelatedByTag($this->magazine->name, self::RELATED_LIMIT + 20);
+                $entries = $this->repository->findRelatedByTag($this->tag, self::RELATED_LIMIT + 20);
                 if ($this->entry) {
                     $entries = array_filter($entries, fn($e) => $e->getId() !== $this->entry->getId());
                 }

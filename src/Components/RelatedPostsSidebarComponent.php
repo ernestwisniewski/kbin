@@ -2,7 +2,6 @@
 
 namespace App\Components;
 
-use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use Symfony\Component\Security\Core\Security;
@@ -16,7 +15,7 @@ class RelatedPostsSidebarComponent
 {
     const RELATED_LIMIT = 2;
 
-    public Magazine $magazine;
+    public string $tag;
     public ?Post $post = null;
 
     public function __construct(
@@ -30,11 +29,11 @@ class RelatedPostsSidebarComponent
     public function getHtml(): string
     {
         return $this->cache->get(
-            'related_posts_sidebar_'.$this->magazine->name.'_'.$this->security->getUser()?->getId(),
+            'related_posts_sidebar_'.$this->tag.'_'.$this->security->getUser()?->getId(),
             function (ItemInterface $item) {
                 $item->expiresAfter(300);
 
-                $posts = $this->repository->findRelatedByTag($this->magazine->name, self::RELATED_LIMIT + 20);
+                $posts = $this->repository->findRelatedByTag($this->tag, self::RELATED_LIMIT + 20);
                 if ($this->post) {
                     $posts = array_filter($posts, fn($e) => $e->getId() !== $this->post->getId());
                 }

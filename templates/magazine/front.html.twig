@@ -28,5 +28,6 @@
 {% endblock %}
 
 {% block sidebar_bottom %}
-    {{ component('related_entries_sidebar', {magazine: magazine}) }}
+    {{ component('related_entries_sidebar', {tag: magazine.name}) }}
+    {{ component('related_posts_sidebar', {tag: magazine.name}) }}
 {% endblock %}
