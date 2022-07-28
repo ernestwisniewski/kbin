@@ -67,7 +67,7 @@ class PostRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->where('p.visibility = :p_visibility')
-            ->leftJoin('p.magazine', 'm')
+            ->join('p.magazine', 'm')
             ->andWhere('m.visibility = :m_visibility')
             ->setParameter('p_visibility', $criteria->visibility)
             ->setParameter('m_visibility', Magazine::VISIBILITY_VISIBLE);
@@ -218,15 +218,47 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRelatedByTag(string $name, ?int $limit = 1): array
+    public function findRelatedByTag(string $tag, ?int $limit = 1): array
     {
         $qb = $this->createQueryBuilder('p');
 
         return $qb->where($qb->expr()->like('p.tags', ':tag'))
+            ->andWhere('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
             ->orderBy('p.createdAt', 'DESC')
-            ->setParameters(['tag' => "%\"{$name}\"%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setParameters(['tag' => "%\"{$tag}\"%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
-            ->getQuery()->getResult();
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function findRelatedByMagazine(string $name, ?int $limit = 1): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->where('m.name LIKE :name OR m.title LIKE :title')
+            ->andWhere('p.visibility = :visibility')
+            ->andWhere('p.isAdult = false')
+            ->join('p.magazine', 'm')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setParameters(['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLast(int $limit = 1): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb
+            ->where('p.isAdult = false')
+            ->andWhere('p.visibility = :visibility')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }

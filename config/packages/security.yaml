@@ -39,6 +39,9 @@ security:
             pattern:   ^/api
             stateless: true
             jwt: ~
+        image_resolver:
+            pattern: ^/media/cache/resolve
+            security: false
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }

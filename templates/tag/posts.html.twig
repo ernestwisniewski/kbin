@@ -20,10 +20,8 @@
 {% block sidebar %}
     {% include 'tag/_sidebar.html.twig' %}
 
-    {{ parent() }}
-
     <div class="mb-5">
-        {{ component('related_posts_sidebar', {tag: tag}) }}
-        {{ component('related_entries_sidebar', {tag: tag}) }}
+        {{ component('related_entries_sidebar', {tag: tag, type: 'magazine'}) }}
+        {{ component('related_posts_sidebar', {tag: tag, type: 'magazine'}) }}
     </div>
 {% endblock %}

@@ -13,9 +13,10 @@
                     {% include 'entry/_entry_title.html.twig' with {entry: entry, title_tag: 'span', direct_url: false, related: true} %}
                 </h5>
             </a>
-            <div class="float-end mt-4">
-                <small>{{ component('magazine_inline', { magazine: entry.magazine }) }}</small>
-            </div>
+        </div>
+        <div class="card-footer text-end">
+            <div class="small">{{ component('magazine_inline', { magazine: entry.magazine }) }}</div>
+            <div class="text-muted small"><small>{{ entry.createdAt|ago }}</small></div>
         </div>
     </div>
 {% endfor %}

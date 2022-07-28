@@ -22,3 +22,7 @@
 {% block sidebar %}
     {{ parent() }}
 {% endblock %}
+
+{% block sidebar_bottom %}
+    {{ component('related_posts_sidebar', {type: 'random'}) }}
+{% endblock %}

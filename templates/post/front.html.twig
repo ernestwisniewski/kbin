@@ -55,5 +55,9 @@
     {% if magazine is defined %}
         {{ component('related_posts_sidebar', {tag: magazine.name}) }}
         {{ component('related_entries_sidebar', {tag: magazine.name}) }}
+    {% else %}
+        {{ component('related_entries_sidebar', {tag: magazine is defined ? magazine.name : '', type: 'random'}) }}
     {% endif %}
+
 {% endblock %}
+

@@ -14,8 +14,12 @@ use Twig\Environment;
 class RelatedPostsSidebarComponent
 {
     const RELATED_LIMIT = 2;
+    const TYPE_TAG = 'tag';
+    const TYPE_MAGAZINE = 'magazine';
+    const TYPE_RANDOM = 'random';
 
-    public string $tag;
+    public string $tag = '';
+    public string $type = self::TYPE_TAG;
     public ?Post $post = null;
 
     public function __construct(
@@ -29,11 +33,16 @@ class RelatedPostsSidebarComponent
     public function getHtml(): string
     {
         return $this->cache->get(
-            'related_posts_sidebar_'.$this->tag.'_'.$this->security->getUser()?->getId(),
+            'related_posts_sidebar_'.$this->type.'_'.$this->tag.'_'.$this->security->getUser()?->getId(),
             function (ItemInterface $item) {
                 $item->expiresAfter(300);
 
-                $posts = $this->repository->findRelatedByTag($this->tag, self::RELATED_LIMIT + 20);
+                $posts = match ($this->type) {
+                    self::TYPE_TAG => $this->repository->findRelatedByTag($this->tag, self::RELATED_LIMIT + 20),
+                    self::TYPE_MAGAZINE => $this->repository->findRelatedByMagazine($this->tag, self::RELATED_LIMIT + 20),
+                    default => $this->repository->findLast(self::RELATED_LIMIT + 20),
+                };
+
                 if ($this->post) {
                     $posts = array_filter($posts, fn($e) => $e->getId() !== $this->post->getId());
                 }

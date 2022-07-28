@@ -37,3 +37,13 @@
         {% include 'magazine/_sidebar.html.twig' %}
     {% endif %}
 {% endblock %}
+
+{% block sidebar_bottom %}
+    {% if magazine is defined %}
+        {{ component('related_entries_sidebar', {tag: magazine.name}) }}
+        {{ component('related_posts_sidebar', {tag: magazine.name}) }}
+    {% else %}
+        {{ component('related_entries_sidebar', {type: 'random'}) }}
+        {{ component('related_posts_sidebar', {type: 'random'}) }}
+    {% endif %}
+{% endblock %}

@@ -96,7 +96,7 @@ class EntryCommentRepository extends ServiceEntityRepository
                 ->andWhere('e.visibility = :visible')
                 ->setParameter('visible', VisibilityInterface::VISIBILITY_VISIBLE);
         } else {
-            $qb->leftJoin('c.entry', 'e')
+            $qb->join('c.entry', 'e')
                 ->andWhere('e.visibility = :visible')
                 ->setParameter('visible', VisibilityInterface::VISIBILITY_VISIBLE);
         }
@@ -222,7 +222,7 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->addSelect('ccv')
             ->addSelect('ccf')
             ->leftJoin('c.children', 'cc')
-            ->leftJoin('cc.user', 'ccu')
+            ->join('cc.user', 'ccu')
             ->leftJoin('ccu.avatar', 'ccua')
             ->leftJoin('cc.votes', 'ccv')
             ->leftJoin('cc.favourites', 'ccf')

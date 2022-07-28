@@ -13,9 +13,10 @@
                     {{ post.shortTitle(250)  }}
                 </small>
             </a>
-            <div class="float-end mt-4">
-                <small>{{ component('magazine_inline', { magazine: post.magazine }) }}</small>
-            </div>
+        </div>
+        <div class="card-footer text-end">
+            <div class="small">{{ component('magazine_inline', { magazine: post.magazine }) }}</div>
+            <div class="text-muted small"><small>{{ post.createdAt|ago }}</small></div>
         </div>
     </div>
 {% endfor %}
