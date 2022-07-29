@@ -8,7 +8,6 @@ export default class extends Controller {
         if (Cookies.get('user_option_auto_embed') === 'true') {
             document.addEventListener('turbo:load', () => {
                 this.togglePreview()
-                const sleep = ms => new Promise(r => setTimeout(r, Math.random() * (500 - 2000)) + 500);
             });
         }
     }
@@ -22,9 +21,12 @@ export default class extends Controller {
         }
     }
 
-    togglePreview() {
-        document.querySelectorAll('.kbin-preview').forEach(el => {
+    async togglePreview() {
+        const sleep = ms => new Promise(r => setTimeout(r, Math.random() * (500 - 2000) + 500));
+
+        for (const el of document.querySelectorAll('.kbin-preview')) {
             el.click();
-        });
+            await sleep();
+        }
     }
 }
