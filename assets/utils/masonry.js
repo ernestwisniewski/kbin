@@ -8,11 +8,10 @@ export default class KMasonry {
         });
 
         document.addEventListener('turbo:load', (event) => {
-
-            location.reload(); // @todo masonry bug in turbo mode
-            // event.target.querySelectorAll('.kbin-masonry').forEach(el => {
-            //     this.build(el);
-            // });
+            event.target.querySelectorAll('.kbin-masonry').forEach(el => {
+                // this.build(el);
+                location.reload(); // @todo masonry bug in turbo mode
+            });
         });
     }
 
