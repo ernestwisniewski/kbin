@@ -95,19 +95,31 @@
     {% if kbin_js_enabled() %}
         <div class="my-2 px-4" data-controller="user-data">
             <div class="form-check form-switch">
-                {% set autorefreshEnabled = app.request.cookies.has('autorefresh') ? app.request.cookies.get('autorefresh') : 'true' %}
+                {% set autorefreshEnabled = app.request.cookies.has('user_option_auto_refresh') ? app.request.cookies.get('user_option_auto_refresh') : 'true' %}
                 <input class="form-check-input"
                        type="checkbox"
-                       id="user_option_autorefresh"
-                       data-user-data-value="autorefresh"
-                       data-user-data-target="autorefresh"
+                       id="user_option_auto_refresh"
+                       data-user-data-value="auto_refresh"
+                       data-user-data-target="auto_refresh"
                        data-action="user-data#toggle"
                         {{ autorefreshEnabled is same as 'true' ? 'checked' : '' }}>
-                <label class="form-check-label" for="user_option_autorefresh">{{ 'user_option_autorefresh'|trans }}</label>
+                <label class="form-check-label" for="user_option_auto_refresh">{{ 'user_option_auto_refresh'|trans }}</label>
             </div>
 
             <div class="form-check form-switch">
-                {% set notificationsEnabled = app.request.cookies.has('notifications') ? app.request.cookies.get('notifications') : 'true' %}
+                {% set embedEnabled = app.request.cookies.has('user_option_auto_embed') ? app.request.cookies.get('user_option_auto_embed') : 'false' %}
+                <input class="form-check-input"
+                       type="checkbox"
+                       id="user_option_auto_embed"
+                       data-user-data-value="auto_embed"
+                       data-user-data-target="auto_embed"
+                       data-action="user-data#toggle"
+                        {{ embedEnabled is same as 'true' ? 'checked' : '' }}>
+                <label class="form-check-label" for="user_option_auto_embed">{{ 'user_option_auto_embed'|trans }}</label>
+            </div>
+
+            <div class="form-check form-switch">
+                {% set notificationsEnabled = app.request.cookies.has('user_option_notifications') ? app.request.cookies.get('user_option_notifications') : 'true' %}
                 <input class="form-check-input"
                        type="checkbox"
                        id="user_option_notifications"
@@ -116,8 +128,9 @@
                         {{ notificationsEnabled is same as 'true' ? 'checked' : '' }}>
                 <label class="form-check-label" for="user_option_notifications">{{ 'user_option_notifications'|trans }}</label>
             </div>
+
             <div class="form-check form-switch">
-                {% set federationEnabled = app.request.cookies.has('federation') ? app.request.cookies.get('federation') : 'true' %}
+                {% set federationEnabled = app.request.cookies.has('user_option_federation') ? app.request.cookies.get('user_option_federation') : 'true' %}
                 <input class="form-check-input"
                        type="checkbox"
                        id="user_option_federation"
