@@ -48,6 +48,10 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
+            if (response.html === null) {
+                return;
+            }
+
             this.htmlValue = response.html;
             this.loadScripts();
             this.show();
