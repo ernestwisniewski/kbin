@@ -17,8 +17,6 @@ export default class extends Controller {
 
         if (e.target.dataset.userDataValue === 'auto_embed') {
             location.reload();
-            return;
-            this.togglePreview();
         }
     }
 

@@ -103,7 +103,7 @@
                        data-user-data-target="auto_refresh"
                        data-action="user-data#toggle"
                         {{ autorefreshEnabled is same as 'true' ? 'checked' : '' }}>
-                <label class="form-check-label" for="user_option_auto_refresh">{{ 'user_option_auto_refresh'|trans }}</label>
+                <label class="form-check-label small" for="user_option_auto_refresh">{{ 'user_option_auto_refresh'|trans }}</label>
             </div>
 
             <div class="form-check form-switch">
@@ -115,7 +115,7 @@
                        data-user-data-target="auto_embed"
                        data-action="user-data#toggle"
                         {{ embedEnabled is same as 'true' ? 'checked' : '' }}>
-                <label class="form-check-label" for="user_option_auto_embed">{{ 'user_option_auto_embed'|trans }}</label>
+                <label class="form-check-label small" for="user_option_auto_embed">{{ 'user_option_auto_embed'|trans }}</label>
             </div>
 
             <div class="form-check form-switch">
@@ -126,7 +126,7 @@
                        data-user-data-value="notifications"
                        data-action="user-data#toggle"
                         {{ notificationsEnabled is same as 'true' ? 'checked' : '' }}>
-                <label class="form-check-label" for="user_option_notifications">{{ 'user_option_notifications'|trans }}</label>
+                <label class="form-check-label small" for="user_option_notifications">{{ 'user_option_notifications'|trans }}</label>
             </div>
 
             <div class="form-check form-switch">
@@ -138,7 +138,7 @@
                         {#                       data-action="user-data#toggle" #}
                         {#                        {{ federationEnabled is same as 'true' ? 'checked' : '' }}#}
                        disabled>
-                <label class="form-check-label" for="user_option_federation">{{ 'user_option_federation'|trans }}</label>
+                <label class="form-check-label small" for="user_option_federation">{{ 'user_option_federation'|trans }}</label>
             </div>
         </div>
     {% endif %}
