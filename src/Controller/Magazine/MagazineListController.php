@@ -23,9 +23,9 @@ class MagazineListController extends AbstractController
         }
 
         if(!$listView) {
-            $listView = 'cards';
-        } else {
             $listView = 'table';
+        } else {
+            $listView = 'cards';
         }
 
         return $this->render(

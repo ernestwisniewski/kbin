@@ -5,14 +5,14 @@
 {% block body %}
     <ul class="nav nav-tabs justify-content-end">
         <li class="nav-item">
-            <a class="nav-link {{ listView is same as 'cards' ? 'active' : '' }}" aria-current="page" href="{{ path('magazine_list_all') }}">
+            <a class="nav-link {{ listView is same as 'cards' ? 'active' : '' }}" aria-current="page" href="{{ path('magazine_list_all', {listView: 'cards'}) }}">
                 <i class="fas fa-grip-vertical text-muted"></i>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{ listView is same as 'table' ? 'active' : '' }}"
                aria-current="page"
-               href="{{ path('magazine_list_all', {listView: 'tabela'}) }}">
+               href="{{ path('magazine_list_all') }}">
                 <i class="fas fa-table text-muted"></i>
             </a>
         </li>

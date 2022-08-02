@@ -20,22 +20,29 @@ class SignatureValidator
             throw new InvalidApSignatureException();
         }
 
+        // @todo verify headers date
+
         $signature = HttpSignature::parseSignatureHeader($signature);
 
-        $this->validateUrl(is_array($signature['keyId']) ? $signature['keyId'][0] : $signature['keyId']);
-        $this->validateUrl(is_array($signature['keyId']) ? $signature['keyId'][0] : $signature['keyId']);
+        $this->validateUrl($keyId = is_array($signature['keyId']) ? $signature['keyId'][0] : $signature['keyId']);
+        $this->validateUrl($id = is_array($signature['id']) ? $signature['id'][0] : $signature['id']);
 
         $keyDomain = parse_url($signature['keyId'], PHP_URL_HOST);
         $idDomain  = parse_url($signature['keyId'], PHP_URL_HOST);
 
         if (isset($payload['object']) && is_array($payload['object']) && isset($payload['object']['attributedTo'])) {
-            if(parse_url($payload['object']['attributedTo'], PHP_URL_HOST) !== $keyDomain) {
+            if (parse_url($payload['object']['attributedTo'], PHP_URL_HOST) !== $keyDomain) {
                 throw new InvalidApSignatureException('Invalid host url.');
             }
         }
 
-        if(!$keyDomain || !$idDomain || $keyDomain !== $idDomain) {
+        if (!$keyDomain || !$idDomain || $keyDomain !== $idDomain) {
             throw new InvalidApSignatureException('Wrong domain.');
+        }
+
+        $actor = $this->userRepository->findOneBy(['apProfileId' => $keyId]);
+        if (!$actor) {
+            $actorUrl = is_array($payload['actor']) ? $payload['actor'][0] : $payload['actor'];
         }
     }
 
