@@ -21,14 +21,14 @@
     <div class="tab-pane fade show active" id="pills-appearance" role="tabpanel" aria-labelledby="pills-appearance-tab">
         <div class="mb-3">
 
-            <div class="col col-6 mb-4">
+            <div class="col col-12 col-xl-6 mb-4">
                 {{ form_label(form.homepage, 'homepage'|trans) }}
                 <div class="input-group input-group-lg mt-1">
                     {{ form_widget(form.homepage, {'attr': {'class': 'form-select'}}) }}
                 </div>
             </div>
 
-            <div class="col col-6 mb-3">
+            <div class="col col-12 col-xl-6 mb-3">
                 {{ form_label(form.featuredMagazines, 'set_magazines_bar'|trans) }} <small>({{ 'set_magazines_bar_desc'|trans }})</small>
                 <div class="input-group input-group-lg mt-1">
                     {{ form_widget(form.featuredMagazines, {'attr': {'placeholder': 'set_magazines_bar_empty_desc'|trans }}) }}
