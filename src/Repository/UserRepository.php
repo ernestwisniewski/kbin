@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
@@ -113,13 +114,17 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         $conn = $this->_em->getConnection();
         $sql  = "
-        (SELECT id, created_at, 'entry' AS type FROM entry WHERE user_id = {$user->getId()}) 
+        (SELECT id, created_at, 'entry' AS type FROM entry 
+        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."') 
         UNION 
-        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE user_id = {$user->getId()})
+        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment
+        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
         UNION 
-        (SELECT id, created_at, 'post' AS type FROM post WHERE user_id = {$user->getId()})
+        (SELECT id, created_at, 'post' AS type FROM post
+        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
         UNION 
-        (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE user_id = {$user->getId()})
+        (SELECT id, created_at, 'post_comment' AS type FROM post_comment 
+        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
         ORDER BY created_at DESC
         ";
 

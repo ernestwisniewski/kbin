@@ -32,13 +32,13 @@ ap_user_outbox:
   condition: '%kbin_ap_route_condition%'
 
 ap_user_followers:
-  controller: App\Controller\ActivityPub\User\UserFollowController::followers
+  controller: App\Controller\ActivityPub\User\UserFollowersController::followers
   path: /u/{username}/followers
   methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
 ap_user_following:
-  controller: App\Controller\ActivityPub\User\UserFollowController::following
+  controller: App\Controller\ActivityPub\User\UserFollowersController::following
   path: /u/{username}/following
   methods: [ GET ]
   condition: '%kbin_ap_route_condition%'

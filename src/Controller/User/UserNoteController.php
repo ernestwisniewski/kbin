@@ -19,7 +19,7 @@ class UserNoteController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function __invoke(User $user, Request $request): Response
     {
-        $dto         = $this->manager->createDto($this->getUserOrThrow(), $user);
+        $dto = $this->manager->createDto($this->getUserOrThrow(), $user);
 
         $form = $this->createForm(UserNoteType::class, $dto);
         $form->handleRequest($request);
@@ -27,7 +27,7 @@ class UserNoteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
 
-            if($dto->body) {
+            if ($dto->body) {
                 $this->manager->save($this->getUserOrThrow(), $user, $dto->body);
             } else {
                 $this->manager->clear($this->getUserOrThrow(), $user);

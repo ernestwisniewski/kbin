@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Post\Comment;
 
@@ -16,7 +16,7 @@ trait CommentResponseTrait
                 'html' => $this->renderView(
                     'post/comment/_comment.html.twig',
                     [
-                        'comment'       => $comment,
+                        'comment' => $comment,
                     ]
                 ),
             ]

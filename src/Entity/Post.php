@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\CommentInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\RankingInterface;
@@ -24,7 +25,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
-class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface
+class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use RankingTrait;
@@ -315,5 +316,10 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
     public function __sleep()
     {
         return [];
+    }
+
+    public function isAdult(): bool
+    {
+        return $this->isAdult || $this->magazine->isAdult;
     }
 }

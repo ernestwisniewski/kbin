@@ -2,21 +2,23 @@
 
 namespace App\Controller\ActivityPub\User;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use App\ActivityPub\ActivityPubActivityInterface;
+use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\ActivityPub\Wrapper\CollectionInfoWrapper;
+use App\Service\ActivityPub\Wrapper\CollectionItemsWrapper;
 use App\Service\ActivityPubManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class UserFollowController
+class UserFollowersController
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
-        private ActivityPubManager $activityPubManager
+        private ActivityPubManager $manager,
+        private CollectionInfoWrapper $collectionInfoWrapper,
+        private CollectionItemsWrapper $collectionItemsWrapper
     ) {
     }
 
@@ -32,12 +34,10 @@ class UserFollowController
 
     public function get(User $user, Request $request, string $type): JsonResponse
     {
-        $page = $request->get('page', 0);
-
-        if (!$page) {
+        if (!$request->get('page')) {
             $data = $this->getCollectionInfo($user, $type);
         } else {
-            $data = $this->getCollectionItems($user, (int) $page, $type);
+            $data = $this->getCollectionItems($user, (int) $request->get('page'), $type);
         }
 
         $response = new JsonResponse($data);
@@ -63,17 +63,7 @@ class UserFollowController
             $count = $this->userRepository->findFollowers(1, $user)->getNbResults();
         }
 
-        return [
-            '@context'   => ActivityPubActivityInterface::CONTEXT_URL,
-            'type'       => 'OrderedCollection',
-            'id'         => $this->urlGenerator->generate($routeName, ['username' => $user->username], UrlGeneratorInterface::ABS_URL),
-            'first'      => $this->urlGenerator->generate(
-                $routeName,
-                ['username' => $user->username, 'page' => 1],
-                UrlGeneratorInterface::ABS_URL
-            ),
-            'totalItems' => $count,
-        ];
+        return $this->collectionInfoWrapper->build($routeName, ['username' => $user->username], $count);
     }
 
     #[ArrayShape([
@@ -95,30 +85,9 @@ class UserFollowController
 
         $items = [];
         foreach ($actors as $actor) {
-            $items[] = $this->activityPubManager->getActivityPubProfileId($actor);
+            $items[] = $this->manager->getActivityPubProfileId($actor);
         }
 
-        $result = [
-            '@context'     => ActivityPubActivityInterface::CONTEXT_URL,
-            'type'         => 'OrderedCollectionPage',
-            'partOf'       => $this->urlGenerator->generate($routeName, ['username' => $user->username], UrlGeneratorInterface::ABS_URL),
-            'id'           => $this->urlGenerator->generate(
-                $routeName,
-                ['username' => $user->username, 'page' => $page],
-                UrlGeneratorInterface::ABS_URL
-            ),
-            'totalItems'   => $actors->getNbResults(),
-            'orderedItems' => $items,
-        ];
-
-        if ($actors->hasNextPage()) {
-            $result['next'] = $this->urlGenerator->generate(
-                $routeName,
-                ['username' => $user->username, 'page' => $actors->getNextPage()],
-                UrlGeneratorInterface::ABS_URL
-            );
-        }
-
-        return $result;
+        return $this->collectionItemsWrapper->build($routeName, ['username' => $user->username], $actors, $items, $page);
     }
 }

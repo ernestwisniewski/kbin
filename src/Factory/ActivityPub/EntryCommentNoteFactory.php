@@ -3,18 +3,23 @@
 namespace App\Factory\ActivityPub;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use App\ActivityPub\ActivityPubActivityInterface;
+use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\EntryComment;
+use App\Service\ActivityPub\Wrapper\ImageWrapper;
+use App\Service\ActivityPub\Wrapper\MentionsWrapper;
+use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use DateTimeInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
-class EntryNoteFactory
+class EntryCommentNoteFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private PersonFactory $personFactory,
         private GroupFactory $groupFactory,
-        private RequestStack $requestStack
+        private ImageWrapper $imageWrapper,
+        private TagsWrapper $tagsWrapper,
+        private MentionsWrapper $mentionsWrapper,
+        private EntryPageFactory $pageFactory
     ) {
     }
 
@@ -25,6 +30,7 @@ class EntryNoteFactory
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'           => $this->getActivityPubId($comment),
             'attributedTo' => $this->personFactory->getActivityPubId($comment->user),
+            'inReplyTo'    => $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId($comment->entry),
             'to'           => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
@@ -35,15 +41,12 @@ class EntryNoteFactory
             'content'      => $comment->body,
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
-            'inReplyTo'    => $this->groupFactory->getActivityPubId($comment->magazine),
+            'tag'          => $this->tagsWrapper->build($comment->tags) + $this->mentionsWrapper->build($comment->mentions),
             'published'    => $comment->createdAt->format(DateTimeInterface::ISO8601),
         ];
 
         if ($comment->image) {
-            $note['image'] = [ // @todo icon?
-                'type' => 'Image',
-                'url'  => $this->requestStack->getCurrentRequest()->getUriForPath('/media/'.$comment->image->filePath) // @todo media url
-            ];
+            $note = $this->imageWrapper->build($note, $comment->image, $comment->getShortTitle());
         }
 
         return $note;

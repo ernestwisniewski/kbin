@@ -3,12 +3,8 @@
 namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
-use App\PageView\EntryPageView;
-use App\Repository\Criteria;
-use App\Repository\EntryRepository;
 use App\Repository\TagRepository;
 use App\Service\SearchManager;
-use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

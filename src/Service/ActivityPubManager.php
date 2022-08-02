@@ -8,8 +8,10 @@ use phpseclib3\Crypt\RSA;
 
 class ActivityPubManager
 {
-    public function __construct(private Server $server, private SettingsManager $settings)
-    {
+    public function __construct(
+        private Server $server,
+        private SettingsManager $settings
+    ) {
 
     }
 

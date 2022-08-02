@@ -59,7 +59,7 @@ class ImageManager
         }
     }
 
-    private function validate(string $filePath)
+    private function validate(string $filePath): bool
     {
         $violations = $this->validator->validate(
             $filePath,
@@ -149,5 +149,19 @@ class ImageManager
     public function remove(string $path): void
     {
         $this->publicUploadsFilesystem->delete($path);
+    }
+
+    public function getPath(\App\Entity\Image $image): string
+    {
+        return 'media/'.$image->filePath; // @todo media url
+    }
+
+    public function getMimetype(\App\Entity\Image $image): string
+    {
+        try {
+            return $this->mimeTypeGuesser->guessMimeType($this->getPath($image));
+        } catch (\Exception $e) {
+            return 'none';
+        }
     }
 }

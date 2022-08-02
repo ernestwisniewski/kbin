@@ -24,7 +24,7 @@ class CommentFrontController extends AbstractController
             ->setTag($name);
 
         $params['comments'] = $this->repository->findByCriteria($criteria);
-        $params['tag']        = $name;
+        $params['tag']      = $name;
 
         $this->repository->hydrate(...$params['comments']);
         $this->repository->hydrateChildren(...$params['comments']);

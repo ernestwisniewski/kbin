@@ -3,13 +3,13 @@
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
-use App\Repository\ApOutboxRepository;
+use App\Repository\ApActivityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ApOutboxRepository::class)
+ * @ORM\Entity(repositoryClass=ApActivityRepository::class)
  */
-class ApOutbox
+class ApActivity
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;

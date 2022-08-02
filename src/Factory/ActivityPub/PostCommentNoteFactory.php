@@ -3,10 +3,12 @@
 namespace App\Factory\ActivityPub;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use App\ActivityPub\ActivityPubActivityInterface;
+use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\PostComment;
+use App\Service\ActivityPub\Wrapper\ImageWrapper;
+use App\Service\ActivityPub\Wrapper\MentionsWrapper;
+use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use DateTimeInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class PostCommentNoteFactory
 {
@@ -14,43 +16,48 @@ class PostCommentNoteFactory
         private UrlGeneratorInterface $urlGenerator,
         private PersonFactory $personFactory,
         private GroupFactory $groupFactory,
-        private RequestStack $requestStack
+        private PostNoteFactory $postNoteFactory,
+        private ImageWrapper $imageWrapper,
+        private TagsWrapper $tagsWrapper,
+        private MentionsWrapper $mentionsWrapper
     ) {
     }
 
-    public function create(PostComment $comment): array
-    {
+    public
+    function create(
+        PostComment $comment
+    ): array {
         $note = [
             'type'         => 'Note',
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'           => $this->getActivityPubId($comment),
             'attributedTo' => $this->personFactory->getActivityPubId($comment->user),
+            'inReplyTo'    => $comment->parent ? $this->getActivityPubId($comment->parent) : $this->postNoteFactory->getActivityPubId($comment->post),
             'to'           => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
             'cc'           => [
-                $this->personFactory->getActivityPubId($comment->post->user),
                 $this->groupFactory->getActivityPubId($comment->magazine),
+                $this->urlGenerator->generate('ap_user_followers', ['username' => $comment->user->username], UrlGeneratorInterface::ABS_URL),
             ],
             'content'      => $comment->body,
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
-            'inReplyTo'    => $this->groupFactory->getActivityPubId($comment->magazine),
+            'tag'          => $this->tagsWrapper->build($comment->tags) + $this->mentionsWrapper->build($comment->mentions),
             'published'    => $comment->createdAt->format(DateTimeInterface::ISO8601),
         ];
 
         if ($comment->image) {
-            $note['image'] = [ // @todo icon?
-                'type' => 'Image',
-                'url'  => $this->requestStack->getCurrentRequest()->getUriForPath('/media/'.$comment->image->filePath) // @todo media url
-            ];
+            $note = $this->imageWrapper->build($note, $comment->image, $comment->getShortTitle());
         }
 
         return $note;
     }
 
-    public function getActivityPubId(PostComment $comment): string
-    {
+    public
+    function getActivityPubId(
+        PostComment $comment
+    ): string {
         return $this->urlGenerator->generate(
             'ap_post_comment',
             ['magazine_name' => $comment->magazine->name, 'post_id' => $comment->post->getId(), 'comment_id' => $comment->getId()],

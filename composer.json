@@ -83,7 +83,8 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.2",
         "twig/twig": "^2.12|^3.0",
-        "webmozart/assert": "^1.9"
+        "webmozart/assert": "^1.9",
+      "ext-fileinfo": "*"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^7.1",

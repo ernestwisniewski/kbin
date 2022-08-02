@@ -4,7 +4,7 @@ namespace App\Controller\ActivityPub;
 
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Factory\ActivityPub\PageFactory;
+use App\Factory\ActivityPub\EntryPageFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EntryController
 {
-    public function __construct(private PageFactory $pageFactory)
+    public function __construct(private EntryPageFactory $pageFactory)
     {
     }
 

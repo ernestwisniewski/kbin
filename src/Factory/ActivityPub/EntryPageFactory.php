@@ -3,19 +3,22 @@
 namespace App\Factory\ActivityPub;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use App\ActivityPub\ActivityPubActivityInterface;
+use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Entry;
-use DateTime;
+use App\Service\ActivityPub\Wrapper\ImageWrapper;
+use App\Service\ActivityPub\Wrapper\MentionsWrapper;
+use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use DateTimeInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
-class PageFactory
+class EntryPageFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private PersonFactory $personFactory,
         private GroupFactory $groupFactory,
-        private RequestStack $requestStack
+        private ImageWrapper $imageWrapper,
+        private TagsWrapper $tagsWrapper,
+        private MentionsWrapper $mentionsWrapper,
     ) {
     }
 
@@ -26,30 +29,33 @@ class PageFactory
             '@context'        => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'              => $this->getActivityPubId($entry),
             'attributedTo'    => $this->personFactory->getActivityPubId($entry->user),
+            'inReplyTo'       => null,
             'to'              => [
-                $this->groupFactory->getActivityPubId($entry->magazine),
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
-            'cc'              => [],
+            'cc'              => [
+                $this->groupFactory->getActivityPubId($entry->magazine),
+                $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABS_URL),
+            ],
             'name'            => $entry->title,
             'content'         => $entry->body ?? $entry->getDescription(),
             'mediaType'       => 'text/html',
             'url'             => $this->getActivityPubId($entry),
-            'attachment'      => [
-                'href' => $entry->url ?? $this->getActivityPubId($entry),
-                'type' => 'Link',
-            ],
+            'tag'             => $this->tagsWrapper->build($entry->tags) + $this->mentionsWrapper->build($entry->mentions),
             'commentsEnabled' => true,
             'sensitive'       => $entry->isAdult(),
             'stickied'        => $entry->sticky,
             'published'       => $entry->createdAt->format(DateTimeInterface::ISO8601),
+            'attachment'      => [
+                [
+                    'href' => $entry->url ?? $this->getActivityPubId($entry),
+                    'type' => 'Link',
+                ],
+            ],
         ];
 
         if ($entry->image) {
-            $page['image'] = [ // @todo icon?
-                'type' => 'Image',
-                'url'  => $this->requestStack->getCurrentRequest()->getUriForPath('/media/'.$entry->image->filePath) // @todo media url
-            ];
+            $page = $this->imageWrapper->build($page, $entry->image, $entry->title);
         }
 
         return $page;

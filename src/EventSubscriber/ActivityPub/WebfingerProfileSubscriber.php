@@ -4,9 +4,9 @@ namespace App\EventSubscriber\ActivityPub;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\ActivityPub\JsonRdLink;
-use App\ActivityPub\WebfingerParameters;
 use App\Event\ActivityPub\WebfingerResponseEvent;
 use App\Repository\UserRepository;
+use App\Service\ActivityPub\WebfingerParameters;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

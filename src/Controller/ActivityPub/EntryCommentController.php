@@ -5,7 +5,7 @@ namespace App\Controller\ActivityPub;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Factory\ActivityPub\EntryNoteFactory;
+use App\Factory\ActivityPub\EntryCommentNoteFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EntryCommentController
 {
-    public function __construct(private EntryNoteFactory $pageFactory)
+    public function __construct(private EntryCommentNoteFactory $pageFactory)
     {
     }
 

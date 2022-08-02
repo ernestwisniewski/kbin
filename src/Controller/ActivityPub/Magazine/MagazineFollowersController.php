@@ -2,10 +2,10 @@
 
 namespace App\Controller\ActivityPub\Magazine;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use App\ActivityPub\ActivityPubActivityInterface;
 use App\Entity\Magazine;
 use App\Repository\MagazineSubscriptionRepository;
+use App\Service\ActivityPub\Wrapper\CollectionInfoWrapper;
+use App\Service\ActivityPub\Wrapper\CollectionItemsWrapper;
 use App\Service\ActivityPubManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,21 +14,19 @@ use Symfony\Component\HttpFoundation\Request;
 class MagazineFollowersController
 {
     public function __construct(
-        private ActivityPubManager $activityPubManager,
-        private UrlGeneratorInterface $urlGenerator,
+        private ActivityPubManager $manager,
+        private CollectionInfoWrapper $collectionInfoWrapper,
+        private CollectionItemsWrapper $collectionItemsWrapper,
         private MagazineSubscriptionRepository $magazineSubscriptionRepository
     ) {
     }
 
     public function __invoke(Magazine $magazine, Request $request): JsonResponse
     {
-        $page = $request->get('page', 0);
-
-
-        if (!$page) {
+        if (!$request->get('page')) {
             $data = $this->getCollectionInfo($magazine);
         } else {
-            $data = $this->getCollectionItems($magazine, (int) $page);
+            $data = $this->getCollectionItems($magazine, (int) $request->get('page'));
         }
 
         $response = new JsonResponse($data);
@@ -48,17 +46,7 @@ class MagazineFollowersController
     {
         $count = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine)->count();
 
-        return [
-            '@context'   => ActivityPubActivityInterface::CONTEXT_URL,
-            'type'       => 'OrderedCollection',
-            'id'         => $this->urlGenerator->generate('ap_magazine_followers', ['name' => $magazine->name], UrlGeneratorInterface::ABS_URL),
-            'first'      => $this->urlGenerator->generate(
-                'ap_magazine_followers',
-                ['name' => $magazine->name, 'page' => 1],
-                UrlGeneratorInterface::ABS_URL
-            ),
-            'totalItems' => $count,
-        ];
+        return $this->collectionInfoWrapper->build('ap_magazine_followers', ['name' => $magazine->name], $count);
     }
 
     #[ArrayShape([
@@ -76,30 +64,9 @@ class MagazineFollowersController
 
         $items = [];
         foreach ($actors as $actor) {
-            $items[] = $this->activityPubManager->getActivityPubProfileId($actor);
+            $items[] = $this->manager->getActivityPubProfileId($actor);
         }
 
-        $result = [
-            '@context'     => ActivityPubActivityInterface::CONTEXT_URL,
-            'type'         => 'OrderedCollectionPage',
-            'partOf'       => $this->urlGenerator->generate('ap_magazine_followers', ['name' => $magazine->name], UrlGeneratorInterface::ABS_URL),
-            'id'           => $this->urlGenerator->generate(
-                'ap_magazine_followers',
-                ['name' => $magazine->name, 'page' => $page],
-                UrlGeneratorInterface::ABS_URL
-            ),
-            'totalItems'   => $subscriptions->getNbResults(),
-            'orderedItems' => $items,
-        ];
-
-        if ($subscriptions->hasNextPage()) {
-            $result['next'] = $this->urlGenerator->generate(
-                'ap_magazine_followers',
-                ['name' => $magazine->name, 'page' => $subscriptions->getNextPage()],
-                UrlGeneratorInterface::ABS_URL
-            );
-        }
-
-        return $result;
+        return $this->collectionItemsWrapper->build('ap_magazine_followers', ['name' => $magazine->name], $subscriptions, $items, $page);
     }
 }

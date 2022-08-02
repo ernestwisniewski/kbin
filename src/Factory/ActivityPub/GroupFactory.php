@@ -3,7 +3,7 @@
 namespace App\Factory\ActivityPub;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use App\ActivityPub\ActivityPubActivityInterface;
+use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Magazine;
 use DateTimeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -57,7 +57,6 @@ class GroupFactory
 
         return $group;
     }
-
 
     public function getActivityPubId(Magazine $magazine): string
     {

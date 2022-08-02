@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ActivityPub;
+namespace App\Entity\Contracts;
 
 interface ActivityPubActivityInterface
 {

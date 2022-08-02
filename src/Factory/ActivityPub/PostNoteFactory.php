@@ -3,10 +3,12 @@
 namespace App\Factory\ActivityPub;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use App\ActivityPub\ActivityPubActivityInterface;
+use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Post;
+use App\Service\ActivityPub\Wrapper\ImageWrapper;
+use App\Service\ActivityPub\Wrapper\MentionsWrapper;
+use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use DateTimeInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class PostNoteFactory
 {
@@ -14,35 +16,38 @@ class PostNoteFactory
         private UrlGeneratorInterface $urlGenerator,
         private PersonFactory $personFactory,
         private GroupFactory $groupFactory,
-        private RequestStack $requestStack
+        private ImageWrapper $imageWrapper,
+        private TagsWrapper $tagsWrapper,
+        private MentionsWrapper $mentionsWrapper
     ) {
     }
 
     public function create(Post $post): array
     {
         $note = [
-            'type'         => 'Note',
-            '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
-            'id'           => $this->getActivityPubId($post),
-            'attributedTo' => $this->personFactory->getActivityPubId($post->user),
-            'to'           => [
+            'type'            => 'Note',
+            '@context'        => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
+            'id'              => $this->getActivityPubId($post),
+            'attributedTo'    => $this->personFactory->getActivityPubId($post->user),
+            'inReplyTo'       => null,
+            'to'              => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
-            'cc'           => [
+            'cc'              => [
                 $this->groupFactory->getActivityPubId($post->magazine),
+                $this->urlGenerator->generate('ap_user_followers', ['username' => $post->user->username], UrlGeneratorInterface::ABS_URL),
             ],
-            'content'      => $post->body,
-            'mediaType'    => 'text/html',
-            'url'          => $this->getActivityPubId($post),
-            'inReplyTo'    => $this->groupFactory->getActivityPubId($post->magazine),
-            'published'    => $post->createdAt->format(DateTimeInterface::ISO8601),
+            'content'         => $post->body,
+            'mediaType'       => 'text/html',
+            'url'             => $this->getActivityPubId($post),
+            'tag'             => $this->tagsWrapper->build($post->tags) + $this->mentionsWrapper->build($post->mentions),
+            'commentsEnabled' => true,
+            'sensitive'       => $post->isAdult(),
+            'published'       => $post->createdAt->format(DateTimeInterface::ISO8601),
         ];
 
         if ($post->image) {
-            $note['image'] = [ // @todo icon?
-                'type' => 'Image',
-                'url'  => $this->requestStack->getCurrentRequest()->getUriForPath('/media/'.$post->image->filePath) // @todo media url
-            ];
+            $note = $this->imageWrapper->build($note, $post->image, $post->getShortTitle());
         }
 
         return $note;

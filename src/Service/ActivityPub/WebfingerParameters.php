@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\ActivityPub;
+namespace App\Service\ActivityPub;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
