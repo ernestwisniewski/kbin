@@ -2,20 +2,25 @@
 
 namespace App\Controller\ActivityPub;
 
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class InboxController
 {
-    public function __construct(private MessageBusInterface $bus)
+    public function __construct(private MessageBusInterface $bus, private LoggerInterface $logger)
     {
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
-        $headers = $request->headers;
-        $payload = $request->getContent();
+        $this->logger->error('Headers: ' . var_export($request->headers, true));
 
+        $response = new JsonResponse([]);
 
+        $response->headers->set('Content-Type', 'application/activity+json');
+
+        return $response;
     }
 }

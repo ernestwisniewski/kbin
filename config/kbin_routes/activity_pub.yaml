@@ -22,7 +22,7 @@ ap_user:
 ap_user_inbox:
   controller: App\Controller\ActivityPub\User\UserInboxController
   path: /u/{username}/inbox
-  methods: [ GET ]
+  methods: [ POST ]
   condition: '%kbin_ap_route_condition%'
 
 ap_user_outbox:
@@ -52,7 +52,7 @@ ap_magazine:
 ap_magazine_inbox:
   controller: App\Controller\ActivityPub\Magazine\MagazineInboxController
   path: /m/{name}/inbox
-  methods: [ GET ]
+  methods: [ POST ]
   condition: '%kbin_ap_route_condition%'
 
 ap_magazine_outbox:

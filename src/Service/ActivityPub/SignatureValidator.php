@@ -60,7 +60,7 @@ class SignatureValidator
         }
 
 //        if(in_array($parsed['host'], $blockedInstances)){
-//           @todo
+//           @todo blocked instances
 //        }
     }
 }
