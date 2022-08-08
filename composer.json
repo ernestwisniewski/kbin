@@ -6,7 +6,9 @@
     "require": {
         "php": ">=8.0",
         "ext-ctype": "*",
+        "ext-fileinfo": "*",
         "ext-iconv": "*",
+        "ext-openssl": "*",
         "api-platform/core": "^2.6",
         "babdev/pagerfanta-bundle": "^3.7",
         "composer/package-versions-deprecated": "1.11.99.5",
@@ -28,6 +30,7 @@
         "laminas/laminas-diactoros": "^2.5",
         "landrok/activitypub": "^0.5.6",
         "league/commonmark": "^1.6.5",
+        "league/html-to-markdown": "^5.1",
         "league/oauth2-facebook": "^2.2",
         "league/oauth2-github": "^3.0",
         "league/oauth2-google": "^4.0",
@@ -83,8 +86,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.2",
         "twig/twig": "^2.12|^3.0",
-        "webmozart/assert": "^1.9",
-      "ext-fileinfo": "*"
+        "webmozart/assert": "^1.9"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^7.1",

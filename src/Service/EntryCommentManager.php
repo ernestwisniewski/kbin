@@ -49,6 +49,7 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->image      = $dto->image;
         $comment->tags       = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
         $comment->mentions   = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $comment->apId       = $dto->apId;
         $comment->lastActive = new \DateTime();
         $comment->entry->addComment($comment);
 
@@ -64,7 +65,7 @@ class EntryCommentManager implements ContentManagerInterface
     {
         Assert::same($comment->entry->getId(), $dto->entry->getId());
 
-        $comment->body     = $dto->body;
+        $comment->body = $dto->body;
         $oldImage      = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;

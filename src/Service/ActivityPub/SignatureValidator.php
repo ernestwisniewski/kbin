@@ -2,17 +2,24 @@
 
 namespace App\Service\ActivityPub;
 
+use ApiPlatform\Core\Api\UrlGeneratorInterface;
+use App\ActivityPub\Server;
 use App\Exception\InvalidApSignatureException;
-use App\Repository\UserRepository;
+use App\Service\ActivityPubManager;
 
 class SignatureValidator
 {
-    public function __construct(private UserRepository $userRepository)
-    {
+    public function __construct(
+        private ActivityPubManager $activityPubManager,
+        private Server $server,
+        private UrlGeneratorInterface $urlGenerator,
+    ) {
     }
 
-    public function validate(array $payload, array $headers)
+    public function validate(string $body, array $headers): void
     {
+        $payload = json_decode($body, true);
+
         $signature = is_array($headers['signature']) ? $headers['signature'][0] : $headers['signature'];
         $date      = is_array($headers['date']) ? $headers['date'][0] : $headers['date'];
 
@@ -25,10 +32,10 @@ class SignatureValidator
         $signature = HttpSignature::parseSignatureHeader($signature);
 
         $this->validateUrl($keyId = is_array($signature['keyId']) ? $signature['keyId'][0] : $signature['keyId']);
-        $this->validateUrl($id = is_array($signature['id']) ? $signature['id'][0] : $signature['id']);
+        $this->validateUrl($id = is_array($payload['id']) ? $payload['id'][0] : $payload['id']);
 
-        $keyDomain = parse_url($signature['keyId'], PHP_URL_HOST);
-        $idDomain  = parse_url($signature['keyId'], PHP_URL_HOST);
+        $keyDomain = parse_url($keyId, PHP_URL_HOST);
+        $idDomain  = parse_url($id, PHP_URL_HOST);
 
         if (isset($payload['object']) && is_array($payload['object']) && isset($payload['object']['attributedTo'])) {
             if (parse_url($payload['object']['attributedTo'], PHP_URL_HOST) !== $keyDomain) {
@@ -40,10 +47,13 @@ class SignatureValidator
             throw new InvalidApSignatureException('Wrong domain.');
         }
 
-        $actor = $this->userRepository->findOneBy(['apProfileId' => $keyId]);
-        if (!$actor) {
-            $actorUrl = is_array($payload['actor']) ? $payload['actor'][0] : $payload['actor'];
-        }
+        $actorUrl = is_array($payload['actor']) ? $payload['actor'][0] : $payload['actor'];
+
+        $user = $this->activityPubManager->findActorOrCreate($actorUrl);
+
+        $pkey = openssl_pkey_get_public($this->server->create()->actor($user->apProfileId)->getPublicKeyPem());
+
+        $this->verifySignature($pkey, $signature, $headers, $this->urlGenerator->generate('ap_shared_inbox'), $body);
     }
 
     private function validateUrl(string $url): void
@@ -58,9 +68,39 @@ class SignatureValidator
         if ($parsed['scheme'] !== 'https') {
             throw new InvalidApSignatureException('Invalid scheme url.');
         }
+    }
 
-//        if(in_array($parsed['host'], $blockedInstances)){
-//           @todo blocked instances
-//        }
+    private function verifySignature(\OpenSSLAsymmetricKey $pkey, array $signature, array $headers, string $inboxUrl, string $payload): void
+    {
+        $digest = 'SHA-256='.base64_encode(hash('sha256', json_encode($payload), true));
+
+        $headersToSign = [];
+        foreach (explode(' ', $signature['headers']) as $h) {
+            if ($h == '(request-target)') {
+                $headersToSign[$h] = 'post '.$inboxUrl;
+            } elseif ($h == 'digest') {
+                $headersToSign[$h] = $digest;
+            } elseif (isset($headers[$h][0])) {
+                $headersToSign[$h] = $headers[$h][0];
+            }
+        }
+
+        $signingString = self::_headersToSigningString($headersToSign);
+
+        $verified = openssl_verify($signingString, base64_decode($signature['signature']), $pkey, OPENSSL_ALGO_SHA256);
+
+        if (!$verified) {
+//            throw new InvalidApSignatureException('Verify signature fail.');
+        }
+    }
+
+    private static function _headersToSigningString($headers): string
+    {
+        return implode(
+            "\n",
+            array_map(function ($k, $v) {
+                return strtolower($k).': '.$v;
+            }, array_keys($headers), $headers)
+        );
     }
 }

@@ -13,6 +13,7 @@
 /public/cache/
 /var/
 /vendor/
+/cache/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###

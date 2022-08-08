@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Traits\ActivityPubActorTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\VisibilityTrait;
 use App\Repository\MagazineRepository;
@@ -25,6 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Magazine implements VisibilityInterface, ActivityPubActorInterface
 {
+    use ActivityPubActorTrait;
     use VisibilityTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
@@ -83,22 +85,6 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
      * @ORM\Column(type="text", nullable=true)
      */
     public ?string $customJs = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $apId = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $apProfileId = null;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    public ?string $privateKey = null;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    public ?string $publicKey = null;
     /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
@@ -433,15 +419,5 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
     public function getActivityPubId(): string
     {
         return $this->name;
-    }
-
-    public function getPrivateKey(): ?string
-    {
-        return $this->privateKey;
-    }
-
-    public function getPublicKey(): ?string
-    {
-        return $this->publicKey;
     }
 }

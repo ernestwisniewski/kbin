@@ -27,6 +27,8 @@ class UserDto implements UserDtoInterface
     public Image|ImageDto|null $avatar = null;
     public bool $agreeTerms = false;
     public ?string $ip = null;
+    public ?string $apId = null;
+    public ?string $apProfileId = null;
     public ?int $id = null;
 
     #[Assert\Callback]
@@ -48,12 +50,20 @@ class UserDto implements UserDtoInterface
         return $this->id;
     }
 
-    public function create(string $username, ?string $email = null, Image|ImageDto|null $avatar = null, ?int $id = null): self
-    {
-        $this->id       = $id;
-        $this->username = $username;
-        $this->email    = $email;
-        $this->avatar   = $avatar;
+    public function create(
+        string $username,
+        ?string $email = null,
+        Image|ImageDto|null $avatar = null,
+        ?string $apId = null,
+        ?string $apProfileId = null,
+        ?int $id = null
+    ): self {
+        $this->id          = $id;
+        $this->username    = $username;
+        $this->email       = $email;
+        $this->avatar      = $avatar;
+        $this->apId        = $apId;
+        $this->apProfileId = $apProfileId;
 
         return $this;
     }

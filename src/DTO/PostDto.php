@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -24,9 +24,10 @@ class PostDto
     public int $dv = 0;
     public int $score = 0;
     public ?string $visibility = null;
+    public ?string $ip = null;
+    public ?string $apId = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;
-    public ?string $ip = null;
     public ?Collection $bestComments = null;
     private ?int $id = null;
 

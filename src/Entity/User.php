@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActorInterface;
+use App\Entity\Traits\ActivityPubActorTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,6 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface, ActivityPubActorInterface
 {
+    use ActivityPubActorTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
@@ -91,22 +93,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      * @ORM\Column(type="array", nullable=true, options={"default" : null})
      */
     public ?array $featuredMagazines = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $apId = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $apProfileId = null;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    public ?string $privateKey = null;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    public ?string $publicKey = null;
     /**
      * @ORM\Column(type="boolean", options={"default": false})
      */
@@ -280,11 +266,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     private string $password;
 
-    public function __construct($email, $username, $password)
+    public function __construct(string $email, string $username, string $password, ?string $apProfileId = null, ?string $apId = null)
     {
         $this->email             = $email;
         $this->password          = $password;
         $this->username          = $username;
+        $this->apProfileId       = $apProfileId;
+        $this->apId              = $apId;
         $this->moderatorTokens   = new ArrayCollection();
         $this->entries           = new ArrayCollection();
         $this->entryVotes        = new ArrayCollection();
@@ -719,15 +707,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function getActivityPubId(): string
     {
         return $this->username;
-    }
-
-    public function getPrivateKey(): ?string
-    {
-        return $this->privateKey;
-    }
-
-    public function getPublicKey(): ?string
-    {
-        return $this->publicKey;
     }
 }

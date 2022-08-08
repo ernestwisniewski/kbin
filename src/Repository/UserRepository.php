@@ -110,7 +110,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $pagerfanta;
     }
 
-    private function getPublicActivityQuery(User $user)
+    private function getPublicActivityQuery(User $user): \Doctrine\DBAL\Result
     {
         $conn = $this->_em->getConnection();
         $sql  = "

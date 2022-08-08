@@ -10,6 +10,7 @@ use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\Traits\ActivityPubActivityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\EditedAtTrait;
 use App\Entity\Traits\RankingTrait;
@@ -33,10 +34,11 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     use VotableTrait;
     use RankingTrait;
     use VisibilityTrait;
+    use ActivityPubActivityTrait;
+    use EditedAtTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
-    use EditedAtTrait;
 
     const ENTRY_TYPE_ARTICLE = 'article';
     const ENTRY_TYPE_LINK = 'link';

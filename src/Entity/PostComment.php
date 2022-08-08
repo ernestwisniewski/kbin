@@ -7,6 +7,7 @@ use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\Traits\ActivityPubActivityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\EditedAtTrait;
 use App\Entity\Traits\VisibilityTrait;
@@ -28,10 +29,11 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
 {
     use VotableTrait;
     use VisibilityTrait;
+    use ActivityPubActivityTrait;
+    use EditedAtTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
-    use EditedAtTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="postComments")

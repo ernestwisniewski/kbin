@@ -51,6 +51,7 @@ class  PostManager implements ContentManagerInterface
         $post->image                = $dto->image;
         $post->tags                 = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $post->apId                 = $dto->apId;
         $post->magazine->lastActive = new \DateTime();
         $post->magazine->addPost($post);
 

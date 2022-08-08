@@ -80,14 +80,16 @@ class UserManager
         $this->dispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
     }
 
-    public function create(UserDto $dto, bool $verifyUserEmail = true): User
+    public function create(UserDto $dto, bool $verifyUserEmail = true, $limiter = true): User
     {
-        $limiter = $this->userRegisterLimiter->create($dto->ip);
-        if (false === $limiter->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException();
+        if ($limiter) {
+            $limiter = $this->userRegisterLimiter->create($dto->ip);
+            if (false === $limiter->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
         }
 
-        $user = new User($dto->email, $dto->username, '');
+        $user = new User($dto->email, $dto->username, '', $dto->apProfileId, $dto->apId);
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
 

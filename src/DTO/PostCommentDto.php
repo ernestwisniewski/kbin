@@ -22,6 +22,7 @@ class PostCommentDto
     public ?string $body = null;
     public int $uv = 0;
     public ?string $ip = null;
+    public ?string $apId = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;
     private ?int $id = null;

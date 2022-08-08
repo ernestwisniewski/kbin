@@ -40,6 +40,7 @@ class EntryDto
     public int $score = 0;
     public ?string $visibility = null;
     public ?string $ip = null;
+    public ?string $apId = null;
     public ?array $tags = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;

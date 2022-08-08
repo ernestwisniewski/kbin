@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -25,6 +25,7 @@ class EntryCommentDto
     public ?int $uv = null;
     public ?int $dv = null;
     public ?string $ip = null;
+    public ?string $apId = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;
     private ?int $id = null;

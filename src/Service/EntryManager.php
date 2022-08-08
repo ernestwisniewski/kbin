@@ -59,6 +59,7 @@ class EntryManager implements ContentManagerInterface
             $entry->magazine->name
         ) : null;
         $entry->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $entry->apId                 = $dto->apId;
         $entry->magazine->lastActive = new \DateTime();
         $entry->magazine->addEntry($entry);
 

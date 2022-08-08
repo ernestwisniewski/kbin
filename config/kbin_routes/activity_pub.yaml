@@ -13,6 +13,12 @@ ap_nodeinfo:
   path: '/.well-known/nodeinfo'
   methods: [ GET ]
 
+ap_shared_inbox:
+  controller: App\Controller\ActivityPub\InboxController
+  path: /f/inbox
+  methods: [ POST, GET ]
+  condition: '%kbin_ap_route_condition%'
+
 ap_user:
   controller: App\Controller\ActivityPub\User\UserController
   path: /u/{username}
