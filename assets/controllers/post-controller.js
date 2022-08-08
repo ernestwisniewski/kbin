@@ -33,7 +33,7 @@ export default class extends Controller {
                 self.send(e);
             });
         } catch (e) {
-            alert('Nie możesz dodać komentarza.');
+            throw e;
         } finally {
             this.loadingValue = false;
         }
@@ -56,7 +56,7 @@ export default class extends Controller {
 
             event.target.parentNode.innerHTML = ''
         } catch (e) {
-            alert('Nie możesz dodać komentarza.');
+            throw e;
         } finally {
             this.loadingValue = false;
         }
