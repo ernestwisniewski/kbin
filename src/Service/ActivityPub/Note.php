@@ -39,6 +39,11 @@ class Note
 
     public function create(array $object, ?array $root = null): ActivityPubActivityInterface
     {
+        $current = $this->repository->findByObjectId($object['id']);
+        if ($current) {
+            return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
+        }
+
         if ($replyTo = $object['inReplyTo']) {
             // Create post or entry comment
             $parent = $this->repository->findByObjectId($replyTo);
@@ -142,10 +147,10 @@ class Note
         $dto           = new PostDto();
         $dto->body     = $converter->convert($object['content']);
         $dto->magazine = $this->magazineRepository->findOneByName('fediverse'); // @todo magazine by tags
-        if(isset($object['attachment'])) {
-            $dto->image    = $this->activityPubManager->handleImages($object['attachment']);
+        if (isset($object['attachment'])) {
+            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
         }
-        $dto->apId     = $object['id'];
+        $dto->apId = $object['id'];
 
         $entity = $this->postManager->create(
             $dto,
