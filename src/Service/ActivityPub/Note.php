@@ -91,8 +91,10 @@ class Note
         }
         $dto->entry = $root;
         $dto->body  = $converter->convert($object['content']);
-        $dto->image = $this->activityPubManager->handleImages($object['attachment']);
-        $dto->apId  = $object['id'];
+        if (isset($object['attachment'])) {
+            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+        }
+        $dto->apId = $object['id'];
 
         $entity = $this->entryCommentManager->create(
             $dto,
@@ -115,10 +117,12 @@ class Note
         if ($parent instanceof PostComment) {
             $dto->parent = $parent;
         }
-        $dto->post  = $root;
-        $dto->body  = $converter->convert($object['content']);
-        $dto->image = $this->activityPubManager->handleImages($object['attachment']);
-        $dto->apId  = $object['id'];
+        $dto->post = $root;
+        $dto->body = $converter->convert($object['content']);
+        if (isset($object['attachment'])) {
+            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+        }
+        $dto->apId = $object['id'];
 
         $entity = $this->postCommentManager->create(
             $dto,
@@ -138,7 +142,9 @@ class Note
         $dto           = new PostDto();
         $dto->body     = $converter->convert($object['content']);
         $dto->magazine = $this->magazineRepository->findOneByName('fediverse'); // @todo magazine by tags
-        $dto->image    = $this->activityPubManager->handleImages($object['attachment']);
+        if(isset($object['attachment'])) {
+            $dto->image    = $this->activityPubManager->handleImages($object['attachment']);
+        }
         $dto->apId     = $object['id'];
 
         $entity = $this->postManager->create(
