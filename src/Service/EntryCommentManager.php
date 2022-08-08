@@ -36,10 +36,10 @@ class EntryCommentManager implements ContentManagerInterface
     ) {
     }
 
-    public function create(EntryCommentDto $dto, User $user): EntryComment
+    public function create(EntryCommentDto $dto, User $user, $limiter = true): EntryComment
     {
         $limiter = $this->entryCommentLimiter->create($dto->ip);
-        if (false === $limiter->consume()->isAccepted()) {
+        if ($limiter && false === $limiter->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }
 

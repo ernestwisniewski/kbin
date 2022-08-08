@@ -36,10 +36,10 @@ class PostCommentManager implements ContentManagerInterface
     ) {
     }
 
-    public function create(PostCommentDto $dto, User $user): PostComment
+    public function create(PostCommentDto $dto, User $user, $limiter = true): PostComment
     {
         $limiter = $this->postCommentLimiter->create($dto->ip);
-        if (false === $limiter->consume()->isAccepted()) {
+        if ($limiter && false === $limiter->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }
 

@@ -96,7 +96,8 @@ class Note
 
         $entity = $this->entryCommentManager->create(
             $dto,
-            $this->activityPubManager->findActorOrCreate($object['attributedTo'])
+            $this->activityPubManager->findActorOrCreate($object['attributedTo']),
+            false
         );
 
         $this->handleDate($entity, $object['published']);
@@ -121,7 +122,8 @@ class Note
 
         $entity = $this->postCommentManager->create(
             $dto,
-            $this->activityPubManager->findActorOrCreate($object['attributedTo'])
+            $this->activityPubManager->findActorOrCreate($object['attributedTo']),
+            false
         );
 
         $this->handleDate($entity, $object['published']);
@@ -141,7 +143,8 @@ class Note
 
         $entity = $this->postManager->create(
             $dto,
-            $this->activityPubManager->findActorOrCreate($object['attributedTo'])
+            $this->activityPubManager->findActorOrCreate($object['attributedTo']),
+            false
         );
 
         $this->handleDate($entity, $object['published']);

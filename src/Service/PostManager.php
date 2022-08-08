@@ -39,10 +39,10 @@ class  PostManager implements ContentManagerInterface
     ) {
     }
 
-    public function create(PostDto $dto, User $user): Post
+    public function create(PostDto $dto, User $user, $limiter = true): Post
     {
         $limiter = $this->postLimiter->create($dto->ip);
-        if (false === $limiter->consume()->isAccepted()) {
+        if ($limiter && false === $limiter->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }
 
