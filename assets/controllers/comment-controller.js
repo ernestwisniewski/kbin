@@ -53,6 +53,11 @@ export default class extends Controller {
                 document.body.style.removeProperty('padding-right')
             })
         } catch (e) {
+            if (!window.KBIN_LOGGED_IN) {
+                window.location = window.KBIN_LOGIN;
+                return;
+            }
+
             throw e
         } finally {
             this.loadingValue = false;
