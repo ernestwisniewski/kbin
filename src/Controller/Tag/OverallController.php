@@ -18,7 +18,7 @@ class OverallController extends AbstractController
     {
         return $this->render(
             'tag/overall.html.twig',
-            ['tag' => $name, 'results' => $this->tagRepository->findOverall($this->getPageNb($request), $name)]
+            ['tag' => $name, 'results' => $this->tagRepository->findOverall($this->getPageNb($request), strtolower($name))]
 //            ['q' => '#'.$name, 'results' => $this->manager->findByTagPaginated($name, $this->getPageNb($request))]
         );
     }

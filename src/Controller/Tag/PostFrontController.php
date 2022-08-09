@@ -15,7 +15,7 @@ class PostFrontController extends AbstractController
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setTag($name);
+            ->setTag(strtolower($name));
 
         $posts = $repository->findByCriteria($criteria);
 

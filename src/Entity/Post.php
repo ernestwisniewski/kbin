@@ -169,6 +169,10 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $comments = $this->comments->matching($criteria);
         $comments = new ArrayCollection($comments->slice(0, 2));
 
+        if (!count(array_filter($comments->toArray(), fn($comment) => $comment->countUpVotes() > 0))) {
+            return $this->getLastComments();
+        }
+
         $iterator = $comments->getIterator();
         $iterator->uasort(function ($a, $b) {
             return ($a->createdAt < $b->createdAt) ? -1 : 1;

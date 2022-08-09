@@ -34,4 +34,9 @@ final class TagLinkParser extends AbstractLocalLinkParser
             ]
         );
     }
+
+    public function getApRegex(): ?string
+    {
+        return null;
+    }
 }

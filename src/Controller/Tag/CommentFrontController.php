@@ -21,7 +21,7 @@ class CommentFrontController extends AbstractController
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setTag($name);
+            ->setTag(strtolower($name));
 
         $params['comments'] = $this->repository->findByCriteria($criteria);
         $params['tag']      = $name;

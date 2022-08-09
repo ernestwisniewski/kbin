@@ -22,7 +22,7 @@ class FrontController extends AbstractController
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type))
-            ->setTag($name);
+            ->setTag(strtolower($name));
         $method  = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
 

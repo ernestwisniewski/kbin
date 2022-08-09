@@ -33,6 +33,7 @@ class Note
         private MagazineRepository $magazineRepository,
         private ActivityPubManager $activityPubManager,
         private EntityManagerInterface $entityManager,
+        private MarkdownConverter $markdownConverter
     ) {
 
     }
@@ -88,14 +89,13 @@ class Note
         ActivityPubActivityInterface $parent,
         ?ActivityPubActivityInterface $root = null
     ): ActivityPubActivityInterface {
-        $converter = new HtmlConverter(['strip_tags' => true]);
         $dto       = new EntryCommentDto();
         if ($parent instanceof EntryComment) {
             $dto->parent = $parent;
             $dto->root   = $parent->root ?? $parent;
         }
         $dto->entry = $root;
-        $dto->body  = $converter->convert($object['content']);
+        $dto->body  = $this->markdownConverter->convert($object['content']);
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
         }
@@ -117,13 +117,12 @@ class Note
         ActivityPubActivityInterface $parent,
         ?ActivityPubActivityInterface $root = null
     ): ActivityPubActivityInterface {
-        $converter = new HtmlConverter(['strip_tags' => true]);
         $dto       = new PostCommentDto();
         if ($parent instanceof PostComment) {
             $dto->parent = $parent;
         }
         $dto->post = $root;
-        $dto->body = $converter->convert($object['content']);
+        $dto->body = $this->markdownConverter->convert($object['content']);
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
         }
@@ -143,9 +142,8 @@ class Note
     private function createPost(
         array $object,
     ): ActivityPubActivityInterface {
-        $converter     = new HtmlConverter(['strip_tags' => true]);
         $dto           = new PostDto();
-        $dto->body     = $converter->convert($object['content']);
+        $dto->body     = $this->markdownConverter->convert($object['content']);
         $dto->magazine = $this->magazineRepository->findOneByName('fediverse'); // @todo magazine by tags
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);

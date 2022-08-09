@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
@@ -12,12 +12,12 @@ final class MagazineLinkParser extends AbstractLocalLinkParser
 
     public function getPrefix(): string
     {
-        return 'm';
+        return '!';
     }
 
-    public function getRegex(): string
+    protected function kbinPrefix(): bool
     {
-        return '/^\w{2,25}\b/';
+        return false;
     }
 
     public function getUrl(string $suffix): string
@@ -28,5 +28,15 @@ final class MagazineLinkParser extends AbstractLocalLinkParser
                 'name' => $suffix,
             ]
         );
+    }
+
+    public function getRegex(): string
+    {
+        return '/^!\w{2,25}\b/';
+    }
+
+    public function getApRegex(): string
+    {
+        return '/^!\w{2,25}@(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/';
     }
 }

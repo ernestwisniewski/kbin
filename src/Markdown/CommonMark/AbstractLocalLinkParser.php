@@ -44,9 +44,13 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
             return false;
         }
 
-        $name = $cursor->match($this->getRegex());
+        if ($this->getApRegex() && $match = $cursor->match($this->getApRegex())) {
+            $name = $match;
+        } else {
+            $name = $cursor->match($this->getRegex());
+        }
 
-        if ($name === null) {
+        if (null === $name) {
             $cursor->restoreState($previousState);
 
             return false;
@@ -60,6 +64,8 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
     }
 
     abstract public function getRegex(): string;
+
+    abstract public function getApRegex(): ?string;
 
     /**
      * Generates a URL based on the extracted suffix.

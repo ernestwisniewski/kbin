@@ -12,7 +12,12 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     public function getPrefix(): string
     {
-        return 'u';
+        return '@';
+    }
+
+    protected function kbinPrefix(): bool
+    {
+        return false;
     }
 
     public function getUrl(string $suffix): string
@@ -27,6 +32,11 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     public function getRegex(): string
     {
-        return '/^\w{2,35}\b/';
+        return '/^@\w{2,35}\b/';
+    }
+
+    public function getApRegex(): string
+    {
+        return '/^(@\w{2,35})(@)(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)/';
     }
 }

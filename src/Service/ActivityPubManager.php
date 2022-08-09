@@ -71,7 +71,7 @@ class ActivityPubManager
         return $user;
     }
 
-    private function webfinger(string $id): WebFinger
+    public function webfinger(string $id): WebFinger
     {
         WebFingerFactory::setServer($this->server->create());
 

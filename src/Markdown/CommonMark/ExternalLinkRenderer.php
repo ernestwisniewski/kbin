@@ -5,7 +5,6 @@ namespace App\Markdown\CommonMark;
 use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
 use App\Utils\Embed;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
 use League\CommonMark\ElementRendererInterface;
@@ -22,7 +21,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
 {
     protected ConfigurationInterface $config;
 
-    public function __construct(private Embed $embed, private EmbedRepository $embedRepository, private EntityManagerInterface $entityManager)
+    public function __construct(private Embed $embed, private EmbedRepository $embedRepository)
     {
     }
 
@@ -72,7 +71,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         }
 
         $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer', 'target' => '_blank'];
-        foreach (['@', '!', '#', 'm/', '/m/', 'u/', '/u/'] as $tag) {
+        foreach (['@', '!', '#'] as $tag) {
             if (str_starts_with($title, $tag)) {
                 $attr = [];
             }

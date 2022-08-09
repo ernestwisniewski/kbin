@@ -32,7 +32,7 @@ class PostCommentsPreviewComponent
                 'post/comment/_list.html.twig',
                 [
                     'post' => $this->post,
-                    'comments' => $this->post->lastActive < (new \DateTime('-6 hours'))
+                    'comments' => $this->post->lastActive < (new \DateTime('-4 hours'))
                         ? $this->post->getBestComments()
                         : $this->post->getLastComments(),
                 ]
