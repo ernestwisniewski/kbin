@@ -6,14 +6,6 @@ export default class LoginAlert {
             })
         });
 
-        document.addEventListener('turbo:load', (event) => {
-            event.target.querySelectorAll('.kbin-login-alert').forEach(el => {
-                el.addEventListener('click', (event) => {
-                    this.loginAlert(event)
-                })
-            });
-        });
-
         document.querySelectorAll('.kbin-link-block').forEach(el => {
             el.addEventListener('click', (event) => {
                 event.preventDefault();

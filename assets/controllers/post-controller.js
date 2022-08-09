@@ -33,6 +33,11 @@ export default class extends Controller {
                 self.send(e);
             });
         } catch (e) {
+            if (!window.KBIN_LOGGED_IN) {
+                window.location = window.KBIN_LOGIN;
+                return;
+            }
+
             throw e;
         } finally {
             this.loadingValue = false;

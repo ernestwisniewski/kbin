@@ -13,7 +13,7 @@ export default class extends Controller {
         this.loadingValue = true;
 
         if (!window.KBIN_LOGGED_IN) {
-            document.querySelector(".kbn-login-btn a").click()
+            window.location = window.KBIN_LOGIN;
             return;
         }
 
@@ -44,7 +44,7 @@ export default class extends Controller {
         this.loadingValue = true;
 
         if (!window.KBIN_LOGGED_IN) {
-            document.querySelector(".kbn-login-btn a").click()
+            window.location = window.KBIN_LOGIN;
             return;
         }
 
