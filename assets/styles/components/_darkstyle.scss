@@ -1,4 +1,4 @@
-$kbin-dark-link-color: #d4d4d4;
+$kbin-dark-link-color: #afafaf;
 
 .kbin-dark {
   color: $kbin-dark-link-color;
@@ -7,7 +7,7 @@ $kbin-dark-link-color: #d4d4d4;
   background-position: top left;
 
   a {
-    color: #afafaf;
+    color: $kbin-dark-link-color;
   }
 
   a:hover {

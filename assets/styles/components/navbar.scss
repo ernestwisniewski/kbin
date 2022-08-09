@@ -46,8 +46,16 @@
     &-brand, span a {
       font-weight: bold;
 
+      .kbin-dark & {
+        color: $kbin-dark-link-color !important;
+      }
+
       &:hover {
         color: black !important;
+
+        .kbin-dark & {
+          color: white !important;
+        }
       }
     }
 
