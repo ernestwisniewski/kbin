@@ -30,7 +30,7 @@ final class TagLinkParser extends AbstractLocalLinkParser
         return $this->urlGenerator->generate(
             'tag_overall',
             [
-                'name' => $suffix,
+                'name' => str_replace('#', '', $suffix),
             ]
         );
     }
