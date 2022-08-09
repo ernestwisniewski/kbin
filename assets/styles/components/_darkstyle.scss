@@ -1,5 +1,7 @@
+$kbin-dark-link-color: #d4d4d4;
+
 .kbin-dark {
-  color: #d4d4d4;
+  color: $kbin-dark-link-color;
   background: $kbin-dark-background;
   background-repeat: repeat;
   background-position: top left;

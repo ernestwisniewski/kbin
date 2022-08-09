@@ -7,6 +7,11 @@
     background-color: $kbin-navbar-background-color;
     border-bottom: 1px solid $kbin-navbar-border-color;
 
+    .kbin-dark & {
+      background-color: $kbin-dark-navbar-background-color !important;
+      border-bottom: 1px solid $kbin-dark-navbar-border-color !important;
+    }
+
     @include media-breakpoint-up(lg) {
       position: relative;
 
@@ -14,7 +19,7 @@
         flex-direction: row;
 
         .kbin-dark & {
-          background-color: $kbin-navbar-background-color !important;
+          background-color: $kbin-dark-navbar-background-color !important;
         }
       }
     }
@@ -74,6 +79,14 @@
             color: $kbin-navbar-link-hover-color;
             border-color: $kbin-navbar-link-hover-border-color;
             border-radius: 2px 2px 0 0;
+
+            .kbin-dark & {
+              border-color: $kbin-dark-navbar-border-color !important;
+            }
+          }
+
+          .kbin-dark & {
+            color: $kbin-dark-link-color !important;
           }
         }
 
@@ -81,6 +94,10 @@
           a {
             border: 1px solid $kbin-navbar-link-active-border-color;
             border-radius: 2px 2px 0 0;
+
+            .kbin-dark & {
+              border-color: $kbin-dark-navbar-border-color !important;
+            }
           }
         }
       }
