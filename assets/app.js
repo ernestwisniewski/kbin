@@ -11,7 +11,6 @@ window.addEventListener('load', function (event) {
     const choices = new KChoices();
     const datepicker = new KDatepicker();
     const editor = new KEditor();
-    const loginAlert = new KLoginAlert();
     const navbar = new Navbar();
     const masonry = new KMasonry();
 });
