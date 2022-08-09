@@ -4,7 +4,7 @@
 
 
 <article id="{{ this.post.id }}"
-         class="kbin-post py-4 {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }} {{ this.index is not same as 1 ? 'mt-2' : '' }}"
+         class="kbin-post py-4 {{ this.extraClass }} {{ this.post.user.avatar ? '' : 'ps-2' }} {{ this.index is not same as 1 ? 'mt-3' : '' }}"
          data-controller="post report"
          data-action="notify:PostCommentCreatedNotification@window->post#increaseComments notify:PostCommentDeletedNotification@window->post#decreaseComments notify:PostDeletedNotification@window->post#remove notify:PostEditedNotification@window->post#edit"
          data-comment-counter-subject-id-value="{{ this.post.id }}"

@@ -29,8 +29,8 @@
                         {% set user = app.user %}
                     {% endif %}
                     <span class="text-muted me-auto text-small size">
-                    /u/<a class="text-decoration-none text-reset font-weight-bold"
-                          href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a>
+                    {% if not user.apProfileId %}/u/{% endif %}<a class="text-decoration-none text-reset font-weight-bold"
+                                                              href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a>
                     </span>
                 {% elseif is_sub_page() %}
                     <span class="text-muted me-auto text-small size">
