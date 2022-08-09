@@ -56,7 +56,7 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
             return false;
         }
 
-        $link = new Link($this->getUrl($this->kbinPrefix() ? $name : substr($name, 1)), ($this->kbinPrefix() ? $prefix : '').$name);
+        $link = new Link($this->getUrl($name), ($this->kbinPrefix() ? $prefix : '').$name);
 
         $inlineContext->getContainer()->appendChild($link);
 
