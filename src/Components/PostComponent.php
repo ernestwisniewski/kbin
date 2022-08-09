@@ -12,6 +12,7 @@ class PostComponent
 {
     public Post $post;
     public ?string $extraClass = null;
+    public int $index = 1;
     public bool $showMagazine = true;
     public bool $showAllComments = false;
     public bool $showBestComments = false;

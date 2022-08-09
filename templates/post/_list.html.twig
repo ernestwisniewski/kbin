@@ -5,7 +5,7 @@
     {% if magazine is defined and magazine %}data-post-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if posts|length %}
         {% for post in posts %}
-            {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showBestComments: true, showMagazine: magazine is not defined }) }}
+            {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showBestComments: true, showMagazine: magazine is not defined, index: loop.index }) }}
         {% endfor %}
     {% else %}
         {{ not_found() }}
