@@ -77,6 +77,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return str_contains($this->getCurrentRouteName(), $val);
     }
 
+    public function isRouteStartWith(string $val): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), $val);
+    }
+
     public function isMagazinePanelPage(): bool
     {
         return str_contains($this->getCurrentRouteName(), 'magazine_panel');

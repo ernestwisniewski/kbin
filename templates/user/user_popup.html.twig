@@ -1,4 +1,4 @@
-<div class="modal fade" id="kbin-user-popup" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" style="z-index: 1900">
+<div class="modal" id="kbin-user-popup" aria-hidden="true" tabindex="-1" style="z-index: 1900">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
@@ -19,6 +19,10 @@
                             <time data-controller="timeago"
                                   data-timeago-refresh-interval-value="10000"
                                   data-timeago-datetime-value="{{ user.createdAt|date('c') }}"{{ user.createdAt|ago }}></time>
+
+                            {% if user.apProfileId %}
+                                <div><a rel="nofollow noopener noreferrer" href="{{ user.apProfileId }}">{{ 'go_to_author_instance'|trans }}</a></div>
+                            {% endif %}
                         </div>
                         <div>{% include 'user/_follow_button.html.twig' %}</div>
                     </div>

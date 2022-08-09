@@ -10,7 +10,9 @@
                     </div>
                 {% endif %}
                 <div>
-                    <h3 class="card-title font-weight-bold pt-2">{{ user.username }}</h3>
+                    <h3 class="card-title font-weight-bold pt-2">
+                        <a href="{{ user.apProfileId ?? '#' }}" rel="{{ user.appProfileId ? 'nofollow noopener noreferrer' : '' }}" class="text-reset">{{ user.username }}</a>
+                    </h3>
                     {% include 'user/_follow_button.html.twig' %}
                 </div>
             </div>
@@ -30,16 +32,19 @@
                         <span class="text-muted small">{{ 'awards'|trans }}:</span> {{ user.awards|length }}
                     </li>
                     <li>
-                        <a class="small" href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}:</a> {{ user.entries|length }}
+                        <a class="small" href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}
+                            :</a> {{ user.entries|length }}
                     </li>
                     <li>
-                        <a class="small" href="{{ path('user_comments', {username: user.username}) }}">{{ 'comments'|trans }}:</a> {{ user.entryComments|length }}
+                        <a class="small" href="{{ path('user_comments', {username: user.username}) }}">{{ 'comments'|trans }}
+                            :</a> {{ user.entryComments|length }}
                     </li>
                     <li>
                         <a class="small" href="{{ path('user_posts', {username: user.username}) }}">{{ 'posts'|trans }}:</a> {{ user.posts|length }}
                     </li>
                     <li>
-                        <a class="small" href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}:</a> {{ user.postComments|length }}
+                        <a class="small" href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}
+                            :</a> {{ user.postComments|length }}
                     </li>
                     <li>
                         <a class="small" href="{{ path('user_reputation', {username: user.username}) }}">

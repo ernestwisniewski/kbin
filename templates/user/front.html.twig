@@ -4,6 +4,12 @@
 {%- block title -%}{{- user.username }} - {{ 'overview'|trans -}}{%- endblock -%}
 
 {% block body %}
+    {% if user.apProfileId %}
+        <div class="alert alert-secondary text-muted my-5" role="alert">
+            {{ 'old_posts_instance_info'|trans }} <a rel="nofollow noopener noreferrer" href="{{ user.apProfileId }}"
+                                                     class="font-weight-bold">{{ 'go_to_author_instance'|trans }}</a>
+        </div>
+    {% endif %}
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
         {% if results|length %}
             {% for subject in results %}
