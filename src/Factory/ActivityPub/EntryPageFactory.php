@@ -5,6 +5,7 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Entry;
+use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
@@ -19,6 +20,7 @@ class EntryPageFactory
         private ImageWrapper $imageWrapper,
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
+        private ApHttpClient $client
     ) {
     }
 
@@ -28,14 +30,16 @@ class EntryPageFactory
             'type'            => 'Page',
             '@context'        => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'              => $this->getActivityPubId($entry),
-            'attributedTo'    => $this->personFactory->getActivityPubId($entry->user),
+            'attributedTo'    => $entry->apId ? $entry->user->apProfileId : $this->personFactory->getActivityPubId($entry->user),
             'inReplyTo'       => null,
             'to'              => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
             'cc'              => [
                 $this->groupFactory->getActivityPubId($entry->magazine),
-                $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABS_URL),
+                $entry->apId
+                    ? $this->client->getActorObject($entry->user->apProfileId)['followers']
+                    : $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABS_URL),
             ],
             'name'            => $entry->title,
             'content'         => $entry->body ?? $entry->getDescription(),

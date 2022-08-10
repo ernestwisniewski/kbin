@@ -21,4 +21,14 @@ class ApHttpClient
         return $decoded ? json_decode($req->getContent(), true) : $req->getContent();
     }
 
+    public function getActorObject(string $apProfileId)
+    {
+        $req = $this->client->request('GET', $apProfileId, [
+            'headers' => [
+                'Accept' => 'application/activity+json,application/ld+json,application/json',
+            ],
+        ]);
+
+        return json_decode($req->getContent(), true);
+    }
 }

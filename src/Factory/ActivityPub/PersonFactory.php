@@ -5,6 +5,7 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
+use App\Service\ActivityPub\ApHttpClient;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PersonFactory
