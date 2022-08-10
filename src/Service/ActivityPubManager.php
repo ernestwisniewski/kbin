@@ -14,6 +14,7 @@ use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use Doctrine\ORM\EntityManagerInterface;
 use phpseclib3\Crypt\RSA;
+use Webmozart\Assert\Assert;
 
 class ActivityPubManager
 {
@@ -112,5 +113,15 @@ class ActivityPubManager
         }
 
         return null;
+    }
+
+    public function getUserFromProfileId(string $actor): User
+    {
+        $name = explode('/', $actor);
+        $name = end($name);
+
+        Assert::string($name);
+
+        return $this->userRepository->findOneBy(['username' => $name]);
     }
 }

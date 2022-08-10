@@ -4,6 +4,7 @@ namespace App\MessageHandler\ActivityPub;
 
 use App\Message\ActivityPub\ActivityMessage;
 use App\Message\ActivityPub\CreateMessage;
+use App\Message\ActivityPub\FollowMessage;
 use App\Service\ActivityPub\SignatureValidator;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -50,7 +51,8 @@ class ActivityHandler implements MessageHandlerInterface
                 $this->handleAnnounce($payload);
                 break;
             case 'Follow':
-                $this->handleFollow($payload);
+            case 'Unfollow':
+                $this->bus->dispatch(new FollowMessage($payload));
                 break;
         }
     }

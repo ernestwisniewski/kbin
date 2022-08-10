@@ -85,7 +85,7 @@ class UserFollowersController
 
         $items = [];
         foreach ($actors as $actor) {
-            $items[] = $this->manager->getActivityPubProfileId($actor);
+            $items[] = $actor->apId ? $actor->apProfileId : $this->manager->getActivityPubProfileId($actor);
         }
 
         return $this->collectionItemsWrapper->build($routeName, ['username' => $user->username], $actors, $items, $page);
