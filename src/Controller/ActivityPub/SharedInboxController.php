@@ -19,7 +19,8 @@ class SharedInboxController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $this->logger->error($request->getContent(), (string) $request->headers);
+        $this->logger->error('Headers: ' . (string) $request->headers);
+        $this->logger->error('Content: '. $request->getContent());
 
         $response = new JsonResponse();
         $response->headers->set('Content-Type', 'application/activity+json');

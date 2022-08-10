@@ -55,10 +55,10 @@ class PostNoteFactory
 
     public function getActivityPubId(Post $post): string
     {
-        return $this->urlGenerator->generate(
-            'ap_post',
-            ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId()],
-            UrlGeneratorInterface::ABS_URL
-        );
+        return $post->apId ?? $this->urlGenerator->generate(
+                'ap_post',
+                ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId()],
+                UrlGeneratorInterface::ABS_URL
+            );
     }
 }

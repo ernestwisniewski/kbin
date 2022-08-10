@@ -30,7 +30,8 @@ class EntryCommentNoteFactory
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'           => $this->getActivityPubId($comment),
             'attributedTo' => $this->personFactory->getActivityPubId($comment->user),
-            'inReplyTo'    => $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId($comment->entry),
+            'inReplyTo'    => $comment->apId ??
+                $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId($comment->entry),
             'to'           => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],

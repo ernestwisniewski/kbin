@@ -32,7 +32,8 @@ class PostCommentNoteFactory
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'           => $this->getActivityPubId($comment),
             'attributedTo' => $this->personFactory->getActivityPubId($comment->user),
-            'inReplyTo'    => $comment->parent ? $this->getActivityPubId($comment->parent) : $this->postNoteFactory->getActivityPubId($comment->post),
+            'inReplyTo'    => $comment->apId ??
+                $comment->parent ? $this->getActivityPubId($comment->parent) : $this->postNoteFactory->getActivityPubId($comment->post),
             'to'           => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
