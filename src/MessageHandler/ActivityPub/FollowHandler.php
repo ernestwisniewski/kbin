@@ -10,24 +10,31 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class FollowHandler implements MessageHandlerInterface
 {
-    private array $object;
-
-    public function __construct(private ActivityPubManager $activityPubManager, private UserManager $userManager)
-    {
+    public function __construct(
+        private ActivityPubManager $activityPubManager,
+        private UserManager $userManager,
+    ) {
     }
 
     public function __invoke(FollowMessage $message)
     {
-        $this->object = $message->payload;
+        $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
-        $user  = $this->activityPubManager->getUserFromProfileId($this->object['object']);
-        $actor = $this->activityPubManager->findActorOrCreate($this->object['actor']);
+        if ($message->payload['type'] === 'Follow') {
+            $user  = $this->activityPubManager->getUserFromProfileId($message->payload['object']);
 
-        if ($this->object['type'] === 'Follow') {
             $this->handleFollow($user, $actor);
+
+            return;
         }
 
-        if ($this->object['type'] === 'Unfollow') {
+        if ($message->payload['type'] === 'Undo') {
+            if ($message->payload['object']['type'] !== 'Follow') {
+                return;
+            }
+
+            $user  = $this->activityPubManager->getUserFromProfileId($message->payload['object']['object']);
+
             $this->handleUnfollow($user, $actor);
         }
     }

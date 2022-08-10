@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
+use App\Repository\UserFollowRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         columns={"follower_id", "following_id"}
  *     )
  * })
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass=UserFollowRepository::class)
  * @ORM\Cache("NONSTRICT_READ_WRITE")
  */
 class UserFollow

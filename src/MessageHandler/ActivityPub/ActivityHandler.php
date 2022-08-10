@@ -51,17 +51,13 @@ class ActivityHandler implements MessageHandlerInterface
                 $this->handleAnnounce($payload);
                 break;
             case 'Follow':
-            case 'Unfollow':
+            case 'Undo':
                 $this->bus->dispatch(new FollowMessage($payload));
                 break;
         }
     }
 
     private function handleAnnounce(array $payload)
-    {
-    }
-
-    private function handleFollow(array $payload)
     {
     }
 }

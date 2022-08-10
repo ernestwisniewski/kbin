@@ -2,7 +2,7 @@
 
 namespace App\Controller\ActivityPub;
 
-use App\Service\MentionManager;
+use App\Message\ActivityPub\ActivityMessage;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,15 +12,16 @@ class SharedInboxController
 {
     public function __construct(
         private MessageBusInterface $bus,
-        private MentionManager $mentionManager,
         private LoggerInterface $logger
     ) {
     }
 
     public function __invoke(Request $request): JsonResponse
     {
-        $this->logger->error('Headers: ' . (string) $request->headers);
-        $this->logger->error('Content: '. $request->getContent());
+        $this->logger->error('Headers: '.$request->headers);
+        $this->logger->error('Content: '.$request->getContent());
+
+        $this->bus->dispatch(new ActivityMessage($request->getContent()));
 
         $response = new JsonResponse();
         $response->headers->set('Content-Type', 'application/activity+json');
