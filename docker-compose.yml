@@ -10,7 +10,7 @@ services:
         STABILITY: ${STABILITY:-stable}
     restart: unless-stopped
     volumes:
-      - ./public/media:/srv/app/public/media
+      - ./public:/srv/app/public
       - php_socket:/var/run/php
     healthcheck:
       interval: 10s
