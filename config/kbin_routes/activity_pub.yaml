@@ -16,7 +16,7 @@ ap_nodeinfo:
 ap_shared_inbox:
   controller: App\Controller\ActivityPub\SharedInboxController
   path: /f/inbox
-  methods: [ POST, GET ]
+  methods: [ POST ]
   condition: '%kbin_ap_route_condition%'
 
 ap_user:

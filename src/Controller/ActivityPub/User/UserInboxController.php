@@ -2,6 +2,7 @@
 
 namespace App\Controller\ActivityPub\User;
 
+use App\Message\ActivityPub\ActivityMessage;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +16,12 @@ class UserInboxController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $this->logger->error('Headers: ' . (string) $request->headers);
-        $this->logger->error('Content: '. $request->getContent());
+        $this->logger->error('Headers: '.$request->headers);
+        $this->logger->error('Content: '.$request->getContent());
 
-        $response = new JsonResponse([]);
+        $this->bus->dispatch(new ActivityMessage($request->getContent()));
 
+        $response = new JsonResponse();
         $response->headers->set('Content-Type', 'application/activity+json');
 
         return $response;
