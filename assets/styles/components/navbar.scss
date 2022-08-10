@@ -10,6 +10,10 @@
     .kbin-dark & {
       background-color: $kbin-dark-navbar-background-color !important;
       border-bottom: 1px solid $kbin-dark-navbar-border-color !important;
+
+      button {
+        color: $kbin-dark-link-color !important;
+      }
     }
 
     @include media-breakpoint-up(lg) {
@@ -29,6 +33,10 @@
         margin-left: 0 !important;
         background: $kbin-background;
         padding: $spacer * .5;
+
+        .kbin-dark & {
+          background-color: $kbin-dark-navbar-background-color !important;
+        }
 
         .navbar-nav {
           width: 100%;

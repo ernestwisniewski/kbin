@@ -10,6 +10,7 @@ services:
         STABILITY: ${STABILITY:-stable}
     restart: unless-stopped
     volumes:
+      - ./public/media:/srv/app/public/media
       - php_socket:/var/run/php
     healthcheck:
       interval: 10s
@@ -41,6 +42,7 @@ services:
       - php_socket:/var/run/php
       - caddy_data:/data
       - caddy_config:/config
+      - ./public:/srv/app/public:ro
 #      - mongodb_data_container:/data/db
 
     ports:
