@@ -62,10 +62,16 @@ Based on [https://github.com/dunglas/symfony-docker](https://github.com/dunglas/
 $ cp .env.example .env
 
 $ docker compose build --pull --no-cache
-$ docker compose up
+$ SERVER_NAME="app.localhost, caddy:80" docker compose up --build
 
 $ docker compose exec php bin/console doctrine:fixtures:load
 $ docker compose exec php bin/phpunit
+
+# Using Xdebug
+# Linux / Mac
+$ XDEBUG_MODE=debug docker compose up -d
+# Windows
+$ set XDEBUG_MODE=debug&& docker compose up -d&set XDEBUG_MODE=
 ```
 
 #### Production

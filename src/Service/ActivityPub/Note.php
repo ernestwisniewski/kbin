@@ -20,7 +20,6 @@ use App\Service\PostManager;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use League\HTMLToMarkdown\HtmlConverter;
 
 class Note
 {
@@ -89,7 +88,7 @@ class Note
         ActivityPubActivityInterface $parent,
         ?ActivityPubActivityInterface $root = null
     ): ActivityPubActivityInterface {
-        $dto       = new EntryCommentDto();
+        $dto = new EntryCommentDto();
         if ($parent instanceof EntryComment) {
             $dto->parent = $parent;
             $dto->root   = $parent->root ?? $parent;
@@ -117,7 +116,7 @@ class Note
         ActivityPubActivityInterface $parent,
         ?ActivityPubActivityInterface $root = null
     ): ActivityPubActivityInterface {
-        $dto       = new PostCommentDto();
+        $dto = new PostCommentDto();
         if ($parent instanceof PostComment) {
             $dto->parent = $parent;
         }

@@ -7,16 +7,11 @@ if [ "${1#-}" != "$1" ]; then
 fi
 
 if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
-	if [ "$APP_ENV" != 'prod' ]; then
-		ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-	fi
-
-	mkdir -p var/cache var/log
-
-	# The first time volumes are mounted, the project needs to be recreated
+	# Install the project the first time PHP is started
+	# After the installation, the following block can be deleted
 	if [ ! -f composer.json ]; then
 		CREATION=1
-		composer create-project "$SKELETON $SYMFONY_VERSION" tmp --stability="$STABILITY" --prefer-dist --no-progress --no-interaction --no-install
+		composer create-project "symfony/skeleton $SYMFONY_VERSION" tmp --stability="$STABILITY" --prefer-dist --no-progress --no-interaction --no-install
 
 		cd tmp
 		composer require "php:>=$PHP_VERSION"
@@ -28,11 +23,11 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	fi
 
 	if [ "$APP_ENV" != 'prod' ]; then
-		rm -f .env.local.php
 		composer install --prefer-dist --no-progress --no-interaction
 	fi
 
 	if grep -q ^DATABASE_URL= .env; then
+		# After the installation, the following block can be deleted
 		if [ "$CREATION" = "1" ]; then
 			echo "To finish the installation please press Ctrl+C to stop Docker Compose and run: docker compose up --build"
 			sleep infinity
@@ -59,7 +54,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 			echo "The db is now ready and reachable"
 		fi
 
-    if [ "$( find ./migrations -iname '*.php' -print -quit )" ]; then
+		if [ "$( find ./migrations -iname '*.php' -print -quit )" ]; then
 			bin/console doctrine:migrations:migrate --no-interaction
 		fi
 	fi
