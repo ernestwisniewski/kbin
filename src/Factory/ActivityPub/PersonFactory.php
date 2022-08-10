@@ -41,6 +41,9 @@ class PersonFactory
                 'id'           => $this->getActivityPubId($user).'#main-key',
                 'publicKeyPem' => $user->publicKey,
             ],
+            'endpoints'         => [
+                'sharedInbox' => $this->urlGenerator->generate('ap_shared_inbox', [], UrlGeneratorInterface::ABS_URL),
+            ],
         ];
 
         if ($user->avatar) {

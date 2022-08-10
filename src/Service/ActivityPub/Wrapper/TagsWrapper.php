@@ -2,13 +2,10 @@
 
 namespace App\Service\ActivityPub\Wrapper;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
-
 class TagsWrapper
 {
-    public function __construct(
-        private UrlGeneratorInterface $urlGenerator
-    ) {
+    public function __construct()
+    {
     }
 
 
