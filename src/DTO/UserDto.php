@@ -4,6 +4,7 @@ namespace App\DTO;
 
 use App\DTO\Contracts\UserDtoInterface;
 use App\Entity\Image;
+use App\Utils\RegPatterns;
 use App\Validator\Unique;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,8 +17,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class UserDto implements UserDtoInterface
 {
     #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 35)]
-    #[Assert\Regex(pattern: "/^[a-zA-Z0-9_]{2,35}$/", match: true)]
+    #[Assert\Length(min: 2, max: 30)]
+    #[Assert\Regex(pattern: RegPatterns::USERNAME, match: true)]
     public ?string $username = null;
     #[Assert\NotBlank]
     #[Assert\Email]

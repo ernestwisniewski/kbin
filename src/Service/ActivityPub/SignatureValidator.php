@@ -57,7 +57,6 @@ class SignatureValidator
 
     private function validateUrl(string $url): void
     {
-        // @todo cache ap_hash_valid_url
         $valid = filter_var($url, FILTER_VALIDATE_URL);
         if (!$valid) {
             throw new InvalidApSignatureException('Invalid url.');

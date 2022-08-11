@@ -22,7 +22,7 @@ final class TagLinkParser extends AbstractLocalLinkParser
 
     public function getRegex(): string
     {
-        return '/^#\w{2,35}\b/';
+        return '/^#\w{2,25}\b/';
     }
 
     public function getUrl(string $suffix): string

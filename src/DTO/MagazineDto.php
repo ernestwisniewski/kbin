@@ -4,6 +4,7 @@ namespace App\DTO;
 
 use App\Entity\Image;
 use App\Entity\User;
+use App\Utils\RegPatterns;
 use App\Validator\Unique;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +18,7 @@ class MagazineDto
     public Image|ImageDto|null $cover = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 25)]
-    #[Assert\Regex(pattern: "/^[a-zA-Z0-9_]{2,25}$/", match: true)]
+    #[Assert\Regex(pattern: RegPatterns::MAGAZINE_NAME, match: true)]
     public ?string $name = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 50)]

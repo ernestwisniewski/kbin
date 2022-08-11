@@ -2,6 +2,7 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Utils\RegPatterns;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class MagazineLinkParser extends AbstractLocalLinkParser
@@ -32,11 +33,11 @@ final class MagazineLinkParser extends AbstractLocalLinkParser
 
     public function getRegex(): string
     {
-        return '/^!\w{2,25}\b/';
+        return RegPatterns::LOCAL_MAGAZINE;
     }
 
     public function getApRegex(): string
     {
-        return '/^!\w{2,25}@(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/';
+        return RegPatterns::AP_MAGAZINE;
     }
 }

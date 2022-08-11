@@ -2,11 +2,13 @@
 
 namespace App\Service;
 
+use App\Utils\RegPatterns;
+
 class TagManager
 {
     public function extract(string $val, ?string $magazineName = null): ?array
     {
-        preg_match_all("/\B#(\w{2,35})/", $val, $matches);
+        preg_match_all(RegPatterns::LOCAL_TAG, $val, $matches);
 
         $result = $matches[1];
         $result = array_map(fn($tag) => strtolower(trim($tag)), $result);

@@ -35,7 +35,7 @@ class MentionManager
 
     private function byPrefix(): array
     {
-        preg_match_all("/\B@(\w{2,35})./", $this->val, $matches);
+        preg_match_all("/\B@([a-zA-Z0-9_-]{2,30})./", $this->val, $matches);
         $results = array_filter($matches[0], fn($val) => !str_ends_with($val, '@'));
 
         $results = array_map(function ($val) {
@@ -52,7 +52,7 @@ class MentionManager
     private function byApPrefix(): array
     {
         preg_match_all(
-            '/(@\w{2,35})(@)(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)/',
+            '/(@\w{2,30})(@)(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)/',
             $this->val,
             $matches
         );

@@ -2,6 +2,7 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Utils\RegPatterns;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class UserLinkParser extends AbstractLocalLinkParser
@@ -32,11 +33,11 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     public function getRegex(): string
     {
-        return '/^@\w{2,35}\b/';
+        return RegPatterns::LOCAL_USER;
     }
 
     public function getApRegex(): string
     {
-        return '/^(@\w{2,35})(@)(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)/';
+        return RegPatterns::AP_USER;
     }
 }
