@@ -41,11 +41,11 @@ class FollowHandler implements MessageHandlerInterface
 
     private function handleFollow(User $user, User $actor): void
     {
-        $this->userManager->follow($user, $actor);
+        $this->userManager->follow($actor, $user);
     }
 
     private function handleUnfollow(User $user, User $actor): void
     {
-        $this->userManager->unfollow($user, $actor);
+        $this->userManager->unfollow($actor, $user);
     }
 }
