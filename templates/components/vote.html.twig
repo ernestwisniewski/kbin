@@ -30,7 +30,7 @@
                 <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
                 <button type="submit">
                     <span data-vote-target="upVoteCount" data-vote-counter-target="upVotes">{{ this.votable.countUpvotes }}</span>
-                    <span class="fa fa-arrow-up"></span>
+                    <span class="{{ this.hideDownvote ? 'fa fa-retweet' : 'fa fa-arrow-up' }}"></span>
                 </button>
             </form>
         </li>

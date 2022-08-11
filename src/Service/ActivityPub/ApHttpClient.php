@@ -31,4 +31,21 @@ class ApHttpClient
 
         return json_decode($req->getContent(), true);
     }
+
+    public function post(string $url, array $params): void
+    {
+        $keyId         = 'key_id';
+        $signedHeaders = 'signed_headers';
+        $signature     = 'signature';
+
+        $this->client->request('POST', $url, [
+            'body'    => $params,
+            'headers' => [
+                'Signature'    => 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"',
+                'Content-Type' => ['application/activity+json'],
+                'Accept'       => ['application/activity+json,application/ld+json,application/json'],
+                'User-Agent'   => 'kbinBot v0.1 - https://kbin.pub',
+            ],
+        ]);
+    }
 }

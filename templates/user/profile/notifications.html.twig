@@ -34,7 +34,9 @@
                 <table class="table align-middle small">
                     <tbody>
                     {% for notification in notifications %}
-                        <div class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }}">{{ block(notification.type) }}</div>
+                        <div class="toast show mb-2" style="width: 100%">
+                            <div class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }} mb-2">{{ block(notification.type) }}</div>
+                        </div>
                     {% endfor %}
                     </tbody>
                 </table>
