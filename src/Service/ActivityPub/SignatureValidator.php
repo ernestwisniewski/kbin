@@ -3,7 +3,6 @@
 namespace App\Service\ActivityPub;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use App\ActivityPub\Server;
 use App\Exception\InvalidApSignatureException;
 use App\Service\ActivityPubManager;
 
@@ -11,7 +10,7 @@ class SignatureValidator
 {
     public function __construct(
         private ActivityPubManager $activityPubManager,
-        private Server $server,
+        private ApHttpClient $client,
         private UrlGeneratorInterface $urlGenerator,
     ) {
     }
@@ -51,7 +50,7 @@ class SignatureValidator
 
         $user = $this->activityPubManager->findActorOrCreate($actorUrl);
 
-        $pkey = openssl_pkey_get_public($this->server->create()->actor($user->apProfileId)->getPublicKeyPem());
+        $pkey = openssl_pkey_get_public($this->client->getActorObject($user->apProfileId)['publicKey']['publicKeyPem']);
 
         $this->verifySignature($pkey, $signature, $headers, $this->urlGenerator->generate('ap_shared_inbox'), $body);
     }
@@ -90,7 +89,7 @@ class SignatureValidator
         $verified = openssl_verify($signingString, base64_decode($signature['signature']), $pkey, OPENSSL_ALGO_SHA256);
 
         if (!$verified) {
-//            throw new InvalidApSignatureException('Verify signature fail.');
+            throw new InvalidApSignatureException('Verify signature fail.');
         }
     }
 
