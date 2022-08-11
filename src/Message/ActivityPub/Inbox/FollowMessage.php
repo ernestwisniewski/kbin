@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Message\ActivityPub;
+namespace App\Message\ActivityPub\Inbox;
 
-class CreateMessage
+class FollowMessage
 {
     public function __construct(public array $payload)
     {

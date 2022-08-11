@@ -9,18 +9,19 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
+use App\Service\ActivityPubManager;
 use DateTimeInterface;
 
 class PostNoteFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private PersonFactory $personFactory,
         private GroupFactory $groupFactory,
         private ImageWrapper $imageWrapper,
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
-        private ApHttpClient $client
+        private ApHttpClient $client,
+        private ActivityPubManager $activityPubManager
     ) {
     }
 
@@ -31,7 +32,7 @@ class PostNoteFactory
             'type'            => 'Note',
             '@context'        => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'              => $this->getActivityPubId($post),
-            'attributedTo'    => $post->apId ? $post->user->apProfileId : $this->personFactory->getActivityPubId($post->user),
+            'attributedTo'    => $this->activityPubManager->getActorProfileId($post->user),
             'inReplyTo'       => null,
             'to'              => [
                 ActivityPubActivityInterface::PUBLIC_URL,

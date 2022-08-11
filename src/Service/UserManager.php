@@ -6,7 +6,7 @@ use App\DTO\CardanoWalletAddressDto;
 use App\DTO\UserDto;
 use App\Entity\User;
 use App\Event\User\UserBlockEvent;
-use App\Event\User\UserFollowedEvent;
+use App\Event\User\UserFollowEvent;
 use App\Factory\UserFactory;
 use App\Message\DeleteUserMessage;
 use App\Message\UserCreatedMessage;
@@ -48,7 +48,7 @@ class UserManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new UserFollowedEvent($follower, $following));
+        $this->dispatcher->dispatch(new UserFollowEvent($follower, $following));
     }
 
     public function block(User $blocker, User $blocked)
@@ -68,7 +68,7 @@ class UserManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new UserFollowedEvent($follower, $following));
+        $this->dispatcher->dispatch(new UserFollowEvent($follower, $following, true));
     }
 
     public function unblock(User $blocker, User $blocked)

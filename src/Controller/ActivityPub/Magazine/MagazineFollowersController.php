@@ -64,7 +64,7 @@ class MagazineFollowersController
 
         $items = [];
         foreach ($actors as $actor) {
-            $items[] = $this->manager->getActivityPubProfileId($actor);
+            $items[] = $this->manager->getActorProfileId($actor);
         }
 
         return $this->collectionItemsWrapper->build('ap_magazine_followers', ['name' => $magazine->name], $subscriptions, $items, $page);

@@ -1,14 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace App\MessageHandler\ActivityPub;
+namespace App\MessageHandler\ActivityPub\Inbox;
 
-use App\Message\ActivityPub\ChainActivityMessage;
+use App\Message\ActivityPub\Inbox\ChainActivityMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Note;
 use App\Service\ActivityPub\Page;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use function App\MessageHandler\ActivityPub\count;
 
 class ChainActivityHandler implements MessageHandlerInterface
 {
@@ -21,7 +22,7 @@ class ChainActivityHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(ChainActivityMessage $message)
+    public function __invoke(ChainActivityMessage $message): void
     {
         if ($message->parent) {
             $this->unloadStack($message->chain, $message->parent);

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Message\ActivityPub\ActivityMessage;
+use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SearchManager;
@@ -29,7 +29,7 @@ class SearchController extends AbstractController
         if (str_contains($query, '@')) {
             $name = str_starts_with($query, '@') ? $query : '@'.$query;
             preg_match(RegPatterns::AP_USER, $name, $matches);
-            if (4 === count(array_filter($matches))) {
+            if (count(array_filter($matches)) >= 4) {
                 try {
                     $webfinger = $this->activityPubManager->webfinger($name);
                     $profile   = $this->activityPubManager->findActorOrCreate($webfinger->getProfileId());

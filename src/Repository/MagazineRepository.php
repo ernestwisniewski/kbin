@@ -286,6 +286,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
             ->where('m.privateKey IS NULL')
+            ->andWhere('m.apId IS NULL')
             ->getQuery()
             ->getResult();
     }

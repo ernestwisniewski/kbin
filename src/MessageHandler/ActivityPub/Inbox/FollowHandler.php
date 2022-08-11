@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\MessageHandler\ActivityPub;
+namespace App\MessageHandler\ActivityPub\Inbox;
 
 use App\Entity\User;
-use App\Message\ActivityPub\FollowMessage;
+use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPubManager;
 use App\Service\UserManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;

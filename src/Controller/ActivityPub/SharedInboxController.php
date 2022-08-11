@@ -2,7 +2,7 @@
 
 namespace App\Controller\ActivityPub;
 
-use App\Message\ActivityPub\ActivityMessage;
+use App\Message\ActivityPub\Inbox\ActivityMessage;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

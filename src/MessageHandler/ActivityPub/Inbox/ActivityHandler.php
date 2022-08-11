@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\MessageHandler\ActivityPub;
+namespace App\MessageHandler\ActivityPub\Inbox;
 
-use App\Message\ActivityPub\ActivityMessage;
-use App\Message\ActivityPub\CreateMessage;
-use App\Message\ActivityPub\FollowMessage;
+use App\Message\ActivityPub\Inbox\ActivityMessage;
+use App\Message\ActivityPub\Inbox\CreateMessage;
+use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPub\SignatureValidator;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -16,7 +16,7 @@ class ActivityHandler implements MessageHandlerInterface
     {
     }
 
-    public function __invoke(ActivityMessage $message)
+    public function __invoke(ActivityMessage $message): void
     {
         $payload = @json_decode($message->payload, true);
 

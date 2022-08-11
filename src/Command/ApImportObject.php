@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Message\ActivityPub\ActivityMessage;
+use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Service\ActivityPub\ApHttpClient;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

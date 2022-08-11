@@ -263,6 +263,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         return $this->createQueryBuilder('u')
             ->where('u.privateKey IS NULL')
+            ->andWhere('u.apId IS NULL')
             ->getQuery()
             ->getResult();
     }

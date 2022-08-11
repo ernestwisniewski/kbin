@@ -9,18 +9,19 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
+use App\Service\ActivityPubManager;
 use DateTimeInterface;
 
 class EntryPageFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private PersonFactory $personFactory,
         private GroupFactory $groupFactory,
         private ImageWrapper $imageWrapper,
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
-        private ApHttpClient $client
+        private ApHttpClient $client,
+        private ActivityPubManager $activityPubManager
     ) {
     }
 
@@ -30,7 +31,7 @@ class EntryPageFactory
             'type'            => 'Page',
             '@context'        => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'              => $this->getActivityPubId($entry),
-            'attributedTo'    => $entry->apId ? $entry->user->apProfileId : $this->personFactory->getActivityPubId($entry->user),
+            'attributedTo'    => $this->activityPubManager->getActorProfileId($entry->user),
             'inReplyTo'       => null,
             'to'              => [
                 ActivityPubActivityInterface::PUBLIC_URL,

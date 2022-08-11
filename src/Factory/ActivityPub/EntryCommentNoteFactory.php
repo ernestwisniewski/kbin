@@ -9,19 +9,20 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
+use App\Service\ActivityPubManager;
 use DateTimeInterface;
 
 class EntryCommentNoteFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private PersonFactory $personFactory,
         private GroupFactory $groupFactory,
         private ImageWrapper $imageWrapper,
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
         private EntryPageFactory $pageFactory,
-        private ApHttpClient $client
+        private ApHttpClient $client,
+        private ActivityPubManager $activityPubManager
     ) {
     }
 
@@ -31,7 +32,7 @@ class EntryCommentNoteFactory
             'type'         => 'Note',
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'           => $this->getActivityPubId($comment),
-            'attributedTo' => $comment->apId ? $comment->user->apProfileId : $this->personFactory->getActivityPubId($comment->user),
+            'attributedTo' => $this->activityPubManager->getActorProfileId($comment->user),
             'inReplyTo'    => $comment->apId ??
                 $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId($comment->entry),
             'to'           => [
@@ -41,7 +42,7 @@ class EntryCommentNoteFactory
                 $this->groupFactory->getActivityPubId($comment->magazine),
                 $comment->apId
                     ? $this->client->getActorObject($comment->user->apProfileId)['followers']
-                    : $this->personFactory->getActivityPubId($comment->entry->user),
+                    : $this->urlGenerator->generate('ap_user_followers', ['username' => $comment->user->username], UrlGeneratorInterface::ABS_URL),
             ],
             'content'      => $comment->body,
             'mediaType'    => 'text/html',

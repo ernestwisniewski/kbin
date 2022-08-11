@@ -143,7 +143,7 @@ class Note
     ): ActivityPubActivityInterface {
         $dto           = new PostDto();
         $dto->body     = $this->markdownConverter->convert($object['content']);
-        $dto->magazine = $this->magazineRepository->findOneByName('fediverse'); // @todo magazine by tags
+        $dto->magazine = $this->magazineRepository->findOneByName('random'); // @todo magazine by tags
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
         }

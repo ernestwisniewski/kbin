@@ -2,11 +2,21 @@
 
 namespace App\Service\ActivityPub;
 
+use App\Entity\User;
+use App\Factory\ActivityPub\PersonFactory;
+use App\Service\ActivityPubManager;
+use DateTime;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+/*
+ * source:
+ * https://github.com/aaronpk/Nautilus/blob/master/app/ActivityPub/HTTPSignature.php
+ * https://github.com/pixelfed/pixelfed/blob/dev/app/Util/ActivityPub/HttpSignature.php
+ */
 
 class ApHttpClient
 {
-    public function __construct(private HttpClientInterface $client)
+    public function __construct(private HttpClientInterface $client, private PersonFactory $personFactory)
     {
     }
 
@@ -21,31 +31,85 @@ class ApHttpClient
         return $decoded ? json_decode($req->getContent(), true) : $req->getContent();
     }
 
-    public function getActorObject(string $apProfileId)
+    public function getActorObject(string $apProfileId): array
     {
         $req = $this->client->request('GET', $apProfileId, [
             'headers' => [
-                'Accept' => 'application/activity+json,application/ld+json,application/json',
+                'Accept'     => 'application/activity+json,application/ld+json,application/json',
+                'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
             ],
         ]);
 
         return json_decode($req->getContent(), true);
     }
 
-    public function post(string $url, array $params): void
+    public function getInboxUrl(string $apProfileId): string
     {
-        $keyId         = 'key_id';
-        $signedHeaders = 'signed_headers';
-        $signature     = 'signature';
+        $actor = $this->getActorObject($apProfileId);
 
-        $this->client->request('POST', $url, [
-            'body'    => $params,
-            'headers' => [
-                'Signature'    => 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"',
-                'Content-Type' => ['application/activity+json'],
-                'Accept'       => ['application/activity+json,application/ld+json,application/json'],
-                'User-Agent'   => 'kbinBot v0.1 - https://kbin.pub',
-            ],
-        ]);
+        return $actor['endpoints']['sharedInbox'] ?? $actor['inbox'];
+    }
+
+    public function post(string $url, string|array|null $body = null, ?User $user = null): void
+    {
+        if ($body) {
+            $digest = self::digest($body);
+        }
+
+        $headers       = self::headersToSign($url, $body ? $digest : false);
+        $stringToSign  = self::headersToSigningString($headers);
+        $signedHeaders = implode(' ', array_map('strtolower', array_keys($headers)));
+        $key           = openssl_pkey_get_private($user->privateKey);
+        openssl_sign($stringToSign, $signature, $key, OPENSSL_ALGO_SHA256);
+        $signature       = base64_encode($signature);
+        $keyId           = $this->personFactory->getActivityPubId($user).'#main-key';
+        $signatureHeader = 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"';
+        unset($headers['(request-target)']);
+        $headers['Signature']  = $signatureHeader;
+        $headers['User-Agent'] = 'kbinBot v0.1 - https://kbin.pub';
+        $params['headers']     = $headers;
+
+        if ($body) {
+            $params['body'] = $body;
+        }
+
+        $this->client->request('POST', $url, $params);
+    }
+
+    private static function digest(string|array $body): string
+    {
+        if (is_array($body)) {
+            $body = json_encode($body);
+        }
+
+        return base64_encode(hash('sha256', $body, true));
+    }
+
+    protected static function headersToSign(string $url, ?string $digest = null): array
+    {
+        $date = new DateTime('UTC');
+
+        $headers = [
+            '(request-target)' => 'post '.parse_url($url, PHP_URL_PATH),
+            'Date'             => $date->format('D, d M Y H:i:s \G\M\T'),
+            'Host'             => parse_url($url, PHP_URL_HOST),
+            'Accept'           => 'application/activity+json, application/json',
+        ];
+
+        if ($digest) {
+            $headers['Digest'] = 'SHA-256='.$digest;
+        }
+
+        return $headers;
+    }
+
+    private static function headersToSigningString(array $headers): string
+    {
+        return implode(
+            "\n",
+            array_map(function ($k, $v) {
+                return strtolower($k).': '.$v;
+            }, array_keys($headers), $headers)
+        );
     }
 }

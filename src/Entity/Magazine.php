@@ -416,7 +416,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         return [];
     }
 
-    public function getActivityPubId(): string
+    public function getApName(): string
     {
         return $this->name;
     }

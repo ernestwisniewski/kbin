@@ -8,6 +8,7 @@ use App\ActivityPub\Server;
 use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Image;
 use App\Entity\User;
+use App\Factory\ActivityPub\PersonFactory;
 use App\Factory\UserFactory;
 use App\Repository\ImageRepository;
 use App\Repository\UserRepository;
@@ -20,27 +21,29 @@ class ActivityPubManager
 {
     public function __construct(
         private Server $server,
-        private SettingsManager $settings,
         private UserRepository $userRepository,
         private UserManager $userManager,
         private UserFactory $userFactory,
         private ApHttpClient $apHttpClient,
         private ImageRepository $imageRepository,
         private ImageManager $imageManager,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private PersonFactory $personFactory
     ) {
 
     }
 
-    public function getActivityPubProfileId(ActivityPubActorInterface $actor): string
+    public function getActorProfileId(ActivityPubActorInterface $actor): string
     {
-        $subject = $actor->getActivityPubId();
-
-        if (!str_contains($subject, '@')) {
-            $subject .= '@'.$this->settings->getDto()->KBIN_DOMAIN;
+        /**
+         * @var $actor User
+         */
+        if (!$actor->apId) {
+            return $this->personFactory->getActivityPubId($actor);
         }
 
-        return $this->webfinger($subject)->getProfileId();
+        // @todo blid webfinger
+        return $actor->apProfileId;
     }
 
     public function generateKeys(ActivityPubActorInterface $actor): ActivityPubActorInterface

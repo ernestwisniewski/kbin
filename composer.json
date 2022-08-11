@@ -71,6 +71,7 @@
         "symfony/string": "6.1.*",
         "symfony/translation": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
+        "symfony/uid": "6.1.*",
         "symfony/ux-autocomplete": "^2.2",
         "symfony/ux-chartjs": "^2.0",
         "symfony/ux-dropzone": "^2.0",

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\MessageHandler\ActivityPub;
+namespace App\MessageHandler\ActivityPub\Inbox;
 
-use App\Message\ActivityPub\ChainActivityMessage;
-use App\Message\ActivityPub\CreateMessage;
+use App\Message\ActivityPub\Inbox\ChainActivityMessage;
+use App\Message\ActivityPub\Inbox\CreateMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\Note;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;

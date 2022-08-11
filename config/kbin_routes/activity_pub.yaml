@@ -19,6 +19,12 @@ ap_shared_inbox:
   methods: [ POST ]
   condition: '%kbin_ap_route_condition%'
 
+ap_object:
+  controller: App\Controller\ActivityPub\ObjectController
+  path: /f/{id}
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
 ap_user:
   controller: App\Controller\ActivityPub\User\UserController
   path: /u/{username}
