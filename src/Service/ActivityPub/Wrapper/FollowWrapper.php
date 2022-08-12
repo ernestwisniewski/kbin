@@ -20,8 +20,8 @@ class FollowWrapper
             '@context' => 'https://www.w3.org/ns/activitystreams',
             'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id]),
             'type'     => 'Follow',
-            'actor'    => $following,
-            'object'   => $follower,
+            'actor'    => $follower,
+            'object'   => $following,
         ];
     }
 }
