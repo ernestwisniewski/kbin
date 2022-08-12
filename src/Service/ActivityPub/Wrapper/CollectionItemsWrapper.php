@@ -22,10 +22,17 @@ class CollectionItemsWrapper
         'totalItems'   => "int",
         'orderedItems' => "\Pagerfanta\PagerfantaInterface",
         'next'         => "string",
-    ])] public function build(string $routeName, array $routeParams, PagerfantaInterface $pagerfanta, array $items, int $page): array
-    {
+    ])] public function build(
+        string $routeName,
+        array $routeParams,
+        PagerfantaInterface $pagerfanta,
+        array $items,
+        int $page,
+        ?array $context = null
+    ): array {
         $result = [
-            '@context'     => ActivityPubActivityInterface::CONTEXT_URL,
+            '@context'     => $context ? array_merge([ActivityPubActivityInterface::CONTEXT_URL], [$context])
+                : ActivityPubActivityInterface::CONTEXT_URL,
             'type'         => 'OrderedCollectionPage',
             'partOf'       => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABS_URL),
             'id'           => $this->urlGenerator->generate(

@@ -16,7 +16,7 @@ class UserController
 
     public function __invoke(User $user, Request $request): JsonResponse
     {
-        $response = new JsonResponse($this->personFactory->create($user));
+        $response = new JsonResponse($this->personFactory->create($user, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');
 

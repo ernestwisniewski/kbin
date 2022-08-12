@@ -26,14 +26,19 @@ class PostCommentNoteFactory
     ) {
     }
 
-    public
-    function create(
-        PostComment $comment
-    ): array {
-        $note = [
-            'type'         => 'Note',
-            '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
+    public function create(PostComment $comment, bool $context = false): array
+    {
+        if ($context) {
+            $note['@context'] = [
+                ActivityPubActivityInterface::CONTEXT_URL,
+                ActivityPubActivityInterface::SECURITY_URL,
+                PostNoteFactory::getContext(),
+            ];
+        }
+
+        $note = array_merge($note ?? [], [
             'id'           => $this->getActivityPubId($comment),
+            'type'         => 'Note',
             'attributedTo' => $this->activityPubManager->getActorProfileId($comment->user),
             'inReplyTo'    => $comment->apId ??
                 $comment->parent ? $this->getActivityPubId($comment->parent) : $this->postNoteFactory->getActivityPubId($comment->post),
@@ -46,12 +51,13 @@ class PostCommentNoteFactory
                     ? $this->client->getActorObject($comment->user->apProfileId)['followers']
                     : $this->urlGenerator->generate('ap_user_followers', ['username' => $comment->user->username], UrlGeneratorInterface::ABS_URL),
             ],
+            'sensitive'    => $comment->post->isAdult(),
             'content'      => $comment->body,
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
             'tag'          => $this->tagsWrapper->build($comment->tags) + $this->mentionsWrapper->build($comment->mentions),
             'published'    => $comment->createdAt->format(DateTimeInterface::ISO8601),
-        ];
+        ]);
 
         if ($comment->image) {
             $note = $this->imageWrapper->build($note, $comment->image, $comment->getShortTitle());
@@ -60,10 +66,8 @@ class PostCommentNoteFactory
         return $note;
     }
 
-    public
-    function getActivityPubId(
-        PostComment $comment
-    ): string {
+    public function getActivityPubId(PostComment $comment): string
+    {
         return $this->urlGenerator->generate(
             'ap_post_comment',
             ['magazine_name' => $comment->magazine->name, 'post_id' => $comment->post->getId(), 'comment_id' => $comment->getId()],

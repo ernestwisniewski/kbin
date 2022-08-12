@@ -26,7 +26,7 @@ class PostCommentController
         PostComment $comment,
         Request $request
     ): Response {
-        $response = new JsonResponse($this->commentNoteFactory->create($comment));
+        $response = new JsonResponse($this->commentNoteFactory->create($comment, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');
 

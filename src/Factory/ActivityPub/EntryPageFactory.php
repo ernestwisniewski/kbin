@@ -25,12 +25,19 @@ class EntryPageFactory
     ) {
     }
 
-    public function create(Entry $entry): array
+    public function create(Entry $entry, bool $context = false): array
     {
-        $page = [
-            'type'            => 'Page',
-            '@context'        => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
+        if ($context) {
+            $page['@context'] = [
+                ActivityPubActivityInterface::CONTEXT_URL,
+                ActivityPubActivityInterface::SECURITY_URL,
+                PostNoteFactory::getContext(),
+            ];
+        }
+
+        $page = array_merge($page ?? [], [
             'id'              => $this->getActivityPubId($entry),
+            'type'            => 'Page',
             'attributedTo'    => $this->activityPubManager->getActorProfileId($entry->user),
             'inReplyTo'       => null,
             'to'              => [
@@ -57,7 +64,7 @@ class EntryPageFactory
                     'type' => 'Link',
                 ],
             ],
-        ];
+        ]);
 
         if ($entry->image) {
             $page = $this->imageWrapper->build($page, $entry->image, $entry->title);

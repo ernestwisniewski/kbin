@@ -5,7 +5,7 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
-use App\Service\ActivityPub\ApHttpClient;
+use DateTimeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PersonFactory
@@ -16,36 +16,55 @@ class PersonFactory
     ) {
     }
 
-    public function create(User $user): array
+    public function create(User $user, bool $context = true): array
     {
-        $person = [
-            'type'              => 'Person',
-            '@context'          => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
-            'id'                => $this->getActivityPubId($user),
-            'name'              => $user->username,
-            'preferredUsername' => $user->username,
-            'inbox'             => $this->urlGenerator->generate('ap_user_inbox', ['username' => $user->username], UrlGeneratorInterface::ABS_URL),
-            'outbox'            => $this->urlGenerator->generate('ap_user_outbox', ['username' => $user->username], UrlGeneratorInterface::ABS_URL),
-            'following'         => $this->urlGenerator->generate(
-                'ap_user_following',
-                ['username' => $user->username],
-                UrlGeneratorInterface::ABS_URL
-            ),
-            'followers'         => $this->urlGenerator->generate(
-                'ap_user_followers',
-                ['username' => $user->username],
-                UrlGeneratorInterface::ABS_URL
-            ),
-            'url'               => $this->getActivityPubId($user),
-            'publicKey'         => [
-                'owner'        => $this->getActivityPubId($user),
-                'id'           => $this->getActivityPubId($user).'#main-key',
-                'publicKeyPem' => $user->publicKey,
-            ],
-            'endpoints'         => [
-                'sharedInbox' => $this->urlGenerator->generate('ap_shared_inbox', [], UrlGeneratorInterface::ABS_URL),
-            ],
-        ];
+        if ($context) {
+            $person ['@context'] = [
+                ActivityPubActivityInterface::CONTEXT_URL,
+                ActivityPubActivityInterface::SECURITY_URL,
+                $this->getContext(),
+            ];
+        }
+
+        $person = array_merge(
+            $person ?? [], [
+                'id'                        => $this->getActivityPubId($user),
+                'type'                      => 'Person',
+                'name'                      => $user->username,
+                'preferredUsername'         => $user->username,
+                'inbox'                     => $this->urlGenerator->generate(
+                    'ap_user_inbox',
+                    ['username' => $user->username],
+                    UrlGeneratorInterface::ABS_URL
+                ),
+                'outbox'                    => $this->urlGenerator->generate(
+                    'ap_user_outbox',
+                    ['username' => $user->username],
+                    UrlGeneratorInterface::ABS_URL
+                ),
+                'url'                       => $this->getActivityPubId($user),
+                'manuallyApprovesFollowers' => false,
+                'published'                 => $user->createdAt->format(DateTimeInterface::ISO8601),
+                'following'                 => $this->urlGenerator->generate(
+                    'ap_user_following',
+                    ['username' => $user->username],
+                    UrlGeneratorInterface::ABS_URL
+                ),
+                'followers'                 => $this->urlGenerator->generate(
+                    'ap_user_followers',
+                    ['username' => $user->username],
+                    UrlGeneratorInterface::ABS_URL
+                ),
+                'publicKey'                 => [
+                    'owner'        => $this->getActivityPubId($user),
+                    'id'           => $this->getActivityPubId($user).'#main-key',
+                    'publicKeyPem' => $user->publicKey,
+                ],
+                'endpoints'                 => [
+                    'sharedInbox' => $this->urlGenerator->generate('ap_shared_inbox', [], UrlGeneratorInterface::ABS_URL),
+                ],
+            ]
+        );
 
         if ($user->avatar) {
             $person['icon'] = [
@@ -55,6 +74,16 @@ class PersonFactory
         }
 
         return $person;
+    }
+
+    public function getContext(): array
+    {
+        return [
+            'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
+            'schema'                    => 'http://schema.org#',
+            'PropertyValue'             => 'schema:PropertyValue',
+            'value'                     => 'schema:value',
+        ];
     }
 
     public function getActivityPubId(User $user): string

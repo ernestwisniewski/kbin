@@ -19,7 +19,7 @@ class ActivityFactory
 
     }
 
-    public function create(ActivityPubActivityInterface $activity): array
+    public function create(ActivityPubActivityInterface $activity, bool $context = false): array
     {
         return match (true) {
             $activity instanceof Entry => $this->pageFactory->create($activity),

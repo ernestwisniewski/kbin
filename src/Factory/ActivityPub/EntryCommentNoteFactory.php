@@ -26,8 +26,16 @@ class EntryCommentNoteFactory
     ) {
     }
 
-    public function create(EntryComment $comment): array
+    public function create(EntryComment $comment, bool $context = false): array
     {
+        if ($context) {
+            $note['@context'] = [
+                ActivityPubActivityInterface::CONTEXT_URL,
+                ActivityPubActivityInterface::SECURITY_URL,
+                PostNoteFactory::getContext(),
+            ];
+        }
+
         $note = [
             'type'         => 'Note',
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],

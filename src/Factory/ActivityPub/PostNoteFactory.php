@@ -11,6 +11,7 @@ use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
 use DateTimeInterface;
+use JetBrains\PhpStorm\ArrayShape;
 
 class PostNoteFactory
 {
@@ -25,13 +26,15 @@ class PostNoteFactory
     ) {
     }
 
-    public function create(Post $post): array
+    public function create(Post $post, bool $context = false): array
     {
+        if ($context) {
+            $note['@context'] = [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL, self::getContext()];
+        }
 
-        $note = [
-            'type'            => 'Note',
-            '@context'        => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
+        $note = array_merge($note ?? [], [
             'id'              => $this->getActivityPubId($post),
+            'type'            => 'Note',
             'attributedTo'    => $this->activityPubManager->getActorProfileId($post->user),
             'inReplyTo'       => null,
             'to'              => [
@@ -47,20 +50,29 @@ class PostNoteFactory
                     UrlGeneratorInterface::ABS_URL
                 ),
             ],
+            'sensitive'       => $post->isAdult(),
             'content'         => $post->body,
             'mediaType'       => 'text/html',
             'url'             => $this->getActivityPubId($post),
             'tag'             => $this->tagsWrapper->build($post->tags) + $this->mentionsWrapper->build($post->mentions),
             'commentsEnabled' => true,
-            'sensitive'       => $post->isAdult(),
             'published'       => $post->createdAt->format(DateTimeInterface::ISO8601),
-        ];
+        ]);
 
         if ($post->image) {
             $note = $this->imageWrapper->build($note, $post->image, $post->getShortTitle());
         }
 
         return $note;
+    }
+
+    #[ArrayShape(['ostatus' => "string", 'sensitive' => "string", 'votersCount' => "string"])] public static function getContext(): array
+    {
+        return [
+            'ostatus'     => 'http://ostatus.org#',
+            'sensitive'   => 'as:sensitive',
+            'votersCount' => 'toot:votersCount',
+        ];
     }
 
     public function getActivityPubId(Post $post): string

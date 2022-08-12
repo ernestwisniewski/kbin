@@ -26,7 +26,7 @@ class EntryCommentController
         EntryComment $comment,
         Request $request
     ): Response {
-        $response = new JsonResponse($this->pageFactory->create($comment));
+        $response = new JsonResponse($this->pageFactory->create($comment, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');
 

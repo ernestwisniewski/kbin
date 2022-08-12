@@ -23,7 +23,7 @@ class EntryController
         Entry $entry,
         Request $request
     ): Response {
-        $response = new JsonResponse($this->pageFactory->create($entry));
+        $response = new JsonResponse($this->pageFactory->create($entry, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');
 

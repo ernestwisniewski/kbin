@@ -23,7 +23,7 @@ class PostController
         Post $post,
         Request $request
     ): Response {
-        $response = new JsonResponse($this->postNoteFactory->create($post));
+        $response = new JsonResponse($this->postNoteFactory->create($post, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');
 

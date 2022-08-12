@@ -4,6 +4,7 @@ namespace App\Controller\ActivityPub\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
+use App\Factory\ActivityPub\PostNoteFactory;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\CollectionInfoWrapper;
 use App\Service\ActivityPub\Wrapper\CollectionItemsWrapper;
@@ -79,7 +80,8 @@ class UserOutboxController extends AbstractController
             ['username' => $user->username],
             $activity,
             $items,
-            $page
+            $page,
+            PostNoteFactory::getContext()
         );
     }
 }
