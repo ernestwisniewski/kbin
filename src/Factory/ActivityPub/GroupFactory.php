@@ -5,14 +5,14 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Magazine;
+use App\Service\SettingsManager;
 use DateTimeInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class GroupFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private RequestStack $requestStack
+        private SettingsManager $settings
     ) {
     }
 
@@ -51,7 +51,7 @@ class GroupFactory
         if ($magazine->cover) {
             $group['icon'] = [
                 'type' => 'Image',
-                'url'  => $this->requestStack->getCurrentRequest()->getUriForPath('/media/'.$magazine->cover->filePath) // @todo media url
+                'url'  => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$magazine->cover->filePath  // @todo media url
             ];
         }
 

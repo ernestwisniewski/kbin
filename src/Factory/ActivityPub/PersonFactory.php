@@ -5,14 +5,15 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
+use App\Service\SettingsManager;
 use DateTimeInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use JetBrains\PhpStorm\ArrayShape;
 
 class PersonFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private RequestStack $requestStack
+        private SettingsManager $settings
     ) {
     }
 
@@ -69,14 +70,19 @@ class PersonFactory
         if ($user->avatar) {
             $person['icon'] = [
                 'type' => 'Image',
-                'url'  => $this->requestStack->getCurrentRequest()->getUriForPath('/media/'.$user->avatar->filePath) // @todo media url
+                'url'  => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$user->avatar->filePath // @todo media url
             ];
         }
 
         return $person;
     }
 
-    public function getContext(): array
+    #[ArrayShape([
+        'manuallyApprovesFollowers' => "string",
+        'schema'                    => "string",
+        'PropertyValue'             => "string",
+        'value'                     => "string",
+    ])] public function getContext(): array
     {
         return [
             'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',

@@ -19,7 +19,7 @@ class ImageWrapper
         $item['attachment'][] = [
             'type'       => 'Document',
             'mediaType'  => $this->imageManager->getMimetype($image),
-            'url'        => $this->settings->get('KBIN_DOMAIN').'/media/'.$image->filePath, // @todo media url
+            'url'        => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$image->filePath, // @todo media url
             'name'       => $title, // @todo media url
             'blurhash'   => '', // @todo mastodon blurhash
             'focalPoint' => [0, 0],
@@ -29,7 +29,7 @@ class ImageWrapper
 
         $item['image'] = [ // @todo Lemmy
             'type' => 'Image',
-            'url'  => $this->settings->get('KBIN_DOMAIN').'/media/'.$image->filePath // @todo media url
+            'url'  => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$image->filePath // @todo media url
         ];
 
         return $item;
