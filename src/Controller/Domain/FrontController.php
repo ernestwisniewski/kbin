@@ -7,23 +7,18 @@ use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Repository\DomainRepository;
 use App\Repository\EntryRepository;
-use App\Service\ActivityPub\ApHttpClient;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class FrontController extends AbstractController
 {
-    public function __construct(private EntryRepository $entryRepository, private DomainRepository $domainRepository, private ApHttpClient $client)
+    public function __construct(private EntryRepository $entryRepository, private DomainRepository $domainRepository)
     {
     }
 
     public function __invoke(?string $name, ?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
-        $this->client->post('https://dev.karab.in/f/inbox', []);
-
-        die;
-
         if (!$domain = $this->domainRepository->findOneBy(['name' => $name])) {
             throw $this->createNotFoundException();
         }

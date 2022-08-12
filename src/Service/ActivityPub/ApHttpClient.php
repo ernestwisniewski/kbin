@@ -50,7 +50,7 @@ class ApHttpClient
         return $actor['endpoints']['sharedInbox'] ?? $actor['inbox'];
     }
 
-    public function post(string $url, string|array|null $body = null, ?User $user = null): void
+    public function post(string $url, ?array $body = null, ?User $user = null): void
     {
         if ($body) {
             $digest = self::digest($body);
@@ -70,19 +70,15 @@ class ApHttpClient
         $params['headers']     = $headers;
 
         if ($body) {
-            $params['body'] = $body;
+            $params['json'] = $body;
         }
 
         $this->client->request('POST', $url, $params);
     }
 
-    private static function digest(string|array $body): string
+    private static function digest(array $body): string
     {
-        if (is_array($body)) {
-            $body = json_encode($body);
-        }
-
-        return base64_encode(hash('sha256', $body, true));
+        return base64_encode(hash('sha256', json_encode($body), true));
     }
 
     #[ArrayShape([
