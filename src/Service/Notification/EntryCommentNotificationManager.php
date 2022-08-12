@@ -65,11 +65,15 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     {
         $users = [];
         foreach ($this->mentionManager->getUsersFromArray($subject->mentions) as $user) {
-            $notification = new EntryCommentMentionedNotification($user, $subject);
-            $this->entityManager->persist($notification);
+            if (!$user->apId) {
+                $notification = new EntryCommentMentionedNotification($user, $subject);
+                $this->entityManager->persist($notification);
+            }
 
             $users[] = $user;
         }
+
+        $remoteSubscribers = array_filter($users, fn($s) => null !== $s->apId); // @todo activtypub
 
         return $users;
     }
@@ -85,6 +89,13 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         }
 
         if (in_array($comment->parent->user, $exclude)) {
+            return $exclude;
+        }
+
+        if ($comment->parent->user->apId) {
+            // @todo activtypub
+            $exclude[] = $comment->parent->user;
+
             return $exclude;
         }
 

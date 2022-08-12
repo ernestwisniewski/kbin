@@ -60,7 +60,9 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
             [] // @todo user followers
         );
 
-        $subscribers = array_filter($subscribers, fn($s) => !in_array($s->username, $subject->mentions ?? []));
+        $subscribers       = array_filter($subscribers, fn($s) => !in_array($s->username, $subject->mentions ?? []));
+        $remoteSubscribers = array_filter($subscribers, fn($s) => null !== $s->apId); // @todo activtypub
+        $subscribers       = array_filter($subscribers, fn($s) => null === $s->apId);
 
         foreach ($subscribers as $subscriber) {
             $notification = new EntryCreatedNotification($subscriber, $subject);
