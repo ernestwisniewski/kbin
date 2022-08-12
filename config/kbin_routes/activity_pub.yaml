@@ -21,7 +21,7 @@ ap_shared_inbox:
 
 ap_object:
   controller: App\Controller\ActivityPub\ObjectController
-  path: /f/{id}
+  path: /f/object/{id}
   methods: [ GET ]
   condition: '%kbin_ap_route_condition%'
 
