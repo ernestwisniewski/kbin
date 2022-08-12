@@ -23,6 +23,8 @@ class UserFollowSubscriber implements EventSubscriberInterface
 
     public function onUserFollow(UserFollowEvent $event): void
     {
-        $this->bus->dispatch(new FollowMessage($event->follower->getId(), $event->following->getId(), $event->unfollow));
+        if (!$event->follower->apId && $event->following->apId) {
+            $this->bus->dispatch(new FollowMessage($event->follower->getId(), $event->following->getId(), $event->unfollow));
+        }
     }
 }

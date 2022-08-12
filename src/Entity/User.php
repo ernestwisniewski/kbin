@@ -704,7 +704,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return !$user->isBanned;
     }
 
-    public function getApNAme(): string
+    public function getApName(): string
     {
         return $this->username;
     }

@@ -4,8 +4,8 @@ namespace App\Service\ActivityPub;
 
 use App\Entity\User;
 use App\Factory\ActivityPub\PersonFactory;
-use App\Service\ActivityPubManager;
 use DateTime;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /*
@@ -85,7 +85,13 @@ class ApHttpClient
         return base64_encode(hash('sha256', $body, true));
     }
 
-    protected static function headersToSign(string $url, ?string $digest = null): array
+    #[ArrayShape([
+        '(request-target)' => "string",
+        'Date'             => "string",
+        'Host'             => "mixed",
+        'Accept'           => "string",
+        'Digest'           => "string",
+    ])] protected static function headersToSign(string $url, ?string $digest = null): array
     {
         $date = new DateTime('UTC');
 
