@@ -21,6 +21,10 @@ class MessageCreateThreadController extends AbstractController
     #[IsGranted('message', subject: 'receiver')]
     public function __invoke(User $receiver, Request $request): Response
     {
+        if ($receiver->apId) {
+            throw $this->createAccessDeniedException();
+        }
+
         $form = $this->createForm(MessageType::class);
         $form->handleRequest($request);
 
