@@ -18,7 +18,7 @@ class FollowWrapper
     ): array {
         return [
             '@context' => 'https://www.w3.org/ns/activitystreams',
-            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id]),
+            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id, UrlGeneratorInterface::ABS_URL]),
             'type'     => 'Follow',
             'actor'    => $follower,
             'object'   => $following,

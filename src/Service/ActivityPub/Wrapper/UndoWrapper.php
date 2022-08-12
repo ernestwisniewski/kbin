@@ -19,7 +19,7 @@ class UndoWrapper
 
         return [
             '@context' => 'https://www.w3.org/ns/activitystreams',
-            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABS_URL),
+            'id'       => $object['id'].'#unfollow',
             'type'     => 'Undo',
             'actor'    => $object['actor'],
             'object'   => $object,
