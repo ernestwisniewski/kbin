@@ -17,7 +17,6 @@ ap_shared_inbox:
   controller: App\Controller\ActivityPub\SharedInboxController
   path: /f/inbox
   methods: [ POST ]
-  condition: '%kbin_ap_route_condition%'
 
 ap_object:
   controller: App\Controller\ActivityPub\ObjectController
@@ -35,7 +34,6 @@ ap_user_inbox:
   controller: App\Controller\ActivityPub\User\UserInboxController
   path: /u/{username}/inbox
   methods: [ POST ]
-  condition: '%kbin_ap_route_condition%'
 
 ap_user_outbox:
   controller: App\Controller\ActivityPub\User\UserOutboxController
@@ -65,7 +63,6 @@ ap_magazine_inbox:
   controller: App\Controller\ActivityPub\Magazine\MagazineInboxController
   path: /m/{name}/inbox
   methods: [ POST ]
-  condition: '%kbin_ap_route_condition%'
 
 ap_magazine_outbox:
   controller: App\Controller\ActivityPub\Magazine\MagazineOutboxController
