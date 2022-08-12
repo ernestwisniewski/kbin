@@ -25,13 +25,13 @@ class ActivityHandler implements MessageHandlerInterface
         $key = 'ap_'.hash('sha256', $payload['id']);
         if ($cache->hasItem($key)) {
 //            return;
-        }
+        }\
         $item = $cache->getItem($key);
         $item->set(true);
         $cache->save($item);
 
         if ($message->headers) {
-//            $this->signatureValidator->validate($message->payload, $message->headers);
+            $this->signatureValidator->validate($message->payload, $message->headers);
         }
 
         $this->handle($payload);
