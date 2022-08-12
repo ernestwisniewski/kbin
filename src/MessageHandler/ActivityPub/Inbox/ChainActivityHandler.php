@@ -7,9 +7,9 @@ use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Note;
 use App\Service\ActivityPub\Page;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use function App\MessageHandler\ActivityPub\count;
 
 class ChainActivityHandler implements MessageHandlerInterface
 {
@@ -17,6 +17,7 @@ class ChainActivityHandler implements MessageHandlerInterface
         private ApHttpClient $client,
         private MessageBusInterface $bus,
         private ApActivityRepository $repository,
+        private LoggerInterface $logger,
         private Note $note,
         private Page $page
     ) {
@@ -67,10 +68,14 @@ class ChainActivityHandler implements MessageHandlerInterface
     {
         $object = end($chain);
 
-        if ($object['type'] === 'Note') {
-            $this->note->create($object);
-        } else {
-            $this->page->create($object);
+        try {
+            if ($object['type'] === 'Note') {
+                $this->note->create($object);
+            } else {
+                $this->page->create($object);
+            }
+        } catch (\Exception $e) {
+            $this->logger->error('Object import fail: '.$object['id']);
         }
 
         array_pop($chain);
