@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use ActivityPhp\Server\Http\WebFinger;
-use ActivityPhp\Server\Http\WebFingerFactory;
 use App\ActivityPub\Server;
 use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Image;
@@ -13,6 +11,8 @@ use App\Factory\UserFactory;
 use App\Repository\ImageRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
+use App\Service\ActivityPub\Webfinger\WebFinger;
+use App\Service\ActivityPub\Webfinger\WebFingerFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use phpseclib3\Crypt\RSA;
 
@@ -28,7 +28,8 @@ class ActivityPubManager
         private ImageManager $imageManager,
         private EntityManagerInterface $entityManager,
         private PersonFactory $personFactory,
-        private SettingsManager $settingsManager
+        private SettingsManager $settingsManager,
+        private WebFingerFactory $webFingerFactory
     ) {
 
     }
@@ -84,10 +85,10 @@ class ActivityPubManager
 
     public function webfinger(string $id): WebFinger
     {
-        WebFingerFactory::setServer($this->server->create());
+        $this->webFingerFactory::setServer($this->server->create());
 
         if (filter_var($id, FILTER_VALIDATE_URL) === false) {
-            return WebFingerFactory::get($id);
+            return $this->webFingerFactory->get($id);
         }
 
         $port = !is_null(parse_url($id, PHP_URL_PORT))
@@ -101,7 +102,7 @@ class ActivityPubManager
             $port
         );
 
-        return WebFingerFactory::get($handle);
+        return $this->webFingerFactory->get($handle);
     }
 
     public function handleImages(array $attachment): ?Image

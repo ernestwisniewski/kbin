@@ -1,5 +1,5 @@
 ap_webfinger:
-  controller: App\Controller\ActivityPub\WebfingerController
+  controller: App\Controller\ActivityPub\WebFingerController
   path: '/.well-known/webfinger'
   methods: [ GET ]
 

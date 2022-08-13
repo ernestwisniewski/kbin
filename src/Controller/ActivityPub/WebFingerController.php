@@ -8,7 +8,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class WebfingerController
+class WebFingerController
 {
     public function __construct(private EventDispatcherInterface $eventDispatcher)
     {

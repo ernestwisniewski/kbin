@@ -6,17 +6,17 @@ use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\ActivityPub\JsonRdLink;
 use App\Event\ActivityPub\WebfingerResponseEvent;
 use App\Repository\UserRepository;
-use App\Service\ActivityPub\WebfingerParameters;
+use App\Service\ActivityPub\Webfinger\WebFingerParameters;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class WebfingerSubscriber implements EventSubscriberInterface
+class WebFingerSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private RequestStack $requestStack,
-        private WebfingerParameters $webfingerParameters,
+        private WebFingerParameters $webfingerParameters,
         private UserRepository $userRepository,
         private UrlGeneratorInterface $urlGenerator
     ) {
@@ -40,7 +40,7 @@ class WebfingerSubscriber implements EventSubscriberInterface
             $jsonRd->setSubject($subject);
         }
 
-        if (isset($params[WebfingerParameters::ACCOUNT_KEY_NAME]) && $actor = $this->getActor($params[WebfingerParameters::ACCOUNT_KEY_NAME])) {
+        if (isset($params[WebFingerParameters::ACCOUNT_KEY_NAME]) && $actor = $this->getActor($params[WebFingerParameters::ACCOUNT_KEY_NAME])) {
             $accountHref = $this->urlGenerator->generate(
                 'ap_user',
                 ['username' => $actor->getUserIdentifier()],

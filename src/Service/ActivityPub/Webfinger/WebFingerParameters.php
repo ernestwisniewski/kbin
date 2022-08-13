@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Service\ActivityPub;
+namespace App\Service\ActivityPub\Webfinger;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class WebfingerParameters
+class WebFingerParameters
 {
     const REL_KEY_NAME = 'rel';
     const HOST_KEY_NAME = 'host';
