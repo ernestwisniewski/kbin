@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Factory\ActivityPub\PersonFactory;
 use DateTime;
 use JetBrains\PhpStorm\ArrayShape;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /*
@@ -16,7 +17,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApHttpClient
 {
-    public function __construct(private HttpClientInterface $client, private PersonFactory $personFactory)
+    public function __construct(private HttpClientInterface $client, private PersonFactory $personFactory, private LoggerInterface $logger)
     {
     }
 
@@ -29,6 +30,8 @@ class ApHttpClient
             ],
         ]);
 
+        $this->logger->debug("ApHttpClient:getActivityObject: {$url}");
+
         return $decoded ? json_decode($req->getContent(), true) : $req->getContent();
     }
 
@@ -40,6 +43,8 @@ class ApHttpClient
                 'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
             ],
         ]);
+
+        $this->logger->debug("ApHttpClient:getActorObject: {$apProfileId}");
 
         return json_decode($req->getContent(), true);
     }
@@ -73,6 +78,9 @@ class ApHttpClient
         if ($body) {
             $params['json'] = $body;
         }
+
+        $this->logger->debug("ApHttpClient:post: {$url}");
+        $this->logger->debug("ApHttpClient:post: ".json_encode($body ?? []));
 
         $this->client->request('POST', $url, $params);
     }
