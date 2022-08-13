@@ -41,8 +41,7 @@ class EntryCommentNoteFactory
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'           => $this->getActivityPubId($comment),
             'attributedTo' => $this->activityPubManager->getActorProfileId($comment->user),
-            'inReplyTo'    => $comment->apId ??
-                $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId($comment->entry),
+            'inReplyTo'    => $this->getReplyTo($comment),
             'to'           => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
@@ -73,5 +72,14 @@ class EntryCommentNoteFactory
             ['magazine_name' => $comment->magazine->name, 'entry_id' => $comment->entry->getId(), 'comment_id' => $comment->getId()],
             UrlGeneratorInterface::ABS_URL
         );
+    }
+
+    private function getReplyTo(EntryComment $comment): string
+    {
+        if($comment->apId) {
+            return $comment->apId;
+        }
+
+        return $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId($comment->entry);
     }
 }

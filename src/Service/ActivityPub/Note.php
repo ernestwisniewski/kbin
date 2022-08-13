@@ -6,7 +6,6 @@ use App\DTO\EntryCommentDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
-use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
@@ -51,10 +50,6 @@ class Note
 
             $root = null;
             $fn   = null;
-            if (get_class($parent) === Entry::class) {
-                $root = $parent;
-                $fn   = 'createEntryComment';
-            }
 
             if (get_class($parent) === EntryComment::class) {
                 $root = $parent->entry;

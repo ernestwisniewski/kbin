@@ -11,6 +11,7 @@ use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
 use DateTimeInterface;
+use Psr\Log\LoggerInterface;
 
 class PostCommentNoteFactory
 {
@@ -22,7 +23,8 @@ class PostCommentNoteFactory
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
-        private ActivityPubManager $activityPubManager
+        private ActivityPubManager $activityPubManager,
+        private LoggerInterface $logger
     ) {
     }
 
@@ -40,8 +42,7 @@ class PostCommentNoteFactory
             'id'           => $this->getActivityPubId($comment),
             'type'         => 'Note',
             'attributedTo' => $this->activityPubManager->getActorProfileId($comment->user),
-            'inReplyTo'    => $comment->apId ??
-                $comment->parent ? $this->getActivityPubId($comment->parent) : $this->postNoteFactory->getActivityPubId($comment->post),
+            'inReplyTo'    => $this->getReplyTo($comment),
             'to'           => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
@@ -73,5 +74,14 @@ class PostCommentNoteFactory
             ['magazine_name' => $comment->magazine->name, 'post_id' => $comment->post->getId(), 'comment_id' => $comment->getId()],
             UrlGeneratorInterface::ABS_URL
         );
+    }
+
+    private function getReplyTo(PostComment $comment): string
+    {
+        if ($comment->apId) {
+            return $comment->apId;
+        }
+
+        return $comment->parent ? $this->getActivityPubId($comment->parent) : $this->postNoteFactory->getActivityPubId($comment->post);
     }
 }
