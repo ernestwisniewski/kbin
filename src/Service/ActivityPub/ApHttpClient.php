@@ -71,8 +71,8 @@ class ApHttpClient
     {
         $cache = new FilesystemAdapter(); // @todo redis
 
-        $key = 'ap_'.hash('sha256', $url.':'.$body['id']);
-        if ($cache->hasItem($key)) {
+        $cacheKey = 'ap_'.hash('sha256', $url.':'.$body['id']);
+        if ($cache->hasItem($cacheKey)) {
             return;
         }
 
@@ -98,10 +98,10 @@ class ApHttpClient
         $this->logger->info("ApHttpClient:post:url: {$url}");
         $this->logger->info("ApHttpClient:post:body ".json_encode($body ?? []));
 
-        $this->client->request('POST', $url, $params);
+//        $this->client->request('POST', $url, $params);
 
         // build cache
-        $item = $cache->getItem($key);
+        $item = $cache->getItem($cacheKey);
         $item->set(true);
         $cache->save($item);
     }
