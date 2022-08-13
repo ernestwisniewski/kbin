@@ -4,8 +4,10 @@ namespace App\Repository;
 
 use App\Entity\ApActivity;
 use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Service\SettingsManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,20 +20,41 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ApActivityRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private SettingsManager $settingsManager)
     {
         parent::__construct($registry, ApActivity::class);
     }
 
     public function findByObjectId(string $apId): ?array
     {
+        $parsed = parse_url($apId);
+        if ($parsed['host'] === $this->settingsManager->get('KBIN_DOMAIN')) {
+            $exploded = array_filter(explode('/', $parsed['path']));
+            $id       = end($exploded);
+            if ($exploded[3] === 'p') {
+                if (count($exploded) === 4) {
+                    return $this->_em->getRepository(Post::class)->find($id);
+                } else {
+                    return $this->_em->getRepository(PostComment::class)->find($id);
+                }
+            }
+
+            if ($exploded[3] === 't') {
+                if (count($exploded) === 4) {
+                    return $this->_em->getRepository(Entry::class)->find($id);
+                } else {
+                    return $this->_em->getRepository(EntryComment::class)->find($id);
+                }
+            }
+        }
+
         $entryClass        = Entry::class;
         $entryCommentClass = Entry::class;
         $postClass         = Post::class;
         $postCommentClass  = PostComment::class;
 
-        $conn              = $this->_em->getConnection();
-        $sql               = "
+        $conn = $this->_em->getConnection();
+        $sql  = "
         (SELECT id, '{$entryClass}' AS type FROM entry 
         WHERE ap_id = '{$apId}') 
         UNION 
