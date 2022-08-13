@@ -10,7 +10,6 @@ class CreateWrapper
 {
     public function __construct(
         private ActivityFactory $factory,
-
     ) {
     }
 
