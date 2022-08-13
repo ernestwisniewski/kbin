@@ -1,7 +1,46 @@
 {
-  "@context": "https:\/\/www.w3.org\/ns\/activitystreams",
-  "id": "https:\/\/mastodon.krbn.pl\/5eb66503-055a-4ee2-ad72-ccd0460eb6a8#accept",
-  "type": "Accept",
-  "actor": "https:\/\/mastodon.krbn.pl\/users\/ernest",
-  "object": "https:\/\/dev.karab.in\/u\/ernest"
+  "devDependencies": {
+    "@hotwired/stimulus": "^3.0.0",
+    "@hotwired/turbo": "^7.0.1",
+    "@symfony/stimulus-bridge": "^3.0.0",
+    "@symfony/ux-autocomplete": "file:vendor/symfony/ux-autocomplete/assets",
+    "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets",
+    "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/Resources/assets",
+    "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/Resources/assets",
+    "@symfony/webpack-encore": "^1.7.0",
+    "bootstrap": "^5.1.3",
+    "chart.js": "^3.4.1",
+    "core-js": "^3.0.0",
+    "file-loader": "^6.0.0",
+    "node-sass": "^4.0.0",
+    "regenerator-runtime": "^0.13.2",
+    "sass-loader": "^12.0.0",
+    "tom-select": "^2.0.1",
+    "webpack-notifier": "^1.6.0"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@popperjs/core": "^2.6.0",
+    "choices.js": "^9.0.1",
+    "imagesloaded": "^5.0.0",
+    "js-cookie": "^2.2.1",
+    "masonry-layout": "^4.2.2",
+    "simplemde": "^1.11.2",
+    "stimulus-animated-number": "^4.0.0",
+    "stimulus-character-counter": "^4.0.0",
+    "stimulus-clipboard": "^3.0.0",
+    "stimulus-reveal-controller": "^4.0.0",
+    "stimulus-scroll-progress": "^4.0.0",
+    "stimulus-timeago": "^4.0.0",
+    "stimulus-use": "^0.50.0-2",
+    "vanillajs-datepicker": "^1.1.2"
+  }
 }

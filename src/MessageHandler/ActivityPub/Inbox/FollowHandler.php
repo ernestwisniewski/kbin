@@ -2,21 +2,23 @@
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
-use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPub\ApHttpClient;
+use App\Service\ActivityPub\Wrapper\AcceptWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\UserManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Uid\Uuid;
 
 class FollowHandler implements MessageHandlerInterface
 {
     public function __construct(
         private ActivityPubManager $activityPubManager,
         private UserManager $userManager,
-        private ApHttpClient $client
+        private ApHttpClient $client,
+        private AcceptWrapper $acceptWrapper
     ) {
     }
 
@@ -30,7 +32,7 @@ class FollowHandler implements MessageHandlerInterface
             // @todo activitypub create follow request if profile is private
             $this->handleFollow($user, $actor);
 
-            $this->accept($message->payload, $user);
+            $this->accept($message->payload);
 
             return;
         }
@@ -57,19 +59,15 @@ class FollowHandler implements MessageHandlerInterface
     }
 
     #[ArrayShape(['@context' => "string", 'id' => "string", 'type' => "string", 'actor' => "mixed", 'object' => "mixed"])] private function accept(
-        array $payload,
-        User $user
+        array $payload
     ): void {
-        $inbox = $this->client->getInboxUrl($payload['actor']);
 
-        $accept = [
-            '@context' => ActivityPubActivityInterface::CONTEXT_URL,
-            'id'       => $payload['id'].'#accept',
-            'type'     => 'Accept',
-            'actor'    => $payload['actor'],
-            'object'   => $payload,
-        ];
-
-        $this->client->post($inbox, $accept, $user);
+        $accept = $this->acceptWrapper->build(
+            $payload['object'],
+            $payload['actor'],
+            $payload['id'],
+        );
+dd($accept);
+        $this->client->post($this->client->getInboxUrl($this->activityPubManager->getActorProfileId($actor)), $accept, $user);
     }
 }
