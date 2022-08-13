@@ -10,7 +10,6 @@ use App\Service\ActivityPubManager;
 use App\Service\UserManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Uid\Uuid;
 
 class FollowHandler implements MessageHandlerInterface
 {
@@ -32,7 +31,7 @@ class FollowHandler implements MessageHandlerInterface
             // @todo activitypub create follow request if profile is private
             $this->handleFollow($user, $actor);
 
-            $this->accept($message->payload);
+            $this->accept($message->payload, $user);
 
             return;
         }
@@ -59,7 +58,8 @@ class FollowHandler implements MessageHandlerInterface
     }
 
     #[ArrayShape(['@context' => "string", 'id' => "string", 'type' => "string", 'actor' => "mixed", 'object' => "mixed"])] private function accept(
-        array $payload
+        array $payload,
+        User $user
     ): void {
 
         $accept = $this->acceptWrapper->build(
@@ -68,6 +68,6 @@ class FollowHandler implements MessageHandlerInterface
             $payload['id'],
         );
 
-        $this->client->post($this->client->getInboxUrl($this->activityPubManager->getActorProfileId($actor)), $accept, $user);
+        $this->client->post($this->client->getInboxUrl($this->client->getInboxUrl($payload['actor'])), $accept, $user);
     }
 }

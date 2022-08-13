@@ -56,7 +56,7 @@ class ApHttpClient
         return $actor['endpoints']['sharedInbox'] ?? $actor['inbox'];
     }
 
-    public function post(string $url, ?array $body = null, ?User $user = null): void
+    public function post(string $url, ?array $body = null, User $user = null): void
     {
         if ($body) {
             $digest = self::digest($body);
