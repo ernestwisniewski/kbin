@@ -47,7 +47,7 @@ class EntryCommentNoteFactory
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
             'cc'           => [
-                $this->groupFactory->getActivityPubId($comment->magazine),
+//                $this->groupFactory->getActivityPubId($comment->magazine),
                 $comment->apId
                     ? $this->client->getActorObject($comment->user->apProfileId)['followers']
                     : $this->urlGenerator->generate('ap_user_followers', ['username' => $comment->user->username], UrlGeneratorInterface::ABS_URL),

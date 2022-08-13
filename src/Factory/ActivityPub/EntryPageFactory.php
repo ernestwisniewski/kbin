@@ -44,7 +44,7 @@ class EntryPageFactory
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
             'cc'              => [
-                $this->groupFactory->getActivityPubId($entry->magazine),
+//                $this->groupFactory->getActivityPubId($entry->magazine),
                 $entry->apId
                     ? $this->client->getActorObject($entry->user->apProfileId)['followers']
                     : $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABS_URL),

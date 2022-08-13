@@ -31,6 +31,8 @@ class ApHttpClient
     public function getActivityObject(string $url, bool $decoded = true): array|string
     {
         $resp = $this->cache->get('ap_'.hash('sha256', $url), function (ItemInterface $item) use ($url) {
+            $item->expiresAfter(86400);
+
             $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
 
             return $this->client->request('GET', $url, [
@@ -47,6 +49,8 @@ class ApHttpClient
     public function getActorObject(string $apProfileId): array
     {
         $resp = $this->cache->get('ap_'.hash('sha256', $apProfileId), function (ItemInterface $item) use ($apProfileId) {
+            $item->expiresAfter(86400);
+
             $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
 
             return $this->client->request('GET', $apProfileId, [
@@ -103,6 +107,7 @@ class ApHttpClient
         // build cache
         $item = $cache->getItem($cacheKey);
         $item->set(true);
+        $item->expiresAt(new DateTime('+1 day'));
         $cache->save($item);
     }
 
