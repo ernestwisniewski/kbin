@@ -33,17 +33,29 @@ class ApActivityRepository extends ServiceEntityRepository
             $id       = end($exploded);
             if ($exploded[3] === 'p') {
                 if (count($exploded) === 4) {
-                    return $this->_em->getRepository(Post::class)->find($id);
+                    return [
+                        'id'   => $id,
+                        'type' => Post::class,
+                    ];
                 } else {
-                    return $this->_em->getRepository(PostComment::class)->find($id);
+                    return [
+                        'id'   => $id,
+                        'type' => PostComment::class,
+                    ];
                 }
             }
 
             if ($exploded[3] === 't') {
                 if (count($exploded) === 4) {
-                    return $this->_em->getRepository(Entry::class)->find($id);
+                    return [
+                        'id'   => $id,
+                        'type' => Entry::class,
+                    ];
                 } else {
-                    return $this->_em->getRepository(EntryComment::class)->find($id);
+                    return [
+                        'id'   => $id,
+                        'type' => EntryComment::class,
+                    ];
                 }
             }
         }
