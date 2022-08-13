@@ -18,8 +18,8 @@ class SharedInboxController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $this->logger->debug('Headers: '.$request->headers);
-        $this->logger->debug('Content: '.$request->getContent());
+        $this->logger->info('SharedInboxController:headers: '.$request->headers);
+        $this->logger->info('SharedInboxController:body: '.$request->getContent());
 
         $this->bus->dispatch(new ActivityMessage($request->getContent()));
 

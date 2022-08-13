@@ -30,7 +30,7 @@ class ApHttpClient
             ],
         ]);
 
-        $this->logger->debug("ApHttpClient:getActivityObject: {$url}");
+        $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
 
         return $decoded ? json_decode($req->getContent(), true) : $req->getContent();
     }
@@ -44,7 +44,7 @@ class ApHttpClient
             ],
         ]);
 
-        $this->logger->debug("ApHttpClient:getActorObject: {$apProfileId}");
+        $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
 
         return json_decode($req->getContent(), true);
     }
@@ -79,8 +79,8 @@ class ApHttpClient
             $params['json'] = $body;
         }
 
-        $this->logger->debug("ApHttpClient:post: {$url}");
-        $this->logger->debug("ApHttpClient:post: ".json_encode($body ?? []));
+        $this->logger->info("ApHttpClient:post:url: {$url}");
+        $this->logger->info("ApHttpClient:post:body ".json_encode($body ?? []));
 
         $this->client->request('POST', $url, $params);
     }

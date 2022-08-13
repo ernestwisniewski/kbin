@@ -16,8 +16,8 @@ class UserInboxController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $this->logger->debug('Headers: '.$request->headers);
-        $this->logger->debug('Content: '.$request->getContent());
+        $this->logger->info('UserInboxController:headers: '.$request->headers);
+        $this->logger->info('UserInboxController:content: '.$request->getContent());
 
         $this->bus->dispatch(new ActivityMessage($request->getContent()));
 
