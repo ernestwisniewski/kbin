@@ -61,7 +61,7 @@ class ApActivityRepository extends ServiceEntityRepository
         }
 
         $entryClass        = Entry::class;
-        $entryCommentClass = Entry::class;
+        $entryCommentClass = EntryComment::class;
         $postClass         = Post::class;
         $postCommentClass  = PostComment::class;
 

@@ -52,6 +52,11 @@ class Note
             $root = null;
             $fn   = null;
 
+            if (get_class($parent) === Entry::class) {
+                $root = $parent;
+                $fn   = 'createEntryComment';
+            }
+
             if (get_class($parent) === EntryComment::class) {
                 $root = $parent->entry;
                 $fn   = 'createEntryComment';

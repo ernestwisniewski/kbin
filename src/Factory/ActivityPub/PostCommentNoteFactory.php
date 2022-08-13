@@ -24,7 +24,6 @@ class PostCommentNoteFactory
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
-        private LoggerInterface $logger
     ) {
     }
 
