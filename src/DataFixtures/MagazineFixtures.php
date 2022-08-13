@@ -44,7 +44,6 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
             $dto->name        = $magazine['name'];
             $dto->title       = $magazine['title'];
             $dto->description = $magazine['description'];
-            $dto->description = $magazine['description'];
             $dto->rules       = $magazine['rules'];
             $dto->badges      = $magazine['badges'];
             $dto->cover       = $image;

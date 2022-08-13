@@ -24,7 +24,8 @@ class ApHttpClient
     {
         $req = $this->client->request('GET', $url, [
             'headers' => [
-                'Accept' => 'application/activity+json,application/ld+json,application/json',
+                'Accept'     => 'application/activity+json,application/ld+json,application/json',
+                'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
             ],
         ]);
 
