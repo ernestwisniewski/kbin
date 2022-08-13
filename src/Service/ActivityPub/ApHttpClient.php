@@ -98,7 +98,7 @@ class ApHttpClient
         $this->logger->info("ApHttpClient:post:url: {$url}");
         $this->logger->info("ApHttpClient:post:body ".json_encode($body ?? []));
 
-//        $this->client->request('POST', $url, $params);
+        $this->client->request('POST', $url, $params);
 
         // build cache
         $item = $cache->getItem($cacheKey);
