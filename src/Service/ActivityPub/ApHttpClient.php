@@ -7,6 +7,9 @@ use App\Factory\ActivityPub\PersonFactory;
 use DateTime;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /*
@@ -17,36 +20,44 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApHttpClient
 {
-    public function __construct(private HttpClientInterface $client, private PersonFactory $personFactory, private LoggerInterface $logger)
-    {
+    public function __construct(
+        private HttpClientInterface $client,
+        private PersonFactory $personFactory,
+        private LoggerInterface $logger,
+        private CacheInterface $cache,
+    ) {
     }
 
     public function getActivityObject(string $url, bool $decoded = true): array|string
     {
-        $req = $this->client->request('GET', $url, [
-            'headers' => [
-                'Accept'     => 'application/activity+json,application/ld+json,application/json',
-                'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
-            ],
-        ]);
+        $resp = $this->cache->get('ap_'.hash('sha256', $url), function (ItemInterface $item) use ($url) {
+            $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
 
-        $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
+            return $this->client->request('GET', $url, [
+                'headers' => [
+                    'Accept'     => 'application/activity+json,application/ld+json,application/json',
+                    'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
+                ],
+            ])->getContent();
+        });
 
-        return $decoded ? json_decode($req->getContent(), true) : $req->getContent();
+        return $decoded ? json_decode($resp, true) : $resp;
     }
 
     public function getActorObject(string $apProfileId): array
     {
-        $req = $this->client->request('GET', $apProfileId, [
-            'headers' => [
-                'Accept'     => 'application/activity+json,application/ld+json,application/json',
-                'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
-            ],
-        ]);
+        $resp = $this->cache->get('ap_'.hash('sha256', $apProfileId), function (ItemInterface $item) use ($apProfileId) {
+            $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
 
-        $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
+            return $this->client->request('GET', $apProfileId, [
+                'headers' => [
+                    'Accept'     => 'application/activity+json,application/ld+json,application/json',
+                    'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
+                ],
+            ])->getContent();
+        });
 
-        return json_decode($req->getContent(), true);
+        return json_decode($resp, true);
     }
 
     public function getInboxUrl(string $apProfileId): string
@@ -56,11 +67,16 @@ class ApHttpClient
         return $actor['endpoints']['sharedInbox'] ?? $actor['inbox'];
     }
 
-    public function post(string $url, ?array $body = null, User $user = null): void
+    public function post(string $url, array $body = null, User $user = null): void
     {
-        if ($body) {
-            $digest = self::digest($body);
+        $cache = new FilesystemAdapter(); // @todo redis
+
+        $key = 'ap_'.hash('sha256', $url.':'.$body['id']);
+        if ($cache->hasItem($key)) {
+            return;
         }
+
+        $digest = self::digest($body);
 
         $headers       = self::headersToSign($url, $body ? $digest : false);
         $stringToSign  = self::headersToSigningString($headers);
@@ -83,6 +99,11 @@ class ApHttpClient
         $this->logger->info("ApHttpClient:post:body ".json_encode($body ?? []));
 
         $this->client->request('POST', $url, $params);
+
+        // build cache
+        $item = $cache->getItem($key);
+        $item->set(true);
+        $cache->save($item);
     }
 
     private static function digest(array $body): string

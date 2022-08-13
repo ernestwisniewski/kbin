@@ -24,7 +24,7 @@ class SettingsManager
             $results = $this->repository->findAll();
 
             $this->dto = new SettingsDto(
-                array_filter($results, fn($s) => $s->name === 'KBIN_DOMAIN')[0]->value ?? $this->kbinDomain,
+                $this->kbinDomain,
                 array_filter($results, fn($s) => $s->name === 'KBIN_META_TITLE')[0]->value ?? $this->kbinMetaTitle,
                 array_filter($results, fn($s) => $s->name === 'KBIN_META_KEYWORDS')[0]->value ?? $this->kbinMetaKeywords,
                 array_filter($results, fn($s) => $s->name === 'KBIN_META_DESCRIPTION')[0]->value ?? $this->kbinMetaDescription,

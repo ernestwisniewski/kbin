@@ -22,10 +22,10 @@ class ActivityFactory
     public function create(ActivityPubActivityInterface $activity, bool $context = false): array
     {
         return match (true) {
-            $activity instanceof Entry => $this->pageFactory->create($activity),
-            $activity instanceof EntryComment => $this->entryNoteFactory->create($activity),
-            $activity instanceof Post => $this->postNoteFactory->create($activity),
-            $activity instanceof PostComment => $this->postCommentNoteFactory->create($activity),
+            $activity instanceof Entry => $this->pageFactory->create($activity, $context),
+            $activity instanceof EntryComment => $this->entryNoteFactory->create($activity, $context),
+            $activity instanceof Post => $this->postNoteFactory->create($activity, $context),
+            $activity instanceof PostComment => $this->postCommentNoteFactory->create($activity, $context),
             default => throw new \LogicException(),
         };
     }

@@ -6,7 +6,6 @@ use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Message\ActivityPub\Inbox\CreateMessage;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPub\SignatureValidator;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -19,16 +18,6 @@ class ActivityHandler implements MessageHandlerInterface
     public function __invoke(ActivityMessage $message): void
     {
         $payload = @json_decode($message->payload, true);
-
-        $cache = new FilesystemAdapter(); // @todo redis
-
-        $key = 'ap_'.hash('sha256', $payload['id']);
-        if ($cache->hasItem($key)) {
-//            return;
-        }
-        $item = $cache->getItem($key);
-        $item->set(true);
-        $cache->save($item);
 
         if ($message->headers) {
             $this->signatureValidator->validate($message->payload, $message->headers);

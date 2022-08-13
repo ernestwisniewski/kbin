@@ -26,7 +26,7 @@ class FollowHandler implements MessageHandlerInterface
         $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
         if ($message->payload['type'] === 'Follow') {
-            $user = $this->activityPubManager->getUserFromProfileId($message->payload['object']);
+            $user = $this->activityPubManager->findActorOrCreate($message->payload['object']);
 
             // @todo activitypub create follow request if profile is private
             $this->handleFollow($user, $actor);
@@ -41,7 +41,7 @@ class FollowHandler implements MessageHandlerInterface
                 return;
             }
 
-            $user = $this->activityPubManager->getUserFromProfileId($message->payload['object']['object']);
+            $user = $this->activityPubManager->findActorOrCreate($message->payload['object']['object']);
 
             $this->handleUnfollow($user, $actor);
         }

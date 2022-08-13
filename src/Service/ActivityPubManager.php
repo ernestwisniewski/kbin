@@ -15,7 +15,6 @@ use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use Doctrine\ORM\EntityManagerInterface;
 use phpseclib3\Crypt\RSA;
-use Webmozart\Assert\Assert;
 
 class ActivityPubManager
 {
@@ -28,7 +27,8 @@ class ActivityPubManager
         private ImageRepository $imageRepository,
         private ImageManager $imageManager,
         private EntityManagerInterface $entityManager,
-        private PersonFactory $personFactory
+        private PersonFactory $personFactory,
+        private SettingsManager $settingsManager
     ) {
 
     }
@@ -58,6 +58,13 @@ class ActivityPubManager
 
     public function findActorOrCreate(string $actorUrl): User
     {
+        if (parse_url($actorUrl)['host'] === $this->settingsManager->get('KBIN_DOMAIN')) {
+            $name = explode('/', $actorUrl);
+            $name = end($name);
+
+            return $this->userRepository->findOneBy(['username' => $name]);
+        }
+
         $user = $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
 
         if (!$user) {
@@ -116,15 +123,5 @@ class ActivityPubManager
         }
 
         return null;
-    }
-
-    public function getUserFromProfileId(string $actor): User
-    {
-        $name = explode('/', $actor);
-        $name = end($name);
-
-        Assert::string($name);
-
-        return $this->userRepository->findOneBy(['username' => $name]);
     }
 }

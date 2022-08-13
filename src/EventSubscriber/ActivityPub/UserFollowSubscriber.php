@@ -4,6 +4,7 @@ namespace App\EventSubscriber\ActivityPub;
 
 use App\Event\User\UserFollowEvent;
 use App\Message\ActivityPub\Outbox\FollowMessage;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -14,7 +15,7 @@ class UserFollowSubscriber implements EventSubscriberInterface
     ) {
     }
 
-    public static function getSubscribedEvents(): array
+    #[ArrayShape([UserFollowEvent::class => "string"])] public static function getSubscribedEvents(): array
     {
         return [
             UserFollowEvent::class => 'onUserFollow',
