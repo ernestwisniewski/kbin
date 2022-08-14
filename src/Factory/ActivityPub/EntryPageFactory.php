@@ -10,6 +10,7 @@ use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
+use App\Service\SettingsManager;
 use DateTimeInterface;
 
 class EntryPageFactory
@@ -17,6 +18,7 @@ class EntryPageFactory
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private GroupFactory $groupFactory,
+        private SettingsManager $settings,
         private ImageWrapper $imageWrapper,
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
@@ -60,7 +62,7 @@ class EntryPageFactory
             'published'       => $entry->createdAt->format(DateTimeInterface::ISO8601),
             'attachment'      => [
                 [
-                    'href' => $entry->url ?? $this->getActivityPubId($entry),
+                    'href' => $this->getUrl($entry),
                     'type' => 'Link',
                 ],
             ],
@@ -84,5 +86,14 @@ class EntryPageFactory
             ['magazine_name' => $entry->magazine->name, 'entry_id' => $entry->getId()],
             UrlGeneratorInterface::ABS_URL
         );
+    }
+
+    private function getUrl(Entry $entry): string
+    {
+        if ($entry->type === Entry::ENTRY_TYPE_IMAGE) {
+            return 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$entry->image->filePath;
+        }
+
+        return $entry->url ?? $this->getActivityPubId($entry);
     }
 }
