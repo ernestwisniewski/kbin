@@ -7,7 +7,6 @@ use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
 use App\Service\EntryManager;
-use App\Service\ImageManager;
 use DateTime;
 use DateTimeImmutable;
 
