@@ -25,7 +25,7 @@ class ActivityHandler implements MessageHandlerInterface
             $this->signatureValidator->validate($message->payload, $message->headers);
         }
 
-        $user = $this->manager->findActorOrCreate($payload['actor']);
+        $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
         if ($user->isBanned) {
             return;
         }
