@@ -53,7 +53,7 @@ class Page
             if (is_array($attachment)) {
                 $link = array_filter(
                     $attachment,
-                    fn($val) => in_array($val['type'], ['Link']) && ImageManager::isImageUrl($val['url'])
+                    fn($val) => in_array($val['type'], ['Link'])
                 );
 
                 $dto->url = $link[0]['href'];

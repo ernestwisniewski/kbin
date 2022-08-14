@@ -18,8 +18,10 @@ class DeliverHandler implements MessageHandlerInterface
     {
         $user = $this->manager->findActorOrCreate($message->payload['object']['attributedTo']);
 
-        if (!$user->isBanned) {
-            $this->client->post($this->client->getInboxUrl($message->apProfileId), $message->payload, $user);
+        if ($user->isBanned) {
+            return;
         }
+
+        $this->client->post($this->client->getInboxUrl($message->apProfileId), $message->payload, $user);
     }
 }
