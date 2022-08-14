@@ -6,12 +6,13 @@ use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Message\ActivityPub\Inbox\CreateMessage;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPub\SignatureValidator;
+use App\Service\ActivityPubManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class ActivityHandler implements MessageHandlerInterface
 {
-    public function __construct(private SignatureValidator $signatureValidator, private MessageBusInterface $bus)
+    public function __construct(private SignatureValidator $signatureValidator, private MessageBusInterface $bus, private ActivityPubManager $manager)
     {
     }
 
@@ -21,6 +22,11 @@ class ActivityHandler implements MessageHandlerInterface
 
         if ($message->headers) {
             $this->signatureValidator->validate($message->payload, $message->headers);
+        }
+
+        $user = $this->manager->findActorOrCreate($payload['actor']);
+        if ($user->isBanned) {
+            return;
         }
 
         $this->handle($payload);
