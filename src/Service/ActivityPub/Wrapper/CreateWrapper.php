@@ -14,18 +14,23 @@ class CreateWrapper
     }
 
     #[ArrayShape([
-        'id'        => "string",
+        '@context'  => "mixed",
+        'id'        => "mixed",
         'type'      => "string",
-        'actor'     => "string",
-        'published' => "string",
-        'to'        => "array",
-        'cc'        => "array",
-        'object'    => "object",
+        'actor'     => "mixed",
+        'published' => "mixed",
+        'to'        => "mixed",
+        'cc'        => "mixed",
+        'object'    => "array",
     ])] public function build(ActivityPubActivityInterface $item): array
     {
-        $item = $this->factory->create($item);
+        $item = $this->factory->create($item, true);
+
+        $context = $item['@context'];
+        unset($item['@context']);
 
         return [
+            '@context'  => $context,
             'id'        => $item['id'],
             'type'      => 'Create',
             'actor'     => $item['attributedTo'],

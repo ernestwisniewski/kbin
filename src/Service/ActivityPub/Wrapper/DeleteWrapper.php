@@ -2,6 +2,7 @@
 
 namespace App\Service\ActivityPub\Wrapper;
 
+use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Factory\ActivityPub\ActivityFactory;
 use JetBrains\PhpStorm\ArrayShape;
@@ -10,26 +11,32 @@ class DeleteWrapper
 {
     public function __construct(
         private ActivityFactory $factory,
+        private UrlGeneratorInterface $urlGenerator
     ) {
     }
 
-    #[ArrayShape(['id'     => "string",
-                  'type'   => "string",
-                  'object' => "mixed",
-                  'actor'  => "mixed",
-                  'to'     => "mixed",
-                  'cc'     => "mixed",
+    #[ArrayShape([
+        'id'     => "string",
+        'type'   => "string",
+        'object' => "mixed",
+        'actor'  => "mixed",
+        'to'     => "mixed",
+        'cc'     => "mixed",
     ])] public function build(ActivityPubActivityInterface $item, string $id): array
     {
         $item = $this->factory->create($item);
 
         return [
-            'id'     => $id,
-            'type'   => 'Delete',
-            'object' => $item['id'],
-            'actor'  => $item['attributedTo'],
-            'to'     => $item['to'],
-            'cc'     => $item['cc'],
+            '@context' => ActivityPubActivityInterface::CONTEXT_URL,
+            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABS_URL),
+            'type'     => 'Delete',
+            'actor'    => $item['attributedTo'],
+            'object'   => [
+                'id'   => $item['id'],
+                'type' => 'Tombstone',
+            ],
+            'to'       => $item['to'],
+            'cc'       => $item['cc'],
         ];
     }
 }
