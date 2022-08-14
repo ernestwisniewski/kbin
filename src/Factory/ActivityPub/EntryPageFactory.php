@@ -54,7 +54,7 @@ class EntryPageFactory
             'name'            => $entry->title,
             'content'         => $entry->body ?? $entry->getDescription(),
             'mediaType'       => 'text/html',
-            'url'             => $this->getActivityPubId($entry),
+            'url'             => $this->getUrl($entry),
             'tag'             => $this->tagsWrapper->build($entry->tags) + $this->mentionsWrapper->build($entry->mentions),
             'commentsEnabled' => true,
             'sensitive'       => $entry->isAdult(),
