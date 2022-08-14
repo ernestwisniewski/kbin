@@ -3,6 +3,7 @@
 namespace App\Service\ActivityPub;
 
 use App\DTO\EntryCommentDto;
+use App\DTO\EntryDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
@@ -101,15 +102,13 @@ class Note
         }
         $dto->apId = $object['id'];
 
-        $entity = $this->entryCommentManager->create(
+        $this->handleDate($dto, $object['published']);
+
+        return $this->entryCommentManager->create(
             $dto,
             $this->activityPubManager->findActorOrCreate($object['attributedTo']),
             false
         );
-
-        $this->handleDate($entity, $object['published']);
-
-        return $entity;
     }
 
     private function createPostComment(
@@ -128,15 +127,13 @@ class Note
         }
         $dto->apId = $object['id'];
 
-        $entity = $this->postCommentManager->create(
+        $this->handleDate($dto, $object['published']);
+
+        return $this->postCommentManager->create(
             $dto,
             $this->activityPubManager->findActorOrCreate($object['attributedTo']),
             false
         );
-
-        $this->handleDate($entity, $object['published']);
-
-        return $entity;
     }
 
     private function createPost(
@@ -150,22 +147,18 @@ class Note
         }
         $dto->apId = $object['id'];
 
-        $entity = $this->postManager->create(
+        $this->handleDate($dto, $object['published']);
+
+        return $this->postManager->create(
             $dto,
             $this->activityPubManager->findActorOrCreate($object['attributedTo']),
             false
         );
-
-        $this->handleDate($entity, $object['published']);
-
-        return $entity;
     }
 
-    private function handleDate(ActivityPubActivityInterface $entity, string $date): void
+    private function handleDate(PostDto|PostCommentDto|EntryCommentDto|EntryDto $dto, string $date): void
     {
-        $entity->createdAt  = new DateTimeImmutable($date);
-        $entity->lastActive = new DateTime($date);
-
-        $this->entityManager->flush();
+        $dto->createdAt  = new DateTimeImmutable($date);
+        $dto->lastActive = new DateTime($date);
     }
 }

@@ -41,9 +41,11 @@ class  PostManager implements ContentManagerInterface
 
     public function create(PostDto $dto, User $user, $limiter = true): Post
     {
-        $limiter = $this->postLimiter->create($dto->ip);
-        if ($limiter && false === $limiter->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException();
+        if ($limiter) {
+            $limiter = $this->postLimiter->create($dto->ip);
+            if ($limiter && false === $limiter->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
         }
 
         $post                       = $this->factory->createFromDto($dto, $user);
@@ -53,6 +55,9 @@ class  PostManager implements ContentManagerInterface
         $post->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->apId                 = $dto->apId;
         $post->magazine->lastActive = new \DateTime();
+        $post->lastActive           = $dto->lastActive ?? $post->lastActive;
+        $post->createdAt            = $dto->createdAt ?? $post->createdAt;
+
         $post->magazine->addPost($post);
 
         $this->entityManager->persist($post);

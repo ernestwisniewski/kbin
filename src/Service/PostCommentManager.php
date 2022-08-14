@@ -38,9 +38,11 @@ class PostCommentManager implements ContentManagerInterface
 
     public function create(PostCommentDto $dto, User $user, $limiter = true): PostComment
     {
-        $limiter = $this->postCommentLimiter->create($dto->ip);
-        if ($limiter && false === $limiter->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException();
+        if ($limiter) {
+            $limiter = $this->postCommentLimiter->create($dto->ip);
+            if ($limiter && false === $limiter->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
         }
 
         $comment = $this->factory->createFromDto($dto, $user);
@@ -51,6 +53,9 @@ class PostCommentManager implements ContentManagerInterface
         $comment->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $comment->apId                 = $dto->apId;
         $comment->magazine->lastActive = new \DateTime();
+        $comment->lastActive           = $dto->lastActive ?? $comment->lastActive;
+        $comment->createdAt            = $dto->createdAt ?? $comment->createdAt;
+
         $comment->post->addComment($comment);
 
         $this->entityManager->persist($comment);

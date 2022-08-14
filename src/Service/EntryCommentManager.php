@@ -38,19 +38,24 @@ class EntryCommentManager implements ContentManagerInterface
 
     public function create(EntryCommentDto $dto, User $user, $limiter = true): EntryComment
     {
-        $limiter = $this->entryCommentLimiter->create($dto->ip);
-        if ($limiter && false === $limiter->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException();
+        if ($limiter) {
+            $limiter = $this->entryCommentLimiter->create($dto->ip);
+            if ($limiter && false === $limiter->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
         }
 
         $comment = $this->factory->createFromDto($dto, $user);
 
-        $comment->magazine   = $dto->entry->magazine;
-        $comment->image      = $dto->image;
-        $comment->tags       = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
-        $comment->mentions   = $dto->body ? $this->mentionManager->extract($dto->body) : null;
-        $comment->apId       = $dto->apId;
-        $comment->lastActive = new \DateTime();
+        $comment->magazine             = $dto->entry->magazine;
+        $comment->image                = $dto->image;
+        $comment->tags                 = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $comment->apId                 = $dto->apId;
+        $comment->magazine->lastActive = new \DateTime();
+        $comment->lastActive           = $dto->lastActive ?? $comment->lastActive;
+        $comment->createdAt            = $dto->createdAt ?? $comment->createdAt;
+
         $comment->entry->addComment($comment);
 
         $this->entityManager->persist($comment);

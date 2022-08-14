@@ -43,11 +43,13 @@ class EntryManager implements ContentManagerInterface
     ) {
     }
 
-    public function create(EntryDto $dto, User $user): Entry
+    public function create(EntryDto $dto, User $user, bool $limiter = true): Entry
     {
-        $limiter = $this->entryLimiter->create($dto->ip);
-        if (false === $limiter->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException();
+        if ($limiter) {
+            $limiter = $this->entryLimiter->create($dto->ip);
+            if (false === $limiter->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
         }
 
         $entry                       = $this->factory->createFromDto($dto, $user);
@@ -61,6 +63,9 @@ class EntryManager implements ContentManagerInterface
         $entry->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $entry->apId                 = $dto->apId;
         $entry->magazine->lastActive = new \DateTime();
+        $entry->lastActive           = $dto->lastActive ?? $entry->lastActive;
+        $entry->createdAt            = $dto->createdAt ?? $entry->createdAt;
+
         $entry->magazine->addEntry($entry);
 
         $entry = $this->setType($dto, $entry);
