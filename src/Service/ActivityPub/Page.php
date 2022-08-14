@@ -33,7 +33,7 @@ class Page
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
         }
 
-        $this->handleUrl($dto, $object['attachment']);
+        $this->handleUrl($dto, $object);
         $this->handleDate($dto, $object['published']);
 
         return $this->entryManager->create($dto, $this->activityPubManager->findActorOrCreate($object['attributedTo']), false);
@@ -45,8 +45,10 @@ class Page
         $dto->lastActive = new DateTime($date);
     }
 
-    private function handleUrl(EntryDto $dto, ?array $attachment)
+    private function handleUrl(EntryDto $dto, ?array $object): void
     {
+        $attachment = $object['attachment'];
+
         try {
             if (is_array($attachment)) {
                 $link = array_filter(
@@ -57,6 +59,10 @@ class Page
                 $dto->url = $link[0]['href'];
             }
         } catch (\Exception $e) {
+        }
+
+        if (!$dto->url && isset($object['url'])) {
+            $dto->url = $object['url'];
         }
     }
 }

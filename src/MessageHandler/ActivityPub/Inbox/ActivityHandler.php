@@ -4,6 +4,7 @@ namespace App\MessageHandler\ActivityPub\Inbox;
 
 use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Message\ActivityPub\Inbox\CreateMessage;
+use App\Message\ActivityPub\Inbox\DeleteMessage;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPub\SignatureValidator;
 use App\Service\ActivityPubManager;
@@ -48,6 +49,9 @@ class ActivityHandler implements MessageHandlerInterface
             case 'Follow':
             case 'Undo':
                 $this->bus->dispatch(new FollowMessage($payload));
+                break;
+            case 'Delete':
+                $this->bus->dispatch(new DeleteMessage($payload));
                 break;
         }
     }
