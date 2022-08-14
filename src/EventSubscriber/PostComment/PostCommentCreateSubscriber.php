@@ -7,7 +7,6 @@ use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\Notification\PostCommentCreatedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class PostCommentCreateSubscriber implements EventSubscriberInterface
@@ -30,7 +29,7 @@ class PostCommentCreateSubscriber implements EventSubscriberInterface
         $this->bus->dispatch(new PostCommentCreatedNotificationMessage($event->comment->getId()));
 
         if (!$event->comment->apId) {
-            $this->bus->dispatch(new CreateMessage($event->comment));
+            $this->bus->dispatch(new CreateMessage($event->comment->getId(), get_class($event->comment)));
         }
     }
 }

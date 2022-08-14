@@ -26,7 +26,7 @@ class PostCreateSubscriber implements EventSubscriberInterface
         $this->bus->dispatch(new PostCreatedNotificationMessage($event->post->getId()));
 
         if (!$event->post->apId) {
-            $this->bus->dispatch(new CreateMessage($event->post));
+            $this->bus->dispatch(new CreateMessage($event->post->getId(), get_class($event->post)));
         }
     }
 }

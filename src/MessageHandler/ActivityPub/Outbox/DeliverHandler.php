@@ -16,8 +16,7 @@ class DeliverHandler implements MessageHandlerInterface
 
     public function __invoke(DeliverMessage $message): void
     {
-        $user = $this->manager->findActorOrCreate($message->payload['object']['attributedTo']);
-
+        $user = $this->manager->findActorOrCreate($message->apProfileId);
         if ($user->isBanned) {
             return;
         }

@@ -4,6 +4,7 @@ namespace App\EventSubscriber\PostComment;
 
 use App\Event\PostComment\PostCommentBeforePurgeEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
+use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\Notification\PostCommentDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -29,6 +30,10 @@ class PostCommentDeleteSubscriber implements EventSubscriberInterface
         $this->cache->invalidateTags(['post_'.$event->comment->post->getId()]);
 
         $this->bus->dispatch(new PostCommentDeletedNotificationMessage($event->comment->getId()));
+
+        if (!$event->comment->apId) {
+            $this->bus->dispatch(new DeleteMessage($event->comment->getId(), get_class($event->comment)));
+        }
     }
 
     public function onPostCommentBeforePurge(PostCommentBeforePurgeEvent $event): void
@@ -36,5 +41,9 @@ class PostCommentDeleteSubscriber implements EventSubscriberInterface
         $this->cache->invalidateTags(['post_'.$event->comment->post->getId()]);
 
         $this->bus->dispatch(new PostCommentDeletedNotificationMessage($event->comment->getId()));
+
+        if (!$event->comment->apId) {
+            $this->bus->dispatch(new DeleteMessage($event->comment->getId(), get_class($event->comment)));
+        }
     }
 }

@@ -2,29 +2,30 @@
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
-use App\Message\ActivityPub\Outbox\CreateMessage;
+use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Repository\UserRepository;
-use App\Service\ActivityPub\Wrapper\CreateWrapper;
+use App\Service\ActivityPub\Wrapper\DeleteWrapper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Uid\Uuid;
 
-class CreateHandler implements MessageHandlerInterface
+class DeleteHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private MessageBusInterface $bus,
+        private EntityManagerInterface $entityManager,
         private UserRepository $repository,
-        private CreateWrapper $createWrapper,
-        private EntityManagerInterface $entityManager
+        private DeleteWrapper $deleteWrapper,
+        private MessageBusInterface $bus
     ) {
     }
 
-    public function __invoke(CreateMessage $message): void
+    public function __invoke(DeleteMessage $message): void
     {
         $entity = $this->entityManager->getRepository($message->type)->find($message->id);
 
-        $activity = $this->createWrapper->build($entity);
+        $activity = $this->deleteWrapper->build($entity, Uuid::v4()->toRfc4122());
 
         $followers = $this->repository->findAudience($entity->user);
 

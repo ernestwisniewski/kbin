@@ -4,6 +4,7 @@ namespace App\EventSubscriber\Entry;
 
 use App\Event\Entry\EntryBeforePurgeEvent;
 use App\Event\Entry\EntryDeletedEvent;
+use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\Notification\EntryDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -25,10 +26,18 @@ class EntryDeleteSubscriber implements EventSubscriberInterface
     public function onEntryDeleted(EntryDeletedEvent $event): void
     {
         $this->bus->dispatch(new EntryDeletedNotificationMessage($event->entry->getId()));
+
+        if (!$event->entry->apId) {
+            $this->bus->dispatch(new DeleteMessage($event->entry->getId(), get_class($event->entry)));
+        }
     }
 
     public function onEntryBeforePurge(EntryBeforePurgeEvent $event): void
     {
         $this->bus->dispatch(new EntryDeletedNotificationMessage($event->entry->getId()));
+
+        if (!$event->entry->apId) {
+            $this->bus->dispatch(new DeleteMessage($event->entry->getId(), get_class($event->entry)));
+        }
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Message\ActivityPub\Outbox;
 
-use App\Entity\Contracts\ActivityPubActivityInterface;
-
-class CreateMessage
+class DeleteMessage
 {
     public function __construct(public int $id, public string $type)
     {

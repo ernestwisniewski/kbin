@@ -4,6 +4,7 @@ namespace App\EventSubscriber\Post;
 
 use App\Event\Post\PostBeforePurgeEvent;
 use App\Event\Post\PostDeletedEvent;
+use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\Notification\PostDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -25,10 +26,18 @@ class PostDeleteSubscriber implements EventSubscriberInterface
     public function onPostDeleted(PostDeletedEvent $event)
     {
         $this->bus->dispatch(new PostDeletedNotificationMessage($event->post->getId()));
+
+        if (!$event->post->apId) {
+            $this->bus->dispatch(new DeleteMessage($event->post->getId(), get_class($event->post)));
+        }
     }
 
     public function onPostBeforePurge(PostBeforePurgeEvent $event): void
     {
         $this->bus->dispatch(new PostDeletedNotificationMessage($event->post->getId()));
+
+        if (!$event->post->apId) {
+            $this->bus->dispatch(new DeleteMessage($event->post->getId(), get_class($event->post)));
+        }
     }
 }

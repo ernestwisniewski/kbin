@@ -30,7 +30,7 @@ class EntryCreateSubscriber implements EventSubscriberInterface
         $this->bus->dispatch(new EntryCreatedNotificationMessage($event->entry->getId()));
 
         if (!$event->entry->apId) {
-            $this->bus->dispatch(new CreateMessage($event->entry));
+            $this->bus->dispatch(new CreateMessage($event->entry->getId(), get_class($event->entry)));
         }
     }
 }

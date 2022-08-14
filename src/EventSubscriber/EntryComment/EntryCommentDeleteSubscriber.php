@@ -4,15 +4,15 @@ namespace App\EventSubscriber\EntryComment;
 
 use App\Event\EntryComment\EntryCommentBeforePurgeEvent;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
+use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\Notification\EntryCommentDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class EntryCommentDeleteSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private Security $security, private CacheInterface $cache, private MessageBusInterface $bus)
+    public function __construct(private CacheInterface $cache, private MessageBusInterface $bus)
     {
     }
 
@@ -29,6 +29,10 @@ class EntryCommentDeleteSubscriber implements EventSubscriberInterface
         $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
 
         $this->bus->dispatch(new EntryCommentDeletedNotificationMessage($event->comment->getId()));
+
+        if (!$event->comment->apId) {
+            $this->bus->dispatch(new DeleteMessage($event->comment->getId(), get_class($event->comment)));
+        }
     }
 
     public function onEntryCommentBeforePurge(EntryCommentBeforePurgeEvent $event): void
@@ -36,5 +40,9 @@ class EntryCommentDeleteSubscriber implements EventSubscriberInterface
         $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
 
         $this->bus->dispatch(new EntryCommentDeletedNotificationMessage($event->comment->getId()));
+
+        if (!$event->comment->apId) {
+            $this->bus->dispatch(new DeleteMessage($event->comment->getId(), get_class($event->comment)));
+        }
     }
 }
