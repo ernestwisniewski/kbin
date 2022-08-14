@@ -94,6 +94,10 @@ class PersonFactory
 
     public function getActivityPubId(User $user): string
     {
+        if ($user->apId) {
+            return $user->apProfileId;
+        }
+
         return $this->urlGenerator->generate('ap_user', ['username' => $user->username], UrlGeneratorInterface::ABS_URL);
     }
 }

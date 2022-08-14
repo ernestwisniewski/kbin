@@ -67,6 +67,10 @@ class EntryCommentNoteFactory
 
     public function getActivityPubId(EntryComment $comment): string
     {
+        if ($comment->apId) {
+            return $comment->apId;
+        }
+
         return $this->urlGenerator->generate(
             'ap_entry_comment',
             ['magazine_name' => $comment->magazine->name, 'entry_id' => $comment->entry->getId(), 'comment_id' => $comment->getId()],
@@ -76,7 +80,7 @@ class EntryCommentNoteFactory
 
     private function getReplyTo(EntryComment $comment): string
     {
-        if($comment->apId) {
+        if ($comment->apId) {
             return $comment->apId;
         }
 

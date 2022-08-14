@@ -60,6 +60,10 @@ class GroupFactory
 
     public function getActivityPubId(Magazine $magazine): string
     {
+        if ($magazine->apId) {
+            return $magazine->apId;
+        }
+
         return $this->urlGenerator->generate('ap_magazine', ['name' => $magazine->name], UrlGeneratorInterface::ABS_URL);
     }
 }

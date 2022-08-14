@@ -77,6 +77,10 @@ class PostNoteFactory
 
     public function getActivityPubId(Post $post): string
     {
+        if ($post->apId) {
+            return $post->apId;
+        }
+
         return $post->apId ?? $this->urlGenerator->generate(
                 'ap_post',
                 ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId()],

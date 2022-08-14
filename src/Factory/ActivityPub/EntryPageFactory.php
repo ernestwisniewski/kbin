@@ -75,6 +75,10 @@ class EntryPageFactory
 
     public function getActivityPubId(Entry $entry): string
     {
+        if ($entry->apId) {
+            return $entry->apId;
+        }
+
         return $this->urlGenerator->generate(
             'ap_entry',
             ['magazine_name' => $entry->magazine->name, 'entry_id' => $entry->getId()],

@@ -11,7 +11,6 @@ use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
 use DateTimeInterface;
-use Psr\Log\LoggerInterface;
 
 class PostCommentNoteFactory
 {
@@ -68,6 +67,10 @@ class PostCommentNoteFactory
 
     public function getActivityPubId(PostComment $comment): string
     {
+        if ($comment->apId) {
+            return $comment->apId;
+        }
+
         return $this->urlGenerator->generate(
             'ap_post_comment',
             ['magazine_name' => $comment->magazine->name, 'post_id' => $comment->post->getId(), 'comment_id' => $comment->getId()],
