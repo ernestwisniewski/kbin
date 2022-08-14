@@ -50,7 +50,7 @@ class DeleteHandler implements MessageHandlerInterface
         }
 
         if (get_class($object) === Post::class) {
-            $fn = 'deletePostComment';
+            $fn = 'deletePost';
         }
 
         if (get_class($object) === PostComment::class) {
