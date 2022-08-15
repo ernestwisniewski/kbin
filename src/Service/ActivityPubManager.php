@@ -29,7 +29,8 @@ class ActivityPubManager
         private EntityManagerInterface $entityManager,
         private PersonFactory $personFactory,
         private SettingsManager $settingsManager,
-        private WebFingerFactory $webFingerFactory
+        private WebFingerFactory $webFingerFactory,
+        private MentionManager $mentionManager
     ) {
 
     }
@@ -129,5 +130,20 @@ class ActivityPubManager
         }
 
         return null;
+    }
+
+    public function createCcFromBody(string $body): array
+    {
+        $mentions = $this->mentionManager->extract($body, MentionManager::REMOTE);
+
+        $urls = [];
+        foreach ($mentions as $handle) {
+            try {
+                $urls[] = $this->webfinger($handle);
+            } catch (\Exception) {
+            }
+        }
+
+        return $urls;
     }
 }

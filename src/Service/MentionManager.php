@@ -6,6 +6,10 @@ use App\Repository\UserRepository;
 
 class MentionManager
 {
+    const ALL = 1;
+    const LOCAL = 2;
+    const REMOTE = 3;
+
     public function __construct(private UserRepository $userRepository)
     {
     }
@@ -21,14 +25,15 @@ class MentionManager
         return [];
     }
 
-    public function extract(string $val): ?array
+    public function extract(string $val, $type = self::ALL): ?array
     {
         $this->val = $val;
 
-        $result = array_merge(
-            $this->byApPrefix(),
-            $this->byPrefix(),
-        );
+        $result = match ($type) {
+            self::ALL => array_merge($this->byApPrefix(), $this->byPrefix()),
+            self::LOCAL => $this->byPrefix(),
+            self::REMOTE => $this->byApPrefix()
+        };
 
         return count($result) ? array_unique($result) : null;
     }

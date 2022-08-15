@@ -28,7 +28,7 @@ class ApHttpClient
     ) {
     }
 
-    public function getActivityObject(string $url, bool $decoded = true): array|string
+    public function getActivityObject(string $url, bool $decoded = true): array|string|null
     {
         $resp = $this->cache->get('ap_'.hash('sha256', $url), function (ItemInterface $item) use ($url) {
             $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
@@ -41,19 +41,24 @@ class ApHttpClient
                     ],
                 ])->getContent();
             } catch (\Exception $e) {
-                $item->expiresAfter(0);
-                throw $e;
+                $item->expiresAfter(120);
+
+                return null;
             }
 
-            $item->expiresAfter(86400);
+            $item->expiresAfter(60);
 
             return $r;
         });
 
+        if (!$resp) {
+            return null;
+        }
+
         return $decoded ? json_decode($resp, true) : $resp;
     }
 
-    public function getActorObject(string $apProfileId): array
+    public function getActorObject(string $apProfileId): ?array
     {
         $resp = $this->cache->get('ap_'.hash('sha256', $apProfileId), function (ItemInterface $item) use ($apProfileId) {
             $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
@@ -66,8 +71,9 @@ class ApHttpClient
                     ],
                 ])->getContent();
             } catch (\Exception $e) {
-                $item->expiresAfter(0);
-                throw $e;
+                $item->expiresAfter(60);
+
+                return null;
             }
 
             $item->expiresAfter(86400);
@@ -75,7 +81,7 @@ class ApHttpClient
             return $r;
         });
 
-        return json_decode($resp, true);
+        return $resp ? json_decode($resp, true) : null;
     }
 
     public function getInboxUrl(string $apProfileId): string

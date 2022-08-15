@@ -62,6 +62,8 @@ class EntryCommentNoteFactory
             $note = $this->imageWrapper->build($note, $comment->image, $comment->getShortTitle());
         }
 
+        $note['cc'] = array_merge($note['cc'], $this->activityPubManager->createCcFromBody($comment->body));
+
         return $note;
     }
 

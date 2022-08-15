@@ -22,7 +22,7 @@ class PostNoteFactory
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
-        private ActivityPubManager $activityPubManager
+        private ActivityPubManager $activityPubManager,
     ) {
     }
 
@@ -62,6 +62,8 @@ class PostNoteFactory
         if ($post->image) {
             $note = $this->imageWrapper->build($note, $post->image, $post->getShortTitle());
         }
+
+        $note['cc'] = array_merge($note['cc'], $this->activityPubManager->createCcFromBody($post->body));
 
         return $note;
     }
