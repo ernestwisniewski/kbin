@@ -27,7 +27,7 @@ class ChainActivityHandler implements MessageHandlerInterface
     public function __invoke(ChainActivityMessage $message): void
     {
         if ($message->parent) {
-            $this->unloadStack($message->chain, $message->parent);
+            $this->unloadStack($message->chain, $message->parent, $message->announce);
 
             return;
         }
@@ -49,14 +49,21 @@ class ChainActivityHandler implements MessageHandlerInterface
         }
 
         // Create root object
-        if ($object['type'] === 'Note') {
-            $entity = $this->note->create($object);
-        } else {
-            $entity = $this->page->create($object);
-        }
+        $entity = match ($this->getType($object)) {
+            'Note' => $this->note->create($object),
+            'Page' => $this->page->create($object),
+            default => null
+        };
 
-        if ($message->announce && $message->announce['object'] === $object['id']) {
-            $this->bus->dispatch(new AnnounceMessage($message->announce));
+        if (!$entity) {
+            if ($message->announce && $message->announce['object'] === $object['object']) {
+
+                $this->bus->dispatch(new ChainActivityMessage($message->chain, ['Announce' => true], $message->announce));
+
+                return;
+            }
+
+            return;
         }
 
         array_pop($message->chain);
@@ -69,18 +76,23 @@ class ChainActivityHandler implements MessageHandlerInterface
         );
     }
 
-    private function unloadStack(array $chain, array $parent): void
+    private function unloadStack(array $chain, array $parent, ?array $announce = null): void
     {
         $object = end($chain);
 
-        try {
-            if ($object['type'] === 'Note') {
-                $this->note->create($object);
-            } else {
-                $this->page->create($object);
+        $entity = match ($this->getType($object)) {
+            'Note' => $this->note->create($object),
+            'Page' => $this->page->create($object),
+            default => null
+        };
+
+        if (!$entity) {
+            if ($announce && $announce['object'] === $object['object']) {
+
+                $this->bus->dispatch(new AnnounceMessage($announce));
+
+                return;
             }
-        } catch (\Exception $e) {
-            $this->logger->error('Object import fail: '.$object['id']);
         }
 
         array_pop($chain);
@@ -88,5 +100,14 @@ class ChainActivityHandler implements MessageHandlerInterface
         if (count($chain)) {
             $this->bus->dispatch(new ChainActivityMessage($chain, $parent));
         }
+    }
+
+    private function getType(array $object): string
+    {
+        if (isset($object['object']) && is_array($object['object'])) {
+            return $object['object']['type'];
+        }
+
+        return $object['type'];
     }
 }

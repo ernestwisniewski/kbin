@@ -6,6 +6,8 @@ use App\EventSubscriber\VoteHandleSubscriber;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
 use App\Repository\ApActivityRepository;
+use App\Service\ActivityPub\ApHttpClient;
+use App\Service\ActivityPub\Wrapper\CreateWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +22,9 @@ class AnnounceHandler implements MessageHandlerInterface
         private EntityManagerInterface $entityManager,
         private MessageBusInterface $bus,
         private VoteManager $manager,
-        private VoteHandleSubscriber $voteHandleSubscriber
+        private VoteHandleSubscriber $voteHandleSubscriber,
+        private ApHttpClient $apHttpClient,
+        private CreateWrapper $createWrapper
     ) {
     }
 
@@ -32,7 +36,9 @@ class AnnounceHandler implements MessageHandlerInterface
             if ($activity) {
                 $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
             } else {
-                $this->bus->dispatch(new ChainActivityMessage([$message->payload['object']], null, $message->payload));
+                $object = $this->apHttpClient->getActivityObject($message->payload['object']);
+
+                $this->bus->dispatch(new ChainActivityMessage([$object], null, $message->payload));
 
                 return;
             }

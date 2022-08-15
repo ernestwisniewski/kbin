@@ -71,14 +71,24 @@ class ActivityHandler implements MessageHandlerInterface
         }
     }
 
-    private function handleUndo(array $payload)
+    private function handleUndo(array $payload): void
     {
-        if ($payload['object']['type'] === 'Follow') {
-            $this->bus->dispatch(new FollowMessage($payload));
+        if (is_array($payload['object'])) {
+            $type = $payload['object']['type'];
+        } else {
+            $type = $payload['type'];
         }
 
-        if ($payload['object']['type'] === 'Announce') {
+        if ($type === 'Follow') {
+            $this->bus->dispatch(new FollowMessage($payload));
+
+            return;
+        }
+
+        if ($type === 'Announce') {
             $this->bus->dispatch(new AnnounceMessage($payload));
+
+            return;
         }
     }
 }
