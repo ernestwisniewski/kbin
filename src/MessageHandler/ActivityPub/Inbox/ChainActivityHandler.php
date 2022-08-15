@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
+use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
@@ -52,6 +53,10 @@ class ChainActivityHandler implements MessageHandlerInterface
             $entity = $this->note->create($object);
         } else {
             $entity = $this->page->create($object);
+        }
+
+        if ($message->announce && $message->announce['object'] === $object['id']) {
+            $this->bus->dispatch(new AnnounceMessage($message->announce));
         }
 
         array_pop($message->chain);

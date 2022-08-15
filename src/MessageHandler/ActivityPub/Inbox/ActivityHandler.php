@@ -3,6 +3,7 @@
 namespace App\MessageHandler\ActivityPub\Inbox;
 
 use App\Message\ActivityPub\Inbox\ActivityMessage;
+use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\CreateMessage;
 use App\Message\ActivityPub\Inbox\DeleteMessage;
 use App\Message\ActivityPub\Inbox\FollowMessage;
@@ -44,19 +45,28 @@ class ActivityHandler implements MessageHandlerInterface
                 $this->bus->dispatch(new CreateMessage($payload));
                 break;
             case 'Announce':
-                $this->handleAnnounce($payload);
+                $this->bus->dispatch(new AnnounceMessage($payload));
                 break;
             case 'Follow':
-            case 'Undo':
                 $this->bus->dispatch(new FollowMessage($payload));
                 break;
             case 'Delete':
                 $this->bus->dispatch(new DeleteMessage($payload));
                 break;
+            case 'Undo':
+                $this->handleUndo($payload);
+                break;
         }
     }
 
-    private function handleAnnounce(array $payload)
+    private function handleUndo(array $payload)
     {
+        if ($payload['object']['type'] === 'Follow') {
+            $this->bus->dispatch(new FollowMessage($payload));
+        }
+
+        if ($payload['object']['type'] === 'Announce') {
+            $this->bus->dispatch(new AnnounceMessage($payload));
+        }
     }
 }

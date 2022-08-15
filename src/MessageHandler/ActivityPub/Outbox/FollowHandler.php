@@ -26,7 +26,7 @@ class FollowHandler implements MessageHandlerInterface
     #[ArrayShape(['@context' => "string", 'id' => "string", 'actor' => "string", 'object' => "string"])] public function __invoke(
         FollowMessage $message
     ): void {
-        $id = Uuid::v4()->toRfc4122();
+        $id = Uuid::v4()->toRfc4122(); // todo save ap event stream
 
         $follower  = $this->repository->find($message->followerId);
         $following = $this->repository->find($message->followingId);

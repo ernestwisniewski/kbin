@@ -23,11 +23,13 @@ class VoteManager
     ) {
     }
 
-    public function vote(int $choice, VoteInterface $votable, User $user): Vote
+    public function vote(int $choice, VoteInterface $votable, User $user, $limiter = true): Vote
     {
-        $limiter = $this->voteLimiter->create($user->username);
-        if (false === $limiter->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException();
+        if ($limiter) {
+            $limiter = $this->voteLimiter->create($user->username);
+            if (false === $limiter->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
         }
 
         $vote = $votable->getUserVote($user);
@@ -72,5 +74,27 @@ class VoteManager
         }
 
         return $choice;
+    }
+
+    public function upvote(VoteInterface $votable, User $user): ?Vote
+    {
+        // @todo save activity pub object id
+        $vote = $votable->getUserVote($user);
+
+        if ($vote) {
+            return null;
+        }
+
+        $votable->updateVoteCounts();
+
+        // @todo interfaces
+        $votable->entry?->updateLastActive();
+        $votable->post?->updateLastActive();
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new VoteEvent($votable));
+
+        return $vote;
     }
 }

@@ -57,6 +57,11 @@ class ActivityPubManager
         return $actor;
     }
 
+    public function findActor(string $actorUrl): ?User
+    {
+        return $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
+    }
+
     public function findActorOrCreate(string $actorUrl): User
     {
         if (parse_url($actorUrl)['host'] === $this->settingsManager->get('KBIN_DOMAIN')) {
