@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
+use App\EventSubscriber\VoteHandleSubscriber;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
 use App\Repository\ApActivityRepository;
@@ -18,7 +19,8 @@ class AnnounceHandler implements MessageHandlerInterface
         private ApActivityRepository $repository,
         private EntityManagerInterface $entityManager,
         private MessageBusInterface $bus,
-        private VoteManager $manager
+        private VoteManager $manager,
+        private VoteHandleSubscriber $voteHandleSubscriber
     ) {
     }
 
@@ -38,6 +40,8 @@ class AnnounceHandler implements MessageHandlerInterface
             $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
             $this->manager->upvote($entity, $actor);
+
+            $this->voteHandleSubscriber->clearCache($entity);
         }
 
         if ($message->payload['type'] === 'Undo') {

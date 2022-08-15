@@ -55,7 +55,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
         }
     }
 
-    private function clearCache(VoteInterface $votable)
+    public function clearCache(VoteInterface $votable)
     {
         $this->cache->delete($this->cacheService->getVotersCacheKey($votable));
 
