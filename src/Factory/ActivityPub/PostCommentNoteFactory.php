@@ -51,7 +51,7 @@ class PostCommentNoteFactory
                     : $this->urlGenerator->generate('ap_user_followers', ['username' => $comment->user->username], UrlGeneratorInterface::ABS_URL),
             ],
             'sensitive'    => $comment->post->isAdult(),
-            'content'      => $comment->body,
+            'content'      => str_replace("\r\n", '<br>', $comment->body),
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
             'tag'          => $this->tagsWrapper->build($comment->tags) + $this->mentionsWrapper->build($comment->mentions),
