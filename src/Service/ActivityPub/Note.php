@@ -45,7 +45,7 @@ class Note
             return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
         }
 
-        if ($replyTo = $object['inReplyTo']) {
+        if (isset($object['inReplyTo']) && $replyTo = $object['inReplyTo']) {
             // Create post or entry comment
             $parent = $this->repository->findByObjectId($replyTo);
             $parent = $this->entityManager->getRepository($parent['type'])->find((int) $parent['id']);

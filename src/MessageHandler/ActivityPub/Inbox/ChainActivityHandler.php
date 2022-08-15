@@ -35,7 +35,7 @@ class ChainActivityHandler implements MessageHandlerInterface
         $object = end($message->chain);
 
         // Handle parent objects
-        if ($object['inReplyTo']) {
+        if (isset($object['inReplyTo']) && $object['inReplyTo']) {
             $existed = $this->repository->findByObjectId($object['inReplyTo']);
 
             if ($existed) {

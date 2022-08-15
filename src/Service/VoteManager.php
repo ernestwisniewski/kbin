@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\EntryComment;
+use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Event\VoteEvent;
@@ -32,9 +34,11 @@ class VoteManager
             }
         }
 
-        $vote = $votable->getUserVote($user);
+        $vote       = $votable->getUserVote($user);
+        $votedAgain = false;
 
         if ($vote) {
+            $votedAgain   = true;
             $choice       = $this->guessUserChoice($choice, $votable->getUserChoice($user));
             $vote->choice = $choice;
         } else {
@@ -46,7 +50,7 @@ class VoteManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new VoteEvent($votable));
+        $this->dispatcher->dispatch(new VoteEvent($votable, $vote, $votedAgain));
 
         return $vote;
     }
@@ -85,15 +89,21 @@ class VoteManager
             return null;
         }
 
+        $vote = $this->factory->create(1, $votable, $user);
+
         $votable->updateVoteCounts();
 
         // @todo interfaces
-        $votable->entry?->updateLastActive();
-        $votable->post?->updateLastActive();
+        if ($votable instanceof EntryComment) {
+            $votable->entry->updateLastActive();
+        }
+        if ($votable instanceof PostComment) {
+            $votable->post->updateLastActive();
+        }
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new VoteEvent($votable));
+        $this->dispatcher->dispatch(new VoteEvent($votable, $vote, false));
 
         return $vote;
     }

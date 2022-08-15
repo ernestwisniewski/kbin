@@ -44,5 +44,4 @@ class AnnounceHandler implements MessageHandlerInterface
             return;
         }
     }
-
 }

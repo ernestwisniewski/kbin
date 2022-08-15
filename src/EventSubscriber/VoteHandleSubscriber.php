@@ -6,6 +6,7 @@ use App\Entity\Contracts\VoteInterface;
 use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Event\VoteEvent;
+use App\Message\ActivityPub\Outbox\AnnounceMessage;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\CacheService;
 use Doctrine\Common\Util\ClassUtils;
@@ -41,6 +42,17 @@ class VoteHandleSubscriber implements EventSubscriberInterface
                 ClassUtils::getRealClass(get_class($event->votable))
             ))
         );
+
+        if (!$event->vote->user->apId && !$event->hasVote) {
+            $this->bus->dispatch(
+                new AnnounceMessage(
+                    $event->vote->user->getId(),
+                    $event->votable->getId(),
+                    get_class($event->votable),
+                    $event->vote->createdAt
+                ),
+            );
+        }
     }
 
     private function clearCache(VoteInterface $votable)

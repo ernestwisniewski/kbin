@@ -21,7 +21,7 @@ class ImageWrapper
             'mediaType'  => $this->imageManager->getMimetype($image),
             'url'        => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$image->filePath, // @todo media url
             'name'       => $title, // @todo media url
-            'blurhash'   => '', // @todo mastodon blurhash
+//            'blurhash'   => '', // @todo mastodon blurhash
             'focalPoint' => [0, 0],
             'width'      => $image->width,
             'height'     => $image->height,
