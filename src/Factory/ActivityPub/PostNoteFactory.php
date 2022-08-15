@@ -5,6 +5,7 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Post;
+use App\Markdown\MarkdownConverter;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
@@ -23,6 +24,7 @@ class PostNoteFactory
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
+        private MarkdownConverter $markdownConverter
     ) {
     }
 
@@ -51,7 +53,7 @@ class PostNoteFactory
                 ),
             ],
             'sensitive'       => $post->isAdult(),
-            'content'         => str_replace("\r\n", '<br>', $post->body),
+            'content'         => $this->markdownConverter->convertToHtml($post->body),
             'mediaType'       => 'text/html',
             'url'             => $this->getActivityPubId($post),
             'tag'             => $this->tagsWrapper->build($post->tags) + $this->mentionsWrapper->build($post->mentions),

@@ -5,6 +5,7 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\PostComment;
+use App\Markdown\MarkdownConverter;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
@@ -23,6 +24,7 @@ class PostCommentNoteFactory
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
+        private MarkdownConverter $markdownConverter
     ) {
     }
 
@@ -51,7 +53,7 @@ class PostCommentNoteFactory
                     : $this->urlGenerator->generate('ap_user_followers', ['username' => $comment->user->username], UrlGeneratorInterface::ABS_URL),
             ],
             'sensitive'    => $comment->post->isAdult(),
-            'content'      => str_replace("\r\n", '<br>', $comment->body),
+            'content'      => $this->markdownConverter->convertToHtml($comment->body),
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
             'tag'          => $this->tagsWrapper->build($comment->tags) + $this->mentionsWrapper->build($comment->mentions),

@@ -5,6 +5,7 @@ namespace App\Factory\ActivityPub;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Entry;
+use App\Markdown\MarkdownConverter;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
@@ -23,7 +24,8 @@ class EntryPageFactory
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
-        private ActivityPubManager $activityPubManager
+        private ActivityPubManager $activityPubManager,
+        private MarkdownConverter $markdownConverter
     ) {
     }
 
@@ -54,7 +56,7 @@ class EntryPageFactory
                     : $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABS_URL),
             ],
             'name'            => $entry->title,
-            'content'         => str_replace("\r\n", '<br>', $body),
+            'content'         => $this->markdownConverter->convertToHtml($body),
             'mediaType'       => 'text/html',
             'url'             => $this->getUrl($entry),
             'tag'             => $this->tagsWrapper->build($entry->tags) + $this->mentionsWrapper->build($entry->mentions),
@@ -74,7 +76,7 @@ class EntryPageFactory
             $page = $this->imageWrapper->build($page, $entry->image, $entry->title);
         }
 
-        if($entry->body){
+        if ($entry->body) {
             $page['cc'] = array_merge($page['cc'], $this->activityPubManager->createCcFromBody($entry->body));
         }
 
