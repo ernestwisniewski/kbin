@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\ActivityPub\Server;
+use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Image;
 use App\Entity\User;
@@ -30,7 +32,8 @@ class ActivityPubManager
         private PersonFactory $personFactory,
         private SettingsManager $settingsManager,
         private WebFingerFactory $webFingerFactory,
-        private MentionManager $mentionManager
+        private MentionManager $mentionManager,
+        private UrlGeneratorInterface $urlGenerator
     ) {
 
     }
@@ -134,16 +137,38 @@ class ActivityPubManager
 
     public function createCcFromBody(string $body): array
     {
-        $mentions = $this->mentionManager->extract($body, MentionManager::REMOTE);
+        $mentions = $this->mentionManager->extract($body, MentionManager::REMOTE) ?? [];
 
         $urls = [];
         foreach ($mentions as $handle) {
             try {
-                $urls[] = $this->webfinger($handle);
+                $urls[] = $this->webfinger($handle)->getProfileId();
             } catch (\Exception) {
             }
         }
 
         return $urls;
+    }
+
+    public function getFollowersFromObject(array $activity, User $user): array
+    {
+        if (isset($activity['cc']) && isset($activity['to'])) {
+            $followersUrl = $this->urlGenerator->generate(
+                'ap_user_followers',
+                ['username' => $user->username],
+                UrlGeneratorInterface::ABS_URL
+            );
+
+            return array_unique(
+                array_filter(
+                    array_merge(
+                        is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
+                        is_array($activity['to']) ? $activity['to'] : [$activity['to']]
+                    ), fn($val) => !in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl])
+                )
+            );
+        }
+
+        return [];
     }
 }

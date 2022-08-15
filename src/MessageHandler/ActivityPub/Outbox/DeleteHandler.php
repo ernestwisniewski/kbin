@@ -6,6 +6,7 @@ use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\DeleteWrapper;
+use App\Service\ActivityPubManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -17,7 +18,8 @@ class DeleteHandler implements MessageHandlerInterface
         private EntityManagerInterface $entityManager,
         private UserRepository $repository,
         private DeleteWrapper $deleteWrapper,
-        private MessageBusInterface $bus
+        private MessageBusInterface $bus,
+        private ActivityPubManager $activityPubManager
     ) {
     }
 
@@ -31,6 +33,11 @@ class DeleteHandler implements MessageHandlerInterface
 
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
+        }
+
+        $followers = $this->activityPubManager->getFollowersFromObject($activity, $entity->user);
+        foreach ($followers as $follower) {
+            $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
     }
 }

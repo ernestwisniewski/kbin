@@ -6,6 +6,7 @@ use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\CreateWrapper;
+use App\Service\ActivityPubManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -16,7 +17,8 @@ class CreateHandler implements MessageHandlerInterface
         private MessageBusInterface $bus,
         private UserRepository $repository,
         private CreateWrapper $createWrapper,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private ActivityPubManager $activityPubManager
     ) {
     }
 
@@ -30,6 +32,11 @@ class CreateHandler implements MessageHandlerInterface
 
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
+        }
+
+        $followers = $this->activityPubManager->getFollowersFromObject($activity, $entity->user);
+        foreach ($followers as $follower) {
+            $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
     }
 }

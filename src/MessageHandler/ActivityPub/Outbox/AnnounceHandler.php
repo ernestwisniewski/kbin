@@ -6,7 +6,6 @@ use App\Factory\ActivityPub\ActivityFactory;
 use App\Message\ActivityPub\Outbox\AnnounceMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Repository\UserRepository;
-use App\Service\ActivityPub\Followers;
 use App\Service\ActivityPub\Wrapper\AnnounceWrapper;
 use App\Service\ActivityPubManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +23,6 @@ class AnnounceHandler implements MessageHandlerInterface
         private ActivityPubManager $activityPubManager,
         private ActivityFactory $activityFactory,
         private MessageBusInterface $bus,
-        private Followers $followers
     ) {
     }
 
@@ -47,7 +45,7 @@ class AnnounceHandler implements MessageHandlerInterface
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }
 
-        $followers = $this->followers->getFromObject($activity, $user);
+        $followers = $this->activityPubManager->getFollowersFromObject($activity, $user);
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
