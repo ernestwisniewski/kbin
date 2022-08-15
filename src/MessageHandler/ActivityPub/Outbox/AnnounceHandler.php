@@ -53,7 +53,6 @@ class AnnounceHandler implements MessageHandlerInterface
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
-
     }
 
     public function getFollowersFromObject(array $activity, User $user): array

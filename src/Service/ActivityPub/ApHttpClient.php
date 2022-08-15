@@ -31,16 +31,23 @@ class ApHttpClient
     public function getActivityObject(string $url, bool $decoded = true): array|string
     {
         $resp = $this->cache->get('ap_'.hash('sha256', $url), function (ItemInterface $item) use ($url) {
-            $item->expiresAfter(86400);
-
             $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
 
-            return $this->client->request('GET', $url, [
-                'headers' => [
-                    'Accept'     => 'application/activity+json,application/ld+json,application/json',
-                    'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
-                ],
-            ])->getContent();
+            try {
+                $r = $this->client->request('GET', $url, [
+                    'headers' => [
+                        'Accept'     => 'application/activity+json,application/ld+json,application/json',
+                        'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
+                    ],
+                ])->getContent();
+            } catch (\Exception $e) {
+                $item->expiresAfter(0);
+                throw $e;
+            }
+
+            $item->expiresAfter(86400);
+
+            return $r;
         });
 
         return $decoded ? json_decode($resp, true) : $resp;
@@ -49,16 +56,23 @@ class ApHttpClient
     public function getActorObject(string $apProfileId): array
     {
         $resp = $this->cache->get('ap_'.hash('sha256', $apProfileId), function (ItemInterface $item) use ($apProfileId) {
-            $item->expiresAfter(86400);
-
             $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
 
-            return $this->client->request('GET', $apProfileId, [
-                'headers' => [
-                    'Accept'     => 'application/activity+json,application/ld+json,application/json',
-                    'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
-                ],
-            ])->getContent();
+            try {
+                $r = $this->client->request('GET', $apProfileId, [
+                    'headers' => [
+                        'Accept'     => 'application/activity+json,application/ld+json,application/json',
+                        'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
+                    ],
+                ])->getContent();
+            } catch (\Exception $e) {
+                $item->expiresAfter(0);
+                throw $e;
+            }
+
+            $item->expiresAfter(86400);
+
+            return $r;
         });
 
         return json_decode($resp, true);

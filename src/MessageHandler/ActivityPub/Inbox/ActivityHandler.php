@@ -9,13 +9,18 @@ use App\Message\ActivityPub\Inbox\DeleteMessage;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPub\SignatureValidator;
 use App\Service\ActivityPubManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class ActivityHandler implements MessageHandlerInterface
 {
-    public function __construct(private SignatureValidator $signatureValidator, private MessageBusInterface $bus, private ActivityPubManager $manager)
-    {
+    public function __construct(
+        private SignatureValidator $signatureValidator,
+        private MessageBusInterface $bus,
+        private ActivityPubManager $manager,
+        private LoggerInterface $logger
+    ) {
     }
 
     public function __invoke(ActivityMessage $message): void
@@ -26,7 +31,14 @@ class ActivityHandler implements MessageHandlerInterface
             $this->signatureValidator->validate($message->payload, $message->headers);
         }
 
-        $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
+        try {
+            $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
+        } catch (\Exception $e) {
+            $this->logger->error('User not found: '.$payload['actor'] ?? $payload['attributedTo']);
+
+            return;
+        }
+
         if ($user->isBanned) {
             return;
         }

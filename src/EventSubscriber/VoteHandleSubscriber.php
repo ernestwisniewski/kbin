@@ -43,7 +43,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
             ))
         );
 
-        if (!$event->vote->user->apId && !$event->hasVote) {
+        if (!$event->vote->user->apId && 1 === $event->vote->choice && !$event->votedAgain) {
             $this->bus->dispatch(
                 new AnnounceMessage(
                     $event->vote->user->getId(),

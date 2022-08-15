@@ -9,7 +9,7 @@ use Symfony\Component\Uid\Uuid;
 
 class AnnounceWrapper
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private FollowWrapper $followWrapper)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
 
@@ -23,7 +23,7 @@ class AnnounceWrapper
         return [
             '@context'  => ActivityPubActivityInterface::CONTEXT_URL,
             'id'        => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABS_URL),
-            'type'      => 'Accept',
+            'type'      => 'Announce',
             'actor'     => $user,
             'object'    => $object['id'],
             'to'        => ActivityPubActivityInterface::PUBLIC_URL,
