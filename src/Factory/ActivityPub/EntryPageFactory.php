@@ -37,6 +37,8 @@ class EntryPageFactory
             ];
         }
 
+        $body = $entry->body ?? $entry->getDescription();
+
         $page = array_merge($page ?? [], [
             'id'              => $this->getActivityPubId($entry),
             'type'            => 'Page',
@@ -52,7 +54,7 @@ class EntryPageFactory
                     : $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABS_URL),
             ],
             'name'            => $entry->title,
-            'content'         => $entry->body ?? $entry->getDescription(),
+            'content'         => str_replace("\r\n", '<br>', $body),
             'mediaType'       => 'text/html',
             'url'             => $this->getUrl($entry),
             'tag'             => $this->tagsWrapper->build($entry->tags) + $this->mentionsWrapper->build($entry->mentions),

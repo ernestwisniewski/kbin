@@ -51,7 +51,7 @@ class PostNoteFactory
                 ),
             ],
             'sensitive'       => $post->isAdult(),
-            'content'         => $post->body,
+            'content'         => str_replace("\r\n", '<br>', $post->body),
             'mediaType'       => 'text/html',
             'url'             => $this->getActivityPubId($post),
             'tag'             => $this->tagsWrapper->build($post->tags) + $this->mentionsWrapper->build($post->mentions),

@@ -51,7 +51,7 @@ class EntryCommentNoteFactory
                     ? $this->client->getActorObject($comment->user->apProfileId)['followers']
                     : $this->urlGenerator->generate('ap_user_followers', ['username' => $comment->user->username], UrlGeneratorInterface::ABS_URL),
             ],
-            'content'      => $comment->body,
+            'content'      => str_replace("\r\n", '<br>', $comment->body),
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
             'tag'          => $this->tagsWrapper->build($comment->tags) + $this->mentionsWrapper->build($comment->mentions),
