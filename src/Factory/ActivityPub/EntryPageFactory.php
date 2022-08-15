@@ -72,7 +72,9 @@ class EntryPageFactory
             $page = $this->imageWrapper->build($page, $entry->image, $entry->title);
         }
 
-        $note['cc'] = array_merge($page['cc'], $this->activityPubManager->createCcFromBody($entry->body));
+        if($entry->body){
+            $page['cc'] = array_merge($page['cc'], $this->activityPubManager->createCcFromBody($entry->body));
+        }
 
         return $page;
     }
