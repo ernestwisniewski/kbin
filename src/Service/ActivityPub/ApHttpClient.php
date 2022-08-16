@@ -131,7 +131,7 @@ class ApHttpClient
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if (!str_starts_with((string) $code, '2')) {
-            throw new InvalidApPostException('Post fail: '.$url);
+            throw new InvalidApPostException("Post fail: {$url}, ".json_encode($body));
         }
 
         // build cache
