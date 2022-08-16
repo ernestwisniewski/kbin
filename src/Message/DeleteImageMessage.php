@@ -2,7 +2,7 @@
 
 namespace App\Message;
 
-class DeleteImageMessage
+class DeleteImageMessage implements AsyncMessageInterface
 {
     public function __construct(public string $path, public bool $force = false)
     {

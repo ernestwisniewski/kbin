@@ -2,7 +2,9 @@
 
 namespace App\Message\Notification;
 
-class PostDeletedNotificationMessage
+use App\Message\AsyncMessageInterface;
+
+class PostDeletedNotificationMessage implements AsyncMessageInterface
 {
     public function __construct(public int $postId)
     {

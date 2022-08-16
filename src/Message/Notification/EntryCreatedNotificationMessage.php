@@ -2,7 +2,9 @@
 
 namespace App\Message\Notification;
 
-class EntryCreatedNotificationMessage
+use App\Message\AsyncMessageInterface;
+
+class EntryCreatedNotificationMessage implements AsyncMessageInterface
 {
     public function __construct(public int $entryId)
     {

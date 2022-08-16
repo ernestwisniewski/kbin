@@ -2,7 +2,9 @@
 
 namespace App\Message\ActivityPub\Outbox;
 
-class DeliverMessage
+use App\Message\AsyncMessageInterface;
+
+class DeliverMessage implements AsyncMessageInterface
 {
     public function __construct(public string $apProfileId, public array $payload)
     {

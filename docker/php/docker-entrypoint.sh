@@ -66,5 +66,6 @@ fi
 # todo cardano cron
 #echo "* * * * * /srv/app/bin/console kbin:cardano:refresh" >> /etc/crontabs/root
 #crond -l 2 -f > /dev/stdout 2> /dev/stderr &
+/usr/bin/supervisord
 
 exec docker-php-entrypoint "$@"

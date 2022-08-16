@@ -2,7 +2,9 @@
 
 namespace App\Message\Notification;
 
-class MagazineBanNotificationMessage
+use App\Message\AsyncMessageInterface;
+
+class MagazineBanNotificationMessage implements AsyncMessageInterface
 {
     public function __construct(public int $banId)
     {

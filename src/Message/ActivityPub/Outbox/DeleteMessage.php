@@ -2,7 +2,9 @@
 
 namespace App\Message\ActivityPub\Outbox;
 
-class DeleteMessage
+use App\Message\AsyncMessageInterface;
+
+class DeleteMessage implements AsyncMessageInterface
 {
     public function __construct(public int $id, public string $type)
     {

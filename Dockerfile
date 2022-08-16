@@ -39,6 +39,7 @@ RUN apk add --no-cache \
         libpng-dev \
         php-sysvsem \
         apk-cron \
+        supervisor \
 	;
 
 RUN set -eux; \
@@ -101,6 +102,8 @@ COPY docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
 #RUN echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
 
 COPY docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
+COPY docker/supervisor/conf.d/messenger-worker.conf /etc/supervisor/conf.d/messenger-worker.conf
 
 RUN mkdir -p /var/run/php
 

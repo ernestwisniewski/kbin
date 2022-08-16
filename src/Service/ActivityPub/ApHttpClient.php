@@ -3,6 +3,7 @@
 namespace App\Service\ActivityPub;
 
 use App\Entity\User;
+use App\Exception\InvalidApPostException;
 use App\Factory\ActivityPub\PersonFactory;
 use DateTime;
 use JetBrains\PhpStorm\ArrayShape;
@@ -91,7 +92,7 @@ class ApHttpClient
         return $actor['endpoints']['sharedInbox'] ?? $actor['inbox'];
     }
 
-    public function post(string $url, array $body, User $user): void
+    public function post(string $url, User $user, ?array $body = null): void
     {
         $cache = new FilesystemAdapter(); // @todo redis
 
@@ -111,18 +112,27 @@ class ApHttpClient
         $keyId           = $this->personFactory->getActivityPubId($user).'#main-key';
         $signatureHeader = 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"';
         unset($headers['(request-target)']);
-        $headers['Signature']  = $signatureHeader;
-        $headers['User-Agent'] = 'kbinBot v0.1 - https://kbin.pub';
-        $params['headers']     = $headers;
-
-        if ($body) {
-            $params['json'] = $body;
-        }
+        $headers['Signature']    = $signatureHeader;
+        $headers['User-Agent']   = 'kbinBot v0.1 - https://kbin.pub';
+        $headers['Accept']       = 'application/activity+json, application/json';
+        $headers['Content-Type'] = 'application/json';
 
         $this->logger->info("ApHttpClient:post:url: {$url}");
         $this->logger->info("ApHttpClient:post:body ".json_encode($body ?? []));
 
-        $this->client->request('POST', $url, $params);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, self::headersToCurlArray($headers));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_exec($ch);
+        curl_close($ch);
+
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if (!str_starts_with((string) $code, '2')) {
+            throw new InvalidApPostException('Post fail: '.$url);
+        }
 
         // build cache
         $item = $cache->getItem($cacheKey);
@@ -150,7 +160,6 @@ class ApHttpClient
             '(request-target)' => 'post '.parse_url($url, PHP_URL_PATH),
             'Date'             => $date->format('D, d M Y H:i:s \G\M\T'),
             'Host'             => parse_url($url, PHP_URL_HOST),
-            'Accept'           => 'application/activity+json, application/json',
         ];
 
         if ($digest) {
@@ -168,5 +177,12 @@ class ApHttpClient
                 return strtolower($k).': '.$v;
             }, array_keys($headers), $headers)
         );
+    }
+
+    private static function headersToCurlArray($headers)
+    {
+        return array_map(function ($k, $v) {
+            return "$k: $v";
+        }, array_keys($headers), $headers);
     }
 }

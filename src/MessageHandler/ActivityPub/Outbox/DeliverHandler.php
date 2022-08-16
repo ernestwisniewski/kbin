@@ -3,14 +3,13 @@
 namespace App\MessageHandler\ActivityPub\Outbox;
 
 use App\Message\ActivityPub\Outbox\DeliverMessage;
-use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class DeliverHandler implements MessageHandlerInterface
 {
-    public function __construct(private ApHttpClient $client, private ActivityPubManager $manager, UserRepository $repository)
+    public function __construct(private ApHttpClient $client, private ActivityPubManager $manager)
     {
     }
 
@@ -21,6 +20,6 @@ class DeliverHandler implements MessageHandlerInterface
             return;
         }
 
-        $this->client->post($this->client->getInboxUrl($message->apProfileId), $message->payload, $user);
+        $this->client->post($this->client->getInboxUrl($message->apProfileId), $user, $message->payload);
     }
 }

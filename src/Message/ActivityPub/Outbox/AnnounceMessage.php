@@ -2,7 +2,9 @@
 
 namespace App\Message\ActivityPub\Outbox;
 
-class AnnounceMessage
+use App\Message\AsyncMessageInterface;
+
+class AnnounceMessage implements AsyncMessageInterface
 {
     public function __construct(public int $userId, public int $objectId, public string $objectType, public \DateTimeInterface $createdAt)
     {

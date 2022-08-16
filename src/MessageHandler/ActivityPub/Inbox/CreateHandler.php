@@ -38,7 +38,7 @@ class CreateHandler implements MessageHandlerInterface
 
     private function handleNote()
     {
-        if ($this->object['inReplyTo']) {
+        if (isset($this->object['inReplyTo']) && $this->object['inReplyTo']) {
             $existed = $this->repository->findByObjectId($this->object['inReplyTo']);
             if (!$existed) {
                 $this->bus->dispatch(new ChainActivityMessage([$this->object]));

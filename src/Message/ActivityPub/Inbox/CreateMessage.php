@@ -2,7 +2,9 @@
 
 namespace App\Message\ActivityPub\Inbox;
 
-class CreateMessage
+use App\Message\AsyncMessageInterface;
+
+class CreateMessage implements AsyncMessageInterface
 {
     public function __construct(public array $payload)
     {

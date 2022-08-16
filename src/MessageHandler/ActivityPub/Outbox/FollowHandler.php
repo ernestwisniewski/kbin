@@ -43,6 +43,6 @@ class FollowHandler implements MessageHandlerInterface
 
         $inbox = $this->apHttpClient->getInboxUrl($followingProfileId);
 
-        $this->apHttpClient->post($inbox, $followObject, $follower);
+        $this->apHttpClient->post($inbox, $follower, $followObject);
     }
 }

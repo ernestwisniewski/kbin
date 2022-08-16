@@ -2,7 +2,9 @@
 
 namespace App\Message\Notification;
 
-class EntryCommentDeletedNotificationMessage
+use App\Message\AsyncMessageInterface;
+
+class EntryCommentDeletedNotificationMessage implements AsyncMessageInterface
 {
     public function __construct(public int $commentId)
     {

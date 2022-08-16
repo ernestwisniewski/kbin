@@ -2,7 +2,9 @@
 
 namespace App\Message\Notification;
 
-class PostEditedNotificationMessage
+use App\Message\AsyncMessageInterface;
+
+class PostEditedNotificationMessage implements AsyncMessageInterface
 {
     public function __construct(public int $postId)
     {

@@ -68,6 +68,6 @@ class FollowHandler implements MessageHandlerInterface
             $payload['id'],
         );
 
-        $this->client->post($this->client->getInboxUrl($payload['actor']), $accept, $user);
+        $this->client->post($this->client->getInboxUrl($payload['actor']), $user, $accept);
     }
 }

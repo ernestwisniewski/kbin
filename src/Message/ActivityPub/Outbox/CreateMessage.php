@@ -2,9 +2,9 @@
 
 namespace App\Message\ActivityPub\Outbox;
 
-use App\Entity\Contracts\ActivityPubActivityInterface;
+use App\Message\AsyncMessageInterface;
 
-class CreateMessage
+class CreateMessage implements AsyncMessageInterface
 {
     public function __construct(public int $id, public string $type)
     {
