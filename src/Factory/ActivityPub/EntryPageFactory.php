@@ -72,7 +72,7 @@ class EntryPageFactory
             ],
         ]);
 
-        if ($entry->type !== Entry::ENTRY_TYPE_LINK) {
+        if (!$entry->url && $entry->image) {
             $page = $this->imageWrapper->build($page, $entry->image, $entry->title);
         }
 
