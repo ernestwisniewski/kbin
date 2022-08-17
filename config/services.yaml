@@ -15,6 +15,8 @@ parameters:
   kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
   kbin_ap_route_condition: 'request.getAcceptableContentTypes() and request.getAcceptableContentTypes()[0] in ["application/activity+json", "application/ld+json"]'
 
+  router.request_context.host: '%env(KBIN_DOMAIN)%'
+
   html5_validation: false
 
   front_sort_options: top|hot|active|newest|commented|ważne|wschodzące|aktywne|najnowsze|komentowane

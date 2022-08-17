@@ -30,7 +30,6 @@ class DeleteHandler implements MessageHandlerInterface
         $activity = $this->deleteWrapper->build($entity, Uuid::v4()->toRfc4122());
 
         $followers = $this->repository->findAudience($entity->user);
-
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }
