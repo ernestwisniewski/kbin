@@ -16,6 +16,7 @@ parameters:
   kbin_ap_route_condition: 'request.getAcceptableContentTypes() and request.getAcceptableContentTypes()[0] in ["application/activity+json", "application/ld+json"]'
 
   router.request_context.host: '%env(KBIN_DOMAIN)%'
+  router.request_context.scheme: https
 
   html5_validation: false
 
