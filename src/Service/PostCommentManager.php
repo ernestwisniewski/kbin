@@ -6,6 +6,7 @@ use App\DTO\PostCommentDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Event\PostComment\PostCommentBeforeDeletedEvent;
 use App\Event\PostComment\PostCommentBeforePurgeEvent;
 use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
@@ -99,6 +100,8 @@ class PostCommentManager implements ContentManagerInterface
         }
 
         $this->isTrashed($user, $comment) ? $comment->trash() : $comment->softDelete();
+
+        $this->dispatcher->dispatch(new PostCommentBeforeDeletedEvent($comment, $user));
 
         $this->entityManager->flush();
 

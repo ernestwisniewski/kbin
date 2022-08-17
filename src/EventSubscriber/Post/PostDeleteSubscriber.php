@@ -26,10 +26,6 @@ class PostDeleteSubscriber implements EventSubscriberInterface
     public function onPostDeleted(PostDeletedEvent $event)
     {
         $this->bus->dispatch(new PostDeletedNotificationMessage($event->post->getId()));
-
-        if (!$event->post->apId) {
-            $this->bus->dispatch(new DeleteMessage($event->post->getId(), get_class($event->post)));
-        }
     }
 
     public function onPostBeforePurge(PostBeforePurgeEvent $event): void

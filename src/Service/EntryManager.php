@@ -6,6 +6,7 @@ use App\DTO\EntryDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\User;
+use App\Event\Entry\EntryBeforeDeletedEvent;
 use App\Event\Entry\EntryBeforePurgeEvent;
 use App\Event\Entry\EntryCreatedEvent;
 use App\Event\Entry\EntryDeletedEvent;
@@ -128,6 +129,8 @@ class EntryManager implements ContentManagerInterface
         }
 
         $entry->isAuthor($user) ? $entry->softDelete() : $entry->trash();
+
+        $this->dispatcher->dispatch(new EntryBeforeDeletedEvent($entry, $user));
 
         $this->entityManager->flush();
 

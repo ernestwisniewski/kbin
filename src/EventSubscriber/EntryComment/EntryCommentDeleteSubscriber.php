@@ -29,10 +29,6 @@ class EntryCommentDeleteSubscriber implements EventSubscriberInterface
         $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
 
         $this->bus->dispatch(new EntryCommentDeletedNotificationMessage($event->comment->getId()));
-
-        if (!$event->comment->apId) {
-            $this->bus->dispatch(new DeleteMessage($event->comment->getId(), get_class($event->comment)));
-        }
     }
 
     public function onEntryCommentBeforePurge(EntryCommentBeforePurgeEvent $event): void

@@ -6,6 +6,7 @@ use App\DTO\PostDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Event\Post\PostBeforeDeletedEvent;
 use App\Event\Post\PostBeforePurgeEvent;
 use App\Event\Post\PostCreatedEvent;
 use App\Event\Post\PostDeletedEvent;
@@ -102,6 +103,8 @@ class  PostManager implements ContentManagerInterface
         }
 
         $this->isTrashed($user, $post) ? $post->trash() : $post->softDelete();
+
+        $this->dispatcher->dispatch(new PostBeforeDeletedEvent($post, $user));
 
         $this->entityManager->flush();
 

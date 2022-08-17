@@ -26,10 +26,6 @@ class EntryDeleteSubscriber implements EventSubscriberInterface
     public function onEntryDeleted(EntryDeletedEvent $event): void
     {
         $this->bus->dispatch(new EntryDeletedNotificationMessage($event->entry->getId()));
-
-        if (!$event->entry->apId) {
-            $this->bus->dispatch(new DeleteMessage($event->entry->getId(), get_class($event->entry)));
-        }
     }
 
     public function onEntryBeforePurge(EntryBeforePurgeEvent $event): void

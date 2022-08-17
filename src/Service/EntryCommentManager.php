@@ -6,6 +6,7 @@ use App\DTO\EntryCommentDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\EntryComment;
 use App\Entity\User;
+use App\Event\EntryComment\EntryCommentBeforeDeletedEvent;
 use App\Event\EntryComment\EntryCommentBeforePurgeEvent;
 use App\Event\EntryComment\EntryCommentCreatedEvent;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
@@ -99,6 +100,8 @@ class EntryCommentManager implements ContentManagerInterface
         }
 
         $this->isTrashed($user, $comment) ? $comment->trash() : $comment->softDelete();
+
+        $this->dispatcher->dispatch(new EntryCommentBeforeDeletedEvent($comment, $user));
 
         $this->entityManager->flush();
 
