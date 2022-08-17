@@ -7,7 +7,7 @@ liip_imagine:
         entry_thumb:
             quality: 90
             filters:
-                thumbnail: { size: [ 200, 350 ], mode: inset }
+                thumbnail: { size: [ 200, 350 ], mode: outbound }
         avatar_thumb:
             quality: 90
             filters:
@@ -15,7 +15,7 @@ liip_imagine:
         post_thumb:
             quality: 90
             filters:
-                thumbnail: { size: [ 600, 500 ], mode: inset }
+                thumbnail: { size: [ 600, 500 ], mode: outbound }
 
     loaders:
         local_images:
