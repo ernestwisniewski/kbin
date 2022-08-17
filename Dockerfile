@@ -103,7 +103,7 @@ COPY docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
 
 COPY docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
-COPY docker/supervisor/conf.d/messenger-worker.conf /etc/supervisor/conf.d/messenger-worker.conf
+COPY docker/supervisor/conf.d/supervisord.conf /etc/supervisor/supervisord.conf
 
 RUN mkdir -p /var/run/php
 
@@ -115,8 +115,9 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
-ENTRYPOINT ["docker-entrypoint"]
-CMD ["php-fpm"]
+#Temp tests
+#ENTRYPOINT ["docker-entrypoint"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
