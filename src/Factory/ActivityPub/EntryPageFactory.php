@@ -65,14 +65,14 @@ class EntryPageFactory
             'stickied'        => $entry->sticky,
             'published'       => $entry->createdAt->format(DateTimeInterface::ISO8601),
             'attachment'      => [
-                [
-                    'href' => $this->getUrl($entry),
-                    'type' => 'Link',
-                ],
+//                [
+//                    'href' => $this->getUrl($entry),
+//                    'type' => 'Link',
+//                ],
             ],
         ]);
 
-        if ($entry->image) {
+        if ($entry->type !== Entry::ENTRY_TYPE_LINK) {
             $page = $this->imageWrapper->build($page, $entry->image, $entry->title);
         }
 
