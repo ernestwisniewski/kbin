@@ -117,8 +117,10 @@ RUN chmod +x /usr/local/bin/docker-entrypoint
 
 #Temp tests
 #ENTRYPOINT ["docker-entrypoint"]
+USER www-data
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
+USER root
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
