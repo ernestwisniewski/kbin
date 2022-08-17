@@ -68,7 +68,7 @@ class ActivityPubManager
 
     public function findActorOrCreate(string $actorUrl): User
     {
-        if (parse_url($actorUrl)['host'] === $this->settingsManager->get('KBIN_DOMAIN')) {
+        if (in_array(parse_url($actorUrl)['host'], [$this->settingsManager->get('KBIN_DOMAIN'), 'localhost', '127.0.0.1'])) {
             $name = explode('/', $actorUrl);
             $name = end($name);
 
