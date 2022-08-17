@@ -4,7 +4,7 @@
     <div class="card mb-3">
         {% if post.image %}
             <a href="{{ post_url(post) }}">
-                <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}" class="card-img-top" alt="{{ post.shortTitle }}">
+                <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}" class="kbin-post-thumb card-img-top" alt="{{ post.shortTitle }}">
             </a>
         {% endif %}
         <div class="card-body">

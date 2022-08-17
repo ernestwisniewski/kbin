@@ -6,7 +6,7 @@
         {% endif %}
         {% if this.showCover and this.magazine.cover %}
             <img src="{{ asset(this.magazine.cover.filePath) | imagine_filter('post_thumb') }}"
-                 class="img-thumbnail"
+                 class="img-thumbnail kbin-post-thumb"
                  alt="{{ this.magazine.title }}"
                  style="max-height: 12rem">
             <div class="clearfix"></div>

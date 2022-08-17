@@ -334,3 +334,11 @@ select {
     }
   }
 }
+
+.kbin-post-thumb {
+  max-height: 500px;
+}
+
+.kbin-entry-thumb {
+  max-height: 300px;
+}

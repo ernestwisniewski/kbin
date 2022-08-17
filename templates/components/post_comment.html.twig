@@ -70,6 +70,7 @@
                                  data-image-full-value="{{ uploaded_asset(this.comment.image.filePath) }}"
                                  data-image-thumb-value="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
                                  data-action="click->image#toggle"
+                                 class="kbin-post-thumb"
                                  src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
                                  alt="{{ this.comment.shortTitle }}">
                         </div>
