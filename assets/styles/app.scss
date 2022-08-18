@@ -45,12 +45,10 @@ html {
 
 #kbin {
   padding-top: 1.7rem;
-  //background: url(../images/shape.png) center center;
-  background-image: linear-gradient(#e5e5e5 0%, $kbin-background 100%);
-  height: 100px;
+  background-image: linear-gradient(#e5e5e5 0%, $kbin-background 150px);
 
   .kbin-dark & {
-    background: none;
+    background-image: linear-gradient(#151515 0%, $kbin-dark-background 150px);
   }
 }
 
