@@ -38,7 +38,6 @@ class UserManager
         private EntityManagerInterface $entityManager,
         private RateLimiterFactory $userRegisterLimiter,
         private Security $security,
-        private ActivityPubManager $activityPubManager
     ) {
     }
 
