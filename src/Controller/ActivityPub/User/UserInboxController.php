@@ -19,7 +19,7 @@ class UserInboxController
         $this->logger->info('UserInboxController:headers: '.$request->headers);
         $this->logger->info('UserInboxController:content: '.$request->getContent());
 
-        $this->bus->dispatch(new ActivityMessage($request->getContent()));
+        $this->bus->dispatch(new ActivityMessage($request->getContent(), $request->headers->all()));
 
         $response = new JsonResponse();
         $response->headers->set('Content-Type', 'application/activity+json');

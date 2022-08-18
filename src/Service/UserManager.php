@@ -12,6 +12,7 @@ use App\Message\DeleteUserMessage;
 use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
 use App\Security\EmailVerifier;
+use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -94,7 +95,9 @@ class UserManager
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
 
-        $user = $this->activityPubManager->generateKeys($user);
+        if (!$dto->apId) {
+            $user = KeysGenerator::generate($user);
+        }
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

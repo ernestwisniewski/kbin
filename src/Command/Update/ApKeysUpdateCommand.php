@@ -5,7 +5,7 @@ namespace App\Command\Update;
 use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
-use App\Service\ActivityPubManager;
+use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +18,6 @@ class ApKeysUpdateCommand extends Command
     public function __construct(
         private UserRepository $userRepository,
         private MagazineRepository $magazineRepository,
-        private ActivityPubManager $activityPubManager,
         private EntityManagerInterface $entityManager
     ) {
         parent::__construct();
@@ -44,7 +43,7 @@ class ApKeysUpdateCommand extends Command
          * @var $actor ActivityPubActorInterface
          */
         foreach ($actors as $actor) {
-            $actor = $this->activityPubManager->generateKeys($actor);
+            $actor = KeysGenerator::generate($actor);
             $this->entityManager->persist($actor);
         }
 

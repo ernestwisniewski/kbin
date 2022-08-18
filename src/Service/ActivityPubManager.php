@@ -16,7 +16,6 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Webfinger\WebFinger;
 use App\Service\ActivityPub\Webfinger\WebFingerFactory;
 use Doctrine\ORM\EntityManagerInterface;
-use phpseclib3\Crypt\RSA;
 
 class ActivityPubManager
 {
@@ -49,16 +48,6 @@ class ActivityPubManager
 
         // @todo blid webfinger
         return $actor->apProfileId;
-    }
-
-    public function generateKeys(ActivityPubActorInterface $actor): ActivityPubActorInterface
-    {
-        $privateKey = RSA::createKey(4096);
-
-        $actor->publicKey = (string) $privateKey->getPublicKey();
-        $actor->privateKey = (string) $privateKey;
-
-        return $actor;
     }
 
     public function findActor(string $actorUrl): ?User
