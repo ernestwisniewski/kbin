@@ -70,33 +70,33 @@ class ChainActivityHandler implements MessageHandlerInterface
             new ChainActivityMessage($message->chain, [
                 'id'   => $entity->getId(),
                 'type' => get_class($entity),
-            ])
+            ], $message->announce)
         );
     }
 
     private function unloadStack(array $chain, array $parent, ?array $announce = null): void
     {
+        $entity = null;
         $object = end($chain);
 
-        $entity = match ($this->getType($object)) {
-            'Note' => $this->note->create($object),
-            'Page' => $this->page->create($object),
-            default => null
-        };
+        if (count($chain)) {
+            $entity = match ($this->getType($object)) {
+                'Note' => $this->note->create($object),
+                'Page' => $this->page->create($object),
+                default => null
+            };
+        }
 
-        if (!$entity) {
-            if ($announce && $announce['object'] === $object['object']) {
+        if (!$entity && $announce) {
+            $this->bus->dispatch(new AnnounceMessage($announce));
 
-                $this->bus->dispatch(new AnnounceMessage($announce));
-
-                return;
-            }
+            return;
         }
 
         array_pop($chain);
 
         if (count($chain)) {
-            $this->bus->dispatch(new ChainActivityMessage($chain, $parent));
+            $this->bus->dispatch(new ChainActivityMessage($chain, $parent, $announce));
         }
     }
 
