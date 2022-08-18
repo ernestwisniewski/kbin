@@ -28,7 +28,7 @@ class EntryCommentController extends AbstractController
         Request $request
     ): Response {
         if ($comment->apId) {
-            $this->redirect($comment->apId);
+            return $this->redirect($comment->apId);
         }
 
         $response = new JsonResponse($this->pageFactory->create($comment, true));

@@ -25,7 +25,7 @@ class EntryController extends AbstractController
         Request $request
     ): Response {
         if ($entry->apId) {
-            $this->redirect($entry->apId);
+            return $this->redirect($entry->apId);
         }
 
         $response = new JsonResponse($this->pageFactory->create($entry, true));

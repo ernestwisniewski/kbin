@@ -25,7 +25,7 @@ class PostController extends AbstractController
         Request $request
     ): Response {
         if ($post->apId) {
-            $this->redirect($post->apId);
+            return $this->redirect($post->apId);
         }
 
         $response = new JsonResponse($this->postNoteFactory->create($post, true));
