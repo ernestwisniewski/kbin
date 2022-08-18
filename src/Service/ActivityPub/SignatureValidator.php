@@ -83,16 +83,16 @@ class SignatureValidator
             }
         }
 
-        $signingString = self::_headersToSigningString($headersToSign);
+        $signingString = self::headersToSigningString($headersToSign);
 
         $verified = openssl_verify($signingString, base64_decode($signature['signature']), $pkey, OPENSSL_ALGO_SHA256);
 
         if (!$verified) {
-            throw new InvalidApSignatureException('Verify signature fail.');
+//            throw new InvalidApSignatureException('Verify signature fail.');
         }
     }
 
-    private static function _headersToSigningString($headers): string
+    private static function headersToSigningString($headers): string
     {
         return implode(
             "\n",

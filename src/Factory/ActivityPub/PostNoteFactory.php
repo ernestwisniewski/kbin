@@ -65,7 +65,7 @@ class PostNoteFactory
             $note = $this->imageWrapper->build($note, $post->image, $post->getShortTitle());
         }
 
-        $note['cc'] = array_merge($note['cc'], $this->activityPubManager->createCcFromBody($post->body));
+        $note['to'] = array_unique(array_merge($note['to'], $this->activityPubManager->createCcFromBody($post->body)));
 
         return $note;
     }

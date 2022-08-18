@@ -26,8 +26,8 @@ class AnnounceWrapper
             'type'      => 'Announce',
             'actor'     => $user,
             'object'    => $object['id'],
-            'to'        => ActivityPubActivityInterface::PUBLIC_URL,
-            'cc'        => [$object['attributedTo']],
+            'to'        => [ActivityPubActivityInterface::PUBLIC_URL, $object['attributedTo']],
+            'cc'        => [],
             'published' => $createdAt->format(DateTimeInterface::ISO8601),
         ];
     }

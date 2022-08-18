@@ -83,13 +83,10 @@
             {% if this.comment.image %}
                 {% if not app.user or (app.user and not app.user.hideImages) %}
                     <div class="clearfix my-2 kbin-comment-content">
-                        <img data-controller="image kbin-post-thumb"
-                             data-image-loading-class="loading-cursor"
-                             data-image-full-value="{{ uploaded_asset(this.comment.image.filePath) }}"
-                             data-image-thumb-value="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
-                             data-action="click->image#toggle"
-                             src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
-                             alt="{{ this.comment.shortTitle }}">
+                        <a href="{{ uploaded_asset(this.comment.image.filePath) }}" class="kbin-thumb">
+                            <img src="{{ asset(this.comment.image.filePath) | imagine_filter('post_thumb') }}"
+                                 alt="{{ this.comment.shortTitle }}"/>
+                        </a>
                     </div>
                 {% endif %}
             {% endif %}

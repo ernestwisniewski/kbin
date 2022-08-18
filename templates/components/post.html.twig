@@ -65,14 +65,11 @@
             {% if this.post.image %}
                 {% if not app.user or (app.user and not app.user.hideImages) %}
                     <div class="clearfix my-2 kbin-post-content">
-                        <img data-controller="image kbin-post-thumb"
-                             data-image-loading-class="loading-cursor"
-                             data-image-full-value="{{ uploaded_asset(this.post.image.filePath) }}"
-                             data-image-thumb-value="{{ asset(this.post.image.filePath) | imagine_filter('post_thumb') }}"
-                             data-action="click->image#toggle"
-                             class="kbin-post-thumb"
-                             src="{{ asset(this.post.image.filePath) | imagine_filter('post_thumb') }}"
-                             alt="{{ this.post.shortTitle }}">
+                        <a href="{{ uploaded_asset(this.post.image.filePath) }}" class="kbin-thumb">
+                            <img src="{{ asset(this.post.image.filePath) | imagine_filter('post_thumb') }}"
+                                 alt="{{ this.post.shortTitle }}"
+                                 class="kbin-post-thumb"/>
+                        </a>
                     </div>
                 {% endif %}
             {% endif %}
