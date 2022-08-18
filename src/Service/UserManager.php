@@ -36,7 +36,8 @@ class UserManager
         private EmailVerifier $verifier,
         private EntityManagerInterface $entityManager,
         private RateLimiterFactory $userRegisterLimiter,
-        private Security $security
+        private Security $security,
+        private ActivityPubManager $activityPubManager
     ) {
     }
 
@@ -92,6 +93,8 @@ class UserManager
         $user = new User($dto->email, $dto->username, '', $dto->apProfileId, $dto->apId);
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $dto->plainPassword));
+
+        $user = $this->activityPubManager->generateKeys($user);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
