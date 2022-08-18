@@ -8,7 +8,6 @@ use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Note;
 use App\Service\ActivityPub\Page;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -18,7 +17,6 @@ class ChainActivityHandler implements MessageHandlerInterface
         private ApHttpClient $client,
         private MessageBusInterface $bus,
         private ApActivityRepository $repository,
-        private LoggerInterface $logger,
         private Note $note,
         private Page $page
     ) {
@@ -39,11 +37,11 @@ class ChainActivityHandler implements MessageHandlerInterface
             $existed = $this->repository->findByObjectId($object['inReplyTo']);
 
             if ($existed) {
-                $this->bus->dispatch(new ChainActivityMessage($message->chain, $existed));
+                $this->bus->dispatch(new ChainActivityMessage($message->chain, $existed, $message->announce));
             }
 
             $message->chain[] = $this->client->getActivityObject($object['inReplyTo']);
-            $this->bus->dispatch(new ChainActivityMessage($message->chain));
+            $this->bus->dispatch(new ChainActivityMessage($message->chain, null, $message->announce));
 
             return;
         }

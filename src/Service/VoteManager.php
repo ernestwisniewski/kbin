@@ -93,12 +93,14 @@ class VoteManager
 
         $votable->updateVoteCounts();
 
+        $votable->lastActive = new \DateTime();
+
         // @todo interfaces
         if ($votable instanceof EntryComment) {
-            $votable->entry->updateLastActive();
+            $votable->entry->lastActive = new \DateTime();
         }
         if ($votable instanceof PostComment) {
-            $votable->post->updateLastActive();
+            $votable->post->lastActive = new \DateTime();
         }
 
         $this->entityManager->flush();
