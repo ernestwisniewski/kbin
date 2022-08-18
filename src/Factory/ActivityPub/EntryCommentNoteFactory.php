@@ -42,7 +42,7 @@ class EntryCommentNoteFactory
             'type'         => 'Note',
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'           => $this->getActivityPubId($comment),
-            'attributedTo' => $this->activityPubManager->getActorProfileId($comment->user),
+            'attributedTo' => $actor = $this->activityPubManager->getActorProfileId($comment->user),
             'inReplyTo'    => $this->getReplyTo($comment),
             'to'           => [
                 ActivityPubActivityInterface::PUBLIC_URL,
@@ -64,7 +64,7 @@ class EntryCommentNoteFactory
             $note = $this->imageWrapper->build($note, $comment->image, $comment->getShortTitle());
         }
 
-        $note['to'] = array_unique(array_merge($note['to'], $this->activityPubManager->createCcFromBody($comment->body), [$this->getReplyTo($comment)]));
+        $note['to'] = array_unique(array_merge($note['to'], $this->activityPubManager->createCcFromBody($comment->body)));
 
         return $note;
     }
