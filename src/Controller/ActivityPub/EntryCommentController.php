@@ -2,6 +2,7 @@
 
 namespace App\Controller\ActivityPub;
 
+use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EntryCommentController
+class EntryCommentController extends AbstractController
 {
     public function __construct(private EntryCommentNoteFactory $pageFactory)
     {
@@ -26,6 +27,10 @@ class EntryCommentController
         EntryComment $comment,
         Request $request
     ): Response {
+        if ($comment->apId) {
+            $this->redirect($comment->apId);
+        }
+
         $response = new JsonResponse($this->pageFactory->create($comment, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');

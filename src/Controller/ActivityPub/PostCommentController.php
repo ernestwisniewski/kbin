@@ -2,6 +2,7 @@
 
 namespace App\Controller\ActivityPub;
 
+use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PostCommentController
+class PostCommentController extends AbstractController
 {
     public function __construct(private PostCommentNoteFactory $commentNoteFactory)
     {
@@ -26,6 +27,10 @@ class PostCommentController
         PostComment $comment,
         Request $request
     ): Response {
+        if ($comment->apId) {
+            $this->redirect($comment->apId);
+        }
+
         $response = new JsonResponse($this->commentNoteFactory->create($comment, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');

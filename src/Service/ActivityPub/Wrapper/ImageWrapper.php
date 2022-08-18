@@ -17,12 +17,12 @@ class ImageWrapper
     public function build(array $item, Image $image, string $title = ''): array
     {
         $item['attachment'][] = [
-            'type'       => 'Document',
+            'type'       => 'Image',
             'mediaType'  => $this->imageManager->getMimetype($image),
             'url'        => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$image->filePath, // @todo media url
-            'name'       => $title, // @todo media url
+            'name'       => $title,
 //            'blurhash'   => '', // @todo mastodon blurhash
-            'focalPoint' => [0, 0],
+//            'focalPoint' => [0, 0],
             'width'      => $image->width,
             'height'     => $image->height,
         ];

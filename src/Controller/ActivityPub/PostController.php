@@ -2,6 +2,7 @@
 
 namespace App\Controller\ActivityPub;
 
+use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Factory\ActivityPub\PostNoteFactory;
@@ -10,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PostController
+class PostController extends AbstractController
 {
     public function __construct(private PostNoteFactory $postNoteFactory)
     {
@@ -23,6 +24,10 @@ class PostController
         Post $post,
         Request $request
     ): Response {
+        if ($post->apId) {
+            $this->redirect($post->apId);
+        }
+
         $response = new JsonResponse($this->postNoteFactory->create($post, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');

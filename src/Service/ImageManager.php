@@ -7,6 +7,7 @@ use App\Exception\ImageDownloadTooLargeException;
 use Exception;
 use League\Flysystem\FilesystemOperator;
 use RuntimeException;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Mime\MimeTypesInterface;
 use Symfony\Component\Validator\Constraints\Image;
@@ -25,6 +26,7 @@ class ImageManager
         private HttpClientInterface $httpClient,
         private MimeTypesInterface $mimeTypeGuesser,
         private ValidatorInterface $validator,
+        private KernelInterface $kernel
     ) {
     }
 
@@ -153,7 +155,7 @@ class ImageManager
 
     public function getPath(\App\Entity\Image $image): string
     {
-        return 'media/'.$image->filePath; // @todo media url
+        return $this->kernel->getProjectDir().'/public/media/'.$image->filePath; // @todo media url
     }
 
     public function getMimetype(\App\Entity\Image $image): string
