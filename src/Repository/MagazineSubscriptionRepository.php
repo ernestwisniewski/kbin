@@ -37,6 +37,7 @@ class MagazineSubscriptionRepository extends ServiceEntityRepository
             ->where('u.notifyOnNewEntry = true')
             ->andWhere('ms.magazine = :magazine')
             ->andWhere('u != :user')
+            ->andWhere('u.apId IS NULL')
             ->setParameter('magazine', $entry->magazine)
             ->setParameter('user', $entry->user)
             ->getQuery()
@@ -51,6 +52,7 @@ class MagazineSubscriptionRepository extends ServiceEntityRepository
             ->where('u.notifyOnNewPost = true')
             ->andWhere('ms.magazine = :magazine')
             ->andWhere('u != :user')
+            ->andWhere('u.apId IS NULL')
             ->setParameter('magazine', $post->magazine)
             ->setParameter('user', $post->user)
             ->getQuery()
@@ -63,6 +65,7 @@ class MagazineSubscriptionRepository extends ServiceEntityRepository
             ->addSelect('u')
             ->join('ms.user', 'u')
             ->andWhere('ms.magazine = :magazine')
+            ->andWhere('u.apId IS NULL')
             ->setParameter('magazine', $magazine)
             ->getQuery();
 

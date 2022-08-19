@@ -20,22 +20,11 @@ class MentionManagerTest extends WebTestCase
 
     public function provider(): array
     {
+        // @todo federated mentions
         return [
             ['Lorem @john ipsum', ['john']],
             ['@john lorem ipsum', ['john']],
             ['Lorem ipsum@john', null],
-
-            ['Lorem /u/john ipsum', ['john']],
-            ['/u/john lorem ipsum', ['john']],
-            ['Lorem ipsum/u/john', ['john']],
-
-            ['Lorem u/john ipsum', ['john']],
-            ['u/john lorem ipsum', ['john']],
-            ['Lorem ipsum', null],
-
-            ['Lorem u/john with u/MaRk or /u/Alice ipsum @MaRk', ['MaRk', 'Alice', 'john']],
-            ['u/john lorem @john ipsum', ['john']],
-            ['lorem @john@alice ipsum', ['john']],
         ];
     }
 }

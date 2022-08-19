@@ -8,6 +8,7 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\FollowWrapper;
 use App\Service\ActivityPub\Wrapper\UndoWrapper;
 use App\Service\ActivityPubManager;
+use App\Service\SettingsManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -20,12 +21,17 @@ class FollowHandler implements MessageHandlerInterface
         private FollowWrapper $followWrapper,
         private UndoWrapper $undoWrapper,
         private ApHttpClient $apHttpClient,
+        private SettingsManager $settingsManager
     ) {
     }
 
     #[ArrayShape(['@context' => "string", 'id' => "string", 'actor' => "string", 'object' => "string"])] public function __invoke(
         FollowMessage $message
     ): void {
+        if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
+            return;
+        }
+
         $id = Uuid::v4()->toRfc4122(); // todo save ap event stream
 
         $follower  = $this->repository->find($message->followerId);

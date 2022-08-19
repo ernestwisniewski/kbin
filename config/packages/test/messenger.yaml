@@ -1,0 +1,4 @@
+framework:
+  messenger:
+    routing:
+      App\Message\AsyncMessageInterface: sync

@@ -638,11 +638,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function countNewNotifications(): int
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('status', Notification::STATUS_NEW));
-
         return $this->notifications
-            ->matching($criteria)
+            ->matching($this->getNewNotificationsCriteria())
             ->filter(fn($notification) => $notification->getType() !== 'message_notification')
             ->count();
     }

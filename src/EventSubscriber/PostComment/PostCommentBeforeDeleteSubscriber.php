@@ -16,7 +16,7 @@ class PostCommentBeforeDeleteSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PostCommentBeforeDeletedEvent::class => 'PostCommentBeforeDelete',
+            PostCommentBeforeDeletedEvent::class => 'onPostBeforeDelete',
         ];
     }
 

@@ -8,6 +8,7 @@ use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\AnnounceWrapper;
 use App\Service\ActivityPubManager;
+use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -23,12 +24,17 @@ class AnnounceHandler implements MessageHandlerInterface
         private ActivityPubManager $activityPubManager,
         private ActivityFactory $activityFactory,
         private MessageBusInterface $bus,
+        private SettingsManager $settingsManager
     ) {
     }
 
     #[ArrayShape(['@context' => "string", 'id' => "string", 'actor' => "string", 'object' => "string"])] public function __invoke(
         AnnounceMessage $message
     ): void {
+        if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
+            return;
+        }
+
         $id = Uuid::v4()->toRfc4122(); // todo save ap event stream
 
         $user   = $this->repository->find($message->userId);

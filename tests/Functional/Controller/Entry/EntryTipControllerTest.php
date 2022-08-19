@@ -21,14 +21,13 @@ class EntryTipControllerTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('acme', $user2);
 
-        $entry = $this->getEntryByTitle('treść 2', null, null, $magazine, $user2);
+        $entry = $this->getEntryByTitle('treść 2', null, 'test', $magazine, $user2);
 
         $id = $entry->getId();
 
         $crawler = $client->request('GET', "/m/acme/t/$id/-/tipy");
 
-        $this->assertStringContainsString('Czym są i jak działają tipy za wartościowe treści?', $crawler->filter('.kbin-tips-page')->html());
-
+        $this->assertStringContainsString('Czym są i jak działają tipy za wartościowe treści?', $crawler->filter('.')->html());
     }
 
     public function testXmlUserCanShowTipForms(): void // @todo
@@ -45,7 +44,7 @@ class EntryTipControllerTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('acme', $user2);
 
-        $entry = $this->getEntryByTitle('treść 2', null, null, $magazine, $user2);
+        $entry = $this->getEntryByTitle('treść 2', null, 'test', $magazine, $user2);
 
         $id = $entry->getId();
 

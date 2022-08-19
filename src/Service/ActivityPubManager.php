@@ -50,7 +50,7 @@ class ActivityPubManager
         return $actor->apProfileId;
     }
 
-    public function findActor(string $actorUrl): ?User
+    public function findRemoteActor(string $actorUrl): ?User
     {
         return $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
     }
@@ -74,6 +74,12 @@ class ActivityPubManager
             if (isset($actor['icon'])) {
                 $user->avatar = $this->handleImages([$actor['icon']]);
             }
+
+            $user->notifyOnNewEntry             = false;
+            $user->notifyOnNewEntryReply        = false;
+            $user->notifyOnNewEntryCommentReply = false;
+            $user->notifyOnNewPost              = false;
+            $user->notifyOnNewPostCommentReply  = false;
 
             $this->entityManager->flush();
         }

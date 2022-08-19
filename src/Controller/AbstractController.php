@@ -8,7 +8,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use BadMethodCallException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormInterface; 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

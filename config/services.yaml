@@ -12,6 +12,7 @@ parameters:
   kbin_default_lang: '%env(KBIN_DEFAULT_LANG)%'
   kbin_api_items_per_page: '%env(KBIN_API_ITEMS_PER_PAGE)%'
   kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
+  kbin_federation_enabled: '%env(KBIN_FEDERATION_ENABLED)%'
   kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
   kbin_ap_route_condition: 'request.getAcceptableContentTypes() and request.getAcceptableContentTypes()[0] in ["application/activity+json", "application/ld+json"]'
 
@@ -95,6 +96,7 @@ services:
       $kbinContactEmail: '%kbin_contact_email%'
       $kbinMarkdownHowtoUrl: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
       $kbinJsEnabled: '%env(bool:KBIN_JS_ENABLED)%'
+      $kbinFederationEnabled: '%env(bool:KBIN_FEDERATION_ENABLED)%'
 
   # Markdown
   App\Markdown\CommonMark\ExternalImagesRenderer:
@@ -114,6 +116,12 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 200 }
     arguments: [ '%kbin_default_lang%' ]
+
+  # Language
+  App\EventListener\FederationStatusListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller, priority: -5 }
+    arguments: [ '%kbin_federation_enabled%' ]
 
   # Elastic
   App\Search\Elastica\MultiIndex:

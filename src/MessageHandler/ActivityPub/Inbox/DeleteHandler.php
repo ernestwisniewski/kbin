@@ -32,7 +32,7 @@ class DeleteHandler implements MessageHandlerInterface
 
     public function __invoke(DeleteMessage $message): void
     {
-        $actor = $this->activityPubManager->findActor($message->payload['actor']);
+        $actor = $this->activityPubManager->findRemoteActor($message->payload['actor']);
 
         if (!$actor) {
             return;

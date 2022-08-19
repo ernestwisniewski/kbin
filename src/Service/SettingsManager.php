@@ -19,6 +19,7 @@ class SettingsManager
         private string $kbinContactEmail,
         private string $kbinMarkdownHowtoUrl,
         private bool $kbinJsEnabled,
+        private bool $kbinFederationEnabled,
     ) {
         if (!$this->dto) {
             $results = $this->repository->findAll();
@@ -34,6 +35,9 @@ class SettingsManager
                 isset(array_filter($results, fn($s) => $s->name === 'KBIN_JS_ENABLED')[0])
                     ? filter_var(array_filter($results, fn($s) => $s->name === 'KBIN_JS_ENABLED')[0]->value, FILTER_VALIDATE_BOOLEAN)
                     : $this->kbinJsEnabled,
+                isset(array_filter($results, fn($s) => $s->name === 'KBIN_FEDERATION_ENABLED')[0])
+                    ? filter_var(array_filter($results, fn($s) => $s->name === 'KBIN_FEDERATION_ENABLED')[0]->value, FILTER_VALIDATE_BOOLEAN)
+                    : $this->kbinFederationEnabled,
             );
         }
     }
