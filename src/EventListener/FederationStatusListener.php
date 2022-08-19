@@ -9,13 +9,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FederationStatusListener
 {
-    public function __construct(bool $kbinFederationEnabled, SettingsManager $settingsManager)
+    public function __construct(private bool $kbinFederationEnabled, SettingsManager $settingsManager)
     {
     }
 
     public function onKernelController(ControllerEvent $event)
     {
-        if (!$event->isMainRequest()) {
+        if (!$event->isMainRequest() || $this->kbinFederationEnabled) {
             return;
         }
 
