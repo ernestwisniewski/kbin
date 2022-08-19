@@ -28,7 +28,7 @@ class ActivityHandler implements MessageHandlerInterface
         $payload = @json_decode($message->payload, true);
 
         if ($message->headers) {
-            $this->signatureValidator->validate($message->payload, $message->headers);
+//            $this->signatureValidator->validate($message->payload, $message->headers);
         }
 
         try {
