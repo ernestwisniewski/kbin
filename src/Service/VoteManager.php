@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\EntryComment;
+use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\Vote;
@@ -42,11 +43,13 @@ class VoteManager
             $choice       = $this->guessUserChoice($choice, $votable->getUserChoice($user));
             $vote->choice = $choice;
         } else {
+            if ($votable instanceof Post || $votable instanceof PostComment) {
+                return $this->upvote($votable, $user);
+            }
+
             $vote = $this->factory->create($choice, $votable, $user);
             $this->entityManager->persist($vote);
         }
-
-        $votable->updateVoteCounts();
 
         $this->entityManager->flush();
 
@@ -80,13 +83,13 @@ class VoteManager
         return $choice;
     }
 
-    public function upvote(VoteInterface $votable, User $user): ?Vote
+    public function upvote(VoteInterface $votable, User $user): Vote
     {
         // @todo save activity pub object id
         $vote = $votable->getUserVote($user);
 
         if ($vote) {
-            return null;
+            return $vote;
         }
 
         $vote = $this->factory->create(1, $votable, $user);
