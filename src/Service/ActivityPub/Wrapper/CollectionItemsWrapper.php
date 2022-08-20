@@ -2,10 +2,10 @@
 
 namespace App\Service\ActivityPub\Wrapper;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CollectionItemsWrapper
 {
@@ -34,11 +34,11 @@ class CollectionItemsWrapper
             '@context'     => $context ? array_merge([ActivityPubActivityInterface::CONTEXT_URL], [$context])
                 : ActivityPubActivityInterface::CONTEXT_URL,
             'type'         => 'OrderedCollectionPage',
-            'partOf'       => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABS_URL),
+            'partOf'       => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABSOLUTE_URL),
             'id'           => $this->urlGenerator->generate(
                 $routeName,
                 $routeParams + ['page' => $page],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             ),
             'totalItems'   => $pagerfanta->getNbResults(),
             'orderedItems' => $items,
@@ -48,7 +48,7 @@ class CollectionItemsWrapper
             $result['next'] = $this->urlGenerator->generate(
                 $routeName,
                 $routeParams + ['page' => $pagerfanta->getNextPage()],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
         }
 

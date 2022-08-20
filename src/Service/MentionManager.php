@@ -35,6 +35,8 @@ class MentionManager
             self::REMOTE => $this->byApPrefix()
         };
 
+        $result = array_map(fn($val) => trim($val), $result);
+
         return count($result) ? array_unique($result) : null;
     }
 

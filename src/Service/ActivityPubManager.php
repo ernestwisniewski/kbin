@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\ActivityPub\Server;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\ActivityPubActorInterface;
@@ -16,6 +15,7 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Webfinger\WebFinger;
 use App\Service\ActivityPub\Webfinger\WebFingerFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ActivityPubManager
 {
@@ -55,9 +55,19 @@ class ActivityPubManager
         return $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
     }
 
-    public function findActorOrCreate(string $actorUrl): User
+    public function findActorOrCreate(string $actorUrlOrHandle): User
     {
-        if (in_array(parse_url($actorUrl)['host'], [$this->settingsManager->get('KBIN_DOMAIN'), 'localhost', '127.0.0.1'])) {
+        $actorUrl = $actorUrlOrHandle;
+        if (false === filter_var($actorUrl, FILTER_VALIDATE_URL)) {
+            if (!substr_count(ltrim($actorUrl, '@'), '@')) {
+                $test = ltrim($actorUrl, '@');
+                return $this->userRepository->findOneBy(['username' => ltrim($actorUrl, '@')]);
+            }
+
+            $actorUrl = $this->webfinger($actorUrl)->getProfileId();
+        }
+
+        if (in_array(parse_url($actorUrl, PHP_URL_HOST), [$this->settingsManager->get('KBIN_DOMAIN'), 'localhost', '127.0.0.1'])) {
             $name = explode('/', $actorUrl);
             $name = end($name);
 
@@ -92,6 +102,8 @@ class ActivityPubManager
         $this->webFingerFactory::setServer($this->server->create());
 
         if (filter_var($id, FILTER_VALIDATE_URL) === false) {
+            $id = ltrim($id, '@');
+
             return $this->webFingerFactory->get($id);
         }
 
@@ -132,14 +144,16 @@ class ActivityPubManager
 
     public function createCcFromBody(string $body): array
     {
-        $mentions = $this->mentionManager->extract($body, MentionManager::REMOTE) ?? [];
+        $mentions = $this->mentionManager->extract($body) ?? [];
 
         $urls = [];
         foreach ($mentions as $handle) {
-            try {
-                $urls[] = $this->webfinger($handle)->getProfileId();
-            } catch (\Exception) {
-            }
+            $actor  = $this->findActorOrCreate($handle);
+            $urls[] = $actor->apProfileId ?? $this->urlGenerator->generate(
+                    'ap_user',
+                    ['username' => $actor->getUserIdentifier()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
         }
 
         return $urls;
@@ -151,7 +165,7 @@ class ActivityPubManager
             $followersUrl = $this->urlGenerator->generate(
                 'ap_user_followers',
                 ['username' => $user->username],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
 
             return array_unique(

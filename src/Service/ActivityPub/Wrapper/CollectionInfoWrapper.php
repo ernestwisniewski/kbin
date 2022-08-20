@@ -2,9 +2,9 @@
 
 namespace App\Service\ActivityPub\Wrapper;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CollectionInfoWrapper
 {
@@ -24,11 +24,11 @@ class CollectionInfoWrapper
         return [
             '@context'   => ActivityPubActivityInterface::CONTEXT_URL,
             'type'       => 'OrderedCollection',
-            'id'         => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABS_URL),
+            'id'         => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABSOLUTE_URL),
             'first'      => $this->urlGenerator->generate(
                 $routeName,
                 $routeParams + ['page' => 1],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             ),
             'totalItems' => $count,
         ];

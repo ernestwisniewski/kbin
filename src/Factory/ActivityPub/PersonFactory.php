@@ -2,12 +2,12 @@
 
 namespace App\Factory\ActivityPub;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
 use App\Service\SettingsManager;
 use DateTimeInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PersonFactory
 {
@@ -36,12 +36,12 @@ class PersonFactory
                 'inbox'                     => $this->urlGenerator->generate(
                     'ap_user_inbox',
                     ['username' => $user->username],
-                    UrlGeneratorInterface::ABS_URL
+                    UrlGeneratorInterface::ABSOLUTE_URL
                 ),
                 'outbox'                    => $this->urlGenerator->generate(
                     'ap_user_outbox',
                     ['username' => $user->username],
-                    UrlGeneratorInterface::ABS_URL
+                    UrlGeneratorInterface::ABSOLUTE_URL
                 ),
                 'url'                       => $this->getActivityPubId($user),
                 'manuallyApprovesFollowers' => false,
@@ -49,12 +49,12 @@ class PersonFactory
                 'following'                 => $this->urlGenerator->generate(
                     'ap_user_following',
                     ['username' => $user->username],
-                    UrlGeneratorInterface::ABS_URL
+                    UrlGeneratorInterface::ABSOLUTE_URL
                 ),
                 'followers'                 => $this->urlGenerator->generate(
                     'ap_user_followers',
                     ['username' => $user->username],
-                    UrlGeneratorInterface::ABS_URL
+                    UrlGeneratorInterface::ABSOLUTE_URL
                 ),
                 'publicKey'                 => [
                     'owner'        => $this->getActivityPubId($user),
@@ -62,7 +62,7 @@ class PersonFactory
                     'publicKeyPem' => $user->publicKey,
                 ],
                 'endpoints'                 => [
-                    'sharedInbox' => $this->urlGenerator->generate('ap_shared_inbox', [], UrlGeneratorInterface::ABS_URL),
+                    'sharedInbox' => $this->urlGenerator->generate('ap_shared_inbox', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ],
             ]
         );
@@ -98,6 +98,6 @@ class PersonFactory
             return $user->apProfileId;
         }
 
-        return $this->urlGenerator->generate('ap_user', ['username' => $user->username], UrlGeneratorInterface::ABS_URL);
+        return $this->urlGenerator->generate('ap_user', ['username' => $user->username], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }

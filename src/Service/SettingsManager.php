@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\SettingsDto;
 use App\Repository\SettingsRepository;
+use JetBrains\PhpStorm\Pure;
 
 class SettingsManager
 {
@@ -50,5 +51,10 @@ class SettingsManager
     public function getDto(): SettingsDto
     {
         return $this->dto;
+    }
+
+    #[Pure] public function isLocalUrl(string $url): bool
+    {
+        return parse_url($url, PHP_URL_HOST) === $this->get('KBIN_DOMAIN');
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Markdown;
 
@@ -11,7 +11,7 @@ class MarkdownConverter
     {
     }
 
-    public function convertToHtml(string $markdown, array $context = []): string
+    public function convertToHtml(string $markdown, array $context = [], bool $local = true): string
     {
         $event = new ConvertMarkdown($markdown);
         $event->mergeAttributes($context);

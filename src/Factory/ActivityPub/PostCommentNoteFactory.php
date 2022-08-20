@@ -2,7 +2,6 @@
 
 namespace App\Factory\ActivityPub;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\PostComment;
 use App\Markdown\MarkdownConverter;
@@ -12,6 +11,7 @@ use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
 use DateTimeInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PostCommentNoteFactory
 {
@@ -50,13 +50,17 @@ class PostCommentNoteFactory
 //                $this->groupFactory->getActivityPubId($comment->magazine),
                 $comment->apId
                     ? $this->client->getActorObject($comment->user->apProfileId)['followers']
-                    : $this->urlGenerator->generate('ap_user_followers', ['username' => $comment->user->username], UrlGeneratorInterface::ABS_URL),
+                    : $this->urlGenerator->generate(
+                    'ap_user_followers',
+                    ['username' => $comment->user->username],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ],
             'sensitive'    => $comment->post->isAdult(),
             'content'      => $this->markdownConverter->convertToHtml($comment->body),
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
-            'tag'          => $this->tagsWrapper->build($comment->tags) + $this->mentionsWrapper->build($comment->mentions),
+            'tag'          => array_merge($this->tagsWrapper->build($comment->tags), $this->mentionsWrapper->build($comment->mentions)),
             'published'    => $comment->createdAt->format(DateTimeInterface::ISO8601),
         ]);
 
@@ -78,7 +82,7 @@ class PostCommentNoteFactory
         return $this->urlGenerator->generate(
             'ap_post_comment',
             ['magazine_name' => $comment->magazine->name, 'post_id' => $comment->post->getId(), 'comment_id' => $comment->getId()],
-            UrlGeneratorInterface::ABS_URL
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
 

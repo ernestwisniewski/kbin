@@ -1,23 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Service\ActivityPub\ApHttpClient;
+use App\Utils\RegPatterns;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class TagLinkParser extends AbstractLocalLinkParser
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private ApHttpClient $client)
     {
     }
 
     public function getPrefix(): string
     {
         return '#';
-    }
-
-    protected function kbinPrefix(): bool
-    {
-        return false;
     }
 
     public function getRegex(): string
@@ -29,9 +26,8 @@ final class TagLinkParser extends AbstractLocalLinkParser
     {
         return $this->urlGenerator->generate(
             'tag_overall',
-            [
-                'name' => str_replace('#', '', $suffix),
-            ]
+            ['name' => str_replace('#', '', $suffix)],
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
 

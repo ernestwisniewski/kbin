@@ -16,11 +16,6 @@ final class MagazineLinkParser extends AbstractLocalLinkParser
         return '!';
     }
 
-    protected function kbinPrefix(): bool
-    {
-        return false;
-    }
-
     public function getUrl(string $suffix): string
     {
         return $this->urlGenerator->generate(

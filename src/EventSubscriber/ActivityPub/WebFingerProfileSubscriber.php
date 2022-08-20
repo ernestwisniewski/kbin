@@ -2,7 +2,6 @@
 
 namespace App\EventSubscriber\ActivityPub;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\ActivityPub\JsonRdLink;
 use App\Event\ActivityPub\WebfingerResponseEvent;
 use App\Repository\UserRepository;
@@ -11,6 +10,7 @@ use App\Service\SettingsManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class WebFingerProfileSubscriber implements EventSubscriberInterface
@@ -41,7 +41,7 @@ class WebFingerProfileSubscriber implements EventSubscriberInterface
             $accountHref = $this->urlGenerator->generate(
                 'ap_user',
                 ['username' => $actor->getUserIdentifier()],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
 
             $link = new JsonRdLink();

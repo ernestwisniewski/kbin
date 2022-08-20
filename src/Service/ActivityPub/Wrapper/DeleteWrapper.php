@@ -2,10 +2,10 @@
 
 namespace App\Service\ActivityPub\Wrapper;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Factory\ActivityPub\ActivityFactory;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DeleteWrapper
 {
@@ -28,7 +28,7 @@ class DeleteWrapper
 
         return [
             '@context' => ActivityPubActivityInterface::CONTEXT_URL,
-            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABS_URL),
+            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_URL),
             'type'     => 'Delete',
             'actor'    => $item['attributedTo'],
             'object'   => [

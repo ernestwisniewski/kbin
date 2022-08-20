@@ -2,7 +2,6 @@
 
 namespace App\Factory\ActivityPub;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Entry;
 use App\Markdown\MarkdownConverter;
@@ -13,6 +12,7 @@ use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use DateTimeInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EntryPageFactory
 {
@@ -53,13 +53,13 @@ class EntryPageFactory
 //                $this->groupFactory->getActivityPubId($entry->magazine),
                 $entry->apId
                     ? $this->client->getActorObject($entry->user->apProfileId)['followers']
-                    : $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABS_URL),
+                    : $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABSOLUTE_URL),
             ],
             'name'            => $entry->title,
             'content'         => $this->markdownConverter->convertToHtml($body),
             'mediaType'       => 'text/html',
             'url'             => $this->getUrl($entry),
-            'tag'             => $this->tagsWrapper->build($entry->tags) + $this->mentionsWrapper->build($entry->mentions),
+            'tag'             => array_merge($this->tagsWrapper->build($entry->tags), $this->mentionsWrapper->build($entry->mentions)),
             'commentsEnabled' => true,
             'sensitive'       => $entry->isAdult(),
             'stickied'        => $entry->sticky,
@@ -94,7 +94,7 @@ class EntryPageFactory
         return $this->urlGenerator->generate(
             'ap_entry',
             ['magazine_name' => $entry->magazine->name, 'entry_id' => $entry->getId()],
-            UrlGeneratorInterface::ABS_URL
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
 

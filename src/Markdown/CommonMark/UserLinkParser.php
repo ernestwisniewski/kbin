@@ -1,13 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Service\ActivityPubManager;
 use App\Utils\RegPatterns;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class UserLinkParser extends AbstractLocalLinkParser
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private ActivityPubManager $activityPubManager)
     {
     }
 
@@ -16,13 +17,15 @@ final class UserLinkParser extends AbstractLocalLinkParser
         return '@';
     }
 
-    protected function kbinPrefix(): bool
-    {
-        return false;
-    }
-
     public function getUrl(string $suffix): string
     {
+        if (substr_count($suffix, '@') > 1) {
+            try {
+                return $this->activityPubManager->webfinger($suffix)->getProfileId();
+            } catch (\Exception $e) {
+            }
+        }
+
         return $this->urlGenerator->generate(
             'user',
             [

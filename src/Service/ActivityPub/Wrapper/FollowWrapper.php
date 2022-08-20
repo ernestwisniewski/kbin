@@ -2,8 +2,8 @@
 
 namespace App\Service\ActivityPub\Wrapper;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FollowWrapper
 {
@@ -18,7 +18,7 @@ class FollowWrapper
     ): array {
         return [
             '@context' => 'https://www.w3.org/ns/activitystreams',
-            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABS_URL),
+            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_URL),
             'type'     => 'Follow',
             'actor'    => $follower,
             'object'   => $following,

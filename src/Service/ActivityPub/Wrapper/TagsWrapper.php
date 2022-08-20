@@ -2,20 +2,20 @@
 
 namespace App\Service\ActivityPub\Wrapper;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 class TagsWrapper
 {
-    public function __construct()
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
 
 
-    public function build(?array $tags): array
+    public function build(array $tags): array
     {
-        $tags = $entry->tags ?? [];
-
         return array_map(fn($tag) => [
             'type' => 'Hashtag',
-            'href' => '', // @todo tags endpoints
+            'href' => $this->urlGenerator->generate('tag_overall', ['name' => $tag], UrlGeneratorInterface::ABSOLUTE_URL),
             'name' => '#'.$tag,
         ], $tags);
     }

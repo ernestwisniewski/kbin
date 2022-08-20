@@ -4,6 +4,7 @@ namespace App\Markdown\CommonMark;
 
 use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
+use App\Service\SettingsManager;
 use App\Utils\Embed;
 use Exception;
 use InvalidArgumentException;
@@ -21,7 +22,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
 {
     protected ConfigurationInterface $config;
 
-    public function __construct(private Embed $embed, private EmbedRepository $embedRepository)
+    public function __construct(private Embed $embed, private EmbedRepository $embedRepository, private SettingsManager $settingsManager)
     {
     }
 
@@ -70,11 +71,18 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             return EmbedElement::buildEmbed($url, $title);
         }
 
-        $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer', 'target' => '_blank'];
+
+        $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer'];
+
         foreach (['@', '!', '#'] as $tag) {
             if (str_starts_with($title, $tag)) {
                 $attr = [];
             }
+        }
+
+        if (false !== filter_var($url, FILTER_VALIDATE_URL) && !$this->settingsManager->isLocalUrl($url)) {
+                $attr['rel']    = 'noopener noreferrer nofollow';
+                $attr['target'] = '_blank';
         }
 
         return new HtmlElement(

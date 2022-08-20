@@ -2,7 +2,6 @@
 
 namespace App\Factory\ActivityPub;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Post;
 use App\Markdown\MarkdownConverter;
@@ -13,6 +12,7 @@ use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
 use DateTimeInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PostNoteFactory
 {
@@ -49,14 +49,14 @@ class PostNoteFactory
                     : $this->urlGenerator->generate(
                     'ap_user_followers',
                     ['username' => $post->user->username],
-                    UrlGeneratorInterface::ABS_URL
+                    UrlGeneratorInterface::ABSOLUTE_URL
                 ),
             ],
             'sensitive'       => $post->isAdult(),
             'content'         => $this->markdownConverter->convertToHtml($post->body),
             'mediaType'       => 'text/html',
             'url'             => $this->getActivityPubId($post),
-            'tag'             => $this->tagsWrapper->build($post->tags) + $this->mentionsWrapper->build($post->mentions),
+            'tag'             => array_merge($this->tagsWrapper->build($post->tags), $this->mentionsWrapper->build($post->mentions)),
             'commentsEnabled' => true,
             'published'       => $post->createdAt->format(DateTimeInterface::ISO8601),
         ]);
@@ -88,7 +88,7 @@ class PostNoteFactory
         return $post->apId ?? $this->urlGenerator->generate(
                 'ap_post',
                 ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId()],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
     }
 }

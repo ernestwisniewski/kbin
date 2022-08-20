@@ -2,11 +2,11 @@
 
 namespace App\Factory\ActivityPub;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Magazine;
 use App\Service\SettingsManager;
 use DateTimeInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GroupFactory
 {
@@ -24,12 +24,20 @@ class GroupFactory
             'id'                => $this->getActivityPubId($magazine),
             'name'              => $magazine->title, // lemmy
             'preferredUsername' => $magazine->name,
-            'inbox'             => $this->urlGenerator->generate('ap_magazine_inbox', ['name' => $magazine->name], UrlGeneratorInterface::ABS_URL),
-            'outbox'            => $this->urlGenerator->generate('ap_magazine_outbox', ['name' => $magazine->name], UrlGeneratorInterface::ABS_URL),
+            'inbox'             => $this->urlGenerator->generate(
+                'ap_magazine_inbox',
+                ['name' => $magazine->name],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            'outbox'            => $this->urlGenerator->generate(
+                'ap_magazine_outbox',
+                ['name' => $magazine->name],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
             'followers'         => $this->urlGenerator->generate(
                 'ap_magazine_followers',
                 ['name' => $magazine->name],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             ),
             'url'               => $this->getActivityPubId($magazine),
             'publicKey'         => [
@@ -42,7 +50,7 @@ class GroupFactory
             'moderators'        => $this->urlGenerator->generate(
                 'ap_magazine_moderators',
                 ['name' => $magazine->name],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             ),
             'published'         => $magazine->createdAt->format(DateTimeInterface::ISO8601),
             'updated'           => $magazine->lastActive->format(DateTimeInterface::ISO8601),
@@ -64,6 +72,6 @@ class GroupFactory
             return $magazine->apId;
         }
 
-        return $this->urlGenerator->generate('ap_magazine', ['name' => $magazine->name], UrlGeneratorInterface::ABS_URL);
+        return $this->urlGenerator->generate('ap_magazine', ['name' => $magazine->name], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }

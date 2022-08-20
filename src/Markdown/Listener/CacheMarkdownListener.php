@@ -23,7 +23,6 @@ final class CacheMarkdownListener implements EventSubscriberInterface
         private EventDispatcherInterface $dispatcher
     ) {
         $this->pool       = $markdownCache;
-        $this->dispatcher = $dispatcher;
     }
 
     public static function getSubscribedEvents(): array
@@ -43,7 +42,7 @@ final class CacheMarkdownListener implements EventSubscriberInterface
 
         $item = $this->pool->getItem($cacheEvent->getCacheKey());
 
-        if ($item->isHit()) {
+        if (false) {
             $event->setRenderedHtml($item->get());
             $event->stopPropagation();
         } elseif (!$event->getAttribute(self::ATTR_NO_CACHE_STORE)) {

@@ -2,6 +2,7 @@
 
 namespace App\Markdown\CommonMark;
 
+use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Parser\InlineParserInterface;
 use League\CommonMark\InlineParserContext;
@@ -21,11 +22,6 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
      */
     abstract public function getPrefix(): string;
 
-    protected function kbinPrefix(): bool
-    {
-        return true;
-    }
-
     final public function parse(InlineParserContext $inlineContext): bool
     {
         $cursor = $inlineContext->getCursor();
@@ -38,9 +34,7 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
 
         $previousState = $cursor->saveState();
 
-        $prefix = $this->kbinPrefix() ? $cursor->match('@^/?'.$this->getPrefix().'/@') : $this->getPrefix();
-
-        if ($prefix === null) {
+        if ($this->getPrefix() === null) {
             return false;
         }
 
@@ -56,7 +50,9 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
             return false;
         }
 
-        $link = new Link($this->getUrl($name), ($this->kbinPrefix() ? $prefix : '').$name);
+        $link = new Link(
+            $this->getUrl($name), $name
+        );
 
         $inlineContext->getContainer()->appendChild($link);
 
