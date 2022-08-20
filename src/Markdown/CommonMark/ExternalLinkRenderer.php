@@ -76,13 +76,17 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
 
         foreach (['@', '!', '#'] as $tag) {
             if (str_starts_with($title, $tag)) {
-                $attr = [];
+                $attr = match ($tag) {
+                    '@' => ['class' => 'mention u-url'],
+                    '#' => ['class' => 'hashtag tag', 'rel' => 'tag'],
+                    default => [],
+                };
             }
         }
 
         if (false !== filter_var($url, FILTER_VALIDATE_URL) && !$this->settingsManager->isLocalUrl($url)) {
-                $attr['rel']    = 'noopener noreferrer nofollow';
-                $attr['target'] = '_blank';
+            $attr['rel']    = 'noopener noreferrer nofollow';
+            $attr['target'] = '_blank';
         }
 
         return new HtmlElement(
