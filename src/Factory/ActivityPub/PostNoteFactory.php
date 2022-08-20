@@ -56,7 +56,7 @@ class PostNoteFactory
             'content'         => $this->markdownConverter->convertToHtml($post->body),
             'mediaType'       => 'text/html',
             'url'             => $this->getActivityPubId($post),
-            'tag'             => array_merge($this->tagsWrapper->build($post->tags), $this->mentionsWrapper->build($post->mentions)),
+            'tag'             => array_merge($this->tagsWrapper->build($post->tags ?? []), $this->mentionsWrapper->build($post->mentions ?? [])),
             'commentsEnabled' => true,
             'published'       => $post->createdAt->format(DateTimeInterface::ISO8601),
         ]);

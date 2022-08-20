@@ -59,7 +59,7 @@ class EntryPageFactory
             'content'         => $this->markdownConverter->convertToHtml($body),
             'mediaType'       => 'text/html',
             'url'             => $this->getUrl($entry),
-            'tag'             => array_merge($this->tagsWrapper->build($entry->tags), $this->mentionsWrapper->build($entry->mentions)),
+            'tag'             => array_merge($this->tagsWrapper->build($entry->tags ?? []), $this->mentionsWrapper->build($entry->mentions ?? [])),
             'commentsEnabled' => true,
             'sensitive'       => $entry->isAdult(),
             'stickied'        => $entry->sticky,

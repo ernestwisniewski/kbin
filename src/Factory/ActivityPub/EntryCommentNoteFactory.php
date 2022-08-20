@@ -60,7 +60,7 @@ class EntryCommentNoteFactory
             'content'      => $this->markdownConverter->convertToHtml($comment->body),
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
-            'tag'          => array_merge($this->tagsWrapper->build($comment->tags), $this->mentionsWrapper->build($comment->mentions)),
+            'tag'          => array_merge($this->tagsWrapper->build($comment->tags ?? []), $this->mentionsWrapper->build($comment->mentions ?? [])),
             'published'    => $comment->createdAt->format(DateTimeInterface::ISO8601),
         ];
 
