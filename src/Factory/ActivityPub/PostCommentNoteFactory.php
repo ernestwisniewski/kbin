@@ -71,7 +71,7 @@ class PostCommentNoteFactory
         $note['to'] = array_unique(
             array_merge(
                 $note['to'],
-                [$note['attributedTo']],
+                [$this->getReplyToAuthor($comment)],
                 $this->activityPubManager->createCcFromBody($comment->body),
             )
         );
@@ -99,5 +99,12 @@ class PostCommentNoteFactory
         }
 
         return $comment->parent ? $this->getActivityPubId($comment->parent) : $this->postNoteFactory->getActivityPubId($comment->post);
+    }
+
+    private function getReplyToAuthor(PostComment $comment): string
+    {
+        return $comment->parent
+            ? $this->activityPubManager->getActorProfileId($comment->parent->user)
+            : $this->activityPubManager->getActorProfileId($comment->post->user);
     }
 }

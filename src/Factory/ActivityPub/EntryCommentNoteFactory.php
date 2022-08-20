@@ -71,7 +71,7 @@ class EntryCommentNoteFactory
         $note['to'] = array_unique(
             array_merge(
                 $note['to'],
-                [$note['attributedTo']],
+                [$this->getReplyToAuthor($comment)],
                 $this->activityPubManager->createCcFromBody($comment->body),
             )
         );
@@ -99,5 +99,12 @@ class EntryCommentNoteFactory
         }
 
         return $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId($comment->entry);
+    }
+
+    private function getReplyToAuthor(EntryComment $comment): string
+    {
+        return $comment->parent
+            ? $this->activityPubManager->getActorProfileId($comment->parent->user)
+            : $this->activityPubManager->getActorProfileId($comment->entry->user);
     }
 }
