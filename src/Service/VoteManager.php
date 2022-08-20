@@ -51,6 +51,8 @@ class VoteManager
             $this->entityManager->persist($vote);
         }
 
+        $votable->updateVoteCounts();
+
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new VoteEvent($votable, $vote, $votedAgain));
