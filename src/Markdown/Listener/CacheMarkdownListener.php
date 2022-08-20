@@ -42,7 +42,7 @@ final class CacheMarkdownListener implements EventSubscriberInterface
 
         $item = $this->pool->getItem($cacheEvent->getCacheKey());
 
-        if (false) {
+        if ($item->isHit()) {
             $event->setRenderedHtml($item->get());
             $event->stopPropagation();
         } elseif (!$event->getAttribute(self::ATTR_NO_CACHE_STORE)) {

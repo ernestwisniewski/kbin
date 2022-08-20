@@ -71,7 +71,7 @@ class PostCommentNoteFactory
         $note['to'] = array_unique(
             array_merge(
                 $note['to'],
-                $note['attributedTo'],
+                [$note['attributedTo']],
                 $this->activityPubManager->createCcFromBody($comment->body),
             )
         );

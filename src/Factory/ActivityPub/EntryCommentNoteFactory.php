@@ -42,7 +42,7 @@ class EntryCommentNoteFactory
             'type'         => 'Note',
             '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id'           => $this->getActivityPubId($comment),
-            'attributedTo' => $actor = $this->activityPubManager->getActorProfileId($comment->user),
+            'attributedTo' => $this->activityPubManager->getActorProfileId($comment->user),
             'inReplyTo'    => $this->getReplyTo($comment),
             'to'           => [
                 ActivityPubActivityInterface::PUBLIC_URL,
@@ -71,7 +71,7 @@ class EntryCommentNoteFactory
         $note['to'] = array_unique(
             array_merge(
                 $note['to'],
-                $note['attributedTo'],
+                [$note['attributedTo']],
                 $this->activityPubManager->createCcFromBody($comment->body),
             )
         );
