@@ -4,6 +4,7 @@ namespace App\Utils;
 
 use App\Entity\Entry;
 use App\Service\ImageManager;
+use App\Service\SettingsManager;
 use Embed\Embed as BaseEmbed;
 use Exception;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -11,7 +12,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class Embed
 {
-    public function __construct(private CacheInterface $cache)
+    public function __construct(private CacheInterface $cache, private SettingsManager $settings)
     {
     }
 
@@ -22,6 +23,10 @@ class Embed
 
     public function fetch($url): self
     {
+        if ($this->settings->isLocalUrl($url)) {
+            return $this;
+        }
+
         return $this->cache->get(
             'embed_'.md5($url),
             function (ItemInterface $item) use ($url) {

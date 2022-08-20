@@ -71,7 +71,7 @@ class EntryCommentNoteFactory
         $note['to'] = array_unique(
             array_merge(
                 $note['to'],
-                [$this->getReplyToAuthor($comment)],
+                [$this->getReplyToAuthor($comment  )],
                 $this->activityPubManager->createCcFromBody($comment->body),
             )
         );

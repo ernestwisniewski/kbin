@@ -46,7 +46,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         }
 
         $embed = false;
-        if (filter_var($url, FILTER_VALIDATE_URL)) {
+        if (filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($title, '@') && !str_starts_with($title, '#')) {
             if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
                 $embed = $entity->hasEmbed;
             } else {
