@@ -60,7 +60,6 @@ class ActivityPubManager
         $actorUrl = $actorUrlOrHandle;
         if (false === filter_var($actorUrl, FILTER_VALIDATE_URL)) {
             if (!substr_count(ltrim($actorUrl, '@'), '@')) {
-                $test = ltrim($actorUrl, '@');
                 return $this->userRepository->findOneBy(['username' => ltrim($actorUrl, '@')]);
             }
 
