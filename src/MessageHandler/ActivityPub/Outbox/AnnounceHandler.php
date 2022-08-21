@@ -57,7 +57,5 @@ class AnnounceHandler implements MessageHandlerInterface
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
-
-        $this->voteHandleSubscriber->clearCache($object);
     }
 }
