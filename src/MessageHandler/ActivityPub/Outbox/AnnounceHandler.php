@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
+use App\EventSubscriber\VoteHandleSubscriber;
 use App\Factory\ActivityPub\ActivityFactory;
 use App\Message\ActivityPub\Outbox\AnnounceMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
@@ -24,7 +25,8 @@ class AnnounceHandler implements MessageHandlerInterface
         private ActivityPubManager $activityPubManager,
         private ActivityFactory $activityFactory,
         private MessageBusInterface $bus,
-        private SettingsManager $settingsManager
+        private SettingsManager $settingsManager,
+        private VoteHandleSubscriber $voteHandleSubscriber
     ) {
     }
 
@@ -55,5 +57,7 @@ class AnnounceHandler implements MessageHandlerInterface
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
+
+        $this->voteHandleSubscriber->clearCache($object);
     }
 }
