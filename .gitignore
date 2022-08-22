@@ -3,6 +3,8 @@
 .idea/
 .DS_Store
 .php_cs.cache
+supervisord.log
+supervisord.pid
 
 ###> symfony/framework-bundle ###
 /.env.local

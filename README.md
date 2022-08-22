@@ -61,8 +61,8 @@ Based on [https://github.com/dunglas/symfony-docker](https://github.com/dunglas/
 # Set SMTP, Postgres, Mercure, Elasticsearch, RabbitMQ creds if you need it.
 $ cp .env.example .env
 
-$ docker compose build --pull --no-cache
-$ SERVER_NAME="app.localhost, caddy:80" docker compose up --build
+$ docker compose build
+$ SERVER_NAME="app.localhost" docker-compose up -d
 
 $ docker compose exec php bin/console doctrine:fixtures:load
 $ docker compose exec php bin/phpunit
