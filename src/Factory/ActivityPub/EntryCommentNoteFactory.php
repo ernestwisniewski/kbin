@@ -10,6 +10,7 @@ use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
+use App\Service\MentionManager;
 use DateTimeInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -21,6 +22,7 @@ class EntryCommentNoteFactory
         private ImageWrapper $imageWrapper,
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
+        private MentionManager $mentionManager,
         private EntryPageFactory $pageFactory,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
@@ -39,15 +41,15 @@ class EntryCommentNoteFactory
         }
 
         $note = [
-            'type'         => 'Note',
-            '@context'     => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
-            'id'           => $this->getActivityPubId($comment),
+            'type' => 'Note',
+            '@context' => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
+            'id' => $this->getActivityPubId($comment),
             'attributedTo' => $this->activityPubManager->getActorProfileId($comment->user),
-            'inReplyTo'    => $this->getReplyTo($comment),
-            'to'           => [
+            'inReplyTo' => $this->getReplyTo($comment),
+            'to' => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
-            'cc'           => [
+            'cc' => [
 //                $this->groupFactory->getActivityPubId($comment->magazine),
                 $comment->apId
                     ? $this->client->getActorObject($comment->user->apProfileId)['followers']
@@ -57,11 +59,16 @@ class EntryCommentNoteFactory
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
             ],
-            'content'      => $this->markdownConverter->convertToHtml($comment->body),
-            'mediaType'    => 'text/html',
-            'url'          => $this->getActivityPubId($comment),
-            'tag'          => array_merge($this->tagsWrapper->build($comment->tags ?? []), $this->mentionsWrapper->build($comment->mentions ?? [])),
-            'published'    => $comment->createdAt->format(DATE_ATOM),
+            'content' => $this->markdownConverter->convertToHtml(
+                $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions)
+            ),
+            'mediaType' => 'text/html',
+            'url' => $this->getActivityPubId($comment),
+            'tag' => array_merge(
+                $this->tagsWrapper->build($comment->tags ?? []),
+                $this->mentionsWrapper->build($comment->mentions ?? [])
+            ),
+            'published' => $comment->createdAt->format(DATE_ATOM),
         ];
 
         if ($comment->image) {
@@ -71,7 +78,7 @@ class EntryCommentNoteFactory
         $note['to'] = array_unique(
             array_merge(
                 $note['to'],
-                [$this->getReplyToAuthor($comment  )],
+                [$this->getReplyToAuthor($comment)],
                 $this->activityPubManager->createCcFromBody($comment->body),
             )
         );
@@ -87,7 +94,11 @@ class EntryCommentNoteFactory
 
         return $this->urlGenerator->generate(
             'ap_entry_comment',
-            ['magazine_name' => $comment->magazine->name, 'entry_id' => $comment->entry->getId(), 'comment_id' => $comment->getId()],
+            [
+                'magazine_name' => $comment->magazine->name,
+                'entry_id' => $comment->entry->getId(),
+                'comment_id' => $comment->getId(),
+            ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
@@ -98,7 +109,9 @@ class EntryCommentNoteFactory
             return $comment->apId;
         }
 
-        return $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId($comment->entry);
+        return $comment->parent ? $this->getActivityPubId($comment->parent) : $this->pageFactory->getActivityPubId(
+            $comment->entry
+        );
     }
 
     private function getReplyToAuthor(EntryComment $comment): string

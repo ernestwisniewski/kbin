@@ -13,7 +13,7 @@ class MentionManager
     const LOCAL = 2;
     const REMOTE = 3;
 
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository, private SettingsManager $settingsManager)
     {
     }
 
@@ -38,7 +38,7 @@ class MentionManager
             self::REMOTE => $this->byApPrefix()
         };
 
-        $result = array_map(fn($val) => trim($val), $result);
+        $result = array_map(fn($val) => rtrim(trim($val), '@'.$this->settingsManager->get('KBIN_DOMAIN')), $result);
 
         return count($result) ? array_unique($result) : null;
     }
@@ -78,11 +78,30 @@ class MentionManager
             default => throw new \LogicException(),
         };
 
-        $activity->mentions = array_unique(array_merge($activity->mentions ?? [], $this->extract($activity->body) ?? []));
-        $subjectActor       = ['@'.ltrim($subject->user->username, '@')];
+        $activity->mentions = array_unique(
+            array_merge($activity->mentions ?? [], $this->extract($activity->body) ?? [])
+        );
+        $subjectActor = ['@'.ltrim($subject->user->username, '@')];
 
         return array_unique(
-            array_merge(empty($subject->mentions) ? [] : $subject->mentions, empty($activity->mentions) ? [] : $activity->mentions, $subjectActor)
+            array_merge(
+                empty($subject->mentions) ? [] : $subject->mentions,
+                empty($activity->mentions) ? [] : $activity->mentions,
+                $subjectActor
+            )
         );
+    }
+
+    public function joinMentionsToBody(string $body, array $mentions): string
+    {
+        $current = $this->extract($body) ?? [];
+
+        $join = array_unique(array_merge(array_diff($mentions, $current), array_diff($current, $mentions)));
+
+        if (!empty($join)) {
+            $body = implode(' ', $join).' '.$body;
+        }
+
+        return $body;
     }
 }

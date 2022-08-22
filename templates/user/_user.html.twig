@@ -1,6 +1,6 @@
 {% block user %}
     {%- if prefix -%}<small class="text-muted">/u/</small>{%- endif -%}
-    <a class="{{ bolded ? 'font-weight-bold' : '' }}"
+    <a class="kbin-user {{ bolded ? 'font-weight-bold' : '' }}"
        data-controller="user-popup"
        data-action="user-popup#show"
        data-user-popup-username-value="{{ user.username }}"
