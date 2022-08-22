@@ -32,9 +32,9 @@ class DeleteHandler implements MessageHandlerInterface
 
     public function __invoke(DeleteMessage $message): void
     {
-        $actor = $this->activityPubManager->findRemoteActor($message->payload['actor']);
-
-        if (!$actor) {
+        try {
+            $actor = $this->activityPubManager->findRemoteActor($message->payload['actor']);
+        } catch (\Exception) {
             return;
         }
 
@@ -48,7 +48,7 @@ class DeleteHandler implements MessageHandlerInterface
             return;
         }
 
-        $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
+        $object = $this->entityManager->getRepository($object['type'])->find((int)$object['id']);
 
         if (get_class($object) === Entry::class) {
             $fn = 'deleteEntry';

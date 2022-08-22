@@ -38,7 +38,7 @@ class MentionManager
             self::REMOTE => $this->byApPrefix()
         };
 
-        $result = array_map(fn($val) => rtrim(trim($val), '@'.$this->settingsManager->get('KBIN_DOMAIN')), $result);
+        $result = array_map(fn($val) => trim($val), $result);
 
         return count($result) ? array_unique($result) : null;
     }
@@ -81,13 +81,25 @@ class MentionManager
         $activity->mentions = array_unique(
             array_merge($activity->mentions ?? [], $this->extract($activity->body) ?? [])
         );
+
         $subjectActor = ['@'.ltrim($subject->user->username, '@')];
 
-        return array_unique(
+        $result = array_unique(
             array_merge(
                 empty($subject->mentions) ? [] : $subject->mentions,
                 empty($activity->mentions) ? [] : $activity->mentions,
                 $subjectActor
+            )
+        );
+
+        return array_filter(
+            $result,
+            fn($val) => !in_array(
+                $val,
+                [
+                    '@'.$activity->user->username,
+                    '@'.$activity->user->username.'@'.$this->settingsManager->get('KBIN_DOMAIN'),
+                ]
             )
         );
     }

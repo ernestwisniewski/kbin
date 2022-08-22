@@ -32,6 +32,7 @@ class PostCommentNoteFactory
 
     public function create(PostComment $comment, bool $context = false): array
     {
+
         if ($context) {
             $note['@context'] = [
                 ActivityPubActivityInterface::CONTEXT_URL,

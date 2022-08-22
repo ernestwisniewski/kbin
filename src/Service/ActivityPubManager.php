@@ -66,7 +66,10 @@ class ActivityPubManager
             $actorUrl = $this->webfinger($actorUrl)->getProfileId();
         }
 
-        if (in_array(parse_url($actorUrl, PHP_URL_HOST), [$this->settingsManager->get('KBIN_DOMAIN'), 'localhost', '127.0.0.1'])) {
+        if (in_array(
+            parse_url($actorUrl, PHP_URL_HOST),
+            [$this->settingsManager->get('KBIN_DOMAIN'), 'localhost', '127.0.0.1']
+        )) {
             $name = explode('/', $actorUrl);
             $name = end($name);
 
@@ -77,18 +80,22 @@ class ActivityPubManager
 
         if (!$user) {
             $webfinger = $this->webfinger($actorUrl);
-            $user      = $this->userManager->create($this->userFactory->createDtoFromAp($actorUrl, $webfinger->getHandle()), false, false);
-            $actor     = $this->apHttpClient->getActivityObject($actorUrl, true);
+            $user = $this->userManager->create(
+                $this->userFactory->createDtoFromAp($actorUrl, $webfinger->getHandle()),
+                false,
+                false
+            );
+            $actor = $this->apHttpClient->getActivityObject($actorUrl, true);
 
             if (isset($actor['icon'])) {
                 $user->avatar = $this->handleImages([$actor['icon']]);
             }
 
-            $user->notifyOnNewEntry             = false;
-            $user->notifyOnNewEntryReply        = false;
+            $user->notifyOnNewEntry = false;
+            $user->notifyOnNewEntryReply = false;
             $user->notifyOnNewEntryCommentReply = false;
-            $user->notifyOnNewPost              = false;
-            $user->notifyOnNewPostCommentReply  = false;
+            $user->notifyOnNewPost = false;
+            $user->notifyOnNewPostCommentReply = false;
 
             $this->entityManager->flush();
         }
@@ -147,17 +154,17 @@ class ActivityPubManager
 
         $urls = [];
         foreach ($mentions as $handle) {
-            $actor = $this->findActorOrCreate($handle);
-
-            if (!$actor) {
+            try {
+                $actor = $this->findActorOrCreate($handle);
+            } catch (\Exception $e) {
                 continue;
             }
 
             $urls[] = $actor->apProfileId ?? $this->urlGenerator->generate(
-                    'ap_user',
-                    ['username' => $actor->getUserIdentifier()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                );
+                'ap_user',
+                ['username' => $actor->getUserIdentifier()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
         }
 
         return $urls;

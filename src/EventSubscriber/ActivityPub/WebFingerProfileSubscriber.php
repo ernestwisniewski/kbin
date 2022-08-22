@@ -34,10 +34,12 @@ class WebFingerProfileSubscriber implements EventSubscriberInterface
     public function buildResponse(WebfingerResponseEvent $event): void
     {
         $request = $this->requestStack->getCurrentRequest();
-        $params  = $this->webfingerParameters->getParams();
-        $jsonRd  = $event->jsonRd;
+        $params = $this->webfingerParameters->getParams();
+        $jsonRd = $event->jsonRd;
 
-        if (isset($params[WebFingerParameters::ACCOUNT_KEY_NAME]) && $actor = $this->getActor($params[WebFingerParameters::ACCOUNT_KEY_NAME])) {
+        if (isset($params[WebFingerParameters::ACCOUNT_KEY_NAME]) && $actor = $this->getActor(
+                $params[WebFingerParameters::ACCOUNT_KEY_NAME]
+            )) {
             $accountHref = $this->urlGenerator->generate(
                 'ap_user',
                 ['username' => $actor->getUserIdentifier()],
@@ -53,7 +55,9 @@ class WebFingerProfileSubscriber implements EventSubscriberInterface
             if ($actor->avatar) {
                 $link = new JsonRdLink();
                 $link->setRel('http://webfinger.net/rel/avatar')
-                    ->setHref('https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$actor->avatar->filePath); // @todo media url
+                    ->setHref(
+                        'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$actor->avatar->filePath
+                    ); // @todo media url
                 $jsonRd->addLink($link);
             }
         }

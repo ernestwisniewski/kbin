@@ -32,15 +32,17 @@ class WebFingerSubscriber implements EventSubscriberInterface
     public function buildResponse(WebfingerResponseEvent $event): void
     {
         $request = $this->requestStack->getCurrentRequest();
-        $params  = $this->webfingerParameters->getParams();
-        $jsonRd  = $event->jsonRd;
+        $params = $this->webfingerParameters->getParams();
+        $jsonRd = $event->jsonRd;
 
         $subject = $request->query->get('resource') ?: '';
         if (!empty($subject)) {
             $jsonRd->setSubject($subject);
         }
 
-        if (isset($params[WebFingerParameters::ACCOUNT_KEY_NAME]) && $actor = $this->getActor($params[WebFingerParameters::ACCOUNT_KEY_NAME])) {
+        if (isset($params[WebFingerParameters::ACCOUNT_KEY_NAME]) && $actor = $this->getActor(
+                $params[WebFingerParameters::ACCOUNT_KEY_NAME]
+            )) {
             $accountHref = $this->urlGenerator->generate(
                 'ap_user',
                 ['username' => $actor->getUserIdentifier()],

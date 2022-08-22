@@ -16,9 +16,9 @@ class MentionsWrapper
         $results = [];
 
         foreach ($mentions as $index => $mention) {
-            $actor = $this->manager->findActorOrCreate($mention);
-
-            if (!$actor) {
+            try {
+                $actor = $this->manager->findActorOrCreate($mention);
+            } catch (\Exception $e) {
                 continue;
             }
 
