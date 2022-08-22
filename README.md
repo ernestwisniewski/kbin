@@ -120,9 +120,9 @@ Next, set up your instance https://localhost/admin
 
 ```bash
 # Backup
-$ docker exec -it [container_id] pg_dump -U kbin kbin > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+$ docker exec -it database pg_dump -U symfony app > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
 # Restore
-$ docker exec -it [container_id] psql kbin < dump.sql // @todo
+$ docker compose exec -T database psql -U symfony app < dump.sql
 ```
 
 ### Images
