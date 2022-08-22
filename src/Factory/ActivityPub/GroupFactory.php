@@ -52,8 +52,8 @@ class GroupFactory
                 ['name' => $magazine->name],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
-            'published'         => $magazine->createdAt->format(DateTimeInterface::ISO8601),
-            'updated'           => $magazine->lastActive->format(DateTimeInterface::ISO8601),
+            'published'         => $magazine->createdAt->format(DATE_ATOM),
+            'updated'           => $magazine->lastActive->format(DATE_ATOM),
         ];
 
         if ($magazine->cover) {

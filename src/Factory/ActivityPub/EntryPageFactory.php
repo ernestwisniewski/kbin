@@ -63,7 +63,7 @@ class EntryPageFactory
             'commentsEnabled' => true,
             'sensitive'       => $entry->isAdult(),
             'stickied'        => $entry->sticky,
-            'published'       => $entry->createdAt->format(DateTimeInterface::ISO8601),
+            'published'       => $entry->createdAt->format(DATE_ATOM),
             'attachment'      => [
 //                [
 //                    'href' => $this->getUrl($entry),

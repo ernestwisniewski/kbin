@@ -45,7 +45,7 @@ class PersonFactory
                 ),
                 'url'                       => $this->getActivityPubId($user),
                 'manuallyApprovesFollowers' => false,
-                'published'                 => $user->createdAt->format(DateTimeInterface::ISO8601),
+                'published'                 => $user->createdAt->format(DATE_ATOM),
                 'following'                 => $this->urlGenerator->generate(
                     'ap_user_following',
                     ['username' => $user->username],

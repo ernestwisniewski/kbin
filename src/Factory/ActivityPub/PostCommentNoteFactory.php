@@ -61,7 +61,7 @@ class PostCommentNoteFactory
             'mediaType'    => 'text/html',
             'url'          => $this->getActivityPubId($comment),
             'tag'          => array_merge($this->tagsWrapper->build($comment->tags ?? []), $this->mentionsWrapper->build($comment->mentions ?? [])),
-            'published'    => $comment->createdAt->format(DateTimeInterface::ISO8601),
+            'published'    => $comment->createdAt->format(DATE_ATOM),
         ]);
 
         if ($comment->image) {
