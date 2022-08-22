@@ -11,7 +11,7 @@ class MarkdownConverter
     {
     }
 
-    public function convertToHtml(string $markdown, array $context = [], bool $local = true): string
+    public function convertToHtml(string $markdown, array $context = []): string
     {
         $event = new ConvertMarkdown($markdown);
         $event->mergeAttributes($context);

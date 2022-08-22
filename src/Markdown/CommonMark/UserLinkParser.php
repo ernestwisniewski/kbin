@@ -30,7 +30,8 @@ final class UserLinkParser extends AbstractLocalLinkParser
             'user',
             [
                 'username' => $suffix,
-            ]
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
 

@@ -22,7 +22,8 @@ final class MagazineLinkParser extends AbstractLocalLinkParser
             'front_magazine',
             [
                 'name' => $suffix,
-            ]
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
 
