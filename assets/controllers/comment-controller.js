@@ -35,13 +35,15 @@ export default class extends Controller {
 
             this.formTarget.innerHTML = response.form;
 
-            let replyTo = event.target.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim();
-            if (Array.from(replyTo)[0] !== '@') {
-                replyTo = '@' + replyTo;
-            }
+            if (!edit) {
+                let replyTo = event.target.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim();
+                if (Array.from(replyTo)[0] !== '@') {
+                    replyTo = '@' + replyTo;
+                }
 
-            const editor = new KEditor(this.formTarget, false);
-            editor.value(replyTo + ' ');
+                const editor = new KEditor(this.formTarget, false);
+                editor.value(replyTo + ' ');
+            }
 
             let self = this;
             this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {
