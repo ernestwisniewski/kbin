@@ -2,6 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Contracts\ActivityPubActivityInterface;
+use App\Entity\EntryComment;
+use App\Entity\PostComment;
 use App\Repository\UserRepository;
 
 class MentionManager
@@ -65,5 +68,21 @@ class MentionManager
         );
 
         return count($matches[0]) ? array_unique(array_values($matches[0])) : [];
+    }
+
+    public function handleChain(ActivityPubActivityInterface $activity): array
+    {
+        $subject = match (true) {
+            $activity instanceof EntryComment => $activity->parent ?? $activity->entry,
+            $activity instanceof PostComment => $activity->parent ?? $activity->post,
+            default => throw new \LogicException(),
+        };
+
+        $activity->mentions = array_unique(array_merge($activity->mentions ?? [], $this->extract($activity->body) ?? []));
+        $subjectActor       = ['@'.ltrim($subject->user->username, '@')];
+
+        return array_unique(
+            array_merge(empty($subject->mentions) ? [] : $subject->mentions, empty($activity->mentions) ? [] : $activity->mentions, $subjectActor)
+        );
     }
 }

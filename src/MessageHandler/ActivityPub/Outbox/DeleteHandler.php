@@ -40,7 +40,7 @@ class DeleteHandler implements MessageHandlerInterface
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }
 
-        $followers = $this->activityPubManager->getFollowersFromObject($activity, $entity->user);
+        $followers = $this->activityPubManager->createCcFromObject($activity, $entity->user);
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }

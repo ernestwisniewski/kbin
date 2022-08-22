@@ -53,7 +53,7 @@ class AnnounceHandler implements MessageHandlerInterface
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }
 
-        $followers = $this->activityPubManager->getFollowersFromObject($activity, $user);
+        $followers = $this->activityPubManager->createCcFromObject($activity, $user);
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }

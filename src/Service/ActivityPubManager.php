@@ -55,7 +55,7 @@ class ActivityPubManager
         return $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
     }
 
-    public function findActorOrCreate(string $actorUrlOrHandle): User
+    public function findActorOrCreate(string $actorUrlOrHandle): ?User
     {
         $actorUrl = $actorUrlOrHandle;
         if (false === filter_var($actorUrl, FILTER_VALIDATE_URL)) {
@@ -147,7 +147,12 @@ class ActivityPubManager
 
         $urls = [];
         foreach ($mentions as $handle) {
-            $actor  = $this->findActorOrCreate($handle);
+            $actor = $this->findActorOrCreate($handle);
+
+            if (!$actor) {
+                continue;
+            }
+
             $urls[] = $actor->apProfileId ?? $this->urlGenerator->generate(
                     'ap_user',
                     ['username' => $actor->getUserIdentifier()],
@@ -158,7 +163,7 @@ class ActivityPubManager
         return $urls;
     }
 
-    public function getFollowersFromObject(array $activity, User $user): array
+    public function createCcFromObject(array $activity, User $user): array
     {
         if (isset($activity['cc']) && isset($activity['to'])) {
             $followersUrl = $this->urlGenerator->generate(

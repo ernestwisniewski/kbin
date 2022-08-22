@@ -26,6 +26,7 @@ class EntryCommentDto
     public ?int $dv = null;
     public ?string $ip = null;
     public ?string $apId = null;
+    public ?array $mentions = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;
     private ?int $id = null;

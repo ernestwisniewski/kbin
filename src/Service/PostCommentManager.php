@@ -51,7 +51,9 @@ class PostCommentManager implements ContentManagerInterface
         $comment->magazine             = $dto->post->magazine;
         $comment->image                = $dto->image;
         $comment->tags                 = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
-        $comment->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $comment->mentions             = $dto->body
+            ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
+            : $dto->mentions;
         $comment->apId                 = $dto->apId;
         $comment->magazine->lastActive = new \DateTime();
         $comment->lastActive           = $dto->lastActive ?? $comment->lastActive;
@@ -77,7 +79,9 @@ class PostCommentManager implements ContentManagerInterface
             $comment->image = $dto->image;
         }
         $comment->tags     = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
-        $comment->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $comment->mentions = $dto->body
+            ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
+            : $dto->mentions;
         $comment->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();
