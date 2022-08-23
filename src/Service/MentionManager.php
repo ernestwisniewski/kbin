@@ -108,7 +108,7 @@ class MentionManager
     {
         $current = $this->extract($body) ?? [];
 
-        $join = array_unique(array_merge(array_diff($mentions, $current), array_diff($current, $mentions)));
+        $join = array_unique(array_merge(array_diff($mentions, $current)));
 
         if (!empty($join)) {
             $body = implode(' ', $join).' '.$body;

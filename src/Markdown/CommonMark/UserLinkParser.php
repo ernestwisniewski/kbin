@@ -37,7 +37,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
         return $this->urlGenerator->generate(
             'user',
             [
-                'username' => $suffix,
+                'username' => ltrim($suffix, '@'),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
