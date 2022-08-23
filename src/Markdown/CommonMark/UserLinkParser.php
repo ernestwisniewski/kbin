@@ -2,14 +2,20 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
+use App\Service\SettingsManager;
 use App\Utils\RegPatterns;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class UserLinkParser extends AbstractLocalLinkParser
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private ActivityPubManager $activityPubManager)
-    {
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator,
+        private ActivityPubManager $activityPubManager,
+        private SettingsManager $settingsManager,
+        private ApHttpClient $client
+    ) {
     }
 
     public function getPrefix(): string
@@ -19,9 +25,11 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     public function getUrl(string $suffix): string
     {
-        if (substr_count($suffix, '@') > 1) {
+        if (substr_count($suffix, '@') > 1 && !str_ends_with($suffix, '@'.$this->settingsManager->get('KBIN_MAIN'))) {
             try {
-                return $this->activityPubManager->webfinger($suffix)->getProfileId();
+                return $this->client->getActorObject(
+                    $this->activityPubManager->webfinger($suffix)->getProfileId()
+                )['url'];
             } catch (\Exception $e) {
             }
         }

@@ -119,7 +119,7 @@ class ActivityPubManager
 
         $handle = sprintf(
             '%s@%s%s',
-            $this->apHttpClient->getActivityObject($id)['preferredUsername'],
+            $this->apHttpClient->getActorObject($id)['preferredUsername'],
             parse_url($id, PHP_URL_HOST),
             $port
         );
