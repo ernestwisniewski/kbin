@@ -76,12 +76,16 @@ class PostCommentNoteFactory
             $note = $this->imageWrapper->build($note, $comment->image, $comment->getShortTitle());
         }
 
+        $mentions = $comment->mentions ?? [];
+        $mentions = array_map(fn($val) => $this->activityPubManager->webfinger($val)->getProfileId(), $mentions);
+
         $note['to'] = array_values(
             array_unique(
                 array_merge(
                     $note['to'],
-                    [$this->getReplyToAuthor($comment)],
+                    $mentions,
                     $this->activityPubManager->createCcFromBody($comment->body),
+                    [$this->getReplyToAuthor($comment)],
                 )
             )
         );
