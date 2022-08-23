@@ -36,13 +36,16 @@ export default class extends Controller {
             this.formTarget.innerHTML = response.form;
 
             if (!edit) {
-                let replyTo = event.target.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim();
-                if (Array.from(replyTo)[0] !== '@') {
-                    replyTo = '@' + replyTo;
-                }
+                try {
+                    let replyTo = event.target.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim();
+                    if (Array.from(replyTo)[0] !== '@') {
+                        replyTo = '@' + replyTo;
+                    }
 
-                const editor = new KEditor(this.formTarget, false);
-                editor.value(replyTo + ' ');
+                    const editor = new KEditor(this.formTarget, false);
+                    editor.value(replyTo + ' ');
+                } catch (e) {
+                }
             }
 
             let self = this;
