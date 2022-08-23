@@ -25,7 +25,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     public function getUrl(string $suffix): string
     {
-        if (substr_count($suffix, '@') > 1 && !str_ends_with($suffix, '@'.$this->settingsManager->get('KBIN_MAIN'))) {
+        if (substr_count($suffix, '@') > 1 && !str_ends_with($suffix, '@'.$this->settingsManager->get('KBIN_DOMAIN'))) {
             try {
                 return $this->client->getActorObject(
                     $this->activityPubManager->webfinger($suffix)->getProfileId()
