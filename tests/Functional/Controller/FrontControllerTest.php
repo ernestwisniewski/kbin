@@ -192,7 +192,7 @@ class FrontControllerTest extends WebTestCase
             ['Ważne'],
             ['Najnowsze'],
             ['Aktywne'],
-            ['Wschodzące'],
+            ['Gorące'],
             ['Komentowane'],
             ['Komentarze'],
             ['Wpisy'],

@@ -110,7 +110,7 @@ abstract class Criteria
             'commented' => Criteria::SORT_COMMENTED,
 
             'ważne'       => Criteria::SORT_TOP,
-            'gorące'  => Criteria::SORT_HOT,
+            'gorące'      => Criteria::SORT_HOT,
             'aktywne'     => Criteria::SORT_ACTIVE,
             'najnowsze'   => Criteria::SORT_NEW,
             'komentowane' => Criteria::SORT_COMMENTED,

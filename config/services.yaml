@@ -21,7 +21,7 @@ parameters:
 
   html5_validation: false
 
-  front_sort_options: top|hot|active|newest|commented|ważne|wschodzące|aktywne|najnowsze|komentowane
+  front_sort_options: top|hot|active|newest|commented|ważne|gorące|aktywne|najnowsze|komentowane
   front_time_options: 6h|12h|1d|1w|1m|1y|all|wszystko|∞
   stats_type: general|content|views|votes|ogólne|treści|głosy|wyświetlenia
 
