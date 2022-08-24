@@ -42,29 +42,36 @@ class EntryPageFactory
         $body = $entry->body ?? $entry->getDescription();
 
         $page = array_merge($page ?? [], [
-            'id'              => $this->getActivityPubId($entry),
-            'type'            => 'Page',
-            'attributedTo'    => $this->activityPubManager->getActorProfileId($entry->user),
-            'inReplyTo'       => null,
-            'to'              => [
+            'id' => $this->getActivityPubId($entry),
+            'type' => 'Page',
+            'attributedTo' => $this->activityPubManager->getActorProfileId($entry->user),
+            'inReplyTo' => null,
+            'to' => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
-            'cc'              => [
+            'cc' => [
 //                $this->groupFactory->getActivityPubId($entry->magazine),
                 $entry->apId
                     ? $this->client->getActorObject($entry->user->apProfileId)['followers']
-                    : $this->urlGenerator->generate('ap_user_followers', ['username' => $entry->user->username], UrlGeneratorInterface::ABSOLUTE_URL),
+                    : $this->urlGenerator->generate(
+                    'ap_user_followers',
+                    ['username' => $entry->user->username],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ],
-            'name'            => $entry->title,
-            'content'         => $this->markdownConverter->convertToHtml($body),
-            'mediaType'       => 'text/html',
-            'url'             => $this->getUrl($entry),
-            'tag'             => array_merge($this->tagsWrapper->build($entry->tags ?? []), $this->mentionsWrapper->build($entry->mentions ?? [])),
+            'name' => $entry->title,
+            'content' => $this->markdownConverter->convertToHtml($body),
+            'mediaType' => 'text/html',
+            'url' => $this->getUrl($entry),
+            'tag' => array_merge(
+                $this->tagsWrapper->build($entry->tags ?? []),
+                $this->mentionsWrapper->build($entry->mentions ?? [], $entry->body)
+            ),
             'commentsEnabled' => true,
-            'sensitive'       => $entry->isAdult(),
-            'stickied'        => $entry->sticky,
-            'published'       => $entry->createdAt->format(DATE_ATOM),
-            'attachment'      => [
+            'sensitive' => $entry->isAdult(),
+            'stickied' => $entry->sticky,
+            'published' => $entry->createdAt->format(DATE_ATOM),
+            'attachment' => [
 //                [
 //                    'href' => $this->getUrl($entry),
 //                    'type' => 'Link',
@@ -79,7 +86,9 @@ class EntryPageFactory
         }
 
         if ($entry->body) {
-            $page['to'] = array_unique(array_merge($page['to'], $this->activityPubManager->createCcFromBody($entry->body)));
+            $page['to'] = array_unique(
+                array_merge($page['to'], $this->activityPubManager->createCcFromBody($entry->body))
+            );
         }
 
         return $page;

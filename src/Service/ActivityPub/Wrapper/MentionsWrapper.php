@@ -4,6 +4,7 @@ namespace App\Service\ActivityPub\Wrapper;
 
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
+use App\Service\MentionManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MentionsWrapper
@@ -11,14 +12,16 @@ class MentionsWrapper
     public function __construct(
         private ActivityPubManager $manager,
         private UrlGeneratorInterface $urlGenerator,
+        private MentionManager $mentionManager,
         private ApHttpClient $client
     ) {
     }
 
-    public function build(?array $mentions): array
+    public function build(?array $mentions, ?string $body = null): array
     {
-        $results = [];
+        $mentions = array_unique(array_merge($mentions, $this->mentionManager->extract($body ?? '')));
 
+        $results = [];
         foreach ($mentions as $index => $mention) {
             try {
                 $actor = $this->manager->findActorOrCreate($mention);

@@ -31,18 +31,22 @@ class PostNoteFactory
     public function create(Post $post, bool $context = false): array
     {
         if ($context) {
-            $note['@context'] = [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL, self::getContext()];
+            $note['@context'] = [
+                ActivityPubActivityInterface::CONTEXT_URL,
+                ActivityPubActivityInterface::SECURITY_URL,
+                self::getContext(),
+            ];
         }
 
         $note = array_merge($note ?? [], [
-            'id'              => $this->getActivityPubId($post),
-            'type'            => 'Note',
-            'attributedTo'    => $this->activityPubManager->getActorProfileId($post->user),
-            'inReplyTo'       => null,
-            'to'              => [
+            'id' => $this->getActivityPubId($post),
+            'type' => 'Note',
+            'attributedTo' => $this->activityPubManager->getActorProfileId($post->user),
+            'inReplyTo' => null,
+            'to' => [
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
-            'cc'              => [
+            'cc' => [
 //                $this->groupFactory->getActivityPubId($post->magazine),
                 $post->apId
                     ? $this->client->getActorObject($post->user->apProfileId)['followers']
@@ -52,13 +56,16 @@ class PostNoteFactory
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
             ],
-            'sensitive'       => $post->isAdult(),
-            'content'         => $this->markdownConverter->convertToHtml($post->body),
-            'mediaType'       => 'text/html',
-            'url'             => $this->getActivityPubId($post),
-            'tag'             => array_merge($this->tagsWrapper->build($post->tags ?? []), $this->mentionsWrapper->build($post->mentions ?? [])),
+            'sensitive' => $post->isAdult(),
+            'content' => $this->markdownConverter->convertToHtml($post->body),
+            'mediaType' => 'text/html',
+            'url' => $this->getActivityPubId($post),
+            'tag' => array_merge(
+                $this->tagsWrapper->build($post->tags ?? []),
+                $this->mentionsWrapper->build($post->mentions ?? [], $post->body)
+            ),
             'commentsEnabled' => true,
-            'published'       => $post->createdAt->format(DATE_ATOM),
+            'published' => $post->createdAt->format(DATE_ATOM),
         ]);
 
         if ($post->image) {
@@ -70,11 +77,15 @@ class PostNoteFactory
         return $note;
     }
 
-    #[ArrayShape(['ostatus' => "string", 'sensitive' => "string", 'votersCount' => "string"])] public static function getContext(): array
+    #[ArrayShape([
+        'ostatus' => "string",
+        'sensitive' => "string",
+        'votersCount' => "string",
+    ])] public static function getContext(): array
     {
         return [
-            'ostatus'     => 'http://ostatus.org#',
-            'sensitive'   => 'as:sensitive',
+            'ostatus' => 'http://ostatus.org#',
+            'sensitive' => 'as:sensitive',
             'votersCount' => 'toot:votersCount',
         ];
     }
@@ -86,9 +97,9 @@ class PostNoteFactory
         }
 
         return $post->apId ?? $this->urlGenerator->generate(
-                'ap_post',
-                ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
+            'ap_post',
+            ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 }

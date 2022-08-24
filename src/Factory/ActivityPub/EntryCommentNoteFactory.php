@@ -66,7 +66,7 @@ class EntryCommentNoteFactory
             'url' => $this->getActivityPubId($comment),
             'tag' => array_merge(
                 $this->tagsWrapper->build($comment->tags ?? []),
-                $this->mentionsWrapper->build($comment->mentions ?? [])
+                $this->mentionsWrapper->build($comment->mentions ?? [], $comment->body)
             ),
             'published' => $comment->createdAt->format(DATE_ATOM),
         ];
@@ -75,8 +75,14 @@ class EntryCommentNoteFactory
             $note = $this->imageWrapper->build($note, $comment->image, $comment->getShortTitle());
         }
 
-        $mentions = $comment->mentions ?? [];
-        $mentions = array_map(fn($val) => $this->activityPubManager->webfinger($val)->getProfileId(), $mentions);
+        $mentions = [];
+        foreach ($comment->mentions ?? [] as $mention) {
+            try {
+                $mentions[] = $this->activityPubManager->webfinger($mention)->getProfileId();
+            } catch (\Exception $e) {
+                continue;
+            }
+        }
 
         $note['to'] = array_unique(
             array_merge(
