@@ -30,7 +30,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
                 $profileId = $this->activityPubManager->webfinger($suffix)->getProfileId();
                 $actor = $this->client->getActorObject($profileId);
 
-                if($profileId || $actor) {
+                if ($profileId || $actor) {
                     return !empty($actor['url']) ? $actor['url'] : $profileId;
                 }
             } catch (\Exception $e) {
@@ -44,7 +44,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
         return $this->urlGenerator->generate(
             'user',
             [
-                'username' => substr_count($suffix, '@') >= 2 ? $suffix : ltrim($suffix, '@')
+                'username' => substr_count($suffix, '@') == 2 ? $suffix : ltrim($suffix, '@'),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
@@ -58,5 +58,14 @@ final class UserLinkParser extends AbstractLocalLinkParser
     public function getApRegex(): string
     {
         return RegPatterns::AP_USER;
+    }
+
+    protected function getName(string $suffix): string
+    {
+        if (substr_count($suffix, '@') == 2) {
+            return '@'.explode('@', $suffix)[1];
+        }
+
+        return $suffix;
     }
 }

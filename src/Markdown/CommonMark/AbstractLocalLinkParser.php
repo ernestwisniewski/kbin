@@ -51,12 +51,17 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
         }
 
         $link = new Link(
-            $this->getUrl($name), $name
+            $this->getUrl($name), $this->getName($name), $name
         );
 
         $inlineContext->getContainer()->appendChild($link);
 
         return true;
+    }
+
+    protected function getName(string $suffix): string
+    {
+        return $suffix;
     }
 
     abstract public function getRegex(): string;

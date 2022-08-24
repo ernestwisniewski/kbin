@@ -22,8 +22,11 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
 {
     protected ConfigurationInterface $config;
 
-    public function __construct(private Embed $embed, private EmbedRepository $embedRepository, private SettingsManager $settingsManager)
-    {
+    public function __construct(
+        private Embed $embed,
+        private EmbedRepository $embedRepository,
+        private SettingsManager $settingsManager
+    ) {
     }
 
     public function render(
@@ -53,7 +56,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
                 try {
                     $embed = $this->embed->fetch($url)->html;
                     if ($embed) {
-                        $entity = new \App\Entity\Embed($url, (bool) $embed);
+                        $entity = new \App\Entity\Embed($url, (bool)$embed);
                         $this->embedRepository->add($entity);
                     }
                 } catch (Exception $e) {
@@ -77,7 +80,13 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         foreach (['@', '!', '#'] as $tag) {
             if (str_starts_with($title, $tag)) {
                 $attr = match ($tag) {
-                    '@' => ['class' => 'mention u-url'],
+                    '@' => [
+                        'class' => 'mention u-url',
+                        'title' => $inline->data['title'],
+                        'data-bs-toggle' => 'popover',
+                        'data-bs-trigger' => 'hover focus',
+                        'data-bs-placement' => 'top',
+                    ],
                     '#' => ['class' => 'hashtag tag', 'rel' => 'tag'],
                     default => [],
                 };
@@ -85,7 +94,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         }
 
         if (false !== filter_var($url, FILTER_VALIDATE_URL) && !$this->settingsManager->isLocalUrl($url)) {
-            $attr['rel']    = 'noopener noreferrer nofollow';
+            $attr['rel'] = 'noopener noreferrer nofollow';
             $attr['target'] = '_blank';
         }
 

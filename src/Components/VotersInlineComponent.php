@@ -3,7 +3,11 @@
 namespace App\Components;
 
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\PostVote;
+use App\Entity\Vote;
 use App\Service\CacheService;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -16,8 +20,11 @@ class VotersInlineComponent
     public string $url;
     public ?int $more = null;
 
-    public function __construct(private Environment $twig, private CacheService $cacheService, private CacheInterface $cache)
-    {
+    public function __construct(
+        private Environment $twig,
+        private CacheService $cacheService,
+        private CacheInterface $cache
+    ) {
     }
 
     public function getHtml(): string
@@ -28,21 +35,35 @@ class VotersInlineComponent
 
         $this->more = $this->subject->votes->count() >= 4 ? $this->subject->votes->count() - 4 : null;
 
-        return $this->cache->get($this->cacheService->getVotersCacheKey($this->subject).'s', function (ItemInterface $item) {
-            $item->expiresAfter(3600);
+        return $this->cache->get(
+            $this->cacheService->getVotersCacheKey($this->subject),
+            function (ItemInterface $item) {
+                $item->expiresAfter(3600);
 
-            return $this->render();
-        });
+                return $this->render();
+            }
+        );
     }
 
     private function render(): string
     {
+        /**
+         * @var Collection $votes
+         */
+        $votes = $this->subject->votes;
+        $votes = $votes->filter(function ($vote) {
+            /**
+             * @var Vote $vote
+             */
+            return $vote->choice === VoteInterface::VOTE_UP;
+        });
+
         return $this->twig->render(
             '_layout/_voters_inline.html.twig',
             [
-                'votes' => $this->subject->votes->slice(0, 4),
-                'more'  => $this->more,
-                'url'   => $this->url,
+                'votes' => $votes->slice(0, 4),
+                'more' => $this->more,
+                'url' => $this->url,
             ]
         );
     }

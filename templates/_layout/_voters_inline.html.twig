@@ -1,10 +1,13 @@
 <div class="kbin-inline-voters" data-controller="voters-inline">
     <div data-voters-inline-target="container">
-        <small><span class="text-muted small">+</span></small>
+        {% if votes|length %}
+            <small><span class="text-muted small">+</span></small>
+        {% endif %}
         {% for vote in votes %}
         <a class="text-muted small"
            href="{{ path('user', { username: vote.user.username }) }}">
-            <small>{{ vote.user.username }}</small></a>{{ loop.last ? '' : '<small><span class="text-muted small">,</span></small>' }}
+            <small>{{ vote.user.username }}</small>
+            </a>{{ loop.last ? '' : '<small><span class="text-muted small">,</span></small>' }}
         {% endfor %}
         {% if more %}
             <a class="text-muted small"

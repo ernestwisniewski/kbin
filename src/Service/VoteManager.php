@@ -100,10 +100,6 @@ class VoteManager
 
         $votable->lastActive = new \DateTime();
 
-        // @todo interfaces
-        if ($votable instanceof Post) {
-            $votable->lastActive = new \DateTime();
-        }
         if ($votable instanceof PostComment) {
             $votable->post->lastActive = new \DateTime();
         }

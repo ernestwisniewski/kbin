@@ -342,3 +342,12 @@ select {
   max-height: 300px;
   object-fit: contain;
 }
+
+.popover-header {
+  font-size: .8rem;
+  border-radius: 10px;
+
+  .kbin-dark & {
+    color: #000000;
+  }
+}

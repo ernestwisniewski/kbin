@@ -6,6 +6,7 @@ import KEditor from "./utils/editor";
 import Navbar from "./utils/navbar";
 import KMasonry from './utils/masonry';
 import KLightbox from './utils/lightbox';
+import KPopover from './utils/popover';
 
 window.addEventListener('load', function (event) {
     const choices = new KChoices();
@@ -14,4 +15,5 @@ window.addEventListener('load', function (event) {
     const navbar = new Navbar();
     const masonry = new KMasonry();
     const lightbox = new KLightbox();
+    const popover = new KPopover();
 });
