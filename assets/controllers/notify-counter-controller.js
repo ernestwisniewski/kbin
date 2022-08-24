@@ -6,6 +6,11 @@ export default class extends ApplicationController {
     static targets = ['notifications', 'messages']
     static classes = ['hidden']
 
+    connect() {
+        super.connect();
+        this.updateCounter();
+    }
+
     async notification(event) {
         if (!this.hasNotificationsTarget || !window.KBIN_LOGGED_IN) {
             return;
