@@ -31,9 +31,8 @@ class MentionsWrapper
 
             $results[$index] = [
                 'type' => 'Mention',
-                'href' => $actor->apProfileId
-                    ? $this->client->getActorObject($actor->apProfileId)['url']
-                    : $this->urlGenerator->generate(
+                'href' => $actor->apProfileId ??
+                        $this->urlGenerator->generate(
                         'ap_user',
                         ['username' => $actor->getUserIdentifier()],
                         UrlGeneratorInterface::ABSOLUTE_URL
