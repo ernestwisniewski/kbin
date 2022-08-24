@@ -25,20 +25,20 @@ class MentionsWrapper
         foreach ($mentions as $index => $mention) {
             try {
                 $actor = $this->manager->findActorOrCreate($mention);
+
+                $results[$index] = [
+                    'type' => 'Mention',
+                    'href' => $actor->apProfileId ??
+                            $this->urlGenerator->generate(
+                                'ap_user',
+                                ['username' => $actor->getUserIdentifier()],
+                                UrlGeneratorInterface::ABSOLUTE_URL
+                            ),
+                    'name' => $mention,
+                ];
             } catch (\Exception $e) {
                 continue;
             }
-
-            $results[$index] = [
-                'type' => 'Mention',
-                'href' => $actor->apProfileId ??
-                        $this->urlGenerator->generate(
-                        'ap_user',
-                        ['username' => $actor->getUserIdentifier()],
-                        UrlGeneratorInterface::ABSOLUTE_URL
-                    ),
-                'name' => $mention,
-            ];
         }
 
         return $results;
