@@ -27,9 +27,12 @@ final class UserLinkParser extends AbstractLocalLinkParser
     {
         if (substr_count($suffix, '@') > 1 && !str_ends_with($suffix, '@'.$this->settingsManager->get('KBIN_DOMAIN'))) {
             try {
-                return $this->client->getActorObject(
-                    $this->activityPubManager->webfinger($suffix)->getProfileId()
-                )['url'];
+                $profileId = $this->activityPubManager->webfinger($suffix)->getProfileId();
+                $actor = $this->client->getActorObject($profileId);
+
+                if($profileId || $actor) {
+                    return !empty($actor['url']) ? $actor['url'] : $profileId;
+                }
             } catch (\Exception $e) {
             }
         }
