@@ -34,10 +34,14 @@ final class UserLinkParser extends AbstractLocalLinkParser
             }
         }
 
+        if (str_ends_with($suffix, '@'.$this->settingsManager->get('KBIN_DOMAIN'))) {
+            $suffix = rtrim($suffix, '@'.$this->settingsManager->get('KBIN_DOMAIN'));
+        }
+
         return $this->urlGenerator->generate(
             'user',
             [
-                'username' => ltrim($suffix, '@'),
+                'username' => substr_count($suffix, '@') >= 2 ? $suffix : ltrim($suffix, '@')
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
