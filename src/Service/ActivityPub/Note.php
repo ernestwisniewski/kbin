@@ -42,35 +42,35 @@ class Note
     {
         $current = $this->repository->findByObjectId($object['id']);
         if ($current) {
-            return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
+            return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
         }
 
         if (isset($object['inReplyTo']) && $replyTo = $object['inReplyTo']) {
             // Create post or entry comment
             $parent = $this->repository->findByObjectId($replyTo);
-            $parent = $this->entityManager->getRepository($parent['type'])->find((int) $parent['id']);
+            $parent = $this->entityManager->getRepository($parent['type'])->find((int)$parent['id']);
 
             $root = null;
-            $fn   = null;
+            $fn = null;
 
             if (get_class($parent) === Entry::class) {
                 $root = $parent;
-                $fn   = 'createEntryComment';
+                $fn = 'createEntryComment';
             }
 
             if (get_class($parent) === EntryComment::class) {
                 $root = $parent->entry;
-                $fn   = 'createEntryComment';
+                $fn = 'createEntryComment';
             }
 
             if (get_class($parent) === Post::class) {
                 $root = $parent;
-                $fn   = 'createPostComment';
+                $fn = 'createPostComment';
             }
 
             if (get_class($parent) === PostComment::class) {
                 $root = $parent->post;
-                $fn   = 'createPostComment';
+                $fn = 'createPostComment';
             }
 
             return $this->$fn($object, $parent, $root);
@@ -93,14 +93,21 @@ class Note
         $dto = new EntryCommentDto();
         if ($parent instanceof EntryComment) {
             $dto->parent = $parent;
-            $dto->root   = $parent->root ?? $parent;
+            $dto->root = $parent->root ?? $parent;
         }
+
         $dto->entry = $root;
-        $dto->body  = $this->markdownConverter->convert($object['content']);
+        $dto->apId = $object['id'];
+
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+
+            if ($video = $this->activityPubManager->handleVideos($object['attachment'])) {
+                $object['content'] .= "<br><br><a href='{$video->url}'>{$video->name}</a>";
+            }
         }
-        $dto->apId = $object['id'];
+
+        $dto->body = $this->markdownConverter->convert($object['content']);
 
         $this->handleDate($dto, $object['published']);
 
@@ -120,12 +127,19 @@ class Note
         if ($parent instanceof PostComment) {
             $dto->parent = $parent;
         }
+
         $dto->post = $root;
-        $dto->body = $this->markdownConverter->convert($object['content']);
+        $dto->apId = $object['id'];
+
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+
+            if ($video = $this->activityPubManager->handleVideos($object['attachment'])) {
+                $object['content'] .= "<br><br><a href='{$video->url}'>{$video->name}</a>";
+            }
         }
-        $dto->apId = $object['id'];
+
+        $dto->body = $this->markdownConverter->convert($object['content']);
 
         $this->handleDate($dto, $object['published']);
 
@@ -139,13 +153,19 @@ class Note
     private function createPost(
         array $object,
     ): ActivityPubActivityInterface {
-        $dto           = new PostDto();
-        $dto->body     = $this->markdownConverter->convert($object['content']);
+        $dto = new PostDto();
         $dto->magazine = $this->magazineRepository->findOneByName('random'); // @todo magazine by tags
+        $dto->apId = $object['id'];
+
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+
+            if ($video = $this->activityPubManager->handleVideos($object['attachment'])) {
+                $object['content'] .= "<br><br><a href='{$video->url}'>{$video->name}</a>";
+            }
         }
-        $dto->apId = $object['id'];
+
+        $dto->body = $this->markdownConverter->convert($object['content']);
 
         $this->handleDate($dto, $object['published']);
 
@@ -158,7 +178,7 @@ class Note
 
     private function handleDate(PostDto|PostCommentDto|EntryCommentDto|EntryDto $dto, string $date): void
     {
-        $dto->createdAt  = new DateTimeImmutable($date);
+        $dto->createdAt = new DateTimeImmutable($date);
         $dto->lastActive = new DateTime($date);
     }
 }

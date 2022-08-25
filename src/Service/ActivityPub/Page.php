@@ -22,25 +22,30 @@ class Page
 
     public function create(array $object): ActivityPubActivityInterface
     {
-        $dto           = new EntryDto();
-        $dto->body     = $object['content'] ? $this->markdownConverter->convert($object['content']) : null;
+        $dto = new EntryDto();
         $dto->magazine = $this->magazineRepository->findOneByName('random'); // @todo magazine by tags
-        $dto->title    = $object['name'];
-        $dto->apId     = $object['id'];
+        $dto->title = $object['name'];
+        $dto->apId = $object['id'];
 
         if (isset($object['attachment']) || isset($object['image'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
         }
 
+        $dto->body = $object['content'] ? $this->markdownConverter->convert($object['content']) : null;
+
         $this->handleUrl($dto, $object);
         $this->handleDate($dto, $object['published']);
 
-        return $this->entryManager->create($dto, $this->activityPubManager->findActorOrCreate($object['attributedTo']), false);
+        return $this->entryManager->create(
+            $dto,
+            $this->activityPubManager->findActorOrCreate($object['attributedTo']),
+            false
+        );
     }
 
     private function handleDate(EntryDto $dto, string $date): void
     {
-        $dto->createdAt  = new DateTimeImmutable($date);
+        $dto->createdAt = new DateTimeImmutable($date);
         $dto->lastActive = new DateTime($date);
     }
 

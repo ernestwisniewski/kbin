@@ -38,6 +38,7 @@ class Embed
                 } catch (Exception $e) {
                     $c = clone $this;
                     unset($c->cache);
+                    unset($c->settings);
 
                     return $c;
                 }
@@ -53,6 +54,7 @@ class Embed
 
                 $c = clone $this;
                 unset($c->cache);
+                unset($c->settings);
 
                 return $c;
             }
@@ -86,6 +88,10 @@ class Embed
             return Entry::ENTRY_TYPE_IMAGE;
         }
 
+        if ($this->isVideoUrl()) {
+            return Entry::ENTRY_TYPE_IMAGE;
+        }
+
         if ($this->isVideoEmbed()) {
             return Entry::ENTRY_TYPE_VIDEO;
         }
@@ -112,5 +118,10 @@ class Embed
             || str_contains($this->html, 'youtube')
             || str_contains($this->html, 'vimeo')
             || str_contains($this->html, 'streamable'); // @todo
+    }
+
+    private function isVideoUrl():bool
+    {
+        return false;
     }
 }

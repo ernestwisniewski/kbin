@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\ActivityPub\Server;
+use App\DTO\ActivityPub\VideoDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Image;
@@ -190,5 +191,23 @@ class ActivityPubManager
         }
 
         return [];
+    }
+
+    public function handleVideos(array $attachment): ?VideoDto
+    {
+        $videos = array_filter(
+            $attachment,
+            fn($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
+        );
+
+        if (count($videos)) {
+            return (new VideoDto())->create(
+                $videos[0]['url'],
+                $videos[0]['mediaType'],
+                !empty($videos['0']['name']) ? $videos['0']['name'] : $videos['0']['mediaType']
+            );
+        }
+
+        return null;
     }
 }
