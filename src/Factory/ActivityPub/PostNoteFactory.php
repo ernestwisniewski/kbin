@@ -10,6 +10,8 @@ use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
+use App\Service\MentionManager;
+use App\Service\TagManager;
 use DateTimeInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -24,6 +26,8 @@ class PostNoteFactory
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
+        private MentionManager $mentionManager,
+        private TagManager $tagManager,
         private MarkdownConverter $markdownConverter
     ) {
     }
@@ -36,6 +40,11 @@ class PostNoteFactory
                 ActivityPubActivityInterface::SECURITY_URL,
                 self::getContext(),
             ];
+        }
+
+        $tags = $post->tags ?? [];
+        if ($post->magazine->name !== 'random') { // @todo
+            $tags[] = $post->magazine->name;
         }
 
         $note = array_merge($note ?? [], [
@@ -57,7 +66,12 @@ class PostNoteFactory
                 ),
             ],
             'sensitive' => $post->isAdult(),
-            'content' => $this->markdownConverter->convertToHtml($post->body),
+            'content' => $this->markdownConverter->convertToHtml(
+                $this->tagManager->joinTagsToBody(
+                    $this->mentionManager->joinMentionsToBody($post->body ?? '', $post->mentions ?? []),
+                    $tags
+                )
+            ),
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($post),
             'tag' => array_merge(

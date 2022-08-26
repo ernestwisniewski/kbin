@@ -26,6 +26,10 @@ class MentionsWrapper
             try {
                 $actor = $this->manager->findActorOrCreate($mention);
 
+                if (!$actor) {
+                    continue;
+                }
+
                 $results[$index] = [
                     'type' => 'Mention',
                     'href' => $actor->apProfileId ??

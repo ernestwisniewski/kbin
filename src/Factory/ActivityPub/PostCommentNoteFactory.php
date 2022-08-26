@@ -11,6 +11,7 @@ use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\MentionManager;
+use App\Service\TagManager;
 use DateTimeInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -26,6 +27,7 @@ class PostCommentNoteFactory
         private MentionManager $mentionManager,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
+        private TagManager $tagManager,
         private MarkdownConverter $markdownConverter
     ) {
     }
@@ -39,6 +41,11 @@ class PostCommentNoteFactory
                 ActivityPubActivityInterface::SECURITY_URL,
                 PostNoteFactory::getContext(),
             ];
+        }
+
+        $tags = $comment->tags ?? [];
+        if ($comment->magazine->name !== 'random') { // @todo
+            $tags[] = $comment->magazine->name;
         }
 
         $note = array_merge($note ?? [], [
@@ -61,7 +68,10 @@ class PostCommentNoteFactory
             ],
             'sensitive' => $comment->post->isAdult(),
             'content' => $this->markdownConverter->convertToHtml(
-                $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions)
+                $this->tagManager->joinTagsToBody(
+                    $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions ?? []),
+                    $tags
+                )
             ),
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($comment),

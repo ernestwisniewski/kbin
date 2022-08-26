@@ -161,6 +161,10 @@ class ActivityPubManager
                 continue;
             }
 
+            if (!$actor) {
+                continue;
+            }
+
             $urls[] = $actor->apProfileId ?? $this->urlGenerator->generate(
                 'ap_user',
                 ['username' => $actor->getUserIdentifier()],

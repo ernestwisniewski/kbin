@@ -10,7 +10,9 @@ use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
+use App\Service\MentionManager;
 use App\Service\SettingsManager;
+use App\Service\TagManager;
 use DateTimeInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -25,6 +27,8 @@ class EntryPageFactory
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
+        private MentionManager $mentionManager,
+        private TagManager $tagManager,
         private MarkdownConverter $markdownConverter
     ) {
     }
@@ -40,6 +44,11 @@ class EntryPageFactory
         }
 
         $body = $entry->body ?? $entry->getDescription();
+
+        $tags = $entry->tags ?? [];
+        if ($entry->magazine->name !== 'random') { // @todo
+            $tags[] = $entry->magazine->name;
+        }
 
         $page = array_merge($page ?? [], [
             'id' => $this->getActivityPubId($entry),
@@ -60,7 +69,12 @@ class EntryPageFactory
                 ),
             ],
             'name' => $entry->title,
-            'content' => $this->markdownConverter->convertToHtml($body),
+            'content' => $this->markdownConverter->convertToHtml(
+                $this->tagManager->joinTagsToBody(
+                    $this->mentionManager->joinMentionsToBody($body, $entry->mentions ?? []),
+                    $tags
+                ),
+            ),
             'mediaType' => 'text/html',
             'url' => $this->getUrl($entry),
             'tag' => array_merge(

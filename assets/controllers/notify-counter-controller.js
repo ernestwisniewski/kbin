@@ -8,35 +8,46 @@ export default class extends ApplicationController {
 
     connect() {
         super.connect();
-        this.updateCounter();
+
+        if (window.KBIN_LOGGED_IN) {
+            this.updateCounter();
+        }
     }
 
     async notification(event) {
-        if (!this.hasNotificationsTarget || !window.KBIN_LOGGED_IN) {
+        if (!this.hasNotificationsTarget) {
             return;
         }
 
-        if (window.notifyCounter) {
-            clearTimeout(window.notifyCounter);
-        }
+        this.updateCounter();
 
-        window.notifyCounter = setTimeout(() => {
-            try {
-                this.updateCounter()
-            } catch (e) {
-            }
-        }, Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000);
+        // if (window.notifyCounter) {
+        //     clearTimeout(window.notifyCounter);
+        // }
+        //
+        // window.notifyCounter = setTimeout(() => {
+        //     try {
+        //         this.updateCounter()
+        //     } catch (e) {
+        //     }
+        // }, Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000);
     }
 
     async updateCounter() {
-        const url = router().generate('ajax_fetch_user_notifications_count', {username: window.KBIN_USERNAME});
+        if (window.KBIN_LOGGED_IN) {
+            const url = router().generate('ajax_fetch_user_notifications_count', {username: window.KBIN_USERNAME});
 
-        let response = await fetch(url);
+            let response = await fetch(url);
 
-        response = await ok(response);
-        response = await response.json();
+            response = await ok(response);
+            response = await response.json();
+        } else {
+            const response = {
+                count: 1
+            };
+        }
 
-        if(response.count > 0) {
+        if (response.count > 0) {
             let elem = this.notificationsTarget.getElementsByTagName('span')[0];
             elem.innerHTML = response.count;
 

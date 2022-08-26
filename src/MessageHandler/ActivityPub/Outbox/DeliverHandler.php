@@ -10,8 +10,11 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class DeliverHandler implements MessageHandlerInterface
 {
-    public function __construct(private ApHttpClient $client, private ActivityPubManager $manager, private SettingsManager $settingsManager)
-    {
+    public function __construct(
+        private ApHttpClient $client,
+        private ActivityPubManager $manager,
+        private SettingsManager $settingsManager
+    ) {
     }
 
     public function __invoke(DeliverMessage $message): void
@@ -20,7 +23,14 @@ class DeliverHandler implements MessageHandlerInterface
             return;
         }
 
-        $user = $this->manager->findActorOrCreate($message->payload['object']['attributedTo'] ?? $message->payload['actor']);
+        $user = $this->manager->findActorOrCreate(
+            $message->payload['object']['attributedTo'] ?? $message->payload['actor']
+        );
+
+        if (!$user) {
+            return;
+        }
+
         if ($user->isBanned) {
             return;
         }

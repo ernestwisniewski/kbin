@@ -10,5 +10,5 @@ class RegPatterns
     public const LOCAL_USER = '/^@[a-zA-Z0-9_-]{2,30}\b/';
     public const AP_MAGAZINE = '/^(!\w{2,25})(@)(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)/';
     public const AP_USER = '/^(@\w{2,30})(@)(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)/';
-    public const LOCAL_TAG = '/\B#(\w{2,35})/';
+    public const LOCAL_TAG = '/\B#([a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9_]{2,35})/';
 }
