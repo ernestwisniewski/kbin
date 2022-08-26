@@ -35,10 +35,10 @@ class TagManager
 
         if (!empty($join)) {
             if (!empty($body)) {
-                $body = $body.'<br><br>';
+                $body = $body.PHP_EOL.PHP_EOL;
             }
 
-            $body = '#'.implode(' #', $join).' '.$body;
+            $body = $body.' #'.implode(' #', $join);
         }
 
         return $body;
