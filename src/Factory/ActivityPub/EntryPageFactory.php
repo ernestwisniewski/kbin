@@ -95,7 +95,7 @@ class EntryPageFactory
 
         if ($entry->url) {
             $page['source'] = $entry->url;
-        } else {
+        } else if($entry->image) {
             $page = $this->imageWrapper->build($page, $entry->image, $entry->title);
         }
 
