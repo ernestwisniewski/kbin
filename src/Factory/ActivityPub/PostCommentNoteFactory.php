@@ -27,7 +27,6 @@ class PostCommentNoteFactory
         private MentionManager $mentionManager,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
-        private TagManager $tagManager,
         private MarkdownConverter $markdownConverter
     ) {
     }
@@ -68,10 +67,7 @@ class PostCommentNoteFactory
             ],
             'sensitive' => $comment->post->isAdult(),
             'content' => $this->markdownConverter->convertToHtml(
-                $this->tagManager->joinTagsToBody(
-                    $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions ?? []),
-                    $tags
-                )
+                $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions ?? []),
             ),
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($comment),
