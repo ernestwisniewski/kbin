@@ -78,7 +78,7 @@ class EntryPageFactory
             'mediaType' => 'text/html',
             'url' => $this->getUrl($entry),
             'tag' => array_merge(
-                $this->tagsWrapper->build($entry->tags ?? []),
+                $this->tagsWrapper->build($tags),
                 $this->mentionsWrapper->build($entry->mentions ?? [], $entry->body)
             ),
             'commentsEnabled' => true,

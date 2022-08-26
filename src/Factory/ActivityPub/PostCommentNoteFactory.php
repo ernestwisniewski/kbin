@@ -72,7 +72,7 @@ class PostCommentNoteFactory
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($comment),
             'tag' => array_merge(
-                $this->tagsWrapper->build($comment->tags ?? []),
+                $this->tagsWrapper->build($tags),
                 $this->mentionsWrapper->build($comment->mentions ?? [], $comment->body)
             ),
             'published' => $comment->createdAt->format(DATE_ATOM),

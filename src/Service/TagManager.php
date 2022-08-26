@@ -36,7 +36,7 @@ class TagManager
         if (!empty($join)) {
             if (!empty($body)) {
                 $lastTag = end($current);
-                if (!str_ends_with($body, $lastTag)) {
+                if (($lastTag && !str_ends_with($body, $lastTag)) || !$lastTag) {
                     $body = $body.PHP_EOL.PHP_EOL;
                 }
             }

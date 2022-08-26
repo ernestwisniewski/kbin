@@ -75,7 +75,7 @@ class PostNoteFactory
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($post),
             'tag' => array_merge(
-                $this->tagsWrapper->build($post->tags ?? []),
+                $this->tagsWrapper->build($tags),
                 $this->mentionsWrapper->build($post->mentions ?? [], $post->body)
             ),
             'commentsEnabled' => true,
