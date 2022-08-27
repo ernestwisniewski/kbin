@@ -34,6 +34,10 @@ export default class extends ApplicationController {
     }
 
     async updateCounter() {
+        const response = {
+            count: 1
+        };
+
         if (window.KBIN_LOGGED_IN) {
             const url = router().generate('ajax_fetch_user_notifications_count', {username: window.KBIN_USERNAME});
 
@@ -41,10 +45,6 @@ export default class extends ApplicationController {
 
             response = await ok(response);
             response = await response.json();
-        } else {
-            const response = {
-                count: 1
-            };
         }
 
         if (response.count > 0) {
