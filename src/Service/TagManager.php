@@ -7,29 +7,25 @@ use Transliterator;
 
 class TagManager
 {
-    public function extract(string $val, ?string $magazineName = null, $withCanonical = true): ?array
+    public function extract(string $val, ?string $magazineName = null): ?array
     {
         preg_match_all(RegPatterns::LOCAL_TAG, $val, $matches);
 
         $result = $matches[1];
         $result = array_map(fn($tag) => strtolower(trim($tag)), $result);
+
+        $transliterator = Transliterator::createFromRules(
+            ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
+            Transliterator::FORWARD
+        );
+
+        $result = array_values($result);
+
+        setlocale(LC_CTYPE, 'pl_PL');
+        $result = array_map(fn($tag) => iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag)), $result);
+
         if ($magazineName) {
             $result = array_diff($result, [$magazineName]);
-        }
-
-        if ($withCanonical) {
-            $transliterator = Transliterator::createFromRules(
-                ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
-                Transliterator::FORWARD
-            );
-
-            $result = array_values($result);
-
-            setlocale(LC_CTYPE, 'pl_PL');
-            $canonical = array_map(fn($tag) => iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag)),
-                $result);
-
-            $result = array_merge($result, $canonical);
         }
 
         return count($result) ? array_unique(array_values($result)) : null;
