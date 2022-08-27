@@ -88,7 +88,8 @@
         "twig/intl-extra": "^3.2",
         "twig/twig": "^2.12|^3.0",
         "webmozart/assert": "^1.9",
-      "ext-curl": "*"
+      "ext-curl": "*",
+      "ext-intl": "*"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^7.1",

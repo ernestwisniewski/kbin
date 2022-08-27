@@ -13,7 +13,6 @@ class MentionsWrapper
         private ActivityPubManager $manager,
         private UrlGeneratorInterface $urlGenerator,
         private MentionManager $mentionManager,
-        private ApHttpClient $client
     ) {
     }
 

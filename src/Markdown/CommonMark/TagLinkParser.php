@@ -2,13 +2,11 @@
 
 namespace App\Markdown\CommonMark;
 
-use App\Service\ActivityPub\ApHttpClient;
-use App\Utils\RegPatterns;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class TagLinkParser extends AbstractLocalLinkParser
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private ApHttpClient $client)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
 
@@ -19,7 +17,7 @@ final class TagLinkParser extends AbstractLocalLinkParser
 
     public function getRegex(): string
     {
-        return '/^#\w{2,35}\b/';
+        return '/^#[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9_]{2,35}/';
     }
 
     public function getUrl(string $suffix): string

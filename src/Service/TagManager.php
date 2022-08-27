@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Utils\RegPatterns;
+use Transliterator;
 
 class TagManager
 {
@@ -17,9 +18,16 @@ class TagManager
         }
 
         if ($withCanonical) {
+            $transliterator = Transliterator::createFromRules(
+                ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
+                Transliterator::FORWARD
+            );
+
             $result = array_values($result);
 
-            $canonical = array_map(fn($tag) => iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $tag), $result);
+            setlocale(LC_CTYPE, 'pl_PL');
+            $canonical = array_map(fn($tag) => iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag)),
+                $result);
 
             $result = array_merge($result, $canonical);
         }
