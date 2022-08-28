@@ -13,7 +13,6 @@ use App\Service\ActivityPubManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
 use App\Service\TagManager;
-use DateTimeInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EntryPageFactory
@@ -50,6 +49,8 @@ class EntryPageFactory
             $tags[] = $entry->magazine->name;
         }
 
+        $hashtags = array_map(fn($val) => '#'.$val, $tags);
+
         $page = array_merge($page ?? [], [
             'id' => $this->getActivityPubId($entry),
             'type' => 'Page',
@@ -69,12 +70,7 @@ class EntryPageFactory
                 ),
             ],
             'name' => $entry->title,
-            'content' => $this->markdownConverter->convertToHtml(
-                $this->tagManager->joinTagsToBody(
-                    $this->mentionManager->joinMentionsToBody($body, $entry->mentions ?? []),
-                    $tags
-                ),
-            ),
+            'content' => implode(' ', array_map(fn($val) => '#'.$val, $tags)),
             'mediaType' => 'text/html',
             'url' => $this->getUrl($entry),
             'tag' => array_merge(
@@ -95,8 +91,10 @@ class EntryPageFactory
 
         if ($entry->url) {
             $page['source'] = $entry->url;
-        } else if($entry->image) {
-            $page = $this->imageWrapper->build($page, $entry->image, $entry->title);
+        } else {
+            if ($entry->image) {
+                $page = $this->imageWrapper->build($page, $entry->image, $entry->title);
+            }
         }
 
         if ($entry->body) {
