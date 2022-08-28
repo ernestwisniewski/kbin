@@ -26,9 +26,6 @@ class EntryPageFactory
         private MentionsWrapper $mentionsWrapper,
         private ApHttpClient $client,
         private ActivityPubManager $activityPubManager,
-        private MentionManager $mentionManager,
-        private TagManager $tagManager,
-        private MarkdownConverter $markdownConverter
     ) {
     }
 
@@ -42,14 +39,10 @@ class EntryPageFactory
             ];
         }
 
-        $body = $entry->body ?? $entry->getDescription();
-
         $tags = $entry->tags ?? [];
         if ($entry->magazine->name !== 'random') { // @todo
             $tags[] = $entry->magazine->name;
         }
-
-        $hashtags = array_map(fn($val) => '#'.$val, $tags);
 
         $page = array_merge($page ?? [], [
             'id' => $this->getActivityPubId($entry),

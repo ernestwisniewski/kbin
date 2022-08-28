@@ -64,7 +64,7 @@ class EntryCommentNoteFactory
                 ),
             ],
             'content' => $this->markdownConverter->convertToHtml(
-                $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions),
+                $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions ?? []),
             ),
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($comment),
