@@ -4,8 +4,12 @@ $post-margin-lg: 1rem;
 $post-margin-sm: .5rem;
 
 .kbin-post-wrapper {
-  blockquote {
+  article {
     margin: 0;
+
+    &:not(:first-child) {
+      margin-top: 1rem!important;
+    }
   }
 
   &-header {
