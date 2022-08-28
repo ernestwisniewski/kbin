@@ -13,6 +13,10 @@ export default class extends ApplicationController {
             return;
         }
 
+        if (document.getElementById(`entry-${notification.detail.id}`)) {
+            return;
+        }
+
         try {
             const url = router().generate('ajax_fetch_entry', {'id': notification.detail.id});
 

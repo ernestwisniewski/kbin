@@ -11,8 +11,13 @@ export default class extends ApplicationController {
     async add(notification) {
         const subjectId = notification.detail.subject.id;
         const route = notification.detail.op === 'EntryCommentCreatedNotification' ? 'ajax_fetch_entry_comment' : 'ajax_fetch_post_comment';
+        const idPrefix = notification.detail.op === 'EntryCommentCreatedNotification' ? 'entry-comment-' : 'post-comment-';
 
         if (this.hasSubjectIdValue && this.subjectIdValue !== subjectId) {
+            return;
+        }
+
+        if (document.getElementById(`${idPrefix}${notification.detail.id}`)) {
             return;
         }
 

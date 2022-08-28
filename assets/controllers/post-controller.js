@@ -2,7 +2,6 @@ import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
 import KEditor from "../utils/editor";
-import ca from "vanillajs-datepicker/locales/ca";
 
 export default class extends Controller {
     static targets = ['expand', 'form', 'commentCounter'];

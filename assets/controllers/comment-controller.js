@@ -35,7 +35,9 @@ export default class extends Controller {
 
             this.formTarget.innerHTML = response.form;
 
-            if (!edit) {
+            const isEntryComment = event.target.closest('blockquote').startsWith('entry-comment');
+
+            if (!edit && !isEntryComment) {
                 try {
                     let replyTo = event.target.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim();
                     if (Array.from(replyTo)[0] !== '@') {
@@ -46,6 +48,8 @@ export default class extends Controller {
                     editor.value(replyTo + ' ');
                 } catch (e) {
                 }
+            } else {
+                new KEditor(this.formTarget, false);
             }
 
             let self = this;
