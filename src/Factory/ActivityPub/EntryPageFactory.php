@@ -70,7 +70,7 @@ class EntryPageFactory
                 ),
             ],
             'name' => $entry->title,
-            'content' => implode(' ', array_map(fn($val) => '#'.$val, $tags)),
+            'summary' => implode(' ', array_map(fn($val) => '#'.$val, $tags)),
             'mediaType' => 'text/html',
             'url' => $this->getUrl($entry),
             'tag' => array_merge(
