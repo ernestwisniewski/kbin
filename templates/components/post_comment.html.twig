@@ -50,7 +50,7 @@
             </aside>
         </div>
         <div class="kbin-comment-main">
-            <div class="kbin-comment-content" data-controller="show-more" data-action="image:thumbSelected->show-more#expand"
+            <div class="kbin-comment-content" data-controller="show-more mention-popover" data-action="image:thumbSelected->show-more#expand"
                  data-action="image:thumbLoaded->show-more#checkHeight">
                 {% if this.comment.visibility is same as 'visible' or this.canSeeTrashed %}
                     {{ this.comment.body|markdown|raw }}

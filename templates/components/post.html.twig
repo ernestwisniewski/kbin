@@ -50,7 +50,7 @@
         </aside>
     </div>
     <div class="kbin-post-main">
-        <div class="kbin-post-content" data-controller="show-more" data-action="image:thumbSelected->show-more#expand"
+        <div class="kbin-post-content" data-controller="show-more mention-popover" data-action="image:thumbSelected->show-more#expand"
              data-action="image:thumbLoaded->show-more#checkHeight">
             {% if this.post.visibility is same as 'visible' or this.canSeeTrashed %}
                 {{ this.post.body|markdown|raw }}
