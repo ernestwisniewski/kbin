@@ -1,6 +1,5 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
-import KEditor from "../utils/editor";
 import CommentFactory from "../utils/comment-factory";
 import Modal from 'bootstrap/js/dist/modal';
 
@@ -34,23 +33,6 @@ export default class extends Controller {
             response = await response.json();
 
             this.formTarget.innerHTML = response.form;
-
-            const isEntryComment = event.target.closest('blockquote').startsWith('entry-comment');
-
-            if (!edit && !isEntryComment) {
-                try {
-                    let replyTo = event.target.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim();
-                    if (Array.from(replyTo)[0] !== '@') {
-                        replyTo = '@' + replyTo;
-                    }
-
-                    const editor = new KEditor(this.formTarget, false);
-                    editor.value(replyTo + ' ');
-                } catch (e) {
-                }
-            } else {
-                new KEditor(this.formTarget, false);
-            }
 
             let self = this;
             this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {

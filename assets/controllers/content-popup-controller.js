@@ -1,7 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import Modal from 'bootstrap/js/dist/modal';
-import KEditor from "../utils/editor";
 
 export default class extends Controller {
     async open(e) {
@@ -21,11 +20,6 @@ export default class extends Controller {
             (new Modal(document.getElementById('content-popup'))).show();
 
             const popup = document.getElementById('content-popup');
-
-            // const commentForm = popup.getElementsByClassName('kbin-editor');
-            // if(commentForm.length){
-            //     new KEditor(commentForm[0]);
-            // } // @todo fix editor
 
             popup.addEventListener('hidden.bs.modal', (e) => {
                 this.close();

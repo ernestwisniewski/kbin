@@ -1,7 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
-import KEditor from "../utils/editor";
+import SimpleMDE from 'simplemde/dist/simplemde.min';
 
 export default class extends Controller {
     static targets = ['expand', 'form', 'commentCounter'];
@@ -26,17 +26,6 @@ export default class extends Controller {
             response = await response.json();
 
             this.formTarget.innerHTML = response.form;
-
-            try {
-                let replyTo = event.target.closest('article').getElementsByClassName('kbin-user')[0].innerHTML.trim();
-                if (Array.from(replyTo)[0] !== '@') {
-                    replyTo = '@' + replyTo;
-                }
-
-                const editor = new KEditor(this.formTarget, false);
-                editor.value(replyTo + ' ');
-            } catch (e) {
-            }
 
             let self = this;
             this.formTarget.getElementsByTagName('form')[0].addEventListener('submit', function (e) {

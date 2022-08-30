@@ -21,6 +21,7 @@ export default class extends Controller {
         }
 
         try {
+            return;
             const url = router().generate('ajax_fetch_online', { topic: topic });
 
             let response = await fetch(url);
