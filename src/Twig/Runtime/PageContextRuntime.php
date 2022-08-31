@@ -4,6 +4,7 @@ namespace App\Twig\Runtime;
 
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\PageView\EntryPageView;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
@@ -174,11 +175,10 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $routeParams['time'] = $time;
         }
 
-        if ($this->getCurrentRequest()->get('type')) {
-            $routeParams['type'] = $this->getCurrentRequest()->get('type');
-        }
-        if ($type) {
-            $routeParams['type'] = $type;
+        if((new EntryPageView(1))->resolveType($type)) {
+            if ($type) {
+                $routeParams['type'] = $type;
+            }
         }
 
         if (!$entriesOnly) {

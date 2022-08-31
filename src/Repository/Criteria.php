@@ -136,10 +136,9 @@ abstract class Criteria
             '12g'      => Criteria::TIME_12_HOURS,
             '1t'       => Criteria::TIME_WEEK,
             '1r'       => Criteria::TIME_YEAR,
-            null       => null,
         ];
 
-        return $routes[$value] ?? $value;
+        return $routes[$value] ?? null;
     }
 
     public function resolveType(?string $value): ?string
@@ -160,10 +159,9 @@ abstract class Criteria
             'linki'    => Entry::ENTRY_TYPE_LINK,
             'zdjęcie'  => Entry::ENTRY_TYPE_IMAGE,
             'zdjęcia'  => Entry::ENTRY_TYPE_IMAGE,
-            null       => null,
         ];
 
-        return $routes[$value] ?? $value;
+        return $routes[$value] ?? null;
     }
 
     public function setVisibility(string $visibility): self
