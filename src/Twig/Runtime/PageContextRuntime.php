@@ -423,6 +423,10 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate($routeName, $routeParams);
     }
 
+    public function isEntriesPage() {
+        return in_array($this->getCurrentRouteName(), ['front', 'front_magazine', 'domain_front', 'tag_front']);
+    }
+
     private function getActiveStatsType(): string
     {
         return $this->statsManager->resolveType($this->getCurrentRequest()->get('statsType')) ?? StatsRepository::TYPE_GENERAL;

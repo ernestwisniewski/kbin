@@ -1,5 +1,11 @@
 <ul class="nav nav-tabs justify-content-end">
-    {% if is_comments_page() or is_posts_page() %}
+    {% if is_comments_page() or is_posts_page() or is_front_page() %}
+        {% if is_entries_page() %}
+            <li class=" kbin-nav-navbar-item">
+                <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('sort.top'|trans|lower, false) ? 'active' : '' }}"
+                   href="{{ get_active_sort_option_path('sort.top'|trans|lower, get_active_time_option(), get_active_type_option(), false) }}">{{ 'sort.top'|trans }}</a>
+            </li>
+        {% endif %}
         <li class=" kbin-nav-navbar-item">
             <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('sort.hot'|trans|lower, false) ? 'active' : '' }}"
                href="{{ get_active_sort_option_path('sort.hot'|trans|lower, get_active_time_option(), get_active_type_option(), false) }}">{{ 'sort.hot'|trans }}</a>
@@ -12,6 +18,12 @@
             <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('sort.active'|trans|lower, false) ? 'active' : '' }}"
                href="{{ get_active_sort_option_path('sort.active'|trans|lower, get_active_time_option(), get_active_type_option(), false) }}">{{ 'sort.active'|trans }}</a>
         </li>
+        {% if is_entries_page('front') %}
+            <li class=" kbin-nav-navbar-item">
+                <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('sort.commented'|trans|lower, false) ? 'active' : '' }}"
+                   href="{{ get_active_sort_option_path('sort.commented'|trans|lower, get_active_time_option(), get_active_type_option(), false) }}">{{ 'sort.commented'|trans }}</a>
+            </li>
+        {% endif %}
     {% endif %}
     <li class="nav-item">
         <div class="dropdown">
@@ -40,7 +52,8 @@
                 <li><a class="dropdown-item"
                        href="{{ get_active_sort_option_path(get_active_sort_option()|lower, '1y'|trans, get_active_type_option(), false) }}">{{ 'year'|trans }}</a>
                 </li>
-                <li><a class="dropdown-item" href="{{ get_active_sort_option_path(get_active_sort_option(), '∞', get_active_type_option(), false) }}">∞</a>
+                <li><a class="dropdown-item"
+                       href="{{ get_active_sort_option_path(get_active_sort_option(), '∞', get_active_type_option(), false) }}">∞</a>
                 </li>
             </ul>
         </div>
@@ -52,7 +65,8 @@
                id="kbin-type-filter"
                data-bs-toggle="dropdown"
                aria-expanded="false" href="#">
-                <i class="fas fa-photo-video"></i> {{ get_active_type_option() ?get_active_type_option() : 'filter.all'|trans }}</a>
+                <i class="fas fa-photo-video"></i> {{ get_active_type_option() ?get_active_type_option() : 'filter.all'|trans }}
+            </a>
             <ul class="dropdown-menu" aria-labelledby="kbin-type-filter">
                 <li><a class="dropdown-item"
                        href="{{ get_active_sort_option_path(get_active_sort_option()|lower, get_active_time_option(), 'filter.link'|trans, false) }}">{{ 'filter.link'|trans }}</a>
@@ -65,6 +79,9 @@
                 </li>
                 <li><a class="dropdown-item"
                        href="{{ get_active_sort_option_path(get_active_sort_option()|lower, get_active_time_option(), 'filter.video'|trans, false) }}">{{ 'filter.video'|trans }}</a>
+                </li>
+                <li><a class="dropdown-item"
+                       href="{{ get_active_sort_option_path(get_active_sort_option()|lower, get_active_time_option(), 'filter.all'|trans, false) }}">{{ 'filter.all'|trans }}</a>
                 </li>
             </ul>
         </li>
