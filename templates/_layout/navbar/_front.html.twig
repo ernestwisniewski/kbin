@@ -5,9 +5,9 @@
 }) }}
 
 <li class="kbin-nav-navbar-item {{ is_comments_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a class="font-weight-bold" href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
+    <a href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
 </li>
 
 <li class="kbin-nav-navbar-item {{ is_posts_page() or is_post_page() and not is_user_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a class="font-weight-bold" href="{{ get_active_posts_page_path() }}">{{ 'microblog'|trans }}</a>
+    <a href="{{ get_active_posts_page_path() }}">{{ 'microblog'|trans }}</a>
 </li>

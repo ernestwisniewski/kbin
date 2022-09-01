@@ -11,6 +11,7 @@ export default class extends Controller {
     };
 
     async connect() {
+        return true;
         let topic = 'count';
 
         if (this.hasEntryIdValue) {
