@@ -2,8 +2,8 @@
    data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
    {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
     {% if comments|length %}
-        {% for comment in comments %}
-            {{ component('post_comment', {comment: comment, withParent: false}) }}
+        {% for postOrComment in results %}
+            {% include '_layout/_subject.html.twig' with {subject: postOrComment, withParent: false, nested:false} %}
         {% endfor %}
     {% endif %}
     {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}

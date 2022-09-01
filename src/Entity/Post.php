@@ -120,6 +120,8 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     private int $id;
 
+    public  array $children = [];
+
     public function __construct(string $body, Magazine $magazine, User $user, ?bool $isAdult = false, ?string $ip = null)
     {
         $this->body          = $body;

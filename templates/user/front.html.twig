@@ -19,8 +19,8 @@
             {{ not_found() }}
         {% endif %}
 
-        {% if(results.haveToPaginate) %}
-            {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+        {% if(pagination.haveToPaginate) %}
+            {{ pagerfanta(pagination, null, {'pageParameter':'[p]'}) }}
         {% endif %}
     </div>
 {% endblock %}

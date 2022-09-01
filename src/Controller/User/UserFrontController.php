@@ -3,6 +3,10 @@
 namespace App\Controller\User;
 
 use App\Controller\AbstractController;
+use App\Entity\Entry;
+use App\Entity\EntryComment;
+use App\Entity\Post;
+use App\Entity\PostComment;
 use App\Entity\User;
 use App\PageView\EntryCommentPageView;
 use App\PageView\EntryPageView;
@@ -22,24 +26,97 @@ class UserFrontController extends AbstractController
 {
     public function front(User $user, Request $request, UserRepository $repository): Response
     {
+        $activity = $pagination = $repository->findPublicActivity($this->getPageNb($request), $user);
+
+        $postsAndEntries = array_filter(
+            $activity->getCurrentPageResults(),
+            fn($val) => $val instanceof Entry || $val instanceof Post
+        );
+        $comments = array_filter(
+            $activity->getCurrentPageResults(),
+            fn($val) => $val instanceof EntryComment || $val instanceof PostComment
+        );
+
+        $results = [];
+        foreach ($postsAndEntries as $parent) {
+            if ($parent instanceof Entry) {
+                $children = array_filter(
+                    $comments,
+                    fn($val) => $val instanceof EntryComment && $val->entry === $parent
+                );
+                $comments = array_filter(
+                    $comments,
+                    fn($val) => $val instanceof PostComment || $val instanceof EntryComment && $val->entry !== $parent
+                );
+
+            } else {
+                $children = array_filter(
+                    $comments,
+                    fn($val) => $val instanceof PostComment && $val->post === $parent
+                );
+                $comments = array_filter(
+                    $comments,
+                    fn($val) => $val instanceof EntryComment || $val instanceof PostComment && $val->post !== $parent
+                );
+            }
+
+            $results[] = $parent;
+
+            foreach ($children as $child) {
+                $parent->children[] = $child;
+            }
+        }
+
+        $parents = [];
+        foreach ($comments as $comment) {
+            $inParents = false;
+            $parent = $comment->entry ?? $comment->post;
+
+            foreach ($parents as $val) {
+                if ($val instanceof $parent && $parent === $val) {
+                    $val->children[] = $comment;
+                    $inParents = true;
+                }
+            }
+
+            if (!$inParents) {
+                $parent->children[] = $comment;
+                $parents[] = $parent;
+            }
+        }
+
+        $merged = array_merge($results, $parents);
+
+        uasort($merged, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+
+        $results = [];
+        foreach ($merged as $entry) {
+            $results[] = $entry;
+            uasort($entry->children, fn($a, $b) => $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1);
+            foreach ($entry->children as $child) {
+                $results[] = $child;
+            }
+        }
+
         return $this->render(
             'user/front.html.twig',
             [
-                'user'    => $user,
-                'results' => $repository->findPublicActivity($this->getPageNb($request), $user),
+                'user' => $user,
+                'results' => $results,
+                'pagination' => $pagination,
             ]
         );
     }
 
     public function entries(User $user, Request $request, EntryRepository $repository): Response
     {
-        $criteria       = new EntryPageView($this->getPageNb($request));
+        $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->user = $user;
 
         return $this->render(
             'user/entries.html.twig',
             [
-                'user'    => $user,
+                'user' => $user,
                 'entries' => $repository->findByCriteria($criteria),
             ]
         );
@@ -67,7 +144,7 @@ class UserFrontController extends AbstractController
 
     public function posts(User $user, Request $request, PostRepository $repository): Response
     {
-        $criteria       = new PostPageView($this->getPageNb($request));
+        $criteria = new PostPageView($this->getPageNb($request));
         $criteria->user = $user;
 
         $posts = $repository->findByCriteria($criteria);
@@ -75,7 +152,7 @@ class UserFrontController extends AbstractController
         return $this->render(
             'user/posts.html.twig',
             [
-                'user'  => $user,
+                'user' => $user,
                 'posts' => $posts,
             ]
         );
@@ -83,15 +160,42 @@ class UserFrontController extends AbstractController
 
     public function replies(User $user, Request $request, PostCommentRepository $repository): Response
     {
-        $criteria       = new PostCommentPageView($this->getPageNb($request));
+        $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->user = $user;
 
         $comments = $repository->findByCriteria($criteria);
 
+        $parents = [];
+        foreach ($comments as $comment) {
+            $inParents = false;
+            $parent = $comment->post;
+
+            foreach ($parents as $val) {
+                if ($val instanceof $parent && $parent === $val) {
+                    $val->children[] = $comment;
+                    $inParents = true;
+                }
+            }
+
+            if (!$inParents) {
+                $parent->children[] = $comment;
+                $parents[] = $parent;
+            }
+        }
+
+        $results = [];
+        foreach ($parents as $postOrComment) {
+            $results[] = $postOrComment;
+            foreach ($postOrComment->children as $child) {
+                $results[] = $child;
+            }
+        }
+
         return $this->render(
             'user/replies.html.twig',
             [
-                'user'     => $user,
+                'user' => $user,
+                'results' => $results,
                 'comments' => $comments,
             ]
         );
@@ -102,8 +206,8 @@ class UserFrontController extends AbstractController
         return $this->render(
             'user/moderated.html.twig',
             [
-                'user'      => $user,
-                'magazines' => $repository->findModeratedMagazines($user, (int) $request->get('p', 1)),
+                'user' => $user,
+                'magazines' => $repository->findModeratedMagazines($user, (int)$request->get('p', 1)),
             ]
         );
     }
@@ -117,7 +221,7 @@ class UserFrontController extends AbstractController
         return $this->render(
             'user/subscriptions.html.twig',
             [
-                'user'      => $user,
+                'user' => $user,
                 'magazines' => $repository->findSubscribedMagazines($this->getPageNb($request), $user),
             ]
         );
@@ -128,7 +232,7 @@ class UserFrontController extends AbstractController
         return $this->render(
             'user/followers.html.twig',
             [
-                'user'  => $user,
+                'user' => $user,
                 'users' => $repository->findFollowers($this->getPageNb($request), $user),
             ]
         );
@@ -143,7 +247,7 @@ class UserFrontController extends AbstractController
         return $this->render(
             'user/follows.html.twig',
             [
-                'user'  => $user,
+                'user' => $user,
                 'users' => $manager->findFollowing($this->getPageNb($request), $user),
             ]
         );

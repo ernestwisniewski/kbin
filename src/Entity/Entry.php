@@ -178,6 +178,8 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     private int $id;
 
+    public  array $children = [];
+
     public function __construct(
         string $title,
         ?string $url,

@@ -4,7 +4,6 @@ import KChoices from "./utils/choices";
 import KDatepicker from "./utils/datepicker";
 import Navbar from "./utils/navbar";
 import KMasonry from './utils/masonry';
-import KLightbox from './utils/lightbox';
 
 window.addEventListener('load', function (event) {
     const choices = new KChoices();
