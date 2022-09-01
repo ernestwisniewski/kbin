@@ -2,6 +2,10 @@
    data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
    {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
     {% if comments|length %}
+        {% if results is not defined %}
+            {% set results = comments %}
+        {% endif %}
+
         {% for postOrComment in results %}
             {% include '_layout/_subject.html.twig' with {subject: postOrComment, withParent: false, nested:false} %}
         {% endfor %}
