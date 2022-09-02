@@ -1,3 +1,5 @@
+{% use 'user/profile/_notifications.html.twig' %}
+
 <header class="kbin-header container-fluid mt-auto autohide position-relative">
     <nav class="kbin-nav navbar navbar-expand-lg navbar-light">
         <div class="kbin-container container">
@@ -24,8 +26,9 @@
                         {% set user = app.user %}
                     {% endif %}
                     <span class="text-muted me-auto text-small size">
-                    {% if not user.apProfileId %}/u/{% endif %}<a class="text-decoration-none text-reset font-weight-bold"
-                                                                  href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a>
+                    {% if not user.apProfileId %}/u/{% endif %}<a
+                                class="text-decoration-none text-reset font-weight-bold"
+                                href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a>
                     </span>
                 {% elseif is_tag_page() %}
                     <span class="text-muted me-auto text-small size">
@@ -54,7 +57,8 @@
             </button>
             <div class="ms-3 mb-0 {{ kbin_js_enabled() ? '' : 'show' }} offcanvas offcanvas-end" id="kbin-nav">
                 <div class="d-block d-lg-none kbin-sidebar--close">
-                    <button type="button" class="navbar-toggler btn-close my-4 ms-1" data-bs-toggle="offcanvas" data-bs-target="#kbin-nav"
+                    <button type="button" class="navbar-toggler btn-close my-4 ms-1" data-bs-toggle="offcanvas"
+                            data-bs-target="#kbin-nav"
                             aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters"></button>
                 </div>
                 <div class="mb-5 mt-5 d-lg-none">
@@ -76,11 +80,33 @@
                         {% if app.user %}data-notify-username-value="{{ app.user.username }}"{% endif %}
                         {% if entry is defined and entry %}data-notify-entry-id-value="{{ entry.id }}"{% endif %}>
                     {% if app.user %}
-                        <li class="kbin-nav-navbar-item {{ app.user.countNewNotifications > 0 ? '' : 'visually-hidden' }}"
+                        <li class="dropdown dropstart {{ app.user.countNewNotifications > 0 ? '' : 'visually-hidden' }}"
                             data-notify-counter-target="notifications">
-                            <a href="{{ path('user_profile_notifications') }}" class="px-1">
+                            <a href="{{ path('user_profile_notifications') }}"
+                               class="px-1 nav-link nav-link dropdown-toggle dropstart" id="notification-dropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="badge rounded-pill bg-primary">{{ app.user.countNewNotifications }}</span>
                             </a>
+                            <div class="dropdown-menu p-2 dropstart" aria-labelledby="notification-dropdown">
+                                <div class="mb-4 btn-group">
+                                    <form action="{{ path('user_profile_notifications_read') }}" method="POST" class="me-2">
+                                        <input type="hidden" name="token" value="{{ csrf_token('read_notifications') }}">
+                                        <button class="btn btn-sm btn-primary" type="submit">
+                                            {{ 'read_all'|trans }}
+                                        </button>
+                                    </form>
+                                    <form method="post" action="{{ path('user_profile_notifications_clear') }}"
+                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                        <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
+                                        <button class="btn btn-sm btn-danger" type="submit">
+                                            <span>{{ 'purge'|trans }}</span>
+                                        </button>
+                                    </form>
+                                </div>
+                                {% for notification in app.user.getNewNotifications %}
+                                    <div class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }} mb-2">{{ block(notification.type) }}</div>
+                                {% endfor %}
+                            </div>
                         </li>
                     {% endif %}
                     {% if app.user %}

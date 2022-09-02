@@ -70,6 +70,12 @@
         bottom: -1px;
       }
 
+      .dropdown {
+        &-menu {
+          width:770px; font-size:.75rem;
+        }
+      }
+
       &-item {
         margin-right: 2px;
 
