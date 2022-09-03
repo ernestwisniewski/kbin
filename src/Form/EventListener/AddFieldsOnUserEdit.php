@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Form\EventListener;
 
+use App\Service\ImageManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormEvent;
@@ -24,21 +25,33 @@ final class AddFieldsOnUserEdit implements EventSubscriberInterface
             return;
         }
 
-        $imageConstraint = new ImageConstraint(
-            [
-                'detectCorrupted' => true,
-                'groups'          => ['upload'],
-                'maxSize'         => '2M',
-                'mimeTypes'       => ['image/jpeg', 'image/gif', 'image/png'],
-            ]
-        );
-
         $form->add(
             'avatar',
             FileType::class,
             [
-                'constraints' => $imageConstraint,
-                'mapped'      => false,
+                'constraints' => $this->getConstraint(),
+                'mapped' => false,
+            ]
+        );
+
+        $form->add(
+            'cover',
+            FileType::class,
+            [
+                'constraints' => $this->getConstraint('10M'),
+                'mapped' => false,
+            ]
+        );
+    }
+
+    private function getConstraint(string $maxSize = '2M'): ImageConstraint
+    {
+        return new ImageConstraint(
+            [
+                'detectCorrupted' => true,
+                'groups' => ['upload'],
+                'maxSize' => $maxSize,
+                'mimeTypes' => ImageManager::IMAGE_MIMETYPES,
             ]
         );
     }

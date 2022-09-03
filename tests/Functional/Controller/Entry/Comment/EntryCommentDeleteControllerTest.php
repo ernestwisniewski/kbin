@@ -47,8 +47,8 @@ class EntryCommentDeleteControllerTest extends WebTestCase
         );
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('blockquote#'.$comment->getId(), '[usunięte przez autora]');
-        $this->assertSelectorTextContains('blockquote#'.$child1->getId(), '[usunięte przez moderację]');
+        $this->assertSelectorTextContains('blockquote#entry-comment-'.$comment->getId(), '[usunięte przez autora]');
+        $this->assertSelectorTextContains('blockquote#entry-comment-'.$child1->getId(), '[usunięte przez moderację]');
         $this->assertCount(3, $crawler->filter('.kbin-comment-content'));
 
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Komentarze 1');
@@ -87,7 +87,7 @@ class EntryCommentDeleteControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/acme/t/{$child1->entry->getId()}/-");
 
         $client->submit(
-            $crawler->filter('blockquote#'.$comment->getId())->selectButton('wyczyść')->form()
+            $crawler->filter('blockquote#entry-comment-'.$comment->getId())->selectButton('wyczyść')->form()
         );
 
         $this->assertSame(1, $repo->count([]));
@@ -134,13 +134,13 @@ class EntryCommentDeleteControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/acme/t/{$comment->entry->getId()}/-");
 
         $client->submit(
-            $crawler->filter('blockquote#'.$comment->getId())->selectButton('usuń')->form()
+            $crawler->filter('blockquote#entry-comment-'.$comment->getId())->selectButton('usuń')->form()
         );
 
         $crawler = $client->followRedirect();
 
         $client->submit(
-            $crawler->filter('blockquote#'.$child2->getId())->selectButton('usuń')->form()
+            $crawler->filter('blockquote#entry-comment-'.$child2->getId())->selectButton('usuń')->form()
         );
 
         $crawler = $client->followRedirect();

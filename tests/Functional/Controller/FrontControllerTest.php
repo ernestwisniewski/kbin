@@ -7,7 +7,7 @@ use App\Tests\WebTestCase;
 class FrontControllerTest extends WebTestCase
 {
     /**
-     * @dataProvider provider
+     * @dataProvider navbarProvider
      */
     public function testPageMenus($linkName): void
     {
@@ -24,6 +24,13 @@ class FrontControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
         $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
+
+//        foreach ($this->sortProvider() as $sort) {
+//            $crawler = $client->click($crawler->filter('.nav .nav-tabs')->selectLink($sort[0])->link());
+//            $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Wszystkie');
+//            $this->assertSelectorTextContains('.nav .nav-tabs .nav-link', $sort[0]);
+//            $this->assertCount(1, $crawler->filter('.active'));
+//        }
 
         // Sub
         $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Obserwowane')->link());
@@ -186,16 +193,22 @@ class FrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.kbin-comment-meta-entry', 'w testowa treść');
     }
 
-    public function provider(): array
+    public function navbarProvider(): array
     {
         return [
-            ['Ważne'],
-            ['Najnowsze'],
-            ['Aktywne'],
-            ['Gorące'],
-            ['Komentowane'],
+            ['Treści'],
             ['Komentarze'],
             ['Wpisy'],
+        ];
+    }
+
+    public function sortProvider(): array {
+        return [
+            ['Ważne'],
+            ['Gorące'],
+            ['Najnowsze'],
+            ['Aktywne'],
+            ['Komentowane'],
         ];
     }
 }

@@ -13,6 +13,9 @@ class UserFactory
             $user->username,
             $user->email,
             $user->avatar,
+            $user->cover,
+            $user->about,
+            $user->fields,
             $user->apId,
             $user->apProfileId,
             $user->getId(),
@@ -21,7 +24,7 @@ class UserFactory
 
     public function createDtoFromAp($apProfileId, $apId): UserDto
     {
-        $dto                = (new UserDto())->create('@'.$apId, $apId, null, $apId, $apProfileId);
+        $dto                = (new UserDto())->create('@'.$apId, $apId, null, null, null, null, $apId, $apProfileId);
         $dto->plainPassword = bin2hex(random_bytes(20));
 
         return $dto;

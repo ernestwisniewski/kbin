@@ -25,7 +25,10 @@ class UserDto implements UserDtoInterface
     public ?string $email = null;
     #[Assert\Length(min: 6, max: 4096)]
     public ?string $plainPassword = null; // @todo move password and agreeTerms to RegisterDto
+    public ?string $about = null;
+    public ?string $fields = null;
     public Image|ImageDto|null $avatar = null;
+    public Image|ImageDto|null $cover = null;
     public bool $agreeTerms = false;
     public ?string $ip = null;
     public ?string $apId = null;
@@ -55,15 +58,21 @@ class UserDto implements UserDtoInterface
         string $username,
         ?string $email = null,
         Image|ImageDto|null $avatar = null,
+        Image|ImageDto|null $cover = null,
+        ?string $about = null,
+        ?array $fields = null,
         ?string $apId = null,
         ?string $apProfileId = null,
         ?int $id = null
     ): self {
-        $this->id          = $id;
-        $this->username    = $username;
-        $this->email       = $email;
-        $this->avatar      = $avatar;
-        $this->apId        = $apId;
+        $this->id = $id;
+        $this->username = $username;
+        $this->email = $email;
+        $this->avatar = $avatar;
+        $this->cover = $cover;
+        $this->about = $about;
+        $this->fields = $fields;
+        $this->apId = $apId;
         $this->apProfileId = $apProfileId;
 
         return $this;

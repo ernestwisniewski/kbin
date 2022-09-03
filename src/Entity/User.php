@@ -42,6 +42,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public ?Image $avatar = null;
     /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     */
+    public ?Image $cover = null;
+    /**
      * @ORM\Column(type="string", unique=true)
      */
     public ?string $email;
@@ -69,6 +73,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      * @ORM\Column(type="string", options={"default": User::HOMEPAGE_SUB})
      */
     public string $homepage = self::HOMEPAGE_SUB;
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null}))
+     */
+    public ?string $about = null;
+    /**
+     * @ORM\Column(type="json", nullable=true, options={"default": null}))
+     */
+    public ?string $fields = null;
     /**
      * @ORM\Column(type="string", nullable=true, options={"default": null})
      */
