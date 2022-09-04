@@ -16,6 +16,10 @@ liip_imagine:
             quality: 90
             filters:
                 thumbnail: { size: [ 600, 500 ], mode: inset }
+        user_cover:
+            quality: 90
+            filters:
+                thumbnail: { size: [ 1500, 500 ], mode: fixed }
 
     loaders:
         local_images:
@@ -46,5 +50,9 @@ liip_imagine:
                 cache_prefix: media/cache
                 visibility: public
 
-
-
+        user_cover:
+            flysystem:
+                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+                root_url: '%uploads_base_url%'
+                cache_prefix: media/cache
+                visibility: public

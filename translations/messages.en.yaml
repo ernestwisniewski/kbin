@@ -432,3 +432,4 @@ about_section_5_subtitle: 'Create your own instance and share content with other
 about_section_5_desc: 'The Internet hates centralization. You can create your own instance and manage the entire portal. <a href="https://kbin.pub" target="_blank">The code is open</a> and constantly evolving, transparency is an important feature of the kbin.'
 go_to_author_instance: 'Browse more on the original profile'
 old_posts_instance_info: 'Older posts from other servers are not displayed.'
+about: 'About'

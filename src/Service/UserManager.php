@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Event\User\UserBlockEvent;
 use App\Event\User\UserFollowEvent;
 use App\Factory\UserFactory;
+use App\Message\DeleteImageMessage;
 use App\Message\DeleteUserMessage;
 use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
@@ -117,8 +118,16 @@ class UserManager
         $mailUpdated = false;
 
         try {
+            $user->about = $dto->about;
+
+            $oldAvatar = $user->avatar;
             if ($dto->avatar) {
                 $user->avatar = $dto->avatar;
+            }
+
+            $oldCover = $user->cover;
+            if ($dto->cover) {
+                $user->cover = $dto->cover;
             }
 
             if ($dto->plainPassword) {
@@ -126,9 +135,9 @@ class UserManager
             }
 
             if ($dto->email !== $user->email) {
-                $mailUpdated      = true;
+                $mailUpdated = true;
                 $user->isVerified = false;
-                $user->email      = $dto->email;
+                $user->email = $dto->email;
             }
 
             if ($this->security->isGranted('edit_profile', $user)) {
@@ -140,6 +149,14 @@ class UserManager
         } catch (Exception $e) {
             $this->entityManager->rollback();
             throw $e;
+        }
+
+        if ($oldAvatar && $user->avatar !== $oldAvatar) {
+            $this->bus->dispatch(new DeleteImageMessage($oldAvatar->filePath));
+        }
+
+        if ($oldCover && $user->cover !== $oldCover) {
+            $this->bus->dispatch(new DeleteImageMessage($oldCover->filePath));
         }
 
         if ($mailUpdated) {
@@ -185,7 +202,7 @@ class UserManager
         $this->entityManager->flush();
     }
 
-    public function ban(User $user)
+    public function ban(User $user): void
     {
         $user->isBanned = true;
 
@@ -193,11 +210,36 @@ class UserManager
         $this->entityManager->flush();
     }
 
-    public function unban(User $user)
+    public function unban(User $user): void
     {
         $user->isBanned = false;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+    }
+
+    public function detachAvatar(User $user): void
+    {
+        $image = $user->avatar->filePath;
+
+        $user->avatar = null;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $this->bus->dispatch(new DeleteImageMessage($image));
+    }
+
+    public function detachCover(User $user): void
+    {
+        $image = $user->cover->filePath;
+
+        $user->cover
+            = null;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $this->bus->dispatch(new DeleteImageMessage($image));
     }
 }

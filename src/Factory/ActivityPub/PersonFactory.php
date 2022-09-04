@@ -4,8 +4,8 @@ namespace App\Factory\ActivityPub;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
+use App\Markdown\MarkdownConverter;
 use App\Service\SettingsManager;
-use DateTimeInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -13,7 +13,8 @@ class PersonFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private SettingsManager $settings
+        private SettingsManager $settings,
+        private MarkdownConverter $markdownConverter
     ) {
     }
 
@@ -29,48 +30,65 @@ class PersonFactory
 
         $person = array_merge(
             $person ?? [], [
-                'id'                        => $this->getActivityPubId($user),
-                'type'                      => 'Person',
-                'name'                      => $user->username,
-                'preferredUsername'         => $user->username,
-                'inbox'                     => $this->urlGenerator->generate(
+                'id' => $this->getActivityPubId($user),
+                'type' => 'Person',
+                'name' => $user->username,
+                'preferredUsername' => $user->username,
+                'inbox' => $this->urlGenerator->generate(
                     'ap_user_inbox',
                     ['username' => $user->username],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
-                'outbox'                    => $this->urlGenerator->generate(
+                'outbox' => $this->urlGenerator->generate(
                     'ap_user_outbox',
                     ['username' => $user->username],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
-                'url'                       => $this->getActivityPubId($user),
+                'url' => $this->getActivityPubId($user),
                 'manuallyApprovesFollowers' => false,
-                'published'                 => $user->createdAt->format(DATE_ATOM),
-                'following'                 => $this->urlGenerator->generate(
+                'published' => $user->createdAt->format(DATE_ATOM),
+                'following' => $this->urlGenerator->generate(
                     'ap_user_following',
                     ['username' => $user->username],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
-                'followers'                 => $this->urlGenerator->generate(
+                'followers' => $this->urlGenerator->generate(
                     'ap_user_followers',
                     ['username' => $user->username],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
-                'publicKey'                 => [
-                    'owner'        => $this->getActivityPubId($user),
-                    'id'           => $this->getActivityPubId($user).'#main-key',
+                'publicKey' => [
+                    'owner' => $this->getActivityPubId($user),
+                    'id' => $this->getActivityPubId($user).'#main-key',
                     'publicKeyPem' => $user->publicKey,
                 ],
-                'endpoints'                 => [
-                    'sharedInbox' => $this->urlGenerator->generate('ap_shared_inbox', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'endpoints' => [
+                    'sharedInbox' => $this->urlGenerator->generate(
+                        'ap_shared_inbox',
+                        [],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
                 ],
             ]
         );
 
+        if ($user->about) {
+            $person['summary'] = $this->markdownConverter->convertToHtml($user->about);
+        }
+
+        if($user->cover) {
+            $person['image'] = [
+                'type' => 'Image',
+                'url' => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$user->cover->filePath
+                // @todo media url
+            ];
+        }
+
         if ($user->avatar) {
             $person['icon'] = [
                 'type' => 'Image',
-                'url'  => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$user->avatar->filePath // @todo media url
+                'url' => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$user->avatar->filePath
+                // @todo media url
             ];
         }
 
@@ -79,16 +97,16 @@ class PersonFactory
 
     #[ArrayShape([
         'manuallyApprovesFollowers' => "string",
-        'schema'                    => "string",
-        'PropertyValue'             => "string",
-        'value'                     => "string",
+        'schema' => "string",
+        'PropertyValue' => "string",
+        'value' => "string",
     ])] public function getContext(): array
     {
         return [
             'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
-            'schema'                    => 'http://schema.org#',
-            'PropertyValue'             => 'schema:PropertyValue',
-            'value'                     => 'schema:value',
+            'schema' => 'http://schema.org#',
+            'PropertyValue' => 'schema:PropertyValue',
+            'value' => 'schema:value',
         ];
     }
 
@@ -98,6 +116,10 @@ class PersonFactory
             return $user->apProfileId;
         }
 
-        return $this->urlGenerator->generate('ap_user', ['username' => $user->username], UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->urlGenerator->generate(
+            'ap_user',
+            ['username' => $user->username],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 }

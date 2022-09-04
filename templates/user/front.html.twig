@@ -4,6 +4,15 @@
 {%- block title -%}{{- user.username }} - {{ 'overview'|trans -}}{%- endblock -%}
 
 {% block body %}
+    {% if user.cover %}
+        <img style="width:100%" src="{{ asset(user.cover.filePath) |imagine_filter('user_cover') }}"
+             alt="{{ user.username }}"/>
+    {% endif %}
+    {% if user.about %}
+        <div class="about p-3">
+            <p>{{ user.about|markdown|raw }}</p>
+        </div>
+    {% endif %}
     {% if user.apProfileId %}
         <div class="alert alert-secondary text-muted my-5" role="alert">
             {{ 'old_posts_instance_info'|trans }} <a rel="nofollow noopener noreferrer" href="{{ user.apProfileId }}"

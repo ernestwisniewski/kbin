@@ -207,6 +207,16 @@ user_profile_edit:
     pl: /profil/edytuj
   methods: [ GET, POST ]
 
+user_profile_avatar_delete:
+  controller: App\Controller\User\UserAvatarDeleteController
+  path: /profile/edit/delete_avatar
+  methods: [ POST ]
+
+user_profile_cover_delete:
+  controller: App\Controller\User\UserCoverDeleteController
+  path: /profile/edit/delete_cover
+  methods: [ POST ]
+
 user_profile_toggle_theme:
   controller: App\Controller\User\UserThemeController
   path:

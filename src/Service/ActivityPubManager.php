@@ -16,6 +16,7 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Webfinger\WebFinger;
 use App\Service\ActivityPub\Webfinger\WebFingerFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use League\HTMLToMarkdown\HtmlConverter;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ActivityPubManager
@@ -33,7 +34,7 @@ class ActivityPubManager
         private SettingsManager $settingsManager,
         private WebFingerFactory $webFingerFactory,
         private MentionManager $mentionManager,
-        private UrlGeneratorInterface $urlGenerator
+        private UrlGeneratorInterface $urlGenerator,
     ) {
 
     }
@@ -88,8 +89,17 @@ class ActivityPubManager
             );
             $actor = $this->apHttpClient->getActivityObject($actorUrl, true);
 
+            if (isset($actor['summary'])) {
+                $converter = new HtmlConverter(['strip_tags' => true]);
+                $user->about = stripslashes($converter->convert($actor['summary']));
+            }
+
             if (isset($actor['icon'])) {
                 $user->avatar = $this->handleImages([$actor['icon']]);
+            }
+
+            if (isset($actor['image'])) {
+                $user->cover = $this->handleImages([$actor['image']]);
             }
 
             $user->notifyOnNewEntry = false;

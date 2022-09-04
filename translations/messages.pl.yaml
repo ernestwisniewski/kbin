@@ -434,3 +434,4 @@ about_section_5_subtitle: 'Utwórz własną instancję i dziel treści z innymi 
 about_section_5_desc: 'Internet nie znosi centralizacji. Jeżeli nie odnalazłeś się tutaj lub prowadzenie własnego magazynu to dla ciebie za mało, możesz stworzyć własną instancję i zarządzać całym portalem. <a href="https://kbin.pub" target="_blank">Kod jest otwarty</a> i ciągle rozwijany, transparentność w tym jak działają wszystkie mechanizmy to ważna cecha Karabinu.'
 go_to_author_instance: 'Przejdź do instancji autora'
 old_posts_instance_info: 'Starsze posty z innych instancji nie są wyświetlane.'
+about: 'Opis'

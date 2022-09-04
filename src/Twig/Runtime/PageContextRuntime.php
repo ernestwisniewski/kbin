@@ -424,7 +424,10 @@ class PageContextRuntime implements RuntimeExtensionInterface
     }
 
     public function isEntriesPage() {
-        return in_array($this->getCurrentRouteName(), ['front', 'front_magazine', 'domain_front', 'tag_front']);
+        return in_array(
+            $this->getCurrentRouteName(),
+            ['front', 'front_magazine', 'domain_front', 'tag_front', 'front_subscribed', 'front_moderated']
+        );
     }
 
     private function getActiveStatsType(): string

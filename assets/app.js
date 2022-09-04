@@ -10,5 +10,4 @@ window.addEventListener('load', function (event) {
     const datepicker = new KDatepicker();
     const navbar = new Navbar();
     const masonry = new KMasonry();
-    const lightbox = new KLightbox();
 });

@@ -1,4 +1,4 @@
-{{ form_start(form) }}
+{{ form_start(form, { 'attr': { 'data-controller': 'editor', 'class': 'kbin-media' }}) }}
 <div class="mb-3">
     {{ form_label(form.username, 'username'|trans) }}
     <div class="input-group input-group-lg">
@@ -6,14 +6,96 @@
     </div>
 </div>
 
-{% if form.avatar is defined %}
-    <div class="mb-3">
-        {{ form_label(form.avatar, 'avatar'|trans) }}
-        <div class="input-group input-group-lg">
-            {{ form_widget(form.avatar, {'attr':{ 'class': 'form-control' }}) }}
+<div class="mb-3">
+    {{ form_label(form.about, 'about'|trans) }}
+    {{ form_widget(form.about, {'attr': {'class': 'kbin-editor'}}) }}
+</div>
+
+<div class="input-group-lg mb-3" data-controller="media">
+    <p>{{ 'avatar'|trans }} <small>(500x500px)</small></p>
+    <button type="button" class="btn btn-secondary me-1 {{ app.user.avatar ? 'd-none' : '' }}" data-bs-toggle="modal"
+            data-bs-target="#media-modal-avatar" data-media-target="modalButton">
+        <i class="fas fa-camera"></i>
+    </button>
+
+    <button data-action="media#delete"
+            data-media-target="deleteButton"
+            data-media-url-param="{{ path('user_profile_avatar_delete') }}"
+            type="button"
+            class="btn-close me-1 {{ app.user.avatar ? '' : 'd-none' }}"
+            aria-label="Close"></button>
+
+    {% if app.user.avatar %}
+        <img data-media-target="thumb" src="{{ asset(app.user.avatar.filePath) | imagine_filter('post_thumb') }}" alt=""
+             class="me-2"/>
+    {% endif %}
+
+    <canvas class="d-none me-2" data-media-target="canvas"></canvas>
+
+    <div id="media-modal-avatar" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dodaj zdjęcie <strike>lub film</strike></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            data-media-target="close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <small>wklej adres</small>
+                        <small class="ms-2 font-weight-bold" data-action="click->media#add">wybierz plik</small>
+                    </div>
+                    <div class="input-group input-group-lg me-2">
+                        {{ form_widget(form.avatar, {'attr':{ 'class': 'form-control', 'data-action': 'media#add', 'data-media-target': 'fileInput' }}) }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-{% endif %}
+</div>
+
+<div class="input-group-lg mb-3" data-controller="media">
+    <p>{{ 'cover'|trans }} <small>(1500x500px)</small></p>
+    <button type="button" class="btn btn-secondary me-1 {{ app.user.cover ? 'd-none' : '' }}" data-bs-toggle="modal"
+            data-bs-target="#media-modal-cover" data-media-target="modalButton">
+        <i class="fas fa-camera"></i>
+    </button>
+
+    <button data-action="media#delete"
+            data-media-target="deleteButton"
+            data-media-url-param="{{ path('user_profile_cover_delete') }}"
+            type="button"
+            class="btn-close me-1 {{ app.user.cover ? '' : 'd-none' }}"
+            aria-label="Close"></button>
+
+    {% if app.user.cover %}
+        <img data-media-target="thumb" src="{{ asset(app.user.cover.filePath) | imagine_filter('post_thumb') }}" alt=""
+             class="me-2"/>
+    {% endif %}
+
+    <canvas class="d-none me-2" data-media-target="canvas"></canvas>
+
+    <div id="media-modal-cover" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dodaj zdjęcie <strike>lub film</strike></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            data-media-target="close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <small>wklej adres</small>
+                        <small class="ms-2 font-weight-bold" data-action="click->media#add">wybierz plik</small>
+                    </div>
+                    <div class="input-group input-group-lg me-2">
+                        {{ form_widget(form.cover, {'attr':{ 'class': 'form-control', 'data-action': 'media#add', 'data-media-target': 'fileInput' }}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="mb-12 text-end">
     {{ form_row(form.submit, { 'label': 'done'|trans }) }}
