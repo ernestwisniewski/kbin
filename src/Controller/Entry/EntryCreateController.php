@@ -54,8 +54,6 @@ class EntryCreateController extends AbstractController
 
             $entry = $this->manager->create($dto, $this->getUserOrThrow());
 
-            $this->createComment($form, $entry);
-
             $this->addFlash(
                 'success',
                 'flash_thread_new_success'
@@ -75,27 +73,5 @@ class EntryCreateController extends AbstractController
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
-    }
-
-    #[Pure] private function createCommentDto(Entry $entry, string $body): EntryCommentDto
-    {
-        $comment           = new EntryCommentDto();
-        $comment->magazine = $entry->magazine;
-        $comment->entry    = $entry;
-        $comment->user     = $entry->user;
-        $comment->body     = $body;
-
-        return $comment;
-    }
-
-    private function createComment(FormInterface $form, Entry $entry): void
-    {
-        if ($form->has('comment') && $form->get('comment')->getData()) {
-            $comment = $this->createCommentDto($entry, $form->get('comment')->getData());
-            $errors  = $this->validator->validate($comment);
-            if (!count($errors)) {
-                $this->commentManager->create($comment, $this->getUserOrThrow());
-            }
-        }
     }
 }

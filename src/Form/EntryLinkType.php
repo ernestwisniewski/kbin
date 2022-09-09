@@ -36,10 +36,7 @@ class EntryLinkType extends AbstractType
                 'required' => true,
             ])
             ->add('tags')
-            ->add('comment', TextareaType::class, [
-                'mapped'   => false,
-                'required' => false,
-            ])
+            ->add('body', TextareaType::class)
             ->add(
                 'badges',
                 BadgesType::class,

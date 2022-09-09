@@ -58,7 +58,7 @@ class EntryDto
             $image = $context->getValue()->image;
         }
 
-        if (null === $this->body && null === $this->url && null === $image) {
+        if (empty($this->body) && empty($this->url) && empty($image)) {
             $this->buildViolation($context, 'url');
             $this->buildViolation($context, 'body');
             $this->buildViolation($context, 'image');

@@ -3,7 +3,7 @@
 {% if this.prefix and not hasCover %}<small class="text-muted">/m/</small>{% endif %}
 <a class="{{ this.bolded ? 'font-weight-bold' : '' }}" href="{{ path('front_magazine', {'name': this.magazine.name}) }}">
     {%- if hasCover -%}
-        <img width="30" height="30" class="rounded-circle me-1 my-1"
+        <img width="25" height="25" class="rounded-circle me-1 my-1"
              src="{{ asset(this.magazine.cover.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ this.magazine.title }}"/>
     {%- endif -%}

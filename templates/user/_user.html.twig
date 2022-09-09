@@ -1,16 +1,16 @@
 {% block user %}
-    {%- if prefix -%}<small class="text-muted">/u/</small>{%- endif -%}
+    {%- if prefix and not (app.user and app.user.hideUserAvatars) -%}<small class="text-muted">@</small>{%- endif -%}
     <a class="kbin-user {{ bolded ? 'font-weight-bold' : '' }}"
        data-controller="user-popup"
        data-action="user-popup#show"
-       data-user-popup-username-value="{{ user.username }}"
+       data-user-popup-username-value="{{ user.username  }}"
        href="{{ path('user', {'username': user.username}) }}">
         {%- if avatar and user.avatar and (app.user and not app.user.hideUserAvatars) -%}
-            <img width="30" height="30" class="rounded-circle me-1"
+            <img width="25" height="25" class="rounded-circle me-1"
                  src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
                  alt="{{ user.username }}"/>
         {%- endif -%}
-        {{ user.username }}
+        {{ user.username|trim('@', 'left') }}
     </a>
 {% endblock user %}
 
