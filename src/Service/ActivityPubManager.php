@@ -10,6 +10,8 @@ use App\Entity\Image;
 use App\Entity\User;
 use App\Factory\ActivityPub\PersonFactory;
 use App\Factory\UserFactory;
+use App\Message\ActivityPub\UpdateActorMessage;
+use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
@@ -17,6 +19,7 @@ use App\Service\ActivityPub\Webfinger\WebFinger;
 use App\Service\ActivityPub\Webfinger\WebFingerFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use League\HTMLToMarkdown\HtmlConverter;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ActivityPubManager
@@ -35,6 +38,7 @@ class ActivityPubManager
         private WebFingerFactory $webFingerFactory,
         private MentionManager $mentionManager,
         private UrlGeneratorInterface $urlGenerator,
+        private MessageBusInterface $bus
     ) {
 
     }
@@ -81,34 +85,11 @@ class ActivityPubManager
         $user = $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
 
         if (!$user) {
-            $webfinger = $this->webfinger($actorUrl);
-            $user = $this->userManager->create(
-                $this->userFactory->createDtoFromAp($actorUrl, $webfinger->getHandle()),
-                false,
-                false
-            );
-            $actor = $this->apHttpClient->getActivityObject($actorUrl, true);
-
-            if (isset($actor['summary'])) {
-                $converter = new HtmlConverter(['strip_tags' => true]);
-                $user->about = stripslashes($converter->convert($actor['summary']));
+            $user = $this->createUser($actorUrl);
+        } else {
+            if (!$user->apFetchedAt || $user->apFetchedAt > (new \DateTime('+1 day'))) {
+                $this->bus->dispatch(new UpdateActorMessage($user->apProfileId));
             }
-
-            if (isset($actor['icon'])) {
-                $user->avatar = $this->handleImages([$actor['icon']]);
-            }
-
-            if (isset($actor['image'])) {
-                $user->cover = $this->handleImages([$actor['image']]);
-            }
-
-            $user->notifyOnNewEntry = false;
-            $user->notifyOnNewEntryReply = false;
-            $user->notifyOnNewEntryCommentReply = false;
-            $user->notifyOnNewPost = false;
-            $user->notifyOnNewPostCommentReply = false;
-
-            $this->entityManager->flush();
         }
 
         return $user;
@@ -223,5 +204,77 @@ class ActivityPubManager
         }
 
         return null;
+    }
+
+    private function createUser(string $actorUrl): User
+    {
+        $webfinger = $this->webfinger($actorUrl);
+        $user = $this->userManager->create(
+            $this->userFactory->createDtoFromAp($actorUrl, $webfinger->getHandle()),
+            false,
+            false
+        );
+
+        $actor = $this->apHttpClient->getActorObject($actorUrl);
+
+        if (isset($actor['summary'])) {
+            $converter = new HtmlConverter(['strip_tags' => true]);
+            $user->about = stripslashes($converter->convert($actor['summary']));
+        }
+
+        if (isset($actor['icon'])) {
+            $user->avatar = $this->handleImages([$actor['icon']]);
+        }
+
+        if (isset($actor['image'])) {
+            $user->cover = $this->handleImages([$actor['image']]);
+        }
+
+        $user->notifyOnNewEntry = false;
+        $user->notifyOnNewEntryReply = false;
+        $user->notifyOnNewEntryCommentReply = false;
+        $user->notifyOnNewPost = false;
+        $user->notifyOnNewPostCommentReply = false;
+
+        $user->apPublicUrl = $actor['url'] ?? $actorUrl;
+        $user->apFetchedAt = new \DateTime();
+
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
+    public function updateUser(string $actorUrl): User
+    {
+        $user = $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
+        $actor = $this->apHttpClient->getActorObject($actorUrl);
+
+        if (isset($actor['summary'])) {
+            $converter = new HtmlConverter(['strip_tags' => true]);
+            $user->about = stripslashes($converter->convert($actor['summary']));
+        }
+
+        if (isset($actor['icon'])) {
+            $newImage = $this->handleImages([$actor['icon']]);
+            if ($user->avatar && $newImage !== $user->avatar) {
+                $this->bus->dispatch(new DeleteImageMessage($user->avatar->filePath));
+            }
+            $user->avatar = $newImage;
+        }
+
+        if (isset($actor['image'])) {
+            $newImage = $this->handleImages([$actor['image']]);
+            if ($user->cover && $newImage !== $user->cover) {
+                $this->bus->dispatch(new DeleteImageMessage($user->cover->filePath));
+            }
+            $user->cover = $newImage;
+        }
+
+        $user->apPublicUrl = $actor['url'] ?? $actorUrl;
+        $user->apFetchedAt = new \DateTime();
+
+        $this->entityManager->flush();
+
+        return $user;
     }
 }

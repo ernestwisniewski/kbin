@@ -46,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public ?Image $cover = null;
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", unique=true, length=500)
      */
     public ?string $email;
     /**
@@ -54,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public array $roles = [];
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true, length=500)
      */
     public string $username;
     /**
@@ -74,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public string $homepage = self::HOMEPAGE_SUB;
     /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null}))
+     * @ORM\Column(type="text", nullable=true, options={"default": null}))
      */
     public ?string $about = null;
     /**

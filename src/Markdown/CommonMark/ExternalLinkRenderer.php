@@ -82,7 +82,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
                 $attr = match ($tag) {
                     '@' => [
                         'class' => 'mention u-url',
-                        'title' => $inline->data['title'],
+                        'title' => $inline->data['title'] ?? '',
                         'data-bs-toggle' => 'popover',
                         'data-bs-trigger' => 'hover focus',
                         'data-bs-placement' => 'top',

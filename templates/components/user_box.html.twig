@@ -10,7 +10,9 @@
             {% endif %}
             <div>
                 <h3 class="card-title font-weight-bold pt-2">
-                    <a href="{{ user.apProfileId ?? '#' }}" rel="{{ user.appProfileId ? 'nofollow noopener noreferrer' : '' }}" class="text-reset">{{ user.username }}</a>
+                    <a href="{{ user.apProfileId ?? '#' }}"
+                       rel="{{ user.appProfileId ? 'nofollow noopener noreferrer' : '' }}"
+                       class="text-reset">{{ user.username|trim('@', 'left') }}</a>
                 </h3>
                 {% include 'user/_follow_button.html.twig' %}
             </div>
@@ -24,25 +26,29 @@
                           data-timeago-refresh-interval-value="10000"
                           data-timeago-datetime-value="{{ user.createdAt|date('c') }}"{{ user.createdAt|ago }}></time>
                 </li>
-                <li>
-                    <span class="text-muted small">{{ 'thread_views'|trans }}:</span> {{ user.entriesViewsCount }}
-                </li>
+                    <li>
+                        <span class="text-muted small">{{ 'thread_views'|trans }}:</span> {{ user.entriesViewsCount }}
+                    </li>
                 <li>
                     <span class="text-muted small">{{ 'awards'|trans }}:</span> {{ user.awards|length }}
                 </li>
                 <li>
-                    <a class="small" href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}
+                    <a class="small"
+                       href="{{ path('user_entries', {username: user.username}) }}">{{ 'threads'|trans }}
                         :</a> {{ user.entries|length }}
                 </li>
                 <li>
-                    <a class="small" href="{{ path('user_comments', {username: user.username}) }}">{{ 'comments'|trans }}
+                    <a class="small"
+                       href="{{ path('user_comments', {username: user.username}) }}">{{ 'comments'|trans }}
                         :</a> {{ user.entryComments|length }}
                 </li>
                 <li>
-                    <a class="small" href="{{ path('user_posts', {username: user.username}) }}">{{ 'posts'|trans }}:</a> {{ user.posts|length }}
+                    <a class="small" href="{{ path('user_posts', {username: user.username}) }}">{{ 'posts'|trans }}
+                        :</a> {{ user.posts|length }}
                 </li>
                 <li>
-                    <a class="small" href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}
+                    <a class="small"
+                       href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}
                         :</a> {{ user.postComments|length }}
                 </li>
                 <li>
@@ -52,7 +58,8 @@
                 </li>
                 {% if not app.user or user is not same as app.user %}
                     <li class="my-2">
-                        <span class="text-muted small"><a href="{{ path('user_message', {'username': user.username}) }}"><i
+                        <span class="text-muted small"><a
+                                    href="{{ path('user_message', {'username': user.username}) }}"><i
                                         class="fa fa-envelope"></i> {{ 'send_message'|trans }}</a></span>
                     </li>
                 {% endif %}

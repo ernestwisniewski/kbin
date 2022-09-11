@@ -11,18 +11,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-#[AsCommand(name: 'kbin:cardano:refresh')]
+#[AsCommand(
+    name: 'kbin:cardano:refresh',
+    description: 'This command allows refresh users transactions.'
+)]
 class CardanoWalletObserverCommand extends Command
 {
     public function __construct(private MessageBusInterface $bus, private EntityManagerInterface $entityManager)
     {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setDescription('This command allows refresh users transactions.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -11,7 +11,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-#[AsCommand(name: 'kbin:ap:import')]
+#[AsCommand(
+    name: 'kbin:ap:import',
+    description: 'This command allows you import AP resource.'
+)]
 class ApImportObject extends Command
 {
     public function __construct(
@@ -23,9 +26,7 @@ class ApImportObject extends Command
 
     protected function configure()
     {
-        $this
-            ->setDescription('This command allows you import AP resource.')
-            ->addArgument('url', InputArgument::REQUIRED);
+        $this->addArgument('url', InputArgument::REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Command;
 
@@ -16,17 +16,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'kbin:cache:build')]
+#[AsCommand(
+    name: 'kbin:cache:build',
+    description: 'This command allows you to rebuild image thumbs cache.'
+)]
 class ImageCacheCommand extends Command
 {
     public function __construct(private EntityManagerInterface $entityManager)
     {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this->setDescription('This command allows you to rebuild image thumbs cache.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -44,7 +42,7 @@ class ImageCacheCommand extends Command
     private function buildUsersCache(): void
     {
         $repo = $this->entityManager->getRepository(User::class);
-        $res  = $repo->createQueryBuilder('u')->select('u')
+        $res = $repo->createQueryBuilder('u')->select('u')
             ->join('u.avatar', 'i')
             ->getQuery()
             ->getResult();
@@ -53,7 +51,7 @@ class ImageCacheCommand extends Command
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths'    => [$user->avatar->filePath],
+                'paths' => [$user->avatar->filePath],
                 '--filter' => ['avatar_thumb'],
             ];
 
@@ -65,7 +63,7 @@ class ImageCacheCommand extends Command
     private function buildEntriesCache(): void
     {
         $repo = $this->entityManager->getRepository(Entry::class);
-        $res  = $repo->createQueryBuilder('e')->select('e')
+        $res = $repo->createQueryBuilder('e')->select('e')
             ->join('e.image', 'i')
             ->getQuery()
             ->getResult();
@@ -74,7 +72,7 @@ class ImageCacheCommand extends Command
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths'    => [$entry->image->filePath],
+                'paths' => [$entry->image->filePath],
                 '--filter' => ['entry_thumb'],
             ];
 
@@ -86,7 +84,7 @@ class ImageCacheCommand extends Command
     private function buildEntryCommentsCache(): void
     {
         $repo = $this->entityManager->getRepository(EntryComment::class);
-        $res  = $repo->createQueryBuilder('c')->select('c')
+        $res = $repo->createQueryBuilder('c')->select('c')
             ->join('c.image', 'i')
             ->getQuery()
             ->getResult();
@@ -95,7 +93,7 @@ class ImageCacheCommand extends Command
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths'    => [$comment->image->filePath],
+                'paths' => [$comment->image->filePath],
                 '--filter' => ['post_thumb'],
             ];
 
@@ -107,7 +105,7 @@ class ImageCacheCommand extends Command
     private function buildPostsCache(): void
     {
         $repo = $this->entityManager->getRepository(Post::class);
-        $res  = $repo->createQueryBuilder('p')->select('p')
+        $res = $repo->createQueryBuilder('p')->select('p')
             ->join('p.image', 'i')
             ->getQuery()
             ->getResult();
@@ -116,7 +114,7 @@ class ImageCacheCommand extends Command
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths'    => [$post->image->filePath],
+                'paths' => [$post->image->filePath],
                 '--filter' => ['post_thumb'],
             ];
 
@@ -128,7 +126,7 @@ class ImageCacheCommand extends Command
     private function buildPostCommentsCache(): void
     {
         $repo = $this->entityManager->getRepository(PostComment::class);
-        $res  = $repo->createQueryBuilder('c')->select('c')
+        $res = $repo->createQueryBuilder('c')->select('c')
             ->join('c.image', 'i')
             ->getQuery()
             ->getResult();
@@ -137,7 +135,7 @@ class ImageCacheCommand extends Command
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths'    => [$comment->image->filePath],
+                'paths' => [$comment->image->filePath],
                 '--filter' => ['post_thumb'],
             ];
 
@@ -149,7 +147,7 @@ class ImageCacheCommand extends Command
     private function buildMagazinesCache(): void
     {
         $repo = $this->entityManager->getRepository(Magazine::class);
-        $res  = $repo->createQueryBuilder('m')->select('m')
+        $res = $repo->createQueryBuilder('m')->select('m')
             ->join('m.cover', 'i')
             ->getQuery()
             ->getResult();
@@ -158,7 +156,7 @@ class ImageCacheCommand extends Command
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths'    => [$magazine->cover->filePath],
+                'paths' => [$magazine->cover->filePath],
                 '--filter' => ['post_thumb'],
             ];
 

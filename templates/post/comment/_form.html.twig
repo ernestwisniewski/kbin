@@ -2,8 +2,11 @@
 {% if comment is defined and comment is not null and comment.image %}
     {% set hasImage = true %}
 {% endif %}
+{% if focus is not defined %}
+    {% set focus = true %}
+{% endif %}
 
-{{ form_start(form, { 'attr': {'data-controller': 'media editor', class: 'kbin-media' }}) }}
+{{ form_start(form, { 'attr': {'data-controller': 'media editor', 'data-editor-focus-value': focus, class: 'kbin-media' }}) }}
 <div class="col-xs-12 clearfix">
     <div class="kbin-comment-create-form my-3">
         <div class="mb-3">

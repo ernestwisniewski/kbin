@@ -42,12 +42,12 @@ class ApHttpClient
                     ],
                 ])->getContent();
             } catch (\Exception $e) {
-                $item->expiresAfter(120);
+                $item->expiresAfter(30);
 
                 return null;
             }
 
-            $item->expiresAfter(60);
+            $item->expiresAfter(0);
 
             return $r;
         });
@@ -72,7 +72,7 @@ class ApHttpClient
                     ],
                 ])->getContent();
             } catch (\Exception $e) {
-                $item->expiresAfter(60);
+                $item->expiresAfter(30);
 
                 return null;
             }
@@ -179,7 +179,7 @@ class ApHttpClient
         );
     }
 
-    private static function headersToCurlArray($headers)
+    private static function headersToCurlArray($headers): array
     {
         return array_map(function ($k, $v) {
             return "$k: $v";

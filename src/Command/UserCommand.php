@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Command;
 
@@ -27,9 +27,7 @@ class UserCommand extends Command
 
     protected function configure()
     {
-        $this
-            ->setDescription('This command allows you to create or remove user account.')
-            ->addArgument('username', InputArgument::REQUIRED)
+        $this->addArgument('username', InputArgument::REQUIRED)
             ->addArgument('email', InputArgument::REQUIRED)
             ->addArgument('password', InputArgument::REQUIRED)
             ->addOption('remove', 'r', InputOption::VALUE_NONE, 'Remove user');
@@ -37,9 +35,9 @@ class UserCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io     = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
         $remove = $input->getOption('remove');
-        $user   = $this->repository->findOneByUsername($input->getArgument('username'));
+        $user = $this->repository->findOneByUsername($input->getArgument('username'));
 
         if ($user && !$remove) {
             $io->error('User exists.');
@@ -64,7 +62,7 @@ class UserCommand extends Command
 
     private function createUser(InputInterface $input, SymfonyStyle $io): void
     {
-        $dto                = (new UserDto())->create($input->getArgument('username'), $input->getArgument('email'));
+        $dto = (new UserDto())->create($input->getArgument('username'), $input->getArgument('email'));
         $dto->plainPassword = $input->getArgument('password');
 
         $user = $this->manager->create($dto, false);

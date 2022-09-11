@@ -2,8 +2,11 @@
 {% if comment is defined and comment is not null and comment.image %}
     {% set hasImage = true %}
 {% endif %}
+{% if focus is not defined %}
+    {% set focus = true %}
+{% endif %}
 
-{{ form_start(form, { 'attr': {'data-controller': 'media editor', class: 'kbin-media' }}) }}
+{{ form_start(form, { 'attr': {'data-controller': 'media editor', 'data-editor-focus-value': focus, class: 'kbin-media' }}) }}
 <div class="col-xs-12 clearfix">
     <div class="kbin-comment-create-form my-3">
         <div class="mb-3">
@@ -35,7 +38,8 @@
                     aria-label="Close"></button>
 
             {% if hasImage %}
-                <img data-media-target="thumb" src="{{ asset(comment.image.filePath) | imagine_filter('post_thumb') }}" alt="" class="me-2"/>
+                <img data-media-target="thumb" src="{{ asset(comment.image.filePath) | imagine_filter('post_thumb') }}"
+                     alt="" class="me-2"/>
             {% endif %}
 
             <canvas data-media-target="canvas" class="d-none me-2"></canvas>
@@ -45,12 +49,14 @@
     </div>
 </div>
 
-<div id="media-modal-{{ comment is not defined or comment is null ? entry.id : comment.id }}" class="modal" tabindex="-1">
+<div id="media-modal-{{ comment is not defined or comment is null ? entry.id : comment.id }}" class="modal"
+     tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Dodaj zdjęcie <strike>lub film</strike></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-media-target="close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        data-media-target="close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-4">

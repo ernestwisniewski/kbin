@@ -2,6 +2,7 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
@@ -14,7 +15,8 @@ final class UserLinkParser extends AbstractLocalLinkParser
         private UrlGeneratorInterface $urlGenerator,
         private ActivityPubManager $activityPubManager,
         private SettingsManager $settingsManager,
-        private ApHttpClient $client
+        private ApHttpClient $client,
+        private UserRepository $repository
     ) {
     }
 
@@ -27,6 +29,11 @@ final class UserLinkParser extends AbstractLocalLinkParser
     {
         if (substr_count($suffix, '@') > 1 && !str_ends_with($suffix, '@'.$this->settingsManager->get('KBIN_DOMAIN'))) {
             try {
+                $user = $this->repository->findOneByUsername($suffix);
+                if($user) {
+                    return $user->apPublicUrl;
+                }
+
                 $profileId = $this->activityPubManager->webfinger($suffix)->getProfileId();
                 $actor = $this->client->getActorObject($profileId);
 

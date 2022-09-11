@@ -19,7 +19,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'kbin:entries:move')]
+#[AsCommand(
+    name: 'kbin:entries:move',
+    description: 'This command will allow you to move the entries to the new magazine based on the tag.'
+)]
 class MoveEntriesByTagCommand extends Command
 {
     public function __construct(
@@ -32,9 +35,7 @@ class MoveEntriesByTagCommand extends Command
 
     protected function configure()
     {
-        $this
-            ->setDescription('This command will allow you to move the entries to the new magazine based on the tag.')
-            ->addArgument('magazine', InputArgument::REQUIRED)
+        $this->addArgument('magazine', InputArgument::REQUIRED)
             ->addArgument('tag', InputArgument::REQUIRED);
     }
 
@@ -43,7 +44,7 @@ class MoveEntriesByTagCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $magazine = $this->magazineRepository->findOneByName($input->getArgument('magazine'));
-        $tag      = $input->getArgument('tag');
+        $tag = $input->getArgument('tag');
 
         if (!$magazine) {
             $io->error('The magazine does not exist.');
@@ -69,7 +70,7 @@ class MoveEntriesByTagCommand extends Command
             $this->moveFavourites($entry->favourites, $magazine);
             $entry->badges->clear();
 
-            $tags        = array_diff($entry->tags, [$tag]);
+            $tags = array_diff($entry->tags, [$tag]);
             $entry->tags = count($tags) ? array_values($tags) : null;
 
             $this->entityManager->persist($entry);

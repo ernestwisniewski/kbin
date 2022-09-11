@@ -2,11 +2,16 @@ import {Controller} from '@hotwired/stimulus';
 import SimpleMDE from 'simplemde/dist/simplemde.min';
 
 export default class extends Controller {
+    static values = {
+        focus: Boolean,
+    };
+
     connect() {
         super.connect();
 
         this.element.querySelectorAll('.kbin-editor').forEach(el => {
-            this.build(el)
+            console.log(this.focusValue);
+            this.build(el, this.focusValue)
         });
     }
 
@@ -20,7 +25,7 @@ export default class extends Controller {
             toolbarTips: false,
             promptURLs: true,
             styleSelectedText: false,
-            autofocus: true,
+            autofocus: focus,
             forceSync: true,
         });
 

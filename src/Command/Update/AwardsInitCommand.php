@@ -5,13 +5,17 @@ namespace App\Command\Update;
 use App\Entity\Award;
 use App\Entity\AwardType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'kbin:init:awards',
+    description: 'This command allows init awards database.',
+)]
 class AwardsInitCommand extends Command
 {
-    protected static $defaultName = 'kbin:init:awards';
     private static $data = [
         'brown_autobiographer' => [],
         'brown_personality'    => [],
@@ -64,12 +68,6 @@ class AwardsInitCommand extends Command
     public function __construct(private EntityManagerInterface $entityManager)
     {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setDescription('This command allows init awards database.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

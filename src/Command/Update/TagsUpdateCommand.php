@@ -7,23 +7,20 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Service\TagManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'kbin:tag:update',
+    description: 'This command allows refresh entries tags.'
+)]
 class TagsUpdateCommand extends Command
 {
-    protected static $defaultName = 'kbin:tag:update';
-
     public function __construct(private TagManager $tagManager, private EntityManagerInterface $entityManager)
     {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setDescription('This command allows refresh entries tags.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

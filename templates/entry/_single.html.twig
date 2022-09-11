@@ -25,7 +25,7 @@
                 {% include 'entry/comment/_list.html.twig' %}
 
                 {% if is_granted('comment', entry) %}
-                    {{ component('entry_comment_form', {entry: entry}) }}
+                    {{ component('entry_comment_form', {entry: entry, focus: false}) }}
                 {% else %}
                     <div class="alert alert-secondary text-muted my-3" role="alert">
                         {% if not app.user %}

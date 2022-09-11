@@ -280,4 +280,15 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return User[]
+     */
+    public function findAllRemote(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.apId IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }

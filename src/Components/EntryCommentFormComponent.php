@@ -15,6 +15,7 @@ class EntryCommentFormComponent
 {
     public Entry $entry;
     public ?EntryComment $comment = null;
+    public bool $focus = true;
 
     public function __construct(private FormFactoryInterface $factory, private UrlGeneratorInterface $router)
     {

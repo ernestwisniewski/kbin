@@ -11,7 +11,7 @@
                     <div class="p-2">
                         <div>
                             <span class="font-weight-bold h5">
-                                <a class="text-reset" href="{{ path('user', {'username': user.username}) }}">{{ user.username }}</a>
+                                <a class="text-reset" href="{{ path('user', {'username': user.username}) }}">{{ user.username|trim('@', 'left') }}</a>
                             </span>
                         </div>
                         <div class="mb-2 small">

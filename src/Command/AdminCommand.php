@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Command;
 
@@ -12,7 +12,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'kbin:user:admin')]
+#[AsCommand(
+    name: 'kbin:user:admin',
+    description: 'This command allows you to grant administrator privileges to the user.',
+)]
 class AdminCommand extends Command
 {
     public function __construct(private EntityManagerInterface $entityManager, private UserRepository $repository)
@@ -23,16 +26,15 @@ class AdminCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('This command allows you to grant administrator privileges to the user.')
             ->addArgument('username', InputArgument::REQUIRED)
             ->addOption('remove', 'r', InputOption::VALUE_NONE, 'Remove privileges');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io     = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
         $remove = $input->getOption('remove');
-        $user   = $this->repository->findOneByUsername($input->getArgument('username'));
+        $user = $this->repository->findOneByUsername($input->getArgument('username'));
 
         if (!$user) {
             $io->error('User not found.');

@@ -13,6 +13,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 class PostCommentFormComponent
 {
     public Post $post;
+    public bool $focus = true;
 
     public function __construct(private FormFactoryInterface $factory, private UrlGeneratorInterface $router)
     {

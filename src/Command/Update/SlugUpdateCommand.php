@@ -6,23 +6,20 @@ use App\Entity\Entry;
 use App\Entity\Post;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'kbin:slug:update',
+    description: 'This command allows refresh entries slugs.'
+)]
 class SlugUpdateCommand extends Command
 {
-    protected static $defaultName = 'kbin:slug:update';
-
     public function __construct(private Slugger $slugger, private EntityManagerInterface $entityManager)
     {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setDescription('This command allows refresh entries slugs.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
