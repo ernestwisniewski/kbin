@@ -54,7 +54,7 @@
                  data-action="image:thumbSelected->show-more#expand"
                  data-action="image:thumbLoaded->show-more#checkHeight">
                 {% if this.comment.visibility is same as 'visible' or this.canSeeTrashed %}
-                    {{ this.comment.body }}
+                    {{ this.comment.body|markdown|raw }}
                 {% elseif this.comment.visibility is same as 'trashed' %}
                     <p class="text-muted">[{{ 'removed'|trans }}]</p>
                 {% elseif this.comment.visibility is same as 'soft_deleted' %}

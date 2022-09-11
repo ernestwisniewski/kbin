@@ -41,6 +41,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
                     return !empty($actor['url']) ? $actor['url'] : $profileId;
                 }
             } catch (\Exception $e) {
+                return '#';
             }
         }
 
