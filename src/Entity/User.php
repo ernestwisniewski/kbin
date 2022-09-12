@@ -116,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     /**
      * @ORM\Column(type="boolean", options={"default": true})
      */
-    public bool $hideUserAvatars = true;
+    public bool $hideUserAvatars = false;
     /**
      * @ORM\Column(type="boolean", options={"default": false})
      */
