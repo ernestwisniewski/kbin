@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\PostDto;
 use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Event\Post\PostBeforeDeletedEvent;
@@ -14,6 +15,7 @@ use App\Event\Post\PostEditedEvent;
 use App\Event\Post\PostRestoredEvent;
 use App\Factory\PostFactory;
 use App\Message\DeleteImageMessage;
+use App\Repository\PostRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use DateTimeImmutable;
@@ -36,7 +38,8 @@ class  PostManager implements ContentManagerInterface
         private RateLimiterFactory $postLimiter,
         private MessageBusInterface $bus,
         private TranslatorInterface $translator,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private PostRepository $postRepository
     ) {
     }
 
@@ -49,15 +52,15 @@ class  PostManager implements ContentManagerInterface
             }
         }
 
-        $post                       = $this->factory->createFromDto($dto, $user);
-        $post->slug                 = $this->slugger->slug($dto->body);
-        $post->image                = $dto->image;
-        $post->tags                 = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
-        $post->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
-        $post->apId                 = $dto->apId;
+        $post = $this->factory->createFromDto($dto, $user);
+        $post->slug = $this->slugger->slug($dto->body);
+        $post->image = $dto->image;
+        $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
+        $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $post->apId = $dto->apId;
         $post->magazine->lastActive = new \DateTime();
-        $post->lastActive           = $dto->lastActive ?? $post->lastActive;
-        $post->createdAt            = $dto->createdAt ?? $post->createdAt;
+        $post->lastActive = $dto->lastActive ?? $post->lastActive;
+        $post->createdAt = $dto->createdAt ?? $post->createdAt;
 
         $post->magazine->addPost($post);
 
@@ -73,13 +76,13 @@ class  PostManager implements ContentManagerInterface
     {
         Assert::same($post->magazine->getId(), $dto->magazine->getId());
 
-        $post->body    = $dto->body;
+        $post->body = $dto->body;
         $post->isAdult = $dto->isAdult;
-        $oldImage      = $post->image;
+        $oldImage = $post->image;
         if ($dto->image) {
             $post->image = $dto->image;
         }
-        $post->tags     = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
+        $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->editedAt = new DateTimeImmutable('@'.time());
 
@@ -166,5 +169,34 @@ class  PostManager implements ContentManagerInterface
     public function getSortRoute(string $sortBy): string
     {
         return strtolower($this->translator->trans('sort.'.$sortBy));
+    }
+
+    public function changeMagazine(Post $post, Magazine $magazine): void
+    {
+        try {
+            $this->entityManager->beginTransaction();
+
+            $oldMagazine = $post->magazine;
+            $post->magazine = $magazine;
+
+            foreach ($post->comments as $comment) {
+                $comment->magazine = $magazine;
+            }
+
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+        } catch (\Exception $e) {
+            $this->entityManager->rollback();
+
+            return;
+        }
+
+        $oldMagazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($oldMagazine);
+        $oldMagazine->updatePostCounts();
+
+        $magazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($magazine);
+        $post->magazine->updatePostCounts();
+
+        $this->entityManager->flush();
     }
 }

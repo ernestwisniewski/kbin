@@ -256,7 +256,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         return $this;
     }
 
-    private function updatePostCounts(): self
+    public function updatePostCounts(): self
     {
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', Entry::VISIBILITY_VISIBLE));
