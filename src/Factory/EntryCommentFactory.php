@@ -27,6 +27,7 @@ class EntryCommentFactory
         $dto->user       = $comment->user;
         $dto->body       = $comment->body;
         $dto->image      = $comment->image;
+        $dto->visibility = $comment->visibility;
         $dto->uv         = $comment->countUpVotes();
         $dto->dv         = $comment->countDownVotes();
         $dto->createdAt  = $comment->createdAt;

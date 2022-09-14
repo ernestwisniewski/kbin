@@ -54,6 +54,7 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->mentions             = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;
+        $comment->visibility           = $dto->visibility;
         $comment->apId                 = $dto->apId;
         $comment->magazine->lastActive = new \DateTime();
         $comment->lastActive           = $dto->lastActive ?? $comment->lastActive;
@@ -82,8 +83,8 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;
+        $comment->visibility = $dto->visibility;
         $comment->editedAt = new DateTimeImmutable('@'.time());
-
         $this->entityManager->flush();
 
         if ($oldImage && $comment->image !== $oldImage) {

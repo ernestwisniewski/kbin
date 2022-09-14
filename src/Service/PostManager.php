@@ -57,6 +57,7 @@ class  PostManager implements ContentManagerInterface
         $post->image = $dto->image;
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $post->visibility = $dto->visibility;
         $post->apId = $dto->apId;
         $post->magazine->lastActive = new \DateTime();
         $post->lastActive = $dto->lastActive ?? $post->lastActive;
@@ -84,6 +85,7 @@ class  PostManager implements ContentManagerInterface
         }
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $post->visibility = $dto->visibility;
         $post->editedAt = new DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();

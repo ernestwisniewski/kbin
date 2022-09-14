@@ -27,6 +27,7 @@ class PostCommentFactory
         $dto->user       = $comment->user;
         $dto->body       = $comment->body;
         $dto->uv         = $comment->countUpVotes();
+        $dto->visibility = $comment->visibility;
         $dto->createdAt  = $comment->createdAt;
         $dto->lastActive = $comment->lastActive;
         $dto->setId($comment->getId());

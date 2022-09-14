@@ -6,6 +6,8 @@
 supervisord.log
 supervisord.pid
 
+/bin/php-cs-fixer/*
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

@@ -24,6 +24,7 @@ class EntryCommentDto
     public ?string $body = null;
     public ?int $uv = null;
     public ?int $dv = null;
+    public ?string $visibility = null;
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $mentions = null;
@@ -31,12 +32,16 @@ class EntryCommentDto
     public ?DateTime $lastActive = null;
     private ?int $id = null;
 
-    public function createWithParent(Entry $entry, ?EntryComment $parent, ?Image $image = null, ?string $body = null): self
-    {
-        $this->entry  = $entry;
+    public function createWithParent(
+        Entry $entry,
+        ?EntryComment $parent,
+        ?Image $image = null,
+        ?string $body = null
+    ): self {
+        $this->entry = $entry;
         $this->parent = $parent;
-        $this->body   = $body;
-        $this->image  = $image;
+        $this->body = $body;
+        $this->image = $image;
 
         if ($parent) {
             $this->root = $parent->root ?? $parent;

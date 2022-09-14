@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\DTO;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\Post;
@@ -21,6 +22,7 @@ class PostCommentDto
     #[Assert\Length(min: 2, max: 5000)]
     public ?string $body = null;
     public int $uv = 0;
+    public ?string $visibility = null;
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $mentions = null;

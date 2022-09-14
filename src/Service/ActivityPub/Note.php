@@ -7,6 +7,7 @@ use App\DTO\EntryDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
@@ -108,7 +109,7 @@ class Note
         }
 
         $dto->body = $this->markdownConverter->convert($object['content']);
-
+        $dto->visibility = $this->getVisibility($object);
         $this->handleDate($dto, $object['published']);
 
         return $this->entryCommentManager->create(
@@ -140,7 +141,7 @@ class Note
         }
 
         $dto->body = $this->markdownConverter->convert($object['content']);
-
+        $dto->visibility = $this->getVisibility($object);
         $this->handleDate($dto, $object['published']);
 
         return $this->postCommentManager->create(
@@ -166,7 +167,7 @@ class Note
         }
 
         $dto->body = $this->markdownConverter->convert($object['content']);
-
+        $dto->visibility = $this->getVisibility($object);
         $this->handleDate($dto, $object['published']);
 
         return $this->postManager->create(
@@ -180,5 +181,26 @@ class Note
     {
         $dto->createdAt = new DateTimeImmutable($date);
         $dto->lastActive = new DateTime($date);
+    }
+
+    private function getVisibility(array $object): string
+    {
+        if (!in_array(
+            ActivityPubActivityInterface::PUBLIC_URL,
+            array_merge($object['to'] ?? [], $object['cc'] ?? [])
+        )) {
+            if (
+                !in_array(
+                    ActivityPubActivityInterface::FOLLOWERS,
+                    array_merge($object['to'] ?? [], $object['cc'] ?? [])
+                )
+            ) {
+                throw new \Exception('PM: not implemented.');
+            }
+
+            return VisibilityInterface::VISIBILITY_PRIVATE;
+        }
+
+        return VisibilityInterface::VISIBILITY_VISIBLE;
     }
 }
