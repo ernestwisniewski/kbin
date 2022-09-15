@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Image;
@@ -26,7 +27,7 @@ class EntryCommentDto
     public ?int $dv = null;
     public ?string $visibility = null;
     public ?string $ip = null;
-    public ?string $apId = null;
+    public ?string $apId = VisibilityInterface::VISIBILITY_VISIBLE;
     public ?array $mentions = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;

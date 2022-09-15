@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
@@ -23,7 +24,7 @@ class PostDto
     public int $uv = 0;
     public int $dv = 0;
     public int $score = 0;
-    public ?string $visibility = null;
+    public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public ?string $ip = null;
     public ?string $apId = null;
     public ?DateTimeImmutable $createdAt = null;

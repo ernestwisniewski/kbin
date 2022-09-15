@@ -22,7 +22,7 @@ class PostCommentDto
     #[Assert\Length(min: 2, max: 5000)]
     public ?string $body = null;
     public int $uv = 0;
-    public ?string $visibility = null;
+    public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $mentions = null;

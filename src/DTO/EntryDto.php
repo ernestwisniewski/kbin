@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Domain;
 use App\Entity\Entry;
 use App\Entity\Image;
@@ -38,7 +39,7 @@ class EntryDto
     public ?string $slug = null;
     public int $views = 0;
     public int $score = 0;
-    public ?string $visibility = null;
+    public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $tags = null;
