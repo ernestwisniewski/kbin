@@ -1,9 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Entity\UserFollow;
 use App\PageView\PostCommentPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
@@ -59,7 +61,23 @@ class PostCommentRepository extends ServiceEntityRepository
 
     private function getCommentQueryBuilder(Criteria $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('c');
+        $user = $this->security->getUser();
+
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.visibility IN (:visibility)');
+
+        if ($user && $criteria->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+            $qb->orWhere(
+                'c.user IN (SELECT IDENTITY(cuf.following) FROM '.UserFollow::class.' cuf WHERE cuf.follower = :cUser AND c.visibility = :cVisibility)'
+            )
+                ->setParameter('cUser', $user)
+                ->setParameter('cVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
+        }
+
+        $qb->setParameter(
+            'visibility',
+            [VisibilityInterface::VISIBILITY_SOFT_DELETED, VisibilityInterface::VISIBILITY_VISIBLE]
+        );
 
         $this->addTimeClause($qb, $criteria);
         $this->filter($qb, $criteria);
@@ -146,6 +164,17 @@ class PostCommentRepository extends ServiceEntityRepository
             ->setParameters(['visibility' => PostComment::VISIBILITY_SOFT_DELETED, 'user' => $user])
             ->orderBy('c.id', 'DESC')
             ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFederated()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.apId IS NOT NULL')
+            ->andWhere('c.visibility = :visibility')
+            ->orderBy('c.createdAt', 'DESC')
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->getQuery()
             ->getResult();
     }

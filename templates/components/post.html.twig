@@ -52,7 +52,7 @@
     <div class="kbin-post-main">
         <div class="kbin-post-content" data-controller="show-more mention-popover" data-action="image:thumbSelected->show-more#expand"
              data-action="image:thumbLoaded->show-more#checkHeight">
-            {% if this.post.visibility is same as 'visible' or this.canSeeTrashed %}
+            {% if this.post.visibility in ['visible', 'private'] or this.canSeeTrashed %}
                 {{ this.post.body|markdown|raw }}
             {% elseif this.post.visibility is same as 'trashed' %}
                 <p class="text-muted">[{{ 'removed'|trans }}]</p>
@@ -61,7 +61,7 @@
             {% endif %}
         </div>
 
-        {% if this.post.visibility is same as 'visible' or this.canSeeTrashed %}
+        {% if this.post.visibility in ['visible', 'private'] or this.canSeeTrashed %}
             {% if this.post.image %}
                 {% if not app.user or (app.user and not app.user.hideImages) %}
                     <div class="clearfix my-2 kbin-post-content">
@@ -75,7 +75,7 @@
             {% endif %}
             <aside class="kbin-post-meta">
                 <ul class="kbin-post-meta-list list-inline mb-0 float-start">
-                    {% if this.post.visibility is same as 'visible' %}
+                    {% if this.post.visibility in ['visible', 'private'] %}
                         <li class="kbin-post-meta-list-item kbin-post-meta-list-item-links list-inline-item">
                             <small class="text-muted">
                                 <a href="{{ path('post_comment_create', {'magazine_name': this.post.magazine.name, 'post_id': this.post.id, 'slug': this.post.slug ? this.post.slug : '-'}) }}"
@@ -154,7 +154,7 @@
                     {% endif %}
                 </ul>
 
-                {% if this.post.visibility is same as 'visible' %}
+                {% if this.post.visibility in ['visible', 'private'] %}
                     <section data-controller="reveal" data-reveal-hidden-class="visually-hidden">
                         {% if is_granted('moderate', this.post.magazine) %}
                             <ul class="kbin-post-meta-list list-inline mb-0">

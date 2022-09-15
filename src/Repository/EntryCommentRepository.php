@@ -63,7 +63,23 @@ class EntryCommentRepository extends ServiceEntityRepository
 
     private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('c');
+        $user = $this->security->getUser();
+
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.visibility IN (:visibility)');
+
+        if ($user && $criteria->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+            $qb->orWhere(
+                'c.user IN (SELECT IDENTITY(cuf.following) FROM '.UserFollow::class.' cuf WHERE cuf.follower = :cUser AND c.visibility = :cVisibility)'
+            )
+                ->setParameter('cUser', $user)
+                ->setParameter('cVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
+        }
+
+        $qb->setParameter(
+            'visibility',
+            [VisibilityInterface::VISIBILITY_SOFT_DELETED, VisibilityInterface::VISIBILITY_VISIBLE]
+        );
 
         $this->addTimeClause($qb, $criteria);
         $this->filter($qb, $criteria);

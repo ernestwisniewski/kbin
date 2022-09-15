@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
@@ -57,7 +58,7 @@ abstract class Criteria
     public ?string $type = null;
     public string $sortOption = EntryRepository::SORT_DEFAULT;
     public string $time = EntryRepository::TIME_DEFAULT;
-    public string $visibility = Entry::VISIBILITY_VISIBLE;
+    public string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public bool $subscribed = false;
     public ?string $tag = null;
     public ?string $domain = null;

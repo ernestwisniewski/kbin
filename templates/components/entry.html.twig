@@ -41,7 +41,7 @@
         {% endif %}
 
         <section class="kbin-entry-main">
-            {% if this.entry.visibility is same as 'visible' or this.canSeeTrashed %}
+            {% if this.entry.visibility in ['visible', 'private'] or this.canSeeTrashed %}
                 {% include 'entry/_entry_title.html.twig' with {entry: this.entry, title_tag: this.titleTag, direct_url: this.directUrl, related: this.related, is_ajax: this.isAjax} %}
             {% elseif this.entry.visibility is same as 'trashed' %}
                 <p class="text-muted">[{{ 'removed'|trans }}]</p>
@@ -49,7 +49,7 @@
                 <p class="text-muted">[{{ 'deleted'|trans }}]</p>
             {% endif %}
 
-            {% if this.entry.visibility is same as 'visible' or this.canSeeTrashed %}
+            {% if this.entry.visibility in ['visible', 'private'] or this.canSeeTrashed %}
                 <aside class="kbin-entry-meta mt-2">
                     <ul class="kbin-entry-meta-list list-inline mb-0">
                         <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
@@ -92,7 +92,7 @@
                             </li>
                         {% endif %}
 
-                        {% if this.entry.visibility is same as 'visible' %}
+                        {% if this.entry.visibility in ['visible', 'private'] %}
                             <li class="kbin-entry-meta-entry kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                 <small class="text-muted">
                                     <a href="{{ (is_entry_page() and not this.related) and not this.isAjax ? '#comments' : entry_url(this.entry) }}"

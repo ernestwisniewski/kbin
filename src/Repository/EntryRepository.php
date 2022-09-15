@@ -34,7 +34,7 @@ use Symfony\Component\Security\Core\Security;
 class EntryRepository extends ServiceEntityRepository
 {
     const SORT_DEFAULT = 'hot';
-    const  TIME_DEFAULT = Criteria::TIME_ALL;
+    const TIME_DEFAULT = Criteria::TIME_ALL;
     const PER_PAGE = 25;
 
     private Security $security;
@@ -68,12 +68,23 @@ class EntryRepository extends ServiceEntityRepository
 
     private function getEntryQueryBuilder(EntryPageView $criteria): QueryBuilder
     {
+        $user = $this->security->getUser();
+
         $qb = $this->createQueryBuilder('e')
             ->where('e.visibility = :e_visibility')
             ->join('e.magazine', 'm')
-            ->andWhere('m.visibility = :m_visibility')
-            ->setParameter('e_visibility', $criteria->visibility)
-            ->setParameter('m_visibility', Magazine::VISIBILITY_VISIBLE);
+            ->andWhere('m.visibility = :m_visibility');
+
+        if ($user && $criteria->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+            $qb->orWhere(
+                'e.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND e.visibility = :pVisibility)'
+            )
+                ->setParameter('pUser', $user)
+                ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
+        }
+
+        $qb->setParameter('e_visibility', $criteria->visibility)
+            ->setParameter('m_visibility', VisibilityInterface::VISIBILITY_VISIBLE);
 
         $this->addTimeClause($qb, $criteria);
         $this->addStickyClause($qb, $criteria);
@@ -147,7 +158,9 @@ class EntryRepository extends ServiceEntityRepository
         }
 
         if ($criteria->moderated) {
-            $qb->andWhere('e.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)');
+            $qb->andWhere(
+                'e.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)'
+            );
             $qb->setParameter('user', $this->security->getUser());
         }
 
@@ -276,7 +289,9 @@ class EntryRepository extends ServiceEntityRepository
             ->andWhere('e.visibility = :visibility')
             ->join('e.magazine', 'm')
             ->orderBy('e.createdAt', 'DESC')
-            ->setParameters(['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setParameters(
+                ['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
+            )
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

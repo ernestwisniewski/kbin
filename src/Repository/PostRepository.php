@@ -64,12 +64,23 @@ class PostRepository extends ServiceEntityRepository
 
     private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
     {
+        $user = $this->security->getUser();
+
         $qb = $this->createQueryBuilder('p')
             ->where('p.visibility = :p_visibility')
             ->join('p.magazine', 'm')
-            ->andWhere('m.visibility = :m_visibility')
-            ->setParameter('p_visibility', $criteria->visibility)
-            ->setParameter('m_visibility', Magazine::VISIBILITY_VISIBLE);
+            ->andWhere('m.visibility = :m_visibility');
+
+        if ($user && $criteria->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+            $qb->orWhere(
+                'p.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND p.visibility = :pVisibility)'
+            )
+                ->setParameter('pUser', $user)
+                ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
+        }
+
+        $qb->setParameter('p_visibility', $criteria->visibility)
+            ->setParameter('m_visibility', VisibilityInterface::VISIBILITY_VISIBLE);
 
         $this->addTimeClause($qb, $criteria);
         $this->filter($qb, $criteria);
@@ -119,7 +130,9 @@ class PostRepository extends ServiceEntityRepository
         }
 
         if ($criteria->moderated) {
-            $qb->andWhere('p.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)');
+            $qb->andWhere(
+                'p.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)'
+            );
             $qb->setParameter('user', $this->security->getUser());
         }
 
@@ -241,7 +254,9 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('p.isAdult = false')
             ->join('p.magazine', 'm')
             ->orderBy('p.createdAt', 'DESC')
-            ->setParameters(['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setParameters(
+                ['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
+            )
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
@@ -257,6 +272,17 @@ class PostRepository extends ServiceEntityRepository
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFederated()
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.apId IS NOT NULL')
+            ->andWhere('p.visibility = :visibility')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->getQuery()
             ->getResult();
     }
