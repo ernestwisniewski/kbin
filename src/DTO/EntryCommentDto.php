@@ -25,9 +25,9 @@ class EntryCommentDto
     public ?string $body = null;
     public ?int $uv = null;
     public ?int $dv = null;
-    public ?string $visibility = null;
+    public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public ?string $ip = null;
-    public ?string $apId = VisibilityInterface::VISIBILITY_VISIBLE;
+    public ?string $apId = null;
     public ?array $mentions = null;
     public ?DateTimeImmutable $createdAt = null;
     public ?DateTime $lastActive = null;
