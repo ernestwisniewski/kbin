@@ -3,7 +3,7 @@ import {fetch, ok} from "../utils/http";
 import Cookies from 'js-cookie';
 
 export default class extends Controller {
-    static targets = ['topBar'];
+    static targets = ['topBar', 'icon'];
 
     connect() {
         if (window.KBIN_LOGGED_IN) {
@@ -16,6 +16,25 @@ export default class extends Controller {
             Cookies.set('theme', 'kbin-dark');
             document.body.classList.toggle('kbin-dark');
         }
+    }
+
+    toggleTopBar(e) {
+        e.preventDefault();
+
+        this.topBarTarget.classList.toggle('visually-hidden');
+
+        let icons = document.querySelectorAll(`[data-kbin-target='icon']`);
+
+        console.log(icons);
+        icons.forEach(function (elem) {
+            if(elem.classList.contains('fa-caret-down')) {
+                elem.classList.remove('fa-caret-down');
+                elem.classList.add('fa-caret-up');
+            } else {
+                elem.classList.remove('fa-caret-up');
+                elem.classList.add('fa-caret-down');
+            }
+        })
     }
 
     async toggleTheme(e) {
@@ -43,11 +62,5 @@ export default class extends Controller {
             Cookies.set('theme', document.body.classList.contains('kbin-dark') ? 'kbin-light' : 'kbin-dark');
             document.body.classList.toggle('kbin-dark');
         }
-    }
-
-    toggleTopBar(e) {
-        e.preventDefault();
-
-        this.topBarTarget.classList.toggle('visually-hidden');
     }
 }

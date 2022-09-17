@@ -1,0 +1,40 @@
+.kbin-main-menu {
+  background: white;
+  z-index: 200;
+  position: fixed;
+  top: 0;
+  width: 100%;
+
+  .kbin-dark & {
+    background-color: #202020;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  .list-group-item {
+    border: 0;
+  }
+
+  &-page-view {
+    font-size: 1.6rem;
+
+    li {
+      list-style: none;
+
+
+    }
+  }
+}
+
+.kbin-featured-magazines-list-item--active {
+  a {
+    background: $kbin-grey;
+
+    .kbin-dark & {
+      background: #131313;
+      color: white !important;
+    }
+  }
+}
