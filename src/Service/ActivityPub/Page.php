@@ -5,24 +5,33 @@ namespace App\Service\ActivityPub;
 use App\DTO\EntryDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\VisibilityInterface;
+use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
 use App\Service\EntryManager;
 use DateTime;
 use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Page
 {
     public function __construct(
+        private ApActivityRepository $repository,
         private MarkdownConverter $markdownConverter,
         private MagazineRepository $magazineRepository,
         private EntryManager $entryManager,
         private ActivityPubManager $activityPubManager,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(array $object): ActivityPubActivityInterface
     {
+        $current = $this->repository->findByObjectId($object['id']);
+        if ($current) {
+            return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
+        }
+
         $dto = new EntryDto();
         $dto->magazine = $this->magazineRepository->findOneByName('random'); // @todo magazine by tags
         $dto->title = $object['name'];
