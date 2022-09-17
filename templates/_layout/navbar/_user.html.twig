@@ -29,3 +29,9 @@
 <li class=" kbin-nav-navbar-item {{ is_active_route('user_followers') ? 'kbin-nav-navbar-item--active' : '' }}">
     <a href="{{ path('user_followers', {username: user.username}) }}">{{ 'followers'|trans }}</a>
 </li>
+
+{% if kbin_js_enabled() %}
+    <li class="kbin-nav-navbar-item">
+        <a href="#" data-action="kbin#toggleTopBar"><i class="fa-sharp fa-solid fa-caret-down"></i></a>
+    </li>
+{% endif %}

@@ -162,9 +162,10 @@ a {
 }
 
 .scroll-progress {
-  height: 1.4rem;
+  height: 1px;
   position: fixed;
   z-index: 1000;
+  background: $kbin-navbar-border-color;
 }
 
 .loading-cursor {

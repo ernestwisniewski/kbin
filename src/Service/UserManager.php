@@ -5,6 +5,7 @@ namespace App\Service;
 use App\DTO\CardanoWalletAddressDto;
 use App\DTO\UserDto;
 use App\Entity\User;
+use App\Entity\UserFollowRequest;
 use App\Event\User\UserBlockEvent;
 use App\Event\User\UserFollowEvent;
 use App\Factory\UserFactory;
@@ -12,6 +13,7 @@ use App\Message\DeleteImageMessage;
 use App\Message\DeleteUserMessage;
 use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
+use App\Repository\UserFollowRequestRepository;
 use App\Security\EmailVerifier;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,12 +40,24 @@ class UserManager
         private EmailVerifier $verifier,
         private EntityManagerInterface $entityManager,
         private RateLimiterFactory $userRegisterLimiter,
+        private UserFollowRequestRepository $requestRepository,
         private Security $security,
     ) {
     }
 
-    public function follow(User $follower, User $following)
+    public function follow(User $follower, User $following): void
     {
+//        if ($following->apId) {
+//            if (!$request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
+//                $request = new UserFollowRequest($follower, $following);
+//                $this->entityManager->persist($request);
+//                $this->entityManager->flush();
+//                return;
+//            } else {
+//                $this->entityManager->remove($request);
+//            }
+//        }
+
         $follower->unblock($following);
 
         $follower->follow($following);
@@ -64,7 +78,7 @@ class UserManager
         $this->dispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
     }
 
-    public function unfollow(User $follower, User $following)
+    public function unfollow(User $follower, User $following): void
     {
         $follower->unfollow($following);
 
@@ -73,7 +87,7 @@ class UserManager
         $this->dispatcher->dispatch(new UserFollowEvent($follower, $following, true));
     }
 
-    public function unblock(User $blocker, User $blocked)
+    public function unblock(User $blocker, User $blocked): void
     {
         $blocker->unblock($blocked);
 
@@ -194,7 +208,7 @@ class UserManager
         $this->requestStack->getSession()->invalidate();
     }
 
-    public function attachWallet(User $user, CardanoWalletAddressDto $dto)
+    public function attachWallet(User $user, CardanoWalletAddressDto $dto):void
     {
         $user->cardanoWalletAddress = $dto->walletAddress;
 

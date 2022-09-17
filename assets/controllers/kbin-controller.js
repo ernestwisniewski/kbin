@@ -3,6 +3,8 @@ import {fetch, ok} from "../utils/http";
 import Cookies from 'js-cookie';
 
 export default class extends Controller {
+    static targets = ['topBar'];
+
     connect() {
         if (window.KBIN_LOGGED_IN) {
             return true;
@@ -10,7 +12,7 @@ export default class extends Controller {
 
         const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
-        if(prefersDarkScheme.matches && !Cookies.get('theme')) {
+        if (prefersDarkScheme.matches && !Cookies.get('theme')) {
             Cookies.set('theme', 'kbin-dark');
             document.body.classList.toggle('kbin-dark');
         }
@@ -41,5 +43,11 @@ export default class extends Controller {
             Cookies.set('theme', document.body.classList.contains('kbin-dark') ? 'kbin-light' : 'kbin-dark');
             document.body.classList.toggle('kbin-dark');
         }
+    }
+
+    toggleTopBar(e) {
+        e.preventDefault();
+
+        this.topBarTarget.classList.toggle('visually-hidden');
     }
 }

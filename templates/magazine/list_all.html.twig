@@ -3,7 +3,7 @@
 {%- block title -%}{{- 'topbar.all_magazines'|trans -}}{%- endblock -%}
 
 {% block body %}
-    <ul class="nav nav-tabs justify-content-end">
+    <ul class="nav nav-tabs justify-content-start">
         <li class="nav-item">
             <a class="nav-link {{ listView is same as 'cards' ? 'active' : '' }}" aria-current="page" href="{{ path('magazine_list_all', {listView: 'cards'}) }}">
                 <i class="fas fa-grip-vertical text-muted"></i>

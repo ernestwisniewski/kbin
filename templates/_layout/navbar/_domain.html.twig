@@ -7,3 +7,9 @@
 <li class="kbin-nav-navbar-item {{ is_comments_page() ? 'kbin-nav-navbar-item--active' : '' }}">
     <a href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
 </li>
+
+{% if kbin_js_enabled() %}
+    <li class="kbin-nav-navbar-item">
+        <a href="#" data-action="kbin#toggleTopBar"><i class="fa-sharp fa-solid fa-caret-down"></i></a>
+    </li>
+{% endif %}

@@ -1,4 +1,4 @@
-<section class="kbin-featured-magazines container-fluid position-relative">
+<section class="kbin-featured-magazines container-fluid position-relative {{ kbin_js_enabled() ? 'visually-hidden' : '' }}" data-kbin-target="topBar">
     <ul class="kbin-featured-magazines-list">
         <li class="kbin-featured-magazines-list-item {{ is_homepage() ? 'kbin-featured-magazines-list-item--active' : '' }}">
             <a href="/">{{ 'topbar.all'|trans }}</a>

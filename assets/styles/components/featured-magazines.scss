@@ -1,11 +1,15 @@
 .kbin-featured-magazines {
   z-index: 50;
-  height: 1.2rem;
+  height: 1.5rem;
   padding: 0;
   background-color: $kbin-topbar-background-color;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
+
+  @include media-breakpoint-down(lg) {
+    height: 1.2rem;
+  }
 
   &-list {
     position: relative;
@@ -18,9 +22,13 @@
 
       a {
         color: #fff !important;
-        font-size: .7rem;
-        padding: .1rem .5rem;
+        font-size: .8rem;
+        padding: .2rem .5rem;
         display: block;
+
+        @include media-breakpoint-down(lg) {
+          font-size: .7rem;
+        }
 
         &:hover,
         &.highlighted:hover {
