@@ -44,16 +44,18 @@ export default class Navbar {
         let icons = document.querySelectorAll(`[data-kbin-target='icon']`);
         let menu = document.querySelector(`[data-kbin-target='topBar']`);
 
-        menu.classList.add('visually-hidden');
+        if(!menu.classList.contains('visually-hidden')) {
+            icons.forEach(function (elem) {
+                if (elem.classList.contains('fa-caret-down')) {
+                    elem.classList.remove('fa-caret-down');
+                    elem.classList.add('fa-caret-up');
+                } else {
+                    elem.classList.remove('fa-caret-up');
+                    elem.classList.add('fa-caret-down');
+                }
+            })
+        }
 
-        icons.forEach(function (elem) {
-            if (elem.classList.contains('fa-caret-down')) {
-                elem.classList.remove('fa-caret-down');
-                elem.classList.add('fa-caret-up');
-            } else {
-                elem.classList.remove('fa-caret-up');
-                elem.classList.add('fa-caret-down');
-            }
-        })
+        menu.classList.add('visually-hidden');
     }
 }
