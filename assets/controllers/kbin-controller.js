@@ -25,7 +25,6 @@ export default class extends Controller {
 
         let icons = document.querySelectorAll(`[data-kbin-target='icon']`);
 
-        console.log(icons);
         icons.forEach(function (elem) {
             if(elem.classList.contains('fa-caret-down')) {
                 elem.classList.remove('fa-caret-down');

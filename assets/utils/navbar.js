@@ -13,6 +13,7 @@ export default class Navbar {
 
         if (el_autohide) {
             var last_scroll_top = 0;
+            let self = this;
             window.addEventListener('scroll', function () {
                 let scroll_top = window.scrollY;
 
@@ -31,10 +32,28 @@ export default class Navbar {
                 } else {
                     el_autohide.classList.remove('scrolled-up');
                     el_autohide.classList.add('scrolled-down');
+                    self.hideMenu();
                 }
 
                 last_scroll_top = scroll_top;
             });
         }
+    }
+
+    hideMenu() {
+        let icons = document.querySelectorAll(`[data-kbin-target='icon']`);
+        let menu = document.querySelector(`[data-kbin-target='topBar']`);
+
+        menu.classList.add('visually-hidden');
+
+        icons.forEach(function (elem) {
+            if (elem.classList.contains('fa-caret-down')) {
+                elem.classList.remove('fa-caret-down');
+                elem.classList.add('fa-caret-up');
+            } else {
+                elem.classList.remove('fa-caret-up');
+                elem.classList.add('fa-caret-down');
+            }
+        })
     }
 }
