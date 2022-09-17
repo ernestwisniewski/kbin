@@ -4,6 +4,7 @@
   position: fixed;
   top: 0;
   width: 100%;
+  font-size: .95rem;
 
   .kbin-dark & {
     background-color: #202020;
@@ -18,12 +19,10 @@
   }
 
   &-page-view {
-    font-size: 1.6rem;
+    font-size: .95rem;
 
     li {
       list-style: none;
-
-
     }
   }
 }
