@@ -52,9 +52,10 @@
      data-notify-counter-hidden-class="visually-hidden"
      data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
     <div class="fixed-top">
-        {% include '_layout/_topbar.html.twig' %}
         {% include '_layout/_navbar.html.twig' %}
     </div>
+
+    {% include '_layout/_main_menu.html.twig' %}
 
     {% block body %}{% endblock %}
 
