@@ -28,7 +28,6 @@ final class Version20220918140533 extends AbstractMigration
         $this->addSql('ALTER TABLE "user" ADD ap_preferred_username VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE "user" ADD ap_discoverable BOOLEAN DEFAULT NULL');
         $this->addSql('ALTER TABLE "user" ADD ap_manually_approves_followers BOOLEAN DEFAULT NULL');
-        $this->addSql('ALTER TABLE "user" ALTER private_key TYPE BOOLEAN');
     }
 
     public function down(Schema $schema): void
