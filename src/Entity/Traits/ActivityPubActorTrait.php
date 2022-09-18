@@ -36,7 +36,7 @@ trait ActivityPubActorTrait
      */
     public ?string $apManuallyApprovesFollowers = null;
     /**
-     * @ORM\Column(type="boolean", nullable=true, options={"default": null})
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
      */
     public ?string $privateKey = null;
     /**

@@ -24,7 +24,6 @@ final class Version20220918140533 extends AbstractMigration
         $this->addSql('ALTER TABLE magazine ADD ap_preferred_username VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE magazine ADD ap_discoverable BOOLEAN DEFAULT NULL');
         $this->addSql('ALTER TABLE magazine ADD ap_manually_approves_followers BOOLEAN DEFAULT NULL');
-        $this->addSql('ALTER TABLE magazine ALTER private_key TYPE BOOLEAN');
         $this->addSql('ALTER TABLE "user" ADD ap_followers_url VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE "user" ADD ap_preferred_username VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE "user" ADD ap_discoverable BOOLEAN DEFAULT NULL');
@@ -40,11 +39,9 @@ final class Version20220918140533 extends AbstractMigration
         $this->addSql('ALTER TABLE magazine DROP ap_preferred_username');
         $this->addSql('ALTER TABLE magazine DROP ap_discoverable');
         $this->addSql('ALTER TABLE magazine DROP ap_manually_approves_followers');
-        $this->addSql('ALTER TABLE magazine ALTER private_key TYPE TEXT');
         $this->addSql('ALTER TABLE "user" DROP ap_followers_url');
         $this->addSql('ALTER TABLE "user" DROP ap_preferred_username');
         $this->addSql('ALTER TABLE "user" DROP ap_discoverable');
         $this->addSql('ALTER TABLE "user" DROP ap_manually_approves_followers');
-        $this->addSql('ALTER TABLE "user" ALTER private_key TYPE TEXT');
     }
 }
