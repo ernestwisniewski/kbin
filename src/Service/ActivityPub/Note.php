@@ -12,6 +12,7 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\User;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;
@@ -108,13 +109,15 @@ class Note
             }
         }
 
+        $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
+
         $dto->body = $this->markdownConverter->convert($object['content']);
-        $dto->visibility = $this->getVisibility($object);
+        $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
 
         return $this->entryCommentManager->create(
             $dto,
-            $this->activityPubManager->findActorOrCreate($object['attributedTo']),
+            $actor,
             false
         );
     }
@@ -140,13 +143,15 @@ class Note
             }
         }
 
+        $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
+
         $dto->body = $this->markdownConverter->convert($object['content']);
-        $dto->visibility = $this->getVisibility($object);
+        $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
 
         return $this->postCommentManager->create(
             $dto,
-            $this->activityPubManager->findActorOrCreate($object['attributedTo']),
+            $actor,
             false
         );
     }
@@ -166,13 +171,15 @@ class Note
             }
         }
 
+        $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
+
         $dto->body = $this->markdownConverter->convert($object['content']);
-        $dto->visibility = $this->getVisibility($object);
+        $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
 
         return $this->postManager->create(
             $dto,
-            $this->activityPubManager->findActorOrCreate($object['attributedTo']),
+            $actor,
             false
         );
     }
@@ -183,7 +190,7 @@ class Note
         $dto->lastActive = new DateTime($date);
     }
 
-    private function getVisibility(array $object): string
+    private function getVisibility(array $object, User $actor): string
     {
         if (!in_array(
             ActivityPubActivityInterface::PUBLIC_URL,
@@ -191,7 +198,7 @@ class Note
         )) {
             if (
                 !in_array(
-                    ActivityPubActivityInterface::FOLLOWERS,
+                    $actor->apFollowersUrl,
                     array_merge($object['to'] ?? [], $object['cc'] ?? [])
                 )
             ) {

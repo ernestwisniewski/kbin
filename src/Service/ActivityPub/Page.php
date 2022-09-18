@@ -5,6 +5,7 @@ namespace App\Service\ActivityPub;
 use App\DTO\EntryDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\VisibilityInterface;
+use App\Entity\User;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
@@ -41,14 +42,16 @@ class Page
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
         }
 
+        $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
+
         $dto->body = $object['content'] ? $this->markdownConverter->convert($object['content']) : null;
-        $dto->visibility = $this->getVisibility($object);
+        $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleUrl($dto, $object);
         $this->handleDate($dto, $object['published']);
 
         return $this->entryManager->create(
             $dto,
-            $this->activityPubManager->findActorOrCreate($object['attributedTo']),
+            $actor,
             false
         );
     }
@@ -80,7 +83,7 @@ class Page
         }
     }
 
-    private function getVisibility(array $object): string
+    private function getVisibility(array $object, User $actor): string
     {
         if (!in_array(
             ActivityPubActivityInterface::PUBLIC_URL,
@@ -88,7 +91,7 @@ class Page
         )) {
             if (
                 !in_array(
-                    ActivityPubActivityInterface::FOLLOWERS,
+                    $actor->apFollowersUrl,
                     array_merge($object['to'] ?? [], $object['cc'] ?? [])
                 )
             ) {

@@ -47,7 +47,7 @@ class UserManager
 
     public function follow(User $follower, User $following, bool $createRequest = true): void
     {
-        if ($following->apId && $createRequest) {
+        if ($following->apId && $following->apManuallyApprovesFollowers && $createRequest) {
             if (!$this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
                 $request = new UserFollowRequest($follower, $following);
                 $this->entityManager->persist($request);
