@@ -20,15 +20,31 @@ trait ActivityPubActorTrait
      */
     public ?string $apPublicUrl = null;
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $apFollowersUrl = null;
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     */
+    public ?string $apPreferredUsername = null;
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default": null})
+     */
+    public ?string $apDiscoverable = null;
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default": null})
+     */
+    public ?string $apManuallyApprovesFollowers = null;
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default": null})
      */
     public ?string $privateKey = null;
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true, options={"default": null})
      */
     public ?string $publicKey = null;
     /**
-     * @ORM\Column(type="datetimetz", nullable=true)
+     * @ORM\Column(type="datetimetz", nullable=true, options={"default": null})
      */
     public ?DateTime $apFetchedAt = null;
 

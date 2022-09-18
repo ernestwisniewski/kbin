@@ -215,31 +215,7 @@ class ActivityPubManager
             false
         );
 
-        $actor = $this->apHttpClient->getActorObject($actorUrl);
-
-        if (isset($actor['summary'])) {
-            $converter = new HtmlConverter(['strip_tags' => true]);
-            $user->about = stripslashes($converter->convert($actor['summary']));
-        }
-
-        if (isset($actor['icon'])) {
-            $user->avatar = $this->handleImages([$actor['icon']]);
-        }
-
-        if (isset($actor['image'])) {
-            $user->cover = $this->handleImages([$actor['image']]);
-        }
-
-        $user->notifyOnNewEntry = false;
-        $user->notifyOnNewEntryReply = false;
-        $user->notifyOnNewEntryCommentReply = false;
-        $user->notifyOnNewPost = false;
-        $user->notifyOnNewPostCommentReply = false;
-
-        $user->apPublicUrl = $actor['url'] ?? $actorUrl;
-        $user->apFetchedAt = new \DateTime();
-
-        $this->entityManager->flush();
+        $this->updateUser($actorUrl);
 
         return $user;
     }
@@ -270,6 +246,10 @@ class ActivityPubManager
             $user->cover = $newImage;
         }
 
+        $user->apFollowersUrl = $actor['followers'] ?? null;
+        $user->apPreferredUsername = $actor['preferredUsername'] ?? null;
+        $user->apDiscoverable = $actor['discoverable'] ?? null;
+        $user->apManuallyApprovesFollowers = $actor['manuallyApprovesFollowers'] ?? null;
         $user->apPublicUrl = $actor['url'] ?? $actorUrl;
         $user->apFetchedAt = new \DateTime();
 

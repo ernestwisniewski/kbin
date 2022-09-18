@@ -22,12 +22,12 @@ class UserFollowRequest
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="follows")
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     public ?User $follower;
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="followers")
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     public ?User $following;

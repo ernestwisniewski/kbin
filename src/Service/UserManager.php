@@ -45,18 +45,17 @@ class UserManager
     ) {
     }
 
-    public function follow(User $follower, User $following): void
+    public function follow(User $follower, User $following, bool $createRequest = true): void
     {
-//        if ($following->apId) {
-//            if (!$request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
-//                $request = new UserFollowRequest($follower, $following);
-//                $this->entityManager->persist($request);
-//                $this->entityManager->flush();
-//                return;
-//            } else {
-//                $this->entityManager->remove($request);
-//            }
-//        }
+        if ($following->apId && $createRequest) {
+            if (!$this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
+                $request = new UserFollowRequest($follower, $following);
+                $this->entityManager->persist($request);
+                $this->entityManager->flush();
+            }
+
+            return;
+        }
 
         $follower->unblock($following);
 
@@ -65,6 +64,21 @@ class UserManager
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new UserFollowEvent($follower, $following));
+    }
+
+    public function acceptFollow(User $follower, User $following): void
+    {
+        $request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following]);
+        $this->entityManager->remove($request);
+
+        $this->follow($follower, $following, false);
+    }
+
+    public function rejectFollow(User $follower, User $following): void
+    {
+        $request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following]);
+        $this->entityManager->remove($request);
+
     }
 
     public function block(User $blocker, User $blocked)
@@ -208,7 +222,7 @@ class UserManager
         $this->requestStack->getSession()->invalidate();
     }
 
-    public function attachWallet(User $user, CardanoWalletAddressDto $dto):void
+    public function attachWallet(User $user, CardanoWalletAddressDto $dto): void
     {
         $user->cardanoWalletAddress = $dto->walletAddress;
 

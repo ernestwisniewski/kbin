@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\AwardType;
 use App\Entity\Settings;
 use App\Entity\UserFollowRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -20,6 +19,6 @@ class UserFollowRequestRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AwardType::class);
+        parent::__construct($registry, UserFollowRequest::class);
     }
 }
