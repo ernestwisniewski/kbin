@@ -33,8 +33,8 @@ class PostCommentsPreviewComponent
                 [
                     'post' => $this->post,
                     'comments' => $this->post->lastActive < (new \DateTime('-4 hours'))
-                        ? $this->post->getBestComments()
-                        : $this->post->getLastComments(),
+                        ? $this->post->getBestComments($this->security->getUser())
+                        : $this->post->getLastComments($this->security->getUser()),
                 ]
             );
         });

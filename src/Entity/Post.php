@@ -120,19 +120,24 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
      */
     private int $id;
 
-    public  array $children = [];
+    public array $children = [];
 
-    public function __construct(string $body, Magazine $magazine, User $user, ?bool $isAdult = false, ?string $ip = null)
-    {
-        $this->body          = $body;
-        $this->magazine      = $magazine;
-        $this->user          = $user;
-        $this->isAdult       = $isAdult ?? false;
-        $this->ip            = $ip;
-        $this->comments      = new ArrayCollection();
-        $this->votes         = new ArrayCollection();
-        $this->reports       = new ArrayCollection();
-        $this->favourites    = new ArrayCollection();
+    public function __construct(
+        string $body,
+        Magazine $magazine,
+        User $user,
+        ?bool $isAdult = false,
+        ?string $ip = null
+    ) {
+        $this->body = $body;
+        $this->magazine = $magazine;
+        $this->user = $user;
+        $this->isAdult = $isAdult ?? false;
+        $this->ip = $ip;
+        $this->comments = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+        $this->reports = new ArrayCollection();
+        $this->favourites = new ArrayCollection();
         $this->notifications = new ArrayCollection();
 
         $user->addPost($this);
@@ -163,12 +168,13 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $this->id;
     }
 
-    public function getBestComments(): Collection
+    public function getBestComments(?User $user = null): Collection
     {
         $criteria = Criteria::create()
             ->orderBy(['upVotes' => 'DESC', 'createdAt' => 'ASC']);
 
         $comments = $this->comments->matching($criteria);
+        $comments = $this->handlePrivateComments($comments, $user);
         $comments = new ArrayCollection($comments->slice(0, 2));
 
         if (!count(array_filter($comments->toArray(), fn($comment) => $comment->countUpVotes() > 0))) {
@@ -183,14 +189,27 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return new ArrayCollection(iterator_to_array($iterator));
     }
 
-    public function getLastComments(): Collection
+    public function getLastComments(?User $user = null): Collection
     {
         $criteria = Criteria::create()
             ->orderBy(['createdAt' => 'ASC']);
 
         $comments = $this->comments->matching($criteria);
 
+        $comments = $this->handlePrivateComments($comments, $user);
+
         return new ArrayCollection($comments->slice(-2, 2));
+    }
+
+    private function handlePrivateComments(ArrayCollection $comments, ?User $user): ArrayCollection
+    {
+        return $comments->filter(function (PostComment $val) use ($user) {
+            if ($user && self::VISIBILITY_PRIVATE === $val->visibility) {
+                return $user->isFollower($val->user);
+            }
+
+            return $val->visibility === self::VISIBILITY_VISIBLE;
+        });
     }
 
     public function addComment(PostComment $comment): self
@@ -212,7 +231,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
-        $this->commentCount   = $this->comments->matching($criteria)->count();
+        $this->commentCount = $this->comments->matching($criteria)->count();
         $this->favouriteCount = $this->favourites->count();
 
         return $this;
