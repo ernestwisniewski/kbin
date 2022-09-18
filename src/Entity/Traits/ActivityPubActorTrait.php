@@ -30,11 +30,11 @@ trait ActivityPubActorTrait
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default": null})
      */
-    public ?string $apDiscoverable = null;
+    public ?bool $apDiscoverable = null;
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default": null})
      */
-    public ?string $apManuallyApprovesFollowers = null;
+    public ?bool $apManuallyApprovesFollowers = null;
     /**
      * @ORM\Column(type="string", nullable=true, options={"default": null})
      */
