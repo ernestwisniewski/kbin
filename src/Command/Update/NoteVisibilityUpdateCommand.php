@@ -3,8 +3,10 @@
 namespace App\Command\Update;
 
 use App\Command\Update\Async\NoteVisibilityMessage;
+use App\Message\ActivityPub\UpdateActorMessage;
 use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,14 +14,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsCommand(
-    name: 'kbin:note:visibility',
-    description: 'This command allows refresh notes visibility.'
+    name: 'kbin:ap:actor:update',
+    description: 'This command allows refresh remote users.'
 )]
 class NoteVisibilityUpdateCommand extends Command
 {
     public function __construct(
-        private PostRepository $postRepository,
-        private PostCommentRepository $postCommentRepository,
+        private UserRepository $repository,
         private MessageBusInterface $bus
     ) {
         parent::__construct();
@@ -27,14 +28,8 @@ class NoteVisibilityUpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $posts = $this->postRepository->findFederated();
-        foreach ($posts as $post) {
-            $this->bus->dispatch(new NoteVisibilityMessage($post->getId(), get_class($post)));
-        }
-
-        $comments = $this->postCommentRepository->findFederated();
-        foreach ($comments as $comment) {
-            $this->bus->dispatch(new NoteVisibilityMessage($comment->getId(), get_class($comment)));
+        foreach ($this->repository->findAllRemote() as $user) {
+            $this->bus->dispatch(new UpdateActorMessage($user->apProfileId));
         }
 
         return Command::SUCCESS;
