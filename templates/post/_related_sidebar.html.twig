@@ -1,22 +1,28 @@
 {% from '_layout/_macros.html.twig' import post_url %}
+<div class="mb-5">
+    {% if posts|length %}
+        <h4 class="font-weight-bold kbin-logo-color mb-3 h6">{{ 'related_posts'|trans }}</h4>
+    {% endif %}
 
-{% for post in posts %}
-    <div class="card mb-3">
-        {% if post.image %}
-            <a href="{{ post_url(post) }}">
-                <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}" class="kbin-post-thumb card-img-top" alt="{{ post.shortTitle }}">
-            </a>
-        {% endif %}
-        <div class="card-body">
-            <a href="{{ post_url(post) }}">
-                <small class="card-title small">
-                    {{ post.shortTitle(250)  }}
-                </small>
-            </a>
+    {% for post in posts %}
+        <div class="card mb-3">
+            {% if post.image %}
+                <a href="{{ post_url(post) }}">
+                    <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
+                         class="kbin-post-thumb card-img-top" alt="{{ post.shortTitle }}">
+                </a>
+            {% endif %}
+            <div class="card-body">
+                <a href="{{ post_url(post) }}">
+                    <small class="card-title small">
+                        {{ post.shortTitle(250) }}
+                    </small>
+                </a>
+            </div>
+            <div class="card-footer text-end">
+                <div class="small">{{ component('magazine_inline', { magazine: post.magazine }) }}</div>
+                <div class="text-muted small"><small>{{ post.createdAt|ago }}</small></div>
+            </div>
         </div>
-        <div class="card-footer text-end">
-            <div class="small">{{ component('magazine_inline', { magazine: post.magazine }) }}</div>
-            <div class="text-muted small"><small>{{ post.createdAt|ago }}</small></div>
-        </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>

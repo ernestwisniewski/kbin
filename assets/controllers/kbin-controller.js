@@ -23,6 +23,8 @@ export default class extends Controller {
 
         this.topBarTarget.classList.toggle('visually-hidden');
 
+        document.querySelector('.navbar-collapse').classList.remove('show')
+
         let icons = document.querySelectorAll(`[data-kbin-target='icon']`);
 
         icons.forEach(function (elem) {

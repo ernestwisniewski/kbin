@@ -48,29 +48,17 @@
                 {% endif %}
             </div>
 
-            <a href="#" class="btn d-block d-lg-none me-2" data-action="kbin#toggleTopBar"><i
-                        class="p-1 fa-sharp fa-solid fa-caret-down" data-kbin-target="icon"></i></a>
-
-            <a class="btn d-block d-lg-none me-2" href="{{ path('user_profile_front') }}">
-                <i class="fas fa-user p-1"></i>
-            </a>
-
             <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#kbin-sidebar"
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters">
                 <i class="fas fa-circle-info p-1"></i>
             </button>
-            <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#kbin-nav"
-                    aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar">
+
+            <button class="navbar-toggler me-2" type="button" data-bs-target="#kbin-nav" data-bs-toggle="collapse"
+                    aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle navbar">
                 <i class="fas fa-bars p-1"></i>
             </button>
-            <div class="ms-3 mb-0 {{ kbin_js_enabled() ? '' : 'show' }} offcanvas offcanvas-end" id="kbin-nav">
-                <div class="d-block d-lg-none kbin-sidebar--close">
-                    <button type="button" class="navbar-toggler btn-close my-4 ms-1" data-bs-toggle="offcanvas"
-                            data-bs-target="#kbin-nav"
-                            aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters"></button>
-                </div>
-                <div class="mb-5 mt-5 d-lg-none">
-                </div>
+
+            <div class="ms-3 mb-0 {{ kbin_js_enabled() ? '' : 'show' }} navbar-collapse collapse" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-lg-auto mb-2 mb-lg-0">
                     {% if is_user_page() %}
                         {% include '_layout/navbar/_user.html.twig' %}
@@ -82,60 +70,145 @@
                         {% include '_layout/navbar/_front.html.twig' %}
                     {% endif %}
                 </ul>
-                <ul class="kbin-nav-navbar navbar-nav mb-2 mb-lg-0 float-lg-end"
-                    data-controller="notify"
-                    {% if magazine is defined and magazine %}data-notify-magazine-name-value="{{ magazine.name }}"{% endif %}
-                        {% if app.user %}data-notify-username-value="{{ app.user.username }}"{% endif %}
-                        {% if entry is defined and entry %}data-notify-entry-id-value="{{ entry.id }}"{% endif %}>
-                    {% if app.user %}
-                        <li class="dropdown dropstart {{ app.user.countNewNotifications > 0 ? '' : 'visually-hidden' }}"
-                            data-notify-counter-target="notifications">
-                            <a href="{{ path('user_profile_notifications') }}"
-                               class="px-1 nav-link nav-link dropdown-toggle dropstart" id="notification-dropdown"
-                               role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="badge rounded-pill bg-primary">{{ app.user.countNewNotifications }}</span>
-                            </a>
-                            <div class="dropdown-menu p-2 dropstart" aria-labelledby="notification-dropdown">
-                                <div class="mb-4 btn-group">
-                                    <form action="{{ path('user_profile_notifications_read') }}" method="POST"
-                                          class="me-2">
-                                        <input type="hidden" name="token"
-                                               value="{{ csrf_token('read_notifications') }}">
-                                        <button class="btn btn-sm btn-primary" type="submit">
-                                            {{ 'read_all'|trans }}
+            </div>
+
+            <ul class="kbin-nav-navbar navbar-nav mb-2 mb-lg-0 float-lg-end"
+                data-controller="notify"
+                {% if magazine is defined and magazine %}data-notify-magazine-name-value="{{ magazine.name }}"{% endif %}
+                    {% if app.user %}data-notify-username-value="{{ app.user.username }}"{% endif %}
+                    {% if entry is defined and entry %}data-notify-entry-id-value="{{ entry.id }}"{% endif %}>
+                <li class="kbin-nav-navbar-item kbn-login-btn d-none d-lg-block" data-controller="nav-search">
+                    <form method="get" action="{{ path('search') }}">
+                        <div class="input-group input-group-sm input-group-btn">
+                            <input type="text" name="q" class="form-control visually-hidden"
+                                   data-nav-search-target="input"
+                                   placeholder="{{ 'type_search_term'|trans }}">
+                            <span class="input-group-btn input-group-sm">
+                                        <button href="#" data-action="click->nav-search#toggleSearch"
+                                                class="kbin-search-btn btn btn-default"
+                                                type="submit">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
                                         </button>
-                                    </form>
-                                    <form method="post" action="{{ path('user_profile_notifications_clear') }}"
-                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                        <input type="hidden" name="token"
-                                               value="{{ csrf_token('clear_notifications') }}">
-                                        <button class="btn btn-sm btn-danger" type="submit">
-                                            <span>{{ 'purge'|trans }}</span>
-                                        </button>
-                                    </form>
-                                </div>
-                                {% for notification in app.user.getNewNotifications %}
-                                    <div class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }} mb-2">{{ block(notification.type) }}</div>
-                                {% endfor %}
+                                    </span>
+                        </div>
+                    </form>
+                </li>
+                <li class="kbin-nav-navbar-item kbn-login-btn d-none d-lg-block">
+                    <div class="input-group input-group-sm btn-group input-group-btn dropdown">
+                        <a href="#"
+                           data-bs-toggle="dropdown" aria-expanded="false"
+                           class="kbin-search-btn btn btn-default"
+                           type="submit">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" style="width: 370px;">
+                            <li><a class="dropdown-item"
+                                   href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'link' }) }}{% else %}{{ path('entry_create', { type: 'link' }) }}{% endif %}">{{ 'add_new_link'|trans }}</a>
+                            </li>
+                            <li><a class="dropdown-item"
+                                   href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.article'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.article'|trans }) }}{% endif %}">{{ 'add_new_article'|trans }}</a>
+                            </li>
+                            <li><a class="dropdown-item"
+                                   href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.image'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.image'|trans }) }}{% endif %}">{{ 'add_new_photo'|trans }}</a>
+                            </li>
+                            <li><a class="dropdown-item disabled" style="opacity:.5" href="#"
+                                   aria-disabled="true">{{ 'add_new_video'|trans }}</a></li>
+                            <li><a class="dropdown-item disabled" style="opacity:.5"
+                                   href="#">{{ 'add_new_smart_contract'|trans }}</a></li>
+                            <li><a class="dropdown-item"
+                                   href="{{ path('magazine_posts', { name: magazine is defined and magazine ? magazine.name : 'random' }) }}">{{ 'add_new_post'|trans }}</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item"
+                                   href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="kbin-nav-navbar-item kbn-login-btn d-none d-lg-block">
+                    <div class="input-group input-group-sm btn-group input-group-btn dropdown">
+                        <a href="#"
+                           data-bs-toggle="modal" data-bs-target="#settingsModal"
+                           class="kbin-search-btn btn btn-default"
+                           type="submit">
+                            <i class="fa-solid fa-gear"></i>
+                        </a>
+                    </div>
+                </li>
+                {% if app.user %}
+                    <li class="dropdown dropdown-menu-end {{ app.user.countNewNotifications > 0 ? '' : 'visually-hidden' }}"
+                        data-notify-counter-target="notifications">
+                        <a href="{{ path('user_profile_notifications') }}"
+                           class="px-1 nav-link nav-link dropdown-toggle dropstart" id="notification-dropdown"
+                           role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="badge rounded-pill bg-primary">{{ app.user.countNewNotifications }}</span>
+                        </a>
+                        <div class="dropdown-menu p-2 dropdown-menu-end" aria-labelledby="notification-dropdown">
+                            <div class="mb-4 btn-group">
+                                <form action="{{ path('user_profile_notifications_read') }}" method="POST"
+                                      class="me-2">
+                                    <input type="hidden" name="token"
+                                           value="{{ csrf_token('read_notifications') }}">
+                                    <button class="btn btn-sm btn-primary" type="submit">
+                                        {{ 'read_all'|trans }}
+                                    </button>
+                                </form>
+                                <form method="post" action="{{ path('user_profile_notifications_clear') }}"
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                    <input type="hidden" name="token"
+                                           value="{{ csrf_token('clear_notifications') }}">
+                                    <button class="btn btn-sm btn-danger" type="submit">
+                                        <span>{{ 'purge'|trans }}</span>
+                                    </button>
+                                </form>
                             </div>
-                        </li>
-                    {% endif %}
-                    {% if app.user %}
-                        <li class="kbin-nav-navbar-item {{ app.user.countNewMessages > 0 ? '' : 'visually-hidden' }}"
-                            data-notify-counter-target="messages">
-                            <a href="{{ path('user_profile_messages') }}" class="px-1">
-                                <span class="badge rounded-pill bg-danger">{{ app.user.countNewMessages }}</span>
-                            </a>
-                        </li>
-                    {% endif %}
-                    <li class="kbin-nav-navbar-item kbn-login-btn d-none d-lg-block {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-                        <a href="{{ path('user_profile_front') }}" class="px-1">
-                            <i class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? 'profile'|trans : 'login'|trans }}
+                            {% for notification in app.user.getNewNotifications %}
+                                <div class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }} mb-2">{{ block(notification.type) }}</div>
+                            {% endfor %}
+                        </div>
+                    </li>
+                    <li class="kbin-nav-navbar-item {{ app.user.countNewMessages > 0 ? '' : 'visually-hidden' }}"
+                        data-notify-counter-target="messages">
+                        <a href="{{ path('user_profile_messages') }}" class="px-1">
+                            <span class="badge rounded-pill bg-danger">{{ app.user.countNewMessages }}</span>
                         </a>
                     </li>
-                </ul>
-            </div>
+                {% endif %}
+                <li class="kbin-nav-navbar-item kbn-login-btn d-none d-lg-block {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                    <div class="input-group input-group-sm input-group-btn">
+                        <a href="{{ path('user_profile_front') }}" class="btn btn-default"
+                           data-bs-toggle="{{ app.user ? 'dropdown' : '' }}"
+                           aria-expanded="false">
+                            <i class="fas fa-user"></i> {{ is_granted('ROLE_USER') ? '' : 'login'|trans }}
+                        </a>
+                        {% if app.user %}
+                            <ul class="dropdown-menu dropdown-menu-end" style="width: 370px;">
+                                <li><a class="dropdown-item" href="/">{{ 'topbar.all'|trans }}</a></li>
+                                <li><a class="dropdown-item"
+                                       href="{{ path('front_subscribed') }}">{{ 'topbar.subscriptions'|trans }}</a>
+                                </li>
+                                <li><a class="dropdown-item"
+                                       href="{{ path('front_moderated') }}">{{ 'topbar.moderated'|trans }}</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item"
+                                       href="{{ path('user_profile_settings') }}">{{ 'settings'|trans }}</a>
+                                </li>
+                                <li><a class="dropdown-item"
+                                       href="{{ path('user', {username: app.user.username}) }}">{{ 'profile'|trans }}</a>
+                                </li>
+                                <li><a class="dropdown-item"
+                                       href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
         </div>
     </nav>
 </header>

@@ -1,13 +1,15 @@
 .kbin-main-menu {
-  background: white;
+  background-image: linear-gradient(#e5e5e5 0%, $kbin-background 120px);
   z-index: 200;
   position: fixed;
   top: 0;
   width: 100%;
   font-size: .95rem;
+  border-bottom: 1px solid $kbin-navbar-border-color;
 
   .kbin-dark & {
-    background-color: #202020;
+    background-image: linear-gradient(#151515 0%, #202020 120px);
+    border-bottom: 1px solid $kbin-dark-navbar-border-color;
   }
 
   li {

@@ -13,26 +13,8 @@
 <li class=" kbin-nav-navbar-item {{ is_active_route('user_replies') ? 'kbin-nav-navbar-item--active' : '' }}">
     <a href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}</a>
 </li>
-<li class=" kbin-nav-navbar-item {{ is_active_route('user_moderated') ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a href="{{ path('user_moderated', {username: user.username}) }}">{{ 'topbar.moderated'|trans }}</a>
-</li>
-{% if user.showProfileSubscriptions %}
-    <li class=" kbin-nav-navbar-item {{ is_active_route('user_subscriptions') ? 'kbin-nav-navbar-item--active' : '' }}">
-        <a href="{{ path('user_subscriptions', {username: user.username}) }}">{{ 'subscriptions'|trans }}</a>
-    </li>
-{% endif %}
-{% if user.showProfileFollowings %}
-    <li class=" kbin-nav-navbar-item {{ is_active_route('user_follows') ? 'kbin-nav-navbar-item--active' : '' }}">
-        <a href="{{ path('user_follows', {username: user.username}) }}">{{ 'follows'|trans }}</a>
-    </li>
-{% endif %}
-<li class=" kbin-nav-navbar-item {{ is_active_route('user_followers') ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a href="{{ path('user_followers', {username: user.username}) }}">{{ 'followers'|trans }}</a>
-</li>
 
-{% if kbin_js_enabled() %}
-    <li class="kbin-nav-navbar-item">
-        <a href="#" data-action="kbin#toggleTopBar"><i class="fa-sharp fa-solid fa-caret-down"
-                                                       data-kbin-target="topBar"></i></a>
-    </li>
-{% endif %}
+<li class="kbin-nav-navbar-item">
+    <a href="{{ path('magazine_list_all') }}" data-action="kbin#toggleTopBar"><i class="fa-sharp fa-solid fa-caret-down"
+                                                                                 data-kbin-target="topBar"></i></a>
+</li>

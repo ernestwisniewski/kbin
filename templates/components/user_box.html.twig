@@ -26,9 +26,9 @@
                           data-timeago-refresh-interval-value="10000"
                           data-timeago-datetime-value="{{ user.createdAt|date('c') }}"{{ user.createdAt|ago }}></time>
                 </li>
-                    <li>
-                        <span class="text-muted small">{{ 'thread_views'|trans }}:</span> {{ user.entriesViewsCount }}
-                    </li>
+                <li>
+                    <span class="text-muted small">{{ 'thread_views'|trans }}:</span> {{ user.entriesViewsCount }}
+                </li>
                 <li>
                     <span class="text-muted small">{{ 'awards'|trans }}:</span> {{ user.awards|length }}
                 </li>
@@ -55,6 +55,30 @@
                     <a class="small" href="{{ path('user_reputation', {username: user.username}) }}">
                         {{ 'reputation_points'|trans }}:
                     </a> {{ get_reputation_total(user) }}
+                </li>
+                <li>
+                    <a class="small" href="{{ path('user_moderated', {username: user.username}) }}">
+                        {{ 'topbar.moderated'|trans }}
+                    </a>
+                </li>
+                {% if user.showProfileSubscriptions %}
+                    <li>
+                        <a class="small" href="{{ path('user_subscriptions', {username: user.username}) }}">
+                            {{ 'subscriptions'|trans }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if user.showProfileFollowings %}
+                    <li>
+                        <a class="small" href="{{ path('user_follows', {username: user.username}) }}">
+                            {{ 'follows'|trans }}
+                        </a>
+                    </li>
+                {% endif %}
+                <li>
+                    <span class="text-muted small"><a
+                                href="{{ path('user_followers', {username: user.username}) }}">{{ 'followers'|trans }}</a></span>
                 </li>
                 {% if not app.user or user is not same as app.user %}
                     <li class="my-2">

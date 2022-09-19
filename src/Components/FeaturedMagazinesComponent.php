@@ -33,7 +33,7 @@ class FeaturedMagazinesComponent
             $magazines = $this->repository->findBy(
                 ['visibility' => VisibilityInterface::VISIBILITY_VISIBLE],
                 ['lastActive' => 'DESC'],
-                21
+                28
             );
 
             if ($this->magazine && !in_array($this->magazine, $magazines)) {

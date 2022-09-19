@@ -3,22 +3,9 @@
         <div class="mx-auto">
             <div class="container">
                 <div class="row">
-                    <div class="col">
-                        <ul class="kbin-main-menu-page-view list-group font-weight-bold">
-                            <li class="{{ is_homepage() ? 'kbin-featured-magazines-list-item--active' : '' }}">
-                                <a class="list-group-item" href="/">{{ 'topbar.all'|trans }}</a>
-                            </li>
-                            <li class="{{ is_sub_page() ? 'kbin-featured-magazines-list-item--active' : '' }}">
-                                <a class="list-group-item" href="{{ path('front_subscribed') }}">{{ 'topbar.subscriptions'|trans }}</a>
-                            </li>
-                            <li class="{{ is_mod_page() ? 'kbin-featured-magazines-list-item--active' : '' }}">
-                                <a class="list-group-item" href="{{ path('front_moderated') }}">{{ 'topbar.moderated'|trans }}</a>
-                            </li>
-                            <li class="{{ is_active_route('magazine_list_all') ? 'kbin-featured-magazines-list-item--active' : '' }}">
-                                <a class="list-group-item" href="{{ path('magazine_list_all') }}">{{ 'magazines'|trans }}</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <h3 class="pb-3">
+                        <a class="font-weight-bold" href="{{ path('magazine_list_all') }}">{{ 'topbar.all_magazines'|trans }} <i class="small fa-solid fa-arrow-right"></i></a>
+                    </h3>
                     {{ component('featured_magazines', {magazine: magazine is defined ? magazine : null}) }}
                 </div>
             </div>

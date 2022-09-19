@@ -1,12 +1,13 @@
-{% if kbin_domain() is same as 'karab.in' %}
-    <div class="pb-4">
-        <div class="card text-dark mb-5">
+{#{% if kbin_domain() is same as 'karab.in' %}#}
+    <div class="mb-5">
+        <div class="card text-dark">
             <div class="card-header">
                 <h4 class="h6 my-0">{{ 'partners'|trans }}</h4>
             </div>
             <div class="card-body">
                 <a href="https://hetzner.cloud/?ref=8tSPCw0qqIwl" rel="nofollow noopener noreferrer">
-                    <img class="py-5 mx-3 py-xxl-5 mx-xxl-5" src="{{ asset('partners/hetzner-logo.svg') }}" alt="Hetzner Cloud Servers"/>
+                    <img class="py-5 mx-3 py-xxl-5 mx-xxl-5" src="{{ asset('partners/hetzner-logo.svg') }}"
+                         alt="Hetzner Cloud Servers"/>
                 </a>
             </div>
 
@@ -24,4 +25,4 @@
             </div>
         </div>
     </div>
-{% endif %}
+{#{% endif %}#}

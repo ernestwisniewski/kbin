@@ -1,5 +1,5 @@
 {% if app.user and app.user.featuredMagazines %}
-    {% for mag in magazines|batch(7, null) %}
+    {% for mag in app.user.featuredMagazines|batch(7, null) %}
         <div class="col">
             <ul>
                 {% for m in mag %}
