@@ -2,7 +2,7 @@
     {%- if prefix and not (app.user and app.user.hideUserAvatars) -%}<small class="text-muted">@</small>{%- endif -%}
     <a class="kbin-user {{ bolded ? 'font-weight-bold' : '' }}"
        data-controller="user-popup"
-       data-action="user-popup#show"
+       data-action="mouseover->user-popup#mouse mouseout->user-popup#out"
        data-user-popup-username-value="{{ user.username  }}"
        href="{{ path('user', {'username': user.username}) }}">
         {%- if avatar and user.avatar and (app.user is null or app.user and not app.user.hideUserAvatars) -%}

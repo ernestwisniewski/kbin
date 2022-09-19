@@ -12,9 +12,7 @@
     <a href="{{ get_active_posts_page_path() }}">{{ 'microblog'|trans }}</a>
 </li>
 
-{% if kbin_js_enabled() %}
-    <li class="kbin-nav-navbar-item">
-        <a href="#" data-action="kbin#toggleTopBar"><i class="fa-sharp fa-solid fa-caret-down"
-                                                       data-kbin-target="icon"></i></a>
-    </li>
-{% endif %}
+<li class="kbin-nav-navbar-item">
+    <a href="#" data-action="kbin#toggleTopBar"><i class="fa-sharp fa-solid fa-caret-down"
+                                                   data-kbin-target="icon"></i></a>
+</li>

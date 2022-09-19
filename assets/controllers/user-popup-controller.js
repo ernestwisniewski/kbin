@@ -8,9 +8,19 @@ export default class extends Controller {
         username: String,
     };
 
-    async show(e) {
+    async mouse(e) {
         e.preventDefault();
+        let self = this;
+        this.timeout = window.setTimeout(function () {
+            self.on();
+        }, 1000)
+    }
 
+    out() {
+        if (this.timeout) window.clearTimeout(this.timeout)
+    }
+
+    async on() {
         this.element.classList.add('kbin-link-block');
 
         const url = router().generate('ajax_fetch_user_popup', {username: this.usernameValue});
