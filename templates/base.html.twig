@@ -113,8 +113,8 @@
                     {% include '_layout/_settings.html.twig' %}
                 </div>
                 <div class="modal-footer">
-                    <button data-action="kbin#toggleTheme" class="btn btn-secondary"
-                            href="{{ path('user_profile_toggle_theme') }}"><i class="far fa-lightbulb"></i></button>
+                    <a data-action="kbin#toggleTheme" class="btn btn-secondary"
+                            href="{{ path('user_profile_toggle_theme') }}"><i class="far fa-lightbulb"></i></a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'done'|trans }}</button>
                 </div>
             </div>
