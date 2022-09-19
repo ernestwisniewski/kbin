@@ -101,25 +101,7 @@
     {#        </div> #}
     {#    {% endif %} #}
 
-    <!-- Settings modal -->
-    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ 'settings'|trans }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {% include '_layout/_settings.html.twig' %}
-                </div>
-                <div class="modal-footer">
-                    <a data-action="kbin#toggleTheme" class="btn btn-secondary"
-                            href="{{ path('user_profile_toggle_theme') }}"><i class="far fa-lightbulb"></i></a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'done'|trans }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include '_layout/_settings_modal.html.twig' %}
 
     <div aria-live="polite" aria-atomic="true" class="position-relative d-none d-lg-block">
         <div id="kbin-toast-container"

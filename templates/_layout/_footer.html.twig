@@ -68,14 +68,18 @@
                     {% else %}
                         {% set args = {} %}
                     {% endif %}
-                    <a class="text-reset" href="{{ path('feed_rss', args) }}">
-                        <i class="fas fa-rss"></i>
-                    </a>
                 </p>
                 <p class="text-muted align-text-bottom font-weight-bold mb-1">© {{ 'now'|date('Y') }} {{ kbin_domain() }}</p>
                 <small>
                     Powered by <a href="https://kbin.pub">kbin</a>
                 </small>
+                <div>
+                    <a data-action="kbin#toggleTheme" class="btn"
+                       href="{{ path('user_profile_toggle_theme') }}"><i class="far fa-lightbulb"></i></a>
+                    <a class="btn" href="{{ path('feed_rss', args) }}">
+                        <i class="fas fa-rss"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
