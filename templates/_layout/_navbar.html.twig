@@ -48,6 +48,10 @@
                 {% endif %}
             </div>
 
+            <a class="btn navbar-toggler me-2" href="{{ path('user_profile_front') }}">
+                <i class="fas fa-user p-1"></i>
+            </a>
+
             <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#kbin-sidebar"
                     aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle filters">
                 <i class="fas fa-circle-info p-1"></i>
@@ -141,7 +145,7 @@
                     <li class="dropdown dropdown-menu-end {{ app.user.countNewNotifications > 0 ? '' : 'visually-hidden' }}"
                         data-notify-counter-target="notifications">
                         <a href="{{ path('user_profile_notifications') }}"
-                           class="px-1 nav-link nav-link dropdown-toggle dropstart" id="notification-dropdown"
+                           class="px-1 nav-link nav-link dropdown-toggle dropstart float-end" id="notification-dropdown"
                            role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="badge rounded-pill bg-primary">{{ app.user.countNewNotifications }}</span>

@@ -75,6 +75,10 @@
         &-menu {
           width: 770px;
           font-size: .75rem;
+
+          @include media-breakpoint-down(lg) {
+            width: 100%;
+          }
         }
       }
 
