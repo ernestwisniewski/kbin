@@ -353,24 +353,18 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
 
     public function getShortTitle(?int $length = 60): string
     {
-        if (grapheme_strlen($this->title) <= $length) {
-            return $this->title;
-        }
+        $body = wordwrap($this->body, $length);
+        $body = explode("\n", $body);
 
-        return grapheme_substr($this->title, 0, $length).'…';
+        return trim($body[0]) . (isset($body[1]) ? '...' : '');
     }
 
     public function getShortDesc(?int $length = 330): string
     {
-        if (!$this->body) {
-            return '';
-        }
+        $body = wordwrap($this->body, $length);
+        $body = explode("\n", $body);
 
-        if (grapheme_strlen($this->body) <= $length) {
-            return $this->body;
-        }
-
-        return grapheme_substr($this->body, 0, $length).'…';
+        return trim($body[0]) . (isset($body[1]) ? '...' : '');
     }
 
     public function getUrl(): ?string

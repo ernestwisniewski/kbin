@@ -18,17 +18,9 @@ class FormattingRuntime implements RuntimeExtensionInterface
 
     public function getShortDesc(?string $val): string
     {
-        if (!$val) {
-            return '';
-        }
+        $body = wordwrap($val, 330);
+        $body = explode("\n", $body);
 
-        $subject = array_filter(explode('.', $val));
-
-        $sentences = $subject[0].'.';
-        if (isset($subject[1])) {
-            $sentences .= $subject[1];
-        }
-
-        return $sentences.(str_ends_with($sentences, '.') ? '' : '.');
+        return trim($body[0]) . (isset($body[1]) ? '...' : '');
     }
 }
