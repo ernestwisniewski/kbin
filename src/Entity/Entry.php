@@ -178,7 +178,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     private int $id;
 
-    public  array $children = [];
+    public array $children = [];
 
     public function __construct(
         string $title,
@@ -191,23 +191,23 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         ?string $lang,
         ?string $ip = null
     ) {
-        $this->title         = $title;
-        $this->url           = $url;
-        $this->body          = $body;
-        $this->magazine      = $magazine;
-        $this->user          = $user;
-        $this->isAdult       = $isAdult ?? false;
-        $this->isOc          = $isOc;
-        $this->lang          = $lang;
-        $this->ip            = $ip;
-        $this->comments      = new ArrayCollection();
-        $this->votes         = new ArrayCollection();
-        $this->reports       = new ArrayCollection();
-        $this->favourites    = new ArrayCollection();
+        $this->title = $title;
+        $this->url = $url;
+        $this->body = $body;
+        $this->magazine = $magazine;
+        $this->user = $user;
+        $this->isAdult = $isAdult ?? false;
+        $this->isOc = $isOc;
+        $this->lang = $lang;
+        $this->ip = $ip;
+        $this->comments = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+        $this->reports = new ArrayCollection();
+        $this->favourites = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-        $this->viewCounters  = new ArrayCollection();
-        $this->badges        = new ArrayCollection();
-        $this->cardanoTx     = new ArrayCollection();
+        $this->viewCounters = new ArrayCollection();
+        $this->badges = new ArrayCollection();
+        $this->cardanoTx = new ArrayCollection();
 
         $user->addEntry($this);
 
@@ -282,7 +282,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
-        $this->commentCount   = $this->comments->matching($criteria)->count();
+        $this->commentCount = $this->comments->matching($criteria)->count();
         $this->favouriteCount = $this->favourites->count();
 
         return $this;
@@ -360,6 +360,19 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return grapheme_substr($this->title, 0, $length).'…';
     }
 
+    public function getShortDesc(?int $length = 330): string
+    {
+        if (!$this->body) {
+            return '';
+        }
+
+        if (grapheme_strlen($this->body) <= $length) {
+            return $this->body;
+        }
+
+        return grapheme_substr($this->body, 0, $length).'…';
+    }
+
     public function getUrl(): ?string
     {
         return $this->url;
@@ -408,7 +421,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     {
         $amount = $this->adaAmount / 1000000;
 
-        return $amount > 0 ? (string) $amount : '';
+        return $amount > 0 ? (string)$amount : '';
     }
 
     public function isAdult(): bool
