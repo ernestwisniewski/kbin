@@ -63,7 +63,7 @@ class EntryPageFactory
                 ),
             ],
             'name' => $entry->title,
-            'summary' => ($entry->body ? $entry->getShortDesc() : '<br><br>'). implode(' ', array_map(fn($val) => '#'.$val, $tags)),
+            'summary' => ($entry->body ? $entry->getShortDesc() : '') . ' ' . implode(' ', array_map(fn($val) => '#'.$val, $tags)),
             'mediaType' => 'text/html',
             'url' => $this->getUrl($entry),
             'tag' => array_merge(
