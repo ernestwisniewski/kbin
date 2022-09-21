@@ -10,7 +10,6 @@ export default class extends Controller {
         super.connect();
 
         this.element.querySelectorAll('.kbin-editor').forEach(el => {
-            console.log(this.focusValue);
             this.build(el, this.focusValue)
         });
     }
@@ -35,21 +34,21 @@ export default class extends Controller {
             },
         });
 
-        try {
-            if (this.element.closest('article')) {
-                this.addMention(
-                    simplemde,
-                    this.element.closest('article').getElementsByClassName('kbin-user')[0].innerHTML.trim()
-                )
-            } else if (this.element.closest('blockquote')) {
-                this.addMention(
-                    simplemde,
-                    this.element.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim()
-                )
-            }
-        } catch (e) {
-            throw e;
-        }
+        // try {
+        //     if (this.element.closest('article')) {
+        //         this.addMention(
+        //             simplemde,
+        //             this.element.closest('article').getElementsByClassName('kbin-user')[0].innerHTML.trim()
+        //         )
+        //     } else if (this.element.closest('blockquote')) {
+        //         this.addMention(
+        //             simplemde,
+        //             this.element.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim()
+        //         )
+        //     }
+        // } catch (e) {
+        //     throw e;
+        // }
 
         if (!focus) {
             const textarea = simplemde.element.parentNode.getElementsByClassName('CodeMirror')[0].getElementsByTagName('textarea')[0]
