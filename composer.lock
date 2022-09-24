@@ -1729,16 +1729,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.13.1",
+            "version": "2.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "35c44a56677adb3ce796138b6e4934ce93ec6811"
+                "reference": "a8b02fd70fa777ca8278b9604fdef75c15c6a12f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/35c44a56677adb3ce796138b6e4934ce93ec6811",
-                "reference": "35c44a56677adb3ce796138b6e4934ce93ec6811",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/a8b02fd70fa777ca8278b9604fdef75c15c6a12f",
+                "reference": "a8b02fd70fa777ca8278b9604fdef75c15c6a12f",
                 "shasum": ""
             },
             "require": {
@@ -1765,15 +1765,15 @@
             },
             "require-dev": {
                 "doctrine/annotations": "^1.13",
-                "doctrine/coding-standard": "^9.0",
+                "doctrine/coding-standard": "^9.0.2 || ^10.0",
                 "phpbench/phpbench": "^0.16.10 || ^1.0",
-                "phpstan/phpstan": "~1.4.10 || 1.8.2",
+                "phpstan/phpstan": "~1.4.10 || 1.8.5",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
                 "psr/log": "^1 || ^2 || ^3",
                 "squizlabs/php_codesniffer": "3.7.1",
                 "symfony/cache": "^4.4 || ^5.4 || ^6.0",
                 "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0",
-                "vimeo/psalm": "4.26.0"
+                "vimeo/psalm": "4.27.0"
             },
             "suggest": {
                 "ext-dom": "Provides support for XSD validation for XML mapping files",
@@ -1823,9 +1823,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.13.1"
+                "source": "https://github.com/doctrine/orm/tree/2.13.2"
             },
-            "time": "2022-08-08T09:00:16+00:00"
+            "time": "2022-09-22T13:36:43+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -3953,16 +3953,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.4.0",
+            "version": "3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "5972d2a966e236674286e3a2281139ce74e4415d"
+                "reference": "c73c4eb31f2e883b3897ab5591aa2dbc48112433"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/5972d2a966e236674286e3a2281139ce74e4415d",
-                "reference": "5972d2a966e236674286e3a2281139ce74e4415d",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c73c4eb31f2e883b3897ab5591aa2dbc48112433",
+                "reference": "c73c4eb31f2e883b3897ab5591aa2dbc48112433",
                 "shasum": ""
             },
             "require": {
@@ -4024,7 +4024,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.4.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.5.2"
             },
             "funding": [
                 {
@@ -4040,7 +4040,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-16T20:57:23+00:00"
+            "time": "2022-09-23T18:59:16+00:00"
         },
         {
             "name": "league/html-to-markdown",
@@ -14211,16 +14211,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.45.0",
+            "version": "v1.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "7ae4ff28ac1b6d6d55591999026040d58b8a3967"
+                "reference": "682ce4fc6602acad33653ba0194d922356fd81f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/7ae4ff28ac1b6d6d55591999026040d58b8a3967",
-                "reference": "7ae4ff28ac1b6d6d55591999026040d58b8a3967",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/682ce4fc6602acad33653ba0194d922356fd81f9",
+                "reference": "682ce4fc6602acad33653ba0194d922356fd81f9",
                 "shasum": ""
             },
             "require": {
@@ -14284,7 +14284,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/maker-bundle/issues",
-                "source": "https://github.com/symfony/maker-bundle/tree/v1.45.0"
+                "source": "https://github.com/symfony/maker-bundle/tree/v1.46.0"
             },
             "funding": [
                 {
@@ -14300,7 +14300,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-26T12:31:45+00:00"
+            "time": "2022-09-23T13:30:21+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",

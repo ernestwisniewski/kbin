@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     /**
      * @ORM\Column(type="string", unique=true, length=500)
      */
-    public ?string $email;
+    public string $email;
     /**
      * @ORM\Column(type="json")
      */
