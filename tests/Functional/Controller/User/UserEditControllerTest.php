@@ -13,7 +13,7 @@ class UserEditControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('testUser'));
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->filter('.kbn-login-btn')->selectLink('Profil')->link());
+        $crawler = $client->click($crawler->filter('.kbin-profile-btn')->link());
         $crawler = $client->click($crawler->filter('.kbin-main')->selectLink('Edytuj profil')->link());
 
         $client->submit(
@@ -41,7 +41,7 @@ class UserEditControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
+        $this->assertSelectorExists('.kbin-profile-btn');
     }
 
     public function testUserCanChangeEmail(): void

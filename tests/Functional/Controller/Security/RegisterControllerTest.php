@@ -37,7 +37,7 @@ class RegisterControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbn-login-btn', 'Profil');
+        $this->assertSelectorTextNOTContains('.kbn-login-btn', 'Zaloguj się');
     }
 
     private function registerUserAccount(KernelBrowser $client)

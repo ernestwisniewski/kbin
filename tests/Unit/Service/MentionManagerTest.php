@@ -22,8 +22,8 @@ class MentionManagerTest extends WebTestCase
     {
         // @todo federated mentions
         return [
-            ['Lorem @john ipsum', ['john']],
-            ['@john lorem ipsum', ['john']],
+            ['Lorem @john ipsum', ['@john']],
+            ['@john lorem ipsum', ['@john']],
             ['Lorem ipsum@john', null],
         ];
     }

@@ -107,17 +107,6 @@
             color: #dedede !important;
           }
         }
-
-        &--active {
-          a {
-            border: 1px solid $kbin-navbar-link-active-border-color;
-            border-radius: 2px 2px 0 0;
-
-            .kbin-dark & {
-              border-color: $kbin-dark-navbar-border-color !important;
-            }
-          }
-        }
       }
     }
 

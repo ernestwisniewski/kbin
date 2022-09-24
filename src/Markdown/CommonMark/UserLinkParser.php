@@ -31,7 +31,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
             try {
                 $user = $this->repository->findOneByUsername($suffix);
                 if($user) {
-                    return $user->apProfileId;
+                    return $user->apPublicUrl;
                 }
 
                 $profileId = $this->activityPubManager->webfinger($suffix)->getProfileId();

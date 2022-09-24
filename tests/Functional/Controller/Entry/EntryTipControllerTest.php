@@ -13,21 +13,20 @@ class EntryTipControllerTest extends WebTestCase
         $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
         $user2 = $this->getUserByUsername('JaneDoe');
-        $user2->cardanoWalletAddress('wallet_acme'); // @todo
+        $user2->cardanoWalletAddress = 'wallet_acme'; // @todo
 
         $manager = static::getContainer()->get(EntityManagerInterface::class);
-        $manager->persist($user2);
-        $manager->flush();
 
         $magazine = $this->getMagazineByName('acme', $user2);
 
         $entry = $this->getEntryByTitle('treść 2', null, 'test', $magazine, $user2);
+        $entry->isOc = true;
 
-        $id = $entry->getId();
+        $manager->flush();
 
-        $crawler = $client->request('GET', "/m/acme/t/$id/-/tipy");
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/tipy");
 
-        $this->assertStringContainsString('Czym są i jak działają tipy za wartościowe treści?', $crawler->filter('.')->html());
+        $this->assertStringContainsString('Czym są i jak działają tipy za wartościowe treści?', $crawler->filter('.kbin-tips-page')->html());
     }
 
     public function testXmlUserCanShowTipForms(): void // @todo
@@ -36,20 +35,19 @@ class EntryTipControllerTest extends WebTestCase
         $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
         $user2 = $this->getUserByUsername('JaneDoe');
-        $user2->cardanoWalletAddress('wallet_acme');
+        $user2->cardanoWalletAddress = 'wallet_acme';
 
         $manager = static::getContainer()->get(EntityManagerInterface::class);
-        $manager->persist($user2);
-        $manager->flush();
 
         $magazine = $this->getMagazineByName('acme', $user2);
 
         $entry = $this->getEntryByTitle('treść 2', null, 'test', $magazine, $user2);
+        $entry->isOc = true;
 
-        $id = $entry->getId();
+        $manager->flush();
 
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
-        $client->request('GET', "/m/acme/t/$id/-/tipy");
+        $client->request('GET', "/m/acme/t/{$entry->getId()}/-/tipy");
 
         $this->assertStringContainsString('Czym jest Karabin Cardano Stake Pool?', $client->getResponse()->getContent());
     }
