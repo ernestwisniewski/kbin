@@ -17,9 +17,9 @@ class EntryPinControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/m/acme/najnowsze');
 
-        $this->assertSelectorTextContains('article#'.$sticky->getId(), 'Sticky');
+        $this->assertSelectorTextContains('article#entry-'.$sticky->getId(), 'Sticky');
 
-        $client->click($crawler->filter('article#'.$sticky->getId())->selectButton('przypnij')->form([]));
+        $client->click($crawler->filter('article#entry-'.$sticky->getId())->selectButton('przypnij')->form([]));
         $crawler = $client->followRedirect();
 
         $this->assertSelectorTextContains('article.kbin-entry', 'Sticky');

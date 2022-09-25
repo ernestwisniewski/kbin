@@ -20,8 +20,8 @@ class FrontControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/magazyny');
         $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
 
-        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Wszystkie');
-        $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
+        $this->assertSelectorTextContains('.kbin-page-view-item--active', 'Wszystkie');
+        $this->assertCount(1, $crawler->filter('.kbin-page-view-item--active'));
         $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
 
@@ -33,25 +33,25 @@ class FrontControllerTest extends WebTestCase
 //        }
 
         // Sub
-        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Obserwowane')->link());
+        $crawler = $client->click($crawler->filter('.kbin-page-view-item')->selectLink('Obserwowane')->link());
         $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
 
-        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Obserwowane');
-        $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
+        $this->assertSelectorTextContains('.kbin-page-view-item--active', 'Obserwowane');
+        $this->assertCount(1, $crawler->filter('.kbin-page-view-item--active'));
         $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
 
         // Mod
-        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Moderowane')->link());
+        $crawler = $client->click($crawler->filter('.kbin-page-view-item')->selectLink('Moderowane')->link());
         $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
 
-        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Moderowane');
-        $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
+        $this->assertSelectorTextContains('.kbin-page-view-item--active', 'Moderowane');
+        $this->assertCount(1, $crawler->filter('.kbin-page-view-item--active'));
         $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
         $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
 
         // Magazine
-        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('acme')->link());
+        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item')->selectLink('acme')->link());
         $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
 
         $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'acme');
@@ -96,7 +96,7 @@ class FrontControllerTest extends WebTestCase
         $this->getEntryByTitle('testowa treść');
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Obserwowane')->link());
+        $crawler = $client->click($crawler->filter('.kbin-page-view-item')->selectLink('Obserwowane')->link());
 
         $this->assertSelectorTextContains('.kbin-entry-meta-user', 'przez JohnDoe');
         $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/acme');
@@ -110,7 +110,7 @@ class FrontControllerTest extends WebTestCase
         $this->getEntryByTitle('testowa treść');
 
         $crawler = $client->request('GET', '/');
-        $client->click($crawler->filter('.kbin-featured-magazines-list-item ')->selectLink('Moderowane')->link());
+        $client->click($crawler->filter('.kbin-page-view-item')->selectLink('Moderowane')->link());
 
         $this->assertSelectorTextContains('.kbin-entry-meta-user', 'przez JohnDoe');
         $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/acme');

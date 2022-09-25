@@ -3,7 +3,7 @@
         <div class="col">
             <ul>
                 {% for m in mag %}
-                    <li class="{{ magazine is not null and magazine.name is same as m ? 'kbin-featured-magazines-list-item--active' : '' }}"><a class="list-group-item" href="{{ path('front_magazine', {'name': m}) }}">{{ m }}</a></li>
+                    <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as m ? 'kbin-featured-magazines-list-item--active' : '' }}"><a class="list-group-item" href="{{ path('front_magazine', {'name': m}) }}">{{ m }}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -13,7 +13,7 @@
         <div class="col">
             <ul class="list-group">
                 {% for m in mag %}
-                    <li class="{{ magazine is not null and magazine.name is same as m ? 'kbin-featured-magazines-list-item--active' : '' }}"><a class="list-group-item" href="{{ path('front_magazine', {'name': m}) }}">{{ m }}</a></li>
+                    <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as m ? 'kbin-featured-magazines-list-item--active' : '' }}"><a class="list-group-item" href="{{ path('front_magazine', {'name': m}) }}">{{ m }}</a></li>
                 {% endfor %}
             </ul>
         </div>

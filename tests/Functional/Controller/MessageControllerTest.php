@@ -15,7 +15,7 @@ class MessageControllerTest extends WebTestCase
 
         // First thread
         $crawler = $client->request('GET', '/u/testUser1');
-        $crawler = $client->click($crawler->filter('.kbin-entry-info')->selectLink('Wyślij wiadomość')->link());
+        $crawler = $client->click($crawler->filter('.kbin-user-info')->selectLink('Wyślij wiadomość')->link());
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -27,11 +27,11 @@ class MessageControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z /u/testUser1 - Testowa wiadomość.');
+        $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z @testUser1 - Testowa wiadomość.');
 
         // Second thread
         $crawler = $client->request('GET', '/u/testUser1');
-        $crawler = $client->click($crawler->filter('.kbin-entry-info')->selectLink('Wyślij wiadomość')->link());
+        $crawler = $client->click($crawler->filter('.kbin-user-info')->selectLink('Wyślij wiadomość')->link());
 
         $client->submit(
             $crawler->selectButton('Gotowe')->form(
@@ -43,15 +43,15 @@ class MessageControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z /u/testUser1 - Testowa wiadomość2.');
+        $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z @testUser1 - Testowa wiadomość2.');
 
         $client->restart();
         $client->loginUser($this->getUserByUsername('testUser1'));
 
         $crawler = $client->request('GET', '/profil/wiadomości');
 
-        $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z /u/testUser - Testowa wiadomość.');
-        $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z /u/testUser - Testowa wiadomość2.');
+        $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z @testUser - Testowa wiadomość.');
+        $this->assertSelectorTextContains('.kbin-profile-threads-page', '0 odpowiedzi w wątku z @testUser - Testowa wiadomość2.');
         $this->assertSelectorTextContains('.kbin-nav .bg-danger', '2');
 
         // Read message
@@ -70,7 +70,7 @@ class MessageControllerTest extends WebTestCase
 
         $client->request('GET', '/profil/wiadomości');
 
-        $this->assertSelectorTextContains('.kbin-profile-threads-page tr', '1 odpowiedzi w wątku z /u/testUser');
+        $this->assertSelectorTextContains('.kbin-profile-threads-page tr', '1 odpowiedzi w wątku z @testUser');
 
         // Read reply
         $client->restart();
@@ -78,7 +78,7 @@ class MessageControllerTest extends WebTestCase
 
         $client->request('GET', '/profil/wiadomości');
 
-        $this->assertSelectorTextContains('.kbin-profile-threads-page', '1 odpowiedzi w wątku z /u/testUser1');
+        $this->assertSelectorTextContains('.kbin-profile-threads-page', '1 odpowiedzi w wątku z @testUser1');
         $this->assertSelectorTextContains('.kbin-nav .bg-danger', '1');
     }
 }

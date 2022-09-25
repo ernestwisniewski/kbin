@@ -29,13 +29,43 @@
   }
 }
 
-.kbin-featured-magazines-list-item--active {
+.kbin-featured-magazines-list-item--active,
+.kbin-page-view-item--active {
+  background-color: $kbin-topbar-link-active-background-color;
+
   a {
     background: $kbin-grey;
+
+    &:hover,
+    &.highlighted:hover {
+      background-color: $kbin-topbar-link-active-background-color;
+    }
+
+    &.highlighted {
+      background: transparent;
+    }
+
+    font-weight: bold;
+    color: #556880 !important;
+    text-shadow: 0 0 2px #9ab4ca;
+
+    &:hover {
+      color: #556880 !important;
+      background-color: $kbin-topbar-link-active-background-color;
+    }
 
     .kbin-dark & {
       background: #131313;
       color: white !important;
+      background: rgba(0, 0, 0, 0.15);
+      border-color: $kbin-dark-navbar-border-color !important;
     }
+  }
+
+  .kbin-dark & {
+    background: #131313;
+    color: white !important;
+    background: rgba(0, 0, 0, 0.15);
+    border-color: $kbin-dark-navbar-border-color !important;
   }
 }

@@ -76,7 +76,11 @@ class PostCommentRepository extends ServiceEntityRepository
 
         $qb->setParameter(
             'visibility',
-            [VisibilityInterface::VISIBILITY_SOFT_DELETED, VisibilityInterface::VISIBILITY_VISIBLE]
+            [
+                VisibilityInterface::VISIBILITY_SOFT_DELETED,
+                VisibilityInterface::VISIBILITY_VISIBLE,
+                VisibilityInterface::VISIBILITY_TRASHED,
+            ]
         );
 
         $this->addTimeClause($qb, $criteria);

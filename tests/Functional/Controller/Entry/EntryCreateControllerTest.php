@@ -50,7 +50,7 @@ class EntryCreateControllerTest extends WebTestCase
                     'entry_link[title]'    => 'example content',
                     'entry_link[url]'      => 'https://example.pl',
                     'entry_link[magazine]' => $magazine->getId(),
-                    'entry_link[comment]'  => 'example comment',
+                    'entry_link[body]'  => 'example comment',
                 ]
             )
         );
@@ -60,7 +60,7 @@ class EntryCreateControllerTest extends WebTestCase
         $client->click($crawler->filter('.kbin-entry-title')->selectLink('example content')->link());
 
         $this->assertSelectorTextContains('.kbin-entry-title', 'example content');
+        $this->assertSelectorTextContains('.kbin-entry-content', 'example comment');
         $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 3');
-        $this->assertSelectorTextContains('.kbin-entry-meta-entry', '1 komentarz');
     }
 }

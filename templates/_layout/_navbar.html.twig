@@ -190,12 +190,15 @@
                         </a>
                         {% if app.user %}
                             <ul class="dropdown-menu dropdown-menu-end" style="width: 370px;">
-                                <li><a class="dropdown-item {{ is_homepage() ? 'kbin-featured-magazines-list-item--active' : '' }}"
+                                <li>
+                                    <a class="dropdown-item kbin-page-view-item {{ is_homepage() ? 'kbin-page-view-item--active' : '' }}"
                                        href="/">{{ 'topbar.all'|trans }}</a></li>
-                                <li><a class="dropdown-item {{ is_sub_page() ? 'kbin-featured-magazines-list-item--active' : '' }}"
+                                <li>
+                                    <a class="dropdown-item kbin-page-view-item {{ is_sub_page() ? 'kbin-page-view-item--active' : '' }}"
                                        href="{{ path('front_subscribed') }}">{{ 'topbar.subscriptions'|trans }}</a>
                                 </li>
-                                <li><a class="dropdown-item {{ is_mod_page() ? 'kbin-featured-magazines-list-item--active' : '' }}"
+                                <li>
+                                    <a class="dropdown-item kbin-page-view-item {{ is_mod_page() ? 'kbin-page-view-item--active' : '' }}"
                                        href="{{ path('front_moderated') }}">{{ 'topbar.moderated'|trans }}</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
