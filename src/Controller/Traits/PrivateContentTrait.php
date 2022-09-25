@@ -13,9 +13,11 @@ trait PrivateContentTrait
     private function handlePrivateContent(ContentInterface $entry): void
     {
         if (true === $entry->isPrivate()) {
-            $user = $this->getUserOrThrow();
+            if(null === $this->getUser()) {
+                throw $this->createAccessDeniedException();
+            }
 
-            if (false === $user->isFollowing($entry->user)) {
+            if (false === $this->getUser()->isFollowing($entry->user)) {
                 throw $this->createAccessDeniedException();
             }
         }
