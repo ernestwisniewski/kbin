@@ -3,6 +3,7 @@
 namespace App\Controller\ActivityPub;
 
 use App\Controller\AbstractController;
+use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostCommentController extends AbstractController
 {
+    use PrivateContentTrait;
+
     public function __construct(private PostCommentNoteFactory $commentNoteFactory)
     {
     }
@@ -27,9 +30,12 @@ class PostCommentController extends AbstractController
         PostComment $comment,
         Request $request
     ): Response {
-        if ($comment->apId) {
-            return $this->redirect($comment->apId);
+        if ($magazine !== $comment->magazine || $post !== $comment->post) {
+            throw $this->createNotFoundException();
         }
+
+        $this->handlePrivateContent($post);
+
 
         $response = new JsonResponse($this->commentNoteFactory->create($comment, true));
 

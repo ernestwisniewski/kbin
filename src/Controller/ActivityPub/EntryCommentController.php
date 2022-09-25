@@ -3,6 +3,7 @@
 namespace App\Controller\ActivityPub;
 
 use App\Controller\AbstractController;
+use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EntryCommentController extends AbstractController
 {
+    use PrivateContentTrait;
+
     public function __construct(private EntryCommentNoteFactory $pageFactory)
     {
     }
@@ -27,9 +30,11 @@ class EntryCommentController extends AbstractController
         EntryComment $comment,
         Request $request
     ): Response {
-        if ($comment->apId) {
-            return $this->redirect($comment->apId);
+        if ($magazine !== $comment->magazine || $entry !== $comment->entry) {
+            throw $this->createNotFoundException();
         }
+
+        $this->handlePrivateContent($comment);
 
         $response = new JsonResponse($this->pageFactory->create($comment, true));
 

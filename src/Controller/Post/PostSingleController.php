@@ -3,6 +3,7 @@
 namespace App\Controller\Post;
 
 use App\Controller\AbstractController;
+use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
@@ -18,6 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostSingleController extends AbstractController
 {
+    use PrivateContentTrait;
+
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     public function __invoke(
@@ -27,6 +30,12 @@ class PostSingleController extends AbstractController
         EventDispatcherInterface $dispatcher,
         Request $request
     ): Response {
+        if ($post->magazine !== $magazine) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->handlePrivateContent($post);
+
         $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->sortOption = Criteria::SORT_OLD;
         $criteria->post = $post;
@@ -43,7 +52,7 @@ class PostSingleController extends AbstractController
             'post/single.html.twig',
             [
                 'magazine' => $magazine,
-                'post'     => $post,
+                'post' => $post,
                 'comments' => $comments,
             ]
         );
@@ -57,7 +66,7 @@ class PostSingleController extends AbstractController
                     'post/_single_popup.html.twig',
                     [
                         'magazine' => $magazine,
-                        'post'     => $post,
+                        'post' => $post,
                         'comments' => $comments,
                     ]
                 ),

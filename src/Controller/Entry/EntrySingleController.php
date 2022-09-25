@@ -3,6 +3,7 @@
 namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
+use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Event\Entry\EntryHasBeenSeenEvent;
@@ -17,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EntrySingleController extends AbstractController
 {
+    use PrivateContentTrait;
+
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
     public function __invoke(
@@ -30,6 +33,8 @@ class EntrySingleController extends AbstractController
         if ($entry->magazine !== $magazine) {
             throw $this->createNotFoundException();
         }
+
+        $this->handlePrivateContent($entry);
 
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy));
@@ -51,7 +56,7 @@ class EntrySingleController extends AbstractController
             [
                 'magazine' => $magazine,
                 'comments' => $comments,
-                'entry'    => $entry,
+                'entry' => $entry,
             ]
         );
     }
@@ -65,7 +70,7 @@ class EntrySingleController extends AbstractController
                     [
                         'magazine' => $magazine,
                         'comments' => $comments,
-                        'entry'    => $entry,
+                        'entry' => $entry,
                     ]
                 ),
             ]
