@@ -175,9 +175,9 @@ class  PostManager implements ContentManagerInterface
 
     public function changeMagazine(Post $post, Magazine $magazine): void
     {
-        try {
-            $this->entityManager->beginTransaction();
+        $this->entityManager->beginTransaction();
 
+        try {
             $oldMagazine = $post->magazine;
             $post->magazine = $magazine;
 

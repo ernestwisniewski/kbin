@@ -42,9 +42,9 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
         // fetch transaction list
         $transactions = $this->explorer->findGte($receiver->cardanoWalletAddress, $txInit->createdAt);
 
-        try {
-            $this->entityManager->beginTransaction();
+        $this->entityManager->beginTransaction();
 
+        try {
             if (!$tx = $this->createTx($subject, $transactions)) {
                 return;
             }

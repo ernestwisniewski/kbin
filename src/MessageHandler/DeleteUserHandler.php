@@ -228,9 +228,9 @@ class DeleteUserHandler implements MessageHandlerInterface
 
         $retry = false;
 
-        try {
-            $this->entityManager->beginTransaction();
+        $this->entityManager->beginTransaction();
 
+        try {
             foreach ($subjects as $subject) {
                 $retry = true;
 
@@ -268,9 +268,9 @@ class DeleteUserHandler implements MessageHandlerInterface
 
         $retry = false;
 
-        try {
-            $this->entityManager->beginTransaction();
+        $this->entityManager->beginTransaction();
 
+        try {
             foreach ($comments as $comment) {
                 $retry = true;
                 if($this->op === 'delete') {
@@ -309,9 +309,9 @@ class DeleteUserHandler implements MessageHandlerInterface
 
         $retry = false;
 
-        try {
-            $this->entityManager->beginTransaction();
+        $this->entityManager->beginTransaction();
 
+        try {
             foreach ($entries as $entry) {
                 $retry = true;
                 if($this->op === 'delete') {
@@ -350,9 +350,9 @@ class DeleteUserHandler implements MessageHandlerInterface
 
         $retry = false;
 
-        try {
-            $this->entityManager->beginTransaction();
+        $this->entityManager->beginTransaction();
 
+        try {
             foreach ($comments as $comment) {
                 $retry = true;
                 if($this->op === 'delete') {
@@ -391,9 +391,9 @@ class DeleteUserHandler implements MessageHandlerInterface
 
         $retry = false;
 
-        try {
-            $this->entityManager->beginTransaction();
+        $this->entityManager->beginTransaction();
 
+        try {
             foreach ($posts as $post) {
                 $retry = true;
                 if($this->op === 'delete') {

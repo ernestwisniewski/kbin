@@ -148,6 +148,12 @@ entry_image_delete:
   path: /m/{magazine_name}/e/{entry_id}/{slug}/delete_image
   methods: [ POST ]
 
+entry_change_magazine:
+  controller: App\Controller\Entry\EntryChangeMagazineController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/e/{entry_id}/{slug}/change_magazine
+  methods: [ POST ]
+
 entry_pin:
   controller: App\Controller\Entry\EntryPinController
   defaults: { slug: -, sortBy: ~ }

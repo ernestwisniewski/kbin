@@ -5,6 +5,7 @@ namespace App\Service;
 use App\DTO\EntryDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
+use App\Entity\Magazine;
 use App\Entity\User;
 use App\Event\Entry\EntryBeforeDeletedEvent;
 use App\Event\Entry\EntryBeforePurgeEvent;
@@ -15,6 +16,7 @@ use App\Event\Entry\EntryPinEvent;
 use App\Event\Entry\EntryRestoredEvent;
 use App\Factory\EntryFactory;
 use App\Message\DeleteImageMessage;
+use App\Repository\EntryRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
@@ -41,6 +43,7 @@ class EntryManager implements ContentManagerInterface
         private MessageBusInterface $bus,
         private TranslatorInterface $translator,
         private EntityManagerInterface $entityManager,
+        private EntryRepository $entryRepository
     ) {
     }
 
@@ -220,5 +223,34 @@ class EntryManager implements ContentManagerInterface
     public function getSortRoute(string $sortBy): string
     {
         return strtolower($this->translator->trans('sort.'.$sortBy));
+    }
+
+    public function changeMagazine(Entry $entry, Magazine $magazine): void
+    {
+        $this->entityManager->beginTransaction();
+
+        try {
+            $oldMagazine = $entry->magazine;
+            $entry->magazine = $magazine;
+
+            foreach ($entry->comments as $comment) {
+                $comment->magazine = $magazine;
+            }
+
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+        } catch (\Exception $e) {
+            $this->entityManager->rollback();
+
+            return;
+        }
+
+        $oldMagazine->postCommentCount = $this->entryRepository->countEntryCommentsByMagazine($oldMagazine);
+        $oldMagazine->updateEntryCounts();
+
+        $magazine->postCommentCount = $this->entryRepository->countEntryCommentsByMagazine($magazine);
+        $entry->magazine->updateEntryCounts();
+
+        $this->entityManager->flush();
     }
 }

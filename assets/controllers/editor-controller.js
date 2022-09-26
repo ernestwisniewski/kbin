@@ -34,21 +34,25 @@ export default class extends Controller {
             },
         });
 
-        // try {
-        //     if (this.element.closest('article')) {
-        //         this.addMention(
-        //             simplemde,
-        //             this.element.closest('article').getElementsByClassName('kbin-user')[0].innerHTML.trim()
-        //         )
-        //     } else if (this.element.closest('blockquote')) {
-        //         this.addMention(
-        //             simplemde,
-        //             this.element.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim()
-        //         )
-        //     }
-        // } catch (e) {
-        //     throw e;
-        // }
+        try {
+            if (this.element.closest('article')) {
+                this.addMention(
+                    simplemde,
+                    this.element.closest('article').getElementsByClassName('kbin-user')[0].innerHTML.trim()
+                )
+            } else if (this.element.closest('blockquote')) {
+                const isEntryComment = this.element.closest('blockquote').id.startsWith('entry-comment');
+
+                if(!isEntryComment) {
+                    this.addMention(
+                        simplemde,
+                        this.element.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim()
+                    )
+                }
+            }
+        } catch (e) {
+            throw e;
+        }
 
         if (!focus) {
             const textarea = simplemde.element.parentNode.getElementsByClassName('CodeMirror')[0].getElementsByTagName('textarea')[0]

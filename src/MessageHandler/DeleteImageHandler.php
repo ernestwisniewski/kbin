@@ -24,9 +24,9 @@ class DeleteImageHandler implements MessageHandlerInterface
         $image = $this->imageRepository->findOneBy(['filePath' => $message->path]);
 
         if ($image) {
-            try {
-                $this->entityManager->beginTransaction();
+            $this->entityManager->beginTransaction();
 
+            try {
                 $this->entityManager->remove($image);
                 $this->entityManager->flush();
 

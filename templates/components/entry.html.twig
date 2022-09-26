@@ -242,6 +242,24 @@
                                             </form>
                                         </li>
                                     {% endif %}
+
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                            <form method="post"
+                                                  action="{{ path('entry_change_magazine', {
+                                                      magazine_name: this.entry.magazine.name,
+                                                      entry_id: this.entry.id,
+                                                  }) }}"
+                                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                                <input type="hidden" name="token" value="{{ csrf_token('change_magazine') }}">
+                                                <button type="submit" class="btn btn-link">{{ 'change_magazine'|trans }}</button>
+                                                <label>
+                                                    <input name="new_magazine" class="form-control form-control-sm">
+                                                </label>
+                                            </form>
+                                        </li>
+                                    {% endif %}
                                 {% endif %}
                             </ul>
                         </section>
