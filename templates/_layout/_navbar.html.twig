@@ -181,7 +181,7 @@
                         </a>
                     </li>
                 {% endif %}
-                <li class="kbin-nav-navbar-item d-none d-lg-block {{ is_user_profile_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+                <li class="kbin-nav-navbar-item d-none d-lg-block">
                     <div class="input-group input-group-sm input-group-btn">
                         <a href="{{ path('user_profile_front') }}" class="btn btn-default kbn-login-btn"
                            data-bs-toggle="{{ app.user ? 'dropdown' : '' }}"

@@ -85,6 +85,17 @@
       &-item {
         margin-right: 2px;
 
+        &--active {
+          a, button {
+            border: 1px solid $kbin-navbar-link-hover-border-color !important;
+            border-radius: 2px 2px 0 0;
+
+            .kbin-dark & {
+              border: 1px solid $kbin-dark-navbar-border-color !important;
+            }
+          }
+        }
+
         a, button {
           color: #252526 !important;
           border: 1px solid transparent;
@@ -94,7 +105,6 @@
           transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
 
           &:hover {
-            color: $kbin-navbar-link-hover-color;
             border-color: $kbin-navbar-link-hover-border-color;
             border-radius: 2px 2px 0 0;
 
