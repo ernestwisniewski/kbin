@@ -7,6 +7,7 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
+use Symfony\Contracts\Cache\CacheInterface;
 use App\Event\Entry\EntryBeforeDeletedEvent;
 use App\Event\Entry\EntryBeforePurgeEvent;
 use App\Event\Entry\EntryCreatedEvent;
@@ -43,7 +44,8 @@ class EntryManager implements ContentManagerInterface
         private MessageBusInterface $bus,
         private TranslatorInterface $translator,
         private EntityManagerInterface $entityManager,
-        private EntryRepository $entryRepository
+        private EntryRepository $entryRepository,
+        private CacheInterface $cache
     ) {
     }
 
@@ -251,6 +253,6 @@ class EntryManager implements ContentManagerInterface
         $magazine->postCommentCount = $this->entryRepository->countEntryCommentsByMagazine($magazine);
         $entry->magazine->updateEntryCounts();
 
-        $this->entityManager->flush();
+        $this->cache->invalidateTags(['entry_'.$entry->getId()]);
     }
 }

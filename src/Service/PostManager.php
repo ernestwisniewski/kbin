@@ -24,6 +24,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
@@ -39,7 +40,8 @@ class  PostManager implements ContentManagerInterface
         private MessageBusInterface $bus,
         private TranslatorInterface $translator,
         private EntityManagerInterface $entityManager,
-        private PostRepository $postRepository
+        private PostRepository $postRepository,
+        private CacheInterface $cache
     ) {
     }
 
@@ -200,5 +202,7 @@ class  PostManager implements ContentManagerInterface
         $post->magazine->updatePostCounts();
 
         $this->entityManager->flush();
+
+        $this->cache->invalidateTags(['post_'.$post->getId()]);
     }
 }

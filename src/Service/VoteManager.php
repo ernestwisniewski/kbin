@@ -43,7 +43,7 @@ class VoteManager
             $choice       = $this->guessUserChoice($choice, $votable->getUserChoice($user));
             $vote->choice = $choice;
         } else {
-            if ($votable instanceof Post || $votable instanceof PostComment) {
+            if(VoteInterface::VOTE_UP === $choice) {
                 return $this->upvote($votable, $user);
             }
 
@@ -102,6 +102,10 @@ class VoteManager
 
         if ($votable instanceof PostComment) {
             $votable->post->lastActive = new \DateTime();
+        }
+
+        if ($votable instanceof EntryComment) {
+            $votable->entry->lastActive = new \DateTime();
         }
 
         $this->entityManager->flush();

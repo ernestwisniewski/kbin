@@ -169,6 +169,7 @@
                                     </button>
                                 </form>
                             </div>
+                            {# @todo notifications cache or fetch #}
                             {% for notification in app.user.getNewNotifications %}
                                 <div class="{{ notification.status is same as 'new' ? '' : 'opacity-50' }} mb-2">{{ block(notification.type) }}</div>
                             {% endfor %}
