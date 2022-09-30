@@ -10,9 +10,9 @@ export default class extends Controller {
             return true;
         }
 
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+        // const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
-        if (prefersDarkScheme.matches && !Cookies.get('theme')) {
+        if (!Cookies.get('theme')) {
             Cookies.set('theme', 'kbin-dark');
             document.body.classList.toggle('kbin-dark');
         }
