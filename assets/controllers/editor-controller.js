@@ -43,7 +43,7 @@ export default class extends Controller {
             } else if (this.element.closest('blockquote')) {
                 const isEntryComment = this.element.closest('blockquote').id.startsWith('entry-comment');
 
-                if(!isEntryComment) {
+                if (!isEntryComment) {
                     this.addMention(
                         simplemde,
                         this.element.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim()
@@ -69,11 +69,14 @@ export default class extends Controller {
     }
 
     addMention(simplemde, replyTo) {
+        if (simplemde.value()) {
+            return;
+        }
+
         if (Array.from(replyTo)[0] !== '@') {
             replyTo = '@' + replyTo;
         }
 
-        simplemde.codemirror.getDoc();
         let doc = simplemde.codemirror.getDoc();
         let cursor = doc.getCursor();
         let line = doc.getLine(cursor.line);

@@ -6,6 +6,7 @@
     {% embed 'post/_single.html.twig' %}
         {% block before_comments %}
             <div class="kbin-comment-edit-wrapper mt-4 ps-sm-5">
+                {% include '_layout/_fediverse_edit_info.html.twig' %}
                 {% include 'post/_form.html.twig' %}
                 {% include 'post/_form_delete.html.twig' %}
             </div>
