@@ -73,8 +73,6 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
             $users[] = $user;
         }
 
-        $remoteSubscribers = array_filter($users, fn($s) => null !== $s->apId); // @todo activtypub
-
         return $users;
     }
 

@@ -160,9 +160,6 @@
     "ezimuel/ringphp": {
         "version": "1.1.2"
     },
-    "fig/link-util": {
-        "version": "1.2.0"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },

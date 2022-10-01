@@ -57,13 +57,13 @@ Based on [https://github.com/dunglas/symfony-docker](https://github.com/dunglas/
 
 #### Develop
 
+1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/)
+2. Run `docker compose build --pull --no-cache` to build fresh images
+3. Run `docker compose up` (the logs will be displayed in the current shell)
+4. Open `https://app.localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
+5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+
 ```bash
-# Set SMTP, Postgres, Mercure, Elasticsearch, RabbitMQ creds if you need it.
-$ cp .env.example .env
-
-$ docker compose build
-$ SERVER_NAME="app.localhost" docker-compose up -d
-
 $ docker compose exec php bin/console doctrine:fixtures:load
 $ docker compose exec php bin/phpunit
 
@@ -77,10 +77,15 @@ $ set XDEBUG_MODE=debug&& docker compose up -d&set XDEBUG_MODE=
 #### Production
 
 ```bash
-$ SERVER_NAME="beta.karab.in" \
-APP_SECRET=427f5e2940e5b2472c1b44b2d06e0525 \
-CADDY_MERCURE_JWT_SECRET='!ChangeMe!' \
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+$ APP_ENV=dev SERVER_NAME=dev.karab.in \
+APP_SECRET=acme \
+CADDY_MERCURE_JWT_SECRET='!ChangeThisMercureHubJWTSecretKey!' \
+POSTGRES_USER=kbin \
+POSTGRES_PASSWORD=acme \
+POSTGRES_DB=kbin \
+CADDY_MERCURE_URL="https://example.com/.well-known/mercure" \
+KBIN_DEFAULT_LANG=pl \
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
 #### Deploying on Multiple Nodes
