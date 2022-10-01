@@ -133,12 +133,12 @@ class AjaxController extends AbstractController
 
     public function fetchOnline(
         string $topic,
-        string $mercurePublishUrl,
+        string $mercurePublicUrl,
         string $mercureSubscriptionsToken,
         HttpClientInterface $httpClient,
         CacheInterface $cache
     ): JsonResponse {
-        $resp = $httpClient->request('GET', $mercurePublishUrl.'/subscriptions/'.$topic, [
+        $resp = $httpClient->request('GET', $mercurePublicUrl.'/subscriptions/'.$topic, [
             'auth_bearer' => $mercureSubscriptionsToken,
         ]);
 

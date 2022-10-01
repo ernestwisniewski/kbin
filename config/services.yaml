@@ -31,8 +31,8 @@ parameters:
   uploads_dir_name: 'media'
   uploads_base_url: 'https://%env(KBIN_DOMAIN)%/%uploads_dir_name%'
 
-  mercure_publish_url: '%env(MERCURE_PUBLISH_URL)%'
-  mercure_subscriptions_token: '%env(MERCURE_SUBSCRIPTIONS_TOKEN)%'
+  mercure_public_url: '%env(MERCURE_PUBLIC_URL)%'
+  mercure_subscriptions_token: '%env(MERCURE_JWT_SECRET)%'
 
   google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 
@@ -59,7 +59,7 @@ services:
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
       $cardanoWalletUrl: '%cardano_wallet_url%'
       $cardanoExplorerUrl: '%cardano_explorer_url%'
-      $mercurePublishUrl: '%mercure_publish_url%'
+      $mercurePublicUrl: '%mercure_public_url%'
       $mercureSubscriptionsToken: '%mercure_subscriptions_token%'
       $kbinApiItemsPerPage: '%kbin_api_items_per_page%'
 
