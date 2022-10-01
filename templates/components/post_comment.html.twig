@@ -10,7 +10,7 @@
     <blockquote id="post-comment-{{ this.comment.id }}"
                 class="kbin-comment {{ this.extraClass }} py-4 kbin-comment--nested kbin-post-comment kbin-comment-level--2 {{ this.comment.user.avatar ? '' : 'ps-2' }}"
                 data-controller="comment report post-comment lightbox"
-                data-action="notify:PostCommentDeletedNotification@window->entry-comment#remove notify:PostCommentEditedNotification@window->post-comment#edit"
+                data-action="notify:PostCommentDeletedNotification@window->post-comment#remove notify:PostCommentEditedNotification@window->post-comment#edit"
                 data-post-comment-id-value="{{ this.comment.id }}"
                 data-comment-id-value="{{ this.comment.id }}"
                 data-comment-level-value="2"

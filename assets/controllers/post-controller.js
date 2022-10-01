@@ -1,7 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
-import SimpleMDE from 'simplemde/dist/simplemde.min';
 
 export default class extends Controller {
     static targets = ['expand', 'form', 'commentCounter'];
@@ -89,6 +88,21 @@ export default class extends Controller {
                 .forEach(e => {
                     e.remove()
                 })
+
+            // User profile page
+            let el = this.element.nextElementSibling
+            let comments = [];
+            while (el) {
+                if ('BLOCKQUOTE' !== el.nodeName) {
+                    break;
+                }
+                comments.push(el);
+                el = el.nextElementSibling;
+            }
+
+            comments.map((blocquote) => {
+                blocquote.remove();
+            });
 
             this.element.insertAdjacentHTML('afterend', response.html);
         } catch (e) {
