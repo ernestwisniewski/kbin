@@ -11,6 +11,7 @@ use App\Entity\EntryEditedNotification;
 use App\Entity\EntryMentionedNotification;
 use App\Entity\Magazine;
 use App\Entity\Notification;
+use App\Entity\PostCommentMentionedNotification;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
@@ -49,9 +50,12 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         $this->notifyMagazine(new EntryCreatedNotification($subject->user, $subject));
 
         // Notify mentioned
-        foreach ($this->mentionManager->getUsersFromArray($subject->mentions) as $user) {
-            $notification = new EntryMentionedNotification($user, $subject);
-            $this->entityManager->persist($notification);
+        $mentions = $this->mentionManager->clearLocal($subject->mentions);
+        foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
+            if (!$user->apId) {
+                $notification = new EntryMentionedNotification($user, $subject);
+                $this->entityManager->persist($notification);
+            }
         }
 
         // Notify subscribers
@@ -60,7 +64,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
             [] // @todo user followers
         );
 
-        $subscribers       = array_filter($subscribers, fn($s) => !in_array($s->username, $subject->mentions ?? []));
+        $subscribers = array_filter($subscribers, fn($s) => !in_array($s->username, $mentions ?? []));
 
         foreach ($subscribers as $subscriber) {
             $notification = new EntryCreatedNotification($subscriber, $subject);
@@ -81,7 +85,9 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     private function notifyMagazine(Notification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->entry->magazine));
+            $iri = $this->iriConverter->getIriFromItem(
+                $this->magazineFactory->createDto($notification->entry->magazine)
+            );
 
             $update = new Update(
                 ['pub', $iri],
@@ -100,27 +106,27 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
 
         /**
          * @var Magazine $magazine
-         * @var Entry    $entry
+         * @var Entry $entry
          */
-        $entry    = $notification->entry;
+        $entry = $notification->entry;
         $magazine = $notification->entry->magazine;
 
         return json_encode(
             [
-                'op'       => end($class),
-                'id'       => $entry->getId(),
+                'op' => end($class),
+                'id' => $entry->getId(),
                 'magazine' => [
                     'name' => $magazine->name,
                 ],
-                'title'    => $magazine->title,
-                'body'     => $entry->title,
-                'icon'     => null,
-                'url'      => $this->urlGenerator->generate('entry_single', [
+                'title' => $magazine->title,
+                'body' => $entry->title,
+                'icon' => null,
+                'url' => $this->urlGenerator->generate('entry_single', [
                     'magazine_name' => $magazine->name,
-                    'entry_id'      => $entry->getId(),
-                    'slug'          => $entry->slug,
+                    'entry_id' => $entry->getId(),
+                    'slug' => $entry->slug,
                 ]),
-                'toast'    => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

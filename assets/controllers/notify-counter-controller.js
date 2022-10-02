@@ -21,16 +21,16 @@ export default class extends ApplicationController {
 
         this.updateCounter();
 
-        // if (window.notifyCounter) {
-        //     clearTimeout(window.notifyCounter);
-        // }
-        //
-        // window.notifyCounter = setTimeout(() => {
-        //     try {
-        //         this.updateCounter()
-        //     } catch (e) {
-        //     }
-        // }, Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000);
+        if (window.notifyCounter) {
+            clearTimeout(window.notifyCounter);
+        }
+
+        window.notifyCounter = setTimeout(() => {
+            try {
+                this.updateCounter()
+            } catch (e) {
+            }
+        }, Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000);
     }
 
     async updateCounter() {
@@ -47,11 +47,13 @@ export default class extends ApplicationController {
             response = await response.json();
         }
 
+        console.log(response.count)
         if (response.count > 0) {
+            console.log(this.notificationsTarget);
+            this.notificationsTarget.classList.remove('visually-hidden');
+
             let elem = this.notificationsTarget.getElementsByTagName('span')[0];
             elem.innerHTML = response.count;
-
-            this.notificationsTarget.classList.remove(this.hiddenClass);
         }
     }
 

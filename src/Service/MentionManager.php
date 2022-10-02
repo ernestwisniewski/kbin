@@ -116,4 +116,17 @@ class MentionManager
 
         return $body;
     }
+
+    public function clearLocal(?array $mentions): array
+    {
+        if (null === $mentions) {
+            return [];
+        }
+
+        $mentions = array_map(fn($val) => rtrim($val, '@'.$this->settingsManager->get('KBIN_DOMAIN')), $mentions);
+
+        $mentions = array_map(fn($val) => ltrim($val, '@'), $mentions);
+
+        return array_filter($mentions, fn($val) => !str_contains($val, '@'));
+    }
 }

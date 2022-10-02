@@ -64,7 +64,8 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     private function sendMentionedNotification(EntryComment $subject): array
     {
         $users = [];
-        foreach ($this->mentionManager->getUsersFromArray($subject->mentions) as $user) {
+        $mentions = $this->mentionManager->clearLocal($subject->mentions);
+        foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
             if (!$user->apId) {
                 $notification = new EntryCommentMentionedNotification($user, $subject);
                 $this->entityManager->persist($notification);
@@ -151,7 +152,9 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     private function notifyMagazine(Notification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
+            $iri = $this->iriConverter->getIriFromItem(
+                $this->magazineFactory->createDto($notification->getComment()->magazine)
+            );
 
             $update = new Update(
                 ['pub', $iri],
@@ -186,8 +189,8 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
                 'icon' => null,
                 'url' => $this->urlGenerator->generate('entry_single', [
                     'magazine_name' => $comment->magazine->name,
-                    'entry_id'      => $comment->entry->getId(),
-                    'slug'          => $comment->entry->slug,
+                    'entry_id' => $comment->entry->getId(),
+                    'slug' => $comment->entry->slug,
                 ]),
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
