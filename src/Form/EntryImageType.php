@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,7 +32,14 @@ class EntryImageType extends AbstractType
     {
         $builder
             ->add('title', TextareaType::class)
-            ->add('tags')
+            ->add('tags', TextType::class, [
+                'autocomplete' => true,
+                'tom_select_options' => [
+                    'create' => true,
+                    'createOnBlur' => true,
+                    'delimiter' => ',',
+                ],
+            ])
             ->add(
                 'badges',
                 BadgesType::class,

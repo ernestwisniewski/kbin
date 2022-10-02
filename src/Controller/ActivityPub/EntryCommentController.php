@@ -30,8 +30,8 @@ class EntryCommentController extends AbstractController
         EntryComment $comment,
         Request $request
     ): Response {
-        if ($magazine !== $comment->magazine || $entry !== $comment->entry) {
-            throw $this->createNotFoundException();
+        if ($comment->apId) {
+            return $this->redirect($comment->apId);
         }
 
         $this->handlePrivateContent($comment);

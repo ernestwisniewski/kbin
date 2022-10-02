@@ -4,7 +4,7 @@
 {% endif %}
 
 {{ form_start(form, { 'attr': {'data-controller': 'media title-counter editor', 'data-title-counter-max-value': 255, class: 'kbin-media' }}) }}
-<div class="kbin-magazine-create-form">
+<div>
     <div class="col-lg-6">
         <div class="input-group-lg mb-3">
             {{ form_label(form.title, 'title'|trans) }}<sup class="required">*</sup>
@@ -17,17 +17,17 @@
 
         <div class="input-group-lg mb-3">
             {{ form_label(form.magazine, 'magazine'|trans) }}<sup class="required">*</sup>
-            {{ form_widget(form.magazine) }}
+            {{ form_widget(form.magazine, {'attr': {'placeholder': 'magazine_input_placeholder'|trans }}) }}
         </div>
 
-        <div class="input-group-lg mb-3">
+        <div class="input-group-lg input-group-tags mb-3">
             {{ form_label(form.tags, 'tags'|trans) }}
-            {{ form_widget(form.tags, {'attr': {'class': 'kbin-choices kbin-choices-text'}}) }}
+            {{ form_widget(form.tags) }}
         </div>
 
         <div class="input-group-lg mb-3">
             {{ form_label(form.badges, 'badges'|trans) }}
-            {{ form_widget(form.badges, {'attr': {'class': 'kbin-choices kbin-choices-text'}}) }}
+            {{ form_widget(form.badges) }}
         </div>
     </div>
 

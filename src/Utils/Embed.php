@@ -18,6 +18,7 @@ class Embed
 
     public ?string $url = null;
     public ?string $title = null;
+    public ?string $description = null;
     public ?string $image = null;
     public ?string $html = null;
 
@@ -33,7 +34,7 @@ class Embed
                 $item->expiresAfter(3600);
 
                 try {
-                    $embed  = (new BaseEmbed())->get($url);
+                    $embed = (new BaseEmbed())->get($url);
                     $oembed = $embed->getOEmbed();
                 } catch (Exception $e) {
                     $c = clone $this;
@@ -43,10 +44,11 @@ class Embed
                     return $c;
                 }
 
-                $this->url   = $url;
+                $this->url = $url;
                 $this->title = $embed->title;
-                $this->image = (string) $embed->image;
-                $this->html  = $this->cleanIframe($oembed->html('html'));
+                $this->description = $embed->description;
+                $this->image = (string)$embed->image;
+                $this->html = $this->cleanIframe($oembed->html('html'));
 
                 if (!$this->html && $embed->code) {
                     $this->html = $this->cleanIframe($embed->code->html);
@@ -120,7 +122,7 @@ class Embed
             || str_contains($this->html, 'streamable'); // @todo
     }
 
-    private function isVideoUrl():bool
+    private function isVideoUrl(): bool
     {
         return false;
     }

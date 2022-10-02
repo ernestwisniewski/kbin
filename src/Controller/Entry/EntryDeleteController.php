@@ -59,6 +59,6 @@ class EntryDeleteController extends AbstractController
 
         $this->manager->purge($entry);
 
-        return $this->redirectToMagazine($magazine);
+        return $this->redirectToRefererOrHome($request);
     }
 }

@@ -35,6 +35,6 @@ class MagazineDeleteController extends AbstractController
 
         $this->manager->purge($magazine);
 
-        return $this->redirectToRoute('front');
+        return $this->redirectToRefererOrHome($request);
     }
 }

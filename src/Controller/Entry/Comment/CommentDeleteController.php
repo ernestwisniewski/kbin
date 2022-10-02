@@ -58,6 +58,6 @@ class CommentDeleteController extends AbstractController
 
         $this->manager->purge($comment);
 
-        return $this->redirectToEntry($entry);
+        return $this->redirectToRefererOrHome($request);
     }
 }

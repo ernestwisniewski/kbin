@@ -6,7 +6,7 @@ import Modal from 'bootstrap/js/dist/modal';
 
 export default class extends Controller {
     static debounces = ['fetchTitle']
-    static targets = ['sendButton', 'url', 'title', 'entries'];
+    static targets = ['sendButton', 'url', 'title', 'description', 'entries'];
     static values = {
         loading: Boolean,
     };
@@ -50,6 +50,7 @@ export default class extends Controller {
             response = await response.json();
 
             this.titleTarget.value = response.title;
+            this.descriptionTarget.value = response.description;
             this.titleTarget.dispatchEvent(new Event('input'));
         } catch (e) {
             alert('Oops, something went wrong.');

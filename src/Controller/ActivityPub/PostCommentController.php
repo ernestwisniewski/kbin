@@ -30,8 +30,8 @@ class PostCommentController extends AbstractController
         PostComment $comment,
         Request $request
     ): Response {
-        if ($magazine !== $comment->magazine || $post !== $comment->post) {
-            throw $this->createNotFoundException();
+        if ($comment->apId) {
+            return $this->redirect($comment->apId);
         }
 
         $this->handlePrivateContent($post);
