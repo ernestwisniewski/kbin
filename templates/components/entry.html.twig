@@ -56,7 +56,7 @@
                     <ul class="kbin-entry-meta-list list-inline mb-0">
                         {% if not is_user_page() %}
                             <li class="kbin-entry-meta-user kbin-entry-meta-list-item list-inline-item">
-                                <small class="text-muted">{{ user(this.entry.user, {prefix: false, avatar: true})|trim|raw }},</small>
+                                {{ user(this.entry.user, {prefix: false, avatar: true})|trim|raw }}<small class="text-muted">,</small>
                             </li>
                         {% endif %}
                         <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
