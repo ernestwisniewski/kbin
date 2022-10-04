@@ -12,6 +12,7 @@ use App\PageView\EntryCommentPageView;
 use App\PageView\EntryPageView;
 use App\PageView\PostCommentPageView;
 use App\PageView\PostPageView;
+use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
@@ -111,6 +112,7 @@ class UserFrontController extends AbstractController
     public function entries(User $user, Request $request, EntryRepository $repository): Response
     {
         $criteria = new EntryPageView($this->getPageNb($request));
+        $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
 
         return $this->render(
@@ -125,6 +127,7 @@ class UserFrontController extends AbstractController
     public function comments(User $user, Request $request, EntryCommentRepository $repository): Response
     {
         $criteria              = new EntryCommentPageView($this->getPageNb($request));
+        $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user        = $user;
         $criteria->onlyParents = false;
 
@@ -145,6 +148,7 @@ class UserFrontController extends AbstractController
     public function posts(User $user, Request $request, PostRepository $repository): Response
     {
         $criteria = new PostPageView($this->getPageNb($request));
+        $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
 
         $posts = $repository->findByCriteria($criteria);
@@ -161,6 +165,7 @@ class UserFrontController extends AbstractController
     public function replies(User $user, Request $request, PostCommentRepository $repository): Response
     {
         $criteria = new PostCommentPageView($this->getPageNb($request));
+        $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
 
         $comments = $repository->findByCriteria($criteria);
