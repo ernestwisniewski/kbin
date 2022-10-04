@@ -29,11 +29,14 @@
 
         <aside class="kbin-comment-meta">
             <ul class="kbin-comment-meta-list list-inline m-0">
+                <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
+                    <small class="text-muted">{{ user(this.comment.user, {prefix: false, bolded: true})|trim|raw }},</small>
+                </li>
                 {% if not is_entry_page() %}
                 <a href="{{ entry_url(this.comment.entry) }}">
                     {% endif %}
                     <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">{{ 'posted'|trans }}
+                        <small class="text-muted">
                             <time data-controller="timeago"
                                   data-timeago-refresh-interval-value="10000"
                                   data-timeago-datetime-value="{{ this.comment.createdAt|date('c') }}">{{ this.comment.createdAt|ago }}</time>
@@ -42,9 +45,6 @@
                     {% if not is_entry_page() %}
                 </a>
                 {% endif %}
-                <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
-                    <small class="text-muted">{{ 'by'|trans }} {{ user(this.comment.user, {prefix: false, bolded: true}) }}</small>
-                </li>
 
                 {% if this.level is same as 1 %}
                     {% if is_comments_page() and not is_magazine_page() %}
@@ -56,7 +56,7 @@
 
                     {% if is_comments_page() or is_user_page() %}
                         <li class="kbin-comment-meta-entry kbin-comment-meta-list-item list-inline-item">
-                            <small class="text-muted">w <a class="font-weight-bold"
+                            <small class="text-muted">{{ 'in'|trans }} <a class="font-weight-bold"
                                                            href="{{ entry_url(this.comment.entry) }}">{{ this.comment.entry.shortTitle }}</a></small>
                         </li>
                     {% endif %}

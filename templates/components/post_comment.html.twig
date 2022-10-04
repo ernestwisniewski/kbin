@@ -29,6 +29,9 @@
 
             <aside class="kbin-comment-meta">
                 <ul class="kbin-comment-meta-list list-inline m-0">
+                    <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
+                        <small class="text-muted">{{ user(this.comment.user, {bolded:true, prefix:false})|trim|raw }},</small>
+                    </li>
                     <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
                         {% if not is_post_page() %}
                         <a href="{{ post_url(this.comment.post) }}">
@@ -41,10 +44,6 @@
                             {% if not is_post_page() %}
                         </a>
                         {% endif %}
-                    </li>
-
-                    <li class="kbin-comment-meta-user kbin-comment-meta-list-item list-inline-item">
-                        <small class="text-muted">{{ 'by'|trans }} {{ user(this.comment.user, {bolded:true, prefix:false}) }}</small>
                     </li>
                 </ul>
             </aside>

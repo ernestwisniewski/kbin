@@ -54,20 +54,18 @@
             {% if this.entry.visibility in ['visible', 'private'] or this.canSeeTrashed %}
                 <aside class="kbin-entry-meta mt-2">
                     <ul class="kbin-entry-meta-list list-inline mb-0">
+                        {% if not is_user_page() %}
+                            <li class="kbin-entry-meta-user kbin-entry-meta-list-item list-inline-item">
+                                <small class="text-muted">{{ user(this.entry.user, {prefix: false, avatar: true})|trim|raw }},</small>
+                            </li>
+                        {% endif %}
                         <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
-                            <small class="text-muted">{{ 'posted'|trans }}
+                            <small class="text-muted">
                                 <time data-controller="timeago"
                                       data-timeago-refresh-interval-value="10000"
                                       data-timeago-datetime-value="{{ this.entry.createdAt|date('c') }}">{{ this.entry.createdAt|ago }}</time>
                             </small>
                         </li>
-
-                        {% if not is_user_page() %}
-                            <li class="kbin-entry-meta-user kbin-entry-meta-list-item list-inline-item">
-                                <small class="text-muted">{{ 'by'|trans }} {{ user(this.entry.user, {prefix: false, avatar: true}) }}</small>
-                            </li>
-                        {% endif %}
-
                         {% if this.showMagazine %}
                             <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
                                 <small class="text-muted">{{ 'to'|trans }}</small> {{ component('magazine_inline', { magazine: this.entry.magazine }) }}
@@ -76,7 +74,7 @@
                     </ul>
 
                     {% if this.entry.visibility in ['visible', 'private'] and this.entry.body and not is_entry_page() %}
-                        <p class="small mt-2">{{ get_short_desc(this.entry.shortDesc) }}</p>
+                        <p class="small mt-2 text-muted">{{ get_short_desc(this.entry.shortDesc) }}</p>
                     {% endif %}
 
                     <ul class="kbin-entry-meta-list list-inline mb-0 float-start">

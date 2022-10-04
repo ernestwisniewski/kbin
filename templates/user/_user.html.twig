@@ -10,8 +10,7 @@
                  src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
                  alt="{{ user.username }}"/>
         {%- endif -%}
-        {{ user.username|trim('@', 'left') }}
-    </a>
+        {{ user.username|trim('@', 'left') }}</a>
 {% endblock user %}
 
 {% block avatar %}
