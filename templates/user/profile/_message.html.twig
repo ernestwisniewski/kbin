@@ -2,7 +2,7 @@
 {% from 'user/_macros.html.twig' import avatar %}
 
 <blockquote id="{{ message.id }}" class="kbin-comment shadow-sm">
-    <div class="kbin-comment-header mb-2">
+    <div class="kbin-comment-header mb-3">
         {% if message.sender.avatar %}
             <div class="kbin-comment-avatar">
                 {{ avatar(message.sender) }}

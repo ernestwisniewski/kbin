@@ -18,7 +18,7 @@
             data-comment-nested-value="true"
             data-comment-level-value="{{ this.level >= 7 ? '7' : this.level }}"
             data-comment-parent-value="{{ this.comment.parent ? this.comment.parent.id : null }}">
-    <div class="kbin-comment-header mb-2">
+    <div class="kbin-comment-header mb-3">
         {{ component('vote', { votable: this.comment, notificationType: 'EntryComment', formDest: 'entry_comment_vote', baseClass: 'comment' }) }}
 
         {% if this.comment.user.avatar %}

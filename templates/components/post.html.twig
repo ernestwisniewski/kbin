@@ -9,7 +9,7 @@
          data-action="notify:PostCommentCreatedNotification@window->post#increaseComments notify:PostCommentDeletedNotification@window->post#decreaseComments notify:PostDeletedNotification@window->post#remove notify:PostEditedNotification@window->post#edit"
          data-comment-counter-subject-id-value="{{ this.post.id }}"
          data-post-id-value="{{ this.post.id }}">
-    <div class="kbin-post-header mb-2">
+    <div class="kbin-post-header mb-3">
         {{ component('vote', { votable: this.post, notificationType: 'Post', formDest: 'post_vote', baseClass: 'post', hideDownvote: true }) }}
 
         {% if this.post.user.avatar %}
