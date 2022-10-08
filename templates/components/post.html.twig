@@ -101,12 +101,12 @@
                                                          data-action="report#report">{{ 'report'|trans }}</a></small>
                         </li>
 
-                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                            <form method="post" action="{{ path('post_favourite', {id: this.post.id}) }}">
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item" data-controller="favourite">
+                            <form method="post" action="{{ path('post_favourite', {id: this.post.id}) }}" data-action="favourite#toggle">
                                 <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
                                 <button type="submit"
                                         class="btn btn-link {{ app.user and this.post.isFavored(app.user) ? 'text-decoration-underline' : '' }}">
-                                    {{ 'favourite'|trans }}
+                                    {{ 'favourite'|trans }} <span data-favourite-target="counter" class="{{ this.post.favouriteCount ? '' : 'visually-hidden' }}">({{ this.post.favouriteCount }})</span>
                                 </button>
                             </form>
                         </li>

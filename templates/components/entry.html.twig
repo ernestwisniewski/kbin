@@ -116,12 +116,15 @@
                                 </small>
                             </li>
 
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <form method="post" action="{{ path('entry_favourite', {id: this.entry.id}) }}">
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item"
+                                data-controller="favourite">
+                                <form method="post" action="{{ path('entry_favourite', {id: this.entry.id}) }}"
+                                      data-action="favourite#toggle">
                                     <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
                                     <button type="submit"
                                             class="btn btn-link {{ app.user and this.entry.isFavored(app.user) ? 'text-decoration-underline' : '' }}">
-                                        {{ 'favourite'|trans }}
+                                        {{ 'favourite'|trans }} <span data-favourite-target="counter"
+                                                                      class="{{ this.entry.favouriteCount ? '' : 'visually-hidden' }}">({{ this.entry.favouriteCount }})</span>
                                     </button>
                                 </form>
                             </li>
@@ -250,8 +253,10 @@
                                                       entry_id: this.entry.id,
                                                   }) }}"
                                                   onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                                <input type="hidden" name="token" value="{{ csrf_token('change_magazine') }}">
-                                                <button type="submit" class="btn btn-link">{{ 'change_magazine'|trans }}</button>
+                                                <input type="hidden" name="token"
+                                                       value="{{ csrf_token('change_magazine') }}">
+                                                <button type="submit"
+                                                        class="btn btn-link">{{ 'change_magazine'|trans }}</button>
                                                 <label>
                                                     <input name="new_magazine" class="form-control form-control-sm">
                                                 </label>

@@ -92,13 +92,15 @@
                                             data-action="report#report">{{ 'report'|trans }}</a></small>
                             </li>
 
-                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
-                                <form method="post"
+                            <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item"
+                                data-controller="favourite">
+                                <form method="post" data-action="favourite#toggle"
                                       action="{{ path('post_comment_favourite', {id: this.comment.id}) }}">
                                     <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
                                     <button type="submit"
                                             class="btn btn-link {{ app.user and this.comment.isFavored(app.user) ? 'text-decoration-underline' : '' }}">
-                                        {{ 'favourite'|trans }}
+                                        {{ 'favourite'|trans }} <span data-favourite-target="counter"
+                                                                      class="{{ this.comment.favouriteCount ? '' : 'visually-hidden' }}">({{ this.comment.favouriteCount }})</span>
                                     </button>
                                 </form>
                             </li>
