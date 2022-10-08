@@ -11,7 +11,6 @@ use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Uid\Uuid;
 
 class FollowHandler implements MessageHandlerInterface
 {
@@ -32,19 +31,16 @@ class FollowHandler implements MessageHandlerInterface
             return;
         }
 
-        $id = Uuid::v4()->toRfc4122(); // todo save ap event stream
-
         $follower  = $this->repository->find($message->followerId);
         $following = $this->repository->find($message->followingId);
 
         $followObject = $this->followWrapper->build(
             $this->activityPubManager->getActorProfileId($follower),
             $followingProfileId = $this->activityPubManager->getActorProfileId($following),
-            $id
         );
 
         if ($message->unfollow) {
-            $followObject = $this->undoWrapper->build($followObject, $id);
+            $followObject = $this->undoWrapper->build($followObject);
         }
 
         $inbox = $this->apHttpClient->getInboxUrl($followingProfileId);

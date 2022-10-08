@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Service\FavouriteManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,10 +16,19 @@ class FavouriteController extends AbstractController
     {
         $this->validateCsrf('favourite', $request->request->get('token'));
 
-        $manager->toggle($this->getUserOrThrow(), $subject);
+        $favourite = $manager->toggle($this->getUserOrThrow(), $subject);
+        $isFavored = false;
 
+        if($this->getUser()) {
+            $isFavored = $subject->isFavored($this->getUser());
+        }
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonSuccessResponse();
+            return new JsonResponse(
+                [
+                    'count' => $subject->favouriteCount,
+                    'isFavored' => $isFavored
+                ]
+            );
         }
 
         return $this->redirectToRefererOrHome($request);

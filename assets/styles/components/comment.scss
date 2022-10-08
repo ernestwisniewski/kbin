@@ -1,5 +1,5 @@
 $levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353');
-$comment-margin-xl: 4.5rem;
+$comment-margin-xl: 3rem;
 $comment-margin-lg: 1rem;
 $comment-margin-sm: .5rem;
 
@@ -24,7 +24,7 @@ $comment-margin-sm: .5rem;
     }
 
     .kbin-dark & {
-      background: #222222;
+      background: #282828;
     }
 
     &:nth-child(even) {

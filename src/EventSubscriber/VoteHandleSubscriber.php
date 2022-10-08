@@ -49,7 +49,6 @@ class VoteHandleSubscriber implements EventSubscriberInterface
                     $event->vote->user->getId(),
                     $event->votable->getId(),
                     get_class($event->votable),
-                    $event->vote->createdAt
                 ),
             );
         }

@@ -47,7 +47,7 @@ class ApHttpClient
                 return null;
             }
 
-            $item->expiresAfter(0);
+            $item->expiresAfter(600);
 
             return $r;
         });
@@ -77,7 +77,7 @@ class ApHttpClient
                 return null;
             }
 
-            $item->expiresAfter(86400);
+            $item->expiresAfter(600);
 
             return $r;
         });

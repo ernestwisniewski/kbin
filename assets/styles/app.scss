@@ -47,7 +47,7 @@ html {
   background-image: linear-gradient(#e5e5e5 0%, $kbin-background 120px);
 
   .kbin-dark & {
-    background-image: linear-gradient(#151515 0%, $kbin-dark-background 120px);
+    background-image: linear-gradient(#000, #161616 120px);
   }
 }
 
@@ -360,6 +360,6 @@ select {
   .ts-control {
     background: none;
     box-shadow: none !important;
-    border:none !important;
+    border: none !important;
   }
 }

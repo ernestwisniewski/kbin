@@ -7,6 +7,7 @@ use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\CreateMessage;
 use App\Message\ActivityPub\Inbox\DeleteMessage;
 use App\Message\ActivityPub\Inbox\FollowMessage;
+use App\Message\ActivityPub\Inbox\LikeMessage;
 use App\Service\ActivityPub\SignatureValidator;
 use App\Service\ActivityPubManager;
 use Psr\Log\LoggerInterface;
@@ -59,6 +60,9 @@ class ActivityHandler implements MessageHandlerInterface
             case 'Announce':
                 $this->bus->dispatch(new AnnounceMessage($payload));
                 break;
+            case 'Like':
+                $this->bus->dispatch(new LikeMessage($payload));
+                break;
             case 'Follow':
                 $this->bus->dispatch(new FollowMessage($payload));
                 break;
@@ -67,6 +71,10 @@ class ActivityHandler implements MessageHandlerInterface
                 break;
             case 'Undo':
                 $this->handleUndo($payload);
+                break;
+            case 'Accept':
+            case 'Reject':
+                $this->handleAcceptAndReject($payload);
                 break;
         }
     }
@@ -89,6 +97,24 @@ class ActivityHandler implements MessageHandlerInterface
             $this->bus->dispatch(new AnnounceMessage($payload));
 
             return;
+        }
+
+        if ($type === 'Like') {
+            $this->bus->dispatch(new LikeMessage($payload));
+            return;
+        }
+    }
+
+    private function handleAcceptAndReject(array $payload):void
+    {
+        if (is_array($payload['object'])) {
+            $type = $payload['object']['type'];
+        } else {
+            $type = $payload['type'];
+        }
+
+        if ($type === 'Follow') {
+            $this->bus->dispatch(new FollowMessage($payload));
         }
     }
 }

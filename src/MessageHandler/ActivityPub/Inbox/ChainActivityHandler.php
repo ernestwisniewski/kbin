@@ -4,6 +4,7 @@ namespace App\MessageHandler\ActivityPub\Inbox;
 
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
+use App\Message\ActivityPub\Inbox\LikeMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Note;
@@ -25,7 +26,7 @@ class ChainActivityHandler implements MessageHandlerInterface
     public function __invoke(ChainActivityMessage $message): void
     {
         if ($message->parent) {
-            $this->unloadStack($message->chain, $message->parent, $message->announce);
+            $this->unloadStack($message->chain, $message->parent, $message->announce, $message->like);
 
             return;
         }
@@ -74,7 +75,7 @@ class ChainActivityHandler implements MessageHandlerInterface
         );
     }
 
-    private function unloadStack(array $chain, array $parent, ?array $announce = null): void
+    private function unloadStack(array $chain, array $parent, ?array $announce = null, ?array $like = null): void
     {
         $entity = null;
         $object = end($chain);
@@ -93,10 +94,16 @@ class ChainActivityHandler implements MessageHandlerInterface
             return;
         }
 
+        if (!$entity && $like) {
+            $this->bus->dispatch(new LikeMessage($announce));
+
+            return;
+        }
+
         array_pop($chain);
 
         if (count($chain)) {
-            $this->bus->dispatch(new ChainActivityMessage($chain, $parent, $announce));
+            $this->bus->dispatch(new ChainActivityMessage($chain, $parent, $announce, $like));
         }
     }
 

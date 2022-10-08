@@ -47,9 +47,7 @@ export default class extends ApplicationController {
             response = await response.json();
         }
 
-        console.log(response.count)
         if (response.count > 0) {
-            console.log(this.notificationsTarget);
             this.notificationsTarget.classList.remove('visually-hidden');
 
             let elem = this.notificationsTarget.getElementsByTagName('span')[0];

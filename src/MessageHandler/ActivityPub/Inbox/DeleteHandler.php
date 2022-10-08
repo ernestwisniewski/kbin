@@ -21,7 +21,7 @@ class DeleteHandler implements MessageHandlerInterface
 {
     public function __construct(
         private ActivityPubManager $activityPubManager,
-        private ApActivityRepository $apActivityrepository,
+        private ApActivityRepository $apActivityRepository,
         private EntityManagerInterface $entityManager,
         private EntryManager $entryManager,
         private EntryCommentManager $entryCommentManager,
@@ -39,9 +39,9 @@ class DeleteHandler implements MessageHandlerInterface
         }
 
         if (is_array($message->payload['object'])) {
-            $object = $this->apActivityrepository->findByObjectId($message->payload['object']['id']);
+            $object = $this->apActivityRepository->findByObjectId($message->payload['object']['id']);
         } else {
-            $object = $this->apActivityrepository->findByObjectId($message->payload['object']);
+            $object = $this->apActivityRepository->findByObjectId($message->payload['object']);
         }
 
         if (!$object) {

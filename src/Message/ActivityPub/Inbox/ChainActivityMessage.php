@@ -6,7 +6,11 @@ use App\Message\AsyncMessageInterface;
 
 class ChainActivityMessage implements AsyncMessageInterface
 {
-    public function __construct(public array $chain, public ?array $parent = null, public ?array $announce = null)
-    {
+    public function __construct(
+        public array $chain,
+        public ?array $parent = null,
+        public ?array $announce = null,
+        public ?array $like = null
+    ) {
     }
 }

@@ -13,6 +13,7 @@ use App\Message\DeleteImageMessage;
 use App\Message\DeleteUserMessage;
 use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
+use App\Repository\UserFollowRepository;
 use App\Repository\UserFollowRequestRepository;
 use App\Security\EmailVerifier;
 use App\Service\ActivityPub\KeysGenerator;
@@ -41,18 +42,23 @@ class UserManager
         private EntityManagerInterface $entityManager,
         private RateLimiterFactory $userRegisterLimiter,
         private UserFollowRequestRepository $requestRepository,
+        private UserFollowRepository $userFollowRepository,
         private Security $security,
     ) {
     }
 
-    public function follow(User $follower, User $following, bool $createRequest = true): void
+    public function follow(User $follower, User $following, $createRequest = true): void
     {
-        if ($following->apId && $following->apManuallyApprovesFollowers && $createRequest) {
-            if (!$this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
-                $request = new UserFollowRequest($follower, $following);
-                $this->entityManager->persist($request);
-                $this->entityManager->flush();
+        if ($following->apManuallyApprovesFollowers && $createRequest) {
+            if ($this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
+                return;
             }
+
+            $request = new UserFollowRequest($follower, $following);
+            $this->entityManager->persist($request);
+            $this->entityManager->flush();
+
+            $this->dispatcher->dispatch(new UserFollowEvent($follower, $following));
 
             return;
         }
@@ -68,20 +74,26 @@ class UserManager
 
     public function acceptFollow(User $follower, User $following): void
     {
-        $request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following]);
-        $this->entityManager->remove($request);
+        if ($request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
+            $this->entityManager->remove($request);
+        }
+
+        if ($this->userFollowRepository->findOneBy(['follower' => $follower, 'following' => $following])) {
+            return;
+        }
 
         $this->follow($follower, $following, false);
     }
 
     public function rejectFollow(User $follower, User $following): void
     {
-        $request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following]);
-        $this->entityManager->remove($request);
-
+        if ($request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
+            $this->entityManager->remove($request);
+            $this->entityManager->flush();
+        }
     }
 
-    public function block(User $blocker, User $blocked)
+    public function block(User $blocker, User $blocked): void
     {
         $this->unfollow($blocker, $blocked);
 
@@ -94,6 +106,10 @@ class UserManager
 
     public function unfollow(User $follower, User $following): void
     {
+        if ($request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
+            $this->entityManager->remove($request);
+        }
+
         $follower->unfollow($following);
 
         $this->entityManager->flush();
@@ -262,8 +278,7 @@ class UserManager
     {
         $image = $user->cover->filePath;
 
-        $user->cover
-            = null;
+        $user->cover = null;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

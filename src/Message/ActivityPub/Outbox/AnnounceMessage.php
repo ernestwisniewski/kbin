@@ -6,7 +6,11 @@ use App\Message\AsyncMessageInterface;
 
 class AnnounceMessage implements AsyncMessageInterface
 {
-    public function __construct(public int $userId, public int $objectId, public string $objectType, public \DateTimeInterface $createdAt)
-    {
+    public function __construct(
+        public int $userId,
+        public int $objectId,
+        public string $objectType,
+        public bool $removeAnnounce = false
+    ) {
     }
 }

@@ -28,7 +28,6 @@ class FollowHandler implements MessageHandlerInterface
         if ($message->payload['type'] === 'Follow') {
             $user = $this->activityPubManager->findActorOrCreate($message->payload['object']);
 
-            // @todo activitypub create follow request if profile is private
             $this->handleFollow($user, $actor);
 
             $this->accept($message->payload, $user);
@@ -36,15 +35,43 @@ class FollowHandler implements MessageHandlerInterface
             return;
         }
 
-        if ($message->payload['type'] === 'Undo') {
-            if ($message->payload['object']['type'] !== 'Follow') {
-                return;
+        if (isset($message->payload['object'])) {
+            switch ($message->payload['type']) {
+                case 'Undo':
+                    $user = $this->activityPubManager->findActorOrCreate($message->payload['object']['object']);
+                    $this->handleUnfollow($user, $actor);
+                    break;
+                case 'Accept':
+                    $user = $this->activityPubManager->findActorOrCreate($message->payload['object']['actor']);
+                    $this->handleAccept($actor, $user);
+                    break;
+                case 'Reject':
+                    $user = $this->activityPubManager->findActorOrCreate($message->payload['object']['actor']);
+                    $this->handleReject($actor, $user);
+                    break;
+                default:
+                    break;
             }
-
-            $user = $this->activityPubManager->findActorOrCreate($message->payload['object']['object']);
-
-            $this->handleUnfollow($user, $actor);
         }
+    }
+
+    #[ArrayShape([
+        '@context' => "string",
+        'id' => "string",
+        'type' => "string",
+        'actor' => "mixed",
+        'object' => "mixed",
+    ])] private function accept(
+        array $payload,
+        User $user
+    ): void {
+        $accept = $this->acceptWrapper->build(
+            $payload['object'],
+            $payload['actor'],
+            $payload['id'],
+        );
+
+        $this->client->post($this->client->getInboxUrl($payload['actor']), $user, $accept);
     }
 
     private function handleFollow(User $user, User $actor): void
@@ -57,17 +84,13 @@ class FollowHandler implements MessageHandlerInterface
         $this->userManager->unfollow($actor, $user);
     }
 
-    #[ArrayShape(['@context' => "string", 'id' => "string", 'type' => "string", 'actor' => "mixed", 'object' => "mixed"])] private function accept(
-        array $payload,
-        User $user
-    ): void {
+    private function handleAccept(User $user, User $actor): void
+    {
+        $this->userManager->acceptFollow($actor, $user);
+    }
 
-        $accept = $this->acceptWrapper->build(
-            $payload['object'],
-            $payload['actor'],
-            $payload['id'],
-        );
-
-        $this->client->post($this->client->getInboxUrl($payload['actor']), $user, $accept);
+    private function handleReject(User $user, User $actor): void
+    {
+        $this->userManager->rejectFollow($actor, $user);
     }
 }

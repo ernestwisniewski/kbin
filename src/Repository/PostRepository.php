@@ -156,10 +156,10 @@ class PostRepository extends ServiceEntityRepository
 
         switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
-                $qb->orderBy('p.score', 'DESC');
+                $qb->orderBy('p.ranking', 'DESC');
                 break;
             case Criteria::SORT_TOP:
-                $qb->orderBy('p.ranking', 'DESC');
+                $qb->orderBy('p.score', 'DESC');
                 break;
             case Criteria::SORT_COMMENTED:
                 $qb->orderBy('p.commentCount', 'DESC');

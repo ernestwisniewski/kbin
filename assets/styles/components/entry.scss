@@ -18,6 +18,10 @@
   display: flow-root;
   position: relative;
 
+  .kbin-dark & {
+    background-color: #282828;
+  }
+
   &:nth-child(even) {
     border-top: 1px solid $kbin-entry-list-item-border-color;
     border-bottom: 1px solid $kbin-entry-list-item-border-color;
@@ -44,7 +48,7 @@
 
   &-vote {
     float: left;
-    margin-right: .3rem;
+    margin-right: .5rem;
     width: 3.5rem;
 
     &-list {

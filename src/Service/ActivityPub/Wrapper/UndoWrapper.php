@@ -4,6 +4,7 @@ namespace App\Service\ActivityPub\Wrapper;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Uid\Uuid;
 
 class UndoWrapper
 {
@@ -13,7 +14,6 @@ class UndoWrapper
 
     #[ArrayShape(['@context' => "string", 'id' => "string", 'type' => "string", 'actor' => "mixed", 'object' => "array"])] public function build(
         array $object,
-        string $id
     ): array {
         unset($object['@context']);
 

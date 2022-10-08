@@ -16,7 +16,6 @@ class AnnounceWrapper
     public function build(
         string $user,
         array $object,
-        \DateTimeInterface $createdAt
     ): array {
         $id = Uuid::v4()->toRfc4122();
 
@@ -28,7 +27,7 @@ class AnnounceWrapper
             'object'    => $object['id'],
             'to'        => [ActivityPubActivityInterface::PUBLIC_URL, $object['attributedTo']],
             'cc'        => [],
-            'published' => $createdAt->format(DATE_ATOM),
+            'published' => (new \DateTime())->format(DATE_ATOM),
         ];
     }
 }
