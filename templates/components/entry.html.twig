@@ -74,7 +74,7 @@
                     </ul>
 
                     {% if this.entry.visibility in ['visible', 'private'] and this.entry.body and not is_entry_page() %}
-                        <p class="small mt-3 mb-0 text-muted">{{ get_short_desc(this.entry.shortDesc) }}</p>
+                        <p class="small mt-3 mb-0 text-muted" style="word-wrap: break-word;">{{ get_short_desc(this.entry.shortDesc) }}</p>
                     {% endif %}
 
                     <ul class="kbin-entry-meta-list list-inline mb-0 float-start my-3">
