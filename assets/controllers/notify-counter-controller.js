@@ -20,17 +20,6 @@ export default class extends ApplicationController {
         }
 
         this.updateCounter();
-
-        if (window.notifyCounter) {
-            clearTimeout(window.notifyCounter);
-        }
-
-        window.notifyCounter = setTimeout(() => {
-            try {
-                this.updateCounter()
-            } catch (e) {
-            }
-        }, Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000);
     }
 
     async updateCounter() {
