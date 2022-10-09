@@ -1,6 +1,22 @@
 {% if kbin_js_enabled() %}
     <div class="my-2 px-4" data-controller="user-data">
         <div class="form-check form-switch">
+            {% set topbarEnabled = app.request.cookies.has('user_option_topbar') ? app.request.cookies.get('user_option_topbar') : 'false' %}
+            <input class="form-check-input"
+                   type="checkbox"
+                   id="user_option_topbar"
+                   data-user-data-value="topbar"
+                   data-user-data-target="topbar"
+                   data-action="user-data#toggle"
+                    {{ topbarEnabled is same as 'true' ? 'checked' : '' }}>
+            <label class="form-check-label small"
+                   for="user_option_topbar">{{ 'user_option_topbar'|trans }}</label>
+        </div>
+        <div class="small">
+            <p class="small text-muted">{{ 'user_option_topbar_desc'|trans }}</p>
+        </div>
+
+        <div class="form-check form-switch">
             {% set autorefreshEnabled = app.request.cookies.has('user_option_auto_refresh') ? app.request.cookies.get('user_option_auto_refresh') : 'true' %}
             <input class="form-check-input"
                    type="checkbox"

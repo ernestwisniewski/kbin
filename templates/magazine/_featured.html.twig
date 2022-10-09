@@ -1,21 +1,44 @@
-{% if app.user and app.user.featuredMagazines %}
-    {% for mag in app.user.featuredMagazines|batch(7, null) %}
-        <div class="col">
-            <ul>
-                {% for m in mag %}
-                    <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as m ? 'kbin-featured-magazines-list-item--active' : '' }}"><a class="list-group-item" href="{{ path('front_magazine', {'name': m}) }}">{{ m }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
+{% if not topbar %}
+    {% if app.user and app.user.featuredMagazines %}
+        {% for mag in app.user.featuredMagazines|batch(7, null) %}
+            <div class="col">
+                <ul>
+                    {% for m in mag %}
+                        <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as m ? 'kbin-featured-magazines-list-item--active' : '' }}">
+                            <a class="list-group-item" href="{{ path('front_magazine', {'name': m}) }}">{{ m }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    {% else %}
+        {% for mag in magazines|batch(7, null) %}
+            <div class="col">
+                <ul class="list-group">
+                    {% for m in mag %}
+                        <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as m ? 'kbin-featured-magazines-list-item--active' : '' }}">
+                            <a class="list-group-item" href="{{ path('front_magazine', {'name': m}) }}">{{ m }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% else %}
-    {% for mag in magazines|batch(7, null) %}
-        <div class="col">
-            <ul class="list-group">
-                {% for m in mag %}
-                    <li class="kbin-featured-magazines-list-item {{ magazine is not null and magazine.name is same as m ? 'kbin-featured-magazines-list-item--active' : '' }}"><a class="list-group-item" href="{{ path('front_magazine', {'name': m}) }}">{{ m }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
+    {% for mag in magazines %}
+        <li class="kbin-top-featured-magazines-list-item {{ magazine is not null and magazine.name is same as mag ? 'kbin-top-featured-magazines-list-item--active' : '' }}">
+            <a href="{{ path('front_magazine', {'name': mag}) }}">{{ mag }}</a>
+        </li>
     {% endfor %}
+    {% if app.user and app.user.featuredMagazines %}
+        {% for mag in app.user.featuredMagazines %}
+            <li class="kbin-top-featured-magazines-list-item {{ magazine is not null and magazine.name is same as mag ? 'kbin-top-featured-magazines-list-item--active' : '' }}">
+                <a href="{{ path('front_magazine', {'name': mag}) }}">{{ mag }}</a>
+            </li>
+        {% endfor %}
+    {% else %}
+        {% for mag in magazines %}
+            <li class="kbin-top-featured-magazines-list-item {{ magazine is not null and magazine.name is same as mag ? 'kbin-top-featured-magazines-list-item--active' : '' }}">
+                <a href="{{ path('front_magazine', {'name': mag}) }}">{{ mag }}</a>
+            </li>
+        {% endfor %}
+    {% endif %}
 {% endif %}

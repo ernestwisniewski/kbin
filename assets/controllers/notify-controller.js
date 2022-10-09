@@ -32,7 +32,7 @@ export default class extends ApplicationController {
             let data = JSON.parse(e.data);
 
             if (data.toast) {
-                if(Cookies.get('notifications') === undefined || Cookies.get('notifications') === 'true') {
+                if(Cookies.get('user_option_notifications') === undefined || Cookies.get('user_option_notifications') === 'true') {
                     self.toast(data.toast);
                 }
             }
@@ -45,7 +45,7 @@ export default class extends ApplicationController {
                 self.notify(data);
             }
 
-            if(Cookies.get('autorefresh') === undefined || Cookies.get('autorefresh') === 'true') {
+            if(Cookies.get('user_option_autorefresh') === undefined || Cookies.get('user_option_autorefresh') === 'true') {
                 self.dispatch(data.op, data);
             }
         }

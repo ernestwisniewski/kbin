@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs justify-content-start">
     {% if is_comments_page() or is_posts_page() or is_front_page() %}
-        {% if is_entries_page() %}
+        {% if is_entries_page() or is_posts_page() %}
             <li class=" kbin-nav-navbar-item">
                 <a class="nav-link text-decoration-none text-muted {{ is_active_sort_option('sort.top'|trans|lower, false) ? 'active' : '' }}"
                    href="{{ get_active_sort_option_path('sort.top'|trans|lower, get_active_time_option(), get_active_type_option(), false) }}">{{ 'sort.top'|trans }}</a>

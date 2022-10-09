@@ -52,6 +52,9 @@
      data-notify-counter-hidden-class="visually-hidden"
      data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
     <div class="fixed-top">
+        {% if app.request.cookies.get('user_option_topbar') is same as 'true' %}
+            {% include '_layout/_topbar.html.twig' %}
+        {% endif %}
         {% include '_layout/_navbar.html.twig' %}
     </div>
 

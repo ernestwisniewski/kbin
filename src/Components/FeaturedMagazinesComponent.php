@@ -15,6 +15,7 @@ use Twig\Environment;
 class FeaturedMagazinesComponent
 {
     public ?Magazine $magazine;
+    public bool $topbar = false;
 
     public function __construct(
         private MagazineRepository $repository,
@@ -26,7 +27,7 @@ class FeaturedMagazinesComponent
 
     public function getHtml(): string
     {
-        $env       = $this->kernel->getEnvironment(); // @todo
+        $env = $this->kernel->getEnvironment(); // @todo
         $magazines = $this->cache->get('featured_magazines', function (ItemInterface $item) use ($env) {
             $item->expiresAfter($env === 'test' ? 0 : 60);
 
@@ -48,8 +49,9 @@ class FeaturedMagazinesComponent
         return $this->twig->render(
             'magazine/_featured.html.twig',
             [
-                'magazine'  => $this->magazine,
+                'magazine' => $this->magazine,
                 'magazines' => $magazines,
+                'topbar' => $this->topbar,
             ]
         );
     }

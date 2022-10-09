@@ -12,7 +12,10 @@
     <a href="{{ get_active_posts_page_path() }}">{{ 'microblog'|trans }}</a>
 </li>
 
-<li class="kbin-nav-navbar-item">
-    <a href="{{ path('magazine_list_all') }}" data-action="kbin#toggleTopBar"><i class="fa-sharp fa-solid fa-caret-down"
-                                                                                 data-kbin-target="icon"></i></a>
-</li>
+{% if app.request.cookies.get('user_option_topbar') is not same as 'true' %}
+    <li class="kbin-nav-navbar-item">
+        <a href="{{ path('magazine_list_all') }}" data-action="kbin#toggleTopBar"><i
+                    class="fa-sharp fa-solid fa-caret-down"
+                    data-kbin-target="icon"></i></a>
+    </li>
+{% endif %}

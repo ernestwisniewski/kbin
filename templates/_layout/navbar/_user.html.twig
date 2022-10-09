@@ -13,7 +13,9 @@
 <li class=" kbin-nav-navbar-item {{ is_active_route('user_replies') ? 'kbin-nav-navbar-item--active' : '' }}">
     <a href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}</a>
 </li>
-<li class="kbin-nav-navbar-item">
-    <a href="{{ path('magazine_list_all') }}" data-action="kbin#toggleTopBar"><i
-                class="fa-sharp fa-solid fa-caret-down"></i></a>
-</li>
+{% if app.request.cookies.get('user_option_topbar') is not same as 'true' %}
+    <li class="kbin-nav-navbar-item">
+        <a href="{{ path('magazine_list_all') }}" data-action="kbin#toggleTopBar"><i
+                    class="fa-sharp fa-solid fa-caret-down"></i></a>
+    </li>
+{% endif %}

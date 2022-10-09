@@ -2,7 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 import Cookies from 'js-cookie';
 
 export default class extends Controller {
-    static targets = ['auto_refresh', 'auto_embed', 'notifications', 'federation'];
+    static targets = ['auto_refresh', 'topbar', 'auto_embed', 'notifications', 'federation'];
 
     connect() {
         if (Cookies.get('user_option_auto_embed') === 'true') {
@@ -15,7 +15,7 @@ export default class extends Controller {
     toggle(e) {
         Cookies.set('user_option_' + e.target.dataset.userDataValue, e.target.checked);
 
-        if (e.target.dataset.userDataValue === 'auto_embed') {
+        if (e.target.dataset.userDataValue === 'auto_embed' || e.target.dataset.userDataValue === 'topbar') {
             location.reload();
         }
     }
