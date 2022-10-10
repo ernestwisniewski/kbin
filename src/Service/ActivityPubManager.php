@@ -87,7 +87,7 @@ class ActivityPubManager
         if (!$user) {
             $user = $this->createUser($actorUrl);
         } else {
-            if (!$user->apFetchedAt || $user->apFetchedAt > (new \DateTime('+1 hour'))) {
+            if (!$user->apFetchedAt || $user->apFetchedAt->modify('+1 hour') < (new \DateTime())) {
                 $this->bus->dispatch(new UpdateActorMessage($user->apProfileId));
             }
         }

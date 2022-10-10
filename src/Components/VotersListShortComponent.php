@@ -3,6 +3,7 @@
 namespace App\Components;
 
 use App\Entity\Contracts\VoteInterface;
+use App\Entity\Vote;
 use App\Service\CacheService;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -16,8 +17,11 @@ class VotersListShortComponent
     public string $url;
     public ?int $more = null;
 
-    public function __construct(private Environment $twig, private CacheService $cacheService, private CacheInterface $cache)
-    {
+    public function __construct(
+        private Environment $twig,
+        private CacheService $cacheService,
+        private CacheInterface $cache
+    ) {
     }
 
     public function getHtml(): string
@@ -26,26 +30,32 @@ class VotersListShortComponent
             return '';
         }
 
-        $id = $this->subject->getId();
         $this->more = $this->subject->votes->count() > 5 ? $this->subject->votes->count() - 5 : null;
 
-        return $this->cache->get($this->cacheService->getVotersCacheKey($this->subject), function (ItemInterface $item) {
-            $item->expiresAfter(3600);
+        return $this->cache->get(
+            $this->cacheService->getVotersCacheKey($this->subject),
+            function (ItemInterface $item) {
+                $item->expiresAfter(3600);
 
-            return $this->render();
-        });
+                return $this->render();
+            }
+        );
     }
 
     private function render(): string
     {
+        $votes = $this->subject->votes->filter(function (Vote $v) {
+            return $v->choice !== VoteInterface::VOTE_NONE;
+        })->slice(0, 5);
+
         return $this->twig->render(
             '_layout/_voters_list_short.html.twig',
             [
                 'magazine' => $this->subject->magazine,
-                'subject'  => $this->subject,
-                'votes'    => $this->subject->votes->slice(0, 5),
-                'url'      => $this->url,
-                'more'     => $this->more,
+                'subject' => $this->subject,
+                'votes' => $votes,
+                'url' => $this->url,
+                'more' => $this->more,
             ]
         );
     }

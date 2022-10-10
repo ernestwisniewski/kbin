@@ -9,7 +9,8 @@
             {% endif %}
             <div>
                 <h5 class="card-title font-weight-bold py-2">
-                    <a class="text-reset link-to-title" href="{{ path('user', {username: post.user.username }) }}">{{ post.user.username }}</a>
+                    <a class="text-reset link-to-title"
+                       href="{{ path('user', {username: post.user.username }) }}">{{ post.user.username }}</a>
                 </h5>
                 {% include 'user/_follow_button.html.twig' with { 'user': post.user } %}
             </div>
@@ -34,8 +35,9 @@
                    aria-label="Skopiuj link"
                    aria-describedby="copyUrl"
                    data-clipboard-target="source"
-                   value="{{ app.request.uri }}">
-            <button class="input-group-text" id="copyUrl" data-action="clipboard#copy" data-clipboard-target="button">{{ 'copy'|trans }}</button>
+                   value="{{ absolute_url(path('ap_post', {'magazine_name': magazine.name, 'post_id': post.id, 'slug': post.slug})) }}">
+            <button class="input-group-text" id="copyUrl" data-action="clipboard#copy"
+                    data-clipboard-target="button">{{ 'copy'|trans }}</button>
         </div>
     </div>
 </div>

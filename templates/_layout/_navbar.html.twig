@@ -161,13 +161,19 @@
                                     </button>
                                 </form>
                                 <form method="post" action="{{ path('user_profile_notifications_clear') }}"
-                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                                      class="me-2">
                                     <input type="hidden" name="token"
                                            value="{{ csrf_token('clear_notifications') }}">
                                     <button class="btn btn-sm btn-danger" type="submit">
                                         <span>{{ 'purge'|trans }}</span>
                                     </button>
                                 </form>
+
+                                <span>
+                                    <a href="{{ path('user_profile_notifications') }}"
+                                       class="btn btn-sm btn-secondary fw-light">{{ 'show_all'|trans }}</a>
+                                </span>
                             </div>
                             {# @todo notifications cache or fetch #}
                             {% for notification in app.user.getNewNotifications %}

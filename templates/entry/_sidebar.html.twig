@@ -62,7 +62,7 @@
                                aria-label="Skopiuj link"
                                aria-describedby="copyUrl"
                                data-clipboard-target="source"
-                               value="{{ app.request.uri }}">
+                               value="{{ absolute_url(path('ap_entry', { 'magazine_name': magazine.name, 'entry_id': entry.id, 'slug': entry.slug })) }}">
                         <button class="input-group-text" id="copyUrl" data-action="clipboard#copy"
                                 data-clipboard-target="button">{{ 'copy'|trans }}</button>
                     </div>
