@@ -4,10 +4,7 @@
             <small><span class="text-muted small">+</span></small>
         {% endif %}
         {% for vote in votes %}
-        <a class="text-muted small"
-           href="{{ path('user', { username: vote.user.username }) }}">
-            <small>{{ vote.user.username }}</small>
-            </a>{{ loop.last ? '' : '<small><span class="text-muted small">,</span></small>' }}
+        <a class="text-muted small" href="{{ path('user', { username: vote.user.username }) }}"><small>{{ vote.user.username }}</small></a>{{ loop.last ? '' : '<small><span class="text-muted small">,</span></small>' }}
         {% endfor %}
         {% if more %}
             <a class="text-muted small"

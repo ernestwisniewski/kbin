@@ -1,5 +1,5 @@
 {% if is_granted('delete', entry) %}
-    <div class="text-end btn-group float-end">
+    <div class="text-end btn-group float-end mb-5">
         <form method="post"
               action="{{ path('entry_delete', {
                   magazine_name: entry.magazine.name,

@@ -19,7 +19,6 @@ class PostCommentNoteFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private GroupFactory $groupFactory,
         private PostNoteFactory $postNoteFactory,
         private ImageWrapper $imageWrapper,
         private TagsWrapper $tagsWrapper,

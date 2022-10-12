@@ -17,7 +17,7 @@ class EntryCommentController extends AbstractController
 {
     use PrivateContentTrait;
 
-    public function __construct(private EntryCommentNoteFactory $pageFactory)
+    public function __construct(private EntryCommentNoteFactory $commentNoteFactory)
     {
     }
 
@@ -36,7 +36,7 @@ class EntryCommentController extends AbstractController
 
         $this->handlePrivateContent($comment);
 
-        $response = new JsonResponse($this->pageFactory->create($comment, true));
+        $response = new JsonResponse($this->commentNoteFactory->create($comment, true));
 
         $response->headers->set('Content-Type', 'application/activity+json');
 
