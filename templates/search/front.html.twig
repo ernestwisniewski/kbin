@@ -13,6 +13,17 @@
             <h1 class="my-4 font-weight-bold">{{ q }}</h1>
         {% endif %}
 
+        <div class="text-justify mx-5 my-5">
+            <form method="get" action="{{ path('search') }}">
+                <div class="input-group input-group-lg input-group-btn">
+                    <input type="text" name="q" class="form-control" placeholder="{{ 'type_search_term'|trans }}">
+                    <button href="#" class="kbin-search-btn btn btn-default" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
         <div>
             {% if results|length %}
                 {% for subject in results %}
