@@ -60,31 +60,33 @@
     {% include '_layout/_main_menu.html.twig' %}
 
     <section class="kbin-container container pt-5 mt-5 pb-5">
-        <div class="row">
-            <main class="kbin-main col-lg-9 mb-5">
-                {% block body %}{% endblock %}
-            </main>
-            <aside class="col-lg-3 kbin-sidebar">
-                <div class="offcanvas offcanvas-end" id="kbin-sidebar">
-                    <div class="d-block d-lg-none kbin-sidebar--close">
-                        <button type="button" class="btn-close my-4 ms-1" data-bs-toggle="offcanvas"
-                                data-bs-target="#kbin-sidebar"
-                                aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar"></button>
+        <div class="mt-5 mt-lg-0">
+            <div class="row">
+                <main class="kbin-main col-lg-9 mb-5">
+                    {% block body %}{% endblock %}
+                </main>
+                <aside class="col-lg-3 kbin-sidebar">
+                    <div class="offcanvas offcanvas-end" id="kbin-sidebar">
+                        <div class="d-block d-lg-none kbin-sidebar--close">
+                            <button type="button" class="btn-close my-4 ms-1" data-bs-toggle="offcanvas"
+                                    data-bs-target="#kbin-sidebar"
+                                    aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar"></button>
+                        </div>
+                        <div class="mb-5 mt-5 d-lg-none">
+                        </div>
+                        {% block sidebar %}
+                            {% include '_layout/_sidebar.html.twig' %}
+                        {% endblock %}
+                        {% block ads %}
+                            {% if not is_admin_panel_page() %}
+                                {{ component('ads') }}
+                            {% endif %}
+                        {% endblock %}
+                        {% block sidebar_bottom %}
+                        {% endblock %}
                     </div>
-                    <div class="mb-5 mt-5 d-lg-none">
-                    </div>
-                    {% block sidebar %}
-                        {% include '_layout/_sidebar.html.twig' %}
-                    {% endblock %}
-                    {% block ads %}
-                        {% if not is_admin_panel_page() %}
-                            {{ component('ads') }}
-                        {% endif %}
-                    {% endblock %}
-                    {% block sidebar_bottom %}
-                    {% endblock %}
-                </div>
-            </aside>
+                </aside>
+            </div>
         </div>
     </section>
 

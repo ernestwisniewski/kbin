@@ -124,4 +124,14 @@
       font-size: 1rem;
     }
   }
+
+  .kbin-nav-mobile {
+    background-color: $kbin-navbar-background-color;
+    border-bottom: 1px solid $kbin-navbar-border-color;
+
+    .kbin-dark & {
+      background-color: $kbin-dark-navbar-background-color !important;
+      border-bottom: 1px solid $kbin-dark-navbar-border-color !important;
+    }
+  }
 }
