@@ -8,7 +8,7 @@
     "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/Resources/assets",
     "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/Resources/assets",
     "@symfony/webpack-encore": "^1.7.0",
-    "bootstrap": "^5.2.2^",
+    "bootstrap": "^5.2.2",
     "chart.js": "^3.4.1",
     "core-js": "^3.0.0",
     "file-loader": "^6.0.0",
