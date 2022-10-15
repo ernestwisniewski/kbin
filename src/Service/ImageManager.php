@@ -55,8 +55,7 @@ class ImageManager
             return $this->publicUploadsFilesystem->has($filePath);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
-        }
-        finally {
+        } finally {
             is_resource($fh) and fclose($fh);
         }
     }
@@ -92,7 +91,7 @@ class ImageManager
                 'GET',
                 $url,
                 [
-                    'headers'     => [
+                    'headers' => [
                         'Accept' => implode(', ', self::IMAGE_MIMETYPES),
                     ],
                     'on_progress' => function (int $downloaded, int $downloadSize) {
@@ -127,12 +126,17 @@ class ImageManager
 
     public function getFilePath(string $file): string
     {
-        return sprintf('%s/%s/%s', substr($this->getFileName($file), 0, 2), substr($this->getFileName($file), 2, 2), $this->getFileName($file));
+        return sprintf(
+            '%s/%s/%s',
+            substr($this->getFileName($file), 0, 2),
+            substr($this->getFileName($file), 2, 2),
+            $this->getFileName($file)
+        );
     }
 
     public function getFileName(string $file): string
     {
-        $hash     = hash_file('sha256', $file);
+        $hash = hash_file('sha256', $file);
         $mimeType = $this->mimeTypeGuesser->guessMimeType($file);
 
         if (!$mimeType) {

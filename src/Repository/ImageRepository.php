@@ -7,6 +7,7 @@ use App\Service\ImageManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use kornrunner\Blurhash\Blurhash;
 
 /**
  * @method Image|null find($id, $lockMode = null, $lockVersion = null)
@@ -41,7 +42,9 @@ class ImageRepository extends ServiceEntityRepository
         }
 
         [$width, $height] = @getimagesize($source);
-        $image = new Image($fileName, $filePath, $sha256, $width, $height);
+        $blurhash = $this->blurhash($source);
+
+        $image = new Image($fileName, $filePath, $sha256, $width, $height, $blurhash);
 
         if (!$image->width || !$image->height) {
             [$width, $height] = @getimagesize($source);
@@ -55,5 +58,29 @@ class ImageRepository extends ServiceEntityRepository
         }
 
         return $image;
+    }
+
+    public function blurhash(string $filePath): string
+    {
+        $image = imagecreatefromstring(file_get_contents($filePath));
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        $pixels = [];
+        for ($y = 0; $y < $height; ++$y) {
+            $row = [];
+            for ($x = 0; $x < $width; ++$x) {
+                $index = imagecolorat($image, $x, $y);
+                $colors = imagecolorsforindex($image, $index);
+
+                $row[] = [$colors['red'], $colors['green'], $colors['blue']];
+            }
+            $pixels[] = $row;
+        }
+
+        $components_x = 4;
+        $components_y = 3;
+
+        return Blurhash::encode($pixels, $components_x, $components_y);
     }
 }

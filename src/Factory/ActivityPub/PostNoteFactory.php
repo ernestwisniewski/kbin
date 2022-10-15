@@ -58,7 +58,7 @@ class PostNoteFactory
             'cc' => [
 //                $this->groupFactory->getActivityPubId($post->magazine),
                 $post->apId
-                    ? $this->client->getActorObject($post->user->apProfileId)['followers']
+                    ? ($this->client->getActorObject($post->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
                     'ap_user_followers',
                     ['username' => $post->user->username],

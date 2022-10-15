@@ -7,7 +7,6 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
-use Symfony\Contracts\Cache\CacheInterface;
 use App\Event\Entry\EntryBeforeDeletedEvent;
 use App\Event\Entry\EntryBeforePurgeEvent;
 use App\Event\Entry\EntryCreatedEvent;
@@ -27,6 +26,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
@@ -58,20 +58,20 @@ class EntryManager implements ContentManagerInterface
             }
         }
 
-        $entry                       = $this->factory->createFromDto($dto, $user);
-        $entry->slug                 = $this->slugger->slug($dto->title);
-        $entry->lang                 = $dto->lang;
-        $entry->image                = $dto->image;
-        $entry->tags                 = $dto->tags ? $this->tagManager->extract(
+        $entry = $this->factory->createFromDto($dto, $user);
+        $entry->slug = $this->slugger->slug($dto->title);
+        $entry->lang = $dto->lang;
+        $entry->image = $dto->image;
+        $entry->tags = $dto->tags ? $this->tagManager->extract(
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
-        $entry->mentions             = $dto->body ? $this->mentionManager->extract($dto->body) : null;
-        $entry->visibility           = $dto->visibility;
-        $entry->apId                 = $dto->apId;
+        $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
+        $entry->visibility = $dto->visibility;
+        $entry->apId = $dto->apId;
         $entry->magazine->lastActive = new \DateTime();
-        $entry->lastActive           = $dto->lastActive ?? $entry->lastActive;
-        $entry->createdAt            = $dto->createdAt ?? $entry->createdAt;
+        $entry->lastActive = $dto->lastActive ?? $entry->lastActive;
+        $entry->createdAt = $dto->createdAt ?? $entry->createdAt;
 
         $entry->magazine->addEntry($entry);
 
@@ -93,23 +93,23 @@ class EntryManager implements ContentManagerInterface
     {
         Assert::same($entry->magazine->getId(), $dto->magazine->getId());
 
-        $entry->title       = $dto->title;
-        $entry->url         = $dto->url;
-        $entry->body        = $dto->body;
-        $entry->isAdult     = $dto->isAdult;
-        $entry->slug        = $this->slugger->slug($dto->title);
-        $entry->visibility  = $dto->visibility;
-        $oldImage           = $entry->image;
+        $entry->title = $dto->title;
+        $entry->url = $dto->url;
+        $entry->body = $dto->body;
+        $entry->isAdult = $dto->isAdult;
+        $entry->slug = $this->slugger->slug($dto->title);
+        $entry->visibility = $dto->visibility;
+        $oldImage = $entry->image;
         if ($dto->image) {
-            $entry->image   = $dto->image;
+            $entry->image = $dto->image;
         }
-        $entry->tags     = $dto->tags ? $this->tagManager->extract(
+        $entry->tags = $dto->tags ? $this->tagManager->extract(
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
-        $entry->isOc     = $dto->isOc;
-        $entry->lang     = $dto->lang;
+        $entry->isOc = $dto->isOc;
+        $entry->lang = $dto->lang;
         $entry->editedAt = new DateTimeImmutable('@'.time());
 
         if ($dto->badges) {
@@ -192,19 +192,24 @@ class EntryManager implements ContentManagerInterface
 
     private function setType(EntryDto $dto, Entry $entry): Entry
     {
+        $isImageUrl = false;
         if ($dto->url) {
-            $entry->type = Entry::ENTRY_TYPE_LINK;
-            $entry->url  = ($this->urlCleaner)($dto->url);
+            $entry->url = ($this->urlCleaner)($dto->url);
+            $isImageUrl = ImageManager::isImageUrl($dto->url);
         }
 
-        if ($dto->image) {
-            $entry->type     = Entry::ENTRY_TYPE_IMAGE;
+        if (($dto->image && !$dto->body) || $isImageUrl) {
+            $entry->type = Entry::ENTRY_TYPE_IMAGE;
             $entry->hasEmbed = true;
         }
 
         if ($dto->body) {
-            $entry->type     = Entry::ENTRY_TYPE_ARTICLE;
+            $entry->type = Entry::ENTRY_TYPE_ARTICLE;
             $entry->hasEmbed = false;
+        }
+
+        if ($dto->url) {
+            $entry->type = Entry::ENTRY_TYPE_LINK;
         }
 
         return $entry;

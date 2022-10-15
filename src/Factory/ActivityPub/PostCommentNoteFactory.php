@@ -57,7 +57,7 @@ class PostCommentNoteFactory
             'cc' => [
 //                $this->groupFactory->getActivityPubId($comment->magazine),
                 $comment->apId
-                    ? $this->client->getActorObject($comment->user->apProfileId)['followers']
+                    ? ($this->client->getActorObject($comment->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
                     'ap_user_followers',
                     ['username' => $comment->user->username],

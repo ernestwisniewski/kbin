@@ -55,7 +55,7 @@ class EntryPageFactory
             'cc' => [
 //                $this->groupFactory->getActivityPubId($entry->magazine),
                 $entry->apId
-                    ? $this->client->getActorObject($entry->user->apProfileId)['followers']
+                    ? ($this->client->getActorObject($entry->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
                     'ap_user_followers',
                     ['username' => $entry->user->username],

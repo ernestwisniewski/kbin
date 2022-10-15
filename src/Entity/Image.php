@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -36,16 +36,35 @@ class Image
      */
     public ?int $height;
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public ?string $blurhash = null;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public ?string $altText = null;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public ?string $sourceUrl = null;
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private int $id;
 
-    public function __construct(string $fileName, string $filePath, string $sha256, ?int $width, ?int $height)
-    {
+    public function __construct(
+        string $fileName,
+        string $filePath,
+        string $sha256,
+        ?int $width,
+        ?int $height,
+        ?string $blurhash
+    ) {
         $this->filePath = $filePath;
         $this->fileName = $fileName;
+        $this->blurhash = $blurhash;
 
         error_clear_last();
         if (strlen($sha256) === 64) {
@@ -75,7 +94,7 @@ class Image
         }
 
         if (($width && $height) || (!$width && !$height)) {
-            $this->width  = $width;
+            $this->width = $width;
             $this->height = $height;
         } else {
             throw new InvalidArgumentException('$width and $height must both be set or NULL');

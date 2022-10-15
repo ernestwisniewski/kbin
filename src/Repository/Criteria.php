@@ -154,6 +154,8 @@ abstract class Criteria
             'videos'   => Entry::ENTRY_TYPE_VIDEO,
             'photo'    => Entry::ENTRY_TYPE_IMAGE,
             'photos'   => Entry::ENTRY_TYPE_IMAGE,
+            'image'   => Entry::ENTRY_TYPE_IMAGE,
+            'images'   => Entry::ENTRY_TYPE_IMAGE,
 
             'artykuł'  => Entry::ENTRY_TYPE_ARTICLE,
             'artykuły' => Entry::ENTRY_TYPE_ARTICLE,
