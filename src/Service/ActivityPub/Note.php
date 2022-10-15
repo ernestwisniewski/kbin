@@ -200,7 +200,7 @@ class Note
         $dto->body = $this->markdownConverter->convert($object['content']);
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
-dd($dto);
+
         return $this->postManager->create(
             $dto,
             $actor,
