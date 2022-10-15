@@ -23,5 +23,7 @@ class ImageBlurhashHandler implements MessageHandlerInterface
 
         $this->entityManager->persist($image);
         $this->entityManager->flush();
+
+        return true;
     }
 }

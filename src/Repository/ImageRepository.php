@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -35,7 +35,7 @@ class ImageRepository extends ServiceEntityRepository
     {
         $fileName = $this->imageManager->getFileName($source);
         $filePath = $this->imageManager->getFilePath($source);
-        $sha256   = hash_file('sha256', $source, true);
+        $sha256 = hash_file('sha256', $source, true);
 
         if ($image = $this->findOneBySha256($sha256)) {
             return $image;
@@ -60,27 +60,31 @@ class ImageRepository extends ServiceEntityRepository
         return $image;
     }
 
-    public function blurhash(string $filePath): string
+    public function blurhash(string $filePath): ?string
     {
-        $image = imagecreatefromstring(file_get_contents($filePath));
-        $width = imagesx($image);
-        $height = imagesy($image);
+        try {
+            $image = imagecreatefromstring(file_get_contents($filePath));
+            $width = imagesx($image);
+            $height = imagesy($image);
 
-        $pixels = [];
-        for ($y = 0; $y < $height; ++$y) {
-            $row = [];
-            for ($x = 0; $x < $width; ++$x) {
-                $index = imagecolorat($image, $x, $y);
-                $colors = imagecolorsforindex($image, $index);
+            $pixels = [];
+            for ($y = 0; $y < $height; ++$y) {
+                $row = [];
+                for ($x = 0; $x < $width; ++$x) {
+                    $index = imagecolorat($image, $x, $y);
+                    $colors = imagecolorsforindex($image, $index);
 
-                $row[] = [$colors['red'], $colors['green'], $colors['blue']];
+                    $row[] = [$colors['red'], $colors['green'], $colors['blue']];
+                }
+                $pixels[] = $row;
             }
-            $pixels[] = $row;
+
+            $components_x = 4;
+            $components_y = 3;
+
+            return Blurhash::encode($pixels, $components_x, $components_y);
+        } catch (\Exception $e) {
+            return null;
         }
-
-        $components_x = 4;
-        $components_y = 3;
-
-        return Blurhash::encode($pixels, $components_x, $components_y);
     }
 }
