@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\ActivityPub\Server;
+use App\DTO\ActivityPub\ImageDto;
 use App\DTO\ActivityPub\VideoDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\ActivityPubActorInterface;
@@ -119,27 +120,6 @@ class ActivityPubManager
         return $this->webFingerFactory->get($handle);
     }
 
-    public function handleImages(array $attachment): ?Image
-    {
-        $images = array_filter(
-            $attachment,
-            fn($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
-        ); // @todo multiple images
-
-        if (count($images)) {
-            try {
-                if ($tempFile = $this->imageManager->download($images[0]['url'])) {
-                    $image = $this->imageRepository->findOrCreateFromPath($tempFile);
-                }
-            } catch (\Exception $e) {
-            }
-
-            return $image ?? null;
-        }
-
-        return null;
-    }
-
     public function createCcFromBody(string $body): array
     {
         $mentions = $this->mentionManager->extract($body) ?? [];
@@ -188,6 +168,27 @@ class ActivityPubManager
         return [];
     }
 
+    public function handleImages(array $attachment): ?Image
+    {
+        $images = array_filter(
+            $attachment,
+            fn($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+        ); // @todo multiple images
+
+        if (count($images)) {
+            try {
+                if ($tempFile = $this->imageManager->download($images[0]['url'])) {
+                    $image = $this->imageRepository->findOrCreateFromPath($tempFile);
+                }
+            } catch (\Exception $e) {
+            }
+
+            return $image ?? null;
+        }
+
+        return null;
+    }
+
     public function handleVideos(array $attachment): ?VideoDto
     {
         $videos = array_filter(
@@ -201,6 +202,42 @@ class ActivityPubManager
                 $videos[0]['mediaType'],
                 !empty($videos['0']['name']) ? $videos['0']['name'] : $videos['0']['mediaType']
             );
+        }
+
+        return null;
+    }
+
+    public function handleExternalImages(array $attachment): ?array {
+        $images = array_filter(
+            $attachment,
+            fn($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+        );
+
+        array_shift($images);
+
+        if(count($images)) {
+            return array_map(fn($val) => (new ImageDto())->create(
+                $val['url'],
+                $val['mediaType'],
+                !empty($val['name']) ? $val['name'] : $val['mediaType']
+            ), $images);
+        }
+
+        return null;
+    }
+
+    public function handleExternalVideos(array $attachment): ?array {
+        $videos = array_filter(
+            $attachment,
+            fn($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
+        );
+
+        if(count($videos)) {
+            return array_map(fn($val) => (new VideoDto())->create(
+                $val['url'],
+                $val['mediaType'],
+                !empty($val['name']) ? $val['name'] : $val['mediaType']
+            ), $videos);
         }
 
         return null;

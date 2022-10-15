@@ -78,12 +78,6 @@ class Note
             return $this->$fn($object, $parent, $root);
         }
 
-        // Crete Post
-        $existed = $this->repository->findByObjectId($object['id']);
-        if ($existed) {
-            return $this->postRepository->find($existed['id']);
-        }
-
         return $this->createPost($object);
     }
 
@@ -104,8 +98,18 @@ class Note
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
 
-            if ($video = $this->activityPubManager->handleVideos($object['attachment'])) {
-                $object['content'] .= "<br><br><a href='{$video->url}'>{$video->name}</a>";
+            if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
+                $object['content'] .= '<br><br>';
+                foreach ($images as $image) {
+                    $object['content'] .= "<a href='{$image->url}'>{$image->name}</a><br>";
+                }
+            }
+
+            if ($videos = $this->activityPubManager->handleExternalVideos($object['attachment'])) {
+                $object['content'] .= '<br><br>';
+                foreach ($videos as $video) {
+                    $object['content'] .= "<a href='{$video->url}'>{$video->name}</a><br>";
+                }
             }
         }
 
@@ -138,8 +142,18 @@ class Note
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
 
-            if ($video = $this->activityPubManager->handleVideos($object['attachment'])) {
-                $object['content'] .= "<br><br><a href='{$video->url}'>{$video->name}</a>";
+            if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
+                $object['content'] .= '<br><br>';
+                foreach ($images as $image) {
+                    $object['content'] .= "<a href='{$image->url}'>{$image->name}</a><br>";
+                }
+            }
+
+            if ($videos = $this->activityPubManager->handleExternalVideos($object['attachment'])) {
+                $object['content'] .= '<br><br>';
+                foreach ($videos as $video) {
+                    $object['content'] .= "<a href='{$video->url}'>{$video->name}</a><br>";
+                }
             }
         }
 
@@ -166,8 +180,18 @@ class Note
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
 
-            if ($video = $this->activityPubManager->handleVideos($object['attachment'])) {
-                $object['content'] .= "<br><br><a href='{$video->url}'>{$video->name}</a>";
+            if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
+                $object['content'] .= '<br><br>';
+                foreach ($images as $image) {
+                    $object['content'] .= "<a href='{$image->url}'>{$image->name}</a><br>";
+                }
+            }
+
+            if ($videos = $this->activityPubManager->handleExternalVideos($object['attachment'])) {
+                $object['content'] .= '<br><br>';
+                foreach ($videos as $video) {
+                    $object['content'] .= "<a href='{$video->url}'>{$video->name}</a><br>";
+                }
             }
         }
 
@@ -176,7 +200,7 @@ class Note
         $dto->body = $this->markdownConverter->convert($object['content']);
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
-
+dd($dto);
         return $this->postManager->create(
             $dto,
             $actor,

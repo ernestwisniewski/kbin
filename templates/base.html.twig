@@ -32,6 +32,15 @@
             {{ encore_entry_script_tags('app') }}
         {% endif %}
     {% endblock %}
+    <style>
+        #kbin {
+            background: url({{ asset('build/images/shape.png') }}); height: 100%;
+        }
+
+        {% if magazine is defined and magazine %}
+            {{ magazine.customCss }}
+        {% endif %}
+    </style>
 </head>
 
 {% set theme = app.request.cookies.get('theme') ?? 'kbin-light' %}
