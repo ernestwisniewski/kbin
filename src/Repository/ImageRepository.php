@@ -67,6 +67,13 @@ class ImageRepository extends ServiceEntityRepository
             $width = imagesx($image);
             $height = imagesy($image);
 
+            $max_width = 20;
+            if( $width > $max_width ) {
+                $image = imagescale($image, $max_width);
+                $width = imagesx($image);
+                $height = imagesy($image);
+            }
+
             $pixels = [];
             for ($y = 0; $y < $height; ++$y) {
                 $row = [];
