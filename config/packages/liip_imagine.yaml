@@ -1,5 +1,5 @@
 liip_imagine:
-    driver: "imagick"
+    driver: "gd"
     webp:
         generate: true
 

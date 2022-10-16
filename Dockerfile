@@ -47,7 +47,6 @@ RUN set -eux; \
     	apcu \
 		opcache \
         gd \
-        imagick \
         sysvsem \
     ;
 
