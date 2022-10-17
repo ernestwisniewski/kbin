@@ -1,4 +1,5 @@
 {% set hasImage = false %}
+{% set guid = random() %}
 {% if post is defined and post is not null and post.image %}
     {% set hasImage = true %}
 {% endif %}
@@ -31,7 +32,7 @@
                     data-media-target="modalButton"
                     type="button"
                     data-bs-toggle="modal"
-                    data-bs-target="#media-modal-post">
+                    data-bs-target="#media-modal-post-{{ guid }}">
                 <i class="fas fa-camera"></i>
             </button>
 
@@ -55,7 +56,7 @@
 
 <div class="clearfix"></div>
 
-<div id="media-modal-post" class="modal" tabindex="-1">
+<div id="media-modal-post-{{ guid }}" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

@@ -1,4 +1,5 @@
 {% set hasImage = false %}
+{% set guid = random() %}
 {% if comment is defined and comment is not null and comment.image %}
     {% set hasImage = true %}
 {% endif %}
@@ -20,7 +21,7 @@
             </a>
 
             <button type="button" class="btn btn-secondary me-1 {{ hasImage ? 'd-none' : '' }}" data-bs-toggle="modal"
-                    data-bs-target="#media-modal-{{ comment is not defined or comment is null ? post.id : comment.id }}"
+                    data-bs-target="#media-modal-post-comment-{{ guid }}"
                     data-media-target="modalButton">
                 <i class="fas fa-camera"></i>
             </button>
@@ -42,7 +43,7 @@
     </div>
 </div>
 
-<div id="media-modal-{{ comment is not defined or comment is null ? post.id : comment.id }}" class="modal" tabindex="-1">
+<div id="media-modal-post-comment-{{ guid }}" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
