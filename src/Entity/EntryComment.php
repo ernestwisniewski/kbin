@@ -242,6 +242,11 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         return $this->favourites->matching($criteria)->count() > 0;
     }
 
+    public function getTags(): array
+    {
+        return array_values($this->tags ?? []);
+    }
+
     public function __sleep()
     {
         return [];

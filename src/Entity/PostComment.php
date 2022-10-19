@@ -228,6 +228,11 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
         return $this->favourites->matching($criteria)->count() > 0;
     }
 
+    public function getTags(): array
+    {
+        return array_values($this->tags ?? []);
+    }
+
     public function __sleep()
     {
         return [];

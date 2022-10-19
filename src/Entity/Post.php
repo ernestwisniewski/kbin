@@ -308,7 +308,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $body = wordwrap($this->body, $length);
         $body = explode("\n", $body);
 
-        return trim($body[0]) . (isset($body[1]) ? '...' : '');
+        return trim($body[0]).(isset($body[1]) ? '...' : '');
     }
 
     public function getCommentCount(): int
@@ -339,13 +339,18 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         return $this->favourites->matching($criteria)->count() > 0;
     }
 
-    public function __sleep()
-    {
-        return [];
-    }
-
     public function isAdult(): bool
     {
         return $this->isAdult || $this->magazine->isAdult;
+    }
+
+    public function getTags(): array
+    {
+        return array_values($this->tags ?? []);
+    }
+
+    public function __sleep()
+    {
+        return [];
     }
 }

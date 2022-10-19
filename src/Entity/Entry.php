@@ -436,13 +436,18 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return null;
     }
 
-    public function __sleep()
-    {
-        return [];
-    }
-
     public function getDescription(): string
     {
         return ''; // @todo get first author comment
+    }
+
+    public function getTags(): array
+    {
+        return array_values($this->tags ?? []);
+    }
+
+    public function __sleep()
+    {
+        return [];
     }
 }

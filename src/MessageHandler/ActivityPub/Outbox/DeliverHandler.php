@@ -6,6 +6,7 @@ use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class DeliverHandler implements MessageHandlerInterface
@@ -13,7 +14,7 @@ class DeliverHandler implements MessageHandlerInterface
     public function __construct(
         private ApHttpClient $client,
         private ActivityPubManager $manager,
-        private SettingsManager $settingsManager
+        private SettingsManager $settingsManager,
     ) {
     }
 

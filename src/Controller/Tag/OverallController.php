@@ -4,13 +4,13 @@ namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
 use App\Repository\TagRepository;
-use App\Service\SearchManager;
+use App\Service\TagManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class OverallController extends AbstractController
 {
-    public function __construct(private SearchManager $manager, private TagRepository $tagRepository)
+    public function __construct(private TagManager $tagManager, private TagRepository $tagRepository)
     {
     }
 
@@ -18,7 +18,13 @@ class OverallController extends AbstractController
     {
         return $this->render(
             'tag/overall.html.twig',
-            ['tag' => $name, 'results' => $this->tagRepository->findOverall($this->getPageNb($request), strtolower($name))]
+            [
+                'tag' => $name,
+                'results' => $this->tagRepository->findOverall(
+                    $this->getPageNb($request),
+                    $this->tagManager->transliterate(strtolower($name))
+                ),
+            ]
 //            ['q' => '#'.$name, 'results' => $this->manager->findByTagPaginated($name, $this->getPageNb($request))]
         );
     }

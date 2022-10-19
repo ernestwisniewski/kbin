@@ -14,21 +14,27 @@ class TagManager
         $result = $matches[1];
         $result = array_map(fn($tag) => strtolower(trim($tag)), $result);
 
-        $transliterator = Transliterator::createFromRules(
-            ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
-            Transliterator::FORWARD
-        );
-
         $result = array_values($result);
 
-        setlocale(LC_CTYPE, 'pl_PL');
-        $result = array_map(fn($tag) => iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag)), $result);
+        $result = array_map(fn($tag) => $this->transliterate($tag), $result);
 
         if ($magazineName) {
             $result = array_diff($result, [$magazineName]);
         }
 
         return count($result) ? array_unique(array_values($result)) : null;
+    }
+
+    public function transliterate(string $tag): string
+    {
+        $transliterator = Transliterator::createFromRules(
+            ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
+            Transliterator::FORWARD
+        );
+
+        setlocale(LC_CTYPE, 'pl_PL');
+
+        return iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag));
     }
 
     public function joinTagsToBody(string $body, array $tags): string

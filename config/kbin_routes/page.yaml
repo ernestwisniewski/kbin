@@ -14,7 +14,7 @@ page_privacy_policy:
   controller: App\Controller\PrivacyPolicyController
   path:
     en: /privacy-policy
-    pl: /polityka-prywatności
+    pl: /polityka-prywatnosci
   methods: [ GET ]
 
 page_terms:
