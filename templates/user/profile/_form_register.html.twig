@@ -37,13 +37,15 @@
 {% endif %}
 
 <div class="mb-3">
-    {{ form_label(form.agreeTerms, 'consent_terms'|trans) }}
     <div class="input-group input-group-lg">
-        {{ form_widget(form.agreeTerms, {name: 'consent_terms'|trans}) }}
+        {{ form_widget(form.agreeTerms, {name: 'consent_terms'|trans({
+            '%terms_link_start%' : '<a class="font-weight-bold" href="'~path('page_terms')~'"">', '%terms_link_end%' : '</a>',
+            '%policy_link_start%' : '<a class="font-weight-bold" href="'~path('page_privacy_policy')~'"">', '%policy_link_end%' : '</a>',
+        })}) }}
     </div>
 </div>
 
-<div class="mb-12 text-end">
-    {{ form_row(form.submit, { 'label': 'done'|trans }) }}
+<div class="text-center pt-4">
+    {{ form_row(form.submit, { 'label': 'register'|trans, attr: { class: 'btn btn-lg btn-primary' }}) }}
 </div>
 {{ form_end(form) }}

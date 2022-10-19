@@ -6,6 +6,10 @@ $kbin-dark-link-color: #afafaf;
   background-repeat: repeat;
   background-position: top left;
 
+  .accordion-item {
+    color: $kbin-dark-link-color;
+  }
+
   a {
     color: $kbin-dark-link-color;
   }

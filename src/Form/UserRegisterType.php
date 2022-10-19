@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
@@ -19,7 +19,7 @@ class UserRegisterType extends AbstractType
     public function __construct(
         private ImageListener $imageListener,
         private AddFieldsOnUserEdit $addAvatarFieldOnUserEdit,
-        private DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit
+        private DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit,
     ) {
     }
 
@@ -41,7 +41,10 @@ class UserRegisterType extends AbstractType
             )
             ->add(
                 'agreeTerms',
-                CheckboxType::class
+                CheckboxType::class,
+                [
+                    'label_html' => true,
+                ]
             )
             ->add('submit', SubmitType::class);
 
