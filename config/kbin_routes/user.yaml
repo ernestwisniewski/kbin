@@ -105,6 +105,11 @@ user_delete:
   path: /u/{username}/delete
   methods: [ POST ]
 
+user_delete_request:
+  controller: App\Controller\User\UserDeleteRequestController
+  path: /u/{username}/delete_request
+  methods: [ POST ]
+
 user_ban:
   controller: App\Controller\User\UserBanController::ban
   path: /u/{username}/ban
