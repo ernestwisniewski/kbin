@@ -17,6 +17,7 @@ $post-margin-sm: .5rem;
   }
 
   .kbin-post {
+    z-index: 10;
     border-left: .15rem solid #53a0ac;
     font-size: .9rem;
     padding: .6rem .3rem;

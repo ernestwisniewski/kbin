@@ -66,7 +66,9 @@
         {% include '_layout/_navbar.html.twig' %}
     </div>
 
-    {% include '_layout/_main_menu.html.twig' %}
+    {% if not app.request.cookies.get('user_option_topbar') is same as 'true' %}
+        {% include '_layout/_main_menu.html.twig' %}
+    {% endif %}
 
     <section class="kbin-container container pt-5 mt-5 pb-5">
         <div class="mt-5 mt-lg-0">
