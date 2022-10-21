@@ -31,17 +31,17 @@ export default class extends ApplicationController {
         let cb = function (e) {
             let data = JSON.parse(e.data);
 
-            if (data.toast) {
-                if(Cookies.get('user_option_notifications') === undefined || Cookies.get('user_option_notifications') === 'true') {
-                    self.toast(data.toast);
-                }
-            }
-
             if (data.op.includes('Notification')) {
                 self.dispatch('Notification', data);
             }
 
             if (data.op.includes('Created')) {
+                if (data.toast) {
+                    if(Cookies.get('user_option_notifications') === undefined || Cookies.get('user_option_notifications') === 'true') {
+                        self.toast(data.toast);
+                    }
+                }
+
                 self.notify(data);
             }
 
