@@ -15,14 +15,12 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserDeleteRequestController extends AbstractController
 {
     public function __construct(
         private SettingsManager $settings,
         private MailerInterface $mailer,
-        private TranslatorInterface $translator,
         private RateLimiterFactory $contactLimiter,
         private CloudflareIpResolver $ipResolver
     ) {
@@ -47,7 +45,7 @@ class UserDeleteRequestController extends AbstractController
             ->htmlTemplate('_email/delete_account_request.html.twig')
             ->context([
                 'username' => $this->getUser()->getUsername(),
-                'email' => $this->getUser()->getEmail(),
+                'mail' => $this->getUser()->getEmail(),
             ]);
 
         $this->mailer->send($email);

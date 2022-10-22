@@ -9,7 +9,9 @@ export default class extends ApplicationController {
     refresh(notification) {
         if(this.subjectIdValue === notification.detail.id){
             this.upVotesTarget.textContent = notification.detail.up;
-            this.downVotesTarget.textContent = notification.detail.down;
+            if(this.hasDownVotesTarget) {
+                this.downVotesTarget.textContent = notification.detail.down;
+            }
         }
     }
 }
