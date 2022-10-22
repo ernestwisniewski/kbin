@@ -7,6 +7,6 @@
     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
 </div>
 <div class="toast-body">
-    {{ user(notification.user, {prefix: false}) }} {{ 'mentioned_you'|trans }} - <strong><a
+    {{ user(notification.comment.user, {prefix: false}) }} {{ 'mentioned_you'|trans }} - <strong><a
                 href="{{ post_url(notification.comment.post) }}">{{ notification.comment.post.shortTitle }}</a></strong>
 </div>
