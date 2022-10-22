@@ -16,6 +16,7 @@ use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -38,7 +39,8 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         private HubInterface $publisher,
         private Environment $twig,
         private UrlGeneratorInterface $urlGenerator,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private ImageManager $imageManager
     ) {
     }
 
@@ -184,12 +186,13 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
                 ],
                 'title' => $comment->post->body,
                 'body' => $comment->body,
-                'icon' => null,
+                'icon' => $this->imageManager->getUrl($comment->image),
+//                'image' => $this->imageManager->getUrl($comment->image),
                 'url' => $this->urlGenerator->generate('post_single', [
                     'magazine_name' => $comment->magazine->name,
                     'post_id'       => $comment->post->getId(),
                     'slug'          => $comment->post->slug,
-                ]),
+                ]).'#post-comment-'.$comment->getId(),
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );

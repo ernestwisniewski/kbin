@@ -4,15 +4,12 @@ namespace App\Factory\ActivityPub;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Entry;
-use App\Markdown\MarkdownConverter;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
-use App\Service\MentionManager;
-use App\Service\SettingsManager;
-use App\Service\TagManager;
+use App\Service\ImageManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EntryPageFactory
@@ -20,7 +17,7 @@ class EntryPageFactory
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private GroupFactory $groupFactory,
-        private SettingsManager $settings,
+        private ImageManager $imageManager,
         private ImageWrapper $imageWrapper,
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
@@ -63,7 +60,10 @@ class EntryPageFactory
                 ),
             ],
             'name' => $entry->title,
-            'summary' => ($entry->body ? $entry->getShortDesc() : '') . ' ' . implode(' ', array_map(fn($val) => '#'.$val, $tags)),
+            'summary' => ($entry->body ? $entry->getShortDesc() : '').' '.implode(
+                    ' ',
+                    array_map(fn($val) => '#'.$val, $tags)
+                ),
             'mediaType' => 'text/html',
             'url' => $this->getUrl($entry),
             'tag' => array_merge(
@@ -115,7 +115,7 @@ class EntryPageFactory
     private function getUrl(Entry $entry): string
     {
         if ($entry->type === Entry::ENTRY_TYPE_IMAGE) {
-            return 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$entry->image->filePath;
+            return $this->imageManager->getUrl($entry->image);
         }
 
         return $entry->url ?? $this->getActivityPubId($entry);

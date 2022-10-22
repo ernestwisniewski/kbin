@@ -14,6 +14,7 @@ use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -35,7 +36,8 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         private HubInterface $publisher,
         private Environment $twig,
         private UrlGeneratorInterface $urlGenerator,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private ImageManager $imageManager
     ) {
     }
 
@@ -112,7 +114,8 @@ class PostNotificationManager implements ContentNotificationManagerInterface
                 ],
                 'title' => $post->magazine->name,
                 'body' => $post->body,
-                'icon' => null,
+                'icon' => $this->imageManager->getUrl($post->image),
+//                'image' => $this->imageManager->getUrl($post->image),
                 'url' => $this->urlGenerator->generate('post_single', [
                     'magazine_name' => $post->magazine->name,
                     'post_id'       => $post->getId(),

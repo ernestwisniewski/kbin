@@ -25,9 +25,11 @@
             </a>
 
 
-            <button type="button" class="btn btn-secondary me-1 {{ hasImage ? 'd-none' : '' }}" data-bs-toggle="modal"
-                    data-bs-target="#media-modal-media-modal-entry-comment-{{ guid }}"
-                    data-media-target="modalButton">
+            <button class="btn btn-secondary me-1 {{ hasImage ? 'd-none' : '' }}"
+                    data-media-target="modalButton"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#media-modal-entry-comment-{{ guid }}">
                 <i class="fas fa-camera"></i>
             </button>
 

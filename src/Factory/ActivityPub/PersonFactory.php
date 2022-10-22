@@ -5,7 +5,7 @@ namespace App\Factory\ActivityPub;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
 use App\Markdown\MarkdownConverter;
-use App\Service\SettingsManager;
+use App\Service\ImageManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -13,7 +13,7 @@ class PersonFactory
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private SettingsManager $settings,
+        private ImageManager $imageManager,
         private MarkdownConverter $markdownConverter
     ) {
     }
@@ -76,10 +76,10 @@ class PersonFactory
             $person['summary'] = $this->markdownConverter->convertToHtml($user->about);
         }
 
-        if($user->cover) {
+        if ($user->cover) {
             $person['image'] = [
                 'type' => 'Image',
-                'url' => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$user->cover->filePath
+                'url' => $this->imageManager->getUrl($user->cover),
                 // @todo media url
             ];
         }
@@ -87,7 +87,7 @@ class PersonFactory
         if ($user->avatar) {
             $person['icon'] = [
                 'type' => 'Image',
-                'url' => 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$user->avatar->filePath
+                'url' => $this->imageManager->getUrl($user->avatar),
                 // @todo media url
             ];
         }

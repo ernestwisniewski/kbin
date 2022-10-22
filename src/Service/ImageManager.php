@@ -26,7 +26,8 @@ class ImageManager
         private HttpClientInterface $httpClient,
         private MimeTypesInterface $mimeTypeGuesser,
         private ValidatorInterface $validator,
-        private KernelInterface $kernel
+        private KernelInterface $kernel,
+        private SettingsManager $settings
     ) {
     }
 
@@ -160,6 +161,15 @@ class ImageManager
     public function getPath(\App\Entity\Image $image): string
     {
         return $this->kernel->getProjectDir().'/public/media/'.$image->filePath; // @todo media url
+    }
+
+    public function getUrl(?\App\Entity\Image $image): ?string
+    {
+        if (!$image) {
+            return null;
+        }
+        
+        return 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$image->filePath;
     }
 
     public function getMimetype(\App\Entity\Image $image): string

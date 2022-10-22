@@ -6,6 +6,7 @@ use App\ActivityPub\JsonRdLink;
 use App\Event\ActivityPub\WebfingerResponseEvent;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Webfinger\WebFingerParameters;
+use App\Service\ImageManager;
 use App\Service\SettingsManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,7 +21,7 @@ class WebFingerProfileSubscriber implements EventSubscriberInterface
         private WebFingerParameters $webfingerParameters,
         private UserRepository $userRepository,
         private UrlGeneratorInterface $urlGenerator,
-        private SettingsManager $settings
+        private ImageManager $imageManager
     ) {
     }
 
@@ -56,7 +57,7 @@ class WebFingerProfileSubscriber implements EventSubscriberInterface
                 $link = new JsonRdLink();
                 $link->setRel('http://webfinger.net/rel/avatar')
                     ->setHref(
-                        'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$actor->avatar->filePath
+                        $this->imageManager->getUrl($actor->avatar),
                     ); // @todo media url
                 $jsonRd->addLink($link);
             }
