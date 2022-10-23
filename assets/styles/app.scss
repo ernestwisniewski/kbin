@@ -364,3 +364,25 @@ select {
     border: none !important;
   }
 }
+
+.kbin-dark .modal-backdrop.show {
+  opacity: 0;
+}
+
+.modal-backdrop.show {
+  opacity: 0;
+}
+.modal-backdrop.fade {
+  opacity: 0;
+}
+.modal-backdrop {
+  --bs-backdrop-zindex: 0;
+  --bs-backdrop-bg: #000;
+  --bs-backdrop-opacity: 0.5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 0;
+  height: 0;
+}
