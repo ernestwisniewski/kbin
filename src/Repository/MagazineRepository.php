@@ -169,7 +169,9 @@ class MagazineRepository extends ServiceEntityRepository
     public function findRandom(): ?Magazine
     {
         $qb = $this->createQueryBuilder('m')
-            ->select('COUNT(m)');
+            ->select('COUNT(m)')
+            ->where('m.entryCount > 0')
+            ->orWhere('m.postCount > 0');
 
         $totalRecords = $qb->getQuery()->getSingleScalarResult();
 

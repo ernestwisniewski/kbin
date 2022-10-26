@@ -13,7 +13,7 @@ use Twig\Environment;
 #[AsTwigComponent('related_posts_sidebar')]
 class RelatedPostsSidebarComponent
 {
-    const RELATED_LIMIT = 2;
+    const RELATED_LIMIT = 4;
     const TYPE_TAG = 'tag';
     const TYPE_MAGAZINE = 'magazine';
     const TYPE_RANDOM = 'random';
@@ -35,7 +35,7 @@ class RelatedPostsSidebarComponent
         return $this->cache->get(
             'related_posts_sidebar_'.$this->type.'_'.$this->tag.'_'.$this->security->getUser()?->getId(),
             function (ItemInterface $item) {
-                $item->expiresAfter(300);
+                $item->expiresAfter(60);
 
                 $posts = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByTag($this->tag, self::RELATED_LIMIT + 20),
