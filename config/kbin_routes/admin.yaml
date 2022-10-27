@@ -17,3 +17,8 @@ admin_settings:
     pl: /admin/ustawienia
   methods: [ GET ]
 
+admin_cc:
+  controller: App\Controller\Admin\ClearCacheController
+  path: /admin/cc
+  methods: [ GET ]
+

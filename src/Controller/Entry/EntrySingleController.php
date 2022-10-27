@@ -31,7 +31,11 @@ class EntrySingleController extends AbstractController
         Request $request
     ): Response {
         if ($entry->magazine !== $magazine) {
-            throw $this->createNotFoundException();
+            return $this->redirectToRoute(
+                'entry_single',
+                ['magazine_name' => $entry->magazine->name, 'entry_id' => $entry->getId(), 'slug' => $entry->slug],
+                301
+            );
         }
 
         $this->handlePrivateContent($entry);

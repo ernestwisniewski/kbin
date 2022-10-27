@@ -31,7 +31,11 @@ class PostSingleController extends AbstractController
         Request $request
     ): Response {
         if ($post->magazine !== $magazine) {
-            throw $this->createNotFoundException();
+            return $this->redirectToRoute(
+                'post_single',
+                ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId(), 'slug' => $post->slug],
+                301
+            );
         }
 
         $this->handlePrivateContent($post);
