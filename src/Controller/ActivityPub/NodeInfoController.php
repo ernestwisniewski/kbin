@@ -16,8 +16,10 @@ class NodeInfoController
     {
         return new JsonResponse([
             'links' => [
-                'rel' => NodeInfoFactory::NODE_REL,
-                'url' => $this->urlGenerator->generate('ap_node_info_v2', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                [
+                    'rel' => NodeInfoFactory::NODE_REL,
+                    'url' => $this->urlGenerator->generate('ap_node_info_v2', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                ],
             ],
         ]);
     }

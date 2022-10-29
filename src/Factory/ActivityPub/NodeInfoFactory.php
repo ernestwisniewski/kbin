@@ -9,6 +9,7 @@ class NodeInfoFactory
 {
     const NODE_REL = 'http://nodeinfo.diaspora.software/ns/schema/2.0';
     const NODE_PROTOCOL = 'activitypub';
+    const KBIN_HOMEPAGE = 'https://kbin.pub';
 
     public function __construct(private StatsContentRepository $repository, private SettingsManager $settingsManager)
     {
@@ -21,6 +22,7 @@ class NodeInfoFactory
             'software' => [
                 'name' => 'kbin',
                 'version' => '0.10.1',
+                'homepage' => self::KBIN_HOMEPAGE
             ],
             'protocols' => [
                 self::NODE_PROTOCOL,
