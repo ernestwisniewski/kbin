@@ -18,7 +18,7 @@ class NodeInfoController
             'links' => [
                 [
                     'rel' => NodeInfoFactory::NODE_REL,
-                    'url' => $this->urlGenerator->generate('ap_node_info_v2', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'href' => $this->urlGenerator->generate('ap_node_info_v2', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ],
             ],
         ]);
