@@ -14,24 +14,16 @@ class NodeInfoController
 
     public function nodeInfo(): JsonResponse
     {
-        $response = new JsonResponse([
+        return new JsonResponse([
             'links' => [
                 'rel' => NodeInfoFactory::NODE_REL,
                 'url' => $this->urlGenerator->generate('ap_node_info_v2', [], UrlGeneratorInterface::ABSOLUTE_URL),
             ],
         ]);
-
-        $response->headers->set('Content-Type', 'application/activity+json');
-
-        return $response;
     }
 
     public function nodeInfoV2(): JsonResponse
     {
-        $response = new JsonResponse($this->nodeInfoFactory->create());
-
-        $response->headers->set('Content-Type', 'application/activity+json');
-
-        return $response;
+        return new JsonResponse($this->nodeInfoFactory->create());
     }
 }
