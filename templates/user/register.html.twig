@@ -9,12 +9,15 @@
 
             <div class="row">
                 <div class="col-lg-6 mb-3">
-                    <h1 class="font-weight-bold mb-5">{{ 'create_account'|trans }}</h1>
+                    {% if kbin_registrations_enabled() %}
+                        <h1 class="font-weight-bold mb-5">{{ 'create_account'|trans }}</h1>
+                            {% include 'user/profile/_form_register.html.twig' %}
+                    {% else %}
+                        <p class="text-center h2 py-4">{{ 'registrations_closed'|trans }}</p>
+                    {% endif %}
 
-                    {% include 'user/profile/_form_register.html.twig' %}
-
-                    <p class="mt-5">{{ 'already_have_account'|trans }} <a href="{{ path('app_login') }}">{{ 'login'|trans }}.</a></p>
-                    <p class="mb-5">{{ 'you_cant_login'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}.</a></p>
+                    <p class="mt-5">{{ 'already_have_account'|trans }} <a href="{{ path('app_login') }}" class="font-weight-bold">{{ 'login'|trans }}.</a></p>
+                    <p class="mb-5">{{ 'you_cant_login'|trans }} <a href="{{ path('app_forgot_password_request') }}" class="font-weight-bold">{{ 'reset_password'|trans }}.</a></p>
 
                     {% include 'user/_oauth_social.html.twig' %}
                 </div>

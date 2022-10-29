@@ -42,4 +42,9 @@ class SettingsRuntime implements RuntimeExtensionInterface
     {
         return $this->settings->get('KBIN_JS_ENABLED');
     }
+
+    #[Pure] public function kbinRegistrationsEnabled(): bool
+    {
+        return $this->settings->get('KBIN_REGISTRATIONS_ENABLED');
+    }
 }

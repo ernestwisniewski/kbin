@@ -447,3 +447,4 @@ fediverse_edit_info: 'Not all instances in the fediverse support editing yet. To
 magazine_input_placeholder: 'start typing...'
 tags_input_placeholder: 'confirm tag with enter...'
 delete_account_request_send: 'Request for account deletion has been sent'
+registrations_closed: 'Registrations closed'

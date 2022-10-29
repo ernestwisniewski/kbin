@@ -17,6 +17,7 @@ final class SettingsExtension extends AbstractExtension
             new TwigFunction('kbin_meta_keywords', [SettingsRuntime::class, 'kbinKeywords']),
             new TwigFunction('kbin_markdown_howto_url', [SettingsRuntime::class, 'kbinMarkdownHowtoUrl']),
             new TwigFunction('kbin_js_enabled', [SettingsRuntime::class, 'kbinJsEnabled']),
+            new TwigFunction('kbin_registrations_enabled', [SettingsRuntime::class, 'kbinregistrationsEnabled']),
         ];
     }
 }

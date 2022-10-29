@@ -14,6 +14,7 @@ class SettingsDto
         public string $KBIN_MARKDOWN_HOWTO_URL,
         public bool $KBIN_JS_ENABLED,
         public bool $KBIN_FEDERATION_ENABLED,
+        public bool $KBIN_REGISTRATIONS_ENABLED
     ) {
     }
 }

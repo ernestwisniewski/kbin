@@ -14,6 +14,7 @@ parameters:
   kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
   kbin_federation_enabled: '%env(KBIN_FEDERATION_ENABLED)%'
   kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
+  kbin_registrations_enabled: '%env(KBIN_REGISTRATIONS_ENABLED)%'
   kbin_ap_route_condition: 'request.getAcceptableContentTypes() and request.getAcceptableContentTypes()[0] in ["application/activity+json", "application/ld+json"]'
 
   router.request_context.host: '%env(KBIN_DOMAIN)%'
@@ -97,6 +98,7 @@ services:
       $kbinMarkdownHowtoUrl: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
       $kbinJsEnabled: '%env(bool:KBIN_JS_ENABLED)%'
       $kbinFederationEnabled: '%env(bool:KBIN_FEDERATION_ENABLED)%'
+      $kbinRegistrationsEnabled: '%env(bool:KBIN_REGISTRATIONS_ENABLED)%'
 
   # Markdown
   App\Markdown\CommonMark\ExternalImagesRenderer:

@@ -8,9 +8,14 @@ ap_hostmeta:
   path: '/.well-known/host-meta'
   methods: [ GET ]
 
-ap_nodeinfo:
-  controller: App\Controller\ActivityPub\NodeInfoController
+ap_node_info:
+  controller: App\Controller\ActivityPub\NodeInfoController::nodeInfo
   path: '/.well-known/nodeinfo'
+  methods: [ GET ]
+
+ap_node_info_v2:
+  controller: App\Controller\ActivityPub\NodeInfoController::nodeInfoV2
+  path: '/nodeinfo/2.0'
   methods: [ GET ]
 
 ap_shared_inbox:
