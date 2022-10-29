@@ -22,14 +22,9 @@ class NodeInfoFactory
             'software' => [
                 'name' => 'kbin',
                 'version' => '0.10.1',
-                'homepage' => self::KBIN_HOMEPAGE
             ],
             'protocols' => [
                 self::NODE_PROTOCOL,
-            ],
-            'services' => [
-                'outbound' => [],
-                'inbound' => [],
             ],
             'usage' => [
                 'users' => [
@@ -41,7 +36,6 @@ class NodeInfoFactory
                 'localComments' => $this->repository->countLocalComments(),
             ],
             'openRegistrations' => $this->settingsManager->get('KBIN_REGISTRATIONS_ENABLED'),
-            'metadata' => [],
         ];
     }
 }
