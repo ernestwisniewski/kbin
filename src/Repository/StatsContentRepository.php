@@ -6,6 +6,7 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Entity\Post;
+use App\Entity\PostComment;
 use App\Entity\User;
 use DateTime;
 use JetBrains\PhpStorm\ArrayShape;
@@ -164,7 +165,7 @@ class StatsContentRepository extends StatsRepository
 
         $postComments = $this->_em->createQueryBuilder()
             ->select('COUNT(pc.id)')
-            ->from(Post::class, 'pc')
+            ->from(PostComment::class, 'pc')
             ->where('pc.apId IS NULL')
             ->getQuery()
             ->getSingleScalarResult();
@@ -176,7 +177,7 @@ class StatsContentRepository extends StatsRepository
     {
         $users = $this->_em->createQueryBuilder()
             ->select('COUNT(u.id)')
-            ->from(Post::class, 'u')
+            ->from(User::class, 'u')
             ->where('u.apId IS NULL');
 
         if ($startDate) {

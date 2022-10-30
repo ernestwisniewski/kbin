@@ -19,7 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
     name: 'kbin:blurhash:update',
     description: 'This command allows generate blurhash for images.',
 )]
-class ImageBlurhashUpdate extends Command
+class ImageBlurhashUpdateCommand extends Command
 {
     public function __construct(
         private ImageRepository $repository,

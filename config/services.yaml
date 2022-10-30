@@ -119,11 +119,15 @@ services:
       - { name: kernel.event_listener, event: kernel.request, priority: 200 }
     arguments: [ '%kbin_default_lang%' ]
 
-  # Language
+  # Federation
   App\EventListener\FederationStatusListener:
     tags:
       - { name: kernel.event_listener, event: kernel.controller, priority: -5 }
     arguments: [ '%kbin_federation_enabled%' ]
+
+  App\EventListener\UserActivityListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller, priority: -5 }
 
   # Elastic
   App\Search\Elastica\MultiIndex:

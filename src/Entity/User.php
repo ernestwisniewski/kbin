@@ -6,6 +6,7 @@ use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Traits\ActivityPubActorTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -174,6 +175,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public bool $isVerified = false;
     /**
+     * @ORM\Column(type="datetimetz")
+     */
+    public ?DateTime $lastActive;
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
      */
     public Collection $moderatorTokens;
@@ -278,35 +283,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     private string $password;
 
-    public function __construct(string $email, string $username, string $password, ?string $apProfileId = null, ?string $apId = null)
-    {
-        $this->email             = $email;
-        $this->password          = $password;
-        $this->username          = $username;
-        $this->apProfileId       = $apProfileId;
-        $this->apId              = $apId;
-        $this->moderatorTokens   = new ArrayCollection();
-        $this->entries           = new ArrayCollection();
-        $this->entryVotes        = new ArrayCollection();
-        $this->entryComments     = new ArrayCollection();
+    public function __construct(
+        string $email,
+        string $username,
+        string $password,
+        ?string $apProfileId = null,
+        ?string $apId = null
+    ) {
+        $this->email = $email;
+        $this->password = $password;
+        $this->username = $username;
+        $this->apProfileId = $apProfileId;
+        $this->apId = $apId;
+        $this->moderatorTokens = new ArrayCollection();
+        $this->entries = new ArrayCollection();
+        $this->entryVotes = new ArrayCollection();
+        $this->entryComments = new ArrayCollection();
         $this->entryCommentVotes = new ArrayCollection();
-        $this->posts             = new ArrayCollection();
-        $this->postVotes         = new ArrayCollection();
-        $this->postComments      = new ArrayCollection();
-        $this->postCommentVotes  = new ArrayCollection();
-        $this->subscriptions     = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->postVotes = new ArrayCollection();
+        $this->postComments = new ArrayCollection();
+        $this->postCommentVotes = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
         $this->subscribedDomains = new ArrayCollection();
-        $this->follows           = new ArrayCollection();
-        $this->followers         = new ArrayCollection();
-        $this->blocks            = new ArrayCollection();
-        $this->blockers          = new ArrayCollection();
-        $this->blockedMagazines  = new ArrayCollection();
-        $this->blockedDomains    = new ArrayCollection();
-        $this->reports           = new ArrayCollection();
-        $this->favourites        = new ArrayCollection();
-        $this->violations        = new ArrayCollection();
-        $this->notifications     = new ArrayCollection();
-        $this->awards            = new ArrayCollection();
+        $this->follows = new ArrayCollection();
+        $this->followers = new ArrayCollection();
+        $this->blocks = new ArrayCollection();
+        $this->blockers = new ArrayCollection();
+        $this->blockedMagazines = new ArrayCollection();
+        $this->blockedDomains = new ArrayCollection();
+        $this->reports = new ArrayCollection();
+        $this->favourites = new ArrayCollection();
+        $this->violations = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->awards = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }
@@ -339,7 +349,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -367,11 +377,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->moderatorTokens->get(-1);
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('isConfirmed', true));
-        $tokens   = $this->moderatorTokens->matching($criteria);
+        $tokens = $this->moderatorTokens->matching($criteria);
 
         // Magazines
         $magazines = $tokens->map(fn($token) => $token->magazine);
-        $criteria  = Criteria::create()
+        $criteria = Criteria::create()
             ->orderBy(['lastActive' => Criteria::DESC]);
 
         return $magazines->matching($criteria);
@@ -716,5 +726,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function getApName(): string
     {
         return $this->username;
+    }
+
+    public function isActiveNow(): bool
+    {
+        $delay = new \DateTime('1 day ago');
+
+        return ($this->lastActive > $delay);
     }
 }
