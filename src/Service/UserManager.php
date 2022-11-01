@@ -28,6 +28,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
+use Tchoulom\ViewCounterBundle\Util\Date;
 
 class UserManager
 {
@@ -187,6 +188,8 @@ class UserManager
             if ($this->security->isGranted('edit_profile', $user)) {
                 $user->username = $dto->username;
             }
+
+            $user->lastActive = new \DateTime();
 
             $this->entityManager->flush();
             $this->entityManager->commit();

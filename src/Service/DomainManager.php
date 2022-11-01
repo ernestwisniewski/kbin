@@ -16,14 +16,14 @@ class DomainManager
     public function __construct(
         private DomainRepository $repository,
         private EventDispatcherInterface $dispatcher,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private SettingsManager $settingsManager
     ) {
     }
 
     public function extract(DomainInterface $subject): DomainInterface
     {
-        // @todo
-        $domainName = $subject->getUrl() ?? 'https://karab.in';
+        $domainName = $subject->getUrl() ?? 'https://'.$this->settingsManager->get('KBIN_DOMAIN');
 
         $domainName = preg_replace('/^www\./i', '', parse_url($domainName)['host']);
 

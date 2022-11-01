@@ -104,6 +104,14 @@ $ docker compose exec php bin/console kbin:user:create username email@exmple.com
 $ docker compose exec php bin/console kbin:user:admin username
 ```
 
+### Media
+
+```bash
+$ mkdir public/media
+$ chmod 755 public/media
+$ chown 82:82 public/media
+```
+
 ### Elasticsearch
 
 ```bash

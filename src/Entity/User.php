@@ -317,7 +317,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->violations = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->awards = new ArrayCollection();
-
+        $this->lastActive = new DateTime();
         $this->createdAtTraitConstruct();
     }
 
