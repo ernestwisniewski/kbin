@@ -128,6 +128,7 @@ class ApHttpClient
         curl_setopt($ch, CURLOPT_HTTPHEADER, self::headersToCurlArray($headers));
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
         curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, self::TIMEOUT);
         curl_exec($ch);
         curl_close($ch);
 
