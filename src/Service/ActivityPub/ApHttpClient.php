@@ -21,6 +21,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApHttpClient
 {
+    const TIMEOUT = 7;
     public function __construct(
         private HttpClientInterface $client,
         private PersonFactory $personFactory,
@@ -36,6 +37,7 @@ class ApHttpClient
 
             try {
                 $r = $this->client->request('GET', $url, [
+                    'timeout' => self::TIMEOUT,
                     'headers' => [
                         'Accept'     => 'application/activity+json,application/ld+json,application/json',
                         'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
@@ -66,6 +68,7 @@ class ApHttpClient
 
             try {
                 $r = $this->client->request('GET', $apProfileId, [
+                    'timeout' => self::TIMEOUT,
                     'headers' => [
                         'Accept'     => 'application/activity+json,application/ld+json,application/json',
                         'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
