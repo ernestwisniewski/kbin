@@ -17,7 +17,7 @@ export default class RemoteMentions {
         el.addEventListener('click', (event) => {
             event.preventDefault();
 
-            window.location = window.location.origin + '/u/' + trim(event.target.innerHTML);
+            window.location = window.location.origin + '/u/' + trim(event.target.dataset.bsOriginalTitle);
         })
     }
 }
