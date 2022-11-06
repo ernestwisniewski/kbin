@@ -27,10 +27,12 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     public function getUrl(string $suffix): string
     {
-        if (substr_count($suffix, '@') > 1 && !str_ends_with($suffix, '@'.$this->settingsManager->get('KBIN_DOMAIN'))) {
+        $handle = $this->getName($suffix);
+
+        if (substr_count($handle, '@') == 2) {
             try {
                 $user = $this->repository->findOneByUsername($suffix);
-                if($user) {
+                if ($user) {
                     return $user->apPublicUrl;
                 }
 
@@ -45,14 +47,10 @@ final class UserLinkParser extends AbstractLocalLinkParser
             }
         }
 
-        if (str_ends_with($suffix, '@'.$this->settingsManager->get('KBIN_DOMAIN'))) {
-            $suffix = rtrim($suffix, '@'.$this->settingsManager->get('KBIN_DOMAIN'));
-        }
-
         return $this->urlGenerator->generate(
             'user',
             [
-                'username' => substr_count($suffix, '@') == 2 ? $suffix : ltrim($suffix, '@'),
+                'username' => ltrim($handle, '@'),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
@@ -70,10 +68,10 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     protected function getName(string $suffix): string
     {
-        if (substr_count($suffix, '@') == 2) {
-            return '@'.explode('@', $suffix)[1];
-        }
+        $domain = '@'.$this->settingsManager->get('KBIN_DOMAIN');
 
-        return $suffix;
+        $handle = preg_replace('/'.preg_quote($domain, '/').'$/', '', $suffix);
+
+        return trim($handle);
     }
 }

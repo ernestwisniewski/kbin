@@ -5,6 +5,7 @@ namespace App\Service\ActivityPub\Wrapper;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\MentionManager;
+use App\Service\SettingsManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MentionsWrapper
@@ -13,6 +14,7 @@ class MentionsWrapper
         private ActivityPubManager $manager,
         private UrlGeneratorInterface $urlGenerator,
         private MentionManager $mentionManager,
+        private SettingsManager $settingsManager
     ) {
     }
 
@@ -27,6 +29,10 @@ class MentionsWrapper
 
                 if (!$actor) {
                     continue;
+                }
+
+                if(substr_count($mention, '@') < 2) {
+                    $mention = $mention .'@'. $this->settingsManager->get('KBIN_DOMAIN');
                 }
 
                 $results[$index] = [

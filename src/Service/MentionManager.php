@@ -107,11 +107,13 @@ class MentionManager
     public function joinMentionsToBody(string $body, array $mentions): string
     {
         $current = $this->extract($body) ?? [];
+        $current = $this->addHandle($current);
+        $mentions = $this->addHandle($mentions);
 
         $join = array_unique(array_merge(array_diff($mentions, $current)));
 
         if (!empty($join)) {
-            $body = implode(' ', $join).' '.$body;
+            $body .= PHP_EOL.PHP_EOL.implode(' ', $join);
         }
 
         return $body;
@@ -123,10 +125,20 @@ class MentionManager
             return [];
         }
 
-        $mentions = array_map(fn($val) => rtrim($val, '@'.$this->settingsManager->get('KBIN_DOMAIN')), $mentions);
+        $domain = '@'.$this->settingsManager->get('KBIN_DOMAIN');
+
+        $mentions = array_map(fn($val) => preg_replace('/'.preg_quote($domain, '/').'$/', '', $val), $mentions);
 
         $mentions = array_map(fn($val) => ltrim($val, '@'), $mentions);
 
         return array_filter($mentions, fn($val) => !str_contains($val, '@'));
+    }
+
+    public function addHandle(array $mentions): array
+    {
+        return array_map(
+            fn($val) => substr_count($val, '@') < 2 ? $val.'@'.$this->settingsManager->get('KBIN_DOMAIN') : $val,
+            $mentions
+        );
     }
 }
