@@ -32,7 +32,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
         if (substr_count($handle, '@') == 2) {
             try {
                 $user = $this->repository->findOneByUsername($suffix);
-                if ($user) {
+                if ($user && $user->apPublicUrl) {
                     return $user->apPublicUrl;
                 }
 
