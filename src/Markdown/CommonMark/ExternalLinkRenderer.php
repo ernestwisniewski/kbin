@@ -49,26 +49,31 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         }
 
         $embed = false;
-        if (filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($title, '@') && !str_starts_with($title, '#')) {
-            if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
-                $embed = $entity->hasEmbed;
-            } else {
-                try {
-                    $embed = $this->embed->fetch($url)->html;
-                    if ($embed) {
-                        $entity = new \App\Entity\Embed($url, (bool)$embed);
+        try {
+            if (filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($title, '@') && !str_starts_with($title, '#')) {
+                if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
+                    $embed = $entity->hasEmbed;
+                } else {
+                    try {
+                        $embed = $this->embed->fetch($url)->html;
+                        if ($embed) {
+                            $entity = new \App\Entity\Embed($url, (bool)$embed);
+                            $this->embedRepository->add($entity);
+                        }
+                    } catch (Exception $e) {
+                        $embed = false;
+                    }
+
+                    if (!$embed) {
+                        $entity = new \App\Entity\Embed($url, $embed = false);
                         $this->embedRepository->add($entity);
                     }
-                } catch (Exception $e) {
-                    $embed = false;
-                }
-
-                if (!$embed) {
-                    $entity = new \App\Entity\Embed($url, $embed = false);
-                    $this->embedRepository->add($entity);
                 }
             }
+        }catch (\Exception $e) {
+            $embed = null;
         }
+
 
         if (ImageManager::isImageUrl($url) || $embed) {
             return EmbedElement::buildEmbed($url, $title);
