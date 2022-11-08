@@ -1,6 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
+import RemoteMentions from "../utils/remote-mentions";
 
 export default class extends Controller {
     static targets = ['expand', 'form', 'commentCounter'];
@@ -109,6 +110,8 @@ export default class extends Controller {
             alert('Coś poszło nie tak...')
         } finally {
             loader.remove();
+            new RemoteMentions(); // @todo
+
             this.loadingValue = false;
         }
     }
