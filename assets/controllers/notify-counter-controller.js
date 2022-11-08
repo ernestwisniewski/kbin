@@ -29,7 +29,7 @@ export default class extends ApplicationController {
         };
 
         if (window.KBIN_LOGGED_IN) {
-            let response = {
+            response = {
                 count: 0
             };
 
