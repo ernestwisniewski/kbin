@@ -23,7 +23,11 @@ class CreateHandler implements MessageHandlerInterface
         $this->object = $message->payload;
 
         if ($this->object['type'] === 'Note') {
-            $this->handleNote();
+            $this->handleChain();
+        }
+
+        if ($this->object['type'] === 'Question') {
+            $this->handleChain();
         }
 
         if ($this->object['type'] === 'Page') {
@@ -36,7 +40,7 @@ class CreateHandler implements MessageHandlerInterface
         $this->page->create($this->object);
     }
 
-    private function handleNote()
+    private function handleChain()
     {
         if (isset($this->object['inReplyTo']) && $this->object['inReplyTo']) {
             $existed = $this->repository->findByObjectId($this->object['inReplyTo']);

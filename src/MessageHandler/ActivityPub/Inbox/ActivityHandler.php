@@ -55,6 +55,7 @@ class ActivityHandler implements MessageHandlerInterface
                 break;
             case 'Note':
             case 'Page':
+            case 'Question':
                 $this->bus->dispatch(new CreateMessage($payload));
                 break;
             case 'Announce':
