@@ -2,7 +2,7 @@
 
 namespace App\Message\ActivityPub\Inbox;
 
-use App\Message\AsyncMessageInterface;
+use App\Message\Contracts\AsyncMessageInterface;
 
 class ChainActivityMessage implements AsyncMessageInterface
 {

@@ -2,7 +2,7 @@
 
 namespace App\Message\ActivityPub\Outbox;
 
-use App\Message\AsyncMessageInterface;
+use App\Message\Contracts\AsyncMessageInterface;
 
 class FollowMessage implements AsyncMessageInterface
 {

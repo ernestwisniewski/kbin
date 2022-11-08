@@ -2,7 +2,7 @@
 
 namespace App\Command\Update\Async;
 
-use App\Message\AsyncMessageInterface;
+use App\Message\Contracts\AsyncMessageInterface;
 
 class ImageBlurhashMessage implements AsyncMessageInterface
 {

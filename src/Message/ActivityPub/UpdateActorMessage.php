@@ -2,7 +2,7 @@
 
 namespace App\Message\ActivityPub;
 
-use App\Message\AsyncMessageInterface;
+use App\Message\Contracts\AsyncMessageInterface;
 
 class UpdateActorMessage implements AsyncMessageInterface
 {

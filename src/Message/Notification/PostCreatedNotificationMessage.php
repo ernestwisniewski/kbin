@@ -2,7 +2,7 @@
 
 namespace App\Message\Notification;
 
-use App\Message\AsyncMessageInterface;
+use App\Message\Contracts\AsyncMessageInterface;
 
 class PostCreatedNotificationMessage implements AsyncMessageInterface
 {
