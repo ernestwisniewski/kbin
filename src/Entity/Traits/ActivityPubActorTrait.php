@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait ActivityPubActorTrait
 {
     /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
+     * @ORM\Column(type="string", nullable=true, options={"default": null}, unique=true)
      */
     public ?string $apId = null;
     /**
