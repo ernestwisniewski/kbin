@@ -124,11 +124,6 @@ export default class extends ApplicationController {
     }
 
     createNotification(content) {
-        console.log({
-            ...{body: content.body},
-            ...(content.icon && {icon: content.icon}),
-            ...(content.image && {image: content.image})
-        });
         const notification = new Notification(content.title, {
             ...{body: content.body},
             ...(content.icon && {icon: content.icon}),

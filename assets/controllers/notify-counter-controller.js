@@ -2,6 +2,7 @@ import {ApplicationController} from 'stimulus-use'
 import router from "../utils/routing";
 import {fetch, ok} from '../utils/http';
 
+
 export default class extends ApplicationController {
     static targets = ['notifications', 'messages']
     static classes = ['hidden']
@@ -28,12 +29,16 @@ export default class extends ApplicationController {
         };
 
         if (window.KBIN_LOGGED_IN) {
-            const url = router().generate('ajax_fetch_user_notifications_count', {username: window.KBIN_USERNAME});
+            let response = {
+                count: 0
+            };
 
-            response = await fetch(url);
-
-            response = await ok(response);
-            response = await response.json();
+            // const url = router().generate('ajax_fetch_user_notifications_count', {username: window.KBIN_USERNAME});
+            //
+            // response = await fetch(url);
+            //
+            // response = await ok(response);
+            // response = await response.json();
         }
 
         if (response.count > 0) {
