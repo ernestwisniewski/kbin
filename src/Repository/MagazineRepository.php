@@ -292,4 +292,13 @@ class MagazineRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByTag($tag): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere("m.tags IS NOT NULL")
+            ->andWhere("JSONB_CONTAINS(m.tags, '\"" . $tag . "\"') = true")
+            ->getQuery()
+            ->getResult();
+    }
 }

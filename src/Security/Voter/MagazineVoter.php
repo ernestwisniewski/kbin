@@ -56,7 +56,7 @@ class MagazineVoter extends Voter
 
     private function canEdit(Magazine $magazine, User $user): bool
     {
-        return $magazine->userIsOwner($user);
+        return $magazine->userIsOwner($user) || $user->isAdmin();
     }
 
     private function canDelete(Magazine $magazine, User $user): bool

@@ -86,6 +86,10 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
      */
     public ?string $customJs = null;
     /**
+     * @ORM\Column(type="json", nullable=true, options={"default": null, "jsonb": true})
+     */
+    public ?array $tags = null;
+    /**
      * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
      */
     public Collection $moderators;
@@ -136,23 +140,30 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
      */
     private int $id;
 
-    public function __construct(string $name, string $title, User $user, ?string $description, ?string $rules, ?bool $isAdult, ?Image $cover)
-    {
-        $this->name          = $name;
-        $this->title         = $title;
-        $this->description   = $description;
-        $this->rules         = $rules;
-        $this->isAdult       = $isAdult ?? false;
-        $this->cover         = $cover;
-        $this->moderators    = new ArrayCollection();
-        $this->entries       = new ArrayCollection();
-        $this->posts         = new ArrayCollection();
+    public function __construct(
+        string $name,
+        string $title,
+        User $user,
+        ?string $description,
+        ?string $rules,
+        ?bool $isAdult,
+        ?Image $cover
+    ) {
+        $this->name = $name;
+        $this->title = $title;
+        $this->description = $description;
+        $this->rules = $rules;
+        $this->isAdult = $isAdult ?? false;
+        $this->cover = $cover;
+        $this->moderators = new ArrayCollection();
+        $this->entries = new ArrayCollection();
+        $this->posts = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
-        $this->bans          = new ArrayCollection();
-        $this->reports       = new ArrayCollection();
-        $this->badges        = new ArrayCollection();
-        $this->logs          = new ArrayCollection();
-        $this->awards        = new ArrayCollection();
+        $this->bans = new ArrayCollection();
+        $this->reports = new ArrayCollection();
+        $this->badges = new ArrayCollection();
+        $this->logs = new ArrayCollection();
+        $this->awards = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true, true));
 
@@ -380,7 +391,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         /**
          * @var MagazineBan $ban
          */
-        $ban            = $this->bans->matching($criteria)->first();
+        $ban = $this->bans->matching($criteria)->first();
         $ban->expiredAt = new DateTime('+10 seconds');
 
         return $ban;

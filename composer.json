@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-fileinfo": "*",
+        "ext-gd": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
         "ext-openssl": "*",
@@ -45,6 +46,7 @@
         "oneup/flysystem-bundle": "^4.4",
         "pagerfanta/core": "^3.1",
         "phpdocumentor/reflection-docblock": "^5.2",
+        "scienta/doctrine-json-functions": "^5.2",
         "sensio/framework-extra-bundle": "^6.2",
         "slevomat/coding-standard": "^6.4",
         "squizlabs/php_codesniffer": "^3.5",
@@ -90,8 +92,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.2",
         "twig/twig": "^2.12|^3.0",
-        "webmozart/assert": "^1.9",
-      "ext-gd": "*"
+        "webmozart/assert": "^1.9"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^7.1",

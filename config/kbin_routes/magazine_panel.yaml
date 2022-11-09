@@ -77,6 +77,13 @@ magazine_panel_trash:
     pl: /m/{name}/panel/kosz
   methods: [ GET ]
 
+magazine_add_tags:
+  controller: App\Controller\Magazine\MagazineAddTagsController
+  path:
+    en: /m/{name}/panel/tags
+    pl: /m/{name}/panel/tagi
+  methods: [ GET, POST ]
+
 magazine_panel_front:
   controller: App\Controller\Magazine\Panel\MagazineStatsController
   defaults: { statsType: content, statsPeriod: ~ }
