@@ -41,6 +41,7 @@
     "stimulus-scroll-progress": "^4.0.0",
     "stimulus-timeago": "^4.0.0",
     "stimulus-use": "^0.50.0-2",
+    "timed-cache": "^2.0.0",
     "vanillajs-datepicker": "^1.1.2"
   }
 }
