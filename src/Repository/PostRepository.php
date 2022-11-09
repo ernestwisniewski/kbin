@@ -288,4 +288,20 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findTaggedFederatedInRandomMagazine()
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.magazine', 'm')
+            ->andWhere('m.name = :magazine')
+            ->andWhere('p.apId IS NOT NULL')
+            ->andWhere('p.visibility = :visibility')
+            ->andWhere('p.tags != :empty')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setParameters(
+                ['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'empty' => 'N;', 'magazine' => 'random']
+            )
+            ->getQuery()
+            ->getResult();
+    }
 }
