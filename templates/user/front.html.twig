@@ -6,7 +6,7 @@
 
 {% block body %}
     {% if user.cover %}
-        <div style="height:250px; background: url({{ asset(user.cover.filePath) |imagine_filter('user_cover') }}); background-size:cover;">
+        <div style="height:250px; background: url({{ asset(user.cover.filePath) |imagine_filter('user_cover') }}) center; background-size:cover;">
         </div>
     {% else %}
         <div style="height:50px;"></div>
