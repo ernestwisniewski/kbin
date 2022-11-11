@@ -14,4 +14,12 @@
     <li class="nav-item">
         <a class="nav-link {{ is_active_route('user_replies') ? 'active' : '' }}" aria-current="page" href="{{ path('user_replies', {username: user.username}) }}">{{ 'replies'|trans }}</a>
     </li>
+    {% if user.showProfileFollowings %}
+        <li class="nav-item">
+            <a class="nav-link {{ is_active_route('user_follows') ? 'active' : '' }}" aria-current="page" href="{{ path('user_follows', {username: user.username}) }}">{{ 'follows'|trans }}</a>
+        </li>
+    {% endif %}
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('user_followers') ? 'active' : '' }}" aria-current="page" href="{{ path('user_followers', {username: user.username}) }}">{{ 'followers'|trans }}</a>
+    </li>
 </ul>

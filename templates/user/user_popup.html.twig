@@ -10,9 +10,17 @@
                     </div>
                     <div class="p-2">
                         <div>
-                            <span class="font-weight-bold h5">
-                                <a class="text-reset" href="{{ path('user', {'username': user.username}) }}">{{ user.username|trim('@', 'left') }}</a>
-                            </span>
+                            <h3 class="font-weight-bold pt-2 mb-2 h5 d-inline ">
+                                <a href="{{ path('user', {username: user.username}) }}"
+                                   class="text-reset">{{ user.apPreferredUsername ?? user.username |trim('@', 'left') }}</a>
+                            </h3>
+                            <div class="mb-2 small">
+                                {% if user.apProfileId %}
+                                    <small class="small text-muted">{{ user.email }}</small>
+                                {% else %}
+                                    <small class="small text-muted">{{ user.username ~ '@' ~ kbin_domain() }}</small>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="mb-2 small">
                             <span class="text-muted small">{{ 'joined'|trans }}:</span>
