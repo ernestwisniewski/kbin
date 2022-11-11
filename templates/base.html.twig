@@ -88,12 +88,12 @@
                         {% block sidebar %}
                             {% include '_layout/_sidebar.html.twig' %}
                         {% endblock %}
+                        {% block sidebar_bottom %}
+                        {% endblock %}
                         {% block ads %}
                             {% if not is_admin_panel_page() %}
                                 {{ component('ads') }}
                             {% endif %}
-                        {% endblock %}
-                        {% block sidebar_bottom %}
                         {% endblock %}
                     </div>
                 </aside>

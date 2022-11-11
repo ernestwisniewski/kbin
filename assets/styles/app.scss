@@ -394,5 +394,7 @@ select {
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-background: #262626;
+  .kbin-dark & {
+    background: #262626;
+  }
 }
