@@ -16,7 +16,7 @@
             <div class="kbin-user-avatar">
                 {{ avatar(user) }}
                 <div class="text-center">
-                    <h3 class="card-title font-weight-bold pt-2">
+                    <h3 class="card-title font-weight-bold pt-2 mb-2 h5">
                         <a href="{{ user.apProfileId ?? '#' }}"
                            rel="{{ user.appProfileId ? 'nofollow noopener noreferrer' : '' }}"
                            class="text-reset">{{ user.username|trim('@', 'left') }}</a>
