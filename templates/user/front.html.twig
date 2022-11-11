@@ -1,13 +1,32 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
+{% from 'user/_macros.html.twig' import avatar %}
 
 {%- block title -%}{{- user.username }} - {{ 'overview'|trans -}}{%- endblock -%}
 
 {% block body %}
     {% if user.cover %}
-        <img style="width:100%" src="{{ asset(user.cover.filePath) |imagine_filter('user_cover') }}"
-             alt="{{ user.username }}"/>
+        <div style="height:250px; background: url({{ asset(user.cover.filePath) |imagine_filter('user_cover') }}); background-size:cover;">
+        </div>
+    {% else %}
+        <div style="height:50px;"></div>
     {% endif %}
+    <div class="position-relative text-left" style="top:-35px">
+        {% if user.avatar %}
+            <div class="kbin-user-avatar">
+                {{ avatar(user) }}
+                <div class="text-center">
+                    <h3 class="card-title font-weight-bold pt-2">
+                        <a href="{{ user.apProfileId ?? '#' }}"
+                           rel="{{ user.appProfileId ? 'nofollow noopener noreferrer' : '' }}"
+                           class="text-reset">{{ user.username|trim('@', 'left') }}</a>
+                    </h3>
+                    {% include 'user/_follow_button.html.twig' %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
     {% if user.about %}
         <div class="about p-3">
             <p>{{ user.about|markdown|raw }}</p>
