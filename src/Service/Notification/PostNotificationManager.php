@@ -50,7 +50,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         $this->notifyMagazine(new PostCreatedNotification($subject->user, $subject));
 
         // Notify mentioned
-        $mentions = $this->mentionManager->clearLocal($subject->mentions);
+        $mentions = $this->mentionManager->clearLocal($this->mentionManager->extract($subject->body));
         foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
             $notification = new PostMentionedNotification($user, $subject);
             $this->entityManager->persist($notification);

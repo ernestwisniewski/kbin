@@ -66,7 +66,8 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     private function sendMentionedNotification(EntryComment $subject): array
     {
         $users = [];
-        $mentions = $this->mentionManager->clearLocal($subject->mentions);
+        $mentions = $this->mentionManager->clearLocal($this->mentionManager->extract($subject->body));
+
         foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
             if (!$user->apId) {
                 $notification = new EntryCommentMentionedNotification($user, $subject);

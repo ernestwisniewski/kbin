@@ -734,4 +734,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
         return ($this->lastActive > $delay);
     }
+
+    /**
+     * @return bool
+     */
+    public function getShowProfileFollowings(): bool
+    {
+        if ($this->apId) {
+            return true;
+        }
+
+        return $this->showProfileFollowings;
+    }
 }

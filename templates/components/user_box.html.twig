@@ -75,7 +75,7 @@
                     </li>
                 {% endif %}
 
-                {% if user.showProfileFollowings %}
+                {% if user.getShowProfileFollowings %}
                     <li>
                         <a class="small" href="{{ path('user_follows', {username: user.username}) }}">
                             {{ 'follows'|trans }}

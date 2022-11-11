@@ -66,7 +66,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     private function sendMentionedNotification(PostComment $subject): array
     {
         $users = [];
-        $mentions = $this->mentionManager->clearLocal($subject->mentions);
+        $mentions = $this->mentionManager->clearLocal($this->mentionManager->extract($subject->body));
 
         foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
             if (!$user->apId) {

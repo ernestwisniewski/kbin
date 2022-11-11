@@ -11,7 +11,7 @@ trait NotificationTrait
 
     private function merge(array $subs, array $follows): array
     {
-        return array_merge(
+        return array_unique(array_merge(
             $subs,
             array_filter(
                 $follows,
@@ -19,6 +19,6 @@ trait NotificationTrait
                     return !in_array($val, $subs);
                 }
             )
-        );
+        ));
     }
 }

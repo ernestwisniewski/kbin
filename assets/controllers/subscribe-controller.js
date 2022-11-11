@@ -10,6 +10,8 @@ export default class extends Controller {
         subCount: Number,
         addUrl: String,
         removeUrl: String,
+        follow: String,
+        unfollow: String,
     };
 
     async subOrUnsub(event) {
@@ -46,8 +48,10 @@ export default class extends Controller {
             this.formTarget.classList.add(this.activeClass);
             this.element.closest('.kbin-sub').getElementsByClassName('kbin-block-form')[0].classList.remove('kbin-block--active');
             this.element.closest('.kbin-sub').getElementsByClassName('kbin-block')[0].dataset.blockIsBlockedValue = false;
+            this.formTarget.getElementsByTagName('button')[0].innerHTML = this.unfollowValue
         } else {
             this.formTarget.classList.remove(this.activeClass);
+            this.formTarget.getElementsByTagName('button')[0].innerHTML = this.followValue
         }
     }
 
