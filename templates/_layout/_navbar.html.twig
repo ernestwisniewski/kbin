@@ -10,34 +10,10 @@
 {#                     alt="{{ kbin_domain() }}"#}
 {#                     src="{{ asset('kbin-logo.png') }}"/>#}
             <div class="kbin-nav-navbar me-auto text-muted">
-                {% if is_magazine_page() %}
-                    <span class="text-muted me-auto text-small size">
-                    /m/<a class="text-decoration-none text-reset font-weight-bold"
-                          href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
-                    </span>
-                {% elseif is_sub_page() %}
+                {% if is_sub_page() %}
                     <span class="text-muted me-auto text-small size">
                     /<a class="text-decoration-none text-reset font-weight-bold"
                         href="{{ path('front_subscribed') }}">sub</a>
-                    </span>
-                {% elseif is_user_page() %}
-                    {% if user is not defined %}
-                        {% set user = app.user %}
-                    {% endif %}
-                    <span class="text-muted me-auto text-small size">
-                    {% if not user.apProfileId %}/u/{% endif %}<a
-                                class="text-decoration-none text-reset font-weight-bold"
-                                href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a>
-                    </span>
-                {% elseif is_tag_page() %}
-                    <span class="text-muted me-auto text-small size">
-                    #<a class="text-decoration-none text-reset font-weight-bold"
-                        href="{{ path('tag_overall', {name: tag|trim('#')}) }}">{{ tag }}</a>
-                    </span>
-                {% elseif is_domain_page() %}
-                    <span class="text-muted me-auto text-small size">
-                    /d/<a class="text-decoration-none text-reset font-weight-bold"
-                          href="{{ path('domain_front', {name: domain.name}) }}">{{ domain.name }}</a>
                     </span>
                 {% elseif is_mod_page() %}
                     <span class="text-muted me-auto text-small size">

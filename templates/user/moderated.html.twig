@@ -6,8 +6,8 @@
 {% block body %}
     <div class="kbin-user-subscriptions-page">
         {% include 'user/_instance_info.twig' %}
+        {% include 'user/_title.html.twig' %}
         {% include 'user/_nav.html.twig' %}
-
         {% if magazines|length %}
             {% include'magazine/_list_cards.html.twig' %}
         {% else %}

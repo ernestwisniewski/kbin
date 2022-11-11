@@ -19,6 +19,10 @@
     {% block body %}
         <div class="kbin-posts-page">
             <section class="kbin-post-wrapper kbin-comment-wrapper">
+                {% if magazine is defined %}
+                    {% include 'magazine/_title.html.twig' %}
+                    {% include 'magazine/_nav.html.twig' %}
+                {% endif %}
                 {% include '_layout/_filters.html.twig' %}
                 {% include '_layout/_flash.html.twig' %}
                 <h1 class="mt-2 text-muted display-none">{{ magazine is defined ? magazine.title ~ ': ' : '' }}{{ 'posts'|trans }}</h1>

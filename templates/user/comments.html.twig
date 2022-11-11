@@ -5,6 +5,7 @@
 {% block body %}
     <div class="kbin-user-comments-page">
         {% include 'user/_instance_info.twig' %}
+        {% include 'user/_title.html.twig' %}
         {% include 'user/_nav.html.twig' %}
         <div class="kbin-comment-wrapper">
             {% include 'entry/comment/_list.html.twig' with {withParent: false, nested:false} %}

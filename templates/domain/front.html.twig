@@ -6,8 +6,9 @@
 
 {% block body %}
     <div class="kbin-front-page">
-        {% include '_layout/_filters.html.twig' %}
+        {% include 'domain/_title.html.twig' %}
         {% include 'domain/_nav.html.twig' %}
+        {% include '_layout/_filters.html.twig' %}
         {% include 'entry/_list.html.twig' %}
     </div>
 {% endblock %}

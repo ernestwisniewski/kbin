@@ -245,7 +245,7 @@ class UserFrontController extends AbstractController
 
     public function follows(User $user, UserRepository $manager, Request $request): Response
     {
-        if (!$user->showProfileFollowings) {
+        if (!$user->showProfileFollowings && !$user->apId) {
             throw new AccessDeniedException();
         }
 

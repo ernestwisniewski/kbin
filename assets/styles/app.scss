@@ -123,7 +123,6 @@ html {
 }
 
 
-
 .CodeMirror,
 .CodeMirror-scroll {
   min-height: 100px !important;
@@ -394,4 +393,8 @@ select {
   .kbin-dark & {
     background: #262626;
   }
+}
+
+.nav-pills .nav-link {
+  border-radius: unset;
 }
