@@ -6,32 +6,46 @@
 
 {% block body %}
     {% if user.cover %}
-        <div style="height:250px; background: url({{ asset(user.cover.filePath) |imagine_filter('user_cover') }}) center; background-size:cover;">
+        <div style="height:220px; background: url({{ asset(user.cover.filePath) |imagine_filter('user_cover') }}) center; background-size:cover;">
         </div>
     {% else %}
         <div style="height:50px;"></div>
     {% endif %}
-    <div class="position-relative text-left" style="top:-35px">
-        {% if user.avatar %}
-            <div class="kbin-user-avatar">
-                {{ avatar(user) }}
-                <div class="text-center">
-                    <h3 class="card-title font-weight-bold pt-2 mb-2 h5">
-                        <a href="{{ user.apProfileId ?? '#' }}"
-                           rel="{{ user.appProfileId ? 'nofollow noopener noreferrer' : '' }}"
-                           class="text-reset">{{ user.username|trim('@', 'left') }}</a>
-                    </h3>
+
+    <div class="d-flex justify-content-between bd-highlight px-3">
+        <div class="bd-highlight text-center position-relative" style="top:-35px">
+            <div class="pb-2">
+                {% if user.avatar %}
+                    <div class="kbin-user-avatar">
+                        {{ avatar(user) }}
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <h3 class="font-weight-bold pt-2 mb-2 h5 d-inline ">
+                    <a href="{{ user.apProfileId ?? '#' }}"
+                       rel="{{ user.appProfileId ? 'nofollow noopener noreferrer' : '' }}"
+                       class="text-reset">{{ user.apPreferredUsername ?? user.username |trim('@', 'left') }}</a>
+                </h3>
+                {% if user.apProfileId %}
+                    <div>
+                        <small class="small text-muted">{{ user.email }}</small>
+                    </div>
+                {% endif %}
+                <div>
                     {% include 'user/_follow_button.html.twig' %}
                 </div>
             </div>
-        {% endif %}
+        </div>
+
     </div>
 
     {% if user.about %}
-        <div class="about p-3">
+        <div class="about p-3 pt-0">
             <p>{{ user.about|markdown|raw }}</p>
         </div>
     {% endif %}
+
     {% if user.apProfileId %}
         <div class="alert alert-secondary text-muted my-5" role="alert">
             {{ 'old_posts_instance_info'|trans }} <a rel="nofollow noopener noreferrer" href="{{ user.apProfileId }}"

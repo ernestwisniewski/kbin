@@ -8,19 +8,21 @@
      data-subscribe-is-subscribed-value="{{ follow ? 'true' : 'false' }}"
      data-subscribe-sub-count-value="{{ user.followersCount }}"
      data-subscribe-active-class="kbin-sub--active">
-    <button type="button" class="btn btn-sm btn-light" disabled>
+    <a title="{{ 'followers'|trans }}" href="{{ path('user_followers', {username: user.username}) }}" class="btn btn-sm btn-light" disabled>
         <i class="fas fa-eye"></i> <span data-subscribe-target="subCount">{{ user.followersCount }}</span>
-    </button>
+    </a>
+    {% if not app.user or app.user is not same as user  %}
     <form action="{{ path('user_' ~ (follow ? 'unfollow' : 'follow'), {username: user.username}) }}"
           method="POST"
           class="kbin-user-follow kbin-sub-form {{ follow ? 'kbin-sub--active' : '' }}"
           data-action="subscribe#subOrUnsub"
           data-subscribe-target="form">
         <button type="submit"
-                class="btn btn-sm btn-outline-light text-dark text-muted {{ app.user and app.user is same as user ? 'disabled' : '' }}">
-            {{ 'follow'|trans }}
+                class="btn btn-sm btn-outline-light text-dark text-muted">
+            {{ follow ? 'unfollow'|trans : 'follow'|trans }}
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
     </form>
     {% include 'user/_block_button.html.twig' %}
+    {% endif %}
 </div>
