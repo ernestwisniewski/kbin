@@ -372,9 +372,11 @@ select {
 .modal-backdrop.show {
   opacity: 0;
 }
+
 .modal-backdrop.fade {
   opacity: 0;
 }
+
 .modal-backdrop {
   --bs-backdrop-zindex: 0;
   --bs-backdrop-bg: #000;
@@ -389,4 +391,8 @@ select {
 
 .reddit-post {
   background: white;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+background: #262626;
 }

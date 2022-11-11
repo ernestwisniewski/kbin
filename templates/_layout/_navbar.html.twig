@@ -49,15 +49,7 @@
 
             <div class="ms-3 mb-0 {{ kbin_js_enabled() ? '' : 'show' }} navbar-collapse collapse" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-lg-auto mb-2 mb-lg-0">
-                    {% if is_user_page() %}
-                        {% include '_layout/navbar/_user.html.twig' %}
-                    {% elseif is_tag_page() %}
-                        {% include '_layout/navbar/_tag.html.twig' %}
-                    {% elseif is_domain_page() %}
-                        {% include '_layout/navbar/_domain.html.twig' %}
-                    {% else %}
-                        {% include '_layout/navbar/_front.html.twig' %}
-                    {% endif %}
+                    {% include '_layout/navbar/_front.html.twig' %}
                 </ul>
             </div>
 

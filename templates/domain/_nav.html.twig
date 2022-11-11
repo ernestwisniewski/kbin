@@ -1,0 +1,8 @@
+<ul class="nav nav-pills mt-3 mb-5">
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('domain_front') ? 'active' : '' }}" aria-current="page" href="{{ get_active_sort_option_path('sort.hot'|trans|lower) }}">{{ 'threads'|trans }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ is_active_route('domain_entry_comments_front') ? 'active' : '' }}" aria-current="page" href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
+    </li>
+</ul>

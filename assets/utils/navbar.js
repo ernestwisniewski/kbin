@@ -17,7 +17,7 @@ export default class Navbar {
             window.addEventListener('scroll', function () {
                 let scroll_top = window.scrollY;
 
-                if (last_scroll_top < 20 || last_scroll_top < 20) {
+                if (last_scroll_top < 150 || last_scroll_top < 150) {
                     el_autohide.classList.remove('scrolled-down');
                     el_autohide.classList.add('scrolled-up');
                     setTimeout(() => {

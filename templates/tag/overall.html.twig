@@ -4,6 +4,8 @@
 {%- block title -%}#{{- tag -}}{%- endblock -%}
 
 {% block body %}
+    {% include 'tag/_nav.html.twig' %}
+
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
         {% if results|length %}
             {% for subject in results %}
