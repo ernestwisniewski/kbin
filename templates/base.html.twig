@@ -70,7 +70,7 @@
         {% include '_layout/_main_menu.html.twig' %}
     {% endif %}
 
-    <section class="kbin-container container pt-3 mt-5 pb-5">
+    <section class="kbin-container container pt-3">
         <div class="mt-5 mt-lg-0">
             <div class="row">
                 <main class="kbin-main col-lg-9 mb-5">
@@ -85,15 +85,16 @@
                         </div>
                         <div class="mb-5 mt-5 d-lg-none">
                         </div>
+                        {% include '_layout/_sidebar_mobile.html.twig' %}
                         {% block sidebar %}
                             {% include '_layout/_sidebar.html.twig' %}
-                        {% endblock %}
-                        {% block sidebar_bottom %}
                         {% endblock %}
                         {% block ads %}
                             {% if not is_admin_panel_page() %}
                                 {{ component('ads') }}
                             {% endif %}
+                        {% endblock %}
+                        {% block sidebar_bottom %}
                         {% endblock %}
                     </div>
                 </aside>

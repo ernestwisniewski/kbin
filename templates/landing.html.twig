@@ -68,6 +68,7 @@
                 <button type="button" class="btn-close my-4 ms-1" data-bs-toggle="offcanvas" data-bs-target="#kbin-sidebar"
                         aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar"></button>
             </div>
+            {% include '_layout/_sidebar_mobile.html.twig' %}
             {% block sidebar %}
                 {% include '_layout/_sidebar.html.twig' %}
             {% endblock %}

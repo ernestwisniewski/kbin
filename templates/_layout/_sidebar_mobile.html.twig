@@ -1,0 +1,27 @@
+<ul class="list-group list-group-horizontal d-lg-none mb-3" style="margin:0 auto">
+    <li class="list-group-item {{ is_homepage() ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('front') }}">{{ 'all'|trans }}</a>
+    </li>
+    <li class="list-group-item {{ is_sub_page() ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('front_subscribed') }}">{{ 'subscriptions'|trans }}</a>
+    </li>
+    <li class="list-group-item {{ is_mod_page() ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('front_moderated') }}">{{ 'topbar.moderated'|trans }}</a>
+    </li>
+</ul>
+<ul class="list-group list-group-flush d-lg-none mb-3">
+    <li class="list-group-item {{ is_active_route('magazine_list_all') ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('magazine_list_all') }}">{{ 'topbar.all_magazines'|trans }}</a>
+    </li>
+</ul>
+<ul class="list-group list-group-flush d-lg-none mb-5">
+    <li class="list-group-item {{ is_active_route('front') ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('front') }}">{{ 'threads'|trans }}</a>
+    </li>
+    <li class="list-group-item {{ is_active_route('entry_comments_front') ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('entry_comments_front') }}">{{ 'comments'|trans }}</a>
+    </li>
+    <li class="list-group-item {{ is_active_route('posts_front') ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('posts_front') }}">{{ 'posts'|trans }}</a>
+    </li>
+</ul>

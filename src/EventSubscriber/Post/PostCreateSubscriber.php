@@ -45,6 +45,11 @@ class PostCreateSubscriber implements EventSubscriberInterface
         }
 
         foreach ($post->tags as $tag) {
+            if ($magazine = $this->magazineRepository->findOneByName($tag)) {
+                $this->postManager->changeMagazine($post, $magazine);
+                break;
+            }
+
             if ($magazines = $this->magazineRepository->findByTag($tag)) {
                 $this->postManager->changeMagazine($post, $magazines[array_rand($magazines)]);
                 break;
