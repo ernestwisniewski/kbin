@@ -251,4 +251,8 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     {
         return [];
     }
+
+    public function updateRanking(): void
+    {
+    }
 }

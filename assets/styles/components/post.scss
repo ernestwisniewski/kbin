@@ -17,7 +17,7 @@ $post-margin-sm: .5rem;
   }
 
   .kbin-post {
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
     z-index: 10;
     border-left: .15rem solid #d3d3d3;
     font-size: .9rem;
@@ -44,6 +44,7 @@ $post-margin-sm: .5rem;
     background-color: $kbin-entry-list-item-nth-background-color;
 
     .kbin-dark & {
+      box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
       border-left: .15rem solid #4a4e4e;
       border-top: 1px solid $kbin-dark-entry-list-item-border-color;
       border-bottom: 1px solid $kbin-dark-entry-list-item-border-color;

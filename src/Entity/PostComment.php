@@ -237,4 +237,8 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     {
         return [];
     }
+
+    public function updateRanking(): void
+    {
+    }
 }
