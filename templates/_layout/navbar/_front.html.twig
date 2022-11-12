@@ -1,6 +1,6 @@
 {% from '_layout/_macros.html.twig' import navbar_link %}
 
-<li class="kbin-nav-navbar-item {{ is_front_page() ? 'kbin-nav-navbar-item--active' : '' }}">
+<li class="kbin-nav-navbar-item {{ is_active_route('front') ? 'kbin-nav-navbar-item--active' : '' }}">
     <a href="{{ path('front') }}">{{ 'threads'|trans }}</a>
 </li>
 
