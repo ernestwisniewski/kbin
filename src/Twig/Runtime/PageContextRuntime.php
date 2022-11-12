@@ -108,7 +108,12 @@ class PageContextRuntime implements RuntimeExtensionInterface
             }
         }
 
-        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.EntryRepository::SORT_DEFAULT)))
+        $default = EntryRepository::SORT_DEFAULT;
+        if($this->isActiveRoute('entry_comments_front')) {
+            $default = EntryCommentRepository::SORT_DEFAULT;
+        }
+
+        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.$default)))
             === $sortOption;
     }
 

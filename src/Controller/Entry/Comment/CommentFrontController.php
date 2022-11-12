@@ -5,6 +5,7 @@ namespace App\Controller\Entry\Comment;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\PageView\EntryCommentPageView;
+use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ class CommentFrontController extends AbstractController
     {
         $params   = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->resolveSort($sortBy))
+        $criteria->showSortOption($criteria->resolveSort($sortBy ?? Criteria::SORT_ACTIVE))
             ->setTime($criteria->resolveTime($time));
 
         if ($magazine) {
