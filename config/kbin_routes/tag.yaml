@@ -6,7 +6,9 @@ tag_overall:
 tag_front:
   controller: App\Controller\Tag\FrontController
   defaults: { sortBy: ~, time: ~ }
-  path: /tag/{name}/{sortBy}/{time}
+  path:
+    en: tag/{name}/threads/{sortBy}/{time}
+    pl: tag/{name}/treści/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
@@ -23,7 +25,7 @@ tag_posts_front:
   controller: App\Controller\Tag\PostFrontController
   defaults: { sortBy: ~, time: ~ }
   path:
-    en: tag/{name}/p/{sortBy}/{time}
-    pl: tag/{name}/w/{sortBy}/{time}
+    en: tag/{name}/posts/{sortBy}/{time}
+    pl: tag/{name}/wpisy/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }

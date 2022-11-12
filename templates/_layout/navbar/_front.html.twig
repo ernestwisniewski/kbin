@@ -1,14 +1,14 @@
 {% from '_layout/_macros.html.twig' import navbar_link %}
 
 <li class="kbin-nav-navbar-item {{ is_front_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a href="{{ get_active_sort_option_path('sort.hot'|trans|lower) }}">{{ 'threads'|trans }}</a>
+    <a href="{{ path('front') }}">{{ 'threads'|trans }}</a>
 </li>
 
-<li class="kbin-nav-navbar-item {{ is_comments_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a href="{{ get_active_comments_page_path() }}">{{ 'comments'|trans }}</a>
+<li class="kbin-nav-navbar-item {{ is_active_route('entry_comments_front') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('entry_comments_front') }}">{{ 'comments'|trans }}</a>
 </li>
-<li class="kbin-nav-navbar-item {{ is_posts_page() ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a href="{{ get_active_posts_page_path() }}">{{ 'microblog'|trans }}</a>
+<li class="kbin-nav-navbar-item {{ is_active_route('posts_front') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('posts_front') }}">{{ 'microblog'|trans }}</a>
 </li>
 
 {% if app.request.cookies.get('user_option_topbar') is not same as 'true' %}

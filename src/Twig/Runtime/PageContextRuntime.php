@@ -41,7 +41,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function isFrontPage(): bool
     {
-        return in_array($this->getCurrentRouteName(), ['front', 'front_subscribed', 'front_moderated']);
+        return $this->isRouteContains('front') || in_array($this->getCurrentRouteName(), ['magazine_entry_comments', 'magazine_posts']);
     }
 
     private function getCurrentRouteName(): string
@@ -119,12 +119,12 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function isCommentsPage(): bool
     {
-        return in_array($this->getCurrentRouteName(), ['entry_comments_front', 'entry_comments_subscribed', 'entry_comments_moderated']);
+        return str_contains($this->getCurrentRouteName(), 'comments');
     }
 
     public function isPostsPage(): bool
     {
-        return in_array($this->getCurrentRouteName(), ['posts_front', 'posts_subscribed', 'posts_moderated']);
+        return str_contains($this->getCurrentRouteName(), 'posts');
     }
 
     public function isEntryPage(): bool
@@ -196,6 +196,22 @@ class PageContextRuntime implements RuntimeExtensionInterface
             }
         }
 
+        if ($this->isMagazinePage()) {
+            $magazine            = $this->getCurrentRequest()->get('magazine');
+            $routeName           = 'front_magazine';
+            $routeParams['name'] = $magazine->name;
+
+            if (!$entriesOnly) {
+                if ($this->isPostsPage()) {
+                    $routeName = 'magazine_posts';
+                }
+
+                if ($this->isCommentsPage()) {
+                    $routeName = 'magazine_entry_comments';
+                }
+            }
+        }
+
         if ($this->isSubPage()) {
             $routeName = 'front_subscribed';
 
@@ -221,6 +237,30 @@ class PageContextRuntime implements RuntimeExtensionInterface
                 if ($this->isCommentsPage()) {
                     $routeName = 'entry_comments_moderated';
                 }
+            }
+        }
+
+        if ($this->isTagPage()) {
+            $routeName           = 'tag_front';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
+
+
+            if ($this->isCommentsPage() && !$entriesOnly) {
+                $routeName = 'tag_entry_comments_front';
+            }
+
+            if ($this->isPostsPage() && !$entriesOnly) {
+                $routeName = 'tag_posts_front';
+            }
+        }
+
+        if ($this->isDomainPage()) {
+            $routeName           = 'domain_front';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
+
+
+            if ($this->isCommentsPage() && !$entriesOnly) {
+                $routeName = 'domain_entry_comments_front';
             }
         }
 
@@ -263,12 +303,29 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $routeParams['time'] = $time;
         }
 
+        if ($this->isMagazinePage()) {
+            $magazine = $this->getCurrentRequest()->get('magazine');
+
+            $routeName           = 'magazine_entry_comments';
+            $routeParams['name'] = $magazine->name;
+        }
+
         if ($this->isSubPage()) {
             $routeName = 'entry_comments_subscribed';
         }
 
         if ($this->isModPage()) {
             $routeName = 'entry_comments_moderated';
+        }
+
+        if ($this->isTagPage()) {
+            $routeName           = 'tag_entry_comments_front';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
+        }
+
+        if ($this->isDomainPage()) {
+            $routeName           = 'domain_entry_comments_front';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
         }
 
         return $this->urlGenerator->generate(
@@ -286,12 +343,24 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $routeParams['time'] = $time;
         }
 
+        if ($this->isMagazinePage()) {
+            $magazine = $this->getCurrentRequest()->get('magazine');
+
+            $routeName           = 'magazine_posts';
+            $routeParams['name'] = $magazine->name;
+        }
+
         if ($this->isSubPage()) {
             $routeName = 'posts_subscribed';
         }
 
         if ($this->isModPage()) {
             $routeName = 'posts_moderated';
+        }
+
+        if ($this->isTagPage()) {
+            $routeName           = 'tag_posts_front';
+            $routeParams['name'] = $this->getCurrentRequest()->get('name');
         }
 
         return $this->urlGenerator->generate(

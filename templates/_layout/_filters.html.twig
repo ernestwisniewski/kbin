@@ -2,6 +2,8 @@
     {% if is_comments_page()
         or is_posts_page()
         or is_front_page()
+        or is_domain_page()
+        or is_tag_page()
         or is_active_route('front_magazine')
         or is_active_route('magazine_entry_comments')
         or is_active_route('magazine_posts')
