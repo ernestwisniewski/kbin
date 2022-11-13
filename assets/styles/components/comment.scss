@@ -17,6 +17,10 @@ $comment-margin-sm: .5rem;
     background: white;
     overflow: hidden;
 
+    h1, h2, h3 {
+      font-size: 1rem;
+    }
+
     a {
       &:hover {
         color: black;
