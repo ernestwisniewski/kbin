@@ -57,6 +57,7 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->visibility           = $dto->visibility;
         $comment->apId                 = $dto->apId;
         $comment->magazine->lastActive = new \DateTime();
+        $comment->user->lastActive     = new \DateTime();
         $comment->lastActive           = $dto->lastActive ?? $comment->lastActive;
         $comment->createdAt            = $dto->createdAt ?? $comment->createdAt;
 

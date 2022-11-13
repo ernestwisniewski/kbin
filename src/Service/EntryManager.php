@@ -70,6 +70,7 @@ class EntryManager implements ContentManagerInterface
         $entry->visibility = $dto->visibility;
         $entry->apId = $dto->apId;
         $entry->magazine->lastActive = new \DateTime();
+        $entry->user->lastActive = new \DateTime();
         $entry->lastActive = $dto->lastActive ?? $entry->lastActive;
         $entry->createdAt = $dto->createdAt ?? $entry->createdAt;
 
