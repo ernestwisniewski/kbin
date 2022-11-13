@@ -4,8 +4,8 @@
     <a href="{{ path('front_moderated') }}">{{ 'threads'|trans }}</a>
 </li>
 
-<li class="kbin-nav-navbar-item {{ is_active_route('posts_front') ? 'kbin-nav-navbar-item--active' : '' }}">
-    <a href="{{ path('posts_moderated') }}">{{ 'microblog'|trans }}</a>
+<li class="kbin-nav-navbar-item {{ is_active_route('front_moderated') ? 'kbin-nav-navbar-item--active' : '' }}">
+    <a href="{{ path('front_moderated') }}">{{ 'microblog'|trans }}</a>
 </li>
 
 <li class="kbin-nav-navbar-item {{ is_route_start_with('people_') ? 'kbin-nav-navbar-item--active' : '' }}">
