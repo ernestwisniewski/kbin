@@ -17,14 +17,41 @@
         <a class="stretched-link" href="{{ path('people_front') }}">{{ 'people'|trans }}</a>
     </li>
 </ul>
-<ul class="list-group list-group-flush d-lg-none mb-5">
-    <li class="list-group-item {{ is_active_route('front') ? 'active' : '' }}">
-        <a class="stretched-link" href="{{ path('front') }}">{{ 'threads'|trans }}</a>
-    </li>
-    <li class="list-group-item {{ is_active_route('entry_comments_front') ? 'active' : '' }}">
-        <a class="stretched-link" href="{{ path('entry_comments_front') }}">{{ 'comments'|trans }}</a>
-    </li>
-    <li class="list-group-item {{ is_active_route('posts_front') ? 'active' : '' }}">
-        <a class="stretched-link" href="{{ path('posts_front') }}">{{ 'posts'|trans }}</a>
-    </li>
-</ul>
+
+{% if is_homepage() %}
+    <ul class="list-group list-group-flush d-lg-none mb-5">
+        <li class="list-group-item {{ is_active_route('front') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('front') }}">{{ 'threads'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('entry_comments_front') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('entry_comments_front') }}">{{ 'comments'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('posts_front') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('posts_front') }}">{{ 'posts'|trans }}</a>
+        </li>
+    </ul>
+{% elseif is_sub_page() %}
+    <ul class="list-group list-group-flush d-lg-none mb-5">
+        <li class="list-group-item {{ is_active_route('front_subscribed') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('front_subscribed') }}">{{ 'threads'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('entry_comments_subscribed') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('entry_comments_subscribed') }}">{{ 'comments'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('posts_subscribed') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('posts_subscribed') }}">{{ 'posts'|trans }}</a>
+        </li>
+    </ul>
+{% elseif is_mod_page() %}
+    <ul class="list-group list-group-flush d-lg-none mb-5">
+        <li class="list-group-item {{ is_active_route('front_moderated') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('front_moderated') }}">{{ 'threads'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('entry_comments_moderated') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('entry_comments_moderated') }}">{{ 'comments'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('posts_moderated') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('posts_moderated') }}">{{ 'posts'|trans }}</a>
+        </li>
+    </ul>
+{% endif %}

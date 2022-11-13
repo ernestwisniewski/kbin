@@ -25,7 +25,13 @@
 
             <div class="ms-3 mb-0 {{ kbin_js_enabled() ? '' : 'show' }} navbar-collapse collapse" id="kbin-nav">
                 <ul class="kbin-nav-navbar navbar-nav me-lg-auto mb-2 mb-lg-0">
-                    {% include '_layout/navbar/_front.html.twig' %}
+                    {% if is_homepage() %}
+                        {% include '_layout/navbar/_front.html.twig' %}
+                    {% elseif is_sub_page() %}
+                        {% include '_layout/navbar/_sub.html.twig' %}
+                    {% elseif is_mod_page() %}
+                        {% include '_layout/navbar/_mod.html.twig' %}
+                    {% endif %}
                 </ul>
             </div>
 
