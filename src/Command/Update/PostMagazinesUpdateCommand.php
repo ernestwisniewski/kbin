@@ -43,6 +43,12 @@ class PostMagazinesUpdateCommand extends Command
 
         $output->writeln((string) $post->getId());
         foreach ($post->tags as $tag) {
+            if ($magazine = $this->magazineRepository->findOneByName($tag)) {
+                $output->writeln($magazine->name);
+                $this->postManager->changeMagazine($post, $magazine);
+                break;
+            }
+
             if ($magazines = $this->magazineRepository->findByTag($tag)) {
                 $output->writeln($magazines[0]->name);
                 $this->postManager->changeMagazine($post, $magazines[array_rand($magazines)]);
