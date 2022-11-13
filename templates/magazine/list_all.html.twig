@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'topbar.all_magazines'|trans -}}{%- endblock -%}
+{%- block title -%}{{- 'topbar.all_magazines'|trans ~ ' - ' ~ kbin_meta_title() -}}{%- endblock -%}
 
 {% block body %}
     <ul class="nav nav-tabs justify-content-start">

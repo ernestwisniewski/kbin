@@ -398,3 +398,19 @@ select {
 .nav-pills .nav-link {
   border-radius: unset;
 }
+
+.kbin-dark .nav-tabs .nav-item.show .nav-link, .kbin-dark .nav-tabs .nav-link.active {
+  background: #191919;
+}
+
+.hr {
+  .kbin-dark & {
+    opacity: .7;
+  }
+
+  opacity: .2;
+  width: 250px;
+  height: 1px;
+  background: rgb(79, 79, 79);
+  background: linear-gradient(90deg, rgba(79, 79, 79, 1) 0%, rgba(79, 79, 79, 1) 61%, rgba(34, 34, 34, 1) 100%);
+}

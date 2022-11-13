@@ -1,0 +1,21 @@
+<div class="row mb-5">
+    {% for user in users %}
+    <div class="col-sm-6 mb-4">
+        <div class="card">
+            {% if user.cover %}
+            <div style="height:150px; background: url({{ asset(user.cover.filePath) |imagine_filter('user_cover') }}) center; background-size:cover;">
+                {% else %}
+                <div style="height:150px;">
+                    {% endif %}
+                    <div style="margin-top: {{ user.avatar ? '120px' : '220px' }}">
+                        {% include 'user/_avatar_cover.html.twig' %}
+                    </div>
+                </div>
+
+                <div class="card-body small" style="margin-top:130px">
+                    <p class="small">{{ user.about|markdown|raw }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>

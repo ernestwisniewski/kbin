@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{ 'people'|trans ~ ' - ' ~ kbin_meta_title() }}
+{%- endblock -%}
+
+{% block body %}
+    <div class="kbin-people-page">
+        <h3>{{ 'people_local'|trans }}</h3>
+        <div class="hr mb-4"></div>
+        {% include 'people/_list.html.twig' with {users: local} only %}
+
+        <h3>{{ 'people_federated'|trans }}</h3>
+        <div class="hr mb-4"></div>
+        {% include 'people/_list.html.twig' with {users: federated} only %}
+    </div>
+{% endblock %}
+
+    {% block sidebar %}
+        {{ parent() }}
+
+        <div class="mb-5">
+            {{ component('related_entries_sidebar', {type: 'random'}) }}
+            {{ component('related_posts_sidebar', {type: 'random'}) }}
+        </div>
+    {% endblock %}

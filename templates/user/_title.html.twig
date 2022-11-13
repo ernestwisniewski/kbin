@@ -1,8 +1,9 @@
 {% if user is not defined %}
     {% set user = app.user %}
 {% endif %}
-<h2 class="h5 pt-2 ps-3">
-    {% if not user.apProfileId %}/u/{% endif %}<a
+<h2 class="h5 mb-2">
+    {% if not user.apProfileId %}{% endif %}<a
             class="text-decoration-none text-reset font-weight-bold"
-            href="{{ path('user', {username: user.username}) }}">{{ user.username }}</a>
+            href="{{ path('user', {username: user.username}) }}">{{ user.apPreferredUsername ?? user.username }}</a>
 </h2>
+<div class="hr"></div>

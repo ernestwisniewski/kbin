@@ -33,6 +33,9 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
     const PER_PAGE = 25;
+    const USERS_ALL = 'all';
+    const USERS_LOCAL = 'local';
+    const USERS_REMOTE = 'remote';
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -81,13 +84,19 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         $result = $pagerfanta->getCurrentPageResults();
 
-        $entries = $this->_em->getRepository(Entry::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'entry')]);
+        $entries = $this->_em->getRepository(Entry::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'entry')]
+        );
         $this->_em->getRepository(Entry::class)->hydrate(...$entries);
-        $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'entry_comment')]);
+        $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+        );
         $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
         $this->_em->getRepository(Post::class)->hydrate(...$post);
-        $postComment = $this->_em->getRepository(PostComment::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post_comment')]);
+        $postComment = $this->_em->getRepository(PostComment::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+        );
         $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
@@ -102,7 +111,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil(($countAll / self::PER_PAGE))) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil(($countAll / self::PER_PAGE))) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -113,7 +122,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     private function getPublicActivityQuery(User $user): \Doctrine\DBAL\Result
     {
         $conn = $this->_em->getConnection();
-        $sql  = "
+        $sql = "
         (SELECT id, created_at, 'entry' AS type FROM entry 
         WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."') 
         UNION 
@@ -288,6 +297,30 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         return $this->createQueryBuilder('u')
             ->where('u.apId IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWithAbout(string $group = self::USERS_ALL): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->andWhere('u.about IS NOT NULL')
+            ->andWhere('u.about != :emptyString')
+            ->andWhere('u.lastActive >= :lastActive');
+
+        switch ($group) {
+            case self::USERS_LOCAL:
+                $qb->andWhere('u.apId IS NULL');
+                break;
+            case self::USERS_REMOTE:
+                $qb->andWhere('u.apId IS NOT NULL')
+                    ->andWhere('u.apDiscoverable = true');
+                break;
+        }
+
+        return $qb->orderBy('u.lastActive', 'DESC')
+            ->setParameters(['emptyString' => '', 'lastActive' => (new \DateTime())->modify('-3 days')])
+            ->setMaxResults(25)
             ->getQuery()
             ->getResult();
     }

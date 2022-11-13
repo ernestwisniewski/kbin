@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% from '_layout/_not_found.html.twig' import not_found %}
-{% from 'user/_macros.html.twig' import avatar %}
 
 {%- block title -%}{{- user.username }} - {{ 'overview'|trans -}}{%- endblock -%}
 
@@ -12,35 +11,7 @@
         <div style="height:50px;"></div>
     {% endif %}
 
-    <div class="d-flex justify-content-md-between justify-content-center bd-highlight px-3">
-        <div class="bd-highlight text-center position-relative" style="top:-35px">
-            <div class="pb-2">
-                {% if user.avatar %}
-                    <div class="kbin-user-avatar">
-                        {{ avatar(user) }}
-                    </div>
-                {% endif %}
-            </div>
-            <div>
-                <h3 class="font-weight-bold pt-2 mb-2 h5 d-inline ">
-                    <a href="{{ user.apProfileId ?? '#' }}"
-                       rel="{{ user.appProfileId ? 'nofollow noopener noreferrer' : '' }}"
-                       class="text-reset">{{ user.apPreferredUsername ?? user.username |trim('@', 'left') }}</a>
-                </h3>
-                    <div class="mb-2 small">
-                        {% if user.apProfileId %}
-                        <small class="small text-muted">{{ user.email }}</small>
-                        {% else %}
-                            <small class="small text-muted">{{ user.username ~ '@' ~ kbin_domain() }}</small>
-                        {% endif %}
-                    </div>
-                <div>
-                    {% include 'user/_follow_button.html.twig' %}
-                </div>
-            </div>
-        </div>
-
-    </div>
+    {% include 'user/_avatar_cover.html.twig' with {extraClass: 'justify-content-md-between'} %}
 
     {% if user.about %}
         <div class="about p-3 pt-0">
