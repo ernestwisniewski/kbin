@@ -44,6 +44,10 @@ export default class extends Controller {
     }
 
     isSubscribedValueChanged(isSub) {
+        if (!this.hasFormTarget) {
+            return;
+        }
+
         if (isSub) {
             this.formTarget.classList.add(this.activeClass);
             this.element.closest('.kbin-sub').getElementsByClassName('kbin-block-form')[0].classList.remove('kbin-block--active');
