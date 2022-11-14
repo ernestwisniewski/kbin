@@ -2,11 +2,13 @@
 
 namespace App\Markdown\CommonMark;
 
+use App\Message\ActivityPub\CreateActorMessage;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use App\Utils\RegPatterns;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class UserLinkParser extends AbstractLocalLinkParser
@@ -16,7 +18,8 @@ final class UserLinkParser extends AbstractLocalLinkParser
         private ActivityPubManager $activityPubManager,
         private SettingsManager $settingsManager,
         private ApHttpClient $client,
-        private UserRepository $repository
+        private UserRepository $repository,
+        private MessageBusInterface $bus
     ) {
     }
 
@@ -28,29 +31,23 @@ final class UserLinkParser extends AbstractLocalLinkParser
     public function getUrl(string $suffix): string
     {
         $handle = $this->getName($suffix);
+        $username = ltrim($handle, '@');
 
         if (substr_count($handle, '@') == 2) {
-            try {
-                $user = $this->repository->findOneByUsername($suffix);
-                if ($user && $user->apPublicUrl) {
-                    return $user->apPublicUrl;
-                }
-
-                $profileId = $this->activityPubManager->webfinger($suffix)->getProfileId();
-                $actor = $this->client->getActorObject($profileId);
-
-                if ($profileId || $actor) {
-                    return !empty($actor['url']) ? $actor['url'] : $profileId;
-                }
-            } catch (\Exception $e) {
-                return '#';
+            $user = $this->repository->findOneByUsername($suffix);
+            if ($user && $user->apPublicUrl) {
+                return $user->apPublicUrl;
             }
+
+            $this->bus->dispatch(new CreateActorMessage($suffix));
+
+            $username = $handle;
         }
 
         return $this->urlGenerator->generate(
             'user',
             [
-                'username' => ltrim($handle, '@'),
+                'username' => $username,
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

@@ -1,9 +1,15 @@
 .kbin-toast-container {
   z-index: 10000;
 
-  .kbin-toast {
+  .kbin-toast, .toast-header {
     .kbin-dark & {
       color: #fff !important;
+    }
+
+    & .btn-close {
+      .kbin-dark & {
+        color: #fff !important;
+      }
     }
   }
 }

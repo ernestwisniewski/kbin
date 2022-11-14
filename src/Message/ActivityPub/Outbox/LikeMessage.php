@@ -2,11 +2,15 @@
 
 namespace App\Message\ActivityPub\Outbox;
 
-use App\Message\Contracts\AsyncMessageInterface;
+use App\Message\Contracts\AsyncApMessageInterface;
 
-class LikeMessage implements AsyncMessageInterface
+class LikeMessage implements AsyncApMessageInterface
 {
-    public function __construct(public int $userId, public int $objectId, public string $objectType, public bool $removeLike = false)
-    {
+    public function __construct(
+        public int $userId,
+        public int $objectId,
+        public string $objectType,
+        public bool $removeLike = false
+    ) {
     }
 }

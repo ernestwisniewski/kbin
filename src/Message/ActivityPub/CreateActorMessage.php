@@ -4,9 +4,9 @@ namespace App\Message\ActivityPub;
 
 use App\Message\Contracts\AsyncApMessageInterface;
 
-class UpdateActorMessage implements AsyncApMessageInterface
+class CreateActorMessage implements AsyncApMessageInterface
 {
-    public function __construct(public string $actorUrl)
+    public function __construct(public string $handle)
     {
     }
 }
