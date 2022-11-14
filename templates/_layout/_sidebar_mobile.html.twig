@@ -9,29 +9,9 @@
         <a class="stretched-link" href="{{ path('front_moderated') }}">{{ 'topbar.moderated'|trans }}</a>
     </li>
 </ul>
-<ul class="list-group list-group-flush d-lg-none mb-3">
-    <li class="list-group-item text-center {{ is_active_route('magazine_list_all') ? 'active' : '' }}">
-        <a class="stretched-link" href="{{ path('magazine_list_all') }}">{{ 'topbar.all_magazines'|trans }}</a>
-    </li>
-    <li class="list-group-item text-center {{ is_route_start_with('people_') ? 'active' : '' }}">
-        <a class="stretched-link" href="{{ path('people_front') }}">{{ 'people'|trans }}</a>
-    </li>
-</ul>
 
-{% if is_homepage() %}
-    <ul class="list-group list-group-flush d-lg-none mb-5">
-        <li class="list-group-item {{ is_active_route('front') ? 'active' : '' }}">
-            <a class="stretched-link" href="{{ path('front') }}">{{ 'threads'|trans }}</a>
-        </li>
-        <li class="list-group-item {{ is_active_route('entry_comments_front') ? 'active' : '' }}">
-            <a class="stretched-link" href="{{ path('entry_comments_front') }}">{{ 'comments'|trans }}</a>
-        </li>
-        <li class="list-group-item {{ is_active_route('posts_front') ? 'active' : '' }}">
-            <a class="stretched-link" href="{{ path('posts_front') }}">{{ 'posts'|trans }}</a>
-        </li>
-    </ul>
-{% elseif is_sub_page() %}
-    <ul class="list-group list-group-flush d-lg-none mb-5">
+{% if is_sub_page() %}
+    <ul class="list-group list-group-flush d-lg-none mb-3">
         <li class="list-group-item {{ is_active_route('front_subscribed') ? 'active' : '' }}">
             <a class="stretched-link" href="{{ path('front_subscribed') }}">{{ 'threads'|trans }}</a>
         </li>
@@ -43,7 +23,7 @@
         </li>
     </ul>
 {% elseif is_mod_page() %}
-    <ul class="list-group list-group-flush d-lg-none mb-5">
+    <ul class="list-group list-group-flush d-lg-none mb-3">
         <li class="list-group-item {{ is_active_route('front_moderated') ? 'active' : '' }}">
             <a class="stretched-link" href="{{ path('front_moderated') }}">{{ 'threads'|trans }}</a>
         </li>
@@ -54,4 +34,25 @@
             <a class="stretched-link" href="{{ path('posts_moderated') }}">{{ 'posts'|trans }}</a>
         </li>
     </ul>
+{% else %}
+    <ul class="list-group list-group-flush d-lg-none mb-3">
+        <li class="list-group-item {{ is_active_route('front') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('front') }}">{{ 'threads'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('entry_comments_front') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('entry_comments_front') }}">{{ 'comments'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('posts_front') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('posts_front') }}">{{ 'posts'|trans }}</a>
+        </li>
+    </ul>
 {% endif %}
+
+<ul class="list-group list-group-flush d-lg-none mb-5">
+    <li class="list-group-item text-center {{ is_active_route('magazine_list_all') ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('magazine_list_all') }}">{{ 'topbar.all_magazines'|trans }}</a>
+    </li>
+    <li class="list-group-item text-center {{ is_route_start_with('people_') ? 'active' : '' }}">
+        <a class="stretched-link" href="{{ path('people_front') }}">{{ 'people'|trans }}</a>
+    </li>
+</ul>
