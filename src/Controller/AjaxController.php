@@ -122,6 +122,7 @@ class AjaxController extends AbstractController
         $criteria             = new PostCommentPageView(1);
         $criteria->post       = $post;
         $criteria->sortOption = Criteria::SORT_OLD;
+        $criteria->perPage    = 500;
 
         $comments = $repository->findByCriteria($criteria);
 

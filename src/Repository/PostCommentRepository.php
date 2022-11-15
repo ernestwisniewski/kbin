@@ -28,7 +28,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class PostCommentRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 200;
+    const PER_PAGE = 15;
 
     private Security $security;
 

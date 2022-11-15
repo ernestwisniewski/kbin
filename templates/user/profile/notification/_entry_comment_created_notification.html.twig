@@ -8,5 +8,5 @@
 </div>
 <div class="toast-body">
     {{ user(notification.comment.user, {prefix: false}) }} {{ 'added_new_comment'|trans }} - <strong><a
-                href="{{ entry_url(notification.comment.entry) }}">{{ notification.comment.shortTitle }}</a></strong>
+                href="{{ entry_url(notification.comment.entry) }}#entry-comment-{{ notification.comment.id }}">{{ notification.comment.shortTitle }}</a></strong>
 </div>
