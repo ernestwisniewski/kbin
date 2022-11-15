@@ -41,7 +41,7 @@ $kbin-dark-link-color: #cacece;
     color: #fff !important;
   }
 
-  .kbin-sidebar .kbin-search-btn {
+  .kbin-search-btn {
     border-color: #333;
     color: #eee;
   }
@@ -82,10 +82,6 @@ $kbin-dark-link-color: #cacece;
     &:hover {
       color: #eee;
     }
-  }
-
-  .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%);
   }
 
   .btn-dark {
