@@ -746,4 +746,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
         return $this->showProfileFollowings;
     }
+
+    /**
+     * @return bool
+     */
+    public function getShowProfileSubscriptions(): bool
+    {
+        if ($this->apId) {
+            return false;
+        }
+
+        return $this->showProfileSubscriptions;
+    }
 }
