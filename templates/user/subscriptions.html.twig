@@ -10,7 +10,9 @@
         {% include 'user/_nav.html.twig' %}
 
         {% if magazines|length %}
-            {% include'magazine/_list_cards.html.twig' %}
+            <div class="mt-5">
+                {% include'magazine/_list_table.html.twig' %}
+            </div>
         {% else %}
             {{ not_found() }}
         {% endif %}

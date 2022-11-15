@@ -220,7 +220,9 @@ class UserFrontController extends AbstractController
     public function subscriptions(User $user, MagazineRepository $repository, Request $request): Response
     {
         if (!$user->showProfileSubscriptions) {
-            throw new AccessDeniedException();
+            if($user !== $this->getUser()) {
+                throw new AccessDeniedException();
+            }
         }
 
         return $this->render(
@@ -246,7 +248,9 @@ class UserFrontController extends AbstractController
     public function follows(User $user, UserRepository $manager, Request $request): Response
     {
         if (!$user->showProfileFollowings && !$user->apId) {
-            throw new AccessDeniedException();
+            if($user !== $this->getUser()) {
+                throw new AccessDeniedException();
+            }
         }
 
         return $this->render(

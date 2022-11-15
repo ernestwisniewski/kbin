@@ -20,8 +20,8 @@ class UserSettingsDto
         public bool $rightPosImages = false,
         public bool $entryPopup = false,
         public bool $postPopup = false,
-        public bool $showProfileSubscriptions = false,
-        public bool $showProfileFollowings = false,
+        public bool $showProfileSubscriptions = true,
+        public bool $showProfileFollowings = true,
         public string $homepage = 'front_subscribed',
         public ?array $featuredMagazines = null,
     ) {
