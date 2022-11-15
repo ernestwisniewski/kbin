@@ -4,8 +4,6 @@ namespace App\Markdown\CommonMark;
 
 use App\Message\ActivityPub\CreateActorMessage;
 use App\Repository\UserRepository;
-use App\Service\ActivityPub\ApHttpClient;
-use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use App\Utils\RegPatterns;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -15,9 +13,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private ActivityPubManager $activityPubManager,
         private SettingsManager $settingsManager,
-        private ApHttpClient $client,
         private UserRepository $repository,
         private MessageBusInterface $bus
     ) {

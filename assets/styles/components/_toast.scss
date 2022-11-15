@@ -9,6 +9,7 @@
     & .btn-close {
       .kbin-dark & {
         color: #fff !important;
+        filter: none;
       }
     }
   }
