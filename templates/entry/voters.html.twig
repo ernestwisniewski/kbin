@@ -3,10 +3,12 @@
 {%- block title -%}{{- 'votes'|trans }} - {{ entry.title -}}{%- endblock -%}
 
 {% block body %}
-    {{ component('entry', {entry: entry}) }}
-    <div class="kbin-voters-page mt-3 mt-sm-5">
-        {% include '_layout/_voters_list_grid.html.twig' with { subject: entry } %}
+    <div class="mb-4">
+        {{ component('entry', {entry: entry}) }}
     </div>
+
+    {{ component('title', {title: 'votes'|trans }) }}
+    {% include '_layout/_voters_list_grid.html.twig' with { subject: entry } %}
 {% endblock %}
 
 {% block sidebar %}

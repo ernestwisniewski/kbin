@@ -7,5 +7,6 @@
         {{ component('post_comment', { comment: comment, withParent: false }) }}
     </section>
 
+    {{ component('title', {title: 'votes'|trans }) }}
     {% include '_layout/_voters_list_grid.html.twig' with { subject: comment } %}
 {% endblock %}

@@ -20,7 +20,7 @@
 {% block body %}
     <div class="kbin-comment-wrapper">
         {% if magazine is defined %}
-            {% include 'magazine/_title.html.twig' %}
+            {{ component('title', {title: magazine.title, url: path('front_magazine', {name: magazine.name})}) }}
             {% include 'magazine/_nav.html.twig' %}
         {% endif %}
         {% include '_layout/_filters.html.twig' %}

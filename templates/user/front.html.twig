@@ -20,7 +20,7 @@
     {% endif %}
 
     {% include 'user/_instance_info.twig' %}
-    {% include 'user/_title.html.twig' %}
+    {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
     {% include 'user/_nav.html.twig' %}
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
         {% if results|length %}

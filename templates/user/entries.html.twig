@@ -5,7 +5,7 @@
 {% block body %}
     <div class="kbin-user-front-page">
         {% include 'user/_instance_info.twig' %}
-        {% include 'user/_title.html.twig' %}
+        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
         {% include 'user/_nav.html.twig' %}
         {% include 'entry/_list.html.twig' %}
     </div>

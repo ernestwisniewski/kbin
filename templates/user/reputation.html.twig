@@ -11,7 +11,7 @@
 
     <div class="kbin-user-reputation-page">
         {% include 'user/_instance_info.twig' %}
-        {% include 'user/_title.html.twig' %}
+        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
         {% include 'user/_nav.html.twig' %}
 
         <h1 class="mt-2 mb-3">{{ 'reputation_points'|trans }}</h1>

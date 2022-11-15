@@ -11,7 +11,7 @@
 {% block body %}
     <div class="kbin-posts-page">
         <section class="kbin-post-wrapper kbin-comment-wrapper">
-            {% include 'tag/_title.html.twig' %}
+            {{ component('title', {title: tag, url: path('tag_overall', {name: tag|trim('#')})}) }}
             {% include 'tag/_nav.html.twig' %}
             {% include '_layout/_filters.html.twig' %}
             {% include 'post/_list.html.twig' %}

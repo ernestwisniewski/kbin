@@ -5,7 +5,7 @@
 {% block body %}
     <div class="kbin-user-posts-page kbin-posts-page">
         {% include 'user/_instance_info.twig' %}
-        {% include 'user/_title.html.twig' %}
+        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
         {% include 'user/_nav.html.twig' %}
         <div class="kbin-post-wrapper kbin-comment-wrapper">
             {% include 'post/_list.html.twig' with {'show_best_comments': true, 'hide_username': true} %}

@@ -6,7 +6,7 @@
 {% block body %}
     <div class="kbin-user-follows-page">
         {% include 'user/_instance_info.twig' %}
-        {% include 'user/_title.html.twig' %}
+        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
         {% include 'user/_nav.html.twig' %}
         {% if users|length %}
             {% include'user/_list_table.html.twig' %}

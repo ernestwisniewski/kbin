@@ -4,7 +4,7 @@
 {%- block title -%}#{{- tag -}}{%- endblock -%}
 
 {% block body %}
-    {% include 'tag/_title.html.twig' %}
+    {{ component('title', {title: tag, url: path('tag_overall', {name: tag|trim('#')})}) }}
     {% include 'tag/_nav.html.twig' %}
 
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">

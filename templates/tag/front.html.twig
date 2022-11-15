@@ -6,7 +6,7 @@
 
 {% block body %}
     <div class="kbin-front-page">
-        {% include 'tag/_title.html.twig' %}
+        {{ component('title', {title: tag, url: path('tag_overall', {name: tag|trim('#')})}) }}
         {% include 'tag/_nav.html.twig' %}
         {% include '_layout/_filters.html.twig' %}
         {% include 'entry/_list.html.twig' %}

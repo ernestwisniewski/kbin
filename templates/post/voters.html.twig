@@ -7,6 +7,7 @@
         {{ component('post', {post: post}) }}
     </section>
 
+    {{ component('title', {title: 'votes'|trans }) }}
     {% include '_layout/_voters_list_grid.html.twig' with { subject: post } %}
 {% endblock %}
 

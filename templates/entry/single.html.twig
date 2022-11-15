@@ -7,7 +7,7 @@
 {% block image %}{{ entry.image ? uploaded_asset(entry.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
 {% block body %}
-    {% include 'magazine/_title.html.twig' %}
+    {{ component('title', {title: magazine.title, url: path('front_magazine', {name: magazine.name})}) }}
     {% include 'magazine/_nav.html.twig' %}
     {% include 'entry/_single.html.twig' %}
 {% endblock %}
