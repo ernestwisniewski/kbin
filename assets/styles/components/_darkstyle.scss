@@ -6,6 +6,11 @@ $kbin-dark-link-color: #cacece;
   background-repeat: repeat;
   background-position: top left;
 
+  .btn-close {
+    color: #fff;
+    filter: invert(1) grayscale(100%) brightness(200%);
+  }
+
   .accordion-item {
     color: $kbin-dark-link-color;
   }
@@ -475,10 +480,6 @@ $kbin-dark-link-color: #cacece;
     color: #6c757d;
     background-color: rgba(0, 0, 0, 0.85);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-
-  .toast-header .btn-close {
-    filter: invert(0) grayscale(0%) brightness(0%);
   }
 
   /* ACCORDIONS */
