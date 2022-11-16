@@ -58,48 +58,10 @@
                     </form>
                 </li>
                 <li class="kbin-nav-navbar-item d-none d-lg-block">
-                    <div class="input-group input-group-sm btn-group input-group-btn dropdown">
-                        <a href="#"
-                           data-bs-toggle="dropdown" aria-expanded="false"
-                           class="kbin-search-btn btn btn-default"
-                           type="submit">
-                            <i class="fa-solid fa-plus"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" style="width: 370px;">
-                            <li><a class="dropdown-item"
-                                   href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'link' }) }}{% else %}{{ path('entry_create', { type: 'link' }) }}{% endif %}">{{ 'add_new_link'|trans }}</a>
-                            </li>
-                            <li><a class="dropdown-item"
-                                   href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.article'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.article'|trans }) }}{% endif %}">{{ 'add_new_article'|trans }}</a>
-                            </li>
-                            <li><a class="dropdown-item"
-                                   href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.image'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.image'|trans }) }}{% endif %}">{{ 'add_new_photo'|trans }}</a>
-                            </li>
-                            <li><a class="dropdown-item disabled" style="opacity:.5" href="#"
-                                   aria-disabled="true">{{ 'add_new_video'|trans }}</a></li>
-                            <li><a class="dropdown-item disabled" style="opacity:.5"
-                                   href="#">{{ 'add_new_smart_contract'|trans }}</a></li>
-                            <li><a class="dropdown-item"
-                                   href="{{ path('magazine_posts', { name: magazine is defined and magazine ? magazine.name : 'random' }) }}">{{ 'add_new_post'|trans }}</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item"
-                                   href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a>
-                            </li>
-                        </ul>
-                    </div>
+                    {% include '_layout/navbar/_add.html.twig' %}
                 </li>
                 <li class="kbin-nav-navbar-item d-none d-lg-block">
-                    <div class="input-group input-group-sm btn-group input-group-btn dropdown">
-                        <a href="#"
-                           data-bs-toggle="modal" data-bs-target="#settingsModal"
-                           class="kbin-search-btn btn btn-default"
-                           type="submit">
-                            <i class="fa-solid fa-gear"></i>
-                        </a>
-                    </div>
+                    {% include '_layout/navbar/_options.html.twig' %}
                 </li>
                 {% if app.user %}
                     <li class="dropdown dropdown-menu-end {{ app.user.countNewNotifications > 0 ? '' : 'visually-hidden' }}"
@@ -157,24 +119,20 @@
                         </a>
                         {% if app.user %}
                             <ul class="dropdown-menu dropdown-menu-end" style="width: 370px;">
-                                <li>
-                                    <a class="dropdown-item kbin-page-view-item {{ is_homepage() ? 'kbin-page-view-item--active' : '' }}"
-                                       href="/">{{ 'topbar.all'|trans }}</a></li>
-                                <li>
-                                    <a class="dropdown-item kbin-page-view-item {{ is_sub_page() ? 'kbin-page-view-item--active' : '' }}"
-                                       href="{{ path('front_subscribed') }}">{{ 'topbar.subscriptions'|trans }}</a>
+                                <li><a class="dropdown-item"
+                                       href="{{ path('user', {username: app.user.username}) }}">{{ 'profile'|trans }}</a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item kbin-page-view-item {{ is_mod_page() ? 'kbin-page-view-item--active' : '' }}"
-                                       href="{{ path('front_moderated') }}">{{ 'topbar.moderated'|trans }}</a></li>
+                                <li><a class="dropdown-item {{ is_active_route('user_profile_notifications') ? 'kbin-page-view-item--active' : '' }}"
+                                       href="{{ path('user_profile_notifications') }}">{{ 'notifications'|trans }}</a>
+                                </li>
+                                <li><a class="dropdown-item {{ is_active_route('user_profile_messages') ? 'kbin-page-view-item--active' : '' }}"
+                                       href="{{ path('user_profile_messages') }}">{{ 'messages'|trans }}</a>
+                                </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item"
+                                <li><a class="dropdown-item {{ is_active_route('user_profile_settings') ? 'kbin-page-view-item--active' : '' }}"
                                        href="{{ path('user_profile_settings') }}">{{ 'settings'|trans }}</a>
-                                </li>
-                                <li><a class="dropdown-item"
-                                       href="{{ path('user', {username: app.user.username}) }}">{{ 'profile'|trans }}</a>
                                 </li>
                                 <li><a class="dropdown-item"
                                        href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>

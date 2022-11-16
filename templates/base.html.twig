@@ -56,6 +56,7 @@
 <div data-controller="scroll-progress" class="scroll-progress"></div>
 <div id="kbin"
      data-controller="kbin notify-counter"
+     data-kbin-url-value="{{ path('user_profile_toggle_theme') }}"
      data-action="notify:Notification->notify-counter#notification notify:Message->notify-counter#message"
      data-notify-counter-hidden-class="v-hidden"
      data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
@@ -117,8 +118,6 @@
     {#            </div> #}
     {#        </div> #}
     {#    {% endif %} #}
-
-    {% include '_layout/_settings_modal.html.twig' %}
 
     <div aria-live="polite" aria-atomic="true" class="position-relative d-none d-lg-block">
         <div id="kbin-toast-container"

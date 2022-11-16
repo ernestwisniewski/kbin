@@ -454,3 +454,4 @@ delete_account_request_send: 'Żądanie usunięcia konta zostało dodane do kole
 registrations_closed: 'Rejestracja wyłączona'
 people_local: 'Lokalni'
 people_federated: 'Znani z fediwersum'
+advanced: 'Zaawansowane'

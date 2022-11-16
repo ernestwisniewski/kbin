@@ -1,0 +1,32 @@
+<div class="input-group input-group-sm btn-group input-group-btn dropdown">
+    <a href="#"
+       data-bs-toggle="dropdown" aria-expanded="false"
+       class="kbin-search-btn btn btn-default"
+       type="submit">
+        <i class="fa-solid fa-plus"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" style="width: 370px;">
+        <li><a class="dropdown-item"
+               href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'link' }) }}{% else %}{{ path('entry_create', { type: 'link' }) }}{% endif %}">{{ 'add_new_link'|trans }}</a>
+        </li>
+        <li><a class="dropdown-item"
+               href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.article'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.article'|trans }) }}{% endif %}">{{ 'add_new_article'|trans }}</a>
+        </li>
+        <li><a class="dropdown-item"
+               href="{% if magazine is defined and magazine %}{{ path('magazine_entry_create', { name: magazine.name, type: 'type.image'|trans }) }}{% else %}{{ path('entry_create', { type: 'type.image'|trans }) }}{% endif %}">{{ 'add_new_photo'|trans }}</a>
+        </li>
+        <li><a class="dropdown-item disabled" style="opacity:.5" href="#"
+               aria-disabled="true">{{ 'add_new_video'|trans }}</a></li>
+        <li><a class="dropdown-item disabled" style="opacity:.5"
+               href="#">{{ 'add_new_smart_contract'|trans }}</a></li>
+        <li><a class="dropdown-item"
+               href="{{ path('magazine_posts', { name: magazine is defined and magazine ? magazine.name : 'random' }) }}">{{ 'add_new_post'|trans }}</a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item"
+               href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a>
+        </li>
+    </ul>
+</div>

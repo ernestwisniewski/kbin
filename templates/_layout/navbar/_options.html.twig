@@ -1,0 +1,131 @@
+<li class="kbin-nav-navbar-item d-none d-lg-block">
+    <div class="input-group input-group-sm input-group-btn">
+        <button class="btn btn-default kbn-login-btn"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false">
+            <i class="fas fa-eye"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" style="width: 370px;">
+            <li>
+                <a class="dropdown-item kbin-page-view-item {{ is_homepage() ? 'kbin-page-view-item--active' : '' }}"
+                   href="/">{{ 'topbar.all'|trans }}</a></li>
+            <li>
+                <a class="dropdown-item kbin-page-view-item {{ is_sub_page() ? 'kbin-page-view-item--active' : '' }}"
+                   href="{{ path('front_subscribed') }}">{{ 'topbar.subscriptions'|trans }}</a>
+            </li>
+            <li>
+                <a class="dropdown-item kbin-page-view-item {{ is_mod_page() ? 'kbin-page-view-item--active' : '' }}"
+                   href="{{ path('front_moderated') }}">{{ 'topbar.moderated'|trans }}</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <div class="container">
+                <li><h6 class="dropdown-header px-0 pb-3">{{ 'settings'|trans }}</h6></li>
+
+                <div data-controller="user-data" class="fw-normal mb-4">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="user_option_theme"
+                               href="{{ path('user_profile_toggle_theme') }}"
+                               data-action="kbin#toggleTheme"
+                                {{ theme is same as 'kbin-dark' ? 'checked' : '' }}>
+                        <label class="form-check-label"
+                               for="user_option_theme">{{ 'dark_mode'|trans }}</label>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        {% set topbarEnabled = app.request.cookies.has('user_option_topbar') ? app.request.cookies.get('user_option_topbar') : 'false' %}
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="user_option_topbar"
+                               data-user-data-value="topbar"
+                               data-user-data-target="topbar"
+                               data-action="user-data#toggle"
+                                {{ topbarEnabled is same as 'true' ? 'checked' : '' }}>
+                        <label class="form-check-label"
+                               for="user_option_topbar">{{ 'user_option_topbar'|trans }}</label>
+                    </div>
+                    <div>
+                        <p class="text-muted">{{ 'user_option_topbar_desc'|trans }}</p>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        {% set autorefreshEnabled = app.request.cookies.has('user_option_auto_refresh') ? app.request.cookies.get('user_option_auto_refresh') : 'true' %}
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="user_option_auto_refresh"
+                               data-user-data-value="auto_refresh"
+                               data-user-data-target="auto_refresh"
+                               data-action="user-data#toggle"
+                                {{ autorefreshEnabled is same as 'true' ? 'checked' : '' }}>
+                        <label class="form-check-label"
+                               for="user_option_auto_refresh">{{ 'user_option_auto_refresh'|trans }}</label>
+                    </div>
+                    <div>
+                        <p class="text-muted">{{ 'user_option_auto_refresh_desc'|trans }}</p>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        {% set embedEnabled = app.request.cookies.has('user_option_auto_embed') ? app.request.cookies.get('user_option_auto_embed') : 'false' %}
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="user_option_auto_embed"
+                               data-user-data-value="auto_embed"
+                               data-user-data-target="auto_embed"
+                               data-action="user-data#toggle"
+                                {{ embedEnabled is same as 'true' ? 'checked' : '' }}>
+                        <label class="form-check-label"
+                               for="user_option_auto_embed">{{ 'user_option_auto_embed'|trans }}</label>
+                    </div>
+                    <div>
+                        <p class="text-muted">{{ 'user_option_auto_embed_desc'|trans }}</p>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        {% set notificationsEnabled = app.request.cookies.has('user_option_notifications') ? app.request.cookies.get('user_option_notifications') : 'true' %}
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="user_option_notifications"
+                               data-user-data-value="notifications"
+                               data-action="user-data#toggle"
+                                {{ notificationsEnabled is same as 'true' ? 'checked' : '' }}>
+                        <label class="form-check-label"
+                               for="user_option_notifications">{{ 'user_option_notifications'|trans }}</label>
+                    </div>
+                    <div>
+                        <p class="text-muted">{{ 'user_option_notifications_desc'|trans }}</p>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        {% set federationEnabled = app.request.cookies.has('user_option_federation') ? app.request.cookies.get('user_option_federation') : 'true' %}
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="user_option_federation"
+                               data-user-data-value="federation"
+                               checked
+                                {#                       data-action="user-data#toggle" #}
+                                {#                        {{ federationEnabled is same as 'true' ? 'checked' : '' }} #}
+                               disabled>
+                        <label class="form-check-label"
+                               for="user_option_federation">{{ 'user_option_federation'|trans }}</label>
+                    </div>
+                    <div>
+                        <p class="text-muted">{{ 'user_option_federation_desc'|trans }}</p>
+                    </div>
+                </div>
+                <hr class="dropdown-divider">
+
+                <div class="mb-2 float-end">
+                    <a href="{{ path('user_profile_settings') }}"
+                       class="btn btn-secondary btn-lg btn-sm float-start me-2 p-1" tabindex="-1"
+                       role="button" aria-disabled="true">{{ 'advanced'|trans }}</a>
+                    <button type="button" class="btn btn-secondary btn-sm p-1 color-white"
+                            onClick="location.reload()">{{ 'done'|trans }}</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </ul>
+    </div>
+</li>

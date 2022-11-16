@@ -4,6 +4,9 @@ import Cookies from 'js-cookie';
 
 export default class extends Controller {
     static targets = ['topBar', 'icon'];
+    static values = {
+        url: String,
+    }
 
     connect() {
         if (window.KBIN_LOGGED_IN) {
@@ -28,7 +31,7 @@ export default class extends Controller {
         let icons = document.querySelectorAll(`[data-kbin-target='icon']`);
 
         icons.forEach(function (elem) {
-            if(elem.classList.contains('fa-caret-down')) {
+            if (elem.classList.contains('fa-caret-down')) {
                 elem.classList.remove('fa-caret-down');
                 elem.classList.add('fa-caret-up');
             } else {
@@ -43,7 +46,9 @@ export default class extends Controller {
 
         if (window.KBIN_LOGGED_IN) {
             try {
-                let response = await fetch(e.target.href, {method: 'POST'});
+                let url = this.hasUrlValue ? this.urlValue : e.target.href;
+console.log(url);
+                let response = await fetch(url, {method: 'POST'});
 
                 response = await ok(response);
                 await response.json();
