@@ -35,9 +35,9 @@ export default class extends ApplicationController {
                 self.dispatch('Notification', data);
             }
 
-            if (data.op.includes('Created')) {
+            if (data.op === 'PostCreatedNotification' || data.op === 'EntryCreatedNotification') {
                 if (data.toast) {
-                    if(Cookies.get('user_option_notifications') === undefined || Cookies.get('user_option_notifications') === 'true') {
+                    if (Cookies.get('user_option_notifications') === undefined || Cookies.get('user_option_notifications') === 'true') {
                         self.toast(data.toast);
                     }
                 }
@@ -45,7 +45,7 @@ export default class extends ApplicationController {
                 self.notify(data);
             }
 
-            if(Cookies.get('user_option_autorefresh') === undefined || Cookies.get('user_option_autorefresh') === 'true') {
+            if (Cookies.get('user_option_autorefresh') === undefined || Cookies.get('user_option_autorefresh') === 'true') {
                 self.dispatch(data.op, data);
             }
         }
