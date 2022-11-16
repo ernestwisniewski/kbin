@@ -10,6 +10,7 @@
             {% include '_layout/_subject.html.twig' with {subject: postOrComment, withParent: false, nested:false} %}
         {% endfor %}
     {% endif %}
+
     {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
         {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
     {% endif %}

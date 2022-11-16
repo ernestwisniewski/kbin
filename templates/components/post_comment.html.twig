@@ -34,7 +34,7 @@
                     </li>
                     <li class="kbin-comment-meta-date kbin-comment-meta-list-item list-inline-item">
                         {% if not is_post_page() %}
-                        <a href="{{ post_url(this.comment.post) }}">
+                        <a href="{{ post_url(this.comment.post) }}#post-comment-{{ this.comment.id }}">
                             {% endif %}
                             <small class="text-muted">
                                 <time data-controller="timeago"

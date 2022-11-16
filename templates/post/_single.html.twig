@@ -34,9 +34,7 @@
                 {% endblock %}
 
                 {% if comments|length %}
-                    {% for comment in comments %}
-                        {{ component('post_comment', {comment: comment}) }}
-                    {% endfor %}
+                    {% include 'post/comment/_list.html.twig' %}
                 {% else %}
                     {{ not_found() }}
                 {% endif %}
