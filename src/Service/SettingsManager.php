@@ -42,7 +42,7 @@ class SettingsManager
                     : $this->kbinFederationEnabled,
                 isset(array_filter($results, fn($s) => $s->name === 'KBIN_REGISTRATIONS_ENABLED')[0])
                     ? filter_var(array_filter($results, fn($s) => $s->name === 'KBIN_REGISTRATIONS_ENABLED')[0]->value, FILTER_VALIDATE_BOOLEAN)
-                    : $this->kbinFederationEnabled,
+                    : $this->kbinRegistrationsEnabled,
             );
         }
     }
