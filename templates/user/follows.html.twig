@@ -8,8 +8,11 @@
         {% include 'user/_instance_info.twig' %}
         {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
         {% include 'user/_nav.html.twig' %}
+
         {% if users|length %}
-            {% include'user/_list_table.html.twig' %}
+            <div class="mt-4">
+                {% include'user/_list_table.html.twig' %}
+            </div>
         {% else %}
             {{ not_found() }}
         {% endif %}

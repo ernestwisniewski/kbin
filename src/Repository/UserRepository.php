@@ -319,7 +319,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         }
 
         return $qb->orderBy('u.lastActive', 'DESC')
-            ->setParameters(['emptyString' => '', 'lastActive' => (new \DateTime())->modify('-3 days')])
+            ->setParameters(['emptyString' => '', 'lastActive' => (new \DateTime())->modify('-7 days')])
             ->setMaxResults(28)
             ->getQuery()
             ->getResult();
