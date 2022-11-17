@@ -6,6 +6,7 @@ use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Repository\UserRepository;
+use App\Utils\RegPatterns;
 
 class MentionManager
 {
@@ -45,7 +46,7 @@ class MentionManager
 
     private function byPrefix(): array
     {
-        preg_match_all("/\B@([a-zA-Z0-9_-]{2,30})./", $this->val, $matches);
+        preg_match_all("/\B@([a-zA-Z0-9_-]{1,30})./", $this->val, $matches);
         $results = array_filter($matches[0], fn($val) => !str_ends_with($val, '@'));
 
         $results = array_map(function ($val) {
@@ -62,7 +63,7 @@ class MentionManager
     private function byApPrefix(): array
     {
         preg_match_all(
-            '/(@\w{2,30})(@)(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)/',
+            '/(@\w{1,30})(@)(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)/',
             $this->val,
             $matches
         );
@@ -90,6 +91,14 @@ class MentionManager
                 empty($activity->mentions) ? [] : $activity->mentions,
                 $subjectActor
             )
+        );
+
+        $result = array_filter(
+            $result,
+            function ($val) {
+                preg_match(RegPatterns::LOCAL_USER, $val, $l);
+                return preg_match(RegPatterns::AP_USER, $val) || $val === $l[0] ?? '';
+            }
         );
 
         return array_filter(

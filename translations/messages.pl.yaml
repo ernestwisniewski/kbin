@@ -66,6 +66,7 @@ comments_count: '{0}komentarzy|{1}komentarz|{2}komentarze|{3}komentarze|{4}komen
 reply: 'odpowiedz'
 report: 'zgłoś'
 favourite: 'ulubione'
+favourites: 'ulubione'
 edit: 'edytuj'
 moderate: 'moderuj'
 ban: 'zbanuj'
