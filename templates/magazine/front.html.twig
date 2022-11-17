@@ -19,7 +19,7 @@
             {% include '_layout/_adult.html.twig' %}
         {% else %}
             {% include 'entry/_list.html.twig' %}
-            {% if is_active_route('front_magazine') %}
+            {% if is_active_route('front_magazine') and not entries|length %}
                 <p class="fs-5 text-center text-">
                     <a href="{{ path('magazine_posts', {name: magazine.name}) }}">{{ 'or_check_the_posts'|trans }}</a>
                 </p>
