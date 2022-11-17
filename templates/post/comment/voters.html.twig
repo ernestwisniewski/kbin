@@ -3,7 +3,8 @@
 {%- block title -%}{{- 'votes'|trans -}}{%- endblock -%}
 
 {% block body %}
-    <section class="kbin-comment-wrapper mt-4 mb-4">
+    <section class="kbin-comment-wrapper kbin-post-wrapper mt-4 mb-4">
+        {{ component('post', { post: post }) }}
         {{ component('post_comment', { comment: comment, withParent: false }) }}
     </section>
 

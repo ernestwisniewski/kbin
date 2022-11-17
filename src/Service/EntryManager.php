@@ -202,15 +202,19 @@ class EntryManager implements ContentManagerInterface
         if (($dto->image && !$dto->body) || $isImageUrl) {
             $entry->type = Entry::ENTRY_TYPE_IMAGE;
             $entry->hasEmbed = true;
+
+            return $entry;
+        }
+
+        if ($dto->url) {
+            $entry->type = Entry::ENTRY_TYPE_LINK;
+
+            return $entry;
         }
 
         if ($dto->body) {
             $entry->type = Entry::ENTRY_TYPE_ARTICLE;
             $entry->hasEmbed = false;
-        }
-
-        if ($dto->url) {
-            $entry->type = Entry::ENTRY_TYPE_LINK;
         }
 
         return $entry;

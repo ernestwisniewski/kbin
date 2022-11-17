@@ -1,26 +1,22 @@
-<div class="container kbin-users kbin-voters">
-    {% for row in votes|batch(2, null) %}
+<div class="container kbin-users kbin-favourites">
+    {% for row in favourites|batch(2, null) %}
         <div class="row mb-1">
-            {% for vote in row %}
+            {% for favourite in row %}
                 <div class="col-12 col-md-6">
                     <div class="card">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                {% if vote is not null %}
+                                {% if favourite is not null %}
                                     <div class="d-flex bd-highlight">
-                                        {% include 'user/_avatar.html.twig' with { user: vote.user } %}
+                                        {% include 'user/_avatar.html.twig' with { user: favourite.user } %}
                                         <a class="text-decoration-none stretched-link align-self-center flex-grow-1"
-                                                href="{{ path('user', {'username': vote.user.username}) }}">{{ vote.user.username }}</a>
+                                           href="{{ path('user', {'username': favourite.user.username}) }}">{{ favourite.user.username }}</a>
                                         <small class="text-muted align-self-center px-2">
                                             <time data-controller="timeago"
                                                   data-timeago-refresh-interval-value="10000"
                                                   data-timeago-datetime-value="{{ subject.createdAt|date('c') }}">{{ subject.createdAt|ago }}</time>
                                         </small>
-                                        {% if vote.choice is same as 1 %}
-                                            <span class="fa fa-arrow-up float-end kbin-color-up-vote align-self-center"></span>
-                                        {% else %}
-                                            <span class="fa fa-arrow-down float-end kbin-color-down-vote align-self-center"></span>
-                                        {% endif %}
+                                        <span class="fa fa-heart float-end align-self-center text-danger"></span>
                                     </div>
                                 {% endif %}
                             </li>

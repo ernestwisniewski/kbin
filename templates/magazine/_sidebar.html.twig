@@ -16,10 +16,11 @@
                         <ul class="list-group list-group-flush">
                             {% for moderator in magazine.moderators|slice(0, 5) %}
                                 <li class="list-group-item">
-                                    {% include 'user/_avatar.html.twig' with { user: moderator.user } %}<span
-                                            class="text-muted">/u/</span><a
-                                            class="text-decoration-none stretched-link"
-                                            href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
+                                    <div class="d-flex bd-highlight">
+                                        {% include 'user/_avatar.html.twig' with { user: moderator.user } %}
+                                        <a class="text-decoration-none stretched-link stretched-link align-self-center"
+                                           href="{{ path('user', {'username': moderator.user.username}) }}">{{ moderator.user.username }}</a>
+                                    </div>
                                 </li>
                             {% endfor %}
                             {% if magazine.moderators|length > 5 %}

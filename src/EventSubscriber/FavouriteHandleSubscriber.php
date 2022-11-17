@@ -6,6 +6,7 @@ use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Event\FavouriteEvent;
 use App\Message\ActivityPub\Outbox\LikeMessage;
+use App\Service\CacheService;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -15,7 +16,8 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private MessageBusInterface $bus,
-        private CacheInterface $cache
+        private CacheInterface $cache,
+        private CacheService $cacheService
     ) {
     }
 
@@ -51,11 +53,13 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
 
     private function clearEntryCommentCache(EntryComment $comment): void
     {
+        $this->cache->delete($this->cacheService->getFavouritesCacheKey($comment));
         $this->cache->invalidateTags(['entry_comment_'.$comment->root?->getId() ?? $comment->getId()]);
     }
 
     private function clearPostCommentCache(PostComment $comment)
     {
+        $this->cache->delete($this->cacheService->getFavouritesCacheKey($comment));
         $this->cache->invalidateTags(['post_'.$comment->post->getId()]);
     }
 }

@@ -8,8 +8,8 @@
         <div class="card mb-3">
             {% if post.image %}
                 <a href="{{ post_url(post) }}">
-                    <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
-                         class="kbin-post-thumb card-img-top" alt="{{ post.shortTitle }}">
+                    <div style="height:100px; background: url({{ asset(post.image.filePath) |imagine_filter('post_thumb') }}) center; background-size:cover;">
+                    </div>
                 </a>
             {% endif %}
             <div class="card-body">

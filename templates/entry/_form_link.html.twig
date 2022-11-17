@@ -3,14 +3,14 @@
     {% set hasImage = true %}
 {% endif %}
 
-{{ form_start(form, { 'attr': {'data-controller': 'media title-counter', 'data-title-counter-max-value': 255, class: 'kbin-media' }}) }}
+{{ form_start(form, { 'attr': {'data-controller': 'media', class: 'kbin-media' }}) }}
 <div>
     <div class="input-group-lg mb-3">
         {{ form_label(form.url, 'URL') }}<sup class="required">*</sup>
         {{ form_widget(form.url, {'attr': {'data-action': 'entry-create#fetchTitle entry-create#fetchDuplicates', 'data-entry-create-target': 'url' }}) }}
     </div>
 
-    <div class="input-group-lg mb-3">
+    <div class="input-group-lg mb-3" data-controller="title-counter" data-title-counter-max-value="255">
         {{ form_label(form.title, 'title'|trans) }}<sup class="required">*</sup>
         {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title', 'data-title-counter-target': 'input' }}) }}
         <div class="float-end">
@@ -19,9 +19,13 @@
         <div class="clearfix"></div>
     </div>
 
-    <div class="input-group-lg mb-3">
+    <div class="input-group-lg mb-3" data-controller="title-counter" data-title-counter-max-value="300">
         {{ form_label(form.body, 'comment'|trans) }}
-        {{ form_widget(form.body, {'attr': {'data-entry-create-target': 'description'}}) }}
+        {{ form_widget(form.body, {'attr': {'data-entry-create-target': 'description', 'data-title-counter-target': 'input'}}) }}
+        <div class="float-end">
+            <small><strong data-title-counter-target="counter">0</strong> / 300</small>
+        </div>
+        <div class="clearfix"></div>
     </div>
 
     <div class="input-group-lg mb-3">

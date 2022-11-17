@@ -73,4 +73,7 @@
     <div>
         {{ component('voters_list_short', { subject: entry, url: path('entry_voters', {'magazine_name': magazine.name, 'entry_id': entry.id }) }) }}
     </div>
+    <div>
+        {{ component('favourites_list_short', { subject: entry, url: path('entry_favourites', {'magazine_name': magazine.name, 'entry_id': entry.id }) }) }}
+    </div>
 </div>

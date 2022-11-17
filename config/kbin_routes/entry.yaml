@@ -46,6 +46,14 @@ entry_comment_voters:
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/głosy
   methods: [ GET ]
 
+entry_comment_favourites:
+  controller: App\Controller\Entry\Comment\EntryCommentFavouriteController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/favourites
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/ulubione
+  methods: [ GET ]
+
 entry_comments_front:
   controller: App\Controller\Entry\Comment\CommentFrontController::front
   defaults: { sortBy: ~, time: ~ }
@@ -166,6 +174,14 @@ entry_voters:
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/votes
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/głosy
+  methods: [ GET ]
+
+entry_favourites:
+  controller: App\Controller\Entry\EntryFavouriteController
+  defaults: { slug: -, sortBy: ~ }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/favourites
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/ulubione
   methods: [ GET ]
 
 entry_tips:

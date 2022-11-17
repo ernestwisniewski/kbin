@@ -1,6 +1,6 @@
 {% extends 'entry/single.html.twig' %}
 
-{%- block title -%}{{- 'votes'|trans -}}{%- endblock -%}
+{%- block title -%}{{- 'favourites'|trans|capitalize -}}{%- endblock -%}
 
 {% block body %}
     <section class="kbin-comment-wrapper mt-4 mb-4">
@@ -8,6 +8,6 @@
         {{ component('entry_comment', { comment: comment, withParent: false, nested: false }) }}
     </section>
 
-    {{ component('title', {title: 'votes'|trans }) }}
-    {% include '_layout/_voters_list_grid.html.twig' with { subject: comment } %}
+    {{ component('title', {title: 'favourites'|trans|capitalize }) }}
+    {% include '_layout/_favourites_list_grid.html.twig' with { subject: comment } %}
 {% endblock %}

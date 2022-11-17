@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}{{- 'favourites'|trans|capitalize }} - {{ entry.title -}}{%- endblock -%}
+
+{% block body %}
+    <div class="mb-4">
+        {{ component('entry', {entry: entry}) }}
+    </div>
+
+    {{ component('title', {title: 'favourites'|trans|capitalize }) }}
+    {% include '_layout/_favourites_list_grid.html.twig' with { subject: entry } %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'entry/_sidebar.html.twig' %}
+
+    {{ parent() }}
+
+    {% include 'magazine/_sidebar.html.twig' %}
+{% endblock %}

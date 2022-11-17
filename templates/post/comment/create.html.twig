@@ -1,15 +1,15 @@
 {% extends 'post/single.html.twig' %}
 
-{%- block title -%}{{- 'reply'|trans -}}{%- endblock -%}
+{%- block title -%}{{- 'reply'|trans|capitalize -}}{%- endblock -%}
 
 {% block body %}
-    {{ parent() }}
-{% endblock %}
+    {% embed 'post/_single.html.twig' %}
+        {% block before_comments %}
+            {% if parent %}
+                {{ component('post_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0'}) }}
+            {% endif %}
 
-{% block before_comments %}
-    {% if parent %}
-        {{ component('post_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0'}) }}
-    {% endif %}
-
-    {% include 'post/comment/_form.html.twig' %}
+            {% include 'post/comment/_form.html.twig' %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
