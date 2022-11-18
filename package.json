@@ -37,6 +37,7 @@
     "stimulus-animated-number": "^4.0.0",
     "stimulus-character-counter": "^4.0.0",
     "stimulus-clipboard": "^3.0.0",
+    "stimulus-read-more": "^3.0.0",
     "stimulus-reveal-controller": "^4.0.0",
     "stimulus-scroll-progress": "^4.0.0",
     "stimulus-timeago": "^4.0.0",

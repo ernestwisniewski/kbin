@@ -11,4 +11,8 @@
         <a class="nav-link {{ is_active_route('magazine_posts') or is_active_route('post_single') ? 'active' : '' }}" aria-current="page"
            href="{{ path('magazine_posts', {name: magazine.name}) }}">{{ 'posts'|trans }}</a>
     </li>
+    <li class="nav-item small">
+        <a class="nav-link {{ is_active_route('magazine_people', {name: magazine.name}) or is_active_route('magazine_people') ? 'active' : '' }}" aria-current="page"
+           href="{{ path('magazine_people', {name: magazine.name}) }}">{{ 'people'|trans }}</a>
+    </li>
 </ul>

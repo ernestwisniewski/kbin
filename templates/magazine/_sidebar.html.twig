@@ -7,7 +7,7 @@
 
     <div class="col-12" style="clear:both">
         <div class="row">
-            <div class="{{ magazine.badges|length ? 'mb-4' : '' }}">
+            <div class="mb-4">
                 <div class="kbin-moderators">
                     <div class="kbin-users kbin-moderators card">
                         <div class="card-header">
@@ -36,7 +36,7 @@
             </div>
 
             {% if magazine.badges|length %}
-                <div class="kbin-badges">
+                <div class="kbin-badges mb-4">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="h6 my-0">{{ 'badges'|trans }}</h4>
@@ -45,6 +45,25 @@
                             <li class="list-group-item">
                                 {% for badge in magazine.badges %}
                                     <span class="badge bg-secondary me-1">{{ badge.name }}</span>
+                                {% endfor %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if magazine.tags|length %}
+                <div class="kbin-tags">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="h6 my-0">{{ 'tags'|trans }}</h4>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% for tag in magazine.tags %}
+                                    <a href="{{ path('tag_overall', {name: tag}) }}">
+                                        <span class="badge bg-secondary me-1">#{{ tag }}</span>
+                                    </a>
                                 {% endfor %}
                             </li>
                         </ul>

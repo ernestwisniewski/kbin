@@ -304,4 +304,30 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findUsers(Magazine $magazine, ?bool $federated = false): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('u.id, COUNT(p.id) as count')
+            ->groupBy('u.id')
+            ->join('p.user', 'u')
+            ->join('p.magazine', 'm')
+            ->andWhere('p.magazine = :magazine')
+            ->andWhere('u.about != :emptyString')
+            ->andWhere('u.isBanned = false');
+
+        if ($federated) {
+            $qb->andWhere('u.apId IS NOT NULL')
+                ->andWhere('u.apDiscoverable = true');
+        } else {
+            $qb->andWhere('u.apId IS NULL');
+        }
+
+        return $qb->orderBy('count', 'DESC')
+            ->setParameters(['magazine' => $magazine, 'emptyString' => ''])
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

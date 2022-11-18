@@ -43,6 +43,13 @@ magazine_awards:
     pl: /m/{name}/odznaczenia/{category}
   methods: [ GET ]
 
+magazine_people:
+  controller: App\Controller\Magazine\MagazinePeopleController
+  path:
+    en: /m/{name}/people
+    pl: /m/{name}/ludzie
+  methods: [ GET ]
+
 magazine_subscribe:
   controller: App\Controller\Magazine\MagazineSubController::subscribe
   path: /m/{name}/subscribe

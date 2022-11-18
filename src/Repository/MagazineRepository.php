@@ -218,7 +218,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         // @todo union adapter
         $conn = $this->_em->getConnection();
-        $sql  = "
+        $sql = "
         (SELECT id, created_at, magazine_id, 'entry' AS type FROM entry WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed') 
         UNION 
         (SELECT id, created_at, magazine_id, 'entry_comment' AS type FROM entry_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
@@ -248,13 +248,19 @@ class MagazineRepository extends ServiceEntityRepository
 
         $result = $pagerfanta->getCurrentPageResults();
 
-        $entries = $this->_em->getRepository(Entry::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'entry')]);
+        $entries = $this->_em->getRepository(Entry::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'entry')]
+        );
         $this->_em->getRepository(Entry::class)->hydrate(...$entries);
-        $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'entry_comment')]);
+        $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+        );
         $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
         $this->_em->getRepository(Post::class)->hydrate(...$post);
-        $postComment = $this->_em->getRepository(PostComment::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post_comment')]);
+        $postComment = $this->_em->getRepository(PostComment::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+        );
         $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
@@ -269,7 +275,7 @@ class MagazineRepository extends ServiceEntityRepository
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil(($countAll / self::PER_PAGE))) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil(($countAll / self::PER_PAGE))) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -297,7 +303,18 @@ class MagazineRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
             ->andWhere("m.tags IS NOT NULL")
-            ->andWhere("JSONB_CONTAINS(m.tags, '\"" . $tag . "\"') = true")
+            ->andWhere("JSONB_CONTAINS(m.tags, '\"".$tag."\"') = true")
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByActivity()
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere("m.postCount > 0")
+            ->andWhere("m.postCommentCount > 0")
+            ->orderBy('m.postCount', 'DESC')
+            ->setMaxResults(100)
             ->getQuery()
             ->getResult();
     }

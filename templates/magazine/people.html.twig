@@ -12,18 +12,18 @@
     <div class="kbin-magazine-page">
         {{ component('title', {title: magazine.title, url: path('front_magazine', {name: magazine.name})}) }}
         {% include 'magazine/_nav.html.twig' %}
-        {% include '_layout/_filters.html.twig' %}
         {% include '_layout/_flash.html.twig' %}
-        <h1 class="mt-2 text-muted display-none">{{ magazine.title }}: {{ get_active_sort_option()|capitalize }}</h1>
-        {% if magazine.isAdult and (not app.user or app.user.hideAdult) %}
-            {% include '_layout/_adult.html.twig' %}
-        {% else %}
-            {% include 'entry/_list.html.twig' %}
-            {% if is_active_route('front_magazine') and not entries|length %}
-                <p class="fs-5 text-center fw-bolder">
-                    <a href="{{ path('magazine_posts', {name: magazine.name}) }}">{{ 'or_check_the_posts'|trans }}</a>
-                </p>
-            {% endif %}
+
+        {% if local|length %}
+            <h3 class="mt-5">{{ 'people_local'|trans }}</h3>
+            <div class="hr mb-4"></div>
+            {% include 'people/_list.html.twig' with {users: local} only %}
+        {% endif %}
+
+        {% if federated|length %}
+            <h3 class="mt-5">{{ 'people_federated'|trans }}</h3>
+            <div class="hr mb-4"></div>
+            {% include 'people/_list.html.twig' with {users: federated} only %}
         {% endif %}
     </div>
 {% endblock %}
