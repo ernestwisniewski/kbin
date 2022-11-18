@@ -5,23 +5,7 @@
 {%- endblock -%}
 
 {% block body %}
-    <div class="kbin-people-page">
-        <div class="kbin-people-tags mb-5">
-            {% for magazine in magazines %}
-                <a href="{{ path('magazine_people', {name: magazine.name}) }}" title="{{ magazine.title }}">
-                    <span class="badge bg-secondary me-1">{{ magazine.name }}</span>
-                </a>
-            {% endfor %}
-        </div>
-
-        <h3>{{ 'people_local'|trans }}</h3>
-        <div class="hr mb-4"></div>
-        {% include 'people/_list.html.twig' with {users: local} only %}
-
-        <h3>{{ 'people_federated'|trans }}</h3>
-        <div class="hr mb-4"></div>
-        {% include 'people/_list.html.twig' with {users: federated} only %}
-    </div>
+    {{ component('people') }}
 {% endblock %}
 
     {% block sidebar %}

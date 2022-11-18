@@ -9,23 +9,7 @@
 {% block image %}{{ magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
 
 {% block body %}
-    <div class="kbin-magazine-page kbin-people-page">
-        {{ component('title', {title: magazine.title, url: path('front_magazine', {name: magazine.name})}) }}
-        {% include 'magazine/_nav.html.twig' %}
-        {% include '_layout/_flash.html.twig' %}
-
-        {% if local|length %}
-            <h3 class="mt-5">{{ 'people_local'|trans }}</h3>
-            <div class="hr mb-4"></div>
-            {% include 'people/_list.html.twig' with {users: local} only %}
-        {% endif %}
-
-        {% if federated|length %}
-            <h3 class="mt-5">{{ 'people_federated'|trans }}</h3>
-            <div class="hr mb-4"></div>
-            {% include 'people/_list.html.twig' with {users: federated} only %}
-        {% endif %}
-    </div>
+    {{ component('people', {magazine: magazine}) }}
 {% endblock %}
 
 {% block sidebar %}
