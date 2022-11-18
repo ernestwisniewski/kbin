@@ -25,7 +25,7 @@ class MagazinePeopleController extends AbstractController
         return $this->cache->get(
             'magazine_people_'.$magazine->getId(),
             function (ItemInterface $item) use ($magazine) {
-                $item->expiresAfter(0);
+                $item->expiresAfter(3600);
 
                 $local = $this->postRepository->findUsers($magazine);
                 $federated = $this->postRepository->findUsers($magazine, true);
