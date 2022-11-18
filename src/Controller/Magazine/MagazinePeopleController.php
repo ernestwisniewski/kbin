@@ -25,7 +25,7 @@ class MagazinePeopleController extends AbstractController
         return $this->cache->get(
             'magazine_people_'.$magazine->getId(),
             function (ItemInterface $item) use ($magazine) {
-                $item->expiresAfter(3600);
+                $item->expiresAfter(0);
 
                 $local = $this->postRepository->findUsers($magazine);
                 $federated = $this->postRepository->findUsers($magazine, true);
@@ -34,13 +34,29 @@ class MagazinePeopleController extends AbstractController
                     'magazine/people.html.twig',
                     [
                         'magazine' => $magazine,
-                        'local' => $this->userRepository->findBy(['id' => array_map(fn($val) => $val['id'], $local)]),
-                        'federated' => $this->userRepository->findBy(
-                            ['id' => array_map(fn($val) => $val['id'], $federated)]
+                        'local' => $this->sort(
+                            $this->userRepository->findBy(['id' => array_map(fn($val) => $val['id'], $local)]),
+                            $local
+                        ),
+                        'federated' => $this->sort(
+                            $this->userRepository->findBy(
+                                ['id' => array_map(fn($val) => $val['id'], $federated)]
+                            ),
+                            $federated
                         ),
                     ]
                 );
             }
         );
+    }
+
+    private function sort(array $users, array $ids): array
+    {
+        $result = [];
+        foreach ($ids as $id) {
+            $result[] = array_values(array_filter($users, fn($val) => $val->getId() === $id['id']))[0];
+        }
+
+        return array_values($result);
     }
 }
