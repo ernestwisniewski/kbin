@@ -6,6 +6,7 @@ use App\Entity\Magazine;
 use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -21,7 +22,8 @@ class PeopleComponent
         private CacheInterface $cache,
         private MagazineRepository $magazineRepository,
         private UserRepository $userRepository,
-        private PostRepository $postRepository
+        private PostRepository $postRepository,
+        private Security $security
     ) {
     }
 
@@ -36,8 +38,10 @@ class PeopleComponent
 
     private function magazine(): string
     {
+        $user = $this->security->getUser()?->getId();
+
         return $this->cache->get(
-            'magazine_people_'.$this->magazine->getId(),
+            'magazine_people_'.$this->magazine->getId().'_'.$user,
             function (ItemInterface $item) {
                 $item->expiresAfter(3600);
 
@@ -76,8 +80,10 @@ class PeopleComponent
 
     private function general(): string
     {
+        $user = $this->security->getUser()?->getId();
+
         return $this->cache->get(
-            'people',
+            'people_'.$user,
             function (ItemInterface $item) {
                 $item->expiresAfter(60);
 
