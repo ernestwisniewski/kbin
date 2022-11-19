@@ -26,7 +26,7 @@ class RemoveMagazineNameFromTagsCommand extends Command
     {
         foreach ($this->magazineRepository->findAll() as $magazine) {
             if ($tags = $magazine->tags) {
-                $magazine->tags = array_filter($tags, fn($val) => $val !== $magazine->name);
+                $magazine->tags = array_values(array_filter($tags, fn($val) => $val !== $magazine->name));
                 if (empty($magazine->tags)) {
                     $magazine->tags = null;
                 }
