@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\VoteInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -17,12 +18,12 @@ class CacheService
         return "voters_{$this->getKey($subject)}_{$subject->getId()}";
     }
 
-    public function getFavouritesCacheKey(VoteInterface $subject): string
+    public function getFavouritesCacheKey(FavouriteInterface $subject): string
     {
         return "favourites_{$this->getKey($subject)}_{$subject->getId()}";
     }
 
-    private function getKey(VoteInterface $subject): string
+    private function getKey(VoteInterface|FavouriteInterface $subject): string
     {
         $className = $this->entityManager->getClassMetadata(get_class($subject))->name;
         $className = explode('\\', $className);
