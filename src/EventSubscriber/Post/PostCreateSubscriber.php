@@ -29,13 +29,13 @@ class PostCreateSubscriber implements EventSubscriberInterface
 
     public function onPostCreated(PostCreatedEvent $event): void
     {
-        $this->bus->dispatch(new PostCreatedNotificationMessage($event->post->getId()));
-
         if (!$event->post->apId) {
             $this->bus->dispatch(new CreateMessage($event->post->getId(), get_class($event->post)));
         } else {
             $this->handleMagazine($event->post);
         }
+
+        $this->bus->dispatch(new PostCreatedNotificationMessage($event->post->getId()));
     }
 
     private function handleMagazine(Post $post): void
