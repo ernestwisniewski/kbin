@@ -313,6 +313,7 @@ class PostRepository extends ServiceEntityRepository
             ->join('p.user', 'u')
             ->join('p.magazine', 'm')
             ->andWhere('p.magazine = :magazine')
+            ->andWhere('p.visibility = :visibility')
             ->andWhere('u.about != :emptyString')
             ->andWhere('u.isBanned = false');
 
@@ -324,10 +325,11 @@ class PostRepository extends ServiceEntityRepository
         }
 
         return $qb->orderBy('count', 'DESC')
-            ->setParameters(['magazine' => $magazine, 'emptyString' => ''])
+            ->setParameters(
+                ['magazine' => $magazine, 'emptyString' => '', 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
+            )
             ->setMaxResults(100)
             ->getQuery()
             ->getResult();
     }
-
 }
