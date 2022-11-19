@@ -2,8 +2,8 @@
 
 namespace App\Components;
 
+use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\VoteInterface;
-use App\Entity\Vote;
 use App\Service\CacheService;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -13,7 +13,7 @@ use Twig\Environment;
 #[AsTwigComponent('favourites_list_short')]
 class FavouritesListShortComponent
 {
-    public VoteInterface $subject;
+    public VoteInterface|FavouriteInterface $subject;
     public string $url;
     public ?int $more = null;
 
