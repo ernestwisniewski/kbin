@@ -84,9 +84,9 @@
         {{ component('random_magazine') }}
     </div>
 
-    {% if app.user and app.user.moderatedMagazines|length %}
-        <div class="mb-5">
-            {% include 'user/_moderator_list_card.html.twig' with {'user':app.user} %}
-        </div>
-    {% endif %}
+{#    {% if app.user and app.user.moderatedMagazines|length %}#}
+{#        <div class="mb-5">#}
+{#            {% include 'user/_moderator_list_card.html.twig' with {'user':app.user} %}#}
+{#        </div>#}
+{#    {% endif %}#}
 {% endif %}

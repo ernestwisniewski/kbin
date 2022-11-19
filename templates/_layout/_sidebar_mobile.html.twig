@@ -19,7 +19,7 @@
             <a class="stretched-link" href="{{ path('entry_comments_subscribed') }}">{{ 'comments'|trans }}</a>
         </li>
         <li class="list-group-item {{ is_active_route('posts_subscribed') ? 'active' : '' }}">
-            <a class="stretched-link" href="{{ path('posts_subscribed') }}">{{ 'posts'|trans }}</a>
+            <a class="stretched-link" href="{{ path('posts_subscribed') }}">{{ 'microblog'|trans }}</a>
         </li>
     </ul>
 {% elseif is_mod_page() %}
@@ -31,7 +31,7 @@
             <a class="stretched-link" href="{{ path('entry_comments_moderated') }}">{{ 'comments'|trans }}</a>
         </li>
         <li class="list-group-item {{ is_active_route('posts_moderated') ? 'active' : '' }}">
-            <a class="stretched-link" href="{{ path('posts_moderated') }}">{{ 'posts'|trans }}</a>
+            <a class="stretched-link" href="{{ path('posts_moderated') }}">{{ 'microblog'|trans }}</a>
         </li>
     </ul>
 {% else %}
@@ -43,7 +43,7 @@
             <a class="stretched-link" href="{{ path('entry_comments_front') }}">{{ 'comments'|trans }}</a>
         </li>
         <li class="list-group-item {{ is_active_route('posts_front') ? 'active' : '' }}">
-            <a class="stretched-link" href="{{ path('posts_front') }}">{{ 'posts'|trans }}</a>
+            <a class="stretched-link" href="{{ path('posts_front') }}">{{ 'microblog'|trans }}</a>
         </li>
     </ul>
 {% endif %}
