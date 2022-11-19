@@ -2,11 +2,11 @@
 
 {%- block title -%}
     {% if is_sub_page() %}
-        {{- 'topbar.subscriptions'|trans }}: {{ 'microblog'|trans -}}
+        {{- 'topbar.subscriptions'|trans }}: {{ 'posts'|trans -}}
     {% elseif is_mod_page() %}
-        {{- 'topbar.moderated'|trans }}: {{ 'microblog'|trans -}}
+        {{- 'topbar.moderated'|trans }}: {{ 'posts'|trans -}}
     {% elseif is_magazine_page() %}
-        {{- magazine.title }}: {{ 'microblog'|trans -}}
+        {{- magazine.title }}: {{ 'posts'|trans -}}
     {% else %}
         {{- 'posts'|trans ~ ' - ' ~ kbin_meta_title() -}}
     {% endif %}
@@ -25,7 +25,7 @@
                 {% endif %}
                 {% include '_layout/_filters.html.twig' %}
                 {% include '_layout/_flash.html.twig' %}
-                <h1 class="mt-2 text-muted display-none">{{ magazine is defined ? magazine.title ~ ': ' : '' }}{{ 'microblog'|trans }}</h1>
+                <h1 class="mt-2 text-muted display-none">{{ magazine is defined ? magazine.title ~ ': ' : '' }}{{ 'posts'|trans }}</h1>
                 {% if magazine is defined and magazine.isAdult and (not app.user or app.user.hideAdult) %}
                     {% include '_layout/_adult.html.twig' %}
                 {% else %}

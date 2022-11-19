@@ -42,8 +42,11 @@ class PeopleComponent
 
         return $this->cache->get(
             'magazine_people_'.$this->magazine->getId().'_'.$user,
-            function (ItemInterface $item) {
+            function (ItemInterface $item) use ($user) {
                 $item->expiresAfter(3600);
+                if ($user) {
+                    $item->tag('user_follow_'.$user);
+                }
 
                 $local = $this->postRepository->findUsers($this->magazine);
                 $federated = $this->postRepository->findUsers($this->magazine, true);
@@ -84,8 +87,11 @@ class PeopleComponent
 
         return $this->cache->get(
             'people_'.$user,
-            function (ItemInterface $item) {
+            function (ItemInterface $item) use ($user) {
                 $item->expiresAfter(60);
+                if ($user) {
+                    $item->tag('user_follow_'.$user);
+                }
 
                 return $this->twig->render(
                     'people/_people.html.twig',
