@@ -13,7 +13,7 @@
 </li>
 
 {% if app.request.cookies.get('user_option_topbar') is not same as 'true' %}
-    <li class="kbin-nav-navbar-item">
+    <li class="kbin-nav-navbar-item {{ is_active_route('magazine_list_all') ? 'kbin-nav-navbar-item--active' : '' }}">
         <a href="{{ path('magazine_list_all') }}" data-action="kbin#toggleTopBar">{{ 'magazines'|trans }} <i
                     class="fa-sharp fa-solid fa-caret-down ms-1"
                     data-kbin-target="icon"></i></a>
