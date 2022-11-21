@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -23,21 +23,32 @@ class MagazineFactory
 
     public function createDto(Magazine $magazine): MagazineDto
     {
-        $dto                     = new MagazineDto();
-        $dto->user               = $magazine->getOwner();
-        $dto->cover              = $magazine->cover;
-        $dto->name               = $magazine->name;
-        $dto->title              = $magazine->title;
-        $dto->description        = $magazine->description;
-        $dto->rules              = $magazine->rules;
+        $dto = new MagazineDto();
+        $dto->user = $magazine->getOwner();
+        $dto->cover = $magazine->cover;
+        $dto->name = $magazine->name;
+        $dto->title = $magazine->title;
+        $dto->description = $magazine->description;
+        $dto->rules = $magazine->rules;
         $dto->subscriptionsCount = $magazine->subscriptionsCount;
-        $dto->entryCount         = $magazine->entryCount;
-        $dto->entryCommentCount  = $magazine->entryCommentCount;
-        $dto->postCount          = $magazine->postCount;
-        $dto->postCommentCount   = $magazine->postCommentCount;
-        $dto->isAdult            = $magazine->isAdult;
-        $dto->badges             = $magazine->badges;
+        $dto->entryCount = $magazine->entryCount;
+        $dto->entryCommentCount = $magazine->entryCommentCount;
+        $dto->postCount = $magazine->postCount;
+        $dto->postCommentCount = $magazine->postCommentCount;
+        $dto->isAdult = $magazine->isAdult;
+        $dto->badges = $magazine->badges;
         $dto->setId($magazine->getId());
+
+        return $dto;
+    }
+
+    public function createDtoFromAp(string $actorUrl, ?string $apId)
+    {
+        $dto = new MagazineDto();
+        $dto->name = $apId;
+        $dto->title = $apId;
+        $dto->apId = $apId;
+        $dto->apProfileId = $actorUrl;
 
         return $dto;
     }

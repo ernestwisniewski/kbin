@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
+use App\Entity\User;
 use App\EventSubscriber\VoteHandleSubscriber;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
@@ -9,6 +10,7 @@ use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\VoteManager;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -32,7 +34,7 @@ class AnnounceHandler implements MessageHandlerInterface
             $activity = $this->repository->findByObjectId($message->payload['object']);
 
             if ($activity) {
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
             } else {
                 $object = $this->apHttpClient->getActivityObject($message->payload['object']);
 
@@ -43,9 +45,13 @@ class AnnounceHandler implements MessageHandlerInterface
 
             $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
-            $this->manager->upvote($entity, $actor);
-
-            $this->voteHandleSubscriber->clearCache($entity);
+            if ($actor instanceof User) {
+                $this->manager->upvote($entity, $actor);
+                $this->voteHandleSubscriber->clearCache($entity);
+            } else {
+                $entity->lastActive = new DateTime();
+                $this->entityManager->flush();
+            }
         }
 
         if ($message->payload['type'] === 'Undo') {

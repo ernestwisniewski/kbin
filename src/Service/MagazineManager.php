@@ -13,6 +13,7 @@ use App\Event\Magazine\MagazineBanEvent;
 use App\Event\Magazine\MagazineBlockedEvent;
 use App\Event\Magazine\MagazineSubscribedEvent;
 use App\Factory\MagazineFactory;
+use App\Service\ActivityPub\KeysGenerator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -40,6 +41,12 @@ class MagazineManager
         }
 
         $magazine = $this->factory->createFromDto($dto, $user);
+        $magazine->apId = $dto->apId;
+        $magazine->apProfileId = $dto->apProfileId;
+
+        if (!$dto->apId) {
+            $user = KeysGenerator::generate($user);
+        }
 
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();
@@ -64,10 +71,10 @@ class MagazineManager
     {
         Assert::same($magazine->name, $dto->name);
 
-        $magazine->title       = $dto->title;
+        $magazine->title = $dto->title;
         $magazine->description = $dto->description;
-        $magazine->rules       = $dto->rules;
-        $magazine->isAdult     = $dto->isAdult;
+        $magazine->rules = $dto->rules;
+        $magazine->isAdult = $dto->isAdult;
 
         $this->entityManager->flush();
 
@@ -178,7 +185,7 @@ class MagazineManager
         $magazine->cover = $dto->cover ?? $magazine->cover;
 
         $background = null;
-        $customCss  = null;
+        $customCss = null;
 
         // Background
         if ($dto->backgroundImage) {
@@ -223,10 +230,12 @@ class MagazineManager
 
         if ($background || $customCss) {
             $magazine->customCss = ($background ?? '').($customCss ?? '');
-        } else if ($dto->customCss) {
-            $magazine->customCss = $dto->customCss;
         } else {
-            $magazine->customCss = null;
+            if ($dto->customCss) {
+                $magazine->customCss = $dto->customCss;
+            } else {
+                $magazine->customCss = null;
+            }
         }
 
         // $magazine->customJs = $dto->customJs;

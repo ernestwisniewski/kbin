@@ -5,12 +5,14 @@
 
 {% block body %}
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
-        {% if profile %}
+        {% if type is same as 'user' %}
             <div class="mx-auto my-4 small align-content-center" style="max-width: 25rem">
-                {{ component('user_box', {user: profile}) }}
+                {{ component('user_box', {user: object}) }}
             </div>
-        {% else %}
+        {% elseif type is same as null %}
             <h1 class="my-4 font-weight-bold">{{ q }}</h1>
+        {% else %}
+            {% include '_layout/_subject.html.twig' with {subject: object} %}
         {% endif %}
 
         <div class="text-justify mx-5 my-5">
@@ -29,7 +31,7 @@
                 {% for subject in results %}
                     {% include '_layout/_subject.html.twig' with {subject: subject} %}
                 {% endfor %}
-            {% elseif not profile %}
+            {% elseif not object %}
                 {{ not_found() }}
             {% endif %}
 

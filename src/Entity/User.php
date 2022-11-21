@@ -47,15 +47,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public ?Image $cover = null;
     /**
-     * @ORM\Column(type="string", unique=true, length=500)
+     * @ORM\Column(type="string", unique=true)
      */
     public string $email;
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", options={"jsonb" = true})
      */
     public array $roles = [];
     /**
-     * @ORM\Column(type="string", unique=true, length=500)
+     * @ORM\Column(type="string", unique=true)
      */
     public string $username;
     /**

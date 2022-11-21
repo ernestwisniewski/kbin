@@ -38,19 +38,19 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
      */
     public ?Image $cover = null;
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string")
      */
     public string $name;
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string")
      */
     public ?string $title;
     /**
-     * @ORM\Column(type="text", nullable=true, length=10000)
+     * @ORM\Column(type="text", nullable=true)
      */
     public ?string $description = null;
     /**
-     * @ORM\Column(type="text", nullable=true, length=10000)
+     * @ORM\Column(type="text", nullable=true)
      */
     public ?string $rules = null;
     /**

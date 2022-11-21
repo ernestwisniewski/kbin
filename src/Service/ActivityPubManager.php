@@ -8,12 +8,15 @@ use App\DTO\ActivityPub\VideoDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Image;
+use App\Entity\Magazine;
 use App\Entity\User;
 use App\Factory\ActivityPub\PersonFactory;
+use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Message\ActivityPub\UpdateActorMessage;
 use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
+use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Webfinger\WebFinger;
@@ -30,6 +33,9 @@ class ActivityPubManager
         private UserRepository $userRepository,
         private UserManager $userManager,
         private UserFactory $userFactory,
+        private MagazineManager $magazineManager,
+        private MagazineFactory $magazineFactory,
+        private MagazineRepository $magazineRepository,
         private ApHttpClient $apHttpClient,
         private ImageRepository $imageRepository,
         private ImageManager $imageManager,
@@ -62,7 +68,7 @@ class ActivityPubManager
         return $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
     }
 
-    public function findActorOrCreate(string $actorUrlOrHandle): ?User
+    public function findActorOrCreate(string $actorUrlOrHandle): null|User|Magazine
     {
         $actorUrl = $actorUrlOrHandle;
         if (false === filter_var($actorUrl, FILTER_VALIDATE_URL)) {
@@ -83,17 +89,38 @@ class ActivityPubManager
             return $this->userRepository->findOneBy(['username' => $name]);
         }
 
-        $user = $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
+        $actor = $this->apHttpClient->getActorObject($actorUrl);
 
-        if (!$user) {
-            $user = $this->createUser($actorUrl);
-        } else {
-            if (!$user->apFetchedAt || $user->apFetchedAt->modify('+1 hour') < (new \DateTime())) {
-                $this->bus->dispatch(new UpdateActorMessage($user->apProfileId));
+        if ('Person' === $actor['type']) {
+            // User
+            $user = $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
+            if (!$user) {
+                $user = $this->createUser($actorUrl);
+            } else {
+                if (!$user->apFetchedAt || $user->apFetchedAt->modify('+1 hour') < (new \DateTime())) {
+                    $this->bus->dispatch(new UpdateActorMessage($user->apProfileId));
+                }
             }
+
+            return $user;
         }
 
-        return $user;
+        // Magazine
+        if ('Group' === $actor['type']) {
+            // User
+            $magazine = $this->magazineRepository->findOneBy(['apProfileId' => $actorUrl]);
+            if (!$magazine) {
+                $magazine = $this->createMagazine($actorUrl);
+            } else {
+                if (!$magazine->apFetchedAt || $magazine->apFetchedAt->modify('+1 hour') < (new \DateTime())) {
+                    $this->bus->dispatch(new UpdateActorMessage($magazine->apProfileId));
+                }
+            }
+
+            return $magazine;
+        }
+
+        return null;
     }
 
     public function webfinger(string $id): WebFinger
@@ -207,7 +234,8 @@ class ActivityPubManager
         return null;
     }
 
-    public function handleExternalImages(array $attachment): ?array {
+    public function handleExternalImages(array $attachment): ?array
+    {
         $images = array_filter(
             $attachment,
             fn($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
@@ -215,7 +243,7 @@ class ActivityPubManager
 
         array_shift($images);
 
-        if(count($images)) {
+        if (count($images)) {
             return array_map(fn($val) => (new ImageDto())->create(
                 $val['url'],
                 $val['mediaType'],
@@ -226,13 +254,14 @@ class ActivityPubManager
         return null;
     }
 
-    public function handleExternalVideos(array $attachment): ?array {
+    public function handleExternalVideos(array $attachment): ?array
+    {
         $videos = array_filter(
             $attachment,
             fn($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
         );
 
-        if(count($videos)) {
+        if (count($videos)) {
             return array_map(fn($val) => (new VideoDto())->create(
                 $val['url'],
                 $val['mediaType'],
@@ -246,15 +275,13 @@ class ActivityPubManager
     private function createUser(string $actorUrl): User
     {
         $webfinger = $this->webfinger($actorUrl);
-        $user = $this->userManager->create(
+        $this->userManager->create(
             $this->userFactory->createDtoFromAp($actorUrl, $webfinger->getHandle()),
             false,
             false
         );
 
-        $this->updateUser($actorUrl);
-
-        return $user;
+        return $this->updateUser($actorUrl);
     }
 
     public function updateUser(string $actorUrl): User
@@ -293,5 +320,50 @@ class ActivityPubManager
         $this->entityManager->flush();
 
         return $user;
+    }
+
+    private function createMagazine(string $actorUrl): Magazine
+    {
+        $webfinger = $this->webfinger($actorUrl);
+        $this->magazineManager->create(
+            $this->magazineFactory->createDtoFromAp($actorUrl, $webfinger->getHandle()),
+            $this->userRepository->findAdmin(),
+            false
+        );
+
+        return $this->updateMagazine($actorUrl);
+    }
+
+    private function updateMagazine(string $actorUrl): Magazine
+    {
+        $magazine = $this->magazineRepository->findOneBy(['apProfileId' => $actorUrl]);
+        $actor = $this->apHttpClient->getActorObject($actorUrl);
+
+        if (isset($actor['summary'])) {
+            $converter = new HtmlConverter(['strip_tags' => true]);
+            $magazine->description = stripslashes($converter->convert($actor['summary']));
+        }
+
+        if (isset($actor['icon'])) {
+            $newImage = $this->handleImages([$actor['icon']]);
+            if ($magazine->cover && $newImage !== $magazine->cover) {
+                $this->bus->dispatch(new DeleteImageMessage($magazine->cover->filePath));
+            }
+            $magazine->cover = $newImage;
+        }
+
+        if ($actor['preferredUsername']) {
+            $magazine->title = $actor['preferredUsername'];
+        }
+
+        $magazine->apFollowersUrl = $actor['followers'] ?? null;
+        $magazine->apPreferredUsername = $actor['preferredUsername'] ?? null;
+        $magazine->apDiscoverable = $actor['discoverable'] ?? null;
+        $magazine->apPublicUrl = $actor['url'] ?? $actorUrl;
+        $magazine->apFetchedAt = new \DateTime();
+
+        $this->entityManager->flush();
+
+        return $magazine;
     }
 }

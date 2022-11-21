@@ -35,6 +35,8 @@ class MagazineDto
     public bool $isAdult = false;
     public ?Collection $badges = null;
     public ?string $ip = null;
+    public ?string $apId = null;
+    public ?string $apProfileId = null;
     private ?int $id = null;
 
     public function getId(): ?int
