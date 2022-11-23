@@ -52,7 +52,13 @@ class EntryItemDataProviderTest extends ApiTestCase
                 'username' => 'JohnDoe',
                 'avatar'   => null,
             ],
-            'image'      => null, // @todo
+            'image'      => [
+                '@id'       => '/api/images/'.$entry->image->getId(),
+                '@type'     => 'image',
+                'filePath'  => $entry->image->filePath,
+                'width'     => 1280,
+                'height'    => 1280
+            ],
             'domain'     => [
                 '@id'        => '/api/domains/'.$entry->domain->getId(),
                 '@type'      => 'domain',
@@ -60,8 +66,8 @@ class EntryItemDataProviderTest extends ApiTestCase
                 'entryCount' => 3,
             ],
             'title'      => 'test1',
-            'body'       => null,
             'url'        => 'https://karab.in/',
+            'body'       => null,
             'comments'   => 1,
             'uv'         => 1,
             'dv'         => 1,

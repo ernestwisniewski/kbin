@@ -20,12 +20,12 @@ class FrontControllerTest extends WebTestCase
 
         $crawler = $client->click($crawler->filter('.kbin-entry-title-domain')->selectLink('karab.in')->link());
 
-        $this->assertSelectorTextContains('.kbin-nav-navbar', '/d/karab.in');
+        $this->assertSelectorTextContains('.kbin-container .kbin-title', 'karab.in');
         $this->assertEquals(2, $crawler->filter('.kbin-entry-title-domain')->count());
 
         $crawler = $client->request('GET', '/d/google.pl/najnowsze');
 
-        $this->assertSelectorTextContains('.kbin-nav-navbar', '/d/google.pl');
+        $this->assertSelectorTextContains('.kbin-container .kbin-title', 'google.pl');
         $this->assertEquals(1, $crawler->filter('.kbin-entry-title-domain')->count());
     }
 

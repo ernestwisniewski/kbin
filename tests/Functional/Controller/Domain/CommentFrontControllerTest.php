@@ -20,7 +20,7 @@ class CommentFrontControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('.kbin-comment-content', 'comment');
 
-        $this->assertSelectorTextContains('.kbin-nav-navbar', '/d/karab.in');
+        $this->assertSelectorTextContains('.kbin-container .kbin-title', 'karab.in');
         $this->assertEquals(2, $crawler->filter('.kbin-comment-content')->count());
     }
 }

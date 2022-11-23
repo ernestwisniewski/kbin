@@ -116,7 +116,7 @@ class AjaxControllerTest extends WebTestCase
 
         (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $actor);
 
-        $this->createEntry('tets', $this->getMagazineByName('acme'), $owner);
+        $this->createEntry('test', $this->getMagazineByName('acme'), $owner);
         $entry = $this->createEntry('test', $this->getMagazineByName('acme'), $actor);
 
         $comment = $this->createEntryComment('test', $entry, $owner);

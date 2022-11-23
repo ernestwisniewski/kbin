@@ -19,6 +19,6 @@ trait NotificationTrait
                     return !in_array($val, $subs);
                 }
             )
-        ));
+        ), SORT_REGULAR);
     }
 }

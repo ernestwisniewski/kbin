@@ -29,8 +29,12 @@ class MentionManager
         return [];
     }
 
-    public function extract(string $val, $type = self::ALL): ?array
+    public function extract(?string $val, $type = self::ALL): ?array
     {
+        if (null === $val) {
+            return null;
+        }
+
         $this->val = $val;
 
         $result = match ($type) {
@@ -97,6 +101,7 @@ class MentionManager
             $result,
             function ($val) {
                 preg_match(RegPatterns::LOCAL_USER, $val, $l);
+
                 return preg_match(RegPatterns::AP_USER, $val) || $val === $l[0] ?? '';
             }
         );

@@ -1,4 +1,4 @@
-<ul class="nav nav-pills mb-1 small">
+<ul class="nav nav-pills mb-1 small kbin-nav">
     <li class="nav-item small">
         <a class="nav-link {{ is_active_route('front_magazine') or is_active_route('entry_single') ? 'active' : '' }}" aria-current="page"
            href="{{ path('front_magazine', {name: magazine.name}) }}">{{ 'threads'|trans }}</a>
