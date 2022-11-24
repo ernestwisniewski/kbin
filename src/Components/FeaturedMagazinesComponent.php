@@ -32,7 +32,7 @@ class FeaturedMagazinesComponent
             $item->expiresAfter($env === 'test' ? 0 : 60);
 
             $magazines = $this->repository->findBy(
-                ['visibility' => VisibilityInterface::VISIBILITY_VISIBLE],
+                ['apId' => null, 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE],
                 ['lastActive' => 'DESC'],
                 28
             );

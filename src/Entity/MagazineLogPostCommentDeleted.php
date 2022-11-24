@@ -12,7 +12,7 @@ class MagazineLogPostCommentDeleted extends MagazineLog
 {
     /**
      * @ORM\ManyToOne(targetEntity="PostComment")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     public ?PostComment $postComment;
 

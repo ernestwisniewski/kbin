@@ -12,7 +12,7 @@ class MagazineLogEntryCommentRestored extends MagazineLog
 {
     /**
      * @ORM\ManyToOne(targetEntity="EntryComment")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     public ?EntryComment $entryComment;
 

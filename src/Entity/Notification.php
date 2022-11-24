@@ -42,7 +42,7 @@ abstract class Notification
     }
 
     /**
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
      */
     public User $user;

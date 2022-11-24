@@ -13,7 +13,7 @@ class MagazineLogBan extends MagazineLog
 {
     /**
      * @ORM\ManyToOne(targetEntity="MagazineBan")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     public ?MagazineBan $ban;
 

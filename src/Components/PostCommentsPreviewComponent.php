@@ -3,6 +3,7 @@
 namespace App\Components;
 
 use App\Entity\Post;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -14,29 +15,46 @@ class PostCommentsPreviewComponent
 {
     public Post $post;
 
-    public function __construct(private Environment $twig, private CacheInterface $cache, private Security $security)
-    {
+    public function __construct(
+        private Environment $twig,
+        private CacheInterface $cache,
+        private Security $security,
+        private RequestStack $requestStack
+    ) {
     }
 
     public function getHtml(): string
     {
         $post = $this->post->getId();
         $user = $this->security->getUser()?->getId();
+        $currentRoute = $this->requestStack->getCurrentRequest()->get('_route') ?? 'front'; // @todo
 
-        return $this->cache->get('preview_post_comment_'.$post.'_'.$user, function (ItemInterface $item) use ($post, $user) {
-            $item->expiresAfter(3600);
-            $item->tag(['post_comments_user_'.$user]);
-            $item->tag(['post_'.$post]);
+        if (str_starts_with($currentRoute, 'user') || str_starts_with($currentRoute, 'search')) {
+            return $this->render();
+        }
 
-            return $this->twig->render(
-                'post/comment/_list.html.twig',
-                [
-                    'post' => $this->post,
-                    'comments' => $this->post->lastActive < (new \DateTime('-4 hours'))
-                        ? $this->post->getBestComments($this->security->getUser())
-                        : $this->post->getLastComments($this->security->getUser()),
-                ]
-            );
-        });
+        return $this->cache->get(
+            'preview_post_comment_'.$post.'_'.$user,
+            function (ItemInterface $item) use ($post, $user) {
+                $item->expiresAfter(3600);
+                $item->tag(['post_comments_user_'.$user]);
+                $item->tag(['post_'.$post]);
+
+                return $this->render();
+            }
+        );
+    }
+
+    private function render(): string
+    {
+        return $this->twig->render(
+            'post/comment/_list.html.twig',
+            [
+                'post' => $this->post,
+                'comments' => $this->post->lastActive < (new \DateTime('-4 hours'))
+                    ? $this->post->getBestComments($this->security->getUser())
+                    : $this->post->getLastComments($this->security->getUser()),
+            ]
+        );
     }
 }

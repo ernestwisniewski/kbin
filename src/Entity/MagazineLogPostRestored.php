@@ -12,7 +12,7 @@ class MagazineLogPostRestored extends MagazineLog
 {
     /**
      * @ORM\ManyToOne(targetEntity="Post")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     public ?Post $post;
 
