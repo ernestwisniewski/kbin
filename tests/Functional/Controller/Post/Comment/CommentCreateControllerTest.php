@@ -17,7 +17,7 @@ class CommentCreateControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-post-meta')->selectLink('odpowiedz')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=post_comment]')->selectButton('Gotowe')->form(
                 [
                     'post_comment[body]' => 'testowy komentarz.',
                 ]

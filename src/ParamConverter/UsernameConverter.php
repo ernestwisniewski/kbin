@@ -23,7 +23,9 @@ class UsernameConverter implements ParamConverterInterface
 
     public function apply(Request $request, ParamConverter $configuration): void
     {
-        $username = $request->attributes->get('username') ?? $request->attributes->get('user');
+        if (!$username = $request->attributes->get('username') ?? $request->attributes->get('user')) {
+            return;
+        }
 
         // @todo case-insensitive
         if (!$user = $this->repository->findOneByUsername($username)) {

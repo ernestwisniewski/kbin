@@ -18,7 +18,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-entry-list .kbin-entry-meta')->selectLink('zgłoś')->link());
 
         $client->submit(
-            $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=report]')->selectButton('Gotowe')->form(
                 [
                     'report[reason]' => 'Przykładowy report',
                 ]
@@ -50,7 +50,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-comment')->selectLink('zgłoś')->link());
 
         $client->submit(
-            $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=report]')->selectButton('Gotowe')->form(
                 [
                     'report[reason]' => 'Przykładowy report',
                 ]
@@ -73,7 +73,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-post')->selectLink('zgłoś')->link());
 
         $client->submit(
-            $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=report]')->selectButton('Gotowe')->form(
                 [
                     'report[reason]' => 'Przykładowy report',
                 ]
@@ -97,7 +97,7 @@ class ReportControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-comment')->selectLink('zgłoś')->link());
 
         $client->submit(
-            $crawler->filter('.kbin-report-page')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=report]')->selectButton('Gotowe')->form(
                 [
                     'report[reason]' => 'Przykładowy report',
                 ]

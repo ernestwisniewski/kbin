@@ -18,7 +18,7 @@ class MessageControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-user-info')->selectLink('Wyślij wiadomość')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=message]')->selectButton('Gotowe')->form(
                 [
                     'message[body]' => 'Testowa wiadomość.',
                 ]
@@ -34,7 +34,7 @@ class MessageControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-user-info')->selectLink('Wyślij wiadomość')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=message]')->selectButton('Gotowe')->form(
                 [
                     'message[body]' => 'Testowa wiadomość2.',
                 ]
@@ -61,7 +61,7 @@ class MessageControllerTest extends WebTestCase
 
         // Reply
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=message]')->selectButton('Gotowe')->form(
                 [
                     'message[body]' => 'Testowa odpowiedź.',
                 ]

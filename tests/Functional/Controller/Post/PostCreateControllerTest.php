@@ -16,7 +16,7 @@ class PostCreateControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/wpisy');
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=post]')->selectButton('Gotowe')->form(
                 [
                     'post[body]' => 'Lorem ipsum',
                 ]

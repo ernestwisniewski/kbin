@@ -18,7 +18,7 @@ class PostEditControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-post-meta')->selectLink('edytuj')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=post]')->selectButton('Gotowe')->form(
                 [
                     'post[body]' => 'zmieniona treść',
                 ]
