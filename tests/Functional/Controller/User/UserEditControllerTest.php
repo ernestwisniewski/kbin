@@ -14,12 +14,12 @@ class UserEditControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->filter('.kbin-profile-btn')->link());
-        $crawler = $client->click($crawler->filter('.kbin-main')->selectLink('Edytuj profil')->link());
+        $crawler = $client->click($crawler->filter('.nav-link')->selectLink('Edytuj profil')->link());
 
         $client->submit(
-            $crawler->filter('button#user_password_submit')->form(
+            $crawler->filter('form[name=user_password]')->selectButton('Gotowe')->form(
                 [
-                    'user_password[plainPassword][first]'  => 'supersecret',
+                    'user_password[plainPassword][first]' => 'supersecret',
                     'user_password[plainPassword][second]' => 'supersecret',
                 ]
             )
@@ -33,7 +33,7 @@ class UserEditControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Zaloguj się')->form(
                 [
-                    'email'    => 'testUser@example.com',
+                    'email' => 'testUser@example.com',
                     'password' => 'supersecret',
                 ]
             )
@@ -50,13 +50,14 @@ class UserEditControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('testUser'));
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->filter('.kbn-login-btn')->link());
-        $crawler = $client->click($crawler->filter('.kbin-main')->selectLink('Edytuj profil')->link());
+        $crawler = $client->click($crawler->filter('.kbin-profile-btn')->link());
+        $crawler = $client->click($crawler->filter('.nav-link')->selectLink('Edytuj profil')->link());
 
         $client->submit(
-            $crawler->filter('button#user_email_submit')->form(
+            $crawler->filter('form[name=user_email]')->selectButton('Gotowe')->form(
                 [
                     'user_email[email]' => 'ernest@karab.in',
+
                 ]
             )
         );
@@ -77,7 +78,7 @@ class UserEditControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Zaloguj się')->form(
                 [
-                    'email'    => 'ernest@karab.in',
+                    'email' => 'ernest@karab.in',
                     'password' => 'secret',
                 ]
             )
@@ -97,7 +98,7 @@ class UserEditControllerTest extends WebTestCase
         $client->submit(
             $crawler->selectButton('Zaloguj się')->form(
                 [
-                    'email'    => 'ernest@karab.in',
+                    'email' => 'ernest@karab.in',
                     'password' => 'secret',
                 ]
             )

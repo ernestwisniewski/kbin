@@ -48,7 +48,7 @@ class RegisterControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-login')->selectLink('Zarejestruj się.')->link());
 
         $client->submit(
-            $crawler->filter('form[name=user_register]')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=user_register]')->selectButton('Zarejestruj się')->form(
                 [
                     'user_register[username]'              => 'Ernest',
                     'user_register[email]'                 => 'ernest@karab.in',

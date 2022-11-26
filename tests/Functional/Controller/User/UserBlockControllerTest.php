@@ -33,21 +33,21 @@ class UserBlockControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/u/JaneDoe');
 
         $client->submit(
-            $crawler->filter('.kbin-entry-info-user .kbin-user-block button')->selectButton('')->form()
+            $crawler->filter('.kbin-user-block button')->selectButton('')->form()
         );
 
         $crawler = $client->followRedirect();
 
         $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-user-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '0');
+        $this->assertSelectorTextContains('.kbin-sub', '0');
 
         $client->submit(
-            $crawler->filter('.kbin-entry-info-user .kbin-user-block button')->selectButton('')->form()
+            $crawler->filter('.kbin-user-block button')->selectButton('')->form()
         );
 
         $crawler = $client->followRedirect();
 
         $this->assertStringContainsString('kbin-block', $crawler->filter('.kbin-user-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '0');
+        $this->assertSelectorTextContains('.kbin-sub', '0');
     }
 }

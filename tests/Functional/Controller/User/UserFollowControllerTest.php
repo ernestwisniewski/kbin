@@ -45,15 +45,15 @@ class UserFollowControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/u/JaneDoe');
 
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '1');
+        $this->assertSelectorTextContains('.kbin-sub', '1');
 
         $client->submit(
-            $crawler->filter('.kbin-entry-info-user .kbin-sub button')->selectButton('obserwuj')->form()
+            $crawler->filter('.kbin-sub button')->selectButton('obserwuj')->form()
         );
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '2');
+        $this->assertSelectorTextContains('.kbin-sub', '2');
 
         $crawler = $client->request('GET', '/sub/najnowsze');
 
@@ -62,12 +62,12 @@ class UserFollowControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/u/JaneDoe');
 
         $client->submit(
-            $crawler->filter('.kbin-entry-info-user .kbin-sub button')->selectButton('obserwuj')->form()
+            $crawler->filter('.kbin-sub button')->selectButton('obserwujesz')->form()
         );
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '1');
+        $this->assertSelectorTextContains('.kbin-sub', '1');
     }
 
     public function testUserCanBlock(): void //@todo
@@ -96,12 +96,12 @@ class UserFollowControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/u/JaneDoe');
 
         $client->submit(
-            $crawler->filter('.kbin-entry-info-user .kbin-user-block button')->selectButton('')->form()
+            $crawler->filter('.kbin-user-block button')->selectButton('')->form()
         );
 
         $crawler = $client->followRedirect();
 
         $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-user-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-entry-info-user .kbin-sub', '0');
+        $this->assertSelectorTextContains('.kbin-sub', '0');
     }
 }
