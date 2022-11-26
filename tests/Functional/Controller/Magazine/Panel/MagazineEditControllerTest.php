@@ -17,7 +17,7 @@ class MagazineEditControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/panel/edytuj');
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=magazine]')->selectButton('Gotowe')->form(
                 [
                     'magazine[title]' => 'Przepisy kuchenne',
                 ]
@@ -43,7 +43,7 @@ class MagazineEditControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/panel/edytuj');
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=magazine]')->selectButton('Gotowe')->form(
                 [
                     'magazine[name]' => 'kuchnia',
                     'magazine[title]' => 'Przepisy kuchenne',

@@ -14,7 +14,7 @@ class MagazineCreateControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/nowyMagazyn');
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=magazine]')->selectButton('Gotowe')->form(
                 [
                     'magazine[name]' => 'acme',
                     'magazine[title]' => 'magazyn polityczny',

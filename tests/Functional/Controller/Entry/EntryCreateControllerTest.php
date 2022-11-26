@@ -16,7 +16,7 @@ class EntryCreateControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/nowy/artykuł');
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_article]')->selectButton('Gotowe')->form(
                 [
                     'entry_article[title]'    => 'example content',
                     'entry_article[body]'     => 'Lorem ipsum',
@@ -45,7 +45,7 @@ class EntryCreateControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/nowy/link');
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_link]')->selectButton('Gotowe')->form(
                 [
                     'entry_link[title]'    => 'example content',
                     'entry_link[url]'      => 'https://example.pl',

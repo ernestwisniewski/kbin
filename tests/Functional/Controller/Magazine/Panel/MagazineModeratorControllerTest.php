@@ -70,7 +70,7 @@ class MagazineModeratorControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('article .kbin-entry-meta-list-item')->selectLink('zbanuj')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=magazine_ban]')->selectButton('Gotowe')->form(
                 [
                     'magazine_ban[reason]'    => 'spam',
                     'magazine_ban[expiredAt]' => (new DateTime('+1 day'))->format('Y-m-d H:m'),

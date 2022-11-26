@@ -16,7 +16,7 @@ class EntryCommentCreateControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId().'/-/komentarze');
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Gotowe')->form(
                 [
                     'entry_comment[body]' => 'example content',
                 ]
@@ -44,7 +44,9 @@ class EntryCommentCreateControllerTest extends WebTestCase
         $comment2 = $this->createEntryComment('komentarz 2', $entry, $user2, $comment1);
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->filter('.kbin-entry-list .kbin-entry-title')->selectLink('testowy wpis')->link());
+        $crawler = $client->click(
+            $crawler->filter('.kbin-entry-list .kbin-entry-title')->selectLink('testowy wpis')->link()
+        );
 
         $this->assertSelectorTextContains('.kbin-comment--top-level', 'komentarz 1');
         $this->assertCount(1, $crawler);
@@ -56,7 +58,7 @@ class EntryCommentCreateControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-comment-level--2')->selectLink('odpowiedz')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Gotowe')->form(
                 [
                     'entry_comment[body]' => 'komentarz poziomu 3',
                 ]

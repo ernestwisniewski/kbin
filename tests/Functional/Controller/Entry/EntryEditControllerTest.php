@@ -19,7 +19,7 @@ class EntryEditControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-entry-meta')->selectLink('edytuj')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_link]')->selectButton('Gotowe')->form(
                 [
                     'entry_link[title]'    => 'zmieniona treść',
                     'entry_link[url]'      => 'https://wp.pl',
@@ -43,7 +43,7 @@ class EntryEditControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_article]')->selectButton('Gotowe')->form(
                 [
                     'entry_article[title]'    => 'zmieniona treść',
                     'entry_article[body]'     => 'zmieniona treść wpisu',
@@ -71,7 +71,7 @@ class EntryEditControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/edytuj");
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_link]')->selectButton('Gotowe')->form(
                 [
                     'entry_link[title]'    => 'zmieniona treść',
                     'entry_link[url]'      => 'https://wp.pl',

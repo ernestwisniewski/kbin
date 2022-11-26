@@ -20,7 +20,7 @@ class EntryCommentEditControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('.kbin-comment-meta-list-item a')->selectLink('edytuj')->link());
 
         $client->submit(
-            $crawler->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Gotowe')->form(
                 [
                     'entry_comment[body]' => 'zmieniona treść',
                 ]
