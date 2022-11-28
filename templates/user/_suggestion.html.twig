@@ -1,0 +1,10 @@
+{% if(users|length) %}
+    <span class="dropdown-toggle visually-hidden" data-bs-toggle="dropdown" aria-expanded="false">
+    </span>
+    <ul id="kbin-suggest" class="dropdown-menu"
+        style="position: absolute; top:90%!important; inset: 0 auto auto 0; margin: 0; transform: translate(110px, 0px);">
+        {% for user in users %}
+            <li><a href="#" data-action="editor#acceptSuggest" class="dropdown-item">{{ user.apId ? user.email : user.username }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}

@@ -14,7 +14,7 @@ use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\PostCommentRepository;
-use App\Service\NotificationManager;
+use App\Repository\UserRepository;
 use App\Service\UserNoteManager;
 use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,13 +39,13 @@ class AjaxController extends AbstractController
 
     public function fetchDuplicates(EntryRepository $repository, Request $request): JsonResponse
     {
-        $url     = json_decode($request->getContent())->url;
+        $url = json_decode($request->getContent())->url;
         $entries = $repository->findBy(['url' => $url]);
 
         return new JsonResponse(
             [
                 'total' => count($entries),
-                'html'  => $this->renderView('entry/_list.html.twig', ['entries' => $entries]),
+                'html' => $this->renderView('entry/_list.html.twig', ['entries' => $entries]),
             ]
         );
     }
@@ -63,8 +63,8 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id'   => $entry->getId(),
-                'html' => $this->renderView('entry/_entry.html.twig', ['entry' => $entry, 'isAjax'=> true]),
+                'id' => $entry->getId(),
+                'html' => $this->renderView('entry/_entry.html.twig', ['entry' => $entry, 'isAjax' => true]),
             ]
         );
     }
@@ -73,15 +73,15 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id'   => $comment->getId(),
+                'id' => $comment->getId(),
                 'html' => $this->renderView(
                     'entry/comment/_comment.html.twig',
                     [
                         'extraClass' => 'kbin-comment',
                         'withParent' => false,
-                        'comment'    => $comment,
-                        'level'      => 1,
-                        'nested'     => false,
+                        'comment' => $comment,
+                        'level' => 1,
+                        'nested' => false,
                     ]
                 ),
             ]
@@ -92,7 +92,7 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id'   => $post->getId(),
+                'id' => $post->getId(),
                 'html' => $this->renderView('post/_post.html.twig', ['post' => $post]),
             ]
         );
@@ -102,15 +102,15 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id'   => $comment->getId(),
+                'id' => $comment->getId(),
                 'html' => $this->renderView(
                     'post/comment/_comment.html.twig',
                     [
                         'extra_classes' => 'kbin-comment',
-                        'with_parent'   => false,
-                        'comment'       => $comment,
-                        'level'         => 1,
-                        'nested'        => false,
+                        'with_parent' => false,
+                        'comment' => $comment,
+                        'level' => 1,
+                        'nested' => false,
                     ]
                 ),
             ]
@@ -119,10 +119,10 @@ class AjaxController extends AbstractController
 
     public function fetchPostComments(Post $post, PostCommentRepository $repository): JsonResponse
     {
-        $criteria             = new PostCommentPageView(1);
-        $criteria->post       = $post;
+        $criteria = new PostCommentPageView(1);
+        $criteria->post = $post;
         $criteria->sortOption = Criteria::SORT_OLD;
-        $criteria->perPage    = 500;
+        $criteria->perPage = 500;
 
         $comments = $repository->findByCriteria($criteria);
 
@@ -158,7 +158,7 @@ class AjaxController extends AbstractController
 
     public function fetchUserPopup(User $user, UserNoteManager $manager): JsonResponse
     {
-        if($this->getUser()) {
+        if ($this->getUser()) {
             $dto = $manager->createDto($this->getUserOrThrow(), $user);
         } else {
             $dto = new UserNoteDto();
@@ -174,10 +174,24 @@ class AjaxController extends AbstractController
         ]);
     }
 
+    public function fetchUsersSuggestions(string $username, Request $request, UserRepository $repository): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'user/_suggestion.html.twig',
+                    [
+                        'users' => $repository->findUsersSuggestions(ltrim($username, '@')),
+                    ]
+                ),
+            ]
+        );
+    }
+
     public function fetchNotificationsCount(User $user, NotificationRepository $repository): JsonResponse
     {
         return new JsonResponse([
-            'count' => $repository->countUnreadNotifications($user)
+            'count' => $repository->countUnreadNotifications($user),
         ]);
     }
 }

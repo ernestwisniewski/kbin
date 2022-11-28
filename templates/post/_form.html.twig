@@ -6,7 +6,7 @@
 
 {{ form_start(form, { 'attr': {'data-controller': 'media editor', class: 'kbin-media mb-5' }}) }}
 <div class="kbin-post-create-form my-3">
-    <div class="mb-3">
+    <div class="mb-3 position-relative">
         {{ form_label(form.body, 'post'|trans) }}
         {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
     </div>

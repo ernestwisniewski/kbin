@@ -10,7 +10,7 @@
 {{ form_start(form, { 'attr': {'data-controller': 'media editor', 'data-editor-focus-value': focus, class: 'kbin-media' }}) }}
 <div class="col-xs-12 clearfix">
     <div class="kbin-comment-create-form my-3">
-        <div class="mb-3">
+        <div class="mb-3 position-relative">
             {{ form_label(form.body, 'comment'|trans) }}
             {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
         </div>

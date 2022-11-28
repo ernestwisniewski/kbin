@@ -63,3 +63,9 @@ ajax_fetch_user_notifications_count:
   defaults: { _format: json }
   path: /ajax/fetch_user_notifications_count/{username}
   methods: [ GET ]
+
+ajax_fetch_users_suggestions:
+  controller: App\Controller\AjaxController::fetchUsersSuggestions
+  defaults: { _format: json }
+  path: /ajax/fetch_users_suggestions/{username}
+  methods: [ GET ]

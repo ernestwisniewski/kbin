@@ -9,6 +9,7 @@ fos_js_routing:
             'ajax_fetch_post_comment',
             'ajax_fetch_post_comments',
             'ajax_fetch_online',
+            'ajax_fetch_users_suggestions',
             'ajax_fetch_user_popup',
             'ajax_fetch_user_notifications_count',
             'cardano_estimate_fee'

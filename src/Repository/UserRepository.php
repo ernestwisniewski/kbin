@@ -332,4 +332,18 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getQuery()
             ->getResult()[0];
     }
+
+    public function findUsersSuggestions(string $query): array
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb
+            ->andWhere($qb->expr()->like('u.username', ':query'))
+            ->orWhere($qb->expr()->like('u.email', ':query'))
+            ->andWhere('u.isBanned = false')
+            ->setParameters(['query' => "{$query}%"])
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
 }
