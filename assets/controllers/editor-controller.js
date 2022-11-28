@@ -36,8 +36,6 @@ export default class extends Controller {
         this.handleFocus();
         this.handleUserAutocomplete();
         this.handleTagAutocomplete();
-
-        return simplemde;
     }
 
     addMention(replyTo) {
@@ -73,7 +71,6 @@ export default class extends Controller {
         try {
             if (this.element.closest('article')) {
                 this.addMention(
-                    this.editor,
                     this.element.closest('article').getElementsByClassName('kbin-user')[0].innerHTML.trim()
                 )
             } else if (this.element.closest('blockquote')) {
@@ -81,7 +78,6 @@ export default class extends Controller {
 
                 if (!isEntryComment) {
                     this.addMention(
-                        this.editor,
                         this.element.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim()
                     )
                 }
