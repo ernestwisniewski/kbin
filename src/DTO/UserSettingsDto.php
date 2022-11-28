@@ -11,7 +11,7 @@ class UserSettingsDto
         public bool $notifyOnNewPost = false,
         public bool $notifyOnNewPostReply = false,
         public bool $notifyOnNewPostCommentReply = true,
-        public bool $darkTheme = false,
+        public bool $darkTheme = true,
         public bool $turboMode = false,
         public bool $hideImages = false,
         public bool $hideAdult = true,

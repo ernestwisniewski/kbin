@@ -63,9 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      */
     public int $followersCount = 0;
     /**
-     * @ORM\Column(type="string", options={"default": User::THEME_LIGHT})
+     * @ORM\Column(type="string", options={"default": User::THEME_DARK})
      */
-    public string $theme = self::THEME_LIGHT;
+    public string $theme = self::THEME_DARK;
     /**
      * @ORM\Column(type="string", options={"default": User::MODE_NORMAL})
      */
