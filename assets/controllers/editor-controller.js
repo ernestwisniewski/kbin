@@ -3,6 +3,7 @@ import SimpleMDE from 'simplemde/dist/simplemde.min';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
 import bootstrap from "bootstrap/dist/js/bootstrap.min";
+import {trim} from "core-js/internals/string-trim";
 
 export default class extends Controller {
     static values = {
@@ -104,11 +105,11 @@ export default class extends Controller {
     handleUserAutocomplete() {
         let self = this;
         this.editor.codemirror.on("change", function (e) {
-            self.lastWord = self.editor.value().split(' ').pop();
-            let suggestion = document.getElementById('kbin-suggest');
+            self.lastWord = trim(self.editor.value().split(' ').pop());
 
-            if (suggestion) {
-                suggestion.remove();
+            let list = self.element.getElementsByClassName('kbin-suggests');
+            for (let item of list) {
+                item.remove();
             }
 
             if (self.lastWord.startsWith('@')) {
@@ -141,7 +142,9 @@ export default class extends Controller {
 
     acceptSuggest(e) {
         e.preventDefault();
-        this.editor.value(this.editor.value().replace(this.lastWord, '@' + e.target.innerHTML + ' '));
+
+        this.editor.value(this.editor.value().replace(new RegExp(this.lastWord + "\\b", 'ig'), '@' + e.target.innerHTML + ' '));
+        this.editor.element.focus(); // @todo
     }
 
     handleTagAutocomplete() {
