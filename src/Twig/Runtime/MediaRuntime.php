@@ -8,13 +8,12 @@ use Twig\Extension\RuntimeExtensionInterface;
 class MediaRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
-        private RequestStack $requestStack,
-        private string $uploadedAssetsBaseUrl
+        private string $storageUrl
     ) {
     }
 
     public function getPublicPath(string $path): string
     {
-        return $this->requestStack->getCurrentRequest()->getBasePath().$this->uploadedAssetsBaseUrl.'/'.$path;
+        return 'https://media.karab.in/'.$path;
     }
 }

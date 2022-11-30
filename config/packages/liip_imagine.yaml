@@ -1,58 +1,57 @@
 liip_imagine:
-    driver: "gd"
-    webp:
-        generate: true
+  driver: "gd"
+  webp:
+    generate: true
 
-    filter_sets:
-        entry_thumb:
-            quality: 90
-            filters:
-                thumbnail: { size: [ 200, 300 ], mode: inset }
-        avatar_thumb:
-            quality: 90
-            filters:
-                thumbnail: { size: [ 100, 100 ], mode: fixed }
-        post_thumb:
-            quality: 90
-            filters:
-                thumbnail: { size: [ 600, 500 ], mode: inset }
-        user_cover:
-            quality: 90
-            filters:
-                thumbnail: { size: [ 1500, 500 ], mode: fixed }
+  filter_sets:
+    entry_thumb:
+      quality: 90
+      filters:
+        thumbnail: { size: [ 200, 300 ], mode: inset }
+    avatar_thumb:
+      quality: 90
+      filters:
+        thumbnail: { size: [ 100, 100 ], mode: fixed }
+    post_thumb:
+      quality: 90
+      filters:
+        thumbnail: { size: [ 600, 500 ], mode: inset }
+    user_cover:
+      quality: 90
+      filters:
+        thumbnail: { size: [ 1500, 500 ], mode: fixed }
 
-    loaders:
-        local_images:
-            flysystem:
-                filesystem_service: League\Flysystem\Filesystem
+  loaders:
+    local_images:
+      flysystem:
+        filesystem_service: League\Flysystem\Filesystem
 
-    data_loader: local_images
+  data_loader: local_images
 
-    resolvers:
-        entry_thumb:
-            flysystem:
-                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
-                root_url:           '%uploads_base_url%'
-                cache_prefix:       media/cache
-                visibility:         public
+  resolvers:
+    default:
+      flysystem:
+        filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+        root_url: '%kbin_storage_url%'
+        cache_prefix: cache
+        visibility: private
 
-        avatar_thumb:
-            flysystem:
-                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
-                root_url: '%uploads_base_url%'
-                cache_prefix: media/cache
-                visibility: public
+    entry_thumb:
+      flysystem:
+        filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+        root_url: '%uploads_base_url%'
 
-        post_thumb:
-            flysystem:
-                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
-                root_url: '%uploads_base_url%'
-                cache_prefix: media/cache
-                visibility: public
+    avatar_thumb:
+      flysystem:
+        filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+        root_url: '%uploads_base_url%'
 
-        user_cover:
-            flysystem:
-                filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
-                root_url: '%uploads_base_url%'
-                cache_prefix: media/cache
-                visibility: public
+    post_thumb:
+      flysystem:
+        filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+        root_url: '%uploads_base_url%'
+
+    user_cover:
+      flysystem:
+        filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+        root_url: '%uploads_base_url%'

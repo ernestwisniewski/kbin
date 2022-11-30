@@ -16,6 +16,13 @@ parameters:
   kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
   kbin_registrations_enabled: '%env(KBIN_REGISTRATIONS_ENABLED)%'
   kbin_ap_route_condition: 'request.getAcceptableContentTypes() and request.getAcceptableContentTypes()[0] in ["application/activity+json", "application/ld+json"]'
+  kbin_storage_url: '%env(KBIN_STORAGE_URL)%'
+
+  amazon.s3.key:     '%env(S3_KEY)%'
+  amazon.s3.secret:  '%env(S3_SECRET)%'
+  amazon.s3.bucket:  '%env(S3_BUCKET)%'
+  amazon.s3.region:  '%env(S3_REGION)%'
+  amazon.s3.version: '%env(S3_VERSION)%'
 
   router.request_context.host: '%env(KBIN_DOMAIN)%'
   router.request_context.scheme: https
@@ -30,7 +37,7 @@ parameters:
   username_regex: '\w{2,25}|!deleted\d+'
 
   uploads_dir_name: 'media'
-  uploads_base_url: 'https://%env(KBIN_DOMAIN)%/%uploads_dir_name%'
+  uploads_base_url: '/'
 
   mercure_public_url: '%env(MERCURE_PUBLIC_URL)%'
   mercure_subscriptions_token: '%env(MERCURE_JWT_SECRET)%'
@@ -63,6 +70,19 @@ services:
       $mercurePublicUrl: '%mercure_public_url%'
       $mercureSubscriptionsToken: '%mercure_subscriptions_token%'
       $kbinApiItemsPerPage: '%kbin_api_items_per_page%'
+      $storageUrl: '%kbin_storage_url%'
+
+  kbin.s3_client:
+    class: Aws\S3\S3Client
+    arguments:
+      -
+        version: '%amazon.s3.version%'
+        region: '%amazon.s3.region%'
+        credentials:
+          key: '%amazon.s3.key%'
+          secret: '%amazon.s3.secret%'
+        proxies: ['https://media.karab.in']
+        cache: true
 
   _instanceof:
     League\CommonMark\Inline\Parser\InlineParserInterface:

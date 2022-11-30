@@ -7,7 +7,6 @@ use App\Exception\ImageDownloadTooLargeException;
 use Exception;
 use League\Flysystem\FilesystemOperator;
 use RuntimeException;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Mime\MimeTypesInterface;
 use Symfony\Component\Validator\Constraints\Image;
@@ -22,12 +21,11 @@ class ImageManager
     const MAX_IMAGE_BYTES = 12000000;
 
     public function __construct(
+        private string $storageUrl,
         private FilesystemOperator $publicUploadsFilesystem,
         private HttpClientInterface $httpClient,
         private MimeTypesInterface $mimeTypeGuesser,
         private ValidatorInterface $validator,
-        private KernelInterface $kernel,
-        private SettingsManager $settings
     ) {
     }
 
@@ -160,7 +158,7 @@ class ImageManager
 
     public function getPath(\App\Entity\Image $image): string
     {
-        return $this->kernel->getProjectDir().'/public/media/'.$image->filePath; // @todo media url
+        return $this->publicUploadsFilesystem->read($image->filePath);
     }
 
     public function getUrl(?\App\Entity\Image $image): ?string
@@ -168,8 +166,8 @@ class ImageManager
         if (!$image) {
             return null;
         }
-        
-        return 'https://'.$this->settings->get('KBIN_DOMAIN').'/media/'.$image->filePath;
+
+        return $this->storageUrl.'/'.$image->filePath;
     }
 
     public function getMimetype(\App\Entity\Image $image): string
