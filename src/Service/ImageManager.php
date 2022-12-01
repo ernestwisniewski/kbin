@@ -173,7 +173,7 @@ class ImageManager
     public function getMimetype(\App\Entity\Image $image): string
     {
         try {
-            return $this->mimeTypeGuesser->guessMimeType($this->getPath($image));
+            return $this->publicUploadsFilesystem->mimeType($image->filePath);
         } catch (\Exception $e) {
             return 'none';
         }

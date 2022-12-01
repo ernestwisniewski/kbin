@@ -49,10 +49,10 @@
 {% endif %}
 
 <ul class="list-group list-group-flush d-lg-none mb-5">
-    <li class="list-group-item text-center {{ is_active_route('magazine_list_all') ? 'active' : '' }}">
+    <li class="list-group-item {{ is_active_route('magazine_list_all') ? 'active' : '' }}">
         <a class="stretched-link" href="{{ path('magazine_list_all') }}">{{ 'topbar.all_magazines'|trans }}</a>
     </li>
-    <li class="list-group-item text-center {{ is_route_start_with('people_') ? 'active' : '' }}">
+    <li class="list-group-item {{ is_route_start_with('people_') ? 'active' : '' }}">
         <a class="stretched-link" href="{{ path('people_front') }}">{{ 'people'|trans }}</a>
     </li>
 </ul>
