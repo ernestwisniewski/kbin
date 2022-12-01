@@ -82,7 +82,22 @@ services:
           key: '%amazon.s3.key%'
           secret: '%amazon.s3.secret%'
         proxies: ['https://media.karab.in']
-        cache: true
+
+#  kbin.imagine.cache.resolver.amazon_s3:
+#    class: Liip\ImagineBundle\Imagine\Cache\Resolver\AwsS3Resolver
+#    arguments:
+#      - "@kbin.s3_client"
+#      - '%amazon.s3.bucket%'
+#      - 'private'
+#
+#  kbin.imagine.psr_cache.resolver.amazon_s3.cache:
+#    class: Liip\ImagineBundle\Imagine\Cache\Resolver\PsrCacheResolver
+#    arguments:
+#      - "@cache.app"
+#      - "@kbin.imagine.cache.resolver.amazon_s3"
+#      - { prefix: "amazon_s3" }
+#    tags:
+#      - { name: "liip_imagine.cache.resolver", resolver: "cached_s3_client" }
 
   _instanceof:
     League\CommonMark\Inline\Parser\InlineParserInterface:

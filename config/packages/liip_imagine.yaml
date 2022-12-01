@@ -1,4 +1,5 @@
 liip_imagine:
+#  cache: cached_s3_client
   driver: "gd"
   webp:
     generate: true
@@ -29,12 +30,12 @@ liip_imagine:
   data_loader: local_images
 
   resolvers:
-    default:
-      flysystem:
-        filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
-        root_url: '%kbin_storage_url%'
-        cache_prefix: cache
-        visibility: private
+#    default:
+#      flysystem:
+#        filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
+#        root_url: '%kbin_storage_url%'
+#        cache_prefix: cache
+#        visibility: private
 
     entry_thumb:
       flysystem:
