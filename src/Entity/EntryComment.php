@@ -82,13 +82,9 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      */
     public ?string $ip = null;
     /**
-     * @ORM\Column(type="array", nullable=true, options={"default" : null})
-     */
-    public ?array $tags = null;
-    /**
      * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb"=true})
      */
-    public ?array $tagsTmp = null;
+    public ?array $tags = null;
     /**
      * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
      */

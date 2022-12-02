@@ -188,8 +188,6 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
     {
         return $this->createQueryBuilder('c')
             ->where('c.tags IS NOT NULL')
-            ->andWhere('c.tags != :empty')
-            ->setParameters(['empty' => 'N;'])
             ->getQuery()
             ->getResult();
     }

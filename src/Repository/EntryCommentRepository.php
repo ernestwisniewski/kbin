@@ -128,8 +128,7 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         }
 
         if ($criteria->tag) {
-            $qb->andWhere($qb->expr()->like('c.tags', ':tag'))
-                ->setParameter('tag', "%\"{$criteria->tag}\"%");
+            $qb->andWhere("JSONB_CONTAINS(c.tags, '\"".$criteria->tag."\"') = true");
         }
 
         $qb->join('c.entry', 'ce');
@@ -285,8 +284,6 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
     {
         return $this->createQueryBuilder('c')
             ->where('c.tags IS NOT NULL')
-            ->andWhere('c.tags != :empty')
-            ->setParameters(['empty' => 'N;'])
             ->getQuery()
             ->getResult();
     }

@@ -115,8 +115,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         if ($criteria->tag) {
-            $qb->andWhere($qb->expr()->like('p.tags', ':tag'))
-                ->setParameter('tag', "%\"{$criteria->tag}\"%");
+            $qb->andWhere("JSONB_CONTAINS(p.tags, '\"".$criteria->tag."\"') = true");
         }
 
         if ($criteria->subscribed) {
@@ -237,11 +236,12 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
     {
         $qb = $this->createQueryBuilder('p');
 
-        return $qb->where($qb->expr()->like('p.tags', ':tag'))
+        return $qb
+            ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
             ->andWhere('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
             ->orderBy('p.createdAt', 'DESC')
-            ->setParameters(['tag' => "%\"{$tag}\"%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
@@ -338,8 +338,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
     {
         return $this->createQueryBuilder('p')
             ->where('p.tags IS NOT NULL')
-            ->andWhere('p.tags != :empty')
-            ->setParameters(['empty' => 'N;'])
             ->getQuery()
             ->getResult();
     }

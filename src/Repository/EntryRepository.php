@@ -135,8 +135,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
 
         if ($criteria->tag) {
-            $qb->andWhere($qb->expr()->like('e.tags', ':tag'))
-                ->setParameter('tag', "%\"{$criteria->tag}\"%");
+            $qb->andWhere("JSONB_CONTAINS(e.tags, '\"".$criteria->tag."\"') = true");
         }
 
         if ($criteria->domain) {
@@ -276,10 +275,11 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     {
         $qb = $this->createQueryBuilder('e');
 
-        return $qb->where($qb->expr()->like('e.tags', ':tag'))
+        return $qb
+            ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
             ->andWhere('e.visibility = :visibility')
             ->orderBy('e.createdAt', 'DESC')
-            ->setParameters(['tag' => "%\"{$tag}\"%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
@@ -320,8 +320,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     {
         return $this->createQueryBuilder('e')
             ->where('e.tags IS NOT NULL')
-            ->andWhere('e.tags != :empty')
-            ->setParameters(['empty' => 'N;'])
             ->getQuery()
             ->getResult();
     }

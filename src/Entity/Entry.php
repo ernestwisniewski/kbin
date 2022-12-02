@@ -133,13 +133,9 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      */
     public int $adaAmount = 0;
     /**
-     * @ORM\Column(type="array", nullable=true, options={"default" : null})
-     */
-    public ?array $tags = null;
-    /**
      * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb"=true})
      */
-    public ?array $tagsTmp = null;
+    public ?array $tags = null;
     /**
      * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
      */
