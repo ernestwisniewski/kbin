@@ -8,6 +8,7 @@ use App\Entity\Contracts\DomainInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
+use App\Entity\Contracts\TagInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\ActivityPubActivityTrait;
@@ -29,7 +30,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, ActivityPubActivityInterface
+class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use RankingTrait;
@@ -135,6 +136,10 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
      * @ORM\Column(type="array", nullable=true, options={"default" : null})
      */
     public ?array $tags = null;
+    /**
+     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb"=true})
+     */
+    public ?array $tagsTmp = null;
     /**
      * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
      */

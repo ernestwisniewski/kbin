@@ -49,7 +49,7 @@ class FavouritesListShortComponent
             [
                 'magazine' => $this->subject->magazine,
                 'subject' => $this->subject,
-                'favourites' => $this->subject->favourites,
+                'favourites' => $this->subject->favourites->slice(0, 5),
                 'url' => $this->url,
                 'more' => $this->more,
             ]

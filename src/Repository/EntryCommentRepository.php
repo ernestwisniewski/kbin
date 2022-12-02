@@ -11,6 +11,7 @@ use App\Entity\MagazineSubscription;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr\Join;
@@ -29,7 +30,7 @@ use Symfony\Component\Security\Core\Security;
  * @method EntryComment[]    findAll()
  * @method EntryComment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EntryCommentRepository extends ServiceEntityRepository
+class EntryCommentRepository extends ServiceEntityRepository implements TagRepositoryInterface
 {
     const SORT_DEFAULT = 'active';
     const PER_PAGE = 15;
@@ -276,6 +277,16 @@ class EntryCommentRepository extends ServiceEntityRepository
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_SOFT_DELETED, 'user' => $user])
             ->orderBy('c.id', 'DESC')
             ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWithTags(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.tags IS NOT NULL')
+            ->andWhere('c.tags != :empty')
+            ->setParameters(['empty' => 'N;'])
             ->getQuery()
             ->getResult();
     }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\ReportInterface;
+use App\Entity\Contracts\TagInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\ActivityPubActivityTrait;
@@ -25,7 +26,7 @@ use Webmozart\Assert\Assert;
 /**
  * @ORM\Entity(repositoryClass=EntryCommentRepository::class)
  */
-class EntryComment implements VoteInterface, VisibilityInterface, ReportInterface, FavouriteInterface, ActivityPubActivityInterface
+class EntryComment implements VoteInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use VisibilityTrait;
@@ -84,6 +85,10 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
      * @ORM\Column(type="array", nullable=true, options={"default" : null})
      */
     public ?array $tags = null;
+    /**
+     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb"=true})
+     */
+    public ?array $tagsTmp = null;
     /**
      * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
      */

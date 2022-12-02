@@ -14,6 +14,7 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
+use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
@@ -31,7 +32,7 @@ use Symfony\Component\Security\Core\Security;
  * @method Entry[]    findAll()
  * @method Entry[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EntryRepository extends ServiceEntityRepository
+class EntryRepository extends ServiceEntityRepository implements TagRepositoryInterface
 {
     const SORT_DEFAULT = 'hot';
     const TIME_DEFAULT = Criteria::TIME_ALL;
@@ -311,6 +312,16 @@ class EntryRepository extends ServiceEntityRepository
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWithTags(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.tags IS NOT NULL')
+            ->andWhere('e.tags != :empty')
+            ->setParameters(['empty' => 'N;'])
             ->getQuery()
             ->getResult();
     }

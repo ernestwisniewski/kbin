@@ -7,6 +7,7 @@ use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\UserFollow;
 use App\PageView\PostCommentPageView;
+use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr\Join;
@@ -26,7 +27,7 @@ use Symfony\Component\Security\Core\Security;
  * @method PostComment[]    findAll()
  * @method PostComment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PostCommentRepository extends ServiceEntityRepository
+class PostCommentRepository extends ServiceEntityRepository implements TagRepositoryInterface
 {
     const PER_PAGE = 15;
 
@@ -179,6 +180,16 @@ class PostCommentRepository extends ServiceEntityRepository
             ->andWhere('c.visibility = :visibility')
             ->orderBy('c.createdAt', 'DESC')
             ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWithTags(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.tags IS NOT NULL')
+            ->andWhere('c.tags != :empty')
+            ->setParameters(['empty' => 'N;'])
             ->getQuery()
             ->getResult();
     }

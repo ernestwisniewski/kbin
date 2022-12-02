@@ -11,6 +11,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
@@ -28,7 +29,7 @@ use Symfony\Component\Security\Core\Security;
  * @method Post[]    findAll()
  * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PostRepository extends ServiceEntityRepository
+class PostRepository extends ServiceEntityRepository implements TagRepositoryInterface
 {
     const PER_PAGE = 15;
     const SORT_DEFAULT = 'hot';
@@ -329,6 +330,16 @@ class PostRepository extends ServiceEntityRepository
                 ['magazine' => $magazine, 'emptyString' => '', 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
             )
             ->setMaxResults(100)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWithTags(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.tags IS NOT NULL')
+            ->andWhere('p.tags != :empty')
+            ->setParameters(['empty' => 'N;'])
             ->getQuery()
             ->getResult();
     }
