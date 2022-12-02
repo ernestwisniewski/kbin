@@ -237,7 +237,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         $qb = $this->createQueryBuilder('p');
 
         return $qb
-            ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
+            ->andWhere("JSONB_CONTAINS(p.tags, '\"".$tag."\"') = true")
             ->andWhere('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
             ->orderBy('p.createdAt', 'DESC')
