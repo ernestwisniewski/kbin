@@ -13,13 +13,15 @@ trait RankingTrait
 
     public function updateRanking(): void
     {
-        $score          = $this->getScore() + $this->favouriteCount;
+        $score          = $this->getScore() + intval($this->favouriteCount * .5);
         $scoreAdvantage = $score * self::NETSCORE_MULTIPLIER;
 
         if ($score > self::DOWNVOTED_CUTOFF) {
             $commentAdvantage = $this->getCommentCount() * self::COMMENT_MULTIPLIER;
+            $commentAdvantage += $this->getUniqueCommentCount() * self::COMMENT_UNIQUE_MULTIPLIER;
         } else {
             $commentAdvantage = $this->getCommentCount() * self::COMMENT_DOWNVOTED_MULTIPLIER;
+            $commentAdvantage += $this->getUniqueCommentCount() * self::COMMENT_DOWNVOTED_MULTIPLIER;
         }
 
         $advantage = max(min($scoreAdvantage + $commentAdvantage, self::MAX_ADVANTAGE), -self::MAX_PENALTY);

@@ -384,6 +384,20 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         return $this->commentCount;
     }
 
+    public function getUniqueCommentCount(): int
+    {
+        $users = [];
+        $count = 0;
+        foreach ($this->comments as $comment) {
+            if (!in_array($comment->user, $users)) {
+                $users[] = $comment->user;
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
     public function getScore(): int
     {
         return $this->score;

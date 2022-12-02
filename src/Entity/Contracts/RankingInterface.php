@@ -7,8 +7,9 @@ use DateTimeImmutable;
 interface RankingInterface
 {
     const DOWNVOTED_CUTOFF = -5;
-    const NETSCORE_MULTIPLIER = 1800;
-    const COMMENT_MULTIPLIER = 5000;
+    const NETSCORE_MULTIPLIER = 4500;
+    const COMMENT_MULTIPLIER = 1500;
+    const COMMENT_UNIQUE_MULTIPLIER = 5000;
     const COMMENT_DOWNVOTED_MULTIPLIER = 500;
     const MAX_ADVANTAGE = 86400;
     const MAX_PENALTY = 43200;
@@ -20,6 +21,8 @@ interface RankingInterface
     public function getRanking(): int;
 
     public function getCommentCount(): int;
+
+    public function getUniqueCommentCount(): int;
 
     public function getScore(): int;
 
