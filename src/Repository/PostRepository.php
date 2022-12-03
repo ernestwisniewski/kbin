@@ -297,10 +297,9 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->andWhere('m.name = :magazine')
             ->andWhere('p.apId IS NOT NULL')
             ->andWhere('p.visibility = :visibility')
-            ->andWhere('p.tags != :empty')
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(
-                ['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'empty' => 'N;', 'magazine' => 'random']
+                ['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'magazine' => 'random']
             )
             ->getQuery()
             ->getResult();
