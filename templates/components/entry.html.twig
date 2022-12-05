@@ -23,7 +23,7 @@
                            target="_blank" rel="nofollow noopener noreferrer">
                             <img width="200" class="lazy kbin-entry-thumb"
                                  src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                                 alt="{{ this.entry.title }}"/>
+                                 alt="{{ this.entry.image.altText ?? this.entry.title }}"/>
                         </a>
                     </div>
                 {% else %}
@@ -33,7 +33,7 @@
                            data-action="click->content-popup#open">
                             <img width="200" class="lazy kbin-entry-thumb"
                                  src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                                 alt="{{ this.entry.title }}"/>
+                                 alt="{{ this.entry.image.altText ?? this.entry.title }}"/>
                         </a>
                     </div>
                 {% endif %}

@@ -62,6 +62,9 @@ class EntryManager implements ContentManagerInterface
         $entry->slug = $this->slugger->slug($dto->title);
         $entry->lang = $dto->lang;
         $entry->image = $dto->image;
+        if($entry->image && !$entry->image->altText) {
+            $entry->image->altText = $dto->imageAlt;
+        }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
             implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name

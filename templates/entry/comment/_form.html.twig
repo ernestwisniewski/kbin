@@ -64,11 +64,21 @@
             <div class="modal-body">
                 <div class="mb-4">
                     <small>wklej adres</small>
-                    <small class="ms-2 font-weight-bold" data-action="click->media#add">wybierz plik</small>
+                    <small class="ms-2 font-weight-bold">wybierz plik</small>
+                    <div class="hr mt-2"></div>
                 </div>
                 <div class="input-group input-group-lg me-2">
-                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-action': 'media#add', 'data-media-target': 'fileInput' }}) }}
+                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-media-target': 'fileInput' }}) }}
                 </div>
+                <div>
+                    {{ form_label(form.imageAlt, 'image_alt'|trans ) }}
+                    <div class="input-group input-group-lg">
+                        {{ form_widget(form.imageAlt, {'attr': {'class': 'me-5', 'maxlength': 255}}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-action="click->media#add">{{ 'done'|trans }}</button>
             </div>
         </div>
     </div>

@@ -18,7 +18,7 @@ class ImageWrapper
             'type' => 'Image',
             'mediaType' => $this->imageManager->getMimetype($image),
             'url' => $this->imageManager->getUrl($image),
-            'name' => $title,
+            'name' => $image->altText,
             'blurhash' => $image->blurhash,
             'focalPoint' => [0, 0],
             'width' => $image->width,

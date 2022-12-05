@@ -57,6 +57,9 @@ class  PostManager implements ContentManagerInterface
         $post = $this->factory->createFromDto($dto, $user);
         $post->slug = $this->slugger->slug($dto->body);
         $post->image = $dto->image;
+        if($post->image && !$post->image->altText) {
+            $post->image->altText = $dto->imageAlt;
+        }
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->visibility = $dto->visibility;

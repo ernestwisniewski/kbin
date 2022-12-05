@@ -14,6 +14,9 @@ class CreateActorHandler implements MessageHandlerInterface
 
     public function __invoke(CreateActorMessage $message): void
     {
-        $this->activityPubManager->findActorOrCreate($message->handle);
+        try {
+            $this->activityPubManager->findActorOrCreate($message->handle);
+        } catch (\Exception $e) {
+        }
     }
 }

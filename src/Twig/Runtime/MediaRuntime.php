@@ -14,6 +14,6 @@ class MediaRuntime implements RuntimeExtensionInterface
 
     public function getPublicPath(string $path): string
     {
-        return 'https://media.karab.in/'.$path;
+        return $this->storageUrl.'/'.$path;
     }
 }

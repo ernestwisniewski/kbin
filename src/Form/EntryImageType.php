@@ -54,7 +54,8 @@ class EntryImageType extends AbstractType
                     'constraints' => ImageConstraint::default(),
                     'mapped'      => false,
                 ]
-            );
+            )
+            ->add('imageAlt', TextareaType::class);
 
         if ($this->settingsManager->get('KBIN_JS_ENABLED')) {
             $builder->add('magazine', MagazineAutocompleteField::class);

@@ -50,6 +50,9 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment->magazine             = $dto->entry->magazine;
         $comment->image                = $dto->image;
+        if($comment->image && !$comment->image->altText) {
+            $comment->image->altText = $dto->imageAlt;
+        }
         $comment->tags                 = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
         $comment->mentions             = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))

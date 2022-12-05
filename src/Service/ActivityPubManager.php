@@ -206,6 +206,9 @@ class ActivityPubManager
             try {
                 if ($tempFile = $this->imageManager->download($images[0]['url'])) {
                     $image = $this->imageRepository->findOrCreateFromPath($tempFile);
+                    if($image && isset($images[0]['name'])) {
+                        $image->altText = $images[0]['name'];
+                    }
                 }
             } catch (\Exception $e) {
             }

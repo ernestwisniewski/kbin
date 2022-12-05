@@ -4,7 +4,7 @@ import {fetch, ok} from "../utils/http";
 export default class extends Controller {
     static targets = ['modalButton', 'deleteButton', 'fileInput', 'canvas', 'thumb', 'close']
 
-    add(e) {
+    add() {
         let reader = new FileReader();
         let self = this;
         reader.onload = function (event) {
@@ -17,7 +17,8 @@ export default class extends Controller {
             }
             img.src = event.target.result;
         }
-        reader.readAsDataURL(e.target.files[0]);
+
+        reader.readAsDataURL(this.fileInputTarget.files[0]);
 
         this.canvasTarget.classList.remove('d-none');
         this.deleteButtonTarget.classList.remove('d-none');

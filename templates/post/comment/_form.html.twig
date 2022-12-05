@@ -16,7 +16,8 @@
         </div>
 
         <div class="text-end btn-group float-end mb-5">
-            <a class="btn btn-secondary me-1" href="https://{{ kbin_domain() }}{{ kbin_markdown_howto_url() }}" role="button">
+            <a class="btn btn-secondary me-1" href="https://{{ kbin_domain() }}{{ kbin_markdown_howto_url() }}"
+               role="button">
                 <i class="fas fa-question"></i>
             </a>
 
@@ -33,7 +34,8 @@
                     aria-label="Close"></button>
 
             {% if hasImage %}
-                <img data-media-target="thumb" src="{{ asset(comment.image.filePath) | imagine_filter('post_thumb') }}" alt="" class="me-2"/>
+                <img data-media-target="thumb" src="{{ asset(comment.image.filePath) | imagine_filter('post_thumb') }}"
+                     alt="" class="me-2"/>
             {% endif %}
 
             <canvas data-media-target="canvas" class="d-none me-2"></canvas>
@@ -48,16 +50,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Dodaj zdjęcie <strike>lub film</strike></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-media-target="close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        data-media-target="close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-4">
                     <small>wklej adres</small>
-                    <small class="ms-2 font-weight-bold" data-action="click->media#add">wybierz plik</small>
+                    <small class="ms-2 font-weight-bold">wybierz plik</small>
+                    <div class="hr mt-2"></div>
                 </div>
                 <div class="input-group input-group-lg me-2">
-                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-action': 'media#add', 'data-media-target': 'fileInput' }}) }}
+                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-media-target': 'fileInput' }}) }}
                 </div>
+                <div>
+                    {{ form_label(form.imageAlt, 'image_alt'|trans ) }}
+                    <div class="input-group input-group-lg">
+                        {{ form_widget(form.imageAlt, {'attr': {'class': 'me-5', 'maxlength': 255}}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-action="click->media#add">{{ 'done'|trans }}</button>
             </div>
         </div>
     </div>

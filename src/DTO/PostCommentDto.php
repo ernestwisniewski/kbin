@@ -19,6 +19,7 @@ class PostCommentDto
     public Post|PostDto|null $post = null;
     public ?PostComment $parent = null;
     public ?Image $image = null;
+    public ?string $imageAlt = null;
     #[Assert\Length(min: 2, max: 5000)]
     public ?string $body = null;
     public int $uv = 0;

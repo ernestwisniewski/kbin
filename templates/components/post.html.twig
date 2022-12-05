@@ -66,7 +66,7 @@
                     <div class="clearfix my-2 kbin-post-content">
                         <a href="{{ uploaded_asset(this.post.image.filePath) }}" class="kbin-thumb">
                             <img src="{{ asset(this.post.image.filePath) | imagine_filter('post_thumb') }}"
-                                 alt="{{ this.post.shortTitle }}"
+                                 alt="{{ this.post.image.altText ?? this.post.shortTitle }}"
                                  class="kbin-post-thumb"/>
                         </a>
                     </div>

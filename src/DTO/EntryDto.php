@@ -21,6 +21,7 @@ class EntryDto
     public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
     public Image|ImageDto|null $image = null;
+    public ?string $imageAlt = null;
     public Domain|DomainDto|null $domain = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]

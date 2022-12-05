@@ -30,6 +30,7 @@ class EntryCommentType extends AbstractType
                     'mapped'      => false,
                 ]
             )
+            ->add('imageAlt', TextareaType::class)
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber($this->imageListener);
