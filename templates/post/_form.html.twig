@@ -54,7 +54,11 @@
         </div>
     </div>
 </div>
-
+<div class="clearfix"></div>
+<div class="me-2 pt-2 float-end">
+    <strong>{{ magazine.name }}</strong> <a class="small text-muted" href="{{ path('magazine_list_all') }}"><small
+                class="small">({{ 'change_magazine'|trans }})</small></a>
+</div>
 <div class="clearfix"></div>
 
 <div id="media-modal-post-{{ guid }}" class="modal fade" tabindex="-1">
