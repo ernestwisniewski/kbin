@@ -44,6 +44,7 @@ class MagazineRepository extends ServiceEntityRepository
     public function findAllPaginated(?int $page): PagerfantaInterface
     {
         $qb = $this->createQueryBuilder('m')
+            ->andWhere('m.apId IS NULL')
             ->orderBy('m.subscriptionsCount', 'DESC');
 
         $pagerfanta = new Pagerfanta(

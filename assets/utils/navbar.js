@@ -1,11 +1,11 @@
 export default class Navbar {
     constructor() {
         // https://bootstrap-menu.com/detail-autohide.html
-        this.build();
-
-        document.addEventListener('turbo:load', (event) => {
-            this.build()
-        });
+        // this.build();
+        //
+        // document.addEventListener('turbo:load', (event) => {
+        //     this.build()
+        // });
     }
 
     build() {

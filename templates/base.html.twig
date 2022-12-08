@@ -34,11 +34,12 @@
     {% endblock %}
     <style>
         #kbin {
-            background: url({{ asset('build/images/shape.png') }}); height: 100%;
+            background: url({{ asset('build/images/shape.png') }});
+            height: 100%;
         }
 
         {% if magazine is defined and magazine %}
-            {{ magazine.customCss }}
+        {{ magazine.customCss }}
         {% endif %}
     </style>
 </head>
@@ -105,8 +106,12 @@
 
     {% include '_layout/_footer.html.twig' %}
 
-    <div class="toast-container position-absolute top-0 end-0 p-3">
+    <button type="button" class="btn btn-light btn-floating btn-lg" style="display: none" id="btn-back-to-top"
+            data-controller="scroll-top" data-action="scroll-top#up">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
+    <div class="toast-container position-absolute top-0 end-0 p-3">
     </div>
 
     {#    {% if kbin_js_enabled() and not app.request.cookies.get('cookie-info') %} #}

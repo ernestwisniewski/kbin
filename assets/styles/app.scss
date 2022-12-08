@@ -415,3 +415,11 @@ select {
   background: rgb(79, 79, 79);
   background: linear-gradient(90deg, rgba(79, 79, 79, 1) 0%, rgba(79, 79, 79, 1) 61%, rgba(34, 34, 34, 1) 100%);
 }
+
+#btn-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  //display: none;
+}
