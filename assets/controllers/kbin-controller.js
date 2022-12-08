@@ -47,7 +47,7 @@ export default class extends Controller {
         if (window.KBIN_LOGGED_IN) {
             try {
                 let url = this.hasUrlValue ? this.urlValue : e.target.href;
-console.log(url);
+
                 let response = await fetch(url, {method: 'POST'});
 
                 response = await ok(response);
