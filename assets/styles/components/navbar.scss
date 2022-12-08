@@ -17,6 +17,13 @@
       }
     }
 
+    @include media-breakpoint-down(lg) {
+      .dropdown-menu {
+        position: absolute;
+        left: -190px;
+      }
+    }
+
     @include media-breakpoint-up(lg) {
       position: relative;
 

@@ -8,6 +8,7 @@ use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,8 +25,21 @@ class FrontController extends AbstractController
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
 
-        $method  = $criteria->resolveSort($sortBy);
+        $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'entry/_list.html.twig',
+                        [
+                            'entries' => $listing,
+                        ]
+                    ),
+                ]
+            );
+        }
 
         return $this->render(
             'front/front.html.twig',
@@ -44,8 +58,21 @@ class FrontController extends AbstractController
             ->setType($criteria->resolveType($type));
         $criteria->subscribed = true;
 
-        $method  = $criteria->resolveSort($sortBy);
+        $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'entry/_list.html.twig',
+                        [
+                            'entries' => $listing,
+                        ]
+                    ),
+                ]
+            );
+        }
 
         return $this->render(
             'front/front.html.twig',
@@ -64,8 +91,21 @@ class FrontController extends AbstractController
             ->setType($criteria->resolveType($type));
         $criteria->moderated = true;
 
-        $method  = $criteria->resolveSort($sortBy);
+        $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'entry/_list.html.twig',
+                        [
+                            'entries' => $listing,
+                        ]
+                    ),
+                ]
+            );
+        }
 
         return $this->render(
             'front/front.html.twig',
@@ -75,23 +115,42 @@ class FrontController extends AbstractController
         );
     }
 
-    public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, ?string $type, Request $request): Response
-    {
+    public function magazine(
+        Magazine $magazine,
+        ?string $sortBy,
+        ?string $time,
+        ?string $type,
+        Request $request
+    ): Response {
         $criteria = (new EntryPageView($this->getPageNb($request)));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
-        $criteria->magazine      = $magazine;
+        $criteria->magazine = $magazine;
         $criteria->stickiesFirst = true;
 
-        $method  = $criteria->resolveSort($sortBy);
+        $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'entry/_list.html.twig',
+                        [
+                            'magazine' => $magazine,
+                            'entries' => $listing,
+                        ]
+                    ),
+                ]
+            );
+        }
 
         return $this->render(
             'magazine/front.html.twig',
             [
                 'magazine' => $magazine,
-                'entries'  => $listing,
+                'entries' => $listing,
             ]
         );
     }

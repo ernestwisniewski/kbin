@@ -1,8 +1,8 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 
 <div class="kbin-post-list" data-controller="post-list"
-    data-action="notify:PostCreatedNotification@window->post-list#add"
-    {% if magazine is defined and magazine %}data-post-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
+     data-action="notify:PostCreatedNotification@window->post-list#add"
+     {% if magazine is defined and magazine %}data-post-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if posts|length %}
         {% for post in posts %}
             {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showBestComments: true, showMagazine: magazine is not defined, index: loop.index }) }}
@@ -11,6 +11,16 @@
         {{ not_found() }}
     {% endif %}
     {% if(posts.haveToPaginate) %}
-        {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
+        {% set infiniteScroll = app.request.cookies.has('user_option_infinite_scroll') ? app.request.cookies.get('user_option_infinite_scroll') : 'false' %}
+        <div data-controller="infinite-scroll">
+            <div class="text-center my-4" data-infinite-scroll-target="loading" style="display: none">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div style="visibility: {{ infiniteScroll is same as 'false' ? 'visible' : 'hidden' }}">
+                {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
+            </div>
+        </div>
     {% endif %}
 </div>

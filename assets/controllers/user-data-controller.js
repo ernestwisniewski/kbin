@@ -15,7 +15,7 @@ export default class extends Controller {
     toggle(e) {
         Cookies.set('user_option_' + e.target.dataset.userDataValue, e.target.checked);
 
-        if (e.target.dataset.userDataValue === 'auto_embed' || e.target.dataset.userDataValue === 'topbar') {
+        if (e.target.dataset.userDataValue === 'auto_embed' || e.target.dataset.userDataValue === 'topbar' || e.target.dataset.userDataValue === 'infinite_scroll') {
             location.reload();
         }
     }
@@ -28,7 +28,7 @@ export default class extends Controller {
                 entries[0].target.click();
                 observer.unobserve(entries[0].target);
             }
-        }, { threshold: [0] });
+        }, {threshold: [0]});
 
         for (const el of document.querySelectorAll('.kbin-preview')) {
             observer.observe(el);

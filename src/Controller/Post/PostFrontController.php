@@ -7,6 +7,7 @@ use App\Entity\Magazine;
 use App\PageView\PostPageView;
 use App\Repository\PostRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,6 +20,19 @@ class PostFrontController extends AbstractController
             ->setTime($criteria->resolveTime($time));
 
         $posts = $repository->findByCriteria($criteria);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'post/_list.html.twig',
+                        [
+                            'posts' => $posts,
+                        ]
+                    ),
+                ]
+            );
+        }
 
         return $this->render(
             'post/front.html.twig',
@@ -38,6 +52,19 @@ class PostFrontController extends AbstractController
 
         $posts = $repository->findByCriteria($criteria);
 
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'post/_list.html.twig',
+                        [
+                            'posts' => $posts,
+                        ]
+                    ),
+                ]
+            );
+        }
+
         return $this->render(
             'post/front.html.twig',
             [
@@ -56,6 +83,19 @@ class PostFrontController extends AbstractController
 
         $posts = $repository->findByCriteria($criteria);
 
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'post/_list.html.twig',
+                        [
+                            'posts' => $posts,
+                        ]
+                    ),
+                ]
+            );
+        }
+
         return $this->render(
             'post/front.html.twig',
             [
@@ -64,8 +104,13 @@ class PostFrontController extends AbstractController
         );
     }
 
-    public function magazine(Magazine $magazine, ?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
-    {
+    public function magazine(
+        Magazine $magazine,
+        ?string $sortBy,
+        ?string $time,
+        PostRepository $repository,
+        Request $request
+    ): Response {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time));
@@ -73,11 +118,25 @@ class PostFrontController extends AbstractController
 
         $posts = $repository->findByCriteria($criteria);
 
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'post/_list.html.twig',
+                        [
+                            'magazine' => $magazine,
+                            'posts' => $posts,
+                        ]
+                    ),
+                ]
+            );
+        }
+
         return $this->render(
             'post/front.html.twig',
             [
                 'magazine' => $magazine,
-                'posts'    => $posts,
+                'posts' => $posts,
             ]
         );
     }
