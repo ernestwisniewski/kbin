@@ -11,7 +11,6 @@ export default class extends Controller {
     connect() {
         if (Cookies.get('user_option_infinite_scroll') === 'true') {
             // this.loadingValue = false;
-            window.infiniteScrollInit = true;
             window.infiniteScrollUrls = [];
             this.handleInfiniteScroll()
         }
@@ -62,21 +61,21 @@ export default class extends Controller {
         let div = document.createElement('div');
         div.innerHTML = response.html;
 
-        let articles = div.getElementsByTagName('article blockquote');
+        let articles = div.getElementsByTagName('article');
+        articles = [...articles];
 
         for (const article of articles) {
-            if (document.getElementById(article.id)) {
-                continue;
-            }
+            if (null === document.getElementById(article.id)) {
+                this.element.before(article);
 
-            this.element.append(article);
+                let comments = div.querySelector(`[data-comment-list-subject-id-value='${article.dataset.postIdValue}']`);
+                if (comments) {
+                    this.element.before(comments)
+                }
+            }
         }
 
-        this.element.after(div.getElementsByTagName('div')[0]);
-
-        let margin = document.createElement('div');
-        margin.classList.add('mb-4');
-        this.element.after(margin);
+        this.element.after(div.querySelector(`[data-controller='infinite-scroll']`));
 
         this.element.remove();
     }
