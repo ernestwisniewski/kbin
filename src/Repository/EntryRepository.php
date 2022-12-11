@@ -6,6 +6,7 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\DomainBlock;
 use App\Entity\DomainSubscription;
 use App\Entity\Entry;
+use App\Entity\EntryFavourite;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
@@ -160,6 +161,13 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         if ($criteria->moderated) {
             $qb->andWhere(
                 'e.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)'
+            );
+            $qb->setParameter('user', $this->security->getUser());
+        }
+
+        if ($criteria->favourite) {
+            $qb->andWhere(
+                'e.id IN (SELECT IDENTITY(mf.entry) FROM '.EntryFavourite::class.' mf WHERE mf.user = :user)'
             );
             $qb->setParameter('user', $this->security->getUser());
         }

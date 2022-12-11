@@ -79,4 +79,24 @@ class CommentFrontController extends AbstractController
             $params
         );
     }
+
+    #[IsGranted('ROLE_USER')]
+    public function favourite(?string $sortBy, ?string $time, Request $request): Response
+    {
+        $params   = [];
+        $criteria = new EntryCommentPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
+        $criteria->favourite = true;
+
+        $params['comments'] = $this->repository->findByCriteria($criteria);
+
+        $this->repository->hydrate(...$params['comments']);
+        $this->repository->hydrateChildren(...$params['comments']);
+
+        return $this->render(
+            'entry/comment/front.html.twig',
+            $params
+        );
+    }
 }

@@ -81,6 +81,15 @@ entry_comments_moderated:
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
+entry_comments_favourite:
+  controller: App\Controller\Entry\Comment\CommentFrontController::favourite
+  defaults: { sortBy: ~, time: ~ }
+  path:
+    en: /fav/comments/{sortBy}/{time}
+    pl: /fav/komentarze/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
 magazine_entry_comments:
   controller: App\Controller\Entry\Comment\CommentFrontController::front
   defaults: { sortBy: ~, time: ~ }

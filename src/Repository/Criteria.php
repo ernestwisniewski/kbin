@@ -55,6 +55,7 @@ abstract class Criteria
     public ?User $user = null;
     public ?int $perPage = null;
     public bool $moderated = false;
+    public bool $favourite = false;
     public ?string $type = null;
     public string $sortOption = EntryRepository::SORT_DEFAULT;
     public string $time = EntryRepository::TIME_DEFAULT;

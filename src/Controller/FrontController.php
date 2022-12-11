@@ -115,6 +115,39 @@ class FrontController extends AbstractController
         );
     }
 
+    #[IsGranted('ROLE_USER')]
+    public function favourite(?string $sortBy, ?string $time, ?string $type, Request $request): Response
+    {
+        $criteria = new EntryPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time))
+            ->setType($criteria->resolveType($type));
+        $criteria->favourite = true;
+
+        $method = $criteria->resolveSort($sortBy);
+        $listing = $this->$method($criteria);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'entry/_list.html.twig',
+                        [
+                            'entries' => $listing,
+                        ]
+                    ),
+                ]
+            );
+        }
+
+        return $this->render(
+            'front/front.html.twig',
+            [
+                'entries' => $listing,
+            ]
+        );
+    }
+
     public function magazine(
         Magazine $magazine,
         ?string $sortBy,

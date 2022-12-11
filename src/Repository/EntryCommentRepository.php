@@ -6,8 +6,11 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\DomainBlock;
 use App\Entity\DomainSubscription;
 use App\Entity\EntryComment;
+use App\Entity\EntryCommentFavourite;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
+use App\Entity\Moderator;
+use App\Entity\PostFavourite;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
@@ -150,6 +153,20 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
                 ce.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :follower)'
             );
             $qb->setParameter('follower', $user);
+        }
+
+        if ($criteria->moderated) {
+            $qb->andWhere(
+                'c.magazine IN (SELECT IDENTITY(cm.magazine) FROM '.Moderator::class.' cm WHERE cm.user = :user)'
+            );
+            $qb->setParameter('user', $this->security->getUser());
+        }
+
+        if ($criteria->favourite) {
+            $qb->andWhere(
+                'c.id IN (SELECT IDENTITY(cf.entryComment) FROM '.EntryCommentFavourite::class.' cf WHERE cf.user = :user)'
+            );
+            $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {

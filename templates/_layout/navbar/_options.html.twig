@@ -17,6 +17,10 @@
             <a class="dropdown-item kbin-page-view-item {{ is_mod_page() ? 'kbin-page-view-item--active' : '' }}"
                href="{{ path('front_moderated') }}">{{ 'topbar.moderated'|trans }}</a></li>
         <li>
+        <li>
+            <a class="dropdown-item kbin-page-view-item {{ is_fav_page() ? 'kbin-page-view-item--active' : '' }}"
+               href="{{ path('front_favourite') }}">{{ 'topbar.favourite'|trans }}</a></li>
+        <li>
             <hr class="dropdown-divider">
         </li>
         <div class="container">

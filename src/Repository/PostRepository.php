@@ -8,6 +8,7 @@ use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
 use App\Entity\Post;
+use App\Entity\PostFavourite;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
@@ -132,6 +133,13 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         if ($criteria->moderated) {
             $qb->andWhere(
                 'p.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)'
+            );
+            $qb->setParameter('user', $this->security->getUser());
+        }
+
+        if ($criteria->favourite) {
+            $qb->andWhere(
+                'p.id IN (SELECT IDENTITY(pf.post) FROM '.PostFavourite::class.' pf WHERE pf.user = :user)'
             );
             $qb->setParameter('user', $this->security->getUser());
         }

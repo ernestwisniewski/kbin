@@ -240,6 +240,20 @@ class PageContextRuntime implements RuntimeExtensionInterface
             }
         }
 
+        if ($this->isFavPage()) {
+            $routeName = 'front_favourite';
+
+            if (!$entriesOnly) {
+                if ($this->isPostsPage()) {
+                    $routeName = 'posts_favourite';
+                }
+
+                if ($this->isCommentsPage()) {
+                    $routeName = 'entry_comments_favourite';
+                }
+            }
+        }
+
         if ($this->isTagPage()) {
             $routeName           = 'tag_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
@@ -292,6 +306,11 @@ class PageContextRuntime implements RuntimeExtensionInterface
     public function isModPage(): bool
     {
         return str_contains($this->getCurrentRouteName(), 'moderated');
+    }
+
+    public function isFavPage(): bool
+    {
+        return str_contains($this->getCurrentRouteName(), 'favourite');
     }
 
     public function getActiveCommentsPagePath(): string

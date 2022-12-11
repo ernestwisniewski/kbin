@@ -15,6 +15,7 @@ final class PageContextExtension extends AbstractExtension
             new TwigFunction('is_front_page', [PageContextRuntime::class, 'isFrontPage']),
             new TwigFunction('is_sub_page', [PageContextRuntime::class, 'isSubPage']),
             new TwigFunction('is_mod_page', [PageContextRuntime::class, 'isModPage']),
+            new TwigFunction('is_fav_page', [PageContextRuntime::class, 'isFavPage']),
             new TwigFunction('is_magazine_page', [PageContextRuntime::class, 'isMagazinePage']),
             new TwigFunction('is_entry_page', [PageContextRuntime::class, 'isEntryPage']),
             new TwigFunction('is_entries_page', [PageContextRuntime::class, 'isEntriesPage']),

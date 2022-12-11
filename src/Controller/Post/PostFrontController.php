@@ -104,6 +104,37 @@ class PostFrontController extends AbstractController
         );
     }
 
+    #[IsGranted('ROLE_USER')]
+    public function favourite(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
+    {
+        $criteria = new PostPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time));
+        $criteria->favourite = true;
+
+        $posts = $repository->findByCriteria($criteria);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(
+                [
+                    'html' => $this->renderView(
+                        'post/_list.html.twig',
+                        [
+                            'posts' => $posts,
+                        ]
+                    ),
+                ]
+            );
+        }
+
+        return $this->render(
+            'post/front.html.twig',
+            [
+                'posts' => $posts,
+            ]
+        );
+    }
+
     public function magazine(
         Magazine $magazine,
         ?string $sortBy,

@@ -20,6 +20,11 @@
                     /<a class="text-decoration-none text-reset font-weight-bold"
                         href="{{ path('front_moderated') }}">mod</a>
                     </span>
+                {% elseif is_fav_page() %}
+                    <span class="text-muted me-auto text-small size">
+                    /<a class="text-decoration-none text-reset font-weight-bold"
+                        href="{{ path('front_favourite') }}">fav</a>
+                    </span>
                 {% endif %}
             </div>
 
@@ -29,6 +34,8 @@
                         {% include '_layout/navbar/_sub.html.twig' %}
                     {% elseif is_mod_page() %}
                         {% include '_layout/navbar/_mod.html.twig' %}
+                    {% elseif is_fav_page() %}
+                        {% include '_layout/navbar/_fav.html.twig' %}
                     {% else %}
                         {% include '_layout/navbar/_front.html.twig' %}
                     {% endif %}

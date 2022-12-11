@@ -99,6 +99,15 @@ posts_moderated:
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
+posts_favourite:
+  controller: App\Controller\Post\PostFrontController::favourite
+  defaults: { sortBy: ~, time: ~ }
+  path:
+    en: /fav/posts/{sortBy}/{time}
+    pl: /fav/wpisy/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
 magazine_posts:
   controller: App\Controller\Post\PostFrontController::magazine
   defaults: { sortBy: ~, time: ~ }

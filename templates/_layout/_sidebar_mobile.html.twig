@@ -34,6 +34,18 @@
             <a class="stretched-link" href="{{ path('posts_moderated') }}">{{ 'microblog'|trans }}</a>
         </li>
     </ul>
+{% elseif is_fav_page() %}
+    <ul class="list-group list-group-flush d-lg-none mb-3">
+        <li class="list-group-item {{ is_active_route('front_favourite') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('front_favourite') }}">{{ 'threads'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('entry_comments_favourite') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('entry_comments_favourite') }}">{{ 'comments'|trans }}</a>
+        </li>
+        <li class="list-group-item {{ is_active_route('posts_favourite') ? 'active' : '' }}">
+            <a class="stretched-link" href="{{ path('posts_favourite') }}">{{ 'microblog'|trans }}</a>
+        </li>
+    </ul>
 {% else %}
     <ul class="list-group list-group-flush d-lg-none mb-3">
         <li class="list-group-item {{ is_active_route('front') ? 'active' : '' }}">
