@@ -8,7 +8,7 @@
          data-entry-id-value="{{ this.entry.id }}"
          data-embed-url-value="{{ this.entry.url }}"
          data-embed-type-value="{{ this.entry.type }}"
-         data-embed-image-value="{{ this.entry.image ? this.entry.image.filePath : '' }}"
+         data-embed-image-value="{{ this.entry.image ? uploaded_asset(this.entry.image.filePath) : '' }}"
          data-embed-is-visible-value="false"
          data-embed-hidden-class="display-none"
          data-embed-loading-class="spinner-border"
@@ -19,7 +19,7 @@
             {% if not app.user or (app.user and not app.user.hideImages) %}
                 {% if is_entry_page() and this.directUrl %}
                     <div class="kbin-entry-image {{ app.user and app.user.rightPosImages ? 'float-xs-start float-sm-end ms-3' : 'float-start me-3' }}">
-                        <a href="{{- this.entry.type is same as 'image' or this.entry.type is same as 'article' ? '/media/'~asset(this.entry.image.filePath) : this.entry.url -}}"
+                        <a href="{{- this.entry.type is same as 'image' or this.entry.type is same as 'article' ? uploaded_asset(this.entry.image.filePath) : this.entry.url -}}"
                            target="_blank" rel="nofollow noopener noreferrer">
                             <img width="200" class="lazy kbin-entry-thumb"
                                  src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"

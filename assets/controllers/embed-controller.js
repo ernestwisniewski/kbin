@@ -29,7 +29,7 @@ export default class extends Controller {
         }
 
         if (this.typeValue === 'image' && this.hasImageValue) {
-            this.htmlValue = `<img src='${window.location.origin}/media/${this.imageValue}'>`;
+            this.htmlValue = `<img src='${this.imageValue}'>`;
             this.show();
             return;
         }
