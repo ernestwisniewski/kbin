@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class MagazineBanNotification extends Notification
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="MagazineBan")
-     */
-    public ?MagazineBan $ban;
+    #[ManyToOne(targetEntity: MagazineBan::class)]
+    #[JoinColumn(nullable: true)]
+    public ?MagazineBan $ban = null;
 
     public function __construct(User $receiver, MagazineBan $ban)
     {

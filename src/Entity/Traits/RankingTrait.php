@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
@@ -6,14 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait RankingTrait
 {
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     public int $ranking = 0;
 
     public function updateRanking(): void
     {
-        $score          = $this->getScore() + intval($this->favouriteCount * .5);
+        $score = $this->getScore() + intval($this->favouriteCount * .5);
         $scoreAdvantage = $score * self::NETSCORE_MULTIPLIER;
 
         if ($score > self::DOWNVOTED_CUTOFF) {

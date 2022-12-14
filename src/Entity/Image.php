@@ -2,57 +2,50 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use InvalidArgumentException;
 use function strlen;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="images_file_name_idx", columns={"file_name"}),
- *     @ORM\UniqueConstraint(name="images_sha256_idx", columns={"sha256"}),
- * })
- */
+#[Entity(repositoryClass: ImageRepository::class)]
+#[Table]
+#[UniqueConstraint(name: 'images_file_name_idx', columns: ['file_name'])]
+#[UniqueConstraint(name: 'images_sha256_idx', columns: ['sha256'])]
 class Image
 {
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $filePath;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $fileName;
-    /**
-     * @ORM\Column(type="binary", length=32)
-     */
-    public $sha256;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    public ?int $width;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    public ?int $height;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public ?string $blurhash = null;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public ?string $altText = null;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public ?string $sourceUrl = null;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $filePath;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $fileName;
+
+    #[Column(type: 'binary', length: 32, nullable: false)]
+    public $sha256;
+
+    #[Column(type: 'integer', nullable: true)]
+    public ?int $width = null;
+
+    #[Column(type: 'integer', nullable: true)]
+    public ?int $height;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $blurhash = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $altText = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $sourceUrl = null;
 
     public function __construct(
         string $fileName,

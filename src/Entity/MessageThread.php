@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -7,43 +7,48 @@ use App\Repository\MessageThreadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use DomainException;
 use JetBrains\PhpStorm\Pure;
 
-/**
- * @ORM\Entity(repositoryClass=MessageThreadRepository::class)
- */
+#[Entity(repositoryClass: MessageThreadRepository::class)]
 class MessageThread
 {
     use UpdatedAtTrait;
 
-    /**
-     * @ORM\JoinTable(name="message_thread_participants", joinColumns={
-     *     @ORM\JoinColumn(name="message_thread_id", referencedColumnName="id")
-     * }, inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     * @ORM\ManyToMany(targetEntity="User")
-     */
-    public Collection $participants;
-    /**
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="thread",
-     *     cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"createdAt": "DESC"})
-     */
-    public Collection $messages;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[JoinTable(
+        name: 'message_thread_participants',
+        joinColumns: [
+            new JoinColumn(name: 'message_thread_id', referencedColumnName: 'id'),
+        ],
+        inverseJoinColumns: [
+            new JoinColumn(name: 'user_id', referencedColumnName: 'id'),
+        ]
+    )]
+    #[ManyToMany(targetEntity: User::class)]
+    public Collection $participants;
+
+    #[OneToMany(mappedBy: 'thread', targetEntity: Message::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $messages;
 
     #[Pure] public function __construct(User ...$participants)
     {
         $this->participants = new ArrayCollection($participants);
-        $this->messages     = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int

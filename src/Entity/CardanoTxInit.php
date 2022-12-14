@@ -4,48 +4,49 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Traits\CreatedAtTrait;
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CardanoTxInitRepository;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- * @ORM\Entity(repositoryClass="App\Repository\CardanoTxInitRepository")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="cpi_type", type="text")
- * @ORM\DiscriminatorMap({
- *   "entry": "EntryCardanoTxInit",
- * })
- */
+#[Entity(repositoryClass: CardanoTxInitRepository::class)]
+#[InheritanceType('SINGLE_TABLE')]
+#[DiscriminatorColumn(name: 'cpi_type', type: 'text')]
+#[DiscriminatorMap([
+    'entry' => EntryCardanoTxInit::class,
+])]
 abstract class CardanoTxInit
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class)
-     * @ORM\JoinColumn(onDelete="cascade")
-     */
-    public Magazine $magazine;
-    /**
-     * @ORM\JoinColumn(nullable=true)
-     * @ORM\ManyToOne(targetEntity="User")
-     */
-    public ?User $user = null;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $sessionId;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: Magazine::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public Magazine $magazine;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: true)]
+    public ?User $user = null;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $sessionId;
 
     public function __construct(Magazine $magazine, string $sessionId, ?User $user = null)
     {
-        $this->user      = $user;
-        $this->magazine  = $magazine;
+        $this->user = $user;
+        $this->magazine = $magazine;
         $this->sessionId = $sessionId;
 
         $this->createdAtTraitConstruct();

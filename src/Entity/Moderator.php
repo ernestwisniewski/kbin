@@ -1,55 +1,50 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
-/**
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(
- *         name="moderator_magazine_user_idx",
- *         columns={"magazine_id", "user_id"}
- *     )
- * })
- * @ORM\Entity()
- */
+#[Entity]
+#[Table]
+#[UniqueConstraint(name: 'moderator_magazine_user_idx', columns: ['magazine_id', 'user_id'])]
 class Moderator
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="moderatorTokens")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public User $user;
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="moderators")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    public Magazine $magazine;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $isOwner = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $isConfirmed = false;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'moderatorTokens')]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'moderators')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public Magazine $magazine;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $isOwner = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $isConfirmed = false;
 
     public function __construct(Magazine $magazine, User $user, $isOwner = false, $isConfirmed = false)
     {
-        $this->magazine    = $magazine;
-        $this->user        = $user;
-        $this->isOwner     = $isOwner;
+        $this->magazine = $magazine;
+        $this->user = $user;
+        $this->isOwner = $isOwner;
         $this->isConfirmed = $isConfirmed;
 
         $magazine->moderators->add($this);

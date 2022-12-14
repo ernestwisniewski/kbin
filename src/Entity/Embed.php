@@ -4,14 +4,16 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\EmbedRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
-/**
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="url_idx", columns={"url"}),
- * })
- * @ORM\Entity(repositoryClass=EmbedRepository::class)
- */
+#[Entity(repositoryClass: EmbedRepository::class)]
+#[Table]
+#[UniqueConstraint(name: 'url_idx', columns: ['url'])]
 class Embed
 {
     use CreatedAtTrait {
@@ -20,26 +22,22 @@ class Embed
 
     public function __construct(string $url, bool $embed)
     {
-        $this->url      = $url;
+        $this->url = $url;
         $this->hasEmbed = $embed;
 
         $this->createdAtTraitConstruct();
     }
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $url;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $hasEmbed = false;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $url;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $hasEmbed = false;
 
     public function getId(): ?int
     {

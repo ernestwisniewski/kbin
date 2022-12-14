@@ -1,19 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Entity\Contracts\ContentInterface;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class MagazineLogPostRestored extends MagazineLog
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="Post")
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
-     */
+    #[ManyToOne(targetEntity: Post::class)]
+    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?Post $post;
 
     public function __construct(Post $post, User $user)

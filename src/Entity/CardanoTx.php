@@ -4,52 +4,51 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Traits\CreatedAtTrait;
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CardanoTxRepository;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- * @ORM\Entity(repositoryClass="App\Repository\CardanoTxRepository")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="ctx_type", type="text")
- * @ORM\DiscriminatorMap({
- *   "entry": "EntryCardanoTx",
- * })
- */
+#[Entity(repositoryClass: CardanoTxRepository::class)]
+#[InheritanceType('SINGLE_TABLE')]
+#[DiscriminatorColumn(name: 'ctx_type', type: 'text')]
+#[DiscriminatorMap([
+    'entry' => EntryCardanoTx::class,
+])]
 abstract class CardanoTx
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class)
-     * @ORM\JoinColumn(onDelete="cascade")
-     */
-    public Magazine $magazine;
-    /**
-     * @ORM\JoinColumn()
-     * @ORM\ManyToOne(targetEntity="User")
-     */
-    public User $receiver;
-    /**
-     * @ORM\JoinColumn(nullable=true)
-     * @ORM\ManyToOne(targetEntity="User")
-     */
-    public ?User $sender = null;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $amount;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $txHash;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: Magazine::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public Magazine $magazine;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn]
+    public User $receiver;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn]
+    public ?User $sender = null;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $amount = 0;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $txHash;
 
     public function __construct(
         Magazine $magazine,

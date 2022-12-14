@@ -1,28 +1,29 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class EntryBadge
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="Badge", inversedBy="badges")
-     */
-    public Badge $badge;
-    /**
-     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="badges")
-     */
-    public Entry $entry;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: Badge::class, inversedBy: 'badges')]
+    #[JoinColumn]
+    public Badge $badge;
+
+    #[ManyToOne(targetEntity: Entry::class, inversedBy: 'badges')]
+    #[JoinColumn]
+    public Entry $entry;
 
     public function __construct(Entry $entry, Badge $badge)
     {

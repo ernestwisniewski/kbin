@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class PostCommentDeletedNotification extends Notification
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="notifications")
-     */
-    public ?PostComment $postComment;
+    #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'notifications')]
+    #[JoinColumn(nullable: true)]
+    public ?PostComment $postComment = null;
 
     public function __construct(User $receiver, PostComment $comment)
     {

@@ -1,44 +1,42 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 
-/**
- * @ORM\MappedSuperclass()
- */
+#[MappedSuperclass]
 class Vote
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $choice;
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public User $user;
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public User $author;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $choice;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: false)]
+    public User $author;
 
     public function __construct(int $choice, User $user, User $author)
     {
         $this->choice = $choice;
-        $this->user   = $user;
+        $this->user = $user;
         $this->author = $author;
 
         $this->createdAtTraitConstruct();

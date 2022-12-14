@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
@@ -7,9 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait CreatedAtTrait
 {
-    /**
-     * @ORM\Column(type="datetimetz_immutable")
-     */
+    #[ORM\Column(type: 'datetimetz_immutable')]
     public DateTimeImmutable $createdAt;
 
     public function __construct()

@@ -10,16 +10,26 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use DomainException;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
- */
+#[Entity(repositoryClass: UserRepository::class)]
+#[Table(name: "`user`", uniqueConstraints: [
+    new UniqueConstraint(name: 'user_email_idx', columns: ['email']),
+    new UniqueConstraint(name: 'user_username_idx', columns: ['username']),
+])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface, ActivityPubActorInterface
 {
     use ActivityPubActorTrait;
@@ -38,250 +48,215 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public const HOMEPAGE_SUB = 'front_subscribed';
     public const HOMEPAGE_MOD = 'front_moderated';
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
-     */
-    public ?Image $avatar = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
-     */
-    public ?Image $cover = null;
-    /**
-     * @ORM\Column(type="string", unique=true)
-     */
-    public string $email;
-    /**
-     * @ORM\Column(type="json", options={"jsonb" = true})
-     */
-    public array $roles = [];
-    /**
-     * @ORM\Column(type="string", unique=true)
-     */
-    public string $username;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $followersCount = 0;
-    /**
-     * @ORM\Column(type="string", options={"default": User::THEME_DARK})
-     */
-    public string $theme = self::THEME_DARK;
-    /**
-     * @ORM\Column(type="string", options={"default": User::MODE_NORMAL})
-     */
-    public string $mode = self::MODE_NORMAL;
-    /**
-     * @ORM\Column(type="string", options={"default": User::HOMEPAGE_SUB})
-     */
-    public string $homepage = self::HOMEPAGE_SUB;
-    /**
-     * @ORM\Column(type="text", nullable=true, options={"default": null}))
-     */
-    public ?string $about = null;
-    /**
-     * @ORM\Column(type="json", nullable=true, options={"default": null}))
-     */
-    public ?string $fields = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $cardanoWalletId = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $cardanoWalletAddress = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $oauthGithubId = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $oauthGoogleId = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
-    public ?string $oauthFacebookId = null;
-    /**
-     * @ORM\Column(type="array", nullable=true, options={"default" : null})
-     */
-    public ?array $featuredMagazines = null;
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    public bool $hideImages = false;
-    /**
-     * @ORM\Column(type="boolean", options={"default": true})
-     */
-    public bool $hideAdult = false;
-    /**
-     * @ORM\Column(type="boolean", options={"default": true})
-     */
-    public bool $hideUserAvatars = false;
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    public bool $hideMagazineAvatars = false;
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    public bool $rightPosImages = false;
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    public bool $entryPopup = false;
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    public bool $postPopup = false;
-    /**
-     * @ORM\Column(type="boolean", options={"default": true})
-     */
-    public bool $showProfileSubscriptions = true;
-    /**
-     * @ORM\Column(type="boolean", options={"default": true})
-     */
-    public bool $showProfileFollowings = true;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $notifyOnNewEntry = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $notifyOnNewEntryReply = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $notifyOnNewEntryCommentReply = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $notifyOnNewPost = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $notifyOnNewPostReply = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $notifyOnNewPostCommentReply = false;
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    public bool $isBanned = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $isVerified = false;
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    public ?DateTime $lastActive;
-    /**
-     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="user")
-     */
-    public Collection $moderatorTokens;
-    /**
-     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="user")
-     */
-    public Collection $entries;//@todo
-    /**
-     * @ORM\OneToMany(targetEntity="EntryVote", mappedBy="user", fetch="EXTRA_LAZY")
-     */
-    public Collection $entryVotes;
-    /**
-     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="user")
-     */
-    public Collection $entryComments;
-    /**
-     * @ORM\OneToMany(targetEntity="EntryCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
-     */
-    public Collection $entryCommentVotes;
-    /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
-     */
-    public Collection $posts;
-    /**
-     * @ORM\OneToMany(targetEntity="PostVote", mappedBy="user", fetch="EXTRA_LAZY")
-     */
-    public Collection $postVotes;
-    /**
-     * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="user")
-     */
-    public Collection $postComments;
-    /**
-     * @ORM\OneToMany(targetEntity="PostCommentVote", mappedBy="user", fetch="EXTRA_LAZY")
-     */
-    public Collection $postCommentVotes;
-    /**
-     * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="user", orphanRemoval=true)
-     */
-    public Collection $subscriptions;
-    /**
-     * @ORM\OneToMany(targetEntity=DomainSubscription::class, mappedBy="user", orphanRemoval=true)
-     */
-    public Collection $subscribedDomains;
-    /**
-     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="follower", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $follows;
-    /**
-     * @ORM\OneToMany(targetEntity=UserFollow::class, mappedBy="following", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $followers;
-    /**
-     * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocker", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $blocks;
-    /**
-     * @ORM\OneToMany(targetEntity=UserBlock::class, mappedBy="blocked", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public ?Collection $blockers;
-    /**
-     * @ORM\OneToMany(targetEntity=MagazineBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $blockedMagazines;
-    /**
-     * @ORM\OneToMany(targetEntity=DomainBlock::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $blockedDomains;
-    /**
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="reporting", fetch="EXTRA_LAZY", cascade={"persist"})
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $reports;
-    /**
-     * @ORM\OneToMany(targetEntity="Favourite", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $favourites;
-    /**
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="reported", fetch="EXTRA_LAZY", cascade={"persist"})
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $violations;
-    /**
-     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user", fetch="EXTRA_LAZY", cascade={"persist"})
-     * @ORM\OrderBy({"createdAt": "DESC"})
-     */
-    public Collection $notifications;
-    /**
-     * @ORM\OneToMany(targetEntity="Award", mappedBy="user", fetch="EXTRA_LAZY")
-     * @ORM\OrderBy({"createdAt": "DESC"})
-     */
-    public Collection $awards;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
+
+    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[JoinColumn(nullable: true)]
+    public ?Image $avatar = null;
+
+    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[JoinColumn(nullable: true)]
+    public ?Image $cover = null;
+
+    #[Column(type: 'string', unique: true, nullable: false)]
+    public string $email;
+
+    #[Column(type: 'string', unique: true, nullable: false)]
+    public string $username;
+
+    #[Column(type: 'string', nullable: false)]
     private string $password;
+
+    #[Column(type: 'json', nullable: false)]
+    public array $roles = [];
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $followersCount = 0;
+
+    #[Column(type: 'string', nullable: false, options: ['default' => User::THEME_DARK])]
+    public string $theme = self::THEME_DARK;
+
+    #[Column(type: 'string', nullable: false, options: ['default' => User::MODE_NORMAL])]
+    public string $mode = self::MODE_NORMAL;
+
+    #[Column(type: 'string', nullable: false, options: ['default' => User::HOMEPAGE_SUB])]
+    public string $homepage = self::HOMEPAGE_SUB;
+
+    #[Column(type: 'text', nullable: true)]
+    public ?string $about = null;
+
+    #[Column(type: 'datetimetz')]
+    public ?DateTime $lastActive = null;
+
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $fields = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $cardanoWalletId = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $cardanoWalletAddress = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $oauthGithubId = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $oauthGoogleId = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $oauthFacebookId = null;
+
+    #[Column(type: 'array', nullable: true)]
+    public ?array $featuredMagazines = null;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $hideImages = false;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    public bool $hideAdult = true;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $hideUserAvatars = false;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $hideMagazineAvatars = false;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $rightPosImages = false;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $entryPopup = false;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $postPopup = false;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    public bool $showProfileSubscriptions = true;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    public bool $showProfileFollowings = true;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $notifyOnNewEntry = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $notifyOnNewEntryReply = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $notifyOnNewEntryCommentReply = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $notifyOnNewPost = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $notifyOnNewPostReply = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $notifyOnNewPostCommentReply = false;
+
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $isBanned = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $isVerified = false;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Moderator::class)]
+    public Collection $moderatorTokens;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Entry::class)]
+    public Collection $entries;//@todo
+
+    #[OneToMany(mappedBy: 'user', targetEntity: EntryVote::class, fetch: 'EXTRA_LAZY')]
+    public Collection $entryVotes;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: EntryComment::class, fetch: 'EXTRA_LAZY')]
+    public Collection $entryComments;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: EntryCommentVote::class, fetch: 'EXTRA_LAZY')]
+    public Collection $entryCommentVotes;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Post::class, fetch: 'EXTRA_LAZY')]
+    public Collection $posts;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: PostVote::class, fetch: 'EXTRA_LAZY')]
+    public Collection $postVotes;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: PostComment::class, fetch: 'EXTRA_LAZY')]
+    public Collection $postComments;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: PostCommentVote::class, fetch: 'EXTRA_LAZY')]
+    public Collection $postCommentVotes;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: MagazineSubscription::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $subscriptions;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: DomainSubscription::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $subscribedDomains;
+
+    #[OneToMany(mappedBy: 'follower', targetEntity: UserFollow::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $follows;
+
+    #[OneToMany(mappedBy: 'following', targetEntity: UserFollow::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $followers;
+
+    #[OneToMany(mappedBy: 'blocker', targetEntity: UserBlock::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $blocks;
+
+    #[OneToMany(mappedBy: 'blocked', targetEntity: UserBlock::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public ?Collection $blockers;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: MagazineBlock::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $blockedMagazines;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: DomainBlock::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $blockedDomains;
+
+    #[OneToMany(mappedBy: 'reporting', targetEntity: Report::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $reports;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Favourite::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $favourites;
+
+    #[OneToMany(mappedBy: 'reported', targetEntity: Report::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $violations;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Notification::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $notifications;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Award::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $awards;
 
     public function __construct(
         string $email,

@@ -1,47 +1,44 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\MagazineSubscriptionRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
-/**
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(
- *         name="magazine_subsription_idx",
- *         columns={"user_id", "magazine_id"}
- *     )
- * })
- * @ORM\Entity(repositoryClass=MagazineSubscriptionRepository::class)
- */
+#[Entity(repositoryClass: MagazineSubscriptionRepository::class)]
+#[Table]
+#[UniqueConstraint(name: 'magazine_subsription_idx', columns: ['user_id', 'magazine_id'])]
 class MagazineSubscription
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="subscriptions")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'subscriptions')]
+    #[JoinColumn(nullable: false)]
     public ?User $user;
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="subscriptions")
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'subscriptions')]
+    #[JoinColumn(nullable: false)]
     public ?Magazine $magazine;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
 
     public function __construct(User $user, Magazine $magazine)
     {
         $this->createdAtTraitConstruct();
-        $this->user     = $user;
+        $this->user = $user;
         $this->magazine = $magazine;
     }
 

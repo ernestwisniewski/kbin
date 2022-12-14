@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class EntryCommentEditedNotification extends Notification
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="notifications")
-     */
-    public ?EntryComment $entryComment;
+    #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'notifications')]
+    #[JoinColumn(nullable: true)]
+    public ?EntryComment $entryComment = null;
 
     public function __construct(User $receiver, EntryComment $comment)
     {

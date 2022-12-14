@@ -22,14 +22,17 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
-use Tchoulom\ViewCounterBundle\Entity\ViewCounter;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
-/**
- * @ORM\Entity(repositoryClass=EntryRepository::class)
- */
+#[Entity(repositoryClass: EntryRepository::class)]
 class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
@@ -45,139 +48,114 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     const ENTRY_TYPE_LINK = 'link';
     const ENTRY_TYPE_IMAGE = 'image';
     const ENTRY_TYPE_VIDEO = 'video';
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="entries")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public User $user;
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="entries")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    public ?Magazine $magazine;
-    /**
-     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    public ?Image $image = null;
-    /**
-     * @ORM\ManyToOne(targetEntity=Domain::class, inversedBy="entries")
-     */
-    public ?Domain $domain = null;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    public ?string $slug = null;
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    public string $title;
-    /**
-     * @ORM\Column(type="string", length=2048, nullable=true)
-     */
-    public ?string $url = null;
-    /**
-     * @ORM\Column(type="text", nullable=true, length=35000)
-     */
-    public ?string $body = null;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $type = self::ENTRY_TYPE_ARTICLE;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default" : null})
-     */
-    public ?string $lang = null;
-    /**
-     * @ORM\Column(type="boolean", options={"default" : false})
-     */
-    public bool $isOc = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $hasEmbed = false;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $commentCount = 0;
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     */
-    public int $favouriteCount = 0;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $score = 0;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    public ?int $views = 0;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public ?bool $isAdult = false;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public bool $sticky = false;
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    public ?DateTime $lastActive;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public ?string $ip = null;
-    /**
-     * @ORM\Column(type="integer", options={"default" : 0})
-     */
-    public int $adaAmount = 0;
-    /**
-     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb"=true})
-     */
-    public ?array $tags = null;
-    /**
-     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
-     */
-    public ?array $mentions = null;
-    /**
-     * @ORM\OneToMany(targetEntity=EntryComment::class, mappedBy="entry", orphanRemoval=true, fetch="EXTRA_LAZY")
-     */
-    public Collection $comments;
-    /**
-     * @ORM\OneToMany(targetEntity=EntryVote::class, mappedBy="entry", cascade={"persist"}, orphanRemoval=true, fetch="EXTRA_LAZY")
-     */
-    public Collection $votes;
-    /**
-     * @ORM\OneToMany(targetEntity="EntryReport", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
-     */
-    public Collection $reports;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryFavourite", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
-     */
-    public Collection $favourites;
-    /**
-     * @ORM\OneToMany(targetEntity="EntryCreatedNotification", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
-     */
-    public Collection $notifications;
-    /**
-     * @ORM\OneToMany(targetEntity="ViewCounter", mappedBy="entry", cascade={"remove"}, orphanRemoval=true, fetch="EXTRA_LAZY")
-     */
-    public Collection $viewCounters;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryBadge", mappedBy="entry", cascade={"remove", "persist"}, orphanRemoval=true)
-     */
-    public Collection $badges;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntryCardanoTx", mappedBy="entry", cascade={"remove", "persist"}, orphanRemoval=true)
-     */
-    public Collection $cardanoTx;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'entries')]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'entries')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Magazine $magazine;
+
+    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[JoinColumn(nullable: true)]
+    public ?Image $image = null;
+
+    #[ManyToOne(targetEntity: Domain::class, inversedBy: 'entries')]
+    #[JoinColumn(nullable: true)]
+    public ?Domain $domain = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $slug = null;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $title;
+
+    #[Column(type: 'string', length: 2048, nullable: true)]
+    public ?string $url = null;
+
+    #[Column(type: 'text', length: 35000, nullable: true)]
+    public ?string $body = null;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $type = self::ENTRY_TYPE_ARTICLE;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $lang = null;
+
+    #[Column(type: 'boolean', options: ['default' => false])]
+    public bool $isOc = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $hasEmbed = false;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $commentCount = 0;
+
+    #[Column(type: 'integer', options: ['default' => 0])]
+    public int $favouriteCount = 0;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $score = 0;
+
+    #[Column(type: 'integer', nullable: true)]
+    public ?int $views = 0;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public ?bool $isAdult = false;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $sticky = false;
+
+    #[Column(type: 'datetimetz')]
+    public ?DateTime $lastActive = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $ip = null;
+
+    #[Column(type: 'integer', options: ['default' => 0])]
+    public int $adaAmount = 0;
+
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $tags = null;
+
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $mentions = null;
+
+    #[OneToMany(mappedBy: 'entry', targetEntity: EntryComment::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $comments;
+
+    #[OneToMany(mappedBy: 'entry', targetEntity: EntryVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $votes;
+
+    #[OneToMany(mappedBy: 'entry', targetEntity: EntryReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $reports;
+
+    #[OneToMany(mappedBy: 'entry', targetEntity: EntryFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $favourites;
+
+    #[OneToMany(mappedBy: 'entry', targetEntity: EntryCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $notifications;
+
+    #[OneToMany(mappedBy: 'entry', targetEntity: ViewCounter::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $viewCounters;
+
+    #[OneToMany(mappedBy: 'entry', targetEntity: EntryBadge::class, cascade: [
+        'remove',
+        'persist',
+    ], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $badges;
+
+    #[OneToMany(mappedBy: 'entry', targetEntity: EntryCardanoTx::class, cascade: [
+        'remove',
+        'persist',
+    ], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $cardanoTx;
 
     public array $children = [];
 
@@ -357,7 +335,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $body = wordwrap($this->title, $length);
         $body = explode("\n", $body);
 
-        return trim($body[0]) . (isset($body[1]) ? '...' : '');
+        return trim($body[0]).(isset($body[1]) ? '...' : '');
     }
 
     public function getShortDesc(?int $length = 330): string
@@ -365,7 +343,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $body = wordwrap($this->body, $length);
         $body = explode("\n", $body);
 
-        return trim($body[0]) . (isset($body[1]) ? '...' : '');
+        return trim($body[0]).(isset($body[1]) ? '...' : '');
     }
 
     public function getUrl(): ?string

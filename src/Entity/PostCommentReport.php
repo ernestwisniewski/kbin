@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class PostCommentReport extends Report
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="reports")
-     */
-    public ?PostComment $postComment;
+    #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'reports')]
+    #[JoinColumn(nullable: true)]
+    public ?PostComment $postComment = null;
 
     public function __construct(User $reporting, PostComment $comment, ?string $reason = null)
     {

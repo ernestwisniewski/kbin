@@ -1,15 +1,19 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class Message
 {
     const STATUS_NEW = 'new';
@@ -19,40 +23,33 @@ class Message
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="MessageThread", inversedBy="messages", cascade={"persist"})
-     */
-    public MessageThread $thread;
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User")
-     */
-    public User $sender;
-    /**
-     * @ORM\Column(type="text")
-     */
-    public string $body;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $status = self::STATUS_NEW;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
-    /**
-     * @ORM\OneToMany(targetEntity="MessageNotification", mappedBy="message", cascade={"remove"}, orphanRemoval=true)
-     */
+
+    #[ManyToOne(targetEntity: MessageThread::class, cascade: ['persist'], inversedBy: 'messages')]
+    #[JoinColumn(nullable: false)]
+    public MessageThread $thread;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: false)]
+    public User $sender;
+
+    #[Column(type: 'text', nullable: false)]
+    public string $body;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $status = self::STATUS_NEW;
+
+    #[OneToMany(mappedBy: 'message', targetEntity: MessageNotification::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $notifications;
 
     public function __construct(MessageThread $thread, User $sender, string $body)
     {
-        $this->thread        = $thread;
-        $this->sender        = $sender;
-        $this->body          = $body;
+        $this->thread = $thread;
+        $this->sender = $sender;
+        $this->body = $body;
         $this->notifications = new ArrayCollection();
 
         $thread->addMessage($this);

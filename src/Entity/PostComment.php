@@ -18,14 +18,18 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
 use Traversable;
 use Webmozart\Assert\Assert;
 
-/**
- * @ORM\Entity(repositoryClass=PostCommentRepository::class)
- */
+#[Entity(repositoryClass: PostCommentRepository::class)]
 class PostComment implements VoteInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
@@ -36,94 +40,75 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="postComments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public User $user;
-    /**
-     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    public ?Post $post;
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class)
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    public ?Magazine $magazine;
-    /**
-     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    public ?Image $image = null;
-    /**
-     * @ORM\Column(type="text", length=4500)
-     */
-    public ?string $body;
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     */
-    public int $favouriteCount = 0;
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    public DateTime $lastActive;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public ?string $ip = null;
-    /**
-     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb"=true})
-     */
-    public ?array $tags = null;
-    /**
-     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
-     */
-    public ?array $mentions = null;
-    /**
-     * @ORM\ManyToOne(targetEntity="PostComment", inversedBy="children")
-     * @ORM\JoinColumn(onDelete="cascade")
-     */
-    public ?PostComment $parent;
-    /**
-     * @ORM\OneToMany(targetEntity="PostComment", mappedBy="parent", orphanRemoval=true)
-     * @OrderBy({"id" = "ASC"})
-     */
-    public Collection $children;
-    /**
-     * @ORM\OneToMany(targetEntity=PostCommentVote::class, mappedBy="comment",
-     *     fetch="EXTRA_LAZY", cascade={"persist"}, orphanRemoval=true))
-     */
-    public Collection $votes;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PostCommentReport", mappedBy="postComment", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $reports;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PostCommentFavourite", mappedBy="postComment", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $favourites;
-    /**
-     * @ORM\OneToMany(targetEntity="PostCommentCreatedNotification", mappedBy="postComment", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $notifications;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'postComments')]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+
+    #[ManyToOne(targetEntity: Post::class, inversedBy: 'comments')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Post $post;
+
+    #[ManyToOne(targetEntity: Magazine::class)]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Magazine $magazine;
+
+    #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'children')]
+    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    public ?PostComment $parent;
+
+    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[JoinColumn(nullable: true)]
+    public ?Image $image = null;
+
+    #[Column(type: 'text', length: 4500)]
+    public ?string $body;
+
+    #[Column(type: 'integer', options: ['default' => 0])]
+    public int $favouriteCount = 0;
+
+    #[Column(type: 'datetimetz')]
+    public ?DateTime $lastActive;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $ip = null;
+
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $tags = null;
+
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $mentions = null;
+
+    #[OneToMany(mappedBy: 'parent', targetEntity: PostComment::class, orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'ASC'])]
+    public Collection $children;
+
+    #[OneToMany(mappedBy: 'comment', targetEntity: PostCommentVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $votes;
+
+    #[OneToMany(mappedBy: 'postComment', targetEntity: PostCommentReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $reports;
+
+    #[OneToMany(mappedBy: 'postComment', targetEntity: PostCommentFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $favourites;
+
+    #[OneToMany(mappedBy: 'postComment', targetEntity: PostCommentCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $notifications;
 
     public function __construct(string $body, ?Post $post, User $user, ?PostComment $parent = null, ?string $ip = null)
     {
-        $this->body       = $body;
-        $this->post       = $post;
-        $this->user       = $user;
-        $this->parent     = $parent;
-        $this->ip         = $ip;
-        $this->votes      = new ArrayCollection();
-        $this->children   = new ArrayCollection();
-        $this->reports    = new ArrayCollection();
+        $this->body = $body;
+        $this->post = $post;
+        $this->user = $user;
+        $this->parent = $parent;
+        $this->ip = $ip;
+        $this->votes = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->reports = new ArrayCollection();
         $this->favourites = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
@@ -201,7 +186,7 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
         $body = wordwrap($this->body, $length);
         $body = explode("\n", $body);
 
-        return trim($body[0]) . (isset($body[1]) ? '...' : '');
+        return trim($body[0]).(isset($body[1]) ? '...' : '');
     }
 
     public function getMagazine(): ?Magazine

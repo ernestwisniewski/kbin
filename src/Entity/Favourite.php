@@ -4,43 +4,44 @@ namespace App\Entity;
 
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Traits\CreatedAtTrait;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FavouriteRepository;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- * @ORM\Entity(repositoryClass="App\Repository\FavouriteRepository")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="favourite_type", type="text")
- * @ORM\DiscriminatorMap({
- *     "entry": "EntryFavourite",
- *     "entry_comment": "EntryCommentFavourite",
- *     "post": "PostFavourite",
- *     "post_comment": "PostCommentFavourite",
- * })
- */
+#[Entity(repositoryClass: FavouriteRepository::class)]
+#[InheritanceType('SINGLE_TABLE')]
+#[DiscriminatorColumn(name: 'favourite_type', type: 'text')]
+#[DiscriminatorMap([
+    'entry' => 'EntryFavourite',
+    'entry_comment' => 'EntryCommentFavourite',
+    'post' => 'PostFavourite',
+    'post_comment' => 'PostCommentFavourite',
+])]
 abstract class Favourite
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="Magazine")
-     */
-    public Magazine $magazine;
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="favourites")
-     */
-    public User $user;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: Magazine::class)]
+    #[JoinColumn(nullable: false)]
+    public Magazine $magazine;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'favourites')]
+    #[JoinColumn(nullable: false)]
+    public User $user;
 
     public function __construct(User $user)
     {

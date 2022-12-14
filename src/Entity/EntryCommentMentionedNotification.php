@@ -1,17 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class EntryCommentMentionedNotification extends Notification
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="EntryComment", inversedBy="notifications")
-     */
+    #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'notifications')]
     public ?EntryComment $entryComment;
 
     public function __construct(User $receiver, EntryComment $comment)

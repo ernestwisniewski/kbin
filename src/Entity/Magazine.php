@@ -13,17 +13,20 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
-/**
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(
- *         name="magazine_name_idx",
- *         columns={"name"}
- *     )
- * })
- * @ORM\Entity(repositoryClass=MagazineRepository::class)
- */
+#[Entity(repositoryClass: MagazineRepository::class)]
+#[Table]
+#[UniqueConstraint(name: 'magazine_name_idx', columns: ['name'])]
 class Magazine implements VisibilityInterface, ActivityPubActorInterface
 {
     use ActivityPubActorTrait;
@@ -32,113 +35,96 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    public ?Image $cover = null;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $name;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public ?string $title;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    public ?string $description = null;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    public ?string $rules = null;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $subscriptionsCount = 0;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $entryCount = 0;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $entryCommentCount = 0;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $postCount = 0;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $postCommentCount = 0;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public ?bool $isAdult = false;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    public ?string $customCss = null;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    public ?string $customJs = null;
-    /**
-     * @ORM\Column(type="json", nullable=true, options={"default": null, "jsonb": true})
-     */
-    public ?array $tags = null;
-    /**
-     * @ORM\OneToMany(targetEntity=Moderator::class, mappedBy="magazine", cascade={"persist"})
-     */
-    public Collection $moderators;
-    /**
-     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="magazine")
-     */
-    public Collection $entries;
-    /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="magazine")
-     */
-    public Collection $posts;
-    /**
-     * @ORM\OneToMany(targetEntity=MagazineSubscription::class, mappedBy="magazine", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $subscriptions;
-    /**
-     * @ORM\OneToMany(targetEntity=MagazineBan::class, mappedBy="magazine", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    public Collection $bans;
-    /**
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $reports;
-    /**
-     * @ORM\OneToMany(targetEntity="Badge", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $badges;
-    /**
-     * @ORM\OneToMany(targetEntity="MagazineLog", mappedBy="magazine", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $logs;
-    /**
-     * @ORM\OneToMany(targetEntity="Award", mappedBy="magazine", fetch="EXTRA_LAZY")
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $awards;
-    /**
-     * @ORM\Column(type="datetimetz", nullable=true)
-     */
-    public ?DateTime $lastActive = null;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[JoinColumn(nullable: true)]
+    public ?Image $cover = null;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $name;
+
+    #[Column(type: 'string')]
+    public ?string $title;
+
+    #[Column(type: 'text', length: 10000, nullable: true)]
+    public ?string $description = null;
+
+    #[Column(type: 'text', length: 10000, nullable: true)]
+    public ?string $rules = null;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $subscriptionsCount = 0;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $entryCount = 0;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $entryCommentCount = 0;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $postCount = 0;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $postCommentCount = 0;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public ?bool $isAdult = false;
+
+    #[Column(type: 'text', nullable: true)]
+    public ?string $customCss = null;
+
+    #[Column(type: 'text', nullable: true)]
+    public ?string $customJs = null;
+
+    #[Column(type: 'datetimetz', nullable: true)]
+    public ?DateTime $lastActive = null;
+
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $tags = null;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: Moderator::class, cascade: ['persist'])]
+    public Collection $moderators;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: Entry::class)]
+    public Collection $entries;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: Post::class)]
+    public Collection $posts;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: MagazineSubscription::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $subscriptions;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: MagazineBan::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $bans;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: Report::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $reports;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: Badge::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['id' => 'DESC'])]
+    public Collection $badges;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: MagazineLog::class, cascade: [
+        'persist',
+        'remove',
+    ], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $logs;
+
+    #[OneToMany(mappedBy: 'magazine', targetEntity: Award::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $awards;
 
     public function __construct(
         string $name,

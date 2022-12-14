@@ -3,11 +3,10 @@
 namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
 
 trait ActivityPubActivityTrait
 {
-    /**
-     * @ORM\Column(type="string", nullable=true, unique=true)
-     */
+    #[Column(type: 'string', unique: true, nullable: true)]
     public ?string $apId = null;
 }

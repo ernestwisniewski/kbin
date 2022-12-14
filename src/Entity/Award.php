@@ -4,36 +4,34 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\AwardRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity(repositoryClass=AwardRepository::class)
- */
+#[Entity(repositoryClass: AwardRepository::class)]
 class Award
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="awards")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    public User $user;
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="awards")
-     * @ORM\JoinColumn(nullable=true, onDelete="cascade")
-     */
-    public ?Magazine $magazine;
-    /**
-     * @ORM\ManyToOne(targetEntity=AwardType::class, inversedBy="awards")
-     * @ORM\JoinColumn(onDelete="cascade")
-     */
-    public AwardType $type;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'awards')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public User $user;
+
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'awards')]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public Magazine $magazine;
+
+    #[ManyToOne(targetEntity: AwardType::class, inversedBy: 'awards')]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public AwardType $type;
 }

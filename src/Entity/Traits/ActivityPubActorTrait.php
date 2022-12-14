@@ -3,49 +3,38 @@
 namespace App\Entity\Traits;
 
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
 
 trait ActivityPubActorTrait
 {
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null}, unique=true)
-     */
+    #[Column(type: 'string', unique: true, nullable: true)]
     public ?string $apId = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'string', nullable: true)]
     public ?string $apProfileId = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'string', nullable: true)]
     public ?string $apPublicUrl = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'string', nullable: true)]
     public ?string $apFollowersUrl = null;
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'string', nullable: true)]
     public ?string $apPreferredUsername = null;
-    /**
-     * @ORM\Column(type="boolean", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'boolean', nullable: true)]
     public ?bool $apDiscoverable = null;
-    /**
-     * @ORM\Column(type="boolean", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'boolean', nullable: true)]
     public ?bool $apManuallyApprovesFollowers = null;
-    /**
-     * @ORM\Column(type="text", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'text', nullable: true)]
     public ?string $privateKey = null;
-    /**
-     * @ORM\Column(type="text", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'text', nullable: true)]
     public ?string $publicKey = null;
-    /**
-     * @ORM\Column(type="datetimetz", nullable=true, options={"default": null})
-     */
+
+    #[Column(type: 'datetimetz', nullable: true)]
     public ?DateTime $apFetchedAt = null;
 
     public function getPrivateKey(): ?string

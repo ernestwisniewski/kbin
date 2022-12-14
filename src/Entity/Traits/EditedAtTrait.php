@@ -7,9 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait EditedAtTrait
 {
-    /**
-     * @ORM\Column(type="datetimetz_immutable", nullable=true, options={"default" : null})
-     */
+    #[ORM\Column(type: 'datetimetz_immutable', nullable: true)]
     public ?DateTimeImmutable $editedAt = null;
 
     public function getEditedAt(): DateTimeImmutable

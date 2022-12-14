@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class EntryDeletedNotification extends Notification
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="notifications")
-     */
-    public ?Entry $entry;
+    #[ManyToOne(targetEntity: Entry::class, inversedBy: 'notifications')]
+    #[JoinColumn(nullable: true)]
+    public ?Entry $entry = null;
 
     public function __construct(User $receiver, Entry $entry)
     {

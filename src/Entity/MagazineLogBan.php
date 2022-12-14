@@ -1,25 +1,22 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Entity\Contracts\ContentInterface;
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class MagazineLogBan extends MagazineLog
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="MagazineBan")
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
-     */
-    public ?MagazineBan $ban;
+    #[ManyToOne(targetEntity: MagazineBan::class)]
+    #[JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    public ?MagazineBan $ban = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[Column(type: 'string')]
     public string $meta = 'ban';
 
     public function __construct(MagazineBan $ban)

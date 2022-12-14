@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
@@ -11,14 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait VotableTrait
 {
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $upVotes = 0;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $downVotes = 0;
 
     public function countUpVotes(): int
@@ -53,7 +49,7 @@ trait VotableTrait
 
     public function updateVoteCounts(): self
     {
-        $this->upVotes   = $this->getUpVotes()->count();
+        $this->upVotes = $this->getUpVotes()->count();
         $this->downVotes = $this->getDownVotes()->count();
 
         return $this;

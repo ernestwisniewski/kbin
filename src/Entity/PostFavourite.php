@@ -2,24 +2,23 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- */
+#[Entity]
 class PostFavourite extends Favourite
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="favourites")
-     */
-    public ?Post $post;
+    #[ManyToOne(targetEntity: Post::class, inversedBy: 'favourites')]
+    #[JoinColumn(nullable: true)]
+    public ?Post $post = null;
 
     public function __construct(User $user, Post $post)
     {
         parent::__construct($user);
 
         $this->magazine = $post->magazine;
-        $this->post     = $post;
+        $this->post = $post;
     }
 
     public function getSubject(): Post

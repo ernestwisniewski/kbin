@@ -5,43 +5,39 @@ namespace App\Entity;
 use App\Repository\AwardTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 
-/**
- * @ORM\Entity(repositoryClass=AwardTypeRepository::class)
- */
+#[Entity(repositoryClass: AwardTypeRepository::class)]
 class AwardType
 {
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $name;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $category;
-    /**
-     * @ORM\Column(type="integer", options={"default" : 0})
-     */
-    public int $count = 0;
-    /**
-     * @ORM\Column(type="array", nullable=true, options={"default" : null})
-     */
-    public array $attributes;
-    /**
-     * @ORM\OneToMany(targetEntity="Award", mappedBy="type", fetch="EXTRA_LAZY")
-     * @ORM\OrderBy({"id": "DESC"})
-     */
-    public Collection $awards;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
-
     public function __construct()
     {
         $this->awards = new ArrayCollection();
     }
+
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $name;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $category;
+
+    #[Column(type: 'integer', options: ['default' => 0])]
+    public int $count = 0;
+
+    #[Column(type: 'array', nullable: true)]
+    public array $attributes;
+
+    #[OneToMany(mappedBy: 'type', targetEntity: Award::class, fetch: 'EXTRA_LAZY')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    public Collection $awards;
 }

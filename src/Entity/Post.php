@@ -21,12 +21,16 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Webmozart\Assert\Assert;
 
-/**
- * @ORM\Entity(repositoryClass=PostRepository::class)
- */
+#[Entity(repositoryClass: PostRepository::class)]
 class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
@@ -38,88 +42,67 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public User $user;
-    /**
-     * @ORM\ManyToOne(targetEntity=Magazine::class, inversedBy="posts")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    public ?Magazine $magazine;
-    /**
-     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    public ?Image $image = null;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    public ?string $slug = null;
-    /**
-     * @ORM\Column(type="text", nullable=true, length=15000)
-     */
-    public ?string $body = null;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $commentCount = 0;
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     */
-    public int $favouriteCount = 0;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $score = 0;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public ?bool $isAdult = false;
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    public ?DateTime $lastActive;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public ?string $ip = null;
-    /**
-     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb"=true})
-     */
-    public ?array $tags = null;
-    /**
-     * @ORM\Column(type="json", nullable=true, options={"default" : null, "jsonb" = true})
-     */
-    public ?array $mentions = null;
-    /**
-     * @ORM\OneToMany(targetEntity=PostComment::class, mappedBy="post", orphanRemoval=true)
-     */
-    public Collection $comments;
-    /**
-     * @ORM\OneToMany(targetEntity=PostVote::class, mappedBy="post", cascade={"persist"},
-     *     fetch="EXTRA_LAZY", orphanRemoval=true)
-     */
-    public Collection $votes;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PostReport", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $reports;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PostFavourite", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $favourites;
-    /**
-     * @ORM\OneToMany(targetEntity="PostCreatedNotification", mappedBy="post", cascade={"remove"}, orphanRemoval=true)
-     */
-    public Collection $notifications;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'posts')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Magazine $magazine;
+
+    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[JoinColumn(nullable: true)]
+    public ?Image $image = null;
+
+    #[Column(type: 'string', length: 255, nullable: true)]
+    public string $slug;
+
+    #[Column(type: 'text', length: 15000, nullable: true)]
+    public ?string $body = null;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $commentCount = 0;
+
+    #[Column(type: 'integer', options: ['default' => 0])]
+    public int $favouriteCount = 0;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $score = 0;
+
+    #[Column(type: 'boolean', nullable: false)]
+    public ?bool $isAdult = false;
+
+    #[Column(type: 'datetimetz')]
+    public ?DateTime $lastActive;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $ip = null;
+
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $tags = null;
+
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $mentions = null;
+
+    #[OneToMany(mappedBy: 'post', targetEntity: PostComment::class, orphanRemoval: true)]
+    public Collection $comments;
+
+    #[OneToMany(mappedBy: 'post', targetEntity: PostVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $votes;
+
+    #[OneToMany(mappedBy: 'post', targetEntity: PostReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $reports;
+
+    #[OneToMany(mappedBy: 'post', targetEntity: PostFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $favourites;
+
+    #[OneToMany(mappedBy: 'post', targetEntity: PostCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $notifications;
 
     public array $children = [];
 

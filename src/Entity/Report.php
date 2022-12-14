@@ -1,24 +1,30 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Traits\CreatedAtTrait;
+use App\Repository\ReportRepository;
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity()
- * @ORM\Entity(repositoryClass="App\Repository\ReportRepository")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="report_type", type="text")
- * @ORM\DiscriminatorMap({
- *     "entry": "EntryReport",
- *     "entry_comment": "EntryCommentReport",
- *     "post": "PostReport",
- *     "post_comment": "PostCommentReport",
- * })
- */
+#[Entity(repositoryClass: ReportRepository::class)]
+#[InheritanceType('SINGLE_TABLE')]
+#[DiscriminatorColumn(name: 'report_type', type: 'text')]
+#[DiscriminatorMap([
+    'entry' => 'EntryReport',
+    'entry_comment' => 'EntryCommentReport',
+    'post' => 'PostReport',
+    'post_comment' => 'PostCommentReport',
+])]
 abstract class Report
 {
     const STATUS_PENDING = 'pending';
@@ -31,55 +37,45 @@ abstract class Report
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="Magazine", inversedBy="reports")
-     */
-    public Magazine $magazine;
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
-     */
-    public User $reporting;
-    /**
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="violations")
-     */
-    public User $reported;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    public ?string $reason = null;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    public int $weight = 1;
-    /**
-     * @ORM\JoinColumn(nullable=true)
-     * @ORM\ManyToOne(targetEntity="User")
-     */
-    public ?User $consideredBy = null;
-    /**
-     * @ORM\Column(type="datetimetz", nullable=true)
-     */
-    public ?DateTime $consideredAt = null;
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $status = self::STATUS_PENDING;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
+
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'reports')]
+    #[JoinColumn(nullable: false)]
+    public Magazine $magazine;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'reports')]
+    #[JoinColumn(nullable: false)]
+    public User $reporting;
+
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'violations')]
+    #[JoinColumn(nullable: false)]
+    public User $reported;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: true)]
+    public ?User $consideredBy = null;
+
+    #[Column(type: 'string', nullable: true)]
+    public ?string $reason = null;
+
+    #[Column(type: 'integer', nullable: false)]
+    public int $weight = 1;
+
+    #[Column(type: 'datetimetz', nullable: true)]
+    public ?DateTime $consideredAt = null;
+
+    #[Column(type: 'string', nullable: false)]
+    public string $status = self::STATUS_PENDING;
 
     public function __construct(User $reporting, User $reported, Magazine $magazine, ?string $reason = null)
     {
         $this->reporting = $reporting;
-        $this->reported  = $reported;
-        $this->magazine  = $magazine;
-        $this->reason    = $reason;
+        $this->reported = $reported;
+        $this->magazine = $magazine;
+        $this->reason = $reason;
 
         $this->createdAtTraitConstruct();
     }

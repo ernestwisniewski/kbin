@@ -3,26 +3,23 @@
 namespace App\Entity;
 
 use App\Repository\SettingsRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 
-/**
- * @ORM\Entity(repositoryClass=SettingsRepository::class)
- */
+#[Entity(repositoryClass: SettingsRepository::class)]
 class Settings
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
     private int $id;
-    /**
-     * @ORM\Column(type="string")
-     */
+
+    #[Column(type: 'string', nullable: false)]
     public string $name;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[Column(type: 'string', nullable: true)]
     public ?string $value = null;
 
     public function getId(): int
