@@ -24,8 +24,6 @@ services:
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-app.localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
-#    depends_on:
-#     - mongodb_container
 
   caddy:
     build:
@@ -43,7 +41,6 @@ services:
       - caddy_data:/data
       - caddy_config:/config
       - ./:/srv/app:ro
-#      - mongodb_data_container:/data/db
 
     ports:
       # HTTP
@@ -99,16 +96,6 @@ services:
       - "5433:5432"
 ###< doctrine/doctrine-bundle ###
 
-#  mongodb_container:
-#    image: mongo:latest
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-#    ports:
-#      - 27017:27017
-#    volumes:
-#      - mongodb_data_container:/data/db
-
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
@@ -120,7 +107,6 @@ volumes:
   elasticsearch-data:
     driver: local
   db-data:
-#  mongodb_data_container:
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###

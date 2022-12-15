@@ -1,15 +1,11 @@
-# the different stages of this Dockerfile are meant to be built into separate images
+#syntax=docker/dockerfile:1.4
+
+# The different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
 # https://docs.docker.com/compose/compose-file/#target
 
-
-# https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG PHP_VERSION=8.1
-ARG CADDY_VERSION=2
-ARG ELASTIC_VERSION=7.17.5
-
 # Prod image
-FROM php:${PHP_VERSION}-fpm-alpine AS app_php
+FROM php:8.1-fpm-alpine AS app_php
 
 # Allow to use development versions of Symfony
 ARG STABILITY="stable"
@@ -24,8 +20,7 @@ ENV APP_ENV=prod
 WORKDIR /srv/app
 
 # php extensions installer: https://github.com/mlocati/docker-php-extension-installer
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN chmod +x /usr/local/bin/install-php-extensions
+COPY --from=mlocati/php-extension-installer --link /usr/bin/install-php-extensions /usr/local/bin/
 
 # persistent / runtime deps
 RUN apk add --no-cache \
@@ -60,22 +55,21 @@ RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
 ###< recipes ###
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
-COPY docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
-#RUN echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
 
-COPY docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY --link docker/supervisor/conf.d/supervisord.conf /etc/supervisor/supervisord.conf
 
-COPY docker/supervisor/conf.d/supervisord.conf /etc/supervisor/supervisord.conf
+COPY --link docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
+COPY --link docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
 
+COPY --link docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN mkdir -p /var/run/php
 
-COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+COPY --link docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 
-COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY --link docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
 #Temp tests
@@ -88,7 +82,7 @@ USER root
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer/composer:2-bin --link /composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.* symfony.* ./
@@ -129,7 +123,7 @@ RUN set -eux; \
 RUN rm -f .env.local.php
 
 # Build Caddy with the Mercure and Vulcain modules
-FROM caddy:${CADDY_VERSION}-builder-alpine AS app_caddy_builder
+FROM caddy:2.6-builder-alpine AS app_caddy_builder
 
 RUN xcaddy build \
 	--with github.com/dunglas/mercure \
@@ -138,7 +132,7 @@ RUN xcaddy build \
 	--with github.com/dunglas/vulcain/caddy
 
 # Caddy image
-FROM caddy:${CADDY_VERSION} AS app_caddy
+FROM caddy:2.6-alpine AS app_caddy
 
 WORKDIR /srv/app
 
@@ -146,5 +140,5 @@ COPY --from=app_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=app_php /srv/app/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
-FROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION} as symfony_elastic
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.5 as symfony_elastic
 RUN bin/elasticsearch-plugin install pl.allegro.tech.elasticsearch.plugin:elasticsearch-analysis-morfologik:7.17.5
