@@ -1,5 +1,3 @@
-#syntax=docker/dockerfile:1.4
-
 # The different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
 # https://docs.docker.com/compose/compose-file/#target
@@ -20,7 +18,7 @@ ENV APP_ENV=prod
 WORKDIR /srv/app
 
 # php extensions installer: https://github.com/mlocati/docker-php-extension-installer
-COPY --from=mlocati/php-extension-installer --link /usr/bin/install-php-extensions /usr/local/bin/
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
 # persistent / runtime deps
 RUN apk add --no-cache \
@@ -56,20 +54,20 @@ RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-COPY --link docker/supervisor/conf.d/supervisord.conf /etc/supervisor/supervisord.conf
+COPY docker/supervisor/conf.d/supervisord.conf /etc/supervisor/supervisord.conf
 
-COPY --link docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
-COPY --link docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
+COPY docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
+COPY docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
 
-COPY --link docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN mkdir -p /var/run/php
 
-COPY --link docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 
-COPY --link docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
 #Temp tests
@@ -82,7 +80,7 @@ USER root
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
-COPY --from=composer/composer:2-bin --link /composer /usr/bin/composer
+COPY --from=composer/composer:2-bin /composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.* symfony.* ./
