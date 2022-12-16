@@ -109,6 +109,10 @@ export default class extends ApplicationController {
     }
 
     notify(content) {
+        if (Cookies.get('user_option_browser_notifications') === undefined || Cookies.get('user_option_browser_notifications') === 'false') {
+            return;
+        }
+
         if ('granted' === Notification.permission) {
             this.createNotification(content);
             return;
