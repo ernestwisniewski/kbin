@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 #[Entity]
 class PostCommentMentionedNotification extends Notification
 {
-    #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'notifications')]
+    #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'notifications')]
     public ?PostComment $postComment;
 
     public function __construct(User $receiver, PostComment $comment)
