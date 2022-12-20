@@ -15,7 +15,6 @@ use App\Entity\PostComment;
 use App\Entity\User;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
-use App\Repository\PostRepository;
 use App\Service\ActivityPubManager;
 use App\Service\EntryCommentManager;
 use App\Service\PostCommentManager;
@@ -28,7 +27,6 @@ class Note
 {
     public function __construct(
         private ApActivityRepository $repository,
-        private PostRepository $postRepository,
         private PostManager $postManager,
         private EntryCommentManager $entryCommentManager,
         private PostCommentManager $postCommentManager,
@@ -174,7 +172,11 @@ class Note
         array $object,
     ): ActivityPubActivityInterface {
         $dto = new PostDto();
-        $dto->magazine = $this->magazineRepository->findOneByName('random'); // @todo magazine by tags
+        $dto->magazine = $this->magazineRepository->findByApGroupProfileId(
+            $object['to']
+        ) ?? $this->magazineRepository->findOneByName(
+            'random'
+        ); // @todo magazine by tags
         $dto->apId = $object['id'];
 
         if (isset($object['attachment'])) {

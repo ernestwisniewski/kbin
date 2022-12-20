@@ -3,6 +3,7 @@
 namespace App\MessageHandler\ActivityPub\Outbox;
 
 use App\Message\ActivityPub\Outbox\FollowMessage;
+use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\FollowWrapper;
@@ -15,7 +16,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class FollowHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private UserRepository $repository,
+        private UserRepository $userRepository,
+        private MagazineRepository $magazineRepository,
         private ActivityPubManager $activityPubManager,
         private FollowWrapper $followWrapper,
         private UndoWrapper $undoWrapper,
@@ -24,15 +26,24 @@ class FollowHandler implements MessageHandlerInterface
     ) {
     }
 
-    #[ArrayShape(['@context' => "string", 'id' => "string", 'actor' => "string", 'object' => "string"])] public function __invoke(
+    #[ArrayShape([
+        '@context' => "string",
+        'id' => "string",
+        'actor' => "string",
+        'object' => "string",
+    ])] public function __invoke(
         FollowMessage $message
     ): void {
         if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
             return;
         }
 
-        $follower  = $this->repository->find($message->followerId);
-        $following = $this->repository->find($message->followingId);
+        $follower = $this->userRepository->find($message->followerId);
+        if ($message->magazine) {
+            $following = $this->magazineRepository->find($message->followingId);
+        } else {
+            $following = $this->userRepository->find($message->followingId);
+        }
 
         $followObject = $this->followWrapper->build(
             $this->activityPubManager->getActorProfileId($follower),

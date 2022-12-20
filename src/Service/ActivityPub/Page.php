@@ -34,7 +34,11 @@ class Page
         }
 
         $dto = new EntryDto();
-        $dto->magazine = $this->magazineRepository->findOneByName('random'); // @todo magazine by tags
+        $dto->magazine = $this->magazineRepository->findByApGroupProfileId(
+            $object['to']
+        ) ?? $this->magazineRepository->findOneByName(
+            'random'
+        ); // @todo magazine by tags
         $dto->title = $object['name'];
         $dto->apId = $object['id'];
 

@@ -4,6 +4,7 @@ namespace App\MessageHandler\ActivityPub\Outbox;
 
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
+use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\CreateWrapper;
 use App\Service\ActivityPubManager;
@@ -16,7 +17,8 @@ class CreateHandler implements MessageHandlerInterface
 {
     public function __construct(
         private MessageBusInterface $bus,
-        private UserRepository $repository,
+        private UserRepository $userRepository,
+        private MagazineRepository $magazineRepository,
         private CreateWrapper $createWrapper,
         private EntityManagerInterface $entityManager,
         private ActivityPubManager $activityPubManager,
@@ -34,8 +36,7 @@ class CreateHandler implements MessageHandlerInterface
 
         $activity = $this->createWrapper->build($entity);
 
-        $followers = $this->repository->findAudience($entity->user);
-
+        $followers = $this->userRepository->findAudience($entity->user);
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }
@@ -43,6 +44,11 @@ class CreateHandler implements MessageHandlerInterface
         $followers = $this->activityPubManager->createCcFromObject($activity, $entity->user);
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower, $activity));
+        }
+
+        $followers = $this->magazineRepository->findAudience($entity->magazine);
+        foreach ($followers as $follower) {
+            $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }
     }
 }

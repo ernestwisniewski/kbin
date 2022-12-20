@@ -284,6 +284,20 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
+    public function findAudience(Magazine $magazine): array
+    {
+        $dql =
+            'SELECT u FROM '.User::class.' u WHERE u IN ('.
+            'SELECT IDENTITY(ms.user) FROM '.MagazineSubscription::class.' ms WHERE ms.magazine = :magazine'.')'.
+            'AND u.apId IS NOT NULL';
+
+        $res = $this->getEntityManager()->createQuery($dql)
+            ->setParameter('magazine', $magazine)
+            ->getResult();
+
+        return $res;
+    }
+
     private function getOverviewIds(array $result, string $type): array
     {
         $result = array_filter($result, fn($subject) => $subject['type'] === $type);
@@ -318,5 +332,15 @@ class MagazineRepository extends ServiceEntityRepository
             ->setMaxResults(100)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findByApGroupProfileId(array $apIds): ?Magazine
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.apProfileId IN (?1)')
+            ->setParameter(1, $apIds)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

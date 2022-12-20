@@ -2,13 +2,16 @@
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
+use App\Entity\Magazine;
 use App\Entity\User;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\AcceptWrapper;
 use App\Service\ActivityPubManager;
+use App\Service\MagazineManager;
 use App\Service\UserManager;
 use JetBrains\PhpStorm\ArrayShape;
+use LogicException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class FollowHandler implements MessageHandlerInterface
@@ -16,6 +19,7 @@ class FollowHandler implements MessageHandlerInterface
     public function __construct(
         private ActivityPubManager $activityPubManager,
         private UserManager $userManager,
+        private MagazineManager $magazineManager,
         private ApHttpClient $client,
         private AcceptWrapper $acceptWrapper
     ) {
@@ -26,11 +30,11 @@ class FollowHandler implements MessageHandlerInterface
         $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
         if ($message->payload['type'] === 'Follow') {
-            $user = $this->activityPubManager->findActorOrCreate($message->payload['object']);
+            $object = $this->activityPubManager->findActorOrCreate($message->payload['object']);
 
-            $this->handleFollow($user, $actor);
+            $this->handleFollow($object, $actor);
 
-            $this->accept($message->payload, $user);
+            $this->accept($message->payload, $object);
 
             return;
         }
@@ -38,16 +42,22 @@ class FollowHandler implements MessageHandlerInterface
         if (isset($message->payload['object'])) {
             switch ($message->payload['type']) {
                 case 'Undo':
-                    $user = $this->activityPubManager->findActorOrCreate($message->payload['object']['object']);
-                    $this->handleUnfollow($user, $actor);
+                    $this->handleUnfollow(
+                        $this->activityPubManager->findActorOrCreate($message->payload['object']['object']),
+                        $actor
+                    );
                     break;
                 case 'Accept':
-                    $user = $this->activityPubManager->findActorOrCreate($message->payload['object']['actor']);
-                    $this->handleAccept($actor, $user);
+                    $this->handleAccept(
+                        $actor,
+                        $this->activityPubManager->findActorOrCreate($message->payload['object']['actor'])
+                    );
                     break;
                 case 'Reject':
-                    $user = $this->activityPubManager->findActorOrCreate($message->payload['object']['actor']);
-                    $this->handleReject($actor, $user);
+                    $this->handleReject(
+                        $actor,
+                        $this->activityPubManager->findActorOrCreate($message->payload['object']['actor'])
+                    );
                     break;
                 default:
                     break;
@@ -63,7 +73,7 @@ class FollowHandler implements MessageHandlerInterface
         'object' => "mixed",
     ])] private function accept(
         array $payload,
-        User $user
+        User $object
     ): void {
         $accept = $this->acceptWrapper->build(
             $payload['object'],
@@ -71,26 +81,34 @@ class FollowHandler implements MessageHandlerInterface
             $payload['id'],
         );
 
-        $this->client->post($this->client->getInboxUrl($payload['actor']), $user, $accept);
+        $this->client->post($this->client->getInboxUrl($payload['actor']), $object, $accept);
     }
 
-    private function handleFollow(User $user, User $actor): void
+    private function handleFollow(User|Magazine $object, User $actor): void
     {
-        $this->userManager->follow($actor, $user);
+        match (true) {
+            $object instanceof User => $this->userManager->follow($actor, $object),
+            $object instanceof Magazine => $this->magazineManager->subscribe($object, $actor),
+            default => throw new LogicException(),
+        };
     }
 
-    private function handleUnfollow(User $user, User $actor): void
+    private function handleUnfollow(User|Magazine $object, User $actor): void
     {
-        $this->userManager->unfollow($actor, $user);
+        match (true) {
+            $object instanceof User => $this->userManager->unfollow($actor, $object),
+            $object instanceof Magazine => $this->magazineManager->unsubscribe($object, $actor),
+            default => throw new LogicException(),
+        };
     }
 
-    private function handleAccept(User $user, User $actor): void
+    private function handleAccept(User $actor, User $object): void
     {
-        $this->userManager->acceptFollow($actor, $user);
+        $this->userManager->acceptFollow($object, $actor);
     }
 
-    private function handleReject(User $user, User $actor): void
+    private function handleReject(User $actor, User $object): void
     {
-        $this->userManager->rejectFollow($actor, $user);
+        $this->userManager->rejectFollow($object, $actor);
     }
 }

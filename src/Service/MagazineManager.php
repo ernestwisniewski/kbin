@@ -116,7 +116,7 @@ class MagazineManager
 
         $this->entityManager->flush();
 
-        $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
+        $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user, true));
     }
 
     public function unblock(Magazine $magazine, User $user): void

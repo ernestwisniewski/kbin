@@ -204,13 +204,14 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user'.')';
+            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user'.')'.
+            'AND u.apId IS NOT NULL';
 
         $res = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user)
             ->getResult();
 
-        return array_filter($res, fn($val) => !is_null($val->apId));
+        return $res;
     }
 
     public function findBlockedUsers(int $page, User $user): PagerfantaInterface
