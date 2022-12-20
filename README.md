@@ -85,7 +85,7 @@ POSTGRES_PASSWORD=acme \
 POSTGRES_DB=kbin \
 CADDY_MERCURE_URL="https://example.com/.well-known/mercure" \
 KBIN_DEFAULT_LANG=pl \
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
 #### Deploying on Multiple Nodes

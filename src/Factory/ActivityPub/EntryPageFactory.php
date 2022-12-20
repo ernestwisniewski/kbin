@@ -47,10 +47,10 @@ class EntryPageFactory
             'attributedTo' => $this->activityPubManager->getActorProfileId($entry->user),
             'inReplyTo' => null,
             'to' => [
+                $this->groupFactory->getActivityPubId($entry->magazine),
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
             'cc' => [
-//                $this->groupFactory->getActivityPubId($entry->magazine),
                 $entry->apId
                     ? ($this->client->getActorObject($entry->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(

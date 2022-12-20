@@ -12,7 +12,6 @@ use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\MentionManager;
 use App\Service\TagManager;
-use DateTimeInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -53,10 +52,10 @@ class PostNoteFactory
             'attributedTo' => $this->activityPubManager->getActorProfileId($post->user),
             'inReplyTo' => null,
             'to' => [
+                $this->groupFactory->getActivityPubId($post->magazine),
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
             'cc' => [
-//                $this->groupFactory->getActivityPubId($post->magazine),
                 $post->apId
                     ? ($this->client->getActorObject($post->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(

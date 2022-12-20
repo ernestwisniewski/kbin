@@ -21,6 +21,7 @@ class PostCommentNoteFactory
         private UrlGeneratorInterface $urlGenerator,
         private PostNoteFactory $postNoteFactory,
         private ImageWrapper $imageWrapper,
+        private GroupFactory $groupFactory,
         private TagsWrapper $tagsWrapper,
         private MentionsWrapper $mentionsWrapper,
         private MentionManager $mentionManager,
@@ -55,7 +56,7 @@ class PostCommentNoteFactory
                 ActivityPubActivityInterface::PUBLIC_URL,
             ],
             'cc' => [
-//                $this->groupFactory->getActivityPubId($comment->magazine),
+                $this->groupFactory->getActivityPubId($comment->magazine),
                 $comment->apId
                     ? ($this->client->getActorObject($comment->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(

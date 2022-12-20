@@ -35,10 +35,10 @@ class ChainActivityHandler implements MessageHandlerInterface
 
         // Handle parent objects
         if (isset($object['inReplyTo']) && $object['inReplyTo']) {
-            $existed = $this->repository->findByObjectId($object['inReplyTo']);
-
-            if ($existed) {
+            if ($existed = $this->repository->findByObjectId($object['inReplyTo'])) {
                 $this->bus->dispatch(new ChainActivityMessage($message->chain, $existed, $message->announce));
+
+                return;
             }
 
             $message->chain[] = $this->client->getActivityObject($object['inReplyTo']);
@@ -56,10 +56,11 @@ class ChainActivityHandler implements MessageHandlerInterface
 
         if (!$entity) {
             if ($message->announce && $message->announce['object'] === $object['object']) {
+                $this->unloadStack($message->chain, $message->parent, $message->announce, $message->like);
+            }
 
-                $this->bus->dispatch(new ChainActivityMessage($message->chain, ['Announce' => true], $message->announce));
-
-                return;
+            if ($message->like && $message->like['object'] === $object['object']) {
+                $this->unloadStack($message->chain, $message->parent, $message->announce, $message->like);
             }
 
             return;
@@ -69,9 +70,9 @@ class ChainActivityHandler implements MessageHandlerInterface
 
         $this->bus->dispatch(
             new ChainActivityMessage($message->chain, [
-                'id'   => $entity->getId(),
+                'id' => $entity->getId(),
                 'type' => get_class($entity),
-            ], $message->announce)
+            ], $message->announce, $message->like)
         );
     }
 
