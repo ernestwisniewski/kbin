@@ -78,7 +78,6 @@ class ChainActivityHandler implements MessageHandlerInterface
 
     private function unloadStack(array $chain, array $parent, ?array $announce = null, ?array $like = null): void
     {
-        $entity = null;
         $object = end($chain);
 
         if (count($chain)) {
@@ -97,7 +96,7 @@ class ChainActivityHandler implements MessageHandlerInterface
         }
 
         if (!$entity && $like) {
-            $this->bus->dispatch(new LikeMessage($announce));
+            $this->bus->dispatch(new LikeMessage($like));
 
             return;
         }
