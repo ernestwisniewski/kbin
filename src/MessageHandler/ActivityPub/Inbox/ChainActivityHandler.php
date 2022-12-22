@@ -80,14 +80,12 @@ class ChainActivityHandler implements MessageHandlerInterface
     {
         $object = end($chain);
 
-        if (count($chain)) {
-            $entity = match ($this->getType($object)) {
-                'Question' => $this->note->create($object),
-                'Note' => $this->note->create($object),
-                'Page' => $this->page->create($object),
-                default => null
-            };
-        }
+        $entity = match ($this->getType($object)) {
+            'Question' => $this->note->create($object),
+            'Note' => $this->note->create($object),
+            'Page' => $this->page->create($object),
+            default => null
+        };
 
         if (!$entity && $announce) {
             $this->bus->dispatch(new AnnounceMessage($announce));
@@ -103,7 +101,7 @@ class ChainActivityHandler implements MessageHandlerInterface
 
         array_pop($chain);
 
-        if (count($chain)) {
+        if (count(array_filter($chain))) {
             $this->bus->dispatch(new ChainActivityMessage($chain, $parent, $announce, $like));
         }
     }
