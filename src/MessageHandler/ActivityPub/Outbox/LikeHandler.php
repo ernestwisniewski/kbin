@@ -5,6 +5,7 @@ namespace App\MessageHandler\ActivityPub\Outbox;
 use App\Factory\ActivityPub\ActivityFactory;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Message\ActivityPub\Outbox\LikeMessage;
+use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\LikeWrapper;
 use App\Service\ActivityPub\Wrapper\UndoWrapper;
@@ -18,7 +19,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class LikeHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private UserRepository $repository,
+        private UserRepository $userRepository,
+        private MagazineRepository $magazineRepository,
         private EntityManagerInterface $entityManager,
         private LikeWrapper $likeWrapper,
         private UndoWrapper $undoWrapper,
@@ -41,7 +43,7 @@ class LikeHandler implements MessageHandlerInterface
             return;
         }
 
-        $user = $this->repository->find($message->userId);
+        $user = $this->userRepository->find($message->userId);
         $object = $this->entityManager->getRepository($message->objectType)->find($message->objectId);
 
         $activity = $this->likeWrapper->build(
@@ -53,7 +55,13 @@ class LikeHandler implements MessageHandlerInterface
             $activity = $this->undoWrapper->build($activity);
         }
 
-        $followers = $this->repository->findAudience($user);
+        $this->deliver($this->userRepository->findAudience($user), $activity);
+        $this->deliver($this->userRepository->findAudience($user), $activity);
+        $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
+    }
+
+    private function deliver(array $followers, array $activity)
+    {
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }

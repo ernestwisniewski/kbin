@@ -24,7 +24,7 @@ class MagazineFollowSubscriber implements EventSubscriberInterface
 
     public function onMagazineFollow(MagazineSubscribedEvent $event): void
     {
-        if (!$event->magazine->apId && $event->user->apId) {
+        if ($event->magazine->apId && !$event->user->apId) {
             $this->bus->dispatch(
                 new FollowMessage($event->user->getId(), $event->magazine->getId(), $event->unfollow, true)
             );

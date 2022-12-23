@@ -36,17 +36,13 @@ class CreateHandler implements MessageHandlerInterface
 
         $activity = $this->createWrapper->build($entity);
 
-        $followers = $this->userRepository->findAudience($entity->user);
-        foreach ($followers as $follower) {
-            $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
-        }
+        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
+        $this->deliver($this->activityPubManager->createCcFromObject($activity, $entity->user), $activity);
+        $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
+    }
 
-        $followers = $this->activityPubManager->createCcFromObject($activity, $entity->user);
-        foreach ($followers as $follower) {
-            $this->bus->dispatch(new DeliverMessage($follower, $activity));
-        }
-
-        $followers = $this->magazineRepository->findAudience($entity->magazine);
+    private function deliver(array $followers, array $activity)
+    {
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }

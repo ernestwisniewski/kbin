@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
+use App\Entity\User;
 use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\CreateMessage;
@@ -33,14 +34,17 @@ class ActivityHandler implements MessageHandlerInterface
         }
 
         try {
-            $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
+            if (isset($payload['actor']) || isset($payload['attributedTo'])) {
+                $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
+            } else {
+                $user = $this->manager->findActorOrCreate($payload['id']);
+            }
         } catch (\Exception $e) {
-            $this->logger->error('User not found: '.$payload['actor'] ?? $payload['attributedTo']);
-
+            $this->logger->error('User not found: '.json_encode($payload));
             return;
         }
 
-        if ($user->isBanned) {
+        if ($user instanceof User && $user->isBanned) {
             return;
         }
 
@@ -102,11 +106,12 @@ class ActivityHandler implements MessageHandlerInterface
 
         if ($type === 'Like') {
             $this->bus->dispatch(new LikeMessage($payload));
+
             return;
         }
     }
 
-    private function handleAcceptAndReject(array $payload):void
+    private function handleAcceptAndReject(array $payload): void
     {
         if (is_array($payload['object'])) {
             $type = $payload['object']['type'];

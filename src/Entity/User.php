@@ -70,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[Column(type: 'string', nullable: false)]
     private string $password;
 
-    #[Column(type: 'json', nullable: false)]
+    #[Column(type: 'json', nullable: false, options: ['jsonb' => true])]
     public array $roles = [];
 
     #[Column(type: 'integer', nullable: false)]

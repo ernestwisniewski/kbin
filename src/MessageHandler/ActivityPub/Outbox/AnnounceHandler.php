@@ -2,10 +2,10 @@
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
-use App\EventSubscriber\VoteHandleSubscriber;
 use App\Factory\ActivityPub\ActivityFactory;
 use App\Message\ActivityPub\Outbox\AnnounceMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
+use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\AnnounceWrapper;
 use App\Service\ActivityPub\Wrapper\UndoWrapper;
@@ -15,12 +15,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Uid\Uuid;
 
 class AnnounceHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private UserRepository $repository,
+        private UserRepository $userRepository,
+        private MagazineRepository $magazineRepository,
         private EntityManagerInterface $entityManager,
         private AnnounceWrapper $announceWrapper,
         private UndoWrapper $undoWrapper,
@@ -31,14 +31,19 @@ class AnnounceHandler implements MessageHandlerInterface
     ) {
     }
 
-    #[ArrayShape(['@context' => "string", 'id' => "string", 'actor' => "string", 'object' => "string"])] public function __invoke(
+    #[ArrayShape([
+        '@context' => "string",
+        'id' => "string",
+        'actor' => "string",
+        'object' => "string",
+    ])] public function __invoke(
         AnnounceMessage $message
     ): void {
         if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
             return;
         }
 
-        $user   = $this->repository->find($message->userId);
+        $user = $this->userRepository->find($message->userId);
         $object = $this->entityManager->getRepository($message->objectType)->find($message->objectId);
 
         $activity = $this->announceWrapper->build(
@@ -50,14 +55,15 @@ class AnnounceHandler implements MessageHandlerInterface
             $activity = $this->undoWrapper->build($activity);
         }
 
-        $followers = $this->repository->findAudience($user);
+        $this->deliver($this->userRepository->findAudience($user), $activity);
+        $this->deliver($this->activityPubManager->createCcFromObject($activity, $user), $activity);
+        $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
+    }
+
+    private function deliver(array $followers, array $activity)
+    {
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
-        }
-
-        $followers = $this->activityPubManager->createCcFromObject($activity, $user);
-        foreach ($followers as $follower) {
-            $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
     }
 }

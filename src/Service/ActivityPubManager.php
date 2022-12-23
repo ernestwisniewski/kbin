@@ -70,6 +70,12 @@ class ActivityPubManager
 
     public function findActorOrCreate(string $actorUrlOrHandle): null|User|Magazine
     {
+        if (str_contains($actorUrlOrHandle, $this->settingsManager->get('KBIN_DOMAIN').'/m/')) {
+            $magazine = str_replace('https://'.$this->settingsManager->get('KBIN_DOMAIN').'/m/', '', $actorUrlOrHandle);
+
+            return $this->magazineRepository->findOneByName($magazine);
+        }
+
         $actorUrl = $actorUrlOrHandle;
         if (false === filter_var($actorUrl, FILTER_VALIDATE_URL)) {
             if (!substr_count(ltrim($actorUrl, '@'), '@')) {
@@ -133,18 +139,23 @@ class ActivityPubManager
             return $this->webFingerFactory->get($id);
         }
 
+        $handle = $this->buildHandle($id);
+
+        return $this->webFingerFactory->get($handle);
+    }
+
+    public function buildHandle(string $id): string
+    {
         $port = !is_null(parse_url($id, PHP_URL_PORT))
             ? ':'.parse_url($id, PHP_URL_PORT)
             : '';
 
-        $handle = sprintf(
+        return sprintf(
             '%s@%s%s',
             $this->apHttpClient->getActorObject($id)['preferredUsername'],
             parse_url($id, PHP_URL_HOST),
             $port
         );
-
-        return $this->webFingerFactory->get($handle);
     }
 
     public function createCcFromBody(string $body): array
@@ -182,7 +193,7 @@ class ActivityPubManager
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
 
-            return array_unique(
+            $res = array_unique(
                 array_filter(
                     array_merge(
                         is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
@@ -206,7 +217,7 @@ class ActivityPubManager
             try {
                 if ($tempFile = $this->imageManager->download($images[0]['url'])) {
                     $image = $this->imageRepository->findOrCreateFromPath($tempFile);
-                    if($image && isset($images[0]['name'])) {
+                    if ($image && isset($images[0]['name'])) {
                         $image->altText = $images[0]['name'];
                     }
                 }
@@ -290,6 +301,7 @@ class ActivityPubManager
     public function updateUser(string $actorUrl): User
     {
         $user = $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
+
         $actor = $this->apHttpClient->getActorObject($actorUrl);
 
         if (isset($actor['summary'])) {
@@ -327,9 +339,8 @@ class ActivityPubManager
 
     private function createMagazine(string $actorUrl): Magazine
     {
-        $webfinger = $this->webfinger($actorUrl);
         $this->magazineManager->create(
-            $this->magazineFactory->createDtoFromAp($actorUrl, $webfinger->getHandle()),
+            $this->magazineFactory->createDtoFromAp($actorUrl, $this->buildHandle($actorUrl)),
             $this->userRepository->findAdmin(),
             false
         );
@@ -337,7 +348,7 @@ class ActivityPubManager
         return $this->updateMagazine($actorUrl);
     }
 
-    private function updateMagazine(string $actorUrl): Magazine
+    public function updateMagazine(string $actorUrl): Magazine
     {
         $magazine = $this->magazineRepository->findOneBy(['apProfileId' => $actorUrl]);
         $actor = $this->apHttpClient->getActorObject($actorUrl);

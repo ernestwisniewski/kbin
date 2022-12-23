@@ -33,11 +33,13 @@ class MagazineManager
     ) {
     }
 
-    public function create(MagazineDto $dto, User $user): Magazine
+    public function create(MagazineDto $dto, User $user, bool $limiter = true): Magazine
     {
-        $limiter = $this->magazineLimiter->create($dto->ip);
-        if (false === $limiter->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException();
+        if($limiter) {
+            $limiter = $this->magazineLimiter->create($dto->ip);
+            if (false === $limiter->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
         }
 
         $magazine = $this->factory->createFromDto($dto, $user);

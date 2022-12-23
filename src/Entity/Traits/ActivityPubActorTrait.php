@@ -37,6 +37,9 @@ trait ActivityPubActorTrait
     #[Column(type: 'datetimetz', nullable: true)]
     public ?DateTime $apFetchedAt = null;
 
+    #[Column(type: 'datetimetz', nullable: true)]
+    public ?DateTime $apDeletedAt = null;
+
     public function getPrivateKey(): ?string
     {
         return $this->privateKey;

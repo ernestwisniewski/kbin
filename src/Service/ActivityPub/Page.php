@@ -48,7 +48,7 @@ class Page
 
         $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
 
-        $dto->body = $object['content'] ? $this->markdownConverter->convert($object['content']) : null;
+        $dto->body = !empty($object['content']) ? $this->markdownConverter->convert($object['content']) : null;
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleUrl($dto, $object);
         $this->handleDate($dto, $object['published']);

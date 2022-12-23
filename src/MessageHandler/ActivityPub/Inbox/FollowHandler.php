@@ -34,7 +34,10 @@ class FollowHandler implements MessageHandlerInterface
 
             $this->handleFollow($object, $actor);
 
-            $this->accept($message->payload, $object);
+            // @todo group follow accept
+            if($object instanceof User) {
+                $this->accept($message->payload, $object);
+            }
 
             return;
         }

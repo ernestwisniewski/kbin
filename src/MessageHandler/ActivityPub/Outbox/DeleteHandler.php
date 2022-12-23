@@ -4,6 +4,7 @@ namespace App\MessageHandler\ActivityPub\Outbox;
 
 use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
+use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\DeleteWrapper;
 use App\Service\ActivityPubManager;
@@ -17,7 +18,8 @@ class DeleteHandler implements MessageHandlerInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private UserRepository $repository,
+        private UserRepository $userRepository,
+        private MagazineRepository $magazineRepository,
         private DeleteWrapper $deleteWrapper,
         private MessageBusInterface $bus,
         private ActivityPubManager $activityPubManager,
@@ -35,14 +37,15 @@ class DeleteHandler implements MessageHandlerInterface
 
         $activity = $this->deleteWrapper->build($entity, Uuid::v4()->toRfc4122());
 
-        $followers = $this->repository->findAudience($entity->user);
+        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
+        $this->deliver($this->activityPubManager->createCcFromObject($activity, $entity->user), $activity);
+        $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
+    }
+
+    private function deliver(array $followers, array $activity)
+    {
         foreach ($followers as $follower) {
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
-        }
-
-        $followers = $this->activityPubManager->createCcFromObject($activity, $entity->user);
-        foreach ($followers as $follower) {
-            $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
     }
 }

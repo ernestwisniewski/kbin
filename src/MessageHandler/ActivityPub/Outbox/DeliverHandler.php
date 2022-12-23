@@ -2,11 +2,11 @@
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
+use App\Entity\User;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class DeliverHandler implements MessageHandlerInterface
@@ -24,18 +24,22 @@ class DeliverHandler implements MessageHandlerInterface
             return;
         }
 
-        $user = $this->manager->findActorOrCreate(
+        $actor = $this->manager->findActorOrCreate(
             $message->payload['object']['attributedTo'] ?? $message->payload['actor']
         );
 
-        if (!$user) {
+        if (!$actor) {
             return;
         }
 
-        if ($user->isBanned) {
+        if (!$actor->apId) {
             return;
         }
 
-        $this->client->post($this->client->getInboxUrl($message->apProfileId), $user, $message->payload);
+        if ($actor instanceof User && $actor->isBanned) {
+            return;
+        }
+
+        $this->client->post($this->client->getInboxUrl($message->apProfileId), $actor, $message->payload);
     }
 }
