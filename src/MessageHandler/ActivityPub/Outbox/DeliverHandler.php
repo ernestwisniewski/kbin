@@ -32,10 +32,6 @@ class DeliverHandler implements MessageHandlerInterface
             return;
         }
 
-        if (!$actor->apId) {
-            return;
-        }
-
         if ($actor instanceof User && $actor->isBanned) {
             return;
         }
