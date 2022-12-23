@@ -83,6 +83,13 @@ class ChainActivityHandler implements MessageHandlerInterface
         $object = end($chain);
 
         if ($object) {
+            match ($this->getType($object)) {
+                'Question' => $this->note->create($object),
+                'Note' => $this->note->create($object),
+                'Page' => $this->page->create($object),
+                default => null
+            };
+
             array_pop($chain);
 
             if (count(array_filter($chain))) {
