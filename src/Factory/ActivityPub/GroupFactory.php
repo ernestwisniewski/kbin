@@ -21,8 +21,8 @@ class GroupFactory
             'type' => 'Group',
             '@context' => [ActivityPubActivityInterface::CONTEXT_URL, ActivityPubActivityInterface::SECURITY_URL],
             'id' => $this->getActivityPubId($magazine),
-            'name' => $magazine->title, // lemmy
-            'preferredUsername' => $magazine->name,
+            'name' => $magazine->name, // lemmy
+            'preferredUsername' => $magazine->title,
             'inbox' => $this->urlGenerator->generate(
                 'ap_magazine_inbox',
                 ['name' => $magazine->name],

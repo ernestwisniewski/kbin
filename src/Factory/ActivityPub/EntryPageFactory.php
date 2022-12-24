@@ -60,6 +60,7 @@ class EntryPageFactory
                 ),
             ],
             'name' => $entry->title,
+            'content' => $entry->body,
             'summary' => ($entry->body ? $entry->getShortDesc() : '').' '.implode(
                     ' ',
                     array_map(fn($val) => '#'.$val, $tags)
