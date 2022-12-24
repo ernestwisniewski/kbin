@@ -1,9 +1,9 @@
 .kbin-entry {
   @include media-breakpoint-down(sm) {
-    margin-left: -.8rem;
-    margin-right: -.8rem;
-    padding-left: .8rem;
-    padding-right: .8rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .kbin-related-wrapper & {
@@ -14,7 +14,7 @@
     }
   }
 
-  padding: 2rem .3rem;
+  padding: 2rem 1rem;
   display: flow-root;
   position: relative;
   background: #fff;
@@ -87,12 +87,15 @@
     height: 100%;
 
     img {
-      max-width: 7rem;
+      width: 12rem;
+      max-height: 12rem;
+      object-fit: cover;
     }
 
     @include media-breakpoint-down(sm) {
       img {
-        max-width: 7rem;
+        max-height: 5rem;
+        width: 15rem;
       }
     }
   }

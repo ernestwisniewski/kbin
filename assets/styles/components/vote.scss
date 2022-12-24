@@ -16,6 +16,7 @@
 
 .kbin-vote {
   button {
+    font-size: .8rem;
     background-color: $kbin-entry-vote-button-background-color;
 
     .kbin-dark & {

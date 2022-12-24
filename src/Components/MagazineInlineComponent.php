@@ -11,4 +11,6 @@ class MagazineInlineComponent
     public Magazine $magazine;
     public bool $prefix = true;
     public bool $bolded = false;
+    public int $coverWidth = 25;
+    public int $coverHeight = 25;
 }

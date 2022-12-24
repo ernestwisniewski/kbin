@@ -68,13 +68,14 @@
                         </li>
                         {% if this.showMagazine %}
                             <li class="kbin-entry-meta-magazine kbin-entry-meta-list-item list-inline-item">
-                                <small class="text-muted">{{ 'to'|trans }} {{ component('magazine_inline', { magazine: this.entry.magazine }) }}</small>
+                                <small class="text-muted">{{ 'to'|trans }} {{ component('magazine_inline', { magazine: this.entry.magazine, coverWidth:35, coverHeight: 35 }) }}</small>
                             </li>
                         {% endif %}
                     </ul>
 
                     {% if this.entry.visibility in ['visible', 'private'] and this.entry.body and not is_entry_page() %}
-                        <p class="small mt-3 mb-0" style="word-wrap: break-word;">{{ get_short_desc(this.entry.shortDesc) }}</p>
+                        <p class="small mt-3 mb-0"
+                           style="word-wrap: break-word;">{{ get_short_desc(this.entry.shortDesc) }}</p>
                     {% endif %}
 
                     <ul class="kbin-entry-meta-list list-inline mb-0 float-start my-3">
