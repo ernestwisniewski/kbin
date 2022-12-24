@@ -8,7 +8,7 @@ liip_imagine:
     entry_thumb:
       quality: 90
       filters:
-        thumbnail: { size: [ 230, 330 ], mode: inset }
+        thumbnail: { size: [ 230, 230 ], mode: outbound }
     avatar_thumb:
       quality: 90
       filters:
