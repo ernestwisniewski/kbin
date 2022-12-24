@@ -29,11 +29,12 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.0",
     "@popperjs/core": "^2.6.0",
+    "codemirror-spell-checker": "TristanPouliquen/codemirror-spell-checker",
+    "easymde": "^2.18.0",
     "glightbox": "^3.2.0",
     "imagesloaded": "^5.0.0",
     "js-cookie": "^2.2.1",
     "masonry-layout": "^4.2.2",
-    "simplemde": "^1.11.2",
     "stimulus-animated-number": "^4.0.0",
     "stimulus-character-counter": "^4.0.0",
     "stimulus-clipboard": "^3.0.0",

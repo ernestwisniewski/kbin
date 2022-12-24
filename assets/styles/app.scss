@@ -18,7 +18,7 @@ html {
 }
 
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
-@import "~simplemde/dist/simplemde.min.css";
+@import "easymde/dist/easymde.min.css";
 @import "glightbox/dist/css/glightbox.min.css";
 @import "variables";
 @import "components/darkstyle";
@@ -123,6 +123,23 @@ html {
   font-size: small;
 }
 
+.EasyMDEContainer {
+  .editor-toolbar {
+    button {
+      i {
+        .kbin-dark & {
+          color: white !important;
+        }
+      }
+
+      &:hover {
+        .kbin-dark & {
+          background: grey;
+        }
+      }
+    }
+  }
+}
 
 .CodeMirror,
 .CodeMirror-scroll {

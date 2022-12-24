@@ -1,9 +1,9 @@
 import {Controller} from '@hotwired/stimulus';
-import SimpleMDE from 'simplemde/dist/simplemde.min';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
 import bootstrap from "bootstrap/dist/js/bootstrap.min";
 import {trim} from "core-js/internals/string-trim";
+import EasyMDE from "easymde";
 
 export default class extends Controller {
     static values = {
@@ -19,11 +19,12 @@ export default class extends Controller {
     }
 
     build(el, focus = true) {
-        this.editor = new SimpleMDE({
+        this.editor = new EasyMDE({
             element: el,
             hideIcons: ['guide', 'fullscreen', 'side-by-side', 'preview', 'heading', 'table'],
             showIcons: ['code', 'table'],
             spellChecker: false,
+            nativeSpellcheck: true,
             status: true,
             toolbarTips: false,
             promptURLs: true,
@@ -52,8 +53,7 @@ export default class extends Controller {
         let cursor = doc.getCursor();
         let line = doc.getLine(cursor.line);
         let pos = {
-            line: cursor.line,
-            ch: line.length - 1
+            line: cursor.line, ch: line.length - 1
         }
 
         doc.replaceRange(replyTo + ' ', pos);
@@ -71,16 +71,12 @@ export default class extends Controller {
     addMentions() {
         try {
             if (this.element.closest('article')) {
-                this.addMention(
-                    this.element.closest('article').getElementsByClassName('kbin-user')[0].innerHTML.trim()
-                )
+                this.addMention(this.element.closest('article').getElementsByClassName('kbin-user')[0].innerHTML.trim())
             } else if (this.element.closest('blockquote')) {
                 const isEntryComment = this.element.closest('blockquote').id.startsWith('entry-comment');
 
                 if (!isEntryComment) {
-                    this.addMention(
-                        this.element.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim()
-                    )
+                    this.addMention(this.element.closest('blockquote').getElementsByClassName('kbin-user')[0].innerHTML.trim())
                 }
             }
         } catch (e) {
