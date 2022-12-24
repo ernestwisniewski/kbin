@@ -2,7 +2,7 @@
 {% from '_layout/_macros.html.twig' import entry_url %}
 
 <article id="entry-{{ this.entry.id }}"
-         class="kbin-entry {{ this.extraClass }} {{ this.entry.image and not app.user or (app.user and not app.user.hideImages) ? 'kbin-has-image' : '' }}"
+         class="kbin-entry {{ this.extraClass }} kbin-has-image"
          data-controller="embed report tip entry mention-popover"
          data-action="notify:EntryCommentCreatedNotification@window->entry#increaseComments notify:EntryCommentDeletedNotification@window->entry#decreaseComments notify:EntryDeletedNotification@window->entry#remove notify:EntryEditedNotification@window->entry#edit"
          data-entry-id-value="{{ this.entry.id }}"
