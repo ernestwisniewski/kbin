@@ -22,7 +22,10 @@ framework:
           multiplier: 2
           max_delay: 0
         serializer: messenger.transport.symfony_serializer
-      failed: 'doctrine://default?queue_name=failed'
+      failed:
+        dsn: 'doctrine://default?queue_name=failed'
+        serializer: messenger.transport.symfony_serializer
+
 
     routing:
       # Route your messages to the transports
