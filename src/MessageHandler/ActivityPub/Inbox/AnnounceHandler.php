@@ -33,7 +33,7 @@ class AnnounceHandler implements MessageHandlerInterface
     {
         if ($message->payload['type'] === 'Announce') {
             if (is_array($message->payload['object'])) {
-                $this->bus->dispatch(new CreateMessage($message->payload['object']['id']));
+                $this->bus->dispatch(new CreateMessage($message->payload['object']['object']['id']));
 
                 return;
             }
