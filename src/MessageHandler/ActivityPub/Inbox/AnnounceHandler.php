@@ -32,8 +32,8 @@ class AnnounceHandler implements MessageHandlerInterface
     public function __invoke(AnnounceMessage $message): void
     {
         if ($message->payload['type'] === 'Announce') {
-            if (is_array($message->payload['object']) && $message->payload['object']['type'] === 'Create') {
-                $this->bus->dispatch(new CreateMessage($message->payload['object']['object']));
+            if (is_array($message->payload['object'])) {
+                $this->bus->dispatch(new CreateMessage($message->payload['object']['id']));
 
                 return;
             }
