@@ -19,7 +19,7 @@
             {% if is_entry_page() and this.directUrl %}
                 <div class="kbin-entry-image {{ app.user and app.user.rightPosImages ? 'float-xs-start float-sm-end ms-3' : 'float-start me-3' }}">
                     {% if this.entry.type is not same as 'article' %}
-                    <a href="{{- this.entry.image ? uploaded_asset(this.entry.image.filePath) : '#' }}"
+                    <a href="{{- this.entry.url ? this.entry.url : this.entry.image ? uploaded_asset(this.entry.image.filePath) : '#' }}"
                        rel="nofollow noopener noreferrer">
                         {% endif %}
                         {% if this.entry.image %}
