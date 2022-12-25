@@ -13,6 +13,7 @@ framework:
           delay: 30000
           multiplier: 2
           max_delay: 0
+        serializer: messenger.transport.symfony_serializer
       async_ap:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         retry_strategy:
@@ -20,6 +21,7 @@ framework:
           delay: 30000
           multiplier: 2
           max_delay: 0
+        serializer: messenger.transport.symfony_serializer
       failed: 'doctrine://default?queue_name=failed'
 
     routing:
