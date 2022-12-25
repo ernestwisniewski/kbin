@@ -41,6 +41,7 @@ class ActivityHandler implements MessageHandlerInterface
             }
         } catch (\Exception $e) {
             $this->logger->error('User not found: '.json_encode($payload));
+
             return;
         }
 
@@ -53,6 +54,12 @@ class ActivityHandler implements MessageHandlerInterface
 
     private function handle(array $payload)
     {
+        if ($payload['type'] === 'Announce') {
+            if (is_array($payload['object'])) {
+                $payload = $payload['object'];
+            }
+        }
+
         switch ($payload['type']) {
             case 'Create':
                 $this->bus->dispatch(new CreateMessage($payload['object']));
