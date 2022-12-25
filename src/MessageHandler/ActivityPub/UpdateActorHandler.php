@@ -16,6 +16,6 @@ class UpdateActorHandler implements MessageHandlerInterface
 
     public function __invoke(UpdateActorMessage $message): void
     {
-        $this->manager->updateUser($message->actorUrl);
+        $this->manager->updateActor($message->actorUrl);
     }
 }

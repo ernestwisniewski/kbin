@@ -298,6 +298,17 @@ class ActivityPubManager
         return $this->updateUser($actorUrl);
     }
 
+    public function updateActor(string $actorUrl): Magazine|User
+    {
+        $actor = $this->apHttpClient->getActorObject($actorUrl);
+
+        if ('Person' === $actor['type']) {
+            return $this->updateUser($actorUrl);
+        }
+
+        return $this->updateMagazine($actorUrl);
+    }
+
     public function updateUser(string $actorUrl): User
     {
         $user = $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);

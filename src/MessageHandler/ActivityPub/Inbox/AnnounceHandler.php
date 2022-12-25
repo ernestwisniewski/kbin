@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\EventSubscriber\VoteHandleSubscriber;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
+use App\Message\ActivityPub\Inbox\CreateMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
@@ -31,6 +32,12 @@ class AnnounceHandler implements MessageHandlerInterface
     public function __invoke(AnnounceMessage $message): void
     {
         if ($message->payload['type'] === 'Announce') {
+            if (is_array($message->payload['object']) && $message->payload['object']['type'] === 'Create') {
+                $this->bus->dispatch(new CreateMessage($message->payload['object']['object']));
+
+                return;
+            }
+
             $activity = $this->repository->findByObjectId($message->payload['object']);
 
             if ($activity) {
