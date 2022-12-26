@@ -4,9 +4,11 @@ namespace App\MessageHandler\ActivityPub\Outbox;
 
 use App\Entity\User;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
+use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class DeliverHandler implements MessageHandlerInterface
@@ -15,6 +17,8 @@ class DeliverHandler implements MessageHandlerInterface
         private ApHttpClient $client,
         private ActivityPubManager $manager,
         private SettingsManager $settingsManager,
+        private UserRepository $userRepository,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -36,6 +40,17 @@ class DeliverHandler implements MessageHandlerInterface
             return;
         }
 
-        $this->client->post($this->client->getInboxUrl($message->apProfileId), $actor, $message->payload);
+        try {
+            $this->client->post($this->client->getInboxUrl($message->apProfileId), $actor, $message->payload);
+        } catch (\Exception $e) {
+            if (!$e->getCode() || $e->getCode() === 404 || $e->getCode() === 410) {
+                $user = $this->userRepository->findOneByApProfileId($message->apProfileId);
+                $user->apDeletedAt = new \DateTime();
+
+                $this->entityManager->flush();
+            }
+
+            throw $e;
+        }
     }
 }

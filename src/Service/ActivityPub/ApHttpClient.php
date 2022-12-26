@@ -21,7 +21,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApHttpClient
 {
-    const TIMEOUT = 7;
+    const TIMEOUT = 10;
+
     public function __construct(
         private HttpClientInterface $client,
         private PersonFactory $personFactory,
@@ -39,7 +40,7 @@ class ApHttpClient
                 $r = $this->client->request('GET', $url, [
                     'timeout' => self::TIMEOUT,
                     'headers' => [
-                        'Accept'     => 'application/activity+json,application/ld+json,application/json',
+                        'Accept' => 'application/activity+json,application/ld+json,application/json',
                         'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
                     ],
                 ])->getContent();
@@ -63,27 +64,30 @@ class ApHttpClient
 
     public function getActorObject(string $apProfileId): ?array
     {
-        $resp = $this->cache->get('ap_'.hash('sha256', $apProfileId), function (ItemInterface $item) use ($apProfileId) {
-            $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
+        $resp = $this->cache->get(
+            'ap_'.hash('sha256', $apProfileId),
+            function (ItemInterface $item) use ($apProfileId) {
+                $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
 
-            try {
-                $r = $this->client->request('GET', $apProfileId, [
-                    'timeout' => self::TIMEOUT,
-                    'headers' => [
-                        'Accept'     => 'application/activity+json,application/ld+json,application/json',
-                        'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
-                    ],
-                ])->getContent();
-            } catch (\Exception $e) {
-                $item->expiresAfter(30);
+                try {
+                    $r = $this->client->request('GET', $apProfileId, [
+                        'timeout' => self::TIMEOUT,
+                        'headers' => [
+                            'Accept' => 'application/activity+json,application/ld+json,application/json',
+                            'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
+                        ],
+                    ])->getContent();
+                } catch (\Exception $e) {
+                    $item->expiresAfter(30);
 
-                return null;
+                    throw $e;
+                }
+
+                $item->expiresAfter(600);
+
+                return $r;
             }
-
-            $item->expiresAfter(600);
-
-            return $r;
-        });
+        );
 
         return $resp ? json_decode($resp, true) : null;
     }
@@ -104,28 +108,12 @@ class ApHttpClient
             return;
         }
 
-        $digest = self::digest($body);
-
-        $headers       = self::headersToSign($url, $body ? $digest : false);
-        $stringToSign  = self::headersToSigningString($headers);
-        $signedHeaders = implode(' ', array_map('strtolower', array_keys($headers)));
-        $key           = openssl_pkey_get_private($user->privateKey);
-        openssl_sign($stringToSign, $signature, $key, OPENSSL_ALGO_SHA256);
-        $signature       = base64_encode($signature);
-        $keyId           = $this->personFactory->getActivityPubId($user).'#main-key';
-        $signatureHeader = 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"';
-        unset($headers['(request-target)']);
-        $headers['Signature']    = $signatureHeader;
-        $headers['User-Agent']   = 'kbinBot v0.1 - https://kbin.pub';
-        $headers['Accept']       = 'application/activity+json, application/json';
-        $headers['Content-Type'] = 'application/json';
-
         $this->logger->info("ApHttpClient:post:url: {$url}");
         $this->logger->info("ApHttpClient:post:body ".json_encode($body ?? []));
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, self::headersToCurlArray($headers));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, self::headersToCurlArray($this->getHeaders($url, $user, $body)));
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, self::TIMEOUT);
@@ -134,7 +122,7 @@ class ApHttpClient
 
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if (!str_starts_with((string) $code, '2')) {
+        if (!str_starts_with((string)$code, '2')) {
             throw new InvalidApPostException("Post fail: {$url}, ".json_encode($body));
         }
 
@@ -145,6 +133,25 @@ class ApHttpClient
         $cache->save($item);
     }
 
+    private function getHeaders(string $url, User $user, ?array $body = null): array
+    {
+        $headers = self::headersToSign($url, $body ? self::digest($body) : null);
+        $stringToSign = self::headersToSigningString($headers);
+        $signedHeaders = implode(' ', array_map('strtolower', array_keys($headers)));
+        $key = openssl_pkey_get_private($user->privateKey);
+        openssl_sign($stringToSign, $signature, $key, OPENSSL_ALGO_SHA256);
+        $signature = base64_encode($signature);
+        $keyId = $this->personFactory->getActivityPubId($user).'#main-key';
+        $signatureHeader = 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"';
+        unset($headers['(request-target)']);
+        $headers['Signature'] = $signatureHeader;
+        $headers['User-Agent'] = 'kbinBot v0.1 - https://kbin.pub';
+        $headers['Accept'] = 'application/activity+json, application/json';
+        $headers['Content-Type'] = 'application/json';
+
+        return $headers;
+    }
+
     private static function digest(array $body): string
     {
         return base64_encode(hash('sha256', json_encode($body), true));
@@ -152,18 +159,18 @@ class ApHttpClient
 
     #[ArrayShape([
         '(request-target)' => "string",
-        'Date'             => "string",
-        'Host'             => "mixed",
-        'Accept'           => "string",
-        'Digest'           => "string",
+        'Date' => "string",
+        'Host' => "mixed",
+        'Accept' => "string",
+        'Digest' => "string",
     ])] protected static function headersToSign(string $url, ?string $digest = null): array
     {
         $date = new DateTime('UTC');
 
         $headers = [
             '(request-target)' => 'post '.parse_url($url, PHP_URL_PATH),
-            'Date'             => $date->format('D, d M Y H:i:s \G\M\T'),
-            'Host'             => parse_url($url, PHP_URL_HOST),
+            'Date' => $date->format('D, d M Y H:i:s \G\M\T'),
+            'Host' => parse_url($url, PHP_URL_HOST),
         ];
 
         if ($digest) {

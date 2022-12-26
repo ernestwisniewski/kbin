@@ -205,7 +205,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
             'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user'.')'.
-            'AND u.apId IS NOT NULL';
+            'AND u.apId IS NOT NULL AND u.isBanned = false AND u.apDeletedAt IS NULL';
 
         $res = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user)
