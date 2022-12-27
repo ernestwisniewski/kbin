@@ -51,6 +51,14 @@ class GroupFactory
                 ['name' => $magazine->name],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
+            'postingRestrictedToMods' => false,
+            'endpoints' => [
+                'sharedInbox' => $this->urlGenerator->generate(
+                    'ap_shared_inbox',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+            ],
             'published' => $magazine->createdAt->format(DATE_ATOM),
             'updated' => $magazine->lastActive->format(DATE_ATOM),
         ];
