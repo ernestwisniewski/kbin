@@ -109,10 +109,14 @@ class PostNoteFactory
             return $post->apId;
         }
 
-        return $post->apId ?? $this->urlGenerator->generate(
-            'ap_post',
-            ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId()],
-            UrlGeneratorInterface::ABSOLUTE_URL
+        return str_replace(
+            ['@'],
+            '-',
+            $this->urlGenerator->generate(
+                'ap_post',
+                ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
         );
     }
 }

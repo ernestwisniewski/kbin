@@ -32,7 +32,7 @@ class RelatedEntriesSidebarComponent
     public function getHtml(): string
     {
         return $this->cache->get(
-            'related_entries_sidebar_'.$this->type.'_'.$this->tag.'_'.$this->security->getUser()?->getId(),
+            'related_entries_sidebar_'.$this->type.'_'.str_replace('@', '-', $this->tag).'_'.$this->security->getUser()?->getId(),
             function (ItemInterface $item) {
             $item->expiresAfter(60);
 

@@ -108,14 +108,18 @@ class EntryCommentNoteFactory
             return $comment->apId;
         }
 
-        return $this->urlGenerator->generate(
-            'ap_entry_comment',
-            [
-                'magazine_name' => $comment->magazine->name,
-                'entry_id' => $comment->entry->getId(),
-                'comment_id' => $comment->getId(),
-            ],
-            UrlGeneratorInterface::ABSOLUTE_URL
+        return str_replace(
+            ['@'],
+            '-',
+            $this->urlGenerator->generate(
+                'ap_entry_comment',
+                [
+                    'magazine_name' => $comment->magazine->name,
+                    'entry_id' => $comment->entry->getId(),
+                    'comment_id' => $comment->getId(),
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
         );
     }
 

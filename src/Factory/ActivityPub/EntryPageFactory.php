@@ -106,10 +106,14 @@ class EntryPageFactory
             return $entry->apId;
         }
 
-        return $this->urlGenerator->generate(
-            'ap_entry',
-            ['magazine_name' => $entry->magazine->name, 'entry_id' => $entry->getId()],
-            UrlGeneratorInterface::ABSOLUTE_URL
+        return str_replace(
+            ['@'],
+            '-',
+            $this->urlGenerator->generate(
+                'ap_entry',
+                ['magazine_name' => $entry->magazine->name, 'entry_id' => $entry->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
         );
     }
 

@@ -33,7 +33,7 @@ class RelatedPostsSidebarComponent
     public function getHtml(): string
     {
         return $this->cache->get(
-            'related_posts_sidebar_'.$this->type.'_'.$this->tag.'_'.$this->security->getUser()?->getId(),
+            'related_posts_sidebar_'.$this->type.'_'.str_replace('@', '-', $this->tag).'_'.$this->security->getUser()?->getId(),
             function (ItemInterface $item) {
                 $item->expiresAfter(60);
 
