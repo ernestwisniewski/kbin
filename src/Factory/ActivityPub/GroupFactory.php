@@ -76,7 +76,7 @@ class GroupFactory
     public function getActivityPubId(Magazine $magazine): string
     {
         if ($magazine->apId) {
-            return $magazine->apId;
+            return $magazine->apProfileId;
         }
 
         return $this->urlGenerator->generate(
