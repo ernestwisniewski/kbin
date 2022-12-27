@@ -36,7 +36,7 @@ class CreateHandler implements MessageHandlerInterface
 
         $activity = $this->createWrapper->build($entity);
 
-//        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
+        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
         $this->deliver($this->activityPubManager->createCcFromObject($activity, $entity->user), $activity);
         $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
     }
