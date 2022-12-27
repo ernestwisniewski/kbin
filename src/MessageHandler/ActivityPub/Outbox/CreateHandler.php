@@ -36,7 +36,7 @@ class CreateHandler implements MessageHandlerInterface
 
         $activity = $this->createWrapper->build($entity);
 
-        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
+//        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
         $this->deliver($this->activityPubManager->createCcFromObject($activity, $entity->user), $activity);
         $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
     }
@@ -44,6 +44,12 @@ class CreateHandler implements MessageHandlerInterface
     private function deliver(array $followers, array $activity)
     {
         foreach ($followers as $follower) {
+            if (is_string($follower)) {
+                $this->bus->dispatch(new DeliverMessage($follower, $activity));
+
+                return;
+            }
+
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
         }
     }

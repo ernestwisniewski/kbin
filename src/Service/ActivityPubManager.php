@@ -193,7 +193,7 @@ class ActivityPubManager
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
 
-            $res = array_unique(
+            return array_unique(
                 array_filter(
                     array_merge(
                         is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
