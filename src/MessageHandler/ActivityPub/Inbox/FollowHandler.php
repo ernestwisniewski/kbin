@@ -105,13 +105,19 @@ class FollowHandler implements MessageHandlerInterface
         };
     }
 
-    private function handleAccept(User $actor, User $object): void
+    private function handleAccept(User $actor, User|Magazine $object): void
     {
-        $this->userManager->acceptFollow($object, $actor);
+        if($object instanceof User) {
+            $this->userManager->acceptFollow($object, $actor);
+        }
     }
 
-    private function handleReject(User $actor, User $object): void
+    private function handleReject(User $actor, User|Magazine $object): void
     {
-        $this->userManager->rejectFollow($object, $actor);
+        match (true) {
+            $object instanceof User => $this->userManager->rejectFollow($object, $actor),
+            $object instanceof Magazine => $this->magazineManager->unsubscribe($object, $actor),
+            default => throw new LogicException(),
+        };
     }
 }

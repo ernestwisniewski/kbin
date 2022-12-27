@@ -33,6 +33,10 @@ class ActivityHandler implements MessageHandlerInterface
 //            $this->signatureValidator->validate($message->payload, $message->headers);
         }
 
+        if (isset($payload['payload'])) {
+            $payload = $payload['payload'];
+        }
+
         try {
             if (isset($payload['actor']) || isset($payload['attributedTo'])) {
                 $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
