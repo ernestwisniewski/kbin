@@ -50,7 +50,7 @@
   &-vote {
     float: left;
     margin-right: .5rem;
-    width: 3.5rem;
+    width: 4.5rem;
 
     &-list {
       list-style-type: none;
@@ -70,7 +70,7 @@
           display: block;
           text-align: center;
           font-weight: 700;
-          font-size: .7rem;
+          font-size: .9rem;
 
           &:hover {
             color: $kbin-comment-vote-button-hover-background-color;
