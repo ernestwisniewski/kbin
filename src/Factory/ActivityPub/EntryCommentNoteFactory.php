@@ -40,7 +40,7 @@ class EntryCommentNoteFactory
         }
 
         $tags = $comment->tags ?? [];
-        if ($comment->magazine->name !== 'random') { // @todo
+        if ($comment->magazine->name !== 'random' && !$comment->magazine->apId) { // @todo
             $tags[] = $comment->magazine->name;
         }
 

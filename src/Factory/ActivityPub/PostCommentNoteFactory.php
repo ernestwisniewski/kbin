@@ -41,7 +41,7 @@ class PostCommentNoteFactory
         }
 
         $tags = $comment->tags ?? [];
-        if ($comment->magazine->name !== 'random') { // @todo
+        if ($comment->magazine->name !== 'random' && !$comment->magazine->apId) { // @todo
             $tags[] = $comment->magazine->name;
         }
 
@@ -109,14 +109,18 @@ class PostCommentNoteFactory
             return $comment->apId;
         }
 
-        return $this->urlGenerator->generate(
-            'ap_post_comment',
-            [
-                'magazine_name' => $comment->magazine->name,
-                'post_id' => $comment->post->getId(),
-                'comment_id' => $comment->getId(),
-            ],
-            UrlGeneratorInterface::ABSOLUTE_URL
+        return str_replace(
+            ['@'],
+            '-',
+            $this->urlGenerator->generate(
+                'ap_post_comment',
+                [
+                    'magazine_name' => $comment->magazine->name,
+                    'post_id' => $comment->post->getId(),
+                    'comment_id' => $comment->getId(),
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
         );
     }
 

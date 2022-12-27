@@ -42,7 +42,7 @@ class PostNoteFactory
         }
 
         $tags = $post->tags ?? [];
-        if ($post->magazine->name !== 'random') { // @todo
+        if ($post->magazine->name !== 'random' && !$post->magazine->apId) { // @todo
             $tags[] = $post->magazine->name;
         }
 

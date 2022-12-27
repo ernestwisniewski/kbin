@@ -37,7 +37,7 @@ class EntryPageFactory
         }
 
         $tags = $entry->tags ?? [];
-        if ($entry->magazine->name !== 'random') { // @todo
+        if ($entry->magazine->name !== 'random' && !$entry->magazine->apId) { // @todo
             $tags[] = $entry->magazine->name;
         }
 
