@@ -70,7 +70,7 @@
           display: block;
           text-align: center;
           font-weight: 700;
-          font-size: .9rem;
+          font-size: .9rem !important;
 
           &:hover {
             color: $kbin-comment-vote-button-hover-background-color;
