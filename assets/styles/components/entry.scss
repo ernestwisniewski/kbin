@@ -39,7 +39,7 @@
   &-main {
     display: flow-root;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       .kbin-has-image & {
         clear: both;
         padding-top: 1rem;
@@ -56,7 +56,7 @@
       list-style-type: none;
       padding: 0;
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         margin-bottom: 0;
       }
 
@@ -93,7 +93,7 @@
       object-fit: cover;
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       img {
         max-height: 5rem;
         width: 15rem;
@@ -200,7 +200,7 @@
     }
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     .kbin-no-image {
       clear: both;
       padding-top: 1rem;
