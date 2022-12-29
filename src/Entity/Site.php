@@ -15,26 +15,14 @@ class Site
     #[Column(type: 'integer')]
     private int $id;
 
-    #[Column(type: 'string')]
-    public string $domain;
-
-    #[Column(type: 'string')]
-    public string $title;
-
-    #[Column(type: 'text', nullable: true)]
-    public ?string $description;
-
     #[Column(type: 'text', nullable: true)]
     public ?string $terms = null;
 
     #[Column(type: 'text', nullable: true)]
     public ?string $privacyPolicy = null;
 
-    #[Column(type: 'boolean', nullable: false)]
-    public bool $enabled = true;
-
-    #[Column(type: 'boolean', nullable: false)]
-    public bool $registrationOpen = true;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $faq = null;
 
     public function getId(): ?int
     {

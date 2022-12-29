@@ -11,12 +11,12 @@ class TermsController extends AbstractController
 {
     public function __invoke(SettingsManager $settings, SiteRepository $repository, Request $request): Response
     {
-        $site = $repository->findOneBy(['domain' => $settings->get('KBIN_DOMAIN')]);
+        $site = $repository->findAll();
 
         return $this->render(
             'page/terms.html.twig',
             [
-                'body' => $site ? $site->terms : '',
+                'body' => count($site) ? $site[0]->terms : '',
             ]
         );
     }

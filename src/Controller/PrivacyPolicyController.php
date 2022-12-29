@@ -12,12 +12,12 @@ class PrivacyPolicyController extends AbstractController
 
     public function __invoke(SettingsManager $settings, SiteRepository $repository, Request $request): Response
     {
-        $site = $repository->findOneBy(['domain' => $settings->get('KBIN_DOMAIN')]);
+        $site = $repository->findAll();
 
         return $this->render(
             'page/privacy_policy.html.twig',
             [
-                'body' => $site ? $site->privacyPolicy : ''
+                'body' => count($site) ? $site[0]->privacyPolicy : '',
             ]
         );
     }

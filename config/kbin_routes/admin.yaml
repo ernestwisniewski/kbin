@@ -15,7 +15,14 @@ admin_settings:
   path:
     en: /admin/settings
     pl: /admin/ustawienia
-  methods: [ GET ]
+  methods: [ GET, POST ]
+
+admin_terms:
+  controller: App\Controller\Admin\TermsController
+  path:
+    en: /admin/terms
+    pl: /admin/regulamin
+  methods: [ GET, POST ]
 
 admin_cc:
   controller: App\Controller\Admin\ClearCacheController

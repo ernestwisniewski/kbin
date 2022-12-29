@@ -24,6 +24,8 @@ class SettingsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->settings->save($dto);
+
             return $this->redirectToRefererOrHome($request);
         }
 

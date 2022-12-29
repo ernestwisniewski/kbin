@@ -8,7 +8,7 @@
     <div class="col-lg-6 mb-3">
         <div class="kbin-magazine-theme-form">
             <div class="kbin-magazine-background"></div>
-
+            {{ form_start(form) }}
             <div class="mb-5">
                 <h3 class="font-weight-bold">{{ 'general'|trans }}</h3>
 
@@ -42,11 +42,29 @@
                 </div>
             </div>
 
+            <div class="mb-5">
+                <h3 class="font-weight-bold">{{ 'Site' }}</h3>
+
+                <div class="mb-3">
+                    {{ form_label(form.KBIN_MARKDOWN_HOWTO_URL, 'Markdown howto URL' ) }}
+                    {{ form_widget(form.KBIN_MARKDOWN_HOWTO_URL) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_widget(form.KBIN_FEDERATION_ENABLED, {label: 'fediverse'|trans }) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_widget(form.KBIN_REGISTRATIONS_ENABLED, {label: 'registrations_enabled'|trans }) }}
+                </div>
+            </div>
+
             <div class="float-end">
                 <div class="input-group input-group-lg me-2">
                     {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-theme-send btn-primary ms-3'} }) }}
                 </div>
             </div>
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}

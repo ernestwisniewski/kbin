@@ -22,6 +22,12 @@ class Settings
     #[Column(type: 'string', nullable: true)]
     public ?string $value = null;
 
+    public function __construct(string $name, string $value)
+    {
+        $this->name = $name;
+        $this->value = $value;
+    }
+
     public function getId(): int
     {
         return $this->id;
