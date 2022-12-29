@@ -5,31 +5,30 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
-use App\Repository\MagazineRepository;
-use App\Service\PostManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PostChangeMagazineController extends AbstractController
+class PostChangeAdultController extends AbstractController
 {
     public function __construct(
-        private PostManager $manager,
-        private MagazineRepository $repository
+        private EntityManagerInterface $entityManager
     ) {
     }
+
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     #[IsGranted('moderate', 'magazine')]
     public function __invoke(Magazine $magazine, Post $post, Request $request): Response
     {
-        $this->validateCsrf('change_magazine', $request->request->get('token'));
+        $this->validateCsrf('change_adult', $request->request->get('token'));
 
-        $newMagazine = $this->repository->findOneByName($request->get('new_magazine'));
+        $post->isAdult = $request->get('adult') === 'on';
 
-        $this->manager->changeMagazine($post, $newMagazine);
+        $this->entityManager->flush();
 
         return $this->redirectToRefererOrHome($request);
     }

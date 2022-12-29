@@ -68,7 +68,8 @@
                     <ul class="kbin-entry-meta-list list-inline mb-0">
                         {% if not is_user_page() %}
                             <li class="kbin-entry-meta-user kbin-entry-meta-list-item list-inline-item">
-                                <small class="text-muted">{{ user(this.entry.user, {prefix: false, avatar: true})|trim|raw }},</small>
+                                <small class="text-muted">{{ user(this.entry.user, {prefix: false, avatar: true})|trim|raw }}
+                                    ,</small>
                             </li>
                         {% endif %}
                         <li class="kbin-entry-meta-date kbin-entry-meta-list-item list-inline-item">
@@ -258,7 +259,7 @@
                                     {% endif %}
 
 
-                                    {% if is_granted('ROLE_ADMIN') %}
+                                    {% if is_granted('moderate', this.entry.magazine) %}
                                         <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
                                             <form method="post"
                                                   action="{{ path('entry_change_magazine', {
@@ -273,6 +274,49 @@
                                                 <label>
                                                     <input name="new_magazine" class="form-control form-control-sm">
                                                 </label>
+                                            </form>
+                                        </li>
+                                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                            <form method="post"
+                                                  data-moderate-target="lang"
+                                                  action="{{ path('entry_change_lang', {
+                                                      magazine_name: this.entry.magazine.name,
+                                                      entry_id: this.entry.id,
+                                                  }) }}">
+                                                <input type="hidden" name="token"
+                                                       value="{{ csrf_token('change_lang') }}">
+                                                <label>
+                                                    <select class="form-select form-select-sm"
+                                                            name="lang"
+                                                            onchange="confirm('{{ 'are_you_sure'|trans }}') ? this.form.submit() : false">
+                                                        <option value="pl" {{ this.entry.lang is null or entry.lang is same as 'pl' ? 'selected': '' }}>
+                                                            pl
+                                                        </option>
+                                                        <option value="en" {{ this.entry.lang is same as 'en' ? 'selected' : '' }}>
+                                                            en
+                                                        </option>
+                                                    </select>
+                                                </label>
+                                            </form>
+                                        </li>
+                                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item">
+                                            <form method="post"
+                                                  data-moderate-target="adult"
+                                                  action="{{ path('entry_change_adult', {
+                                                      magazine_name: this.entry.magazine.name,
+                                                      entry_id: this.entry.id,
+                                                  }) }}">
+                                                <input type="hidden" name="token"
+                                                       value="{{ csrf_token('change_adult') }}">
+                                                <span class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input"
+                                                               name="adult"
+                                                               onclick="confirm('{{ 'are_you_sure'|trans }}') ? this.form.submit() : false"
+                                                               type="checkbox" {{ this.entry.isAdult ? 'checked' : '' }}>
+                                                            +18
+                                                    </label>
+                                                </span>
                                             </form>
                                         </li>
                                     {% endif %}

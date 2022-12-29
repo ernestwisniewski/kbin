@@ -171,6 +171,18 @@ entry_change_magazine:
   path: /m/{magazine_name}/e/{entry_id}/{slug}/change_magazine
   methods: [ POST ]
 
+entry_change_lang:
+  controller: App\Controller\Entry\EntryChangeLangController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/e/{entry_id}/{slug}/change_lang
+  methods: [ POST ]
+
+entry_change_adult:
+  controller: App\Controller\Entry\EntryChangeAdultController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/e/{entry_id}/{slug}/change_adult
+  methods: [ POST ]
+
 entry_pin:
   controller: App\Controller\Entry\EntryPinController
   defaults: { slug: -, sortBy: ~ }

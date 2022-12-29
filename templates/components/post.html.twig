@@ -49,7 +49,9 @@
         </aside>
     </div>
     <div class="kbin-post-main">
-        <div class="kbin-post-content" data-controller="show-more mention-popover" data-action="image:thumbSelected->show-more#expand"
+        <div class="kbin-post-content"
+             data-controller="show-more mention-popover"
+             data-action="image:thumbSelected->show-more#expand"
              data-action="image:thumbLoaded->show-more#checkHeight">
             {% if this.post.visibility in ['visible', 'private'] or this.canSeeTrashed %}
                 {{ this.post.body|markdown|raw }}
@@ -90,7 +92,8 @@
                                     <a data-action="post#expand"
                                        data-post-target="expand"
                                        href="{{ post_url(this.post) }}">
-                                        {{ 'expand'|trans }} (<span data-post-target="commentCounter">{{ this.post.commentCount }}</span>)
+                                        {{ 'expand'|trans }} (<span
+                                                data-post-target="commentCounter">{{ this.post.commentCount }}</span>)
                                     </a>
                                 </small>
                             </li>
@@ -101,12 +104,15 @@
                                                          data-action="report#report">{{ 'report'|trans }}</a></small>
                         </li>
 
-                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item" data-controller="favourite">
-                            <form method="post" action="{{ path('post_favourite', {id: this.post.id}) }}" data-action="favourite#toggle">
+                        <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item"
+                            data-controller="favourite">
+                            <form method="post" action="{{ path('post_favourite', {id: this.post.id}) }}"
+                                  data-action="favourite#toggle">
                                 <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
                                 <button type="submit"
                                         class="btn btn-link {{ app.user and this.post.isFavored(app.user) ? 'text-decoration-underline' : '' }}">
-                                    {{ 'favourite'|trans }} <span data-favourite-target="counter" class="{{ this.post.favouriteCount ? '' : 'visually-hidden' }}">({{ this.post.favouriteCount }})</span>
+                                    {{ 'favourite'|trans }} <span data-favourite-target="counter"
+                                                                  class="{{ this.post.favouriteCount ? '' : 'visually-hidden' }}">({{ this.post.favouriteCount }})</span>
                                 </button>
                             </form>
                         </li>
@@ -214,11 +220,33 @@
                                                   post_id: this.post.id,
                                               }) }}"
                                               onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                            <input type="hidden" name="token" value="{{ csrf_token('change_magazine') }}">
-                                            <button type="submit" class="btn btn-link">{{ 'change_magazine'|trans }}</button>
+                                            <input type="hidden" name="token"
+                                                   value="{{ csrf_token('change_magazine') }}">
+                                            <button type="submit"
+                                                    class="btn btn-link">{{ 'change_magazine'|trans }}</button>
                                             <label>
                                                 <input name="new_magazine" class="form-control form-control-sm">
                                             </label>
+                                        </form>
+                                    </li>
+                                    <li class="kbin-entry-meta-list-item kbin-entry-meta-list-item-links list-inline-item ms-2">
+                                        <form method="post"
+                                              data-moderate-target="adult"
+                                              action="{{ path('post_change_adult', {
+                                                  magazine_name: this.post.magazine.name,
+                                                  post_id: this.post.id,
+                                              }) }}">
+                                            <input type="hidden" name="token"
+                                                   value="{{ csrf_token('change_adult') }}">
+                                            <span class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input"
+                                                               name="adult"
+                                                               onclick="confirm('{{ 'are_you_sure'|trans }}') ? this.form.submit() : false"
+                                                               type="checkbox" {{ this.post.isAdult ? 'checked' : '' }}>
+                                                            +18
+                                                    </label>
+                                                </span>
                                         </form>
                                     </li>
                                 {% endif %}

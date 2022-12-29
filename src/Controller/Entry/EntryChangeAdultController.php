@@ -1,22 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Repository\MagazineRepository;
-use App\Service\EntryManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EntryChangeMagazineController extends AbstractController
+class EntryChangeAdultController extends AbstractController
 {
     public function __construct(
-        private EntryManager $manager,
-        private MagazineRepository $repository
+        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -25,11 +23,11 @@ class EntryChangeMagazineController extends AbstractController
     #[IsGranted('moderate', subject: 'magazine')]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
-        $this->validateCsrf('change_magazine', $request->request->get('token'));
+        $this->validateCsrf('change_adult', $request->request->get('token'));
 
-        $newMagazine = $this->repository->findOneByName($request->get('new_magazine'));
+        $entry->isAdult = $request->get('adult') === 'on';
 
-        $this->manager->changeMagazine($entry, $newMagazine);
+        $this->entityManager->flush();
 
         return $this->redirectToRefererOrHome($request);
     }

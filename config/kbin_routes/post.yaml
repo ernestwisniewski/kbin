@@ -184,6 +184,12 @@ post_change_magazine:
   path: /m/{magazine_name}/p/{post_id}/{slug}/change_magazine
   methods: [ POST ]
 
+post_change_adult:
+  controller: App\Controller\Post\PostChangeAdultController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/change_adult
+  methods: [ POST ]
+
 post:
   controller: App\Controller\Post\PostFrontController::front
   defaults: { slug: -, sortBy: ~ }
