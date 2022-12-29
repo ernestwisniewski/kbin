@@ -20,7 +20,6 @@ final class Version20221229160511 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CADB1174D2 FOREIGN KEY (post_comment_id) REFERENCES post_comment (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE site DROP domain');
         $this->addSql('ALTER TABLE site DROP title');
         $this->addSql('ALTER TABLE site DROP enabled');
@@ -37,6 +36,5 @@ final class Version20221229160511 extends AbstractMigration
         $this->addSql('ALTER TABLE site ADD enabled BOOLEAN NOT NULL');
         $this->addSql('ALTER TABLE site ADD registration_open BOOLEAN NOT NULL');
         $this->addSql('ALTER TABLE site ADD description TEXT DEFAULT NULL');
-        $this->addSql('ALTER TABLE notification DROP CONSTRAINT FK_BF5476CADB1174D2');
     }
 }
