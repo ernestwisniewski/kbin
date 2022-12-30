@@ -27,19 +27,26 @@ class SearchController extends AbstractController
     {
         $query = $request->query->get('q');
 
-        $object = null;
-        $type = null;
+        $objects = [];
         if (str_contains($query, '@')) {
             $name = str_starts_with($query, '@') ? $query : '@'.$query;
             preg_match(RegPatterns::AP_USER, $name, $matches);
             if (count(array_filter($matches)) >= 4) {
                 try {
                     $webfinger = $this->activityPubManager->webfinger($name);
-                    $object = $this->activityPubManager->findActorOrCreate($webfinger->getProfileId());
-                    if ($object instanceof Magazine) { // @todo
-                        $type = 'magazine';
-                    } elseif ($object instanceof User) {
-                        $type = 'user';
+                    foreach ($webfinger->getProfileIds() as $profileId) {
+                        $object = $this->activityPubManager->findActorOrCreate($profileId);
+
+                        if ($object instanceof Magazine) { // @todo
+                            $type = 'magazine';
+                        } elseif ($object instanceof User) {
+                            $type = 'user';
+                        }
+
+                        $objects[] = [
+                            'type' => $type,
+                            'object' => $object,
+                        ];
                     }
                 } catch (\Exception $e) {
                 }
@@ -55,8 +62,7 @@ class SearchController extends AbstractController
         return $this->render(
             'search/front.html.twig',
             [
-                'type' => $type,
-                'object' => $object,
+                'objects' => $objects,
                 'results' => $this->manager->findPaginated($query, $this->getPageNb($request)),
                 'q' => $request->query->get('q'),
             ]

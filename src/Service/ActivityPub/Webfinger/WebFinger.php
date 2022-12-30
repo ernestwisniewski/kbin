@@ -107,7 +107,7 @@ class WebFinger
                 );
             }
 
-            $tmp        = [];
+            $tmp = [];
             $tmp['rel'] = $link['rel'];
 
             foreach (['type', 'href', 'template'] as $key) {
@@ -148,7 +148,7 @@ class WebFinger
         return [
             'subject' => $this->subject,
             'aliases' => $this->aliases,
-            'links'   => $this->links,
+            'links' => $this->links,
         ];
     }
 
@@ -190,5 +190,21 @@ class WebFinger
     public function getHandle()
     {
         return substr($this->subject, 5);
+    }
+
+    public function getProfileIds(): array
+    {
+        $urls = [];
+        foreach ($this->links as $link) {
+            if (isset($link['rel'], $link['type'], $link['href'])) {
+                if ($link['rel'] == 'self'
+                    && $link['type'] == 'application/activity+json'
+                ) {
+                    $urls[] = $link['href'];
+                }
+            }
+        }
+
+        return $urls;
     }
 }

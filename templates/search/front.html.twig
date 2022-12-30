@@ -5,15 +5,18 @@
 
 {% block body %}
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
-        {% if type is same as 'user' %}
-            <div class="mx-auto my-4 small align-content-center" style="max-width: 25rem">
-                {{ component('user_box', {user: object}) }}
-            </div>
-        {% elseif type is same as null %}
+        {% if not objects|length %}
             <h1 class="my-4 font-weight-bold">{{ q }}</h1>
-        {% else %}
-            {% include '_layout/_subject.html.twig' with {subject: object} %}
         {% endif %}
+        {% for object in objects %}
+            {% if object.type is same as 'user' %}
+                <div class="mx-auto my-4 small align-content-center" style="max-width: 25rem">
+                    {{ component('user_box', {user: object.object}) }}
+                </div>
+            {% else %}
+                {% include '_layout/_subject.html.twig' with {subject: object.object} %}
+            {% endif %}
+        {% endfor %}
 
         <div class="text-justify mx-5 my-5">
             <form method="get" action="{{ path('search') }}">
