@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class WebFingerSubscriber implements EventSubscriberInterface
+class UserWebFingerSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private RequestStack $requestStack,

@@ -79,8 +79,9 @@ class SettingsManager
             $s->value = $value;
 
             $this->entityManager->persist($s);
-            $this->entityManager->flush();
         }
+
+        $this->entityManager->flush();
     }
 
     #[Pure] public function isLocalUrl(string $url): bool

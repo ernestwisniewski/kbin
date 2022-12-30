@@ -3,32 +3,29 @@
 namespace App\EventSubscriber\ActivityPub;
 
 use App\ActivityPub\JsonRdLink;
+use App\Entity\Magazine;
 use App\Event\ActivityPub\WebfingerResponseEvent;
-use App\Repository\UserRepository;
+use App\Repository\MagazineRepository;
 use App\Service\ActivityPub\Webfinger\WebFingerParameters;
-use App\Service\ImageManager;
-use App\Service\SettingsManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
-class WebFingerProfileSubscriber implements EventSubscriberInterface
+class GroupWebFingerProfileSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private RequestStack $requestStack,
         private WebFingerParameters $webfingerParameters,
-        private UserRepository $userRepository,
+        private MagazineRepository $magazineRepository,
         private UrlGeneratorInterface $urlGenerator,
-        private ImageManager $imageManager
     ) {
     }
 
     #[ArrayShape([WebfingerResponseEvent::class => "string"])] public static function getSubscribedEvents(): array
     {
         return [
-            WebfingerResponseEvent::class => ['buildResponse', 10],
+            WebfingerResponseEvent::class => ['buildResponse', 999],
         ];
     }
 
@@ -42,8 +39,8 @@ class WebFingerProfileSubscriber implements EventSubscriberInterface
                 $params[WebFingerParameters::ACCOUNT_KEY_NAME]
             )) {
             $accountHref = $this->urlGenerator->generate(
-                'ap_user',
-                ['username' => $actor->getUserIdentifier()],
+                'ap_magazine',
+                ['name' => $actor->name],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
 
@@ -52,20 +49,11 @@ class WebFingerProfileSubscriber implements EventSubscriberInterface
                 ->setType('application/activity+json')
                 ->setHref($accountHref);
             $jsonRd->addLink($link);
-
-            if ($actor->avatar) {
-                $link = new JsonRdLink();
-                $link->setRel('http://webfinger.net/rel/avatar')
-                    ->setHref(
-                        $this->imageManager->getUrl($actor->avatar),
-                    ); // @todo media url
-                $jsonRd->addLink($link);
-            }
         }
     }
 
-    protected function getActor($name): ?UserInterface
+    protected function getActor($name): ?Magazine
     {
-        return $this->userRepository->findOneByUsername($name);
+        return $this->magazineRepository->findOneByName($name);
     }
 }
