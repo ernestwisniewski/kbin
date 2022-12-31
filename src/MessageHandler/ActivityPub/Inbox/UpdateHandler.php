@@ -12,6 +12,7 @@ use App\Factory\EntryFactory;
 use App\Factory\PostCommentFactory;
 use App\Factory\PostFactory;
 use App\Message\ActivityPub\Inbox\DeleteMessage;
+use App\Message\ActivityPub\Inbox\UpdateMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\MarkdownConverter;
 use App\Service\ActivityPubManager;
@@ -22,7 +23,7 @@ use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class EditHandler implements MessageHandlerInterface
+class UpdateHandler implements MessageHandlerInterface
 {
     private array $payload;
 
@@ -42,7 +43,7 @@ class EditHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(DeleteMessage $message): void
+    public function __invoke(UpdateMessage $message): void
     {
         $this->payload = $message->payload;
 
