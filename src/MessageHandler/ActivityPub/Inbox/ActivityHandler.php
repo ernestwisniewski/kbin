@@ -7,6 +7,7 @@ use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\CreateMessage;
 use App\Message\ActivityPub\Inbox\DeleteMessage;
+use App\Message\ActivityPub\Inbox\EditMessage;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Message\ActivityPub\Inbox\LikeMessage;
 use App\Service\ActivityPub\SignatureValidator;
@@ -70,9 +71,6 @@ class ActivityHandler implements MessageHandlerInterface
                 break;
             case 'Note':
             case 'Page':
-            case 'Question':
-                $this->bus->dispatch(new CreateMessage($payload));
-                break;
             case 'Announce':
                 $this->bus->dispatch(new AnnounceMessage($payload));
                 break;
@@ -91,6 +89,12 @@ class ActivityHandler implements MessageHandlerInterface
             case 'Accept':
             case 'Reject':
                 $this->handleAcceptAndReject($payload);
+                break;
+            case 'Edit':
+                $this->bus->dispatch(new EditMessage($payload));
+                break;
+            case 'Question':
+                $this->bus->dispatch(new CreateMessage($payload));
                 break;
         }
     }

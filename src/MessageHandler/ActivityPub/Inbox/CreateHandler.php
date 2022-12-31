@@ -26,12 +26,12 @@ class CreateHandler implements MessageHandlerInterface
             $this->handleChain();
         }
 
-        if ($this->object['type'] === 'Question') {
-            $this->handleChain();
-        }
-
         if ($this->object['type'] === 'Page') {
             $this->handlePage();
+        }
+
+        if ($this->object['type'] === 'Question') {
+            $this->handleChain();
         }
     }
 
