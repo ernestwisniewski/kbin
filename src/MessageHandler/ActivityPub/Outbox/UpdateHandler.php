@@ -2,8 +2,8 @@
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
-use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
+use App\Message\ActivityPub\Outbox\UpdateMessage;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\CreateWrapper;
@@ -26,7 +26,7 @@ class UpdateHandler implements MessageHandlerInterface
     ) {
     }
 
-    public function __invoke(CreateMessage $message): void
+    public function __invoke(UpdateMessage $message): void
     {
         if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
             return;
