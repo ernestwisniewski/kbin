@@ -44,6 +44,7 @@ class UpdateHandler implements MessageHandlerInterface
             \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL
         );
         $activity['type'] = 'Update';
+        $activity['object']['updated'] = $entity->editedAt;
 
         $this->deliver($this->userRepository->findAudience($entity->user), $activity);
         $this->deliver($this->activityPubManager->createCcFromObject($activity, $entity->user), $activity);
