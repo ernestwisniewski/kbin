@@ -28,6 +28,7 @@ class ActivityHandler implements MessageHandlerInterface
 
     public function __invoke(ActivityMessage $message): void
     {
+        $this->logger->error('payload: '.$message->payload);
         $payload = @json_decode($message->payload, true);
 
         if ($message->headers) {
@@ -45,7 +46,7 @@ class ActivityHandler implements MessageHandlerInterface
                 $user = $this->manager->findActorOrCreate($payload['id']);
             }
         } catch (\Exception $e) {
-            $this->logger->error('User not found: '.json_encode($payload));
+            $this->logger->error('payload: '.json_encode($payload));
 
             return;
         }
