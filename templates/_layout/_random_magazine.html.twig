@@ -1,6 +1,7 @@
 {% if(magazine is defined and magazine is not null) %}
-    <div class="kbin-random-magazine px-2">
-        <h4 class="font-weight-bold kbin-logo-color mb-3 h6">{{ 'random_magazine'|trans }}</h4>
+    <div class="kbin-random-magazine">
+        <h4 class="font-weight-bold kbin-logo-color mb-1 h6 text-uppercase">{{ 'random_magazine'|trans }}</h4>
+        <div class="hr mb-3"></div>
         {{ component('magazine', {
             magazine: magazine,
             showRules: false,

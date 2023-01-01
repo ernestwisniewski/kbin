@@ -1,7 +1,8 @@
 {% from '_layout/_macros.html.twig' import post_url %}
 <div class="mb-5">
     {% if posts|length %}
-        <h4 class="font-weight-bold kbin-logo-color mb-3 h6">{{ 'related_posts'|trans }}</h4>
+        <h4 class="font-weight-bold kbin-logo-color mb-1 h6 text-uppercase">{{ 'related_posts'|trans }}</h4>
+        <div class="hr mb-3"></div>
     {% endif %}
 
     {% for post in posts %}
