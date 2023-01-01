@@ -84,7 +84,7 @@ class UpdateHandler implements MessageHandlerInterface
     {
         $dto = $this->entryFactory->createDto($entry);
 
-        $dto->body = $this->payload['object']['name'];
+        $dto->title = $this->payload['object']['name'];
 
         if (!empty($this->payload['object']['content'])) {
             $dto->body = $this->markdownConverter->convert($this->payload['object']['content']);
