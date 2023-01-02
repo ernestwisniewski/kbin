@@ -1,7 +1,8 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 
 <div class="kbin-entry-list" data-controller="entry-list"
-    data-action="notify:EntryCreatedNotification@window->entry-list#add"
+    data-action="notify:EntryCreatedNotification@window->entry-list#add scroll-top:up@window->entry-list#refresh"
+    data-entry-list-counter-value="{{is_active_sort_option('sort.active'|trans|lower, false) or is_active_sort_option('sort.newest'|trans|lower, false) ? 'true': 'false' }}"
     {% if magazine is defined and magazine %}data-entry-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if entries|length %}
         {% for entry in entries %}

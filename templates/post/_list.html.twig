@@ -1,7 +1,8 @@
 {% from '_layout/_not_found.html.twig' import not_found %}
 
 <div class="kbin-post-list" data-controller="post-list"
-     data-action="notify:PostCreatedNotification@window->post-list#add"
+     data-action="notify:PostCreatedNotification@window->post-list#add scroll-top:up@window->post-list#refresh"
+     data-post-list-counter-value="{{is_active_sort_option('sort.active'|trans|lower, false) or is_active_sort_option('sort.newest'|trans|lower, false) ? 'true' : 'false'}}"
      {% if magazine is defined and magazine %}data-post-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
     {% if posts|length %}
         {% for post in posts %}

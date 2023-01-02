@@ -1,9 +1,10 @@
 import {Controller} from '@hotwired/stimulus';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'stimulus-use'
 
 export default class extends Controller {
     connect() {
-        super.connect();
+        useDispatch(this)
 
         let self = this;
         window.onscroll = function () {
@@ -25,5 +26,10 @@ export default class extends Controller {
     up() {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+
+        let notificationCounter = document.getElementById('kbin-activity-counter');
+        if(parseInt(notificationCounter.innerHTML) > 0) {
+            this.dispatch('up');
+        }
     }
 }

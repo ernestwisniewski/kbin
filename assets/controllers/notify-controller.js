@@ -45,9 +45,7 @@ export default class extends ApplicationController {
                 self.notify(data);
             }
 
-            if (Cookies.get('user_option_autorefresh') === undefined || Cookies.get('user_option_autorefresh') === 'true') {
-                self.dispatch(data.op, data);
-            }
+            self.dispatch(data.op, data);
         }
 
         document.es = Subscribe(topics, cb);

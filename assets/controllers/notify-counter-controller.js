@@ -24,29 +24,29 @@ export default class extends ApplicationController {
     }
 
     async updateCounter() {
-        let response = {
-            count: 1
-        };
+        // let response = {
+        //     count: 1
+        // };
 
-        if (window.KBIN_LOGGED_IN) {
-            response = {
-                count: 0
-            };
+        // if (window.KBIN_LOGGED_IN) {
+        //     response = {
+        //         count: 0
+        //     };
 
-            // const url = router().generate('ajax_fetch_user_notifications_count', {username: window.KBIN_USERNAME});
-            //
-            // response = await fetch(url);
-            //
-            // response = await ok(response);
-            // response = await response.json();
-        }
+        //     const url = router().generate('ajax_fetch_user_notifications_count', {username: window.KBIN_USERNAME});
+            
+        //     response = await fetch(url);
+            
+        //     response = await ok(response);
+        //     response = await response.json();
+        // }
 
-        if (response.count > 0) {
-            this.notificationsTarget.classList.remove('visually-hidden');
+        // if (response.count > 0) {
+        //     this.notificationsTarget.classList.remove('visually-hidden');
 
-            let elem = this.notificationsTarget.getElementsByTagName('span')[0];
-            elem.innerHTML = response.count;
-        }
+        //     let elem = this.notificationsTarget.getElementsByTagName('span')[0];
+        //     elem.innerHTML = response.count;
+        // }
     }
 
     message(event) {
