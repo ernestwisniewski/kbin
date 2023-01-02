@@ -53,7 +53,6 @@ export default class extends ApplicationController {
                 for (let item of items) {
                     if(item.firstChild.innerHTML == 1) {
                         url = item.firstChild.href;
-                        console.log(url);
                     }
                 }
             }
