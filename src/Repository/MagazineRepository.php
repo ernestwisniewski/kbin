@@ -46,7 +46,7 @@ class MagazineRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.visibility = :visibility')
             ->orderBy('m.apId', 'DESC')
-            ->orderBy('m.subscriptionsCount', 'DESC')
+            ->addOrderBy('m.subscriptionsCount', 'DESC')
             ->setParameter('visibility', Magazine::VISIBILITY_VISIBLE);
 
         $pagerfanta = new Pagerfanta(
