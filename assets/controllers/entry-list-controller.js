@@ -45,7 +45,20 @@ export default class extends ApplicationController {
 
     async refresh() {
         try {
-            let response = await fetch(window.location.href, { method: 'GET' });
+            let url = window.location.href;
+
+            let pagination = this.element.getElementsByClassName('pagination');
+            if(pagination.length) {
+                let items = pagination[0].getElementsByTagName('li');
+                for (let item of items) {
+                    if(item.firstChild.innerHTML == 1) {
+                        url = item.firstChild.href;
+                        console.log(url);
+                    }
+                }
+            }
+
+            let response = await fetch(url, { method: 'GET' });
 
             response = await ok(response);
             response = await response.json();
