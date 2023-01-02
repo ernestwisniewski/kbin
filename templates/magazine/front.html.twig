@@ -14,6 +14,7 @@
         {% include 'magazine/_nav.html.twig' %}
         {% include '_layout/_filters.html.twig' %}
         {% include '_layout/_flash.html.twig' %}
+        {% include 'magazine/_instance_info.html.twig' %}
         <h1 class="mt-2 text-muted display-none">{{ magazine.title }}: {{ get_active_sort_option()|capitalize }}</h1>
         {% if magazine.isAdult and (not app.user or app.user.hideAdult) %}
             {% include '_layout/_adult.html.twig' %}

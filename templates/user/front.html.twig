@@ -19,10 +19,11 @@
         </div>
     {% endif %}
 
-    {% include 'user/_instance_info.twig' %}
     {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
     {% include 'user/_nav.html.twig' %}
     <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
+    {% include 'user/_instance_info.twig' %}
+
         {% if results|length %}
             {% for subject in results %}
                 {% include '_layout/_subject.html.twig' with {subject: subject, withParent: false, nested:false} %}
