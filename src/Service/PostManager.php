@@ -19,6 +19,7 @@ use App\Repository\PostRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -143,10 +144,11 @@ class  PostManager implements ContentManagerInterface
 
         $image = $post->image?->filePath;
 
-        foreach($post->comments as $comment) {
+        $sort = new Criteria(null, ['createdAt' => Criteria::DESC]);
+        foreach($post->comments->matching($sort) as $comment) {
             $this->postCommentManager->purge($comment);
         }
-        
+
         $post->magazine->removePost($post);
 
         $this->entityManager->remove($post);

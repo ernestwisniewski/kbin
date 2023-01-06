@@ -21,6 +21,7 @@ use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -169,7 +170,8 @@ class EntryManager implements ContentManagerInterface
 
         $image = $entry->image?->filePath;
 
-        foreach ($entry->comments as $comment) {
+        $sort = new Criteria(null, ['createdAt' => Criteria::DESC]);
+        foreach ($entry->comments->matching($sort) as $comment) {
             $this->entryCommentManager->purge($comment);
         }
         
