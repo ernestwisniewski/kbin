@@ -33,6 +33,7 @@ class  PostManager implements ContentManagerInterface
     public function __construct(
         private Slugger $slugger,
         private MentionManager $mentionManager,
+        private PostCommentManager $postCommentManager,
         private TagManager $tagManager,
         private PostFactory $factory,
         private EventDispatcherInterface $dispatcher,
@@ -142,6 +143,10 @@ class  PostManager implements ContentManagerInterface
 
         $image = $post->image?->filePath;
 
+        foreach($post->comments as $comment) {
+            $this->postCommentManager->purge($comment);
+        }
+        
         $post->magazine->removePost($post);
 
         $this->entityManager->remove($post);

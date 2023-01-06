@@ -35,6 +35,7 @@ class EntryManager implements ContentManagerInterface
     public function __construct(
         private TagManager $tagManager,
         private MentionManager $mentionManager,
+        private EntryCommentManager $entryCommentManager,
         private UrlCleaner $urlCleaner,
         private Slugger $slugger,
         private BadgeManager $badgeManager,
@@ -62,7 +63,7 @@ class EntryManager implements ContentManagerInterface
         $entry->slug = $this->slugger->slug($dto->title);
         $entry->lang = $dto->lang;
         $entry->image = $dto->image;
-        if($entry->image && !$entry->image->altText) {
+        if ($entry->image && !$entry->image->altText) {
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
@@ -168,6 +169,10 @@ class EntryManager implements ContentManagerInterface
 
         $image = $entry->image?->filePath;
 
+        foreach ($entry->comments as $comment) {
+            $this->entryCommentManager->purge($comment);
+        }
+        
         $entry->magazine->removeEntry($entry);
 
         $this->entityManager->remove($entry);
