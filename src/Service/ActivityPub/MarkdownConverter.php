@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
@@ -10,16 +12,16 @@ use League\HTMLToMarkdown\HtmlConverter;
 class MarkdownConverter
 {
     public function __construct(
-        private TagManager $tagManager,
-        private MentionManager $mentionManager,
-        private ActivityPubManager $activityPubManager
+        private readonly TagManager $tagManager,
+        private readonly MentionManager $mentionManager,
+        private readonly ActivityPubManager $activityPubManager
     ) {
     }
 
     public function convert(string $value): string
     {
         $converter = new HtmlConverter(['strip_tags' => true]);
-        $value     = stripslashes($converter->convert($value));
+        $value = stripslashes($converter->convert($value));
 
         preg_match_all('/\[([^]]*)\] *\(([^)]*)\)/i', $value, $matches, PREG_SET_ORDER);
 

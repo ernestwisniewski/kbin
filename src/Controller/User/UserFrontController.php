@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User;
 
@@ -31,11 +33,11 @@ class UserFrontController extends AbstractController
 
         $postsAndEntries = array_filter(
             $activity->getCurrentPageResults(),
-            fn($val) => $val instanceof Entry || $val instanceof Post
+            fn ($val) => $val instanceof Entry || $val instanceof Post
         );
         $comments = array_filter(
             $activity->getCurrentPageResults(),
-            fn($val) => $val instanceof EntryComment || $val instanceof PostComment
+            fn ($val) => $val instanceof EntryComment || $val instanceof PostComment
         );
 
         $results = [];
@@ -43,21 +45,20 @@ class UserFrontController extends AbstractController
             if ($parent instanceof Entry) {
                 $children = array_filter(
                     $comments,
-                    fn($val) => $val instanceof EntryComment && $val->entry === $parent
+                    fn ($val) => $val instanceof EntryComment && $val->entry === $parent
                 );
                 $comments = array_filter(
                     $comments,
-                    fn($val) => $val instanceof PostComment || $val instanceof EntryComment && $val->entry !== $parent
+                    fn ($val) => $val instanceof PostComment || $val instanceof EntryComment && $val->entry !== $parent
                 );
-
             } else {
                 $children = array_filter(
                     $comments,
-                    fn($val) => $val instanceof PostComment && $val->post === $parent
+                    fn ($val) => $val instanceof PostComment && $val->post === $parent
                 );
                 $comments = array_filter(
                     $comments,
-                    fn($val) => $val instanceof EntryComment || $val instanceof PostComment && $val->post !== $parent
+                    fn ($val) => $val instanceof EntryComment || $val instanceof PostComment && $val->post !== $parent
                 );
             }
 
@@ -88,12 +89,12 @@ class UserFrontController extends AbstractController
 
         $merged = array_merge($results, $parents);
 
-        uasort($merged, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($merged, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $results = [];
         foreach ($merged as $entry) {
             $results[] = $entry;
-            uasort($entry->children, fn($a, $b) => $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1);
+            uasort($entry->children, fn ($a, $b) => $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1);
             foreach ($entry->children as $child) {
                 $results[] = $child;
             }
@@ -126,9 +127,9 @@ class UserFrontController extends AbstractController
 
     public function comments(User $user, Request $request, EntryCommentRepository $repository): Response
     {
-        $criteria              = new EntryCommentPageView($this->getPageNb($request));
+        $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->sortOption = Criteria::SORT_NEW;
-        $criteria->user        = $user;
+        $criteria->user = $user;
         $criteria->onlyParents = false;
 
         $comments = $repository->findByCriteria($criteria);
@@ -139,7 +140,7 @@ class UserFrontController extends AbstractController
         return $this->render(
             'user/comments.html.twig',
             [
-                'user'     => $user,
+                'user' => $user,
                 'comments' => $comments,
             ]
         );
@@ -212,7 +213,7 @@ class UserFrontController extends AbstractController
             'user/moderated.html.twig',
             [
                 'user' => $user,
-                'magazines' => $repository->findModeratedMagazines($user, (int)$request->get('p', 1)),
+                'magazines' => $repository->findModeratedMagazines($user, (int) $request->get('p', 1)),
             ]
         );
     }
@@ -220,7 +221,7 @@ class UserFrontController extends AbstractController
     public function subscriptions(User $user, MagazineRepository $repository, Request $request): Response
     {
         if (!$user->showProfileSubscriptions) {
-            if($user !== $this->getUser()) {
+            if ($user !== $this->getUser()) {
                 throw new AccessDeniedException();
             }
         }
@@ -248,7 +249,7 @@ class UserFrontController extends AbstractController
     public function follows(User $user, UserRepository $manager, Request $request): Response
     {
         if (!$user->showProfileFollowings && !$user->apId) {
-            if($user !== $this->getUser()) {
+            if ($user !== $this->getUser()) {
                 throw new AccessDeniedException();
             }
         }

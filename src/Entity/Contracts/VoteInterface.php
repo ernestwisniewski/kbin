@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity\Contracts;
 
@@ -8,9 +10,9 @@ use Doctrine\Common\Collections\Collection;
 
 interface VoteInterface
 {
-    const VOTE_UP = 1;
-    const VOTE_NONE = 0;
-    const VOTE_DOWN = -1;
+    public const VOTE_UP = 1;
+    public const VOTE_NONE = 0;
+    public const VOTE_DOWN = -1;
 
     public function getId(): int;
 

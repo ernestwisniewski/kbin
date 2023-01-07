@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -10,7 +12,7 @@ use App\Repository\PostRepository;
 
 final class PostItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private PostRepository $repository, private PostFactory $factory)
+    public function __construct(private readonly PostRepository $repository, private readonly PostFactory $factory)
     {
     }
 
@@ -26,4 +28,3 @@ final class PostItemDataProvider implements ItemDataProviderInterface, Restricte
         return $post ? $this->factory->createDto($post) : null;
     }
 }
-

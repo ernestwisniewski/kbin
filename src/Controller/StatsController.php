@@ -1,17 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
 use App\Repository\StatsRepository;
 use App\Service\InstanceStatsManager;
 use App\Service\StatsManager;
-use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class StatsController extends AbstractController
 {
-    public function __construct(private InstanceStatsManager $counter, private StatsManager $manager)
+    public function __construct(private readonly InstanceStatsManager $counter, private readonly StatsManager $manager)
     {
     }
 
@@ -21,7 +22,7 @@ class StatsController extends AbstractController
 
         if ($statsPeriod) {
             $statsPeriod = min($statsPeriod, 256);
-            $start       = (new DateTime())->modify("-$statsPeriod days");
+            $start = (new \DateTime())->modify("-$statsPeriod days");
         }
 
         $results = match ($statsType) {
@@ -40,10 +41,10 @@ class StatsController extends AbstractController
         return $this->render(
             'page/stats.html.twig',
             [
-                'type'   => $statsType ?? StatsRepository::TYPE_GENERAL,
+                'type' => $statsType ?? StatsRepository::TYPE_GENERAL,
                 'period' => $request->get('statsPeriod'),
-                'chart'  => $results,
-            ] + ((!$statsType || $statsType === StatsRepository::TYPE_GENERAL) ? $this->counter->count() : []),
+                'chart' => $results,
+            ] + ((!$statsType || StatsRepository::TYPE_GENERAL === $statsType) ? $this->counter->count() : []),
         );
     }
 }

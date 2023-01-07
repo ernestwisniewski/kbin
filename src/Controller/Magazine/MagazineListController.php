@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine;
 
@@ -10,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MagazineListController extends AbstractController
 {
-    public function __construct(private SearchManager $searchManager)
+    public function __construct(private readonly SearchManager $searchManager)
     {
     }
 
@@ -22,7 +24,7 @@ class MagazineListController extends AbstractController
             $magazines = $repository->findAllPaginated($this->getPageNb($request));
         }
 
-        if(!$listView) {
+        if (!$listView) {
             $listView = 'table';
         } else {
             $listView = 'cards';
@@ -32,7 +34,7 @@ class MagazineListController extends AbstractController
             'magazine/list_all.html.twig',
             [
                 'magazines' => $magazines,
-                'listView'  => $listView,
+                'listView' => $listView,
             ]
         );
     }

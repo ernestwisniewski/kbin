@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\Notification;
 
@@ -7,7 +9,6 @@ use App\Entity\Contracts\VoteInterface;
 use App\Factory\MagazineFactory;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\VotableRepositoryResolver;
-use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -15,10 +16,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class SentVoteNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private IriConverterInterface $iriConverter,
-        private MagazineFactory $magazineFactory,
-        private VotableRepositoryResolver $resolver,
-        private HubInterface $publisher,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly MagazineFactory $magazineFactory,
+        private readonly VotableRepositoryResolver $resolver,
+        private readonly HubInterface $publisher,
     ) {
     }
 
@@ -39,8 +40,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
             );
 
             $this->publisher->publish($update);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 

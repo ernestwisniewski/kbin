@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -13,9 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MagazineThemeController extends AbstractController
 {
-    public function __construct(
-        private MagazineManager $manager,
-    ) {
+    public function __construct(private readonly MagazineManager $manager)
+    {
     }
 
     #[IsGranted('ROLE_USER')]
@@ -35,7 +36,7 @@ class MagazineThemeController extends AbstractController
             'magazine/panel/theme.html.twig',
             [
                 'magazine' => $magazine,
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

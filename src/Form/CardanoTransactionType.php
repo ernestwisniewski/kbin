@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -30,7 +32,7 @@ class CardanoTransactionType extends AbstractType
         $resolver->setDefaults(
             [
                 'walletAddress' => null,
-                'data_class'    => CardanoTransactionDto::class,
+                'data_class' => CardanoTransactionDto::class,
             ]
         );
     }

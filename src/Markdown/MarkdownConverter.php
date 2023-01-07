@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown;
 
@@ -7,7 +9,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class MarkdownConverter
 {
-    public function __construct(private EventDispatcherInterface $dispatcher)
+    public function __construct(private readonly EventDispatcherInterface $dispatcher)
     {
     }
 

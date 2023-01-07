@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -14,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EntryChangeLangController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -25,7 +27,7 @@ class EntryChangeLangController extends AbstractController
     {
         $this->validateCsrf('change_lang', $request->request->get('token'));
 
-        $entry->lang = $request->get('lang') === 'en' ? $request->get('lang') : null;
+        $entry->lang = 'en' === $request->get('lang') ? $request->get('lang') : null;
 
         $this->entityManager->flush();
 

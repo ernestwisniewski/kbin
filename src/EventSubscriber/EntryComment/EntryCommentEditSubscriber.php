@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\EntryComment;
 
@@ -11,7 +13,7 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class EntryCommentEditSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private CacheInterface $cache, private MessageBusInterface $bus)
+    public function __construct(private readonly CacheInterface $cache, private readonly MessageBusInterface $bus)
     {
     }
 

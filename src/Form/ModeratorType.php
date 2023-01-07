@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -12,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ModeratorType extends AbstractType
 {
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private readonly UserRepository $userRepository)
     {
     }
 

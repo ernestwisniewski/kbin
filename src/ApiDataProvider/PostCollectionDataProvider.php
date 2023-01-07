@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -10,17 +12,16 @@ use App\PageView\PostPageView;
 use App\Repository\Criteria;
 use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;
-use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class PostCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private int $kbinApiItemsPerPage,
-        private PostRepository $repository,
-        private PostFactory $factory,
-        private MagazineRepository $magazineRepository,
-        private RequestStack $request
+        private readonly int $kbinApiItemsPerPage,
+        private readonly PostRepository $repository,
+        private readonly PostFactory $factory,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly RequestStack $request
     ) {
     }
 
@@ -32,22 +33,23 @@ final class PostCollectionDataProvider implements ContextAwareCollectionDataProv
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         try {
-            $criteria             = new PostPageView((int) $this->request->getCurrentRequest()->get('p', 1));
+            $criteria = new PostPageView((int) $this->request->getCurrentRequest()->get('p', 1));
             $criteria->sortOption = $this->request->getCurrentRequest()->get('sort', Criteria::SORT_HOT);
-            $criteria->time       = $criteria->resolveTime($this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL));
+            $criteria->time = $criteria->resolveTime(
+                $this->request->getCurrentRequest()->get('time', Criteria::TIME_ALL)
+            );
 
             if ($name = $this->request->getCurrentRequest()->get('magazine')) {
                 $criteria->magazine = $this->magazineRepository->findOneByName($name);
             }
 
             $posts = $this->repository->findByCriteria($criteria);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
-        $dtos = array_map(fn($post) => $this->factory->createDto($post), (array) $posts->getCurrentPageResults());
+        $dtos = array_map(fn ($post) => $this->factory->createDto($post), (array) $posts->getCurrentPageResults());
 
         return new DtoPaginator($dtos, 0, $this->kbinApiItemsPerPage, $posts->getNbResults());
     }
 }
-

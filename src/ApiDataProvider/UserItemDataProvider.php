@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -10,7 +12,7 @@ use App\Repository\UserRepository;
 
 final class UserItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private UserRepository $repository, private UserFactory $factory)
+    public function __construct(private readonly UserRepository $repository, private readonly UserFactory $factory)
     {
     }
 
@@ -26,4 +28,3 @@ final class UserItemDataProvider implements ItemDataProviderInterface, Restricte
         return $user ? $this->factory->createDto($user) : null;
     }
 }
-

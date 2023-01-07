@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\ActivityPub\User;
 
@@ -10,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
-    public function __construct(private PersonFactory $personFactory)
+    public function __construct(private readonly PersonFactory $personFactory)
     {
     }
 

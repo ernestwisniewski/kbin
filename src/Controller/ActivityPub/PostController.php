@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\ActivityPub;
 
@@ -13,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends AbstractController
 {
-    public function __construct(private PostNoteFactory $postNoteFactory)
+    public function __construct(private readonly PostNoteFactory $postNoteFactory)
     {
     }
 

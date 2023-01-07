@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ParamConverter;
 
@@ -12,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MagazineNameConverter implements ParamConverterInterface
 {
-    public function __construct(private MagazineRepository $repository)
+    public function __construct(private readonly MagazineRepository $repository)
     {
     }
 
@@ -28,17 +30,18 @@ class MagazineNameConverter implements ParamConverterInterface
         $request->attributes->set($configuration->getName(), $magazine);
     }
 
-    #[Pure] public function supports(ParamConverter $configuration): bool
-    {
-        if (null === $configuration->getClass()) {
-            return false;
-        }
+    #[Pure]
+ public function supports(ParamConverter $configuration): bool
+ {
+     if (null === $configuration->getClass()) {
+         return false;
+     }
 
-        if ($configuration->getClass() !== Magazine::class) {
-            return false;
-        }
+     if (Magazine::class !== $configuration->getClass()) {
+         return false;
+     }
 
-        // @todo test coverage
-        return false;
-    }
+     // @todo test coverage
+     return false;
+ }
 }

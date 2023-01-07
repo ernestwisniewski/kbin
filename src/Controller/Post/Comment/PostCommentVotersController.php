@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post\Comment;
 
@@ -26,16 +28,16 @@ class PostCommentVotersController extends AbstractController
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_voters_inline.html.twig', [
                     'votes' => $comment->votes,
-                    'more'  => null,
+                    'more' => null,
                 ]),
             ]);
         }
 
         return $this->render('post/comment/voters.html.twig', [
             'magazine' => $magazine,
-            'post'     => $post,
-            'comment'  => $comment,
-            'votes'    => $comment->votes,
+            'post' => $post,
+            'comment' => $comment,
+            'votes' => $comment->votes,
         ]);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post\Comment;
 
@@ -24,9 +26,9 @@ class CommentCreateController extends AbstractController
     use CommentResponseTrait;
 
     public function __construct(
-        private PostCommentManager $manager,
-        private PostCommentRepository $repository,
-        private CloudflareIpResolver $ipResolver
+        private readonly PostCommentManager $manager,
+        private readonly PostCommentRepository $repository,
+        private readonly CloudflareIpResolver $ipResolver
     ) {
     }
 
@@ -45,11 +47,11 @@ class CommentCreateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dto           = $form->getData();
-            $dto->post     = $post;
+            $dto = $form->getData();
+            $dto->post = $post;
             $dto->magazine = $magazine;
-            $dto->parent   = $parent;
-            $dto->ip       = $this->ipResolver->resolve();
+            $dto->parent = $parent;
+            $dto->ip = $this->ipResolver->resolve();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();
@@ -59,10 +61,14 @@ class CommentCreateController extends AbstractController
         }
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig', ['post' => $post, 'parent' => $parent, 'comment' => null]);
+            return $this->getJsonFormResponse(
+                $form,
+                'post/comment/_form.html.twig',
+                ['post' => $post, 'parent' => $parent, 'comment' => null]
+            );
         }
 
-        $criteria       = new PostCommentPageView($this->getPageNb($request));
+        $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
         $comments = $this->repository->findByCriteria($criteria);
@@ -71,10 +77,10 @@ class CommentCreateController extends AbstractController
             'post/comment/create.html.twig',
             [
                 'magazine' => $magazine,
-                'post'     => $post,
+                'post' => $post,
                 'comments' => $comments,
-                'parent'   => $parent,
-                'form'     => $form->createView(),
+                'parent' => $parent,
+                'form' => $form->createView(),
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
@@ -89,8 +95,8 @@ class CommentCreateController extends AbstractController
                 'action' => $this->generateUrl(
                     'post_comment_create',
                     [
-                        'magazine_name'     => $post->magazine->name,
-                        'post_id'           => $post->getId(),
+                        'magazine_name' => $post->magazine->name,
+                        'post_id' => $post->getId(),
                         'parent_comment_id' => $parent?->getId(),
                     ]
                 ),

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub;
 
@@ -8,7 +10,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CreateActorHandler implements MessageHandlerInterface
 {
-    public function __construct(private ActivityPubManager $activityPubManager)
+    public function __construct(private readonly ActivityPubManager $activityPubManager)
     {
     }
 

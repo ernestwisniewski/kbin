@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
@@ -15,11 +17,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class ChainActivityHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private ApHttpClient $client,
-        private MessageBusInterface $bus,
-        private ApActivityRepository $repository,
-        private Note $note,
-        private Page $page
+        private readonly ApHttpClient $client,
+        private readonly MessageBusInterface $bus,
+        private readonly ApActivityRepository $repository,
+        private readonly Note $note,
+        private readonly Page $page
     ) {
     }
 

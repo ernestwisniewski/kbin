@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -20,7 +22,6 @@ use App\Repository\EntryRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -34,20 +35,20 @@ use Webmozart\Assert\Assert;
 class EntryManager implements ContentManagerInterface
 {
     public function __construct(
-        private TagManager $tagManager,
-        private MentionManager $mentionManager,
-        private EntryCommentManager $entryCommentManager,
-        private UrlCleaner $urlCleaner,
-        private Slugger $slugger,
-        private BadgeManager $badgeManager,
-        private EntryFactory $factory,
-        private EventDispatcherInterface $dispatcher,
-        private RateLimiterFactory $entryLimiter,
-        private MessageBusInterface $bus,
-        private TranslatorInterface $translator,
-        private EntityManagerInterface $entityManager,
-        private EntryRepository $entryRepository,
-        private CacheInterface $cache
+        private readonly TagManager $tagManager,
+        private readonly MentionManager $mentionManager,
+        private readonly EntryCommentManager $entryCommentManager,
+        private readonly UrlCleaner $urlCleaner,
+        private readonly Slugger $slugger,
+        private readonly BadgeManager $badgeManager,
+        private readonly EntryFactory $factory,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly RateLimiterFactory $entryLimiter,
+        private readonly MessageBusInterface $bus,
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly EntryRepository $entryRepository,
+        private readonly CacheInterface $cache
     ) {
     }
 
@@ -68,7 +69,7 @@ class EntryManager implements ContentManagerInterface
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
@@ -95,6 +96,35 @@ class EntryManager implements ContentManagerInterface
         return $entry;
     }
 
+    private function setType(EntryDto $dto, Entry $entry): Entry
+    {
+        $isImageUrl = false;
+        if ($dto->url) {
+            $entry->url = ($this->urlCleaner)($dto->url);
+            $isImageUrl = ImageManager::isImageUrl($dto->url);
+        }
+
+        if (($dto->image && !$dto->body) || $isImageUrl) {
+            $entry->type = Entry::ENTRY_TYPE_IMAGE;
+            $entry->hasEmbed = true;
+
+            return $entry;
+        }
+
+        if ($dto->url) {
+            $entry->type = Entry::ENTRY_TYPE_LINK;
+
+            return $entry;
+        }
+
+        if ($dto->body) {
+            $entry->type = Entry::ENTRY_TYPE_ARTICLE;
+            $entry->hasEmbed = false;
+        }
+
+        return $entry;
+    }
+
     public function edit(Entry $entry, EntryDto $dto): Entry
     {
         Assert::same($entry->magazine->getId(), $dto->magazine->getId());
@@ -110,13 +140,13 @@ class EntryManager implements ContentManagerInterface
             $entry->image = $dto->image;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $entry->isOc = $dto->isOc;
         $entry->lang = $dto->lang;
-        $entry->editedAt = new DateTimeImmutable('@'.time());
+        $entry->editedAt = new \DateTimeImmutable('@'.time());
 
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);
@@ -150,20 +180,6 @@ class EntryManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new EntryDeletedEvent($entry, $user));
     }
 
-    public function restore(User $user, Entry $entry): void
-    {
-        if ($entry->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
-            throw new \Exception('Invalid visibility');
-        }
-
-        $entry->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
-
-        $this->entityManager->persist($entry);
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new EntryRestoredEvent($entry, $user));
-    }
-
     public function purge(Entry $entry): void
     {
         $this->dispatcher->dispatch(new EntryBeforePurgeEvent($entry));
@@ -174,7 +190,7 @@ class EntryManager implements ContentManagerInterface
         foreach ($entry->comments->matching($sort) as $comment) {
             $this->entryCommentManager->purge($comment);
         }
-        
+
         $entry->magazine->removeEntry($entry);
 
         $this->entityManager->remove($entry);
@@ -183,6 +199,20 @@ class EntryManager implements ContentManagerInterface
         if ($image) {
             $this->bus->dispatch(new DeleteImageMessage($image));
         }
+    }
+
+    public function restore(User $user, Entry $entry): void
+    {
+        if (VisibilityInterface::VISIBILITY_TRASHED !== $entry->visibility) {
+            throw new \Exception('Invalid visibility');
+        }
+
+        $entry->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($entry);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new EntryRestoredEvent($entry, $user));
     }
 
     public function pin(Entry $entry): Entry
@@ -199,35 +229,6 @@ class EntryManager implements ContentManagerInterface
     public function createDto(Entry $entry): EntryDto
     {
         return $this->factory->createDto($entry);
-    }
-
-    private function setType(EntryDto $dto, Entry $entry): Entry
-    {
-        $isImageUrl = false;
-        if ($dto->url) {
-            $entry->url = ($this->urlCleaner)($dto->url);
-            $isImageUrl = ImageManager::isImageUrl($dto->url);
-        }
-
-        if (($dto->image && !$dto->body) || $isImageUrl) {
-            $entry->type = Entry::ENTRY_TYPE_IMAGE;
-            $entry->hasEmbed = true;
-
-            return $entry;
-        }
-
-        if ($dto->url) {
-            $entry->type = Entry::ENTRY_TYPE_LINK;
-
-            return $entry;
-        }
-
-        if ($dto->body) {
-            $entry->type = Entry::ENTRY_TYPE_ARTICLE;
-            $entry->hasEmbed = false;
-        }
-
-        return $entry;
     }
 
     public function detachImage(Entry $entry): void

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -27,28 +29,23 @@ abstract class CardanoTx
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: Magazine::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public Magazine $magazine;
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn]
+    public User $receiver;
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn]
+    public ?User $sender = null;
+    #[Column(type: 'integer', nullable: false)]
+    public int $amount = 0;
+    #[Column(type: 'string', nullable: false)]
+    public string $txHash;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: Magazine::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
-    public Magazine $magazine;
-
-    #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn]
-    public User $receiver;
-
-    #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn]
-    public ?User $sender = null;
-
-    #[Column(type: 'integer', nullable: false)]
-    public int $amount = 0;
-
-    #[Column(type: 'string', nullable: false)]
-    public string $txHash;
 
     public function __construct(
         Magazine $magazine,
@@ -57,10 +54,10 @@ abstract class CardanoTx
         \DateTimeImmutable $createdAt,
         ?User $sender = null,
     ) {
-        $this->magazine  = $magazine;
-        $this->sender    = $sender;
-        $this->amount    = $amount;
-        $this->txHash    = $txHash;
+        $this->magazine = $magazine;
+        $this->sender = $sender;
+        $this->amount = $amount;
+        $this->txHash = $txHash;
         $this->createdAt = $createdAt;
     }
 

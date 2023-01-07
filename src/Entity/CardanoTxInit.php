@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -27,21 +29,18 @@ abstract class CardanoTxInit
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: Magazine::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public Magazine $magazine;
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: true)]
+    public ?User $user = null;
+    #[Column(type: 'string', nullable: false)]
+    public string $sessionId;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: Magazine::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
-    public Magazine $magazine;
-
-    #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: true)]
-    public ?User $user = null;
-
-    #[Column(type: 'string', nullable: false)]
-    public string $sessionId;
 
     public function __construct(Magazine $magazine, string $sessionId, ?User $user = null)
     {

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -16,10 +18,10 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 class ReportManager
 {
     public function __construct(
-        private ReportFactory $factory,
-        private ReportRepository $repository,
-        private EventDispatcherInterface $dispatcher,
-        private EntityManagerInterface $entityManager
+        private readonly ReportFactory $factory,
+        private readonly ReportRepository $repository,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -35,7 +37,7 @@ class ReportManager
 
         if (!$report) {
             $report = $this->factory->createFromDto($dto);
-        } elseif ($report->status === Report::STATUS_PENDING) {
+        } elseif (Report::STATUS_PENDING === $report->status) {
             $report->increaseWeight();
         }
 

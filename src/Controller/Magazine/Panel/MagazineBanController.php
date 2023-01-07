@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -18,8 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 class MagazineBanController extends AbstractController
 {
     public function __construct(
-        private MagazineManager $manager,
-        private MagazineRepository $repository,
+        private readonly MagazineManager $manager,
+        private readonly MagazineRepository $repository,
     ) {
     }
 
@@ -73,8 +75,8 @@ class MagazineBanController extends AbstractController
             'magazine/panel/ban.html.twig',
             [
                 'magazine' => $magazine,
-                'user'     => $user,
-                'form'     => $form->createView(),
+                'user' => $user,
+                'form' => $form->createView(),
             ]
         );
     }

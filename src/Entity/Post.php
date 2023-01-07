@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -17,7 +19,6 @@ use App\Entity\Traits\RankingTrait;
 use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\PostRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -42,69 +43,50 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'posts')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Magazine $magazine;
+    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[JoinColumn(nullable: true)]
+    public ?Image $image = null;
+    #[Column(type: 'string', length: 255, nullable: true)]
+    public string $slug;
+    #[Column(type: 'text', length: 15000, nullable: true)]
+    public ?string $body = null;
+    #[Column(type: 'integer', nullable: false)]
+    public int $commentCount = 0;
+    #[Column(type: 'integer', options: ['default' => 0])]
+    public int $favouriteCount = 0;
+    #[Column(type: 'integer', nullable: false)]
+    public int $score = 0;
+    #[Column(type: 'boolean', nullable: false)]
+    public ?bool $isAdult = false;
+    #[Column(type: 'datetimetz')]
+    public ?\DateTime $lastActive;
+    #[Column(type: 'string', nullable: true)]
+    public ?string $ip = null;
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $tags = null;
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $mentions = null;
+    #[OneToMany(mappedBy: 'post', targetEntity: PostComment::class, orphanRemoval: true)]
+    public Collection $comments;
+    #[OneToMany(mappedBy: 'post', targetEntity: PostVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $votes;
+    #[OneToMany(mappedBy: 'post', targetEntity: PostReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $reports;
+    #[OneToMany(mappedBy: 'post', targetEntity: PostFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $favourites;
+    #[OneToMany(mappedBy: 'post', targetEntity: PostCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $notifications;
+    public array $children = [];
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
-    #[JoinColumn(nullable: false)]
-    public User $user;
-
-    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'posts')]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?Magazine $magazine;
-
-    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[JoinColumn(nullable: true)]
-    public ?Image $image = null;
-
-    #[Column(type: 'string', length: 255, nullable: true)]
-    public string $slug;
-
-    #[Column(type: 'text', length: 15000, nullable: true)]
-    public ?string $body = null;
-
-    #[Column(type: 'integer', nullable: false)]
-    public int $commentCount = 0;
-
-    #[Column(type: 'integer', options: ['default' => 0])]
-    public int $favouriteCount = 0;
-
-    #[Column(type: 'integer', nullable: false)]
-    public int $score = 0;
-
-    #[Column(type: 'boolean', nullable: false)]
-    public ?bool $isAdult = false;
-
-    #[Column(type: 'datetimetz')]
-    public ?DateTime $lastActive;
-
-    #[Column(type: 'string', nullable: true)]
-    public ?string $ip = null;
-
-    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
-    public ?array $tags = null;
-
-    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
-    public ?array $mentions = null;
-
-    #[OneToMany(mappedBy: 'post', targetEntity: PostComment::class, orphanRemoval: true)]
-    public Collection $comments;
-
-    #[OneToMany(mappedBy: 'post', targetEntity: PostVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    public Collection $votes;
-
-    #[OneToMany(mappedBy: 'post', targetEntity: PostReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    public Collection $reports;
-
-    #[OneToMany(mappedBy: 'post', targetEntity: PostFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    public Collection $favourites;
-
-    #[OneToMany(mappedBy: 'post', targetEntity: PostCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    public Collection $notifications;
-
-    public array $children = [];
 
     public function __construct(
         string $body,
@@ -141,9 +123,9 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $lastComment = $this->comments->matching($criteria)->first();
 
         if ($lastComment) {
-            $this->lastActive = DateTime::createFromImmutable($lastComment->createdAt);
+            $this->lastActive = \DateTime::createFromImmutable($lastComment->createdAt);
         } else {
-            $this->lastActive = DateTime::createFromImmutable($this->getCreatedAt());
+            $this->lastActive = \DateTime::createFromImmutable($this->getCreatedAt());
         }
     }
 
@@ -161,7 +143,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $comments = $this->handlePrivateComments($comments, $user);
         $comments = new ArrayCollection($comments->slice(0, 2));
 
-        if (!count(array_filter($comments->toArray(), fn($comment) => $comment->countUpVotes() > 0))) {
+        if (!count(array_filter($comments->toArray(), fn ($comment) => $comment->countUpVotes() > 0))) {
             return $this->getLastComments();
         }
 
@@ -171,6 +153,17 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         });
 
         return new ArrayCollection(iterator_to_array($iterator));
+    }
+
+    private function handlePrivateComments(ArrayCollection $comments, ?User $user): ArrayCollection
+    {
+        return $comments->filter(function (PostComment $val) use ($user) {
+            if ($user && self::VISIBILITY_PRIVATE === $val->visibility) {
+                return $user->isFollower($val->user);
+            }
+
+            return self::VISIBILITY_VISIBLE === $val->visibility;
+        });
     }
 
     public function getLastComments(?User $user = null): Collection
@@ -183,17 +176,6 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         $comments = $this->handlePrivateComments($comments, $user);
 
         return new ArrayCollection($comments->slice(-2, 2));
-    }
-
-    private function handlePrivateComments(ArrayCollection $comments, ?User $user): ArrayCollection
-    {
-        return $comments->filter(function (PostComment $val) use ($user) {
-            if ($user && self::VISIBILITY_PRIVATE === $val->visibility) {
-                return $user->isFollower($val->user);
-            }
-
-            return $val->visibility === self::VISIBILITY_VISIBLE;
-        });
     }
 
     public function addComment(PostComment $comment): self
@@ -307,7 +289,7 @@ class Post implements VoteInterface, CommentInterface, VisibilityInterface, Rank
         foreach ($this->comments as $comment) {
             if (!in_array($comment->user, $users)) {
                 $users[] = $comment->user;
-                $count++;
+                ++$count;
             }
         }
 

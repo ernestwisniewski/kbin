@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine;
 
@@ -16,7 +18,7 @@ class MagazineAwardController extends AbstractController
             [
                 'magazine' => $magazine,
                 'category' => $category,
-                'types'    => [],
+                'types' => [],
             ]
         );
     }

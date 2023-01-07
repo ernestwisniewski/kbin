@@ -1,20 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
-use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
-use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Service\CloudflareIpResolver;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
-use JetBrains\PhpStorm\Pure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -26,24 +24,24 @@ class EntryCreateController extends AbstractController
     use EntryFormTrait;
 
     public function __construct(
-        private EntryManager $manager,
-        private EntryCommentManager $commentManager,
-        private ValidatorInterface $validator,
-        private CloudflareIpResolver $ipResolver
+        private readonly EntryManager $manager,
+        private readonly EntryCommentManager $commentManager,
+        private readonly ValidatorInterface $validator,
+        private readonly CloudflareIpResolver $ipResolver
     ) {
     }
 
     #[IsGranted('ROLE_USER')]
     public function __invoke(?Magazine $magazine, ?string $type, Request $request): Response
     {
-        $dto           = new EntryDto();
+        $dto = new EntryDto();
         $dto->magazine = $magazine;
 
         $form = $this->createFormByType((new EntryPageView(1))->resolveType($type), $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dto     = $form->getData();
+            $dto = $form->getData();
             $dto->ip = $this->ipResolver->resolve();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
@@ -69,7 +67,7 @@ class EntryCreateController extends AbstractController
             $this->getTemplateName((new EntryPageView(1))->resolveType($type)),
             [
                 'magazine' => $magazine,
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );

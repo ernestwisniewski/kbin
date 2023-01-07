@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post;
 
@@ -20,15 +22,15 @@ class PostVotersController extends AbstractController
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_voters_inline.html.twig', [
                     'votes' => $post->votes,
-                    'more'  => null,
+                    'more' => null,
                 ]),
             ]);
         }
 
         return $this->render('post/voters.html.twig', [
             'magazine' => $magazine,
-            'post'     => $post,
-            'votes'    => $post->votes,
+            'post' => $post,
+            'votes' => $post->votes,
         ]);
     }
 }

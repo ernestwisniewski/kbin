@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -15,9 +17,9 @@ class BadgeDto
 
     public function create(Magazine $magazine, string $name, ?int $id = null): self
     {
-        $this->id       = $id;
+        $this->id = $id;
         $this->magazine = $magazine;
-        $this->name     = $name;
+        $this->name = $name;
 
         return $this;
     }

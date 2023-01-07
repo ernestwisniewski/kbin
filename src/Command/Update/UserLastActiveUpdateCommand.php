@@ -1,12 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command\Update;
 
-use App\Entity\EntryComment;
-use App\Entity\Post;
-use App\Entity\PostComment;
 use App\Entity\User;
-use App\Service\TagManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class UserLastActiveUpdateCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
         parent::__construct();
     }
@@ -30,7 +28,7 @@ class UserLastActiveUpdateCommand extends Command
 
         foreach ($repo->findAll() as $user) {
             $activity = $repo->findPublicActivity(1, $user);
-            if($activity->count()) {
+            if ($activity->count()) {
                 $user->lastActive = $activity->getCurrentPageResults()[0]->lastActive;
             }
         }

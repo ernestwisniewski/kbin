@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -16,7 +18,6 @@ use App\Event\PostComment\PostCommentRestoredEvent;
 use App\Factory\PostCommentFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -27,13 +28,13 @@ use Webmozart\Assert\Assert;
 class PostCommentManager implements ContentManagerInterface
 {
     public function __construct(
-        private TagManager $tagManager,
-        private MentionManager $mentionManager,
-        private PostCommentFactory $factory,
-        private EventDispatcherInterface $dispatcher,
-        private RateLimiterFactory $postCommentLimiter,
-        private MessageBusInterface $bus,
-        private EntityManagerInterface $entityManager
+        private readonly TagManager $tagManager,
+        private readonly MentionManager $mentionManager,
+        private readonly PostCommentFactory $factory,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly RateLimiterFactory $postCommentLimiter,
+        private readonly MessageBusInterface $bus,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -48,21 +49,21 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment = $this->factory->createFromDto($dto, $user);
 
-        $comment->magazine             = $dto->post->magazine;
-        $comment->image                = $dto->image;
-        if($comment->image && !$comment->image->altText) {
+        $comment->magazine = $dto->post->magazine;
+        $comment->image = $dto->image;
+        if ($comment->image && !$comment->image->altText) {
             $comment->image->altText = $dto->imageAlt;
         }
-        $comment->tags                 = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
-        $comment->mentions             = $dto->body
+        $comment->tags = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;
-        $comment->visibility           = $dto->visibility;
-        $comment->apId                 = $dto->apId;
+        $comment->visibility = $dto->visibility;
+        $comment->apId = $dto->apId;
         $comment->magazine->lastActive = new \DateTime();
-        $comment->user->lastActive     = new \DateTime();
-        $comment->lastActive           = $dto->lastActive ?? $comment->lastActive;
-        $comment->createdAt            = $dto->createdAt ?? $comment->createdAt;
+        $comment->user->lastActive = new \DateTime();
+        $comment->lastActive = $dto->lastActive ?? $comment->lastActive;
+        $comment->createdAt = $dto->createdAt ?? $comment->createdAt;
 
         $comment->post->addComment($comment);
 
@@ -79,16 +80,16 @@ class PostCommentManager implements ContentManagerInterface
         Assert::same($comment->post->getId(), $dto->post->getId());
 
         $comment->body = $dto->body;
-        $oldImage      = $comment->image;
+        $oldImage = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;
         }
-        $comment->tags     = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->tags = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
         $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;
         $comment->visibility = $dto->visibility;
-        $comment->editedAt = new DateTimeImmutable('@'.time());
+        $comment->editedAt = new \DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();
 
@@ -118,26 +119,12 @@ class PostCommentManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostCommentDeletedEvent($comment, $user));
     }
 
-    public function restore(User $user, PostComment $comment): void
-    {
-        if ($comment->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
-            throw new \Exception('Invalid visibility');
-        }
-
-        $comment->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
-
-        $this->entityManager->persist($comment);
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new PostCommentRestoredEvent($comment, $user));
-    }
-
     public function purge(PostComment $comment): void
     {
         $this->dispatcher->dispatch(new PostCommentBeforePurgeEvent($comment));
 
         $magazine = $comment->post->magazine;
-        $image    = $comment->image?->filePath;
+        $image = $comment->image?->filePath;
         $comment->post->removeComment($comment);
 
         $this->entityManager->remove($comment);
@@ -153,6 +140,20 @@ class PostCommentManager implements ContentManagerInterface
     private function isTrashed(User $user, PostComment $comment): bool
     {
         return !$comment->isAuthor($user);
+    }
+
+    public function restore(User $user, PostComment $comment): void
+    {
+        if (VisibilityInterface::VISIBILITY_TRASHED !== $comment->visibility) {
+            throw new \Exception('Invalid visibility');
+        }
+
+        $comment->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new PostCommentRestoredEvent($comment, $user));
     }
 
     public function createDto(PostComment $comment): PostCommentDto

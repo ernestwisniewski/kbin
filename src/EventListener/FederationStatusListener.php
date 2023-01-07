@@ -1,15 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventListener;
 
-
-use App\Service\SettingsManager;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FederationStatusListener
 {
-    public function __construct(private bool $kbinFederationEnabled, SettingsManager $settingsManager)
+    public function __construct(private readonly bool $kbinFederationEnabled)
     {
     }
 

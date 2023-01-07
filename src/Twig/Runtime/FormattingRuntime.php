@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Twig\Runtime;
 
@@ -7,7 +9,7 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class FormattingRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private MarkdownConverter $markdownConverter)
+    public function __construct(private readonly MarkdownConverter $markdownConverter)
     {
     }
 
@@ -21,6 +23,6 @@ class FormattingRuntime implements RuntimeExtensionInterface
         $body = wordwrap($val, 330);
         $body = explode("\n", $body);
 
-        return trim($body[0]) . (isset($body[1]) ? '...' : '');
+        return trim($body[0]).(isset($body[1]) ? '...' : '');
     }
 }

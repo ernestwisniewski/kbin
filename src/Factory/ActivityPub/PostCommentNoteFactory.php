@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\ActivityPub;
 
@@ -16,22 +18,21 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PostCommentNoteFactory
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private PostNoteFactory $postNoteFactory,
-        private ImageWrapper $imageWrapper,
-        private GroupFactory $groupFactory,
-        private TagsWrapper $tagsWrapper,
-        private MentionsWrapper $mentionsWrapper,
-        private MentionManager $mentionManager,
-        private ApHttpClient $client,
-        private ActivityPubManager $activityPubManager,
-        private MarkdownConverter $markdownConverter
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly PostNoteFactory $postNoteFactory,
+        private readonly ImageWrapper $imageWrapper,
+        private readonly GroupFactory $groupFactory,
+        private readonly TagsWrapper $tagsWrapper,
+        private readonly MentionsWrapper $mentionsWrapper,
+        private readonly MentionManager $mentionManager,
+        private readonly ApHttpClient $client,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly MarkdownConverter $markdownConverter
     ) {
     }
 
     public function create(PostComment $comment, bool $context = false): array
     {
-
         if ($context) {
             $note['@context'] = [
                 ActivityPubActivityInterface::CONTEXT_URL,
@@ -41,7 +42,7 @@ class PostCommentNoteFactory
         }
 
         $tags = $comment->tags ?? [];
-        if ($comment->magazine->name !== 'random' && !$comment->magazine->apId) { // @todo
+        if ('random' !== $comment->magazine->name && !$comment->magazine->apId) { // @todo
             $tags[] = $comment->magazine->name;
         }
 
@@ -58,10 +59,10 @@ class PostCommentNoteFactory
                 $comment->apId
                     ? ($this->client->getActorObject($comment->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                    'ap_user_followers',
-                    ['username' => $comment->user->username],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
+                        'ap_user_followers',
+                        ['username' => $comment->user->username],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
             ],
             'sensitive' => $comment->post->isAdult(),
             'content' => $this->markdownConverter->convertToHtml(

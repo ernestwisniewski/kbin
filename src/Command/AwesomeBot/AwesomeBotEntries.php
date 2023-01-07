@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command\AwesomeBot;
 
@@ -26,10 +28,10 @@ class AwesomeBotEntries extends Command
     // bin/console kbin:awesome-bot:entries:create awesome-vue-bot vue https://github.com/vuejs/awesome-vue h3
 
     public function __construct(
-        private EntryManager $entryManager,
-        private UserRepository $userRepository,
-        private MagazineRepository $magazineRepository,
-        private EntryRepository $entryRepository
+        private readonly EntryManager $entryManager,
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly EntryRepository $entryRepository
     ) {
         parent::__construct();
     }
@@ -48,7 +50,7 @@ class AwesomeBotEntries extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $user     = $this->userRepository->findOneByUsername($input->getArgument('username'));
+        $user = $this->userRepository->findOneByUsername($input->getArgument('username'));
         $magazine = $this->magazineRepository->findOneByName($input->getArgument('magazine_name'));
 
         $tags = $input->getArgument('tags') ? explode(',', $input->getArgument('tags')) : [];
@@ -68,30 +70,30 @@ class AwesomeBotEntries extends Command
 
         $content = $crawler->filter('.markdown-body')->first()->children();
 
-        $tags   = array_flip($tags);
+        $tags = array_flip($tags);
         $result = [];
         foreach ($content as $elem) {
             if (array_key_exists($elem->nodeName, $tags)) {
                 $tags[$elem->nodeName] = $elem->nodeValue;
             }
 
-            if ($elem->nodeName === 'ul') {
+            if ('ul' === $elem->nodeName) {
                 foreach ($elem->childNodes as $li) {
                     /**
                      * @var $li DOMElement
                      */
-                    if ($li->nodeName !== 'li') {
+                    if ('li' !== $li->nodeName) {
                         continue;
                     }
 
-                    if ($li->firstChild->nodeName !== 'a') {
+                    if ('a' !== $li->firstChild->nodeName) {
                         continue;
                     }
 
                     $result[] = [
-                        'title'  => $li->nodeValue,
-                        'url'    => $li->firstChild->getAttribute('href'),
-                        'badges' => new ArrayCollection(array_filter($tags, fn($v) => is_string($v))),
+                        'title' => $li->nodeValue,
+                        'url' => $li->firstChild->getAttribute('href'),
+                        'badges' => new ArrayCollection(array_filter($tags, fn ($v) => is_string($v))),
                     ];
                 }
             }
@@ -106,12 +108,12 @@ class AwesomeBotEntries extends Command
                 continue;
             }
 
-            $dto           = new EntryDto();
+            $dto = new EntryDto();
             $dto->magazine = $magazine;
-            $dto->user     = $user;
-            $dto->title    = substr($item['title'], 0, 255);
-            $dto->url      = $item['url'];
-            $dto->badges   = $item['badges'];
+            $dto->user = $user;
+            $dto->title = substr($item['title'], 0, 255);
+            $dto->url = $item['url'];
+            $dto->badges = $item['badges'];
 
             $this->entryManager->create($dto, $user);
         }

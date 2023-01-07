@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -49,7 +51,7 @@ class EntrySingleController extends AbstractController
         $repository->hydrate(...$comments);
         $repository->hydrateChildren(...$comments);
 
-        $dispatcher->dispatch((new EntryHasBeenSeenEvent($entry)));
+        $dispatcher->dispatch(new EntryHasBeenSeenEvent($entry));
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine, $entry, $comments);

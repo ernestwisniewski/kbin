@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -18,9 +20,9 @@ class VotersListShortComponent
     public ?int $more = null;
 
     public function __construct(
-        private Environment $twig,
-        private CacheService $cacheService,
-        private CacheInterface $cache
+        private readonly Environment $twig,
+        private readonly CacheService $cacheService,
+        private readonly CacheInterface $cache
     ) {
     }
 
@@ -45,7 +47,7 @@ class VotersListShortComponent
     private function render(): string
     {
         $votes = $this->subject->votes->filter(function (Vote $v) {
-            return $v->choice !== VoteInterface::VOTE_NONE;
+            return VoteInterface::VOTE_NONE !== $v->choice;
         })->slice(0, 5);
 
         return $this->twig->render(

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -22,18 +24,16 @@ class DomainSubscription
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'subscribedDomains')]
+    #[JoinColumn(nullable: false)]
+    public ?User $user;
+    #[ManyToOne(targetEntity: Domain::class, inversedBy: 'subscriptions')]
+    #[JoinColumn(nullable: false)]
+    public ?Domain $domain;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'subscribedDomains')]
-    #[JoinColumn(nullable: false)]
-    public ?User $user;
-
-    #[ManyToOne(targetEntity: Domain::class, inversedBy: 'subscriptions')]
-    #[JoinColumn(nullable: false)]
-    public ?Domain $domain;
 
     public function __construct(User $user, Domain $domain)
     {

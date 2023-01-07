@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User\Profile;
 
@@ -18,7 +20,10 @@ class UserSubController extends AbstractController
         return $this->render(
             'user/profile/sub_magazines.html.twig',
             [
-                'magazines' => $repository->findSubscribedMagazines($this->getPageNb($request), $this->getUserOrThrow()),
+                'magazines' => $repository->findSubscribedMagazines(
+                    $this->getPageNb($request),
+                    $this->getUserOrThrow()
+                ),
             ]
         );
     }

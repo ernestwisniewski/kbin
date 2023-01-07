@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\Notification;
 
@@ -11,8 +13,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class SentEntryDeletedNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private EntryRepository $repository,
-        private NotificationManager $manager
+        private readonly EntryRepository $repository,
+        private readonly NotificationManager $manager
     ) {
     }
 

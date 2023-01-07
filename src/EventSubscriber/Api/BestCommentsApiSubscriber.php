@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Api;
 
@@ -16,10 +18,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class BestCommentsApiSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private PostRepository $repository,
-        private PostCommentFactory $commentFactory,
-        private UserFactory $userFactory,
-        private ImageFactory $imageFactory
+        private readonly PostRepository $repository,
+        private readonly PostCommentFactory $commentFactory,
+        private readonly UserFactory $userFactory,
+        private readonly ImageFactory $imageFactory
     ) {
     }
 
@@ -46,14 +48,14 @@ final class BestCommentsApiSubscriber implements EventSubscriberInterface
         }
 
         foreach ($event->getControllerResult() as $post) {
-            $comments       = $this->repository->find($post->getId())->getBestComments();
+            $comments = $this->repository->find($post->getId())->getBestComments();
             $commentFactory = $this->commentFactory;
-            $userFactory    = $this->userFactory;
-            $imageFactory   = $this->imageFactory;
+            $userFactory = $this->userFactory;
+            $imageFactory = $this->imageFactory;
 
-            $comments = $comments->map(function ($val) use ($commentFactory, $userFactory, $imageFactory, $post) {
-                $val               = $commentFactory->createDto($val);
-                $val->user         = $userFactory->createDto($val->user);
+            $comments = $comments->map(function ($val) use ($commentFactory, $userFactory, $imageFactory) {
+                $val = $commentFactory->createDto($val);
+                $val->user = $userFactory->createDto($val->user);
                 $val->user->avatar = $val->user->avatar ? $imageFactory->createDto($val->user->avatar) : null;
 
                 return $val;

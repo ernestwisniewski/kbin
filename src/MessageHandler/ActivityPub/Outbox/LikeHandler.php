@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
@@ -19,46 +21,47 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class LikeHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private MagazineRepository $magazineRepository,
-        private EntityManagerInterface $entityManager,
-        private LikeWrapper $likeWrapper,
-        private UndoWrapper $undoWrapper,
-        private ActivityPubManager $activityPubManager,
-        private ActivityFactory $activityFactory,
-        private MessageBusInterface $bus,
-        private SettingsManager $settingsManager,
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly LikeWrapper $likeWrapper,
+        private readonly UndoWrapper $undoWrapper,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly ActivityFactory $activityFactory,
+        private readonly MessageBusInterface $bus,
+        private readonly SettingsManager $settingsManager,
     ) {
     }
 
     #[ArrayShape([
-        '@context' => "string",
-        'id' => "string",
-        'actor' => "string",
-        'object' => "string",
-    ])] public function __invoke(
+        '@context' => 'string',
+        'id' => 'string',
+        'actor' => 'string',
+        'object' => 'string',
+    ])]
+ public function __invoke(
         LikeMessage $message
     ): void {
-        if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
-            return;
-        }
+     if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
+         return;
+     }
 
-        $user = $this->userRepository->find($message->userId);
-        $object = $this->entityManager->getRepository($message->objectType)->find($message->objectId);
+     $user = $this->userRepository->find($message->userId);
+     $object = $this->entityManager->getRepository($message->objectType)->find($message->objectId);
 
-        $activity = $this->likeWrapper->build(
-            $this->activityPubManager->getActorProfileId($user),
-            $this->activityFactory->create($object),
-        );
+     $activity = $this->likeWrapper->build(
+         $this->activityPubManager->getActorProfileId($user),
+         $this->activityFactory->create($object),
+     );
 
-        if ($message->removeLike) {
-            $activity = $this->undoWrapper->build($activity);
-        }
+     if ($message->removeLike) {
+         $activity = $this->undoWrapper->build($activity);
+     }
 
-        $this->deliver($this->userRepository->findAudience($user), $activity);
-        $this->deliver($this->userRepository->findAudience($user), $activity);
-        $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
-    }
+     $this->deliver($this->userRepository->findAudience($user), $activity);
+     $this->deliver($this->userRepository->findAudience($user), $activity);
+     $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
+ }
 
     private function deliver(array $followers, array $activity)
     {

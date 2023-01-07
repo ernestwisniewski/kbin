@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -10,8 +12,10 @@ use App\Repository\PostCommentRepository;
 
 final class PostCommentItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private PostCommentRepository $repository, private PostCommentFactory $factory)
-    {
+    public function __construct(
+        private readonly PostCommentRepository $repository,
+        private readonly PostCommentFactory $factory
+    ) {
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
@@ -19,11 +23,14 @@ final class PostCommentItemDataProvider implements ItemDataProviderInterface, Re
         return PostCommentDto::class === $resourceClass;
     }
 
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?PostCommentDto
-    {
+    public function getItem(
+        string $resourceClass,
+        $id,
+        string $operationName = null,
+        array $context = []
+    ): ?PostCommentDto {
         $comment = $this->repository->find($id);
 
         return $comment ? $this->factory->createDto($comment) : null;
     }
 }
-

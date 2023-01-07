@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security;
 
@@ -23,37 +25,40 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 class GithubAuthenticator extends OAuth2Authenticator
 {
     public function __construct(
-        private ClientRegistry $clientRegistry,
-        private RouterInterface $router,
-        private EntityManagerInterface $entityManager,
-        private UserManager $userManager,
-        private Slugger $slugger
+        private readonly ClientRegistry $clientRegistry,
+        private readonly RouterInterface $router,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserManager $userManager,
+        private readonly Slugger $slugger
     ) {
     }
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'oauth_github_verify';
+        return 'oauth_github_verify' === $request->attributes->get('_route');
     }
 
     public function authenticate(Request $request): Passport
     {
-        $client      = $this->clientRegistry->getClient('github');
+        $client = $this->clientRegistry->getClient('github');
         $accessToken = $this->fetchAccessToken($client);
-        $slugger     = $this->slugger;
+        $slugger = $this->slugger;
 
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client, $slugger) {
                 /** @var GithubResourceOwner $githubUser */
                 $githubUser = $client->fetchUserFromToken($accessToken);
 
-                $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['oauthGithubId' => $githubUser->getId()]);
+                $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(
+                    ['oauthGithubId' => $githubUser->getId()]
+                );
 
                 if ($existingUser) {
                     return $existingUser;
                 }
 
-                $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $githubUser->getEmail()]);
+                $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $githubUser->getEmail()]
+                );
 
                 if ($user) {
                     $user->oauthFacebookId = $githubUser->getId();
@@ -66,9 +71,9 @@ class GithubAuthenticator extends OAuth2Authenticator
 
                     $dto->plainPassword = bin2hex(random_bytes(20));
 
-                    $user                = $this->userManager->create($dto, false);
+                    $user = $this->userManager->create($dto, false);
                     $user->oauthGithubId = $githubUser->getId();
-                    $user->isVerified    = true;
+                    $user->isVerified = true;
                 }
 
                 $this->entityManager->persist($user);
@@ -87,7 +92,6 @@ class GithubAuthenticator extends OAuth2Authenticator
         $targetUrl = $this->router->generate('user_profile_edit');
 
         return new RedirectResponse($targetUrl);
-
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

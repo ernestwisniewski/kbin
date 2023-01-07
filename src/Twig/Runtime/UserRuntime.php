@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Twig\Runtime;
 
@@ -10,8 +12,8 @@ use Twig\Extension\RuntimeExtensionInterface;
 class UserRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
-        private Security $security,
-        private ReputationRepository $reputationRepository
+        private readonly Security $security,
+        private readonly ReputationRepository $reputationRepository
     ) {
     }
 

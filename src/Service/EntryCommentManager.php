@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -16,7 +18,6 @@ use App\Event\EntryComment\EntryCommentRestoredEvent;
 use App\Factory\EntryCommentFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -27,13 +28,13 @@ use Webmozart\Assert\Assert;
 class EntryCommentManager implements ContentManagerInterface
 {
     public function __construct(
-        private TagManager $tagManager,
-        private MentionManager $mentionManager,
-        private EntryCommentFactory $factory,
-        private RateLimiterFactory $entryCommentLimiter,
-        private EventDispatcherInterface $dispatcher,
-        private MessageBusInterface $bus,
-        private EntityManagerInterface $entityManager
+        private readonly TagManager $tagManager,
+        private readonly MentionManager $mentionManager,
+        private readonly EntryCommentFactory $factory,
+        private readonly RateLimiterFactory $entryCommentLimiter,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly MessageBusInterface $bus,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -48,21 +49,21 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment = $this->factory->createFromDto($dto, $user);
 
-        $comment->magazine             = $dto->entry->magazine;
-        $comment->image                = $dto->image;
-        if($comment->image && !$comment->image->altText) {
+        $comment->magazine = $dto->entry->magazine;
+        $comment->image = $dto->image;
+        if ($comment->image && !$comment->image->altText) {
             $comment->image->altText = $dto->imageAlt;
         }
-        $comment->tags                 = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
-        $comment->mentions             = $dto->body
+        $comment->tags = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;
-        $comment->visibility           = $dto->visibility;
-        $comment->apId                 = $dto->apId;
+        $comment->visibility = $dto->visibility;
+        $comment->apId = $dto->apId;
         $comment->magazine->lastActive = new \DateTime();
-        $comment->user->lastActive     = new \DateTime();
-        $comment->lastActive           = $dto->lastActive ?? $comment->lastActive;
-        $comment->createdAt            = $dto->createdAt ?? $comment->createdAt;
+        $comment->user->lastActive = new \DateTime();
+        $comment->lastActive = $dto->lastActive ?? $comment->lastActive;
+        $comment->createdAt = $dto->createdAt ?? $comment->createdAt;
 
         $comment->entry->addComment($comment);
 
@@ -79,16 +80,16 @@ class EntryCommentManager implements ContentManagerInterface
         Assert::same($comment->entry->getId(), $dto->entry->getId());
 
         $comment->body = $dto->body;
-        $oldImage      = $comment->image;
+        $oldImage = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;
         }
-        $comment->tags     = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->tags = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
         $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;
         $comment->visibility = $dto->visibility;
-        $comment->editedAt = new DateTimeImmutable('@'.time());
+        $comment->editedAt = new \DateTimeImmutable('@'.time());
         $this->entityManager->flush();
 
         if ($oldImage && $comment->image !== $oldImage) {
@@ -122,7 +123,7 @@ class EntryCommentManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new EntryCommentBeforePurgeEvent($comment));
 
         $magazine = $comment->entry->magazine;
-        $image    = $comment->image?->filePath;
+        $image = $comment->image?->filePath;
         $comment->entry->removeComment($comment);
 
         $this->entityManager->remove($comment);
@@ -142,7 +143,7 @@ class EntryCommentManager implements ContentManagerInterface
 
     public function restore(User $user, EntryComment $comment): void
     {
-        if ($comment->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
+        if (VisibilityInterface::VISIBILITY_TRASHED !== $comment->visibility) {
             throw new \Exception('Invalid visibility');
         }
 

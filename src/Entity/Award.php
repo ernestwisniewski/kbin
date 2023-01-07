@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -18,20 +20,17 @@ class Award
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'awards')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public User $user;
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'awards')]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public Magazine $magazine;
+    #[ManyToOne(targetEntity: AwardType::class, inversedBy: 'awards')]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public AwardType $type;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'awards')]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public User $user;
-
-    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'awards')]
-    #[JoinColumn(onDelete: 'CASCADE')]
-    public Magazine $magazine;
-
-    #[ManyToOne(targetEntity: AwardType::class, inversedBy: 'awards')]
-    #[JoinColumn(onDelete: 'CASCADE')]
-    public AwardType $type;
 }

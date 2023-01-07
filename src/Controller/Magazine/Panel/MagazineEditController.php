@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -13,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MagazineEditController extends AbstractController
 {
     public function __construct(
-        private MagazineManager $manager,
+        private readonly MagazineManager $manager,
     ) {
     }
 
@@ -41,7 +43,7 @@ class MagazineEditController extends AbstractController
             'magazine/panel/edit.html.twig',
             [
                 'magazine' => $magazine,
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

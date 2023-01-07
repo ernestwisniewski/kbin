@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Domain;
 
 use App\Controller\AbstractController;
 use App\Entity\Domain;
-use App\Entity\Magazine;
 use App\Service\DomainManager;
-use App\Service\MagazineManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class DomainBlockController extends AbstractController
 {
     public function __construct(
-        private DomainManager $manager,
+        private readonly DomainManager $manager,
     ) {
     }
 

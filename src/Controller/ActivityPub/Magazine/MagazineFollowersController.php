@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\ActivityPub\Magazine;
 
@@ -14,10 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 class MagazineFollowersController
 {
     public function __construct(
-        private ActivityPubManager $manager,
-        private CollectionInfoWrapper $collectionInfoWrapper,
-        private CollectionItemsWrapper $collectionItemsWrapper,
-        private MagazineSubscriptionRepository $magazineSubscriptionRepository
+        private readonly ActivityPubManager $manager,
+        private readonly CollectionInfoWrapper $collectionInfoWrapper,
+        private readonly CollectionItemsWrapper $collectionItemsWrapper,
+        private readonly MagazineSubscriptionRepository $magazineSubscriptionRepository
     ) {
     }
 
@@ -37,36 +39,44 @@ class MagazineFollowersController
     }
 
     #[ArrayShape([
-        '@context'   => "string",
-        'type'       => "string",
-        'id'         => "string",
-        'first'      => "string",
-        'totalItems' => "int",
-    ])] private function getCollectionInfo(Magazine $magazine): array
-    {
-        $count = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine)->count();
+        '@context' => 'string',
+        'type' => 'string',
+        'id' => 'string',
+        'first' => 'string',
+        'totalItems' => 'int',
+    ])]
+ private function getCollectionInfo(Magazine $magazine): array
+ {
+     $count = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine)->count();
 
-        return $this->collectionInfoWrapper->build('ap_magazine_followers', ['name' => $magazine->name], $count);
-    }
+     return $this->collectionInfoWrapper->build('ap_magazine_followers', ['name' => $magazine->name], $count);
+ }
 
     #[ArrayShape([
-        '@context'     => "string",
-        'type'         => "string",
-        'partOf'       => "string",
-        'id'           => "string",
-        'totalItems'   => "int",
-        'orderedItems' => "array",
-        'next'         => "string",
-    ])] private function getCollectionItems(Magazine $magazine, int $page): array
-    {
-        $subscriptions = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine);
-        $actors        = array_map(fn($sub) => $sub->user, iterator_to_array($subscriptions->getCurrentPageResults()));
+     '@context' => 'string',
+     'type' => 'string',
+     'partOf' => 'string',
+     'id' => 'string',
+     'totalItems' => 'int',
+     'orderedItems' => 'array',
+     'next' => 'string',
+ ])]
+ private function getCollectionItems(Magazine $magazine, int $page): array
+ {
+     $subscriptions = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine);
+     $actors = array_map(fn ($sub) => $sub->user, iterator_to_array($subscriptions->getCurrentPageResults()));
 
-        $items = [];
-        foreach ($actors as $actor) {
-            $items[] = $this->manager->getActorProfileId($actor);
-        }
+     $items = [];
+     foreach ($actors as $actor) {
+         $items[] = $this->manager->getActorProfileId($actor);
+     }
 
-        return $this->collectionItemsWrapper->build('ap_magazine_followers', ['name' => $magazine->name], $subscriptions, $items, $page);
-    }
+     return $this->collectionItemsWrapper->build(
+         'ap_magazine_followers',
+         ['name' => $magazine->name],
+         $subscriptions,
+         $items,
+         $page
+     );
+ }
 }

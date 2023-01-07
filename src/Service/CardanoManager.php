@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -15,30 +17,31 @@ use JetBrains\PhpStorm\ArrayShape;
 class CardanoManager
 {
     public function __construct(
-        private CardanoWallet $wallet,
-        private CardanoWalletTransactions $walletTransactions,
-        private EntityManagerInterface $entityManager
+        private readonly CardanoWallet $wallet,
+        private readonly CardanoWalletTransactions $walletTransactions,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
-    #[ArrayShape(['mnemonic' => "string", 'address' => "string", 'walletId' => "string"])] public function createWallet(
+    #[ArrayShape(['mnemonic' => 'string', 'address' => 'string', 'walletId' => 'string'])]
+ public function createWallet(
         User $user,
         ?string $mnemonic = null
     ): array {
-        if ($user->cardanoWalletId) {
-            $this->detachWallet($user);
-        }
+     if ($user->cardanoWalletId) {
+         $this->detachWallet($user);
+     }
 
-        $walletInfo = $this->wallet->create($user->getPassword(), $mnemonic); // @todo
+     $walletInfo = $this->wallet->create($user->getPassword(), $mnemonic); // @todo
 
-        $user->cardanoWalletId      = $walletInfo['walletId'];
-        $user->cardanoWalletAddress = $walletInfo['address'];
+     $user->cardanoWalletId = $walletInfo['walletId'];
+     $user->cardanoWalletAddress = $walletInfo['address'];
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+     $this->entityManager->persist($user);
+     $this->entityManager->flush();
 
-        return $walletInfo;
-    }
+     return $walletInfo;
+ }
 
     public function detachWallet(User $user): void
     {
@@ -49,7 +52,6 @@ class CardanoManager
         try {
             $this->wallet->delete($user->cardanoWalletId);
         } catch (\Exception $e) {
-
         }
 
         $user->cardanoWalletId = null;
@@ -77,7 +79,7 @@ class CardanoManager
         $tx = $this->walletTransactions->create($passphrase, $walletId, $receiverAddress, $amount);
 
         $amount = $tx['amount']['quantity'] - $tx['fee']['quantity'];
-        $entity = new EntryCardanoTx($subject, $amount, $tx['id'], (new \DateTimeImmutable()), $sender);
+        $entity = new EntryCardanoTx($subject, $amount, $tx['id'], new \DateTimeImmutable(), $sender);
 
         $subject->adaAmount += $amount;
 
@@ -89,13 +91,17 @@ class CardanoManager
         return $entity;
     }
 
-    #[ArrayShape(['sum' => "int", 'fee' => "int"])] public function calculateFee(string $receiverAddress, string $walletId, float $amount): array
-    {
-        $fee = $this->walletTransactions->calculateFee($receiverAddress, $walletId, $amount);
+    #[ArrayShape(['sum' => 'int', 'fee' => 'int'])]
+ public function calculateFee(
+        string $receiverAddress,
+        string $walletId,
+        float $amount
+    ): array {
+     $fee = $this->walletTransactions->calculateFee($receiverAddress, $walletId, $amount);
 
-        return [
-            'sum' => ($this->walletTransactions->adaToLovelace($amount) + $fee['estimated_max']['quantity']) / 1000000,
-            'fee' => $fee['estimated_max']['quantity'] / 1000000,
-        ];
-    }
+     return [
+         'sum' => ($this->walletTransactions->adaToLovelace($amount) + $fee['estimated_max']['quantity']) / 1000000,
+         'fee' => $fee['estimated_max']['quantity'] / 1000000,
+     ];
+ }
 }

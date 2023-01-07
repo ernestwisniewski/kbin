@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
@@ -16,18 +18,19 @@ use Symfony\Contracts\Cache\CacheInterface;
 class FavouriteHandleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private CacheInterface $cache,
-        private CacheService $cacheService
+        private readonly MessageBusInterface $bus,
+        private readonly CacheInterface $cache,
+        private readonly CacheService $cacheService
     ) {
     }
 
-    #[ArrayShape([FavouriteEvent::class => "string"])] public static function getSubscribedEvents(): array
-    {
-        return [
-            FavouriteEvent::class => 'onFavourite',
-        ];
-    }
+    #[ArrayShape([FavouriteEvent::class => 'string'])]
+ public static function getSubscribedEvents(): array
+ {
+     return [
+         FavouriteEvent::class => 'onFavourite',
+     ];
+ }
 
     public function onFavourite(FavouriteEvent $event): void
     {
@@ -53,6 +56,10 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
         }
     }
 
+    private function deleteFavouriteCache(FavouriteInterface $subject)
+    {
+        $this->cache->delete($this->cacheService->getFavouritesCacheKey($subject));
+    }
 
     private function clearEntryCommentCache(EntryComment $comment): void
     {
@@ -62,10 +69,5 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
     private function clearPostCommentCache(PostComment $comment)
     {
         $this->cache->invalidateTags(['post_'.$comment->post->getId()]);
-    }
-
-    private function deleteFavouriteCache(FavouriteInterface $subject)
-    {
-        $this->cache->delete($this->cacheService->getFavouritesCacheKey($subject));
     }
 }

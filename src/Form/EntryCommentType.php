@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -14,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntryCommentType extends AbstractType
 {
-    public function __construct(private ImageListener $imageListener)
+    public function __construct(private readonly ImageListener $imageListener)
     {
     }
 
@@ -27,7 +29,7 @@ class EntryCommentType extends AbstractType
                 FileType::class,
                 [
                     'constraints' => ImageConstraint::default(),
-                    'mapped'      => false,
+                    'mapped' => false,
                 ]
             )
             ->add('imageAlt', TextareaType::class)

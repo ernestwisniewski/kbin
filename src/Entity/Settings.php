@@ -11,16 +11,14 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: SettingsRepository::class)]
 class Settings
 {
+    #[Column(type: 'string', nullable: false)]
+    public string $name;
+    #[Column(type: 'string', nullable: true)]
+    public ?string $value = null;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[Column(type: 'string', nullable: false)]
-    public string $name;
-
-    #[Column(type: 'string', nullable: true)]
-    public ?string $value = null;
 
     public function __construct(string $name, string $value)
     {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Twig;
 
@@ -13,7 +15,7 @@ final class FormattingExtension extends AbstractExtension
     {
         return [
             new TwigFilter('markdown', [FormattingRuntime::class, 'convertToHtml']),
-            new TwigFilter('bool', fn($value) => (bool) $value),
+            new TwigFilter('bool', fn ($value) => (bool) $value),
         ];
     }
 

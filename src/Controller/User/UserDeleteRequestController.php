@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User;
 
@@ -19,10 +21,10 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 class UserDeleteRequestController extends AbstractController
 {
     public function __construct(
-        private SettingsManager $settings,
-        private MailerInterface $mailer,
-        private RateLimiterFactory $contactLimiter,
-        private CloudflareIpResolver $ipResolver
+        private readonly SettingsManager $settings,
+        private readonly MailerInterface $mailer,
+        private readonly RateLimiterFactory $contactLimiter,
+        private readonly CloudflareIpResolver $ipResolver
     ) {
     }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -12,8 +14,8 @@ class MagazineBanNotificationManager
     use NotificationTrait;
 
     public function __construct(
-        private MagazineBanRepository $repository,
-        private EntityManagerInterface $entityManager
+        private readonly MagazineBanRepository $repository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 

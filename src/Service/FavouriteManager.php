@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -13,14 +15,14 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class FavouriteManager
 {
-    const TYPE_LIKE = 'like';
-    const TYPE_UNLIKE = 'unlike';
+    public const TYPE_LIKE = 'like';
+    public const TYPE_UNLIKE = 'unlike';
 
     public function __construct(
-        private FavouriteFactory $factory,
-        private FavouriteRepository $repository,
-        private EntityManagerInterface $entityManager,
-        private EventDispatcherInterface $dispatcher
+        private readonly FavouriteFactory $factory,
+        private readonly FavouriteRepository $repository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly EventDispatcherInterface $dispatcher
     ) {
     }
 

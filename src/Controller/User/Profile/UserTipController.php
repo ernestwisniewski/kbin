@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User\Profile;
 
@@ -21,7 +23,7 @@ class UserTipController extends AbstractController
         $mnemonicForm = $this->createForm(CardanoMnemonicType::class, null, [
             'action' => $this->generateUrl('cardano_wallet_mnemonic'),
         ]);
-        $addressForm  = $this->createForm(CardanoWalletAddressType::class, $dto);
+        $addressForm = $this->createForm(CardanoWalletAddressType::class, $dto);
 
         $addressForm->handleRequest($request);
 
@@ -34,9 +36,8 @@ class UserTipController extends AbstractController
         return $this->render(
             'user/profile/tips.html.twig',
             [
-
                 'mnemonicForm' => $mnemonicForm->createView(),
-                'addressForm'  => $addressForm->createView(),
+                'addressForm' => $addressForm->createView(),
                 'transactions' => [],
             ],
             new Response(null, $addressForm->isSubmitted() && !$addressForm->isValid() ? 422 : 200)

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -20,7 +22,6 @@ use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 
-
 /**
  * @method PostComment|null find($id, $lockMode = null, $lockVersion = null)
  * @method PostComment|null findOneBy(array $criteria, array $orderBy = null)
@@ -29,7 +30,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class PostCommentRepository extends ServiceEntityRepository implements TagRepositoryInterface
 {
-    const PER_PAGE = 15;
+    public const PER_PAGE = 15;
 
     private Security $security;
 
@@ -67,7 +68,7 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         $qb = $this->createQueryBuilder('c')
             ->andWhere('c.visibility IN (:visibility)');
 
-        if ($user && $criteria->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+        if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
             $qb->orWhere(
                 'c.user IN (SELECT IDENTITY(cuf.following) FROM '.UserFollow::class.' cuf WHERE cuf.follower = :cUser AND c.visibility = :cVisibility)'
             )
@@ -92,7 +93,7 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
 
     private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
-        if ($criteria->time !== Criteria::TIME_ALL) {
+        if (Criteria::TIME_ALL !== $criteria->time) {
             $since = $criteria->getSince();
 
             $qb->andWhere('c.createdAt > :time')

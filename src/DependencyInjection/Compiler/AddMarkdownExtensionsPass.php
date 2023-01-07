@@ -1,9 +1,10 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DependencyInjection\Compiler;
 
 use League\CommonMark\ConfigurableEnvironmentInterface;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -18,7 +19,7 @@ final class AddMarkdownExtensionsPass implements CompilerPassInterface
             $event = $tags[array_key_last($tags)]['event'] ?? null;
 
             if (!$event) {
-                throw new RuntimeException('event missing');
+                throw new \RuntimeException('event missing');
             }
 
             $method = $tags[array_key_last($tags)]['method'] ?? '__invoke';
@@ -48,7 +49,7 @@ final class AddMarkdownExtensionsPass implements CompilerPassInterface
             $element = $tags[array_key_last($tags)]['element'] ?? null;
 
             if (!$element) {
-                throw new RuntimeException('element missing on BlockRenderer');
+                throw new \RuntimeException('element missing on BlockRenderer');
             }
 
             $priority = $tags[array_key_last($tags)]['priority'] ?? 0;
@@ -67,7 +68,7 @@ final class AddMarkdownExtensionsPass implements CompilerPassInterface
             $element = $tags[array_key_last($tags)]['element'] ?? null;
 
             if (!$element) {
-                throw new RuntimeException('element missing on InlineRenderer');
+                throw new \RuntimeException('element missing on InlineRenderer');
             }
 
             $priority = $tags[array_key_last($tags)]['priority'] ?? 0;

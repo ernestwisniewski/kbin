@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -6,7 +8,6 @@ use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Traits\ActivityPubActorTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -20,13 +21,12 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use DomainException;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Entity(repositoryClass: UserRepository::class)]
-#[Table(name: "`user`", uniqueConstraints: [
+#[Table(name: '`user`', uniqueConstraints: [
     new UniqueConstraint(name: 'user_email_idx', columns: ['email']),
     new UniqueConstraint(name: 'user_username_idx', columns: ['username']),
 ])]
@@ -47,216 +47,157 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public const HOMEPAGE_ALL = 'front';
     public const HOMEPAGE_SUB = 'front_subscribed';
     public const HOMEPAGE_MOD = 'front_moderated';
-
-    #[Id]
-    #[GeneratedValue]
-    #[Column(type: 'integer')]
-    private int $id;
-
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $avatar = null;
-
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $cover = null;
-
     #[Column(type: 'string', unique: true, nullable: false)]
     public string $email;
-
     #[Column(type: 'string', unique: true, nullable: false)]
     public string $username;
-
-    #[Column(type: 'string', nullable: false)]
-    private string $password;
-
     #[Column(type: 'json', nullable: false, options: ['jsonb' => true])]
     public array $roles = [];
-
     #[Column(type: 'integer', nullable: false)]
     public int $followersCount = 0;
-
     #[Column(type: 'string', nullable: false, options: ['default' => User::THEME_DARK])]
     public string $theme = self::THEME_DARK;
-
     #[Column(type: 'string', nullable: false, options: ['default' => User::MODE_NORMAL])]
     public string $mode = self::MODE_NORMAL;
-
     #[Column(type: 'string', nullable: false, options: ['default' => User::HOMEPAGE_SUB])]
     public string $homepage = self::HOMEPAGE_SUB;
-
     #[Column(type: 'text', nullable: true)]
     public ?string $about = null;
-
     #[Column(type: 'datetimetz')]
-    public ?DateTime $lastActive = null;
-
+    public ?\DateTime $lastActive = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $fields = null;
-
     #[Column(type: 'string', nullable: true)]
     public ?string $cardanoWalletId = null;
-
     #[Column(type: 'string', nullable: true)]
     public ?string $cardanoWalletAddress = null;
-
     #[Column(type: 'string', nullable: true)]
     public ?string $oauthGithubId = null;
-
     #[Column(type: 'string', nullable: true)]
     public ?string $oauthGoogleId = null;
-
     #[Column(type: 'string', nullable: true)]
     public ?string $oauthFacebookId = null;
-
     #[Column(type: 'array', nullable: true)]
     public ?array $featuredMagazines = null;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $hideImages = false;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $hideAdult = true;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $hideUserAvatars = false;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $hideMagazineAvatars = false;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $rightPosImages = false;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $entryPopup = false;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $postPopup = false;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $showProfileSubscriptions = true;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $showProfileFollowings = true;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewEntry = false;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewEntryReply = false;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewEntryCommentReply = false;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewPost = false;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewPostReply = false;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewPostCommentReply = false;
-
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $isBanned = false;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $isVerified = false;
-
     #[OneToMany(mappedBy: 'user', targetEntity: Moderator::class)]
     public Collection $moderatorTokens;
-
     #[OneToMany(mappedBy: 'user', targetEntity: Entry::class)]
-    public Collection $entries;//@todo
-
+    public Collection $entries;
     #[OneToMany(mappedBy: 'user', targetEntity: EntryVote::class, fetch: 'EXTRA_LAZY')]
     public Collection $entryVotes;
-
     #[OneToMany(mappedBy: 'user', targetEntity: EntryComment::class, fetch: 'EXTRA_LAZY')]
-    public Collection $entryComments;
-
+    public Collection $entryComments; // @todo
     #[OneToMany(mappedBy: 'user', targetEntity: EntryCommentVote::class, fetch: 'EXTRA_LAZY')]
     public Collection $entryCommentVotes;
-
     #[OneToMany(mappedBy: 'user', targetEntity: Post::class, fetch: 'EXTRA_LAZY')]
     public Collection $posts;
-
     #[OneToMany(mappedBy: 'user', targetEntity: PostVote::class, fetch: 'EXTRA_LAZY')]
     public Collection $postVotes;
-
     #[OneToMany(mappedBy: 'user', targetEntity: PostComment::class, fetch: 'EXTRA_LAZY')]
     public Collection $postComments;
-
     #[OneToMany(mappedBy: 'user', targetEntity: PostCommentVote::class, fetch: 'EXTRA_LAZY')]
     public Collection $postCommentVotes;
-
     #[OneToMany(mappedBy: 'user', targetEntity: MagazineSubscription::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $subscriptions;
-
     #[OneToMany(mappedBy: 'user', targetEntity: DomainSubscription::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $subscribedDomains;
-
     #[OneToMany(mappedBy: 'follower', targetEntity: UserFollow::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $follows;
-
     #[OneToMany(mappedBy: 'following', targetEntity: UserFollow::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $followers;
-
     #[OneToMany(mappedBy: 'blocker', targetEntity: UserBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $blocks;
-
     #[OneToMany(mappedBy: 'blocked', targetEntity: UserBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public ?Collection $blockers;
-
     #[OneToMany(mappedBy: 'user', targetEntity: MagazineBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $blockedMagazines;
-
     #[OneToMany(mappedBy: 'user', targetEntity: DomainBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $blockedDomains;
-
     #[OneToMany(mappedBy: 'reporting', targetEntity: Report::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $reports;
-
     #[OneToMany(mappedBy: 'user', targetEntity: Favourite::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $favourites;
-
     #[OneToMany(mappedBy: 'reported', targetEntity: Report::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $violations;
-
     #[OneToMany(mappedBy: 'user', targetEntity: Notification::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $notifications;
-
     #[OneToMany(mappedBy: 'user', targetEntity: Award::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $awards;
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
+    #[Column(type: 'string', nullable: false)]
+    private string $password;
 
     public function __construct(
         string $email,
@@ -292,7 +233,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->violations = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->awards = new ArrayCollection();
-        $this->lastActive = new DateTime();
+        $this->lastActive = new \DateTime();
         $this->createdAtTraitConstruct();
     }
 
@@ -324,7 +265,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -355,7 +296,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $tokens = $this->moderatorTokens->matching($criteria);
 
         // Magazines
-        $magazines = $tokens->map(fn($token) => $token->magazine);
+        $magazines = $tokens->map(fn ($token) => $token->magazine);
         $criteria = Criteria::create()
             ->orderBy(['lastActive' => Criteria::DESC]);
 
@@ -365,7 +306,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function addEntry(Entry $entry): self
     {
         if ($entry->user !== $this) {
-            throw new DomainException('Entry must belong to user');
+            throw new \DomainException('Entry must belong to user');
         }
 
         if (!$this->entries->contains($entry)) {
@@ -388,7 +329,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function addPost(Post $post): self
     {
         if ($post->user !== $this) {
-            throw new DomainException('Post must belong to user');
+            throw new \DomainException('Post must belong to user');
         }
 
         if (!$this->posts->contains($post)) {
@@ -508,7 +449,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function toggleTheme(): self
     {
-        $this->theme = $this->theme === self::THEME_LIGHT ? self::THEME_DARK : self::THEME_LIGHT;
+        $this->theme = self::THEME_LIGHT === $this->theme ? self::THEME_DARK : self::THEME_LIGHT;
 
         return $this;
     }
@@ -637,7 +578,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     {
         return $this->notifications
             ->matching($this->getNewNotificationsCriteria())
-            ->filter(fn($notification) => $notification->getType() !== 'message_notification')
+            ->filter(fn ($notification) => 'message_notification' !== $notification->getType())
             ->count();
     }
 
@@ -648,7 +589,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
         return $this->notifications
             ->matching($criteria)
-            ->filter(fn($notification) => $notification->getType() === 'message_notification')
+            ->filter(fn ($notification) => 'message_notification' === $notification->getType())
             ->count();
     }
 
@@ -707,12 +648,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     {
         $delay = new \DateTime('1 day ago');
 
-        return ($this->lastActive > $delay);
+        return $this->lastActive > $delay;
     }
 
-    /**
-     * @return bool
-     */
     public function getShowProfileFollowings(): bool
     {
         if ($this->apId) {
@@ -722,9 +660,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this->showProfileFollowings;
     }
 
-    /**
-     * @return bool
-     */
     public function getShowProfileSubscriptions(): bool
     {
         if ($this->apId) {

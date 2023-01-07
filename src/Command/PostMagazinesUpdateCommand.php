@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -18,9 +20,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PostMagazinesUpdateCommand extends Command
 {
     public function __construct(
-        private PostRepository $postRepository,
-        private PostManager $postManager,
-        private MagazineRepository $magazineRepository
+        private readonly PostRepository $postRepository,
+        private readonly PostManager $postManager,
+        private readonly MagazineRepository $magazineRepository
     ) {
         parent::__construct();
     }

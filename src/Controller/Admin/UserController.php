@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class UserController extends AbstractController
 {
-    public function __construct(private UserRepository $repository, private RequestStack $request)
+    public function __construct(private readonly UserRepository $repository, private readonly RequestStack $request)
     {
     }
 

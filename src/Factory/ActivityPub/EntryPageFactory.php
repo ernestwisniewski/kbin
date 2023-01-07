@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\ActivityPub;
 
@@ -15,14 +17,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class EntryPageFactory
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private GroupFactory $groupFactory,
-        private ImageManager $imageManager,
-        private ImageWrapper $imageWrapper,
-        private TagsWrapper $tagsWrapper,
-        private MentionsWrapper $mentionsWrapper,
-        private ApHttpClient $client,
-        private ActivityPubManager $activityPubManager,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly GroupFactory $groupFactory,
+        private readonly ImageManager $imageManager,
+        private readonly ImageWrapper $imageWrapper,
+        private readonly TagsWrapper $tagsWrapper,
+        private readonly MentionsWrapper $mentionsWrapper,
+        private readonly ApHttpClient $client,
+        private readonly ActivityPubManager $activityPubManager,
     ) {
     }
 
@@ -37,7 +39,7 @@ class EntryPageFactory
         }
 
         $tags = $entry->tags ?? [];
-        if ($entry->magazine->name !== 'random' && !$entry->magazine->apId) { // @todo
+        if ('random' !== $entry->magazine->name && !$entry->magazine->apId) { // @todo
             $tags[] = $entry->magazine->name;
         }
 
@@ -54,17 +56,17 @@ class EntryPageFactory
                 $entry->apId
                     ? ($this->client->getActorObject($entry->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                    'ap_user_followers',
-                    ['username' => $entry->user->username],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
+                        'ap_user_followers',
+                        ['username' => $entry->user->username],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
             ],
             'name' => $entry->title,
             'content' => $entry->body,
             'summary' => ($entry->body ? $entry->getShortDesc() : '').' '.implode(
-                    ' ',
-                    array_map(fn($val) => '#'.$val, $tags)
-                ),
+                ' ',
+                array_map(fn ($val) => '#'.$val, $tags)
+            ),
             'mediaType' => 'text/html',
             'url' => $this->getUrl($entry),
             'tag' => array_merge(
@@ -115,7 +117,7 @@ class EntryPageFactory
 
     private function getUrl(Entry $entry): string
     {
-        if ($entry->type === Entry::ENTRY_TYPE_IMAGE) {
+        if (Entry::ENTRY_TYPE_IMAGE === $entry->type) {
             return $this->imageManager->getUrl($entry->image);
         }
 

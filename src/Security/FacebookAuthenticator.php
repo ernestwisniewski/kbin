@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security;
 
@@ -27,31 +29,31 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 class FacebookAuthenticator extends OAuth2Authenticator
 {
     public function __construct(
-        private ClientRegistry $clientRegistry,
-        private RouterInterface $router,
-        private EntityManagerInterface $entityManager,
-        private UserManager $userManager,
-        private ImageManager $imageManager,
-        private ImageRepository $imageRepository,
-        private CloudflareIpResolver $ipResolver,
-        private Slugger $slugger
+        private readonly ClientRegistry $clientRegistry,
+        private readonly RouterInterface $router,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserManager $userManager,
+        private readonly ImageManager $imageManager,
+        private readonly ImageRepository $imageRepository,
+        private readonly CloudflareIpResolver $ipResolver,
+        private readonly Slugger $slugger
     ) {
     }
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'oauth_facebook_verify';
+        return 'oauth_facebook_verify' === $request->attributes->get('_route');
     }
 
     public function authenticate(Request $request): Passport
     {
-        $client  = $this->clientRegistry->getClient('facebook');
+        $client = $this->clientRegistry->getClient('facebook');
         $slugger = $this->slugger;
 
         $accessToken = $this->fetchAccessToken($client);
 
         try {
-            $provider    = $client->getOAuth2Provider();
+            $provider = $client->getOAuth2Provider();
             $accessToken = $provider->getLongLivedAccessToken($accessToken->getToken());
         } catch (\Exception $e) {
         }
@@ -61,13 +63,17 @@ class FacebookAuthenticator extends OAuth2Authenticator
                 /** @var FacebookUser $facebookUser */
                 $facebookUser = $client->fetchUserFromToken($accessToken);
 
-                $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['oauthFacebookId' => $facebookUser->getId()]);
+                $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(
+                    ['oauthFacebookId' => $facebookUser->getId()]
+                );
 
                 if ($existingUser) {
                     return $existingUser;
                 }
 
-                $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $facebookUser->getEmail()]);
+                $user = $this->entityManager->getRepository(User::class)->findOneBy(
+                    ['email' => $facebookUser->getEmail()]
+                );
 
                 if ($user) {
                     $user->oauthFacebookId = $facebookUser->getId();
@@ -79,12 +85,12 @@ class FacebookAuthenticator extends OAuth2Authenticator
                     );
 
                     $dto->plainPassword = bin2hex(random_bytes(20));
-                    $dto->ip            = $this->ipResolver->resolve();
+                    $dto->ip = $this->ipResolver->resolve();
 
-                    $user                  = $this->userManager->create($dto, false);
+                    $user = $this->userManager->create($dto, false);
                     $user->oauthFacebookId = $facebookUser->getId();
-                    $user->avatar          = $this->getAvatar($facebookUser->getPictureUrl());
-                    $user->isVerified      = true;
+                    $user->avatar = $this->getAvatar($facebookUser->getPictureUrl());
+                    $user->isVerified = true;
                 }
 
                 $this->entityManager->persist($user);
@@ -95,22 +101,8 @@ class FacebookAuthenticator extends OAuth2Authenticator
         );
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    private function getAvatar(?string $pictureUrl): ?Image
     {
-        $targetUrl = $this->router->generate('user_profile_edit');
-
-        return new RedirectResponse($targetUrl);
-
-    }
-
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
-    {
-        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
-
-        return new Response($message, Response::HTTP_FORBIDDEN);
-    }
-
-    private function getAvatar(?string $pictureUrl): ?Image {
         if (!$pictureUrl) {
             return null;
         }
@@ -130,5 +122,19 @@ class FacebookAuthenticator extends OAuth2Authenticator
         }
 
         return $image ?? null;
+    }
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    {
+        $targetUrl = $this->router->generate('user_profile_edit');
+
+        return new RedirectResponse($targetUrl);
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    {
+        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
+
+        return new Response($message, Response::HTTP_FORBIDDEN);
     }
 }

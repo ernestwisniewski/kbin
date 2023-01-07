@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
@@ -11,28 +13,32 @@ trait VisibilityTrait
     #[ORM\Column(type: 'text', options: ['default' => VisibilityInterface::VISIBILITY_VISIBLE])]
     public string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
 
-    #[Pure] public function isVisible(): bool
+    #[Pure]
+    public function isVisible(): bool
     {
-        return $this->getVisibility() === VisibilityInterface::VISIBILITY_VISIBLE;
+        return VisibilityInterface::VISIBILITY_VISIBLE === $this->getVisibility();
     }
 
-    public function getVisibility(): string
+       public function getVisibility(): string
+       {
+           return $this->visibility;
+       }
+
+       #[Pure]
+    public function isSoftDeleted(): bool
     {
-        return $this->visibility;
+        return VisibilityInterface::VISIBILITY_SOFT_DELETED === $this->getVisibility();
     }
 
-    #[Pure] public function isSoftDeleted(): bool
+       #[Pure]
+    public function isTrashed(): bool
     {
-        return $this->getVisibility() === VisibilityInterface::VISIBILITY_SOFT_DELETED;
+        return VisibilityInterface::VISIBILITY_TRASHED === $this->getVisibility();
     }
 
-    #[Pure] public function isTrashed(): bool
+       #[Pure]
+    public function isPrivate(): bool
     {
-        return $this->getVisibility() === VisibilityInterface::VISIBILITY_TRASHED;
-    }
-
-    #[Pure] public function isPrivate(): bool
-    {
-        return $this->getVisibility() === VisibilityInterface::VISIBILITY_PRIVATE;
+        return VisibilityInterface::VISIBILITY_PRIVATE === $this->getVisibility();
     }
 }

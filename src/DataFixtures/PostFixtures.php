@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -9,11 +11,10 @@ use Doctrine\Persistence\ObjectManager;
 
 class PostFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const ENTRIES_COUNT = MagazineFixtures::MAGAZINES_COUNT * 15;
+    public const ENTRIES_COUNT = MagazineFixtures::MAGAZINES_COUNT * 15;
 
-    public function __construct(
-        private PostManager $postManager,
-    ) {
+    public function __construct(private readonly PostManager $postManager)
+    {
     }
 
     public function getDependencies(): array
@@ -26,11 +27,11 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomPosts(self::ENTRIES_COUNT) as $index => $post) {
-            $dto           = new PostDto();
+            $dto = new PostDto();
             $dto->magazine = $post['magazine'];
-            $dto->user     = $post['user'];
-            $dto->body     = $post['body'];
-            $dto->ip       = $post['ip'];
+            $dto->user = $post['user'];
+            $dto->body = $post['body'];
+            $dto->ip = $post['ip'];
 
             $entity = $this->postManager->create($dto, $post['user']);
 
@@ -39,7 +40,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
             $entity->updateLastActive();
             $entity->updateRanking();
 
-            $this->addReference('post'.'_'.$index, $entity);
+            $this->addReference('post_'.$index, $entity);
         }
 
         $manager->flush();
@@ -47,12 +48,12 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
 
     private function provideRandomPosts($count = 1): iterable
     {
-        for ($i = 0; $i <= $count; $i++) {
+        for ($i = 0; $i <= $count; ++$i) {
             yield [
-                'body'     => $this->faker->realText($this->faker->numberBetween(10, 1024)),
+                'body' => $this->faker->realText($this->faker->numberBetween(10, 1024)),
                 'magazine' => $this->getReference('magazine_'.rand(1, intval(MagazineFixtures::MAGAZINES_COUNT))),
-                'user'     => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
-                'ip'       => $this->faker->ipv4,
+                'user' => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                'ip' => $this->faker->ipv4,
             ];
         }
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -16,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserSettingsType extends AbstractType
 {
-    public function __construct(private TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
     }
 

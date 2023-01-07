@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Entry;
 
@@ -7,7 +9,6 @@ use App\Entity\Notification;
 use App\Event\Entry\EntryHasBeenSeenEvent;
 use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Security;
@@ -16,19 +17,20 @@ use Tchoulom\ViewCounterBundle\Counter\ViewCounter as Counter;
 class EntryShowSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private Counter $viewCounter,
-        private Security $security,
-        private NotificationRepository $repository,
-        private EntityManagerInterface $entityManager
+        private readonly Counter $viewCounter,
+        private readonly Security $security,
+        private readonly NotificationRepository $repository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
-    #[ArrayShape([EntryHasBeenSeenEvent::class => "string"])] public static function getSubscribedEvents(): array
-    {
-        return [
-            EntryHasBeenSeenEvent::class => 'onShowEntry',
-        ];
-    }
+    #[ArrayShape([EntryHasBeenSeenEvent::class => 'string'])]
+ public static function getSubscribedEvents(): array
+ {
+     return [
+         EntryHasBeenSeenEvent::class => 'onShowEntry',
+     ];
+ }
 
     public function onShowEntry(EntryHasBeenSeenEvent $event): void
     {
@@ -40,7 +42,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
     {
         try {
             $this->viewCounter->saveView($entry);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 
@@ -56,7 +58,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        array_map(fn($notification) => $notification->status = Notification::STATUS_READ, $notifications);
+        array_map(fn ($notification) => $notification->status = Notification::STATUS_READ, $notifications);
 
         $this->entityManager->flush();
     }

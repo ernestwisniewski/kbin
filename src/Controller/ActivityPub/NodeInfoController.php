@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\ActivityPub;
 
@@ -8,8 +10,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class NodeInfoController
 {
-    public function __construct(private NodeInfoFactory $nodeInfoFactory, private UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        private readonly NodeInfoFactory $nodeInfoFactory,
+        private readonly UrlGeneratorInterface $urlGenerator
+    ) {
     }
 
     public function nodeInfo(): JsonResponse

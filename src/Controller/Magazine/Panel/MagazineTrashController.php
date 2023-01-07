@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -12,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MagazineTrashController extends AbstractController
 {
-    public function __construct(private MagazineRepository $repository)
+    public function __construct(private readonly MagazineRepository $repository)
     {
     }
 
@@ -24,9 +26,8 @@ class MagazineTrashController extends AbstractController
             'magazine/panel/trash.html.twig',
             [
                 'magazine' => $magazine,
-                'results'  => $this->repository->findTrashed($this->getPageNb($request), $magazine),
+                'results' => $this->repository->findTrashed($this->getPageNb($request), $magazine),
             ]
         );
     }
 }
-

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -9,13 +11,15 @@ use Doctrine\Persistence\ObjectManager;
 
 class SubFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    public function __construct(private MagazineManager $magazineManager, private UserManager $userManager)
-    {
+    public function __construct(
+        private readonly MagazineManager $magazineManager,
+        private readonly UserManager $userManager
+    ) {
     }
 
     public function loadData(ObjectManager $manager): void
     {
-        for ($u = 1; $u <= UserFixtures::USERS_COUNT; $u++) {
+        for ($u = 1; $u <= UserFixtures::USERS_COUNT; ++$u) {
             $this->magazines($u);
             $this->users($u);
         }
@@ -86,5 +90,4 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
             MagazineFixtures::class,
         ];
     }
-
 }

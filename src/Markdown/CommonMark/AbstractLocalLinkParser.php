@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
@@ -27,13 +29,13 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
 
         $previousChar = $cursor->peek(-1);
 
-        if ($previousChar !== null && !preg_match('!^\s+$!', $previousChar)) {
+        if (null !== $previousChar && !preg_match('!^\s+$!', $previousChar)) {
             return false;
         }
 
         $previousState = $cursor->saveState();
 
-        if ($this->getPrefix() === null) {
+        if (null === $this->getPrefix()) {
             return false;
         }
 
@@ -58,9 +60,18 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
         return true;
     }
 
+    abstract public function getApRegex(): ?string;
+
+    abstract public function getRegex(): string;
+
+    /**
+     * Generates a URL based on the extracted suffix.
+     */
+    abstract public function getUrl(string $suffix): string;
+
     private function getHandle(string $suffix): string
     {
-        if (substr_count($suffix, '@') == 2) {
+        if (2 == substr_count($suffix, '@')) {
             return '@'.explode('@', $suffix)[1];
         }
 
@@ -71,13 +82,4 @@ abstract class AbstractLocalLinkParser implements InlineParserInterface
     {
         return $suffix;
     }
-
-    abstract public function getRegex(): string;
-
-    abstract public function getApRegex(): ?string;
-
-    /**
-     * Generates a URL based on the extracted suffix.
-     */
-    abstract public function getUrl(string $suffix): string;
 }

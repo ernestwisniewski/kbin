@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post;
 
@@ -13,11 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostChangeAdultController extends AbstractController
 {
-    public function __construct(
-        private EntityManagerInterface $entityManager
-    ) {
+    public function __construct(private readonly EntityManagerInterface $entityManage)
+    {
     }
-
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
@@ -26,7 +26,7 @@ class PostChangeAdultController extends AbstractController
     {
         $this->validateCsrf('change_adult', $request->request->get('token'));
 
-        $post->isAdult = $request->get('adult') === 'on';
+        $post->isAdult = 'on' === $request->get('adult');
 
         $this->entityManager->flush();
 

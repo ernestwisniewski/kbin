@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -13,9 +15,8 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class ReportFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    public function __construct(private EventDispatcherInterface $dispatcher,
-    ) {
-
+    public function __construct(private readonly EventDispatcherInterface $dispatcher)
+    {
     }
 
     public function loadData(ObjectManager $manager): void

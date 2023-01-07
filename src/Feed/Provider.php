@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Feed;
 
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Provider implements FeedProviderInterface
 {
-    public function __construct(private FeedManager $manager)
+    public function __construct(private readonly FeedManager $manager)
     {
     }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -19,7 +21,7 @@ class EntryEditController extends AbstractController
     use EntryFormTrait;
 
     public function __construct(
-        private EntryManager $manager,
+        private readonly EntryManager $manager,
     ) {
     }
 
@@ -55,8 +57,8 @@ class EntryEditController extends AbstractController
             $this->getTemplateName((new EntryPageView(1))->resolveType($entry->type), true),
             [
                 'magazine' => $magazine,
-                'entry'    => $entry,
-                'form'     => $form->createView(),
+                'entry' => $entry,
+                'form' => $form->createView(),
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );

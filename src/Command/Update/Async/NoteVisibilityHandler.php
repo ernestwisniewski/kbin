@@ -12,8 +12,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class NoteVisibilityHandler implements MessageHandlerInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager, private HttpClientInterface $client)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly HttpClientInterface $client
+    ) {
     }
 
     public function __invoke(NoteVisibilityMessage $message)
@@ -24,9 +26,9 @@ class NoteVisibilityHandler implements MessageHandlerInterface
          * @var $entity Post|PostComment
          */
         $entity = $repo->find($message->id);
-        $req = $this->client->request('GET', $entity->apId,[
+        $req = $this->client->request('GET', $entity->apId, [
             'headers' => [
-                'Accept'     => 'application/activity+json,application/ld+json,application/json',
+                'Accept' => 'application/activity+json,application/ld+json,application/json',
                 'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
             ],
         ]);

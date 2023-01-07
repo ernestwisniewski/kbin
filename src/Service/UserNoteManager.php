@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -26,13 +28,26 @@ class UserNoteManager
         return $note;
     }
 
+    public function clear(User $user, User $target): void
+    {
+        $note = $this->repository->findOneBy([
+            'user' => $user,
+            'target' => $target,
+        ]);
+
+        if ($note) {
+            $this->entityManager->remove($note);
+            $this->entityManager->flush();
+        }
+    }
+
     public function createDto(User $user, User $target): UserNoteDto
     {
-        $dto         = new UserNoteDto();
+        $dto = new UserNoteDto();
         $dto->target = $target;
 
         $note = $this->repository->findOneBy([
-            'user'   => $user,
+            'user' => $user,
             'target' => $target,
         ]);
 
@@ -41,18 +56,5 @@ class UserNoteManager
         }
 
         return $dto;
-    }
-
-    public function clear(User $user, User $target): void
-    {
-        $note = $this->repository->findOneBy([
-            'user'   => $user,
-            'target' => $target,
-        ]);
-
-        if ($note) {
-            $this->entityManager->remove($note);
-            $this->entityManager->flush();
-        }
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\PostComment;
 
@@ -7,14 +9,13 @@ use App\Message\ActivityPub\Outbox\UpdateMessage;
 use App\Message\Notification\PostCommentEditedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class PostCommentEditSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private CacheInterface $cache,
-        private MessageBusInterface $bus
+        private readonly CacheInterface $cache,
+        private readonly MessageBusInterface $bus
     ) {
     }
 

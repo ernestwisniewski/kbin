@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Security;
 
@@ -24,7 +26,7 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dto     = $form->getData();
+            $dto = $form->getData();
             $dto->ip = $ipResolver->resolve();
 
             $manager->create($dto);

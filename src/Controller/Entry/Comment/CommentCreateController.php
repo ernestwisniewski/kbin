@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry\Comment;
 
@@ -24,9 +26,9 @@ class CommentCreateController extends AbstractController
     use CommentResponseTrait;
 
     public function __construct(
-        private EntryCommentManager $manager,
-        private EntryCommentRepository $repository,
-        private CloudflareIpResolver $ipResolver
+        private readonly EntryCommentManager $manager,
+        private readonly EntryCommentRepository $repository,
+        private readonly CloudflareIpResolver $ipResolver
     ) {
     }
 
@@ -45,11 +47,11 @@ class CommentCreateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dto           = $form->getData();
+            $dto = $form->getData();
             $dto->magazine = $magazine;
-            $dto->entry    = $entry;
-            $dto->parent   = $parent;
-            $dto->ip       = $this->ipResolver->resolve();
+            $dto->entry = $entry;
+            $dto->parent = $parent;
+            $dto->ip = $this->ipResolver->resolve();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();
@@ -59,13 +61,23 @@ class CommentCreateController extends AbstractController
         }
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig', ['parent' => $parent, 'comment' => null, 'entry' => $entry]);
+            return $this->getJsonFormResponse(
+                $form,
+                'entry/comment/_form.html.twig',
+                ['parent' => $parent, 'comment' => null, 'entry' => $entry]
+            );
         }
 
-        $criteria        = new EntryCommentPageView($this->getPageNb($request));
+        $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->entry = $entry;
 
-        return $this->getEntryCommentPageResponse('entry/comment/create.html.twig', $criteria, $form, $request, $parent);
+        return $this->getEntryCommentPageResponse(
+            'entry/comment/create.html.twig',
+            $criteria,
+            $form,
+            $request,
+            $parent
+        );
     }
 
     private function getForm(Entry $entry, ?EntryComment $parent = null): FormInterface
@@ -77,8 +89,8 @@ class CommentCreateController extends AbstractController
                 'action' => $this->generateUrl(
                     'entry_comment_create',
                     [
-                        'magazine_name'     => $entry->magazine->name,
-                        'entry_id'          => $entry->getId(),
+                        'magazine_name' => $entry->magazine->name,
+                        'entry_id' => $entry->getId(),
                         'parent_comment_id' => $parent?->getId(),
                     ]
                 ),

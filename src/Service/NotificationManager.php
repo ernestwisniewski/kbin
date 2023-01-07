@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -15,26 +17,25 @@ use Doctrine\ORM\EntityManagerInterface;
 class NotificationManager
 {
     public function __construct(
-        private NotificationManagerTypeResolver $resolver,
-        private MessageNotificationManager $messageNotificationManager,
-        private EntityManagerInterface $entityManager
+        private readonly NotificationManagerTypeResolver $resolver,
+        private readonly MessageNotificationManager $messageNotificationManager,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
     public function sendCreated(ContentInterface $subject): void
     {
-        ($this->resolver->resolve($subject))->sendCreated($subject);
+        $this->resolver->resolve($subject)->sendCreated($subject);
     }
 
     public function sendEdited(ContentInterface $subject): void
     {
-        ($this->resolver->resolve($subject))->sendEdited($subject);
+        $this->resolver->resolve($subject)->sendEdited($subject);
     }
-
 
     public function sendDeleted(ContentInterface $subject): void
     {
-        ($this->resolver->resolve($subject))->sendDeleted($subject);
+        $this->resolver->resolve($subject)->sendDeleted($subject);
     }
 
     public function sendMessageNotification(Message $message, User $sender): void
@@ -79,7 +80,7 @@ class NotificationManager
         $notifications = $repo->findBy(
             [
                 'message' => $message,
-                'user'    => $user,
+                'user' => $user,
             ]
         );
 

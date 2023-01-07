@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\Event;
 
@@ -7,8 +9,8 @@ use League\CommonMark\ConfigurableEnvironmentInterface;
 class ConfigureCommonMark
 {
     public function __construct(
-        private ConfigurableEnvironmentInterface $environment,
-        private ConvertMarkdown $convertMarkdownEvent
+        private readonly ConfigurableEnvironmentInterface $environment,
+        private readonly ConvertMarkdown $convertMarkdownEvent
     ) {
     }
 

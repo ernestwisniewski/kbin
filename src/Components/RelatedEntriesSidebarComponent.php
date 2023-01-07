@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -13,37 +15,41 @@ use Twig\Environment;
 #[AsTwigComponent('related_entries_sidebar')]
 class RelatedEntriesSidebarComponent
 {
-    const RELATED_LIMIT = 4;
-    const TYPE_TAG = 'tag';
-    const TYPE_MAGAZINE = 'magazine';
+    public const RELATED_LIMIT = 4;
+    public const TYPE_TAG = 'tag';
+    public const TYPE_MAGAZINE = 'magazine';
 
     public string $tag = '';
     public string $type = self::TYPE_TAG;
     public ?Entry $entry = null;
 
     public function __construct(
-        private EntryRepository $repository,
-        private Environment $twig,
-        private Security $security,
-        private CacheInterface $cache
+        private readonly EntryRepository $repository,
+        private readonly Environment $twig,
+        private readonly Security $security,
+        private readonly CacheInterface $cache
     ) {
     }
 
     public function getHtml(): string
     {
         return $this->cache->get(
-            'related_entries_sidebar_'.$this->type.'_'.str_replace('@', '-', $this->tag).'_'.$this->security->getUser()?->getId(),
+            'related_entries_sidebar_'.$this->type.'_'.str_replace('@', '-', $this->tag).'_'.$this->security->getUser(
+            )?->getId(),
             function (ItemInterface $item) {
-            $item->expiresAfter(60);
+                $item->expiresAfter(60);
 
                 $entries = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByTag($this->tag, self::RELATED_LIMIT + 20),
-                    self::TYPE_MAGAZINE => $this->repository->findRelatedByMagazine($this->tag, self::RELATED_LIMIT + 20),
+                    self::TYPE_MAGAZINE => $this->repository->findRelatedByMagazine(
+                        $this->tag,
+                        self::RELATED_LIMIT + 20
+                    ),
                     default => $this->repository->findLast(self::RELATED_LIMIT + 20),
                 };
 
                 if ($this->entry) {
-                    $entries = array_filter($entries, fn($e) => $e->getId() !== $this->entry->getId());
+                    $entries = array_filter($entries, fn ($e) => $e->getId() !== $this->entry->getId());
                 }
 
                 if (!count($entries)) {

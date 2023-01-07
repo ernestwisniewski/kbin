@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -18,7 +20,6 @@ use App\Service\Contracts\ContentNotificationManagerInterface;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -29,23 +30,23 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     use NotificationTrait;
 
     public function __construct(
-        private NotificationRepository $notificationRepository,
-        private MagazineSubscriptionRepository $magazineRepository,
-        private MentionManager $mentionManager,
-        private IriConverterInterface $iriConverter,
-        private MagazineFactory $magazineFactory,
-        private HubInterface $publisher,
-        private Environment $twig,
-        private UrlGeneratorInterface $urlGenerator,
-        private EntityManagerInterface $entityManager,
-        private ImageManager $imageManager
+        private readonly NotificationRepository $notificationRepository,
+        private readonly MagazineSubscriptionRepository $magazineRepository,
+        private readonly MentionManager $mentionManager,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly MagazineFactory $magazineFactory,
+        private readonly HubInterface $publisher,
+        private readonly Environment $twig,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageManager $imageManager
     ) {
     }
 
     // @todo check if author is on the block list
     public function sendCreated(ContentInterface $subject): void
     {
-        /**
+        /*
          * @var Entry $subject
          */
         $this->notifyMagazine(new EntryCreatedNotification($subject->user, $subject));
@@ -65,7 +66,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
             [] // @todo user followers
         );
 
-        $subscribers = array_filter($subscribers, fn($s) => !in_array($s->username, $mentions ?? []));
+        $subscribers = array_filter($subscribers, fn ($s) => !in_array($s->username, $mentions ?? []));
 
         foreach ($subscribers as $subscriber) {
             $notification = new EntryCreatedNotification($subscriber, $subject);
@@ -73,14 +74,6 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         }
 
         $this->entityManager->flush();
-    }
-
-    public function sendEdited(ContentInterface $subject): void
-    {
-        /**
-         * @var Entry $subject
-         */
-        $this->notifyMagazine(new EntryEditedNotification($subject->user, $subject));
     }
 
     private function notifyMagazine(Notification $notification): void
@@ -96,18 +89,17 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
             );
 
             $this->publisher->publish($update);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 
     private function getResponse(Notification $notification): string
     {
-        $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
+        $class = explode('\\', $this->entityManager->getClassMetadata(get_class($notification))->name);
 
         /**
          * @var Magazine $magazine
-         * @var Entry $entry
+         * @var Entry    $entry
          */
         $entry = $notification->entry;
         $magazine = $notification->entry->magazine;
@@ -133,9 +125,17 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         );
     }
 
+    public function sendEdited(ContentInterface $subject): void
+    {
+        /*
+         * @var Entry $subject
+         */
+        $this->notifyMagazine(new EntryEditedNotification($subject->user, $subject));
+    }
+
     public function sendDeleted(ContentInterface $subject): void
     {
-        /**
+        /*
          * @var Entry $subject
          */
         $this->notifyMagazine($notification = new EntryDeletedNotification($subject->user, $subject));

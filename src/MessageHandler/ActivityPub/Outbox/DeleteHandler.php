@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
@@ -17,13 +19,13 @@ use Symfony\Component\Uid\Uuid;
 class DeleteHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserRepository $userRepository,
-        private MagazineRepository $magazineRepository,
-        private DeleteWrapper $deleteWrapper,
-        private MessageBusInterface $bus,
-        private ActivityPubManager $activityPubManager,
-        private SettingsManager $settingsManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly DeleteWrapper $deleteWrapper,
+        private readonly MessageBusInterface $bus,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly SettingsManager $settingsManager
     ) {
     }
 

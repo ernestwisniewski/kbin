@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -40,24 +42,21 @@ use Doctrine\ORM\Mapping\ManyToOne;
 ])]
 abstract class Notification
 {
-    const STATUS_NEW = 'new';
-    const STATUS_READ = 'read';
-
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
-
-    #[Id]
-    #[GeneratedValue]
-    #[Column(type: 'integer')]
-    private int $id;
+    public const STATUS_NEW = 'new';
+    public const STATUS_READ = 'read';
 
     #[ManyToOne(targetEntity: User::class, inversedBy: 'notifications')]
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public User $user;
-
     #[Column(type: 'string')]
     public string $status = self::STATUS_NEW;
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
 
     public function __construct(User $receiver)
     {

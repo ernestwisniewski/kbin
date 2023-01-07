@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form\Constraint;
 
@@ -12,9 +14,9 @@ class ImageConstraint
         return new Image(
             [
                 'detectCorrupted' => true,
-                'groups'          => ['upload'],
-                'maxSize'         => '12M',
-                'mimeTypes'       => ImageManager::IMAGE_MIMETYPES,
+                'groups' => ['upload'],
+                'maxSize' => '12M',
+                'mimeTypes' => ImageManager::IMAGE_MIMETYPES,
             ]
         );
     }

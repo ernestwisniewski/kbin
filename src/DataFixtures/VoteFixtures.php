@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -8,13 +10,13 @@ use Doctrine\Persistence\ObjectManager;
 
 class VoteFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    public function __construct(private VoteManager $voteManager)
+    public function __construct(private readonly VoteManager $voteManager)
     {
     }
 
     public function loadData(ObjectManager $manager): void
     {
-        for ($u = 0; $u <= UserFixtures::USERS_COUNT; $u++) {
+        for ($u = 0; $u <= UserFixtures::USERS_COUNT; ++$u) {
             $this->entries($u);
             $this->entryComments($u);
             $this->posts($u);

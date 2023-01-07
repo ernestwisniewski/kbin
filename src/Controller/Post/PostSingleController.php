@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post;
 
@@ -47,7 +49,7 @@ class PostSingleController extends AbstractController
 
         $comments = $repository->findByCriteria($criteria);
 
-        $dispatcher->dispatch((new PostHasBeenSeenEvent($post)));
+        $dispatcher->dispatch(new PostHasBeenSeenEvent($post));
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine, $post, $comments);

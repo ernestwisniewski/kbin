@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -17,7 +19,6 @@ use App\Service\Contracts\ContentNotificationManagerInterface;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -28,23 +29,23 @@ class PostNotificationManager implements ContentNotificationManagerInterface
     use NotificationTrait;
 
     public function __construct(
-        private MentionManager $mentionManager,
-        private NotificationRepository $notificationRepository,
-        private MagazineSubscriptionRepository $magazineRepository,
-        private IriConverterInterface $iriConverter,
-        private MagazineFactory $magazineFactory,
-        private HubInterface $publisher,
-        private Environment $twig,
-        private UrlGeneratorInterface $urlGenerator,
-        private EntityManagerInterface $entityManager,
-        private ImageManager $imageManager
+        private readonly MentionManager $mentionManager,
+        private readonly NotificationRepository $notificationRepository,
+        private readonly MagazineSubscriptionRepository $magazineRepository,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly MagazineFactory $magazineFactory,
+        private readonly HubInterface $publisher,
+        private readonly Environment $twig,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageManager $imageManager
     ) {
     }
 
     // @todo check if author is on the block list
     public function sendCreated(ContentInterface $subject): void
     {
-        /**
+        /*
          * @var Post $subject
          */
         $this->notifyMagazine(new PostCreatedNotification($subject->user, $subject));
@@ -62,7 +63,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
             [] // @todo user followers
         );
 
-        $subscribers = array_filter($subscribers, fn($s) => !in_array($s->username, $mentions ?? []));
+        $subscribers = array_filter($subscribers, fn ($s) => !in_array($s->username, $mentions ?? []));
 
         foreach ($subscribers as $subscriber) {
             $notify = new PostCreatedNotification($subscriber, $subject);
@@ -72,18 +73,12 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         $this->entityManager->flush();
     }
 
-    public function sendEdited(ContentInterface $subject): void
-    {
-        /**
-         * @var Post $subject
-         */
-        $this->notifyMagazine(new PostEditedNotification($subject->user, $subject));
-    }
-
     private function notifyMagazine(Notification $notification)
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->post->magazine));
+            $iri = $this->iriConverter->getIriFromItem(
+                $this->magazineFactory->createDto($notification->post->magazine)
+            );
 
             $update = new Update(
                 ['pub', $iri],
@@ -91,14 +86,13 @@ class PostNotificationManager implements ContentNotificationManagerInterface
             );
 
             $this->publisher->publish($update);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 
     private function getResponse(Notification $notification): string
     {
-        $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
+        $class = explode('\\', $this->entityManager->getClassMetadata(get_class($notification))->name);
 
         /**
          * @var Post $post ;
@@ -118,17 +112,25 @@ class PostNotificationManager implements ContentNotificationManagerInterface
 //                'image' => $this->imageManager->getUrl($post->image),
                 'url' => $this->urlGenerator->generate('post_single', [
                     'magazine_name' => $post->magazine->name,
-                    'post_id'       => $post->getId(),
-                    'slug'          => $post->slug,
+                    'post_id' => $post->getId(),
+                    'slug' => $post->slug,
                 ]),
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
 
+    public function sendEdited(ContentInterface $subject): void
+    {
+        /*
+         * @var Post $subject
+         */
+        $this->notifyMagazine(new PostEditedNotification($subject->user, $subject));
+    }
+
     public function sendDeleted(ContentInterface $post): void
     {
-        /**
+        /*
          * @var Post $post
          */
         $this->notifyMagazine($notification = new PostDeletedNotification($post->user, $post));

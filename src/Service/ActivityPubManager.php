@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -29,25 +31,24 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class ActivityPubManager
 {
     public function __construct(
-        private Server $server,
-        private UserRepository $userRepository,
-        private UserManager $userManager,
-        private UserFactory $userFactory,
-        private MagazineManager $magazineManager,
-        private MagazineFactory $magazineFactory,
-        private MagazineRepository $magazineRepository,
-        private ApHttpClient $apHttpClient,
-        private ImageRepository $imageRepository,
-        private ImageManager $imageManager,
-        private EntityManagerInterface $entityManager,
-        private PersonFactory $personFactory,
-        private SettingsManager $settingsManager,
-        private WebFingerFactory $webFingerFactory,
-        private MentionManager $mentionManager,
-        private UrlGeneratorInterface $urlGenerator,
-        private MessageBusInterface $bus
+        private readonly Server $server,
+        private readonly UserRepository $userRepository,
+        private readonly UserManager $userManager,
+        private readonly UserFactory $userFactory,
+        private readonly MagazineManager $magazineManager,
+        private readonly MagazineFactory $magazineFactory,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly ApHttpClient $apHttpClient,
+        private readonly ImageRepository $imageRepository,
+        private readonly ImageManager $imageManager,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PersonFactory $personFactory,
+        private readonly SettingsManager $settingsManager,
+        private readonly WebFingerFactory $webFingerFactory,
+        private readonly MentionManager $mentionManager,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly MessageBusInterface $bus
     ) {
-
     }
 
     public function getActorProfileId(ActivityPubActorInterface $actor): string
@@ -66,6 +67,32 @@ class ActivityPubManager
     public function findRemoteActor(string $actorUrl): ?User
     {
         return $this->userRepository->findOneBy(['apProfileId' => $actorUrl]);
+    }
+
+    public function createCcFromBody(string $body): array
+    {
+        $mentions = $this->mentionManager->extract($body) ?? [];
+
+        $urls = [];
+        foreach ($mentions as $handle) {
+            try {
+                $actor = $this->findActorOrCreate($handle);
+            } catch (\Exception $e) {
+                continue;
+            }
+
+            if (!$actor) {
+                continue;
+            }
+
+            $urls[] = $actor->apProfileId ?? $this->urlGenerator->generate(
+                'ap_user',
+                ['username' => $actor->getUserIdentifier()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+        }
+
+        return $urls;
     }
 
     public function findActorOrCreate(string $actorUrlOrHandle): null|User|Magazine
@@ -133,7 +160,7 @@ class ActivityPubManager
     {
         $this->webFingerFactory::setServer($this->server->create());
 
-        if (filter_var($id, FILTER_VALIDATE_URL) === false) {
+        if (false === filter_var($id, FILTER_VALIDATE_URL)) {
             $id = ltrim($id, '@');
 
             return $this->webFingerFactory->get($id);
@@ -158,134 +185,6 @@ class ActivityPubManager
         );
     }
 
-    public function createCcFromBody(string $body): array
-    {
-        $mentions = $this->mentionManager->extract($body) ?? [];
-
-        $urls = [];
-        foreach ($mentions as $handle) {
-            try {
-                $actor = $this->findActorOrCreate($handle);
-            } catch (\Exception $e) {
-                continue;
-            }
-
-            if (!$actor) {
-                continue;
-            }
-
-            $urls[] = $actor->apProfileId ?? $this->urlGenerator->generate(
-                'ap_user',
-                ['username' => $actor->getUserIdentifier()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-        }
-
-        return $urls;
-    }
-
-    public function createCcFromObject(array $activity, User $user): array
-    {
-        if (isset($activity['cc']) && isset($activity['to'])) {
-            $followersUrl = $this->urlGenerator->generate(
-                'ap_user_followers',
-                ['username' => $user->username],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-
-            return array_unique(
-                array_filter(
-                    array_merge(
-                        is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
-                        is_array($activity['to']) ? $activity['to'] : [$activity['to']]
-                    ), fn($val) => !in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl])
-                )
-            );
-        }
-
-        return [];
-    }
-
-    public function handleImages(array $attachment): ?Image
-    {
-        $images = array_filter(
-            $attachment,
-            fn($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
-        ); // @todo multiple images
-
-        if (count($images)) {
-            try {
-                if ($tempFile = $this->imageManager->download($images[0]['url'])) {
-                    $image = $this->imageRepository->findOrCreateFromPath($tempFile);
-                    if ($image && isset($images[0]['name'])) {
-                        $image->altText = $images[0]['name'];
-                    }
-                }
-            } catch (\Exception $e) {
-            }
-
-            return $image ?? null;
-        }
-
-        return null;
-    }
-
-    public function handleVideos(array $attachment): ?VideoDto
-    {
-        $videos = array_filter(
-            $attachment,
-            fn($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
-        );
-
-        if (count($videos)) {
-            return (new VideoDto())->create(
-                $videos[0]['url'],
-                $videos[0]['mediaType'],
-                !empty($videos['0']['name']) ? $videos['0']['name'] : $videos['0']['mediaType']
-            );
-        }
-
-        return null;
-    }
-
-    public function handleExternalImages(array $attachment): ?array
-    {
-        $images = array_filter(
-            $attachment,
-            fn($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
-        );
-
-        array_shift($images);
-
-        if (count($images)) {
-            return array_map(fn($val) => (new ImageDto())->create(
-                $val['url'],
-                $val['mediaType'],
-                !empty($val['name']) ? $val['name'] : $val['mediaType']
-            ), $images);
-        }
-
-        return null;
-    }
-
-    public function handleExternalVideos(array $attachment): ?array
-    {
-        $videos = array_filter(
-            $attachment,
-            fn($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
-        );
-
-        if (count($videos)) {
-            return array_map(fn($val) => (new VideoDto())->create(
-                $val['url'],
-                $val['mediaType'],
-                !empty($val['name']) ? $val['name'] : $val['mediaType']
-            ), $videos);
-        }
-
-        return null;
-    }
-
     private function createUser(string $actorUrl): User
     {
         $webfinger = $this->webfinger($actorUrl);
@@ -296,17 +195,6 @@ class ActivityPubManager
         );
 
         return $this->updateUser($actorUrl);
-    }
-
-    public function updateActor(string $actorUrl): Magazine|User
-    {
-        $actor = $this->apHttpClient->getActorObject($actorUrl);
-
-        if ('Person' === $actor['type']) {
-            return $this->updateUser($actorUrl);
-        }
-
-        return $this->updateMagazine($actorUrl);
     }
 
     public function updateUser(string $actorUrl): User
@@ -346,6 +234,30 @@ class ActivityPubManager
         $this->entityManager->flush();
 
         return $user;
+    }
+
+    public function handleImages(array $attachment): ?Image
+    {
+        $images = array_filter(
+            $attachment,
+            fn ($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+        ); // @todo multiple images
+
+        if (count($images)) {
+            try {
+                if ($tempFile = $this->imageManager->download($images[0]['url'])) {
+                    $image = $this->imageRepository->findOrCreateFromPath($tempFile);
+                    if ($image && isset($images[0]['name'])) {
+                        $image->altText = $images[0]['name'];
+                    }
+                }
+            } catch (\Exception $e) {
+            }
+
+            return $image ?? null;
+        }
+
+        return null;
     }
 
     private function createMagazine(string $actorUrl): Magazine
@@ -390,5 +302,94 @@ class ActivityPubManager
         $this->entityManager->flush();
 
         return $magazine;
+    }
+
+    public function createCcFromObject(array $activity, User $user): array
+    {
+        if (isset($activity['cc']) && isset($activity['to'])) {
+            $followersUrl = $this->urlGenerator->generate(
+                'ap_user_followers',
+                ['username' => $user->username],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+
+            return array_unique(
+                array_filter(
+                    array_merge(
+                        is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
+                        is_array($activity['to']) ? $activity['to'] : [$activity['to']]
+                    ), fn ($val) => !in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl])
+                )
+            );
+        }
+
+        return [];
+    }
+
+    public function handleVideos(array $attachment): ?VideoDto
+    {
+        $videos = array_filter(
+            $attachment,
+            fn ($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
+        );
+
+        if (count($videos)) {
+            return (new VideoDto())->create(
+                $videos[0]['url'],
+                $videos[0]['mediaType'],
+                !empty($videos['0']['name']) ? $videos['0']['name'] : $videos['0']['mediaType']
+            );
+        }
+
+        return null;
+    }
+
+    public function handleExternalImages(array $attachment): ?array
+    {
+        $images = array_filter(
+            $attachment,
+            fn ($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+        );
+
+        array_shift($images);
+
+        if (count($images)) {
+            return array_map(fn ($val) => (new ImageDto())->create(
+                $val['url'],
+                $val['mediaType'],
+                !empty($val['name']) ? $val['name'] : $val['mediaType']
+            ), $images);
+        }
+
+        return null;
+    }
+
+    public function handleExternalVideos(array $attachment): ?array
+    {
+        $videos = array_filter(
+            $attachment,
+            fn ($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
+        );
+
+        if (count($videos)) {
+            return array_map(fn ($val) => (new VideoDto())->create(
+                $val['url'],
+                $val['mediaType'],
+                !empty($val['name']) ? $val['name'] : $val['mediaType']
+            ), $videos);
+        }
+
+        return null;
+    }
+
+    public function updateActor(string $actorUrl): Magazine|User
+    {
+        $actor = $this->apHttpClient->getActorObject($actorUrl);
+
+        if ('Person' === $actor['type']) {
+            return $this->updateUser($actorUrl);
+        }
+
+        return $this->updateMagazine($actorUrl);
     }
 }

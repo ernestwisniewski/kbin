@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -11,8 +13,11 @@ use Twig\Environment;
 #[AsTwigComponent('random_magazine')]
 class RandomMagazineComponent
 {
-    public function __construct(private MagazineRepository $repository, private Environment $twig, private CacheInterface $cache)
-    {
+    public function __construct(
+        private readonly MagazineRepository $repository,
+        private readonly Environment $twig,
+        private readonly CacheInterface $cache
+    ) {
     }
 
     public function getHtml(): string

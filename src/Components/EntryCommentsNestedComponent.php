@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -17,10 +19,10 @@ class EntryCommentsNestedComponent
     public int $level;
 
     public function __construct(
-        private Environment $twig,
-        private CacheInterface $cache,
-        private Security $security,
-        private RequestStack $requestStack
+        private readonly Environment $twig,
+        private readonly CacheInterface $cache,
+        private readonly Security $security,
+        private readonly RequestStack $requestStack
     ) {
     }
 

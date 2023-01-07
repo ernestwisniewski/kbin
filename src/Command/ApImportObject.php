@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -18,8 +20,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class ApImportObject extends Command
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private ApHttpClient $client
+        private readonly MessageBusInterface $bus,
+        private readonly ApHttpClient $client
     ) {
         parent::__construct();
     }
@@ -37,5 +39,4 @@ class ApImportObject extends Command
 
         return Command::SUCCESS;
     }
-
 }

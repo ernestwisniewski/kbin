@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api;
 
@@ -6,15 +8,14 @@ use App\ApiDataProvider\DtoPaginator;
 use App\Controller\AbstractController;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineRepository;
-use Exception;
 
 class RandomMagazine extends AbstractController
 {
     public string $titleTag = 'span';
 
     public function __construct(
-        private MagazineFactory $factory,
-        private MagazineRepository $repository,
+        private readonly MagazineFactory $factory,
+        private readonly MagazineRepository $repository,
     ) {
     }
 
@@ -22,7 +23,7 @@ class RandomMagazine extends AbstractController
     {
         try {
             $magazine = $this->repository->findRandom();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
         $dtos = [$this->factory->createDto($magazine)];

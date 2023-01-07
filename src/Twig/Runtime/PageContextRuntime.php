@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Twig\Runtime;
 
@@ -21,27 +23,25 @@ use Twig\Extension\RuntimeExtensionInterface;
 class PageContextRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
-        private RequestStack $requestStack,
-        private UrlGeneratorInterface $urlGenerator,
-        private TranslatorInterface $translator,
-        private StatsManager $statsManager,
-        private ReputationManager $reputationManager
+        private readonly RequestStack $requestStack,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly TranslatorInterface $translator,
+        private readonly StatsManager $statsManager,
+        private readonly ReputationManager $reputationManager
     ) {
     }
 
     public function isStartPage(): bool
     {
-        return $this->isRouteContains('front') || in_array($this->getCurrentRouteName(), ['magazine_entry_comments', 'magazine_posts']);
+        return $this->isRouteContains('front') || in_array(
+            $this->getCurrentRouteName(),
+            ['magazine_entry_comments', 'magazine_posts']
+        );
     }
 
-    public function isHomePage(): bool
+    public function isRouteContains(string $val): bool
     {
-        return in_array($this->getCurrentRouteName(), ['front', 'entry_comments_front', 'posts_front']);
-    }
-
-    public function isFrontPage(): bool
-    {
-        return $this->isRouteContains('front') || in_array($this->getCurrentRouteName(), ['magazine_entry_comments', 'magazine_posts']);
+        return str_contains($this->getCurrentRouteName(), $val);
     }
 
     private function getCurrentRouteName(): string
@@ -52,6 +52,19 @@ class PageContextRuntime implements RuntimeExtensionInterface
     private function getCurrentRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
+    }
+
+    public function isHomePage(): bool
+    {
+        return in_array($this->getCurrentRouteName(), ['front', 'entry_comments_front', 'posts_front']);
+    }
+
+    public function isFrontPage(): bool
+    {
+        return $this->isRouteContains('front') || in_array(
+            $this->getCurrentRouteName(),
+            ['magazine_entry_comments', 'magazine_posts']
+        );
     }
 
     public function isUserProfilePage(): bool
@@ -65,17 +78,12 @@ class PageContextRuntime implements RuntimeExtensionInterface
             return false;
         }
 
-        return $this->getCurrentRouteName() === 'post_single';
+        return 'post_single' === $this->getCurrentRouteName();
     }
 
     public function isReportPage(): bool
     {
         return $this->isRouteContains('report');
-    }
-
-    public function isRouteContains(string $val): bool
-    {
-        return str_contains($this->getCurrentRouteName(), $val);
     }
 
     public function isRouteStartWith(string $val): bool
@@ -109,7 +117,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         $default = EntryRepository::SORT_DEFAULT;
-        if($this->isActiveRoute('entry_comments_front')) {
+        if ($this->isActiveRoute('entry_comments_front')) {
             $default = EntryCommentRepository::SORT_DEFAULT;
         }
 
@@ -141,16 +149,10 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return str_starts_with($this->getCurrentRouteName(), 'user');
     }
 
-    public function isTagPage(): bool
+    public function isActiveRoute(string $routeName): bool
     {
-        return str_starts_with($this->getCurrentRouteName(), 'tag');
+        return $routeName === $this->getCurrentRouteName();
     }
-
-    public function isDomainPage(): bool
-    {
-        return str_starts_with($this->getCurrentRouteName(), 'domain');
-    }
-
 
     public function getActiveTimeOption()
     {
@@ -159,11 +161,15 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function getActiveTypeOption(): ?string
     {
-        return $this->getCurrentRequest()->get('type');// @todo
+        return $this->getCurrentRequest()->get('type'); // @todo
     }
 
-    public function getActiveSortOptionPath(?string $sortOption = null, ?string $time = null, ?string $type = null, $entriesOnly = true): string
-    {
+    public function getActiveSortOptionPath(
+        ?string $sortOption = null,
+        ?string $time = null,
+        ?string $type = null,
+        $entriesOnly = true
+    ): string {
         $routeName = 'front';
 
         if ($this->getCurrentRequest()->get('sortBy')) {
@@ -180,7 +186,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
             $routeParams['time'] = $time;
         }
 
-        if((new EntryPageView(1))->resolveType($type)) {
+        if ((new EntryPageView(1))->resolveType($type)) {
             if ($type) {
                 $routeParams['type'] = $type;
             }
@@ -197,8 +203,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         if ($this->isMagazinePage()) {
-            $magazine            = $this->getCurrentRequest()->get('magazine');
-            $routeName           = 'front_magazine';
+            $magazine = $this->getCurrentRequest()->get('magazine');
+            $routeName = 'front_magazine';
             $routeParams['name'] = $magazine->name;
 
             if (!$entriesOnly) {
@@ -255,9 +261,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         if ($this->isTagPage()) {
-            $routeName           = 'tag_front';
+            $routeName = 'tag_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
-
 
             if ($this->isCommentsPage() && !$entriesOnly) {
                 $routeName = 'tag_entry_comments_front';
@@ -269,9 +274,8 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         if ($this->isDomainPage()) {
-            $routeName           = 'domain_front';
+            $routeName = 'domain_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
-
 
             if ($this->isCommentsPage() && !$entriesOnly) {
                 $routeName = 'domain_entry_comments_front';
@@ -286,7 +290,9 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function getActiveSortOption()
     {
-        return $this->getCurrentRequest()->get('sortBy') ?? $this->translator->trans('sort.'.EntryRepository::SORT_DEFAULT);
+        return $this->getCurrentRequest()->get('sortBy') ?? $this->translator->trans(
+            'sort.'.EntryRepository::SORT_DEFAULT
+        );
     }
 
     public function isMagazinePage(): bool
@@ -313,9 +319,19 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return str_contains($this->getCurrentRouteName(), 'favourite');
     }
 
+    public function isTagPage(): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), 'tag');
+    }
+
+    public function isDomainPage(): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), 'domain');
+    }
+
     public function getActiveCommentsPagePath(): string
     {
-        $routeName   = 'entry_comments_front';
+        $routeName = 'entry_comments_front';
         $routeParams = ['sortBy' => strtolower($this->translator->trans('sort.'.EntryCommentRepository::SORT_DEFAULT))];
 
         if ($time = $this->getCurrentRequest()->get('time')) {
@@ -325,7 +341,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
 
-            $routeName           = 'magazine_entry_comments';
+            $routeName = 'magazine_entry_comments';
             $routeParams['name'] = $magazine->name;
         }
 
@@ -338,12 +354,12 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         if ($this->isTagPage()) {
-            $routeName           = 'tag_entry_comments_front';
+            $routeName = 'tag_entry_comments_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
         }
 
         if ($this->isDomainPage()) {
-            $routeName           = 'domain_entry_comments_front';
+            $routeName = 'domain_entry_comments_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
         }
 
@@ -355,7 +371,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
     public function getActivePostsPagePath(): string
     {
-        $routeName   = 'posts_front';
+        $routeName = 'posts_front';
         $routeParams = ['sortBy' => strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT))];
 
         if ($time = $this->getCurrentRequest()->get('time')) {
@@ -365,7 +381,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
         if ($this->isMagazinePage()) {
             $magazine = $this->getCurrentRequest()->get('magazine');
 
-            $routeName           = 'magazine_posts';
+            $routeName = 'magazine_posts';
             $routeParams['name'] = $magazine->name;
         }
 
@@ -378,7 +394,7 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         if ($this->isTagPage()) {
-            $routeName           = 'tag_posts_front';
+            $routeName = 'tag_posts_front';
             $routeParams['name'] = $this->getCurrentRequest()->get('name');
         }
 
@@ -402,21 +418,18 @@ class PageContextRuntime implements RuntimeExtensionInterface
 
         if ($this->isEntryPage()) {
             $routeParams['magazine_name'] = $this->getCurrentRequest()->get('magazine')->name;
-            $routeParams['entry_id']      = $this->getCurrentRequest()->get('entry')->getId();
+            $routeParams['entry_id'] = $this->getCurrentRequest()->get('entry')->getId();
             unset($routeParams['name']);
         }
 
         return $this->urlGenerator->generate($routeName, $routeParams);
     }
 
-    public function isActiveRoute(string $routeName): bool
-    {
-        return $routeName === $this->getCurrentRouteName();
-    }
-
     public function isActiveCommentFilter(string $sortOption): bool
     {
-        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower($this->translator->trans('sort.'.PostRepository::SORT_DEFAULT)))
+        return ($this->getCurrentRequest()->get('sortBy') ?? strtolower(
+            $this->translator->trans('sort.'.PostRepository::SORT_DEFAULT)
+        ))
             === $sortOption;
     }
 
@@ -425,13 +438,19 @@ class PageContextRuntime implements RuntimeExtensionInterface
         return $this->statsManager->resolveType($this->getCurrentRequest()->get('statsType'), $default) === $type;
     }
 
-    public function getStatsPagePath(?string $type = null, ?int $period = null, ?User $user = null, ?Magazine $magazine = null): string
-    {
-        $type = $type ? $this->translator->trans('stats.'.$type) : $this->translator->trans('stats.'.$this->getActiveStatsType());
+    public function getStatsPagePath(
+        ?string $type = null,
+        ?int $period = null,
+        ?User $user = null,
+        ?Magazine $magazine = null
+    ): string {
+        $type = $type ? $this->translator->trans('stats.'.$type) : $this->translator->trans(
+            'stats.'.$this->getActiveStatsType()
+        );
 
-        $routeName   = 'stats';
+        $routeName = 'stats';
         $routeParams = [
-            'statsType'   => $type,
+            'statsType' => $type,
             'statsPeriod' => $period,
         ];
 
@@ -440,39 +459,52 @@ class PageContextRuntime implements RuntimeExtensionInterface
         }
 
         if ($magazine) {
-            $routeName   = 'magazine_panel_front';
+            $routeName = 'magazine_panel_front';
             $routeParams += ['name' => $magazine->name];
         }
 
         return $this->urlGenerator->generate($routeName, $routeParams);
     }
 
-    public function isEntriesPage() {
+    private function getActiveStatsType(): string
+    {
+        return $this->statsManager->resolveType(
+            $this->getCurrentRequest()->get('statsType')
+        ) ?? StatsRepository::TYPE_GENERAL;
+    }
+
+    public function isEntriesPage()
+    {
         return in_array(
             $this->getCurrentRouteName(),
             ['front', 'front_magazine', 'domain_front', 'tag_front', 'front_subscribed', 'front_moderated']
         );
     }
 
-    private function getActiveStatsType(): string
-    {
-        return $this->statsManager->resolveType($this->getCurrentRequest()->get('statsType')) ?? StatsRepository::TYPE_GENERAL;
-    }
-
     public function isActiveReputationType(string $type, ?string $default = null): bool
     {
-        return $this->reputationManager->resolveType($this->getCurrentRequest()->get('reputationType'), $default) === $type;
+        return $this->reputationManager->resolveType(
+            $this->getCurrentRequest()->get('reputationType'),
+            $default
+        ) === $type;
     }
 
     public function getReputationPagePath(?string $type = null, User $user = null): string
     {
-        $type = $type ? strtolower($this->translator->trans($type)) : strtolower($this->translator->trans($this->getActiveReputationType()));
+        $type = $type ? strtolower($this->translator->trans($type)) : strtolower(
+            $this->translator->trans($this->getActiveReputationType())
+        );
 
-        return $this->urlGenerator->generate('user_reputation', ['username' => $user->username, 'reputationType' => $type]);
+        return $this->urlGenerator->generate(
+            'user_reputation',
+            ['username' => $user->username, 'reputationType' => $type]
+        );
     }
 
     private function getActiveReputationType(): string
     {
-        return $this->reputationManager->resolveType($this->getCurrentRequest()->get('reputationType')) ?? ReputationRepository::TYPE_ENTRY;
+        return $this->reputationManager->resolveType(
+            $this->getCurrentRequest()->get('reputationType')
+        ) ?? ReputationRepository::TYPE_ENTRY;
     }
 }

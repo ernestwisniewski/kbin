@@ -1,14 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command\Update;
 
 use App\Command\Update\Async\ImageBlurhashMessage;
-use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Repository\ImageRepository;
-use App\Repository\MagazineRepository;
-use App\Repository\UserRepository;
-use App\Service\ActivityPub\KeysGenerator;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,8 +19,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class ImageBlurhashUpdateCommand extends Command
 {
     public function __construct(
-        private ImageRepository $repository,
-        private MessageBusInterface $bus
+        private readonly ImageRepository $repository,
+        private readonly MessageBusInterface $bus
     ) {
         parent::__construct();
     }

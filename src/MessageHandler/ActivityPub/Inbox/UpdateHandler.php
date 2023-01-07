@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
@@ -11,7 +13,6 @@ use App\Factory\EntryCommentFactory;
 use App\Factory\EntryFactory;
 use App\Factory\PostCommentFactory;
 use App\Factory\PostFactory;
-use App\Message\ActivityPub\Inbox\DeleteMessage;
 use App\Message\ActivityPub\Inbox\UpdateMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\MarkdownConverter;
@@ -21,6 +22,7 @@ use App\Service\EntryManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class UpdateHandler implements MessageHandlerInterface
@@ -28,18 +30,18 @@ class UpdateHandler implements MessageHandlerInterface
     private array $payload;
 
     public function __construct(
-        private ActivityPubManager $activityPubManager,
-        private ApActivityRepository $apActivityRepository,
-        private EntityManagerInterface $entityManager,
-        private EntryManager $entryManager,
-        private EntryCommentManager $entryCommentManager,
-        private PostManager $postManager,
-        private PostCommentManager $postCommentManager,
-        private MarkdownConverter $markdownConverter,
-        private EntryFactory $entryFactory,
-        private EntryCommentFactory $entryCommentFactory,
-        private PostFactory $postFactory,
-        private PostCommentFactory $postCommentFactory
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly ApActivityRepository $apActivityRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly EntryManager $entryManager,
+        private readonly EntryCommentManager $entryCommentManager,
+        private readonly PostManager $postManager,
+        private readonly PostCommentManager $postCommentManager,
+        private readonly MarkdownConverter $markdownConverter,
+        private readonly EntryFactory $entryFactory,
+        private readonly EntryCommentFactory $entryCommentFactory,
+        private readonly PostFactory $postFactory,
+        private readonly PostCommentFactory $postCommentFactory
     ) {
     }
 
@@ -49,7 +51,7 @@ class UpdateHandler implements MessageHandlerInterface
 
         try {
             $actor = $this->activityPubManager->findRemoteActor($message->payload['actor']);
-        } catch (\Exception) {
+        } catch (Exception) {
             return;
         }
 
@@ -59,21 +61,21 @@ class UpdateHandler implements MessageHandlerInterface
             return;
         }
 
-        $object = $this->entityManager->getRepository($object['type'])->find((int)$object['id']);
+        $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
 
-        if (get_class($object) === Entry::class) {
+        if (Entry::class === get_class($object)) {
             $fn = 'editEntry';
         }
 
-        if (get_class($object) === EntryComment::class) {
+        if (EntryComment::class === get_class($object)) {
             $fn = 'editEntryComment';
         }
 
-        if (get_class($object) === Post::class) {
+        if (Post::class === get_class($object)) {
             $fn = 'editPost';
         }
 
-        if (get_class($object) === PostComment::class) {
+        if (PostComment::class === get_class($object)) {
             $fn = 'editPostComment';
         }
 

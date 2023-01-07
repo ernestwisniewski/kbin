@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User;
 
@@ -11,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserAvatarDeleteController extends AbstractController
 {
-    public function __construct(private UserManager $userManager)
+    public function __construct(private readonly UserManager $userManager)
     {
     }
 

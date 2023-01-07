@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
@@ -7,9 +9,9 @@ use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\CreateMessage;
 use App\Message\ActivityPub\Inbox\DeleteMessage;
-use App\Message\ActivityPub\Inbox\UpdateMessage;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Message\ActivityPub\Inbox\LikeMessage;
+use App\Message\ActivityPub\Inbox\UpdateMessage;
 use App\Service\ActivityPub\SignatureValidator;
 use App\Service\ActivityPubManager;
 use Psr\Log\LoggerInterface;
@@ -19,10 +21,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class ActivityHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private SignatureValidator $signatureValidator,
-        private MessageBusInterface $bus,
-        private ActivityPubManager $manager,
-        private LoggerInterface $logger
+        private readonly SignatureValidator $signatureValidator,
+        private readonly MessageBusInterface $bus,
+        private readonly ActivityPubManager $manager,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -60,7 +62,7 @@ class ActivityHandler implements MessageHandlerInterface
 
     private function handle(array $payload)
     {
-        if ($payload['type'] === 'Announce') {
+        if ('Announce' === $payload['type']) {
             if (is_array($payload['object'])) {
                 $payload = $payload['object'];
             }
@@ -74,6 +76,7 @@ class ActivityHandler implements MessageHandlerInterface
             case 'Page':
             case 'Question':
                 $this->bus->dispatch(new CreateMessage($payload));
+                // no break
             case 'Announce':
                 $this->bus->dispatch(new AnnounceMessage($payload));
                 break;
@@ -107,19 +110,19 @@ class ActivityHandler implements MessageHandlerInterface
             $type = $payload['type'];
         }
 
-        if ($type === 'Follow') {
+        if ('Follow' === $type) {
             $this->bus->dispatch(new FollowMessage($payload));
 
             return;
         }
 
-        if ($type === 'Announce') {
+        if ('Announce' === $type) {
             $this->bus->dispatch(new AnnounceMessage($payload));
 
             return;
         }
 
-        if ($type === 'Like') {
+        if ('Like' === $type) {
             $this->bus->dispatch(new LikeMessage($payload));
 
             return;
@@ -134,7 +137,7 @@ class ActivityHandler implements MessageHandlerInterface
             $type = $payload['type'];
         }
 
-        if ($type === 'Follow') {
+        if ('Follow' === $type) {
             $this->bus->dispatch(new FollowMessage($payload));
         }
     }

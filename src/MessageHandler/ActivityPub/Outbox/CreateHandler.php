@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
@@ -16,13 +18,13 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class CreateHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private UserRepository $userRepository,
-        private MagazineRepository $magazineRepository,
-        private CreateWrapper $createWrapper,
-        private EntityManagerInterface $entityManager,
-        private ActivityPubManager $activityPubManager,
-        private SettingsManager $settingsManager
+        private readonly MessageBusInterface $bus,
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly CreateWrapper $createWrapper,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly SettingsManager $settingsManager
     ) {
     }
 

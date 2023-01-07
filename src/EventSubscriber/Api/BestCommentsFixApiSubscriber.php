@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Api;
 
@@ -19,7 +21,7 @@ final class BestCommentsFixApiSubscriber implements EventSubscriberInterface
 
     public function transform(ViewEvent $event): void
     {
-        if ($event->getRequest()->getPathInfo() !== '/api/posts') {
+        if ('/api/posts' !== $event->getRequest()->getPathInfo()) {
             return;
         }
 

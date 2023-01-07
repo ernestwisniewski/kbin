@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -13,13 +15,13 @@ use Doctrine\Persistence\ObjectManager;
 
 class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const MAGAZINES_COUNT = UserFixtures::USERS_COUNT / 3;
+    public const MAGAZINES_COUNT = UserFixtures::USERS_COUNT / 3;
 
     public function __construct(
-        private MagazineManager $magazineManager,
-        private ImageManager $imageManager,
-        private ImageRepository $imageRepository,
-        private EntityManagerInterface $entityManager
+        private readonly MagazineManager $magazineManager,
+        private readonly ImageManager $imageManager,
+        private readonly ImageRepository $imageRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -40,17 +42,17 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
                 $this->entityManager->flush();
             }
 
-            $dto              = new MagazineDto();
-            $dto->name        = $magazine['name'];
-            $dto->title       = $magazine['title'];
+            $dto = new MagazineDto();
+            $dto->name = $magazine['name'];
+            $dto->title = $magazine['title'];
             $dto->description = $magazine['description'];
-            $dto->rules       = $magazine['rules'];
-            $dto->badges      = $magazine['badges'];
-            $dto->cover       = $image;
+            $dto->rules = $magazine['rules'];
+            $dto->badges = $magazine['badges'];
+            $dto->cover = $image;
 
             $entity = $this->magazineManager->create($dto, $magazine['user']);
 
-            $this->addReference('magazine'.'_'.$index, $entity);
+            $this->addReference('magazine_'.$index, $entity);
         }
 
         $manager->flush();
@@ -59,22 +61,22 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
     private function provideRandomMagazines($count = 1): iterable
     {
         $titles = [];
-        for ($i = 0; $i <= $count; $i++) {
+        for ($i = 0; $i <= $count; ++$i) {
             $title = substr($this->faker->words($this->faker->numberBetween(1, 5), true), 0, 50);
 
             if (in_array($title, $titles)) {
-                $title = $title . bin2hex(random_bytes(5));
+                $title = $title.bin2hex(random_bytes(5));
             }
 
             $titles[] = $title;
 
             yield [
-                'name'        => substr($this->camelCase($title), 0, 24),
-                'title'       => $title,
-                'user'        => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                'name' => substr($this->camelCase($title), 0, 24),
+                'title' => $title,
+                'user' => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
                 'description' => rand(0, 3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
-                'rules'       => rand(0, 3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
-                'badges'      => new ArrayCollection(),
+                'rules' => rand(0, 3) ? null : $this->faker->realText($this->faker->numberBetween(10, 550)),
+                'badges' => new ArrayCollection(),
             ];
         }
     }

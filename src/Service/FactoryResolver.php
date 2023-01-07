@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -13,17 +15,16 @@ use App\Factory\MagazineFactory;
 use App\Factory\PostCommentFactory;
 use App\Factory\PostFactory;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 
 class FactoryResolver
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private EntryFactory $entryFactory,
-        private EntryCommentFactory $entryCommentFactory,
-        private PostFactory $postFactory,
-        private PostCommentFactory $postCommentFactory,
-        private MagazineFactory $magazineFactory
+        private readonly EntityManagerInterface $entityManager,
+        private readonly EntryFactory $entryFactory,
+        private readonly EntryCommentFactory $entryCommentFactory,
+        private readonly PostFactory $postFactory,
+        private readonly PostCommentFactory $postCommentFactory,
+        private readonly MagazineFactory $magazineFactory
     ) {
     }
 
@@ -35,8 +36,7 @@ class FactoryResolver
             Post::class => $this->postFactory,
             PostComment::class => $this->postCommentFactory,
             Magazine::class => $this->magazineFactory,
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -8,8 +10,6 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
-use DateTime;
-use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class PostCommentDto
@@ -27,16 +27,16 @@ class PostCommentDto
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $mentions = null;
-    public ?DateTimeImmutable $createdAt = null;
-    public ?DateTime $lastActive = null;
+    public ?\DateTimeImmutable $createdAt = null;
+    public ?\DateTime $lastActive = null;
     private ?int $id = null;
 
     public function createWithParent(Post $post, ?PostComment $parent, ?Image $image = null, ?string $body = null): self
     {
-        $this->post   = $post;
+        $this->post = $post;
         $this->parent = $parent;
-        $this->body   = $body;
-        $this->image  = $image;
+        $this->body = $body;
+        $this->image = $image;
 
         return $this;
     }

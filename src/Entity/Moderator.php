@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -21,24 +23,20 @@ class Moderator
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'moderatorTokens')]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'moderators')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public Magazine $magazine;
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $isOwner = false;
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $isConfirmed = false;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'moderatorTokens')]
-    #[JoinColumn(nullable: false)]
-    public User $user;
-
-    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'moderators')]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public Magazine $magazine;
-
-    #[Column(type: 'boolean', nullable: false)]
-    public bool $isOwner = false;
-
-    #[Column(type: 'boolean', nullable: false)]
-    public bool $isConfirmed = false;
 
     public function __construct(Magazine $magazine, User $user, $isOwner = false, $isConfirmed = false)
     {

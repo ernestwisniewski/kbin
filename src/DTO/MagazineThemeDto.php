@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -17,7 +19,7 @@ class MagazineThemeDto
 
     public function __construct(Magazine $magazine)
     {
-        $this->magazine  = $magazine;
+        $this->magazine = $magazine;
         $this->customCss = $magazine->customCss;
     }
 

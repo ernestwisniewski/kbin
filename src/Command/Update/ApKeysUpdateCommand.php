@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command\Update;
 
@@ -19,9 +21,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ApKeysUpdateCommand extends Command
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private MagazineRepository $magazineRepository,
-        private EntityManagerInterface $entityManager
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
         parent::__construct();
     }

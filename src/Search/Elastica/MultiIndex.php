@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * Created by Exploit.cz <insekticid AT exploit.cz>
@@ -22,9 +24,22 @@ class MultiIndex extends Index
     protected $_indices = [];
 
     /**
+     * @param string|array|Query $query
+     * @param int|array          $options
+     * @param BuilderInterface   $builder
+     */
+    public function createSearch($query = '', $options = null, BuilderInterface $builder = null): Search
+    {
+        $search = new Search($this->getClient(), $builder);
+//        $search->addIndex($this);
+        $search->addIndices($this->getIndices());
+        $search->setOptionsAndQuery($options, $query);
+
+        return $search;
+    }
+
+    /**
      * Add array of indices at once.
-     *
-     * @param array $indices
      *
      * @return $this
      */
@@ -43,8 +58,8 @@ class MultiIndex extends Index
      * @param Index|string $index Index object or string
      *
      * @return $this
-     * @throws InvalidException
      *
+     * @throws InvalidException
      */
     public function addIndex($index)
     {
@@ -59,23 +74,6 @@ class MultiIndex extends Index
         $this->_indices[] = (string) $index;
 
         return $this;
-    }
-
-    /**
-     * @param string|array|Query $query
-     * @param int|array          $options
-     * @param BuilderInterface   $builder
-     *
-     * @return Search
-     */
-    public function createSearch($query = '', $options = null, BuilderInterface $builder = null): Search
-    {
-        $search = new Search($this->getClient(), $builder);
-//        $search->addIndex($this);
-        $search->addIndices($this->getIndices());
-        $search->setOptionsAndQuery($options, $query);
-
-        return $search;
     }
 
     /**

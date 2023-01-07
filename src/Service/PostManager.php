@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -18,7 +20,6 @@ use App\Message\DeleteImageMessage;
 use App\Repository\PostRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -29,21 +30,21 @@ use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
-class  PostManager implements ContentManagerInterface
+class PostManager implements ContentManagerInterface
 {
     public function __construct(
-        private Slugger $slugger,
-        private MentionManager $mentionManager,
-        private PostCommentManager $postCommentManager,
-        private TagManager $tagManager,
-        private PostFactory $factory,
-        private EventDispatcherInterface $dispatcher,
-        private RateLimiterFactory $postLimiter,
-        private MessageBusInterface $bus,
-        private TranslatorInterface $translator,
-        private EntityManagerInterface $entityManager,
-        private PostRepository $postRepository,
-        private CacheInterface $cache
+        private readonly Slugger $slugger,
+        private readonly MentionManager $mentionManager,
+        private readonly PostCommentManager $postCommentManager,
+        private readonly TagManager $tagManager,
+        private readonly PostFactory $factory,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly RateLimiterFactory $postLimiter,
+        private readonly MessageBusInterface $bus,
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PostRepository $postRepository,
+        private readonly CacheInterface $cache
     ) {
     }
 
@@ -59,7 +60,7 @@ class  PostManager implements ContentManagerInterface
         $post = $this->factory->createFromDto($dto, $user);
         $post->slug = $this->slugger->slug($dto->body);
         $post->image = $dto->image;
-        if($post->image && !$post->image->altText) {
+        if ($post->image && !$post->image->altText) {
             $post->image->altText = $dto->imageAlt;
         }
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
@@ -94,7 +95,7 @@ class  PostManager implements ContentManagerInterface
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->visibility = $dto->visibility;
-        $post->editedAt = new DateTimeImmutable('@'.time());
+        $post->editedAt = new \DateTimeImmutable('@'.time());
 
         $this->entityManager->flush();
 
@@ -124,20 +125,6 @@ class  PostManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostDeletedEvent($post, $user));
     }
 
-    public function restore(User $user, Post $post): void
-    {
-        if ($post->visibility !== VisibilityInterface::VISIBILITY_TRASHED) {
-            throw new \Exception('Invalid visibility');
-        }
-
-        $post->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
-
-        $this->entityManager->persist($post);
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new PostRestoredEvent($post, $user));
-    }
-
     public function purge(Post $post): void
     {
         $this->dispatcher->dispatch(new PostBeforePurgeEvent($post));
@@ -145,7 +132,7 @@ class  PostManager implements ContentManagerInterface
         $image = $post->image?->filePath;
 
         $sort = new Criteria(null, ['createdAt' => Criteria::DESC]);
-        foreach($post->comments->matching($sort) as $comment) {
+        foreach ($post->comments->matching($sort) as $comment) {
             $this->postCommentManager->purge($comment);
         }
 
@@ -162,6 +149,20 @@ class  PostManager implements ContentManagerInterface
     private function isTrashed(User $user, Post $post): bool
     {
         return !$post->isAuthor($user);
+    }
+
+    public function restore(User $user, Post $post): void
+    {
+        if (VisibilityInterface::VISIBILITY_TRASHED !== $post->visibility) {
+            throw new \Exception('Invalid visibility');
+        }
+
+        $post->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new PostRestoredEvent($post, $user));
     }
 
     public function createDto(Post $post): PostDto

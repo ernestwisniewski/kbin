@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -14,7 +16,6 @@ use App\Entity\Traits\EditedAtTrait;
 use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryCommentRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -26,7 +27,6 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
-use Traversable;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryCommentRepository::class)]
@@ -40,68 +40,51 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'entryComments')]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+    #[ManyToOne(targetEntity: Entry::class, inversedBy: 'comments')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Entry $entry;
+    #[ManyToOne(targetEntity: Magazine::class)]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Magazine $magazine;
+    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
+    #[JoinColumn(nullable: true)]
+    public ?Image $image = null;
+    #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'children')]
+    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    public ?EntryComment $parent = null;
+    #[ManyToOne(targetEntity: EntryComment::class)]
+    #[JoinColumn(nullable: true)]
+    public ?EntryComment $root = null;
+    #[Column(type: 'text', length: 4500)]
+    public ?string $body = null;
+    #[Column(type: 'integer', options: ['default' => 0])]
+    public int $favouriteCount = 0;
+    #[Column(type: 'datetimetz')]
+    public ?\DateTime $lastActive = null;
+    #[Column(type: 'string', nullable: true)]
+    public ?string $ip = null;
+    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $tags = null;
+    #[Column(type: 'json', nullable: true)]
+    public ?array $mentions = null;
+    #[OneToMany(mappedBy: 'parent', targetEntity: EntryComment::class, orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'ASC'])]
+    public Collection $children;
+    #[OneToMany(mappedBy: 'comment', targetEntity: EntryCommentVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $votes;
+    #[OneToMany(mappedBy: 'entryComment', targetEntity: EntryCommentReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $reports;
+    #[OneToMany(mappedBy: 'entryComment', targetEntity: EntryCommentFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $favourites;
+    #[OneToMany(mappedBy: 'entryComment', targetEntity: EntryCommentCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $notifications;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'entryComments')]
-    #[JoinColumn(nullable: false)]
-    public User $user;
-
-    #[ManyToOne(targetEntity: Entry::class, inversedBy: 'comments')]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?Entry $entry;
-
-    #[ManyToOne(targetEntity: Magazine::class)]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?Magazine $magazine;
-
-    #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[JoinColumn(nullable: true)]
-    public ?Image $image = null;
-
-    #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'children')]
-    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    public ?EntryComment $parent = null;
-
-    #[ManyToOne(targetEntity: EntryComment::class)]
-    #[JoinColumn(nullable: true)]
-    public ?EntryComment $root = null;
-
-    #[Column(type: 'text', length: 4500)]
-    public ?string $body = null;
-
-    #[Column(type: 'integer', options: ['default' => 0])]
-    public int $favouriteCount = 0;
-
-    #[Column(type: 'datetimetz')]
-    public ?DateTime $lastActive = null;
-
-    #[Column(type: 'string', nullable: true)]
-    public ?string $ip = null;
-
-    #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
-    public ?array $tags = null;
-
-    #[Column(type: 'json', nullable: true)]
-    public ?array $mentions = null;
-
-    #[OneToMany(mappedBy: 'parent', targetEntity: EntryComment::class, orphanRemoval: true)]
-    #[OrderBy(['createdAt' => 'ASC'])]
-    public Collection $children;
-
-    #[OneToMany(mappedBy: 'comment', targetEntity: EntryCommentVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    public Collection $votes;
-
-    #[OneToMany(mappedBy: 'entryComment', targetEntity: EntryCommentReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    public Collection $reports;
-
-    #[OneToMany(mappedBy: 'entryComment', targetEntity: EntryCommentFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    public Collection $favourites;
-
-    #[OneToMany(mappedBy: 'entryComment', targetEntity: EntryCommentCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    public Collection $notifications;
 
     public function __construct(
         string $body,
@@ -131,14 +114,13 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
 
     public function updateLastActive(): void
     {
-        $this->lastActive = DateTime::createFromImmutable($this->createdAt);
+        $this->lastActive = \DateTime::createFromImmutable($this->createdAt);
 
         if (!$this->root) {
-
             return;
         }
 
-        $this->root->lastActive = DateTime::createFromImmutable($this->createdAt);
+        $this->root->lastActive = \DateTime::createFromImmutable($this->createdAt);
     }
 
     public function getId(): int
@@ -172,7 +154,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
         return $this;
     }
 
-    public function getChildrenRecursive(int &$startIndex = 0): Traversable
+    public function getChildrenRecursive(int &$startIndex = 0): \Traversable
     {
         foreach ($this->children as $child) {
             yield $startIndex++ => $child;

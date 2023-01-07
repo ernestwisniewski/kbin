@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -24,15 +26,13 @@ class MagazineLogRepository extends ServiceEntityRepository
 
     public function listAll(int $page): PagerfantaInterface
     {
-        {
-            $qb = $this->createQueryBuilder('ml')
-                ->orderBy('ml.createdAt', 'DESC');
+        $qb = $this->createQueryBuilder('ml')
+            ->orderBy('ml.createdAt', 'DESC');
 
-            $pager = new Pagerfanta(new QueryAdapter($qb));
-            $pager->setMaxPerPage(25);
-            $pager->setCurrentPage($page);
+        $pager = new Pagerfanta(new QueryAdapter($qb));
+        $pager->setMaxPerPage(25);
+        $pager->setCurrentPage($page);
 
-            return $pager;
-        }
+        return $pager;
     }
 }

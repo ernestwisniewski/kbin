@@ -1,9 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Entity\Contracts\ContentInterface;
-use DateTime;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -25,7 +26,7 @@ class MagazineLogBan extends MagazineLog
 
         $this->ban = $ban;
 
-        if ($ban->expiredAt < new DateTime('+10 seconds')) {
+        if ($ban->expiredAt < new \DateTime('+10 seconds')) {
             $this->meta = 'unban';
         }
     }

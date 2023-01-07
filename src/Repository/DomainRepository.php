@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -23,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class DomainRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 100;
+    public const PER_PAGE = 100;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -54,7 +56,7 @@ class DomainRepository extends ServiceEntityRepository
     {
         $dql =
             'SELECT d FROM '.Domain::class.' d WHERE d IN ('.
-            'SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user'.')';
+            'SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user)';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);
@@ -79,7 +81,7 @@ class DomainRepository extends ServiceEntityRepository
     {
         $dql =
             'SELECT d FROM '.Domain::class.' d WHERE d IN ('.
-            'SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :user'.')';
+            'SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :user)';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);

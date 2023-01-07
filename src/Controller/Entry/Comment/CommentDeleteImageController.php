@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry\Comment;
 
@@ -16,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CommentDeleteImageController extends AbstractController
 {
     public function __construct(
-        private EntryCommentManager $manager
+        private readonly EntryCommentManager $manager
     ) {
     }
 

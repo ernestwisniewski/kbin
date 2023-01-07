@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User;
 
@@ -40,9 +42,9 @@ class UserEditController extends AbstractController
         return $this->render(
             'user/profile/edit.html.twig',
             [
-                'form_basic'    => $basicForm->createView(),
+                'form_basic' => $basicForm->createView(),
                 'form_password' => $passwordForm->createView(),
-                'form_email'    => $emailForm->createView(),
+                'form_email' => $emailForm->createView(),
             ],
             new Response(
                 null,
@@ -54,8 +56,12 @@ class UserEditController extends AbstractController
         );
     }
 
-    private function handleForm(FormInterface $form, UserDto $dto, UserManager $manager, Request $request): FormInterface|Response
-    {
+    private function handleForm(
+        FormInterface $form,
+        UserDto $dto,
+        UserManager $manager,
+        Request $request
+    ): FormInterface|Response {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

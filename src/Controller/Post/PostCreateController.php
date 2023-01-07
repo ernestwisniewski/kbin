@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post;
 
@@ -16,8 +18,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class PostCreateController extends AbstractController
 {
     public function __construct(
-        private PostManager $manager,
-        private CloudflareIpResolver $ipResolver
+        private readonly PostManager $manager,
+        private readonly CloudflareIpResolver $ipResolver
     ) {
     }
 
@@ -29,9 +31,9 @@ class PostCreateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dto           = $form->getData();
+            $dto = $form->getData();
             $dto->magazine = $magazine;
-            $dto->ip       = $this->ipResolver->resolve();
+            $dto->ip = $this->ipResolver->resolve();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
                 throw new AccessDeniedHttpException();
@@ -47,7 +49,7 @@ class PostCreateController extends AbstractController
             return $this->redirectToRoute(
                 'magazine_posts',
                 [
-                    'name'   => $magazine->name,
+                    'name' => $magazine->name,
                     'sortBy' => $this->manager->getSortRoute(Criteria::SORT_NEW),
                 ]
             );

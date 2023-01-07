@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler;
 
@@ -16,11 +18,11 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class AttachEntryEmbedHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private EntryRepository $entryRepository,
-        private Embed $embed,
-        private ImageManager $manager,
-        private ImageRepository $imageRepository,
-        private EntityManagerInterface $entityManager
+        private readonly EntryRepository $entryRepository,
+        private readonly Embed $embed,
+        private readonly ImageManager $manager,
+        private readonly ImageRepository $imageRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -42,8 +44,8 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
             return;
         }
 
-        $html    = $embed->html;
-        $type    = $embed->getType();
+        $html = $embed->html;
+        $type = $embed->getType();
         $isImage = $embed->isImageUrl();
 
         $cover = $this->fetchCover($entry, $embed);
@@ -54,9 +56,9 @@ class AttachEntryEmbedHandler implements MessageHandlerInterface
 
         $this->entityManager->transactional(
             static function () use ($entry, $cover, $html, $isImage, $type): void {
-                $entry->type     = $type;
+                $entry->type = $type;
                 $entry->hasEmbed = $html || $isImage;
-                $entry->image    = $cover;
+                $entry->image = $cover;
             }
         );
     }

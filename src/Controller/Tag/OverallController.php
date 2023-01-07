@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Tag;
 
@@ -10,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OverallController extends AbstractController
 {
-    public function __construct(private TagManager $tagManager, private TagRepository $tagRepository)
+    public function __construct(private readonly TagManager $tagManager, private readonly TagRepository $tagRepository)
     {
     }
 

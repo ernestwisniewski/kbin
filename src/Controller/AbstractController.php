@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -6,14 +8,12 @@ use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\User;
-use BadMethodCallException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
-use Symfony\Component\Form\FormInterface; 
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use function is_string;
 
 /**
  * @method User|null getUser()
@@ -25,7 +25,7 @@ abstract class AbstractController extends BaseAbstractController
         $user = $this->getUser();
 
         if (!$user) {
-            throw new BadMethodCallException('User is not logged in');
+            throw new \BadMethodCallException('User is not logged in');
         }
 
         return $user;
@@ -33,7 +33,7 @@ abstract class AbstractController extends BaseAbstractController
 
     protected function validateCsrf(string $id, $token): void
     {
-        if (!is_string($token) || !$this->isCsrfTokenValid($id, $token)) {
+        if (!\is_string($token) || !$this->isCsrfTokenValid($id, $token)) {
             throw new BadRequestHttpException('Invalid CSRF token');
         }
     }
@@ -56,8 +56,11 @@ abstract class AbstractController extends BaseAbstractController
         );
     }
 
-    protected function getJsonFormResponse(FormInterface $form, string $template, ?array $variables = null): JsonResponse
-    {
+    protected function getJsonFormResponse(
+        FormInterface $form,
+        string $template,
+        ?array $variables = null
+    ): JsonResponse {
         return new JsonResponse(
             [
                 'form' => $this->renderView(
@@ -81,8 +84,8 @@ abstract class AbstractController extends BaseAbstractController
             'entry_single',
             [
                 'magazine_name' => $entry->magazine->name,
-                'entry_id'      => $entry->getId(),
-                'slug'          => $entry->slug,
+                'entry_id' => $entry->getId(),
+                'slug' => $entry->slug,
             ]
         );
     }
@@ -93,8 +96,8 @@ abstract class AbstractController extends BaseAbstractController
             'post_single',
             [
                 'magazine_name' => $post->magazine->name,
-                'post_id'       => $post->getId(),
-                'slug'          => $post->slug,
+                'post_id' => $post->getId(),
+                'slug' => $post->slug,
             ]
         );
     }

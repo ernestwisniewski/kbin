@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Validator;
 
@@ -7,18 +9,16 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use function is_int;
-use function is_object;
 
 final class UniqueValidator extends ConstraintValidator
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
     public function validate($value, Constraint $constraint): void
     {
-        if (!is_object($value)) {
+        if (!\is_object($value)) {
             throw new UnexpectedTypeException($value, 'object');
         }
 
@@ -33,7 +33,7 @@ final class UniqueValidator extends ConstraintValidator
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         foreach ((array) $constraint->fields as $dtoField => $entityField) {
-            if (is_int($dtoField)) {
+            if (\is_int($dtoField)) {
                 $dtoField = $entityField;
             }
 
@@ -49,13 +49,13 @@ final class UniqueValidator extends ConstraintValidator
         }
 
         foreach ((array) $constraint->idFields as $dtoField => $entityField) {
-            if (is_int($dtoField)) {
+            if (\is_int($dtoField)) {
                 $dtoField = $entityField;
             }
 
             $fieldValue = $propertyAccessor->getValue($value, $dtoField);
 
-            if ($fieldValue !== null) {
+            if (null !== $fieldValue) {
                 $qb->andWhere($qb->expr()->neq("e.$entityField", ":i_$entityField"));
                 $qb->setParameter("i_$entityField", $fieldValue);
             }

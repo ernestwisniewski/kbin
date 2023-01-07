@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -21,7 +23,6 @@ class EntryCardanoTx extends CardanoTx
         \DateTimeImmutable $createdAt,
         ?User $sender = null,
     ) {
-
         parent::__construct($entry->magazine, $amount, $txHash, $createdAt, $sender);
         $this->entry = $entry;
         $this->receiver = $entry->user;

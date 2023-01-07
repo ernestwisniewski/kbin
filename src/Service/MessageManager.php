@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -11,8 +13,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class MessageManager
 {
     public function __construct(
-        private NotificationManager $notificationManager,
-        private EntityManagerInterface $entityManager
+        private readonly NotificationManager $notificationManager,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -44,7 +46,7 @@ class MessageManager
     public function readMessages(MessageThread $thread, User $user): void
     {
         foreach ($thread->getNewMessages($user) as $message) {
-            /**
+            /*
              * @var $message Message
              */
             $message->status = Message::STATUS_READ;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -23,18 +25,16 @@ class UserFollow
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'follows')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?User $follower;
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'followers')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?User $following;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'follows')]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?User $follower;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'followers')]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?User $following;
 
     public function __construct(User $follower, User $following)
     {

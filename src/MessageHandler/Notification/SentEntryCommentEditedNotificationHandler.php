@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\Notification;
 
@@ -11,8 +13,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class SentEntryCommentEditedNotificationHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private EntryCommentRepository $repository,
-        private NotificationManager $manager
+        private readonly EntryCommentRepository $repository,
+        private readonly NotificationManager $manager
     ) {
     }
 

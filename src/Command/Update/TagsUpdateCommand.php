@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command\Update;
 
@@ -18,8 +20,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class TagsUpdateCommand extends Command
 {
-    public function __construct(private TagManager $tagManager, private EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly TagManager $tagManager,
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
     }
 

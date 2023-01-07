@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -10,7 +12,7 @@ use App\Repository\ImageRepository;
 
 final class ImageItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private ImageRepository $repository, private ImageFactory $factory)
+    public function __construct(private readonly ImageRepository $repository, private readonly ImageFactory $factory)
     {
     }
 
@@ -26,4 +28,3 @@ final class ImageItemDataProvider implements ItemDataProviderInterface, Restrict
         return $image ? $this->factory->createDto($image) : null;
     }
 }
-

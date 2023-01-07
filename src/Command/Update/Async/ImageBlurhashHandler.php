@@ -9,8 +9,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class ImageBlurhashHandler implements MessageHandlerInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager, private ImageManager $manager)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageManager $manager
+    ) {
     }
 
     public function __invoke(ImageBlurhashMessage $message)

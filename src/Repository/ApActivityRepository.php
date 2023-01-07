@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -30,43 +32,43 @@ class ApActivityRepository extends ServiceEntityRepository
         $parsed = parse_url($apId);
         if ($parsed['host'] === $this->settingsManager->get('KBIN_DOMAIN')) {
             $exploded = array_filter(explode('/', $parsed['path']));
-            $id       = end($exploded);
-            if ($exploded[3] === 'p') {
-                if (count($exploded) === 4) {
+            $id = end($exploded);
+            if ('p' === $exploded[3]) {
+                if (4 === count($exploded)) {
                     return [
-                        'id'   => $id,
+                        'id' => $id,
                         'type' => Post::class,
                     ];
                 } else {
                     return [
-                        'id'   => $id,
+                        'id' => $id,
                         'type' => PostComment::class,
                     ];
                 }
             }
 
-            if ($exploded[3] === 't') {
-                if (count($exploded) === 4) {
+            if ('t' === $exploded[3]) {
+                if (4 === count($exploded)) {
                     return [
-                        'id'   => $id,
+                        'id' => $id,
                         'type' => Entry::class,
                     ];
                 } else {
                     return [
-                        'id'   => $id,
+                        'id' => $id,
                         'type' => EntryComment::class,
                     ];
                 }
             }
         }
 
-        $entryClass        = Entry::class;
+        $entryClass = Entry::class;
         $entryCommentClass = EntryComment::class;
-        $postClass         = Post::class;
-        $postCommentClass  = PostComment::class;
+        $postClass = Post::class;
+        $postCommentClass = PostComment::class;
 
         $conn = $this->_em->getConnection();
-        $sql  = "
+        $sql = "
         (SELECT id, '{$entryClass}' AS type FROM entry 
         WHERE ap_id = '{$apId}') 
         UNION 

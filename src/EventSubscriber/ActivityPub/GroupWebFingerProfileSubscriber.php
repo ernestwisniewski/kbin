@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\ActivityPub;
 
@@ -15,19 +17,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class GroupWebFingerProfileSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private RequestStack $requestStack,
-        private WebFingerParameters $webfingerParameters,
-        private MagazineRepository $magazineRepository,
-        private UrlGeneratorInterface $urlGenerator,
+        private readonly RequestStack $requestStack,
+        private readonly WebFingerParameters $webfingerParameters,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
-    #[ArrayShape([WebfingerResponseEvent::class => "string"])] public static function getSubscribedEvents(): array
-    {
-        return [
-            WebfingerResponseEvent::class => ['buildResponse', 999],
-        ];
-    }
+    #[ArrayShape([WebfingerResponseEvent::class => 'string'])]
+ public static function getSubscribedEvents(): array
+ {
+     return [
+         WebfingerResponseEvent::class => ['buildResponse', 999],
+     ];
+ }
 
     public function buildResponse(WebfingerResponseEvent $event): void
     {
@@ -36,8 +39,8 @@ class GroupWebFingerProfileSubscriber implements EventSubscriberInterface
         $jsonRd = $event->jsonRd;
 
         if (isset($params[WebFingerParameters::ACCOUNT_KEY_NAME]) && $actor = $this->getActor(
-                $params[WebFingerParameters::ACCOUNT_KEY_NAME]
-            )) {
+            $params[WebFingerParameters::ACCOUNT_KEY_NAME]
+        )) {
             $accountHref = $this->urlGenerator->generate(
                 'ap_magazine',
                 ['name' => $actor->name],

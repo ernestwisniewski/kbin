@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Utils;
 
@@ -6,21 +8,20 @@ use App\Entity\Entry;
 use App\Service\ImageManager;
 use App\Service\SettingsManager;
 use Embed\Embed as BaseEmbed;
-use Exception;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
 class Embed
 {
-    public function __construct(private CacheInterface $cache, private SettingsManager $settings)
-    {
-    }
-
     public ?string $url = null;
     public ?string $title = null;
     public ?string $description = null;
     public ?string $image = null;
     public ?string $html = null;
+
+    public function __construct(private CacheInterface $cache, private SettingsManager $settings)
+    {
+    }
 
     public function fetch($url): self
     {
@@ -36,7 +37,7 @@ class Embed
                 try {
                     $embed = (new BaseEmbed())->get($url);
                     $oembed = $embed->getOEmbed();
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $c = clone $this;
                     unset($c->cache);
                     unset($c->settings);
@@ -47,7 +48,7 @@ class Embed
                 $this->url = $url;
                 $this->title = $embed->title;
                 $this->description = $embed->description;
-                $this->image = (string)$embed->image;
+                $this->image = (string) $embed->image;
                 $this->html = $this->cleanIframe($oembed->html('html'));
 
                 if (!$this->html && $embed->code) {
@@ -110,6 +111,11 @@ class Embed
         return ImageManager::isImageUrl($this->url);
     }
 
+    private function isVideoUrl(): bool
+    {
+        return false;
+    }
+
     private function isVideoEmbed(): bool
     {
         if (!$this->html) {
@@ -120,10 +126,5 @@ class Embed
             || str_contains($this->html, 'youtube')
             || str_contains($this->html, 'vimeo')
             || str_contains($this->html, 'streamable'); // @todo
-    }
-
-    private function isVideoUrl(): bool
-    {
-        return false;
     }
 }

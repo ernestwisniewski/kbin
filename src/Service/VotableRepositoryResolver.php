@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -10,15 +12,14 @@ use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
 use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
-use LogicException;
 
 class VotableRepositoryResolver
 {
     public function __construct(
-        private EntryRepository $entryRepository,
-        private EntryCommentRepository $entryCommentRepository,
-        private PostRepository $postRepository,
-        private PostCommentRepository $postCommentRepository
+        private readonly EntryRepository $entryRepository,
+        private readonly EntryCommentRepository $entryCommentRepository,
+        private readonly PostRepository $postRepository,
+        private readonly PostCommentRepository $postCommentRepository
     ) {
     }
 
@@ -29,8 +30,7 @@ class VotableRepositoryResolver
             EntryComment::class => $this->entryCommentRepository,
             Post::class => $this->postRepository,
             PostComment::class => $this->postCommentRepository,
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
-
 }

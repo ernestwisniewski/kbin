@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post;
 
@@ -17,17 +19,20 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PostEditController extends AbstractController
 {
-    public function __construct(
-        private PostManager $manager,
-    ) {
+    public function __construct(private readonly PostManager $manager)
+    {
     }
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('edit', subject: 'post')]
-    public function __invoke(Magazine $magazine, Post $post, Request $request, PostCommentRepository $repository): Response
-    {
+    public function __invoke(
+        Magazine $magazine,
+        Post $post,
+        Request $request,
+        PostCommentRepository $repository
+    ): Response {
         $dto = $this->manager->createDto($post);
 
         $form = $this->createForm(PostType::class, $dto);
@@ -43,16 +48,16 @@ class PostEditController extends AbstractController
             return $this->redirectToPost($post);
         }
 
-        $criteria       = new PostCommentPageView($this->getPageNb($request));
+        $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
 
         return $this->render(
             'post/edit.html.twig',
             [
                 'magazine' => $magazine,
-                'post'     => $post,
+                'post' => $post,
                 'comments' => $repository->findByCriteria($criteria),
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );

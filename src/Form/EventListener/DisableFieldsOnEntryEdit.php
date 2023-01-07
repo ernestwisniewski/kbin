@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form\EventListener;
 
@@ -16,14 +18,14 @@ final class DisableFieldsOnEntryEdit implements EventSubscriberInterface
     public function preSetData(FormEvent $event): void
     {
         $entry = $event->getData();
-        $form  = $event->getForm();
+        $form = $event->getForm();
 
         if (!$entry || null === $entry->getId()) {
             return;
         }
 
-        $field             = $form->get('magazine');
-        $attrs             = $field->getConfig()->getOptions();
+        $field = $form->get('magazine');
+        $attrs = $field->getConfig()->getOptions();
         $attrs['disabled'] = 'disabled';
 
         $form->remove($field->getName());
@@ -34,8 +36,8 @@ final class DisableFieldsOnEntryEdit implements EventSubscriberInterface
         );
 
         if ($form->has('url')) {
-            $field             = $form->get('url');
-            $attrs             = $field->getConfig()->getOptions();
+            $field = $form->get('url');
+            $attrs = $field->getConfig()->getOptions();
             $attrs['disabled'] = 'disabled';
 
             $form->remove($field->getName());

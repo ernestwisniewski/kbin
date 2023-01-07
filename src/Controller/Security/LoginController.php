@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Security;
 
@@ -14,7 +16,7 @@ class LoginController extends AbstractController
             return $this->redirectToRoute('front_subscribed');
         }
 
-        $error        = $utils->getLastAuthenticationError();
+        $error = $utils->getLastAuthenticationError();
         $lastUsername = $utils->getLastUsername();
 
         return $this->render('user/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -20,17 +22,17 @@ class EntryComponent
     public bool $showMagazine = false;
     public bool $canSeeTrash = false;
 
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(private readonly AuthorizationCheckerInterface $authorizationChecker)
     {
     }
 
     public function canSeeTrashed(): bool
     {
-        if ($this->entry->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE === $this->entry->visibility) {
             return true;
         }
 
-        if ($this->entry->visibility === VisibilityInterface::VISIBILITY_TRASHED
+        if (VisibilityInterface::VISIBILITY_TRASHED === $this->entry->visibility
             && $this->authorizationChecker->isGranted(
                 'moderate',
                 $this->entry->magazine

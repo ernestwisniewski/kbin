@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\ActivityPub\Wrapper;
 
@@ -8,22 +10,29 @@ use Symfony\Component\Uid\Uuid;
 
 class FollowWrapper
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
 
-    #[ArrayShape(['@context' => "string", 'id' => "string", 'type' => "string", 'actor' => "string", 'object' => "string"])] public function build(
+    #[ArrayShape([
+        '@context' => 'string',
+        'id' => 'string',
+        'type' => 'string',
+        'actor' => 'string',
+        'object' => 'string',
+    ])]
+ public function build(
         string $follower,
         string $following,
     ): array {
-        $id = Uuid::v4()->toRfc4122();
+     $id = Uuid::v4()->toRfc4122();
 
-        return [
-            '@context' => 'https://www.w3.org/ns/activitystreams',
-            'id'       => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_URL),
-            'type'     => 'Follow',
-            'actor'    => $follower,
-            'object'   => $following,
-        ];
-    }
+     return [
+         '@context' => 'https://www.w3.org/ns/activitystreams',
+         'id' => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_URL),
+         'type' => 'Follow',
+         'actor' => $follower,
+         'object' => $following,
+     ];
+ }
 }

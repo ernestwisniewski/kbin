@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry\Comment;
 
@@ -23,8 +25,8 @@ class CommentEditController extends AbstractController
     use CommentResponseTrait;
 
     public function __construct(
-        private EntryCommentManager $manager,
-        private EntryCommentRepository $repository,
+        private readonly EntryCommentManager $manager,
+        private readonly EntryCommentRepository $repository,
     ) {
     }
 
@@ -72,8 +74,8 @@ class CommentEditController extends AbstractController
                     'entry_comment_edit',
                     [
                         'magazine_name' => $comment->magazine->name,
-                        'entry_id'      => $comment->entry->getId(),
-                        'comment_id'    => $comment->getId(),
+                        'entry_id' => $comment->entry->getId(),
+                        'comment_id' => $comment->getId(),
                     ]
                 ),
             ]

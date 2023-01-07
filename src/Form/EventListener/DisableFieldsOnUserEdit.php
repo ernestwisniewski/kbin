@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form\EventListener;
 
@@ -10,9 +12,8 @@ use Symfony\Component\Security\Core\Security;
 
 final class DisableFieldsOnUserEdit implements EventSubscriberInterface
 {
-    public function __construct(private UserRepository $repository, private Security $security)
+    public function __construct(private readonly UserRepository $repository, private readonly Security $security)
     {
-
     }
 
     public static function getSubscribedEvents(): array
@@ -33,8 +34,8 @@ final class DisableFieldsOnUserEdit implements EventSubscriberInterface
             return;
         }
 
-        $field             = $form->get('username');
-        $attrs             = $field->getConfig()->getOptions();
+        $field = $form->get('username');
+        $attrs = $field->getConfig()->getOptions();
         $attrs['disabled'] = 'disabled';
 
         $form->remove($field->getName());

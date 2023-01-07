@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -10,12 +12,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends BaseFixture
 {
-    const USERS_COUNT = 9;
+    public const USERS_COUNT = 9;
 
     public function __construct(
-        private UserPasswordHasherInterface $hasher,
-        private ImageManager $imageManager,
-        private ImageRepository $imageRepository
+        private readonly UserPasswordHasherInterface $hasher,
+        private readonly ImageManager $imageManager,
+        private readonly ImageRepository $imageRepository
     ) {
     }
 
@@ -41,7 +43,7 @@ class UserFixtures extends BaseFixture
 
             $manager->persist($newUser);
 
-            $this->addReference('user'.'_'.$index, $newUser);
+            $this->addReference('user_'.$index, $newUser);
 
             $manager->flush();
 
@@ -55,26 +57,25 @@ class UserFixtures extends BaseFixture
                 }
 
                 if ($tempFile) {
-                    $image           = $this->imageRepository->findOrCreateFromPath($tempFile);
+                    $image = $this->imageRepository->findOrCreateFromPath($tempFile);
                     $newUser->avatar = $image;
                     $manager->flush();
                 }
             }
         }
-
     }
 
     private function provideRandomUsers($count = 1): iterable
     {
         yield [
-            'email'    => 'demo@karab.in',
+            'email' => 'demo@karab.in',
             'username' => 'demo',
             'password' => 'demo',
         ];
 
-        for ($i = 0; $i <= $count; $i++) {
+        for ($i = 0; $i <= $count; ++$i) {
             yield [
-                'email'    => $this->faker->email,
+                'email' => $this->faker->email,
                 'username' => str_replace('.', '_', $this->faker->userName),
                 'password' => 'secret',
             ];

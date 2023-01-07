@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -15,8 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 class EntryChangeMagazineController extends AbstractController
 {
     public function __construct(
-        private EntryManager $manager,
-        private MagazineRepository $repository
+        private readonly EntryManager $manager,
+        private readonly MagazineRepository $repository
     ) {
     }
 

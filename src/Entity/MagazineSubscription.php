@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -22,18 +24,16 @@ class MagazineSubscription
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'subscriptions')]
+    #[JoinColumn(nullable: false)]
+    public ?User $user;
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'subscriptions')]
+    #[JoinColumn(nullable: false)]
+    public ?Magazine $magazine;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'subscriptions')]
-    #[JoinColumn(nullable: false)]
-    public ?User $user;
-
-    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'subscriptions')]
-    #[JoinColumn(nullable: false)]
-    public ?Magazine $magazine;
 
     public function __construct(User $user, Magazine $magazine)
     {

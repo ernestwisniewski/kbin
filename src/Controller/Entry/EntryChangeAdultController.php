@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -14,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EntryChangeAdultController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -25,7 +27,7 @@ class EntryChangeAdultController extends AbstractController
     {
         $this->validateCsrf('change_adult', $request->request->get('token'));
 
-        $entry->isAdult = $request->get('adult') === 'on';
+        $entry->isAdult = 'on' === $request->get('adult');
 
         $this->entityManager->flush();
 

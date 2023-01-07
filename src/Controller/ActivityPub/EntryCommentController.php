@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\ActivityPub;
 
@@ -17,7 +19,7 @@ class EntryCommentController extends AbstractController
 {
     use PrivateContentTrait;
 
-    public function __construct(private EntryCommentNoteFactory $commentNoteFactory)
+    public function __construct(private readonly EntryCommentNoteFactory $commentNoteFactory)
     {
     }
 

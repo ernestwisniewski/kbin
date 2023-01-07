@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\ActivityPub;
 
@@ -7,7 +9,6 @@ use App\Event\ActivityPub\WebfingerResponseEvent;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Webfinger\WebFingerParameters;
 use App\Service\ImageManager;
-use App\Service\SettingsManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,20 +18,21 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserWebFingerProfileSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private RequestStack $requestStack,
-        private WebFingerParameters $webfingerParameters,
-        private UserRepository $userRepository,
-        private UrlGeneratorInterface $urlGenerator,
-        private ImageManager $imageManager
+        private readonly RequestStack $requestStack,
+        private readonly WebFingerParameters $webfingerParameters,
+        private readonly UserRepository $userRepository,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ImageManager $imageManager
     ) {
     }
 
-    #[ArrayShape([WebfingerResponseEvent::class => "string"])] public static function getSubscribedEvents(): array
-    {
-        return [
-            WebfingerResponseEvent::class => ['buildResponse', 999],
-        ];
-    }
+    #[ArrayShape([WebfingerResponseEvent::class => 'string'])]
+ public static function getSubscribedEvents(): array
+ {
+     return [
+         WebfingerResponseEvent::class => ['buildResponse', 999],
+     ];
+ }
 
     public function buildResponse(WebfingerResponseEvent $event): void
     {
@@ -39,8 +41,8 @@ class UserWebFingerProfileSubscriber implements EventSubscriberInterface
         $jsonRd = $event->jsonRd;
 
         if (isset($params[WebFingerParameters::ACCOUNT_KEY_NAME]) && $actor = $this->getActor(
-                $params[WebFingerParameters::ACCOUNT_KEY_NAME]
-            )) {
+            $params[WebFingerParameters::ACCOUNT_KEY_NAME]
+        )) {
             $accountHref = $this->urlGenerator->generate(
                 'ap_user',
                 ['username' => $actor->getUserIdentifier()],

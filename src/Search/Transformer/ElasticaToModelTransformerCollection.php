@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Search\Transformer;
 
@@ -70,7 +72,7 @@ class ElasticaToModelTransformerCollection implements ElasticaToModelTransformer
         $transformed = [];
         foreach ($sorted as $type => $objects) {
             $transformedObjects = $this->transformers[$type]->transform($objects);
-            $identifierGetter   = 'get'.ucfirst($this->transformers[$type]->getIdentifierField());
+            $identifierGetter = 'get'.ucfirst($this->transformers[$type]->getIdentifierField());
             $transformed[$type] = array_combine(
                 array_map(
                     function ($o) use ($identifierGetter) {

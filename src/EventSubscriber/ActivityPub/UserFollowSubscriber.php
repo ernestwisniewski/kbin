@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\ActivityPub;
 
@@ -12,17 +14,18 @@ use Symfony\Contracts\Cache\CacheInterface;
 class UserFollowSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private CacheInterface $cache
+        private readonly MessageBusInterface $bus,
+        private readonly CacheInterface $cache
     ) {
     }
 
-    #[ArrayShape([UserFollowEvent::class => "string"])] public static function getSubscribedEvents(): array
-    {
-        return [
-            UserFollowEvent::class => 'onUserFollow',
-        ];
-    }
+    #[ArrayShape([UserFollowEvent::class => 'string'])]
+ public static function getSubscribedEvents(): array
+ {
+     return [
+         UserFollowEvent::class => 'onUserFollow',
+     ];
+ }
 
     public function onUserFollow(UserFollowEvent $event): void
     {

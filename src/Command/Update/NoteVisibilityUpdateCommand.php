@@ -1,11 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command\Update;
 
-use App\Command\Update\Async\NoteVisibilityMessage;
 use App\Message\ActivityPub\UpdateActorMessage;
-use App\Repository\PostCommentRepository;
-use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -20,8 +19,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class NoteVisibilityUpdateCommand extends Command
 {
     public function __construct(
-        private UserRepository $repository,
-        private MessageBusInterface $bus
+        private readonly UserRepository $repository,
+        private readonly MessageBusInterface $bus
     ) {
         parent::__construct();
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -20,28 +22,23 @@ use Doctrine\ORM\Mapping\Table;
 #[ORM\UniqueConstraint(name: 'domain_name_idx', columns: ['name'])]
 class Domain
 {
-    #[Id]
-    #[GeneratedValue]
-    #[Column(type: 'integer')]
-    private int $id;
-
     #[OneToMany(mappedBy: 'domain', targetEntity: Entry::class)]
     public Collection $entries;
-
     #[Column(type: 'string', nullable: false)]
     public string $name;
-
     #[Column(type: 'integer', nullable: false)]
     public int $entryCount = 0;
-
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $subscriptionsCount = 0;
-
     #[OneToMany(mappedBy: 'domain', targetEntity: DomainSubscription::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $subscriptions;
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
 
     public function __construct(DomainInterface $entry, string $name)
     {

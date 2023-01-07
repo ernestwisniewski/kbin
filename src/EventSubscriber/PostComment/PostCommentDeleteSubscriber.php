@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\PostComment;
 
@@ -8,19 +10,20 @@ use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\Notification\PostCommentDeletedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class PostCommentDeleteSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private CacheInterface $cache, private Security $security, private MessageBusInterface $bus)
-    {
+    public function __construct(
+        private readonly CacheInterface $cache,
+        private readonly MessageBusInterface $bus
+    ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            PostCommentDeletedEvent::class     => 'onPostCommentDeleted',
+            PostCommentDeletedEvent::class => 'onPostCommentDeleted',
             PostCommentBeforePurgeEvent::class => 'onPostCommentBeforePurge',
         ];
     }

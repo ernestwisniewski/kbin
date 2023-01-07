@@ -1,17 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\EntryComment;
-use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Event\VoteEvent;
 use App\Factory\VoteFactory;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
@@ -19,10 +19,10 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 class VoteManager
 {
     public function __construct(
-        private VoteFactory $factory,
-        private RateLimiterFactory $voteLimiter,
-        private EventDispatcherInterface $dispatcher,
-        private EntityManagerInterface $entityManager
+        private readonly VoteFactory $factory,
+        private readonly RateLimiterFactory $voteLimiter,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -35,15 +35,15 @@ class VoteManager
             }
         }
 
-        $vote       = $votable->getUserVote($user);
+        $vote = $votable->getUserVote($user);
         $votedAgain = false;
 
         if ($vote) {
-            $votedAgain   = true;
-            $choice       = $this->guessUserChoice($choice, $votable->getUserChoice($user));
+            $votedAgain = true;
+            $choice = $this->guessUserChoice($choice, $votable->getUserChoice($user));
             $vote->choice = $choice;
         } else {
-            if(VoteInterface::VOTE_UP === $choice) {
+            if (VoteInterface::VOTE_UP === $choice) {
                 return $this->upvote($votable, $user);
             }
 
@@ -62,23 +62,23 @@ class VoteManager
 
     private function guessUserChoice(int $choice, int $vote): int
     {
-        if ($choice === VoteInterface::VOTE_NONE) {
+        if (VoteInterface::VOTE_NONE === $choice) {
             return $choice;
         }
 
-        if ($vote === VoteInterface::VOTE_UP) {
+        if (VoteInterface::VOTE_UP === $vote) {
             return match ($choice) {
                 VoteInterface::VOTE_UP => VoteInterface::VOTE_NONE,
                 VoteInterface::VOTE_DOWN => VoteInterface::VOTE_DOWN,
-                default => throw new LogicException(),
+                default => throw new \LogicException(),
             };
         }
 
-        if ($vote === VoteInterface::VOTE_DOWN) {
+        if (VoteInterface::VOTE_DOWN === $vote) {
             return match ($choice) {
                 VoteInterface::VOTE_UP => VoteInterface::VOTE_UP,
                 VoteInterface::VOTE_DOWN => VoteInterface::VOTE_NONE,
-                default => throw new LogicException(),
+                default => throw new \LogicException(),
             };
         }
 

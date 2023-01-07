@@ -1,9 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
-use App\EventSubscriber\VoteHandleSubscriber;
-use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
 use App\Message\ActivityPub\Inbox\LikeMessage;
 use App\Repository\ApActivityRepository;
@@ -16,24 +16,23 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class LikeHandler implements MessageHandlerInterface
 {
-
     public function __construct(
-        private ActivityPubManager $activityPubManager,
-        private ApActivityRepository $repository,
-        private EntityManagerInterface $entityManager,
-        private MessageBusInterface $bus,
-        private FavouriteManager $manager,
-        private ApHttpClient $apHttpClient,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly ApActivityRepository $repository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MessageBusInterface $bus,
+        private readonly FavouriteManager $manager,
+        private readonly ApHttpClient $apHttpClient,
     ) {
     }
 
     public function __invoke(LikeMessage $message): void
     {
-        if ($message->payload['type'] === 'Like') {
+        if ('Like' === $message->payload['type']) {
             $activity = $this->repository->findByObjectId($message->payload['object']);
 
             if ($activity) {
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
             } else {
                 $object = $this->apHttpClient->getActivityObject($message->payload['object']);
 
@@ -47,10 +46,10 @@ class LikeHandler implements MessageHandlerInterface
             $this->manager->toggle($actor, $entity, FavouriteManager::TYPE_LIKE);
         }
 
-        if ($message->payload['type'] === 'Undo') {
-            if($message->payload['object']['type'] === 'Like') {
+        if ('Undo' === $message->payload['type']) {
+            if ('Like' === $message->payload['object']['type']) {
                 $activity = $this->repository->findByObjectId($message->payload['object']['object']);
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
                 $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
                 $this->manager->toggle($actor, $entity, FavouriteManager::TYPE_UNLIKE);

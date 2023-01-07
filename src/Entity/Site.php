@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -10,19 +12,16 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity]
 class Site
 {
+    #[Column(type: 'text', nullable: true)]
+    public ?string $terms = null;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $privacyPolicy = null;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $faq = null;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[Column(type: 'text', nullable: true)]
-    public ?string $terms = null;
-
-    #[Column(type: 'text', nullable: true)]
-    public ?string $privacyPolicy = null;
-
-    #[Column(type: 'text', nullable: true)]
-    public ?string $faq = null;
 
     public function getId(): ?int
     {

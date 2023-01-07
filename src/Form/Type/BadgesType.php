@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form\Type;
 
@@ -9,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class BadgesType extends AbstractType
 {
-    public function __construct(private BadgeCollectionToStringTransformer $badgeArrayToStringTransformer)
+    public function __construct(private readonly BadgeCollectionToStringTransformer $badgeArrayToStringTransformer)
     {
     }
 

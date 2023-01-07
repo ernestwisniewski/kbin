@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
@@ -14,11 +16,11 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class DeliverHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private ApHttpClient $client,
-        private ActivityPubManager $manager,
-        private SettingsManager $settingsManager,
-        private UserRepository $userRepository,
-        private EntityManagerInterface $entityManager
+        private readonly ApHttpClient $client,
+        private readonly ActivityPubManager $manager,
+        private readonly SettingsManager $settingsManager,
+        private readonly UserRepository $userRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -43,7 +45,7 @@ class DeliverHandler implements MessageHandlerInterface
         try {
             $this->client->post($this->client->getInboxUrl($message->apProfileId), $actor, $message->payload);
         } catch (\Exception $e) {
-            if (!$e->getCode() || $e->getCode() === 404 || $e->getCode() === 410) {
+            if (!$e->getCode() || 404 === $e->getCode() || 410 === $e->getCode()) {
                 $user = $this->userRepository->findOneByApProfileId($message->apProfileId);
                 $user->apDeletedAt = new \DateTime();
 

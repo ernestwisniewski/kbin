@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -10,7 +12,7 @@ use App\Repository\BadgeRepository;
 
 final class BadgeItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private BadgeRepository $repository, private BadgeFactory $factory)
+    public function __construct(private readonly BadgeRepository $repository, private readonly BadgeFactory $factory)
     {
     }
 
@@ -26,4 +28,3 @@ final class BadgeItemDataProvider implements ItemDataProviderInterface, Restrict
         return $badge ? $this->factory->createDto($badge) : null;
     }
 }
-

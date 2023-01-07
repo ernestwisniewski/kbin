@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\ActivityPub;
 
@@ -11,12 +13,11 @@ use App\Entity\PostComment;
 class ActivityFactory
 {
     public function __construct(
-        private EntryPageFactory $pageFactory,
-        private EntryCommentNoteFactory $entryNoteFactory,
-        private PostNoteFactory $postNoteFactory,
-        private PostCommentNoteFactory $postCommentNoteFactory
+        private readonly EntryPageFactory $pageFactory,
+        private readonly EntryCommentNoteFactory $entryNoteFactory,
+        private readonly PostNoteFactory $postNoteFactory,
+        private readonly PostCommentNoteFactory $postCommentNoteFactory
     ) {
-
     }
 
     public function create(ActivityPubActivityInterface $activity, bool $context = false): array

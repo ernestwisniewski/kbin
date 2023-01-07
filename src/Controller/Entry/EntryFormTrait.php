@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -16,11 +18,11 @@ trait EntryFormTrait
 {
     private function createFormByType(string $type, ?EntryDto $dto = null): FormInterface
     {
-        if ($type === Entry::ENTRY_TYPE_ARTICLE) {
+        if (Entry::ENTRY_TYPE_ARTICLE === $type) {
             return $this->createForm(EntryArticleType::class, $dto);
         }
 
-        if ($type === Entry::ENTRY_TYPE_IMAGE) {
+        if (Entry::ENTRY_TYPE_IMAGE === $type) {
             return $this->createForm(EntryImageType::class, $dto);
         }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post\Comment;
 
@@ -22,8 +24,10 @@ class CommentEditController extends AbstractController
 {
     use CommentResponseTrait;
 
-    public function __construct(private PostCommentManager $manager, private PostCommentRepository $repository)
-    {
+    public function __construct(
+        private readonly PostCommentManager $manager,
+        private readonly PostCommentRepository $repository
+    ) {
     }
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
@@ -63,10 +67,10 @@ class CommentEditController extends AbstractController
             'post/comment/edit.html.twig',
             [
                 'magazine' => $post->magazine,
-                'post'     => $post,
+                'post' => $post,
                 'comments' => $comments,
-                'comment'  => $comment,
-                'form'     => $form->createView(),
+                'comment' => $comment,
+                'form' => $form->createView(),
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
@@ -80,7 +84,11 @@ class CommentEditController extends AbstractController
             [
                 'action' => $this->generateUrl(
                     'post_comment_edit',
-                    ['magazine_name' => $comment->magazine->name, 'post_id' => $comment->post->getId(), 'comment_id' => $comment->getId()]
+                    [
+                        'magazine_name' => $comment->magazine->name,
+                        'post_id' => $comment->post->getId(),
+                        'comment_id' => $comment->getId(),
+                    ]
                 ),
             ]
         );

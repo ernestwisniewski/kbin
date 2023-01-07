@@ -13,23 +13,27 @@ namespace App\Service\ActivityPub\Webfinger;
 
 use ActivityPhp\Server;
 use App\Service\ActivityPub\ApHttpClient;
-use Exception;
 
 /**
- * A simple WebFinger discoverer tool
+ * A simple WebFinger discoverer tool.
  */
 class WebFingerFactory
 {
-    public function __construct(private ApHttpClient $client)
-    {
+    public const WEBFINGER_URL = '%s://%s%s/.well-known/webfinger?resource=acct:%s';
+    protected static $server;
+    protected array $webfingers = [];
 
+    public function __construct(private readonly ApHttpClient $client)
+    {
     }
 
-    const WEBFINGER_URL = '%s://%s%s/.well-known/webfinger?resource=acct:%s';
-
-    protected static $server;
-
-    protected array $webfingers = [];
+    /**
+     * Inject a server instance.
+     */
+    public static function setServer(Server $server)
+    {
+        self::$server = $server;
+    }
 
     public function get(string $handle, string $scheme = 'https')
     {
@@ -39,13 +43,11 @@ class WebFingerFactory
             $matches
         )
         ) {
-            throw new Exception(
-                "WebFinger handle is malformed '{$handle}'"
-            );
+            throw new \Exception("WebFinger handle is malformed '{$handle}'");
         }
 
         // Unformat Mastodon handle @user@host => user@host
-        $handle = strpos($handle, '@') === 0
+        $handle = 0 === strpos($handle, '@')
             ? substr($handle, 1) : $handle;
 
         // Build a WebFinger URL
@@ -60,21 +62,11 @@ class WebFingerFactory
         $content = $this->client->getActorObject($url);
 
         if (!is_array($content) || !count($content)) {
-            throw new Exception('WebFinger fetching has failed');
+            throw new \Exception('WebFinger fetching has failed');
         }
 
         $this->webfingers[$handle] = new WebFinger($content);
 
         return $this->webfingers[$handle];
-    }
-
-    /**
-     * Inject a server instance
-     *
-     * @param \ActivityPhp\Server $server
-     */
-    public static function setServer(Server $server)
-    {
-        self::$server = $server;
     }
 }

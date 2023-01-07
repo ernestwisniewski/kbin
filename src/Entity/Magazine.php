@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -8,8 +10,6 @@ use App\Entity\Traits\ActivityPubActorTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\VisibilityTrait;
 use App\Repository\MagazineRepository;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -35,96 +35,72 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    #[Id]
-    #[GeneratedValue]
-    #[Column(type: 'integer')]
-    private int $id;
-
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $cover = null;
-
     #[Column(type: 'string', nullable: false)]
     public string $name;
-
     #[Column(type: 'string')]
     public ?string $title;
-
     #[Column(type: 'text', length: 10000, nullable: true)]
     public ?string $description = null;
-
     #[Column(type: 'text', length: 10000, nullable: true)]
     public ?string $rules = null;
-
     #[Column(type: 'integer', nullable: false)]
     public int $subscriptionsCount = 0;
-
     #[Column(type: 'integer', nullable: false)]
     public int $entryCount = 0;
-
     #[Column(type: 'integer', nullable: false)]
     public int $entryCommentCount = 0;
-
     #[Column(type: 'integer', nullable: false)]
     public int $postCount = 0;
-
     #[Column(type: 'integer', nullable: false)]
     public int $postCommentCount = 0;
-
     #[Column(type: 'boolean', nullable: false)]
     public ?bool $isAdult = false;
-
     #[Column(type: 'text', nullable: true)]
     public ?string $customCss = null;
-
     #[Column(type: 'text', nullable: true)]
     public ?string $customJs = null;
-
     #[Column(type: 'datetimetz', nullable: true)]
-    public ?DateTime $lastActive = null;
-
+    public ?\DateTime $lastActive = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $tags = null;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: Moderator::class, cascade: ['persist'])]
     public Collection $moderators;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: Entry::class)]
     public Collection $entries;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: Post::class)]
     public Collection $posts;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: MagazineSubscription::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $subscriptions;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: MagazineBan::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
     public Collection $bans;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: Report::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $reports;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: Badge::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['id' => 'DESC'])]
     public Collection $badges;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: MagazineLog::class, cascade: [
         'persist',
         'remove',
     ], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $logs;
-
     #[OneToMany(mappedBy: 'magazine', targetEntity: Award::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $awards;
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
 
     public function __construct(
         string $name,
@@ -332,7 +308,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     }
 
-    public function addBan(User $user, User $bannedBy, ?string $reason, ?DateTimeInterface $expiredAt): ?MagazineBan
+    public function addBan(User $user, User $bannedBy, ?string $reason, ?\DateTimeInterface $expiredAt): ?MagazineBan
     {
         $ban = $this->isBanned($user);
 
@@ -349,7 +325,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
     public function isBanned(User $user): bool
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->gt('expiredAt', new DateTime()))
+            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
             ->orWhere(Criteria::expr()->isNull('expiredAt'))
             ->andWhere(Criteria::expr()->eq('user', $user));
 
@@ -370,7 +346,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
     public function unban(User $user): MagazineBan
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->gt('expiredAt', new DateTime()))
+            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
             ->orWhere(Criteria::expr()->isNull('expiredAt'))
             ->andWhere(Criteria::expr()->eq('user', $user));
 
@@ -378,7 +354,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
          * @var MagazineBan $ban
          */
         $ban = $this->bans->matching($criteria)->first();
-        $ban->expiredAt = new DateTime('+10 seconds');
+        $ban->expiredAt = new \DateTime('+10 seconds');
 
         return $ban;
     }

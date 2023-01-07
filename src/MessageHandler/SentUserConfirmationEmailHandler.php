@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler;
 
@@ -15,10 +17,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class SentUserConfirmationEmailHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private EmailVerifier $emailVerifier,
-        private UserRepository $repository,
-        private ParameterBagInterface $params,
-        private TranslatorInterface $translator
+        private readonly EmailVerifier $emailVerifier,
+        private readonly UserRepository $repository,
+        private readonly ParameterBagInterface $params,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
@@ -30,7 +32,7 @@ class SentUserConfirmationEmailHandler implements MessageHandlerInterface
             throw new UnrecoverableMessageHandlingException('User not found');
         }
 
-        //@todo
+        // @todo
         try {
             $this->emailVerifier->sendEmailConfirmation(
                 'app_verify_email',

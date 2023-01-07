@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -18,7 +20,6 @@ use App\Entity\Traits\RankingTrait;
 use App\Entity\Traits\VisibilityTrait;
 use App\Entity\Traits\VotableTrait;
 use App\Repository\EntryRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -44,120 +45,87 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    const ENTRY_TYPE_ARTICLE = 'article';
-    const ENTRY_TYPE_LINK = 'link';
-    const ENTRY_TYPE_IMAGE = 'image';
-    const ENTRY_TYPE_VIDEO = 'video';
-
-    #[Id]
-    #[GeneratedValue]
-    #[Column(type: 'integer')]
-    private int $id;
-
+    public const ENTRY_TYPE_ARTICLE = 'article';
+    public const ENTRY_TYPE_LINK = 'link';
+    public const ENTRY_TYPE_IMAGE = 'image';
+    public const ENTRY_TYPE_VIDEO = 'video';
     #[ManyToOne(targetEntity: User::class, inversedBy: 'entries')]
     #[JoinColumn(nullable: false)]
     public User $user;
-
     #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'entries')]
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Magazine $magazine;
-
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $image = null;
-
     #[ManyToOne(targetEntity: Domain::class, inversedBy: 'entries')]
     #[JoinColumn(nullable: true)]
     public ?Domain $domain = null;
-
     #[Column(type: 'string', nullable: true)]
     public ?string $slug = null;
-
     #[Column(type: 'string', nullable: false)]
     public string $title;
-
     #[Column(type: 'string', length: 2048, nullable: true)]
     public ?string $url = null;
-
     #[Column(type: 'text', length: 35000, nullable: true)]
     public ?string $body = null;
-
     #[Column(type: 'string', nullable: false)]
     public string $type = self::ENTRY_TYPE_ARTICLE;
-
     #[Column(type: 'string', nullable: true)]
     public ?string $lang = null;
-
     #[Column(type: 'boolean', options: ['default' => false])]
     public bool $isOc = false;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $hasEmbed = false;
-
     #[Column(type: 'integer', nullable: false)]
     public int $commentCount = 0;
-
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
-
     #[Column(type: 'integer', nullable: false)]
     public int $score = 0;
-
     #[Column(type: 'integer', nullable: true)]
     public ?int $views = 0;
-
     #[Column(type: 'boolean', nullable: false)]
     public ?bool $isAdult = false;
-
     #[Column(type: 'boolean', nullable: false)]
     public bool $sticky = false;
-
     #[Column(type: 'datetimetz')]
-    public ?DateTime $lastActive = null;
-
+    public ?\DateTime $lastActive = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $ip = null;
-
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $adaAmount = 0;
-
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $tags = null;
-
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $mentions = null;
-
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryComment::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $comments;
-
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $votes;
-
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $reports;
-
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $favourites;
-
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $notifications;
-
     #[OneToMany(mappedBy: 'entry', targetEntity: ViewCounter::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $viewCounters;
-
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryBadge::class, cascade: [
         'remove',
         'persist',
     ], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $badges;
-
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryCardanoTx::class, cascade: [
         'remove',
         'persist',
     ], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $cardanoTx;
-
     public array $children = [];
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
 
     public function __construct(
         string $title,
@@ -207,9 +175,9 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         $lastComment = $this->comments->matching($criteria)->first();
 
         if ($lastComment) {
-            $this->lastActive = DateTime::createFromImmutable($lastComment->createdAt);
+            $this->lastActive = \DateTime::createFromImmutable($lastComment->createdAt);
         } else {
-            $this->lastActive = DateTime::createFromImmutable($this->createdAt);
+            $this->lastActive = \DateTime::createFromImmutable($this->createdAt);
         }
     }
 
@@ -370,7 +338,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
         foreach ($this->comments as $comment) {
             if (!in_array($comment->user, $users)) {
                 $users[] = $comment->user;
-                $count++;
+                ++$count;
             }
         }
 
@@ -408,7 +376,7 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     {
         $amount = $this->adaAmount / 1000000;
 
-        return $amount > 0 ? (string)$amount : '';
+        return $amount > 0 ? (string) $amount : '';
     }
 
     public function isAdult(): bool

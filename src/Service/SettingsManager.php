@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -13,18 +15,18 @@ class SettingsManager
     private ?SettingsDto $dto = null;
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private SettingsRepository $repository,
-        private string $kbinDomain,
-        private string $kbinMetaTitle,
-        private string $kbinMetaDescription,
-        private string $kbinMetaKeywords,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SettingsRepository $repository,
+        private readonly string $kbinDomain,
+        private readonly string $kbinMetaTitle,
+        private readonly string $kbinMetaDescription,
+        private readonly string $kbinMetaKeywords,
         private string $kbinDefaultLang,
-        private string $kbinContactEmail,
-        private string $kbinMarkdownHowtoUrl,
-        private bool $kbinJsEnabled,
-        private bool $kbinFederationEnabled,
-        private bool $kbinRegistrationsEnabled,
+        private readonly string $kbinContactEmail,
+        private readonly string $kbinMarkdownHowtoUrl,
+        private readonly bool $kbinJsEnabled,
+        private readonly bool $kbinFederationEnabled,
+        private readonly bool $kbinRegistrationsEnabled,
     ) {
         if (!$this->dto) {
             $results = $this->repository->findAll();
@@ -52,14 +54,25 @@ class SettingsManager
         }
     }
 
-    public function get(string $name)
+    private function find(array $results, string $name, ?int $filter = null): string|bool|null
     {
-        return $this->dto->{$name};
+        $res = array_values(array_filter($results, fn ($s) => $s->name === $name));
+
+        if (count($res)) {
+            $res = $res[0]->value;
+
+            if ($filter) {
+                $res = filter_var($res, $filter);
+            }
+
+            return $res;
+        }
+
+        return null;
     }
 
     public function getDto(): SettingsDto
     {
-
         return $this->dto;
     }
 
@@ -84,25 +97,14 @@ class SettingsManager
         $this->entityManager->flush();
     }
 
-    #[Pure] public function isLocalUrl(string $url): bool
+    #[Pure]
+ public function isLocalUrl(string $url): bool
+ {
+     return parse_url($url, PHP_URL_HOST) === $this->get('KBIN_DOMAIN');
+ }
+
+    public function get(string $name)
     {
-        return parse_url($url, PHP_URL_HOST) === $this->get('KBIN_DOMAIN');
-    }
-
-    private function find(array $results, string $name, ?int $filter = null): string|bool|null
-    {
-        $res = array_values(array_filter($results, fn($s) => $s->name === $name));
-
-        if (count($res)) {
-            $res = $res[0]->value;
-
-            if ($filter) {
-                $res = filter_var($res, $filter);
-            }
-
-            return $res;
-        }
-
-        return null;
+        return $this->dto->{$name};
     }
 }

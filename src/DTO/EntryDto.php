@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -8,8 +10,6 @@ use App\Entity\Entry;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
-use DateTime;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -44,8 +44,8 @@ class EntryDto
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $tags = null;
-    public ?DateTimeImmutable $createdAt = null;
-    public ?DateTime $lastActive = null;
+    public ?\DateTimeImmutable $createdAt = null;
+    public ?\DateTime $lastActive = null;
     private ?int $id = null;
 
     #[Assert\Callback]

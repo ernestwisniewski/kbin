@@ -1,21 +1,17 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
 use ApiPlatform\Core\DataProvider\PaginatorInterface;
-use ArrayIterator;
-use EmptyIterator;
-use Iterator;
-use IteratorAggregate;
-use LimitIterator;
-use Traversable;
 
 /**
  * Paginator for arrays.
  */
-final class DtoPaginator implements IteratorAggregate, PaginatorInterface
+final class DtoPaginator implements \IteratorAggregate, PaginatorInterface
 {
-    private Iterator $iterator;
+    private \Iterator $iterator;
     private int $firstResult;
     private int $maxResults;
     private int $totalItems;
@@ -23,13 +19,13 @@ final class DtoPaginator implements IteratorAggregate, PaginatorInterface
     public function __construct(array $results, int $firstResult, int $maxResults, int $totalItems)
     {
         if ($maxResults > 0) {
-            $this->iterator = new LimitIterator(new ArrayIterator($results), $firstResult, $maxResults);
+            $this->iterator = new \LimitIterator(new \ArrayIterator($results), $firstResult, $maxResults);
         } else {
-            $this->iterator = new EmptyIterator();
+            $this->iterator = new \EmptyIterator();
         }
         $this->firstResult = $firstResult;
-        $this->maxResults  = $maxResults;
-        $this->totalItems  = $totalItems;
+        $this->maxResults = $maxResults;
+        $this->totalItems = $totalItems;
     }
 
     /**
@@ -83,7 +79,7 @@ final class DtoPaginator implements IteratorAggregate, PaginatorInterface
     /**
      * {@inheritdoc}
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         return $this->iterator;
     }

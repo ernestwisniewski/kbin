@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataPersister;
 
@@ -11,9 +13,9 @@ use Symfony\Component\Security\Core\Security;
 final class MagazineDataPersister implements ContextAwareDataPersisterInterface
 {
     public function __construct(
-        private MagazineManager $manager,
-        private MagazineFactory $factory,
-        private Security $security,
+        private readonly MagazineManager $manager,
+        private readonly MagazineFactory $factory,
+        private readonly Security $security,
     ) {
     }
 

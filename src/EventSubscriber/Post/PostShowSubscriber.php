@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Post;
 
@@ -14,18 +16,19 @@ use Symfony\Component\Security\Core\Security;
 class PostShowSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private Security $security,
-        private NotificationRepository $repository,
-        private EntityManagerInterface $entityManager
+        private readonly Security $security,
+        private readonly NotificationRepository $repository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
-    #[ArrayShape([PostHasBeenSeenEvent::class => "string"])] public static function getSubscribedEvents(): array
-    {
-        return [
-            PostHasBeenSeenEvent::class => 'onShowEntry',
-        ];
-    }
+    #[ArrayShape([PostHasBeenSeenEvent::class => 'string'])]
+ public static function getSubscribedEvents(): array
+ {
+     return [
+         PostHasBeenSeenEvent::class => 'onShowEntry',
+     ];
+ }
 
     public function onShowEntry(PostHasBeenSeenEvent $event): void
     {
@@ -44,7 +47,7 @@ class PostShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        array_map(fn($notification) => $notification->status = Notification::STATUS_READ, $notifications);
+        array_map(fn ($notification) => $notification->status = Notification::STATUS_READ, $notifications);
 
         $this->entityManager->flush();
     }

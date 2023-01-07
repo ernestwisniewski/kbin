@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
-use DateTime;
 use Doctrine\ORM\Mapping\Column;
 
 trait ActivityPubActorTrait
@@ -35,10 +36,10 @@ trait ActivityPubActorTrait
     public ?string $publicKey = null;
 
     #[Column(type: 'datetimetz', nullable: true)]
-    public ?DateTime $apFetchedAt = null;
+    public ?\DateTime $apFetchedAt = null;
 
     #[Column(type: 'datetimetz', nullable: true)]
-    public ?DateTime $apDeletedAt = null;
+    public ?\DateTime $apDeletedAt = null;
 
     public function getPrivateKey(): ?string
     {

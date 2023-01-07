@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\ActivityPub\Wrapper;
 
@@ -8,7 +10,7 @@ use Symfony\Component\Uid\Uuid;
 
 class LikeWrapper
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
 

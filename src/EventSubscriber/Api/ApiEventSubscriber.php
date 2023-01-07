@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Api;
 
@@ -22,12 +24,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class ApiEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private MagazineFactory $magazineFactory,
-        private EntryFactory $entryFactory,
-        private PostFactory $postFactory,
-        private UserFactory $userFactory,
-        private ImageFactory $imageFactory,
-        private DomainFactory $domainFactory
+        private readonly MagazineFactory $magazineFactory,
+        private readonly EntryFactory $entryFactory,
+        private readonly PostFactory $postFactory,
+        private readonly UserFactory $userFactory,
+        private readonly ImageFactory $imageFactory,
+        private readonly DomainFactory $domainFactory
     ) {
     }
 
@@ -91,43 +93,47 @@ final class ApiEventSubscriber implements EventSubscriberInterface
 
     private function entry(EntryDto $dto): void
     {
-        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine);
-        $dto->user         = $this->userFactory->createDto($dto->user);
+        $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
+        $dto->user = $this->userFactory->createDto($dto->user);
         $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
-        $dto->image        = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
-        $dto->domain       = $dto->domain ? $this->domainFactory->createDto($dto->domain) : null;
+        $dto->image = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+        $dto->domain = $dto->domain ? $this->domainFactory->createDto($dto->domain) : null;
     }
 
     private function entryComment(EntryCommentDto $dto): void
     {
-        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine ?: $dto->entry->magazine); // @todo check magazine null bug
-        $dto->user         = $this->userFactory->createDto($dto->user);
+        $dto->magazine = $this->magazineFactory->createDto(
+            $dto->magazine ?: $dto->entry->magazine
+        ); // @todo check magazine null bug
+        $dto->user = $this->userFactory->createDto($dto->user);
         $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
-        $dto->entry        = $this->entryFactory->createDto($dto->entry);
-        $dto->image        = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+        $dto->entry = $this->entryFactory->createDto($dto->entry);
+        $dto->image = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
     }
 
     private function post(PostDto $dto): void
     {
-        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine);
-        $dto->user         = $this->userFactory->createDto($dto->user);
+        $dto->magazine = $this->magazineFactory->createDto($dto->magazine);
+        $dto->user = $this->userFactory->createDto($dto->user);
         $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
-        $dto->image        = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+        $dto->image = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
     }
 
     private function postComment(PostCommentDto $dto): void
     {
-        $dto->magazine     = $this->magazineFactory->createDto($dto->magazine ?: $dto->post->magazine); // @todo check magazine null bug
-        $dto->user         = $this->userFactory->createDto($dto->user);
+        $dto->magazine = $this->magazineFactory->createDto(
+            $dto->magazine ?: $dto->post->magazine
+        ); // @todo check magazine null bug
+        $dto->user = $this->userFactory->createDto($dto->user);
         $dto->user->avatar = $dto->user->avatar ? $this->imageFactory->createDto($dto->user->avatar) : null;
-        $dto->post         = $this->postFactory->createDto($dto->post);
-        $dto->post->user   = $this->userFactory->createDto($dto->post->user);
-        $dto->image        = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
+        $dto->post = $this->postFactory->createDto($dto->post);
+        $dto->post->user = $this->userFactory->createDto($dto->post->user);
+        $dto->image = $dto->image ? $this->imageFactory->createDto($dto->image) : null;
     }
 
     private function magazine(MagazineDto $dto): void
     {
-        $dto->user  = $this->userFactory->createDto($dto->user);
+        $dto->user = $this->userFactory->createDto($dto->user);
         $dto->cover = $dto->cover ? $this->imageFactory->createDto($dto->cover) : null;
     }
 }

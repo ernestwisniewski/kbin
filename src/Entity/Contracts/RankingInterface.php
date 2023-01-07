@@ -1,18 +1,18 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity\Contracts;
 
-use DateTimeImmutable;
-
 interface RankingInterface
 {
-    const DOWNVOTED_CUTOFF = -5;
-    const NETSCORE_MULTIPLIER = 4500;
-    const COMMENT_MULTIPLIER = 1500;
-    const COMMENT_UNIQUE_MULTIPLIER = 5000;
-    const COMMENT_DOWNVOTED_MULTIPLIER = 500;
-    const MAX_ADVANTAGE = 86400;
-    const MAX_PENALTY = 43200;
+    public const DOWNVOTED_CUTOFF = -5;
+    public const NETSCORE_MULTIPLIER = 4500;
+    public const COMMENT_MULTIPLIER = 1500;
+    public const COMMENT_UNIQUE_MULTIPLIER = 5000;
+    public const COMMENT_DOWNVOTED_MULTIPLIER = 500;
+    public const MAX_ADVANTAGE = 86400;
+    public const MAX_PENALTY = 43200;
 
     public function updateRanking(): void;
 
@@ -26,5 +26,5 @@ interface RankingInterface
 
     public function getScore(): int;
 
-    public function getCreatedAt(): DateTimeImmutable;
+    public function getCreatedAt(): \DateTimeImmutable;
 }

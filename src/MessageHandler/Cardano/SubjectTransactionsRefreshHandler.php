@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\Cardano;
 
@@ -11,17 +13,16 @@ use App\Repository\CardanoTxInitRepository;
 use App\Repository\CardanoTxRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use stdClass;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private CardanoExplorer $explorer,
-        private UserRepository $userRepository,
-        private EntityManagerInterface $entityManager,
-        private CardanoTxInitRepository $initRepository,
-        private CardanoTxRepository $txRepository
+        private readonly CardanoExplorer $explorer,
+        private readonly UserRepository $userRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly CardanoTxInitRepository $initRepository,
+        private readonly CardanoTxRepository $txRepository
     ) {
     }
 
@@ -36,7 +37,7 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
         /**
          * @var $subject Entry
          */
-        $subject  = $this->entityManager->getRepository($className)->find($txInit->getSubject()->getId());
+        $subject = $this->entityManager->getRepository($className)->find($txInit->getSubject()->getId());
         $receiver = $subject->user;
 
         // fetch transaction list
@@ -63,13 +64,13 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
         }
     }
 
-    private function createTx(ContentInterface $subject, StdClass $transactions): ?EntryCardanoTx
+    private function createTx(ContentInterface $subject, \StdClass $transactions): ?EntryCardanoTx
     {
         foreach ($transactions->data->transactions as $tx) {
             $senderAddress = end($tx->inputs)->address;
-            $txHash        = end($tx->outputs)->txHash;
-            $amount        = end($tx->outputs)->value;
-            $createdAt     = new \DateTimeImmutable(end($tx->outputs)->transaction->includedAt);
+            $txHash = end($tx->outputs)->txHash;
+            $amount = end($tx->outputs)->value;
+            $createdAt = new \DateTimeImmutable(end($tx->outputs)->transaction->includedAt);
 
             if ($this->txRepository->findOneBy(['txHash' => $txHash])) {
                 continue;

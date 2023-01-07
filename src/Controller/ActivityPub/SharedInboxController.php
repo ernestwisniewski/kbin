@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\ActivityPub;
 
@@ -11,8 +13,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class SharedInboxController
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private LoggerInterface $logger
+        private readonly MessageBusInterface $bus,
+        private readonly LoggerInterface $logger
     ) {
     }
 

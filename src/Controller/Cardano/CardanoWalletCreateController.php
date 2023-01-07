@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Cardano;
 
@@ -14,7 +16,10 @@ class CardanoWalletCreateController extends CardanoController
         if ($request->isXmlHttpRequest()) {
             $response = new JsonResponse($wallet->createWallet($this->getUserOrThrow()));
         } else {
-            $response = $this->render('cardano/create_wallet.html.twig', $wallet->createWallet($this->getUserOrThrow()));
+            $response = $this->render(
+                'cardano/create_wallet.html.twig',
+                $wallet->createWallet($this->getUserOrThrow())
+            );
         }
 
         return $this->send($response);

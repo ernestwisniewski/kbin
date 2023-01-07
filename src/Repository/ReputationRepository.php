@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -14,12 +16,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ReputationRepository extends ServiceEntityRepository
 {
-    const TYPE_ENTRY = 'threads';
-    const TYPE_ENTRY_COMMENT = 'comments';
-    const TYPE_POST = 'posts';
-    const TYPE_POST_COMMENT = 'replies';
+    public const TYPE_ENTRY = 'threads';
+    public const TYPE_ENTRY_COMMENT = 'comments';
+    public const TYPE_POST = 'posts';
+    public const TYPE_POST_COMMENT = 'replies';
 
-    const PER_PAGE = 31;
+    public const PER_PAGE = 31;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -33,8 +35,8 @@ class ReputationRepository extends ServiceEntityRepository
 
         $table = $this->getEntityManager()->getClassMetadata($className)->getTableName().'_vote';
 
-        $sql = "SELECT date_trunc('day', v.created_at) as day, sum(v.choice) as points FROM ".$table." v 
-                WHERE v.author_id = ".$user->getId()." GROUP BY day ORDER BY day DESC";
+        $sql = "SELECT date_trunc('day', v.created_at) as day, sum(v.choice) as points FROM ".$table.' v 
+                WHERE v.author_id = '.$user->getId().' GROUP BY day ORDER BY day DESC';
 
         $stmt = $conn->prepare($sql);
 
@@ -61,11 +63,11 @@ class ReputationRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()
             ->getConnection();
 
-        $sql = "SELECT
+        $sql = 'SELECT
                     (SELECT coalesce(SUM(choice), 0) FROM entry_vote WHERE author_id = :user) +
                     (SELECT coalesce(SUM(choice), 0) FROM entry_comment_vote WHERE author_id = :user) +
                     (SELECT coalesce(SUM(choice), 0) FROM post_vote WHERE author_id = :user) +
-                    (SELECT coalesce(SUM(choice), 0) FROM post_comment_vote WHERE author_id = :user) as total";
+                    (SELECT coalesce(SUM(choice), 0) FROM post_comment_vote WHERE author_id = :user) as total';
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('user', $user->getId());

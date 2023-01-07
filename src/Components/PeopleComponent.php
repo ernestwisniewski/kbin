@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -18,12 +20,12 @@ class PeopleComponent
     public ?Magazine $magazine = null;
 
     public function __construct(
-        private Environment $twig,
-        private CacheInterface $cache,
-        private MagazineRepository $magazineRepository,
-        private UserRepository $userRepository,
-        private PostRepository $postRepository,
-        private Security $security
+        private readonly Environment $twig,
+        private readonly CacheInterface $cache,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly UserRepository $userRepository,
+        private readonly PostRepository $postRepository,
+        private readonly Security $security
     ) {
     }
 
@@ -56,12 +58,12 @@ class PeopleComponent
                     [
                         'magazine' => $this->magazine,
                         'local' => $this->sort(
-                            $this->userRepository->findBy(['id' => array_map(fn($val) => $val['id'], $local)]),
+                            $this->userRepository->findBy(['id' => array_map(fn ($val) => $val['id'], $local)]),
                             $local
                         ),
                         'federated' => $this->sort(
                             $this->userRepository->findBy(
-                                ['id' => array_map(fn($val) => $val['id'], $federated)]
+                                ['id' => array_map(fn ($val) => $val['id'], $federated)]
                             ),
                             $federated
                         ),
@@ -75,7 +77,7 @@ class PeopleComponent
     {
         $result = [];
         foreach ($ids as $id) {
-            $result[] = array_values(array_filter($users, fn($val) => $val->getId() === $id['id']))[0];
+            $result[] = array_values(array_filter($users, fn ($val) => $val->getId() === $id['id']))[0];
         }
 
         return array_values($result);
@@ -98,7 +100,7 @@ class PeopleComponent
                     [
                         'magazines' => array_filter(
                             $this->magazineRepository->findByActivity(),
-                            fn($val) => $val->name != 'random'
+                            fn ($val) => 'random' != $val->name
                         ),
                         'local' => $this->userRepository->findWithAbout(UserRepository::USERS_LOCAL),
                         'federated' => $this->userRepository->findWithAbout(UserRepository::USERS_REMOTE),

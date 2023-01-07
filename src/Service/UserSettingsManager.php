@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -8,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserSettingsManager
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
@@ -21,8 +23,8 @@ class UserSettingsManager
             $user->notifyOnNewPost,
             $user->notifyOnNewPostReply,
             $user->notifyOnNewPostCommentReply,
-            $user->theme === User::THEME_DARK,
-            $user->mode === User::MODE_TURBO,
+            User::THEME_DARK === $user->theme,
+            User::MODE_TURBO === $user->mode,
             $user->hideImages,
             $user->hideAdult,
             $user->hideUserAvatars,
@@ -39,25 +41,25 @@ class UserSettingsManager
 
     public function update(User $user, UserSettingsDto $dto)
     {
-        $user->notifyOnNewEntry             = $dto->notifyOnNewEntry;
-        $user->notifyOnNewPost              = $dto->notifyOnNewPost;
-        $user->notifyOnNewPostReply         = $dto->notifyOnNewPostReply;
+        $user->notifyOnNewEntry = $dto->notifyOnNewEntry;
+        $user->notifyOnNewPost = $dto->notifyOnNewPost;
+        $user->notifyOnNewPostReply = $dto->notifyOnNewPostReply;
         $user->notifyOnNewEntryCommentReply = $dto->notifyOnNewEntryCommentReply;
-        $user->notifyOnNewEntryReply        = $dto->notifyOnNewEntryReply;
-        $user->notifyOnNewPostCommentReply  = $dto->notifyOnNewPostCommentReply;
-        $user->theme                        = $dto->darkTheme ? User::THEME_DARK : User::THEME_LIGHT;
-        $user->mode                         = $dto->turboMode ? User::MODE_TURBO : User::MODE_NORMAL;
-        $user->homepage                     = $dto->homepage;
-        $user->hideImages                   = $dto->hideImages;
-        $user->hideAdult                    = $dto->hideAdult;
-        $user->hideUserAvatars              = $dto->hideUserAvatars;
-        $user->hideMagazineAvatars          = $dto->hideMagazineAvatars;
-        $user->rightPosImages               = $dto->rightPosImages;
-        $user->entryPopup                   = $dto->entryPopup;
-        $user->postPopup                    = $dto->postPopup;
-        $user->showProfileSubscriptions     = $dto->showProfileSubscriptions;
-        $user->showProfileFollowings        = $dto->showProfileFollowings;
-        $user->featuredMagazines            = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;
+        $user->notifyOnNewEntryReply = $dto->notifyOnNewEntryReply;
+        $user->notifyOnNewPostCommentReply = $dto->notifyOnNewPostCommentReply;
+        $user->theme = $dto->darkTheme ? User::THEME_DARK : User::THEME_LIGHT;
+        $user->mode = $dto->turboMode ? User::MODE_TURBO : User::MODE_NORMAL;
+        $user->homepage = $dto->homepage;
+        $user->hideImages = $dto->hideImages;
+        $user->hideAdult = $dto->hideAdult;
+        $user->hideUserAvatars = $dto->hideUserAvatars;
+        $user->hideMagazineAvatars = $dto->hideMagazineAvatars;
+        $user->rightPosImages = $dto->rightPosImages;
+        $user->entryPopup = $dto->entryPopup;
+        $user->postPopup = $dto->postPopup;
+        $user->showProfileSubscriptions = $dto->showProfileSubscriptions;
+        $user->showProfileFollowings = $dto->showProfileFollowings;
+        $user->featuredMagazines = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;
 
         $this->entityManager->flush();
     }

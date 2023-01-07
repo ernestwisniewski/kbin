@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -16,32 +18,26 @@ use Doctrine\ORM\Mapping\OneToMany;
 #[Entity]
 class Message
 {
-    const STATUS_NEW = 'new';
-    const STATUS_READ = 'read';
-
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
-
-    #[Id]
-    #[GeneratedValue]
-    #[Column(type: 'integer')]
-    private int $id;
+    public const STATUS_NEW = 'new';
+    public const STATUS_READ = 'read';
 
     #[ManyToOne(targetEntity: MessageThread::class, cascade: ['persist'], inversedBy: 'messages')]
     #[JoinColumn(nullable: false)]
     public MessageThread $thread;
-
     #[ManyToOne(targetEntity: User::class)]
     #[JoinColumn(nullable: false)]
     public User $sender;
-
     #[Column(type: 'text', nullable: false)]
     public string $body;
-
     #[Column(type: 'string', nullable: false)]
     public string $status = self::STATUS_NEW;
-
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
     #[OneToMany(mappedBy: 'message', targetEntity: MessageNotification::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $notifications;
 

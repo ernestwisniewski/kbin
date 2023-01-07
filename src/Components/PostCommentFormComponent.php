@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -15,8 +17,10 @@ class PostCommentFormComponent
     public Post $post;
     public bool $focus = true;
 
-    public function __construct(private FormFactoryInterface $factory, private UrlGeneratorInterface $router)
-    {
+    public function __construct(
+        private readonly FormFactoryInterface $factory,
+        private readonly UrlGeneratorInterface $router
+    ) {
     }
 
     public function getForm(): FormView

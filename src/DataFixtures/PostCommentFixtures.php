@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -10,7 +12,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class PostCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
+    public const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
 
     private PostCommentManager $postCommentManager;
 
@@ -29,7 +31,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
     public function loadData(ObjectManager $manager): void
     {
         foreach ($this->provideRandomComments(self::COMMENTS_COUNT) as $index => $comment) {
-            $dto       = new PostCommentDto();
+            $dto = new PostCommentDto();
             $dto->post = $comment['post'];
             $dto->body = $comment['body'];
 
@@ -40,10 +42,10 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
             $this->addReference('post_comment_'.$index, $entity);
             $manager->flush();
 
-            $roll     = rand(0, 4);
+            $roll = rand(0, 4);
             $children = [$entity];
             if ($roll) {
-                for ($i = 1; $i <= rand(0, 20); $i++) {
+                for ($i = 1; $i <= rand(0, 20); ++$i) {
                     $children[] = $this->createChildren($children[array_rand($children, 1)], $manager);
                 }
             }
@@ -57,7 +59,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
 
     private function provideRandomComments($count = 1): iterable
     {
-        for ($i = 0; $i <= $count; $i++) {
+        for ($i = 0; $i <= $count; ++$i) {
             yield [
                 'body' => $this->faker->realText($this->faker->numberBetween(10, 1024)),
                 'post' => $this->getReference('post_'.rand(1, EntryFixtures::ENTRIES_COUNT)),
@@ -75,8 +77,10 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
             $this->faker->realText($this->faker->numberBetween(10, 1024))
         );
 
-        $entity = $this->postCommentManager->create($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
-
+        $entity = $this->postCommentManager->create(
+            $dto,
+            $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT))
+        );
 
         $entity->createdAt = $this->getRandomTime($parent->createdAt);
         $entity->updateLastActive();

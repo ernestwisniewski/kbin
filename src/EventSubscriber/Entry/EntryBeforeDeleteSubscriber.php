@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Entry;
 
@@ -9,7 +11,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class EntryBeforeDeleteSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $bus)
+    public function __construct(private readonly MessageBusInterface $bus)
     {
     }
 

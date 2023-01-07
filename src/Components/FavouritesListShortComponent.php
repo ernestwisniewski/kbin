@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -18,9 +20,9 @@ class FavouritesListShortComponent
     public ?int $more = null;
 
     public function __construct(
-        private Environment $twig,
-        private CacheService $cacheService,
-        private CacheInterface $cache
+        private readonly Environment $twig,
+        private readonly CacheService $cacheService,
+        private readonly CacheInterface $cache
     ) {
     }
 

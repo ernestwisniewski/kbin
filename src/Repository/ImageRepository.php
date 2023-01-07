@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -6,7 +8,6 @@ use App\Entity\Image;
 use App\Service\ImageManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
 use kornrunner\Blurhash\Blurhash;
 
 /**
@@ -53,7 +54,7 @@ class ImageRepository extends ServiceEntityRepository
 
         try {
             $this->imageManager->store($source, $filePath);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
 
@@ -68,7 +69,7 @@ class ImageRepository extends ServiceEntityRepository
             $height = imagesy($image);
 
             $max_width = 20;
-            if( $width > $max_width ) {
+            if ($width > $max_width) {
                 $image = imagescale($image, $max_width);
                 $width = imagesx($image);
                 $height = imagesy($image);

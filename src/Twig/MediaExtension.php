@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Twig;
 
@@ -14,5 +16,4 @@ final class MediaExtension extends AbstractExtension
             new TwigFunction('uploaded_asset', [MediaRuntime::class, 'getPublicPath']),
         ];
     }
-
 }

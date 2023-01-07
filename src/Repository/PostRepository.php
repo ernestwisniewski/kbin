@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -32,8 +34,8 @@ use Symfony\Component\Security\Core\Security;
  */
 class PostRepository extends ServiceEntityRepository implements TagRepositoryInterface
 {
-    const PER_PAGE = 15;
-    const SORT_DEFAULT = 'hot';
+    public const PER_PAGE = 15;
+    public const SORT_DEFAULT = 'hot';
 
     private Security $security;
 
@@ -73,7 +75,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->join('p.magazine', 'm')
             ->andWhere('m.visibility = :m_visibility');
 
-        if ($user && $criteria->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+        if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
             $qb->orWhere(
                 'p.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND p.visibility = :pVisibility)'
             )
@@ -90,10 +92,9 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         return $qb;
     }
 
-
     private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
-        if ($criteria->time !== Criteria::TIME_ALL) {
+        if (Criteria::TIME_ALL !== $criteria->time) {
             $since = $criteria->getSince();
 
             $qb->andWhere('p.createdAt > :time')
@@ -254,7 +255,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->getQuery()
             ->getResult();
     }
-
 
     public function findRelatedByMagazine(string $name, ?int $limit = 1): array
     {

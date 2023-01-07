@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\ActivityPub;
 
@@ -10,8 +12,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class GroupFactory
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private ImageManager $imageManager
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ImageManager $imageManager
     ) {
     }
 

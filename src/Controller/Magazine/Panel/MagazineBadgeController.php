@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -17,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MagazineBadgeController extends AbstractController
 {
     public function __construct(
-        private MagazineRepository $repository,
+        private readonly MagazineRepository $repository,
     ) {
     }
 
@@ -62,4 +64,3 @@ class MagazineBadgeController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 }
-

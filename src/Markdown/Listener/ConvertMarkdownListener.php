@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\Listener;
 
@@ -12,9 +14,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 final class ConvertMarkdownListener implements EventSubscriberInterface
 {
     public function __construct(
-        private ConverterFactory $converterFactory,
-        private EnvironmentFactory $environmentFactory,
-        private EventDispatcherInterface $dispatcher
+        private readonly ConverterFactory $converterFactory,
+        private readonly EnvironmentFactory $environmentFactory,
+        private readonly EventDispatcherInterface $dispatcher
     ) {
     }
 
@@ -33,7 +35,7 @@ final class ConvertMarkdownListener implements EventSubscriberInterface
         $this->dispatcher->dispatch($configureEvent);
 
         $converter = $this->converterFactory->createConverter($environment);
-        $html      = $converter->convertToHtml($event->getMarkdown());
+        $html = $converter->convertToHtml($event->getMarkdown());
 
         $event->setRenderedHtml($html);
     }

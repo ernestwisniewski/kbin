@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form\Extension;
 
@@ -9,7 +11,7 @@ use Symfony\Component\Form\FormView;
 
 final class NoValidateExtension extends AbstractTypeExtension
 {
-    public function __construct(private bool $html5Validation)
+    public function __construct(private readonly bool $html5Validation)
     {
     }
 
@@ -23,7 +25,7 @@ final class NoValidateExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        $attr               = !$this->html5Validation ? ['novalidate' => 'novalidate'] : [];
+        $attr = !$this->html5Validation ? ['novalidate' => 'novalidate'] : [];
         $view->vars['attr'] = array_merge($view->vars['attr'], $attr);
     }
 }

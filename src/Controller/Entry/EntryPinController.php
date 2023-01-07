@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -14,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EntryPinController extends AbstractController
 {
     public function __construct(
-        private EntryManager $manager,
+        private readonly EntryManager $manager,
     ) {
     }
 

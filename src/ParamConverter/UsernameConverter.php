@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ParamConverter;
 
@@ -15,9 +17,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UsernameConverter implements ParamConverterInterface
 {
     public function __construct(
-        private UserRepository $repository,
-        private ActivityPubManager $activityPubManager,
-        private SettingsManager $settingsManager,
+        private readonly UserRepository $repository,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly SettingsManager $settingsManager,
     ) {
     }
 
@@ -46,16 +48,17 @@ class UsernameConverter implements ParamConverterInterface
         $request->attributes->set($configuration->getName(), $user);
     }
 
-    #[Pure] public function supports(ParamConverter $configuration): bool
-    {
-        if (null === $configuration->getClass()) {
-            return false;
-        }
+    #[Pure]
+ public function supports(ParamConverter $configuration): bool
+ {
+     if (null === $configuration->getClass()) {
+         return false;
+     }
 
-        if ($configuration->getClass() !== User::class) {
-            return false;
-        }
+     if (User::class !== $configuration->getClass()) {
+         return false;
+     }
 
-        return true;
-    }
+     return true;
+ }
 }

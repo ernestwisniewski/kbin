@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Magazine;
 
@@ -25,22 +27,22 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MagazineLogSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            EntryDeletedEvent::class         => 'onEntryDeleted',
-            EntryRestoredEvent::class        => 'onEntryRestored',
-            EntryCommentDeletedEvent::class  => 'onEntryCommentDeleted',
+            EntryDeletedEvent::class => 'onEntryDeleted',
+            EntryRestoredEvent::class => 'onEntryRestored',
+            EntryCommentDeletedEvent::class => 'onEntryCommentDeleted',
             EntryCommentRestoredEvent::class => 'onEntryCommentRestored',
-            PostDeletedEvent::class          => 'onPostDeleted',
-            PostRestoredEvent::class         => 'onPostRestored',
-            PostCommentDeletedEvent::class   => 'onPostCommentDeleted',
-            PostCommentRestoredEvent::class   => 'onPostCommentRestored',
-            MagazineBanEvent::class          => 'onBan',
+            PostDeletedEvent::class => 'onPostDeleted',
+            PostRestoredEvent::class => 'onPostRestored',
+            PostCommentDeletedEvent::class => 'onPostCommentDeleted',
+            PostCommentRestoredEvent::class => 'onPostCommentRestored',
+            MagazineBanEvent::class => 'onBan',
         ];
     }
 

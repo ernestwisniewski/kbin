@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -8,19 +10,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CacheService
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
     public function getVotersCacheKey(VoteInterface $subject): string
     {
-
         return "voters_{$this->getKey($subject)}_{$subject->getId()}";
-    }
-
-    public function getFavouritesCacheKey(FavouriteInterface $subject): string
-    {
-        return "favourites_{$this->getKey($subject)}_{$subject->getId()}";
     }
 
     private function getKey(VoteInterface|FavouriteInterface $subject): string
@@ -29,5 +25,10 @@ class CacheService
         $className = explode('\\', $className);
 
         return end($className);
+    }
+
+    public function getFavouritesCacheKey(FavouriteInterface $subject): string
+    {
+        return "favourites_{$this->getKey($subject)}_{$subject->getId()}";
     }
 }

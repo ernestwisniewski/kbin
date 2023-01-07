@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command\AwesomeBot;
 
@@ -10,7 +12,6 @@ use App\Service\BadgeManager;
 use App\Service\MagazineManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Exception;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -25,9 +26,9 @@ use Symfony\Component\HttpClient\HttpClient;
 class AwesomeBotMagazine extends Command
 {
     public function __construct(
-        private UserRepository $repository,
-        private MagazineManager $magazineManager,
-        private BadgeManager $badgeManager
+        private readonly UserRepository $repository,
+        private readonly MagazineManager $magazineManager,
+        private readonly BadgeManager $badgeManager
     ) {
         parent::__construct();
     }
@@ -56,11 +57,11 @@ class AwesomeBotMagazine extends Command
         }
 
         try {
-            $dto              = new MagazineDto();
-            $dto->name        = $input->getArgument('magazine_name');
-            $dto->title       = $input->getArgument('magazine_title');
+            $dto = new MagazineDto();
+            $dto->name = $input->getArgument('magazine_name');
+            $dto->title = $input->getArgument('magazine_title');
             $dto->description = 'Powered by '.$input->getArgument('url');
-            $dto->user        = $user;
+            $dto->user = $user;
 
             $magazine = $this->magazineManager->create($dto, $user);
 
@@ -69,7 +70,7 @@ class AwesomeBotMagazine extends Command
                 $input->getArgument('url'),
                 $input->getArgument('tags') ? explode(',', $input->getArgument('tags')) : []
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $io->error('Can\'t create magazine');
 
             return Command::FAILURE;
@@ -78,27 +79,28 @@ class AwesomeBotMagazine extends Command
         return Command::SUCCESS;
     }
 
-    #[Pure] private function createBadges(Magazine $magazine, string $url, array $tags): Collection
-    {
-        $browser = new HttpBrowser(HttpClient::create());
-        $crawler = $browser->request('GET', $url);
+    #[Pure]
+ private function createBadges(Magazine $magazine, string $url, array $tags): Collection
+ {
+     $browser = new HttpBrowser(HttpClient::create());
+     $crawler = $browser->request('GET', $url);
 
-        $content = $crawler->filter('.markdown-body')->first()->children();
+     $content = $crawler->filter('.markdown-body')->first()->children();
 
-        $labels = [];
-        foreach ($content as $elem) {
-            if (in_array($elem->nodeName, $tags)) {
-                $labels[] = $elem->nodeValue;
-            }
-        }
+     $labels = [];
+     foreach ($content as $elem) {
+         if (in_array($elem->nodeName, $tags)) {
+             $labels[] = $elem->nodeValue;
+         }
+     }
 
-        $badges = [];
-        foreach ($labels as $label) {
-            $this->badgeManager->create(
-                (new BadgeDto())->create($magazine, $label)
-            );
-        }
+     $badges = [];
+     foreach ($labels as $label) {
+         $this->badgeManager->create(
+             (new BadgeDto())->create($magazine, $label)
+         );
+     }
 
-        return new ArrayCollection($badges);
-    }
+     return new ArrayCollection($badges);
+ }
 }

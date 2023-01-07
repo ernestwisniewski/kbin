@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -18,8 +20,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class AdminCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, private UserRepository $repository)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserRepository $repository
+    ) {
         parent::__construct();
     }
 

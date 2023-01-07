@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataPersister;
 
@@ -11,9 +13,9 @@ use Symfony\Component\Security\Core\Security;
 final class EntryDataPersister implements ContextAwareDataPersisterInterface
 {
     public function __construct(
-        private EntryManager $manager,
-        private EntryFactory $factory,
-        private Security $security,
+        private readonly EntryManager $manager,
+        private readonly EntryFactory $factory,
+        private readonly Security $security,
     ) {
     }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -50,6 +52,13 @@ class UserDto implements UserDtoInterface
         }
     }
 
+    private function buildViolation(ExecutionContextInterface $context, $path)
+    {
+        $context->buildViolation('This value should not be blank.')
+            ->atPath($path)
+            ->addViolation();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,12 +86,5 @@ class UserDto implements UserDtoInterface
         $this->apProfileId = $apProfileId;
 
         return $this;
-    }
-
-    private function buildViolation(ExecutionContextInterface $context, $path)
-    {
-        $context->buildViolation('This value should not be blank.')
-            ->atPath($path)
-            ->addViolation();
     }
 }

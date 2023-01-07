@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User;
 
@@ -12,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserNoteController extends AbstractController
 {
-    public function __construct(private UserNoteManager $manager)
+    public function __construct(private readonly UserNoteManager $manager)
     {
     }
 
@@ -40,5 +42,4 @@ class UserNoteController extends AbstractController
 
         return $this->redirectToRefererOrHome($request);
     }
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form\EventListener;
 
@@ -11,7 +13,7 @@ final class ImageListener implements EventSubscriberInterface
 {
     private string $fieldName;
 
-    public function __construct(private ImageRepository $images)
+    public function __construct(private readonly ImageRepository $images)
     {
     }
 
@@ -39,7 +41,7 @@ final class ImageListener implements EventSubscriberInterface
         $upload = $event->getForm()->get($fieldName)->getData();
 
         if ($upload) {
-            $image            = $this->images->findOrCreateFromUpload($upload);
+            $image = $this->images->findOrCreateFromUpload($upload);
             $data->$fieldName = $image;
         }
     }

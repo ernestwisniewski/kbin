@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -16,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MagazineReportController extends AbstractController
 {
     public function __construct(
-        private MagazineRepository $repository,
+        private readonly MagazineRepository $repository,
     ) {
     }
 
@@ -39,8 +41,12 @@ class MagazineReportController extends AbstractController
     #[ParamConverter('report', options: ['mapping' => ['report_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
-    public function reportApprove(Magazine $magazine, Report $report, ContentManagerFactory $managerFactory, Request $request): Response
-    {
+    public function reportApprove(
+        Magazine $magazine,
+        Report $report,
+        ContentManagerFactory $managerFactory,
+        Request $request
+    ): Response {
         $this->validateCsrf('report_approve', $request->request->get('token'));
 
         $manager = $managerFactory->createManager($report->getSubject());

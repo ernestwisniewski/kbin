@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -26,9 +28,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MoveEntriesByTagCommand extends Command
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private MagazineRepository $magazineRepository,
-        private EntryRepository $entryRepository
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly EntryRepository $entryRepository
     ) {
         parent::__construct();
     }
@@ -59,7 +61,7 @@ class MoveEntriesByTagCommand extends Command
         $entries = $qb->getQuery()->getResult();
 
         foreach ($entries as $entry) {
-            /**
+            /*
              * @var Entry $entry
              */
             $entry->magazine = $magazine;
@@ -83,7 +85,7 @@ class MoveEntriesByTagCommand extends Command
     private function moveComments(ArrayCollection|Collection $comments, Magazine $magazine)
     {
         foreach ($comments as $comment) {
-            /**
+            /*
              * @var EntryComment $comment
              */
             $comment->magazine = $magazine;
@@ -98,7 +100,7 @@ class MoveEntriesByTagCommand extends Command
     private function moveReports(ArrayCollection|Collection $reports, Magazine $magazine)
     {
         foreach ($reports as $report) {
-            /**
+            /*
              * @var Report $report
              */
             $report->magazine = $magazine;
@@ -110,7 +112,7 @@ class MoveEntriesByTagCommand extends Command
     private function moveFavourites(ArrayCollection|Collection $favourites, Magazine $magazine)
     {
         foreach ($favourites as $favourite) {
-            /**
+            /*
              * @var Favourite $favourite
              */
             $favourite->magazine = $magazine;

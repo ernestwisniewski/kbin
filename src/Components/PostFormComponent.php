@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -14,8 +16,10 @@ class PostFormComponent
 {
     public Magazine $magazine;
 
-    public function __construct(private FormFactoryInterface $factory, private UrlGeneratorInterface $router)
-    {
+    public function __construct(
+        private readonly FormFactoryInterface $factory,
+        private readonly UrlGeneratorInterface $router
+    ) {
     }
 
     public function getForm(): FormView

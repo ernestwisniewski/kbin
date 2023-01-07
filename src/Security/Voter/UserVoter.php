@@ -1,25 +1,25 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security\Voter;
 
 use App\Entity\User;
-use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use function in_array;
 
 class UserVoter extends Voter
 {
-    const FOLLOW = 'follow';
-    const BLOCK = 'block';
-    const EDIT_PROFILE = 'edit_profile';
-    const EDIT_USERNAME = 'edit_username';
-    const MESSAGE = 'message';
+    public const FOLLOW = 'follow';
+    public const BLOCK = 'block';
+    public const EDIT_PROFILE = 'edit_profile';
+    public const EDIT_USERNAME = 'edit_username';
+    public const MESSAGE = 'message';
 
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof User
-            && in_array(
+            && \in_array(
                 $attribute,
                 [self::FOLLOW, self::BLOCK, self::MESSAGE, self::EDIT_PROFILE, self::EDIT_USERNAME],
                 true
@@ -40,7 +40,7 @@ class UserVoter extends Voter
             self::MESSAGE => $this->canMessage($subject, $user),
             self::EDIT_PROFILE => $this->canEditProfile($subject, $user),
             self::EDIT_USERNAME => $this->canEditUsername($subject, $user),
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
 

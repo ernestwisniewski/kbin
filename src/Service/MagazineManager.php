@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -14,7 +16,6 @@ use App\Event\Magazine\MagazineBlockedEvent;
 use App\Event\Magazine\MagazineSubscribedEvent;
 use App\Factory\MagazineFactory;
 use App\Service\ActivityPub\KeysGenerator;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -25,17 +26,17 @@ use Webmozart\Assert\Assert;
 class MagazineManager
 {
     public function __construct(
-        private MagazineFactory $factory,
-        private EventDispatcherInterface $dispatcher,
-        private RateLimiterFactory $magazineLimiter,
-        private CacheInterface $cache,
-        private EntityManagerInterface $entityManager
+        private readonly MagazineFactory $factory,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly RateLimiterFactory $magazineLimiter,
+        private readonly CacheInterface $cache,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
     public function create(MagazineDto $dto, User $user, bool $limiter = true): Magazine
     {
-        if($limiter) {
+        if ($limiter) {
             $limiter = $this->magazineLimiter->create($dto->ip);
             if (false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
@@ -132,7 +133,7 @@ class MagazineManager
 
     public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): void
     {
-        Assert::greaterThan($dto->expiredAt, new DateTime());
+        Assert::greaterThan($dto->expiredAt, new \DateTime());
 
         $ban = $magazine->addBan($user, $bannedBy, $dto->reason, $dto->expiredAt);
 
@@ -144,7 +145,6 @@ class MagazineManager
 
         $this->dispatcher->dispatch(new MagazineBanEvent($ban));
     }
-
 
     public function unban(Magazine $magazine, User $user): void
     {
@@ -168,6 +168,14 @@ class MagazineManager
         $this->entityManager->flush();
 
         $this->clearCommentsCache($dto->user);
+    }
+
+    private function clearCommentsCache(User $user)
+    {
+        $this->cache->invalidateTags([
+            'post_comments_user_'.$user->getId(),
+            'entry_comments_user_'.$user->getId(),
+        ]);
     }
 
     public function removeModerator(Moderator $moderator): void
@@ -200,7 +208,7 @@ class MagazineManager
         }
 
         // Colors
-        if ($dto->primaryColor !== '#000000' || $dto->primaryDarkerColor !== '#000000') {
+        if ('#000000' !== $dto->primaryColor || '#000000' !== $dto->primaryDarkerColor) {
             $customCss = <<<EOL
                     .bg-primary {
                       background-color: $dto->primaryColor
@@ -246,13 +254,5 @@ class MagazineManager
         $this->entityManager->flush();
 
         return $magazine;
-    }
-
-    private function clearCommentsCache(User $user)
-    {
-        $this->cache->invalidateTags([
-            'post_comments_user_'.$user->getId(),
-            'entry_comments_user_'.$user->getId(),
-        ]);
     }
 }

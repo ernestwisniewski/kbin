@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -11,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SettingsController extends AbstractController
 {
-    public function __construct(private SettingsManager $settings)
+    public function __construct(private readonly SettingsManager $settings)
     {
     }
 

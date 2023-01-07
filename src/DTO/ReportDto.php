@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -9,7 +11,6 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
-use LogicException;
 
 class ReportDto
 {
@@ -21,9 +22,9 @@ class ReportDto
 
     public function create(ReportInterface $subject, ?string $reason = null, ?int $id = null): self
     {
-        $this->id      = $id;
+        $this->id = $id;
         $this->subject = $subject;
-        $this->reason  = $reason;
+        $this->reason = $reason;
 
         $this->magazine = $subject->magazine;
         $this->reported = $subject->user;
@@ -49,7 +50,7 @@ class ReportDto
                 return 'post_comment_report';
         }
 
-        throw new LogicException();
+        throw new \LogicException();
     }
 
     public function getSubject(): ReportInterface

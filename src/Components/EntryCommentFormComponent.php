@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -17,18 +19,20 @@ class EntryCommentFormComponent
     public ?EntryComment $comment = null;
     public bool $focus = true;
 
-    public function __construct(private FormFactoryInterface $factory, private UrlGeneratorInterface $router)
-    {
+    public function __construct(
+        private readonly FormFactoryInterface $factory,
+        private readonly UrlGeneratorInterface $router
+    ) {
     }
 
     public function getForm(): FormView
     {
         $routeParams = [
             'magazine_name' => $this->entry->magazine->name,
-            'entry_id'      => $this->entry->getId(),
+            'entry_id' => $this->entry->getId(),
         ];
 
-        if ($this->comment !== null) {
+        if (null !== $this->comment) {
             $routeParams['comment_id'] = $this->comment->getId();
         }
 

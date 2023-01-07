@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine;
 
@@ -11,9 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MagazineDeleteController extends AbstractController
 {
-    public function __construct(
-        private MagazineManager $manager,
-    ) {
+    public function __construct(private readonly MagazineManager $manager)
+    {
     }
 
     #[IsGranted('ROLE_USER')]

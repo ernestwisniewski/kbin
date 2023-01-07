@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -24,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class NotificationRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 25;
+    public const PER_PAGE = 25;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -60,7 +62,7 @@ class NotificationRepository extends ServiceEntityRepository
 
         return array_filter(
             $result,
-            fn($notification) => (isset($notification->entry) && $notification->entry === $entry)
+            fn ($notification) => (isset($notification->entry) && $notification->entry === $entry)
                 || (isset($notification->entryComment) && $notification->entryComment->entry === $entry)
         );
     }
@@ -91,7 +93,7 @@ class NotificationRepository extends ServiceEntityRepository
 
         return array_filter(
             $result,
-            fn($notification) => (isset($notification->post) && $notification->post === $post)
+            fn ($notification) => (isset($notification->post) && $notification->post === $post)
                 || (isset($notification->postComment) && $notification->postComment->post === $post)
         );
     }
@@ -107,7 +109,7 @@ class NotificationRepository extends ServiceEntityRepository
 
         $results = $stmt->executeQuery(['entry' => $entry->getId()])->fetchAllAssociative();
 
-        return array_map(fn($val) => $val['id'], $results);
+        return array_map(fn ($val) => $val['id'], $results);
     }
 
     public function findEntryCommentNotificationsIds(EntryComment $comment): array
@@ -121,7 +123,7 @@ class NotificationRepository extends ServiceEntityRepository
 
         $results = $stmt->executeQuery(['comment' => $comment->getId()])->fetchAllAssociative();
 
-        return array_map(fn($val) => $val['id'], $results);
+        return array_map(fn ($val) => $val['id'], $results);
     }
 
     public function findPostNotificationsIds(Post $post): array
@@ -135,7 +137,7 @@ class NotificationRepository extends ServiceEntityRepository
 
         $results = $stmt->executeQuery(['post' => $post->getId()])->fetchAllAssociative();
 
-        return array_map(fn($val) => $val['id'], $results);
+        return array_map(fn ($val) => $val['id'], $results);
     }
 
     public function findPostCommentNotificationsIds(PostComment $comment): array
@@ -149,6 +151,6 @@ class NotificationRepository extends ServiceEntityRepository
 
         $results = $stmt->executeQuery(['comment' => $comment->getId()])->fetchAllAssociative();
 
-        return array_map(fn($val) => $val['id'], $results);
+        return array_map(fn ($val) => $val['id'], $results);
     }
 }

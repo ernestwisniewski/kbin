@@ -1,11 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
 use App\Entity\User;
 use App\Exception\InvalidApPostException;
 use App\Factory\ActivityPub\PersonFactory;
-use DateTime;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -21,13 +22,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApHttpClient
 {
-    const TIMEOUT = 10;
+    public const TIMEOUT = 10;
 
     public function __construct(
-        private HttpClientInterface $client,
-        private PersonFactory $personFactory,
-        private LoggerInterface $logger,
-        private CacheInterface $cache,
+        private readonly HttpClientInterface $client,
+        private readonly PersonFactory $personFactory,
+        private readonly LoggerInterface $logger,
+        private readonly CacheInterface $cache,
     ) {
     }
 
@@ -62,6 +63,13 @@ class ApHttpClient
         return $decoded ? json_decode($resp, true) : $resp;
     }
 
+    public function getInboxUrl(string $apProfileId): string
+    {
+        $actor = $this->getActorObject($apProfileId);
+
+        return $actor['endpoints']['sharedInbox'] ?? $actor['inbox'];
+    }
+
     public function getActorObject(string $apProfileId): ?array
     {
         $resp = $this->cache->get(
@@ -92,13 +100,6 @@ class ApHttpClient
         return $resp ? json_decode($resp, true) : null;
     }
 
-    public function getInboxUrl(string $apProfileId): string
-    {
-        $actor = $this->getActorObject($apProfileId);
-
-        return $actor['endpoints']['sharedInbox'] ?? $actor['inbox'];
-    }
-
     public function post(string $url, User $user, ?array $body = null): void
     {
         $cache = new FilesystemAdapter(); // @todo redis
@@ -109,7 +110,7 @@ class ApHttpClient
         }
 
         $this->logger->info("ApHttpClient:post:url: {$url}");
-        $this->logger->info("ApHttpClient:post:body ".json_encode($body ?? []));
+        $this->logger->info('ApHttpClient:post:body '.json_encode($body ?? []));
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -122,15 +123,22 @@ class ApHttpClient
 
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if (!str_starts_with((string)$code, '2')) {
+        if (!str_starts_with((string) $code, '2')) {
             throw new InvalidApPostException("Post fail: {$url}, ".json_encode($body));
         }
 
         // build cache
         $item = $cache->getItem($cacheKey);
         $item->set(true);
-        $item->expiresAt(new DateTime('+1 day'));
+        $item->expiresAt(new \DateTime('+1 day'));
         $cache->save($item);
+    }
+
+    private static function headersToCurlArray($headers): array
+    {
+        return array_map(function ($k, $v) {
+            return "$k: $v";
+        }, array_keys($headers), $headers);
     }
 
     private function getHeaders(string $url, User $user, ?array $body = null): array
@@ -152,32 +160,33 @@ class ApHttpClient
         return $headers;
     }
 
+    #[ArrayShape([
+        '(request-target)' => 'string',
+        'Date' => 'string',
+        'Host' => 'mixed',
+        'Accept' => 'string',
+        'Digest' => 'string',
+    ])]
+ protected static function headersToSign(string $url, ?string $digest = null): array
+ {
+     $date = new \DateTime('UTC');
+
+     $headers = [
+         '(request-target)' => 'post '.parse_url($url, PHP_URL_PATH),
+         'Date' => $date->format('D, d M Y H:i:s \G\M\T'),
+         'Host' => parse_url($url, PHP_URL_HOST),
+     ];
+
+     if ($digest) {
+         $headers['Digest'] = 'SHA-256='.$digest;
+     }
+
+     return $headers;
+ }
+
     private static function digest(array $body): string
     {
         return base64_encode(hash('sha256', json_encode($body), true));
-    }
-
-    #[ArrayShape([
-        '(request-target)' => "string",
-        'Date' => "string",
-        'Host' => "mixed",
-        'Accept' => "string",
-        'Digest' => "string",
-    ])] protected static function headersToSign(string $url, ?string $digest = null): array
-    {
-        $date = new DateTime('UTC');
-
-        $headers = [
-            '(request-target)' => 'post '.parse_url($url, PHP_URL_PATH),
-            'Date' => $date->format('D, d M Y H:i:s \G\M\T'),
-            'Host' => parse_url($url, PHP_URL_HOST),
-        ];
-
-        if ($digest) {
-            $headers['Digest'] = 'SHA-256='.$digest;
-        }
-
-        return $headers;
     }
 
     private static function headersToSigningString(array $headers): string
@@ -188,12 +197,5 @@ class ApHttpClient
                 return strtolower($k).': '.$v;
             }, array_keys($headers), $headers)
         );
-    }
-
-    private static function headersToCurlArray($headers): array
-    {
-        return array_map(function ($k, $v) {
-            return "$k: $v";
-        }, array_keys($headers), $headers);
     }
 }

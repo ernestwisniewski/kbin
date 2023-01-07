@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\ActivityPub;
 
@@ -12,16 +14,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PersonFactory
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private ImageManager $imageManager,
-        private MarkdownConverter $markdownConverter
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ImageManager $imageManager,
+        private readonly MarkdownConverter $markdownConverter
     ) {
     }
 
     public function create(User $user, bool $context = true): array
     {
         if ($context) {
-            $person ['@context'] = [
+            $person['@context'] = [
                 ActivityPubActivityInterface::CONTEXT_URL,
                 ActivityPubActivityInterface::SECURITY_URL,
                 $this->getContext(),
@@ -96,19 +98,20 @@ class PersonFactory
     }
 
     #[ArrayShape([
-        'manuallyApprovesFollowers' => "string",
-        'schema' => "string",
-        'PropertyValue' => "string",
-        'value' => "string",
-    ])] public function getContext(): array
-    {
-        return [
-            'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
-            'schema' => 'http://schema.org#',
-            'PropertyValue' => 'schema:PropertyValue',
-            'value' => 'schema:value',
-        ];
-    }
+        'manuallyApprovesFollowers' => 'string',
+        'schema' => 'string',
+        'PropertyValue' => 'string',
+        'value' => 'string',
+    ])]
+ public function getContext(): array
+ {
+     return [
+         'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
+         'schema' => 'http://schema.org#',
+         'PropertyValue' => 'schema:PropertyValue',
+         'value' => 'schema:value',
+     ];
+ }
 
     public function getActivityPubId(User $user): string
     {

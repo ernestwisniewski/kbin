@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command\Update;
 
@@ -21,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class TagsToJsonbUpdateCommand extends Command
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager
     ) {
         parent::__construct();
     }
@@ -42,7 +44,7 @@ class TagsToJsonbUpdateCommand extends Command
         foreach ($repository->findWithTags() as $entry) {
             $entry->tagsTmp = $entry->getTags();
             $this->entityManager->persist($entry);
-            print($entry->getId().PHP_EOL);
+            echo $entry->getId().PHP_EOL;
         }
 
         $this->entityManager->flush();

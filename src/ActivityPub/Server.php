@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ActivityPub;
 
@@ -25,8 +27,8 @@ class Server
                 'ontologies' => [
                     'peertube' => Peertube::class,
                     'mastodon' => Mastodon::class,
-                    'pleroma'  => Pleroma::class,
-                    'lemmy'    => Lemmy::class,
+                    'pleroma' => Pleroma::class,
+                    'lemmy' => Lemmy::class,
                 ],
             ]
         );
@@ -48,7 +50,7 @@ class Server
         Validator::add('url', NullableValidator::class);
     }
 
-    public function create(): \ActivityPhp\Server
+    public function create(): ActivityPub
     {
         return $this->server;
     }

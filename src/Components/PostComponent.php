@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -18,17 +20,17 @@ class PostComponent
     public bool $showBestComments = false;
     public bool $canSeeTrash = false;
 
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(private readonly AuthorizationCheckerInterface $authorizationChecker)
     {
     }
 
     public function canSeeTrashed(): bool
     {
-        if ($this->post->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE === $this->post->visibility) {
             return true;
         }
 
-        if ($this->post->visibility === VisibilityInterface::VISIBILITY_TRASHED
+        if (VisibilityInterface::VISIBILITY_TRASHED === $this->post->visibility
             && $this->authorizationChecker->isGranted(
                 'moderate',
                 $this->post->magazine

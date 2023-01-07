@@ -1,31 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Exception\CorruptedFileException;
 use App\Exception\ImageDownloadTooLargeException;
-use Exception;
 use League\Flysystem\FilesystemOperator;
-use RuntimeException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Mime\MimeTypesInterface;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use function count;
-use function is_resource;
 
 class ImageManager
 {
-    const IMAGE_MIMETYPES = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png'];
-    const MAX_IMAGE_BYTES = 12000000;
+    public const IMAGE_MIMETYPES = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png'];
+    public const MAX_IMAGE_BYTES = 12000000;
 
     public function __construct(
-        private string $storageUrl,
-        private FilesystemOperator $publicUploadsFilesystem,
-        private HttpClientInterface $httpClient,
-        private MimeTypesInterface $mimeTypeGuesser,
-        private ValidatorInterface $validator,
+        private readonly string $storageUrl,
+        private readonly FilesystemOperator $publicUploadsFilesystem,
+        private readonly HttpClientInterface $httpClient,
+        private readonly MimeTypesInterface $mimeTypeGuesser,
+        private readonly ValidatorInterface $validator,
     ) {
     }
 
@@ -33,7 +31,7 @@ class ImageManager
     {
         $urlExt = pathinfo($url, PATHINFO_EXTENSION);
 
-        $types = array_map(fn($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
+        $types = array_map(fn ($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
 
         return in_array($urlExt, $types);
     }
@@ -52,10 +50,10 @@ class ImageManager
             $this->publicUploadsFilesystem->writeStream($filePath, $fh);
 
             return $this->publicUploadsFilesystem->has($filePath);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         } finally {
-            is_resource($fh) and fclose($fh);
+            \is_resource($fh) and fclose($fh);
         }
     }
 
@@ -68,7 +66,7 @@ class ImageManager
             ]
         );
 
-        if (count($violations) > 0) {
+        if (\count($violations) > 0) {
             throw new CorruptedFileException();
         }
 
@@ -79,7 +77,7 @@ class ImageManager
     {
         $tempFile = @tempnam('/', 'kbin');
 
-        if ($tempFile === false) {
+        if (false === $tempFile) {
             throw new UnrecoverableMessageHandlingException('Couldn\'t create temporary file');
         }
 
@@ -111,7 +109,7 @@ class ImageManager
             fclose($fh);
 
             $this->validate($tempFile);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($fh) {
                 fclose($fh);
             }
@@ -139,13 +137,13 @@ class ImageManager
         $mimeType = $this->mimeTypeGuesser->guessMimeType($file);
 
         if (!$mimeType) {
-            throw new RuntimeException("Couldn't guess MIME type of image");
+            throw new \RuntimeException("Couldn't guess MIME type of image");
         }
 
         $ext = $this->mimeTypeGuesser->getExtensions($mimeType)[0] ?? null;
 
         if (!$ext) {
-            throw new RuntimeException("Couldn't guess extension of image");
+            throw new \RuntimeException("Couldn't guess extension of image");
         }
 
         return sprintf('%s.%s', $hash, $ext);

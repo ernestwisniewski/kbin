@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -16,17 +18,17 @@ class MessageNotificationManager
     use NotificationTrait;
 
     public function __construct(
-        private MagazineSubscriptionRepository $repository,
-        private IriConverterInterface $iriConverter,
-        private MagazineFactory $magazineFactory,
-        private HubInterface $publisher,
-        private EntityManagerInterface $entityManager
+        private readonly MagazineSubscriptionRepository $repository,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly MagazineFactory $magazineFactory,
+        private readonly HubInterface $publisher,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
     public function send(Message $message, User $sender): void
     {
-        $thread        = $message->thread;
+        $thread = $message->thread;
         $usersToNotify = $thread->getOtherParticipants($sender);
 
         foreach ($usersToNotify as $subscriber) {

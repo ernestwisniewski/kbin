@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -19,7 +21,6 @@ use App\Service\Contracts\ContentNotificationManagerInterface;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -30,17 +31,17 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     use NotificationTrait;
 
     public function __construct(
-        private MentionManager $mentionManager,
-        private NotificationRepository $notificationRepository,
-        private MagazineSubscriptionRepository $magazineRepository,
-        private IriConverterInterface $iriConverter,
-        private MagazineFactory $magazineFactory,
-        private UserFactory $userFactory,
-        private HubInterface $publisher,
-        private Environment $twig,
-        private UrlGeneratorInterface $urlGenerator,
-        private EntityManagerInterface $entityManager,
-        private ImageManager $imageManager
+        private readonly MentionManager $mentionManager,
+        private readonly NotificationRepository $notificationRepository,
+        private readonly MagazineSubscriptionRepository $magazineRepository,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly MagazineFactory $magazineFactory,
+        private readonly UserFactory $userFactory,
+        private readonly HubInterface $publisher,
+        private readonly Environment $twig,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageManager $imageManager
     ) {
     }
 
@@ -53,14 +54,6 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         $users = $this->sendMentionedNotification($subject);
         $users = $this->sendUserReplyNotification($subject, $users);
         $this->sendMagazineSubscribersNotification($subject, $users);
-    }
-
-    public function sendEdited(ContentInterface $subject): void
-    {
-        /**
-         * @var EntryComment $subject
-         */
-        $this->notifyMagazine(new EntryCommentEditedNotification($subject->user, $subject));
     }
 
     private function sendMentionedNotification(EntryComment $subject): array
@@ -123,9 +116,38 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
             );
 
             $this->publisher->publish($update);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
+    }
+
+    private function getResponse(Notification $notification): string
+    {
+        $class = explode('\\', $this->entityManager->getClassMetadata(get_class($notification))->name);
+
+        /**
+         * @var EntryComment $comment ;
+         */
+        $comment = $notification->getComment();
+
+        return json_encode(
+            [
+                'op' => end($class),
+                'id' => $comment->getId(),
+                'subject' => [
+                    'id' => $comment->entry->getId(),
+                ],
+                'title' => $comment->entry->title,
+                'body' => $comment->body,
+                'icon' => $this->imageManager->getUrl($comment->image),
+//                'image' => $this->imageManager->getUrl($comment->image),
+                'url' => $this->urlGenerator->generate('entry_single', [
+                        'magazine_name' => $comment->magazine->name,
+                        'entry_id' => $comment->entry->getId(),
+                        'slug' => $comment->entry->slug,
+                    ]).'#entry-comment-'.$comment->getId(),
+                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+            ]
+        );
     }
 
     private function sendMagazineSubscribersNotification(EntryComment $comment, array $exclude): void
@@ -141,7 +163,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         }
 
         if (count($exclude)) {
-            $usersToNotify = array_filter($usersToNotify, fn($user) => !in_array($user, $exclude));
+            $usersToNotify = array_filter($usersToNotify, fn ($user) => !in_array($user, $exclude));
         }
 
         foreach ($usersToNotify as $subscriber) {
@@ -165,45 +187,21 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
             );
 
             $this->publisher->publish($update);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 
-
-    private function getResponse(Notification $notification): string
+    public function sendEdited(ContentInterface $subject): void
     {
-        $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
-
-        /**
-         * @var EntryComment $comment ;
+        /*
+         * @var EntryComment $subject
          */
-        $comment = $notification->getComment();
-
-        return json_encode(
-            [
-                'op' => end($class),
-                'id' => $comment->getId(),
-                'subject' => [
-                    'id' => $comment->entry->getId(),
-                ],
-                'title' => $comment->entry->title,
-                'body' => $comment->body,
-                'icon' => $this->imageManager->getUrl($comment->image),
-//                'image' => $this->imageManager->getUrl($comment->image),
-                'url' => $this->urlGenerator->generate('entry_single', [
-                    'magazine_name' => $comment->magazine->name,
-                    'entry_id' => $comment->entry->getId(),
-                    'slug' => $comment->entry->slug,
-                ]).'#entry-comment-'.$comment->getId(),
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
-            ]
-        );
+        $this->notifyMagazine(new EntryCommentEditedNotification($subject->user, $subject));
     }
 
     public function sendDeleted(ContentInterface $subject): void
     {
-        /**
+        /*
          * @var EntryComment $subject
          */
         $this->notifyMagazine($notification = new EntryCommentDeletedNotification($subject->user, $subject));

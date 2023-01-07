@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -23,11 +25,11 @@ class EntryTipController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        if ($entry->type !== Entry::ENTRY_TYPE_ARTICLE && !$entry->isOc) {
+        if (Entry::ENTRY_TYPE_ARTICLE !== $entry->type && !$entry->isOc) {
             throw $this->createNotFoundException();
         }
 
-        $dto                = new CardanoTransactionDto();
+        $dto = new CardanoTransactionDto();
         $dto->walletAddress = $entry->user->cardanoWalletAddress;
 
         $mnemonicForm = $this->createForm(CardanoMnemonicType::class, null, [
@@ -41,21 +43,21 @@ class EntryTipController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_tips.html.twig', [
-                    'subject'         => $entry,
-                    'key'             => 'entry',
-                    'mnemonicForm'    => $mnemonicForm->createView(),
+                    'subject' => $entry,
+                    'key' => 'entry',
+                    'mnemonicForm' => $mnemonicForm->createView(),
                     'transactionForm' => $transactionForm->createView(),
-                    'transactions'    => $entry->cardanoTx,
+                    'transactions' => $entry->cardanoTx,
                 ]),
             ]);
         }
 
         return $this->render('entry/tips.html.twig', [
-            'magazine'        => $magazine,
-            'entry'           => $entry,
-            'mnemonicForm'    => $mnemonicForm->createView(),
+            'magazine' => $magazine,
+            'entry' => $entry,
+            'mnemonicForm' => $mnemonicForm->createView(),
             'transactionForm' => $transactionForm->createView(),
-            'transactions'    => $entry->cardanoTx,
+            'transactions' => $entry->cardanoTx,
         ]);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User;
 
@@ -23,7 +25,7 @@ class UserFollowController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount'     => $following->followersCount,
+                    'subCount' => $following->followersCount,
                     'isSubscribed' => true,
                 ]
             );
@@ -43,7 +45,7 @@ class UserFollowController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'subCount'     => $following->followersCount,
+                    'subCount' => $following->followersCount,
                     'isSubscribed' => false,
                 ]
             );

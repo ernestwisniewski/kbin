@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -25,21 +27,18 @@ class UserNote
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?User $user;
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?User $target;
+    #[ORM\Column(type: 'text', nullable: false)]
+    public string $body;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?User $user;
-
-    #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?User $target;
-
-    #[ORM\Column(type: 'text', nullable: false)]
-    public string $body;
 
     public function __construct(User $user, User $target, string $body)
     {

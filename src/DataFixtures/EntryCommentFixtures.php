@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -10,9 +12,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
+    public const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
 
-    public function __construct(private EntryCommentManager $commentManager)
+    public function __construct(private readonly EntryCommentManager $commentManager)
     {
     }
 
@@ -26,9 +28,9 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
     public function loadData(ObjectManager $manager)
     {
         foreach ($this->provideRandomComments(self::COMMENTS_COUNT) as $index => $comment) {
-            $dto        = new EntryCommentDto();
+            $dto = new EntryCommentDto();
             $dto->entry = $comment['entry'];
-            $dto->body  = $comment['body'];
+            $dto->body = $comment['body'];
 
             $entity = $this->commentManager->create($dto, $comment['user']);
 
@@ -38,10 +40,10 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
 
             $manager->flush();
 
-            $roll     = rand(0, 4);
+            $roll = rand(0, 4);
             $children = [$entity];
             if ($roll) {
-                for ($i = 1; $i <= rand(0, 20); $i++) {
+                for ($i = 1; $i <= rand(0, 20); ++$i) {
                     $children[] = $this->createChildren($children[array_rand($children, 1)], $manager);
                 }
             }
@@ -55,11 +57,11 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
 
     private function provideRandomComments($count = 1): iterable
     {
-        for ($i = 0; $i <= $count; $i++) {
+        for ($i = 0; $i <= $count; ++$i) {
             yield [
-                'body'  => $this->faker->paragraphs($this->faker->numberBetween(1, 3), true),
+                'body' => $this->faker->paragraphs($this->faker->numberBetween(1, 3), true),
                 'entry' => $this->getReference('entry_'.rand(1, EntryFixtures::ENTRIES_COUNT)),
-                'user'  => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
+                'user' => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
             ];
         }
     }

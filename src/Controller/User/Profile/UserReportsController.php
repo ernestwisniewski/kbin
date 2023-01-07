@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User\Profile;
 
@@ -10,12 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserReportsController extends AbstractController
 {
-    const MODERATED = 'moderated';
+    public const MODERATED = 'moderated';
 
     #[IsGranted('ROLE_USER')]
     public function __invoke(MagazineRepository $repository, Request $request): Response
     {
-
         return $this->render(
             'user/profile/reports.html.twig',
             [

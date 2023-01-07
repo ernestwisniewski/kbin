@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -11,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class VoteController extends AbstractController
 {
-    public function __construct(private VoteManager $manager)
+    public function __construct(private readonly VoteManager $manager)
     {
     }
 
@@ -26,8 +28,8 @@ class VoteController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'choice'    => $vote->choice,
-                    'upVotes'   => $votable->countUpVotes(),
+                    'choice' => $vote->choice,
+                    'upVotes' => $votable->countUpVotes(),
                     'downVotes' => $votable->countDownVotes(),
                 ]
             );

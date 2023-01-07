@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
@@ -11,7 +13,7 @@ class KeysGenerator
     {
         $privateKey = RSA::createKey(4096);
 
-        $actor->publicKey  = (string) $privateKey->getPublicKey();
+        $actor->publicKey = (string) $privateKey->getPublicKey();
         $actor->privateKey = (string) $privateKey;
 
         return $actor;

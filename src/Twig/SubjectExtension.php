@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Twig;
 
@@ -17,28 +19,28 @@ final class SubjectExtension extends AbstractExtension
         return [
             new TwigTest(
                 'entry', function ($subject) {
-                return $subject instanceof Entry;
-            }
+                    return $subject instanceof Entry;
+                }
             ),
             new TwigTest(
                 'entry_comment', function ($subject) {
-                return $subject instanceof EntryComment;
-            }
+                    return $subject instanceof EntryComment;
+                }
             ),
             new TwigTest(
                 'post', function ($subject) {
-                return $subject instanceof Post;
-            }
+                    return $subject instanceof Post;
+                }
             ),
             new TwigTest(
                 'post_comment', function ($subject) {
-                return $subject instanceof PostComment;
-            }
+                    return $subject instanceof PostComment;
+                }
             ),
             new TwigTest(
                 'magazine', function ($subject) {
-                return $subject instanceof Magazine;
-            }
+                    return $subject instanceof Magazine;
+                }
             ),
         ];
     }

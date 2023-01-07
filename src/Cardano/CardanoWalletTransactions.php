@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Cardano;
 
@@ -9,8 +11,8 @@ class CardanoWalletTransactions
     // https://forum.cardano.org/t/how-to-get-started-with-metadata-on-cardano/45111
 
     public function __construct(
-        private string $cardanoWalletUrl,
-        private HttpClientInterface $client,
+        private readonly string $cardanoWalletUrl,
+        private readonly HttpClientInterface $client,
     ) {
     }
 
@@ -22,33 +24,12 @@ class CardanoWalletTransactions
             [
                 'json' => [
                     'passphrase' => $passphrase,
-                    'payments'   => [
-                        [
-                            'address' => $receiverAddress,
-                            'amount'  => [
-                                'quantity' => $this->adaToLovelace($amount),
-                                'unit'     => 'lovelace',
-                            ],
-                        ],
-                    ],
-                ],
-            ]
-        )->toArray();
-    }
-
-    public function calculateFee(string $receiverAddress, string $walletId, float $amount): array
-    {
-        return $this->client->request(
-            'POST',
-            "$this->cardanoWalletUrl/wallets/$walletId/payment-fees",
-            [
-                'json' => [
                     'payments' => [
                         [
                             'address' => $receiverAddress,
-                            'amount'  => [
+                            'amount' => [
                                 'quantity' => $this->adaToLovelace($amount),
-                                'unit'     => 'lovelace',
+                                'unit' => 'lovelace',
                             ],
                         ],
                     ],
@@ -64,5 +45,26 @@ class CardanoWalletTransactions
         $amount = explode('.', (string) $amount)[0];
 
         return (int) $amount;
+    }
+
+    public function calculateFee(string $receiverAddress, string $walletId, float $amount): array
+    {
+        return $this->client->request(
+            'POST',
+            "$this->cardanoWalletUrl/wallets/$walletId/payment-fees",
+            [
+                'json' => [
+                    'payments' => [
+                        [
+                            'address' => $receiverAddress,
+                            'amount' => [
+                                'quantity' => $this->adaToLovelace($amount),
+                                'unit' => 'lovelace',
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        )->toArray();
     }
 }

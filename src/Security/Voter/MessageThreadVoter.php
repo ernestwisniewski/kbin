@@ -1,23 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security\Voter;
 
 use App\Entity\MessageThread;
 use App\Entity\User;
-use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use function in_array;
 
 class MessageThreadVoter extends Voter
 {
-    const SHOW = 'show';
-    const REPLY = 'reply';
+    public const SHOW = 'show';
+    public const REPLY = 'reply';
 
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof MessageThread
-            && in_array(
+            && \in_array(
                 $attribute,
                 [self::SHOW, self::REPLY],
                 true
@@ -35,7 +35,7 @@ class MessageThreadVoter extends Voter
         return match ($attribute) {
             self::SHOW => $this->canShow($subject, $user),
             self::REPLY => $this->canReply($subject, $user),
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
 
@@ -64,5 +64,4 @@ class MessageThreadVoter extends Voter
 
         return true;
     }
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine;
 
@@ -16,7 +18,7 @@ class MagazineLogController extends AbstractController
             'magazine/modlog.html.twig',
             [
                 'magazine' => $magazine,
-                'logs'     => $repository->findModlog($magazine, $this->getPageNb($request)),
+                'logs' => $repository->findModlog($magazine, $this->getPageNb($request)),
             ]
         );
     }

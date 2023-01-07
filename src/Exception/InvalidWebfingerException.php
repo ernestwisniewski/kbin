@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-final class CorruptedFileException extends \Exception
+final class InvalidWebfingerException extends \Exception
 {
 }

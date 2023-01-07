@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -7,16 +9,15 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\MagazineDto;
 use App\Factory\MagazineFactory;
 use App\Repository\MagazineRepository;
-use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class MagazineCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private int $kbinApiItemsPerPage,
-        private MagazineRepository $repository,
-        private MagazineFactory $factory,
-        private RequestStack $request
+        private readonly int $kbinApiItemsPerPage,
+        private readonly MagazineRepository $repository,
+        private readonly MagazineFactory $factory,
+        private readonly RequestStack $request
     ) {
     }
 
@@ -30,11 +31,12 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
         try {
             $magazines = $this->repository
                 ->findAllPaginated((int) $this->request->getCurrentRequest()->get('p', 1));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
-        $dtos = array_map(fn($magazine) => $this->factory->createDto($magazine), (array) $magazines->getCurrentPageResults());
+        $dtos = array_map(fn ($magazine) => $this->factory->createDto($magazine),
+            (array) $magazines->getCurrentPageResults());
 
         return new DtoPaginator($dtos, 0, $this->kbinApiItemsPerPage, $magazines->getNbResults());
     }

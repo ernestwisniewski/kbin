@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -15,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TagRepository
 {
-    const PER_PAGE = 25;
+    public const PER_PAGE = 25;
 
     public function __construct(private EntityManagerInterface $entityManager)
     {
@@ -25,7 +27,7 @@ class TagRepository
     {
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
-        $sql  = "
+        $sql = "
         (SELECT id, created_at, 'entry' AS type FROM entry WHERE tags @> '\"".$tag."\"' = true) 
         UNION 
         (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE tags @> '\"".$tag."\"' = true)
@@ -55,13 +57,17 @@ class TagRepository
 
         $result = $pagerfanta->getCurrentPageResults();
 
-        $entries = $this->entityManager->getRepository(Entry::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'entry')]);
+        $entries = $this->entityManager->getRepository(Entry::class)->findBy(
+            ['id' => $this->getOverviewIds((array) $result, 'entry')]
+        );
         $this->entityManager->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
             ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
         );
         $this->entityManager->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->entityManager->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
+        $post = $this->entityManager->getRepository(Post::class)->findBy(
+            ['id' => $this->getOverviewIds((array) $result, 'post')]
+        );
         $this->entityManager->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->entityManager->getRepository(PostComment::class)->findBy(
             ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
@@ -69,7 +75,7 @@ class TagRepository
         $this->entityManager->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -80,7 +86,7 @@ class TagRepository
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil(($countAll / self::PER_PAGE))) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -90,8 +96,8 @@ class TagRepository
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
 
-        return array_map(fn($subject) => $subject['id'], $result);
+        return array_map(fn ($subject) => $subject['id'], $result);
     }
 }

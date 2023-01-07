@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -14,25 +16,22 @@ use Doctrine\ORM\Mapping\OneToMany;
 #[Entity]
 class Badge
 {
+    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'badges')]
+    #[JoinColumn(onDelete: 'CASCADE')]
+    public Magazine $magazine;
+    #[Column(type: 'string', nullable: false)]
+    public ?string $name;
+    #[OneToMany(mappedBy: 'badge', targetEntity: EntryBadge::class, cascade: ['remove'], orphanRemoval: true)]
+    public Collection $badges;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
 
-    #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'badges')]
-    #[JoinColumn(onDelete: 'CASCADE')]
-    public Magazine $magazine;
-
-    #[Column(type: 'string', nullable: false)]
-    public ?string $name;
-
-    #[OneToMany(mappedBy: 'badge', targetEntity: EntryBadge::class, cascade: ['remove'], orphanRemoval: true)]
-    public Collection $badges;
-
     public function __construct(Magazine $magazine, string $name)
     {
         $this->magazine = $magazine;
-        $this->name     = $name;
+        $this->name = $name;
     }
 
     public function getId(): ?int

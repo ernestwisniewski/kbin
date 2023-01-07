@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ActivityPub\Ontology;
 
@@ -7,9 +9,9 @@ use ActivityPhp\Type\OntologyBase;
 abstract class Peertube extends OntologyBase
 {
     protected static $definitions = [
-        'Group'        => ['support'],
-        'Person'       => ['featured', 'featuredTags', 'manuallyApprovesFollowers', 'discoverable', 'devices'],
-        'Video'        => [
+        'Group' => ['support'],
+        'Person' => ['featured', 'featuredTags', 'manuallyApprovesFollowers', 'discoverable', 'devices'],
+        'Video' => [
             'uuid',
             'category',
             'language',
@@ -31,9 +33,9 @@ abstract class Peertube extends OntologyBase
             'liveSaveReplay',
             'permanentLive',
         ],
-        'Image'        => ['width', 'height'],
-        'Link'         => ['fps', 'mimeType', 'size', 'tag'],
-        'Hashtag'      => ['type'],
+        'Image' => ['width', 'height'],
+        'Link' => ['fps', 'mimeType', 'size', 'tag'],
+        'Hashtag' => ['type'],
         'Person|Group' => ['uuid', 'publicKey', 'playlists'],
     ];
 }

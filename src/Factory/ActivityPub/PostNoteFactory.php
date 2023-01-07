@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory\ActivityPub;
 
@@ -18,16 +20,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PostNoteFactory
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private GroupFactory $groupFactory,
-        private ImageWrapper $imageWrapper,
-        private TagsWrapper $tagsWrapper,
-        private MentionsWrapper $mentionsWrapper,
-        private ApHttpClient $client,
-        private ActivityPubManager $activityPubManager,
-        private MentionManager $mentionManager,
-        private TagManager $tagManager,
-        private MarkdownConverter $markdownConverter
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly GroupFactory $groupFactory,
+        private readonly ImageWrapper $imageWrapper,
+        private readonly TagsWrapper $tagsWrapper,
+        private readonly MentionsWrapper $mentionsWrapper,
+        private readonly ApHttpClient $client,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly MentionManager $mentionManager,
+        private readonly TagManager $tagManager,
+        private readonly MarkdownConverter $markdownConverter
     ) {
     }
 
@@ -42,7 +44,7 @@ class PostNoteFactory
         }
 
         $tags = $post->tags ?? [];
-        if ($post->magazine->name !== 'random' && !$post->magazine->apId) { // @todo
+        if ('random' !== $post->magazine->name && !$post->magazine->apId) { // @todo
             $tags[] = $post->magazine->name;
         }
 
@@ -59,10 +61,10 @@ class PostNoteFactory
                 $post->apId
                     ? ($this->client->getActorObject($post->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                    'ap_user_followers',
-                    ['username' => $post->user->username],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
+                        'ap_user_followers',
+                        ['username' => $post->user->username],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
             ],
             'sensitive' => $post->isAdult(),
             'content' => $this->markdownConverter->convertToHtml(
@@ -91,17 +93,18 @@ class PostNoteFactory
     }
 
     #[ArrayShape([
-        'ostatus' => "string",
-        'sensitive' => "string",
-        'votersCount' => "string",
-    ])] public static function getContext(): array
-    {
-        return [
-            'ostatus' => 'http://ostatus.org#',
-            'sensitive' => 'as:sensitive',
-            'votersCount' => 'toot:votersCount',
-        ];
-    }
+        'ostatus' => 'string',
+        'sensitive' => 'string',
+        'votersCount' => 'string',
+    ])]
+ public static function getContext(): array
+ {
+     return [
+         'ostatus' => 'http://ostatus.org#',
+         'sensitive' => 'as:sensitive',
+         'votersCount' => 'toot:votersCount',
+     ];
+ }
 
     public function getActivityPubId(Post $post): string
     {

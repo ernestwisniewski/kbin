@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventListener;
 
@@ -11,13 +13,13 @@ class MagazineVisibilityListener
 {
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
     {
-        $magazine = array_filter($event->getArguments(), fn($argument) => $argument instanceof Magazine);
+        $magazine = array_filter($event->getArguments(), fn ($argument) => $argument instanceof Magazine);
 
         if (!$magazine) {
             return;
         }
 
-        if ($magazine[0]->visibility !== VisibilityInterface::VISIBILITY_VISIBLE) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE !== $magazine[0]->visibility) {
             throw new NotFoundHttpException();
         }
     }

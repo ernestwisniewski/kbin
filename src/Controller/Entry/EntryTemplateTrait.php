@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -10,11 +12,11 @@ trait EntryTemplateTrait
     {
         $prefix = $edit ? 'edit' : 'create';
 
-        if (!$type || $type === Entry::ENTRY_TYPE_ARTICLE) {
+        if (!$type || Entry::ENTRY_TYPE_ARTICLE === $type) {
             return "entry/{$prefix}_article.html.twig";
         }
 
-        if ($type === Entry::ENTRY_TYPE_IMAGE) {
+        if (Entry::ENTRY_TYPE_IMAGE === $type) {
             return "entry/{$prefix}_image.html.twig";
         }
 

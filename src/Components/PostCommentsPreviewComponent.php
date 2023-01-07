@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -16,10 +18,10 @@ class PostCommentsPreviewComponent
     public Post $post;
 
     public function __construct(
-        private Environment $twig,
-        private CacheInterface $cache,
-        private Security $security,
-        private RequestStack $requestStack
+        private readonly Environment $twig,
+        private readonly CacheInterface $cache,
+        private readonly Security $security,
+        private readonly RequestStack $requestStack
     ) {
     }
 

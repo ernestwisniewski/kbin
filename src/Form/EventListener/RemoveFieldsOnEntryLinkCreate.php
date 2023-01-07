@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form\EventListener;
 
@@ -16,7 +18,7 @@ final class RemoveFieldsOnEntryLinkCreate implements EventSubscriberInterface
     public function preSetData(FormEvent $event): void
     {
         $entry = $event->getData();
-        $form  = $event->getForm();
+        $form = $event->getForm();
 
         if ($entry && $entry->getId()) {
             return;

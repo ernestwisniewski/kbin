@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -11,6 +13,7 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Result;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
@@ -32,10 +35,10 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
-    const PER_PAGE = 25;
-    const USERS_ALL = 'all';
-    const USERS_LOCAL = 'local';
-    const USERS_REMOTE = 'remote';
+    public const PER_PAGE = 25;
+    public const USERS_ALL = 'all';
+    public const USERS_LOCAL = 'local';
+    public const USERS_REMOTE = 'remote';
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -62,6 +65,29 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $this->getPublicActivityQuery($user)->rowCount();
     }
 
+    private function getPublicActivityQuery(User $user): Result
+    {
+        $conn = $this->_em->getConnection();
+        $sql = "
+        (SELECT id, created_at, 'entry' AS type FROM entry 
+        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."') 
+        UNION 
+        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment
+        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        UNION 
+        (SELECT id, created_at, 'post' AS type FROM post
+        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        UNION 
+        (SELECT id, created_at, 'post_comment' AS type FROM post_comment 
+        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        ORDER BY created_at DESC
+        ";
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->executeQuery();
+    }
+
     public function findPublicActivity(int $page, User $user): PagerfantaInterface
     {
         // @todo union adapter
@@ -85,22 +111,22 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $result = $pagerfanta->getCurrentPageResults();
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry')]
         );
         $this->_em->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
         );
         $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
         $this->_em->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
         );
         $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -111,7 +137,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil(($countAll / self::PER_PAGE))) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -119,41 +145,18 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $pagerfanta;
     }
 
-    private function getPublicActivityQuery(User $user): \Doctrine\DBAL\Result
-    {
-        $conn = $this->_em->getConnection();
-        $sql = "
-        (SELECT id, created_at, 'entry' AS type FROM entry 
-        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."') 
-        UNION 
-        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment
-        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
-        UNION 
-        (SELECT id, created_at, 'post' AS type FROM post
-        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
-        UNION 
-        (SELECT id, created_at, 'post_comment' AS type FROM post_comment 
-        WHERE user_id = {$user->getId()} AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
-        ORDER BY created_at DESC
-        ";
-
-        $stmt = $conn->prepare($sql);
-
-        return $stmt->executeQuery();
-    }
-
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
 
-        return array_map(fn($subject) => $subject['id'], $result);
+        return array_map(fn ($subject) => $subject['id'], $result);
     }
 
     public function findFollowing(int $page, User $user): PagerfantaInterface
     {
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.following) FROM '.UserFollow::class.' us WHERE us.follower = :user'.')';
+            'SELECT IDENTITY(us.following) FROM '.UserFollow::class.' us WHERE us.follower = :user)';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);
@@ -174,12 +177,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $pagerfanta;
     }
 
-
     public function findFollowers(int $page, User $user): PagerfantaInterface
     {
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user'.')';
+            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user)';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);
@@ -204,7 +206,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user'.')'.
+            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user)'.
             'AND u.apId IS NOT NULL AND u.isBanned = false AND u.apDeletedAt IS NULL';
 
         $res = $this->getEntityManager()->createQuery($dql)
@@ -218,7 +220,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user'.')';
+            'SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);

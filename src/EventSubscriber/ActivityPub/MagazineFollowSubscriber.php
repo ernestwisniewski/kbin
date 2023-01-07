@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\ActivityPub;
 
@@ -10,17 +12,17 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class MagazineFollowSubscriber implements EventSubscriberInterface
 {
-    public function __construct(
-        private MessageBusInterface $bus,
-    ) {
+    public function __construct(private readonly MessageBusInterface $bus)
+    {
     }
 
-    #[ArrayShape([MagazineSubscribedEvent::class => "string"])] public static function getSubscribedEvents(): array
-    {
-        return [
-            MagazineSubscribedEvent::class => 'onMagazineFollow',
-        ];
-    }
+    #[ArrayShape([MagazineSubscribedEvent::class => 'string'])]
+ public static function getSubscribedEvents(): array
+ {
+     return [
+         MagazineSubscribedEvent::class => 'onMagazineFollow',
+     ];
+ }
 
     public function onMagazineFollow(MagazineSubscribedEvent $event): void
     {

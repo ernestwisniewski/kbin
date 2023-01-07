@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -18,7 +20,6 @@ use App\Repository\UserFollowRequestRepository;
 use App\Security\EmailVerifier;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -28,24 +29,36 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
-use Tchoulom\ViewCounterBundle\Util\Date;
 
 class UserManager
 {
     public function __construct(
-        private UserFactory $factory,
-        private UserPasswordHasherInterface $passwordHasher,
-        private TokenStorageInterface $tokenStorage,
-        private RequestStack $requestStack,
-        private EventDispatcherInterface $dispatcher,
-        private MessageBusInterface $bus,
-        private EmailVerifier $verifier,
-        private EntityManagerInterface $entityManager,
-        private RateLimiterFactory $userRegisterLimiter,
-        private UserFollowRequestRepository $requestRepository,
-        private UserFollowRepository $userFollowRepository,
-        private Security $security,
+        private readonly UserFactory $factory,
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly RequestStack $requestStack,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly MessageBusInterface $bus,
+        private readonly EmailVerifier $verifier,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly RateLimiterFactory $userRegisterLimiter,
+        private readonly UserFollowRequestRepository $requestRepository,
+        private readonly UserFollowRepository $userFollowRepository,
+        private readonly Security $security,
     ) {
+    }
+
+    public function acceptFollow(User $follower, User $following): void
+    {
+        if ($request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
+            $this->entityManager->remove($request);
+        }
+
+        if ($this->userFollowRepository->findOneBy(['follower' => $follower, 'following' => $following])) {
+            return;
+        }
+
+        $this->follow($follower, $following, false);
     }
 
     public function follow(User $follower, User $following, $createRequest = true): void
@@ -73,17 +86,13 @@ class UserManager
         $this->dispatcher->dispatch(new UserFollowEvent($follower, $following));
     }
 
-    public function acceptFollow(User $follower, User $following): void
+    public function unblock(User $blocker, User $blocked): void
     {
-        if ($request = $this->requestRepository->findOneby(['follower' => $follower, 'following' => $following])) {
-            $this->entityManager->remove($request);
-        }
+        $blocker->unblock($blocked);
 
-        if ($this->userFollowRepository->findOneBy(['follower' => $follower, 'following' => $following])) {
-            return;
-        }
+        $this->entityManager->flush();
 
-        $this->follow($follower, $following, false);
+        $this->dispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
     }
 
     public function rejectFollow(User $follower, User $following): void
@@ -118,15 +127,6 @@ class UserManager
         $this->dispatcher->dispatch(new UserFollowEvent($follower, $following, true));
     }
 
-    public function unblock(User $blocker, User $blocked): void
-    {
-        $blocker->unblock($blocked);
-
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new UserBlockEvent($blocker, $blocked));
-    }
-
     public function create(UserDto $dto, bool $verifyUserEmail = true, $limiter = true): User
     {
         if ($limiter) {
@@ -150,7 +150,7 @@ class UserManager
         if ($verifyUserEmail) {
             try {
                 $this->bus->dispatch(new UserCreatedMessage($user->getId()));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
         }
 
@@ -193,7 +193,7 @@ class UserManager
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->entityManager->rollback();
             throw $e;
         }

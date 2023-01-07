@@ -1,12 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
 use App\Entity\Contracts\VoteInterface;
-use App\Entity\PostVote;
 use App\Entity\Vote;
 use App\Service\CacheService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -21,9 +21,9 @@ class VotersInlineComponent
     public ?int $more = null;
 
     public function __construct(
-        private Environment $twig,
-        private CacheService $cacheService,
-        private CacheInterface $cache
+        private readonly Environment $twig,
+        private readonly CacheService $cacheService,
+        private readonly CacheInterface $cache
     ) {
     }
 
@@ -52,10 +52,10 @@ class VotersInlineComponent
          */
         $votes = $this->subject->votes;
         $votes = $votes->filter(function ($vote) {
-            /**
+            /*
              * @var Vote $vote
              */
-            return $vote->choice === VoteInterface::VOTE_UP;
+            return VoteInterface::VOTE_UP === $vote->choice;
         });
 
         return $this->twig->render(

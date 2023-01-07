@@ -1,27 +1,27 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security\Voter;
 
 use App\Entity\Post;
 use App\Entity\User;
-use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use function in_array;
 
 class PostVoter extends Voter
 {
-    const CREATE = 'create';
-    const EDIT = 'edit';
-    const DELETE = 'delete';
-    const PURGE = 'purge';
-    const COMMENT = 'comment';
-    const VOTE = 'vote';
+    public const CREATE = 'create';
+    public const EDIT = 'edit';
+    public const DELETE = 'delete';
+    public const PURGE = 'purge';
+    public const COMMENT = 'comment';
+    public const VOTE = 'vote';
 
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof Post
-            && in_array(
+            && \in_array(
                 $attribute,
                 [self::CREATE, self::EDIT, self::DELETE, self::PURGE, self::COMMENT, self::VOTE],
                 true
@@ -42,7 +42,7 @@ class PostVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::COMMENT => $this->canComment($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
 

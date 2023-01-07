@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Domain;
 
@@ -13,8 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FrontController extends AbstractController
 {
-    public function __construct(private EntryRepository $entryRepository, private DomainRepository $domainRepository)
-    {
+    public function __construct(
+        private readonly EntryRepository $entryRepository,
+        private readonly DomainRepository $domainRepository
+    ) {
     }
 
     public function __invoke(?string $name, ?string $sortBy, ?string $time, ?string $type, Request $request): Response
@@ -28,13 +32,13 @@ class FrontController extends AbstractController
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type))
             ->setDomain($name);
-        $method  = $criteria->resolveSort($sortBy);
+        $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
 
         return $this->render(
             'domain/front.html.twig',
             [
-                'domain'  => $domain,
+                'domain' => $domain,
                 'entries' => $listing,
             ]
         );

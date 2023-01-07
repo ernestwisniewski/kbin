@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry\Comment;
 
@@ -34,11 +36,11 @@ trait CommentResponseTrait
             $template,
             [
                 'magazine' => $criteria->entry->magazine,
-                'entry'    => $criteria->entry,
+                'entry' => $criteria->entry,
                 'comments' => $comments,
-                'parent'   => $parent,
-                'comment'  => $parent,
-                'form'     => $form->createView(),
+                'parent' => $parent,
+                'comment' => $parent,
+                'form' => $form->createView(),
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );

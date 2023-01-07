@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -13,9 +15,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class SearchCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private SearchManager $manager,
-        private FactoryResolver $resolver,
-        private RequestStack $request
+        private readonly SearchManager $manager,
+        private readonly FactoryResolver $resolver,
+        private readonly RequestStack $request
     ) {
     }
 
@@ -30,9 +32,9 @@ final class SearchCollectionDataProvider implements ContextAwareCollectionDataPr
 
         $results = $this->manager->findPaginated($query);
 
-        $dtos = array_map(fn($subject) => ($this->resolver->resolve($subject))->createDto($subject), (array) $results->getCurrentPageResults());
+        $dtos = array_map(fn ($subject) => $this->resolver->resolve($subject)->createDto($subject),
+            (array) $results->getCurrentPageResults());
 
         return new DtoPaginator($dtos, 0, PostCommentRepository::PER_PAGE, $results->getNbResults());
     }
 }
-

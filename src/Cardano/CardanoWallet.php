@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Cardano;
 
@@ -7,23 +9,28 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CardanoWallet
 {
-    public function __construct(public string $cardanoWalletUrl, public HttpClientInterface $client)
+    public function __construct(private readonly string $cardanoWalletUrl, private readonly HttpClientInterface $client)
     {
     }
 
-    #[ArrayShape(['mnemonic' => "string", 'address' => "string", 'walletId' => "string"])] public function create(
+    #[ArrayShape(['mnemonic' => 'string', 'address' => 'string', 'walletId' => 'string'])]
+ public function create(
         string $passphrase,
         ?string $mnemonic = null
     ): array {
-        $mnemonic = $mnemonic ? explode(' ', $mnemonic) : BIP39::Generate(15)->words;
+     $mnemonic = $mnemonic ? explode(' ', $mnemonic) : BIP39::Generate(15)->words;
 
-        $wallet   = $this->createWallet($mnemonic, $passphrase);
-        $walletId = $wallet['id'];
+     $wallet = $this->createWallet($mnemonic, $passphrase);
+     $walletId = $wallet['id'];
 
-        $addresses = $this->client->request('GET', "$this->cardanoWalletUrl/wallets/$walletId/addresses");
+     $addresses = $this->client->request('GET', "$this->cardanoWalletUrl/wallets/$walletId/addresses");
 
-        return ['mnemonic' => implode(' ', $mnemonic), 'address' => $addresses->toArray()[0]['id'], 'walletId' => $walletId];
-    }
+     return [
+         'mnemonic' => implode(' ', $mnemonic),
+         'address' => $addresses->toArray()[0]['id'],
+         'walletId' => $walletId,
+     ];
+ }
 
     public function createWallet(array $mnemonic, string $passphrase): array
     {
@@ -32,12 +39,19 @@ class CardanoWallet
             "$this->cardanoWalletUrl/wallets",
             [
                 'json' => [
-                    'name'              => 'Karabin',
+                    'name' => 'Karabin',
                     'mnemonic_sentence' => $mnemonic,
-                    'passphrase'        => $passphrase,
+                    'passphrase' => $passphrase,
                 ],
             ]
         )->toArray();
+    }
+
+    public function deleteAll(): void
+    {
+        foreach ($this->getWallets() as $wallet) {
+            $this->delete($wallet['id']);
+        }
     }
 
     public function getWallets(): array
@@ -51,12 +65,5 @@ class CardanoWallet
     public function delete(string $walletId): void
     {
         $this->client->request('DELETE', "$this->cardanoWalletUrl/wallets/$walletId");
-    }
-
-    public function deleteAll(): void
-    {
-        foreach ($this->getWallets() as $wallet) {
-            $this->delete($wallet['id']);
-        }
     }
 }

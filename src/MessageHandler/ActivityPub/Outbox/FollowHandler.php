@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
@@ -16,46 +18,47 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class FollowHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private MagazineRepository $magazineRepository,
-        private ActivityPubManager $activityPubManager,
-        private FollowWrapper $followWrapper,
-        private UndoWrapper $undoWrapper,
-        private ApHttpClient $apHttpClient,
-        private SettingsManager $settingsManager
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly FollowWrapper $followWrapper,
+        private readonly UndoWrapper $undoWrapper,
+        private readonly ApHttpClient $apHttpClient,
+        private readonly SettingsManager $settingsManager
     ) {
     }
 
     #[ArrayShape([
-        '@context' => "string",
-        'id' => "string",
-        'actor' => "string",
-        'object' => "string",
-    ])] public function __invoke(
+        '@context' => 'string',
+        'id' => 'string',
+        'actor' => 'string',
+        'object' => 'string',
+    ])]
+ public function __invoke(
         FollowMessage $message
     ): void {
-        if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
-            return;
-        }
+     if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
+         return;
+     }
 
-        $follower = $this->userRepository->find($message->followerId);
-        if ($message->magazine) {
-            $following = $this->magazineRepository->find($message->followingId);
-        } else {
-            $following = $this->userRepository->find($message->followingId);
-        }
+     $follower = $this->userRepository->find($message->followerId);
+     if ($message->magazine) {
+         $following = $this->magazineRepository->find($message->followingId);
+     } else {
+         $following = $this->userRepository->find($message->followingId);
+     }
 
-        $followObject = $this->followWrapper->build(
-            $this->activityPubManager->getActorProfileId($follower),
-            $followingProfileId = $this->activityPubManager->getActorProfileId($following),
-        );
+     $followObject = $this->followWrapper->build(
+         $this->activityPubManager->getActorProfileId($follower),
+         $followingProfileId = $this->activityPubManager->getActorProfileId($following),
+     );
 
-        if ($message->unfollow) {
-            $followObject = $this->undoWrapper->build($followObject);
-        }
+     if ($message->unfollow) {
+         $followObject = $this->undoWrapper->build($followObject);
+     }
 
-        $inbox = $this->apHttpClient->getInboxUrl($followingProfileId);
+     $inbox = $this->apHttpClient->getInboxUrl($followingProfileId);
 
-        $this->apHttpClient->post($inbox, $follower, $followObject);
-    }
+     $this->apHttpClient->post($inbox, $follower, $followObject);
+ }
 }

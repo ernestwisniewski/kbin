@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -8,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AwardListController extends AbstractController
 {
-    public function __construct(private AwardTypeRepository $repository)
+    public function __construct(private readonly AwardTypeRepository $repository)
     {
     }
 
@@ -18,7 +20,7 @@ class AwardListController extends AbstractController
             'award/list_all.html.twig',
             [
                 'category' => $category,
-                'types' => $this->repository->findBy($category ? ['category' => $category] : [], ['count' => 'DESC'])
+                'types' => $this->repository->findBy($category ? ['category' => $category] : [], ['count' => 'DESC']),
             ]
         );
     }

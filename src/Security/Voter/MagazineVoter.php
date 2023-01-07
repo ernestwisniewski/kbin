@@ -1,30 +1,38 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security\Voter;
 
 use App\Entity\Magazine;
 use App\Entity\User;
-use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use function in_array;
 
 class MagazineVoter extends Voter
 {
-    const CREATE_CONTENT = 'create_content';
-    const EDIT = 'edit';
-    const DELETE = 'delete';
-    const PURGE = 'purge';
-    const MODERATE = 'moderate';
-    const SUBSCRIBE = 'subscribe';
-    const BLOCK = 'block';
+    public const CREATE_CONTENT = 'create_content';
+    public const EDIT = 'edit';
+    public const DELETE = 'delete';
+    public const PURGE = 'purge';
+    public const MODERATE = 'moderate';
+    public const SUBSCRIBE = 'subscribe';
+    public const BLOCK = 'block';
 
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof Magazine
-            && in_array(
+            && \in_array(
                 $attribute,
-                [self::CREATE_CONTENT, self::EDIT, self::DELETE, self::PURGE, self::MODERATE, self::SUBSCRIBE, self::BLOCK],
+                [
+                    self::CREATE_CONTENT,
+                    self::EDIT,
+                    self::DELETE,
+                    self::PURGE,
+                    self::MODERATE,
+                    self::SUBSCRIBE,
+                    self::BLOCK,
+                ],
                 true
             );
     }
@@ -45,7 +53,7 @@ class MagazineVoter extends Voter
             self::MODERATE => $this->canModerate($subject, $user),
             self::SUBSCRIBE => $this->canSubscribe($subject, $user),
             self::BLOCK => $this->canBlock($subject, $user),
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
 

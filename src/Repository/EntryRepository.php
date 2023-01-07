@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -35,9 +37,9 @@ use Symfony\Component\Security\Core\Security;
  */
 class EntryRepository extends ServiceEntityRepository implements TagRepositoryInterface
 {
-    const SORT_DEFAULT = 'hot';
-    const TIME_DEFAULT = Criteria::TIME_ALL;
-    const PER_PAGE = 25;
+    public const SORT_DEFAULT = 'hot';
+    public const TIME_DEFAULT = Criteria::TIME_ALL;
+    public const PER_PAGE = 25;
 
     private Security $security;
 
@@ -77,7 +79,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->join('e.magazine', 'm')
             ->andWhere('m.visibility = :m_visibility');
 
-        if ($user && $criteria->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+        if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
             $qb->orWhere(
                 'e.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND e.visibility = :pVisibility)'
             )
@@ -97,7 +99,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
     private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria)
     {
-        if ($criteria->time !== Criteria::TIME_ALL) {
+        if (Criteria::TIME_ALL !== $criteria->time) {
             $since = $criteria->getSince();
 
             $qb->andWhere('e.createdAt > :time')
@@ -108,7 +110,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     private function addStickyClause(QueryBuilder $qb, EntryPageView $criteria)
     {
         if ($criteria->stickiesFirst) {
-            if ($criteria->page === 1) {
+            if (1 === $criteria->page) {
                 $qb->addOrderBy('e.sticky', 'DESC');
             } else {
                 $qb->andWhere($qb->expr()->eq('e.sticky', 'false'));

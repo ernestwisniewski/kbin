@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Tag;
 
@@ -13,8 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FrontController extends AbstractController
 {
-    public function __construct(private EntryRepository $entryRepository, private TagManager $tagManager)
-    {
+    public function __construct(
+        private readonly EntryRepository $entryRepository,
+        private readonly TagManager $tagManager
+    ) {
     }
 
     public function __invoke(?string $name, ?string $sortBy, ?string $time, ?string $type, Request $request): Response

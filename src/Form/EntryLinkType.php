@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -25,8 +27,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntryLinkType extends AbstractType
 {
-    public function __construct(private ImageListener $imageListener, private SettingsManager $settingsManager)
-    {
+    public function __construct(
+        private readonly ImageListener $imageListener,
+        private readonly SettingsManager $settingsManager
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -60,7 +64,7 @@ class EntryLinkType extends AbstractType
                 'magazine',
                 EntityType::class,
                 [
-                    'class'        => Magazine::class,
+                    'class' => Magazine::class,
                     'choice_label' => 'name',
                 ]
             );
@@ -71,7 +75,7 @@ class EntryLinkType extends AbstractType
             FileType::class,
             [
                 'constraints' => ImageConstraint::default(),
-                'mapped'      => false,
+                'mapped' => false,
             ]
         )
             ->add('isAdult', CheckboxType::class)

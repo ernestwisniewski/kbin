@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post;
 
@@ -15,8 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 class PostChangeMagazineController extends AbstractController
 {
     public function __construct(
-        private PostManager $manager,
-        private MagazineRepository $repository
+        private readonly PostManager $manager,
+        private readonly MagazineRepository $repository
     ) {
     }
 

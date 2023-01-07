@@ -1,9 +1,9 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Exception;
 
-use Exception;
-
-final class FavouritedAlreadyException extends Exception
+final class FavouritedAlreadyException extends \Exception
 {
 }

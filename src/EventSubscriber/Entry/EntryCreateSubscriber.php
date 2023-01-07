@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Entry;
 
@@ -12,7 +14,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class EntryCreateSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $bus, private DomainManager $manager)
+    public function __construct(private readonly MessageBusInterface $bus, private readonly DomainManager $manager)
     {
     }
 

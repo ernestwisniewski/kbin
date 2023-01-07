@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -17,9 +19,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class UserRegisterType extends AbstractType
 {
     public function __construct(
-        private ImageListener $imageListener,
-        private AddFieldsOnUserEdit $addAvatarFieldOnUserEdit,
-        private DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit,
+        private readonly ImageListener $imageListener,
+        private readonly AddFieldsOnUserEdit $addAvatarFieldOnUserEdit,
+        private readonly DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit,
     ) {
     }
 

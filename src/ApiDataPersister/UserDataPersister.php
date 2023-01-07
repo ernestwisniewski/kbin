@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataPersister;
 
@@ -9,7 +11,7 @@ use App\Service\UserManager;
 
 final class UserDataPersister implements ContextAwareDataPersisterInterface
 {
-    public function __construct(private UserManager $manager, public UserFactory $factory)
+    public function __construct(private readonly UserManager $manager, private readonly UserFactory $factory)
     {
     }
 

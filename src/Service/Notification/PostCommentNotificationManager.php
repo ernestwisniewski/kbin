@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\Notification;
 
@@ -19,7 +21,6 @@ use App\Service\Contracts\ContentNotificationManagerInterface;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -30,17 +31,17 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     use NotificationTrait;
 
     public function __construct(
-        private MentionManager $mentionManager,
-        private NotificationRepository $notificationRepository,
-        private MagazineSubscriptionRepository $magazineRepository,
-        private IriConverterInterface $iriConverter,
-        private MagazineFactory $magazineFactory,
-        private UserFactory $userFactory,
-        private HubInterface $publisher,
-        private Environment $twig,
-        private UrlGeneratorInterface $urlGenerator,
-        private EntityManagerInterface $entityManager,
-        private ImageManager $imageManager
+        private readonly MentionManager $mentionManager,
+        private readonly NotificationRepository $notificationRepository,
+        private readonly MagazineSubscriptionRepository $magazineRepository,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly MagazineFactory $magazineFactory,
+        private readonly UserFactory $userFactory,
+        private readonly HubInterface $publisher,
+        private readonly Environment $twig,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageManager $imageManager
     ) {
     }
 
@@ -53,14 +54,6 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         $users = $this->sendMentionedNotification($subject);
         $users = $this->sendUserReplyNotification($subject, $users);
         $this->sendMagazineSubscribersNotification($subject, $users);
-    }
-
-    public function sendEdited(ContentInterface $subject): void
-    {
-        /**
-         * @var PostComment $subject
-         */
-        $this->notifyMagazine(new PostCommentEditedNotification($subject->user, $subject));
     }
 
     private function sendMentionedNotification(PostComment $subject): array
@@ -123,54 +116,13 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
             );
 
             $this->publisher->publish($update);
-
-        } catch (Exception $e) {
-        }
-    }
-
-    public function sendMagazineSubscribersNotification(PostComment $comment, array $exclude): void
-    {
-        $this->notifyMagazine(new PostCommentCreatedNotification($comment->user, $comment));
-
-        $usersToNotify = []; // @todo user followers
-        if ($comment->user->notifyOnNewPostReply && !$comment->isAuthor($comment->post->user)) {
-            $usersToNotify = $this->merge(
-                $usersToNotify,
-                [$comment->post->user]
-            );
-        }
-
-        if (count($exclude)) {
-            $usersToNotify = array_filter($usersToNotify, fn($user) => !in_array($user, $exclude));
-        }
-
-        foreach ($usersToNotify as $subscriber) {
-            $notification = new PostCommentCreatedNotification($subscriber, $comment);
-            $this->entityManager->persist($notification);
-        }
-
-        $this->entityManager->flush();
-    }
-
-    private function notifyMagazine(Notification $notification): void
-    {
-        try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($notification->getComment()->magazine));
-
-            $update = new Update(
-                ['pub', $iri],
-                $this->getResponse($notification)
-            );
-
-            $this->publisher->publish($update);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 
     private function getResponse(Notification $notification): string
     {
-        $class = explode("\\", $this->entityManager->getClassMetadata(get_class($notification))->name);
+        $class = explode('\\', $this->entityManager->getClassMetadata(get_class($notification))->name);
 
         /**
          * @var PostComment $comment
@@ -189,18 +141,67 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
                 'icon' => $this->imageManager->getUrl($comment->image),
 //                'image' => $this->imageManager->getUrl($comment->image),
                 'url' => $this->urlGenerator->generate('post_single', [
-                    'magazine_name' => $comment->magazine->name,
-                    'post_id'       => $comment->post->getId(),
-                    'slug'          => $comment->post->slug,
-                ]).'#post-comment-'.$comment->getId(),
+                        'magazine_name' => $comment->magazine->name,
+                        'post_id' => $comment->post->getId(),
+                        'slug' => $comment->post->slug,
+                    ]).'#post-comment-'.$comment->getId(),
                 'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
 
+    public function sendMagazineSubscribersNotification(PostComment $comment, array $exclude): void
+    {
+        $this->notifyMagazine(new PostCommentCreatedNotification($comment->user, $comment));
+
+        $usersToNotify = []; // @todo user followers
+        if ($comment->user->notifyOnNewPostReply && !$comment->isAuthor($comment->post->user)) {
+            $usersToNotify = $this->merge(
+                $usersToNotify,
+                [$comment->post->user]
+            );
+        }
+
+        if (count($exclude)) {
+            $usersToNotify = array_filter($usersToNotify, fn ($user) => !in_array($user, $exclude));
+        }
+
+        foreach ($usersToNotify as $subscriber) {
+            $notification = new PostCommentCreatedNotification($subscriber, $comment);
+            $this->entityManager->persist($notification);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    private function notifyMagazine(Notification $notification): void
+    {
+        try {
+            $iri = $this->iriConverter->getIriFromItem(
+                $this->magazineFactory->createDto($notification->getComment()->magazine)
+            );
+
+            $update = new Update(
+                ['pub', $iri],
+                $this->getResponse($notification)
+            );
+
+            $this->publisher->publish($update);
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function sendEdited(ContentInterface $subject): void
+    {
+        /*
+         * @var PostComment $subject
+         */
+        $this->notifyMagazine(new PostCommentEditedNotification($subject->user, $subject));
+    }
+
     public function sendDeleted(ContentInterface $subject): void
     {
-        /**
+        /*
          * @var PostComment $subject
          */
         $this->notifyMagazine($notification = new PostCommentDeletedNotification($subject->user, $subject));

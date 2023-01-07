@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -14,12 +16,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class MagazineModeratorController extends AbstractController
 {
     public function __construct(
-        private MagazineManager $manager,
-        private MagazineRepository $repository,
+        private readonly MagazineManager $manager,
+        private readonly MagazineRepository $repository,
     ) {
     }
 
@@ -42,8 +43,8 @@ class MagazineModeratorController extends AbstractController
             'magazine/panel/moderators.html.twig',
             [
                 'moderators' => $moderators,
-                'magazine'   => $magazine,
-                'form'       => $form->createView(),
+                'magazine' => $magazine,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -60,5 +61,4 @@ class MagazineModeratorController extends AbstractController
 
         return $this->redirectToRefererOrHome($request);
     }
-
 }

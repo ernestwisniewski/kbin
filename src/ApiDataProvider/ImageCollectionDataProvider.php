@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -12,8 +14,7 @@ final class ImageCollectionDataProvider implements ContextAwareCollectionDataPro
 //        private ImageRepository $repository,
 //        private ImageFactory $factory,
 //        private RequestStack $request
-    )
-    {
+    ) {
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
@@ -26,4 +27,3 @@ final class ImageCollectionDataProvider implements ContextAwareCollectionDataPro
         return new DtoPaginator([], 0, 50, 0);
     }
 }
-

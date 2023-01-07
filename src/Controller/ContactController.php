@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -23,7 +25,7 @@ class ContactController extends AbstractController
             $dto = $form->getData();
             $dto->ip = $ipResolver->resolve();
 
-            if(!$dto->surname){
+            if (!$dto->surname) {
                 $manager->send($dto);
             }
 

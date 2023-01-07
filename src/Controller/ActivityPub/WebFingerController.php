@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\ActivityPub;
 
@@ -10,13 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class WebFingerController
 {
-    public function __construct(private EventDispatcherInterface $eventDispatcher)
+    public function __construct(private readonly EventDispatcherInterface $eventDispatcher)
     {
     }
 
     public function __invoke(Request $request): JsonResponse
     {
-        $event = new WebfingerResponseEvent((new JsonRd()));
+        $event = new WebfingerResponseEvent(new JsonRd());
         $this->eventDispatcher->dispatch($event);
 
         if (!empty($event->jsonRd->getLinks())) {

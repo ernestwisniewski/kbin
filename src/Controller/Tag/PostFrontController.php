@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Tag;
 
@@ -11,12 +13,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostFrontController extends AbstractController
 {
-    public function __construct(private TagManager $tagManager)
+    public function __construct(private readonly TagManager $tagManager)
     {
     }
 
-    public function __invoke(string $name, ?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
-    {
+    public function __invoke(
+        string $name,
+        ?string $sortBy,
+        ?string $time,
+        PostRepository $repository,
+        Request $request
+    ): Response {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))

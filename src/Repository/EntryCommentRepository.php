@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -10,7 +12,6 @@ use App\Entity\EntryCommentFavourite;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
-use App\Entity\PostFavourite;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
@@ -35,8 +36,8 @@ use Symfony\Component\Security\Core\Security;
  */
 class EntryCommentRepository extends ServiceEntityRepository implements TagRepositoryInterface
 {
-    const SORT_DEFAULT = 'active';
-    const PER_PAGE = 15;
+    public const SORT_DEFAULT = 'active';
+    public const PER_PAGE = 15;
 
     private Security $security;
 
@@ -72,7 +73,7 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         $qb = $this->createQueryBuilder('c')
             ->andWhere('c.visibility IN (:visibility)');
 
-        if ($user && $criteria->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+        if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
             $qb->orWhere(
                 'c.user IN (SELECT IDENTITY(cuf.following) FROM '.UserFollow::class.' cuf WHERE cuf.follower = :cUser AND c.visibility = :cVisibility)'
             )
@@ -97,7 +98,7 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
 
     private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
-        if ($criteria->time !== Criteria::TIME_ALL) {
+        if (Criteria::TIME_ALL !== $criteria->time) {
             $since = $criteria->getSince();
 
             $qb->andWhere('c.createdAt > :time')

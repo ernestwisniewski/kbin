@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -29,7 +31,6 @@ class MagazineLogPostCommentRestored extends MagazineLog
     public function getComment(): PostComment
     {
         return $this->postComment;
-
     }
 
     public function getSubject(): ContentInterface

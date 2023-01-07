@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -13,10 +15,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ContactManager
 {
     public function __construct(
-        private SettingsManager $settings,
-        private MailerInterface $mailer,
-        private TranslatorInterface $translator,
-        private RateLimiterFactory $contactLimiter
+        private readonly SettingsManager $settings,
+        private readonly MailerInterface $mailer,
+        private readonly TranslatorInterface $translator,
+        private readonly RateLimiterFactory $contactLimiter
     ) {
     }
 
@@ -33,9 +35,9 @@ class ContactManager
             ->subject($this->translator->trans('contact').' - '.$this->settings->get('KBIN_DOMAIN'))
             ->htmlTemplate('_email/contact.html.twig')
             ->context([
-                'name'        => $dto->name,
+                'name' => $dto->name,
                 'senderEmail' => $dto->email,
-                'message'     => $dto->message,
+                'message' => $dto->message,
             ]);
 
         $this->mailer->send($email);

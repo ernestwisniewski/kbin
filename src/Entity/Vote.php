@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -17,21 +19,18 @@ class Vote
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[Column(type: 'integer', nullable: false)]
+    public int $choice;
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: false)]
+    public User $user;
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: false)]
+    public User $author;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[Column(type: 'integer', nullable: false)]
-    public int $choice;
-
-    #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: false)]
-    public User $user;
-
-    #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: false)]
-    public User $author;
 
     public function __construct(int $choice, User $user, User $author)
     {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Post;
 
@@ -11,14 +13,14 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class PostDeleteSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MessageBusInterface $bus)
+    public function __construct(private readonly MessageBusInterface $bus)
     {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            PostDeletedEvent::class     => 'onPostDeleted',
+            PostDeletedEvent::class => 'onPostDeleted',
             PostBeforePurgeEvent::class => 'onPostBeforePurge',
         ];
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -10,8 +12,10 @@ use App\Repository\EntryCommentRepository;
 
 final class EntryCommentItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private EntryCommentRepository $repository, private EntryCommentFactory $factory)
-    {
+    public function __construct(
+        private readonly EntryCommentRepository $repository,
+        private readonly EntryCommentFactory $factory
+    ) {
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
@@ -19,8 +23,12 @@ final class EntryCommentItemDataProvider implements ItemDataProviderInterface, R
         return EntryCommentDto::class === $resourceClass;
     }
 
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?EntryCommentDto
-    {
+    public function getItem(
+        string $resourceClass,
+        $id,
+        string $operationName = null,
+        array $context = []
+    ): ?EntryCommentDto {
         $comment = $this->repository->find($id);
 
         return $comment ? $this->factory->createDto($comment) : null;

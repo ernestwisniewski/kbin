@@ -1,17 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Twig\Runtime;
 
 use App\Entity\Domain;
-use App\Repository\DomainRepository;
 use Symfony\Component\Security\Core\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class DomainRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(
-        private Security $security,
-    ) {
+    public function __construct(private readonly Security $security)
+    {
     }
 
     public function isSubscribed(Domain $domain): bool
@@ -32,4 +32,3 @@ class DomainRuntime implements RuntimeExtensionInterface
         return $this->security->getUser()->isBlockedDomain($domain);
     }
 }
-

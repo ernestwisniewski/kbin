@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -6,13 +8,11 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
-use DateTimeImmutable;
-use LogicException;
 
 abstract class Criteria
 {
-    const ENTRY_TYPE_ARTICLE = 'article';
-    const ENTRY_TYPE_LINK = 'link';
+    public const ENTRY_TYPE_ARTICLE = 'article';
+    public const ENTRY_TYPE_LINK = 'link';
 
     public const FRONT_FEATURED = 'featured';
     public const FRONT_SUBSCRIBED = 'subscribed';
@@ -103,18 +103,18 @@ abstract class Criteria
 
     public function resolveSort(?string $value): string
     {
-        //@todo getRoute EntryManager
+        // @todo getRoute EntryManager
         $routes = [
-            'top'       => Criteria::SORT_TOP,
-            'hot'       => Criteria::SORT_HOT,
-            'active'    => Criteria::SORT_ACTIVE,
-            'newest'    => Criteria::SORT_NEW,
+            'top' => Criteria::SORT_TOP,
+            'hot' => Criteria::SORT_HOT,
+            'active' => Criteria::SORT_ACTIVE,
+            'newest' => Criteria::SORT_NEW,
             'commented' => Criteria::SORT_COMMENTED,
 
-            'ważne'       => Criteria::SORT_TOP,
-            'gorące'      => Criteria::SORT_HOT,
-            'aktywne'     => Criteria::SORT_ACTIVE,
-            'najnowsze'   => Criteria::SORT_NEW,
+            'ważne' => Criteria::SORT_TOP,
+            'gorące' => Criteria::SORT_HOT,
+            'aktywne' => Criteria::SORT_ACTIVE,
+            'najnowsze' => Criteria::SORT_NEW,
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
 
@@ -123,21 +123,21 @@ abstract class Criteria
 
     public function resolveTime(?string $value): ?string
     {
-        //@todo
+        // @todo
         $routes = [
-            '6h'       => Criteria::TIME_6_HOURS,
-            '12h'      => Criteria::TIME_12_HOURS,
-            '1d'       => Criteria::TIME_DAY,
-            '1w'       => Criteria::TIME_WEEK,
-            '1m'       => Criteria::TIME_MONTH,
-            '1y'       => Criteria::TIME_YEAR,
-            '∞'        => Criteria::TIME_ALL,
-            'all'      => Criteria::TIME_ALL,
+            '6h' => Criteria::TIME_6_HOURS,
+            '12h' => Criteria::TIME_12_HOURS,
+            '1d' => Criteria::TIME_DAY,
+            '1w' => Criteria::TIME_WEEK,
+            '1m' => Criteria::TIME_MONTH,
+            '1y' => Criteria::TIME_YEAR,
+            '∞' => Criteria::TIME_ALL,
+            'all' => Criteria::TIME_ALL,
             'wszystko' => Criteria::TIME_ALL,
-            '6g'       => Criteria::TIME_6_HOURS,
-            '12g'      => Criteria::TIME_12_HOURS,
-            '1t'       => Criteria::TIME_WEEK,
-            '1r'       => Criteria::TIME_YEAR,
+            '6g' => Criteria::TIME_6_HOURS,
+            '12g' => Criteria::TIME_12_HOURS,
+            '1t' => Criteria::TIME_WEEK,
+            '1r' => Criteria::TIME_YEAR,
         ];
 
         return $routes[$value] ?? null;
@@ -145,24 +145,24 @@ abstract class Criteria
 
     public function resolveType(?string $value): ?string
     {
-        //@todo
+        // @todo
         $routes = [
-            'article'  => Entry::ENTRY_TYPE_ARTICLE,
+            'article' => Entry::ENTRY_TYPE_ARTICLE,
             'articles' => Entry::ENTRY_TYPE_ARTICLE,
-            'link'     => Entry::ENTRY_TYPE_LINK,
-            'links'    => Entry::ENTRY_TYPE_LINK,
-            'video'    => Entry::ENTRY_TYPE_VIDEO,
-            'videos'   => Entry::ENTRY_TYPE_VIDEO,
-            'photo'    => Entry::ENTRY_TYPE_IMAGE,
-            'photos'   => Entry::ENTRY_TYPE_IMAGE,
-            'image'   => Entry::ENTRY_TYPE_IMAGE,
-            'images'   => Entry::ENTRY_TYPE_IMAGE,
+            'link' => Entry::ENTRY_TYPE_LINK,
+            'links' => Entry::ENTRY_TYPE_LINK,
+            'video' => Entry::ENTRY_TYPE_VIDEO,
+            'videos' => Entry::ENTRY_TYPE_VIDEO,
+            'photo' => Entry::ENTRY_TYPE_IMAGE,
+            'photos' => Entry::ENTRY_TYPE_IMAGE,
+            'image' => Entry::ENTRY_TYPE_IMAGE,
+            'images' => Entry::ENTRY_TYPE_IMAGE,
 
-            'artykuł'  => Entry::ENTRY_TYPE_ARTICLE,
+            'artykuł' => Entry::ENTRY_TYPE_ARTICLE,
             'artykuły' => Entry::ENTRY_TYPE_ARTICLE,
-            'linki'    => Entry::ENTRY_TYPE_LINK,
-            'zdjęcie'  => Entry::ENTRY_TYPE_IMAGE,
-            'zdjęcia'  => Entry::ENTRY_TYPE_IMAGE,
+            'linki' => Entry::ENTRY_TYPE_LINK,
+            'zdjęcie' => Entry::ENTRY_TYPE_IMAGE,
+            'zdjęcia' => Entry::ENTRY_TYPE_IMAGE,
         ];
 
         return $routes[$value] ?? null;
@@ -186,9 +186,9 @@ abstract class Criteria
         return $this;
     }
 
-    public function getSince(): DateTimeImmutable
+    public function getSince(): \DateTimeImmutable
     {
-        $since = new DateTimeImmutable('@'.time());
+        $since = new \DateTimeImmutable('@'.time());
 
         return match ($this->time) {
             Criteria::TIME_YEAR => $since->modify('-1 year'),
@@ -197,7 +197,7 @@ abstract class Criteria
             Criteria::TIME_DAY => $since->modify('-1 day'),
             Criteria::TIME_12_HOURS => $since->modify('-12 hours'),
             Criteria::TIME_6_HOURS => $since->modify('-6 hours'),
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
 }

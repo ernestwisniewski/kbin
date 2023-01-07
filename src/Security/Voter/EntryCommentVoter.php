@@ -1,24 +1,28 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security\Voter;
 
 use App\Entity\EntryComment;
 use App\Entity\User;
-use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use function in_array;
 
 class EntryCommentVoter extends Voter
 {
-    const EDIT = 'edit';
-    const DELETE = 'delete';
-    const PURGE = 'purge';
-    const VOTE = 'vote';
+    public const EDIT = 'edit';
+    public const DELETE = 'delete';
+    public const PURGE = 'purge';
+    public const VOTE = 'vote';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $subject instanceof EntryComment && in_array($attribute, [self::EDIT, self::DELETE, self::PURGE, self::VOTE], true);
+        return $subject instanceof EntryComment && \in_array(
+            $attribute,
+            [self::EDIT, self::DELETE, self::PURGE, self::VOTE],
+            true
+        );
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -34,7 +38,7 @@ class EntryCommentVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
 
@@ -54,7 +58,7 @@ class EntryCommentVoter extends Voter
 
     private function canDelete(EntryComment $comment, User $user): bool
     {
-        if($user->isAdmin()) {
+        if ($user->isAdmin()) {
             return true;
         }
 

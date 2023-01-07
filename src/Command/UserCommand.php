@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -18,9 +20,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class UserCommand extends Command
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserRepository $repository,
-        private UserManager $manager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserRepository $repository,
+        private readonly UserManager $manager
     ) {
         parent::__construct();
     }

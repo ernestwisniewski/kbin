@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -13,8 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TermsController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager, private SiteRepository $repository)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SiteRepository $repository
+    ) {
     }
 
     #[IsGranted('ROLE_ADMIN')]

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
@@ -17,22 +19,22 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ContentCountSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private EntryRepository $entryRepository,
-        private PostRepository $postRepository,
-        private EntityManagerInterface $entityManager
+        private readonly EntryRepository $entryRepository,
+        private readonly PostRepository $postRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            EntryDeletedEvent::class        => 'onEntryDeleted',
+            EntryDeletedEvent::class => 'onEntryDeleted',
             EntryCommentCreatedEvent::class => 'onEntryCommentCreated',
             EntryCommentDeletedEvent::class => 'onEntryCommentDeleted',
-            EntryCommentPurgedEvent::class  => 'onEntryCommentPurged',
-            PostCommentCreatedEvent::class  => 'onPostCommentCreated',
-            PostCommentDeletedEvent::class  => 'onPostCommentDeleted',
-            PostCommentPurgedEvent::class   => 'onPostCommentPurged',
+            EntryCommentPurgedEvent::class => 'onEntryCommentPurged',
+            PostCommentCreatedEvent::class => 'onPostCommentCreated',
+            PostCommentDeletedEvent::class => 'onPostCommentDeleted',
+            PostCommentPurgedEvent::class => 'onPostCommentPurged',
         ];
     }
 
@@ -45,7 +47,7 @@ class ContentCountSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentCreated(EntryCommentCreatedEvent $event): void
     {
-        $magazine                    = $event->comment->entry->magazine;
+        $magazine = $event->comment->entry->magazine;
         $magazine->entryCommentCount = $this->entryRepository->countEntryCommentsByMagazine($magazine);
 
         $this->entityManager->flush();
@@ -53,7 +55,7 @@ class ContentCountSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentDeleted(EntryCommentDeletedEvent $event): void
     {
-        $magazine                    = $event->comment->entry->magazine;
+        $magazine = $event->comment->entry->magazine;
         $magazine->entryCommentCount = $this->entryRepository->countEntryCommentsByMagazine($magazine) - 1;
 
         $event->comment->entry->updateCounts();
@@ -70,7 +72,7 @@ class ContentCountSubscriber implements EventSubscriberInterface
 
     public function onPostCommentCreated(PostCommentCreatedEvent $event): void
     {
-        $magazine                   = $event->comment->post->magazine;
+        $magazine = $event->comment->post->magazine;
         $magazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($magazine);
 
         $this->entityManager->flush();
@@ -78,7 +80,7 @@ class ContentCountSubscriber implements EventSubscriberInterface
 
     public function onPostCommentDeleted(PostCommentDeletedEvent $event): void
     {
-        $magazine                   = $event->comment->post->magazine;
+        $magazine = $event->comment->post->magazine;
         $magazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($magazine) - 1;
 
         $event->comment->post->updateCounts();

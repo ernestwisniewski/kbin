@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -13,38 +15,42 @@ use Twig\Environment;
 #[AsTwigComponent('related_posts_sidebar')]
 class RelatedPostsSidebarComponent
 {
-    const RELATED_LIMIT = 4;
-    const TYPE_TAG = 'tag';
-    const TYPE_MAGAZINE = 'magazine';
-    const TYPE_RANDOM = 'random';
+    public const RELATED_LIMIT = 4;
+    public const TYPE_TAG = 'tag';
+    public const TYPE_MAGAZINE = 'magazine';
+    public const TYPE_RANDOM = 'random';
 
     public string $tag = '';
     public string $type = self::TYPE_TAG;
     public ?Post $post = null;
 
     public function __construct(
-        private PostRepository $repository,
-        private Environment $twig,
-        private Security $security,
-        private CacheInterface $cache
+        private readonly PostRepository $repository,
+        private readonly Environment $twig,
+        private readonly Security $security,
+        private readonly CacheInterface $cache
     ) {
     }
 
     public function getHtml(): string
     {
         return $this->cache->get(
-            'related_posts_sidebar_'.$this->type.'_'.str_replace('@', '-', $this->tag).'_'.$this->security->getUser()?->getId(),
+            'related_posts_sidebar_'.$this->type.'_'.str_replace('@', '-', $this->tag).'_'.$this->security->getUser(
+            )?->getId(),
             function (ItemInterface $item) {
                 $item->expiresAfter(60);
 
                 $posts = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByTag($this->tag, self::RELATED_LIMIT + 20),
-                    self::TYPE_MAGAZINE => $this->repository->findRelatedByMagazine($this->tag, self::RELATED_LIMIT + 20),
+                    self::TYPE_MAGAZINE => $this->repository->findRelatedByMagazine(
+                        $this->tag,
+                        self::RELATED_LIMIT + 20
+                    ),
                     default => $this->repository->findLast(self::RELATED_LIMIT + 20),
                 };
 
                 if ($this->post) {
-                    $posts = array_filter($posts, fn($e) => $e->getId() !== $this->post->getId());
+                    $posts = array_filter($posts, fn ($e) => $e->getId() !== $this->post->getId());
                 }
 
                 if (!count($posts)) {

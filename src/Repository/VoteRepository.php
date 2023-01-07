@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -13,7 +15,7 @@ class VoteRepository
     public function count(?\DateTimeImmutable $date = null): int
     {
         $conn = $this->entityManager->getConnection();
-        $sql  = "
+        $sql = "
         (SELECT id, 'entry' AS type FROM entry_vote {$this->where($date)}) 
         UNION 
         (SELECT id, 'entry_comment' AS type FROM entry_comment_vote {$this->where($date)})

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -15,29 +17,39 @@ class RelatedEntriesComponent
 {
     public Entry $entry;
 
-    public function __construct(private SearchManager $manager, private Environment $twig, private Security $security, private CacheInterface $cache)
-    {
+    public function __construct(
+        private readonly SearchManager $manager,
+        private readonly Environment $twig,
+        private readonly Security $security,
+        private readonly CacheInterface $cache
+    ) {
     }
 
     public function getHtml(): string
     {
         $id = $this->entry->getId();
 
-        return $this->cache->get('related_'.$id.'_'.$this->security->getUser()?->getId(), function (ItemInterface $item) {
-            $item->expiresAfter(3600);
+        return $this->cache->get(
+            'related_'.$id.'_'.$this->security->getUser()?->getId(),
+            function (ItemInterface $item) {
+                $item->expiresAfter(3600);
 
-            try {
-                $entries = $this->manager->findRelated($this->entry->title.' '.$this->entry->magazine->name);
-                $entries = is_array($entries) ? array_filter($entries, fn($e) => $e->getId() !== $this->entry->getId()) : [];
+                try {
+                    $entries = $this->manager->findRelated($this->entry->title.' '.$this->entry->magazine->name);
+                    $entries = is_array($entries) ? array_filter(
+                        $entries,
+                        fn ($e) => $e->getId() !== $this->entry->getId()
+                    ) : [];
 
-                if (!count($entries)) {
-                    throw new \Exception('Empty related entries list.');
+                    if (!count($entries)) {
+                        throw new \Exception('Empty related entries list.');
+                    }
+                } catch (\Exception $e) {
+                    return '';
                 }
-            } catch (\Exception $e) {
-                return '';
-            }
 
-            return $this->twig->render('entry/_related.html.twig', ['entries' => $entries]);
-        });
+                return $this->twig->render('entry/_related.html.twig', ['entries' => $entries]);
+            }
+        );
     }
 }

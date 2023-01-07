@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
@@ -10,19 +12,17 @@ use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
 use App\Service\EntryManager;
-use DateTime;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Page
 {
     public function __construct(
-        private ApActivityRepository $repository,
-        private MarkdownConverter $markdownConverter,
-        private MagazineRepository $magazineRepository,
-        private EntryManager $entryManager,
-        private ActivityPubManager $activityPubManager,
-        private EntityManagerInterface $entityManager
+        private readonly ApActivityRepository $repository,
+        private readonly MarkdownConverter $markdownConverter,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly EntryManager $entryManager,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -30,7 +30,7 @@ class Page
     {
         $current = $this->repository->findByObjectId($object['id']);
         if ($current) {
-            return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
+            return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
         }
 
         $dto = new EntryDto();
@@ -60,33 +60,6 @@ class Page
         );
     }
 
-    private function handleDate(EntryDto $dto, string $date): void
-    {
-        $dto->createdAt = new DateTimeImmutable($date);
-        $dto->lastActive = new DateTime($date);
-    }
-
-    private function handleUrl(EntryDto $dto, ?array $object): void
-    {
-        $attachment = $object['attachment'];
-
-        try {
-            if (is_array($attachment)) {
-                $link = array_filter(
-                    $attachment,
-                    fn($val) => in_array($val['type'], ['Link'])
-                );
-
-                $dto->url = $link[0]['href'];
-            }
-        } catch (\Exception $e) {
-        }
-
-        if (!$dto->url && isset($object['url'])) {
-            $dto->url = $object['url'];
-        }
-    }
-
     private function getVisibility(array $object, User $actor): string
     {
         if (!in_array(
@@ -106,5 +79,32 @@ class Page
         }
 
         return VisibilityInterface::VISIBILITY_VISIBLE;
+    }
+
+    private function handleUrl(EntryDto $dto, ?array $object): void
+    {
+        $attachment = $object['attachment'];
+
+        try {
+            if (is_array($attachment)) {
+                $link = array_filter(
+                    $attachment,
+                    fn ($val) => in_array($val['type'], ['Link'])
+                );
+
+                $dto->url = $link[0]['href'];
+            }
+        } catch (\Exception $e) {
+        }
+
+        if (!$dto->url && isset($object['url'])) {
+            $dto->url = $object['url'];
+        }
+    }
+
+    private function handleDate(EntryDto $dto, string $date): void
+    {
+        $dto->createdAt = new \DateTimeImmutable($date);
+        $dto->lastActive = new \DateTime($date);
     }
 }

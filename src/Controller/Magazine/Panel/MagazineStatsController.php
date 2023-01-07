@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine\Panel;
 
@@ -6,14 +8,13 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Repository\StatsRepository;
 use App\Service\StatsManager;
-use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MagazineStatsController extends AbstractController
 {
-    public function __construct(private StatsManager $manager)
+    public function __construct(private readonly StatsManager $manager)
     {
     }
 
@@ -27,7 +28,7 @@ class MagazineStatsController extends AbstractController
 
         if ($statsPeriod) {
             $statsPeriod = min($statsPeriod, 256);
-            $start       = (new DateTime())->modify("-$statsPeriod days");
+            $start = (new \DateTime())->modify("-$statsPeriod days");
         }
 
         $results = match ($statsType) {
@@ -51,4 +52,3 @@ class MagazineStatsController extends AbstractController
         );
     }
 }
-

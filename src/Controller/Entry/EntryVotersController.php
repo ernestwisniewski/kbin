@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
@@ -20,15 +22,15 @@ class EntryVotersController extends AbstractController
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_voters_inline.html.twig', [
                     'votes' => $entry->votes,
-                    'more'  => null,
+                    'more' => null,
                 ]),
             ]);
         }
 
         return $this->render('entry/voters.html.twig', [
             'magazine' => $magazine,
-            'entry'    => $entry,
-            'votes'    => $entry->votes,
+            'entry' => $entry,
+            'votes' => $entry->votes,
         ]);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -8,13 +10,12 @@ use App\DTO\DomainDto;
 use App\Factory\DomainFactory;
 use App\Repository\DomainRepository;
 use App\Repository\EntryRepository;
-use Exception;
 
 final class DomainCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private DomainRepository $repository,
-        private DomainFactory $factory,
+        private readonly DomainRepository $repository,
+        private readonly DomainFactory $factory,
     ) {
     }
 
@@ -27,13 +28,12 @@ final class DomainCollectionDataProvider implements ContextAwareCollectionDataPr
     {
         try {
             $domains = $this->repository->findAllPaginated(1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
-        $dtos = array_map(fn($entry) => $this->factory->createDto($entry), (array) $domains->getCurrentPageResults());
+        $dtos = array_map(fn ($entry) => $this->factory->createDto($entry), (array) $domains->getCurrentPageResults());
 
         return new DtoPaginator($dtos, 0, EntryRepository::PER_PAGE, $domains->getNbResults());
     }
 }
-

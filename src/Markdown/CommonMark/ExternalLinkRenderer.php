@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
@@ -6,8 +8,6 @@ use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
 use App\Service\SettingsManager;
 use App\Utils\Embed;
-use Exception;
-use InvalidArgumentException;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\Inline\Element\AbstractInline;
@@ -16,16 +16,15 @@ use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
-use function get_class;
 
 final class ExternalLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
-    protected ConfigurationInterface $config;
+    private ConfigurationInterface $config;
 
     public function __construct(
-        private Embed $embed,
-        private EmbedRepository $embedRepository,
-        private SettingsManager $settingsManager
+        private readonly Embed $embed,
+        private readonly EmbedRepository $embedRepository,
+        private readonly SettingsManager $settingsManager
     ) {
     }
 
@@ -34,12 +33,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         ElementRendererInterface $htmlRenderer
     ): HtmlElement {
         if (!$inline instanceof Link) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Incompatible inline type: %s',
-                    get_class($inline)
-                )
-            );
+            throw new \InvalidArgumentException(sprintf('Incompatible inline type: %s', \get_class($inline)));
         }
 
         $url = $title = $inline->getUrl();
@@ -50,17 +44,20 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
 
         $embed = false;
         try {
-            if (filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($title, '@') && !str_starts_with($title, '#')) {
+            if (filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($title, '@') && !str_starts_with(
+                $title,
+                '#'
+            )) {
                 if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
                     $embed = $entity->hasEmbed;
                 } else {
                     try {
                         $embed = $this->embed->fetch($url)->html;
                         if ($embed) {
-                            $entity = new \App\Entity\Embed($url, (bool)$embed);
+                            $entity = new \App\Entity\Embed($url, (bool) $embed);
                             $this->embedRepository->add($entity);
                         }
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $embed = false;
                     }
 
@@ -70,15 +67,13 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
                     }
                 }
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $embed = null;
         }
-
 
         if (ImageManager::isImageUrl($url) || $embed) {
             return EmbedElement::buildEmbed($url, $title);
         }
-
 
         $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer'];
 

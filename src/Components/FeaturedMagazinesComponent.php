@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Components;
 
@@ -18,10 +20,10 @@ class FeaturedMagazinesComponent
     public bool $topbar = false;
 
     public function __construct(
-        private MagazineRepository $repository,
-        private Environment $twig,
-        private CacheInterface $cache,
-        private KernelInterface $kernel
+        private readonly MagazineRepository $repository,
+        private readonly Environment $twig,
+        private readonly CacheInterface $cache,
+        private readonly KernelInterface $kernel
     ) {
     }
 
@@ -29,7 +31,7 @@ class FeaturedMagazinesComponent
     {
         $env = $this->kernel->getEnvironment(); // @todo
         $magazines = $this->cache->get('featured_magazines', function (ItemInterface $item) use ($env) {
-            $item->expiresAfter($env === 'test' ? 0 : 60);
+            $item->expiresAfter('test' === $env ? 0 : 60);
 
             $magazines = $this->repository->findBy(
                 ['apId' => null, 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE],
@@ -41,9 +43,9 @@ class FeaturedMagazinesComponent
                 array_unshift($magazines, $this->magazine);
             }
 
-            usort($magazines, fn($a, $b) => $a->lastActive < $b->lastActive);
+            usort($magazines, fn ($a, $b) => $a->lastActive < $b->lastActive);
 
-            return array_map(fn($mag) => $mag->name, $magazines);
+            return array_map(fn ($mag) => $mag->name, $magazines);
         });
 
         return $this->twig->render(
@@ -55,5 +57,4 @@ class FeaturedMagazinesComponent
             ]
         );
     }
-
 }

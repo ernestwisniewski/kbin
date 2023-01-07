@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -19,14 +21,14 @@ class FavouriteController extends AbstractController
         $favourite = $manager->toggle($this->getUserOrThrow(), $subject);
         $isFavored = false;
 
-        if($this->getUser()) {
+        if ($this->getUser()) {
             $isFavored = $subject->isFavored($this->getUser());
         }
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
                     'count' => $subject->favouriteCount,
-                    'isFavored' => $isFavored
+                    'isFavored' => $isFavored,
                 ]
             );
         }

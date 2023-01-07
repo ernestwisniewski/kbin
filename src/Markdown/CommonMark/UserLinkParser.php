@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
@@ -12,10 +14,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 final class UserLinkParser extends AbstractLocalLinkParser
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private SettingsManager $settingsManager,
-        private UserRepository $repository,
-        private MessageBusInterface $bus
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly SettingsManager $settingsManager,
+        private readonly UserRepository $repository,
+        private readonly MessageBusInterface $bus
     ) {
     }
 
@@ -29,7 +31,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
         $handle = $this->getName($suffix);
         $username = ltrim($handle, '@');
 
-        if (substr_count($handle, '@') == 2) {
+        if (2 == substr_count($handle, '@')) {
             $user = $this->repository->findOneByUsername($suffix);
             if ($user && $user->apPublicUrl) {
                 return $user->apPublicUrl;
@@ -49,6 +51,15 @@ final class UserLinkParser extends AbstractLocalLinkParser
         );
     }
 
+    protected function getName(string $suffix): string
+    {
+        $domain = '@'.$this->settingsManager->get('KBIN_DOMAIN');
+
+        $handle = preg_replace('/'.preg_quote($domain, '/').'$/', '', $suffix);
+
+        return trim($handle);
+    }
+
     public function getRegex(): string
     {
         return RegPatterns::LOCAL_USER;
@@ -57,14 +68,5 @@ final class UserLinkParser extends AbstractLocalLinkParser
     public function getApRegex(): string
     {
         return RegPatterns::AP_USER;
-    }
-
-    protected function getName(string $suffix): string
-    {
-        $domain = '@'.$this->settingsManager->get('KBIN_DOMAIN');
-
-        $handle = preg_replace('/'.preg_quote($domain, '/').'$/', '', $suffix);
-
-        return trim($handle);
     }
 }

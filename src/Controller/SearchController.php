@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -16,10 +18,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class SearchController extends AbstractController
 {
     public function __construct(
-        private SearchManager $manager,
-        private ActivityPubManager $activityPubManager,
-        private MessageBusInterface $bus,
-        private ApHttpClient $apHttpClient
+        private readonly SearchManager $manager,
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly MessageBusInterface $bus,
+        private readonly ApHttpClient $apHttpClient
     ) {
     }
 

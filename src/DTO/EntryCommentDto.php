@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -8,8 +10,6 @@ use App\Entity\EntryComment;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
-use DateTime;
-use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class EntryCommentDto
@@ -30,8 +30,8 @@ class EntryCommentDto
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $mentions = null;
-    public ?DateTimeImmutable $createdAt = null;
-    public ?DateTime $lastActive = null;
+    public ?\DateTimeImmutable $createdAt = null;
+    public ?\DateTime $lastActive = null;
     private ?int $id = null;
 
     public function createWithParent(

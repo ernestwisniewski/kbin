@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -15,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AwardRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 100;
+    public const PER_PAGE = 100;
 
     public function __construct(ManagerRegistry $registry)
     {

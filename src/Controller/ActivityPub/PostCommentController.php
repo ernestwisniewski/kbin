@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\ActivityPub;
 
@@ -17,7 +19,7 @@ class PostCommentController extends AbstractController
 {
     use PrivateContentTrait;
 
-    public function __construct(private PostCommentNoteFactory $commentNoteFactory)
+    public function __construct(private readonly PostCommentNoteFactory $commentNoteFactory)
     {
     }
 
@@ -35,7 +37,6 @@ class PostCommentController extends AbstractController
         }
 
         $this->handlePrivateContent($post);
-
 
         $response = new JsonResponse($this->commentNoteFactory->create($comment, true));
 

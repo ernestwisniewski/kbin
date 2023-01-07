@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataPersister;
 
@@ -11,9 +13,9 @@ use Symfony\Component\Security\Core\Security;
 final class PostDataPersister implements ContextAwareDataPersisterInterface
 {
     public function __construct(
-        private PostManager $manager,
-        private PostFactory $factory,
-        private Security $security,
+        private readonly PostManager $manager,
+        private readonly PostFactory $factory,
+        private readonly Security $security,
     ) {
     }
 

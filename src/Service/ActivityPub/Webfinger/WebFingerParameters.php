@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\ActivityPub\Webfinger;
 
@@ -6,11 +8,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class WebFingerParameters
 {
-    const REL_KEY_NAME = 'rel';
-    const HOST_KEY_NAME = 'host';
-    const ACCOUNT_KEY_NAME = 'account';
+    public const REL_KEY_NAME = 'rel';
+    public const HOST_KEY_NAME = 'host';
+    public const ACCOUNT_KEY_NAME = 'account';
 
-    public function __construct(private RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
     }
 

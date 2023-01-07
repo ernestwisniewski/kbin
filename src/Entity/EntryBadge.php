@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -12,22 +14,19 @@ use Doctrine\ORM\Mapping\ManyToOne;
 #[Entity]
 class EntryBadge
 {
+    #[ManyToOne(targetEntity: Badge::class, inversedBy: 'badges')]
+    #[JoinColumn]
+    public Badge $badge;
+    #[ManyToOne(targetEntity: Entry::class, inversedBy: 'badges')]
+    #[JoinColumn]
+    public Entry $entry;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
 
-    #[ManyToOne(targetEntity: Badge::class, inversedBy: 'badges')]
-    #[JoinColumn]
-    public Badge $badge;
-
-    #[ManyToOne(targetEntity: Entry::class, inversedBy: 'badges')]
-    #[JoinColumn]
-    public Entry $entry;
-
     public function __construct(Entry $entry, Badge $badge)
     {
-
         $this->entry = $entry;
         $this->badge = $badge;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber\Post;
 
@@ -14,9 +16,9 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class PostCreateSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private MagazineRepository $magazineRepository,
-        private PostManager $postManager
+        private readonly MessageBusInterface $bus,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly PostManager $postManager
     ) {
     }
 

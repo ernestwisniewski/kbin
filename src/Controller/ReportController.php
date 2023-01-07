@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -13,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReportController extends AbstractController
 {
-    public function __construct(private ReportManager $manager)
+    public function __construct(private readonly ReportManager $manager)
     {
     }
 

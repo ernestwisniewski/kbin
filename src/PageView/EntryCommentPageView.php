@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\PageView;
 
@@ -14,5 +16,4 @@ class EntryCommentPageView extends Criteria
 
     public ?Entry $entry = null;
     public bool $onlyParents = true;
-
 }

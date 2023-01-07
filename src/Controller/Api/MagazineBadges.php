@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Api;
 
@@ -9,13 +11,13 @@ use App\Factory\BadgeFactory;
 
 class MagazineBadges extends AbstractController
 {
-    public function __construct(private BadgeFactory $factory)
+    public function __construct(private readonly BadgeFactory $factory)
     {
     }
 
     public function __invoke(Magazine $magazine)
     {
-        $dtos = array_map(fn($badge) => $this->factory->createDto($badge), $magazine->badges->toArray());
+        $dtos = array_map(fn ($badge) => $this->factory->createDto($badge), $magazine->badges->toArray());
 
         return new DtoPaginator($dtos, 0, 10, count($dtos));
     }

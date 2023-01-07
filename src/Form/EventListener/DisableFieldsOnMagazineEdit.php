@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form\EventListener;
 
@@ -16,14 +18,14 @@ final class DisableFieldsOnMagazineEdit implements EventSubscriberInterface
     public function preSetData(FormEvent $event): void
     {
         $magazine = $event->getData();
-        $form     = $event->getForm();
+        $form = $event->getForm();
 
         if (!$magazine || null === $magazine->getId()) {
             return;
         }
 
-        $field             = $form->get('name');
-        $attrs             = $field->getConfig()->getOptions();
+        $field = $form->get('name');
+        $attrs = $field->getConfig()->getOptions();
         $attrs['disabled'] = 'disabled';
 
         $form->remove($field->getName());

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
@@ -18,21 +20,23 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ReportHandleSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private ReportRepository $repository, private EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly ReportRepository $repository,
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            EntryDeletedEvent::class            => 'onEntryDeleted',
-            EntryBeforePurgeEvent::class        => 'onEntryBeforePurge',
-            EntryCommentDeletedEvent::class     => 'onEntryCommentDeleted',
+            EntryDeletedEvent::class => 'onEntryDeleted',
+            EntryBeforePurgeEvent::class => 'onEntryBeforePurge',
+            EntryCommentDeletedEvent::class => 'onEntryCommentDeleted',
             EntryCommentBeforePurgeEvent::class => 'onEntryCommentBeforePurge',
-            PostDeletedEvent::class             => 'onPostDeleted',
-            PostBeforePurgeEvent::class         => 'onPostBeforePurge',
-            PostCommentDeletedEvent::class      => 'onPostCommentDeleted',
-            PostCommentBeforePurgeEvent::class  => 'onPostCommentBeforePurge',
+            PostDeletedEvent::class => 'onPostDeleted',
+            PostBeforePurgeEvent::class => 'onPostBeforePurge',
+            PostCommentDeletedEvent::class => 'onPostCommentDeleted',
+            PostCommentBeforePurgeEvent::class => 'onPostCommentBeforePurge',
         ];
     }
 

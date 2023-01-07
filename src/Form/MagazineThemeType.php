@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -16,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MagazineThemeType extends AbstractType
 {
-    public function __construct(private ImageListener $imageListener)
+    public function __construct(private readonly ImageListener $imageListener)
     {
     }
 
@@ -28,7 +30,7 @@ class MagazineThemeType extends AbstractType
                 FileType::class,
                 [
                     'constraints' => ImageConstraint::default(),
-                    'mapped'      => false,
+                    'mapped' => false,
                 ]
             )
             ->add('customCss', TextareaType::class)
@@ -38,7 +40,7 @@ class MagazineThemeType extends AbstractType
             ->add('backgroundImage', ChoiceType::class, [
                 'multiple' => false,
                 'expanded' => true,
-                'choices'  => [
+                'choices' => [
                     'none' => 'none',
                     'shape1' => 'shape1',
                     'shape2' => 'shape2',

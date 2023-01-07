@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
@@ -14,30 +16,29 @@ class CreateHandler implements MessageHandlerInterface
 {
     private array $object;
 
-    public function __construct(private Note $note, private Page $page, private MessageBusInterface $bus, private ApActivityRepository $repository)
-    {
+    public function __construct(
+        private readonly Note $note,
+        private readonly Page $page,
+        private readonly MessageBusInterface $bus,
+        private readonly ApActivityRepository $repository
+    ) {
     }
 
     public function __invoke(CreateMessage $message)
     {
         $this->object = $message->payload;
 
-        if ($this->object['type'] === 'Note') {
+        if ('Note' === $this->object['type']) {
             $this->handleChain();
         }
 
-        if ($this->object['type'] === 'Page') {
+        if ('Page' === $this->object['type']) {
             $this->handlePage();
         }
 
-        if ($this->object['type'] === 'Question') {
+        if ('Question' === $this->object['type']) {
             $this->handleChain();
         }
-    }
-
-    private function handlePage()
-    {
-        $this->page->create($this->object);
     }
 
     private function handleChain()
@@ -49,8 +50,13 @@ class CreateHandler implements MessageHandlerInterface
 
                 return;
             }
-        };
+        }
 
         $this->note->create($this->object);
+    }
+
+    private function handlePage()
+    {
+        $this->page->create($this->object);
     }
 }

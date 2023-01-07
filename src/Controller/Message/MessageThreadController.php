@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Message;
 
@@ -12,9 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MessageThreadController extends AbstractController
 {
-    public function __construct(
-        private MessageManager $manager,
-    ) {
+    public function __construct(private readonly MessageManager $manager)
+    {
     }
 
     #[IsGranted('ROLE_USER')]

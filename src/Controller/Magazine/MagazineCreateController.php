@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Magazine;
 
@@ -13,8 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 class MagazineCreateController extends AbstractController
 {
     public function __construct(
-        private MagazineManager $manager,
-        private CloudflareIpResolver $ipResolver
+        private readonly MagazineManager $manager,
+        private readonly CloudflareIpResolver $ipResolver
     ) {
     }
 
@@ -25,8 +27,8 @@ class MagazineCreateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dto      = $form->getData();
-            $dto->ip  = $this->ipResolver->resolve();
+            $dto = $form->getData();
+            $dto->ip = $this->ipResolver->resolve();
             $magazine = $this->manager->create($dto, $this->getUserOrThrow());
 
             $this->addFlash(

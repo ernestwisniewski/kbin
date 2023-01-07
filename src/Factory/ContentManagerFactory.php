@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -12,16 +14,15 @@ use App\Service\EntryManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 
 class ContentManagerFactory
 {
     public function __construct(
-        private EntryManager $entryManager,
-        private EntryCommentManager $entryCommentManager,
-        private PostManager $postManager,
-        private PostCommentManager $postCommentManager,
-        private EntityManagerInterface $entityManager
+        private readonly EntryManager $entryManager,
+        private readonly EntryCommentManager $entryCommentManager,
+        private readonly PostManager $postManager,
+        private readonly PostCommentManager $postCommentManager,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -32,7 +33,7 @@ class ContentManagerFactory
             EntryComment::class => $this->entryCommentManager,
             Post::class => $this->postManager,
             PostCommentManager::class => $this->postCommentManager,
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
 }

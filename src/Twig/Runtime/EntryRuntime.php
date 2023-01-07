@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Twig\Runtime;
 
@@ -18,4 +20,3 @@ class EntryRuntime implements RuntimeExtensionInterface
         return null;
     }
 }
-

@@ -1,22 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Security\Voter;
 
 use App\Entity\Message;
 use App\Entity\User;
-use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use function in_array;
 
 class MessageVoter extends Voter
 {
-    const DELETE = 'delete';
+    public const DELETE = 'delete';
 
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof Message
-            && in_array(
+            && \in_array(
                 $attribute,
                 [self::DELETE],
                 true
@@ -33,7 +33,7 @@ class MessageVoter extends Voter
 
         return match ($attribute) {
             self::DELETE => $this->canDelete($subject, $user),
-            default => throw new LogicException(),
+            default => throw new \LogicException(),
         };
     }
 
@@ -41,5 +41,4 @@ class MessageVoter extends Voter
     {
         return false;
     }
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Utils;
 
@@ -7,7 +9,7 @@ use App\Exception\BadUrlException;
 class UrlCleaner
 {
     // https://gist.github.com/htsign/455bd76d107be1f810c5caa4072c8275
-    const TRACKING_TAGS = [
+    public const TRACKING_TAGS = [
         'utm_source',
         'utm_medium',
         'utm_term',

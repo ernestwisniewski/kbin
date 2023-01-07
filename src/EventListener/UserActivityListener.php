@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventListener;
 
@@ -15,19 +17,20 @@ class UserActivityListener
     {
     }
 
-    #[NoReturn] public function onKernelController(ControllerEvent $event): void
-    {
-        if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
-            return;
-        }
+    #[NoReturn]
+ public function onKernelController(ControllerEvent $event): void
+ {
+     if (HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
+         return;
+     }
 
-        if ($this->security->getToken()) {
-            $user = $this->security->getToken()->getUser();
+     if ($this->security->getToken()) {
+         $user = $this->security->getToken()->getUser();
 
-            if (($user instanceof User) && !$user->isActiveNow()) {
-                $user->lastActive = new \DateTime();
-                $this->entityManager->flush();
-            }
-        }
-    }
+         if (($user instanceof User) && !$user->isActiveNow()) {
+             $user->lastActive = new \DateTime();
+             $this->entityManager->flush();
+         }
+     }
+ }
 }

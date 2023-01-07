@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -14,10 +16,10 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 class DomainManager
 {
     public function __construct(
-        private DomainRepository $repository,
-        private EventDispatcherInterface $dispatcher,
-        private EntityManagerInterface $entityManager,
-        private SettingsManager $settingsManager
+        private readonly DomainRepository $repository,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SettingsManager $settingsManager
     ) {
     }
 
@@ -30,7 +32,7 @@ class DomainManager
         $domain = $this->repository->findOneByName($domainName);
 
         if (!$domain) {
-            $domain          = new Domain($subject, $domainName);
+            $domain = new Domain($subject, $domainName);
             $subject->domain = $domain;
             $this->entityManager->persist($domain);
         }
@@ -54,15 +56,6 @@ class DomainManager
         $this->dispatcher->dispatch(new DomainSubscribedEvent($domain, $user));
     }
 
-    public function unsubscribe(Domain $domain, User $user): void
-    {
-        $domain->unsubscribe($user);
-
-        $this->entityManager->flush();
-
-        $this->dispatcher->dispatch(new DomainSubscribedEvent($domain, $user));
-    }
-
     public function block(Domain $domain, User $user): void
     {
         $this->unsubscribe($domain, $user);
@@ -74,6 +67,15 @@ class DomainManager
         $this->dispatcher->dispatch(new DomainBlockedEvent($domain, $user));
     }
 
+    public function unsubscribe(Domain $domain, User $user): void
+    {
+        $domain->unsubscribe($user);
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new DomainSubscribedEvent($domain, $user));
+    }
+
     public function unblock(Domain $domain, User $user): void
     {
         $user->unblockDomain($domain);
@@ -82,5 +84,4 @@ class DomainManager
 
         $this->dispatcher->dispatch(new DomainBlockedEvent($domain, $user));
     }
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -20,6 +22,15 @@ class Embed
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[Column(type: 'string', nullable: false)]
+    public string $url;
+    #[Column(type: 'boolean', nullable: false)]
+    public bool $hasEmbed = false;
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    private int $id;
+
     public function __construct(string $url, bool $embed)
     {
         $this->url = $url;
@@ -27,17 +38,6 @@ class Embed
 
         $this->createdAtTraitConstruct();
     }
-
-    #[Id]
-    #[GeneratedValue]
-    #[Column(type: 'integer')]
-    private int $id;
-
-    #[Column(type: 'string', nullable: false)]
-    public string $url;
-
-    #[Column(type: 'boolean', nullable: false)]
-    public bool $hasEmbed = false;
 
     public function getId(): ?int
     {

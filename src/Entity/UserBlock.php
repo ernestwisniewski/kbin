@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -23,18 +25,16 @@ class UserBlock
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'blocks')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?User $blocker;
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'blockers')]
+    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?User $blocked;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'blocks')]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?User $blocker;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'blockers')]
-    #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    public ?User $blocked;
 
     public function __construct(User $blocker, User $blocked)
     {

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventListener;
 
@@ -20,9 +22,9 @@ class LanguageListener
             return;
         }
 
-        $lang       = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
         $acceptLang = ['pl'];
-        $locale     = in_array($lang, $acceptLang) ? $lang : $this->lang;
+        $locale = in_array($lang, $acceptLang) ? $lang : $this->lang;
 
         $request->setLocale($locale);
     }

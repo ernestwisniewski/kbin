@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
@@ -18,29 +20,29 @@ use Symfony\Contracts\Cache\CacheInterface;
 class VoteHandleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private CacheService $cacheService,
-        private CacheInterface $cache
+        private readonly MessageBusInterface $bus,
+        private readonly CacheService $cacheService,
+        private readonly CacheInterface $cache
     ) {
     }
 
-    #[ArrayShape([VoteEvent::class => "string"])] public static function getSubscribedEvents(): array
-    {
-        return [
-            VoteEvent::class => 'onVote',
-        ];
-    }
+    #[ArrayShape([VoteEvent::class => 'string'])]
+ public static function getSubscribedEvents(): array
+ {
+     return [
+         VoteEvent::class => 'onVote',
+     ];
+ }
 
     public function onVote(VoteEvent $event): void
     {
         $this->clearCache($event->votable);
 
         $this->bus->dispatch(
-            (
             new VoteNotificationMessage(
                 $event->votable->getId(),
                 ClassUtils::getRealClass(get_class($event->votable))
-            ))
+            )
         );
 
         if (!$event->vote->user->apId && 1 === $event->vote->choice && !$event->votedAgain) {

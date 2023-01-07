@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler;
 
@@ -12,10 +14,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class DeleteImageHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private ImageRepository $imageRepository,
-        private ImageManager $imageManager,
-        private EntityManagerInterface $entityManager,
-        private ManagerRegistry $managerRegistry
+        private readonly ImageRepository $imageRepository,
+        private readonly ImageManager $imageManager,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ManagerRegistry $managerRegistry
     ) {
     }
 
@@ -34,6 +36,7 @@ class DeleteImageHandler implements MessageHandlerInterface
             } catch (\Exception $e) {
                 $this->entityManager->rollback();
                 $this->managerRegistry->resetManager();
+
                 return;
             }
         }

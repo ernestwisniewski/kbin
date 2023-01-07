@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -24,7 +26,7 @@ class UserFactory
 
     public function createDtoFromAp($apProfileId, $apId): UserDto
     {
-        $dto                = (new UserDto())->create('@'.$apId, $apId, null, null, null, null, $apId, $apProfileId);
+        $dto = (new UserDto())->create('@'.$apId, $apId, null, null, null, null, $apId, $apProfileId);
         $dto->plainPassword = bin2hex(random_bytes(20));
 
         return $dto;

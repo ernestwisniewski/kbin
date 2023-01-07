@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -12,24 +14,16 @@ use Pagerfanta\PagerfantaInterface;
 
 class SearchManager
 {
-    public function __construct(private SearchRepository $repo, private RepositoryManagerInterface $manager)
-    {
-    }
-
-    public function findPaginated(string $val, int $page = 1): PagerfantaInterface
-    {
-        $query = new MultiMatch();
-        $query->setQuery(
-            $val
-        );
-
-        return $this->repo->search($query, $page);
+    public function __construct(
+        private readonly SearchRepository $repo,
+        private readonly RepositoryManagerInterface $manager
+    ) {
     }
 
     public function findByTagPaginated(string $val, int $page = 1): PagerfantaInterface
     {
         $boolQuery = new BoolQuery();
-        $tagQuery  = new Terms('tags', [$val]);
+        $tagQuery = new Terms('tags', [$val]);
         $boolQuery->addMust($tagQuery);
 
         $query = new Query($boolQuery);
@@ -52,6 +46,16 @@ class SearchManager
         return $repo->findPaginated($query)
             ->setCurrentPage($page)
             ->setMaxPerPage(50);
+    }
+
+    public function findPaginated(string $val, int $page = 1): PagerfantaInterface
+    {
+        $query = new MultiMatch();
+        $query->setQuery(
+            $val
+        );
+
+        return $this->repo->search($query, $page);
     }
 
     public function findRelated(string $query): array

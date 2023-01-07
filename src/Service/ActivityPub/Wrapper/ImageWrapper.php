@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service\ActivityPub\Wrapper;
 
@@ -7,9 +9,8 @@ use App\Service\ImageManager;
 
 class ImageWrapper
 {
-    public function __construct(
-        private ImageManager $imageManager
-    ) {
+    public function __construct(private readonly ImageManager $imageManager)
+    {
     }
 
     public function build(array $item, Image $image, string $title = ''): array

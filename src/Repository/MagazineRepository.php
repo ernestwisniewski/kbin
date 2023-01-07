@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -12,7 +14,6 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\Report;
 use App\Entity\User;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -34,7 +35,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class MagazineRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 25;
+    public const PER_PAGE = 25;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -69,7 +70,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $dql =
             'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
-            'SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user'.')';
+            'SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user)';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);
@@ -94,7 +95,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $dql =
             'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
-            'SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :user'.')';
+            'SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :user)';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);
@@ -140,7 +141,7 @@ class MagazineRepository extends ServiceEntityRepository
     public function findBans(Magazine $magazine, ?int $page = 1): PagerfantaInterface
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->gt('expiredAt', new DateTime()))
+            ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
             ->orWhere(Criteria::expr()->isNull('expiredAt'))
             ->orderBy(['createdAt' => 'DESC']);
 
@@ -196,7 +197,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $dql =
             'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
-            'SELECT IDENTITY(md.magazine) FROM '.Moderator::class.' md WHERE md.user = :user'.') ORDER BY m.lastActive DESC';
+            'SELECT IDENTITY(md.magazine) FROM '.Moderator::class.' md WHERE md.user = :user) ORDER BY m.lastActive DESC';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);
@@ -252,22 +253,22 @@ class MagazineRepository extends ServiceEntityRepository
         $result = $pagerfanta->getCurrentPageResults();
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry')]
         );
         $this->_em->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
         );
         $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
         $this->_em->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
         );
         $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -278,7 +279,7 @@ class MagazineRepository extends ServiceEntityRepository
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil(($countAll / self::PER_PAGE))) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -286,11 +287,18 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
+    private function getOverviewIds(array $result, string $type): array
+    {
+        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
+
+        return array_map(fn ($subject) => $subject['id'], $result);
+    }
+
     public function findAudience(Magazine $magazine): array
     {
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(ms.user) FROM '.MagazineSubscription::class.' ms WHERE ms.magazine = :magazine'.')'.
+            'SELECT IDENTITY(ms.user) FROM '.MagazineSubscription::class.' ms WHERE ms.magazine = :magazine)'.
             'AND u.apId IS NOT NULL';
 
         $res = $this->getEntityManager()->createQuery($dql)
@@ -298,13 +306,6 @@ class MagazineRepository extends ServiceEntityRepository
             ->getResult();
 
         return $res;
-    }
-
-    private function getOverviewIds(array $result, string $type): array
-    {
-        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
-
-        return array_map(fn($subject) => $subject['id'], $result);
     }
 
     public function findWithoutKeys(): array
@@ -319,7 +320,7 @@ class MagazineRepository extends ServiceEntityRepository
     public function findByTag($tag): array
     {
         return $this->createQueryBuilder('m')
-            ->andWhere("m.tags IS NOT NULL")
+            ->andWhere('m.tags IS NOT NULL')
             ->andWhere("JSONB_CONTAINS(m.tags, '\"".$tag."\"') = true")
             ->getQuery()
             ->getResult();
@@ -328,8 +329,8 @@ class MagazineRepository extends ServiceEntityRepository
     public function findByActivity()
     {
         return $this->createQueryBuilder('m')
-            ->andWhere("m.postCount > 0")
-            ->andWhere("m.postCommentCount > 0")
+            ->andWhere('m.postCount > 0')
+            ->andWhere('m.postCommentCount > 0')
             ->orderBy('m.postCount', 'DESC')
             ->setMaxResults(100)
             ->getQuery()

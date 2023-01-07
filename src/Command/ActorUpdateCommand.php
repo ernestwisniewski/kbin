@@ -19,7 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 )]
 class ActorUpdateCommand extends Command
 {
-    public function __construct(private UserRepository $repository, private MessageBusInterface $bus)
+    public function __construct(private readonly UserRepository $repository, private readonly MessageBusInterface $bus)
     {
         parent::__construct();
     }
@@ -34,7 +34,6 @@ class ActorUpdateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $userArg = $input->getArgument('user');
-
 
         if ($input->getOption('all')) {
             foreach ($this->repository->findAllRemote() as $u) {

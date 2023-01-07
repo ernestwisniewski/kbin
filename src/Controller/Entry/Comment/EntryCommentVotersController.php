@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Entry\Comment;
 
@@ -6,7 +8,6 @@ use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,16 +28,16 @@ class EntryCommentVotersController extends AbstractController
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_voters_inline.html.twig', [
                     'votes' => $comment->votes,
-                    'more'  => null,
+                    'more' => null,
                 ]),
             ]);
         }
 
         return $this->render('entry/comment/voters.html.twig', [
             'magazine' => $magazine,
-            'entry'    => $entry,
-            'comment'  => $comment,
-            'votes'    => $comment->votes,
+            'entry' => $entry,
+            'comment' => $comment,
+            'votes' => $comment->votes,
         ]);
     }
 }

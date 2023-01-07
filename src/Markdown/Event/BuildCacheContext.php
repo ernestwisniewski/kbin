@@ -1,8 +1,8 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\Event;
-
-use function array_key_exists;
 
 /**
  * Event dispatched to build a hash key for Markdown context.
@@ -11,7 +11,7 @@ class BuildCacheContext
 {
     private array $context = [];
 
-    public function __construct(private ConvertMarkdown $convertMarkdownEvent)
+    public function __construct(private readonly ConvertMarkdown $convertMarkdownEvent)
     {
         $this->addToContext('content', $convertMarkdownEvent->getMarkdown());
     }
@@ -21,9 +21,6 @@ class BuildCacheContext
         $this->context[$key] = $value;
     }
 
-    /**
-     * @return ConvertMarkdown
-     */
     public function getConvertMarkdownEvent(): ConvertMarkdown
     {
         return $this->convertMarkdownEvent;
@@ -38,7 +35,7 @@ class BuildCacheContext
 
     public function hasContext(string $key, ?string $value = null): bool
     {
-        if (!array_key_exists($key, $this->context)) {
+        if (!\array_key_exists($key, $this->context)) {
             return false;
         }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Factory;
 
@@ -21,14 +23,14 @@ class PostCommentFactory
 
     public function createDto(PostComment $comment): PostCommentDto
     {
-        $dto             = new PostCommentDto();
-        $dto->magazine   = $comment->magazine;
-        $dto->post       = $comment->post;
-        $dto->user       = $comment->user;
-        $dto->body       = $comment->body;
-        $dto->uv         = $comment->countUpVotes();
+        $dto = new PostCommentDto();
+        $dto->magazine = $comment->magazine;
+        $dto->post = $comment->post;
+        $dto->user = $comment->user;
+        $dto->body = $comment->body;
+        $dto->uv = $comment->countUpVotes();
         $dto->visibility = $comment->visibility;
-        $dto->createdAt  = $comment->createdAt;
+        $dto->createdAt = $comment->createdAt;
         $dto->lastActive = $comment->lastActive;
         $dto->setId($comment->getId());
 

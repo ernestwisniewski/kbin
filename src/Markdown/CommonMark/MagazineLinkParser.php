@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
@@ -7,7 +9,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class MagazineLinkParser extends AbstractLocalLinkParser
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
 

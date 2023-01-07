@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\Post;
 
@@ -13,9 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostDeleteController extends AbstractController
 {
-    public function __construct(
-        private PostManager $manager,
-    ) {
+    public function __construct(private readonly PostManager $manager)
+    {
     }
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller\User;
 
@@ -12,21 +14,21 @@ use Symfony\Component\HttpFoundation\Response;
 class UserDeleteController extends AbstractController
 {
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(User $user, UserManager $manager, Request $request): Response
-    {
-        $this->validateCsrf('user_delete', $request->request->get('token'));
-
-        $manager->delete($user);
-
-        return $this->redirectToRoute('front');
-    }
-
-    #[IsGranted('ROLE_ADMIN')]
     public function purge(User $user, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('user_purge', $request->request->get('token'));
 
         $manager->delete($user, true);
+
+        return $this->redirectToRoute('front');
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    public function delete(User $user, UserManager $manager, Request $request): Response
+    {
+        $this->validateCsrf('user_delete', $request->request->get('token'));
+
+        $manager->delete($user);
 
         return $this->redirectToRoute('front');
     }

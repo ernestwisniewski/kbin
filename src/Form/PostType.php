@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -10,17 +12,13 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostType extends AbstractType
 {
-    private ImageListener $imageListener;
-
-    public function __construct(ImageListener $imageListener)
+    public function __construct(private readonly ImageListener $imageListener)
     {
-        $this->imageListener = $imageListener;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -32,7 +30,7 @@ class PostType extends AbstractType
                 FileType::class,
                 [
                     'constraints' => ImageConstraint::default(),
-                    'mapped'      => false,
+                    'mapped' => false,
                 ]
             )
             ->add('imageAlt', TextareaType::class)

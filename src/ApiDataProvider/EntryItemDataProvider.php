@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\ApiDataProvider;
 
@@ -10,7 +12,7 @@ use App\Repository\EntryRepository;
 
 final class EntryItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private EntryRepository $repository, private EntryFactory $factory)
+    public function __construct(private readonly EntryRepository $repository, private readonly EntryFactory $factory)
     {
     }
 
@@ -26,4 +28,3 @@ final class EntryItemDataProvider implements ItemDataProviderInterface, Restrict
         return $entry ? $this->factory->createDto($entry) : null;
     }
 }
-

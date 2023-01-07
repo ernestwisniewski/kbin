@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Markdown\Factory;
 
@@ -7,7 +9,7 @@ use Psr\Container\ContainerInterface;
 
 class EnvironmentFactory
 {
-    public function __construct(private ContainerInterface $container)
+    public function __construct(private readonly ContainerInterface $container)
     {
     }
 

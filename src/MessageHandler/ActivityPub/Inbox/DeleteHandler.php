@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
@@ -15,18 +17,19 @@ use App\Service\EntryManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class DeleteHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private ActivityPubManager $activityPubManager,
-        private ApActivityRepository $apActivityRepository,
-        private EntityManagerInterface $entityManager,
-        private EntryManager $entryManager,
-        private EntryCommentManager $entryCommentManager,
-        private PostManager $postManager,
-        private PostCommentManager $postCommentManager
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly ApActivityRepository $apActivityRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly EntryManager $entryManager,
+        private readonly EntryCommentManager $entryCommentManager,
+        private readonly PostManager $postManager,
+        private readonly PostCommentManager $postCommentManager
     ) {
     }
 
@@ -34,7 +37,7 @@ class DeleteHandler implements MessageHandlerInterface
     {
         try {
             $actor = $this->activityPubManager->findRemoteActor($message->payload['actor']);
-        } catch (\Exception) {
+        } catch (Exception) {
             return;
         }
 
@@ -48,21 +51,21 @@ class DeleteHandler implements MessageHandlerInterface
             return;
         }
 
-        $object = $this->entityManager->getRepository($object['type'])->find((int)$object['id']);
+        $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
 
-        if (get_class($object) === Entry::class) {
+        if (Entry::class === get_class($object)) {
             $fn = 'deleteEntry';
         }
 
-        if (get_class($object) === EntryComment::class) {
+        if (EntryComment::class === get_class($object)) {
             $fn = 'deleteEntryComment';
         }
 
-        if (get_class($object) === Post::class) {
+        if (Post::class === get_class($object)) {
             $fn = 'deletePost';
         }
 
-        if (get_class($object) === PostComment::class) {
+        if (PostComment::class === get_class($object)) {
             $fn = 'deletePostComment';
         }
 

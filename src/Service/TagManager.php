@@ -1,42 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Utils\RegPatterns;
-use Transliterator;
 
 class TagManager
 {
-    public function extract(string $val, ?string $magazineName = null): ?array
-    {
-        preg_match_all(RegPatterns::LOCAL_TAG, $val, $matches);
-
-        $result = $matches[1];
-        $result = array_map(fn($tag) => strtolower(trim($tag)), $result);
-
-        $result = array_values($result);
-
-        $result = array_map(fn($tag) => $this->transliterate($tag), $result);
-
-        if ($magazineName) {
-            $result = array_diff($result, [$magazineName]);
-        }
-
-        return count($result) ? array_unique(array_values($result)) : null;
-    }
-
-    public function transliterate(string $tag): string
-    {
-        $transliterator = Transliterator::createFromRules(
-            ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
-            Transliterator::FORWARD
-        );
-
-        setlocale(LC_CTYPE, 'pl_PL');
-
-        return iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag));
-    }
-
     public function joinTagsToBody(string $body, array $tags): string
     {
         $current = $this->extract($body, null, false) ?? [];
@@ -55,5 +26,35 @@ class TagManager
         }
 
         return $body;
+    }
+
+    public function extract(string $val, ?string $magazineName = null): ?array
+    {
+        preg_match_all(RegPatterns::LOCAL_TAG, $val, $matches);
+
+        $result = $matches[1];
+        $result = array_map(fn ($tag) => strtolower(trim($tag)), $result);
+
+        $result = array_values($result);
+
+        $result = array_map(fn ($tag) => $this->transliterate($tag), $result);
+
+        if ($magazineName) {
+            $result = array_diff($result, [$magazineName]);
+        }
+
+        return count($result) ? array_unique(array_values($result)) : null;
+    }
+
+    public function transliterate(string $tag): string
+    {
+        $transliterator = \Transliterator::createFromRules(
+            ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
+            \Transliterator::FORWARD
+        );
+
+        setlocale(LC_CTYPE, 'pl_PL');
+
+        return iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag));
     }
 }

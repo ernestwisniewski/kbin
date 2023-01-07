@@ -1,23 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Cardano;
 
-use DateTime;
 use GraphQL\Client;
-use stdClass;
 
 class CardanoExplorer
 {
-    public function __construct(public string $cardanoExplorerUrl)
+    public function __construct(private readonly string $cardanoExplorerUrl)
     {
     }
 
-    public function findGte(string $address, \DateTimeImmutable $createdAt): StdClass
+    public function findGte(string $address, \DateTimeImmutable $createdAt): \StdClass
     {
         $client = new Client($this->cardanoExplorerUrl);
 
-        $createdAt = DateTime::createFromImmutable($createdAt);
-        $gte  = $this->dateTo8601Zulu($createdAt);
+        $createdAt = \DateTime::createFromImmutable($createdAt);
+        $gte = $this->dateTo8601Zulu($createdAt);
 
         $gql = <<<QUERY
         query {
