@@ -183,11 +183,15 @@ $ docker compose exec php bin/console cache:clear
 * [Kbin ActivityPub Reference](https://docs.kbin.pub#activity-pub)
 * Kbin GraphQL Reference
 
-
 ## Sponsors and partners
+
+###
 
 [<img src="public/partners/blackfire-io.png" alt="blackfire.io" style="width:350px;"/>](https://www.blackfire.io)
 
+###
+
+[<img src="public/partners/jb_beam.png" alt="JetBrains" style="width:150px;"/>](https://jb.gg/OpenSourceSupport)
 
 ## Contributing
 
