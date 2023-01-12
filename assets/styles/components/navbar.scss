@@ -175,10 +175,9 @@
 
   &-sort {
     .active,
-    li:hover {
+    a:hover {
       border-bottom: 2px solid white;
     }
-
 
     li {
       margin-right: 5px;
