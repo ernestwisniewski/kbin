@@ -12,7 +12,7 @@ class CardanoExplorer
     {
     }
 
-    public function findGte(string $address, \DateTimeImmutable $createdAt): \StdClass
+    public function findGte(string $address, \DateTimeImmutable $createdAt): \stdClass
     {
         $client = new Client($this->cardanoExplorerUrl);
 

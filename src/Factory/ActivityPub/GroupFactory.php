@@ -62,7 +62,9 @@ class GroupFactory
                 ),
             ],
             'published' => $magazine->createdAt->format(DATE_ATOM),
-            'updated' => $magazine->lastActive->format(DATE_ATOM),
+            'updated' => $magazine->lastActive ?
+                $magazine->lastActive->format(DATE_ATOM)
+                : $magazine->createdAt->format(DATE_ATOM),
         ];
 
         if ($magazine->cover) {

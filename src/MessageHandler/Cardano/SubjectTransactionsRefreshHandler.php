@@ -64,7 +64,7 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
         }
     }
 
-    private function createTx(ContentInterface $subject, \StdClass $transactions): ?EntryCardanoTx
+    private function createTx(ContentInterface $subject, \stdClass $transactions): ?EntryCardanoTx
     {
         foreach ($transactions->data->transactions as $tx) {
             $senderAddress = end($tx->inputs)->address;

@@ -55,6 +55,7 @@ class WebFinger
      * Get ActivityPhp profile id URL.
      *
      * @return string
+     *
      * @throws InvalidWebfingerException
      */
     public function getProfileId()
