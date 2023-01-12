@@ -163,6 +163,8 @@
     }
   }
 
+  justify-content: flex-start !important;
+
   .kbin-dark & {
     a:active {
       color: #eee !important;
@@ -181,6 +183,12 @@
 
     li {
       margin-right: 5px;
+    }
+  }
+
+  &-buttons {
+    @media (min-width: 555px) {
+      justify-content: flex-end !important;
     }
   }
 }
