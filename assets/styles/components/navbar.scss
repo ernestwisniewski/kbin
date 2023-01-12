@@ -145,3 +145,43 @@
     list-style-type: none;
   }
 }
+
+.kbin-filters {
+  background: #fbfbfb;
+
+  .kbin-dark & {
+    background: #2c2c2c;
+
+    a {
+      color: #cacece;
+    }
+  }
+
+  &-sort {
+    @media (min-width: 555px) {
+      float: left;
+    }
+  }
+
+  .kbin-dark & {
+    a:active {
+      color: #eee !important;
+    }
+  }
+
+  .nav-tabs {
+    border: none;
+  }
+
+  &-sort {
+    .active,
+    li:hover {
+      border-bottom: 2px solid white;
+    }
+
+
+    li {
+      margin-right: 5px;
+    }
+  }
+}

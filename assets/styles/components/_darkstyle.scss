@@ -19,7 +19,8 @@ $kbin-dark-link-color: #cacece;
     color: $kbin-dark-link-color;
   }
 
-  a:hover {
+  a:hover,
+  a:active {
     color: #eee !important;
   }
 
