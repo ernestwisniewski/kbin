@@ -44,7 +44,7 @@ class MagazineFactory
         return $dto;
     }
 
-    public function createDtoFromAp(string $actorUrl, ?string $apId)
+    public function createDtoFromAp(string $actorUrl, ?string $apId): MagazineDto
     {
         $dto = new MagazineDto();
         $dto->name = $apId;
