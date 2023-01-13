@@ -48,7 +48,7 @@ class MagazineManager
         $magazine->apProfileId = $dto->apProfileId;
 
         if (!$dto->apId) {
-            $user = KeysGenerator::generate($user);
+            $magazine = KeysGenerator::generate($magazine);
         }
 
         $this->entityManager->persist($magazine);
