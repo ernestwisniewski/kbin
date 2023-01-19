@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostChangeAdultController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManage)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
