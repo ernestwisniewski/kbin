@@ -91,6 +91,10 @@
       &-item {
         margin-right: 2px;
 
+        a {
+          border-bottom: 2px solid transparent;
+        }
+
         &--active {
           a {
             border-bottom: 2px solid #5b5b5b;
@@ -173,9 +177,14 @@
   }
 
   &-sort {
+    a {
+      border-bottom: 2px solid transparent;
+    }
+
     .active,
     a:hover {
       border-bottom: 2px solid #5b5b5b;
+
       .kbin-dark & {
         border-color: #fff;
       }
