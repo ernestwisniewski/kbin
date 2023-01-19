@@ -92,32 +92,29 @@
         margin-right: 2px;
 
         &--active {
-          a, button {
-            border: 1px solid $kbin-navbar-link-hover-border-color !important;
-            border-radius: 2px 2px 0 0;
+          a {
+            border-bottom: 2px solid #5b5b5b;
 
             .kbin-dark & {
-              border: 1px solid $kbin-dark-navbar-border-color !important;
+              border-color: #fff;
             }
+          }
+        }
+
+        a:hover {
+          border-bottom: 2px solid #5b5b5b;
+
+          .kbin-dark & {
+            border-color: #fff;
           }
         }
 
         a, button {
           color: #252526 !important;
-          border: 1px solid transparent;
           display: block;
           font-size: .9rem;
           padding: 0.55rem 1rem;
           transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
-
-          &:hover {
-            border-color: $kbin-navbar-link-hover-border-color;
-            border-radius: 2px 2px 0 0;
-
-            .kbin-dark & {
-              border-color: $kbin-dark-navbar-border-color !important;
-            }
-          }
 
           .kbin-dark & {
             color: #dedede !important;
@@ -178,7 +175,10 @@
   &-sort {
     .active,
     a:hover {
-      border-bottom: 2px solid white;
+      border-bottom: 2px solid #5b5b5b;
+      .kbin-dark & {
+        border-color: #fff;
+      }
     }
 
     .active {
