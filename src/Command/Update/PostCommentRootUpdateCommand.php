@@ -30,7 +30,7 @@ class PostCommentRootUpdateCommand extends Command
         $queryBuilder = $this->repository->createQueryBuilder('c')
             ->select('c.id')
             ->where('c.parent IS NOT NULL')
-            ->where('c.root IS NULL')
+            ->andWhere('c.root IS NULL')
             ->andWhere('c.updateMark = false')
             ->orderBy('c.id', 'ASC')
             ->getQuery()
