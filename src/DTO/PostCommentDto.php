@@ -18,6 +18,7 @@ class PostCommentDto
     public User|UserDto|null $user = null;
     public Post|PostDto|null $post = null;
     public ?PostComment $parent = null;
+    public ?PostComment $root = null;
     public ?Image $image = null;
     public ?string $imageAlt = null;
     #[Assert\Length(min: 2, max: 5000)]
@@ -37,6 +38,10 @@ class PostCommentDto
         $this->parent = $parent;
         $this->body = $body;
         $this->image = $image;
+
+        if ($parent) {
+            $this->root = $parent->root ?? $parent;
+        }
 
         return $this;
     }

@@ -52,6 +52,9 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'children')]
     #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?PostComment $parent;
+    #[ManyToOne(targetEntity: PostComment::class)]
+    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    public ?PostComment $root;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $image = null;
@@ -67,6 +70,8 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     public ?array $tags = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $mentions = null;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public ?bool $updateMark = false;
     #[OneToMany(mappedBy: 'parent', targetEntity: PostComment::class, orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'ASC'])]
     public Collection $children;
@@ -94,6 +99,10 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
         $this->children = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->favourites = new ArrayCollection();
+
+        if ($parent) {
+            $this->root = $parent->root ?? $parent;
+        }
 
         $this->createdAtTraitConstruct();
         $this->updateLastActive();
