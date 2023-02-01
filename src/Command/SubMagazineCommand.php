@@ -34,14 +34,14 @@ class SubMagazineCommand extends Command
         $this
             ->addArgument('magazine', InputArgument::REQUIRED)
             ->addArgument('username', InputArgument::REQUIRED)
-            ->addOption('unsub', 'r', InputOption::VALUE_NONE, 'Unsubscribe magazine.');
+            ->addOption('unsub', 'u', InputOption::VALUE_NONE, 'Unsubscribe magazine.');
 
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
+dd($input->getOption('unsub'));
         $user = $this->userRepository->findOneByUsername($input->getArgument('username'));
         $magazine = $this->magazineRepository->findOneByName($input->getArgument('magazine'));
 
