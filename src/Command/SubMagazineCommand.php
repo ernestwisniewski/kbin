@@ -41,7 +41,7 @@ class SubMagazineCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-dd($input->getOption('unsub'));
+
         $user = $this->userRepository->findOneByUsername($input->getArgument('username'));
         $magazine = $this->magazineRepository->findOneByName($input->getArgument('magazine'));
 
