@@ -1,0 +1,347 @@
+#kbin-sidebar {
+    section {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        @include themify($themes) {
+            background: themed('sidebarSectionBgColor');
+            border: themed('sidebarSectionBorder');
+            color: themed('sidebarSectionTextColor');
+        }
+
+        figure,
+        blockquote {
+            margin: 0;
+            padding: 0;
+        }
+
+        h3 {
+            text-align: left;
+            letter-spacing: .1rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 1.3rem;
+            @include themify($themes) {
+                color: themed('sidebarSectionHeaderTextColor');
+                border-bottom: themed('sidebarSectionHeaderBorder');
+            }
+        }
+
+        .kbin-meta, .kbin-info {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            @include themify($themes) {
+                color: themed('metaTextColor');
+            }
+
+            li {
+                opacity: .7;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 1rem 1rem;
+                position: relative;
+
+                @include themify($themes) {
+                    border-bottom: themed('sidebarSectionMetaBorder');
+
+                    &:first-child {
+                        border-top: themed('sidebarSectionMetaBorder');
+                    }
+                }
+
+                span {
+                    @include themify($themes) {
+                        color: themed('metaTextColor');
+                    }
+                }
+
+                a {
+                    font-weight: bold;
+                }
+            }
+
+
+            &:hover,
+            &:focus-within {
+                footer a {
+                    -webkit-animation: fadein .5s linear 1 normal forwards;
+
+                    @-webkit-keyframes fadein {
+                        from {
+                            opacity: .7;
+                        }
+                        to {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        .kbin-info {
+            margin: 2.5rem 0;
+
+            li {
+                justify-content: flex-start;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+
+            span {
+                margin-left: .5rem;
+            }
+        }
+
+        footer {
+            a {
+                text-decoration: none;
+                font-size: 1.3rem;
+                @include themify($themes) {
+                    color: themed('sidebarSectionFooterLinkColor');
+                    &:hover,
+                    &:focus-visible {
+                        color: themed('sidebarSectionFooterLinkColorHover');
+                    }
+                }
+            }
+        }
+    }
+
+    .kbin-entry-info {
+        text-align: center;
+
+        header {
+            margin-bottom: 1.5rem;
+
+            h4 {
+                font-size: 1.5rem;
+                margin-bottom: .5rem;
+            }
+        }
+
+        &_name {
+            margin-top: 0;
+            margin-bottom: 3rem;
+        }
+
+        &:hover,
+        &:focus-within {
+            ul li {
+                -webkit-animation: fadein .5s linear 1 normal forwards;
+
+                @-webkit-keyframes fadein {
+                    from {
+                        opacity: .7;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+
+    .kbin-magazine {
+        text-align: center;
+
+        header {
+            margin-bottom: 1.5rem;
+
+            h4 {
+                font-size: 1.5rem;
+                margin-bottom: .5rem;
+            }
+        }
+
+        &_name {
+            margin-top: 0;
+            margin-bottom: 3rem;
+        }
+
+        &_descirption,
+        &_rules {
+            text-align: left;
+        }
+
+        &:hover,
+        &:focus-within {
+            ul li {
+                -webkit-animation: fadein .5s linear 1 normal forwards;
+
+                @-webkit-keyframes fadein {
+                    from {
+                        opacity: .7;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+
+    .kbin-related-posts {
+        figure {
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            @include themify($themes) {
+                border-bottom: themed('sidebarSectionMetaBorder');
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            img {
+                object-fit: cover;
+                width: 100%;
+                height: 100px;
+            }
+
+            blockquote {
+                a {
+                    @include themify($themes) {
+                        color: themed('sidebarSectionTextColor');
+                    }
+                }
+            }
+
+            figcaption {
+                text-align: right;
+                opacity: .7;
+                @include themify($themes) {
+                    color: themed('metaTextColor');
+                }
+            }
+
+            &:hover,
+            &:focus-within {
+                figcaption {
+                    -webkit-animation: fadein .5s linear 1 normal forwards;
+
+                    @-webkit-keyframes fadein {
+                        from {
+                            opacity: .7;
+                        }
+                        to {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .kbin-options {
+        padding: 0;
+        font-size: map-get($font-size, 'small');
+        border-top: 0;
+        margin-bottom: 0.5rem;
+
+        menu {
+            display: flex;
+
+            li {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                text-align: center;
+                flex-shrink: 0;
+                flex-grow: 1;
+
+                a {
+                    text-decoration: none;
+                    border-bottom: 3px solid transparent;
+                    padding: 1.2rem 1.5rem;
+                    border-bottom: 3px solid transparent;
+                    display: block;
+                    @include themify($themes) {
+                        color: themed('optionsLinkColor');
+
+                        i {
+                            filter: themed('optionsIconFilter');
+                        }
+
+                        &:hover,
+                        &:focus-visible {
+                            border-bottom: 3px solid #32465b;
+                            color: #32465b;
+
+                            i {
+                                filter: themed('optionsIconFilterHover');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .kbin-moderators {
+        ul {
+            margin: 0;
+            padding: 0;
+
+            li {
+                list-style: none;
+                display: flex;
+                align-items: center;
+                position: relative;
+                padding: .5rem 0;
+                @include themify($themes) {
+                    border-top: themed('sidebarSectionMetaBorder');
+                }
+
+                &:first-child {
+                    border-top: 0;
+                    padding-top: 0;
+                }
+
+                &:last-child {
+                    @include themify($themes) {
+                        border-bottom: themed('sidebarSectionMetaBorder');
+                    }
+                }
+
+                a {
+                    padding: 1rem;
+                }
+            }
+        }
+
+        footer {
+            opacity: .7;
+            margin-top: 1rem;
+            padding: 1rem 0;
+            text-align: center;
+            position: relative;
+
+            a {
+                @include themify($themes) {
+                    color: themed('metaTextColor')
+                }
+            }
+        }
+
+        &:hover,
+        &:focus-within {
+            footer {
+                -webkit-animation: fadein .5s linear 1 normal forwards;
+
+                @-webkit-keyframes fadein {
+                    from {
+                        opacity: .7;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+}

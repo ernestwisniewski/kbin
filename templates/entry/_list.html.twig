@@ -1,28 +1,6 @@
-{% from '_layout/_not_found.html.twig' import not_found %}
-
-<div class="kbin-entry-list" data-controller="entry-list"
-    data-action="notify:EntryCreatedNotification@window->entry-list#add scroll-top:up@window->entry-list#refresh"
-    data-entry-list-counter-value="{{is_active_sort_option('sort.active'|trans|lower, false) or is_active_sort_option('sort.newest'|trans|lower, false) ? 'true': 'false' }}"
-    {% if magazine is defined and magazine %}data-entry-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
-    {% if entries|length %}
-        {% for entry in entries %}
-            {{ component('entry', { entry: entry, extraClass: 'kbin-entry-list-item', showMagazine: magazine is not defined, titleTag: title_tag ?? 'h2', related: related ?? false }) }}
-        {% endfor %}
-    {% else %}
-        {{ not_found(0) }}
-    {% endif %}
-
-    {% if(entries.haveToPaginate is defined and entries.haveToPaginate) %}
-        {% set infiniteScroll = app.request.cookies.has('user_option_infinite_scroll') ? app.request.cookies.get('user_option_infinite_scroll') : 'false' %}
-        <div data-controller="infinite-scroll">
-            <div class="text-center my-4" data-infinite-scroll-target="loading" style="display: none">
-                <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-            <div style="visibility: {{ infiniteScroll is same as 'false' ? 'visible' : 'hidden' }}">
-                {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
-            </div>
-        </div>
-    {% endif %}
+<div id="kbin-content">
+    {% for entry in entries %}
+        {{ component('entry', {entry: entry}) }}
+    {% endfor %}
 </div>
+

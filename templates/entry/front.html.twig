@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    title
+{%- endblock -%}
+
+{% block body %}
+    <header>
+        <h1 hidden>Gorące</h1>
+    </header>
+    {% include 'entry/_options.html.twig' %}
+    {% include 'entry/_list.html.twig' %}
+{% endblock %}

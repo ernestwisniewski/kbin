@@ -1,37 +1,8 @@
 {
     "controllers": {
-        "@symfony/ux-autocomplete": {
-            "autocomplete": {
-                "enabled": true,
-                "fetch": "eager",
-                "autoimport": {
-                    "tom-select/dist/css/tom-select.default.css": false,
-                    "tom-select/dist/css/tom-select.bootstrap5.css": true
-                }
-            }
-        },
         "@symfony/ux-chartjs": {
             "chart": {
                 "enabled": true,
-                "fetch": "eager"
-            }
-        },
-        "@symfony/ux-dropzone": {
-            "dropzone": {
-                "enabled": true,
-                "fetch": "eager",
-                "autoimport": {
-                    "@symfony/ux-dropzone/src/style.css": true
-                }
-            }
-        },
-        "@symfony/ux-turbo": {
-            "turbo-core": {
-                "enabled": true,
-                "fetch": "eager"
-            },
-            "mercure-turbo-stream": {
-                "enabled": false,
                 "fetch": "eager"
             }
         }

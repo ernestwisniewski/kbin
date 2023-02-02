@@ -1,0 +1,26 @@
+:root {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 62.5%;
+}
+
+#kbin {
+    @include themify($themes) {
+        color: themed('textColor');
+    }
+
+    a {
+        @include themify($themes) {
+            color: themed('entryLinkColor');
+
+        }
+        text-decoration: none;
+
+        @include themify($themes) {
+            color: themed('linkColor');
+
+            &:hover {
+                color: themed('linkColorHover');
+            }
+        }
+    }
+}

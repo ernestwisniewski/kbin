@@ -1,66 +1,83 @@
-$kbin-background: #fff;
-$kbin-dark-background: #222;
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+) !default;
 
-//colors
-$kbin-blue: $primary;
-$kbin-green: #4e805d;
-$kbin-blue-shadow: #414f61;
-$kbin-grey: #fbfbfb;
-$kbin-grey-shadow: #eaeaea;
+$font-size: (
+    small: 1.4rem,
+    default: 1.6rem,
+    large: 2.4rem,
+    optionsTitle: .9rem
+);
 
-// Links
-$kbin-link-color: $link-color;
-$kbin-link-hover-color: $link-hover-color;
-$kbin-link-visited-color: #6a87a0;
-$kbin-button-border-color: #ced4da;
-
-// topbar
-$kbin-topbar-background-color: #121212;
-$kbin-topbar-link-hover-background-color: #282828;
-$kbin-topbar-link-active-background-color: $kbin-grey;
-$kbin-topbar-link-active-hover-background-color: $kbin-grey;
-
-// navbar
-$kbin-navbar-background-color: $kbin-grey;
-$kbin-navbar-border-color: #d2d2d2;
-$kbin-navbar-link-color: $kbin-link-color;
-$kbin-navbar-link-hover-color: $kbin-link-visited-color;
-$kbin-navbar-link-hover-border-color: #8c8c8c;
-$kbin-navbar-link-active-border-color: $kbin-grey-shadow;
-$kbin-navbar-quicklinks-hover-background-color: $kbin-grey;
-
-$kbin-dark-navbar-background-color: #343738;
-$kbin-dark-navbar-border-color: #525658;
-$kbin-dark-navbar-link-color: $kbin-link-color;
-
-// sidebar
-$kbin-sidebar-button-border-color: $kbin-button-border-color;
-
-// entry-list
-$kbin-entry-list-item-border-color: #eaeaea;
-$kbin-entry-list-item-nth-background-color: $kbin-grey;
-$kbin-entry-vote-button-background-color: #efefef;
-$kbin-entr-vote-button-hover-background-color: #656565;
-
-$kbin-dark-entry-list-item-border-color: #191919;
-$kbin-dark-entry-list-item-nth-background-color: #2c2c2c;
-$kbin-dark-entry-vote-button-background-color: #1a1a1a;
-
-// comment-list
-$kbin-comment-list-item-border-color: #eaeaea;
-$kbin-comment-list-item-nth-background-color: $kbin-grey;
-$kbin-comment-vote-button-background-color: #efefef;
-$kbin-comment-vote-button-hover-background-color: #656565;
-
-$kbin-dark-comment-list-item-border-color: #191919;
-$kbin-dark-comment-list-item-nth-background-color: #2c2c2c;
-$kbin-dark-comment-vote-button-background-color: #1f1f1f;
-$kbin-dark-comment-vote-button-hover-background-color: #1f1f1f;
-
-// vote
-$kbin-vote-up: $kbin-green;
-$kbin-vote-down: #b0403d;
-$kbin-vote-none: #a56b1f;
-
-$kbin-dark-vote-up: #24422d;
-$kbin-dark-vote-down: #69110f;
+$themes: (
+    light:(
+        // layout
+        bgColor: #ecf0f1,
+        // typo
+        textColor: #0f0f0f,
+        linkColor: #37769e,
+        linkColorHover:#275878,
+        metaTextColor: #606060,
+        metaBorder: 1px dashed #e5eaec,
+        iconFilter: invert(68%) sepia(5%) saturate(544%) hue-rotate(135deg) brightness(95%) contrast(89%),
+        iconFilterHover: invert(21%) sepia(14%) saturate(1463%) hue-rotate(170deg) brightness(101%) contrast(84%),
+        // header
+        headerBgColor: #367FB5,
+        headerLinkColor: #fff,
+        headerLinkColorHover: #e8e8e8,
+        headerIconFilter: brightness(0) invert(1),
+        headerIconFilterHover: brightness(0) invert(1),
+        // options
+        optionsBgColor: #fff,
+        optionsBorder: 1px solid #e5eaec,
+        optionsLinkColor: #95a5a6,
+        optionsLinkColorHover: #32465b,
+        optionsLinkHoverBorder: 3px solid #32465b,
+        optionsIconFilter: invert(68%) sepia(5%) saturate(544%) hue-rotate(135deg) brightness(95%) contrast(89%),
+        optionsIconFilterHover: invert(21%) sepia(14%) saturate(1463%) hue-rotate(170deg) brightness(101%) contrast(84%),
+        // main
+        mainSectionBgColor: #fff,
+        mainSectionBorder: 1px solid #e5eaec,
+        // sidebar
+        sidebarSectionBgColor: #fff,
+        sidebarSectionBorder: 1px solid #e5eaec,
+        sidebarSectionTextColor: #606060,
+        sidebarSectionHeaderTextColor: #909ea2,
+        sidebarSectionHeaderBorder: 1px solid #e5eaec,
+        sidebarSectionMetaBorder: 1px dashed #e5eaec,
+        sidebarSectionFooterLinkColor: #37769e,
+        sidebarSectionFooterLinkColorHover: #275878,
+        // entry
+        entryBgColor: #fff,
+        entryBorder: 1px solid #e5eaec,
+        entryLinkColor: #37769e,
+        entryLinkColorHover: #275878,
+        entryLinkColorVisited: #7e8f99,
+        entryMetaLinkColor: #606060,
+        // user
+        avatarBorder: 3px solid #ecf0f1,
+        //vote
+        voteBgColor: #f3f3f3,
+        voteTextColor: #b6b6b6,
+        voteTextColorHover: #000,
+        //forms
+        formInputBorder: 1px solid #e5eaec,
+        formInputFocusOutline: 1px solid #367FB5,
+        buttonBgColor: #367fb5,
+        buttonBgColorHover: #345d7b,
+        buttonSecondaryBgColor: #fff,
+        buttonSecondaryTextColor: #606060,
+        buttonSecondaryTextHoverColor: #f3f3f3,
+        buttonSecondaryBorder: 1px dashed #e5eaec,
+        // footer
+        footerBgColor: #367FB5,
+        footerTextColor: #fff,
+        footerLinkColor: #fff,
+        footerLinkColorHover: #fff,
+    ),
+);

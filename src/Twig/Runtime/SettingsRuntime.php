@@ -15,44 +15,44 @@ class SettingsRuntime implements RuntimeExtensionInterface
     }
 
     #[Pure]
- public function kbinDomain(): string
- {
-     return $this->settings->get('KBIN_DOMAIN');
- }
+    public function kbinDomain(): string
+    {
+        return $this->settings->get('KBIN_DOMAIN');
+    }
 
     #[Pure]
- public function kbinTitle(): string
- {
-     return $this->settings->get('KBIN_META_TITLE');
- }
+    public function kbinTitle(): string
+    {
+        return $this->settings->get('KBIN_META_TITLE');
+    }
 
     #[Pure]
- public function kbinDescription(): string
- {
-     return $this->settings->get('KBIN_META_DESCRIPTION');
- }
+    public function kbinDescription(): string
+    {
+        return $this->settings->get('KBIN_META_DESCRIPTION');
+    }
 
     #[Pure]
- public function kbinKeywords(): string
- {
-     return $this->settings->get('KBIN_META_KEYWORDS');
- }
+    public function kbinKeywords(): string
+    {
+        return $this->settings->get('KBIN_META_KEYWORDS');
+    }
 
     #[Pure]
- public function kbinMarkdownHowtoUrl(): string
- {
-     return $this->settings->get('KBIN_MARKDOWN_HOWTO_URL');
- }
+    public function kbinMarkdownHowtoUrl(): string
+    {
+        return $this->settings->get('KBIN_MARKDOWN_HOWTO_URL');
+    }
 
     #[Pure]
- public function kbinJsEnabled(): bool
- {
-     return $this->settings->get('KBIN_JS_ENABLED');
- }
+    public function kbinJsEnabled(): bool
+    {
+        return $this->settings->get('KBIN_JS_ENABLED');
+    }
 
     #[Pure]
- public function kbinRegistrationsEnabled(): bool
- {
-     return $this->settings->get('KBIN_REGISTRATIONS_ENABLED');
- }
+    public function kbinRegistrationsEnabled(): bool
+    {
+        return $this->settings->get('KBIN_REGISTRATIONS_ENABLED');
+    }
 }

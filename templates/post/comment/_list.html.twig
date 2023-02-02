@@ -1,17 +1,28 @@
-<div class="kbin--list" data-controller="comment-list"
-   data-action="notify:PostCommentCreatedNotification@window->comment-list#add"
-   {% if post is defined and post %}data-comment-list-subject-id-value="{{ post.id }}"{% endif %}>
-    {% if comments|length %}
-        {% if results is not defined %}
-            {% set results = comments %}
-        {% endif %}
+<aside class="kbin-posts">
+    <blockquote class="kbin-post">
+        <header>
+            <a href="#">ernest</a>, około godziny temu
+        </header>
+        <figure>
+            <img width="50" height="50"
+                 src="https://karab.in/media/cache/resolve/avatar_thumb/20/fe/20fe1f393d836ad8c21dfcfdf6a06aca6a99cbc3c49da22f9eae40ef5550862a.png"
+                 alt="Avatar">
+        </figure>
+        <div class="kbin-group">
+            <p>content</p>
+        </div>
+        <aside>
+            <aside class="kbin-vote">
+                <button class="kbin-vote__up" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
+            </aside>
+        </aside>
+        <footer>
+            <menu>
+                <li><a href="#">1 komentarz</a></li>
+                <li><a href="#">ulubione</a></li>
+                <li><a href="#">więcej</a></li>
+            </menu>
+        </footer>
+    </blockquote>
+</aside>
 
-        {% for postOrComment in results %}
-            {% include '_layout/_subject.html.twig' with {subject: postOrComment, withParent: false, nested:false} %}
-        {% endfor %}
-    {% endif %}
-
-    {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
-        {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
-    {% endif %}
-</div>

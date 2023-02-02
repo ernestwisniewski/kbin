@@ -18,9 +18,9 @@ class FormattingRuntime implements RuntimeExtensionInterface
         return $value ? $this->markdownConverter->convertToHtml($value) : '';
     }
 
-    public function getShortDesc(?string $val): string
+    public function getShortSentence(?string $val, $length = 330): string
     {
-        $body = wordwrap($val, 330);
+        $body = wordwrap($val, $length);
         $body = explode("\n", $body);
 
         return trim($body[0]).(isset($body[1]) ? '...' : '');

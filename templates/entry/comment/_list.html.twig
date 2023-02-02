@@ -1,21 +1,55 @@
-{% from '_layout/_not_found.html.twig' import not_found %}
+<aside class="kbin-comments">
+    <blockquote class="kbin-comment">
+        <header>
+            <a href="#">ernest</a>, około godziny temu
+        </header>
+        <figure>
+            <img width="50" height="50"
+                 src="https://karab.in/media/cache/resolve/avatar_thumb/20/fe/20fe1f393d836ad8c21dfcfdf6a06aca6a99cbc3c49da22f9eae40ef5550862a.png"
+                 alt="Avatar">
+        </figure>
+        <div class="kbin-group">
+            <p>content</p>
+        </div>
+        <aside>
+            <aside class="kbin-vote">
+                <button class="kbin-vote__up" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
+                <button class="kbin-vote__down" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
+            </aside>
+        </aside>
+        <footer>
+            <menu>
+                <li><a href="#">1 komentarz</a></li>
+                <li><a href="#">ulubione</a></li>
+                <li><a href="#">więcej</a></li>
+            </menu>
+        </footer>
+    </blockquote>
+    <blockquote class="kbin-comment">
+        <header>
+            <a href="#">ernest</a>, około godziny temu
+        </header>
+        <figure>
+            <img width="50" height="50"
+                 src="https://karab.in/media/cache/resolve/avatar_thumb/20/fe/20fe1f393d836ad8c21dfcfdf6a06aca6a99cbc3c49da22f9eae40ef5550862a.png"
+                 alt="Avatar">
+        </figure>
+        <div class="kbin-group">
+            <p>content</p>
+        </div>
+        <aside>
+            <aside class="kbin-vote">
+                <button class="kbin-vote__up" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
+                <button class="kbin-vote__down" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
+            </aside>
+        </aside>
+        <footer>
+            <menu>
+                <li><a href="#">1 komentarz</a></li>
+                <li><a href="#">ulubione</a></li>
+                <li><a href="#">więcej</a></li>
+            </menu>
+        </footer>
+    </blockquote>
+</aside>
 
-<div class="kbin-comment-list mb-5" data-controller="comment-list"
-   data-action="notify:EntryCommentCreatedNotification@window->comment-list#add"
-   {% if entry is defined and entry %}data-comment-list-subject-id-value="{{ entry.id }}"{% endif %}>
-    {% if comments|length %}
-        {% for comment in comments %}
-            {{ component('entry_comment', {comment: comment, extraClass: 'kbin-comment-list-item mb-0', nested: true, withParent: false}) }}
-        {% endfor %}
-
-        {% for i in 2..8 %}
-            <div class="kbin-comment-line--{{ i }}"></div>
-        {% endfor %}
-    {% else %}
-        {{ not_found() }}
-    {% endif %}
-</div>
-
-{% if(comments.haveToPaginate) %}
-    {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
-{% endif %}

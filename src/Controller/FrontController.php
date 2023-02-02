@@ -28,7 +28,7 @@ class FrontController extends AbstractController
             ->setType($criteria->resolveType($type));
 
         $method = $criteria->resolveSort($sortBy);
-        $listing = $this->$method($criteria);
+        $posts = $this->$method($criteria);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -36,7 +36,7 @@ class FrontController extends AbstractController
                     'html' => $this->renderView(
                         'entry/_list.html.twig',
                         [
-                            'entries' => $listing,
+                            'entries' => $posts,
                         ]
                     ),
                 ]
@@ -44,9 +44,9 @@ class FrontController extends AbstractController
         }
 
         return $this->render(
-            'front/front.html.twig',
+            'entry/front.html.twig',
             [
-                'entries' => $listing,
+                'entries' => $posts,
             ]
         );
     }

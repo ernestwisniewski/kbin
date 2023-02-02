@@ -1,0 +1,50 @@
+textarea {
+    padding: 2rem;
+    box-sizing: border-box;
+    resize: vertical;
+    @include themify($themes) {
+        border: themed('formInputBorder');
+
+        &:focus-visible {
+            outline: themed('formInputFocusOutline');
+        }
+    }
+}
+
+input[type="submit"],
+button {
+    @include themify($themes) {
+        background-color: themed('formSubmitBgColor');
+        color: themed('formSubmitTextColor');
+        border: themed('formSubmitBorder');
+
+        &:hover,
+        &:focus-visible {
+            background-color: themed('buttonBgColorHover');
+        }
+    }
+    background-color: #367fb5;
+    color: white;
+    font-weight: bold;
+    padding: 1.2rem;
+    margin: 2rem 0;
+    border: 1px solid #325e7f;
+}
+
+.kbin-btn {
+    &-secondry {
+        @include themify($themes) {
+            background-color: themed('buttonSecondaryBgColor');
+            color: themed('buttonSecondaryTextColor');
+            border: themed('buttonSecondaryBorder');
+        }
+
+        &:hover,
+        &:focus-visible {
+            @include themify($themes) {
+                background-color: themed('buttonSecondaryTextHoverColor');
+
+            }
+        }
+    }
+}

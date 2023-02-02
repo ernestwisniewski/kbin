@@ -1,25 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- entry.title }} - {{ magazine.title -}}{%- endblock -%}
-
-{%- block description -%}{{- entry.body ? get_short_desc(entry.body) : get_author_entry_comment(entry) ? get_short_desc(get_author_entry_comment(entry).body) : '' -}}{%- endblock -%}
-
-{% block image %}{{ entry.image ? uploaded_asset(entry.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
-
 {% block body %}
-    {{ component('title', {title: magazine.title, url: path('front_magazine', {name: magazine.name})}) }}
-    {% include 'magazine/_nav.html.twig' %}
-    {% include 'entry/_single.html.twig' %}
-{% endblock %}
-
-{% block sidebar %}
-    {% include 'entry/_sidebar.html.twig' %}
-
-    {{ parent() }}
-
-    {% include 'magazine/_sidebar.html.twig' %}
-{% endblock %}
-
-{% block sidebar_bottom %}
-    {{ component('related_posts_sidebar', {tag: magazine.name}) }}
+    <div id="kbin-content">
+         {{ component('entry', {entry: entry, isSingle: true, class: 'kbin-entry--single'}) }}
+        {% include 'entry/comment/_options_sort.html.twig' %}
+        {% include 'entry/comment/_no_comments.html.twig' %}
+        {% include 'entry/comment/_list.html.twig' %}
+        {% include 'entry/comment/_add_comment.html.twig' %}
+        {% include 'entry/comment/_options_votes.html.twig' %}
+        {% include 'entry/_votes_list.html.twig' %}
+    </div>
 {% endblock %}

@@ -1,0 +1,58 @@
+#kbin-footer {
+    font-size: map-get($font-size, 'small');
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-top: 3rem;
+    padding-bottom: 3.5rem;
+    @include themify($themes) {
+        color: themed('footerTextColor');
+        background-color: themed('footerBgColor');
+    }
+
+    h5 {
+        margin-top: 0;
+        font-size: 2.3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    a {
+        @include themify($themes) {
+            color: themed('footerLinkColor');
+
+            &:hover {
+                color: themed('footerLinkColorHover');
+                text-decoration: underline;
+            }
+        }
+    }
+
+    div {
+        margin-bottom: .5rem;
+    }
+
+    li {
+        list-style: none;
+        padding: .3rem;
+    }
+
+    section:last-child {
+        text-align: center;
+        align-self: center;
+
+        h5 {
+            font-size: 1.4rem;
+        }
+
+        menu {
+            display: flex;
+            align-items: baseline;
+            inline-size: max-content;
+            margin: 0 auto;
+
+            li {
+                padding: 1rem 1rem;
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+}
