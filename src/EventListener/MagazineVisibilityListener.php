@@ -19,7 +19,7 @@ class MagazineVisibilityListener
             return;
         }
 
-        if (VisibilityInterface::VISIBILITY_VISIBLE !== $magazine[0]->visibility) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE !== array_values($magazine)[0]->visibility) {
             throw new NotFoundHttpException();
         }
     }

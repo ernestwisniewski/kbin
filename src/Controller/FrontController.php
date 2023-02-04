@@ -182,7 +182,7 @@ class FrontController extends AbstractController
         }
 
         return $this->render(
-            'magazine/front.html.twig',
+            'entry/front.html.twig',
             [
                 'magazine' => $magazine,
                 'entries' => $listing,

@@ -85,8 +85,8 @@
 
             span {
                 a {
-                    font-weight: normal !important;
-                    color: themed('metaTextColor') !important;
+                    font-weight: normal;
+                    color: themed('metaTextColor');
                 }
             }
         }
@@ -130,10 +130,10 @@
                 padding: .8rem;
                 font-size: 1.2rem;
                 @include themify($themes) {
-                    color: themed('entryMetaLinkColor') !important;
+                    color: themed('entryMetaLinkColor');
 
                     &:hover {
-                        color: themed('linkColorHover') !important;
+                        color: themed('linkColorHover');
                     }
                 }
             }

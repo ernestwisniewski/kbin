@@ -1,14 +1,23 @@
 <form class="kbin-comment-add">
     <div class="kbin-group">
         <label>
-            <textarea aria-label="Treść komentarza"></textarea>
+            <textarea aria-label="{{ 'enter_your_comment'|trans }}"></textarea>
         </label>
     </div>
-
     <div class="kbin-comment-add-actions">
-        <button type="button" class="kbin-btn-secondry" aria-label="Jak działa edytor?"><i class="kbin-icon__question"></i></button>
-        <button type="button" class="kbin-btn-secondry" aria-label="Dodaj media"><i class="kbin-icon__media"></i></button>
-        <input type="submit" value="Dodaj komentarz"/>
+        <button type="button"
+                class="kbin-btn-secondry"
+                aria-label="{{ 'markdown_howto'|trans }}"
+                title="{{ 'markdown_howto'|trans }}">
+            <i class="kbin-icon__question"></i>
+        </button>
+        <button type="button"
+                class="kbin-btn-secondry"
+                aria-label="{{ 'add_media'|trans }}"
+                title="{{ 'add_media'|trans }}">
+            <i class="kbin-icon__media"></i>
+        </button>
+        <input type="submit" value="{{ 'add_comment'|trans }}"/>
     </div>
 </form>
 

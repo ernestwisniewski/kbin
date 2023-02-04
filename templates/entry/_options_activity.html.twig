@@ -1,0 +1,8 @@
+<aside class="kbin-options">
+    <div class="kbin-options__title"><h2>{{ 'activity'|trans }} ({{ entry.countVotes + entry.favouriteCount }})</h2></div>
+    <menu class="kbin-options__sort">
+        <li><a href="{{ entry_voters_url(entry, 'up') }}">{{ 'up_votes'|trans|lower }} ({{ entry.countUpVotes }})</a></li>
+        <li><a href="{{ entry_voters_url(entry, 'down') }}">{{ 'down_votes'|trans|lower }} ({{ entry.countDownVotes }})</a></li>
+        <li><a href="{{ entry_favourites_url(entry) }}">{{ 'favourites'|trans|lower }} ({{ entry.favouriteCount }})</a></li>
+    </menu>
+</aside>

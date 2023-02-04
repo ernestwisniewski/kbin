@@ -6,13 +6,13 @@
     &--no-comments {
         color: #95a6a6;
         font-size: 2.2rem;
+        padding: 5rem 0;
         font-weight: bold;
         text-align: center;
         @include themify($themes) {
             background-color: themed('mainSectionBgColor');
             border: themed('mainSectionBorder');
         }
-
     }
 }
 
@@ -81,8 +81,8 @@
 
             span {
                 a {
-                    font-weight: normal !important;
-                    color: themed('metaTextColor') !important;
+                    font-weight: normal;
+                    color: themed('metaTextColor');
                 }
             }
         }
@@ -126,10 +126,10 @@
                 padding: .8rem;
                 font-size: 1.2rem;
                 @include themify($themes) {
-                    color: themed('entryMetaLinkColor') !important;
+                    color: themed('entryMetaLinkColor');
 
                     &:hover {
-                        color: themed('linkColorHover') !important;
+                        color: themed('linkColorHover');
                     }
                 }
             }
@@ -159,9 +159,11 @@
     .kbin-vote {
         display: flex;
         gap: 1rem;
+
         button {
-            width: 7rem;
-            height: 2.5rem;
+            font-size: 1.2rem;
+            width: 5.5rem;
+            height: 2rem;
         }
     }
 }

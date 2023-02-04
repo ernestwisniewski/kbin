@@ -3,10 +3,10 @@
 {% if app.user %}
     {%- set VOTE_UP = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_UP') -%}
     {%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_DOWN') -%}
-    {%- set user_choice = is_granted('ROLE_USER') ? this.votable.userChoice(app.user) : null -%}
+    {%- set user_choice = is_granted('ROLE_USER') ? this.subject.userChoice(app.user) : null -%}
 
-    {% set upUrl = path(this.formDest, {id: this.votable.id, choice: VOTE_UP}) %}
-    {% set downUrl = path(this.formDest, {id: this.votable.id, choice: VOTE_DOWN}) %}
+    {% set upUrl = path(this.formDest, {id: this.subject.id, choice: VOTE_UP}) %}
+    {% set downUrl = path(this.formDest, {id: this.subject.id, choice: VOTE_DOWN}) %}
 
     {% if(user_choice is same as(VOTE_UP)) %}
         {% set choice = VOTE_UP %}

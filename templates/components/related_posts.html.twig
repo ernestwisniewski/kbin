@@ -1,0 +1,24 @@
+<section{{ attributes.defaults({class: 'kbin-related-posts'}) }}>
+    <h3>{{ 'related_posts'|trans }}</h3>
+    {% for post in computed.posts %}
+        <figure>
+            <div class="kbin-group">
+                {% if post.image %}
+                    <img src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
+                         alt="{{ post.image.alt|default('') }}">
+                {% endif %}
+                {% if post.body %}
+                    <blockquote>
+                        <p><a href="{{ post_url(post) }}" class="kbin-stretched-link">
+                                {{ get_short_sentence(post.body)|markdown|raw }}
+                            </a>
+                        </p>
+                    </blockquote>
+                {% endif %}
+            </div>
+            <figcaption>
+                {{ component('date', {date: post.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}
+            </figcaption>
+        </figure>
+    {% endfor %}
+</section>

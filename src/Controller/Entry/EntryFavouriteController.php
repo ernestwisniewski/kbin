@@ -20,8 +20,8 @@ class EntryFavouriteController extends AbstractController
     {
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
-                'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $entry->votes,
+                'html' => $this->renderView('layout/_activity_list.html.twig', [
+                    'list' => $entry->favourites,
                     'more' => null,
                 ]),
             ]);

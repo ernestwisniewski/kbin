@@ -6,88 +6,34 @@ use App\Tests\WebTestCase;
 
 class FrontControllerTest extends WebTestCase
 {
-//    /**
-//     * @dataProvider navbarProvider
-//     */
-//    public function testPageMenus($linkName): void
-//    {
-//        $client = $this->createClient();
-//        $client->loginUser($this->getUserByUsername('testUser'));
-//
-//        $this->loadFixtures();
-//
-//        // Home page
-//        $crawler = $client->request('GET', '/magazyny');
-//        $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
-//
-//        $this->assertSelectorTextContains('.kbin-page-view-item--active', 'Wszystkie');
-//        $this->assertCount(1, $crawler->filter('.kbin-page-view-item--active'));
-//        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
-//        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
-//
-////        foreach ($this->sortProvider() as $sort) {
-////            $crawler = $client->click($crawler->filter('.nav .nav-tabs')->selectLink($sort[0])->link());
-////            $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'Wszystkie');
-////            $this->assertSelectorTextContains('.nav .nav-tabs .nav-link', $sort[0]);
-////            $this->assertCount(1, $crawler->filter('.active'));
-////        }
-//
-//        // Sub
-//        $crawler = $client->click($crawler->filter('.kbin-page-view-item')->selectLink('Obserwowane')->link());
-//        $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
-//
-//        $this->assertSelectorTextContains('.kbin-page-view-item--active', 'Obserwowane');
-//        $this->assertCount(1, $crawler->filter('.kbin-page-view-item--active'));
-//        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
-//        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
-//
-//        // Mod
-//        $crawler = $client->click($crawler->filter('.kbin-page-view-item')->selectLink('Moderowane')->link());
-//        $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
-//
-//        $this->assertSelectorTextContains('.kbin-page-view-item--active', 'Moderowane');
-//        $this->assertCount(1, $crawler->filter('.kbin-page-view-item--active'));
-//        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
-//        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
-//
-//        // Magazine
-//        $crawler = $client->click($crawler->filter('.kbin-featured-magazines-list-item')->selectLink('acme')->link());
-//        $crawler = $client->click($crawler->filter('.kbin-nav-navbar-item')->selectLink($linkName)->link());
-//
-//        $this->assertSelectorTextContains('.kbin-featured-magazines-list-item--active', 'acme');
-//        $this->assertCount(1, $crawler->filter('.kbin-featured-magazines-list-item--active'));
-//        $this->assertSelectorTextContains('.kbin-nav-navbar-item--active', $linkName);
-//        $this->assertCount(1, $crawler->filter('.kbin-nav-navbar-item--active'));
-//    }
-//
-//    private function loadFixtures(): void
-//    {
-//        $user1     = $this->getUserByUsername('JohnDoe');
-//        $user2     = $this->getUserByUsername('JaneDoe');
-//        $user3     = $this->getUserByUsername('MaryJane');
-//        $magazine  = $this->getMagazineByName('acme', $user1);
-//        $magazine2 = $this->getMagazineByName('acme2', $user2);
-//        $entry1    = $this->getEntryByTitle('entry1', null, 'content 1', $magazine);
-//        $entry2    = $this->getEntryByTitle('entry2', null, 'content 2', $magazine);
-//        $entry2    = $this->getEntryByTitle('entry3', null, 'content 3', $magazine, $user3);
-//        $entry3    = $this->getEntryByTitle('entry4', null, 'content 4', $magazine, $user2);
-//
-//        $this->createEntryComment('example comment', $entry1);
-//    }
-//
-//    public function testFrontPage(): void
-//    {
-//        $client = $this->createClient();
-//        $client->loginUser($this->getUserByUsername('JohnDoe'));
-//
-//        $this->getEntryByTitle('testowa treść');
-//
-//        $crawler = $client->request('GET', '/');
-//
-//        $this->assertSelectorTextContains('.kbin-entry-meta-user', 'przez JohnDoe');
-//        $this->assertSelectorTextContains('.kbin-entry-meta-magazine', 'do /m/acme');
-//    }
-//
+    public function testFrontPage(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
+
+        $this->getEntryByTitle('testowa treść');
+
+        $crawler = $client->request('GET', '/');
+
+        $this->assertSelectorTextContains('.kbin-entry__meta', 'JohnDoe');
+        $this->assertSelectorTextContains('.kbin-entry__meta', 'to acme');
+    }
+
+    public function testMagazinePage(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
+
+        $this->getEntryByTitle('testowa treść');
+
+        $crawler = $client->request('GET', '/m/acme');
+
+        $this->assertSelectorTextContains('.kbin-entry__meta', 'JohnDoe');
+        $this->assertSelectorTextNotContains('.kbin-entry__meta', 'to acme');
+        $this->assertSelectorTextContains('#kbin-header .kbin-magazine', '/m/acme');
+        $this->assertSelectorTextContains('#kbin-sidebar .kbin-magazine', 'acme');
+    }
+
 //    public function testSubPage(): void
 //    {
 //        $client = $this->createClient();

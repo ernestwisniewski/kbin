@@ -8,22 +8,48 @@
     <div class="kbin-brand">
         <a href="/">karab.in</a>
     </div>
-    {#    <div class="kbin-magazine">#}
-    {#        <span>/m/</span><a href="/">karabin</a>#}
-    {#    </div>#}
+    {% if magazine is defined and magazine %}
+        <div class="kbin-magazine">
+            <span>/m/</span><a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
+        </div>
+    {% endif %}
     <nav>
         <menu>
-            <li><a href="#">Treści</a></li>
-            <li><a href="#">Mikroblog</a></li>
-            <li><a href="#">Ludzie</a></li>
-            <li><a href="#">Wydarzenia</a></li>
-            <li><a href="#">Magazyny</a></li>
+            <li><a href="#">{{ 'threads'|trans }}</a></li>
+            <li><a href="#">{{ 'microblog'|trans }}</a></li>
+            <li><a href="#">{{ 'people'|trans }}</a></li>
+            <li><a href="#">{{ 'events'|trans }}</a></li>
+            <li><a href="#">{{ 'magazines'|trans }}</a></li>
         </menu>
     </nav>
     <menu>
-        <li><a href="#" aria-label="Szukaj"><i class="kbin-icon__search"></i></a></li>
-        <li><a href="#" aria-label="Dodaj"><i class="kbin-icon__add"></i></a></li>
-        <li><a href="#" aria-label="Wybierz kanał"><i class="kbin-icon__channel"></i></a></li>
-        <li><a href="#" aria-label="Zobacz profil użytkownika"><i class="kbin-icon__user"></i></a></li>
+        <li>
+            <a href="#"
+               aria-label="{{ 'search'|trans }}"
+               title="{{ 'search'|trans }}">
+                <i class="kbin-icon__search"></i>
+            </a>
+        </li>
+        <li>
+            <a href="#"
+               aria-label="{{ 'add'|trans }}"
+               title="{{ 'add'|trans }}">
+                <i class="kbin-icon__add"></i>
+            </a>
+        </li>
+        <li>
+            <a href="#"
+               aria-label="{{ 'select_channel'|trans }}"
+               title="{{ 'select_channel'|trans }}">
+                <i class="kbin-icon__channel"></i>
+            </a>
+        </li>
+        <li>
+            <a href="#"
+               aria-label="{{ 'login'|trans }}"
+               title="{{ 'login'|trans }}">
+                <i class="kbin-icon__user"></i>
+            </a>
+        </li>
     </menu>
 </header>

@@ -1,0 +1,45 @@
+<section{{ attributes.defaults({class: 'kbin-magazine'}) }}>
+    <h3>{{ 'magazine'|trans }}</h3>
+    <div class="kbin-group">
+        {% if this.magazine.cover and this.showCover %}
+            <figure>
+                <img
+                        src="{{ asset(this.magazine.cover.filePath) | imagine_filter('post_thumb') }}"
+                        alt="{{ this.magazine.name ~ ' ' ~ 'cover'|trans }}" width="260">
+            </figure>
+        {% endif %}
+        <header>
+            <h4><a href="" class="kbin-stretched-link">{{ this.magazine.title }}</a></h4>
+            <p class="kbin-magazine_name">{{ this.magazine.name }}</p>
+        </header>
+    </div>
+    {% if this.magazine.description and this.showDescription %}
+        <div class="kbin-magazine_descirption">{{ this.magazine.description|markdown|raw }}</div>
+    {% endif %}
+    {% if this.magazine.rules and this.showRules %}
+        <div class="kbin-magazine_rules">{{ this.magazine.rules|markdown|raw }}</div>
+    {% endif %}
+    {% if this.showInfo %}
+        <ul class="kbin-info">
+            <li>{{ 'created_at'|trans }}:
+                {{ component('date', {date: this.magazine.createdAt}) }}
+            </li>
+            <li>{{ 'owner'|trans }}: <span>{{ component('user_inline', {user: this.magazine.owner}) }}</span></li>
+            <li>{{ 'subscribers'|trans }}: <span>{{ this.magazine.subscriptionsCount }}</span></li>
+            <li>{{ 'online'|trans }}: <span>-</span></li>
+        </ul>
+    {% endif %}
+    {% if this.showMeta %}
+        <ul class="kbin-meta">
+            {{ _self.meta_item( 'threads'|trans, path('front_magazine', {'name': this.magazine.name }), this.magazine.entryCount) }}
+            {{ _self.meta_item( 'comments'|trans, path('magazine_entry_comments', {'name': this.magazine.name}), this.magazine.entryCommentCount) }}
+            {{ _self.meta_item( 'posts'|trans, path('magazine_posts', {'name': this.magazine.name}), this.magazine.postCount) }}
+            {{ _self.meta_item( 'replies'|trans, path('magazine_posts', {'name': this.magazine.name}), this.magazine.postCommentCount) }}
+            {{ _self.meta_item( 'moderators'|trans, path('magazine_moderators', {'name': this.magazine.name}), this.magazine.moderators|length) }}
+            {{ _self.meta_item( 'mod_log'|trans, path('magazine_modlog', {'name': this.magazine.name}), this.magazine.logs|length) }}
+        </ul>
+    {% endif %}
+    {% macro meta_item(name, url, count) %}
+        <li><a href="{{ url }}" class="kbin-stretched-link">{{ name }}</a> <span>{{ count }}</span></li>
+    {% endmacro %}
+</section>

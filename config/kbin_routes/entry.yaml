@@ -192,9 +192,10 @@ entry_pin:
 entry_voters:
   controller: App\Controller\Entry\EntryVotersController
   defaults: { slug: -, sortBy: ~ }
+  requirements: { type: 'up|down' }
   path:
-    en: /m/{magazine_name}/t/{entry_id}/{slug}/votes
-    pl: /m/{magazine_name}/t/{entry_id}/{slug}/głosy
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/votes/{type}
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/głosy/{$type}
   methods: [ GET ]
 
 entry_favourites:

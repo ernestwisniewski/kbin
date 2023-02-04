@@ -1,29 +1,30 @@
 .kbin-vote {
-    opacity: 1;
-    display: grid;
-    grid-template-rows: min-content min-content;
-    row-gap: 1rem;
+  opacity: 1;
+  display: grid;
+  grid-template-rows: min-content min-content;
+  row-gap: 1rem;
 
-    button {
-        margin: 0;
-        padding: 0;
-        font-weight: bold;
-        cursor: pointer;
-        border: 0;
-        width: 8rem;
-        height: 3rem;
-        @include themify($themes) {
-            background-color: themed('voteBgColor');
-            color: themed('voteTextColor');
+  button {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    cursor: pointer;
+    border: 0;
+    width: 8rem;
+    height: 3rem;
+    @include themify($themes) {
+      background-color: themed('voteBgColor');
+      color: themed('voteTextColor');
 
-            &:hover,
-            &:focus-visible {
-                color: themed('voteTextColorHover');
-            }
-        }
-
-        span {
-            font-weight: normal;
-        }
+      &:hover,
+      &:focus-visible {
+        color: themed('voteTextColorHover');
+      }
     }
+
+    span {
+      font-weight: normal;
+    }
+  }
 }
+

@@ -1,4 +1,4 @@
-<article {{ attributes.defaults({class: 'kbin-entry'}).without('id') }} id="entry-{{ this.entry.id }}">
+<article{{ attributes.defaults({class: 'kbin-entry'}).without('id') }} id="entry-{{ this.entry.id }}">
     <header>
         {% if this.isSingle %}
             <h1>
@@ -26,17 +26,17 @@
             </h2>
         {% endif %}
 
-        {% if this.entry.body and not this.isSingle %}
+        {% if this.entry.body and this.showShortSentence %}
             <p>{{ get_short_sentence(this.entry.body) }}</p>
         {% endif %}
     </header>
-    {% if this.isSingle and this.entry.body %}
+    {% if this.entry.body and this.showBody %}
         <div class="kbin-entry__body">
             {{ this.entry.body|markdown|raw }}
         </div>
     {% endif %}
     <aside class="kbin-entry__meta">
-        <span><a href="#">ernest</a>, 5 minut temu w <a href="#">nauka</a></span>
+        <span>{{ component('user_inline', {user: this.entry.user}) }}, {{ component('date', {date: this.entry.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.entry.magazine}) }}
     </aside>
     <figure>
         <a href="{{ entry_url(this.entry) }}">
@@ -51,12 +51,12 @@
             {% endif %}
         </a>
     </figure>
-    {{ component('vote', {subject: this.entry}) }}
+    {{ component('vote', {subject: this.entry, formDest: 'entry_vote'}) }}
     <footer>
         <menu>
-            <li><a href="#">1 komentarz</a></li>
-            <li><a href="#">ulubione</a></li>
-            <li><a href="#">więcej</a></li>
+            <li><a href="{{ entry_url(this.entry) }}">{{ this.entry.commentCount }} {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}</a></li>
+            <li><a href="#">{{ 'favourite'|trans|lower }}</a></li>
+            <li><a href="#">{{ 'more'|trans|lower }}</a></li>
         </menu>
     </footer>
 </article>

@@ -98,6 +98,7 @@
             place-self: center;
             margin-left: 1rem;
             padding-top: .2rem;
+            font-size: map-get($font-size, 'small');
 
             span {
                 font-weight: 100;

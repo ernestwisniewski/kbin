@@ -10,5 +10,6 @@ final class EntryComponent
 {
     public Entry $entry;
     public bool $isSingle = false;
-
+    public bool $showShortSentence = true;
+    public bool $showBody = false;
 }

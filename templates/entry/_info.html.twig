@@ -1,0 +1,24 @@
+<section class="kbin-entry-info">
+    <h3>{{ 'thread'|trans }}</h3>
+    <header class="kbin-group">
+        {% if entry.user.avatar %}
+            <figure>
+                <img width="100" height="100"
+                     src="{{ asset(entry.user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+                     alt="{{ entry.user.username ~' '~ 'avatar'|trans|lower }}"/>
+            </figure>
+        {% endif %}
+        <h4><a href="{{ path('user', {username:entry.user.username}) }}"
+               class="kbin-stretched-link">{{ entry.user.username|username }}</a></h4>
+        <p class="kbin-magazine_name">{{ entry.user.apId }}</p>
+    </header>
+    <ul class="kbin-info">
+        <li>{{ 'added'|trans }}: {{ component('date', {date: entry.createdat}) }}</li>
+        <li>{{ 'views'|trans }}: <span>{{ entry.views }}</span></li>
+        <li>{{ 'up_votes'|trans }}:
+            <span>{{ entry.countUpvotes }} {% if entry.countUpvotes %}({{ (entry.countUpvotes / entry.countVotes)|format_percent_number }}){% endif %}</span>
+        </li>
+        <li>{{ 'down_votes'|trans }}: <span>{{ entry.countDownvotes }}</span></li>
+        <li>{{ 'favourites'|trans }}: <span>{{ entry.favouriteCount }}</span></li>
+    </ul>
+</section>

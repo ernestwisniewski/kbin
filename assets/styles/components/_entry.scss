@@ -1,179 +1,183 @@
 .kbin-entry {
-    display: grid;
-    grid-template-columns: min-content min-content auto;
-    grid-template-areas: "vote image title"
+  display: grid;
+  grid-template-columns: min-content min-content auto;
+  grid-template-areas: "vote image title"
                          "vote image meta"
                          "vote image description"
                          "vote image footer"
                          "body body body";
-    padding: 2rem 1rem .5rem 1rem;
-    margin-bottom: .5rem;
-    font-size: map-get($font-size, 'small');
-    grid-gap: 1rem;
+  padding: 1rem;
+  margin-bottom: .5rem;
+  font-size: map-get($font-size, 'small');
 
+  @include themify($themes) {
+    background-color: themed('entryBgColor');
+    border: themed('entryBorder');
+  }
+
+  .kbin-vote {
+    margin-right: 1rem;
+    grid-area: vote;
+  }
+
+  figure {
+    margin: 0 1rem 0 0;
+    grid-area: image;
+
+    img {
+      object-fit: none;
+    }
+  }
+
+  header {
+    grid-area: title;
+    margin-bottom: 1.5rem;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__body {
+    line-height: 2.5rem;
+    letter-spacing: 0.01rem;
+    padding: 0 2rem;
+    grid-area: body;
+    font-size: map-get($font-size, 'default');
+  }
+
+  &__meta {
+    opacity: .7;
+    grid-area: meta;
+    padding-bottom: .4rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
     @include themify($themes) {
-        background-color: themed('entryBgColor');
-        border: themed('entryBorder');
+      color: themed('metaTextColor');
     }
 
-    .kbin-vote {
-        grid-area: vote;
+
+    a {
+      padding: .5rem 0;
+      font-weight: bold;
     }
+  }
 
-    figure {
-        margin: 0;
-        grid-area: image;
+  footer menu {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    list-style: none;
+    column-gap: 1rem;
+    opacity: .7;
 
-        img {
-            object-fit: none;
+    a {
+      padding: .8rem;
+      font-size: 1.2rem;
+      @include themify($themes) {
+        color: themed('entryMetaLinkColor');
+
+        &:hover {
+          color: themed('linkColorHover');
         }
+      }
     }
 
-    header {
-        grid-area: title;
+    li:first-child a {
+      padding-left: 0;
+    }
+  }
 
-        p {
-            margin: 0;
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1.8rem;
+
+    a {
+      @include themify($themes) {
+        color: themed('entryTitleColor');
+        &:visited {
+          color: themed('entryLinkColorVisited');
         }
-    }
-
-    &__body {
-        line-height: 2.5rem;
-        letter-spacing: 0.01rem;
-        padding: 0 2rem;
-        grid-area: body;
-        font-size: map-get($font-size, 'default');
-    }
-
-    &__meta {
-        opacity: .7;
-        grid-area: meta;
-        padding-bottom: .4rem;
-        font-size: 1.3rem;
-        @include themify($themes) {
-            color: themed('metaTextColor');
+        &:hover {
+          color: themed('entryLinkColorHover');
         }
+      }
+    }
+  }
 
-
-        a {
-            padding: .5rem 0;
-            font-weight: bold;
-        }
+  &__domain {
+    font-size: 1rem;
+    position: relative;
+    bottom: 0.3rem;
+    @include themify($themes) {
+      color: themed('metaTextColor');
     }
 
+    a {
+      @include themify($themes) {
+        color: themed('entryMetaLinkColor');
+
+        &:hover {
+          color: themed('linkColorHover');
+        }
+      }
+    }
+  }
+
+  &:hover,
+  &:focus-within {
     footer menu {
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: max-content;
-        list-style: none;
-        column-gap: 1rem;
-        opacity: .7;
+      -webkit-animation: fadein .5s linear 1 normal forwards;
 
-        a {
-            padding: .8rem;
-            font-size: 1.2rem;
-            @include themify($themes) {
-                color: themed('entryMetaLinkColor') !important;
-
-                &:hover {
-                    color: themed('linkColorHover') !important;
-                }
-            }
+      @-webkit-keyframes fadein {
+        from {
+          opacity: .7;
         }
-
-        li:first-child a {
-            padding-left: 0;
+        to {
+          opacity: 1;
         }
+      }
+    }
+
+    .kbin-entry__meta {
+      -webkit-animation: fadein .5s linear 1 normal forwards;
+
+      @-webkit-keyframes fadein {
+        from {
+          opacity: .7;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &--single {
+    border-top: 0 !important;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+
+    h1 {
+      font-size: map-get($font-size, 'large');
+      margin: 0 0 1rem;
     }
 
     h2 {
-        margin: 0 0 1.5rem;
-        font-size: 1.8rem;
-
-        a {
-            @include themify($themes) {
-                color: themed('entryTitleColor') !important;
-                &:visited {
-                    color: themed('entryLinkColorVisited') !important;
-                }
-                &:hover {
-                    color: themed('entryLinkColorHover') !important;
-                }
-            }
-        }
+      font-size: 2.2rem;
     }
 
-    &__domain {
-        font-size: 1rem;
-        position: relative;
-        bottom: 0.3rem;
-        @include themify($themes) {
-            color: themed('metaTextColor') !important;
-        }
-
-        a {
-            @include themify($themes) {
-                color: themed('entryMetaLinkColor') !important;
-
-                &:hover {
-                    color: themed('linkColorHover') !important;
-                }
-            }
-        }
+    h3 {
+      font-size: 2rem;
     }
 
-    &:hover,
-    &:focus-within {
-        footer menu {
-            -webkit-animation: fadein .5s linear 1 normal forwards;
-
-            @-webkit-keyframes fadein {
-                from {
-                    opacity: .7;
-                }
-                to {
-                    opacity: 1;
-                }
-            }
-        }
-
-        .kbin-entry__meta {
-            -webkit-animation: fadein .5s linear 1 normal forwards;
-
-            @-webkit-keyframes fadein {
-                from {
-                    opacity: .7;
-                }
-                to {
-                    opacity: 1;
-                }
-            }
-        }
+    h3 {
+      font-size: 1.8rem;
     }
 
-    &--single {
-        border-top: 0 !important;
-
-        h1 {
-            font-size: map-get($font-size, 'large');
-            margin: 0 0 1.5rem;
-        }
-
-        h2 {
-            font-size: 2.2rem;
-        }
-
-        h3 {
-            font-size: 2rem;
-        }
-
-        h3 {
-            font-size: 1.8rem;
-        }
-
-        h4 {
-            font-size: 1.6rem;
-        }
+    h4 {
+      font-size: 1.6rem;
     }
+  }
 }
 

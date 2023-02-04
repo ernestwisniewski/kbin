@@ -1,0 +1,23 @@
+{% if list|length %}
+    <div class="kbin-user-list">
+        <ul>
+            {% for subject in list %}
+                <li>
+                    {% if subject.user.avatar %}
+                        <figure>
+                            {{ component('user_avatar', {user:subject.user}) }}
+                        </figure>
+                    {% endif %}
+                    <div>
+                        <a href="#" class="kbin-stretched-link">{{ subject.user.username|username }}</a>
+                        <small>{{ component('date', {date: subject.createdAt}) }}</small>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <aside class="kbin-user-list kbin-user-list--no-users">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

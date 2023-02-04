@@ -9,4 +9,5 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class VoteComponent
 {
     public VoteInterface $subject;
+    public string $formDest;
 }

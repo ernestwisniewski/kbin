@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="kbin-content">
+        {{ component('entry', {entry: entry, isSingle: true, class: 'kbin-entry--single', showBody: false}) }}
+        {% include 'entry/_options_activity.html.twig' %}
+        {% include 'layout/_activity_list.html.twig' with {list: favourites} %}
+    </div>
+{% endblock %}

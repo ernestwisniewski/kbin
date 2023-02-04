@@ -29,7 +29,7 @@
         "gumlet/php-image-resize": "2.0.*",
         "jolicode/elastically": "^1.2",
         "karser/karser-recaptcha3-bundle": "^0.1.17",
-        "knplabs/knp-time-bundle": "^1.15",
+        "knplabs/knp-time-bundle": "^1.20",
         "knpuniversity/oauth2-client-bundle": "^2.10",
         "kornrunner/blurhash": "^1.2",
         "laminas/laminas-diactoros": "^2.5",
