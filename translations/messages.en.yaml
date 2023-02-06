@@ -43,7 +43,15 @@ enter_your_comment: Enter your comment
 activity: Activity
 cover: Cover
 related_posts: Related posts
-federated_magazine_info: 'The magazine from the federated instance may be incomplete.'
+federated_magazine_info: 'The magazine from the federated server may be incomplete.'
 go_to_original_instance: 'Browse more on the original instance.'
 empty: Empty
+subscribe: Subscribe
+unsubscribe: Unsubscribe
+follow: Follow
+unfollow: Unfollow
+reply: Reply
+login_or_email: 'Login or email'
+password: Password
+remember_me: Remember me
 to: to

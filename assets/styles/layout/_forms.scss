@@ -27,7 +27,6 @@ button {
     color: white;
     font-weight: bold;
     padding: 1.2rem;
-    margin: 2rem 0;
     border: 1px solid #325e7f;
 }
 
@@ -44,6 +43,21 @@ button {
             @include themify($themes) {
                 background-color: themed('buttonSecondaryTextHoverColor');
 
+            }
+        }
+    }
+
+    &-success {
+        @include themify($themes) {
+            background-color: themed('buttonSuccessBgColor');
+            color: themed('buttonSuccessTextColor');
+            border: themed('buttonSuccessBorder');
+        }
+
+        &:hover,
+        &:focus-visible {
+            @include themify($themes) {
+                background-color: themed('buttonSuccessBgColorHover');
             }
         }
     }

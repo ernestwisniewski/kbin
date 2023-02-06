@@ -9,10 +9,8 @@
                 {% endif %}
                 {% if post.body %}
                     <blockquote>
-                        <p><a href="{{ post_url(post) }}" class="kbin-stretched-link">
-                                {{ get_short_sentence(post.body)|markdown|raw }}
-                            </a>
-                        </p>
+                        {{ get_short_sentence(post.body)|markdown|raw }}
+                        <a href="{{ post_url(post) }}" class="kbin-stretched-link"></a>
                     </blockquote>
                 {% endif %}
             </div>

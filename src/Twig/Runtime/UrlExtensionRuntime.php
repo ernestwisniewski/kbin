@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Twig\Runtime;
 
 use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\Post;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
@@ -42,6 +43,17 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
             'type' => $type,
         ]);
     }
+
+    public function entryCommentReplyUrl(EntryComment $comment): string
+    {
+        return $this->urlGenerator->generate('entry_comment_reply', [
+            'magazine_name' => $comment->magazine->name,
+            'entry_id' => $comment->entry->getId(),
+            'slug' => empty($comment->entry->slug) ? 'icon' : $comment->entry->slug,
+            'parent_comment_id' => $comment->getId(),
+        ]);
+    }
+
 
     public function postUrl(Post $post): string
     {

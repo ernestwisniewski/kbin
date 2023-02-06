@@ -1,9 +1,29 @@
 <aside class="kbin-options kbin-options--top" id="kbin-options">
     <menu class="kbin-options__sort">
-        <li><a href="#">{{ 'top'|trans|lower }}</a></li>
-        <li><a href="#">{{ 'hot'|trans|lower }}</a></li>
-        <li><a href="#">{{ 'active'|trans|lower }}</a></li>
-        <li><a href="#">{{ 'commented'|trans|lower }}</a></li>
+        <li>
+            <a href="{{ options_url('sortBy', 'top'|trans|lower) }}"
+                class="{{ html_classes({'kbin-options__sort--active': options_is_active('sortBy', 'top'|trans|lower)}) }}">
+                {{ 'top'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
+               class="{{ html_classes({'kbin-options__sort--active': options_is_active('sortBy', 'hot'|trans|lower)}) }}">
+            {{ 'hot'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'active'|trans|lower) }}"
+               class="{{ html_classes({'kbin-options__sort--active': options_is_active('sortBy', 'active'|trans|lower)}) }}">
+            {{ 'active'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'commented'|trans|lower) }}"
+               class="{{ html_classes({'kbin-options__sort--active': options_is_active('sortBy', 'commented'|trans|lower)}) }}">
+                {{ 'commented'|trans|lower }}
+            </a>
+        </li>
     </menu>
     <menu class="kbin-options__layout">
         <li><a href="#" title="{{ 'change_view'|trans }}" aria-label="{{ 'change_view'|trans }}"><i class="kbin-icon__layout"></i></a></li>

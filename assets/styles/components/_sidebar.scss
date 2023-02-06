@@ -1,4 +1,6 @@
 #kbin-sidebar {
+  padding-bottom: 2rem;
+
   section {
     padding: 1rem;
     margin-bottom: .5rem;
@@ -37,7 +39,7 @@
       }
 
       li {
-        opacity: .7;
+        opacity: .75;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -71,7 +73,7 @@
 
           @-webkit-keyframes fadein {
             from {
-              opacity: .7;
+              opacity: .75;
             }
             to {
               opacity: 1;
@@ -117,8 +119,6 @@
     text-align: center;
 
     header {
-      margin-bottom: 1.5rem;
-
       h4 {
         font-size: 1.5rem;
         margin-bottom: .5rem;
@@ -127,7 +127,6 @@
 
     &_name {
       margin-top: 0;
-      margin-bottom: 3rem;
     }
 
     &:hover,
@@ -137,60 +136,7 @@
 
         @-webkit-keyframes fadein {
           from {
-            opacity: .7;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-      }
-    }
-  }
-
-  .kbin-magazine {
-    text-align: center;
-
-    header {
-      margin-bottom: 1.5rem;
-
-      h4 {
-        font-size: 1.5rem;
-        margin-bottom: .5rem;
-      }
-    }
-
-    &_name {
-      margin-top: 0;
-      margin-bottom: 3rem;
-    }
-
-    &_descirption,
-    &_rules {
-      text-align: left;
-
-      ul {
-        padding-left: 1rem;
-        list-style: none;
-        li {
-          margin-bottom: 1rem;
-        }
-      }
-    }
-
-    .kbin-info,
-    .kbin-meta {
-      opacity: .7;
-    }
-
-    &:hover,
-    &:focus-within {
-      .kbin-meta,
-      .kbin-info {
-        -webkit-animation: fadein .5s linear 1 normal forwards;
-
-        @-webkit-keyframes fadein {
-          from {
-            opacity: .7;
+            opacity: .75;
           }
           to {
             opacity: 1;
@@ -228,7 +174,7 @@
 
       figcaption {
         text-align: right;
-        opacity: .7;
+        opacity: .75;
         @include themify($themes) {
           color: themed('metaTextColor');
         }
@@ -241,7 +187,7 @@
 
           @-webkit-keyframes fadein {
             from {
-              opacity: .7;
+              opacity: .75;
             }
             to {
               opacity: 1;
@@ -330,7 +276,7 @@
     }
 
     footer {
-      opacity: .7;
+      opacity: .75;
       margin-top: 1rem;
       padding: 1rem 0;
       text-align: center;
@@ -350,7 +296,7 @@
 
         @-webkit-keyframes fadein {
           from {
-            opacity: .7;
+            opacity: .75;
           }
           to {
             opacity: 1;

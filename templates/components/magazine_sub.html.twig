@@ -1,0 +1,19 @@
+<aside{{ attributes.defaults({class: 'kbin-magazine_subscribe'}) }}>
+    <div><i class="kbin-icon__users"></i> {{ this.magazine.subscriptionsCount }}</div>
+    <form action="{{ path('magazine_' ~ (is_magazine_subscribed(this.magazine) ? 'unsubscribe' : 'subscribe'), {name: this.magazine.name}) }}"
+          method="post">
+        <button type="submit"
+                class="{{ html_classes('kbin-btn-secondry', {'kbin-btn-success': is_magazine_subscribed(this.magazine)}) }}">
+            {{ is_magazine_subscribed(this.magazine) ? 'unsubscribe'|trans : 'subscribe'|trans }}
+        </button>
+        <input type="hidden" name="token" value="{{ csrf_token('magazine_subscribe') }}">
+    </form>
+    <form action="{{ path('magazine_' ~ (is_magazine_blocked(this.magazine) ? 'unblock' : 'block'), {name: this.magazine.name}) }}"
+          method="post">
+        <button type="submit"
+                class="{{ html_classes('kbin-btn-secondry', {'kbin-btn-warning': is_magazine_blocked(this.magazine)}) }}">
+            <i class="kbin-icon__block"></i>
+        </button>
+        <input type="hidden" name="token" value="{{ csrf_token('magazine_block') }}">
+    </form>
+</aside>

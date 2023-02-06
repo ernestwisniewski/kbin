@@ -88,7 +88,8 @@
         "symfonycasts/reset-password-bundle": "^1.13",
         "symfonycasts/verify-email-bundle": "^1.2",
         "tchoulom/view-counter-bundle": "^6.0",
-        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/extra-bundle": "^3.5",
+        "twig/html-extra": "^3.5",
         "twig/intl-extra": "^3.2",
         "twig/twig": "^2.12|^3.0",
         "webmozart/assert": "^1.9"

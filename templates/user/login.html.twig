@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section id="kbin-content" class="kbin-section">
+        <header>
+            <h1>{{ 'login'|trans }}</h1>
+        </header>
+
+        <div class="kbin-login">
+            <form>
+                {% if error %}
+                    <div class="kbin-alert alert-alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <div>
+                    <label for="form_login_username">{{ 'login_or_email'|trans }}</label>
+                    <input value="{{ last_username }}" name="username" id="form_login_username" required autofocus>
+                </div>
+                <div>
+                    <label for="form_login_password">{{ 'password'|trans }}</label>
+                    <input value="{{ last_username }}" name="password" id="form_login_password" required>
+                </div>
+                <div>
+                    <label for="form_login_remember">{{ 'remember_me'|trans }}</label>
+                    <input type="checkbox" name="_remember_me" id="form_login_remember">
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            </form>
+        </div>
+    </section>
+{% endblock %}

@@ -36,7 +36,7 @@
         </div>
     {% endif %}
     <aside class="kbin-entry__meta">
-        <span>{{ component('user_inline', {user: this.entry.user}) }}, {{ component('date', {date: this.entry.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.entry.magazine}) }}
+        <span>{{ component('user_inline', {user: this.entry.user}) }}, {{ component('date', {date: this.entry.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.entry.magazine}) }}</span>
     </aside>
     <figure>
         <a href="{{ entry_url(this.entry) }}">
@@ -54,9 +54,18 @@
     {{ component('vote', {subject: this.entry, formDest: 'entry_vote'}) }}
     <footer>
         <menu>
-            <li><a href="{{ entry_url(this.entry) }}">{{ this.entry.commentCount }} {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}</a></li>
-            <li><a href="#">{{ 'favourite'|trans|lower }}</a></li>
-            <li><a href="#">{{ 'more'|trans|lower }}</a></li>
+            <li>
+                <a href="{{ entry_url(this.entry) }}">{{ this.entry.commentCount }} {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}</a>
+            </li>
+            <li>
+                <form>
+                    <input type="submit"
+                           value="{{ 'favourites'|trans|lower }} {% if this.entry.favouriteCount %}({{ this.entry.favouriteCount }}){% endif %}">
+                </form>
+            </li>
+            <li>
+                <button>{{ 'more'|trans|lower }}</button>
+            </li>
         </menu>
     </footer>
 </article>

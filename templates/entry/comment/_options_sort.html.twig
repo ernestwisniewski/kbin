@@ -1,10 +1,30 @@
 <aside class="kbin-options" id="kbin-comments-options">
     <div class="kbin-options__title"><h2>{{ 'comments'|trans }} (0)</h2></div>
     <menu class="kbin-options__sort">
-        <li><a href="#">{{ 'top'|trans|lower }}</a></li>
-        <li><a href="#">{{ 'hot'|trans|lower }}</a></li>
-        <li><a href="#">{{ 'active'|trans|lower }}</a></li>
-        <li><a href="#">{{ 'newest'|trans|lower }}</a></li>
+        <li>
+            <a href="{{ options_url('sortBy', 'top'|trans|lower) }}"
+               class="{{ html_classes({'kbin-options__sort--active': options_is_active('sortBy', 'top'|trans|lower)}) }}">
+            {{ 'top'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
+               class="{{ html_classes({'kbin-options__sort--active': options_is_active('sortBy', 'hot'|trans|lower)}) }}">
+                {{ 'hot'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'active'|trans|lower) }}"
+               class="{{ html_classes({'kbin-options__sort--active': options_is_active('sortBy', 'active'|trans|lower)}) }}">
+                {{ 'active'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'newest'|trans|lower) }}"
+               class="{{ html_classes({'kbin-options__sort--active': options_is_active('sortBy', 'newest'|trans|lower)}) }}">
+                {{ 'newest'|trans|lower }}
+            </a>
+        </li>
     </menu>
     <menu class="kbin-options__layout">
         <li><a href="#" title="Widok kompaktowy" aria-label="Widok kompaktowy"><i class="kbin-icon__layout"></i></a></li>

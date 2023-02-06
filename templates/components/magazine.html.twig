@@ -13,6 +13,7 @@
             <p class="kbin-magazine_name">{{ this.magazine.name }}</p>
         </header>
     </div>
+    {{ component('magazine_sub', {magazine: magazine}) }}
     {% if this.magazine.description and this.showDescription %}
         <div class="kbin-magazine_descirption">{{ this.magazine.description|markdown|raw }}</div>
     {% endif %}

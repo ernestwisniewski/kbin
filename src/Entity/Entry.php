@@ -30,6 +30,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
@@ -102,10 +103,12 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryComment::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $comments;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $votes;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $reports;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $favourites;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $notifications;

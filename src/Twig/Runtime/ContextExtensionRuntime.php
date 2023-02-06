@@ -13,9 +13,19 @@ class ContextExtensionRuntime implements RuntimeExtensionInterface
     {
     }
 
-    public function routeNameContains(string $needle): bool
+    public function isRouteNameContains(string $needle): bool
     {
         return str_contains($this->getCurrentRouteName(), $needle);
+    }
+
+    public function isRouteName(string $needle): bool
+    {
+        return $this->getCurrentRouteName() === $needle;
+    }
+
+    public function routeHasParam(string $name, string $needle): bool
+    {
+        return $this->requestStack->getCurrentRequest()->get($name) === $needle;
     }
 
     private function getCurrentRouteName(): string

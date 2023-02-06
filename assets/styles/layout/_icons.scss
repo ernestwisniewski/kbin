@@ -118,4 +118,24 @@
             margin: 0 auto;
         }
     }
+
+    &__users {
+        &::after {
+            content: url('../icons/_users.svg');
+            display: block;
+            height: 1.2em;
+            width: 1.2em;
+            margin: 0 auto;
+        }
+    }
+
+    &__block {
+        &::after {
+            content: url('../icons/_block.svg');
+            display: block;
+            height: 1.2em;
+            width: 1.2em;
+            margin: 0 auto;
+        }
+    }
 }

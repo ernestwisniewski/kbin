@@ -1,0 +1,47 @@
+.kbin-user_follow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  opacity: .75;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    left: 1px;
+    position: relative;
+    padding: 0.499rem 1rem;
+    @include themify($themes) {
+      color: themed('textColor');
+      border: themed('buttonSecondaryBorder');
+    }
+
+    i {
+      padding-right: .5rem;
+      height: 1.5rem;
+
+      @include themify($themes) {
+      }
+    }
+  }
+
+  button {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  form {
+    i {
+      &::after {
+        height: 1.15em;
+      }
+    }
+  }
+
+  form:last-of-type {
+    position: relative;
+    right: 1px;
+  }
+
+  margin-bottom: 2.5rem;
+}

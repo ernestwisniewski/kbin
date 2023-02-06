@@ -1,55 +1,6 @@
 <aside class="kbin-comments">
-    <blockquote class="kbin-comment">
-        <header>
-            <a href="#">ernest</a>, około godziny temu
-        </header>
-        <figure>
-            <img width="50" height="50"
-                 src="https://karab.in/media/cache/resolve/avatar_thumb/20/fe/20fe1f393d836ad8c21dfcfdf6a06aca6a99cbc3c49da22f9eae40ef5550862a.png"
-                 alt="Avatar">
-        </figure>
-        <div class="kbin-group">
-            <p>content</p>
-        </div>
-        <aside>
-            <aside class="kbin-vote">
-                <button class="kbin-vote__up" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
-                <button class="kbin-vote__down" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
-            </aside>
-        </aside>
-        <footer>
-            <menu>
-                <li><a href="#">1 komentarz</a></li>
-                <li><a href="#">ulubione</a></li>
-                <li><a href="#">więcej</a></li>
-            </menu>
-        </footer>
-    </blockquote>
-    <blockquote class="kbin-comment">
-        <header>
-            <a href="#">ernest</a>, około godziny temu
-        </header>
-        <figure>
-            <img width="50" height="50"
-                 src="https://karab.in/media/cache/resolve/avatar_thumb/20/fe/20fe1f393d836ad8c21dfcfdf6a06aca6a99cbc3c49da22f9eae40ef5550862a.png"
-                 alt="Avatar">
-        </figure>
-        <div class="kbin-group">
-            <p>content</p>
-        </div>
-        <aside>
-            <aside class="kbin-vote">
-                <button class="kbin-vote__up" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
-                <button class="kbin-vote__down" title="Oceń pozytywnie" aria-label="Oceń pozytywnie"><span>+</span> 12311</button>
-            </aside>
-        </aside>
-        <footer>
-            <menu>
-                <li><a href="#">1 komentarz</a></li>
-                <li><a href="#">ulubione</a></li>
-                <li><a href="#">więcej</a></li>
-            </menu>
-        </footer>
-    </blockquote>
+    {% for comment in comments %}
+        {{ component('entry_comment', {comment: comment}) }}
+    {% endfor %}
 </aside>
 

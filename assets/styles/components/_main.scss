@@ -1,4 +1,6 @@
 #kbin-main {
+  padding-bottom: 2rem;
+
   .kbin-options {
     display: grid;
     grid-template-areas: "start middle beforeEnd end";
@@ -40,6 +42,17 @@
             i {
               filter: themed('optionsIconFilterHover');
             }
+          }
+        }
+      }
+
+      &--active {
+        @include themify($themes) {
+          border-bottom: themed('optionsLinkHoverBorder');
+          color: themed('optionsLinkColorHover') !important;
+
+          i {
+            filter: themed('optionsIconFilterHover');
           }
         }
       }
@@ -107,7 +120,6 @@
     }
 
     &--no-users {
-      color: #95a6a6;
       font-size: 2.2rem;
       padding: 5rem 0;
       font-weight: bold;
@@ -115,6 +127,10 @@
       @include themify($themes) {
         background-color: themed('mainSectionBgColor');
         border: themed('mainSectionBorder');
+      }
+
+      p {
+        color: #95a6a6;
       }
     }
   }
@@ -135,6 +151,12 @@
 
     p {
       margin: 0;
+    }
+  }
+
+  ul {
+    li {
+      margin-bottom: .5rem;
     }
   }
 }

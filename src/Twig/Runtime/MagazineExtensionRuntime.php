@@ -2,36 +2,31 @@
 
 namespace App\Twig\Runtime;
 
-use App\Entity\User;
+use App\Entity\Magazine;
 use Symfony\Component\Security\Core\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
-class UserExtensionRuntime implements RuntimeExtensionInterface
+class MagazineExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(private readonly Security $security)
     {
     }
 
-    public function isFollowed(User $followed)
+    public function isSubscribed(Magazine $magazine): bool
     {
         if (!$this->security->getUser()) {
             return false;
         }
 
-        return $this->security->getUser()->isFollower($followed);
+        return $magazine->isSubscribed($this->security->getUser());
     }
 
-    public function isBlocked(User $blocked)
+    public function isBlocked(Magazine $magazine): bool
     {
         if (!$this->security->getUser()) {
             return false;
         }
 
-        return $this->security->getUser()->isBlocked($blocked);
-    }
-
-    public function username($value): string
-    {
-        return ltrim($value, '@');
+        return $this->security->getUser()->isBlockedMagazine($magazine);
     }
 }

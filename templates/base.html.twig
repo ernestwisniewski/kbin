@@ -22,9 +22,6 @@
     {% block javascripts %}
         {% if kbin_js_enabled() %}
             <script>
-                window.KBIN_LOGGED_IN = {{ app.user ? 'true' : 'false' }};
-                window.KBIN_USERNAME = "{{ app.user ? app.user.username : null }}";
-                window.KBIN_LOGIN = "{{ path('app_login') }}";
                 window.MERCURE_PUBLISH_URL = "{{ mercure_public_url }}";
             </script>
             {{ encore_entry_script_tags('app') }}
@@ -33,7 +30,7 @@
 
     <style>
         {% if magazine is defined and magazine %}
-        {{ magazine.customCss }}
+            {{ magazine.customCss }}
         {% endif %}
     </style>
 </head>

@@ -5,13 +5,14 @@
             <figure>
                 <img width="100" height="100"
                      src="{{ asset(entry.user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
-                     alt="{{ entry.user.username ~' '~ 'avatar'|trans|lower }}"/>
+                     alt="{{ entry.user.username ~' '~ 'avatar'|trans|lower }}">
             </figure>
         {% endif %}
         <h4><a href="{{ path('user', {username:entry.user.username}) }}"
                class="kbin-stretched-link">{{ entry.user.username|username }}</a></h4>
         <p class="kbin-magazine_name">{{ entry.user.apId }}</p>
     </header>
+    {{ component('user_follow', {user: entry.user}) }}
     <ul class="kbin-info">
         <li>{{ 'added'|trans }}: {{ component('date', {date: entry.createdat}) }}</li>
         <li>{{ 'views'|trans }}: <span>{{ entry.views }}</span></li>

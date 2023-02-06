@@ -87,7 +87,7 @@ class CommentCreateController extends AbstractController
             null,
             [
                 'action' => $this->generateUrl(
-                    'entry_comment_create',
+                    'entry_comment_reply',
                     [
                         'magazine_name' => $entry->magazine->name,
                         'entry_id' => $entry->getId(),

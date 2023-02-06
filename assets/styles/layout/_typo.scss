@@ -3,24 +3,31 @@
   font-size: 62.5%;
 }
 
-body {
+a {
+  @include themify($themes) {
+    color: themed('entryLinkColor');
+
+  }
+  text-decoration: none;
+
+  @include themify($themes) {
+    color: themed('linkColor');
+
+    &:hover {
+      color: themed('linkColorHover');
+    }
+  }
+}
+
+p {
   @include themify($themes) {
     color: themed('textColor');
   }
 }
 
-  a {
-    @include themify($themes) {
-      color: themed('entryLinkColor');
-
-    }
-    text-decoration: none;
-
-    @include themify($themes) {
-      color: themed('linkColor');
-
-      &:hover {
-        color: themed('linkColorHover');
-      }
-    }
+article,
+blockquote {
+  p,li {
+    line-height: 2.2rem;
   }
+}

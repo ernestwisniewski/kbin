@@ -15,11 +15,33 @@
     {% endif %}
     <nav>
         <menu>
-            <li><a href="#">{{ 'threads'|trans }}</a></li>
-            <li><a href="#">{{ 'microblog'|trans }}</a></li>
-            <li><a href="#">{{ 'people'|trans }}</a></li>
-            <li><a href="#">{{ 'events'|trans }}</a></li>
-            <li><a href="#">{{ 'magazines'|trans }}</a></li>
+            <li>
+                <a href="{{ navbar_threads_url() }}"
+                   class="{{ html_classes({'kbin-active': is_route_name('front') or is_route_name_contains('front_') or entry is defined and entry }) }}">
+                    {{ 'threads'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ navbar_posts_url() }}"
+                   class="{{ html_classes({'kbin-active': is_route_name_contains('post') }) }}">
+                    {{ 'microblog'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    {{ 'people'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    {{ 'events'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    {{ 'magazines'|trans }}
+                </a>
+            </li>
         </menu>
     </nav>
     <menu>

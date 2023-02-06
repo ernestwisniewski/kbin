@@ -1,113 +1,117 @@
 #kbin-header {
-    display: grid;
-    grid-template-areas: "sr-nav brand magazine nav menu";
-    grid-template-columns:min-content max-content max-content auto max-content;
-    align-items: end;
-    position: relative;
+  display: grid;
+  grid-template-areas: "sr-nav brand magazine nav menu";
+  grid-template-columns:min-content max-content max-content auto max-content;
+  align-items: end;
+  position: relative;
+  @include themify($themes) {
+    background-color: themed('headerBgColor');
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: bold;
+
     @include themify($themes) {
-        background-color: themed('headerBgColor');
+      color: themed('headerLinkColor');
+      &:hover {
+        color: themed('headerLinkColorHover');
+      }
+
+      i {
+        filter: themed('headerIconFilter');
+
+        &:hover {
+          filter: themed('headerIconFilterHover');
+        }
+      }
+    }
+  }
+
+  nav {
+    margin-left: 2rem;
+    grid-area: nav;
+  }
+
+  menu {
+    grid-area: menu;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    list-style: none;
+    align-items: end;
+    font-size: map-get($font-size, 'small');
+
+    li {
+      a {
+        display: block;
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+        border-bottom: 3px solid transparent;
+
+        &:hover {
+          border-bottom: 3px solid white;
+        }
+      }
+
+      .kbin-active {
+        border-bottom: 3px solid white;
+      }
+    }
+  }
+
+  .kbin {
+    &-sr-nav {
+      grid-area: sr-nav;
+
+      a {
+        font-size: map-get($font-size, 'large');
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        left: 0;
+        top: 0;
+        background-color: white;
+        padding: 0.5rem 1rem;
+
+        &:focus {
+          color: black;
+          position: absolute;
+          width: auto;
+          height: auto;
+          overflow: visible;
+          clip: auto;
+          white-space: normal;
+          outline: solid 4px darkorange;
+        }
+      }
     }
 
-    a {
-        text-decoration: none;
-        font-weight: bold;
+    &-brand {
+      grid-area: brand;
+      place-self: center;
+      font-size: map-get($font-size, 'large');
+      text-decoration: none;
+    }
 
+    &-magazine {
+      grid-area: magazine;
+      place-self: center;
+      margin-left: 1rem;
+      padding-top: .2rem;
+      font-size: map-get($font-size, 'small');
+
+      span {
+        font-weight: 100;
+        opacity: .75;
         @include themify($themes) {
-            color: themed('headerLinkColor');
-            &:hover {
-                color: themed('headerLinkColorHover');
-            }
-
-            i {
-                filter: themed('headerIconFilter');
-
-                &:hover {
-                    filter: themed('headerIconFilterHover');
-                }
-            }
+          color: themed('headerLinkColor');
         }
+
+      }
     }
-
-    nav {
-        margin-left: 2rem;
-        grid-area: nav;
-    }
-
-    menu {
-        grid-area: menu;
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: max-content;
-        list-style: none;
-        align-items: end;
-        font-size: map-get($font-size, 'small');
-
-        li {
-            a {
-                display: block;
-                padding: 2rem 1.5rem 1.5rem 1.5rem;
-                border-bottom: 3px solid transparent;
-
-                &:hover {
-                    border-bottom: 3px solid white;
-                }
-            }
-        }
-    }
-
-    .kbin {
-        &-sr-nav {
-            grid-area: sr-nav;
-
-            a {
-                font-size: map-get($font-size, 'large');
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                white-space: nowrap;
-                border: 0;
-                left: 0;
-                top: 0;
-                background-color: white;
-                padding: 0.5rem 1rem;
-
-                &:focus {
-                    color: black;
-                    position: absolute;
-                    width: auto;
-                    height: auto;
-                    overflow: visible;
-                    clip: auto;
-                    white-space: normal;
-                    outline: solid 4px darkorange;
-                }
-            }
-        }
-
-        &-brand {
-            grid-area: brand;
-            place-self: center;
-            font-size: map-get($font-size, 'large');
-            text-decoration: none;
-        }
-
-        &-magazine {
-            grid-area: magazine;
-            place-self: center;
-            margin-left: 1rem;
-            padding-top: .2rem;
-            font-size: map-get($font-size, 'small');
-
-            span {
-                font-weight: 100;
-                opacity: .7;
-                @include themify($themes) {
-                    color: themed('headerLinkColor');
-                }
-
-            }
-        }
-    }
+  }
 }
