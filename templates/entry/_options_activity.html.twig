@@ -5,19 +5,19 @@
     <menu class="kbin-options__sort">
         <li>
             <a href="{{ entry_voters_url(entry, 'up') }}"
-               class="{{ html_classes({'kbin-options__sort--active': is_route_name('entry_voters') and route_has_param('type', 'up')}) }}">
+               class="{{ html_classes({'kbin-active': is_route_name('entry_voters') and route_has_param('type', 'up')}) }}">
                 {{ 'up_votes'|trans|lower }} ({{ entry.countUpVotes }})
             </a>
         </li>
         <li>
             <a href="{{ entry_voters_url(entry, 'down') }}"
-               class="{{ html_classes({'kbin-options__sort--active': is_route_name('entry_voters') and route_has_param('type', 'down')}) }}">
+               class="{{ html_classes({'kbin-active': is_route_name('entry_voters') and route_has_param('type', 'down')}) }}">
                 {{ 'down_votes'|trans|lower }} ({{ entry.countDownVotes }})
             </a>
         </li>
         <li>
             <a href="{{ entry_favourites_url(entry) }}"
-               class="{{ html_classes({'kbin-options__sort--active': is_route_name('entry_favourites')}) }}">
+               class="{{ html_classes({'kbin-active': is_route_name('entry_favourites')}) }}">
                 {{ 'favourites'|trans|lower }} ({{ entry.favouriteCount }})
             </a>
         </li>

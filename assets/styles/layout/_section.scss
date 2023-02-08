@@ -1,0 +1,45 @@
+.kbin-section {
+  background-color: var(--kbin-section-bg);
+  border: var(--kbin-section-border);
+  color: var(--kbin-section-text-color);
+  margin-bottom: .5rem;
+  padding: 2rem 1rem;
+
+  a {
+    color: var(--kbin-section-link-color);
+
+    &:hover {
+      color: var(--kbin-section-link-hover-color);
+    }
+  }
+
+  footer {
+    font-size: .8rem;
+
+    menu {
+      li:first-child a {
+        padding-left: 0;
+      }
+
+      li {
+        padding: .5rem 0;
+        position: relative;
+      }
+    }
+  }
+
+  &--top {
+    border-top: 0;
+  }
+
+  &--muted {
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+
+    p {
+      color: var(--kbin-text-muted-color);
+      margin: 0;
+    }
+  }
+}

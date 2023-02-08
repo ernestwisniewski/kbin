@@ -1,4 +1,4 @@
-<article{{ attributes.defaults({class: 'kbin-entry'}).without('id') }} id="entry-{{ this.entry.id }}">
+<article{{ attributes.defaults({class: 'kbin-entry kbin-section'}).without('id') }} id="entry-{{ this.entry.id }}">
     <header>
         {% if this.isSingle %}
             <h1>
@@ -27,15 +27,17 @@
         {% endif %}
 
         {% if this.entry.body and this.showShortSentence %}
-            <p>{{ get_short_sentence(this.entry.body) }}</p>
+            <div class="kbin-content">
+                <p>{{ get_short_sentence(this.entry.body) }}</p>
+            </div>
         {% endif %}
     </header>
     {% if this.entry.body and this.showBody %}
-        <div class="kbin-entry__body">
+        <div class="kbin-content kbin-entry__body">
             {{ this.entry.body|markdown|raw }}
         </div>
     {% endif %}
-    <aside class="kbin-entry__meta">
+    <aside class="kbin-meta kbin-entry__meta">
         <span>{{ component('user_inline', {user: this.entry.user}) }}, {{ component('date', {date: this.entry.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.entry.magazine}) }}</span>
     </aside>
     <figure>
@@ -55,16 +57,19 @@
     <footer>
         <menu>
             <li>
-                <a href="{{ entry_url(this.entry) }}">{{ this.entry.commentCount }} {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}</a>
+                <a class="kbin-stretched-link"
+                   href="{{ entry_url(this.entry) }}">{{ this.entry.commentCount }} {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}</a>
             </li>
             <li>
                 <form>
-                    <input type="submit"
-                           value="{{ 'favourites'|trans|lower }} {% if this.entry.favouriteCount %}({{ this.entry.favouriteCount }}){% endif %}">
+                    <button class="kbin-stretched-link"
+                            type="submit">
+                        {{ 'favourites'|trans|lower }} {% if this.entry.favouriteCount %}({{ this.entry.favouriteCount }}){% endif %}
+                    </button>
                 </form>
             </li>
             <li>
-                <button>{{ 'more'|trans|lower }}</button>
+                <button class="kbin-stretched-link">{{ 'more'|trans|lower }}</button>
             </li>
         </menu>
     </footer>

@@ -1,4 +1,4 @@
-<blockquote{{ attributes.defaults({class: 'kbin-comment'}) }}>
+<blockquote{{ attributes.defaults({class: 'kbin-section kbin-comment'}) }}>
     <header>
         {{ component('user_inline', {user: this.comment.user}) }},
         {{ component('date', {date: this.comment.createdAt}) }}
@@ -6,21 +6,26 @@
     {% if this.comment.user.avatar %}
         {{ component('user_avatar', {user: this.comment.user, width: 50, height: 50}) }}
     {% endif %}
-    <div class="kbin-group">
+    <div class="kbin-content">
         {{ this.comment.body|markdown|raw }}
     </div>
     {{ component('vote', {subject: this.comment}) }}
     <footer>
         <menu>
-            <li><a href="{{ entry_comment_reply_url(this.comment) }}">{{ 'reply'|trans|lower }}</a></li>
+            <li>
+                <a class="kbin-stretched-link"
+                   href="{{ entry_comment_reply_url(this.comment) }}">{{ 'reply'|trans|lower }}</a>
+            </li>
             <li>
                 <form>
-                    <input type="submit"
-                           value="{{ 'favourites'|trans|lower }} {% if this.comment.entry.favouriteCount %}({{ this.comment.entry.favouriteCount }}){% endif %}">
+                    <button class="kbin-stretched-link"
+                            type="submit">
+                        {{ 'favourites'|trans|lower }} {% if this.comment.entry.favouriteCount %}({{ this.comment.entry.favouriteCount }}){% endif %}
+                    </button>
                 </form>
             </li>
             <li>
-                <button>{{ 'more'|trans|lower }}</button>
+                <button class="kbin-stretched-link">{{ 'more'|trans|lower }}</button>
             </li>
         </menu>
     </footer>

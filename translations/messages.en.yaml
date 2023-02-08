@@ -54,4 +54,9 @@ reply: Reply
 login_or_email: 'Login or email'
 password: Password
 remember_me: Remember me
+dont_have_account: Don't have an account?
+you_cant_login: You can't login?
+register: Register
+reset_password: Reset password
+show_more: Show more
 to: to

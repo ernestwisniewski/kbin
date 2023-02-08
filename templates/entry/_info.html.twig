@@ -1,4 +1,4 @@
-<section class="kbin-entry-info">
+<section class="kbin-section kbin-entry-info">
     <h3>{{ 'thread'|trans }}</h3>
     <header class="kbin-group">
         {% if entry.user.avatar %}
@@ -10,7 +10,7 @@
         {% endif %}
         <h4><a href="{{ path('user', {username:entry.user.username}) }}"
                class="kbin-stretched-link">{{ entry.user.username|username }}</a></h4>
-        <p class="kbin-magazine_name">{{ entry.user.apId }}</p>
+        <p class="kbin-user__name">{{ entry.user.apId }}</p>
     </header>
     {{ component('user_follow', {user: entry.user}) }}
     <ul class="kbin-info">

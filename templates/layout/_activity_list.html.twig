@@ -1,5 +1,5 @@
 {% if list|length %}
-    <div class="kbin-user-list">
+    <div class="kbin-section kbin-user-list">
         <ul>
             {% for subject in list %}
                 <li>
@@ -17,7 +17,7 @@
         </ul>
     </div>
 {% else %}
-    <aside class="kbin-user-list kbin-user-list--no-users">
+    <aside class="kbin-section kbin-section--muted kbin-user-list">
         <p>{{ 'empty'|trans }}</p>
     </aside>
 {% endif %}

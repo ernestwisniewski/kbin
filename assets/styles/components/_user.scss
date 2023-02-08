@@ -1,47 +1,34 @@
-.kbin-user_follow {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  opacity: .75;
-
-  div {
+.kbin-user {
+  &__follow {
     display: flex;
     flex-direction: row;
-    left: 1px;
-    position: relative;
-    padding: 0.499rem 1rem;
-    @include themify($themes) {
-      color: themed('textColor');
-      border: themed('buttonSecondaryBorder');
-    }
+    justify-content: center;
+    margin-bottom: 2.5rem;
 
-    i {
-      padding-right: .5rem;
-      height: 1.5rem;
+    div {
+      border: var(--kbin-button-secondary-border);
+      color: var(--kbin-button-secondary-text-color);
+      display: flex;
+      flex-direction: row;
+      left: 1px;
+      padding: .3rem .5rem;
+      position: relative;
 
-      @include themify($themes) {
+      i {
+        padding-right: .5rem;
       }
     }
-  }
 
-  button {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-  }
-
-  form {
-    i {
-      &::after {
-        height: 1.15em;
-      }
+    button {
+      padding-bottom: .5rem;
+      padding-top: .5rem;
     }
-  }
 
-  form:last-of-type {
-    position: relative;
-    right: 1px;
-  }
+    form:last-of-type {
+      position: relative;
+      right: 1px;
+    }
 
-  margin-bottom: 2.5rem;
+    opacity: .75;
+  }
 }

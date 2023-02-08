@@ -1,0 +1,33 @@
+#kbin-tools {
+  .header-bg {
+    background: var(--kbin-header-bg);
+    height: 3.25rem;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .footer-bg {
+    background: var(--kbin-footer-bg);
+    bottom: 0;
+    height: 20.8rem;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+  }
+}
+
+.kbin-stretched-link {
+  &::after {
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
+}

@@ -1,33 +1,26 @@
-:root {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 62.5%;
+body {
+  background-color: var(--kbin-body-bg);
+  color: var(--kbin-text-color);
+  font-family: var(--kbin-body-font-family);
+  font-size: var(--kbin-body-font-size);
+  font-weight: var(--kbin-body-font-weight);
+  line-height: var(--kbin-body-line-height);
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  text-align: var(--kbin-body-text-align);
+  -webkit-text-size-adjust: 100%;
 }
 
 a {
-  @include themify($themes) {
-    color: themed('entryLinkColor');
-
-  }
+  color: var(--kbin-link-color);
   text-decoration: none;
 
-  @include themify($themes) {
-    color: themed('linkColor');
-
-    &:hover {
-      color: themed('linkColorHover');
-    }
+  &:hover {
+    color: var(--kbin-link-hover-color);
   }
 }
 
 p {
-  @include themify($themes) {
-    color: themed('textColor');
-  }
-}
-
-article,
-blockquote {
-  p,li {
-    line-height: 2.2rem;
-  }
+  margin-bottom: 1rem;
+  margin-top: 0;
 }

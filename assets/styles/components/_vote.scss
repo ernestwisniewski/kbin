@@ -1,25 +1,22 @@
 .kbin-vote {
-  opacity: 1;
   display: grid;
+  gap: .5rem;
   grid-template-rows: min-content min-content;
-  row-gap: 1rem;
 
   button {
+    background-color: var(--kbin-vote-bg);
+    border: 0;
+    color: var(--kbin-vote-text-color);
+    cursor: pointer;
+    font-weight: bold;
+    height: 1.9rem;
     margin: 0;
     padding: 0;
-    font-weight: bold;
-    cursor: pointer;
-    border: 0;
-    width: 8rem;
-    height: 3rem;
-    @include themify($themes) {
-      background-color: themed('voteBgColor');
-      color: themed('voteTextColor');
+    width: 4rem;
 
-      &:hover,
-      &:focus-visible {
-        color: themed('voteTextColorHover');
-      }
+    &:hover,
+    &:focus-visible {
+      color: var(--kbin-vote-text-hover-color);
     }
 
     span {

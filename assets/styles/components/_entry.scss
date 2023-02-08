@@ -1,28 +1,21 @@
 .kbin-entry {
   display: grid;
-  grid-template-columns: min-content min-content auto;
   grid-template-areas: "vote image title"
-                         "vote image meta"
-                         "vote image description"
-                         "vote image footer"
-                         "body body body";
-  padding: 1rem;
-  margin-bottom: .5rem;
-  font-size: map-get($font-size, 'small');
-
-  @include themify($themes) {
-    background-color: themed('entryBgColor');
-    border: themed('entryBorder');
-  }
+                       "vote image meta"
+                       "vote image description"
+                       "vote image footer"
+                       "body body body";
+  grid-template-columns: min-content min-content auto;
+  padding: 1rem .5rem;
 
   .kbin-vote {
-    margin-right: 1rem;
     grid-area: vote;
+    margin-right: 1rem;
   }
 
   figure {
-    margin: 0 1rem 0 0;
     grid-area: image;
+    margin: 0 1rem 0 0;
 
     img {
       object-fit: none;
@@ -31,118 +24,71 @@
 
   header {
     grid-area: title;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+
+    h2, h1 {
+      font-size: 1.1rem;
+      line-height: 1.2;
+      margin: 0 0 .5rem;
+
+      a:visited {
+        color: var(--kbin-entry-link-visited-color);
+      }
+
+      a:hover {
+        color: var(--kbin-link-hover-color);
+      }
+    }
+
+    h1 {
+      font-size: 1.3rem;
+    }
 
     p {
+      font-size: .85rem;
       margin: 0;
     }
   }
 
   &__body {
-    line-height: 2.5rem;
-    letter-spacing: 0.01rem;
-    padding: 0 2rem;
     grid-area: body;
-    font-size: map-get($font-size, 'default');
+    margin-top: 1.5rem;
   }
 
   &__meta {
-    opacity: .75;
     grid-area: meta;
-    padding-bottom: .4rem;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    @include themify($themes) {
-      color: themed('metaTextColor');
-    }
-
-
-    a {
-      padding: .5rem 0;
-      font-weight: bold;
-    }
   }
 
   footer menu {
+    column-gap: 1rem;
     display: grid;
-    grid-auto-flow: column;
     grid-auto-columns: max-content;
+    grid-auto-flow: column;
     list-style: none;
-    column-gap: 2rem;
     opacity: .75;
 
-    input[type="submit"],
-    button {
-      font-weight: normal;
-      background: none;
-      margin: 0;
-      padding: 0;
-      border: none;
-
-      &:hover,
-      &:focus-within{
-        background: none;
-        cursor: pointer;
-      }
-    }
-
-    input[type="submit"],
-    button,
-    a {
-      font-size: 1.2rem;
-      @include themify($themes) {
-        color: themed('entryMetaLinkColor');
-
-        &:hover {
-          color: themed('linkColorHover');
-        }
-      }
-    }
-
-    li:first-child a {
-      padding-left: 0;
-    }
-  }
-
-  h2 {
-    margin: 0 0 1rem;
-    font-size: 1.8rem;
-
-    a {
-      @include themify($themes) {
-        color: themed('entryTitleColor');
-        &:visited {
-          color: themed('entryLinkColorVisited');
-        }
-        &:hover {
-          color: themed('entryLinkColorHover');
-        }
-      }
+    button, input[type='submit'], a {
+      @include kbin-btn-link;
     }
   }
 
   &__domain {
-    font-size: 1rem;
+    bottom: .1rem;
+    color: var(--kbin-meta-text-color);
+    font-size: .7rem;
+    opacity: .75;
     position: relative;
-    bottom: 0.3rem;
-    @include themify($themes) {
-      color: themed('metaTextColor');
-    }
 
     a {
-      @include themify($themes) {
-        color: themed('entryMetaLinkColor');
-
-        &:hover {
-          color: themed('linkColorHover');
-        }
-      }
+      color: var(--kbin-meta-text-color);
     }
   }
 
   &:hover,
   &:focus-within {
-    footer menu {
+    footer menu,
+    .kbin-entry__meta,
+    .kbin-entry__domain {
       -webkit-animation: fadein .5s linear 1 normal forwards;
 
       @-webkit-keyframes fadein {
@@ -155,45 +101,15 @@
       }
     }
 
-    .kbin-entry__meta {
-      -webkit-animation: fadein .5s linear 1 normal forwards;
-
-      @-webkit-keyframes fadein {
-        from {
-          opacity: .75;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-    }
   }
 
   &--single {
-    border-top: 0 !important;
-    padding-top: 2rem;
+    border-top: 0;
     padding-bottom: 2rem;
+    padding-top: 2rem;
 
-    h1 {
-      font-size: map-get($font-size, 'large');
-      margin: 0 0 1rem;
-    }
-
-    h2 {
-      font-size: 2.2rem;
-    }
-
-    h3 {
-      font-size: 2rem;
-    }
-
-    h3 {
-      font-size: 1.8rem;
-    }
-
-    h4 {
-      font-size: 1.6rem;
+    .kbin-entry__body {
+      padding: 0 2rem;
     }
   }
 }
-

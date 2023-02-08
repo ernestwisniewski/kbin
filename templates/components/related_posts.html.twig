@@ -1,4 +1,4 @@
-<section{{ attributes.defaults({class: 'kbin-related-posts'}) }}>
+<section{{ attributes.defaults({class: 'kbin-posts kbin-section'}) }}>
     <h3>{{ 'related_posts'|trans }}</h3>
     {% for post in computed.posts %}
         <figure>
@@ -8,10 +8,14 @@
                          alt="{{ post.image.alt|default('') }}">
                 {% endif %}
                 {% if post.body %}
-                    <blockquote>
-                        {{ get_short_sentence(post.body)|markdown|raw }}
-                        <a href="{{ post_url(post) }}" class="kbin-stretched-link"></a>
-                    </blockquote>
+                    <div class="kbin-content">
+                        <blockquote>
+                            {{ get_short_sentence(post.body)|markdown|raw }}
+                            <div>
+                                <a href="{{ post_url(post) }}" class="kbin-stretched-link">{{ 'show_more'|trans }}</a>
+                            </div>
+                        </blockquote>
+                    </div>
                 {% endif %}
             </div>
             <figcaption>

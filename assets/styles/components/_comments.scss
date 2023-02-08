@@ -1,94 +1,49 @@
-.kbin-comments,
 .kbin-comment-add {
-  margin-bottom: .5rem;
-  font-size: map-get($font-size, 'small');
+  padding: 4px;
 
-  &--no-comments {
-    font-size: 2.2rem;
-    padding: 5rem 0;
-    font-weight: bold;
-    text-align: center;
-    @include themify($themes) {
-      background-color: themed('mainSectionBgColor');
-      border: themed('mainSectionBorder');
-    }
-
-    p {
-      color: #95a6a6;
-    }
-  }
-}
-
-.kbin-comment-add {
-  padding: 2rem 2rem;
-  @include themify($themes) {
-    background-color: themed('mainSectionBgColor');
-    border: themed('mainSectionBorder');
-  }
-
-  textarea {
-    width: 100%;
-    height: 10rem;
-    margin-bottom: 1rem;
-  }
-
-  &-actions {
+  &__actions {
     display: flex;
+    gap: .5rem;
     justify-content: flex-end;
-    gap: 1rem;
 
-    button {
-      i {
-        @include themify($themes) {
-          filter: themed('iconFilter');
-          &:hover {
-            filter: themed('iconFilterHover');
-          }
-        }
-      }
+    i {
+      filter: var(--kbin-icon-filter);
+    }
 
-      &:hover,
-      &:focus-visible {
-        i {
-          @include themify($themes) {
-            filter: themed('iconFilterHover');
-          }
-        }
-      }
+    button:hover i {
+      filter: var(--kbin-icon-hover-filter);
     }
   }
 }
 
 .kbin-comment {
   display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: min-content auto min-content;
+  font-size: .9rem;
+  grid-gap: .5rem;
   grid-template-areas: "avatar header vote"
                          "avatar body body"
                          "avatar footer footer";
-  padding: 2rem 1rem;
-  margin: 0 0 1rem 0;
-  @include themify($themes) {
-    background-color: themed('mainSectionBgColor');
-    border: themed('mainSectionBorder');
-  }
+  grid-template-columns: min-content auto min-content;
+  margin: .5rem 0;
+  padding: 1rem .5rem;
 
   header {
-    opacity: .75;
+    color: var(--kbin-meta-text-color);
+    font-size: .8rem;
     grid-area: header;
-    @include themify($themes) {
-      color: themed('metaTextColor');
+    margin-bottom: .5rem;
+    opacity: .75;
 
-      a {
-        font-weight: bold;
-      }
+    a {
+      color: var(--kbin-meta-text-color);
+      font-weight: bold;
 
-      span {
-        a {
-          font-weight: normal;
-          color: themed('metaTextColor');
-        }
-      }
+    }
+  }
+
+  .kbin-content {
+    p:last-child {
+      margin-bottom: 0;
     }
   }
 
@@ -105,8 +60,8 @@
   }
 
   figure {
-    margin: 0;
     grid-area: avatar;
+    margin: 0;
 
     img {
       @include themify($themes) {
@@ -116,17 +71,16 @@
   }
 
   footer {
-    opacity: .75;
     grid-area: footer;
+    opacity: .75;
 
     menu {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: max-content;
-      list-style: none;
       column-gap: 2rem;
+      display: grid;
+      grid-auto-columns: max-content;
+      grid-auto-flow: column;
+      list-style: none;
 
-      input[type="submit"],
       button {
         font-weight: normal;
         background: none;
@@ -141,10 +95,8 @@
         }
       }
 
-      input[type="submit"],
       button,
       a {
-        font-size: 1.2rem;
         @include themify($themes) {
           color: themed('entryMetaLinkColor');
 
@@ -157,6 +109,17 @@
       li:first-child a {
         padding-left: 0;
       }
+    }
+  }
+
+  .kbin-vote {
+    display: flex;
+    gap: .5rem;
+    justify-content: flex-end;
+
+    button {
+      height: 1.2rem;
+      width: 4rem;
     }
   }
 
@@ -173,18 +136,6 @@
           opacity: 1;
         }
       }
-    }
-  }
-
-  .kbin-vote {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-
-    button {
-      font-size: 1.2rem;
-      width: 5.5rem;
-      height: 2rem;
     }
   }
 }

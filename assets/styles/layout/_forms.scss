@@ -1,64 +1,134 @@
-textarea {
-    padding: 2rem;
-    box-sizing: border-box;
-    resize: vertical;
-    @include themify($themes) {
-        border: themed('formInputBorder');
-
-        &:focus-visible {
-            outline: themed('formInputFocusOutline');
-        }
-    }
-}
-
-input[type="submit"],
-button {
-    @include themify($themes) {
-        background-color: themed('formSubmitBgColor');
-        color: themed('formSubmitTextColor');
-        border: themed('formSubmitBorder');
-
-        &:hover,
-        &:focus-visible {
-            background-color: themed('buttonBgColorHover');
-        }
-    }
-    background-color: #367fb5;
-    color: white;
-    font-weight: bold;
-    padding: 1.2rem;
-    border: 1px solid #325e7f;
-}
-
 .kbin-btn {
-    &-secondry {
-        @include themify($themes) {
-            background-color: themed('buttonSecondaryBgColor');
-            color: themed('buttonSecondaryTextColor');
-            border: themed('buttonSecondaryBorder');
-        }
+  padding: .7rem;
 
-        &:hover,
-        &:focus-visible {
-            @include themify($themes) {
-                background-color: themed('buttonSecondaryTextHoverColor');
+  &__primary {
+    background: var(--kbin-button-primary-bg);;
+    border: var(--kbin-button-primary-border);
+    color: var(--kbin-button-primary-text-color);
+    font-weight: bold;
 
-            }
-        }
+    &:hover,
+    &:focus-visible {
+      background: var(--kbin-button-primary-hover-bg);
+      color: var(--kbin-button-primary-text-hover-color);
     }
+  }
 
-    &-success {
-        @include themify($themes) {
-            background-color: themed('buttonSuccessBgColor');
-            color: themed('buttonSuccessTextColor');
-            border: themed('buttonSuccessBorder');
-        }
+  &__secondry {
+    background: var(--kbin-button-secondary-bg);
+    border: var(--kbin-button-secondary-border);
+    color: var(--kbin-button-secondary-text-color);
 
-        &:hover,
-        &:focus-visible {
-            @include themify($themes) {
-                background-color: themed('buttonSuccessBgColorHover');
-            }
-        }
+    &:hover,
+    &:focus-visible {
+      background: var(--kbin-button-secondary-hover-bg);
+      color: var(--kbin-button-secondary-text-hover-color);
     }
+  }
 }
+
+input,
+textarea {
+  background: var(--kbin-input-bg);
+  border: var(--kbin-input-border);
+  color: var(--kbin-input-text-color);
+}
+
+textarea {
+  box-sizing: border-box;
+  height: 5rem;
+  resize: vertical;
+  width: 100%;
+}
+
+
+//input[type="submit"],
+//button {
+//  @include themify($themes) {
+//    background-color: themed('formSubmitBgColor');
+//    color: themed('formSubmitTextColor');
+//    border: themed('formSubmitBorder');
+//
+//    &:hover,
+//    &:focus-visible {
+//      background-color: themed('buttonBgColorHover');
+//    }
+//  }
+//  background-color: #367fb5;
+//  color: white;
+//  font-weight: bold;
+//  padding: 1.2rem;
+//  border: 1px solid #325e7f;
+//  width: auto;
+//}
+//
+//.kbin-btn {
+//  padding: 1.2rem;
+//  &__secondry {
+//    padding: 1.2rem;
+//    @include themify($themes) {
+//      background-color: themed('buttonSecondaryBgColor');
+//      color: themed('buttonSecondaryTextColor');
+//      border: themed('buttonSecondaryBorder');
+//    }
+//
+//    &:hover,
+//    &:focus-visible {
+//      @include themify($themes) {
+//        background: themed('buttonSecondaryBgColorHover');
+//        color: themed('buttonSecondaryTextHoverColor');
+//      }
+//    }
+//  }
+//
+//  &-success {
+//    @include themify($themes) {
+//      background-color: themed('buttonSuccessBgColor');
+//      color: themed('buttonSuccessTextColor');
+//      border: themed('buttonSuccessBorder');
+//    }
+//
+//    &:hover,
+//    &:focus-visible {
+//      @include themify($themes) {
+//        background-color: themed('buttonSuccessBgColorHover');
+//      }
+//    }
+//  }
+//}
+//
+//form * {
+//
+//}
+//
+//form {
+//  div {
+//    margin-bottom: 1.5rem;
+//  }
+//}
+//
+//label {
+//  display: block;
+//  margin-bottom: .5rem;
+//}
+//
+//input {
+//  display: block;
+//  box-sizing: border-box;
+//  width: 100%;
+//  padding: 1rem;
+//  font-weight: 400;
+//  line-height: 1.5;
+//  color: #212529;
+//  background-color: #fff;
+//  background-clip: padding-box;
+//  border: 1px solid #ced4da;
+//}
+//
+//input[type="checkbox"] {
+//  width: auto;
+//  display: inline-block;
+//}
+//
+//::placeholder {
+//}

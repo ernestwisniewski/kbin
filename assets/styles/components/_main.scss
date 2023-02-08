@@ -1,162 +1,36 @@
 #kbin-main {
   padding-bottom: 2rem;
 
-  .kbin-options {
-    display: grid;
-    grid-template-areas: "start middle beforeEnd end";
-    grid-template-columns: max-content auto max-content max-content;
-    align-items: center;
-    margin-bottom: .5rem;
-    font-size: map-get($font-size, 'small');
-
-    &__sort,
-    &__filters,
-    &__layout,
-    &__title {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: max-content;
-      align-self: self-end;
-      list-style: none;
-      align-items: center;
-      margin: 0;
-      padding: 0;
-
-      a {
-        padding: 1.2rem 1.5rem;
-        text-decoration: none;
-        border-bottom: 3px solid transparent;
-        display: block;
-        @include themify($themes) {
-          color: themed('optionsLinkColor');
-
-          i {
-            filter: themed('optionsIconFilter');
-          }
-
-          &:hover,
-          &:focus-visible {
-            border-bottom: themed('optionsLinkHoverBorder');
-            color: themed('optionsLinkColorHover');
-
-            i {
-              filter: themed('optionsIconFilterHover');
-            }
-          }
-        }
-      }
-
-      &--active {
-        @include themify($themes) {
-          border-bottom: themed('optionsLinkHoverBorder');
-          color: themed('optionsLinkColorHover') !important;
-
-          i {
-            filter: themed('optionsIconFilterHover');
-          }
-        }
-      }
-    }
-
-    &__title {
-      grid-area: start;
-      font-size: map-get($font-size, 'optionsTitle');
-      padding: 0 1rem;
-      text-transform: uppercase;
-      align-self: normal;
-    }
-
-    &__sort {
-      grid-area: middle;
-    }
-
-    &__filters {
-      grid-area: end;
-    }
-
-    &__layout {
-      grid-area: beforeEnd;
-    }
-  }
-
   .kbin-user-list {
-    padding: 1rem;
-    margin-bottom: .5rem;
-
-    @include themify($themes) {
-      background-color: themed('mainSectionBgColor');
-      border: themed('mainSectionBorder');
-    }
+    font-size: .9rem;
 
     ul {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 0;
       padding: 0;
-      margin: 0;
-
-      figure {
-        margin: 0 .5rem 0 0;
-      }
-
-      li {
-        font-size: map-get($font-size, 'small');
-        list-style: none;
-        display: flex;
-        align-items: center;
-        position: relative;
-
-        a {
-          display: block
-        }
-
-        small {
-          font-size: 1.1rem;
-          @include themify($themes) {
-            color: themed('metaTextColor');
-          }
-        }
-      }
     }
 
-    &--no-users {
-      font-size: 2.2rem;
-      padding: 5rem 0;
-      font-weight: bold;
-      text-align: center;
-      @include themify($themes) {
-        background-color: themed('mainSectionBgColor');
-        border: themed('mainSectionBorder');
-      }
-
-      p {
-        color: #95a6a6;
-      }
-    }
-  }
-
-  .kbin-info {
-    margin: .5rem 0;
-    padding: 2rem;
-    @include themify($themes) {
-      background-color: themed('alertInfoBgColor');
-      border: themed('alertInfoBorder');
-      color: themed('alertInfoTextColor');
-
-      a {
-        color: themed('alertInfoLinkColor');
-        font-weight: bold;
-      }
+    ul figure {
+      margin: 0 .5rem 0 0;
     }
 
-    p {
-      margin: 0;
+    ul li {
+      align-items: center;
+      display: flex;
+      list-style: none;
+      position: relative;
     }
-  }
 
-  ul {
-    li {
-      margin-bottom: .5rem;
+
+    ul li a {
+      display: block
+    }
+
+    ul li small {
+      color: var(--kbin-meta-text-color);
+      font-size: .85rem;
     }
   }
 }

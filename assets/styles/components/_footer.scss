@@ -1,58 +1,53 @@
 #kbin-footer {
-    font-size: map-get($font-size, 'small');
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    padding-top: 3rem;
-    padding-bottom: 3.5rem;
-    @include themify($themes) {
-        color: themed('footerTextColor');
-        background-color: themed('footerBgColor');
+  background: var(--kbin-footer-bg);
+  color: var(--kbin-footer-text-color);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-bottom: 3rem;
+
+  h5 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: .5rem;
+  }
+
+  a {
+    color: var(--kbin-footer-link-color);
+
+    &:hover {
+      color: var(--kbin-footer-link-hover-color);
+    }
+  }
+
+  div {
+    margin-bottom: .5rem;
+  }
+
+  li {
+    font-size: .9rem;
+    list-style: none;
+    padding: .1rem 0;
+  }
+
+  section:last-child {
+    align-self: center;
+    font-size: .85rem;
+    text-align: center;
+
+    menu {
+      align-items: baseline;
+      display: flex;
+      inline-size: max-content;
+      margin: 0 auto;
+    }
+
+    menu li {
+      filter: brightness(0) invert(1);
+      padding: 1rem;
     }
 
     h5 {
-        margin-top: 0;
-        font-size: 2.3rem;
-        margin-bottom: 1.5rem;
+      font-size: 1rem;
     }
-
-    a {
-        @include themify($themes) {
-            color: themed('footerLinkColor');
-
-            &:hover {
-                color: themed('footerLinkColorHover');
-                text-decoration: underline;
-            }
-        }
-    }
-
-    div {
-        margin-bottom: .5rem;
-    }
-
-    li {
-        list-style: none;
-        padding: .3rem;
-    }
-
-    section:last-child {
-        text-align: center;
-        align-self: center;
-
-        h5 {
-            font-size: 1.4rem;
-        }
-
-        menu {
-            display: flex;
-            align-items: baseline;
-            inline-size: max-content;
-            margin: 0 auto;
-
-            li {
-                padding: 1rem 1rem;
-                filter: brightness(0) invert(1);
-            }
-        }
-    }
+  }
 }

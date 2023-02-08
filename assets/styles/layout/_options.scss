@@ -1,0 +1,66 @@
+.kbin-options {
+  background: var(--kbin-options-bg);
+  border: var(--kbin-options-border);
+  color: var(--kbin-options-text-color);
+  display: grid;
+  font-size: .85rem;
+  grid-template-areas: "start middle beforeEnd end";
+  grid-template-columns: max-content auto max-content max-content;
+  height: 2.5rem;
+  margin-bottom: .5rem;
+
+  &--top {
+    border-top: 0;
+  }
+
+  h1, h2, h3 {
+    font-size: .85rem;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  & > * {
+    align-items: center;
+    align-self: self-end;
+    display: grid;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    justify-content: end;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    a {
+      border-bottom: 3px solid transparent;
+      color: var(--kbin-options-link-color);
+      display: block;
+      padding: .5rem 1rem;
+      text-decoration: none;
+
+      i {
+        filter: var(--kbin-options-icon-filter);
+      }
+
+      &.kbin-active,
+      &:focus-visible,
+      &:hover {
+        border-bottom: var(--kbin-options-link-hover-border);
+        color: var(--kbin-options-link-hover-color);
+
+        i {
+          filter: var(--kbin-options-icon-hover-filter);
+        }
+      }
+    }
+  }
+
+  &__sort {
+    justify-content: start;
+  }
+
+  &__title {
+    align-self: center;
+    margin: 0 .5rem;
+    text-transform: uppercase;
+  }
+}

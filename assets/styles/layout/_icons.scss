@@ -1,141 +1,141 @@
 .kbin-icon {
-    &__search {
-        &::after {
-            content: url('../icons/_search.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__search {
+    &::after {
+      content: url('../icons/_search.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__add {
-        &::after {
-            content: url('../icons/_add.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__add {
+    &::after {
+      content: url('../icons/_add.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__channel {
-        &::after {
-            content: url('../icons/_channel.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__channel {
+    &::after {
+      content: url('../icons/_channel.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__user {
-        &::after {
-            content: url('../icons/_user.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__user {
+    &::after {
+      content: url('../icons/_user.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__clock {
-        &::after {
-            content: url('../icons/_clock.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__clock {
+    &::after {
+      content: url('../icons/_clock.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__media {
-        &::after {
-            content: url('../icons/_media.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__media {
+    &::after {
+      content: url('../icons/_media.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__layout {
-        &::after {
-            content: url('../icons/_layout.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__layout {
+    &::after {
+      content: url('../icons/_layout.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__settings {
-        &::after {
-            content: url('../icons/_settings.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__settings {
+    &::after {
+      content: url('../icons/_settings.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__rss {
-        &::after {
-            content: url('../icons/_rss.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__rss {
+    &::after {
+      content: url('../icons/_rss.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__bulb {
-        &::after {
-            content: url('../icons/_bulb.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__bulb {
+    &::after {
+      content: url('../icons/_bulb.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__fediverse {
-        &::after {
-            content: url('../icons/_fediverse.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__fediverse {
+    &::after {
+      content: url('../icons/_fediverse.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__question {
-        &::after {
-            content: url('../icons/_question.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__question {
+    &::after {
+      content: url('../icons/_question.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__users {
-        &::after {
-            content: url('../icons/_users.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__users {
+    &::after {
+      content: url('../icons/_users.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 
-    &__block {
-        &::after {
-            content: url('../icons/_block.svg');
-            display: block;
-            height: 1.2em;
-            width: 1.2em;
-            margin: 0 auto;
-        }
+  &__block {
+    &::after {
+      content: url('../icons/_block.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
     }
+  }
 }

@@ -1,130 +1,76 @@
 body {
-    position: relative;
+  position: relative;
 }
 
 #kbin {
-    font-size: map-get($font-size, "default");
+  background: var(--kbin-bg);
 
-    @include themify($themes) {
-        background-color: themed('bgColor');
+  &-header {
+    grid-area: header;
+    padding: 0 .5rem;
+    z-index: 5;
+  }
+
+  &-main {
+    grid-area: main;
+    padding: 0 .5rem;
+    position: relative;
+  }
+
+  &-sidebar {
+    grid-area: sidebar;
+    padding: 0 .5rem;
+  }
+
+  &-footer {
+    grid-area: footer;
+    padding: 0 .5rem;
+    z-index: 5;
+  }
+
+  .kbin-container {
+    display: grid;
+    grid-template-areas: "header header"
+                         "main sidebar"
+                         "footer footer";
+    grid-template-columns: 3fr 1fr;
+    margin: 0 auto;
+    max-width: 1360px;
+  }
+
+  a {
+    &:focus-visible {
+      outline: var(--kbin-outline);
     }
+  }
 
-    &-header {
-        z-index: 5;
-        padding: 0 .75rem;
-        grid-area: header;
+  button,
+  input {
+    &:focus-visible {
+      outline: var(--kbin-outline);
     }
-
-    &-main {
-        padding: 0 .75rem;
-        grid-area: main;
-    }
-
-    &-sidebar {
-        padding: 0 .75rem;
-        grid-area: sidebar;
-    }
-
-    &-footer {
-        z-index: 5;
-        padding: 0 .75rem;
-        grid-area: footer;
-    }
-
-    .kbin-container {
-        margin: 0 auto;
-        max-width: 1360px;
-        grid-template-columns: 3fr 1fr;
-        display: grid;
-        grid-template-areas: "header  header"
-                             "main sidebar"
-                             "footer footer";
-    }
-
-    .kbin-group {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .kbin-stretched-link {
-        &::after {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
-            content: "";
-        }
-    }
-
-    a {
-        &:focus-visible {
-            outline: solid 4px darkorange;
-        }
-    }
-
-    button,
-    input[type="button"],
-    input[type="reset"],
-    input[type="submit"] {
-        &:focus-visible {
-            outline: solid 4px darkorange;
-        }
-    }
-
-    menu {
-        margin: 0;
-        padding: 0;
-    }
-
-    .kbin-options {
-        @include themify($themes) {
-            background-color: themed('optionsBgColor');
-            border: themed('optionsBorder');
-        }
-
-        &--top {
-            border-top: 0 !important;
-        }
-    }
-
-    p {
-        line-height: 2.2rem;
-    }
-
-    .kbin-section {
-        padding: 2rem 1rem;
-        @include themify($themes) {
-            background-color: themed('mainSectionBgColor');
-            border: themed('mainSectionBorder');
-            color: themed('textColor');
-        }
-    }
+  }
 }
 
-#kbin-tools {
-    .header-bg {
-        position: absolute;
-        width: 100%;
-        top: 0;
-        left: 0;
-        height: 5.5rem;
-        z-index: 0;
-        @include themify($themes) {
-            background-color: themed('footerBgColor');
-        }
-    }
+menu {
+  margin: 0;
+  padding: 0;
+}
 
-    .footer-bg {
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        left: 0;
-        height: 26.1rem;
-        z-index: 0;
-        @include themify($themes) {
-            background-color: themed('footerBgColor');
-        }
-    }
+.kbin-group,
+.kbin-content {
+  overflow: hidden;
+  position: relative;
+}
+
+hr {
+  border: 1px solid var(--kbin-bg);
+}
+
+.kbin-content {
+  blockquote {
+    border-left: 2px solid red;
+    margin: 0 0 1rem 1rem;
+    padding-left: 1rem;
+  }
 }

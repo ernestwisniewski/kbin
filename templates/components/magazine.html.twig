@@ -1,4 +1,4 @@
-<section{{ attributes.defaults({class: 'kbin-magazine'}) }}>
+<section{{ attributes.defaults({class: 'kbin-magazine kbin-section'}) }}>
     <h3>{{ 'magazine'|trans }}</h3>
     <div class="kbin-group">
         {% if this.magazine.cover and this.showCover %}
@@ -10,15 +10,15 @@
         {% endif %}
         <header>
             <h4><a href="" class="kbin-stretched-link">{{ this.magazine.title }}</a></h4>
-            <p class="kbin-magazine_name">{{ this.magazine.name }}</p>
+            <p class="kbin-magazine__name">{{ this.magazine.name }}</p>
         </header>
     </div>
     {{ component('magazine_sub', {magazine: magazine}) }}
     {% if this.magazine.description and this.showDescription %}
-        <div class="kbin-magazine_descirption">{{ this.magazine.description|markdown|raw }}</div>
+        <div class="kbin-content kbin-magazine__description">{{ this.magazine.description|markdown|raw }}</div>
     {% endif %}
     {% if this.magazine.rules and this.showRules %}
-        <div class="kbin-magazine_rules">{{ this.magazine.rules|markdown|raw }}</div>
+        <div class="kbin-content kbin-magazine__rules">{{ this.magazine.rules|markdown|raw }}</div>
     {% endif %}
     {% if this.showInfo %}
         <ul class="kbin-info">

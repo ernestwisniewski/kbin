@@ -1,0 +1,19 @@
+@mixin kbin-btn-link {
+  background: none;
+  border: 0;
+  display: inline;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  color: var(--kbin-meta-link-color);
+
+  &:hover,
+  &:focus-within {
+    background: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    color: var(--kbin-meta-link-hover-color);
+  }
+}

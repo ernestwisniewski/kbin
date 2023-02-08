@@ -1,74 +1,78 @@
 #kbin-sidebar {
+  font-size: .85rem;
   padding-bottom: 2rem;
 
-  section {
-    padding: 1rem;
-    margin-bottom: .5rem;
-    font-size: 1.3rem;
-    @include themify($themes) {
-      background: themed('sidebarSectionBgColor');
-      border: themed('sidebarSectionBorder');
-      color: themed('sidebarSectionTextColor');
-    }
+  h3 {
+    border-bottom: var(--kbin-sidebar-header-border);
+    color: var(--kbin-sidebar-header-text-color);
+    font-size: .8rem;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+  }
 
-    figure,
-    blockquote {
-      margin: 0;
-      padding: 0;
-    }
+  figure, blockquote {
+    margin: 0;
+  }
 
-    h3 {
-      text-align: left;
-      letter-spacing: .1rem;
-      margin-top: 0;
-      padding-bottom: 0.5rem;
-      text-transform: uppercase;
-      font-size: 1.3rem;
-      @include themify($themes) {
-        color: themed('sidebarSectionHeaderTextColor');
-        border-bottom: themed('sidebarSectionHeaderBorder');
-      }
-    }
+  .kbin-options {
+    grid-template-columns: 1fr;
 
-    .kbin-meta, .kbin-info {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      @include themify($themes) {
-        color: themed('metaTextColor');
-      }
+    menu {
+      display: flex;
 
       li {
-        opacity: .75;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 1rem 1rem;
-        position: relative;
+        flex-grow: 1;
+        flex-shrink: 0;
+        text-align: center;
+      }
+    }
+  }
 
-        @include themify($themes) {
-          border-bottom: themed('sidebarSectionMetaBorder');
+  .kbin-section {
+    padding: .5rem;
+  }
 
-          &:first-child {
-            border-top: themed('sidebarSectionMetaBorder');
+  .kbin-posts {
+    figure {
+      border-bottom: var(--kbin-meta-border);
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      img {
+        height: 100px;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      blockquote {
+        border: 0;
+
+        div {
+          color: var(--kbin-meta-text-color);
+          font-size: .7rem;
+          opacity: .75;
+          text-align: right;
+
+          a {
+            color: var(--kbin-meta-text-color);
           }
-        }
-
-        span {
-          @include themify($themes) {
-            color: themed('metaTextColor');
-          }
-        }
-
-        a {
-          font-weight: bold;
         }
       }
 
+      figcaption {
+        color: var(--kbin-meta-text-color);
+        opacity: .75;
+        text-align: right;
+      }
 
       &:hover,
       &:focus-within {
-        footer a {
+        figcaption,
+        blockquote div {
           -webkit-animation: fadein .5s linear 1 normal forwards;
 
           @-webkit-keyframes fadein {
@@ -82,56 +86,91 @@
         }
       }
     }
+  }
 
-    .kbin-info {
-      margin: 2.5rem 0;
+  .kbin-meta, .kbin-info {
+    color: var(--kbin-meta-text-color);
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
-      li {
-        justify-content: flex-start;
+    li {
+      border-bottom: var(--kbin-meta-border);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      opacity: .75;
+      padding: .5rem;
 
-        &:last-child {
-          border-bottom: none;
+      position: relative;
+
+      &:first-child {
+        border-top: var(--kbin-meta-border);
+      }
+
+      span {
+        color: var(--kbin-meta-text-color);
+      }
+
+      a {
+        font-weight: bold;
+        padding: 0;
+      }
+
+    }
+  }
+
+  .kbin-info {
+    padding-bottom: 2.5rem;
+  }
+
+  .kbin-user-list {
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul li {
+      align-items: center;
+      border-top: var(--kbin-meta-border);
+      display: flex;
+      list-style: none;
+      position: relative;
+
+      &:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      &:last-child {
+        @include themify($themes) {
+          border-bottom: themed('sidebarSectionMetaBorder');
         }
       }
 
-      span,
-      time {
-        margin-left: .5rem;
+      a {
+        padding: 0 .5rem;
+      }
+
+      img {
+        margin: .5rem 0;
       }
     }
 
     footer {
+      opacity: .75;
+      padding: .5rem 0;
+      position: relative;
+      text-align: center;
+
       a {
-        text-decoration: none;
-        font-size: 1.3rem;
-        @include themify($themes) {
-          color: themed('sidebarSectionFooterLinkColor');
-          &:hover,
-          &:focus-visible {
-            color: themed('sidebarSectionFooterLinkColorHover');
-          }
-        }
+        color: var(--kbin-meta-text-color);
       }
-    }
-  }
-
-  .kbin-entry-info {
-    text-align: center;
-
-    header {
-      h4 {
-        font-size: 1.5rem;
-        margin-bottom: .5rem;
-      }
-    }
-
-    &_name {
-      margin-top: 0;
     }
 
     &:hover,
     &:focus-within {
-      ul li {
+      footer {
         -webkit-animation: fadein .5s linear 1 normal forwards;
 
         @-webkit-keyframes fadein {
@@ -146,152 +185,32 @@
     }
   }
 
-  .kbin-related-posts {
-    figure {
-      padding-bottom: 1.5rem;
-      margin-bottom: 1.5rem;
-      @include themify($themes) {
-        border-bottom: themed('sidebarSectionMetaBorder');
-      }
-
-      &:last-child {
+  .kbin-entry-info {
+    header {
+      h4 {
+        font-size: 1rem;
         margin-bottom: 0;
+        margin-top: .5rem;
       }
 
-      img {
-        object-fit: cover;
-        width: 100%;
-        height: 100px;
-      }
-
-      blockquote {
-        a {
-          @include themify($themes) {
-            color: themed('sidebarSectionTextColor');
-          }
-        }
-      }
-
-      figcaption {
-        text-align: right;
-        opacity: .75;
-        @include themify($themes) {
-          color: themed('metaTextColor');
-        }
-      }
-
-      &:hover,
-      &:focus-within {
-        figcaption {
-          -webkit-animation: fadein .5s linear 1 normal forwards;
-
-          @-webkit-keyframes fadein {
-            from {
-              opacity: .75;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .kbin-options {
-    padding: 0;
-    font-size: map-get($font-size, 'small');
-    border-top: 0;
-    margin-bottom: 0.5rem;
-
-    menu {
-      display: flex;
-
-      li {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        text-align: center;
-        flex-shrink: 0;
-        flex-grow: 1;
-
-        a {
-          text-decoration: none;
-          border-bottom: 3px solid transparent;
-          padding: 1.2rem 1.5rem;
-          border-bottom: 3px solid transparent;
-          display: block;
-          @include themify($themes) {
-            color: themed('optionsLinkColor');
-
-            i {
-              filter: themed('optionsIconFilter');
-            }
-
-            &:hover,
-            &:focus-visible {
-              border-bottom: 3px solid #32465b;
-              color: #32465b;
-
-              i {
-                filter: themed('optionsIconFilterHover');
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .kbin-moderators {
-    ul {
-      margin: 0;
-      padding: 0;
-
-      li {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        position: relative;
-        padding: .5rem 0;
-        @include themify($themes) {
-          border-top: themed('sidebarSectionMetaBorder');
-        }
-
-        &:first-child {
-          border-top: 0;
-          padding-top: 0;
-        }
-
-        &:last-child {
-          @include themify($themes) {
-            border-bottom: themed('sidebarSectionMetaBorder');
-          }
-        }
-
-        a {
-          padding: 1rem;
-        }
-      }
-    }
-
-    footer {
-      opacity: .75;
-      margin-top: 1rem;
-      padding: 1rem 0;
       text-align: center;
-      position: relative;
+    }
 
-      a {
-        @include themify($themes) {
-          color: themed('metaTextColor')
-        }
-      }
+    &_name {
+      margin-top: 0;
+    }
+
+    figure {
+      text-align: center;
+    }
+
+    .kbin-info {
+      opacity: .75;
     }
 
     &:hover,
     &:focus-within {
-      footer {
+      .kbin-info {
         -webkit-animation: fadein .5s linear 1 normal forwards;
 
         @-webkit-keyframes fadein {

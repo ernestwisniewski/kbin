@@ -2,29 +2,48 @@
 
 {% block body %}
     <section id="kbin-content" class="kbin-section">
-        <header>
-            <h1>{{ 'login'|trans }}</h1>
-        </header>
+        <p>Traditional heading elements are designed to work best in the meat of your page content. When you need a heading to stand out, consider using a <strong>display heading</strong>—a larger, slightly more opinionated heading style.</p>
+{#        <div class="kbin-login-page">#}
+{#            <form method="post">#}
+{#                <h1>{{ 'login'|trans }}</h1>#}
+{#                {% if error %}#}
+{#                    <div class="kbin-alert kbin-alert__danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
+{#                {% endif %}#}
+{#                <div>#}
+{#                    <label for="email">{{ 'login_or_email'|trans }}</label>#}
+{#                    <input type="text"#}
+{#                           id="email"#}
+{#                           name="email"#}
+{#                           value="{{ last_username }}"#}
+{#                           required>#}
+{#                </div>#}
+{#                <div>#}
+{#                    <label for="password">{{ 'password'|trans }}</label>#}
+{#                    <input type="{{ 'password'|trans }}"#}
+{#                           id="password"#}
+{#                           name="password"#}
+{#                           required>#}
+{#                </div>#}
+{#                <label>#}
+{#                    <input type="checkbox" name="_remember_me"> {{ 'remember_me'|trans }}#}
+{#                </label>#}
+{#                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
+{#                <input type="submit" value="{{ 'login'|trans }}">#}
+{#            </form>#}
 
-        <div class="kbin-login">
-            <form>
-                {% if error %}
-                    <div class="kbin-alert alert-alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
-                <div>
-                    <label for="form_login_username">{{ 'login_or_email'|trans }}</label>
-                    <input value="{{ last_username }}" name="username" id="form_login_username" required autofocus>
-                </div>
-                <div>
-                    <label for="form_login_password">{{ 'password'|trans }}</label>
-                    <input value="{{ last_username }}" name="password" id="form_login_password" required>
-                </div>
-                <div>
-                    <label for="form_login_remember">{{ 'remember_me'|trans }}</label>
-                    <input type="checkbox" name="_remember_me" id="form_login_remember">
-                </div>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            </form>
-        </div>
+{#            <div class="kbin-actions">#}
+{#                <p>{{ 'dont_have_account'|trans }} <a#}
+{#                            class="font-weight-bold"#}
+{#                            href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>#}
+
+{#                <p>{{ 'you_cant_login'|trans }} <a#}
+{#                            class="font-weight-bold"#}
+{#                            href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}</a></p>#}
+{#            </div>#}
+{#            <div class="kbin-social">#}
+{#                <a href="{{ path('oauth_facebook_connect') }}" class="kbin-btn__secondry"><i class="fab fa-google"></i> Google</a>#}
+{#                <a href="{{ path('oauth_google_connect') }}" class="kbin-btn__secondry"><i class="fab fa-facebook"></i> Facebook</a>#}
+{#            </div>#}
+{#        </div>#}
     </section>
 {% endblock %}
