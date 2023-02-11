@@ -37,26 +37,59 @@ replies: Replies
 moderators: Moderators
 mod_log: Moderation log
 add_comment: Add comment
+add_post: Add post
 add_media: Add media
 markdown_howto: How does the editor work?
 enter_your_comment: Enter your comment
+enter_your_post: Enter your post
 activity: Activity
 cover: Cover
 related_posts: Related posts
-federated_magazine_info: 'The magazine from the federated server may be incomplete.'
-go_to_original_instance: 'Browse more on the original instance.'
+federated_magazine_info: The magazine from the federated server may be incomplete.
+go_to_original_instance: Browse more on the original instance.
 empty: Empty
 subscribe: Subscribe
 unsubscribe: Unsubscribe
 follow: Follow
 unfollow: Unfollow
 reply: Reply
-login_or_email: 'Login or email'
+login_or_email: Login or email
 password: Password
 remember_me: Remember me
 dont_have_account: Don't have an account?
 you_cant_login: You can't login?
+already_have_account: Already have an account?
 register: Register
 reset_password: Reset password
 show_more: Show more
 to: to
+username: Username
+email: Email
+repeat_password: Repeat password
+agree_terms: Consent to %terms_link_start%Terms and Conditions%terms_link_end% and %policy_link_start%Privacy Policy%policy_link_end%
+terms: Terms of service
+privacy_policy: Privacy policy
+about_instance: About
+all_magazines: All magazines
+stats: Statistics
+fediverse: Fediverse
+awards: Awards
+ranking: Ranking
+create_new_magazine: Create new magazine
+add_new_article: Add new article
+add_new_link: Add new link
+add_new_photo: Add new photo
+add_new_post: Add new post
+add_new_video: Add new video
+contact: Contact
+faq: FAQ
+rss: RSS
+change_theme: Change theme
+useful: Useful
+help: Help
+check_email: Check your email
+reset_check_email_desc: 'If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password. This link will expire in'
+reset_check_email_desc2: "If you don't receive an email please check your spam folder or try again."
+try_again: Try again
+up_vote: Up vote
+down_vote: Down vote

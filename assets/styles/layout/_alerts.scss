@@ -16,4 +16,15 @@
       font-weight: bold;
     }
   }
+
+  &__danger {
+    background: var(--kbin-alert-danger-bg);
+    border: var(--kbin-alert-danger-border);
+    color: var(--kbin-alert-danger-text-color);
+
+    a {
+      color: var(--kbin-alert-danger-link-color);
+      font-weight: bold;
+    }
+  }
 }

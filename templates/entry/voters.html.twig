@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}kbin-page-entry-voters{% endblock %}
+
+{% block body %}
+    <div id="kbin-content">
+        {{ component('entry', {entry: entry, isSingle: true, showBody: false}) }}
+        {% include 'entry/_options_activity.html.twig' %}
+        {% include 'layout/_activity_list.html.twig' with {list: votes} %}
+    </div>
+{% endblock %}

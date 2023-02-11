@@ -1,6 +1,6 @@
 #kbin-sidebar {
   font-size: .85rem;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 
   h3 {
     border-bottom: var(--kbin-sidebar-header-border);
@@ -33,6 +33,7 @@
   }
 
   .kbin-posts {
+    color: var(--kbin-meta-text-color);
     figure {
       border-bottom: var(--kbin-meta-border);
       margin-bottom: 1rem;
@@ -44,17 +45,18 @@
 
       img {
         height: 100px;
+        margin-bottom: .5rem;
         object-fit: cover;
         width: 100%;
       }
 
       blockquote {
         border: 0;
+        padding: 0;
 
         div {
           color: var(--kbin-meta-text-color);
           font-size: .7rem;
-          opacity: .75;
           text-align: right;
 
           a {
@@ -65,25 +67,7 @@
 
       figcaption {
         color: var(--kbin-meta-text-color);
-        opacity: .75;
         text-align: right;
-      }
-
-      &:hover,
-      &:focus-within {
-        figcaption,
-        blockquote div {
-          -webkit-animation: fadein .5s linear 1 normal forwards;
-
-          @-webkit-keyframes fadein {
-            from {
-              opacity: .75;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-        }
       }
     }
   }
@@ -99,7 +83,6 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      opacity: .75;
       padding: .5rem;
 
       position: relative;
@@ -143,9 +126,7 @@
       }
 
       &:last-child {
-        @include themify($themes) {
-          border-bottom: themed('sidebarSectionMetaBorder');
-        }
+        border-bottom: var(--kbin-meta-border);
       }
 
       a {
@@ -167,22 +148,6 @@
         color: var(--kbin-meta-text-color);
       }
     }
-
-    &:hover,
-    &:focus-within {
-      footer {
-        -webkit-animation: fadein .5s linear 1 normal forwards;
-
-        @-webkit-keyframes fadein {
-          from {
-            opacity: .75;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-      }
-    }
   }
 
   .kbin-entry-info {
@@ -202,26 +167,6 @@
 
     figure {
       text-align: center;
-    }
-
-    .kbin-info {
-      opacity: .75;
-    }
-
-    &:hover,
-    &:focus-within {
-      .kbin-info {
-        -webkit-animation: fadein .5s linear 1 normal forwards;
-
-        @-webkit-keyframes fadein {
-          from {
-            opacity: .75;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-      }
     }
   }
 }

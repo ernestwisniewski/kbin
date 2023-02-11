@@ -1,5 +1,4 @@
 @import 'mixins/animations';
-@import 'mixins/theme';
 @import 'mixins/kbin';
 @import 'variables';
 @import 'layout/breakpoints';
@@ -19,8 +18,10 @@
 @import 'components/main';
 @import 'components/vote';
 @import 'components/entry';
-@import 'components/comments';
+@import 'components/post';
+@import 'components/comment';
 @import 'components/post';
 @import 'components/login';
 @import 'components/footer';
+@import 'pages/post_single';
 

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}kbin-page-reset-password{% endblock %}
+
+{% block body %}
+    <div id="kbin-content" class="kbin-section kbin-section--top">
+        <h1>{{ 'check_email'|trans }}</h1>
+        <p>{{ 'reset_check_email_desc'|trans }} {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+        <p>{{ 'reset_check_email_desc2'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'try_again'|trans }}</a>.</p>
+    </div>
+{% endblock %}

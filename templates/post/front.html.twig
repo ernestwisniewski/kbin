@@ -1,12 +1,24 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    title
+{%- endblock -%}
+
+{% block mainClass %}kbin-page-post-front{% endblock %}
+
 {% block body %}
     <header>
-        <h1 hidden>Gorące</h1>
+        <h1 hidden>{{ 'hot'|trans }}</h1>
     </header>
-    <div id="kbin-content">
-        {% include 'post/comment/_add_comment.html.twig' %}
-        {% include 'post/_options.html.twig' %}
-        {% include 'post/comment/_list.html.twig' %}
-    </div>
+    {% include 'post/_add_post.html.twig' %}
+    {% include 'post/_options.html.twig' %}
+    {% if magazine is defined and magazine %}
+        {% if magazine.apId %}
+            <div class="kbin-alert kbin-alert__info">
+                <p>{{ 'federated_magazine_info'|trans }} <a
+                            href="{{ magazine.apProfileId }}">{{ 'go_to_original_instance'|trans }}</a></p>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% include 'post/_list.html.twig' %}
 {% endblock %}

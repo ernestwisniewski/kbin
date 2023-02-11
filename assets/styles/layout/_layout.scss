@@ -37,19 +37,14 @@ body {
     margin: 0 auto;
     max-width: 1360px;
   }
+}
 
-  a {
-    &:focus-visible {
-      outline: var(--kbin-outline);
-    }
-  }
+html {
+  box-sizing: border-box;
+}
 
-  button,
-  input {
-    &:focus-visible {
-      outline: var(--kbin-outline);
-    }
-  }
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 menu {

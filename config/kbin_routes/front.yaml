@@ -1,33 +1,33 @@
 front:
-  controller: App\Controller\FrontController::front
+  controller: App\Controller\Entry\FrontController::front
   defaults: { sortBy: ~, time: '∞', type: ~ }
   path: /{sortBy}/{time}/{type}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 front_subscribed:
-  controller: App\Controller\FrontController::subscribed
+  controller: App\Controller\Entry\FrontController::subscribed
   defaults: { sortBy: ~, time: '∞', type: ~ }
   path: /sub/{sortBy}/{time}/{type}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 front_moderated:
-  controller: App\Controller\FrontController::moderated
+  controller: App\Controller\Entry\FrontController::moderated
   defaults: { sortBy: ~, time: '∞', type: ~ }
   path: /mod/{sortBy}/{time}/{type}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 front_favourite:
-  controller: App\Controller\FrontController::favourite
+  controller: App\Controller\Entry\FrontController::favourite
   defaults: { sortBy: ~, time: '∞', type: ~ }
   path: /fav/{sortBy}/{time}/{type}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 front_magazine:
-  controller: App\Controller\FrontController::magazine
+  controller: App\Controller\Entry\FrontController::magazine
   defaults: { sortBy: ~, time: '∞', type: ~ }
   path: /m/{name}/{sortBy}/{time}/{type}
   methods: [GET]

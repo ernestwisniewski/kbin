@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block mainClass %}kbin-page-entry-comment-create{% endblock %}
+
 {% block body %}
     <div id="kbin-content">
-        {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:true, class: 'kbin-entry--single'}) }}
+        {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:false}) }}
 
         {% include 'entry/comment/_options_sort.html.twig' %}
-        {{ component('entry_comment', {comment: this.parent}) }}
+        {{ component('entry_comment', {comment: parent}) }}
         {% include 'entry/comment/_add_comment.html.twig' %}
         {% include 'entry/_options_activity.html.twig' %}
     </div>

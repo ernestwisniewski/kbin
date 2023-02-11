@@ -1,0 +1,9 @@
+.kbin-page-post-single {
+  .kbin-options__layout {
+    grid-area: end;
+  }
+
+  .kbin-post-comments {
+    margin-bottom: .5rem;
+  }
+}

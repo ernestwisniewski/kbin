@@ -3,8 +3,8 @@
   color: var(--kbin-footer-text-color);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  margin-top: 3rem;
   padding-bottom: 3rem;
-
   h5 {
     font-size: 1.3rem;
     font-weight: bold;

@@ -4,12 +4,30 @@ namespace App\Twig\Components;
 
 use App\Entity\Entry;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\Attribute\PostMount;
 
 #[AsTwigComponent('entry')]
 final class EntryComponent
 {
-    public Entry $entry;
+    public ?Entry $entry;
     public bool $isSingle = false;
     public bool $showShortSentence = true;
     public bool $showBody = false;
+    public bool $showMagazine = true;
+
+    #[PostMount]
+    public function postMount(array $attr): array
+    {
+        if ($this->isSingle) {
+            $this->showMagazine = false;
+
+            if (isset($attr['class'])) {
+                $attr['class'] = trim('kbin-entry--single '.$attr['class']);
+            } else {
+                $attr['class'] = 'kbin-entry--single';
+            }
+        }
+
+        return $attr;
+    }
 }

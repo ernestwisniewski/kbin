@@ -138,4 +138,24 @@
       width: 1.2em;
     }
   }
+
+  &__facebook {
+    &::after {
+      content: url('../icons/_facebook.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
+    }
+  }
+
+  &__google {
+    &::after {
+      content: url('../icons/_google.svg');
+      display: block;
+      height: 1.2em;
+      margin: 0 auto;
+      width: 1.2em;
+    }
+  }
 }

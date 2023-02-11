@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block mainClass %}kbin-page-entry-single{% endblock %}
+
 {% block body %}
     <div id="kbin-content">
-        {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:true, class: 'kbin-entry--single'}) }}
+        {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:true}) }}
 
         {% include 'entry/comment/_options_sort.html.twig' %}
         {% if comments|length %}

@@ -67,11 +67,16 @@
             </a>
         </li>
         <li>
-            <a href="#"
-               aria-label="{{ 'login'|trans }}"
-               title="{{ 'login'|trans }}">
-                <i class="kbin-icon__user"></i>
-            </a>
+            {% if app.user %}
+                <a href="#"
+                   aria-label="{{ 'login'|trans }}"
+                   title="{{ 'login'|trans }}">
+                    <i class="kbin-icon__user"></i>
+                </a>
+            {% else %}
+                <a class="{{ html_classes('kbin-login', {'kbin-active': is_route_name('app_login')}) }}"
+                   href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
+            {% endif %}
         </li>
     </menu>
 </header>

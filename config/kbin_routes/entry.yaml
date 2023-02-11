@@ -1,4 +1,4 @@
-entry_comment_reply:
+entry_comment_create:
   controller: App\Controller\Entry\Comment\CommentCreateController
   defaults: { slug: -, parent_comment_id: null }
   path:

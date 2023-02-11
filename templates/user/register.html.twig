@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}kbin-page-register{% endblock %}
+
+{% block body %}
+    <div id="kbin-content" class="kbin-section kbin-section--top">
+        <div class="container">
+            {{ form_start(form) }}
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="kbin-alert kbin-alert__danger">{{ flash_error }}</div>
+            {% endfor %}
+            <h1>{{ 'register'|trans }}</h1>
+            {{ form_row(form.username, {
+                label: 'username'
+            }) }}
+            {{ form_row(form.email, {
+                label: 'email'
+
+            }) }}
+            {{ form_row(form.plainPassword, {
+                label: 'password'
+            }) }}
+            {{ form_row(form.agreeTerms, {
+                label: 'agree_terms'|trans({
+                    '%terms_link_start%' : '<a href="'~path('page_terms')~'">', '%terms_link_end%' : '</a>',
+                    '%policy_link_start%' : '<a href="'~path('page_privacy_policy')~'">', '%policy_link_end%' : '</a>',
+                }),
+                attr: {
+                    'aria-label': 'agree_terms'|trans
+                },
+                row_attr: {
+                    class: 'kbin-checkbox'
+                }
+            }) }}
+            {{ form_row(form.submit, {
+                label: 'register',
+                attr: {
+                    class: 'kbin-btn kbin-btn__primary'
+                }
+            }) }}
+            {{ form_end(form) }}
+
+            <div class="kbin-actions">
+                <p>{{ 'already_have_account'|trans }} <a
+                            class="font-weight-bold"
+                            href="{{ path('app_login') }}">{{ 'login'|trans }}</a></p>
+
+                <p>{{ 'you_cant_login'|trans }} <a
+                            class="font-weight-bold"
+                            href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}</a></p>
+            </div>
+            {% include 'user/_login_socials.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

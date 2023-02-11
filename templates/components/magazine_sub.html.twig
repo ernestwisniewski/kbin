@@ -6,7 +6,7 @@
                 class="{{ html_classes('kbin-btn kbin-btn__secondry', {'kbin-btn-success': is_magazine_subscribed(this.magazine)}) }}">
             {{ is_magazine_subscribed(this.magazine) ? 'unsubscribe'|trans : 'subscribe'|trans }}
         </button>
-        <input type="hidden" name="token" value="{{ csrf_token('magazine_subscribe') }}">
+        <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
     </form>
     <form action="{{ path('magazine_' ~ (is_magazine_blocked(this.magazine) ? 'unblock' : 'block'), {name: this.magazine.name}) }}"
           method="post">
@@ -14,6 +14,6 @@
                 class="{{ html_classes('kbin-btn kbin-btn__secondry', {'kbin-btn-warning': is_magazine_blocked(this.magazine)}) }}">
             <i class="kbin-icon__block"></i>
         </button>
-        <input type="hidden" name="token" value="{{ csrf_token('magazine_block') }}">
+        <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
     </form>
 </aside>

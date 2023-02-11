@@ -6,7 +6,13 @@
   font-size: .85rem;
   grid-template-areas: 'sr-nav brand magazine nav menu';
   grid-template-columns: min-content max-content max-content auto max-content;
+  padding: 0 .55rem;
   position: relative;
+
+  .kbin-login {
+    font-weight: normal;
+    padding-bottom: .75rem;
+  }
 
   a {
     color: var(--kbin-header-link-color);
@@ -18,10 +24,11 @@
 
     i {
       filter: var(--kbin-header-icon-filter);
+    }
 
-      &:hover {
-        filter: var(--kbin-header-icon-hover-filter);
-      }
+    i:hover {
+      filter: var(--kbin-header-icon-hover-filter);
+
     }
   }
 
@@ -42,10 +49,11 @@
       border-bottom: 3px solid transparent;
       display: block;
       padding: .9rem 1rem;
+    }
 
-      &:hover {
-        border-bottom: 3px solid #fff;
-      }
+    li a:hover {
+      border-bottom: 3px solid #fff;
+
     }
 
     li .kbin-active {

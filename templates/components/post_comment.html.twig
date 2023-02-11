@@ -1,0 +1,32 @@
+<blockquote{{ attributes.defaults({class: 'kbin-section kbin-comment'}) }}>
+    <header>
+        {{ component('user_inline', {user: this.comment.user}) }},
+        {{ component('date', {date: this.comment.createdAt}) }}
+    </header>
+    {% if this.comment.user.avatar %}
+        {{ component('user_avatar', {user: this.comment.user, width: 40, height: 40}) }}
+    {% endif %}
+    <div class="kbin-content">
+        {{ this.comment.body|markdown|raw }}
+    </div>
+    {{ component('vote', {subject: this.comment, downvote: false}) }}
+    <footer>
+        <menu>
+            <li>
+                <a class="kbin-stretched-link"
+                   href="{{ post_comment_create_url(this.comment) }}">{{ 'reply'|trans|lower }}</a>
+            </li>
+            <li>
+                <form>
+                    <button class="kbin-stretched-link"
+                            type="submit">
+                        {{ 'favourites'|trans|lower }} {% if this.comment.post.favouriteCount %}({{ this.comment.post.favouriteCount }}){% endif %}
+                    </button>
+                </form>
+            </li>
+            <li>
+                <button class="kbin-stretched-link">{{ 'more'|trans|lower }}</button>
+            </li>
+        </menu>
+    </footer>
+</blockquote>

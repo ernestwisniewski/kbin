@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}kbin-page-privacy-policy{% endblock %}
+
+{% block body %}
+    <div id="kbin-content" class="kbin-section kbin-section--top">
+        <h1>{{ 'privacy_policy'|trans }}</h1>
+        {{ body|markdown|raw }}
+    </div>
+{% endblock %}

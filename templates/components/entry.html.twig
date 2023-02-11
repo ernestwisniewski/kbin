@@ -1,12 +1,14 @@
-<article{{ attributes.defaults({class: 'kbin-entry kbin-section'}).without('id') }} id="entry-{{ this.entry.id }}">
+<article{{ attributes.defaults({class: 'kbin-entry kbin-section'}).without('id') }}
+        id="entry-{{ this.entry.id }}">
     <header>
         {% if this.isSingle %}
             <h1>
                 {% if entry.url %}
-                    <a href="{{ this.entry.url }}">{{ this.entry.title }}</a>
+                    <a rel="{{ get_rel(this.entry.url) }}"
+                       href="{{ this.entry.url }}">{{ this.entry.title }}</a>
                     {% if entry.domain %}
                         <span class="kbin-entry__domain">
-                            (<a href="{{ this.entry.domain.name }}">{{ this.entry.domain.name }}</a>)
+                            (<a href="{{ path('domain_front', {name: this.entry.domain.name}) }}">{{ this.entry.domain.name }}</a>)
                         </span>
                     {% endif %}
                 {% else %}
@@ -38,7 +40,7 @@
         </div>
     {% endif %}
     <aside class="kbin-meta kbin-entry__meta">
-        <span>{{ component('user_inline', {user: this.entry.user}) }}, {{ component('date', {date: this.entry.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.entry.magazine}) }}</span>
+        <span>{{ component('user_inline', {user: this.entry.user}) }}, {{ component('date', {date: this.entry.createdAt}) }} {% if this.showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.entry.magazine}) }}{% endif %}</span>
     </aside>
     <figure>
         <a href="{{ entry_url(this.entry) }}">

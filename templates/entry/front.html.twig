@@ -4,6 +4,8 @@
     title
 {%- endblock -%}
 
+{% block mainClass %}kbin-page-entry-front{% endblock %}
+
 {% block body %}
     <header>
         <h1 hidden>{{ 'hot'|trans }}</h1>
@@ -19,3 +21,4 @@
     {% endif %}
     {% include 'entry/_list.html.twig' %}
 {% endblock %}
+

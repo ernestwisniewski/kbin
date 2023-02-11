@@ -5,6 +5,7 @@ namespace App\Twig\Components;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\Attribute\PostMount;
 
 #[AsTwigComponent('related_posts')]
 final class RelatedPostsComponent
@@ -21,6 +22,11 @@ final class RelatedPostsComponent
 
     public function __construct(private readonly PostRepository $repository)
     {
+    }
+
+    #[PostMount]
+    public function postMount(array $attr): array
+    {
         if ($this->tag) {
             $this->tag = self::TYPE_TAG;
         }
@@ -28,6 +34,8 @@ final class RelatedPostsComponent
         if ($this->magazine) {
             $this->magazine = self::TYPE_MAGAZINE;
         }
+
+        return $attr;
     }
 
     public function getPosts(): iterable

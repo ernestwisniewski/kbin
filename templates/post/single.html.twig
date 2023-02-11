@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}kbin-page-post-single{% endblock %}
+
+{% block body %}
+    <div id="kbin-content">
+        {{ component('post', {post: post, isSingle: true}) }}
+
+        {% include 'post/comment/_options_sort.html.twig' %}
+        {% if comments|length %}
+            {% include 'post/comment/_list.html.twig' %}
+        {% else %}
+            {% include 'post/comment/_no_comments.html.twig' %}
+        {% endif %}
+        {% include 'post/comment/_add_comment.html.twig' %}
+    </div>
+{% endblock %}

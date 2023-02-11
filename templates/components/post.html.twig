@@ -1,0 +1,33 @@
+<blockquote{{ attributes.defaults({class: 'kbin-section kbin-post'}) }}>
+    <header>
+        {{ component('user_inline', {user: this.post.user}) }},
+        <a href="{{ post_url(this.post) }}"
+           class="kbin-link-muted">{{ component('date', {date: this.post.createdAt}) }}</a>
+    </header>
+    {% if this.post.user.avatar %}
+        {{ component('user_avatar', {user: this.post.user, width: 40, height: 40}) }}
+    {% endif %}
+    <div class="kbin-content">
+        {{ this.post.body|markdown|raw }}
+    </div>
+    {{ component('vote', {subject: this.post, showDownvote: false}) }}
+    <footer>
+        <menu>
+            <li>
+                <a class="kbin-stretched-link"
+                   href="{{ post_url(this.post) }}">{{ 'reply'|trans|lower }}</a>
+            </li>
+            <li>
+                <form>
+                    <button class="kbin-stretched-link"
+                            type="submit">
+                        {{ 'favourites'|trans|lower }} {% if this.post.favouriteCount %}({{ this.post.favouriteCount }}){% endif %}
+                    </button>
+                </form>
+            </li>
+            <li>
+                <button class="kbin-stretched-link">{{ 'more'|trans|lower }}</button>
+            </li>
+        </menu>
+    </footer>
+</blockquote>

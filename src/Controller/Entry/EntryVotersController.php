@@ -32,7 +32,7 @@ class EntryVotersController extends AbstractController
             ]);
         }
 
-        return $this->render('entry/votes.html.twig', [
+        return $this->render('entry/voters.html.twig', [
             'magazine' => $magazine,
             'entry' => $entry,
             'votes' => $votes,

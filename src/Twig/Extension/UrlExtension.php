@@ -16,8 +16,11 @@ final class UrlExtension extends AbstractExtension
             new TwigFunction('entry_url', [UrlExtensionRuntime::class, 'entryUrl']),
             new TwigFunction('entry_favourites_url', [UrlExtensionRuntime::class, 'entryFavouritesUrl']),
             new TwigFunction('entry_voters_url', [UrlExtensionRuntime::class, 'entryVotersUrl']),
-            new TwigFunction('entry_comment_reply_url', [UrlExtensionRuntime::class, 'entryCommentReplyUrl']),
+            new TwigFunction('entry_comment_create_url', [UrlExtensionRuntime::class, 'entryCommentCreateUrl']),
             new TwigFunction('post_url', [UrlExtensionRuntime::class, 'postUrl']),
+            new TwigFunction('post_voters_url', [UrlExtensionRuntime::class, 'postVotersUrl']),
+            new TwigFunction('post_favourites_url', [UrlExtensionRuntime::class, 'postFavouritesUrl']),
+            new TwigFunction('post_comment_create_url', [UrlExtensionRuntime::class, 'postCommentReplyUrl']),
         ];
     }
 }

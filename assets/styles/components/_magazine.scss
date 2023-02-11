@@ -58,31 +58,5 @@
       position: relative;
       right: 1px;
     }
-
-    opacity: .75;
-  }
-
-  .kbin-info,
-  .kbin-meta,
-  .kbin-magazine__subscribe{
-    opacity: .75;
-  }
-
-  &:hover,
-  &:focus-within {
-    .kbin-meta,
-    .kbin-info,
-    .kbin-magazine__subscribe {
-      -webkit-animation: fadein .5s linear 1 normal forwards;
-
-      @-webkit-keyframes fadein {
-        from {
-          opacity: .75;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-    }
   }
 }

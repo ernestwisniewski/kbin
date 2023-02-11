@@ -4,7 +4,7 @@
         {{ component('date', {date: this.comment.createdAt}) }}
     </header>
     {% if this.comment.user.avatar %}
-        {{ component('user_avatar', {user: this.comment.user, width: 50, height: 50}) }}
+        {{ component('user_avatar', {user: this.comment.user, width: 40, height: 40}) }}
     {% endif %}
     <div class="kbin-content">
         {{ this.comment.body|markdown|raw }}
@@ -14,7 +14,7 @@
         <menu>
             <li>
                 <a class="kbin-stretched-link"
-                   href="{{ entry_comment_reply_url(this.comment) }}">{{ 'reply'|trans|lower }}</a>
+                   href="{{ entry_comment_create_url(this.comment) }}">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
                 <form>

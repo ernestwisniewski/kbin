@@ -1,24 +1,49 @@
-//.kbin-login-page, .kbin-register-page {
-//  max-width: 45rem;
-//  margin: 0 auto;
-//
-//  input[type="submit"] {
-//    margin: 3rem 0;
-//    width: 100%;
-//  }
-//
-//  p {
-//    margin: 1rem 0;
-//  }
-//
-//  a {
-//    font-weight: bold;
-//  }
-//
-//  .kbin-social {
-//    margin-top: 3rem;
-//    display: flex;
-//    gap: 2rem;
-//    justify-content: center;
-//  }
-//}
+.kbin-page-login,
+.kbin-page-register,
+.kbin-page-reset-password {
+  .container {
+    margin: 0 auto;
+    max-width: 35rem;
+
+    p {
+      margin-bottom: .5rem;
+    }
+
+    a {
+      font-weight: bold;
+    }
+
+    .kbin-actions {
+      margin-top: 5rem;
+      text-align: center;
+
+    }
+
+    .kbin-social {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 3rem;
+    }
+
+    form div:last-of-type {
+      text-align: right;
+    }
+
+    .kbin-social {
+      a {
+        align-items: center;
+        display: inline-flex;
+        gap: .5rem;
+
+        i {
+          filter: var(--kbin-icon-filter);
+        }
+
+        &:hover i {
+          filter: var(--kbin-icon-filter-hover);
+        }
+      }
+    }
+  }
+}

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Entry;
 
+use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;

@@ -8,14 +8,12 @@
                          alt="{{ post.image.alt|default('') }}">
                 {% endif %}
                 {% if post.body %}
-                    <div class="kbin-content">
-                        <blockquote>
-                            {{ get_short_sentence(post.body)|markdown|raw }}
-                            <div>
-                                <a href="{{ post_url(post) }}" class="kbin-stretched-link">{{ 'show_more'|trans }}</a>
-                            </div>
-                        </blockquote>
-                    </div>
+                    <blockquote>
+                        {{ get_short_sentence(post.body)|markdown|raw }}
+                        <div>
+                            <a href="{{ post_url(post) }}" class="kbin-stretched-link">{{ 'show_more'|trans }}</a>
+                        </div>
+                    </blockquote>
                 {% endif %}
             </div>
             <figcaption>

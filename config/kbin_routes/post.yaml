@@ -3,7 +3,7 @@ post_comment_create:
   defaults: { slug: -, parent_comment_id: null }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{parent_comment_id}
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{parent_comment_id}
+    pl: /m/{magazine_name}/p/{post_id}/{slug}/odpowiedź/{parent_comment_id}
   methods: [ GET, POST ]
 
 post_comment_edit:
@@ -11,7 +11,7 @@ post_comment_edit:
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/edit
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/edytuj
+    pl: /m/{magazine_name}/p/{post_id}/{slug}/odpowiedź/{comment_id}/edytuj
   methods: [ GET, POST ]
 
 post_comment_delete:
@@ -43,7 +43,7 @@ post_comment_voters:
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/votes
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/głosy
+    pl: /m/{magazine_name}/p/{post_id}/{slug}/odpowiedź/{comment_id}/głosy
   methods: [ GET ]
 
 post_comment_favourites:
@@ -51,7 +51,7 @@ post_comment_favourites:
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/favourites
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/ulubione
+    pl: /m/{magazine_name}/p/{post_id}/{slug}/odpowiedź/{comment_id}/ulubione
   methods: [ GET ]
 
 post_comment_vote:
@@ -76,7 +76,7 @@ posts_front:
   controller: App\Controller\Post\PostFrontController::front
   defaults: { sortBy: ~, time: ~ }
   path:
-    en: /posts/{sortBy}/{time}
+    en: /microblog/{sortBy}/{time}
     pl: /wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
@@ -85,7 +85,7 @@ posts_subscribed:
   controller: App\Controller\Post\PostFrontController::subscribed
   defaults: { sortBy: ~, time: ~ }
   path:
-    en: /sub/posts/{sortBy}/{time}
+    en: /sub/microblog/{sortBy}/{time}
     pl: /sub/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
@@ -94,7 +94,7 @@ posts_moderated:
   controller: App\Controller\Post\PostFrontController::moderated
   defaults: { sortBy: ~, time: ~ }
   path:
-    en: /mod/posts/{sortBy}/{time}
+    en: /mod/microblog/{sortBy}/{time}
     pl: /mod/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
@@ -103,7 +103,7 @@ posts_favourite:
   controller: App\Controller\Post\PostFrontController::favourite
   defaults: { sortBy: ~, time: ~ }
   path:
-    en: /fav/posts/{sortBy}/{time}
+    en: /fav/microblog/{sortBy}/{time}
     pl: /fav/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
@@ -112,7 +112,7 @@ magazine_posts:
   controller: App\Controller\Post\PostFrontController::magazine
   defaults: { sortBy: ~, time: ~ }
   path:
-    en: /m/{name}/posts/{sortBy}/{time}
+    en: /m/{name}/microblog/{sortBy}/{time}
     pl: /m/{name}/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
@@ -122,7 +122,7 @@ post_voters:
   defaults: { slug: -, sortBy: ~ }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/votes
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/głosy
+    pl: /m/{magazine_name}/p/{post_id}/{slug}/głosy
   methods: [ GET ]
 
 post_favourites:
@@ -130,20 +130,20 @@ post_favourites:
   defaults: { slug: -, sortBy: ~ }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/favourites
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/ulubione
+    pl: /m/{magazine_name}/p/{post_id}/{slug}/ulubione
   methods: [ GET ]
 
 post_single:
   controller: App\Controller\Post\PostSingleController
-  defaults: { slug: -, }
+  defaults: { slug: -, sortBy: ~ }
   path:
-    en: /m/{magazine_name}/p/{post_id}/{slug}
-    pl: /m/{magazine_name}/w/{post_id}/{slug}
+    en: /m/{magazine_name}/p/{post_id}/{slug}/{sortBy}
+    pl: /m/{magazine_name}/p/{post_id}/{slug}/{sortBy}
   methods: [ GET ]
 
 post_create:
   controller: App\Controller\Post\PostCreateController
-  path: /m/{name}/posts
+  path: /m/{name}/microblog
   methods: [ POST ]
 
 post_edit:
@@ -151,7 +151,7 @@ post_edit:
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/edit
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/edytuj
+    pl: /m/{magazine_name}/p/{post_id}/{slug}/edytuj
   methods: [ GET, POST ]
 
 post_delete:
@@ -189,14 +189,6 @@ post_change_adult:
   defaults: { slug: - }
   path: /m/{magazine_name}/p/{post_id}/{slug}/change_adult
   methods: [ POST ]
-
-post:
-  controller: App\Controller\Post\PostFrontController::front
-  defaults: { slug: -, sortBy: ~ }
-  path:
-    en: /m/{magazine_name}/t/{post_id}/{slug}/{sortBy}
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/{sortBy}
-  methods: [ GET ]
 
 post_vote:
   controller: App\Controller\VoteController

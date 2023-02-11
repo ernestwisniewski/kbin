@@ -13,6 +13,12 @@
             </a>
         </li>
         <li>
+            <a href="{{ options_url('sortBy', 'newest'|trans|lower) }}"
+               class="{{ html_classes({'kbin-active': options_is_active('sortBy', 'newest'|trans|lower)}) }}">
+                {{ 'newest'|trans|lower }}
+            </a>
+        </li>
+        <li>
             <a href="{{ options_url('sortBy', 'active'|trans|lower) }}"
                class="{{ html_classes({'kbin-active': options_is_active('sortBy', 'active'|trans|lower)}) }}">
             {{ 'active'|trans|lower }}

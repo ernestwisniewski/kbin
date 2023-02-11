@@ -30,12 +30,12 @@
 
     <style>
         {% if magazine is defined and magazine %}
-            {{ magazine.customCss }}
+        {{ magazine.customCss }}
         {% endif %}
     </style>
 </head>
 <body class="kbin-theme--light">
-<div id="kbin">
+<div id="kbin" class="{%- block mainClass -%}kbin-page{%- endblock %}">
     <div class="kbin-container">
         {% include 'layout/_header.html.twig' %}
         <main id="kbin-main">

@@ -1,44 +1,60 @@
 <footer id="kbin-footer">
     <section>
-        <h5>karab.in</h5>
+        <h5>{{ kbin_domain() }}</h5>
         <menu>
-            <li><a href="#">O instancji</a></li>
-            <li><a href="#">Wszystkie magazyny</a></li>
-            <li><a href="#">Log moderatorski</a></li>
-            <li><a href="#">Statystyki</a></li>
-            <li><a href="#">Federacja</a></li>
-            <li><a href="#">Odznaczenia</a></li>
-            <li><a href="#">Ranking</a></li>
+            <li><a href="{{ path('about') }}">{{ 'about_instance'|trans }}</a></li>
+            <li><a href="{{ path('magazine_list_all') }}">{{ 'all_magazines'|trans }}</a></li>
+            <li><a href="{{ path('modlog') }}">{{ 'mod_log'|trans }}</a></li>
+            <li><a href="{{ path('stats') }}">{{ 'stats'|trans }}</a></li>
+            <li><a href="#">{{ 'fediverse'|trans }}</a></li>
+            <li><a href="#">{{ 'awards'|trans }}</a></li>
+            <li><a href="#">{{ 'ranking'|trans }}</a></li>
         </menu>
     </section>
     <section>
-        <h5>przydatne</h5>
+        <h5>{{ 'useful'|trans }}</h5>
         <menu>
-            <li><a href="#">Utwórz nowy magazyn</a></li>
-            <li><a href="#">Dodaj artykuł</a></li>
-            <li><a href="#">Dodaj link</a></li>
-            <li><a href="#">Dodaj fotografię</a></li>
-            <li><a href="#">Dodaj wpis na mikroblogu</a></li>
-            <li><a href="#">Dodaj film</a></li>
-            <li><a href="#">Dodaj Smart Contract</a></li>
+            <li><a href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a></li>
+            <li><a href="#">{{ 'add_new_article'|trans }}</a></li>
+            <li><a href="#">{{ 'add_new_link'|trans }}</a></li>
+            <li><a href="#">{{ 'add_new_photo'|trans }}</a></li>
+            <li><a href="#">{{ 'add_new_post'|trans }}</a></li>
+            <li><a href="#">{{ 'add_new_video'|trans }}</a></li>
         </menu>
     </section>
     <section>
-        <h5>pomoc</h5>
+        <h5>{{ 'help'|trans }}</h5>
         <menu>
-            <li><a href="#">Kontakt</a></li>
-            <li><a href="#">FAQs</a></li>
-            <li><a href="#">Regulamin</a></li>
-            <li><a href="#">Polityka prywatności</a></li>
+            <li><a href="#">{{ 'contact'|trans }}</a></li>
+            <li><a href="#">{{ 'faq'|trans }}</a></li>
+            <li><a href="{{ path('page_terms') }}">{{ 'terms'|trans }}</a></li>
+            <li><a href="{{ path('page_privacy_policy') }}">{{ 'privacy_policy'|trans }}</a></li>
         </menu>
     </section>
     <section>
-        <h5>© 2023 karab.in</h5>
-        <div>Powered by <a href="#">kbin</a></div>
+        <h5>© {{ 'now'|date('Y') }} {{ kbin_domain() }}</h5>
+        <div>Powered by <a href="https://kbin.pub">kbin</a></div>
         <div>
             <menu>
-                <li><a href="#" title="Zmień motyw" aria-label="Zmień motyw"><i class="kbin-icon__bulb"></i></a></li>
-                <li><a href="#" title="Zmień motyw" aria-label="Kanał RSS"><i class="kbin-icon__rss"></i></a></li>
+                <li><a href="#"
+                       title="{{ 'change_theme'|trans }}"
+                       aria-label="{{ 'change_theme'|trans }}"><i class="kbin-icon__bulb"></i></a>
+                </li>
+                {% if magazine is defined and magazine %}
+                    {% set args = {'magazine': magazine.name ?? '' } %}
+                {% elseif user is defined and user %}
+                    {% set args = {'user': user.username ?? '' } %}
+                {% elseif tag is defined and tag %}
+                    {% set args = {'tag': tag ?? '' } %}
+                {% elseif domain is defined and domain %}
+                    {% set args = {'domain': domain.name ?? '' } %}
+                {% else %}
+                    {% set args = {} %}
+                {% endif %}
+                <li><a href="{{ path('feed_rss', args) }}"
+                       title="{{ 'rss'|trans }}"
+                       aria-label="{{ 'rss'|trans }}"><i class="kbin-icon__rss"></i></a>
+                </li>
             </menu>
         </div>
     </section>

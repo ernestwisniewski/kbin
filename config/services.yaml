@@ -27,7 +27,7 @@ parameters:
   router.request_context.host: '%env(KBIN_DOMAIN)%'
   router.request_context.scheme: https
 
-  html5_validation: false
+  html5_validation: true
 
   front_sort_options: top|hot|active|newest|commented|ważne|gorące|aktywne|najnowsze|komentowane
   front_time_options: 6h|12h|1d|1w|1m|1y|all|wszystko|∞

@@ -35,10 +35,9 @@ class UserRegisterType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'invalid_message' => 'Hasło musi być identyczne.',
                     'required' => true,
                     'first_options' => ['label' => 'password'],
-                    'second_options' => ['label' => 'repeat password'],
+                    'second_options' => ['label' => 'repeat_password'],
                 ]
             )
             ->add(
