@@ -1,17 +1,17 @@
 <aside{{ attributes.defaults({class: 'kbin-magazine__subscribe'}) }}>
-    <div><i class="kbin-icon__users"></i> {{ this.magazine.subscriptionsCount }}</div>
-    <form action="{{ path('magazine_' ~ (is_magazine_subscribed(this.magazine) ? 'unsubscribe' : 'subscribe'), {name: this.magazine.name}) }}"
+    <div><i class="kbin-icon__users"></i> {{ magazine.subscriptionsCount }}</div>
+    <form action="{{ path('magazine_' ~ (is_magazine_subscribed(magazine) ? 'unsubscribe' : 'subscribe'), {name: magazine.name}) }}"
           method="post">
         <button type="submit"
-                class="{{ html_classes('kbin-btn kbin-btn__secondry', {'kbin-btn-success': is_magazine_subscribed(this.magazine)}) }}">
-            {{ is_magazine_subscribed(this.magazine) ? 'unsubscribe'|trans : 'subscribe'|trans }}
+                class="{{ html_classes('kbin-btn kbin-btn__secondry', {'kbin-btn-success': is_magazine_subscribed(magazine)}) }}">
+            {{ is_magazine_subscribed(magazine) ? 'unsubscribe'|trans : 'subscribe'|trans }}
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
     </form>
-    <form action="{{ path('magazine_' ~ (is_magazine_blocked(this.magazine) ? 'unblock' : 'block'), {name: this.magazine.name}) }}"
+    <form action="{{ path('magazine_' ~ (is_magazine_blocked(magazine) ? 'unblock' : 'block'), {name: magazine.name}) }}"
           method="post">
         <button type="submit"
-                class="{{ html_classes('kbin-btn kbin-btn__secondry', {'kbin-btn-warning': is_magazine_blocked(this.magazine)}) }}">
+                class="{{ html_classes('kbin-btn kbin-btn__secondry', {'kbin-btn-warning': is_magazine_blocked(magazine)}) }}">
             <i class="kbin-icon__block"></i>
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">

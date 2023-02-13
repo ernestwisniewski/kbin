@@ -31,7 +31,7 @@ trait VotableTrait
 
     public function countVotes(): int
     {
-        return $this->votes->count();
+        return $this->downVotes + $this->upVotes;
     }
 
     public function getUserChoice(User $user): int

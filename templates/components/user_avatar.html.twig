@@ -1,5 +1,5 @@
 <figure{{ attributes }}>
-    <img width="{{ this.width }}" height="{{ this.height }}"
-         src="{{ asset(this.user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
-         alt="{{ this.user.username ~' '~ 'avatar'|trans|lower }}">
+    <img width="{{ width }}" height="{{ height }}"
+         src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+         alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
 </figure>

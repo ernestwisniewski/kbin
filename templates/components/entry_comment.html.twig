@@ -1,28 +1,28 @@
 <blockquote{{ attributes.defaults({class: 'kbin-section kbin-comment'}) }}>
     <header>
-        {{ component('user_inline', {user: this.comment.user}) }},
-        {{ component('date', {date: this.comment.createdAt}) }}
-        {% if this.showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.comment.magazine}) }}{% endif %}
-        {% if this.showEntry %}{{ 'in'|trans }} {{ component('entry_inline', {entry: this.comment.entry}) }}{% endif %}
+        {{ component('user_inline', {user: comment.user}) }},
+        {{ component('date', {date: comment.createdAt}) }}
+        {% if showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: comment.magazine}) }}{% endif %}
+        {% if showEntry %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
     </header>
-    {% if this.comment.user.avatar %}
-        {{ component('user_avatar', {user: this.comment.user, width: 40, height: 40}) }}
+    {% if comment.user.avatar %}
+        {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}
     {% endif %}
     <div class="kbin-content">
-        {{ this.comment.body|markdown|raw }}
+        {{ comment.body|markdown|raw }}
     </div>
-    {{ component('vote', {subject: this.comment}) }}
+    {{ component('vote', {subject: comment}) }}
     <footer>
         <menu>
             <li>
                 <a class="kbin-stretched-link"
-                   href="{{ entry_comment_create_url(this.comment) }}">{{ 'reply'|trans|lower }}</a>
+                   href="{{ entry_comment_create_url(comment) }}">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
                 <form>
                     <button class="kbin-stretched-link"
                             type="submit">
-                        {{ 'favourites'|trans|lower }} {% if this.comment.entry.favouriteCount %}({{ this.comment.entry.favouriteCount }}){% endif %}
+                        {{ 'favourites'|trans|lower }} {% if comment.entry.favouriteCount %}({{ comment.entry.favouriteCount }}){% endif %}
                     </button>
                 </form>
             </li>

@@ -1,72 +1,72 @@
 <article{{ attributes.defaults({class: 'kbin-entry kbin-section'}).without('id') }}
-        id="entry-{{ this.entry.id }}">
+        id="entry-{{ entry.id }}">
     <header>
-        {% if this.isSingle %}
+        {% if isSingle %}
             <h1>
                 {% if entry.url %}
-                    <a rel="{{ get_rel(this.entry.url) }}"
-                       href="{{ this.entry.url }}">{{ this.entry.title }}</a>
+                    <a rel="{{ get_rel(entry.url) }}"
+                       href="{{ entry.url }}">{{ entry.title }}</a>
                     {% if entry.domain %}
                         <span class="kbin-entry__domain">
-                            (<a href="{{ path('domain_front', {name: this.entry.domain.name}) }}">{{ this.entry.domain.name }}</a>)
+                            (<a href="{{ path('domain_front', {name: entry.domain.name}) }}">{{ entry.domain.name }}</a>)
                         </span>
                     {% endif %}
                 {% else %}
-                    {{ this.entry.title }}
+                    {{ entry.title }}
                 {% endif %}
             </h1>
         {% else %}
             <h2>
-                <a href="{{ entry_url(this.entry) }}">{{ this.entry.title }}</a>
+                <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
                 {% if entry.domain %}
                     <span class="kbin-entry__domain">
                         (<a href="{{ path('domain_front', {
-                            'name': this.entry.domain.name
-                        }) }}">{{ this.entry.domain.name }}</a>)
+                            'name': entry.domain.name
+                        }) }}">{{ entry.domain.name }}</a>)
                     </span>
                 {% endif %}
             </h2>
         {% endif %}
 
-        {% if this.entry.body and this.showShortSentence %}
+        {% if entry.body and showShortSentence %}
             <div class="kbin-content">
-                <p>{{ get_short_sentence(this.entry.body) }}</p>
+                <p>{{ get_short_sentence(entry.body) }}</p>
             </div>
         {% endif %}
     </header>
-    {% if this.entry.body and this.showBody %}
+    {% if entry.body and showBody %}
         <div class="kbin-content kbin-entry__body">
-            {{ this.entry.body|markdown|raw }}
+            {{ entry.body|markdown|raw }}
         </div>
     {% endif %}
     <aside class="kbin-meta kbin-entry__meta">
-        <span>{{ component('user_inline', {user: this.entry.user}) }}, {{ component('date', {date: this.entry.createdAt}) }} {% if this.showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.entry.magazine}) }}{% endif %}</span>
+        <span>{{ component('user_inline', {user: entry.user}) }}, {{ component('date', {date: entry.createdAt}) }} {% if showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}{% endif %}</span>
     </aside>
     <figure>
-        <a href="{{ entry_url(this.entry) }}">
-            {% if this.entry.image %}
+        <a href="{{ entry_url(entry) }}">
+            {% if entry.image %}
                 <img width="220" height="140"
-                     src="{{ asset(this.entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                     alt="{{ this.entry.image.altText ?? this.entry.title }}">
+                     src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                     alt="{{ entry.image.altText ?? entry.title }}">
             {% else %}
                 <img width="230" height="140"
                      src="{{ asset('build/images/entry_placeholder.png') }}"
-                     alt="{{ this.entry.title }}">
+                     alt="{{ entry.title }}">
             {% endif %}
         </a>
     </figure>
-    {{ component('vote', {subject: this.entry, formDest: 'entry_vote'}) }}
+    {{ component('vote', {subject: entry, formDest: 'entry_vote'}) }}
     <footer>
         <menu>
             <li>
                 <a class="kbin-stretched-link"
-                   href="{{ entry_url(this.entry) }}">{{ this.entry.commentCount }} {{ 'comments_count'|trans({'%count%': this.entry.commentCount}) }}</a>
+                   href="{{ entry_url(entry) }}">{{ entry.commentCount }} {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}</a>
             </li>
             <li>
                 <form>
                     <button class="kbin-stretched-link"
                             type="submit">
-                        {{ 'favourites'|trans|lower }} {% if this.entry.favouriteCount %}({{ this.entry.favouriteCount }}){% endif %}
+                        {{ 'favourites'|trans|lower }} {% if entry.favouriteCount %}({{ entry.favouriteCount }}){% endif %}
                     </button>
                 </form>
             </li>

@@ -58,20 +58,14 @@ class EntrySingleControllerTest extends WebTestCase
         $entry = $this->getEntryByTitle('test entry 1');
 
         $manager = static::getContainer()->get(VoteManager::class);
-        $manager->vote($entry, $this->getUserByUsername('JohnDoe'), VoteInterface::VOTE_UP);
-        $manager->vote($entry, $this->getUserByUsername('JaneDoe'), VoteInterface::VOTE_DOWN);
+        $manager->vote(VoteInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
         $manager = static::getContainer()->get(FavouriteManager::class);
-        $manager->toggle($entry, $this->getUserByUsername('JohnDoe'));
-        $manager->toggle($entry, $this->getUserByUsername('JaneDoe'));
+        $manager->toggle($this->getUserByUsername('JohnDoe'), $entry);
+        $manager->toggle($this->getUserByUsername('JaneDoe'), $entry);
 
         $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $this->assertSelectorTextContains('.kbin-options', 'Activity (3)');
-    }
-
-    public function testUserCanSeePhoto(): void
-    {
-        // @todo
+        $this->assertSelectorTextContains('.kbin-options-activity', 'Activity (3)');
     }
 }

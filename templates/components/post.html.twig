@@ -1,27 +1,27 @@
 <blockquote{{ attributes.defaults({class: 'kbin-section kbin-post'}) }}>
     <header>
-        {{ component('user_inline', {user: this.post.user}) }},
-        <a href="{{ post_url(this.post) }}"
-           class="kbin-link-muted">{{ component('date', {date: this.post.createdAt}) }}</a> {% if this.showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.post.magazine}) }}{% endif %}
+        {{ component('user_inline', {user: post.user}) }},
+        <a href="{{ post_url(post) }}"
+           class="kbin-link-muted">{{ component('date', {date: post.createdAt}) }}</a> {% if showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
     </header>
-    {% if this.post.user.avatar %}
-        {{ component('user_avatar', {user: this.post.user, width: 40, height: 40}) }}
+    {% if post.user.avatar %}
+        {{ component('user_avatar', {user: post.user, width: 40, height: 40}) }}
     {% endif %}
     <div class="kbin-content">
-        {{ this.post.body|markdown|raw }}
+        {{ post.body|markdown|raw }}
     </div>
-    {{ component('vote', {subject: this.post, showDownvote: false}) }}
+    {{ component('vote', {subject: post, showDownvote: false}) }}
     <footer>
         <menu>
             <li>
                 <a class="kbin-stretched-link"
-                   href="{{ post_url(this.post) }}">{{ 'reply'|trans|lower }}</a>
+                   href="{{ post_url(post) }}">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
                 <form>
                     <button class="kbin-stretched-link"
                             type="submit">
-                        {{ 'favourites'|trans|lower }} {% if this.post.favouriteCount %}({{ this.post.favouriteCount }}){% endif %}
+                        {{ 'favourites'|trans|lower }} {% if post.favouriteCount %}({{ post.favouriteCount }}){% endif %}
                     </button>
                 </form>
             </li>

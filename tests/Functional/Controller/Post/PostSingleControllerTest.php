@@ -44,15 +44,14 @@ class PostSingleControllerTest extends WebTestCase
         $post = $this->createPost('test post 1');
 
         $manager = static::getContainer()->get(VoteManager::class);
-        $manager->vote($post, $this->getUserByUsername('JohnDoe'), VoteInterface::VOTE_UP);
-        $manager->vote($post, $this->getUserByUsername('JaneDoe'), VoteInterface::VOTE_DOWN);
+        $manager->vote(VoteInterface::VOTE_DOWN, $post, $this->getUserByUsername('JaneDoe'));
 
         $manager = static::getContainer()->get(FavouriteManager::class);
-        $manager->toggle($post, $this->getUserByUsername('JohnDoe'));
-        $manager->toggle($post, $this->getUserByUsername('JaneDoe'));
+        $manager->toggle($this->getUserByUsername('JohnDoe'), $post);
+        $manager->toggle($this->getUserByUsername('JaneDoe'), $post);
 
-        $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
+        $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
-        $this->assertSelectorTextContains('.kbin-options', 'Activity (3)');
+        $this->assertSelectorTextContains('.kbin-options-activity', 'Activity (3)');
     }
 }

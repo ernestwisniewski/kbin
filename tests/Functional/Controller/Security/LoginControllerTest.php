@@ -8,7 +8,7 @@ use App\Tests\WebTestCase;
 
 class LoginControllerTest extends WebTestCase
 {
-    public function testUserCanLogin(): void
+    public function testUserCantLoginWithWrongPassword(): void
     {
         $client = $this->createClient();
         $user = $this->getUserByUsername('JohnDoe');
@@ -20,13 +20,13 @@ class LoginControllerTest extends WebTestCase
             $crawler->selectButton('Log in')->form(
                 [
                     'email' => 'JohnDoe',
-                    'password' => 'secret',
+                    'password' => 'wrongpassword',
                 ]
             )
         );
 
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
-//        $this->assertSelectorTextNotContains('header', 'Log in'); // @todo
+        $this->assertSelectorTextContains('.kbin-alert__danger', 'Invalid credentials.'); // @todo
     }
 }
