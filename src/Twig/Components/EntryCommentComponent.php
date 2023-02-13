@@ -8,5 +8,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent('entry_comment')]
 final class EntryCommentComponent
 {
-        public EntryComment $comment;
+    public EntryComment $comment;
+    public bool $showMagazine = true;
+    public bool $showEntry = true;
 }

@@ -15,7 +15,7 @@ class LinkExtensionRuntime implements RuntimeExtensionInterface
     {
         if ($this->settingsManager->get('KBIN_DOMAIN') === parse_url($url, PHP_URL_HOST)) {
             return 'follow';
-        };
+        }
 
         return 'nofollow noopener noreferrer';
     }

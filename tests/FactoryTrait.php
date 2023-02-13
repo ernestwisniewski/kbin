@@ -22,7 +22,6 @@ use App\Service\MagazineManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
 use App\Service\VoteManager;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 trait FactoryTrait
@@ -64,13 +63,13 @@ trait FactoryTrait
         yield [
             'username' => 'adminUser',
             'password' => 'adminUser123',
-            'email'    => 'adminUser@example.com',
+            'email' => 'adminUser@example.com',
         ];
 
         yield [
             'username' => 'JohnDoe',
             'password' => 'JohnDoe123',
-            'email'    => 'JohnDoe@example.com',
+            'email' => 'JohnDoe@example.com',
         ];
     }
 
@@ -80,15 +79,15 @@ trait FactoryTrait
 
         $user = new User($email ?: $username.'@example.com', $username, $password ?: 'secret');
 
-        $user->isVerified                   = $active;
-        $user->notifyOnNewEntry             = true;
-        $user->notifyOnNewEntryReply        = true;
+        $user->isVerified = $active;
+        $user->notifyOnNewEntry = true;
+        $user->notifyOnNewEntryReply = true;
         $user->notifyOnNewEntryCommentReply = true;
-        $user->notifyOnNewPost              = true;
-        $user->notifyOnNewPostReply         = true;
-        $user->notifyOnNewPostCommentReply  = true;
-        $user->showProfileFollowings        = true;
-        $user->showProfileSubscriptions     = true;
+        $user->notifyOnNewPost = true;
+        $user->notifyOnNewPostReply = true;
+        $user->notifyOnNewPostCommentReply = true;
+        $user->showProfileFollowings = true;
+        $user->showProfileSubscriptions = true;
 
         $manager->persist($user);
         $manager->flush();
@@ -101,15 +100,15 @@ trait FactoryTrait
     private function provideMagazines(): iterable
     {
         yield [
-            'name'  => 'acme',
+            'name' => 'acme',
             'title' => 'Magazyn polityczny',
-            'user'  => $this->getUserByUsername('JohnDoe'),
+            'user' => $this->getUserByUsername('JohnDoe'),
         ];
 
         yield [
-            'name'  => 'kbin',
+            'name' => 'kbin',
             'title' => 'kbin devlog',
-            'user'  => $this->getUserByUsername('adminUser'),
+            'user' => $this->getUserByUsername('adminUser'),
         ];
     }
 
@@ -125,7 +124,7 @@ trait FactoryTrait
 
         if ($isAdmin) {
             $user->roles = ['ROLE_ADMIN'];
-            $manager     = static::getContainer()->get(EntityManagerInterface::class);
+            $manager = static::getContainer()->get(EntityManagerInterface::class);
 
             $manager->persist($user);
             $manager->flush();
@@ -141,9 +140,9 @@ trait FactoryTrait
          */
         $manager = static::getContainer()->get(MagazineManager::class);
 
-        $dto        = new MagazineDto();
-        $dto->name  = $name;
-        $dto->title = $title ?? 'Przykładowy magazyn';
+        $dto = new MagazineDto();
+        $dto->name = $name;
+        $dto->title = $title ?? 'Magazine title';
 
         $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
 
@@ -154,27 +153,27 @@ trait FactoryTrait
 
     protected function loadNotificationsFixture()
     {
-        $owner    = $this->getUserByUsername('owner');
+        $owner = $this->getUserByUsername('owner');
         $magazine = $this->getMagazineByName('acme', $owner);
 
-        $actor   = $this->getUserByUsername('actor');
+        $actor = $this->getUserByUsername('actor');
         $regular = $this->getUserByUsername('JohnDoe');
 
-        $entry   = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
+        $entry = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
         $comment = $this->createEntryComment('test', $entry, $regular);
-        (static::getContainer()->get(EntryCommentManager::class))->delete($owner, $comment);
-        (static::getContainer()->get(EntryManager::class))->delete($owner, $entry);
+        static::getContainer()->get(EntryCommentManager::class)->delete($owner, $comment);
+        static::getContainer()->get(EntryManager::class)->delete($owner, $entry);
 
-        $post    = $this->createPost('test', $magazine, $actor);
+        $post = $this->createPost('test', $magazine, $actor);
         $comment = $this->createPostComment('test', $post, $regular);
-        (static::getContainer()->get(PostCommentManager::class))->delete($owner, $comment);
-        (static::getContainer()->get(PostManager::class))->delete($owner, $post);
+        static::getContainer()->get(PostCommentManager::class)->delete($owner, $comment);
+        static::getContainer()->get(PostManager::class)->delete($owner, $post);
 
-        (static::getContainer()->get(MagazineManager::class))->ban(
+        static::getContainer()->get(MagazineManager::class)->ban(
             $magazine,
             $actor,
             $owner,
-            (new MagazineBanDto())->create('test', new DateTime('+1 day'))
+            (new MagazineBanDto())->create('test', new \DateTime('+1 day'))
         );
     }
 
@@ -204,26 +203,31 @@ trait FactoryTrait
 
         if (!$entry) {
             $magazine = $magazine ?? $this->getMagazineByName('acme');
-            $user     = $user ?? $this->getUserByUsername('JohnDoe');
-            $entry    = $this->createEntry($title, $magazine, $user, $url, $body);
+            $user = $user ?? $this->getUserByUsername('JohnDoe');
+            $entry = $this->createEntry($title, $magazine, $user, $url, $body);
         }
 
         return $entry;
     }
 
-    protected function createEntry(string $title, Magazine $magazine, User $user, ?string $url = null, ?string $body = 'testowa treść'): Entry
-    {
+    protected function createEntry(
+        string $title,
+        Magazine $magazine,
+        User $user,
+        ?string $url = null,
+        ?string $body = 'Test entry content'
+    ): Entry {
         /**
          * @var $manager EntryManager
          */
         $manager = static::getContainer()->get(EntryManager::class);
 
-        $dto           = new EntryDto();
+        $dto = new EntryDto();
         $dto->magazine = $magazine;
-        $dto->title    = $title;
-        $dto->user     = $user;
-        $dto->url      = $url;
-        $dto->body     = $body;
+        $dto->title = $title;
+        $dto->user = $user;
+        $dto->url = $url;
+        $dto->body = $body;
 
         $entry = $manager->create($dto, $user);
 
@@ -240,11 +244,16 @@ trait FactoryTrait
         $manager = static::getContainer()->get(EntryCommentManager::class);
 
         if ($parent) {
-            $dto = (new EntryCommentDto())->createWithParent($entry ?? $this->getEntryByTitle('Przykladowa treść'), $parent, null, $body);
+            $dto = (new EntryCommentDto())->createWithParent(
+                $entry ?? $this->getEntryByTitle('Przykladowa treść'),
+                $parent,
+                null,
+                $body
+            );
         } else {
-            $dto        = new EntryCommentDto();
+            $dto = new EntryCommentDto();
             $dto->entry = $entry ?? $this->getEntryByTitle('Przykladowa treść');
-            $dto->body  = $body;
+            $dto->body = $body;
         }
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
@@ -257,9 +266,9 @@ trait FactoryTrait
          */
         $manager = static::getContainer()->get(PostManager::class);
 
-        $dto           = new PostDto();
+        $dto = new PostDto();
         $dto->magazine = $magazine ?: $this->getMagazineByName('acme');
-        $dto->body     = $body;
+        $dto->body = $body;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
@@ -271,7 +280,7 @@ trait FactoryTrait
          */
         $manager = static::getContainer()->get(PostCommentManager::class);
 
-        $dto       = new PostCommentDto();
+        $dto = new PostCommentDto();
         $dto->post = $post ?? $this->createPost('testowy post');
         $dto->body = $body;
 

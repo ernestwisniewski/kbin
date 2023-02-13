@@ -1,6 +1,6 @@
 <div id="kbin-content">
     {% for post in posts %}
-        {{ component('post', {post: post}) }}
+        {{ component('post', {post: post, showMagazine: magazine is not defined or not magazine}) }}
     {% endfor %}
 </div>
 

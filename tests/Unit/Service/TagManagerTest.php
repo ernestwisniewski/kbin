@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Unit\Service;
 
-use App\Service\MentionManager;
 use App\Service\TagManager;
 use App\Tests\WebTestCase;
 

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FrontController extends AbstractController
+class EntryFrontController extends AbstractController
 {
     public function __construct(private readonly EntryRepository $repository)
     {
@@ -78,7 +78,7 @@ class FrontController extends AbstractController
         }
 
         return $this->render(
-            'front/front.html.twig',
+            'entry/front.html.twig',
             [
                 'entries' => $listing,
             ]
@@ -111,7 +111,7 @@ class FrontController extends AbstractController
         }
 
         return $this->render(
-            'front/front.html.twig',
+            'entry/front.html.twig',
             [
                 'entries' => $listing,
             ]
@@ -144,7 +144,7 @@ class FrontController extends AbstractController
         }
 
         return $this->render(
-            'front/front.html.twig',
+            'entry/front.html.twig',
             [
                 'entries' => $listing,
             ]

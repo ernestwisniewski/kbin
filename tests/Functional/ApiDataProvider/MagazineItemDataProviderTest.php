@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\ApiDataProvider;
-
 
 use App\DTO\MagazineDto;
 use App\Tests\ApiTestCase;
@@ -25,27 +26,26 @@ class MagazineItemDataProviderTest extends ApiTestCase
         $this->assertMatchesResourceItemJsonSchema(MagazineDto::class);
 
         $this->assertJsonEquals([
-            '@context'           => '/api/contexts/magazine',
-            '@id'                => '/api/magazines/acme',
-            '@type'              => 'magazine',
-            'user'               => [
-                '@id'      => '/api/users/JohnDoe',
-                '@type'    => 'user',
+            '@context' => '/api/contexts/magazine',
+            '@id' => '/api/magazines/acme',
+            '@type' => 'magazine',
+            'user' => [
+                '@id' => '/api/users/JohnDoe',
+                '@type' => 'user',
                 'username' => 'JohnDoe',
-                'avatar'   => null,
+                'avatar' => null,
             ],
-            'cover'              => null,
-            'name'               => 'acme',
-            'title'              => 'Przykładowy magazyn',
-            'description'        => null,
-            'rules'              => null,
+            'cover' => null,
+            'name' => 'acme',
+            'title' => 'Magazine title',
+            'description' => null,
+            'rules' => null,
             'subscriptionsCount' => 1,
-            'entryCount'         => 1,
-            'entryCommentCount'  => 1,
-            'postCount'          => 1,
-            'postCommentCount'   => 1,
-            'isAdult'            => false,
+            'entryCount' => 1,
+            'entryCommentCount' => 1,
+            'postCount' => 1,
+            'postCommentCount' => 1,
+            'isAdult' => false,
         ]);
-
     }
 }

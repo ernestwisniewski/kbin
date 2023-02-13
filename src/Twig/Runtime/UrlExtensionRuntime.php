@@ -22,7 +22,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_single', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => $entry->slug === '' ? 'icon' : $entry->slug,
+            'slug' => '' === $entry->slug ? 'icon' : $entry->slug,
         ]);
     }
 
@@ -31,7 +31,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_favourites', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => $entry->slug === '' ? 'icon' : $entry->slug,
+            'slug' => '' === $entry->slug ? 'icon' : $entry->slug,
         ]);
     }
 
@@ -40,7 +40,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_voters', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => $entry->slug === '' ? 'icon' : $entry->slug,
+            'slug' => '' === $entry->slug ? 'icon' : $entry->slug,
             'type' => $type,
         ]);
     }
@@ -60,7 +60,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_single', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => $post->slug === '' ? 'icon' : $post->slug,
+            'slug' => '' === $post->slug ? 'icon' : $post->slug,
         ]);
     }
 
@@ -69,7 +69,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_favourites', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => $post->slug === '' ? 'icon' : $post->slug,
+            'slug' => '' === $post->slug ? 'icon' : $post->slug,
         ]);
     }
 
@@ -78,7 +78,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_voters', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => $post->slug === '' ? 'icon' : $post->slug,
+            'slug' => '' === $post->slug ? 'icon' : $post->slug,
             'type' => $type,
         ]);
     }

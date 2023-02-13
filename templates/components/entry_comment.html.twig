@@ -2,6 +2,8 @@
     <header>
         {{ component('user_inline', {user: this.comment.user}) }},
         {{ component('date', {date: this.comment.createdAt}) }}
+        {% if this.showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.comment.magazine}) }}{% endif %}
+        {% if this.showEntry %}{{ 'in'|trans }} {{ component('entry_inline', {entry: this.comment.entry}) }}{% endif %}
     </header>
     {% if this.comment.user.avatar %}
         {{ component('user_avatar', {user: this.comment.user, width: 40, height: 40}) }}

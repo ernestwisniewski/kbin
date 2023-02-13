@@ -11,16 +11,16 @@
             {% endfor %}
             <h1>{{ 'register'|trans }}</h1>
             {{ form_row(form.username, {
-                label: 'username'
+                label: 'username',
             }) }}
             {{ form_row(form.email, {
                 label: 'email'
-
             }) }}
             {{ form_row(form.plainPassword, {
                 label: 'password'
             }) }}
             {{ form_row(form.agreeTerms, {
+                translation_domain: false,
                 label: 'agree_terms'|trans({
                     '%terms_link_start%' : '<a href="'~path('page_terms')~'">', '%terms_link_end%' : '</a>',
                     '%policy_link_start%' : '<a href="'~path('page_privacy_policy')~'">', '%policy_link_end%' : '</a>',

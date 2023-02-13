@@ -1,9 +1,10 @@
 .kbin-page-login,
 .kbin-page-register,
-.kbin-page-reset-password {
+.kbin-page-reset-password,
+.kbin-page-reset-password-email-sent {
   .container {
     margin: 0 auto;
-    max-width: 35rem;
+    max-width: 30rem;
 
     p {
       margin-bottom: .5rem;
@@ -45,5 +46,12 @@
         }
       }
     }
+  }
+}
+
+.kbin-page-reset-password-email-sent {
+  p:last-of-type {
+    margin-top: 2rem;
+    text-align: right;
   }
 }

@@ -12,6 +12,26 @@
         <div class="kbin-magazine">
             <span>/m/</span><a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
         </div>
+    {% elseif domain is defined and domain %}
+        <div class="kbin-magazine">
+            <span>/d/</span><a href="{{ path('domain_front', {name: domain.name}) }}">{{ domain.name }}</a>
+        </div>
+    {% elseif tag is defined and tag %}
+        <div class="kbin-magazine">
+            <span>#</span><a href="{{ path('tag_front', {name: tag}) }}">{{ tag }}</a>
+        </div>
+    {% elseif is_route_name_end_with('_subscribed') %}
+        <div class="kbin-magazine">
+            <span>/</span><a href="{{ path('front_subscribed') }}">sub</a>
+        </div>
+    {% elseif is_route_name_end_with('_favourite') %}
+        <div class="kbin-magazine">
+            <span>/</span><a href="{{ path('front_favourite') }}">fav</a>
+        </div>
+    {% elseif is_route_name_end_with('_moderated') %}
+        <div class="kbin-magazine">
+            <span>/</span><a href="{{ path('front_moderated') }}">mod</a>
+        </div>
     {% endif %}
     <nav>
         <menu>
@@ -27,14 +47,14 @@
                     {{ 'microblog'|trans }}
                 </a>
             </li>
+{#            <li>#}
+{#                <a href="#">#}
+{#                    {{ 'events'|trans }}#}
+{#                </a>#}
+{#            </li>#}
             <li>
                 <a href="#">
                     {{ 'people'|trans }}
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    {{ 'events'|trans }}
                 </a>
             </li>
             <li>

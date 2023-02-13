@@ -20,7 +20,7 @@ class EntryVotersController extends AbstractController
     public function __invoke(string $type, Magazine $magazine, Entry $entry, Request $request): Response
     {
         $votes = $entry->votes->filter(
-            fn($e) => $e->choice === ($type === 'up' ? VoteInterface::VOTE_UP : VoteInterface::VOTE_DOWN)
+            fn ($e) => $e->choice === ('up' === $type ? VoteInterface::VOTE_UP : VoteInterface::VOTE_DOWN)
         );
 
         if ($request->isXmlHttpRequest()) {

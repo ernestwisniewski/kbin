@@ -17,39 +17,55 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
     public function navbarThreadsUrl(): string
     {
         if ($magazine = $this->requestStack->getCurrentRequest()->get('magazine')) {
-            return $this->entriesMagazine($magazine->name);
+            return $this->urlGenerator->generate('front_magazine', ['name' => $magazine->name]);
         }
 
-        return $this->front();
+        if ($domain = $this->requestStack->getCurrentRequest()->get('domain')) {
+            return $this->urlGenerator->generate('domain_front', ['name' => $domain->name]);
+        }
+
+        if ($tag = $this->requestStack->getCurrentRequest()->get('tag')) {
+            return $this->urlGenerator->generate('tag_overall', ['name' => $tag]);
+        }
+
+        if (str_ends_with($this->getCurrentRouteName(), '_subscribed')) {
+            return $this->urlGenerator->generate('front_subscribed');
+        }
+
+        if (str_ends_with($this->getCurrentRouteName(), '_favourite')) {
+            return $this->urlGenerator->generate('front_favourite');
+        }
+
+        if (str_ends_with($this->getCurrentRouteName(), '_moderated')) {
+            return $this->urlGenerator->generate('front_moderated');
+        }
+
+        return $this->urlGenerator->generate('front');
     }
 
     public function navbarPostsUrl(): string
     {
         if ($magazine = $this->requestStack->getCurrentRequest()->get('magazine')) {
-            return $this->postsMagazine($magazine->name);
+            return $this->urlGenerator->generate('magazine_posts', ['name' => $magazine->name]);
         }
 
-        return $this->posts();
-    }
+        if ($tag = $this->requestStack->getCurrentRequest()->get('tag')) {
+            return $this->urlGenerator->generate('tag_posts_front', ['name' => $tag]);
+        }
 
-    private function front(): string
-    {
-        return $this->urlGenerator->generate('front');
-    }
+        if (str_ends_with($this->getCurrentRouteName(), '_subscribed')) {
+            return $this->urlGenerator->generate('posts_subscribed');
+        }
 
-    private function entriesMagazine(string $name): string
-    {
-        return $this->urlGenerator->generate('front_magazine', ['name' => $name]);
-    }
+        if (str_ends_with($this->getCurrentRouteName(), '_favourite')) {
+            return $this->urlGenerator->generate('posts_favourite');
+        }
 
-    private function posts(): string
-    {
+        if (str_ends_with($this->getCurrentRouteName(), '_moderated')) {
+            return $this->urlGenerator->generate('posts_moderated');
+        }
+
         return $this->urlGenerator->generate('posts_front');
-    }
-
-    private function postsMagazine(string $name): string
-    {
-        return $this->urlGenerator->generate('magazine_posts', ['name' => $name]);
     }
 
     private function getCurrentRouteName(): string

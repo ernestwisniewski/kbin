@@ -38,7 +38,7 @@ class OptionsExtensionRuntime implements RuntimeExtensionInterface
             return true;
         }
 
-        if (null === $params[$name] && $value == EntryRepository::SORT_DEFAULT) {
+        if (null === $params[$name] && EntryRepository::SORT_DEFAULT == $value) {
             return true;
         }
 

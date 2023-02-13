@@ -6,7 +6,7 @@
     <div id="kbin-content">
         {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:true}) }}
 
-        {% include 'entry/comment/_options_sort.html.twig' %}
+        {% include 'entry/comment/_options.html.twig' %}
         {% if comments|length %}
             {% include 'entry/comment/_list.html.twig' %}
         {% else %}

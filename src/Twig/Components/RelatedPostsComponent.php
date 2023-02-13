@@ -10,9 +10,9 @@ use Symfony\UX\TwigComponent\Attribute\PostMount;
 #[AsTwigComponent('related_posts')]
 final class RelatedPostsComponent
 {
-    const TYPE_TAG = 'tag';
-    const TYPE_MAGAZINE = 'magazine';
-    const TYPE_RANDOM = 'random';
+    public const TYPE_TAG = 'tag';
+    public const TYPE_MAGAZINE = 'magazine';
+    public const TYPE_RANDOM = 'random';
 
     public int $limit = 4;
     public ?string $tag = null;
@@ -56,5 +56,4 @@ final class RelatedPostsComponent
 
         return $posts;
     }
-
 }

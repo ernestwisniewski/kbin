@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Command;
 
@@ -20,7 +22,7 @@ class UserCommandTest extends KernelTestCase
         $tester->execute(
             [
                 'username' => 'actor',
-                'email'    => 'contact@example.com',
+                'email' => 'contact@example.com',
                 'password' => 'secret',
             ]
         );

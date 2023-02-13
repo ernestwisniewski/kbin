@@ -18,6 +18,11 @@ class ContextExtensionRuntime implements RuntimeExtensionInterface
         return str_contains($this->getCurrentRouteName(), $needle);
     }
 
+    public function isRouteNameEndWith(string $needle): bool
+    {
+        return str_ends_with($this->getCurrentRouteName(), $needle);
+    }
+
     public function isRouteName(string $needle): bool
     {
         return $this->getCurrentRouteName() === $needle;
@@ -31,5 +36,10 @@ class ContextExtensionRuntime implements RuntimeExtensionInterface
     private function getCurrentRouteName(): string
     {
         return $this->requestStack->getCurrentRequest()->get('_route') ?? 'front';
+    }
+
+    public function getActiveSortOption(): string
+    {
+        return $this->requestStack->getCurrentRequest()->get('sortBy') ?? 'hot';
     }
 }

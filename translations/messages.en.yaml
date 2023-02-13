@@ -63,6 +63,7 @@ register: Register
 reset_password: Reset password
 show_more: Show more
 to: to
+in: in
 username: Username
 email: Email
 repeat_password: Repeat password
@@ -88,8 +89,15 @@ change_theme: Change theme
 useful: Useful
 help: Help
 check_email: Check your email
-reset_check_email_desc: 'If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password. This link will expire in'
-reset_check_email_desc2: "If you don't receive an email please check your spam folder or try again."
+reset_check_email_desc: If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password. This link will expire in %expire%.
+reset_check_email_desc2: If you don't receive an email please check your spam folder.
 try_again: Try again
 up_vote: Up vote
 down_vote: Down vote
+email_confirm_header: Hello! Confirm your email address.
+email_confirm_content: 'If you want to activate your account click on the link below:'
+email_verify: Confirm email address
+email_confirm_expire: The link will expire in 1 hour.
+email_confirm_title: Confirm your email address.
+Your account is not active: Your account is not active.
+Your account has been banned: Your account has been banned.

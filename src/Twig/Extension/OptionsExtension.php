@@ -4,7 +4,6 @@ namespace App\Twig\Extension;
 
 use App\Twig\Runtime\OptionsExtensionRuntime;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class OptionsExtension extends AbstractExtension

@@ -2,7 +2,7 @@
     <header>
         {{ component('user_inline', {user: this.post.user}) }},
         <a href="{{ post_url(this.post) }}"
-           class="kbin-link-muted">{{ component('date', {date: this.post.createdAt}) }}</a>
+           class="kbin-link-muted">{{ component('date', {date: this.post.createdAt}) }}</a> {% if this.showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: this.post.magazine}) }}{% endif %}
     </header>
     {% if this.post.user.avatar %}
         {{ component('user_avatar', {user: this.post.user, width: 40, height: 40}) }}

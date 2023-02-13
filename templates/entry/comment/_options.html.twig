@@ -1,5 +1,5 @@
 <aside class="kbin-options" id="kbin-comments-options">
-    <div class="kbin-options__title"><h2>{{ 'comments'|trans }} (0)</h2></div>
+    <div class="kbin-options__title"><h2>{{ 'comments'|trans }} ({{ entry.commentCount }})</h2></div>
     <menu class="kbin-options__sort">
         <li>
             <a href="{{ options_url('sortBy', 'top'|trans|lower) }}"

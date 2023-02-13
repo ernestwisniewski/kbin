@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Command;
 
@@ -16,7 +18,7 @@ class AdminCommandTest extends KernelTestCase
 
     public function testCreateUser(): void
     {
-        $dto                = (new UserDto())->create('actor', 'contact@example.com');
+        $dto = (new UserDto())->create('actor', 'contact@example.com');
         $dto->plainPassword = 'secret';
 
         static::getContainer()->get('App\Service\UserManager')
@@ -35,7 +37,7 @@ class AdminCommandTest extends KernelTestCase
     {
         $application = new Application(self::bootKernel());
 
-        $this->command    = $application->find('kbin:user:admin');
+        $this->command = $application->find('kbin:user:admin');
         $this->repository = static::getContainer()->get(UserRepository::class);
     }
 }

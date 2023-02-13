@@ -9,8 +9,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-final class
-FormattingExtension extends AbstractExtension
+final class FormattingExtension extends AbstractExtension
 {
     public function getFilters(): array
     {

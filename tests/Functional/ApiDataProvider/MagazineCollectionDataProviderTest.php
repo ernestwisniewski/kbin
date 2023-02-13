@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\ApiDataProvider;
-
 
 use App\DTO\MagazineDto;
 use App\Tests\ApiTestCase;
@@ -29,40 +30,39 @@ class MagazineCollectionDataProviderTest extends ApiTestCase
         $this->assertMatchesResourceCollectionJsonSchema(MagazineDto::class);
 
         $this->assertJsonContains([
-            '@context'         => '/api/contexts/magazine',
-            '@id'              => '/api/magazines',
-            '@type'            => 'hydra:Collection',
-            'hydra:member'     => [
+            '@context' => '/api/contexts/magazine',
+            '@id' => '/api/magazines',
+            '@type' => 'hydra:Collection',
+            'hydra:member' => [
                 [
-                    '@id'                => '/api/magazines/acme',
-                    '@type'              => 'magazine',
-                    'user'               => [
-                        '@id'      => '/api/users/JohnDoe',
-                        '@type'    => 'user',
+                    '@id' => '/api/magazines/acme',
+                    '@type' => 'magazine',
+                    'user' => [
+                        '@id' => '/api/users/JohnDoe',
+                        '@type' => 'user',
                         'username' => 'JohnDoe',
                     ],
-                    'cover'              => null,
-                    'name'               => 'acme',
-                    'title'              => 'Przykładowy magazyn',
-                    'description'        => null,
-                    'rules'              => null,
+                    'cover' => null,
+                    'name' => 'acme',
+                    'title' => 'Magazine title',
+                    'description' => null,
+                    'rules' => null,
                     'subscriptionsCount' => 1,
-                    'entryCount'         => 1,
-                    'entryCommentCount'  => 1,
-                    'postCount'          => 1,
-                    'postCommentCount'   => 1,
-                    'isAdult'            => false,
+                    'entryCount' => 1,
+                    'entryCommentCount' => 1,
+                    'postCount' => 1,
+                    'postCommentCount' => 1,
+                    'isAdult' => false,
                 ],
             ],
             'hydra:totalItems' => 3,
-            'hydra:view'       => [
-                '@id'         => '/api/magazines?page=1',
-                '@type'       => 'hydra:PartialCollectionView',
+            'hydra:view' => [
+                '@id' => '/api/magazines?page=1',
+                '@type' => 'hydra:PartialCollectionView',
                 'hydra:first' => '/api/magazines?page=1',
-                'hydra:last'  => '/api/magazines?page=2',
-                'hydra:next'  => '/api/magazines?page=2',
+                'hydra:last' => '/api/magazines?page=2',
+                'hydra:next' => '/api/magazines?page=2',
             ],
         ]);
-
     }
 }
