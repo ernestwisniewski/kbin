@@ -1,5 +1,5 @@
 {% if list|length %}
-    <div class="kbin-section kbin-user-list">
+    <div class="section user-list">
         <ul>
             {% for subject in list %}
                 <li>
@@ -9,7 +9,7 @@
                         </figure>
                     {% endif %}
                     <div>
-                        <a href="#" class="kbin-stretched-link">{{ subject.user.username|username }}</a>
+                        <a href="#" class="stretched-link">{{ subject.user.username|username }}</a>
                         <small>{{ component('date', {date: subject.createdAt}) }}</small>
                     </div>
                 </li>
@@ -17,7 +17,7 @@
         </ul>
     </div>
 {% else %}
-    <aside class="kbin-section kbin-section--muted kbin-user-list">
+    <aside class="section section--muted user-list">
         <p>{{ 'empty'|trans }}</p>
     </aside>
 {% endif %}

@@ -1,17 +1,17 @@
-<aside class="kbin-options kbin-options-activity">
-    <div class="kbin-options__title">
+<aside class="options options-activity">
+    <div class="options__title">
         <h2>{{ 'activity'|trans }} ({{ post.countVotes + post.favouriteCount }})</h2>
     </div>
-    <menu class="kbin-options__sort">
+    <menu class="options__sort">
         <li>
             <a href="{{ post_voters_url(post, 'up') }}"
-               class="{{ html_classes({'kbin-active': is_route_name('post_voters') and route_has_param('type', 'up')}) }}">
+               class="{{ html_classes({'active': is_route_name('post_voters') and route_has_param('type', 'up')}) }}">
                 {{ 'up_votes'|trans|lower }} ({{ post.countUpVotes }})
             </a>
         </li>
         <li>
             <a href="{{ post_favourites_url(post) }}"
-               class="{{ html_classes({'kbin-active': is_route_name('post_favourites')}) }}">
+               class="{{ html_classes({'active': is_route_name('post_favourites')}) }}">
                 {{ 'favourites'|trans|lower }} ({{ post.favouriteCount }})
             </a>
         </li>

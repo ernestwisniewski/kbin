@@ -20,10 +20,10 @@
     {% set downUrl = path(formDest, {id: subject.id, choice: VOTE_NONE}) %}
 {% endif %}
 
-<aside{{ attributes.defaults({class: 'kbin-vote'}) }}>
+<aside{{ attributes.defaults({class: 'vote'}) }}>
     <form method="post" action="{{ upUrl }}">
         <button type="submit"
-                class="kbin-vote__up"
+                class="vote__up"
                 title="{{ 'up_vote'|trans }}"
                 aria-label="{{ 'up_vote'|trans }}">
             <span>+</span> {{ subject.countUpvotes }}
@@ -33,7 +33,7 @@
     {% if showDownvote %}
         <form method="post" action="{{ downUrl }}">
             <button type="submit"
-                    class="kbin-vote__down"
+                    class="vote__down"
                     title="{{ 'down_vote'|trans }}"
                     aria-label="{{ 'down_vote'|trans }}">
                 <span>-</span> {{ subject.countDownvotes }}

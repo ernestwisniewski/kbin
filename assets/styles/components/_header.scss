@@ -1,4 +1,4 @@
-#kbin-header {
+#header {
   align-items: end;
   background: var(--kbin-header-bg);
   color: var(--kbin-header-text-color);
@@ -9,7 +9,7 @@
   padding: 0 .55rem;
   position: relative;
 
-  .kbin-login {
+  .login {
     font-weight: normal;
     padding-bottom: .75rem;
   }
@@ -56,59 +56,57 @@
 
     }
 
-    li .kbin-active {
+    li .active {
       border-bottom: 3px solid #fff;
     }
   }
 
-  .kbin {
-    &-sr-nav {
-      grid-area: sr-nav;
+  .sr-nav {
+    grid-area: sr-nav;
 
-      a {
-        background-color: white;
-        border: 0;
-        clip: rect(0, 0, 0, 0);
-        height: 1px;
-        left: 0;
-        overflow: hidden;
-        padding: .5rem 1rem;
+    a {
+      background-color: white;
+      border: 0;
+      clip: rect(0, 0, 0, 0);
+      height: 1px;
+      left: 0;
+      overflow: hidden;
+      padding: .5rem 1rem;
+      position: absolute;
+      top: 0;
+      white-space: nowrap;
+      width: 1px;
+
+      &:focus {
+        clip: auto;
+        color: black;
+        height: auto;
+        outline: solid 4px darkorange;
+        overflow: visible;
         position: absolute;
-        top: 0;
-        white-space: nowrap;
-        width: 1px;
-
-        &:focus {
-          clip: auto;
-          color: black;
-          height: auto;
-          outline: solid 4px darkorange;
-          overflow: visible;
-          position: absolute;
-          white-space: normal;
-          width: auto;
-        }
+        white-space: normal;
+        width: auto;
       }
     }
+  }
 
-    &-brand {
-      align-self: center;
-      font-size: 1.5rem;
-      grid-area: brand;
-      text-decoration: none;
-    }
+  .brand {
+    align-self: center;
+    font-size: 1.5rem;
+    grid-area: brand;
+    text-decoration: none;
+  }
 
-    &-magazine {
-      align-self: center;
-      grid-area: magazine;
-      margin-left: 1rem;
-      padding-top: .2rem;
+  .magazine {
+    align-self: center;
+    grid-area: magazine;
+    margin-left: 1rem;
+    padding-top: .2rem;
 
-      span {
-        color: var(--kbin-header-text-color);
-        font-weight: 100;
-        opacity: .75;
-      }
+    span {
+      color: var(--kbin-header-text-color);
+      font-weight: 100;
+      opacity: .75;
     }
   }
 }

@@ -1,35 +1,35 @@
-<header id="kbin-header">
-    <div class="kbin-sr-nav">
-        <a href="#kbin-content">Przejdź do treści</a>
-        <a href="#kbin-options">Przejdź do filtrów</a>
-        <a href="#kbin-search">Przejdź do wyszukiwarki</a>
-        <a href="#kbin-footer">Przejdź do stopki</a>
+<header id="header">
+    <div class="sr-nav">
+        <a href="#content">Przejdź do treści</a>
+        <a href="#options">Przejdź do filtrów</a>
+        <a href="#search">Przejdź do wyszukiwarki</a>
+        <a href="#footer">Przejdź do stopki</a>
     </div>
-    <div class="kbin-brand">
+    <div class="brand">
         <a href="/">karab.in</a>
     </div>
     {% if magazine is defined and magazine %}
-        <div class="kbin-magazine">
+        <div class="magazine">
             <span>/m/</span><a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
         </div>
     {% elseif domain is defined and domain %}
-        <div class="kbin-magazine">
+        <div class="magazine">
             <span>/d/</span><a href="{{ path('domain_front', {name: domain.name}) }}">{{ domain.name }}</a>
         </div>
     {% elseif tag is defined and tag %}
-        <div class="kbin-magazine">
+        <div class="magazine">
             <span>#</span><a href="{{ path('tag_front', {name: tag}) }}">{{ tag }}</a>
         </div>
     {% elseif is_route_name_end_with('_subscribed') %}
-        <div class="kbin-magazine">
+        <div class="magazine">
             <span>/</span><a href="{{ path('front_subscribed') }}">sub</a>
         </div>
     {% elseif is_route_name_end_with('_favourite') %}
-        <div class="kbin-magazine">
+        <div class="magazine">
             <span>/</span><a href="{{ path('front_favourite') }}">fav</a>
         </div>
     {% elseif is_route_name_end_with('_moderated') %}
-        <div class="kbin-magazine">
+        <div class="magazine">
             <span>/</span><a href="{{ path('front_moderated') }}">mod</a>
         </div>
     {% endif %}
@@ -37,13 +37,13 @@
         <menu>
             <li>
                 <a href="{{ navbar_threads_url() }}"
-                   class="{{ html_classes({'kbin-active': is_route_name('front') or is_route_name_contains('front_') or entry is defined and entry }) }}">
+                   class="{{ html_classes({'active': is_route_name('front') or is_route_name_contains('front_') or entry is defined and entry }) }}">
                     {{ 'threads'|trans }}
                 </a>
             </li>
             <li>
                 <a href="{{ navbar_posts_url() }}"
-                   class="{{ html_classes({'kbin-active': is_route_name_contains('post') }) }}">
+                   class="{{ html_classes({'active': is_route_name_contains('post') }) }}">
                     {{ 'microblog'|trans }}
                 </a>
             </li>
@@ -69,21 +69,21 @@
             <a href="#"
                aria-label="{{ 'search'|trans }}"
                title="{{ 'search'|trans }}">
-                <i class="kbin-icon__search"></i>
+                <i class="icon__search"></i>
             </a>
         </li>
         <li>
             <a href="#"
                aria-label="{{ 'add'|trans }}"
                title="{{ 'add'|trans }}">
-                <i class="kbin-icon__add"></i>
+                <i class="icon__add"></i>
             </a>
         </li>
         <li>
             <a href="#"
                aria-label="{{ 'select_channel'|trans }}"
                title="{{ 'select_channel'|trans }}">
-                <i class="kbin-icon__channel"></i>
+                <i class="icon__channel"></i>
             </a>
         </li>
         <li>
@@ -91,10 +91,10 @@
                 <a href="#"
                    aria-label="{{ 'login'|trans }}"
                    title="{{ 'login'|trans }}">
-                    <i class="kbin-icon__user"></i>
+                    <i class="icon__user"></i>
                 </a>
             {% else %}
-                <a class="{{ html_classes('kbin-login', {'kbin-active': is_route_name('app_login')}) }}"
+                <a class="{{ html_classes('login', {'active': is_route_name('app_login')}) }}"
                    href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
             {% endif %}
         </li>

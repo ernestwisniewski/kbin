@@ -1,7 +1,7 @@
-.kbin-post-add {
+.post-add {
   padding: 4px;
 
-  .kbin-group {
+  .group {
     margin-bottom: 0;
   }
 
@@ -20,7 +20,7 @@
   }
 }
 
-.kbin-post {
+.post {
   display: grid;
   font-size: .9rem;
   grid-gap: .5rem;
@@ -44,7 +44,7 @@
     }
   }
 
-  .kbin-content {
+  .content {
     p:last-child {
       margin-bottom: 0;
     }
@@ -94,7 +94,7 @@
     }
   }
 
-  .kbin-vote {
+  .vote {
     display: flex;
     gap: .5rem;
     justify-content: flex-end;
@@ -127,7 +127,7 @@
     padding-bottom: 2rem;
     padding-top: 2rem;
 
-    .kbin-entry__body {
+    .entry__body {
       padding: 0 2rem;
     }
   }

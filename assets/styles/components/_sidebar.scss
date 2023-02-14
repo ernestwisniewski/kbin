@@ -1,4 +1,4 @@
-#kbin-sidebar {
+#sidebar {
   font-size: .85rem;
   padding-bottom: 1rem;
 
@@ -14,7 +14,7 @@
     margin: 0;
   }
 
-  .kbin-options {
+  .options {
     grid-template-columns: 1fr;
 
     menu {
@@ -28,11 +28,11 @@
     }
   }
 
-  .kbin-section {
+  .section {
     padding: .5rem;
   }
 
-  .kbin-posts {
+  .posts {
     color: var(--kbin-meta-text-color);
     figure {
       border-bottom: var(--kbin-meta-border);
@@ -72,7 +72,7 @@
     }
   }
 
-  .kbin-meta, .kbin-info {
+  .meta, .info {
     color: var(--kbin-meta-text-color);
     list-style: none;
     margin: 0;
@@ -103,11 +103,11 @@
     }
   }
 
-  .kbin-info {
+  .info {
     padding-bottom: 2.5rem;
   }
 
-  .kbin-user-list {
+  .user-list {
     ul {
       margin: 0;
       padding: 0;
@@ -150,7 +150,7 @@
     }
   }
 
-  .kbin-entry-info {
+  .entry-info {
     header {
       h4 {
         font-size: 1rem;

@@ -1,4 +1,4 @@
-<footer id="kbin-footer">
+<footer id="footer">
     <section>
         <h5>{{ kbin_domain() }}</h5>
         <menu>
@@ -38,7 +38,7 @@
             <menu>
                 <li><a href="#"
                        title="{{ 'change_theme'|trans }}"
-                       aria-label="{{ 'change_theme'|trans }}"><i class="kbin-icon__bulb"></i></a>
+                       aria-label="{{ 'change_theme'|trans }}"><i class="icon__bulb"></i></a>
                 </li>
                 {% if magazine is defined and magazine %}
                     {% set args = {'magazine': magazine.name ?? '' } %}
@@ -53,7 +53,7 @@
                 {% endif %}
                 <li><a href="{{ path('feed_rss', args) }}"
                        title="{{ 'rss'|trans }}"
-                       aria-label="{{ 'rss'|trans }}"><i class="kbin-icon__rss"></i></a>
+                       aria-label="{{ 'rss'|trans }}"><i class="icon__rss"></i></a>
                 </li>
             </menu>
         </div>

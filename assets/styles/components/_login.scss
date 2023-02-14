@@ -1,7 +1,7 @@
-.kbin-page-login,
-.kbin-page-register,
-.kbin-page-reset-password,
-.kbin-page-reset-password-email-sent {
+.page-login,
+.page-register,
+.page-reset-password,
+.page-reset-password-email-sent {
   .container {
     margin: 0 auto;
     max-width: 30rem;
@@ -14,13 +14,13 @@
       font-weight: bold;
     }
 
-    .kbin-actions {
+    .actions {
       margin-top: 5rem;
       text-align: center;
 
     }
 
-    .kbin-social {
+    .social {
       display: flex;
       gap: 2rem;
       justify-content: center;
@@ -31,7 +31,7 @@
       text-align: right;
     }
 
-    .kbin-social {
+    .social {
       a {
         align-items: center;
         display: inline-flex;
@@ -49,7 +49,7 @@
   }
 }
 
-.kbin-page-reset-password-email-sent {
+.page-reset-password-email-sent {
   p:last-of-type {
     margin-top: 2rem;
     text-align: right;

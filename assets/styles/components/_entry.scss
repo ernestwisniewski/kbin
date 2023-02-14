@@ -1,4 +1,4 @@
-.kbin-entry {
+.entry {
   display: grid;
   grid-template-areas: "vote image title"
                        "vote image meta"
@@ -8,7 +8,7 @@
   grid-template-columns: min-content min-content auto;
   padding: 1rem .5rem;
 
-  .kbin-vote {
+  .vote {
     grid-area: vote;
     margin-right: 1rem;
   }
@@ -87,8 +87,8 @@
   &:hover,
   &:focus-within {
     footer menu,
-    .kbin-entry__meta,
-    .kbin-entry__domain {
+    .entry__meta,
+    .entry__domain {
       -webkit-animation: fadein .5s linear 1 normal forwards;
 
       @-webkit-keyframes fadein {
@@ -109,7 +109,7 @@
     padding-bottom: 2rem;
     padding-top: 2rem;
 
-    .kbin-entry__body {
+    .entry__body {
       padding: 0 2rem;
     }
   }

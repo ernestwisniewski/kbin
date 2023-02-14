@@ -4,7 +4,7 @@
     title
 {%- endblock -%}
 
-{% block mainClass %}kbin-page-entry-front{% endblock %}
+{% block mainClass %}page-entry-front{% endblock %}
 
 {% block body %}
     {% if magazine is defined and magazine %}
@@ -16,7 +16,7 @@
     {% include 'entry/_options.html.twig' %}
     {% if magazine is defined and magazine %}
         {% if magazine.apId %}
-            <div class="kbin-alert kbin-alert__info">
+            <div class="alert alert__info">
                 <p>{{ 'federated_magazine_info'|trans }} <a
                             href="{{ magazine.apProfileId }}">{{ 'go_to_original_instance'|trans }}</a></p>
             </div>

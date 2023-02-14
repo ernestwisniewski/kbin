@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block mainClass %}kbin-page-entry-comment-create{% endblock %}
+{% block mainClass %}page-entry-comment-create{% endblock %}
 
 {% block body %}
-    <div id="kbin-content">
+    <div id="content">
         {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:false}) }}
 
         {% include 'entry/comment/_options.html.twig' %}

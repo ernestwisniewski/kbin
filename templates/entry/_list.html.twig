@@ -1,4 +1,4 @@
-<div id="kbin-content">
+<div id="content">
     {% for entry in entries %}
         {{ component('entry', {entry: entry, showMagazine: magazine is not defined or not magazine}) }}
     {% endfor %}

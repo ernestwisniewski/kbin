@@ -1,6 +1,6 @@
-<section class="kbin-section kbin-entry-info">
+<section class="section entry-info">
     <h3>{{ 'thread'|trans }}</h3>
-    <header class="kbin-group">
+    <header class="group">
         {% if entry.user.avatar %}
             <figure>
                 <img width="100" height="100"
@@ -9,11 +9,11 @@
             </figure>
         {% endif %}
         <h4><a href="{{ path('user', {username:entry.user.username}) }}"
-               class="kbin-stretched-link">{{ entry.user.username|username }}</a></h4>
-        <p class="kbin-user__name">{{ entry.user.apId }}</p>
+               class="stretched-link">{{ entry.user.username|username }}</a></h4>
+        <p class="user__name">{{ entry.user.apId }}</p>
     </header>
     {{ component('user_follow', {user: entry.user}) }}
-    <ul class="kbin-info">
+    <ul class="info">
         <li>{{ 'added'|trans }}: {{ component('date', {date: entry.createdat}) }}</li>
         <li>{{ 'views'|trans }}: <span>{{ entry.views }}</span></li>
         <li>{{ 'up_votes'|trans }}:

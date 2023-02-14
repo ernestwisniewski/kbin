@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block mainClass %}kbin-page-terms{% endblock %}
+{% block mainClass %}page-terms{% endblock %}
 
 {% block body %}
-    <div id="kbin-content" class="kbin-section kbin-section--top">
+    <div id="content" class="section section--top">
         <h1>{{ 'terms'|trans }}</h1>
         {{ body|markdown|raw }}
     </div>

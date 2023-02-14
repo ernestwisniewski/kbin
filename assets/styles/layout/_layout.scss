@@ -5,26 +5,25 @@ body {
 #kbin {
   background: var(--kbin-bg);
 
-  &-header {
+  #header {
     grid-area: header;
     padding: 0 .5rem;
     z-index: 5;
   }
 
-  &-main {
+  #main {
     grid-area: main;
     padding: 0 .5rem;
     position: relative;
   }
 
-  &-sidebar {
+  #sidebar {
     grid-area: sidebar;
     padding: 0 .5rem;
   }
 
-  &-footer {
+  #footer {
     grid-area: footer;
-    padding: 0 .5rem;
     z-index: 5;
   }
 
@@ -52,8 +51,8 @@ menu {
   padding: 0;
 }
 
-.kbin-group,
-.kbin-content {
+.group,
+.content {
   overflow: hidden;
   position: relative;
 }
@@ -62,7 +61,7 @@ hr {
   border: 1px solid var(--kbin-bg);
 }
 
-.kbin-content {
+.content {
   blockquote {
     border-left: 2px solid red;
     margin: 0 0 1rem 1rem;

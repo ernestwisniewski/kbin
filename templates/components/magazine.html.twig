@@ -1,27 +1,26 @@
-<section{{ attributes.defaults({class: 'kbin-magazine kbin-section'}) }}>
+<section{{ attributes.defaults({class: 'magazine section'}) }}>
     <h3>{{ 'magazine'|trans }}</h3>
-    <div class="kbin-group">
+    <div class="group">
         {% if magazine.cover and showCover %}
             <figure>
-                <img
-                        src="{{ asset(magazine.cover.filePath) | imagine_filter('post_thumb') }}"
-                        alt="{{ magazine.name ~ ' ' ~ 'cover'|trans }}" width="260">
+                <img src="{{ asset(magazine.cover.filePath) | imagine_filter('post_thumb') }}"
+                     alt="{{ magazine.name ~ ' ' ~ 'cover'|trans }}" width="260">
             </figure>
         {% endif %}
         <header>
-            <h4><a href="" class="kbin-stretched-link">{{ magazine.title }}</a></h4>
-            <p class="kbin-magazine__name">{{ magazine.name }}</p>
+            <h4><a href="" class="stretched-link">{{ magazine.title }}</a></h4>
+            <p class="magazine__name">{{ magazine.name }}</p>
         </header>
     </div>
     {{ component('magazine_sub', {magazine: magazine}) }}
     {% if magazine.description and showDescription %}
-        <div class="kbin-content kbin-magazine__description">{{ magazine.description|markdown|raw }}</div>
+        <div class="content magazine__description">{{ magazine.description|markdown|raw }}</div>
     {% endif %}
     {% if magazine.rules and showRules %}
-        <div class="kbin-content kbin-magazine__rules">{{ magazine.rules|markdown|raw }}</div>
+        <div class="content magazine__rules">{{ magazine.rules|markdown|raw }}</div>
     {% endif %}
     {% if showInfo %}
-        <ul class="kbin-info">
+        <ul class="info">
             <li>{{ 'created_at'|trans }}:
                 {{ component('date', {date: magazine.createdAt}) }}
             </li>
@@ -31,7 +30,7 @@
         </ul>
     {% endif %}
     {% if showMeta %}
-        <ul class="kbin-meta">
+        <ul class="meta">
             {{ _self.meta_item( 'threads'|trans, path('front_magazine', {'name': magazine.name }), magazine.entryCount) }}
             {{ _self.meta_item( 'comments'|trans, path('magazine_entry_comments', {'name': magazine.name}), magazine.entryCommentCount) }}
             {{ _self.meta_item( 'posts'|trans, path('magazine_posts', {'name': magazine.name}), magazine.postCount) }}
@@ -41,6 +40,6 @@
         </ul>
     {% endif %}
     {% macro meta_item(name, url, count) %}
-        <li><a href="{{ url }}" class="kbin-stretched-link">{{ name }}</a> <span>{{ count }}</span></li>
+        <li><a href="{{ url }}" class="stretched-link">{{ name }}</a> <span>{{ count }}</span></li>
     {% endmacro %}
 </section>

@@ -1,4 +1,4 @@
-.kbin-options {
+.options {
   background: var(--kbin-options-bg);
   border: var(--kbin-options-border);
   color: var(--kbin-options-text-color);
@@ -41,7 +41,7 @@
         filter: var(--kbin-options-icon-filter);
       }
 
-      &.kbin-active,
+      &.active,
       &:focus-visible,
       &:hover {
         border-bottom: var(--kbin-options-link-hover-border);

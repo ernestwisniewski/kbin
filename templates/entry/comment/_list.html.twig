@@ -1,4 +1,4 @@
-<aside class="kbin-comments kbin-entry-comments">
+<aside class="comments entry-comments">
     {% for comment in comments %}
         {{ component('entry_comment', {comment: comment, showMagazine: magazine is not defined or not magazine, showEntry: entry is not defined or not entry}) }}
     {% endfor %}

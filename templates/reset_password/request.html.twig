@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block mainClass %}kbin-page-reset-password{% endblock %}
+{% block mainClass %}page-reset-password{% endblock %}
 
 {% block body %}
-    <div id="kbin-content" class="kbin-section kbin-section--top">
+    <div id="content" class="section section--top">
         <div class="container">
             {{ form_start(form) }}
             {% for flash_error in app.flashes() %}
-                <div class="kbin-alert kbin-alert__danger">{{ flash_error }}</div>
+                <div class="alert alert__danger">{{ flash_error }}</div>
             {% endfor %}
             <h1>{{ 'reset_password'|trans }}</h1>
             {{ form_row(form.email, {
@@ -16,11 +16,11 @@
             }) }}
 
             <div>
-                <button class="kbin-btn kbin-btn__primary" type="submit">{{ 'reset_password'|trans }}</button>
+                <button class="btn btn__primary" type="submit">{{ 'reset_password'|trans }}</button>
             </div>
             {{ form_end(form) }}
 
-            <div class="kbin-actions">
+            <div class="actions">
                 <p>{{ 'already_have_account'|trans }} <a
                             class="font-weight-bold"
                             href="{{ path('app_login') }}">{{ 'login'|trans }}</a></p>

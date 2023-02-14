@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block mainClass %}kbin-page-login{% endblock %}
+{% block mainClass %}page-login{% endblock %}
 
 {% block body %}
-    <div id="kbin-content" class="kbin-section kbin-section--top">
+    <div id="content" class="section section--top">
         <div class="container">
             <form method="post">
                 <h1>{{ 'login'|trans }}</h1>
                 {% if error %}
-                    <div class="kbin-alert kbin-alert__danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    <div class="alert alert__danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
                 <div>
                     <label for="email">{{ 'login_or_email'|trans }}</label>
@@ -25,17 +25,17 @@
                            name="password"
                            required>
                 </div>
-                <div class="kbin-checkbox">
+                <div class="checkbox">
                     <label for="remember">{{ 'remember_me'|trans }}</label>
                     <input type="checkbox" name="_remember_me" id="remember">
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                 <div>
-                    <button class="kbin-btn kbin-btn__primary" type="submit">{{ 'login'|trans }}</button>
+                    <button class="btn btn__primary" type="submit">{{ 'login'|trans }}</button>
                 </div>
             </form>
 
-            <div class="kbin-actions">
+            <div class="actions">
                 <p>{{ 'dont_have_account'|trans }} <a
                             class="font-weight-bold"
                             href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>

@@ -1,7 +1,7 @@
-.kbin-comment-add {
+.comment-add {
   padding: 4px;
 
-  .kbin-group {
+  .group {
     margin-bottom: 0;
   }
 
@@ -20,7 +20,7 @@
   }
 }
 
-.kbin-comment {
+.comment {
   display: grid;
   font-size: .9rem;
   grid-gap: .5rem;
@@ -44,7 +44,7 @@
     }
   }
 
-  .kbin-content {
+  .content {
     p:last-child {
       margin-bottom: 0;
     }
@@ -94,7 +94,7 @@
     }
   }
 
-  .kbin-vote {
+  .vote {
     display: flex;
     gap: .5rem;
     justify-content: flex-end;
@@ -122,7 +122,7 @@
   }
 }
 
-.kbin-post-comments {
+.post-comments {
   blockquote {
     margin: 0;
   }

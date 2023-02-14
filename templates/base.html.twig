@@ -11,7 +11,7 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{ block('title')|trim }}">
     <meta property="og:description" content="{{ block('description')|trim }}">
-    <meta property="og:image" content="{% block image %}{{ absolute_url(asset('kbin-og.png')) }}{% endblock %}">
+    <meta property="og:image" content="{% block image %}{{ absolute_url(asset('og.png')) }}{% endblock %}">
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
@@ -34,14 +34,14 @@
         {% endif %}
     </style>
 </head>
-<body class="kbin-theme--light">
-<div id="kbin" class="{%- block mainClass -%}kbin-page{%- endblock %}">
+<body class="theme--light">
+<div id="kbin" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">
         {% include 'layout/_header.html.twig' %}
-        <main id="kbin-main">
+        <main id="main">
             {% block body %}{% endblock %}
         </main>
-        <aside id="kbin-sidebar">
+        <aside id="sidebar">
             {% block sidebar %}
                 {% include 'layout/_sidebar.html.twig' %}
             {% endblock %}
@@ -49,7 +49,7 @@
         {% include 'layout/_footer.html.twig' %}
     </div>
 </div>
-<div id="kbin-tools">
+<div id="tools">
     <div class="header-bg"></div>
     <div class="footer-bg"></div>
 </div>

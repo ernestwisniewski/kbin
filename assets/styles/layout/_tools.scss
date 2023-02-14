@@ -1,4 +1,4 @@
-#kbin-tools {
+#tools {
   .header-bg {
     background: var(--kbin-header-bg);
     height: 3.263rem;
@@ -12,7 +12,7 @@
   .footer-bg {
     background: var(--kbin-footer-bg);
     bottom: 0;
-    height: 20.8rem;
+    height: 18.463rem;
     left: 0;
     position: absolute;
     width: 100%;
@@ -20,7 +20,7 @@
   }
 }
 
-.kbin-stretched-link {
+.stretched-link {
   &::after {
     bottom: 0;
     content: '';
@@ -32,7 +32,7 @@
   }
 }
 
-.kbin-link-muted {
+.link-muted {
   color: var(--kbin-meta-text-color) !important;
   font-weight: normal !important;
 

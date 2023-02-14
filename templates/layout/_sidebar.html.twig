@@ -1,7 +1,7 @@
-<div class="kbin-options kbin-options--top">
+<div class="options options--top">
     <menu>
-        <li><a href="#" title="Federacja" aria-label="Federacja"><i class="kbin-icon__fediverse"></i></a></li>
-        <li><a href="#" title="Ustawienia" aria-label="Ustawienia"><i class="kbin-icon__settings"></i></a></li>
+        <li><a href="#" title="Federacja" aria-label="Federacja"><i class="icon__fediverse"></i></a></li>
+        <li><a href="#" title="Ustawienia" aria-label="Ustawienia"><i class="icon__settings"></i></a></li>
     </menu>
 </div>
 {% if entry is defined and magazine %}
@@ -9,7 +9,7 @@
 {% endif %}
 {% if magazine is defined and magazine %}
     {{ component('magazine', {magazine: magazine}) }}
-    <section class="kbin-user-list kbin-section">
+    <section class="user-list section">
         <h3>{{ 'moderators'|trans }}</h3>
         <ul>
             {% for moderator in magazine.moderators|slice(0, 5) %}
@@ -21,13 +21,13 @@
                              alt="{{ moderator.user.username ~ ' ' ~ 'avatar'|trans|lower }}">
                     {% endif %}
                     <a href="{{ path('user', {username: moderator.user.username}) }}"
-                       class="kbin-stretched-link">{{ moderator.user.username|username }}</a>
+                       class="stretched-link">{{ moderator.user.username|username }}</a>
                 </li>
             {% endfor %}
         </ul>
         {% if magazine.moderators|length > 5 %}
             <footer>
-                <a href="{{ path('magazine_moderators', {name: magazine.name}) }}" class="kbin-stretched-link">{{ 'show_more'|trans|lower }}</a>
+                <a href="{{ path('magazine_moderators', {name: magazine.name}) }}" class="stretched-link">{{ 'show_more'|trans|lower }}</a>
             </footer>
         {% endif %}
     </section>

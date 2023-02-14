@@ -1,9 +1,9 @@
-<aside{{ attributes.defaults({class: 'kbin-user__follow'}) }}>
-    <div><i class="kbin-icon__users"></i> {{ user.followersCount }}</div>
+<aside{{ attributes.defaults({class: 'user__follow'}) }}>
+    <div><i class="icon__users"></i> {{ user.followersCount }}</div>
     <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unfollow' : 'follow'), {username: user.username}) }}"
           method="post">
         <button type="submit"
-                class="{{ html_classes('kbin-btn kbin-btn__secondry', {'kbin-btn-success': is_user_followed(user)}) }}">
+                class="{{ html_classes('btn btn__secondry', {'btn-success': is_user_followed(user)}) }}">
             {{ is_user_followed(user) ? 'unfollow'|trans : 'follow'|trans }}
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
@@ -11,8 +11,8 @@
     <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unblock' : 'block'), {username: user.username}) }}"
           method="post">
         <button type="submit"
-                class="{{ html_classes('kbin-btn kbin-btn__secondry', {'kbin-btn-warning': is_user_blocked(user)}) }}">
-            <i class="kbin-icon__block"></i>
+                class="{{ html_classes('btn btn__secondry', {'btn-warning': is_user_blocked(user)}) }}">
+            <i class="icon__block"></i>
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
     </form>
