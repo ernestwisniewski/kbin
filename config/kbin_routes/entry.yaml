@@ -55,7 +55,7 @@ entry_comment_favourites:
   methods: [ GET ]
 
 entry_comments_front:
-  controller: App\Controller\Entry\Comment\CommentFrontController::front
+  controller: App\Controller\Entry\Comment\EntryCommentFrontController::front
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /comments/{sortBy}/{time}
@@ -64,7 +64,7 @@ entry_comments_front:
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_subscribed:
-  controller: App\Controller\Entry\Comment\CommentFrontController::subscribed
+  controller: App\Controller\Entry\Comment\EntryCommentFrontController::subscribed
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /sub/comments/{sortBy}/{time}
@@ -73,7 +73,7 @@ entry_comments_subscribed:
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_moderated:
-  controller: App\Controller\Entry\Comment\CommentFrontController::moderated
+  controller: App\Controller\Entry\Comment\EntryCommentFrontController::moderated
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /mod/comments/{sortBy}/{time}
@@ -82,7 +82,7 @@ entry_comments_moderated:
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_favourite:
-  controller: App\Controller\Entry\Comment\CommentFrontController::favourite
+  controller: App\Controller\Entry\Comment\EntryCommentFrontController::favourite
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /fav/comments/{sortBy}/{time}
@@ -91,7 +91,7 @@ entry_comments_favourite:
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_entry_comments:
-  controller: App\Controller\Entry\Comment\CommentFrontController::front
+  controller: App\Controller\Entry\Comment\EntryCommentFrontController::front
   defaults: { sortBy: ~, time: ~ }
   path:
     en: /m/{name}/comments/{sortBy}/{time}

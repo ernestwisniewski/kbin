@@ -16,14 +16,14 @@ class EntryVotersControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('JohnDoe'));
         $entry = $this->getEntryByTitle('test entry 1');
 
-        $manager = static::getContainer()->get(VoteManager::class);
+        $manager =  $client->getContainer()->get(VoteManager::class);
         $manager->vote(VoteInterface::VOTE_UP, $entry, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $client->click($crawler->filter('.kbin-options-activity')->selectLink('up votes (1)')->link());
+        $client->click($crawler->filter('.options-activity')->selectLink('up votes (1)')->link());
 
-        $this->assertSelectorTextContains('#kbin-main .kbin-user-list', 'JaneDoe');
+        $this->assertSelectorTextContains('#main .user-list', 'JaneDoe');
     }
 
     public function testUserCanSeeDownVoters(): void
@@ -32,13 +32,13 @@ class EntryVotersControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('JohnDoe'));
         $entry = $this->getEntryByTitle('test entry 1');
 
-        $manager = static::getContainer()->get(VoteManager::class);
+        $manager =  $client->getContainer()->get(VoteManager::class);
         $manager->vote(VoteInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $client->click($crawler->filter('.kbin-options-activity')->selectLink('down votes (1)')->link());
+        $client->click($crawler->filter('.options-activity')->selectLink('down votes (1)')->link());
 
-        $this->assertSelectorTextContains('#kbin-main .kbin-user-list', 'JaneDoe');
+        $this->assertSelectorTextContains('#main .user-list', 'JaneDoe');
     }
 }

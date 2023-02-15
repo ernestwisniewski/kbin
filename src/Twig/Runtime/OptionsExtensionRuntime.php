@@ -2,7 +2,7 @@
 
 namespace App\Twig\Runtime;
 
-use App\Repository\EntryRepository;
+use App\Repository\Criteria;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
@@ -38,7 +38,7 @@ class OptionsExtensionRuntime implements RuntimeExtensionInterface
             return true;
         }
 
-        if (null === $params[$name] && EntryRepository::SORT_DEFAULT == $value) {
+        if (null === $params[$name] && Criteria::SORT_DEFAULT == $value) {
             return true;
         }
 

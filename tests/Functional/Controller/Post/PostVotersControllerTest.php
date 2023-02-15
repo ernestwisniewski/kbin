@@ -16,13 +16,13 @@ class PostVotersControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('JohnDoe'));
         $post = $this->createPost('test post 1');
 
-        $manager = static::getContainer()->get(VoteManager::class);
+        $manager =  $client->getContainer()->get(VoteManager::class);
         $manager->vote(VoteInterface::VOTE_UP, $post, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
-        $client->click($crawler->filter('.kbin-options-activity')->selectLink('up votes (1)')->link());
+        $client->click($crawler->filter('.options-activity')->selectLink('up votes (1)')->link());
 
-        $this->assertSelectorTextContains('#kbin-main .kbin-user-list', 'JaneDoe');
+        $this->assertSelectorTextContains('#main .user-list', 'JaneDoe');
     }
 }

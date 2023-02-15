@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Controller\Entry;
+namespace App\Tests\Functional\Controller\Entry\Comment;
 
 use App\DTO\ModeratorDto;
 use App\Service\FavouriteManager;
@@ -10,23 +10,22 @@ use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
-class EntryFrontControllerTest extends WebTestCase
+class EntryCommentFrontControllerTest extends WebTestCase
 {
     public function testFrontPage(): void
     {
         $client = $this->prepareEntries();
 
-        $client->request('GET', '/');
+        $client->request('GET', '/comments');
         $this->assertSelectorTextContains('h1', 'Hot');
 
-        $crawler = $client->request('GET', '/newest');
+        $crawler = $client->request('GET', '/comments/newest');
 
-        $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
-        $this->assertSelectorTextContains('.entry__meta', 'to acme');
+        $this->assertSelectorTextContains('blockquote header', 'JohnDoe,');
+        $this->assertSelectorTextContains('blockquote header', 'to kbin in test entry 2');
+        $this->assertSelectorTextContains('blockquote .content', 'test comment 3');
 
-        $this->assertSelectorTextContains('#header .active', 'Threads');
-
-        $this->assertcount(2, $crawler->filter('.entry'));
+        $this->assertcount(3, $crawler->filter('.comment'));
 
         foreach ($this->getSortOptions() as $sortOption) {
             $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
@@ -39,20 +38,21 @@ class EntryFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $client->request('GET', '/m/acme');
+        $client->request('GET', '/m/acme/comments');
         $this->assertSelectorTextContains('h2', 'Hot');
 
-        $crawler = $client->request('GET', '/m/acme/newest');
+        $crawler = $client->request('GET', '/m/acme/comments/newest');
 
-        $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
-        $this->assertSelectorTextNotContains('.entry__meta', 'to acme');
+        $this->assertSelectorTextContains('blockquote header', 'JohnDoe,');
+        $this->assertSelectorTextNotContains('blockquote header', 'to acme');
+        $this->assertSelectorTextContains('blockquote header', 'in test entry 1');
+        $this->assertSelectorTextContains('blockquote .content', 'test comment 2');
+
 
         $this->assertSelectorTextContains('#header .magazine', '/m/acme');
         $this->assertSelectorTextContains('#sidebar .magazine', 'acme');
 
-        $this->assertSelectorTextContains('#header .active', 'Threads');
-
-        $this->assertcount(1, $crawler->filter('.entry'));
+        $this->assertcount(2, $crawler->filter('.comment'));
 
         foreach ($this->getSortOptions() as $sortOption) {
             $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
@@ -71,19 +71,18 @@ class EntryFrontControllerTest extends WebTestCase
 
         $client->loginUser($this->getUserByUsername('Actor'));
 
-        $client->request('GET', '/sub');
+        $client->request('GET', '/sub/comments');
         $this->assertSelectorTextContains('h1', 'Hot');
 
-        $crawler = $client->request('GET', '/sub/newest');
+        $crawler = $client->request('GET', '/sub/comments/newest');
 
-        $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
-        $this->assertSelectorTextContains('.entry__meta', 'to acme');
+        $this->assertSelectorTextContains('blockquote header', 'JohnDoe,');
+        $this->assertSelectorTextContains('blockquote header', 'to acme in test entry 1');
+        $this->assertSelectorTextContains('blockquote .content', 'test comment 2');
 
         $this->assertSelectorTextContains('#header .magazine', '/sub');
 
-        $this->assertSelectorTextContains('#header .active', 'Threads');
-
-        $this->assertcount(1, $crawler->filter('.entry'));
+        $this->assertcount(2, $crawler->filter('.comment'));
 
         foreach ($this->getSortOptions() as $sortOption) {
             $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
@@ -103,19 +102,18 @@ class EntryFrontControllerTest extends WebTestCase
 
         $client->loginUser($this->getUserByUsername('Actor'));
 
-        $client->request('GET', '/mod');
+        $client->request('GET', '/mod/comments');
         $this->assertSelectorTextContains('h1', 'Hot');
 
-        $crawler = $client->request('GET', '/mod/newest');
+        $crawler = $client->request('GET', '/mod/comments/newest');
 
-        $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
-        $this->assertSelectorTextContains('.entry__meta', 'to acme');
+        $this->assertSelectorTextContains('blockquote header', 'JohnDoe,');
+        $this->assertSelectorTextContains('blockquote header', 'to acme in test entry 1');
+        $this->assertSelectorTextContains('blockquote .content', 'test comment 2');
 
         $this->assertSelectorTextContains('#header .magazine', '/mod');
 
-        $this->assertSelectorTextContains('#header .active', 'Threads');
-
-        $this->assertcount(1, $crawler->filter('.entry'));
+        $this->assertcount(2, $crawler->filter('.comment'));
 
         foreach ($this->getSortOptions() as $sortOption) {
             $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
@@ -129,23 +127,23 @@ class EntryFrontControllerTest extends WebTestCase
         $client = $this->prepareEntries();
 
         $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
-        $favouriteManager->toggle($this->getUserByUsername('Actor'), $this->getEntryByTitle('test entry 1'));
+        $favouriteManager->toggle(
+            $this->getUserByUsername('Actor'),
+            $this->createEntryComment('test comment 1', $this->getEntryByTitle('test entry 1'))
+        );
 
         $client->loginUser($this->getUserByUsername('Actor'));
 
-        $client->request('GET', '/fav');
+        $client->request('GET', '/fav/comments');
         $this->assertSelectorTextContains('h1', 'Hot');
 
-        $crawler = $client->request('GET', '/fav/newest');
+        $crawler = $client->request('GET', '/fav/comments/newest');
 
-        $this->assertSelectorTextContains('.entry__meta', 'JaneDoe');
-        $this->assertSelectorTextContains('.entry__meta', 'to kbin');
+        $this->assertSelectorTextContains('blockquote header', 'JohnDoe,');
+        $this->assertSelectorTextContains('blockquote header', 'to acme in test entry 1');
+        $this->assertSelectorTextContains('blockquote .content', 'test comment 1');
 
-        $this->assertSelectorTextContains('#header .magazine', '/fav');
-
-        $this->assertSelectorTextContains('#header .active', 'Threads');
-
-        $this->assertcount(1, $crawler->filter('.entry'));
+        $this->assertcount(1, $crawler->filter('.comment'));
 
         foreach ($this->getSortOptions() as $sortOption) {
             $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
@@ -158,15 +156,21 @@ class EntryFrontControllerTest extends WebTestCase
     {
         $client = $this->createClient();
 
-        $this->getEntryByTitle(
-            'test entry 1',
-            'https://kbin.pub',
-            null,
-            $this->getMagazineByName('kbin', $this->getUserByUsername('JaneDoe')),
-            $this->getUserByUsername('JaneDoe')
+        $this->createEntryComment(
+            'test comment 1',
+            $this->getEntryByTitle('test entry 1'),
+            $this->getUserByUsername('JohnDoe')
         );
-
-        $this->getEntryByTitle('test entry 2');
+        $this->createEntryComment(
+            'test comment 2',
+            $this->getEntryByTitle('test entry 1'),
+            $this->getUserByUsername('JohnDoe')
+        );
+        $this->createEntryComment(
+            'test comment 3',
+            $this->getEntryByTitle('test entry 2', 'https://kbin.pub', null, $this->getMagazineByName('kbin')),
+            $this->getUserByUsername('JohnDoe')
+        );
 
         return $client;
     }

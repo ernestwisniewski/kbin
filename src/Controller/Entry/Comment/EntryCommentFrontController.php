@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CommentFrontController extends AbstractController
+class EntryCommentFrontController extends AbstractController
 {
     public function __construct(
         private readonly EntryCommentRepository $repository,
@@ -24,7 +24,7 @@ class CommentFrontController extends AbstractController
     {
         $params = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->showSortOption($criteria->resolveSort($sortBy ?? Criteria::SORT_ACTIVE))
+        $criteria->showSortOption($criteria->resolveSort($sortBy ?? Criteria::SORT_DEFAULT))
             ->setTime($criteria->resolveTime($time));
 
         if ($magazine) {

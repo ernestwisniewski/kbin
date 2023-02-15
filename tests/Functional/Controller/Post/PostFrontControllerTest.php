@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Post;
 
+use App\DTO\ModeratorDto;
+use App\Service\FavouriteManager;
+use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
@@ -18,16 +21,16 @@ class PostFrontControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/microblog/newest');
 
-        $this->assertSelectorTextContains('.kbin-post header', 'JohnDoe');
-        $this->assertSelectorTextContains('.kbin-post header', 'to acme');
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#kbin-header .kbin-active', 'Microblog');
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
 
-        $this->assertcount(2, $crawler->filter('.kbin-post'));
+        $this->assertcount(2, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.kbin-options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.kbin-options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__sort', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
     }
@@ -41,19 +44,19 @@ class PostFrontControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/m/acme/microblog/newest');
 
-        $this->assertSelectorTextContains('.kbin-post header', 'JohnDoe');
-        $this->assertSelectorTextNotContains('.kbin-post header', 'to acme');
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextNotContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#kbin-header .kbin-magazine', '/m/acme');
-        $this->assertSelectorTextContains('#kbin-sidebar .kbin-magazine', 'acme');
+        $this->assertSelectorTextContains('#header .magazine', '/m/acme');
+        $this->assertSelectorTextContains('#sidebar .magazine', 'acme');
 
-        $this->assertSelectorTextContains('#kbin-header .kbin-active', 'Microblog');
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
 
-        $this->assertcount(1, $crawler->filter('.kbin-post'));
+        $this->assertcount(1, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.kbin-options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.kbin-options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__sort', $sortOption);
             $this->assertSelectorTextContains('h1', 'Magazine title');
             $this->assertSelectorTextContains('h2', ucfirst($sortOption));
         }
@@ -63,23 +66,28 @@ class PostFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
+        $magazineManager = $this->getContainer()->get(MagazineManager::class);
+        $magazineManager->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('Actor'));
+
+        $client->loginUser($this->getUserByUsername('Actor'));
+
         $client->request('GET', '/sub/microblog');
         $this->assertSelectorTextContains('h1', 'Hot');
 
         $crawler = $client->request('GET', '/sub/microblog/newest');
 
-        $this->assertSelectorTextContains('.kbin-post header', 'JohnDoe');
-        $this->assertSelectorTextContains('.kbin-post header', 'to acme');
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#kbin-header .kbin-magazine', '/sub');
+        $this->assertSelectorTextContains('#header .magazine', '/sub');
 
-        $this->assertSelectorTextContains('#kbin-header .kbin-active', 'Microblog');
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
 
-        $this->assertcount(1, $crawler->filter('.kbin-post'));
+        $this->assertcount(1, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.kbin-options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.kbin-options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__sort', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
     }
@@ -88,23 +96,30 @@ class PostFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
+        $magazineManager = $client->getContainer()->get(MagazineManager::class);
+        $moderator = new ModeratorDto($this->getMagazineByName('acme'));
+        $moderator->user = $this->getUserByUsername('Actor');
+        $magazineManager->addModerator($moderator);
+
+        $client->loginUser($this->getUserByUsername('Actor'));
+
         $client->request('GET', '/mod/microblog');
         $this->assertSelectorTextContains('h1', 'Hot');
 
         $crawler = $client->request('GET', '/mod/microblog/newest');
 
-        $this->assertSelectorTextContains('.kbin-post header', 'JohnDoe');
-        $this->assertSelectorTextContains('.kbin-post header', 'to acme');
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#kbin-header .kbin-magazine', '/mod');
+        $this->assertSelectorTextContains('#header .magazine', '/mod');
 
-        $this->assertSelectorTextContains('#kbin-header .kbin-active', 'Microblog');
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
 
-        $this->assertcount(1, $crawler->filter('.kbin-post'));
+        $this->assertcount(1, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.kbin-options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.kbin-options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__sort', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
     }
@@ -113,24 +128,28 @@ class PostFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
+        $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
+        $favouriteManager->toggle($this->getUserByUsername('Actor'), $this->createPost('test post 3'));
+
+        $client->loginUser($this->getUserByUsername('Actor'));
+
         $client->request('GET', '/fav/microblog');
         $this->assertSelectorTextContains('h1', 'Hot');
 
         $crawler = $client->request('GET', '/fav/microblog/newest');
 
-//        @todo
-//        $this->assertSelectorTextContains('.kbin-entry__meta', 'JaneDoe');
-//        $this->assertSelectorTextContains('.kbin-entry__meta', 'to kbin');
-//
-        $this->assertSelectorTextContains('#kbin-header .kbin-magazine', '/fav');
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#kbin-header .kbin-active', 'Microblog');
+        $this->assertSelectorTextContains('#header .magazine', '/fav');
 
-        $this->assertcount(0, $crawler->filter('.kbin-post'));
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
+
+        $this->assertcount(1, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.kbin-options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.kbin-options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__sort', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
     }
@@ -145,7 +164,6 @@ class PostFrontControllerTest extends WebTestCase
             $this->getUserByUsername('JaneDoe')
         );
 
-        $client->loginUser($this->getUserByUsername('JohnDoe'));
         $this->createPost('test post 2');
 
         return $client;

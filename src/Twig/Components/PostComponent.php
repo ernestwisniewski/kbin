@@ -20,9 +20,9 @@ final class PostComponent
             $this->showMagazine = false;
 
             if (isset($attr['class'])) {
-                $attr['class'] = trim('kbin-post--single '.$attr['class']);
+                $attr['class'] = trim('post--single '.$attr['class']);
             } else {
-                $attr['class'] = 'kbin-post--single';
+                $attr['class'] = 'post--single';
             }
         }
 

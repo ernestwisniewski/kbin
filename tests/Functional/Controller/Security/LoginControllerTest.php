@@ -27,6 +27,6 @@ class LoginControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-alert__danger', 'Invalid credentials.'); // @todo
+        $this->assertSelectorTextContains('.alert__danger', 'Invalid credentials.'); // @todo
     }
 }

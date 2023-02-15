@@ -21,11 +21,11 @@ class EntrySingleControllerTest extends WebTestCase
         $client->click($crawler->selectLink('test entry 1')->link());
 
         $this->assertSelectorTextContains('article h1', 'test entry 1');
-        $this->assertSelectorTextContains('#kbin-main', 'No comments');
-        $this->assertSelectorTextContains('#kbin-sidebar .kbin-entry-info', 'Thread');
-        $this->assertSelectorTextContains('#kbin-sidebar .kbin-magazine', 'Magazine');
-        $this->assertSelectorTextContains('#kbin-sidebar .kbin-user-list', 'Moderators');
-        $this->assertSelectorTextContains('#kbin-sidebar .kbin-posts', 'Related posts');
+        $this->assertSelectorTextContains('#main', 'No comments');
+        $this->assertSelectorTextContains('#sidebar .entry-info', 'Thread');
+        $this->assertSelectorTextContains('#sidebar .magazine', 'Magazine');
+        $this->assertSelectorTextContains('#sidebar .user-list', 'Moderators');
+        $this->assertSelectorTextContains('#sidebar .posts', 'Related posts');
     }
 
     public function testUserCanSeeArticle(): void
@@ -57,15 +57,15 @@ class EntrySingleControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('JohnDoe'));
         $entry = $this->getEntryByTitle('test entry 1');
 
-        $manager = static::getContainer()->get(VoteManager::class);
+        $manager =  $client->getContainer()->get(VoteManager::class);
         $manager->vote(VoteInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
-        $manager = static::getContainer()->get(FavouriteManager::class);
+        $manager =  $client->getContainer()->get(FavouriteManager::class);
         $manager->toggle($this->getUserByUsername('JohnDoe'), $entry);
         $manager->toggle($this->getUserByUsername('JaneDoe'), $entry);
 
         $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $this->assertSelectorTextContains('.kbin-options-activity', 'Activity (3)');
+        $this->assertSelectorTextContains('.options-activity', 'Activity (3)');
     }
 }

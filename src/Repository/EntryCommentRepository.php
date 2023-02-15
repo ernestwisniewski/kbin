@@ -219,6 +219,7 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
+        $qb->addOrderBy('c.id', 'DESC');
 
         return $qb;
     }

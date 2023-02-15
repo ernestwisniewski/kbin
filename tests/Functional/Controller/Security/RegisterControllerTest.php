@@ -39,7 +39,7 @@ class RegisterControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextNotContains('#kbin-header', 'Log in');
+        $this->assertSelectorTextNotContains('#header', 'Log in');
     }
 
     private function registerUserAccount(KernelBrowser $client): void
@@ -67,7 +67,7 @@ class RegisterControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        $crawler = $client->click($crawler->filter('#kbin-header')->selectLink('Log in')->link());
+        $crawler = $client->click($crawler->filter('#header')->selectLink('Log in')->link());
 
         $client->submit(
             $crawler->selectButton('Log in')->form(
@@ -80,6 +80,6 @@ class RegisterControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-alert__danger', 'Your account is not active.');
+        $this->assertSelectorTextContains('.alert__danger', 'Your account is not active.');
     }
 }

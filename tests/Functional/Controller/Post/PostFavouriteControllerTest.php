@@ -15,15 +15,15 @@ class PostFavouriteControllerTest extends WebTestCase
         $client->loginUser($this->getUserByUsername('JohnDoe'));
         $post = $this->createPost('test post 1');
 
-        $manager = static::getContainer()->get(FavouriteManager::class);
+        $manager =  $client->getContainer()->get(FavouriteManager::class);
         $manager->toggle($this->getUserByUsername('JaneDoe'), $post);
         $manager->toggle($this->getUserByUsername('JohnDoe'), $post);
 
         $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
-        $client->click($crawler->filter('.kbin-options-activity')->selectLink('favourites (2)')->link());
+        $client->click($crawler->filter('.options-activity')->selectLink('favourites (2)')->link());
 
-        $this->assertSelectorTextContains('#kbin-main .kbin-user-list', 'JaneDoe');
-        $this->assertSelectorTextContains('#kbin-main .kbin-user-list', 'JohnDoe');
+        $this->assertSelectorTextContains('#main .user-list', 'JaneDoe');
+        $this->assertSelectorTextContains('#main .user-list', 'JohnDoe');
     }
 }

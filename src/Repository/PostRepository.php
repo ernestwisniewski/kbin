@@ -180,6 +180,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         $qb->addOrderBy('p.createdAt', 'DESC');
+        $qb->addOrderBy('p.id', 'DESC');
 
         return $qb;
     }

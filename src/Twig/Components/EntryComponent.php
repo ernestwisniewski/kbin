@@ -22,9 +22,9 @@ final class EntryComponent
             $this->showMagazine = false;
 
             if (isset($attr['class'])) {
-                $attr['class'] = trim('kbin-entry--single '.$attr['class']);
+                $attr['class'] = trim('entry--single '.$attr['class']);
             } else {
-                $attr['class'] = 'kbin-entry--single';
+                $attr['class'] = 'entry--single';
             }
         }
 

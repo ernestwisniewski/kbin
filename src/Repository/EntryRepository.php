@@ -214,6 +214,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
 
         $qb->addOrderBy('e.createdAt', 'DESC');
+        $qb->addOrderBy('e.id', 'DESC');
 
         return $qb;
     }
