@@ -9,6 +9,7 @@ use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Event\Entry\EntryHasBeenSeenEvent;
+use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
 use Pagerfanta\PagerfantaInterface;
@@ -63,6 +64,7 @@ class EntrySingleController extends AbstractController
                 'magazine' => $magazine,
                 'comments' => $comments,
                 'entry' => $entry,
+                'form' => $this->createForm(EntryCommentType::class)->createView()
             ]
         );
     }

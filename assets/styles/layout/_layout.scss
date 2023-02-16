@@ -5,6 +5,13 @@ body {
 #kbin {
   background: var(--kbin-bg);
 
+  a:focus-visible,
+  input:focus-visible,
+  button:focus-visible,
+  textarea:focus-visible {
+    outline-color: darkorange;
+  }
+
   #header {
     grid-area: header;
     padding: 0 .5rem;
@@ -67,4 +74,8 @@ hr {
     margin: 0 0 1rem 1rem;
     padding-left: 1rem;
   }
+}
+
+.float-end {
+  text-align: right;
 }

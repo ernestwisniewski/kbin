@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}page-post-comment-create{% endblock %}
+
+{% block body %}
+    <div id="content">
+        {{ component('post', {post: post, isSingle: true, showMagazine: false}) }}
+
+        {% include 'post/comment/_options.html.twig' %}
+        {% if parent is defined and parent %}
+            {{ component('post_comment', {comment: parent, showEntry: false}) }}
+        {% endif %}
+        {% include 'post/comment/_add_comment.html.twig' %}
+    </div>
+{% endblock %}

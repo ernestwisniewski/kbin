@@ -1,4 +1,4 @@
-<blockquote{{ attributes.defaults({class: 'section post'}) }}>
+<blockquote{{ attributes.defaults({class: 'section post'}).without('id') }} id="post-{{ post.id }}">
     <header>
         {{ component('user_inline', {user: post.user}) }},
         <a href="{{ post_url(post) }}"

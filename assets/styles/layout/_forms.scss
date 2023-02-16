@@ -53,6 +53,7 @@ textarea {
 textarea {
   box-sizing: border-box;
   height: 5rem;
+  padding: 1rem;
   resize: vertical;
   width: 100%;
 }
@@ -94,5 +95,96 @@ form {
 
   input[type=checkbox] {
     margin-right: .5rem;
+  }
+}
+
+.ts-wrapper {
+  div {
+    margin-bottom: 0;
+  }
+
+  &.single .ts-control {
+    background: var(--kbin-meta-bg);
+    box-shadow: none;
+  }
+
+  .clear-button {
+    color: var(--kbin-meta-text-color);
+    font-size: 1.5rem;
+    top: 1.2rem;
+  }
+
+  .ts-control {
+    background: var(--kbin-input-bg);
+    border: var(--kbin-input-border);
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--kbin-input-text-color);
+    display: block;
+    padding: 1rem .5rem;
+    width: 100%;
+  }
+
+  &.single .ts-control, .ts-dropdown.single {
+    border: var(--kbin-input-border);
+  }
+
+  .ts-control > input {
+    width: auto;
+  }
+}
+
+.actions,
+.params {
+  display: flex;
+  gap: .5rem;
+  justify-content: flex-end;
+
+  div {
+    margin-bottom: 0;
+  }
+
+  div button {
+    height: 100%;
+  }
+
+  i {
+    filter: var(--kbin-icon-filter);
+  }
+
+  button:hover i {
+    filter: var(--kbin-icon-hover-filter);
+  }
+
+  .ts-control {
+    padding: 8px;
+
+    .clear-button {
+      top: .75rem;
+    }
+  }
+
+  .ts-wrapper {
+    &.single .ts-control, .ts-dropdown.single {
+      border: var(--kbin-meta-border);
+    }
+  }
+}
+
+.params {
+  color: var(--kbin-meta-text-color);
+  font-size: .813rem;
+  gap: 1rem;
+  margin-bottom: .5rem !important;
+  overflow: visible;
+
+  .ts-control {
+    min-width: 18rem;
+  }
+
+  > div {
+    align-items: center;
+    display: flex;
+    flex-direction: row-reverse;
   }
 }

@@ -47,11 +47,11 @@
                     {{ 'microblog'|trans }}
                 </a>
             </li>
-{#            <li>#}
-{#                <a href="#">#}
-{#                    {{ 'events'|trans }}#}
-{#                </a>#}
-{#            </li>#}
+            {#            <li> #}
+            {#                <a href="#"> #}
+            {#                    {{ 'events'|trans }} #}
+            {#                </a> #}
+            {#            </li> #}
             <li>
                 <a href="#">
                     {{ 'people'|trans }}
@@ -73,7 +73,7 @@
             </a>
         </li>
         <li>
-            <a href="#"
+            <a href="{{ path('entry_create') }}"
                aria-label="{{ 'add'|trans }}"
                title="{{ 'add'|trans }}">
                 <i class="icon__add"></i>

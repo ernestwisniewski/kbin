@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}page-entry-create page-entry-create-link{% endblock %}
+
+{% block body %}
+    {% include 'entry/_create_options.html.twig' %}
+
+    <div id="content" class="section">
+        <div class="container">
+            {{ form_start(form) }}
+            <h1>{{ 'add_new_article'|trans }}</h1>
+            {{ form_row(form.title) }}
+            {{ form_row(form.body) }}
+            {{ form_row(form.magazine) }}
+            {{ form_row(form.tags) }}
+            {{ form_row(form.badges) }}
+            <div class="group params">
+                {{ form_row(form.isAdult, {label: '+18', row_attr: {class: 'checkbox'}}) }}
+                {{ form_row(form.isEng, {label: 'ENG', row_attr: {class: 'checkbox'}}) }}
+                {{ form_row(form.isOc, {label: 'OC', row_attr: {class: 'checkbox'}}) }}
+            </div>
+            {{ form_row(form.submit, {label: 'add_new_article'|trans, attr: {class: 'btn btn__primary'}, row_attr: {class: 'float-end'}}) }}
+
+            <div hidden class="media">
+                {{ form_row(form.image) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

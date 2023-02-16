@@ -143,8 +143,8 @@ post_single:
 
 post_create:
   controller: App\Controller\Post\PostCreateController
-  path: /m/{name}/microblog
-  methods: [ POST ]
+  path: /microblog/create
+  methods: [ GET, POST ]
 
 post_edit:
   controller: App\Controller\Post\PostEditController

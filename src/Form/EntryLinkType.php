@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\DTO\EntryDto;
-use App\Entity\Magazine;
 use App\Form\Autocomplete\MagazineAutocompleteField;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\DataTransformer\TagTransformer;
@@ -14,7 +13,6 @@ use App\Form\EventListener\ImageListener;
 use App\Form\EventListener\RemoveFieldsOnEntryLinkCreate;
 use App\Form\Type\BadgesType;
 use App\Service\SettingsManager;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -42,51 +40,48 @@ class EntryLinkType extends AbstractType
             ])
             ->add('tags', TextType::class, [
                 'autocomplete' => true,
+                'required' => false,
                 'tom_select_options' => [
                     'create' => true,
                     'createOnBlur' => true,
                     'delimiter' => ',',
                 ],
             ])
-            ->add('body', TextareaType::class)
+            ->add('body', TextareaType::class, [
+                'required' => false,
+            ])
             ->add(
                 'badges',
                 BadgesType::class,
                 [
-                    'label' => 'Etykiety',
+                    'required' => false,
                 ]
-            );
-
-        if ($this->settingsManager->get('KBIN_JS_ENABLED')) {
-            $builder->add('magazine', MagazineAutocompleteField::class);
-        } else {
-            $builder->add(
-                'magazine',
-                EntityType::class,
+            )
+            ->add('magazine', MagazineAutocompleteField::class)
+            ->add(
+                'image',
+                FileType::class,
                 [
-                    'class' => Magazine::class,
-                    'choice_label' => 'name',
+                    'required' => false,
+                    'constraints' => ImageConstraint::default(),
+                    'mapped' => false,
                 ]
-            );
-        }
-
-        $builder->add(
-            'image',
-            FileType::class,
-            [
-                'constraints' => ImageConstraint::default(),
-                'mapped' => false,
-            ]
-        )
-            ->add('isAdult', CheckboxType::class)
-            ->add('isEng', CheckboxType::class)
-            ->add('isOc', CheckboxType::class)
+            )
+            ->add('isAdult', CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('isEng', CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('isOc', CheckboxType::class, [
+                'required' => false,
+            ])
             ->add('submit', SubmitType::class);
 
         $builder->get('tags')->addModelTransformer(
             new TagTransformer()
         );
-        $builder->addEventSubscriber(new RemoveFieldsOnEntryLinkCreate());
+
         $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());
         $builder->addEventSubscriber($this->imageListener);
     }

@@ -114,3 +114,16 @@
     }
   }
 }
+
+.page-entry-create {
+  .container {
+    margin: 0 auto;
+    max-width: 30rem;
+
+    .params {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 2.5rem !important;
+    }
+  }
+}

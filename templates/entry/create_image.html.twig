@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}page-entry-create page-entry-create-link{% endblock %}
+
+{% block body %}
+    {% include 'entry/_create_options.html.twig' %}
+
+    <div id="content" class="section">
+        <div class="container">
+            {{ form_start(form) }}
+            <h1>{{ 'add_new_photo'|trans }}</h1>
+            {{ form_row(form.title) }}
+            {{ form_row(form.magazine) }}
+            {{ form_row(form.tags) }}
+            {{ form_row(form.badges) }}
+            <div class="group params">
+                {{ form_row(form.isAdult, {label: '+18', row_attr: {class: 'checkbox'}}) }}
+                {{ form_row(form.isEng, {label: 'ENG', row_attr: {class: 'checkbox'}}) }}
+                {{ form_row(form.isOc, {label: 'OC', row_attr: {class: 'checkbox'}}) }}
+            </div>
+            <div class="group actions">
+                <button type="button"
+                        class="btn btn__secondry"
+                        aria-label="{{ 'markdown_howto'|trans }}"
+                        title="{{ 'markdown_howto'|trans }}">
+                    <i class="icon__question"></i>
+                </button>
+                <button type="button"
+                        class="btn btn__secondry"
+                        aria-label="{{ 'add_media'|trans }}"
+                        title="{{ 'add_media'|trans }}">
+                    <i class="icon__media"></i>
+                </button>
+                {{ form_row(form.submit, {attr: {class: 'btn btn__primary'}, row_attr: {class: 'float-end'}}) }}
+            </div>
+
+            <div hidden class="media">
+                {{ form_row(form.image) }}
+                {{ form_row(form.imageAlt) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

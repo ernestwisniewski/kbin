@@ -30,9 +30,10 @@ class EntryCommentType extends AbstractType
                 [
                     'constraints' => ImageConstraint::default(),
                     'mapped' => false,
+                    'required' => false,
                 ]
             )
-            ->add('imageAlt', TextareaType::class)
+            ->add('imageAlt', TextareaType::class, ['required'=> false])
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber($this->imageListener);

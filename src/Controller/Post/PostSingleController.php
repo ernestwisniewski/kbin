@@ -9,6 +9,7 @@ use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
+use App\Form\PostCommentType;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;
@@ -61,6 +62,7 @@ class PostSingleController extends AbstractController
                 'magazine' => $magazine,
                 'post' => $post,
                 'comments' => $comments,
+                'form' => $this->createForm(PostCommentType::class)->createView(),
             ]
         );
     }

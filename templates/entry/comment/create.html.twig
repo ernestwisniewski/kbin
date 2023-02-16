@@ -7,7 +7,9 @@
         {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:false}) }}
 
         {% include 'entry/comment/_options.html.twig' %}
-        {{ component('entry_comment', {comment: parent}) }}
+        {% if parent is defined and parent %}
+            {{ component('entry_comment', {comment: parent, showEntry: false}) }}
+        {% endif %}
         {% include 'entry/comment/_add_comment.html.twig' %}
     </div>
 {% endblock %}

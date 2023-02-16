@@ -30,7 +30,7 @@
                     <input type="checkbox" name="_remember_me" id="remember">
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <div>
+                <div class="float-end">
                     <button class="btn btn__primary" type="submit">{{ 'login'|trans }}</button>
                 </div>
             </form>

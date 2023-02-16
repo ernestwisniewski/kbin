@@ -12,10 +12,9 @@
             <h1>{{ 'reset_password'|trans }}</h1>
             {{ form_row(form.email, {
                 label: 'email'
-
             }) }}
 
-            <div>
+            <div class="float-end">
                 <button class="btn btn__primary" type="submit">{{ 'reset_password'|trans }}</button>
             </div>
             {{ form_end(form) }}

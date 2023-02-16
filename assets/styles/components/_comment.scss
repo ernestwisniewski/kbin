@@ -1,22 +1,6 @@
 .comment-add {
-  padding: 4px;
-
   .group {
     margin-bottom: 0;
-  }
-
-  &__actions {
-    display: flex;
-    gap: .5rem;
-    justify-content: flex-end;
-
-    i {
-      filter: var(--kbin-icon-filter);
-    }
-
-    button:hover i {
-      filter: var(--kbin-icon-hover-filter);
-    }
   }
 }
 

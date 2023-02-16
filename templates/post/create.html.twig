@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    title
+{%- endblock -%}
+
+{% block mainClass %}page-post-create{% endblock %}
+
+{% block body %}
+    {% if magazine is defined and magazine %}
+        <h1 hidden>{{ magazine.title }}</h1>
+        <h2 hidden>{{ get_active_sort_option()|trans }}</h2>
+    {% else %}
+        <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
+    {% endif %}
+    {% include 'post/_add_post.html.twig' %}
+{% endblock %}

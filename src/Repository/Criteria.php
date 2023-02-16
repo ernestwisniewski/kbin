@@ -21,7 +21,7 @@ abstract class Criteria
     public const SORT_ACTIVE = 'active';
     public const SORT_HOT = 'hot';
     public const SORT_NEW = 'newest';
-    public const SORT_DEFAULT = self::SORT_ACTIVE;
+    public const SORT_DEFAULT = self::SORT_HOT;
 
     public const SORT_OLD = 'oldest';
     public const SORT_TOP = 'top';

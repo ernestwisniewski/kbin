@@ -79,6 +79,7 @@
         "symfony/translation": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
         "symfony/uid": "6.1.*",
+        "symfony/ux-autocomplete": "^2.7",
         "symfony/ux-chartjs": "^2.7",
         "symfony/ux-twig-component": "^2.7",
         "symfony/validator": "6.1.*",

@@ -1,3 +1,14 @@
+sort.top: Top
+sort.hot: Hot
+sort.active: Active
+sort.newest: Newest
+sort.commented: Commented
+type.link: Link
+type.article: Article
+type.photo: Photo
+type.video: Video
+type.smart_contract: Smart contract
+type.magazine: Magazine
 thread: Thread
 threads: Threads
 microblog: Microblog
@@ -101,3 +112,8 @@ email_confirm_expire: The link will expire in 1 hour.
 email_confirm_title: Confirm your email address.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
+Select a magazine: Select a magazine
+Add post: Add post
+Image: Image
+Image alt: Image alt
+add_new: Add new

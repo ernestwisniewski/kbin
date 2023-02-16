@@ -119,7 +119,7 @@ entry_comment_favourite:
 
 entry_create:
   controller: App\Controller\Entry\EntryCreateController
-  defaults: { type: null }
+  defaults: { type: link }
   path:
     en: /new/{type}
     pl: /nowy/{type}
@@ -127,7 +127,7 @@ entry_create:
 
 magazine_entry_create:
   controller: App\Controller\Entry\EntryCreateController
-  defaults: { type: null }
+  defaults: { type: link }
   path:
     en: /m/{name}/new/{type}
     pl: /m/{name}/nowy/{type}
