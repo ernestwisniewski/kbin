@@ -29,8 +29,8 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertcount(2, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
     }
@@ -55,8 +55,8 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertcount(1, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
             $this->assertSelectorTextContains('h1', 'Magazine title');
             $this->assertSelectorTextContains('h2', ucfirst($sortOption));
         }
@@ -86,8 +86,8 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertcount(1, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
     }
@@ -118,8 +118,8 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertcount(1, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
     }
@@ -148,8 +148,8 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertcount(1, $crawler->filter('.post'));
 
         foreach ($this->getSortOptions() as $sortOption) {
-            $crawler = $client->click($crawler->filter('.options__sort')->selectLink($sortOption)->link());
-            $this->assertSelectorTextContains('.options__sort', $sortOption);
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
     }

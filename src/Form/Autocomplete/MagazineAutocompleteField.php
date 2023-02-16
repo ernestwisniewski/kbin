@@ -17,7 +17,7 @@ class MagazineAutocompleteField extends AbstractType
         $resolver->setDefaults([
             'class' => Magazine::class,
             'choice_label' => 'name',
-            'placeholder' => 'Select a magazine',
+            'placeholder' => 'select_magazine',
             'filter_query' => function (QueryBuilder $qb, string $query) {
                 if (!$query) {
                     return;

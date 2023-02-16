@@ -13,5 +13,7 @@
     {% else %}
         <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
     {% endif %}
-    {% include 'post/_add_post.html.twig' %}
+    <div id="content">
+        {% include 'post/_add_post.html.twig' %}
+    </div>
 {% endblock %}

@@ -63,13 +63,11 @@ class EntryCreateController extends AbstractController
             );
         }
 
-        $dto->magazine = $magazine;
-
         return $this->render(
             $this->getTemplateName((new EntryPageView(1))->resolveType($type)),
             [
                 'magazine' => $magazine,
-                'form' => $form->setData($dto)->createView(),
+                'form' => $form->createView(),
             ],
             new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );

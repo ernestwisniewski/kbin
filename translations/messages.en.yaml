@@ -110,10 +110,20 @@ email_confirm_content: 'If you want to activate your account click on the link b
 email_verify: Confirm email address
 email_confirm_expire: The link will expire in 1 hour.
 email_confirm_title: Confirm your email address.
+select_magazine: Select a magazine
+add_new: Add new
+url: URL
+title: Title
+body: Body
+tags: Tags
+badges: Badges
+is_adult: +18
+eng: ENG
+oc: OC
+image: Image
+image_alt: Image alt
+name: Name
+description: Description
+rules: Rules
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
-Select a magazine: Select a magazine
-Add post: Add post
-Image: Image
-Image alt: Image alt
-add_new: Add new

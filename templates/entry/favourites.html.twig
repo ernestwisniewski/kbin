@@ -6,6 +6,8 @@
     <div id="content">
         {{ component('entry', {entry: entry, isSingle: true, showBody: false}) }}
         {% include 'entry/_options_activity.html.twig' %}
-        {% include 'layout/_activity_list.html.twig' with {list: favourites} %}
+        <div id="content">
+            {% include 'layout/_activity_list.html.twig' with {list: favourites} %}
+        </div>
     </div>
 {% endblock %}

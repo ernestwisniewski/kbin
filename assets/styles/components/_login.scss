@@ -15,9 +15,8 @@
     }
 
     .actions {
-      margin-top: 5rem;
-      text-align: center;
-
+      margin-top: 3rem;
+      display: block;
     }
 
     .social {
@@ -25,9 +24,7 @@
       gap: 2rem;
       justify-content: center;
       margin-top: 3rem;
-    }
 
-    .social {
       a {
         align-items: center;
         display: inline-flex;

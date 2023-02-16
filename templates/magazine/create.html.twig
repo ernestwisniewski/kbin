@@ -9,13 +9,13 @@
         <div class="container">
             {{ form_start(form) }}
             <h1>{{ 'create_new_magazine'|trans }}</h1>
-            {{ form_row(form.name, {attr: {placeholder: '/m/'}}) }}
-            {{ form_row(form.title) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.rules) }}
-            {{ form_row(form.isAdult, {label:'+18', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.name, {label: 'name', attr: {placeholder: '/m/'}}) }}
+            {{ form_row(form.title, {label: 'title'}) }}
+            {{ form_row(form.description, {label: 'description'}) }}
+            {{ form_row(form.rules, {label: 'rules'}) }}
+            {{ form_row(form.isAdult, {label:'is_adult', row_attr: {class: 'checkbox'}}) }}
             <div class="group actions">
-                {{ form_row(form.submit, {label: 'create_new_magazine'|trans, attr: {class: 'btn btn__primary'}, row_attr: {class: 'float-end'}}) }}
+                {{ form_row(form.submit, {label: 'create_new_magazine', attr: {class: 'btn btn__primary'}, row_attr: {class: 'float-end'}}) }}
             </div>
             {{ form_end(form) }}
         </div>

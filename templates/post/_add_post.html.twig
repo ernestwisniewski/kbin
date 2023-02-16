@@ -5,8 +5,8 @@
         {{ form_row(form.body, {label: false}) }}
     </div>
     <div class="group params">
-        {{ form_row(form.isAdult, {label:'+18'}) }}
-        {{ form_row(form.magazine, {attr: {'data-controller': 'ehh'}, label: false}) }}
+        {{ form_row(form.isAdult, {label:'is_adult'}) }}
+        {{ form_row(form.magazine, {label: false}) }}
     </div>
     <div class="group actions">
         <button type="button"
@@ -21,11 +21,11 @@
                 title="{{ 'add_media'|trans }}">
             <i class="icon__media"></i>
         </button>
-        {{ form_row(form.submit, {label: 'add_post'|trans, attr: {class: 'btn-kbin btn__primary'}}) }}
+        {{ form_row(form.submit, {label: 'add_post', attr: {class: 'btn-kbin btn__primary'}}) }}
     </div>
     <div hidden class="media">
-        {{ form_row(form.image) }}
-        {{ form_row(form.imageAlt) }}
+        {{ form_row(form.image, {label: 'image'}) }}
+        {{ form_row(form.imageAlt, {label: 'image_alt'}) }}
     </div>
     {{ form_end(form) }}
 </section>

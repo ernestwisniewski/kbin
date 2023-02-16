@@ -3,13 +3,12 @@
 {% block mainClass %}page-entry-comment-create{% endblock %}
 
 {% block body %}
+    {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:false}) }}
+    {% include 'entry/comment/_options.html.twig' %}
+    {% if parent is defined and parent %}
+        {{ component('entry_comment', {comment: parent, showEntry: false}) }}
+    {% endif %}
     <div id="content">
-        {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:false}) }}
-
-        {% include 'entry/comment/_options.html.twig' %}
-        {% if parent is defined and parent %}
-            {{ component('entry_comment', {comment: parent, showEntry: false}) }}
-        {% endif %}
         {% include 'entry/comment/_add_comment.html.twig' %}
     </div>
 {% endblock %}

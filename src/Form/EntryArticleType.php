@@ -36,6 +36,7 @@ class EntryArticleType extends AbstractType
             ->add('body', TextareaType::class)
             ->add('magazine', MagazineAutocompleteField::class)
             ->add('tags', TextType::class, [
+                'required' => false,
                 'autocomplete' => true,
                 'tom_select_options' => [
                     'create' => true,
@@ -47,7 +48,7 @@ class EntryArticleType extends AbstractType
                 'badges',
                 BadgesType::class,
                 [
-                    'label' => 'Etykiety',
+                    'required' => false,
                 ]
             )
             ->add(

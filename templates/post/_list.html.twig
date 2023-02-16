@@ -1,6 +1,4 @@
-<div id="content">
-    {% for post in posts %}
-        {{ component('post', {post: post, showMagazine: magazine is not defined or not magazine}) }}
-    {% endfor %}
-</div>
+{% for post in posts %}
+    {{ component('post', {post: post, showMagazine: magazine is not defined or not magazine}) }}
+{% endfor %}
 
