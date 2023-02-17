@@ -10,7 +10,6 @@ use App\Form\Constraint\ImageConstraint;
 use App\Form\DataTransformer\TagTransformer;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
-use App\Form\EventListener\RemoveFieldsOnEntryLinkCreate;
 use App\Form\Type\BadgesType;
 use App\Service\SettingsManager;
 use Symfony\Component\Form\AbstractType;

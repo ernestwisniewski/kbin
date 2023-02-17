@@ -2,3 +2,8 @@
     {{ component('post', {post: post, showMagazine: magazine is not defined or not magazine}) }}
 {% endfor %}
 
+{% if not posts|length %}
+    <aside class="section section--muted user-list">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

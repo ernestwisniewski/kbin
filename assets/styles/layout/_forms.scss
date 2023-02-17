@@ -48,6 +48,8 @@ textarea {
   background: var(--kbin-input-bg);
   border: var(--kbin-input-border);
   color: var(--kbin-input-text-color);
+  font-family: var(--kbin-body-font-family);
+  font-size: .9rem;
 }
 
 textarea {

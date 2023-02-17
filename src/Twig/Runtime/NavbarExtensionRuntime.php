@@ -2,6 +2,7 @@
 
 namespace App\Twig\Runtime;
 
+use App\Entity\Magazine;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
@@ -16,7 +17,9 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
 
     public function navbarThreadsUrl(): string
     {
-        if ($magazine = $this->requestStack->getCurrentRequest()->get('magazine')) {
+        $magazine = $this->requestStack->getCurrentRequest()->get('magazine');
+
+        if ($magazine instanceof Magazine) {
             return $this->urlGenerator->generate('front_magazine', ['name' => $magazine->name]);
         }
 
@@ -45,7 +48,9 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
 
     public function navbarPostsUrl(): string
     {
-        if ($magazine = $this->requestStack->getCurrentRequest()->get('magazine')) {
+        $magazine = $this->requestStack->getCurrentRequest()->get('magazine');
+
+        if ($magazine instanceof Magazine) {
             return $this->urlGenerator->generate('magazine_posts', ['name' => $magazine->name]);
         }
 

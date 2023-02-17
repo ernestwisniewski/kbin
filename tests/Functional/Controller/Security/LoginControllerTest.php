@@ -11,7 +11,7 @@ class LoginControllerTest extends WebTestCase
     public function testUserCantLoginWithWrongPassword(): void
     {
         $client = $this->createClient();
-        $user = $this->getUserByUsername('JohnDoe');
+        $this->getUserByUsername('JohnDoe');
 
         $crawler = $client->request('GET', '/');
         $crawler = $client->click($crawler->filter('header')->selectLink('Log in')->link());

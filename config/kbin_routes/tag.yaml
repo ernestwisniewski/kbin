@@ -5,7 +5,7 @@ tag_overall:
 
 tag_front:
   controller: App\Controller\Tag\FrontController
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: tag/{name}/threads/{sortBy}/{time}
     pl: tag/{name}/treści/{sortBy}/{time}
@@ -14,7 +14,7 @@ tag_front:
 
 tag_entry_comments_front:
   controller: App\Controller\Tag\CommentFrontController
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: tag/{name}/comments/{sortBy}/{time}
     pl: tag/{name}/komentarze/{sortBy}/{time}
@@ -23,7 +23,7 @@ tag_entry_comments_front:
 
 tag_posts_front:
   controller: App\Controller\Tag\PostFrontController
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: tag/{name}/posts/{sortBy}/{time}
     pl: tag/{name}/wpisy/{sortBy}/{time}

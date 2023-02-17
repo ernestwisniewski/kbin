@@ -14,9 +14,10 @@ class PostVotersControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
+
         $post = $this->createPost('test post 1');
 
-        $manager =  $client->getContainer()->get(VoteManager::class);
+        $manager = $client->getContainer()->get(VoteManager::class);
         $manager->vote(VoteInterface::VOTE_UP, $post, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");

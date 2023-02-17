@@ -13,9 +13,10 @@ class EntryFavouriteControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
+
         $entry = $this->getEntryByTitle('test entry 1');
 
-        $manager =  $client->getContainer()->get(FavouriteManager::class);
+        $manager = $client->getContainer()->get(FavouriteManager::class);
         $manager->toggle($this->getUserByUsername('JohnDoe'), $entry);
         $manager->toggle($this->getUserByUsername('JaneDoe'), $entry);
 

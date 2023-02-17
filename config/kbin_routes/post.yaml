@@ -74,7 +74,7 @@ post_comment_favourite:
 
 posts_front:
   controller: App\Controller\Post\PostFrontController::front
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /microblog/{sortBy}/{time}
     pl: /wpisy/{sortBy}/{time}
@@ -83,7 +83,7 @@ posts_front:
 
 posts_subscribed:
   controller: App\Controller\Post\PostFrontController::subscribed
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /sub/microblog/{sortBy}/{time}
     pl: /sub/wpisy/{sortBy}/{time}
@@ -92,7 +92,7 @@ posts_subscribed:
 
 posts_moderated:
   controller: App\Controller\Post\PostFrontController::moderated
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /mod/microblog/{sortBy}/{time}
     pl: /mod/wpisy/{sortBy}/{time}
@@ -101,7 +101,7 @@ posts_moderated:
 
 posts_favourite:
   controller: App\Controller\Post\PostFrontController::favourite
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /fav/microblog/{sortBy}/{time}
     pl: /fav/wpisy/{sortBy}/{time}
@@ -110,7 +110,7 @@ posts_favourite:
 
 magazine_posts:
   controller: App\Controller\Post\PostFrontController::magazine
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /m/{name}/microblog/{sortBy}/{time}
     pl: /m/{name}/wpisy/{sortBy}/{time}
@@ -119,7 +119,7 @@ magazine_posts:
 
 post_voters:
   controller: App\Controller\Post\PostVotersController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/votes
     pl: /m/{magazine_name}/w/{post_id}/{slug}/głosy
@@ -127,7 +127,7 @@ post_voters:
 
 post_favourites:
   controller: App\Controller\Post\PostFavouriteController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/favourites
     pl: /m/{magazine_name}/w/{post_id}/{slug}/ulubione
@@ -135,7 +135,7 @@ post_favourites:
 
 post_single:
   controller: App\Controller\Post\PostSingleController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/{sortBy}
     pl: /m/{magazine_name}/w/{post_id}/{slug}/{sortBy}

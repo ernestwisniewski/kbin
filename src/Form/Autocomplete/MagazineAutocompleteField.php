@@ -2,6 +2,7 @@
 
 namespace App\Form\Autocomplete;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Magazine;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\AbstractType;
@@ -25,7 +26,10 @@ class MagazineAutocompleteField extends AbstractType
 
                 $qb->andWhere('entity.name LIKE :filter OR entity.title LIKE :filter')
                     ->andWhere('entity.apId IS NULL')
-                    ->setParameter('filter', '%'.$query.'%');
+                    ->andWhere('entity.visibility = :visibility')
+                    ->setParameters(
+                        ['filter' => '%'.$query.'%', 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
+                    );
             },
         ]);
     }

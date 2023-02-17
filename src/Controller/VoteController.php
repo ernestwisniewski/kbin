@@ -6,7 +6,9 @@ namespace App\Controller;
 
 use App\Entity\Contracts\VoteInterface;
 use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\Post;
+use App\Entity\PostComment;
 use App\Service\VoteManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,7 +50,9 @@ class VoteController extends AbstractController
     {
         return match (true) {
             $votable instanceof Entry => 'entry-'.$votable->getId(),
+            $votable instanceof EntryComment => 'entry-comment-'.$votable->getId(),
             $votable instanceof Post => 'post-'.$votable->getId(),
+            $votable instanceof PostComment => 'post-comment-'.$votable->getId(),
             default => throw new \InvalidArgumentException('Invalid votable type'),
         };
     }

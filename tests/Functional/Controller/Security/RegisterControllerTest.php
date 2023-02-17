@@ -45,7 +45,6 @@ class RegisterControllerTest extends WebTestCase
     private function registerUserAccount(KernelBrowser $client): void
     {
         $crawler = $client->request('GET', '/register');
-        dd($crawler->html());
 
         $client->submit(
             $crawler->filter('form[name=user_register]')->selectButton('Register')->form(

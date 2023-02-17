@@ -15,10 +15,11 @@ class PostSingleControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
+
         $this->createPost('test post 1');
 
         $crawler = $client->request('GET', '/microblog');
-        $client->click($crawler->selectLink('now')->link());
+        $client->click($crawler->filter('.link-muted')->link());
 
         $this->assertSelectorTextContains('blockquote', 'test post 1');
         $this->assertSelectorTextContains('#main', 'No comments');
@@ -30,6 +31,7 @@ class PostSingleControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
+
         $post = $this->createPost('test post 1');
 
         $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
@@ -41,16 +43,17 @@ class PostSingleControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
+
         $post = $this->createPost('test post 1');
 
-        $manager =  $client->getContainer()->get(VoteManager::class);
+        $manager = $client->getContainer()->get(VoteManager::class);
         $manager->vote(VoteInterface::VOTE_DOWN, $post, $this->getUserByUsername('JaneDoe'));
 
-        $manager =  $client->getContainer()->get(FavouriteManager::class);
+        $manager = $client->getContainer()->get(FavouriteManager::class);
         $manager->toggle($this->getUserByUsername('JohnDoe'), $post);
         $manager->toggle($this->getUserByUsername('JaneDoe'), $post);
 
-        $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
+        $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
         $this->assertSelectorTextContains('.options-activity', 'Activity (3)');
     }

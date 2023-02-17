@@ -9,7 +9,7 @@
     <div class="content">
         {{ comment.body|markdown|raw }}
     </div>
-    {{ component('vote', {subject: comment, downvote: false}) }}
+    {{ component('vote', {subject: comment, showDownvote: false}) }}
     <footer>
         <menu>
             <li>

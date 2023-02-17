@@ -8,13 +8,16 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class UrlExtensionRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly RequestStack $requestStack
+    ) {
     }
 
     public function entryUrl(Entry $entry): string
@@ -91,5 +94,15 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
             'slug' => empty($comment->post->slug) ? 'icon' : $comment->post->slug,
             'parent_comment_id' => $comment->getId(),
         ]);
+    }
+
+    public function optionsUrl(string $name, string $value): string
+    {
+        $route = $this->requestStack->getCurrentRequest()->attributes->get('_route');
+        $params = $this->requestStack->getCurrentRequest()->attributes->all()['_route_params'];
+
+        $params[$name] = $value;
+
+        return $this->urlGenerator->generate($route, $params);
     }
 }

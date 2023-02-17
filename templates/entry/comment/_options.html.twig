@@ -3,25 +3,25 @@
     <menu class="options__main">
         <li>
             <a href="{{ options_url('sortBy', 'top'|trans|lower) }}"
-               class="{{ html_classes({'active': options_is_active('sortBy', 'top'|trans|lower)}) }}">
+               class="{{ html_classes({'active': is_route_params_contains('sortBy', 'top'|trans|lower)}) }}">
             {{ 'top'|trans|lower }}
             </a>
         </li>
         <li>
             <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
-               class="{{ html_classes({'active': options_is_active('sortBy', 'hot'|trans|lower)}) }}">
+               class="{{ html_classes({'active': is_route_params_contains('sortBy', 'hot'|trans|lower)}) }}">
                 {{ 'hot'|trans|lower }}
             </a>
         </li>
         <li>
             <a href="{{ options_url('sortBy', 'active'|trans|lower) }}"
-               class="{{ html_classes({'active': options_is_active('sortBy', 'active'|trans|lower)}) }}">
+               class="{{ html_classes({'active': is_route_params_contains('sortBy', 'active'|trans|lower)}) }}">
                 {{ 'active'|trans|lower }}
             </a>
         </li>
         <li>
             <a href="{{ options_url('sortBy', 'newest'|trans|lower) }}"
-               class="{{ html_classes({'active': options_is_active('sortBy', 'newest'|trans|lower)}) }}">
+               class="{{ html_classes({'active': is_route_params_contains('sortBy', 'newest'|trans|lower)}) }}">
                 {{ 'newest'|trans|lower }}
             </a>
         </li>

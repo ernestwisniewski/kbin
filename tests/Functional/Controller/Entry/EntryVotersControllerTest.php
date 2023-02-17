@@ -14,9 +14,10 @@ class EntryVotersControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
+
         $entry = $this->getEntryByTitle('test entry 1');
 
-        $manager =  $client->getContainer()->get(VoteManager::class);
+        $manager = $client->getContainer()->get(VoteManager::class);
         $manager->vote(VoteInterface::VOTE_UP, $entry, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
@@ -30,9 +31,10 @@ class EntryVotersControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
+
         $entry = $this->getEntryByTitle('test entry 1');
 
-        $manager =  $client->getContainer()->get(VoteManager::class);
+        $manager = $client->getContainer()->get(VoteManager::class);
         $manager->vote(VoteInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");

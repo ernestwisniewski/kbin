@@ -5,15 +5,15 @@
     <menu class="options__main">
         {% if magazine is defined and magazine %}
             <li>
-                <a href="{{ path('magazine_entry_create', {name: magazine.name}) }}"
-                   class="{{ html_classes({'active': is_route_name('entry_article_create')}) }}">
-                    {{ 'type.link'|trans|lower }}
+                <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'type.article'|trans|lower}) }}"
+                   class="{{ html_classes({'active': is_route_params_contains('type', 'type.article'|trans|lower)}) }}">
+                    {{ 'type.article'|trans|lower }}
                 </a>
             </li>
             <li>
-                <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'type.article'|trans|lower}) }}"
-                   class="{{ html_classes({'active': is_route_name('entry_link_create')}) }}">
-                    {{ 'type.article'|trans|lower }}
+                <a href="{{ path('magazine_entry_create', {name: magazine.name}) }}"
+                   class="{{ html_classes({'active': is_route_params_contains('type', 'type.link'|trans|lower)}) }}">
+                    {{ 'type.link'|trans|lower }}
                 </a>
             </li>
             <li>
@@ -30,20 +30,20 @@
             </li>
             <li>
                 <a href="{{ path('magazine_create') }}"
-                   class="{{ html_classes({'active': is_route_name('entry_link_create')}) }}">
+                   class="{{ html_classes({'active': is_route_name('magazine_create')}) }}">
                     {{ 'type.magazine'|trans|lower }}
                 </a>
             </li>
         {% else %}
             <li>
-                <a href="{{ path('entry_create') }}"
-                   class="{{ html_classes({'active': is_route_name('entry_article_create')}) }}">
+                <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
+                   class="{{ html_classes({'active': is_route_params_contains('type', 'type.article'|trans|lower)}) }}">
                     {{ 'type.article'|trans|lower }}
                 </a>
             </li>
             <li>
-                <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
-                   class="{{ html_classes({'active': is_route_name('entry_link_create')}) }}">
+                <a href="{{ path('entry_create') }}"
+                   class="{{ html_classes({'active': is_route_params_contains('type', 'type.link'|trans|lower)}) }}">
                     {{ 'type.link'|trans|lower }}
                 </a>
             </li>
@@ -53,14 +53,17 @@
                     {{ 'type.photo'|trans|lower }}
                 </a>
             </li>
+{#            <li>#}
+{#                <a href="#" class="link-disabled">{{ 'type.video'|trans|lower }}</a>#}
+{#            </li>#}
+{#            <li>#}
+{#                <a href="#" class="link-disabled">{{ 'type.smart_contract'|trans|lower }}</a>#}
+{#            </li>#}
             <li>
-                <a href="#" class="link-disabled">{{ 'type.video'|trans|lower }}</a>
-            </li>
-            <li>
-                <a href="#" class="link-disabled">{{ 'type.smart_contract'|trans|lower }}</a>
-            </li>
-            <li>
-                <a href="{{ path('magazine_create') }}" class="link-disabled">{{ 'type.magazine'|trans|lower }}</a>
+                <a href="{{ path('magazine_create') }}"
+                   class="{{ html_classes({'active': is_route_name('magazine_create')}) }}">
+                    {{ 'type.magazine'|trans|lower }}
+                </a>
             </li>
         {% endif %}
     </menu>

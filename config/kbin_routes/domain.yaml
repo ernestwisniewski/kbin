@@ -1,13 +1,13 @@
 domain_front:
   controller: App\Controller\Domain\FrontController
-  defaults: { sortBy: ~, time: '∞', type: ~ }
+  defaults: { sortBy: hot, time: '∞', type: ~ }
   path: /d/{name}/{sortBy}/{time}/{type}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 domain_entry_comments_front:
   controller: App\Controller\Domain\CommentFrontController
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: d/{name}/comments/{sortBy}/{time}
     pl: d/{name}/komentarze/{sortBy}/{time}

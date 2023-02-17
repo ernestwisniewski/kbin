@@ -56,7 +56,7 @@ entry_comment_favourites:
 
 entry_comments_front:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::front
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /comments/{sortBy}/{time}
     pl: /komentarze/{sortBy}/{time}
@@ -65,7 +65,7 @@ entry_comments_front:
 
 entry_comments_subscribed:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::subscribed
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /sub/comments/{sortBy}/{time}
     pl: /sub/komentarze/{sortBy}/{time}
@@ -74,7 +74,7 @@ entry_comments_subscribed:
 
 entry_comments_moderated:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::moderated
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /mod/comments/{sortBy}/{time}
     pl: /mod/komentarze/{sortBy}/{time}
@@ -83,7 +83,7 @@ entry_comments_moderated:
 
 entry_comments_favourite:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::favourite
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /fav/comments/{sortBy}/{time}
     pl: /fav/komentarze/{sortBy}/{time}
@@ -92,7 +92,7 @@ entry_comments_favourite:
 
 magazine_entry_comments:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::front
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
     en: /m/{name}/comments/{sortBy}/{time}
     pl: /m/{name}/komentarze/{sortBy}/{time}
@@ -135,7 +135,7 @@ magazine_entry_create:
 
 entry_edit:
   controller: App\Controller\Entry\EntryEditController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/edit
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/edytuj
@@ -143,19 +143,19 @@ entry_edit:
 
 entry_delete:
   controller: App\Controller\Entry\EntryDeleteController::delete
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/delete
   methods: [ POST ]
 
 entry_restore:
   controller: App\Controller\Entry\EntryDeleteController::restore
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/restore
   methods: [ POST ]
 
 entry_purge:
   controller: App\Controller\Entry\EntryDeleteController::purge
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/purge
   methods: [ POST ]
 
@@ -185,13 +185,13 @@ entry_change_adult:
 
 entry_pin:
   controller: App\Controller\Entry\EntryPinController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/pin
   methods: [ POST ]
 
 entry_voters:
   controller: App\Controller\Entry\EntryVotersController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   requirements: { type: 'up|down' }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/votes/{type}
@@ -200,7 +200,7 @@ entry_voters:
 
 entry_favourites:
   controller: App\Controller\Entry\EntryFavouriteController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/favourites
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/ulubione
@@ -208,7 +208,7 @@ entry_favourites:
 
 entry_tips:
   controller: App\Controller\Entry\EntryTipController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/tips
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/tipy
@@ -216,13 +216,13 @@ entry_tips:
 
 entry_single:
   controller: App\Controller\Entry\EntrySingleController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/{sortBy}
   methods: [ GET ]
 
 entry_single_comments:
   controller: App\Controller\Entry\EntrySingleController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{sortBy}
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarze/{sortBy}

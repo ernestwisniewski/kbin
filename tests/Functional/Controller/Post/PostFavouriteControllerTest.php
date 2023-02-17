@@ -13,9 +13,10 @@ class PostFavouriteControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
+
         $post = $this->createPost('test post 1');
 
-        $manager =  $client->getContainer()->get(FavouriteManager::class);
+        $manager = $client->getContainer()->get(FavouriteManager::class);
         $manager->toggle($this->getUserByUsername('JaneDoe'), $post);
         $manager->toggle($this->getUserByUsername('JohnDoe'), $post);
 

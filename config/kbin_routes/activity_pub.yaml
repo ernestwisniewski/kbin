@@ -89,7 +89,7 @@ ap_magazine_moderators:
 
 ap_entry:
   controller: App\Controller\ActivityPub\EntryController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, sortBy: hot }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/{sortBy}
   methods: [ GET ]
   condition: '%kbin_ap_route_condition%'

@@ -48,7 +48,6 @@ class EntryCommentFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('blockquote header', 'in test entry 1');
         $this->assertSelectorTextContains('blockquote .content', 'test comment 2');
 
-
         $this->assertSelectorTextContains('#header .magazine', '/m/acme');
         $this->assertSelectorTextContains('#sidebar .magazine', 'acme');
 
