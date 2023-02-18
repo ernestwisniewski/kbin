@@ -1,24 +1,26 @@
-<section{{ attributes.defaults({class: 'posts section'}) }}>
-    <h3>{{ 'related_posts'|trans }}</h3>
-    {% for post in computed.posts %}
-        <figure>
-            <div class="group">
-                {% if post.image %}
-                    <img src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
-                         alt="{{ post.image.alt|default('') }}">
-                {% endif %}
-                {% if post.body %}
-                    <blockquote>
-                        {{ get_short_sentence(post.body)|markdown|raw }}
-                        <div>
-                            <a href="{{ post_url(post) }}" class="stretched-link">{{ 'show_more'|trans }}</a>
-                        </div>
-                    </blockquote>
-                {% endif %}
-            </div>
-            <figcaption>
-                {{ component('date', {date: post.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}
-            </figcaption>
-        </figure>
-    {% endfor %}
-</section>
+{% if computed.posts|length %}
+    <section{{ attributes.defaults({class: 'posts section'}) }}>
+        <h3>{{ 'related_posts'|trans }}</h3>
+        {% for post in computed.posts %}
+            <figure>
+                <div class="group">
+                    {% if post.image %}
+                        <img src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
+                             alt="{{ post.image.alt|default('') }}">
+                    {% endif %}
+                    {% if post.body %}
+                        <blockquote>
+                            {{ get_short_sentence(post.body)|markdown|raw }}
+                            <div>
+                                <a href="{{ post_url(post) }}" class="stretched-link">{{ 'show_more'|trans }}</a>
+                            </div>
+                        </blockquote>
+                    {% endif %}
+                </div>
+                <figcaption>
+                    {{ component('date', {date: post.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}
+                </figcaption>
+            </figure>
+        {% endfor %}
+    </section>
+{% endif %}

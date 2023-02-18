@@ -48,8 +48,6 @@ class PostCommentCreateControllerTest extends WebTestCase
             )
         );
 
-        dd($crawler->html(  ));
-
         $this->assertSelectorTextContains('#content', 'This value is too short. It should have 2 characters or more.');
     }
 }

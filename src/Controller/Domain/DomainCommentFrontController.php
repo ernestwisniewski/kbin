@@ -11,7 +11,7 @@ use App\Repository\EntryCommentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CommentFrontController extends AbstractController
+class DomainCommentFrontController extends AbstractController
 {
     public function __construct(
         private readonly EntryCommentRepository $commentRepository,

@@ -26,7 +26,6 @@ class EntrySingleControllerTest extends WebTestCase
         $this->assertSelectorTextContains('#sidebar .entry-info', 'Thread');
         $this->assertSelectorTextContains('#sidebar .magazine', 'Magazine');
         $this->assertSelectorTextContains('#sidebar .user-list', 'Moderators');
-        $this->assertSelectorTextContains('#sidebar .posts', 'Related posts');
     }
 
     public function testUserCanSeeArticle(): void
