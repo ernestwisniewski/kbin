@@ -1,0 +1,47 @@
+.domain {
+  header {
+    h4 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      margin-top: .5rem;
+    }
+
+    text-align: center;
+  }
+
+  &__name {
+    margin-top: 0;
+  }
+
+  &__subscribe {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+
+    div {
+      border: var(--kbin-button-secondary-border);
+      color: var(--kbin-button-secondary-text-color);
+      display: flex;
+      flex-direction: row;
+      left: 1px;
+      padding: .3rem .5rem;
+      position: relative;
+
+      i {
+        padding-right: .5rem;
+      }
+    }
+
+    button {
+      height: 100%;
+      padding-bottom: .5rem;
+      padding-top: .5rem;
+    }
+
+    form:last-of-type {
+      position: relative;
+      right: 1px;
+    }
+  }
+}

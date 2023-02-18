@@ -2,6 +2,12 @@
 
 {% block mainClass %}page-entry-single{% endblock %}
 
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
 {% block body %}
     <div id="content">
         {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:true}) }}

@@ -4,23 +4,23 @@
     title
 {%- endblock -%}
 
-{% block mainClass %}page-entry-front{% endblock %}
+{% block mainClass %}page-domain-comments-front{% endblock %}
 
 {% block header_nav %}
+    {% include 'domain/_header_nav.html.twig' %}
 {% endblock %}
 
 {% block sidebar_top %}
+    {{ component('domain', {domain: domain}) }}
 {% endblock %}
 
 {% block body %}
-    <header>
-        {% if magazine is defined and magazine %}
-            <h1 hidden>{{ magazine.title }}</h1>
-            <h2 hidden>{{ get_active_sort_option()|trans }}</h2>
-        {% else %}
-            <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
-        {% endif %}
-    </header>
+    {% if magazine is defined and magazine %}
+        <h1 hidden>{{ domain.name }}</h1>
+        <h2 hidden>{{ get_active_sort_option()|trans }}</h2>
+    {% else %}
+        <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
+    {% endif %}
     {% include 'entry/_options.html.twig' %}
     {% if magazine is defined and magazine %}
         {% if magazine.apId %}
@@ -30,8 +30,6 @@
             </div>
         {% endif %}
     {% endif %}
-    <div id="content">
-        {% include 'entry/_list.html.twig' %}
-    </div>
+    {% include 'entry/comment/_list.html.twig' %}
 {% endblock %}
 

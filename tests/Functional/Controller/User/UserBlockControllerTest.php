@@ -6,7 +6,7 @@ namespace App\Tests\Functional\Controller\User;
 
 use App\Tests\WebTestCase;
 
-class UserFollowControllerTest extends WebTestCase
+class UserBlockControllerTest extends WebTestCase
 {
     public function testUserCanFollowOtherOnEntryPage(): void
     {
@@ -17,12 +17,10 @@ class UserFollowControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
 
-        $client->submit($crawler->filter('#sidebar .entry-info')->selectButton('Follow')->form());
+        $client->submit($crawler->filter('#sidebar form[name=user_block] button')->form());
 
         $client->followRedirect();
 
-        $this->assertSelectorExists('#sidebar form[name=user_follow] .btn-success');
-        $this->assertSelectorTextContains('#sidebar .entry-info', 'Unfollow');
-        $this->assertSelectorTextContains('#sidebar .entry-info', '1');
+        $this->assertSelectorExists('#sidebar form[name=user_block] .btn-warning');
     }
 }

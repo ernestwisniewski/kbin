@@ -37,13 +37,13 @@
 <body class="theme--light">
 <div id="kbin" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">
-        {% include 'layout/_header.html.twig' %}
+        {% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
         <main id="main">
             {% block body %}{% endblock %}
         </main>
         <aside id="sidebar">
             {% block sidebar %}
-                {% include 'layout/_sidebar.html.twig' %}
+                {% include 'layout/_sidebar.html.twig' with {sidebar_top: block('sidebar_top')} %}
             {% endblock %}
         </aside>
         {% include 'layout/_footer.html.twig' %}

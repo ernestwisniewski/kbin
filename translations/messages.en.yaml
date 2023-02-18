@@ -125,5 +125,6 @@ image_alt: Image alt
 name: Name
 description: Description
 rules: Rules
+domain: Domain
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

@@ -106,15 +106,15 @@ class VoteControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('Actor'));
 
-        $post = $this->createPostComment('test post comment 1');
+        $comment = $this->createPostComment('test post comment 1');
 
         $u1 = $this->getUserByUsername('JohnDoe');
         $u2 = $this->getUserByUsername('JaneDoe');
 
-        $this->createVote(1, $post, $u1);
-        $this->createVote(1, $post, $u2);
+        $this->createVote(1, $comment, $u1);
+        $this->createVote(1, $comment, $u2);
 
-        $crawler = $client->request('GET', '/m/acme/p/'.$post->getId().'/-/comments');
+        $crawler = $client->request('GET', '/m/acme/p/'.$comment->post->getId());
 
         $this->assertUpVoteActions($client, $crawler, '.comment');
     }

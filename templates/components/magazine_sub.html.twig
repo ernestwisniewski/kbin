@@ -1,6 +1,7 @@
 <aside{{ attributes.defaults({class: 'magazine__subscribe'}) }}>
     <div><i class="icon__users"></i> {{ magazine.subscriptionsCount }}</div>
     <form action="{{ path('magazine_' ~ (is_magazine_subscribed(magazine) ? 'unsubscribe' : 'subscribe'), {name: magazine.name}) }}"
+          name="magazine_subscribe"
           method="post">
         <button type="submit"
                 class="{{ html_classes('btn btn__secondry', {'btn-success': is_magazine_subscribed(magazine)}) }}">
@@ -9,11 +10,12 @@
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
     </form>
     <form action="{{ path('magazine_' ~ (is_magazine_blocked(magazine) ? 'unblock' : 'block'), {name: magazine.name}) }}"
+          name="magazine_block"
           method="post">
         <button type="submit"
                 class="{{ html_classes('btn btn__secondry', {'btn-warning': is_magazine_blocked(magazine)}) }}">
             <i class="icon__block"></i>
         </button>
-        <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
+        <input type="hidden" name="token" value="{{ csrf_token('block') }}">
     </form>
 </aside>

@@ -38,7 +38,7 @@ class CommentFrontController extends AbstractController
         $this->commentRepository->hydrateChildren(...$params['comments']);
 
         return $this->render(
-            'domain/comments.html.twig',
+            'domain/comment/front.html.twig',
             $params
         );
     }

@@ -2,4 +2,10 @@
     {% for comment in comments %}
         {{ component('entry_comment', {comment: comment, showMagazine: magazine is not defined or not magazine, showEntry: entry is not defined or not entry}) }}
     {% endfor %}
+
+    {% if not comments|length %}
+        <aside class="section section--muted user-list">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
 </aside>

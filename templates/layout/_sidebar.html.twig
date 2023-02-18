@@ -4,8 +4,12 @@
         <li><a href="#" title="Ustawienia" aria-label="Ustawienia"><i class="icon__settings"></i></a></li>
     </menu>
 </div>
+{% if sidebar_top is empty %}
+{% else %}
+    {{ sidebar_top|raw }}
+{% endif %}
 {% if entry is defined and magazine %}
-        {% include 'entry/_info.html.twig' %}
+    {% include 'entry/_info.html.twig' %}
 {% endif %}
 {% if magazine is defined and magazine %}
     {{ component('magazine', {magazine: magazine}) }}
@@ -27,7 +31,8 @@
         </ul>
         {% if magazine.moderators|length > 5 %}
             <footer>
-                <a href="{{ path('magazine_moderators', {name: magazine.name}) }}" class="stretched-link">{{ 'show_more'|trans|lower }}</a>
+                <a href="{{ path('magazine_moderators', {name: magazine.name}) }}"
+                   class="stretched-link">{{ 'show_more'|trans|lower }}</a>
             </footer>
         {% endif %}
     </section>

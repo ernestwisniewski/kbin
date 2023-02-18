@@ -1,6 +1,7 @@
 <aside{{ attributes.defaults({class: 'user__follow'}) }}>
     <div><i class="icon__users"></i> {{ user.followersCount }}</div>
     <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unfollow' : 'follow'), {username: user.username}) }}"
+          name="user_follow"
           method="post">
         <button type="submit"
                 class="{{ html_classes('btn btn__secondry', {'btn-success': is_user_followed(user)}) }}">
@@ -9,11 +10,12 @@
         <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
     </form>
     <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unblock' : 'block'), {username: user.username}) }}"
+          name="user_block"
           method="post">
         <button type="submit"
                 class="{{ html_classes('btn btn__secondry', {'btn-warning': is_user_blocked(user)}) }}">
             <i class="icon__block"></i>
         </button>
-        <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
+        <input type="hidden" name="token" value="{{ csrf_token('block') }}">
     </form>
 </aside>

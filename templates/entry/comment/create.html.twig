@@ -2,6 +2,12 @@
 
 {% block mainClass %}page-entry-comment-create{% endblock %}
 
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
 {% block body %}
     {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:false}) }}
     {% include 'entry/comment/_options.html.twig' %}

@@ -40,13 +40,15 @@ class PostCommentCreateControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/m/acme/p/'.$post->getId().'/test-post-1');
 
-        $client->submit(
+        $crawler = $client->submit(
             $crawler->filter('form[name=post_comment]')->selectButton('Add comment')->form(
                 [
                     'post_comment[body]' => 't',
                 ]
             )
         );
+
+        dd($crawler->html(  ));
 
         $this->assertSelectorTextContains('#content', 'This value is too short. It should have 2 characters or more.');
     }

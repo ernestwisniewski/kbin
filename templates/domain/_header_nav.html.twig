@@ -1,0 +1,16 @@
+<nav>
+    <menu>
+        <li>
+            <a href="{{ path('domain_front', {name: domain.name}) }}"
+               class="{{ html_classes({'active': is_route_name('domain_front') }) }}">
+                {{ 'threads'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('domain_entry_comments_front', {name: domain.name}) }}"
+               class="{{ html_classes({'active': is_route_name('domain_entry_comments_front') }) }}">
+                {{ 'comments'|trans }}
+            </a>
+        </li>
+    </menu>
+</nav>

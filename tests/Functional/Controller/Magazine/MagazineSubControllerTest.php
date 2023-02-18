@@ -21,6 +21,8 @@ class MagazineSubControllerTest extends WebTestCase
 
         $client->followRedirect();
 
+        $this->assertSelectorExists('#sidebar form[name=magazine_subscribe] .btn-success');
         $this->assertSelectorTextContains('#sidebar .magazine', 'Unsubscribe');
+        $this->assertSelectorTextContains('#sidebar .magazine', '2');
     }
 }
