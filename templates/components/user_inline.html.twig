@@ -1,1 +1,9 @@
-<a href="{{ path('user', {username: user.username}) }}">{{ user.username|username }}</a>
+<a href="{{ path('user', {username: user.username}) }}" class="user-inline">
+    {% if app.user and not app.user.hideUserAvatars and not hideAvatar and user.avatar %}
+        <img width="30" height="30"
+             src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+             alt="{{ user.username ~ ' avatar' }}"
+             aria-hidden="true">
+    {% endif %}
+    {{ user.username|username -}}
+</a>

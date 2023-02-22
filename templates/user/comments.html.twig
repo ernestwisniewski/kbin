@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block mainClass %}page-user-overview{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ user.username|username }}</h1>
+    </header>
+    {% include('user/_options.html.twig') %}
+    {% include('user/_federated_info.html.twig') %}
+    <div id="content">
+        {% include 'entry/comment/_list.html.twig' %}
+    </div>
+{% endblock %}

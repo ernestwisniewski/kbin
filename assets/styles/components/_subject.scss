@@ -1,0 +1,21 @@
+.subjects {
+
+  .post,
+  .entry {
+    margin-top: .5rem;
+    margin-bottom: 0;
+
+    &:first-child {
+      margin-top: 0
+    }
+  }
+
+  .comment {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  .post-comment {
+    margin-left: 1rem;
+  }
+}

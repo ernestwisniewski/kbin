@@ -23,12 +23,7 @@
     </header>
     {% include 'entry/_options.html.twig' %}
     {% if magazine is defined and magazine %}
-        {% if magazine.apId %}
-            <div class="alert alert__info">
-                <p>{{ 'federated_magazine_info'|trans }} <a
-                            href="{{ magazine.apProfileId }}">{{ 'go_to_original_instance'|trans }}</a></p>
-            </div>
-        {% endif %}
+        {% include 'magazine/_federated_info.html.twig' %}
     {% endif %}
     <div id="content">
         {% include 'entry/_list.html.twig' %}

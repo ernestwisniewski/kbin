@@ -6,10 +6,12 @@
     margin-bottom: 2.5rem;
 
     div {
+      background: var(--kbin-button-secondary-bg);
       border: var(--kbin-button-secondary-border);
       color: var(--kbin-button-secondary-text-color);
       display: flex;
       flex-direction: row;
+      font-size: .9rem;
       left: 1px;
       padding: .3rem .5rem;
       position: relative;
@@ -33,3 +35,68 @@
     opacity: .75;
   }
 }
+
+.user-inline {
+  img {
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+}
+
+.page-user-overview {
+  .section--top {
+    padding: 0 0 2rem;
+
+    figure {
+      margin: 0;
+      padding: 0;
+    }
+
+    img {
+      object-fit: cover;
+    }
+
+    h1 {
+      font-size: 1.2rem;
+    }
+
+    .user-box {
+      display: flex;
+      margin-left: 1.5rem;
+      padding-top: 2rem;
+      text-align: center;
+
+      h1 {
+        margin-bottom: 0;
+      }
+
+      small {
+        display: block;
+        margin-bottom: 1rem;
+      }
+
+      img {
+        border: var(--kbin-avatar-border);
+      }
+    }
+
+    .about {
+      padding: 0 1.5rem;
+    }
+  }
+
+  .section--top.with-cover.with-avatar {
+    padding-bottom: 0;
+    .user-box {
+      margin-top: 0;
+      padding-top: 0;
+      position: relative;
+      top: -60px;
+
+      .user__follow {
+        margin: 0;
+      }
+    }
+  }
+}
+

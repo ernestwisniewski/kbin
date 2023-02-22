@@ -9,4 +9,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class MagazineInlineComponent
 {
     public Magazine $magazine;
+    public bool $showTitle = true;
+    public bool $stretchedLink = false;
+    public bool $showAvatar = false;
 }

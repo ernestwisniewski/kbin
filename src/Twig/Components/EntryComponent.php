@@ -13,13 +13,13 @@ final class EntryComponent
     public bool $isSingle = false;
     public bool $showShortSentence = true;
     public bool $showBody = false;
-    public bool $showMagazine = true;
+    public bool $showMagazineName = true;
 
     #[PostMount]
     public function postMount(array $attr): array
     {
         if ($this->isSingle) {
-            $this->showMagazine = false;
+            $this->showMagazineName = false;
 
             if (isset($attr['class'])) {
                 $attr['class'] = trim('entry--single '.$attr['class']);

@@ -9,4 +9,5 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class UserInlineComponent
 {
     public User $user;
+    public bool $hideAvatar = false;
 }

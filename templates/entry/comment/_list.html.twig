@@ -1,6 +1,6 @@
 <aside class="comments entry-comments">
     {% for comment in comments %}
-        {{ component('entry_comment', {comment: comment, showMagazine: magazine is not defined or not magazine, showEntry: entry is not defined or not entry}) }}
+        {{ component('entry_comment', {comment: comment, showMagazineName: magazine is not defined or not magazine, showEntryTitle: entry is not defined or not entry}) }}
     {% endfor %}
 
     {% if not comments|length %}

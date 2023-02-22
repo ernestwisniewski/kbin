@@ -1,8 +1,8 @@
 <blockquote{{ attributes.defaults({class: 'section post'}).without('id') }} id="post-{{ post.id }}">
     <header>
-        {{ component('user_inline', {user: post.user}) }},
+        {{ component('user_inline', {user: post.user, hideAvatar: true}) }},
         <a href="{{ post_url(post) }}"
-           class="link-muted">{{ component('date', {date: post.createdAt}) }}</a> {% if showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
+           class="link-muted">{{ component('date', {date: post.createdAt}) }}</a> {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
     </header>
     {% if post.user.avatar %}
         {{ component('user_avatar', {user: post.user, width: 40, height: 40}) }}

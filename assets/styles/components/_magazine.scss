@@ -36,10 +36,12 @@
     margin-bottom: 2.5rem;
 
     div {
+      background: var(--kbin-button-secondary-bg);
       border: var(--kbin-button-secondary-border);
       color: var(--kbin-button-secondary-text-color);
       display: flex;
       flex-direction: row;
+      font-size: .9rem;
       left: 1px;
       padding: .3rem .5rem;
       position: relative;
@@ -59,5 +61,31 @@
       position: relative;
       right: 1px;
     }
+  }
+}
+
+.magazine-inline {
+  img {
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+}
+
+.magazines-cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  .magazine {
+    align-content: center;
+    align-items: center;
+    display: grid;
+    grid-template-rows: auto;
+  }
+}
+
+.magazines-table {
+  .magazine__subscribe {
+    margin: 0;
   }
 }

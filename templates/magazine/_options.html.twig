@@ -1,0 +1,30 @@
+<aside class="options options--top" id="options">
+    <menu class="options__main">
+        <li>
+            <a href="{{ options_url('sortBy', 'newest'|trans|lower) }}"
+                class="{{ html_classes({'active': is_route_params_contains('sortBy', 'sort.newest'|trans|lower)}) }}">
+                {{ 'newest'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
+               class="{{ html_classes({'active': is_route_params_contains('sortBy', 'sort.hot'|trans|lower)}) }}">
+            {{ 'hot'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'active'|trans|lower) }}"
+               class="{{ html_classes({'active': is_route_params_contains('sortBy', 'sort.active'|trans|lower)}) }}">
+            {{ 'active'|trans|lower }}
+            </a>
+        </li>
+    </menu>
+    <menu class="options__filters">
+        <li>
+            <a href="#" title="{{ 'filter_by_time'|trans }}" aria-label="{{ 'filter_by_time'|trans }}"><i class="icon__clock"></i></a>
+        </li>
+        <li>
+            <a href="#" title="{{ 'filter_by_type'|trans }}" aria-label="{{ 'filter_by_type'|trans }}"><i class="icon__media"></i></a>
+        </li>
+    </menu>
+</aside>

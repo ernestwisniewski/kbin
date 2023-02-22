@@ -1,0 +1,13 @@
+{%- set VOTE_NONE = constant('App\\Twig\\Components\\EntryCommentComponent::SHOW_ENTRY_TITLE') -%}
+
+{% if subject is entry %}
+    {{ component('entry', {entry: subject}) }}
+{% elseif subject is entry_comment %}
+    {{ component('entry_comment', {comment: subject, showEntryTitle: false}) }}
+{% elseif subject is post %}
+    {{ component('post', {post: subject}) }}
+{% elseif subject is post_comment %}
+    {{ component('post_comment', {comment: subject}) }}
+{% elseif subject is magazine %}
+    {{ component('magazine', {magazine: subject}) }}
+{% endif %}

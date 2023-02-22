@@ -1,9 +1,9 @@
 <blockquote{{ attributes.defaults({class: 'section comment'}).without('id') }} id="entry-comment-{{ comment.id }}">
     <header>
-        {{ component('user_inline', {user: comment.user}) }},
+        {{ component('user_inline', {user: comment.user, hideAvatar: true}) }},
         {{ component('date', {date: comment.createdAt}) }}
-        {% if showMagazine %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: comment.magazine}) }}{% endif %}
-        {% if showEntry %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
+        {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: comment.magazine}) }}{% endif %}
+        {% if showEntryTitle %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
     </header>
     {% if comment.user.avatar %}
         {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}

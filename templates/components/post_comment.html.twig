@@ -1,6 +1,6 @@
-<blockquote{{ attributes.defaults({class: 'section comment'}).without('id') }} id="post-comment-{{ comment.id }}">
+<blockquote{{ attributes.defaults({class: 'section comment post-comment'}).without('id') }} id="post-comment-{{ comment.id }}">
     <header>
-        {{ component('user_inline', {user: comment.user}) }},
+        {{ component('user_inline', {user: comment.user, hideAvatar: true}) }},
         {{ component('date', {date: comment.createdAt}) }}
     </header>
     {% if comment.user.avatar %}

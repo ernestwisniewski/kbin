@@ -101,7 +101,7 @@ class UserFrontController extends AbstractController
         }
 
         return $this->render(
-            'user/front.html.twig',
+            'user/overview.html.twig',
             [
                 'user' => $user,
                 'results' => $results,
@@ -192,7 +192,9 @@ class UserFrontController extends AbstractController
         $results = [];
         foreach ($parents as $postOrComment) {
             $results[] = $postOrComment;
-            foreach ($postOrComment->children as $child) {
+            $children = $postOrComment->children;
+            usort($children, fn ($a, $b) => $a->createdAt < $b->createdAt ? -1 : 1);
+            foreach ($children as $child) {
                 $results[] = $child;
             }
         }

@@ -12,7 +12,7 @@
     {% include 'entry/_info.html.twig' %}
 {% endif %}
 {% if magazine is defined and magazine %}
-    {{ component('magazine', {magazine: magazine}) }}
+    {{ component('magazine', {magazine: magazine, showSectionTitle: true}) }}
     <section class="user-list section">
         <h3>{{ 'moderators'|trans }}</h3>
         <ul>

@@ -1,0 +1,56 @@
+<aside class="{{ html_classes('options', { 'options--top': not is_route_name('overview') }) }}" id="options">
+    <menu class="options__main">
+        <li>
+            <a href="{{ path('user', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user')}) }}">
+                {{ 'overview'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_entries', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user_entries')}) }}">
+                {{ 'threads'|trans|lower }} ({{ user.entries|length }})
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_comments', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user_comments')}) }}">
+                {{ 'comments'|trans|lower }} ({{ user.entryComments|length }})
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_posts', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user_posts')}) }}">
+                {{ 'posts'|trans|lower }} ({{ user.posts|length }})
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_replies', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user_replies')}) }}">
+                {{ 'replies'|trans|lower }} ({{ user.postComments|length }})
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_follows', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user_follows'), 'opacity-50': not user.getShowProfileFollowings}) }}">
+                {{ 'following'|trans|lower }} ({{ user.follows|length }})
+            </a>
+        </li>
+        {% if user.getShowProfileFollowings or app.user is same as user %}
+            <li>
+                <a href="{{ path('user_followers', {username: user.username}) }}"
+                   class="{{ html_classes({'active': is_route_name('user_followers'), 'opacity-50': not user.getShowProfileFollowings}) }}">
+                    {{ 'followers'|trans|lower }} ({{ user.followers|length }})
+                </a>
+            </li>
+        {% endif %}
+        {% if user.getShowProfileSubscriptions or app.user is same as user %}
+            <li>
+                <a href="{{ path('user_subscriptions', {username: user.username}) }}"
+                   class="{{ html_classes({'active': is_route_name('user_subscriptions'), 'opacity-50': not user.getShowProfileSubscriptions}) }}">
+                    {{ 'subscriptions'|trans|lower }} ({{ user.subscriptions|length }})
+                </a>
+            </li>
+        {% endif %}
+    </menu>
+</aside>

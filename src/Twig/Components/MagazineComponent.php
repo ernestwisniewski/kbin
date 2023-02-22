@@ -15,4 +15,5 @@ final class MagazineComponent
     public bool $showSubscribeButton = true;
     public bool $showInfo = true;
     public bool $showMeta = true;
+    public bool $showSectionTitle = false;
 }

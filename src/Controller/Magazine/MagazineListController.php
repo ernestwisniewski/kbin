@@ -16,7 +16,7 @@ class MagazineListController extends AbstractController
     {
     }
 
-    public function __invoke(?string $listView, MagazineRepository $repository, Request $request): Response
+    public function __invoke(?string $sortBy, ?string $view, MagazineRepository $repository, Request $request): Response
     {
         if ($q = $request->get('q')) {
             $magazines = $this->searchManager->findMagazinesPaginated($q);
@@ -24,17 +24,11 @@ class MagazineListController extends AbstractController
             $magazines = $repository->findAllPaginated($this->getPageNb($request));
         }
 
-        if (!$listView) {
-            $listView = 'table';
-        } else {
-            $listView = 'cards';
-        }
-
         return $this->render(
             'magazine/list_all.html.twig',
             [
                 'magazines' => $magazines,
-                'listView' => $listView,
+                'view' => $view,
             ]
         );
     }

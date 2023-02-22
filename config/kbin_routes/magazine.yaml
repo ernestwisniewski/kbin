@@ -17,10 +17,10 @@ magazine_purge:
 
 magazine_list_all:
   controller: App\Controller\Magazine\MagazineListController
-  defaults: { listView: ~ }
+  defaults: { sortBy: hot, view: table }
   path:
-    en: /magazines/{listView}
-    pl: /magazyny/{listView}
+    en: /magazines/{sortBy}/{view}
+    pl: /magazyny/{sortBy}/{view}
   methods: [ GET ]
 
 magazine_moderators:

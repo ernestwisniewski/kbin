@@ -16,10 +16,12 @@
   &__subscribe {
     display: flex;
     flex-direction: row;
+    font-size: .9rem;
     justify-content: center;
     margin-bottom: 2.5rem;
 
     div {
+      background: var(--kbin-button-secondary-bg);
       border: var(--kbin-button-secondary-border);
       color: var(--kbin-button-secondary-text-color);
       display: flex;

@@ -11,13 +11,13 @@ final class PostComponent
 {
     public Post $post;
     public bool $isSingle = false;
-    public bool $showMagazine = true;
+    public bool $showMagazineName = true;
 
     #[PostMount]
     public function postMount(array $attr): array
     {
         if ($this->isSingle) {
-            $this->showMagazine = false;
+            $this->showMagazineName = false;
 
             if (isset($attr['class'])) {
                 $attr['class'] = trim('post--single '.$attr['class']);

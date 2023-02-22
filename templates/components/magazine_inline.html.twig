@@ -1,1 +1,10 @@
-<a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
+<a href="{{ path('front_magazine', {name: magazine.name}) }}"
+   class="{{ html_classes('magazine-inline', {'stretched-link': stretchedLink }) }}">
+    {% if magazine.cover and showAvatar or app.user and not app.user.hideMagazineAvatars and magazine.cover %}
+        <img width="30" height="30"
+             src="{{ asset(magazine.cover.filePath) | imagine_filter('avatar_thumb') }}"
+             alt="{{ magazine.name ~ ' avatar' }}"
+             aria-hidden="true">
+    {% endif %}
+    {{ magazine.name -}}
+</a>
