@@ -7,6 +7,7 @@ namespace App\MessageHandler;
 use App\Message\Contracts\SendConfirmationEmailInterface;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use App\Service\SettingsManager;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -17,6 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class SentUserConfirmationEmailHandler implements MessageHandlerInterface
 {
     public function __construct(
+        private readonly SettingsManager $settingsManager,
         private readonly EmailVerifier $emailVerifier,
         private readonly UserRepository $repository,
         private readonly ParameterBagInterface $params,
@@ -38,7 +40,7 @@ class SentUserConfirmationEmailHandler implements MessageHandlerInterface
                 'app_verify_email',
                 $user,
                 (new TemplatedEmail())
-                    ->from(new Address('noreply@mg.karab.in ', $this->params->get('kbin_domain')))
+                    ->from(new Address($this->settingsManager->get('KBIN_SENDER_EMAIL'), $this->params->get('kbin_domain')))
                     ->to($user->email)
                     ->subject($this->translator->trans('email_confirm_title'))
                     ->htmlTemplate('_email/confirmation_email.html.twig')

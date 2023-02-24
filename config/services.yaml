@@ -9,6 +9,7 @@ parameters:
   kbin_meta_description: '%env(KBIN_META_DESCRIPTION)%'
   kbin_meta_keywords: '%env(KBIN_META_KEYWORDS)%'
   kbin_contact_email: '%env(KBIN_CONTACT_EMAIL)%'
+  kbin_sender_email: '%env(KBIN_SENDER_EMAIL)%'
   kbin_default_lang: '%env(KBIN_DEFAULT_LANG)%'
   kbin_api_items_per_page: '%env(KBIN_API_ITEMS_PER_PAGE)%'
   kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'

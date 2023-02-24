@@ -23,6 +23,7 @@ class SettingsManager
         private readonly string $kbinMetaKeywords,
         private string $kbinDefaultLang,
         private readonly string $kbinContactEmail,
+        private readonly string $kbinSenderEmail,
         private readonly string $kbinMarkdownHowtoUrl,
         private readonly bool $kbinJsEnabled,
         private readonly bool $kbinFederationEnabled,
@@ -38,6 +39,7 @@ class SettingsManager
                 $this->find($results, 'KBIN_META_DESCRIPTION') ?? $this->kbinMetaDescription,
                 $this->find($results, 'KBIN_DEFAULT_LANG') ?? $this->kbinDefaultLang,
                 $this->find($results, 'KBIN_CONTACT_EMAIL') ?? $this->kbinContactEmail,
+                $this->find($results, 'KBIN_SENDER_EMAIL') ?? $this->kbinSenderEmail,
                 $this->find($results, 'KBIN_MARKDOWN_HOWTO_URL') ?? $this->kbinMarkdownHowtoUrl,
                 $this->find($results, 'KBIN_JS_ENABLED', FILTER_VALIDATE_BOOLEAN) ?? $this->kbinJsEnabled,
                 $this->find(

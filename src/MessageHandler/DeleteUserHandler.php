@@ -91,7 +91,7 @@ class DeleteUserHandler implements MessageHandlerInterface
         }
 
         $this->user->username = '!deleted'.$this->user->getId();
-        $this->user->email = '!deleted'.$this->user->getId().'@karab.in';
+        $this->user->email = '!deleted'.$this->user->getId().'@kbin.del';
 
         return false;
     }

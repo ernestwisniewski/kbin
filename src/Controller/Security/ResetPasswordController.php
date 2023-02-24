@@ -5,6 +5,7 @@ namespace App\Controller\Security;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
+use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,7 @@ class ResetPasswordController extends AbstractController
     use ResetPasswordControllerTrait;
 
     public function __construct(
+        private readonly SettingsManager $settingsManager,
         private readonly ResetPasswordHelperInterface $resetPasswordHelper,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -78,7 +80,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('noreply@mg.karab.in', 'karab.in'))
+            ->from(new Address($this->settingsManager->get('KBIN_SENDER_EMAIL'), $this->settingsManager->get('KBIN_DOMAIN')))
             ->to($user->getEmail())
             ->subject($translator->trans('reset_password'))
             ->htmlTemplate('reset_password/email.html.twig')
