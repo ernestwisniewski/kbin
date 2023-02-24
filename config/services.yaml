@@ -131,6 +131,7 @@ services:
       $kbinMetaKeywords: '%kbin_meta_keywords%'
       $kbinDefaultLang: '%kbin_default_lang%'
       $kbinContactEmail: '%kbin_contact_email%'
+      $kbinSenderEmail: '%kbin_sender_email%'
       $kbinMarkdownHowtoUrl: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
       $kbinJsEnabled: '%env(bool:KBIN_JS_ENABLED)%'
       $kbinFederationEnabled: '%env(bool:KBIN_FEDERATION_ENABLED)%'
