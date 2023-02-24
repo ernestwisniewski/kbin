@@ -1,8 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    title
+    {% if magazine is defined and magazine %}
+        {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'comments'|trans }} - {{ magazine.title }} - {{ parent() -}}
+    {% else %}
+        {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'comments'|trans }} - {{ parent() -}}
+    {% endif %}
 {%- endblock -%}
+
 
 {% block mainClass %}page-entry-comments-front{% endblock %}
 

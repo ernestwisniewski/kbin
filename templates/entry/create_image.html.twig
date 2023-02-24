@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'add_new_photo'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-entry-create page-entry-create-link{% endblock %}
 
 {% block header_nav %}

@@ -52,8 +52,8 @@ user_followers:
     pl: /u/{username}/obserwujący
   methods: [ GET ]
 
-user_follows:
-  controller: App\Controller\User\UserFrontController::follows
+user_following:
+  controller: App\Controller\User\UserFrontController::following
   path:
     en: /u/{username}/following
     pl: /u/{username}/obserwowani

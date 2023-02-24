@@ -248,7 +248,7 @@ class UserFrontController extends AbstractController
         );
     }
 
-    public function follows(User $user, UserRepository $manager, Request $request): Response
+    public function following(User $user, UserRepository $manager, Request $request): Response
     {
         if (!$user->showProfileFollowings && !$user->apId) {
             if ($user !== $this->getUser()) {
@@ -257,7 +257,7 @@ class UserFrontController extends AbstractController
         }
 
         return $this->render(
-            'user/follows.html.twig',
+            'user/following.html.twig',
             [
                 'user' => $user,
                 'users' => $manager->findFollowing($this->getPageNb($request), $user),

@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'favourites'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
+
+
 {% block mainClass %}page-post-favourites{% endblock %}
 
 {% block header_nav %}

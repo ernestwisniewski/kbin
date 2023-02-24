@@ -1,15 +1,18 @@
+{% if actor is not defined %}
+    {% set actor = 'user' %}
+{% endif %}
+
 {% if list|length %}
-    <div class="section user-list">
+    <div class="section users-columns">
         <ul>
             {% for subject in list %}
                 <li>
-                    {% if subject.user.avatar %}
-                        <figure>
-                            {{ component('user_avatar', {user:subject.user}) }}
-                        </figure>
+                    {% if attribute(subject, actor).avatar %}
+                        {{ component('user_avatar', {user:attribute(subject, actor) }) }}
                     {% endif %}
                     <div>
-                        <a href="#" class="stretched-link">{{ subject.user.username|username }}</a>
+                        <a href="{{ path('user', {username: attribute(subject, actor).username}) }}"
+                           class="stretched-link">{{ attribute(subject, actor).username|username }}</a>
                         <small>{{ component('date', {date: subject.createdAt}) }}</small>
                     </div>
                 </li>

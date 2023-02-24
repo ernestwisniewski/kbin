@@ -1,0 +1,35 @@
+<div{{ attributes.defaults({class: 'user-box'}) }}>
+    <div class="{{ html_classes({'with-cover': user.cover, 'with-avatar': user.avatar }) }}">
+        {% if user.cover %}
+            <img height="220"
+                 width="100%"
+                 class="cover"
+                 src="{{ asset(user.cover.filePath)|imagine_filter('user_cover') }}"
+                 alt="{{ user.username }}">
+        {% endif %}
+        <div class="user-main" id="content">
+            <div>
+                <div class="group">
+                    {% if user.avatar %}
+                        {{ component('user_avatar', {user: user, width: 100, height: 100}) }}
+                    {% endif %}
+                    {% if stretchedLink %}
+                        <h1>
+                            <a class="link-muted stretched-link"
+                               href="{{ path('user', {'username': user.username}) }}">{{ user.username|username(false) }}</a>
+                        </h1>
+                    {% else %}
+                        <h1>{{ user.username|username(false) }}</h1>
+                    {% endif %}
+                    <small>{{ user.username|username }}{% if not user.apId %}@{{ kbin_domain() }}{% endif %}</small>
+                </div>
+                {{ component('user_follow', {user: user}) }}
+            </div>
+        </div>
+        {% if user.about|length %}
+            <div class="about content">
+                {{ user.about|markdown|raw }}
+            </div>
+        {% endif %}
+    </div>
+</div>

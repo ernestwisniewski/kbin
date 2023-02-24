@@ -1,7 +1,12 @@
 <blockquote{{ attributes.defaults({class: 'section comment post-comment'}).without('id') }} id="post-comment-{{ comment.id }}">
     <header>
         {{ component('user_inline', {user: comment.user, hideAvatar: true}) }},
-        {{ component('date', {date: comment.createdAt}) }}
+        {% if dateAsUrl %}
+            <a href="{{ post_url(comment.post) ~ '#post-comment-' ~ comment.id }}"
+               class="link-muted">{{ component('date', {date: comment.createdAt}) }}</a>
+        {% else %}
+            {{ component('date', {date: comment.createdAt}) }}
+        {% endif %}
     </header>
     {% if comment.user.avatar %}
         {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}

@@ -57,6 +57,7 @@ activity: Activity
 cover: Cover
 related_posts: Related posts
 federated_magazine_info: The magazine from the federated server may be incomplete.
+federated_user_info: The profile from the federated server may be incomplete.
 go_to_original_instance: Browse more on the original instance.
 empty: Empty
 subscribe: Subscribe
@@ -126,5 +127,18 @@ name: Name
 description: Description
 rules: Rules
 domain: Domain
+followers: Followers
+following: Following
+subscriptions: Subscriptions
+overview: Overview
+cards: Cards
+columns: Columns
+user: User
+joined: Joined
+moderated: Moderated
+ratio: Ratio
+people_local: Local
+people_federated: Federated
+reputation_points: Reputation points
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

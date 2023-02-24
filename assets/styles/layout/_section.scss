@@ -42,4 +42,9 @@
       margin: 0;
     }
   }
+
+  &--no-bg {
+    background: none;
+    border: 0;
+  }
 }

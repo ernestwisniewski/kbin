@@ -36,6 +36,7 @@
     margin-bottom: 2.5rem;
 
     div {
+      align-items: center;
       background: var(--kbin-button-secondary-bg);
       border: var(--kbin-button-secondary-border);
       color: var(--kbin-button-secondary-text-color);
@@ -81,6 +82,38 @@
     align-items: center;
     display: grid;
     grid-template-rows: auto;
+  }
+}
+
+.magazines-columns {
+  font-size: .9rem;
+
+  ul {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0;
+    padding: 0;
+  }
+
+  ul figure {
+    margin: 0 .5rem 0 0;
+  }
+
+  ul li {
+    align-items: center;
+    display: flex;
+    list-style: none;
+    position: relative;
+  }
+
+  ul li a {
+    display: block
+  }
+
+  ul li small {
+    color: var(--kbin-meta-text-color);
+    font-size: .85rem;
   }
 }
 

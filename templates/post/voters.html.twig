@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'up_votes'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-post-voters{% endblock %}
 
 {% block header_nav %}

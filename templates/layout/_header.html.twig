@@ -59,7 +59,8 @@
 {#                    </a>#}
 {#                </li>#}
                 <li>
-                    <a href="#">
+                    <a href="{{ navbar_people_url() }}"
+                       class="{{ html_classes({'active': is_route_name_contains('people')}) }}">
                         {{ 'people'|trans }}
                     </a>
                 </li>

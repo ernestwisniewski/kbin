@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'add_comment'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-post-comment-create{% endblock %}
 
 {% block header_nav %}

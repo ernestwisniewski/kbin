@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'posts'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+    {{- 'following'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block mainClass %}page-user-posts{% endblock %}
+{% block mainClass %}page-user-following{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -14,12 +14,12 @@
 
 {% block body %}
     <header>
-        <h1 hidden>{{ 'posts'|trans }}</h1>
+        <h1 hidden>{{ 'following'|trans }}</h1>
         <h2 hidden>{{ user.username|username }}</h2>
     </header>
     {% include('user/_options.html.twig') %}
     {% include('user/_federated_info.html.twig') %}
     <div id="content">
-        {% include 'post/_list.html.twig' %}
+        {% include 'layout/_activity_list.html.twig' with {list: users, actor: 'following'} %}
     </div>
 {% endblock %}

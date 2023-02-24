@@ -1,37 +1,4 @@
 #main {
   //margin-top: 3.263rem;
   padding-bottom: 1rem;
-
-  .user-list {
-    font-size: .9rem;
-
-    ul {
-      display: grid;
-      grid-gap: 1rem;
-      grid-template-columns: repeat(3, 1fr);
-      margin: 0;
-      padding: 0;
-    }
-
-    ul figure {
-      margin: 0 .5rem 0 0;
-    }
-
-    ul li {
-      align-items: center;
-      display: flex;
-      list-style: none;
-      position: relative;
-    }
-
-
-    ul li a {
-      display: block
-    }
-
-    ul li small {
-      color: var(--kbin-meta-text-color);
-      font-size: .85rem;
-    }
-  }
 }

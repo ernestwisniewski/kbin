@@ -1,7 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    title
+    {%- if magazine is defined and magazine -%}
+        {% if get_active_sort_option('sortBy') is not same as 'hot' %}
+            {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'microblog'|trans }} - {{ magazine.title }} - {{ parent() -}}
+        {% else %}
+            {{- 'microblog'|trans }} - {{ magazine.title }} - {{ parent() -}}
+        {% endif %}
+    {%- else -%}
+        {% if get_active_sort_option('sortBy') is not same as 'hot' %}
+            {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'microblog'|trans }} - {{ parent() }}
+        {% else %}
+            {{- 'microblog'|trans }} - {{ parent() -}}
+        {% endif %}
+    {%- endif -%}
 {%- endblock -%}
 
 {% block mainClass %}page-post-front{% endblock %}

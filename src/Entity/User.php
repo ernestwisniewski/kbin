@@ -151,31 +151,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $follows;
     #[OneToMany(mappedBy: 'following', targetEntity: UserFollow::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $followers;
     #[OneToMany(mappedBy: 'blocker', targetEntity: UserBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $blocks;
     #[OneToMany(mappedBy: 'blocked', targetEntity: UserBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public ?Collection $blockers;
     #[OneToMany(mappedBy: 'user', targetEntity: MagazineBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $blockedMagazines;
     #[OneToMany(mappedBy: 'user', targetEntity: DomainBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $blockedDomains;
     #[OneToMany(mappedBy: 'reporting', targetEntity: Report::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]

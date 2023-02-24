@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'terms'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-terms{% endblock %}
 
 {% block header_nav %}

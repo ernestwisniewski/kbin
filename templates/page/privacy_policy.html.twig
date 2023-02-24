@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'privacy_policy'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-privacy-policy{% endblock %}
 
 {% block header_nav %}

@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'register'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-register{% endblock %}
 
 {% block header_nav %}

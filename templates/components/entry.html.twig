@@ -60,7 +60,7 @@
         <menu>
             <li>
                 <a class="stretched-link"
-                   href="{{ entry_url(entry) }}">{{ entry.commentCount }} {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}</a>
+                   href="{{ entry_url(entry) ~ '#comments' }}">{{ entry.commentCount }} {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}</a>
             </li>
             <li>
                 <form>

@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'magazines'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-magazines{% endblock %}
 
 {% block header_nav %}
@@ -9,41 +13,9 @@
 {% endblock %}
 
 {% block body %}
+    <header>
+        <h1 hidden>{{ 'magazines'|trans }}</h1>
+    </header>
     {% include 'magazine/_options.html.twig' %}
-    <div id="content" class="section">
-        <h1>{{ 'magazines'|trans }}</h1>
-
-        {% if view is same as 'cards' %}
-            <div class="magzines magazines-cards">
-                {% for magazine in magazines %}
-                    {{ component('magazine', {magazine: magazine, showMeta: false, showInfo: false}) }}
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="magzines magazines-table">
-                <table>
-                    <thead>
-                    <tr>
-                        <td>{{ 'name'|trans }}</td>
-                        <td>{{ 'threads'|trans }}</td>
-                        <td>{{ 'comments'|trans }}</td>
-                        <td>{{ 'posts'|trans }}</td>
-                        <td></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for magazine in magazines %}
-                        <tr>
-                            <td>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true}) }}</td>
-                            <td>{{ magazine.entryCount }}</td>
-                            <td>{{ magazine.entryCommentCount }}</td>
-                            <td>{{ magazine.postCount + magazine.postCommentCount }}</td>
-                            <td>{{ component('magazine_sub', {magazine: magazine}) }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% endif %}
-    </div>
+    {% include 'magazine/_list.html.twig' %}
 {% endblock %}

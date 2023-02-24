@@ -6,6 +6,7 @@
     margin-bottom: 2.5rem;
 
     div {
+      align-items: center;
       background: var(--kbin-button-secondary-bg);
       border: var(--kbin-button-secondary-border);
       color: var(--kbin-button-secondary-text-color);
@@ -45,49 +46,51 @@
 
 .page-user-overview {
   .section--top {
-    padding: 0 0 2rem;
+    padding: 0;
+  }
+}
 
-    figure {
-      margin: 0;
-      padding: 0;
+.user-box {
+  figure {
+    margin: 0;
+    padding: 0;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  .user-main {
+    display: flex;
+    margin-left: 1.5rem;
+    padding-top: 2rem;
+    text-align: center;
+
+    h1 {
+      margin-bottom: 0;
+    }
+
+    small {
+      display: block;
+      margin-bottom: 1rem;
     }
 
     img {
-      object-fit: cover;
-    }
-
-    h1 {
-      font-size: 1.2rem;
-    }
-
-    .user-box {
-      display: flex;
-      margin-left: 1.5rem;
-      padding-top: 2rem;
-      text-align: center;
-
-      h1 {
-        margin-bottom: 0;
-      }
-
-      small {
-        display: block;
-        margin-bottom: 1rem;
-      }
-
-      img {
-        border: var(--kbin-avatar-border);
-      }
-    }
-
-    .about {
-      padding: 0 1.5rem;
+      border: var(--kbin-avatar-border);
     }
   }
 
-  .section--top.with-cover.with-avatar {
-    padding-bottom: 0;
-    .user-box {
+  .about {
+    margin-bottom: 2.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .with-cover.with-avatar {
+    .user-main {
       margin-top: 0;
       padding-top: 0;
       position: relative;
@@ -97,6 +100,116 @@
         margin: 0;
       }
     }
+
+    .about {
+      margin-bottom: 1.5rem;
+      position: relative;
+      top: -20px;
+    }
   }
 }
 
+.users-cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  .magazine {
+    align-content: center;
+    align-items: center;
+    display: grid;
+    grid-template-rows: auto;
+  }
+}
+
+.users-columns {
+  font-size: .9rem;
+
+  ul {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0;
+    padding: 0;
+  }
+
+  ul figure {
+    margin: 0 .5rem 0 0;
+  }
+
+  ul li {
+    align-items: center;
+    display: flex;
+    list-style: none;
+    position: relative;
+  }
+
+
+  ul li a {
+    display: block
+  }
+
+  ul li small {
+    color: var(--kbin-meta-text-color);
+    font-size: .85rem;
+  }
+}
+
+.page-user-overview {
+  #sidebar {
+    .user-info {
+      ul li:first-of-type {
+        border-top: 0;
+      }
+
+    }
+  }
+}
+
+.page-people {
+  .users-cards.section {
+    padding: 0;
+  }
+
+  .users-cards {
+    .section {
+      padding: 0;
+    }
+  }
+
+  .user-box {
+    .cover {
+      height: 150px;
+    }
+
+    .user-main {
+      justify-content: center;
+      padding-top: 12.6rem;
+      position: relative;
+
+      .group {
+        position: relative;
+
+        .stretched-link {
+          color: var(--kbin-text-color) !important;
+          font-weight: bold !important;
+        }
+      }
+    }
+
+    .about {
+      font-size: .9rem;
+    }
+  }
+
+  .with-avatar {
+    .user-main {
+      padding-top: 6rem;
+    }
+  }
+
+  .with-cover.with-avatar {
+    padding-top: 0;
+    position: inherit;
+  }
+}

@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- entry.title }} - {{ magazine.title }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-entry-single{% endblock %}
 
 {% block header_nav %}
@@ -12,11 +16,13 @@
     <div id="content">
         {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:true}) }}
         {% include 'entry/comment/_options.html.twig' %}
-        {% if comments|length %}
-            {% include 'entry/comment/_list.html.twig' %}
-        {% else %}
-            {% include 'entry/comment/_no_comments.html.twig' %}
-        {% endif %}
+        <div id="comments">
+            {% if comments|length %}
+                {% include 'entry/comment/_list.html.twig' %}
+            {% else %}
+                {% include 'entry/comment/_no_comments.html.twig' %}
+            {% endif %}
+        </div>
         {% include 'entry/comment/_add_comment.html.twig' %}
         {% include 'entry/_options_activity.html.twig' %}
     </div>

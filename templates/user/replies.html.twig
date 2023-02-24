@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'replies'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-user-replies{% endblock %}
 
 {% block header_nav %}
@@ -10,7 +14,8 @@
 
 {% block body %}
     <header>
-        <h1 hidden>{{ user.username|username }}</h1>
+        <h1 hidden>{{ 'replies'|trans }}</h1>
+        <h2 hidden>{{ user.username|username }}</h2>
     </header>
     {% include('user/_options.html.twig') %}
     {% include('user/_federated_info.html.twig') %}
@@ -21,7 +26,7 @@
             {% endfor %}
 
             {% if not results|length %}
-                <aside class="section section--muted user-list">
+                <aside class="section section--muted">
                     <p>{{ 'empty'|trans }}</p>
                 </aside>
             {% endif %}

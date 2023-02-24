@@ -1,5 +1,5 @@
 <aside class="comments post-comments">
     {% for comment in comments %}
-        {{ component('post_comment', {comment: comment}) }}
+        {{ component('post_comment', {comment: comment, dateAsUrl: not is_route_name('post_single') }) }}
     {% endfor %}
 </aside>

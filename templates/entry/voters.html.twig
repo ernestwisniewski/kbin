@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- route_has_param('type', 'up') ? 'up_votes'|trans : 'down_votes'|trans }} - {{ entry.title}} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-entry-voters{% endblock %}
 
 {% block header_nav %}

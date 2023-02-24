@@ -14,6 +14,7 @@
   }
 
   &__subscribe {
+    align-items: center;
     display: flex;
     flex-direction: row;
     font-size: .9rem;
@@ -21,6 +22,7 @@
     margin-bottom: 2.5rem;
 
     div {
+      align-items: center;
       background: var(--kbin-button-secondary-bg);
       border: var(--kbin-button-secondary-border);
       color: var(--kbin-button-secondary-text-color);

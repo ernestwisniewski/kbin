@@ -16,6 +16,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Result;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Doctrine\Collections\CollectionAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -35,7 +36,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
-    public const PER_PAGE = 25;
+    public const PER_PAGE = 48;
     public const USERS_ALL = 'all';
     public const USERS_LOCAL = 'local';
     public const USERS_REMOTE = 'remote';
@@ -154,16 +155,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function findFollowing(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.following) FROM '.UserFollow::class.' us WHERE us.follower = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->follows
             )
         );
 
@@ -179,16 +173,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function findFollowers(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->followers
             )
         );
 

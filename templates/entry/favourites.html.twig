@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'favourites'|trans }} - {{ entry.title}} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-entry-favourites{% endblock %}
 
 {% block header_nav %}

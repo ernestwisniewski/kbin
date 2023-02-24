@@ -9,4 +9,5 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class PostCommentComponent
 {
     public PostComment $comment;
+    public bool $dateAsUrl = true;
 }

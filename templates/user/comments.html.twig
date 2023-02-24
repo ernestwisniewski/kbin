@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'comments'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-user-overview{% endblock %}
 
 {% block header_nav %}
@@ -10,7 +14,8 @@
 
 {% block body %}
     <header>
-        <h1 hidden>{{ user.username|username }}</h1>
+        <h1 hidden>{{ 'comments'|trans }}</h1>
+        <h2 hidden>{{ user.username|username }}</h2>
     </header>
     {% include('user/_options.html.twig') %}
     {% include('user/_federated_info.html.twig') %}

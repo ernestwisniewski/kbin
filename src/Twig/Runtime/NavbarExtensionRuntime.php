@@ -73,6 +73,17 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('posts_front');
     }
 
+    public function navbarPeopleUrl(): string
+    {
+        $magazine = $this->requestStack->getCurrentRequest()->get('magazine');
+
+        if ($magazine instanceof Magazine) {
+            return $this->urlGenerator->generate('magazine_people', ['name' => $magazine->name]);
+        }
+
+        return $this->urlGenerator->generate('people_front');
+    }
+
     private function getCurrentRouteName(): string
     {
         return $this->requestStack->getCurrentRequest()->get('_route') ?? 'front';

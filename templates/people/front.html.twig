@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {% if magazine is defined and magazine %}
+        {{- 'people'|trans }} - {{ magazine.title }} - {{ parent() -}}
+    {% else %}
+        {{- 'people'|trans }} - {{ parent() -}}
+    {% endif %}
+{%- endblock -%}
+
+{% block mainClass %}page-people{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden="">{{ 'people'|trans }}</h1>
+    </header>
+    <aside class="options options--top" id="options">
+        <menu class="options__main">
+            {% for mag in magazines %}
+                <li>
+                    <a href="{{ path('magazine_people', {name: mag.name}) }}"
+                       class="{{ html_classes({'active': magazine is defined and magazine is same as mag}) }}">
+                        {{ mag.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </menu>
+    </aside>
+
+    <div id="content">
+        <h2>{{ 'people_local'|trans }}</h2>
+        <div class="users-cards section section--no-bg">
+            {% for user in local %}
+                <div class="section">
+                    {{ component('user_box', {user: user}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {% if not local|length %}
+            <aside class="section section--muted user-list">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+
+        <h2>{{ 'people_federated'|trans }}</h2>
+        <div class="users-cards section section--no-bg">
+            {% for user in federated %}
+                <div class="section">
+                    {{ component('user_box', {user: user}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {% if not federated|length %}
+            <aside class="section section--muted user-list">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+    </div>
+{% endblock %}

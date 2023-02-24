@@ -1,6 +1,6 @@
 <section class="section entry-info">
     <h3>{{ 'thread'|trans }}</h3>
-    <header class="group">
+    <div class="group">
         {% if entry.user.avatar %}
             <figure>
                 <img width="100" height="100"
@@ -9,17 +9,16 @@
             </figure>
         {% endif %}
         <h4><a href="{{ path('user', {username:entry.user.username}) }}"
-               class="stretched-link">{{ entry.user.username|username }}</a></h4>
+               class="stretched-link">{{ entry.user.username|username(false) }}</a></h4>
         <p class="user__name">{{ entry.user.apId }}</p>
-    </header>
+    </div>
     {{ component('user_follow', {user: entry.user}) }}
     <ul class="info">
-        <li>{{ 'added'|trans }}: {{ component('date', {date: entry.createdat}) }}</li>
+        <li>{{ 'added'|trans }}: {{ component('date', {date: entry.createdAt}) }}</li>
         <li>{{ 'views'|trans }}: <span>{{ entry.views }}</span></li>
-        <li>{{ 'up_votes'|trans }}:
+        <li>{{ 'online'|trans }}: <span>-</span></li>
+        <li>{{ 'ratio'|trans }}:
             <span>{{ entry.countUpvotes }} {% if entry.countUpvotes %}({{ (entry.countUpvotes / entry.countVotes)|format_percent_number }}){% endif %}</span>
         </li>
-        <li>{{ 'down_votes'|trans }}: <span>{{ entry.countDownvotes }}</span></li>
-        <li>{{ 'favourites'|trans }}: <span>{{ entry.favouriteCount }}</span></li>
     </ul>
 </section>

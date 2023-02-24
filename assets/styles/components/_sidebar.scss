@@ -29,11 +29,12 @@
   }
 
   .section {
-    padding: .5rem;
+    padding: .5rem .5rem 1rem;
   }
 
   .posts {
     color: var(--kbin-meta-text-color);
+
     figure {
       border-bottom: var(--kbin-meta-border);
       margin-bottom: 1rem;
@@ -43,7 +44,7 @@
         margin-bottom: 0;
       }
 
-       .group img {
+      .group img {
         height: 100px;
         margin-bottom: .5rem;
         object-fit: cover;
@@ -79,6 +80,7 @@
     padding: 0;
 
     li {
+      align-items: center;
       border-bottom: var(--kbin-meta-border);
       display: flex;
       flex-direction: row;
@@ -101,10 +103,6 @@
       }
 
     }
-  }
-
-  .info {
-    padding-bottom: 2.5rem;
   }
 
   .user-list {
@@ -150,8 +148,9 @@
     }
   }
 
-  .entry-info {
-    header {
+  .entry-info,
+  .user-info {
+    .group {
       h4 {
         font-size: 1rem;
         margin-bottom: 0;
@@ -159,6 +158,10 @@
       }
 
       text-align: center;
+    }
+
+    a {
+      color: var(--kbin-meta-link-color);
     }
 
     &_name {

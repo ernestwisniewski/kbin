@@ -1,8 +1,13 @@
 <blockquote{{ attributes.defaults({class: 'section post'}).without('id') }} id="post-{{ post.id }}">
     <header>
         {{ component('user_inline', {user: post.user, hideAvatar: true}) }},
+        {% if dateAsUrl %}
         <a href="{{ post_url(post) }}"
-           class="link-muted">{{ component('date', {date: post.createdAt}) }}</a> {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
+           class="link-muted">{{ component('date', {date: post.createdAt}) }}</a>
+        {% else %}
+            {{ component('date', {date: post.createdAt}) }}
+        {% endif %}
+        {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
     </header>
     {% if post.user.avatar %}
         {{ component('user_avatar', {user: post.user, width: 40, height: 40}) }}
@@ -15,7 +20,7 @@
         <menu>
             <li>
                 <a class="stretched-link"
-                   href="{{ post_url(post) }}">{{ 'reply'|trans|lower }}</a>
+                   href="{{ not is_route_name('post_single') ? post_url(post) : '#comment-add' }}">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
                 <form>

@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{%- block title -%}
+    {{- 'reset_password'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
 {% block mainClass %}page-reset-password-email-sent{% endblock %}
 
 {% block header_nav %}

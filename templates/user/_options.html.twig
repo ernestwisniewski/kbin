@@ -31,8 +31,8 @@
             </a>
         </li>
         <li>
-            <a href="{{ path('user_follows', {username: user.username}) }}"
-               class="{{ html_classes({'active': is_route_name('user_follows'), 'opacity-50': not user.getShowProfileFollowings}) }}">
+            <a href="{{ path('user_following', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user_following'), 'opacity-50': not user.getShowProfileFollowings}) }}">
                 {{ 'following'|trans|lower }} ({{ user.follows|length }})
             </a>
         </li>

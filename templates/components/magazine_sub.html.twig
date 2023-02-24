@@ -13,6 +13,8 @@
           name="magazine_block"
           method="post">
         <button type="submit"
+                aria-label="{{ 'block_magazine' }}"
+                title="{{ 'block_magazine' }}"
                 class="{{ html_classes('btn btn__secondry', {'btn-warning': is_magazine_blocked(magazine)}) }}">
             <i class="icon__block"></i>
         </button>
