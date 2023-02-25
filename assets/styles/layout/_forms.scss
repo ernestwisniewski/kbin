@@ -117,10 +117,10 @@ form {
   }
 
   .ts-control {
-    background: var(--kbin-input-bg);
-    border: var(--kbin-input-border);
+    background: var(--kbin-input-bg) !important;
+    border: var(--kbin-input-border) !important;
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: none !important;
     color: var(--kbin-input-text-color);
     display: block;
     padding: 1rem .5rem;
@@ -168,8 +168,9 @@ form {
 
   .ts-wrapper {
     &.single .ts-control, .ts-dropdown.single {
-      background: var(--kbin-input-bg);
-      border: var(--kbin-meta-border);
+      background: var(--kbin-input-bg) !important;
+      border: var(--kbin-meta-border) !important;
+      box-shadow: none;
     }
   }
 }
