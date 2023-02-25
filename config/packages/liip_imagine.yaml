@@ -30,29 +30,30 @@ liip_imagine:
   data_loader: local_images
 
   resolvers:
-#    default:
-#      flysystem:
-#        filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
-#        root_url: '%kbin_storage_url%'
-#        cache_prefix: cache
-#        visibility: private
-
     entry_thumb:
       flysystem:
         filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
-        root_url: '%uploads_base_url%'
+        root_url:           '%uploads_base_url%'
+        cache_prefix:       media/cache
+        visibility:         public
 
     avatar_thumb:
       flysystem:
         filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
         root_url: '%uploads_base_url%'
+        cache_prefix: media/cache
+        visibility: public
 
     post_thumb:
       flysystem:
         filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
         root_url: '%uploads_base_url%'
+        cache_prefix: media/cache
+        visibility: public
 
     user_cover:
       flysystem:
         filesystem_service: oneup_flysystem.public_uploads_filesystem_filesystem
         root_url: '%uploads_base_url%'
+        cache_prefix: media/cache
+        visibility: public

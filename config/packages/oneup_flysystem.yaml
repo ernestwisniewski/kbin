@@ -3,14 +3,9 @@ oneup_flysystem:
     adapters:
         default_adapter:
             local:
-                location: "%kernel.project_dir%/public/media"
-
-        kbin.s3_adapter:
-            awss3v3:
-                client: kbin.s3_client
-                bucket: '%amazon.s3.bucket%'
+                location: "%kernel.project_dir%/public/%uploads_dir_name%"
 
     filesystems:
         public_uploads_filesystem:
-            adapter: kbin.s3_adapter
+            adapter: default_adapter
             alias: League\Flysystem\Filesystem
