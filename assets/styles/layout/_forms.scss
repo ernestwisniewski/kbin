@@ -128,7 +128,6 @@ form {
   }
 
   &.single .ts-control, .ts-dropdown.single {
-    background: var(--kbin-section-bg);
     border: var(--kbin-input-border);
   }
 
@@ -169,6 +168,7 @@ form {
 
   .ts-wrapper {
     &.single .ts-control, .ts-dropdown.single {
+      background: var(--kbin-input-bg);
       border: var(--kbin-meta-border);
     }
   }
