@@ -35,7 +35,7 @@ class AnnounceHandler implements MessageHandlerInterface
             $activity = $this->repository->findByObjectId($message->payload['object']);
 
             if ($activity) {
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
             } else {
                 $object = $this->apHttpClient->getActivityObject($message->payload['object']);
 
@@ -49,6 +49,16 @@ class AnnounceHandler implements MessageHandlerInterface
             if ($actor instanceof User) {
                 $this->manager->upvote($entity, $actor);
                 $this->voteHandleSubscriber->clearCache($entity);
+
+                if (null === $entity->magazine->apId) {
+                    $this->bus->dispatch(
+                        new \App\Message\ActivityPub\Outbox\AnnounceMessage(
+                            $actor->getId(),
+                            $entity->getId(),
+                            get_class($entity)
+                        )
+                    );
+                }
             } else {
                 $entity->lastActive = new \DateTime();
                 $this->entityManager->flush();

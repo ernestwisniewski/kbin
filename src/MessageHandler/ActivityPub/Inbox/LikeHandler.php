@@ -55,5 +55,15 @@ class LikeHandler implements MessageHandlerInterface
                 $this->manager->toggle($actor, $entity, FavouriteManager::TYPE_UNLIKE);
             }
         }
+
+        if (null === $entity->magazine->apId) {
+            $this->bus->dispatch(
+                new \App\Message\ActivityPub\Outbox\LikeMessage(
+                    $actor->getId(),
+                    $entity->getId(),
+                    get_class($entity)
+                )
+            );
+        }
     }
 }

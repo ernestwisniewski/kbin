@@ -24,6 +24,7 @@ use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class UpdateHandler implements MessageHandlerInterface
 {
@@ -41,7 +42,8 @@ class UpdateHandler implements MessageHandlerInterface
         private readonly EntryFactory $entryFactory,
         private readonly EntryCommentFactory $entryCommentFactory,
         private readonly PostFactory $postFactory,
-        private readonly PostCommentFactory $postCommentFactory
+        private readonly PostCommentFactory $postCommentFactory,
+        private readonly MessageBusInterface $bus,
     ) {
     }
 
@@ -80,6 +82,16 @@ class UpdateHandler implements MessageHandlerInterface
         }
 
         $this->$fn($object, $actor);
+
+        if (null === $object->magazine->apId) {
+            $this->bus->dispatch(
+                new \App\Message\ActivityPub\Outbox\UpdateMessage(
+                    $actor->getId(),
+                    $object->getId(),
+                    get_class($object)
+                )
+            );
+        }
     }
 
     private function editEntry(Entry $entry, User $user)
