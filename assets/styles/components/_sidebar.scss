@@ -47,6 +47,7 @@
       .group img {
         height: 100px;
         margin-bottom: .5rem;
+        -o-object-fit: cover;
         object-fit: cover;
         width: 100%;
       }

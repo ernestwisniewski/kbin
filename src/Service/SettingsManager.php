@@ -18,6 +18,7 @@ class SettingsManager
         private readonly EntityManagerInterface $entityManager,
         private readonly SettingsRepository $repository,
         private readonly string $kbinDomain,
+        private readonly string $kbinTitle,
         private readonly string $kbinMetaTitle,
         private readonly string $kbinMetaDescription,
         private readonly string $kbinMetaKeywords,
@@ -34,6 +35,7 @@ class SettingsManager
 
             $this->dto = new SettingsDto(
                 $this->kbinDomain,
+                $this->find($results, 'KBIN_TITLE') ?? $this->kbinTitle,
                 $this->find($results, 'KBIN_META_TITLE') ?? $this->kbinMetaTitle,
                 $this->find($results, 'KBIN_META_KEYWORDS') ?? $this->kbinMetaKeywords,
                 $this->find($results, 'KBIN_META_DESCRIPTION') ?? $this->kbinMetaDescription,

@@ -31,10 +31,12 @@
         gap: .5rem;
 
         i {
+          -webkit-filter: var(--kbin-icon-filter);
           filter: var(--kbin-icon-filter);
         }
 
         &:hover i {
+          -webkit-filter: var(--kbin-icon-filter-hover);
           filter: var(--kbin-icon-filter-hover);
         }
       }

@@ -14,7 +14,8 @@ final class SettingsExtension extends AbstractExtension
     {
         return [
             new TwigFunction('kbin_domain', [SettingsExtensionRuntime::class, 'kbinDomain']),
-            new TwigFunction('kbin_meta_title', [SettingsExtensionRuntime::class, 'kbinTitle']),
+            new TwigFunction('kbin_title', [SettingsExtensionRuntime::class, 'kbinTitle']),
+            new TwigFunction('kbin_meta_title', [SettingsExtensionRuntime::class, 'kbinMetaTitle']),
             new TwigFunction('kbin_meta_description', [SettingsExtensionRuntime::class, 'kbinDescription']),
             new TwigFunction('kbin_meta_keywords', [SettingsExtensionRuntime::class, 'kbinKeywords']),
             new TwigFunction('kbin_markdown_howto_url', [SettingsExtensionRuntime::class, 'kbinMarkdownHowtoUrl']),

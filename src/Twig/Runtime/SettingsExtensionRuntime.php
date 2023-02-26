@@ -20,8 +20,13 @@ class SettingsExtensionRuntime implements RuntimeExtensionInterface
         return $this->settings->get('KBIN_DOMAIN');
     }
 
-    #[Pure]
     public function kbinTitle(): string
+    {
+        return $this->settings->get('KBIN_TITLE');
+    }
+
+    #[Pure]
+    public function kbinMetaTitle(): string
     {
         return $this->settings->get('KBIN_META_TITLE');
     }

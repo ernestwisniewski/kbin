@@ -5,6 +5,7 @@ framework:
 
 parameters:
   kbin_domain: '%env(KBIN_DOMAIN)%'
+  kbin_title: '%env(KBIN_TITLE)%'
   kbin_meta_title: '%env(KBIN_META_TITLE)%'
   kbin_meta_description: '%env(KBIN_META_DESCRIPTION)%'
   kbin_meta_keywords: '%env(KBIN_META_KEYWORDS)%'
@@ -126,6 +127,7 @@ services:
   App\Service\SettingsManager:
     arguments:
       $kbinDomain: '%kbin_domain%'
+      $kbinTitle: '%kbin_title%'
       $kbinMetaTitle: '%kbin_meta_title%'
       $kbinMetaDescription: '%kbin_meta_description%'
       $kbinMetaKeywords: '%kbin_meta_keywords%'

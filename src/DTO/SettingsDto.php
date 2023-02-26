@@ -8,6 +8,7 @@ class SettingsDto
 {
     public function __construct(
         public string $KBIN_DOMAIN,
+        public string $KBIN_TITLE,
         public string $KBIN_META_TITLE,
         public string $KBIN_META_KEYWORDS,
         public string $KBIN_META_DESCRIPTION,
