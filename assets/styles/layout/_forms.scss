@@ -150,16 +150,6 @@ form {
     height: 100%;
   }
 
-  i {
-    webkit-filter: var(--kbin-icon-filter);
-    filter: var(--kbin-icon-filter);
-  }
-
-  button:hover i {
-    -webkit-filter: var(--kbin-icon-hover-filter);
-    filter: var(--kbin-icon-hover-filter);
-  }
-
   .ts-control {
     padding: 8px;
 

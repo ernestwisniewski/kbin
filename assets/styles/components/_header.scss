@@ -21,16 +21,6 @@
     &:hover {
       color: var(--kbin-header-link-hover-color);
     }
-
-    i {
-      -webkit-filter: var(--kbin-header-icon-filter);
-      filter: var(--kbin-header-icon-filter);
-    }
-
-    i:hover {
-      -webkit-filter: var(--kbin-header-icon-hover-filter);
-      filter: var(--kbin-header-icon-hover-filter);
-    }
   }
 
   nav {

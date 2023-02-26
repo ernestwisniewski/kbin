@@ -22,9 +22,6 @@ $grid-breakpoints: (
   --kbin-link-hover-color: #275878;
   --kbin-outline: #ff8c00 solid 4px;
 
-  --kbin-icon-filter: invert(68%) sepia(5%) saturate(544%) hue-rotate(135deg) brightness(95%) contrast(89%);
-  --kbin-icon-filter-hover: invert(21%) sepia(14%) saturate(1463%) hue-rotate(170deg) brightness(101%) contrast(84%);
-
   --kbin-primary-color: #367FB5;
   --kbin-text-muted-color: #95a6a6;
 
@@ -52,9 +49,6 @@ $grid-breakpoints: (
   --kbin-options-link-color: #95a5a6;
   --kbin-options-link-hover-color: #32465b;
   --kbin-options-border: 1px solid #e5eaec;
-  --kbin-options-icon-filter: invert(68%) sepia(5%) saturate(544%) hue-rotate(135deg) brightness(95%) contrast(89%);
-  --kbin-options-icon-hover-filter: invert(21%) sepia(14%) saturate(1463%) hue-rotate(170deg) brightness(101%) contrast(84%);
-  --kbin-options-link-hover-border: 3px solid #32465b;
 
   // forms
   --kbin-input-bg: #fff;
@@ -80,8 +74,6 @@ $grid-breakpoints: (
   --kbin-header-link-color: #fff;
   --kbin-header-link-hover-color: #e8e8e8;
   --kbin-header-border: 1px solid #e5eaec;
-  --kbin-header-icon-filter: brightness(0) invert(1);
-  --kbin-header-icon-hover-filter: brightness(0) invert(1);
 
   //sidebar
   --kbin-sidebar-header-text-color: #909ea2;

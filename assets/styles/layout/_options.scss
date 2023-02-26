@@ -49,21 +49,11 @@
       padding: .5rem 1rem;
       text-decoration: none;
 
-      i {
-        -webkit-filter: var(--kbin-options-icon-filter);
-        filter: var(--kbin-options-icon-filter);
-      }
-
       &.active,
       &:focus-visible,
       &:hover {
         border-bottom: var(--kbin-options-link-hover-border);
         color: var(--kbin-options-link-hover-color);
-
-        i {
-          -webkit-filter: var(--kbin-options-icon-hover-filter);
-          filter: var(--kbin-options-icon-hover-filter);
-        }
       }
     }
   }

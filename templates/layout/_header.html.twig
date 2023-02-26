@@ -81,21 +81,21 @@
             <a href="#"
                aria-label="{{ 'search'|trans }}"
                title="{{ 'search'|trans }}">
-                <i class="icon__search"></i>
+                <i class="fa-solid fa-magnifying-glass"></i>
             </a>
         </li>
         <li>
             <a href="{{ path('entry_create') }}"
                aria-label="{{ 'add'|trans }}"
                title="{{ 'add'|trans }}">
-                <i class="icon__add"></i>
+                <i class="fa-solid fa-plus"></i>
             </a>
         </li>
         <li>
             <a href="#"
                aria-label="{{ 'select_channel'|trans }}"
                title="{{ 'select_channel'|trans }}">
-                <i class="icon__channel"></i>
+                <i class="fa-regular fa-eye"></i>
             </a>
         </li>
         <li>
@@ -103,7 +103,7 @@
                 <a href="#"
                    aria-label="{{ 'login'|trans }}"
                    title="{{ 'login'|trans }}">
-                    <i class="icon__user"></i>
+                    <i class="fa-solid fa-user"></i>
                 </a>
             {% else %}
                 <a class="{{ html_classes('login', {'active': is_route_name('app_login')}) }}"

@@ -1,5 +1,5 @@
 <aside{{ attributes.defaults({class: 'domain__subscribe'}) }}>
-    <div><i class="icon__users"></i> {{ domain.subscriptionsCount }}</div>
+    <div><i class="fa-solid fa-users"></i> {{ domain.subscriptionsCount }}</div>
     <form action="{{ path('domain_' ~ (is_domain_subscribed(domain) ? 'unsubscribe' : 'subscribe'), {name: domain.name}) }}"
           name="domain_subscribe"
           method="post">
@@ -14,7 +14,7 @@
           method="post">
         <button type="submit"
                 class="{{ html_classes('btn btn__secondry', {'btn-warning': is_domain_blocked(domain)}) }}">
-            <i class="icon__block"></i>
+            <i class="fa-solid fa-ban"></i>
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('block') }}">
     </form>
