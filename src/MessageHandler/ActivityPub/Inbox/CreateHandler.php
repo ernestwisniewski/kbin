@@ -58,17 +58,17 @@ class CreateHandler implements MessageHandlerInterface
 
         $note = $this->note->create($this->object);
 
-        if (null === $note->magazine->apId && 'Question' !== $this->object['type']) {
-            $this->bus->dispatch(new \App\Message\ActivityPub\Outbox\CreateMessage($note->getId(), get_class($note)));
-        }
+//        if (null === $note->magazine->apId && 'Question' !== $this->object['type']) {
+//            $this->bus->dispatch(new \App\Message\ActivityPub\Outbox\CreateMessage($note->getId(), get_class($note)));
+//        }
     }
 
     private function handlePage()
     {
         $page = $this->page->create($this->object);
 
-        if (null === $page->magazine->apId) {
-            $this->bus->dispatch(new \App\Message\ActivityPub\Outbox\CreateMessage($page->getId(), get_class($page)));
-        }
+//        if (null === $page->magazine->apId) {
+//            $this->bus->dispatch(new \App\Message\ActivityPub\Outbox\CreateMessage($page->getId(), get_class($page)));
+//        }
     }
 }

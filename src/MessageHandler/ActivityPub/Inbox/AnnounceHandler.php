@@ -50,15 +50,15 @@ class AnnounceHandler implements MessageHandlerInterface
                 $this->manager->upvote($entity, $actor);
                 $this->voteHandleSubscriber->clearCache($entity);
 
-                if (null === $entity->magazine->apId) {
-                    $this->bus->dispatch(
-                        new \App\Message\ActivityPub\Outbox\AnnounceMessage(
-                            $actor->getId(),
-                            $entity->getId(),
-                            get_class($entity)
-                        )
-                    );
-                }
+//                if (null === $entity->magazine->apId) {
+//                    $this->bus->dispatch(
+//                        new \App\Message\ActivityPub\Outbox\AnnounceMessage(
+//                            $actor->getId(),
+//                            $entity->getId(),
+//                            get_class($entity)
+//                        )
+//                    );
+//                }
             } else {
                 $entity->lastActive = new \DateTime();
                 $this->entityManager->flush();

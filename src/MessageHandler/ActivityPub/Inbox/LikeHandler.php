@@ -56,14 +56,14 @@ class LikeHandler implements MessageHandlerInterface
             }
         }
 
-        if (null === $entity->magazine->apId) {
-            $this->bus->dispatch(
-                new \App\Message\ActivityPub\Outbox\LikeMessage(
-                    $actor->getId(),
-                    $entity->getId(),
-                    get_class($entity)
-                )
-            );
-        }
+//        if (null === $entity->magazine->apId) {
+//            $this->bus->dispatch(
+//                new \App\Message\ActivityPub\Outbox\LikeMessage(
+//                    $actor->getId(),
+//                    $entity->getId(),
+//                    get_class($entity)
+//                )
+//            );
+//        }
     }
 }
