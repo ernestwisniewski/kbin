@@ -83,15 +83,15 @@ class UpdateHandler implements MessageHandlerInterface
 
         $this->$fn($object, $actor);
 
-        if (null === $object->magazine->apId) {
-            $this->bus->dispatch(
-                new \App\Message\ActivityPub\Outbox\UpdateMessage(
-                    $actor->getId(),
-                    $object->getId(),
-                    get_class($object)
-                )
-            );
-        }
+//        if (null === $object->magazine->apId) {
+//            $this->bus->dispatch(
+//                new \App\Message\ActivityPub\Outbox\UpdateMessage(
+//                    $actor->getId(),
+//                    $object->getId(),
+//                    get_class($object)
+//                )
+//            );
+//        }
     }
 
     private function editEntry(Entry $entry, User $user)
