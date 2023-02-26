@@ -43,6 +43,7 @@
     }
 
     menu li {
+      -webkit-filter: brightness(0) invert(1);
       filter: brightness(0) invert(1);
       padding: 1rem;
     }

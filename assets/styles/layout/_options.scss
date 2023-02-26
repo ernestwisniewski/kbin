@@ -50,6 +50,7 @@
       text-decoration: none;
 
       i {
+        -webkit-filter: var(--kbin-options-icon-filter);
         filter: var(--kbin-options-icon-filter);
       }
 
@@ -60,6 +61,7 @@
         color: var(--kbin-options-link-hover-color);
 
         i {
+          -webkit-filter: var(--kbin-options-icon-hover-filter);
           filter: var(--kbin-options-icon-hover-filter);
         }
       }

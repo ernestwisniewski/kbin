@@ -156,6 +156,7 @@ form {
   }
 
   button:hover i {
+    -webkit-filter: var(--kbin-icon-hover-filter);
     filter: var(--kbin-icon-hover-filter);
   }
 
