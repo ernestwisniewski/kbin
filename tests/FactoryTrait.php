@@ -28,11 +28,11 @@ trait FactoryTrait
 {
     public function createVote(int $choice, VoteInterface $subject, User $user): Vote
     {
-        $manager = static::getContainer()->get(EntityManagerInterface::class);
+        $manager = $this->getContainer()->get(EntityManagerInterface::class);
         /**
          * @var $voteManager VoteManager
          */
-        $voteManager = static::getContainer()->get(VoteManager::class);
+        $voteManager = $this->getContainer()->get(VoteManager::class);
 
         $vote = $voteManager->vote($choice, $subject, $user);
 
@@ -75,7 +75,7 @@ trait FactoryTrait
 
     private function createUser(string $username, string $email = null, string $password = null, $active = true): User
     {
-        $manager = static::getContainer()->get(EntityManagerInterface::class);
+        $manager = $this->getContainer()->get(EntityManagerInterface::class);
 
         $user = new User($email ?: $username.'@example.com', $username, $password ?: 'secret');
 
@@ -124,7 +124,7 @@ trait FactoryTrait
 
         if ($isAdmin) {
             $user->roles = ['ROLE_ADMIN'];
-            $manager = static::getContainer()->get(EntityManagerInterface::class);
+            $manager = $this->getContainer()->get(EntityManagerInterface::class);
 
             $manager->persist($user);
             $manager->flush();
@@ -138,7 +138,7 @@ trait FactoryTrait
         /**
          * @var $manager MagazineManager
          */
-        $manager = static::getContainer()->get(MagazineManager::class);
+        $manager = $this->getContainer()->get(MagazineManager::class);
 
         $dto = new MagazineDto();
         $dto->name = $name;
@@ -161,15 +161,15 @@ trait FactoryTrait
 
         $entry = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
         $comment = $this->createEntryComment('test', $entry, $regular);
-        static::getContainer()->get(EntryCommentManager::class)->delete($owner, $comment);
-        static::getContainer()->get(EntryManager::class)->delete($owner, $entry);
+        $this->getContainer()->get(EntryCommentManager::class)->delete($owner, $comment);
+        $this->getContainer()->get(EntryManager::class)->delete($owner, $entry);
 
         $post = $this->createPost('test', $magazine, $actor);
         $comment = $this->createPostComment('test', $post, $regular);
-        static::getContainer()->get(PostCommentManager::class)->delete($owner, $comment);
-        static::getContainer()->get(PostManager::class)->delete($owner, $post);
+        $this->getContainer()->get(PostCommentManager::class)->delete($owner, $comment);
+        $this->getContainer()->get(PostManager::class)->delete($owner, $post);
 
-        static::getContainer()->get(MagazineManager::class)->ban(
+        $this->getContainer()->get(MagazineManager::class)->ban(
             $magazine,
             $actor,
             $owner,
@@ -220,7 +220,7 @@ trait FactoryTrait
         /**
          * @var $manager EntryManager
          */
-        $manager = static::getContainer()->get(EntryManager::class);
+        $manager = $this->getContainer()->get(EntryManager::class);
 
         $dto = new EntryDto();
         $dto->magazine = $magazine;
@@ -241,7 +241,7 @@ trait FactoryTrait
         /**
          * @var $manager EntryCommentManager
          */
-        $manager = static::getContainer()->get(EntryCommentManager::class);
+        $manager = $this->getContainer()->get(EntryCommentManager::class);
 
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent(
@@ -264,7 +264,7 @@ trait FactoryTrait
         /**
          * @var $manager PostManager
          */
-        $manager = static::getContainer()->get(PostManager::class);
+        $manager = $this->getContainer()->get(PostManager::class);
 
         $dto = new PostDto();
         $dto->magazine = $magazine ?: $this->getMagazineByName('acme');
@@ -278,7 +278,7 @@ trait FactoryTrait
         /**
          * @var $manager PostCommentManager
          */
-        $manager = static::getContainer()->get(PostCommentManager::class);
+        $manager = $this->getContainer()->get(PostCommentManager::class);
 
         $dto = new PostCommentDto();
         $dto->post = $post ?? $this->createPost('test post content');

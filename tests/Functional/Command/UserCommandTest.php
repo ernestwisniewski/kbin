@@ -36,6 +36,6 @@ class UserCommandTest extends KernelTestCase
         $application = new Application(self::bootKernel());
 
         $this->command = $application->find('kbin:user:create');
-        $this->repository = static::getContainer()->get(UserRepository::class);
+        $this->repository = $this->getContainer()->get(UserRepository::class);
     }
 }

@@ -16,7 +16,7 @@ class MentionManagerTest extends WebTestCase
     {
         $this->createClient();
 
-        $manager = static::getContainer()->get(MentionManager::class);
+        $manager = $this->getContainer()->get(MentionManager::class);
         $this->assertEquals($output, $manager->extract($input));
     }
 
