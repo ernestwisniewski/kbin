@@ -1,9 +1,12 @@
 {%- set VOTE_NONE = constant('App\\Twig\\Components\\EntryCommentComponent::SHOW_ENTRY_TITLE') -%}
+{% if EntryCommentShowMagazineName is not defined %}
+    {% set EntryCommentShowMagazineName = true %}
+{% endif %}
 
 {% if subject is entry %}
     {{ component('entry', {entry: subject}) }}
 {% elseif subject is entry_comment %}
-    {{ component('entry_comment', {comment: subject, showEntryTitle: false}) }}
+    {{ component('entry_comment', {comment: subject, showEntryTitle: false, showMagazineName: EntryCommentShowMagazineName}) }}
 {% elseif subject is post %}
     {{ component('post', {post: subject}) }}
 {% elseif subject is post_comment %}
