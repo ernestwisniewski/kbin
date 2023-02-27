@@ -148,32 +148,11 @@
     "egulias/email-validator": {
         "version": "3.1.1"
     },
-    "elasticsearch/elasticsearch": {
-        "version": "v7.13.1"
-    },
     "embed/embed": {
         "version": "dev-master"
     },
-    "ezimuel/guzzlestreams": {
-        "version": "3.0.1"
-    },
-    "ezimuel/ringphp": {
-        "version": "1.1.2"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
-    },
-    "friendsofsymfony/elastica-bundle": {
-        "version": "5.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "5.0",
-            "ref": "46c9cd2c1e07f0fcfd97e96f12b03b2e0845c4cd"
-        },
-        "files": [
-            "config/packages/fos_elastica.yaml"
-        ]
     },
     "friendsofsymfony/jsrouting-bundle": {
         "version": "2.3",
@@ -216,9 +195,6 @@
     },
     "imagine/imagine": {
         "version": "1.2.4"
-    },
-    "jolicode/elastically": {
-        "version": "v1.3.0"
     },
     "justinrainbow/json-schema": {
         "version": "5.2.12"
@@ -337,9 +313,6 @@
     "nucleos/antispam-bundle": {
         "version": "2.2.0"
     },
-    "nyholm/dsn": {
-        "version": "2.0.0"
-    },
     "oneup/flysystem-bundle": {
         "version": "3.0",
         "recipe": {
@@ -402,12 +375,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "react/promise": {
-        "version": "v2.8.0"
-    },
-    "ruflin/elastica": {
-        "version": "7.1.1"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -673,9 +640,6 @@
     },
     "symfony/polyfill-php56": {
         "version": "v1.20.0"
-    },
-    "symfony/polyfill-php73": {
-        "version": "v1.23.0"
     },
     "symfony/polyfill-php80": {
         "version": "v1.23.0"

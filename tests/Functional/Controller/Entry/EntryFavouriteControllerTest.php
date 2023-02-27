@@ -24,7 +24,7 @@ class EntryFavouriteControllerTest extends WebTestCase
 
         $client->click($crawler->filter('.options-activity')->selectLink('favourites (2)')->link());
 
-        $this->assertSelectorTextContains('#main .user-list', 'JaneDoe');
-        $this->assertSelectorTextContains('#main .user-list', 'JohnDoe');
+        $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
+        $this->assertSelectorTextContains('#main .users-columns', 'JohnDoe');
     }
 }

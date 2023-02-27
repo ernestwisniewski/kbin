@@ -8,13 +8,13 @@ use App\Tests\WebTestCase;
 
 class PrivacyPolicyControllerTest extends WebTestCase
 {
-    public function testUserCanVoteOnEntry(): void
+    public function testPrivacyPolicyPage(): void
     {
         $client = $this->createClient();
 
         $crawler = $client->request('GET', '/');
         $client->click($crawler->filter('#footer a[href="/privacy-policy"]')->link());
 
-        $this->assertSelectorTextContains('h1', 'Privacy Policy');
+        $this->assertSelectorTextContains('h1', 'Privacy policy');
     }
 }

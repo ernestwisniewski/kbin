@@ -140,5 +140,5 @@ COPY --from=app_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=app_php /srv/app/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.5 as symfony_elastic
-RUN bin/elasticsearch-plugin install pl.allegro.tech.elasticsearch.plugin:elasticsearch-analysis-morfologik:7.17.5
+#FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.5 as symfony_elastic
+#RUN bin/elasticsearch-plugin install pl.allegro.tech.elasticsearch.plugin:elasticsearch-analysis-morfologik:7.17.5

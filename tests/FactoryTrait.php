@@ -245,14 +245,14 @@ trait FactoryTrait
 
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent(
-                $entry ?? $this->getEntryByTitle('Przykladowa treść'),
+                $entry ?? $this->getEntryByTitle('test entry content'),
                 $parent,
                 null,
                 $body
             );
         } else {
             $dto = new EntryCommentDto();
-            $dto->entry = $entry ?? $this->getEntryByTitle('Przykladowa treść');
+            $dto->entry = $entry ?? $this->getEntryByTitle('test entry content');
             $dto->body = $body;
         }
 
@@ -281,7 +281,7 @@ trait FactoryTrait
         $manager = static::getContainer()->get(PostCommentManager::class);
 
         $dto = new PostCommentDto();
-        $dto->post = $post ?? $this->createPost('testowy post');
+        $dto->post = $post ?? $this->createPost('test post content');
         $dto->body = $body;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));

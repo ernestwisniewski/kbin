@@ -8,7 +8,7 @@ use App\Tests\WebTestCase;
 
 class TermsControllerTest extends WebTestCase
 {
-    public function testUserCanVoteOnEntry(): void
+    public function testTermsPage(): void
     {
         $client = $this->createClient();
 

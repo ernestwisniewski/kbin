@@ -1,4 +1,4 @@
-<blockquote{{ attributes.defaults({class: 'section comment'}).without('id') }} id="entry-comment-{{ comment.id }}">
+<blockquote{{ attributes.defaults({class: 'section comment entry-comment'}).without('id') }} id="entry-comment-{{ comment.id }}">
     <header>
         {{ component('user_inline', {user: comment.user, hideAvatar: true}) }},
         {{ component('date', {date: comment.createdAt}) }}

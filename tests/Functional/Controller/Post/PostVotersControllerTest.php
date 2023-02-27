@@ -24,6 +24,6 @@ class PostVotersControllerTest extends WebTestCase
 
         $client->click($crawler->filter('.options-activity')->selectLink('up votes (1)')->link());
 
-        $this->assertSelectorTextContains('#main .user-list', 'JaneDoe');
+        $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }
 }

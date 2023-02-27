@@ -24,7 +24,7 @@ class EntryVotersControllerTest extends WebTestCase
 
         $client->click($crawler->filter('.options-activity')->selectLink('up votes (1)')->link());
 
-        $this->assertSelectorTextContains('#main .user-list', 'JaneDoe');
+        $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }
 
     public function testUserCanSeeDownVoters(): void
@@ -41,6 +41,6 @@ class EntryVotersControllerTest extends WebTestCase
 
         $client->click($crawler->filter('.options-activity')->selectLink('down votes (1)')->link());
 
-        $this->assertSelectorTextContains('#main .user-list', 'JaneDoe');
+        $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }
 }

@@ -168,36 +168,6 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.controller, priority: -5 }
 
-  # Elastic
-  App\Search\Elastica\MultiIndex:
-    arguments:
-      $name: 'entries'
-    calls:
-      - [ addIndices, [ [
-          '@fos_elastica.index.magazines',
-          '@fos_elastica.index.entries',
-          '@fos_elastica.index.entry_comments',
-          '@fos_elastica.index.posts',
-          '@fos_elastica.index.post_comments'
-      ] ] ]
-
-  Elastica\SearchableInterface: '@App\Search\Elastica\MultiIndex'
-
-  App\Search\Transformer\ElasticaToModelTransformerCollection:
-    arguments:
-      - {
-        magazines: '@fos_elastica.elastica_to_model_transformer.magazines',
-        entries: '@fos_elastica.elastica_to_model_transformer.entries',
-        entry_comments: '@fos_elastica.elastica_to_model_transformer.entry_comments',
-        posts: '@fos_elastica.elastica_to_model_transformer.posts',
-        post_comments: '@fos_elastica.elastica_to_model_transformer.post_comments'
-      }
-
-  FOS\ElasticaBundle\Transformer\ElasticaToModelTransformerInterface: '@App\Search\Transformer\ElasticaToModelTransformerCollection'
-
-  FOS\ElasticaBundle\Finder\TransformedFinder: ~
-
-  FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@FOS\ElasticaBundle\Finder\TransformedFinder'
 
   # Notifications
   App\EventListener\ContentNotificationPurgeListener:
