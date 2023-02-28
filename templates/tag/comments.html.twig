@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    #{{ tag }} - {{ 'comments'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-tag-comments{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'tag/_options.html.twig' %}
+    <div class="comments entry-comments">
+        {% for comment in comments %}
+            {{ component('entry_comment', {comment: comment}) }}
+        {% endfor %}
+
+        {% if not comments|length %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+    </div>
+{% endblock %}

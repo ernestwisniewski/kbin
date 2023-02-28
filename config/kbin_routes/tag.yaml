@@ -1,10 +1,10 @@
-tag_overall:
-  controller: App\Controller\Tag\OverallController
+tag_overview:
+  controller: App\Controller\Tag\TagOverviewController
   path: /tag/{name}
   methods: [GET]
 
-tag_front:
-  controller: App\Controller\Tag\FrontController
+tag_entries:
+  controller: App\Controller\Tag\TagEntryFrontController
   defaults: { sortBy: hot, time: ~ }
   path:
     en: tag/{name}/threads/{sortBy}/{time}
@@ -12,8 +12,8 @@ tag_front:
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
-tag_entry_comments_front:
-  controller: App\Controller\Tag\CommentFrontController
+tag_comments:
+  controller: App\Controller\Tag\TagCommentFrontController
   defaults: { sortBy: hot, time: ~ }
   path:
     en: tag/{name}/comments/{sortBy}/{time}
@@ -21,11 +21,20 @@ tag_entry_comments_front:
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
-tag_posts_front:
-  controller: App\Controller\Tag\PostFrontController
+tag_posts:
+  controller: App\Controller\Tag\TagPostFrontController
   defaults: { sortBy: hot, time: ~ }
   path:
     en: tag/{name}/posts/{sortBy}/{time}
     pl: tag/{name}/wpisy/{sortBy}/{time}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+tag_people:
+  controller: App\Controller\Tag\TagPeopleFrontController
+  defaults: { sortBy: hot, time: ~ }
+  path:
+    en: tag/{name}/people
+    pl: tag/{name}/ludzie
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }

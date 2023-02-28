@@ -10,7 +10,7 @@ use App\Service\TagManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class OverallController extends AbstractController
+class TagOverviewController extends AbstractController
 {
     public function __construct(private readonly TagManager $tagManager, private readonly TagRepository $tagRepository)
     {
@@ -19,7 +19,7 @@ class OverallController extends AbstractController
     public function __invoke(string $name, Request $request): Response
     {
         return $this->render(
-            'tag/overall.html.twig',
+            'tag/overview.html.twig',
             [
                 'tag' => $name,
                 'results' => $this->tagRepository->findOverall(

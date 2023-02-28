@@ -15,6 +15,7 @@ final class ContextExtension extends AbstractExtension
         return [
             new TwigFunction('is_route_name', [ContextExtensionRuntime::class, 'isRouteName']),
             new TwigFunction('is_route_name_contains', [ContextExtensionRuntime::class, 'isRouteNameContains']),
+            new TwigFunction('is_route_name_starts_with', [ContextExtensionRuntime::class, 'isRouteNameStartsWith']),
             new TwigFunction('is_route_name_end_with', [ContextExtensionRuntime::class, 'isRouteNameEndWith']),
             new TwigFunction('route_has_param', [ContextExtensionRuntime::class, 'routeHasParam']),
             new TwigFunction('get_active_sort_option', [ContextExtensionRuntime::class, 'getActiveSortOption']),

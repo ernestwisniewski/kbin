@@ -11,7 +11,7 @@ use App\Service\TagManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CommentFrontController extends AbstractController
+class TagCommentFrontController extends AbstractController
 {
     public function __construct(
         private readonly EntryCommentRepository $repository,

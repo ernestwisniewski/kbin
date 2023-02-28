@@ -140,5 +140,10 @@ ratio: Ratio
 people_local: Local
 people_federated: Federated
 reputation_points: Reputation points
+related_tags: Related tags
+go_to_content: Go to content
+go_to_filters: Go to filters
+go_to_search: Go to search
+go_to_footer: Go to footer
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

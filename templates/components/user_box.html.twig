@@ -16,7 +16,7 @@
                     {% if stretchedLink %}
                         <h1>
                             <a class="link-muted stretched-link"
-                               href="{{ path('user', {'username': user.username}) }}">{{ user.username|username(false) }}</a>
+                               href="{{ path('user_overview', {'username': user.username}) }}">{{ user.username|username(false) }}</a>
                         </h1>
                     {% else %}
                         <h1>{{ user.username|username(false) }}</h1>

@@ -1,5 +1,5 @@
 people_front:
-  controller: App\Controller\People\FrontController
+  controller: App\Controller\People\PeopleFrontController
   path:
     en: /people
     pl: /ludzie

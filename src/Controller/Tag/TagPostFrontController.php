@@ -11,7 +11,7 @@ use App\Service\TagManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PostFrontController extends AbstractController
+class TagPostFrontController extends AbstractController
 {
     public function __construct(private readonly TagManager $tagManager)
     {

@@ -8,7 +8,7 @@
                        href="{{ entry.url }}">{{ entry.title }}</a>
                     {% if entry.domain %}
                         <span class="entry__domain">
-                            (<a href="{{ path('domain_front', {name: entry.domain.name}) }}">{{ entry.domain.name }}</a>)
+                            (<a href="{{ path('domain_entries', {name: entry.domain.name}) }}">{{ entry.domain.name }}</a>)
                         </span>
                     {% endif %}
                 {% else %}
@@ -20,8 +20,8 @@
                 <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
                 {% if entry.domain %}
                     <span class="entry__domain">
-                        (<a href="{{ path('domain_front', {
-                            'name': entry.domain.name
+                        (<a href="{{ path('domain_entries', {
+                            name: entry.domain.name
                         }) }}">{{ entry.domain.name }}</a>)
                     </span>
                 {% endif %}

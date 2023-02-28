@@ -1,4 +1,4 @@
-user:
+user_overview:
   controller: App\Controller\User\UserFrontController::front
   path: /u/{username}
   methods: [ GET ]

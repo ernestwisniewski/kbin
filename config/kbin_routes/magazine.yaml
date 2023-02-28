@@ -44,7 +44,7 @@ magazine_awards:
   methods: [ GET ]
 
 magazine_people:
-  controller: App\Controller\Magazine\MagazinePeopleController
+  controller: App\Controller\Magazine\MagazinePeopleFrontController
   path:
     en: /m/{name}/people
     pl: /m/{name}/ludzie

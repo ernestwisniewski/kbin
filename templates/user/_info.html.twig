@@ -9,7 +9,7 @@
                          alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
                 </figure>
             {% endif %}
-            <h4><a href="{{ path('user', {username:user.username}) }}"
+            <h4><a href="{{ path('user_overview', {username:user.username}) }}"
                    class="stretched-link">{{ user.username|username(false) }}</a></h4>
             <p class="user__name">{{ user.apId }}</p>
         </div>

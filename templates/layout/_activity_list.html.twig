@@ -11,7 +11,7 @@
                         {{ component('user_avatar', {user:attribute(subject, actor) }) }}
                     {% endif %}
                     <div>
-                        <a href="{{ path('user', {username: attribute(subject, actor).username}) }}"
+                        <a href="{{ path('user_overview', {username: attribute(subject, actor).username}) }}"
                            class="stretched-link">{{ attribute(subject, actor).username|username }}</a>
                         <small>{{ component('date', {date: subject.createdAt}) }}</small>
                     </div>

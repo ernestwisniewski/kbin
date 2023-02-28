@@ -1,9 +1,9 @@
 <header id="header">
     <div class="sr-nav">
-        <a href="#content">Przejdź do treści</a>
-        <a href="#options">Przejdź do filtrów</a>
-        <a href="#search">Przejdź do wyszukiwarki</a>
-        <a href="#footer">Przejdź do stopki</a>
+        <a href="#content">{{ 'go_to_content'|trans }}</a>
+        <a href="#options">{{ 'go_to_filters'|trans }}</a>
+        <a href="#search">{{ 'go_to_search'|trans }}</a>
+        <a href="#footer">{{ 'go_to_footer'|trans }}</a>
     </div>
     <div class="brand">
         <a href="/">{{ kbin_title() }}</a>
@@ -14,15 +14,16 @@
         </div>
     {% elseif user is defined and user %}
         <div class="magazine">
-            <span>/u/</span><a href="{{ path('user', {username: user.username}) }}">{{ user.username|username }}</a>
+            <span>/u/</span><a
+                    href="{{ path('user_overview', {username: user.username}) }}">{{ user.username|username }}</a>
         </div>
     {% elseif domain is defined and domain %}
         <div class="magazine">
-            <span>/d/</span><a href="{{ path('domain_front', {name: domain.name}) }}">{{ domain.name }}</a>
+            <span>/d/</span><a href="{{ path('domain_entries', {name: domain.name}) }}">{{ domain.name }}</a>
         </div>
     {% elseif tag is defined and tag %}
         <div class="magazine">
-            <span>#</span><a href="{{ path('tag_front', {name: tag}) }}">{{ tag }}</a>
+            <span>#</span><a href="{{ path('tag_entries', {name: tag}) }}">{{ tag }}</a>
         </div>
     {% elseif is_route_name_end_with('_subscribed') %}
         <div class="magazine">
@@ -43,24 +44,24 @@
             <menu>
                 <li>
                     <a href="{{ navbar_threads_url() }}"
-                       class="{{ html_classes({'active': is_route_name('front') or is_route_name_contains('front_') or entry is defined and entry }) }}">
+                       class="{{ html_classes({'active': is_route_name_starts_with('front') or is_route_name_contains('_entries') or entry is defined and entry }) }}">
                         {{ 'threads'|trans }}
                     </a>
                 </li>
                 <li>
                     <a href="{{ navbar_posts_url() }}"
-                       class="{{ html_classes({'active': is_route_name_contains('post') and not is_route_name_contains('user') }) }}">
+                       class="{{ html_classes({'active': (is_route_name('posts_front') or is_route_name_contains('posts') or post is defined)  and not is_route_name_contains('user') }) }}">
                         {{ 'microblog'|trans }}
                     </a>
                 </li>
-{#                <li>#}
-{#                    <a href="#">#}
-{#                        {{ 'events'|trans }}#}
-{#                    </a>#}
-{#                </li>#}
+                {#                <li> #}
+                {#                    <a href="#"> #}
+                {#                        {{ 'events'|trans }} #}
+                {#                    </a> #}
+                {#                </li> #}
                 <li>
                     <a href="{{ navbar_people_url() }}"
-                       class="{{ html_classes({'active': is_route_name_contains('people')}) }}">
+                       class="{{ html_classes({'active': is_route_name_contains('people') or user is defined}) }}">
                         {{ 'people'|trans }}
                     </a>
                 </li>

@@ -13,7 +13,7 @@ use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FrontController extends AbstractController
+class TagEntryFrontController extends AbstractController
 {
     public function __construct(
         private readonly EntryRepository $entryRepository,

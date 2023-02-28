@@ -18,7 +18,7 @@
                             </figure>
                         {% endif %}
                         <div>
-                            <a href="{{ path('user', {username: user.username}) }}"
+                            <a href="{{ path('user_overview', {username: user.username}) }}"
                                class="stretched-link">{{ user.username }}</a>
                             <small>{{ component('date', {date: user.createdAt}) }}</small>
                         </div>

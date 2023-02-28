@@ -10,7 +10,7 @@ use App\Service\PeopleManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FrontController extends AbstractController
+class PeopleFrontController extends AbstractController
 {
     public function __construct(private readonly PeopleManager $manager, private readonly MagazineRepository $magazineRepository)
     {

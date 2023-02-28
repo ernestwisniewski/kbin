@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    #{{ tag }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-tag-overview{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'tag/_options.html.twig' %}
+    <div class="overview subjects">
+        {% for subject in results %}
+            {% include 'layout/_subject.html.twig' with {EntryCommentShowMagazineName: false} %}
+        {% endfor %}
+
+        {% if not results|length %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+    </div>
+{% endblock %}

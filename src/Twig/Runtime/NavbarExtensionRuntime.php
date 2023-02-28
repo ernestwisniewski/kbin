@@ -24,11 +24,14 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
         }
 
         if ($domain = $this->requestStack->getCurrentRequest()->get('domain')) {
-            return $this->urlGenerator->generate('domain_front', ['name' => $domain->name]);
+            return $this->urlGenerator->generate('domain_entries', ['name' => $domain->name]);
         }
 
-        if ($tag = $this->requestStack->getCurrentRequest()->get('tag')) {
-            return $this->urlGenerator->generate('tag_overall', ['name' => $tag]);
+        if (str_starts_with($this->getCurrentRouteName(), 'tag')) {
+            return $this->urlGenerator->generate(
+                'tag_entries',
+                ['name' => $this->requestStack->getCurrentRequest()->get('name')]
+            );
         }
 
         if (str_ends_with($this->getCurrentRouteName(), '_subscribed')) {
@@ -54,8 +57,11 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
             return $this->urlGenerator->generate('magazine_posts', ['name' => $magazine->name]);
         }
 
-        if ($tag = $this->requestStack->getCurrentRequest()->get('tag')) {
-            return $this->urlGenerator->generate('tag_posts_front', ['name' => $tag]);
+        if (str_starts_with($this->getCurrentRouteName(), 'tag')) {
+            return $this->urlGenerator->generate(
+                'tag_posts',
+                ['name' => $this->requestStack->getCurrentRequest()->get('name')]
+            );
         }
 
         if (str_ends_with($this->getCurrentRouteName(), '_subscribed')) {
@@ -76,6 +82,13 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
     public function navbarPeopleUrl(): string
     {
         $magazine = $this->requestStack->getCurrentRequest()->get('magazine');
+
+        if (str_starts_with($this->getCurrentRouteName(), 'tag')) {
+            return $this->urlGenerator->generate(
+                'tag_people',
+                ['name' => $this->requestStack->getCurrentRequest()->get('name')]
+            );
+        }
 
         if ($magazine instanceof Magazine) {
             return $this->urlGenerator->generate('magazine_people', ['name' => $magazine->name]);

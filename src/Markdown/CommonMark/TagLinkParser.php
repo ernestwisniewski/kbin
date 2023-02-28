@@ -25,7 +25,7 @@ final class TagLinkParser extends AbstractLocalLinkParser
     public function getUrl(string $suffix): string
     {
         return $this->urlGenerator->generate(
-            'tag_overall',
+            'tag_overview',
             ['name' => str_replace('#', '', $suffix)],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

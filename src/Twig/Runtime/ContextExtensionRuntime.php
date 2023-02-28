@@ -18,6 +18,11 @@ class ContextExtensionRuntime implements RuntimeExtensionInterface
         return str_contains($this->getCurrentRouteName(), $needle);
     }
 
+    public function isRouteNameStartsWith(string $needle): bool
+    {
+        return str_starts_with($this->getCurrentRouteName(), $needle);
+    }
+
     public function isRouteNameEndWith(string $needle): bool
     {
         return str_ends_with($this->getCurrentRouteName(), $needle);

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Magazine;
+namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
-use App\Entity\Magazine;
 use App\Repository\MagazineRepository;
+use App\Repository\PostRepository;
 use App\Service\PeopleManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MagazinePeopleController extends AbstractController
+class TagPeopleFrontController extends AbstractController
 {
     public function __construct(
         private readonly PeopleManager $manager,
@@ -19,17 +19,22 @@ class MagazinePeopleController extends AbstractController
     ) {
     }
 
-    public function __invoke(Magazine $magazine, ?string $category, Request $request): Response
-    {
+    public function __invoke(
+        string $name,
+        ?string $sortBy,
+        ?string $time,
+        PostRepository $repository,
+        Request $request
+    ): Response {
         return $this->render(
-            'people/front.html.twig', [
-                'magazine' => $magazine,
+            'tag/people.html.twig', [
+                'tag' => $name,
                 'magazines' => array_filter(
                     $this->magazineRepository->findByActivity(),
                     fn($val) => 'random' != $val->name
                 ),
-                'local' => $this->manager->byMagazine($magazine),
-                'federated' => $this->manager->byMagazine($magazine, true),
+                'local' => $this->manager->general(),
+                'federated' => $this->manager->general(true),
             ]
         );
     }

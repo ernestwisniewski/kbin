@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    #{{ tag }} - {{ 'posts'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-tag-posts{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'tag/_options.html.twig' %}
+    <div class="posts">
+        {% for post in posts %}
+            {{ component('post', {post: post}) }}
+        {% endfor %}
+
+        {% if not posts|length %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+    </div>
+{% endblock %}
