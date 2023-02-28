@@ -8,7 +8,7 @@ $transition: 180ms all 120ms ease-out;
 
   .dropdown__menu {
     background-color: var(--kbin-section-bg);
-    border: var(--kbin-meta-border);
+    border: var(--kbin-section-border);
     left: 50%;
     margin-bottom: 0;
     margin-top: 0;
@@ -23,6 +23,7 @@ $transition: 180ms all 120ms ease-out;
 
     a {
       color: var(--kbin-meta-link-color) !important;
+      font-weight: normal !important;
 
       &:hover {
         color: var(--kbin-meta-link-hover-color) !important;
