@@ -15,10 +15,14 @@
         <h5>{{ 'useful'|trans|lower }}</h5>
         <menu>
             <li><a href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a></li>
-            <li><a href="#">{{ 'add_new_article'|trans }}</a></li>
-            <li><a href="#">{{ 'add_new_link'|trans }}</a></li>
-            <li><a href="#">{{ 'add_new_photo'|trans }}</a></li>
-            <li><a href="#">{{ 'add_new_post'|trans }}</a></li>
+            <li>
+                <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}">{{ 'add_new_article'|trans }}</a>
+            </li>
+            <li><a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}">{{ 'add_new_link'|trans }}</a>
+            </li>
+            <li><a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}">{{ 'add_new_photo'|trans }}</a>
+            </li>
+            <li><a href="{{ path('posts_front') }}">{{ 'add_new_post'|trans }}</a></li>
             <li><a href="#">{{ 'add_new_video'|trans }}</a></li>
         </menu>
     </section>

@@ -36,6 +36,10 @@
     grid-auto-flow: column;
     list-style: none;
 
+    .icon i {
+      font-size: .85rem;
+    }
+
     li a {
       border-bottom: 3px solid transparent;
       display: block;

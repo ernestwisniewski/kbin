@@ -107,6 +107,13 @@ table tbody tr:nth-of-type(even) {
 }
 
 .opacity-50 {
-    opacity: .5;
+  opacity: .5;
 }
 
+.icon {
+  font-size: 0;
+
+  i {
+    font-size: initial;
+  }
+}

@@ -80,32 +80,54 @@
     <menu>
         <li>
             <a href="#"
+               class="icon"
                aria-label="{{ 'search'|trans }}"
                title="{{ 'search'|trans }}">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <i class="fa-solid fa-magnifying-glass"></i> {{ 'search'|trans }}
             </a>
         </li>
-        <li>
+        <li class="dropdown">
             <a href="{{ path('entry_create') }}"
+               class="icon"
                aria-label="{{ 'add'|trans }}"
                title="{{ 'add'|trans }}">
-                <i class="fa-solid fa-plus"></i>
+                <i class="fa-solid fa-plus"></i> {{ 'add'|trans }}
             </a>
+            <ul class="dropdown__menu">
+                <li><a href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a></li>
+                <li>
+                    <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}">{{ 'add_new_article'|trans }}</a>
+                </li>
+                <li><a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}">{{ 'add_new_link'|trans }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}">{{ 'add_new_photo'|trans }}</a>
+                </li>
+                <li><a href="{{ path('posts_front') }}">{{ 'add_new_post'|trans }}</a></li>
+                <li><a href="#">{{ 'add_new_video'|trans }}</a></li>
+            </ul>
         </li>
-        <li>
+        <li class="dropdown">
             <a href="#"
+               class="icon"
                aria-label="{{ 'select_channel'|trans }}"
                title="{{ 'select_channel'|trans }}">
-                <i class="fa-regular fa-eye"></i>
+                <i class="fa-regular fa-eye"></i> {{ 'select_channel'|trans }}
             </a>
+            <ul class="dropdown__menu">
+                <li><a href="{{ path('front') }}">{{ 'all'|trans }}</a></li>
+                <li><a href="{{ path('front_subscribed') }}">{{ 'subscribed'|trans }}</a></li>
+                <li><a href="{{ path('front_moderated') }}">{{ 'moderated'|trans }}</a></li>
+                <li><a href="{{ path('front_favourite') }}">{{ 'favourites'|trans }}</a></li>
+            </ul>
         </li>
-        <li>
+        <li class="dropdown">
             {% if app.user %}
-                <a href="#"
-                   aria-label="{{ 'login'|trans }}"
-                   title="{{ 'login'|trans }}">
-                    <i class="fa-solid fa-user"></i>
-                </a>
+                <a class="{{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
+                   href="{{ path('app_login') }}">{{ app.user.username }}</a>
+                <ul class="dropdown__menu">
+                    <li><a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a></li>
+                </ul>
             {% else %}
                 <a class="{{ html_classes('login', {'active': is_route_name('app_login')}) }}"
                    href="{{ path('app_login') }}">{{ 'login'|trans }}</a>

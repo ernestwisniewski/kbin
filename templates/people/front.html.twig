@@ -24,8 +24,7 @@
         <menu class="options__main">
             {% for mag in magazines %}
                 <li>
-                    <a href="{{ path('magazine_people', {name: mag.name}) }}"
-                       class="{{ html_classes({'active': magazine is defined and magazine is same as mag}) }}">
+                    <a href="{{ path('magazine_people', {name: mag.name}) }}">
                         {{ mag.title }}
                     </a>
                 </li>
