@@ -1,19 +1,18 @@
 // Learn about how this was made:
 // @link https://moderncss.dev/css-only-accessible-dropdown-navigation-menu/
 $transition: 180ms all 120ms ease-out;
-$transition: 180ms all 120ms ease-out;
 
 .dropdown {
   position: relative;
 
   .dropdown__menu {
+    z-index: 100;
     background-color: var(--kbin-section-bg);
     border: var(--kbin-section-border);
     left: 50%;
     margin-bottom: 0;
     margin-top: 0;
     min-width: 15rem;
-    opacity: .3;
     padding: .5rem 0;
     position: absolute;
     top: calc(100% - 0.25rem);
@@ -21,9 +20,14 @@ $transition: 180ms all 120ms ease-out;
     transform-origin: top center;
     visibility: hidden;
 
+    li {
+      list-style: none;
+    }
+
     a {
       color: var(--kbin-meta-link-color) !important;
       font-weight: normal !important;
+      border: 0;
 
       &:hover {
         color: var(--kbin-meta-link-hover-color) !important;

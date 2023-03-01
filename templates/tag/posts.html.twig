@@ -15,7 +15,7 @@
 
 {% block body %}
     {% include 'tag/_options.html.twig' %}
-    <div class="posts">
+    <div id="content" class="posts">
         {% for post in posts %}
             {{ component('post', {post: post}) }}
         {% endfor %}

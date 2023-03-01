@@ -24,7 +24,7 @@
     {% else %}
         <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
     {% endif %}
-    {% include 'entry/_options.html.twig' %}
+    {% include 'entry/comment/_options.html.twig' %}
     {% if magazine is defined and magazine %}
         {% if magazine.apId %}
             <div class="alert alert__info">

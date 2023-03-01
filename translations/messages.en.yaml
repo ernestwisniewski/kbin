@@ -148,5 +148,19 @@ go_to_footer: Go to footer
 subscribed: Subscribed
 all: All
 logout: Log out
+classic_view: Classic view
+compact_view: Compact view
+tree_view: Tree view
+3h: '3h'
+6h: '6h'
+12h: '12h'
+1d: '1d'
+1w: '1t'
+1m: '1m'
+1y: '1y'
+links: Links
+articles: Articles
+photos: Photos
+videos: Videos
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

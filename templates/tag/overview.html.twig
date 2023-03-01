@@ -15,7 +15,7 @@
 
 {% block body %}
     {% include 'tag/_options.html.twig' %}
-    <div class="overview subjects">
+    <div id="content" class="overview subjects">
         {% for subject in results %}
             {% include 'layout/_subject.html.twig' with {EntryCommentShowMagazineName: false} %}
         {% endfor %}

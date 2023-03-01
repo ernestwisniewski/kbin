@@ -8,8 +8,6 @@
   grid-template-columns: max-content auto max-content max-content;
   height: 2.5rem;
   margin-bottom: .5rem;
-  overflow: hidden;
-  overflow-x: scroll;
 
   &::-webkit-scrollbar {
     display: none;
@@ -42,7 +40,9 @@
     margin: 0;
     padding: 0;
 
-    a {
+    a, button {
+      background: none;
+      border: 0;
       border-bottom: 3px solid transparent;
       color: var(--kbin-options-link-color);
       display: block;
@@ -60,12 +60,23 @@
 
   &__main {
     justify-content: start;
-    max-width: 500px;
+    max-width: 53.438rem;
+    overflow: hidden;
+    overflow-x: scroll;
   }
 
   &__title {
     align-self: center;
     margin: 0 .5rem;
     text-transform: uppercase;
+  }
+
+  &__layout button,
+  &__filters button {
+    font-size: 0;
+
+    i, span {
+      font-size: .85rem;
+    }
   }
 }

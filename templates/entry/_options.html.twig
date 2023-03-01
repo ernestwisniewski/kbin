@@ -2,14 +2,14 @@
     <menu class="options__main">
         <li>
             <a href="{{ options_url('sortBy', 'top'|trans|lower) }}"
-                class="{{ html_classes({'active': is_route_params_contains('sortBy', 'top'|trans|lower)}) }}">
+               class="{{ html_classes({'active': is_route_params_contains('sortBy', 'top'|trans|lower)}) }}">
                 {{ 'top'|trans|lower }}
             </a>
         </li>
         <li>
             <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
                class="{{ html_classes({'active': is_route_params_contains('sortBy', 'hot'|trans|lower)}) }}">
-            {{ 'hot'|trans|lower }}
+                {{ 'hot'|trans|lower }}
             </a>
         </li>
         <li>
@@ -21,7 +21,7 @@
         <li>
             <a href="{{ options_url('sortBy', 'active'|trans|lower) }}"
                class="{{ html_classes({'active': is_route_params_contains('sortBy', 'active'|trans|lower)}) }}">
-            {{ 'active'|trans|lower }}
+                {{ 'active'|trans|lower }}
             </a>
         </li>
         <li>
@@ -32,14 +32,43 @@
         </li>
     </menu>
     <menu class="options__layout">
-        <li><a href="#" title="{{ 'change_view'|trans }}" aria-label="{{ 'change_view'|trans }}"><i class="fa-solid fa-layer-group"></i></a></li>
+        <li class="dropdown">
+            <button aria-label="{{ 'change_view'|trans }}"
+                    title="{{ 'change_view'|trans }}"><i
+                        class="fa-solid fa-layer-group"></i> {{ 'change_view'|trans }}</button>
+            <ul class="dropdown__menu">
+                <li><a href="#">{{ 'classic_view'|trans|lower }}</a></li>
+                <li><a href="#">{{ 'compact_view'|trans|lower }}</a></li>
+            </ul>
+        </li>
     </menu>
     <menu class="options__filters">
-        <li>
-            <a href="#" title="{{ 'filter_by_time'|trans }}" aria-label="{{ 'filter_by_time'|trans }}"><i class="fa-solid fa-clock-rotate-left"></i></a>
+        <li class="dropdown">
+            <button aria-label="{{ 'filter_by_time'|trans }}"
+                    title="{{ 'filter_by_time'|trans }}"><i
+                        class="fa-solid fa-clock-rotate-left"></i> {{ 'filter_by_time'|trans }}</button>
+            <ul class="dropdown__menu">
+                <li><a href="#">{{ 'all'|trans|lower }}</a></li>
+                <li><a href="#">{{ '3h'|trans|lower }}</a></li>
+                <li><a href="#">{{ '6h'|trans|lower }}</a></li>
+                <li><a href="#">{{ '12h'|trans|lower }}</a></li>
+                <li><a href="#">{{ '1d'|trans|lower }}</a></li>
+                <li><a href="#">{{ '1m'|trans|lower }}</a></li>
+                <li><a href="#">{{ '1y'|trans|lower }}</a></li>
+            </ul>
         </li>
-        <li>
-            <a href="#" title="{{ 'filter_by_type'|trans }}" aria-label="{{ 'filter_by_type'|trans }}"><i class="fa-solid fa-photo-film"></i></a>
+        <li class="dropdown">
+            <button
+                    aria-label="{{ 'filter_by_type'|trans }}"
+                    title="{{ 'filter_by_type'|trans }}"><i
+                        class="fa-solid fa-photo-film"></i> {{ 'filter_by_type'|trans }}</button>
+            <ul class="dropdown__menu">
+                <li><a href="#">{{ 'all'|trans|lower }}</a></li>
+                <li><a href="#">{{ 'links'|trans|lower }}</a></li>
+                <li><a href="#">{{ 'articles'|trans|lower }}</a></li>
+                <li><a href="#">{{ 'photos'|trans|lower }}</a></li>
+                <li><a href="#">{{ 'videos'|trans|lower }}</a></li>
+            </ul>
         </li>
     </menu>
 </aside>

@@ -15,7 +15,7 @@
 
 {% block body %}
     {% include 'tag/_options.html.twig' %}
-    <div class="entries">
+    <div id="content" class="entries">
         {% for entry in entries %}
             {{ component('entry', {entry: entry}) }}
         {% endfor %}

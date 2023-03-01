@@ -31,15 +31,22 @@
             </a>
         </li>
     </menu>
-    <menu class="options__layout">
-        <li><a href="#" title="{{ 'change_view'|trans }}" aria-label="{{ 'change_view'|trans }}"><i class="fa-solid fa-layer-group"></i></a></li>
-    </menu>
     <menu class="options__filters">
-        <li>
-            <a href="#" title="{{ 'filter_by_time'|trans }}" aria-label="{{ 'filter_by_time'|trans }}"><i class="fa-solid fa-clock-rotate-left"></i></a>
-        </li>
-        <li>
-            <a href="#" title="{{ 'filter_by_type'|trans }}" aria-label="{{ 'filter_by_type'|trans }}"><i class="fa-solid fa-photo-film"></i></a>
+        <li class="dropdown">
+            <button aria-label="{{ 'filter_by_time'|trans }}"
+                    title="{{ 'filter_by_time'|trans }}"><i
+                        class="fa-solid fa-clock-rotate-left"></i> {{ 'filter_by_time'|trans }}</button>
+            <ul class="dropdown__menu">
+                <li><a href="#">{{ 'all'|trans|lower }}</a></li>
+                <li><a href="#">{{ '3h'|trans|lower }}</a></li>
+                <li><a href="#">{{ '6h'|trans|lower }}</a></li>
+                <li><a href="#">{{ '12h'|trans|lower }}</a></li>
+                {% if get_active_sort_option() is not same as 'sort.hot'|trans|lower %}
+                    <li><a href="#">{{ '1d'|trans|lower }}</a></li>
+                    <li><a href="#">{{ '1m'|trans|lower }}</a></li>
+                    <li><a href="#">{{ '1y'|trans|lower }}</a></li>
+                {% endif %}
+            </ul>
         </li>
     </menu>
 </aside>
