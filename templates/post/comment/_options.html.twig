@@ -1,6 +1,14 @@
 <aside class="options" id="options">
     <div class="options__title"><h2>{{ 'comments'|trans }} ({{ post.commentCount }})</h2></div>
     <menu class="options__layout">
-        <li><a href="#" title="{{ 'change_view'|trans }}" aria-label="{{ 'change_view'|trans }}"><i class="fa-solid fa-layer-group"></i></a></li>
+        <li class="dropdown">
+            <button aria-label="{{ 'change_view'|trans }}"
+                    title="{{ 'change_view'|trans }}"><i
+                        class="fa-solid fa-layer-group"></i> {{ 'change_view'|trans }}</button>
+            <ul class="dropdown__menu">
+                <li><a class="active" href="#">{{ 'classic_view'|trans|lower }}</a></li>
+                <li><a href="#">{{ 'compact_view'|trans|lower }}</a></li>
+            </ul>
+        </li>
     </menu>
 </aside>

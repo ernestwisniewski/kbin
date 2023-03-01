@@ -52,4 +52,9 @@ class ContextExtensionRuntime implements RuntimeExtensionInterface
     {
         return $this->requestStack->getCurrentRequest()->get('sortBy') ?? 'hot';
     }
+
+    public function getRouteParam(string $name): ?string
+    {
+        return $this->requestStack->getCurrentRequest()->get($name);
+    }
 }

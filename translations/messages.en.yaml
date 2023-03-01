@@ -150,7 +150,10 @@ all: All
 logout: Log out
 classic_view: Classic view
 compact_view: Compact view
+chat_view: Chat view
 tree_view: Tree view
+table_view: Table view
+cards_view: Cards view
 3h: '3h'
 6h: '6h'
 12h: '12h'

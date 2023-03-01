@@ -95,16 +95,28 @@
             </a>
             <ul class="dropdown__menu">
                 <li>
-                    <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}">{{ 'add_new_article'|trans }}</a>
-                </li>
-                <li><a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}">{{ 'add_new_link'|trans }}</a>
+                    <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
+                       class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
+                        {{ 'add_new_article'|trans }}
+                    </a>
                 </li>
                 <li>
-                    <a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}">{{ 'add_new_photo'|trans }}</a>
+                    <a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}"
+                       class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.link'|trans|lower)}) }}">
+                        {{ 'add_new_link'|trans }}
+                    </a>
                 </li>
-                <li><a href="{{ path('posts_front') }}">{{ 'add_new_post'|trans }}</a></li>
+                <li>
+                    <a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}"
+                       class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.photo'|trans|lower)}) }}">
+                        {{ 'add_new_photo'|trans }}
+                    </a>
+                </li>
+                <li><a class="{{ html_classes({'active': is_route_name('posts_front')}) }}"
+                       href="{{ path('posts_front') }}">{{ 'add_new_post'|trans }}</a></li>
                 <li><a href="#">{{ 'add_new_video'|trans }}</a></li>
-                <li><a href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a></li>
+                <li><a class="{{ html_classes({'active': is_route_name('magazine_create')}) }}"
+                       href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a></li>
             </ul>
         </li>
         <li class="dropdown">
@@ -115,10 +127,22 @@
                 <i class="fa-regular fa-eye"></i> {{ 'select_channel'|trans }}
             </a>
             <ul class="dropdown__menu">
-                <li><a href="{{ path('front') }}">{{ 'all'|trans }}</a></li>
-                <li><a href="{{ path('front_subscribed') }}">{{ 'subscribed'|trans }}</a></li>
-                <li><a href="{{ path('front_moderated') }}">{{ 'moderated'|trans }}</a></li>
-                <li><a href="{{ path('front_favourite') }}">{{ 'favourites'|trans }}</a></li>
+                <li>
+                    <a href="{{ path('front') }}"
+                       class="{{ html_classes({'active': is_route_name('front')}) }}">{{ 'all'|trans }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('front_subscribed') }}"
+                       class="{{ html_classes({'active': is_route_name('front_subscribed')}) }}">{{ 'subscribed'|trans }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('front_moderated') }}"
+                       class="{{ html_classes({'active': is_route_name('front_moderated')}) }}">{{ 'moderated'|trans }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('front_favourite') }}"
+                       class="{{ html_classes({'active': is_route_name('front_favourite')}) }}">{{ 'favourites'|trans }}</a>
+                </li>
             </ul>
         </li>
         <li class="dropdown">

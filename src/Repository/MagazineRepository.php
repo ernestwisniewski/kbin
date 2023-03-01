@@ -332,7 +332,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->andWhere('m.postCount > 0')
             ->andWhere('m.postCommentCount > 0')
             ->orderBy('m.postCount', 'DESC')
-            ->setMaxResults(100)
+            ->setMaxResults(50)
             ->getQuery()
             ->getResult();
     }
