@@ -33,6 +33,8 @@
             </div>
         {% endif %}
     {% endif %}
-    {% include 'entry/comment/_list.html.twig' %}
+    <div id="content" class="comments-tree">
+        {% include 'entry/comment/_list.html.twig' %}
+    </div>
 {% endblock %}
 

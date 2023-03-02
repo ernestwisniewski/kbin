@@ -8,9 +8,14 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent('entry_comment')]
 final class EntryCommentComponent
 {
-    const SHOW_ENTRY_TITLE = true;
-
     public EntryComment $comment;
     public bool $showMagazineName = true;
-    public bool $showEntryTitle = self::SHOW_ENTRY_TITLE;
+    public bool $showEntryTitle = true;
+    public bool $showNested = false;
+    public int $level = 1;
+
+    public function getLevel(): int
+    {
+        return $this->level > 10 ? 10 : $this->level;
+    }
 }

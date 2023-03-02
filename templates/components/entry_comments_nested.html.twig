@@ -1,0 +1,3 @@
+{% for reply in comment.children %}
+    {{ component('entry_comment', {comment: reply, showNested:true, level: level + 1, showEntryTitle:false, showMagazineName:false}) }}
+{% endfor %}

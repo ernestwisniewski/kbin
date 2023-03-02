@@ -1,4 +1,5 @@
-<blockquote{{ attributes.defaults({class: 'section comment entry-comment'}).without('id') }} id="entry-comment-{{ comment.id }}">
+<blockquote{{ attributes.defaults({class: 'section comment entry-comment ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
+        id="entry-comment-{{ comment.id }}">
     <header>
         {{ component('user_inline', {user: comment.user, hideAvatar: true}) }},
         {{ component('date', {date: comment.createdAt}) }}
@@ -6,7 +7,9 @@
         {% if showEntryTitle %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
     </header>
     {% if comment.user.avatar %}
-        {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}
+        <a href="{{ path('user_overview', {username: comment.user.username}) }}" aria-hidden="true">
+            {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}
+        </a>
     {% endif %}
     <div class="content">
         {{ comment.body|markdown|raw }}
@@ -26,9 +29,17 @@
                     </button>
                 </form>
             </li>
-            <li>
+            <li class="dropdown">
                 <button class="stretched-link">{{ 'more'|trans|lower }}</button>
+                <ul class="dropdown__menu">
+                    <li><a class="active" href="#">{{ 'classic_view'|trans|lower }}</a></li>
+                    <li><a href="#">{{ 'chat_view'|trans|lower }}</a></li>
+                    <li><a href="#">{{ 'tree_view'|trans|lower }}</a></li>
+                </ul>
             </li>
         </menu>
     </footer>
 </blockquote>
+{% if showNested %}
+    {{ component('entry_comments_nested', {comment: comment, level: level, showNested: true}) }}
+{% endif %}

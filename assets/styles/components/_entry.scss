@@ -7,6 +7,12 @@
                        "body body body";
   grid-template-columns: min-content min-content auto;
   padding: 1rem .5rem;
+  z-index: 2;
+
+  &:hover,
+  &:focus-visible {
+    z-index: 3;
+  }
 
   .vote {
     grid-area: vote;
@@ -77,7 +83,6 @@
     bottom: .1rem;
     color: var(--kbin-meta-text-color);
     font-size: .7rem;
-    opacity: .75;
     position: relative;
 
     a {
@@ -88,8 +93,7 @@
   &:hover,
   &:focus-within {
     footer menu,
-    .entry__meta,
-    .entry__domain {
+    .entry__meta {
       -webkit-animation: fadein .5s linear 1 normal forwards;
 
       @-webkit-keyframes fadein {
@@ -101,7 +105,6 @@
         }
       }
     }
-
   }
 
   &--single {

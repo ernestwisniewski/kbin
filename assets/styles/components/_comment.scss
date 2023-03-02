@@ -1,3 +1,8 @@
+$levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353', '#ac5353', '#ac5353', '#ac5353');
+$comment-margin-xl: 1rem;
+$comment-margin-lg: 1rem;
+$comment-margin-sm: .5rem;
+
 .comment-add {
   .group {
     margin-bottom: 0;
@@ -14,6 +19,13 @@
   grid-template-columns: min-content auto min-content;
   margin: .5rem 0;
   padding: 1rem .5rem;
+  position: relative;
+  z-index: 2;
+
+  &:hover,
+  &:focus-visible {
+    z-index: 3;
+  }
 
   header {
     color: var(--kbin-meta-text-color);
@@ -49,8 +61,10 @@
   figure {
     grid-area: avatar;
     margin: 0;
+    width: 40px;
 
     img {
+      position: absolute;
       border: var(--kbin-avatar-border);
     }
   }
@@ -111,3 +125,51 @@
     margin: 0;
   }
 }
+
+.comments-tree {
+  position: relative;
+
+  blockquote {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  .comment {
+    @for $i from 2 to 11 {
+      &-line--#{$i} {
+        border-left: .12rem dashed unquote(nth($levels, $i));
+        bottom: 0;
+        height: 100%;
+        left: $comment-margin-lg * ($i - 1);
+        opacity: .4;
+
+        position: absolute;
+        z-index: 1;
+
+        @include media-breakpoint-up(xl) {
+          left: $comment-margin-xl * ($i - 1);
+        }
+
+        @include media-breakpoint-down(sm) {
+          left: $comment-margin-sm * ($i - 1);
+        }
+      }
+    }
+
+    @for $i from 2 to 11 {
+      &-level--#{$i} {
+        border-left: .15rem solid unquote(nth($levels, $i));
+        margin-left: $comment-margin-lg * ($i - 1);
+
+        @include media-breakpoint-up(xl) {
+          margin-left: $comment-margin-xl * ($i - 1);
+        }
+
+        @include media-breakpoint-down(sm) {
+          margin-left: $comment-margin-sm * ($i - 1);
+        }
+      }
+    }
+  }
+}
+

@@ -16,7 +16,7 @@
     <div id="content">
         {{ component('entry', {entry: entry, isSingle: true, showShortSentence: false, showBody:true}) }}
         {% include 'entry/comment/_options.html.twig' %}
-        <div id="comments">
+        <div id="comments" class="comments-tree">
             {% if comments|length %}
                 {% include 'entry/comment/_list.html.twig' %}
             {% else %}
