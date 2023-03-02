@@ -17,7 +17,7 @@
 
     {% include 'post/comment/_options.html.twig' %}
     {% if parent is defined and parent %}
-        {{ component('post_comment', {comment: parent, showEntryTitle: false}) }}
+        {{ component('post_comment', {comment: parent, showEntryTitle: false, showNested: false}) }}
     {% endif %}
     <div id="content">
         {% include 'post/comment/_add_comment.html.twig' %}
