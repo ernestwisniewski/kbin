@@ -1,9 +1,9 @@
-{% if nested is not defined %}
-    {% set nested = true %}
+{% if showNested is not defined %}
+    {% set showNested = true %}
 {% endif %}
 <aside class="comments post-comments">
     {% for comment in comments %}
-        {{ component('post_comment', {comment: comment, showNested: nested, dateAsUrl: not is_route_name('post_single') }) }}
+        {{ component('post_comment', {comment: comment, showNested: showNested, dateAsUrl: not is_route_name('post_single') }) }}
     {% endfor %}
 
     {% if not comments|length %}

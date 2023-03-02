@@ -35,6 +35,6 @@
         </menu>
     </footer>
 </blockquote>
-{#{% if showNested %}#}
-{#    {{ component('entry_comments_nested', {comment: comment, level: level, showNested: true}) }}#}
-{#{% endif %}#}
+{% if showNested %}
+    {{ component('entry_comments_nested', {comment: comment, level: level, showNested: true}) }}
+{% endif %}
