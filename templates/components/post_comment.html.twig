@@ -1,4 +1,4 @@
-<blockquote{{ attributes.defaults({class: 'section comment post-comment'}).without('id') }} id="post-comment-{{ comment.id }}">
+<blockquote{{ attributes.defaults({class: 'section comment post-comment ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }} id="post-comment-{{ comment.id }}">
     <header>
         {{ component('user_inline', {user: comment.user, hideAvatar: true}) }},
         {% if dateAsUrl %}
@@ -35,3 +35,6 @@
         </menu>
     </footer>
 </blockquote>
+{% if showNested %}
+    {{ component('post_comments_nested', {comment: comment, level: level, showNested: true}) }}
+{% endif %}

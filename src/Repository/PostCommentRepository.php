@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\PostCommentPageView;
 use App\Repository\Contract\TagRepositoryInterface;
@@ -116,6 +117,19 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         if ($criteria->user) {
             $qb->andWhere('c.user = :user')
                 ->setParameter('user', $criteria->user);
+        }
+
+        $user = $this->security->getUser();
+        if ($user && !$criteria->moderated) {
+            $qb->andWhere(
+                'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
+            );
+
+            $qb->setParameter('blocker', $user);
+        }
+
+        if ($criteria->onlyParents) {
+            $qb->andWhere('c.parent IS NULL');
         }
 
         switch ($criteria->sortOption) {

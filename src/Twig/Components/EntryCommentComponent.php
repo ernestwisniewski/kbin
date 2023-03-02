@@ -16,6 +16,6 @@ final class EntryCommentComponent
 
     public function getLevel(): int
     {
-        return $this->level > 10 ? 10 : $this->level;
+        return min($this->level, 10);
     }
 }

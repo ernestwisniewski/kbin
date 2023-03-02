@@ -10,4 +10,11 @@ final class PostCommentComponent
 {
     public PostComment $comment;
     public bool $dateAsUrl = true;
+    public bool $showNested = false;
+    public int $level = 1;
+
+    public function getLevel(): int
+    {
+        return min($this->level, 10);
+    }
 }

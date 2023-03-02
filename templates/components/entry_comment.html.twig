@@ -29,17 +29,12 @@
                     </button>
                 </form>
             </li>
-            <li class="dropdown">
+            <li>
                 <button class="stretched-link">{{ 'more'|trans|lower }}</button>
-                <ul class="dropdown__menu">
-                    <li><a class="active" href="#">{{ 'classic_view'|trans|lower }}</a></li>
-                    <li><a href="#">{{ 'chat_view'|trans|lower }}</a></li>
-                    <li><a href="#">{{ 'tree_view'|trans|lower }}</a></li>
-                </ul>
             </li>
         </menu>
     </footer>
 </blockquote>
-{% if showNested %}
-    {{ component('entry_comments_nested', {comment: comment, level: level, showNested: true}) }}
-{% endif %}
+{#{% if showNested %}#}
+{#    {{ component('entry_comments_nested', {comment: comment, level: level, showNested: true}) }}#}
+{#{% endif %}#}

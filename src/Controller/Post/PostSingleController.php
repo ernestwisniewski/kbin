@@ -46,7 +46,8 @@ class PostSingleController extends AbstractController
         $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->sortOption = Criteria::SORT_OLD;
         $criteria->post = $post;
-        $criteria->perPage = 500;
+        $criteria->onlyParents = true;
+        $criteria->perPage = 100;
 
         $comments = $repository->findByCriteria($criteria);
 

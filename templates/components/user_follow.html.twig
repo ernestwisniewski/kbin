@@ -9,7 +9,7 @@
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
     </form>
-    <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unblock' : 'block'), {username: user.username}) }}"
+    <form action="{{ path('user_' ~ (is_user_blocked(user) ? 'unblock' : 'block'), {username: user.username}) }}"
           name="user_block"
           method="post">
         <button type="submit"
