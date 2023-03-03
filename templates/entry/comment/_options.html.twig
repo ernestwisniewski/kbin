@@ -1,12 +1,7 @@
 <aside class="options" id="options">
+    {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is not same as constant('App\\Controller\\User\\ThemeSettingsController::CHAT') %}
     <div></div>
     <menu class="options__main">
-        <li>
-            <a href="{{ options_url('sortBy', 'top'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'top'|trans|lower)}) }}">
-            {{ 'top'|trans|lower }}
-            </a>
-        </li>
         <li>
             <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
                class="{{ html_classes({'active': route_has_param('sortBy', 'hot'|trans|lower)}) }}">
@@ -25,71 +20,34 @@
                 {{ 'newest'|trans|lower }}
             </a>
         </li>
+        <li>
+            <a href="{{ options_url('sortBy', 'oldest'|trans|lower) }}"
+               class="{{ html_classes({'active': route_has_param('sortBy', 'oldest'|trans|lower)}) }}">
+                {{ 'oldest'|trans|lower }}
+            </a>
+        </li>
     </menu>
+    {% else %}
+        <div class="options__title"><h2>{{ 'comments'|trans }} ({{ entry.commentCount }})</h2></div>
+    {% endif %}
     <menu class="options__layout">
         <li class="dropdown">
             <button aria-label="{{ 'change_view'|trans }}"
                     title="{{ 'change_view'|trans }}"><i
                         class="fa-solid fa-layer-group"></i> {{ 'change_view'|trans }}</button>
             <ul class="dropdown__menu">
-                <li><a href="#">{{ 'classic_view'|trans|lower }}</a></li>
-                <li><a href="#">{{ 'chat_view'|trans|lower }}</a></li>
-                <li><a class="active" href="#">{{ 'tree_view'|trans|lower }}</a></li>
-            </ul>
-        </li>
-    </menu>
-    <menu class="options__filters">
-        <li class="dropdown">
-            <button aria-label="{{ 'filter_by_time'|trans }}"
-                    title="{{ 'filter_by_time'|trans }}"><i
-                        class="fa-solid fa-clock-rotate-left"></i> {{ 'filter_by_time'|trans }}</button>
-            <ul class="dropdown__menu">
                 <li>
-                    <a href="{{ options_url('time', '∞') }}"
-                       class="{{ html_classes({'active': route_has_param('time', '∞') or not get_route_param('time')}) }}">
-                        {{ '∞' }}
-                    </a>
+                    <a class="{{ html_classes({'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}"
+                       href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}">{{ 'classic_view'|trans|lower }}</a>
+                </li>
                 </li>
                 <li>
-                    <a href="{{ options_url('time', '3h'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '3h'|trans|lower)}) }}">
-                        {{ '3h'|trans|lower }}
-                    </a></li>
-                <li>
-                    <a href="{{ options_url('time', '6h'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '6h'|trans|lower)}) }}">
-                        {{ '6h'|trans|lower }}
-                    </a>
+                    <a class="{{ html_classes({'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CHAT')}) }}"
+                       href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::CHAT')}) }}">{{ 'chat_view'|trans|lower }}</a>
                 </li>
                 <li>
-                    <a href="{{ options_url('time', '12h'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '12h'|trans|lower)}) }}">
-                        {{ '12h'|trans|lower }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ options_url('time', '1d'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '1d'|trans|lower)}) }}">
-                        {{ '1d'|trans|lower }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ options_url('time', '1w'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '1w'|trans|lower)}) }}">
-                        {{ '1w'|trans|lower }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ options_url('time', '1m'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '1m'|trans|lower)}) }}">
-                        {{ '1m'|trans|lower }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ options_url('time', '1y'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '1y'|trans|lower)}) }}">
-                        {{ '1y'|trans|lower }}
-                    </a>
+                    <a class="{{ html_classes({'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as null or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::TREE')}) }}"
+                       href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::TREE')}) }}">{{ 'tree_view'|trans|lower }}</a>
                 </li>
             </ul>
         </li>

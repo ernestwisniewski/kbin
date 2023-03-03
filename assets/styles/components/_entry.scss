@@ -7,6 +7,7 @@
                        "body body body";
   grid-template-columns: min-content min-content auto;
   padding: 1rem .5rem;
+  position: relative;
   z-index: 2;
 
   &:hover,

@@ -214,6 +214,9 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
             case Criteria::SORT_NEW:
                 $qb->orderBy('c.createdAt', 'DESC');
                 break;
+            case Criteria::SORT_OLD:
+                $qb->orderBy('c.createdAt', 'ASC');
+                break;
             default:
                 $qb->addOrderBy('c.lastActive', 'DESC');
         }

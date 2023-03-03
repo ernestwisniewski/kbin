@@ -6,6 +6,7 @@ namespace App\Controller\Post;
 
 use App\Controller\AbstractController;
 use App\Controller\Traits\PrivateContentTrait;
+use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
@@ -29,6 +30,7 @@ class PostSingleController extends AbstractController
     public function __invoke(
         Magazine $magazine,
         Post $post,
+        ?string $sortBy,
         PostCommentRepository $repository,
         EventDispatcherInterface $dispatcher,
         Request $request
@@ -44,10 +46,18 @@ class PostSingleController extends AbstractController
         $this->handlePrivateContent($post);
 
         $criteria = new PostCommentPageView($this->getPageNb($request));
-        $criteria->sortOption = Criteria::SORT_OLD;
+        $criteria->showSortOption($criteria->resolveSort($sortBy));
         $criteria->post = $post;
         $criteria->onlyParents = true;
-        $criteria->perPage = 100;
+        $criteria->perPage = 25;
+
+        if (ThemeSettingsController::CHAT === $request->cookies->get(
+                ThemeSettingsController::POST_COMMENTS_VIEW
+            )) {
+            $criteria->showSortOption(Criteria::SORT_OLD);
+            $criteria->perPage = 100;
+            $criteria->onlyParents = false;
+        }
 
         $comments = $repository->findByCriteria($criteria);
 

@@ -176,6 +176,6 @@ class EntryCommentFrontControllerTest extends WebTestCase
 
     private function getSortOptions(): array
     {
-        return ['top', 'hot', 'newest', 'active', 'commented'];
+        return ['hot', 'newest', 'active', 'oldest'];
     }
 }

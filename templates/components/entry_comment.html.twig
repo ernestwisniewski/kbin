@@ -29,8 +29,27 @@
                     </button>
                 </form>
             </li>
-            <li>
+            <li class="dropdown">
                 <button class="stretched-link">{{ 'more'|trans|lower }}</button>
+                <ul class="dropdown__menu">
+                    <li>
+                        <a href="{{ path('entry_comment_report', {id: comment.id}) }}">
+                            {{ 'report'|trans|lower }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            {{ 'copy_link'|trans|lower }}
+                        </a>
+                    </li>
+                    {% if app.request.locale is not same as 'en' %}
+                        <li>
+                            <a href="#">
+                                {{ 'copy_link_to_fediverse'|trans|lower }}
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
             </li>
         </menu>
     </footer>

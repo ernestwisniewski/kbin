@@ -245,7 +245,7 @@ class EntryManager implements ContentManagerInterface
 
     public function getSortRoute(string $sortBy): string
     {
-        return strtolower($this->translator->trans('sort.'.$sortBy));
+        return strtolower($this->translator->trans($sortBy));
     }
 
     public function changeMagazine(Entry $entry, Magazine $magazine): void

@@ -1,8 +1,3 @@
-sort.top: Top
-sort.hot: Hot
-sort.active: Active
-sort.newest: Newest
-sort.commented: Commented
 type.link: Link
 type.article: Article
 type.photo: Photo
@@ -24,6 +19,7 @@ top: Top
 hot: Hot
 active: Active
 newest: Newest
+oldest: Oldest
 commented: Commented
 change_view: Change view
 filter_by_time: Filter by time
@@ -165,5 +161,10 @@ links: Links
 articles: Articles
 photos: Photos
 videos: Videos
+report: Report
+share: Share
+copy_link: Copy link
+copy_link_to_fediverse: Copy link to Fediverse
+share_on_fediverse: Share on Fediverse
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

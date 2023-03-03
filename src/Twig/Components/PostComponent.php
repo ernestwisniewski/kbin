@@ -13,6 +13,7 @@ final class PostComponent
     public bool $isSingle = false;
     public bool $showMagazineName = true;
     public bool $dateAsUrl = true;
+    public bool $showCommentsPreview = false;
 
     #[PostMount]
     public function postMount(array $attr): array

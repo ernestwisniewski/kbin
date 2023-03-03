@@ -18,6 +18,13 @@
   grid-template-columns: min-content auto min-content;
   margin: .5rem 0;
   padding: 1rem .5rem;
+  position: relative;
+  z-index: 2;
+
+  &:hover,
+  &:focus-visible {
+    z-index: 3;
+  }
 
   header {
     color: var(--kbin-meta-text-color);

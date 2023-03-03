@@ -1,5 +1,5 @@
 {% for post in posts %}
-    {{ component('post', {post: post, showMagazineName: magazine is not defined or not magazine}) }}
+    {{ component('post', {post: post, showMagazineName: magazine is not defined or not magazine, showCommentsPreview: true}) }}
 {% endfor %}
 
 {% if not posts|length %}

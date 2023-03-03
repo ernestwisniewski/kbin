@@ -74,7 +74,7 @@ class UserEditController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
 
-            return $this->redirectToRoute('user_profile_edit');
+            return $this->redirectToRoute('user_settings_profile');
         }
 
         return $form;

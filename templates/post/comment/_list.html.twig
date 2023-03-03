@@ -1,5 +1,9 @@
 {% if showNested is not defined %}
-    {% set showNested = true %}
+    {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::POST_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CHAT') %}
+        {% set showNested = false %}
+    {% else %}
+        {% set showNested = true %}
+    {% endif %}
 {% endif %}
 <aside class="comments post-comments">
     {% for comment in comments %}

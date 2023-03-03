@@ -2,19 +2,19 @@
     <menu class="options__main">
         <li>
             <a href="{{ options_url('sortBy', 'newest'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'sort.newest'|trans|lower)}) }}">
+               class="{{ html_classes({'active': route_has_param('sortBy', 'newest'|trans|lower)}) }}">
                 {{ 'newest'|trans|lower }}
             </a>
         </li>
         <li>
             <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'sort.hot'|trans|lower)}) }}">
+               class="{{ html_classes({'active': route_has_param('sortBy', 'hot'|trans|lower)}) }}">
                 {{ 'hot'|trans|lower }}
             </a>
         </li>
         <li>
             <a href="{{ options_url('sortBy', 'active'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'sort.active'|trans|lower)}) }}">
+               class="{{ html_classes({'active': route_has_param('sortBy', 'active'|trans|lower)}) }}">
                 {{ 'active'|trans|lower }}
             </a>
         </li>

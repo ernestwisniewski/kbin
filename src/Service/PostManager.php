@@ -184,7 +184,7 @@ class PostManager implements ContentManagerInterface
 
     public function getSortRoute(string $sortBy): string
     {
-        return strtolower($this->translator->trans('sort.'.$sortBy));
+        return strtolower($this->translator->trans($sortBy));
     }
 
     public function changeMagazine(Post $post, Magazine $magazine): void

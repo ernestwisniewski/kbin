@@ -1,7 +1,7 @@
 $levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353', '#2b7070ff', '#b9ab52', '#808080ff');
 $comment-margin-xl: 1rem;
-$comment-margin-lg: 1rem;
-$comment-margin-sm: .5rem;
+$comment-margin-lg: .5rem;
+$comment-margin-sm: .3rem;
 
 .comment-add {
   .group {
@@ -132,6 +132,10 @@ $comment-margin-sm: .5rem;
   blockquote {
     margin-bottom: 0;
     margin-top: 0;
+  }
+
+  blockquote:last-of-type {
+    margin-bottom: .5rem;
   }
 
   .comment {

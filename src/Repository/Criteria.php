@@ -112,12 +112,14 @@ abstract class Criteria
             'hot' => Criteria::SORT_HOT,
             'active' => Criteria::SORT_ACTIVE,
             'newest' => Criteria::SORT_NEW,
+            'oldest' => Criteria::SORT_OLD,
             'commented' => Criteria::SORT_COMMENTED,
 
             'ważne' => Criteria::SORT_TOP,
             'gorące' => Criteria::SORT_HOT,
             'aktywne' => Criteria::SORT_ACTIVE,
             'najnowsze' => Criteria::SORT_NEW,
+            'najstarsze' => Criteria::SORT_OLD,
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
 

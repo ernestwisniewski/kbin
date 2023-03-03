@@ -1,6 +1,6 @@
 <section class="section">
     <h3 hidden>{{ 'add_comment'|trans }}</h3>
-    {{ form_start(form, {action: path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id}), attr: {class: 'comment-add'}}) }}
+    {{ form_start(form, {action: path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, parent_comment_id: parent is defined and parent ? parent.id : null}), attr: {class: 'comment-add'}}) }}
     <div class="group">
         {{ form_row(form.body, {label: false}) }}
     </div>

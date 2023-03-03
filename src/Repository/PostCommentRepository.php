@@ -134,12 +134,20 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
 
         switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
+            case Criteria::SORT_TOP:
                 $qb->orderBy('c.upVotes', 'DESC');
+                break;
+            case Criteria::SORT_ACTIVE:
+                $qb->orderBy('c.lastActive', 'DESC');
+                break;
+            case Criteria::SORT_NEW:
+                $qb->orderBy('c.createdAt', 'DESC');
                 break;
             case Criteria::SORT_OLD:
                 $qb->orderBy('c.createdAt', 'ASC');
                 break;
             default:
+                $qb->addOrderBy('c.lastActive', 'DESC');
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
