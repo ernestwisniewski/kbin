@@ -4,13 +4,19 @@
 {% if entryCommentAttributes is not defined %}
     {% set entryCommentAttributes = {} %}
 {% endif %}
+{% if entryAttributes is not defined %}
+    {% set entryAttributes = {} %}
+{% endif %}
+{% if postAttributes is not defined %}
+    {% set postAttributes = {} %}
+{% endif %}
 
 {% if subject is entry %}
-    {{ component('entry', {entry: subject}|merge(attributes)) }}
+    {{ component('entry', {entry: subject}|merge(attributes)|merge(entryAttributes)) }}
 {% elseif subject is entry_comment %}
     {{ component('entry_comment', {comment: subject, showEntryTitle: false}|merge(attributes)|merge(entryCommentAttributes)) }}
 {% elseif subject is post %}
-    {{ component('post', {post: subject}|merge(attributes)) }}
+    {{ component('post', {post: subject}|merge(attributes)|merge(postAttributes)) }}
 {% elseif subject is post_comment %}
     {{ component('post_comment', {comment: subject}|merge(attributes)) }}
 {% elseif subject is magazine %}

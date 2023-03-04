@@ -13,6 +13,6 @@
 {% endblock %}
 
 {% block body %}
-    {% include 'layout/_subject.html.twig' with {attributes: {class: 'section--top'}} %}
+    {% include 'layout/_subject.html.twig' with {entryAttributes: {class: 'section--top'}, postAttributes: {class: 'post--single section--top'}} %}
     {% include 'report/_add_report.html.twig' %}
 {% endblock %}
