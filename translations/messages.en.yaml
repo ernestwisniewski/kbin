@@ -163,8 +163,12 @@ photos: Photos
 videos: Videos
 report: Report
 share: Share
-copy_link: Copy link
-copy_link_to_fediverse: Copy link to Fediverse
+copy_url: Copy url
+copy_url_to_fediverse: Copy url to Fediverse
 share_on_fediverse: Share on Fediverse
+edit: Edit
+are_you_sure: Are you sure?
+moderate: Moderate
+reason: Reason
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

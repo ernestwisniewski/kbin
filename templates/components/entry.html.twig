@@ -40,8 +40,8 @@
         </div>
     {% endif %}
     <aside class="meta entry__meta">
-        <div>{{ component('user_inline', {user: entry.user}) }}
-            , {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}{% endif %}</div>
+        <div>{{ component('user_inline', {user: entry.user}) }},
+            {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}{% endif %}</div>
     </aside>
     <figure>
         <a href="{{ entry_url(entry) }}">
@@ -75,19 +75,50 @@
                 <button class="stretched-link">{{ 'more'|trans|lower }}</button>
                 <ul class="dropdown__menu">
                     <li>
-                        <a href="{{ path('entry_report', {id: entry.id}) }}">
+                        <a href="{{ path('entry_report', {id: entry.id}) }}"
+                            class="{{ html_classes({'active': is_route_name('entry_report')}) }}">
                             {{ 'report'|trans|lower }}
                         </a>
                     </li>
                     <li>
+                        <a href="{{ entry_voters_url(entry, 'up') }}"
+                           class="{{ html_classes({'active': is_route_name('entry_favourites') or is_route_name('entry_voters')}) }}">
+                            {{ 'activity'|trans|lower }}
+                        </a>
+                    </li>
+                    <li>
                         <a href="#">
-                            {{ 'copy_link'|trans|lower }}
+                            {{ 'copy_url'|trans|lower }}
                         </a>
                     </li>
                     {% if app.request.locale is not same as 'en' %}
                         <li>
                             <a href="#">
-                                {{ 'copy_link_to_fediverse'|trans|lower }}
+                                {{ 'copy_url_to_fediverse'|trans|lower }}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('edit', this.entry) %}
+                        <li>
+                            <a href="{{ entry_edit_url(entry) }}">
+                                {{ 'edit'|trans|lower }}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if app.user and this.entry.isAuthor(app.user) %}
+                        <li>
+                            <form method="post"
+                                  action="{{ entry_delete_url(entry) }}"
+                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                                <button type="submit" class="stretched-link">{{ 'delete'|trans }}</button>
+                            </form>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('moderate', this.entry.magazine) %}
+                        <li>
+                            <a href="{{ entry_moderate_url(entry) }}">
+                                {{ 'moderate'|trans|lower }}
                             </a>
                         </li>
                     {% endif %}

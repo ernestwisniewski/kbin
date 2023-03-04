@@ -35,6 +35,10 @@
     </style>
 </head>
 <body class="theme--light">
+<div id="tools">
+    <div class="header-bg"></div>
+    <div class="footer-bg"></div>
+</div>
 <div id="kbin" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">
         {% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
@@ -48,10 +52,6 @@
         </aside>
         {% include 'layout/_footer.html.twig' %}
     </div>
-</div>
-<div id="tools">
-    <div class="header-bg"></div>
-    <div class="footer-bg"></div>
 </div>
 </body>
 </html>

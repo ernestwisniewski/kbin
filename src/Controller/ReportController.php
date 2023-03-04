@@ -36,7 +36,7 @@ class ReportController extends AbstractController
         }
 
         return $this->render(
-            'report/single.html.twig',
+            'report/create.html.twig',
             [
                 'form' => $form->createView(),
                 'magazine' => $subject->magazine,

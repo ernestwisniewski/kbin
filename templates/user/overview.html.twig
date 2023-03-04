@@ -21,7 +21,7 @@
     {% include('user/_federated_info.html.twig') %}
     <div class="overview subjects">
         {% for subject in results %}
-            {% include 'layout/_subject.html.twig' with {EntryCommentShowMagazineName: false} %}
+            {% include 'layout/_subject.html.twig' with {entryCommentAttributes: {showMagazineName: false}} %}
         {% endfor %}
 
         {% if not results|length %}

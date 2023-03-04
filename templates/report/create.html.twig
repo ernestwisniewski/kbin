@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'report'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-report{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'layout/_subject.html.twig' with {attributes: {class: 'section--top'}} %}
+    {% include 'report/_add_report.html.twig' %}
+{% endblock %}

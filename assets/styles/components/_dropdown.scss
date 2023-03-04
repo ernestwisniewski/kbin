@@ -26,13 +26,15 @@ $transition: 180ms all 120ms ease-out;
       padding: 0;
     }
 
-    a {
+    a, button {
       color: var(--kbin-meta-link-color) !important;
       font-weight: normal !important;
       border: 0 !important;
       display: block !important;
       padding: .5rem 1rem !important;
       text-decoration: none;
+      width: 100%;
+      text-align: left;
 
       &:hover {
         color: var(--kbin-meta-link-hover-color) !important;

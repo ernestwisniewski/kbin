@@ -25,7 +25,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_single', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => '' === $entry->slug ? 'icon' : $entry->slug,
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
         ]);
     }
 
@@ -34,7 +34,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_favourites', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => '' === $entry->slug ? 'icon' : $entry->slug,
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
         ]);
     }
 
@@ -43,8 +43,35 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_voters', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => '' === $entry->slug ? 'icon' : $entry->slug,
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
             'type' => $type,
+        ]);
+    }
+
+    public function entryEditUrl(Entry $entry): string
+    {
+        return $this->urlGenerator->generate('entry_edit', [
+            'magazine_name' => $entry->magazine->name,
+            'entry_id' => $entry->getId(),
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+        ]);
+    }
+
+    public function entryModerateUrl(Entry $entry): string
+    {
+        return $this->urlGenerator->generate('entry_moderate', [
+            'magazine_name' => $entry->magazine->name,
+            'entry_id' => $entry->getId(),
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+        ]);
+    }
+
+    public function entryDeleteUrl(Entry $entry): string
+    {
+        return $this->urlGenerator->generate('entry_delete', [
+            'magazine_name' => $entry->magazine->name,
+            'entry_id' => $entry->getId(),
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
         ]);
     }
 
@@ -53,7 +80,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_comment_create', [
             'magazine_name' => $comment->magazine->name,
             'entry_id' => $comment->entry->getId(),
-            'slug' => empty($comment->entry->slug) ? 'icon' : $comment->entry->slug,
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
             'parent_comment_id' => $comment->getId(),
         ]);
     }
@@ -63,7 +90,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_single', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => '' === $post->slug ? 'icon' : $post->slug,
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
         ]);
     }
 
@@ -72,7 +99,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_favourites', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => '' === $post->slug ? 'icon' : $post->slug,
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
         ]);
     }
 
@@ -81,7 +108,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_voters', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => '' === $post->slug ? 'icon' : $post->slug,
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
             'type' => $type,
         ]);
     }
@@ -91,7 +118,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_comment_create', [
             'magazine_name' => $comment->magazine->name,
             'post_id' => $comment->post->getId(),
-            'slug' => empty($comment->post->slug) ? 'icon' : $comment->post->slug,
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
             'parent_comment_id' => $comment->getId(),
         ]);
     }

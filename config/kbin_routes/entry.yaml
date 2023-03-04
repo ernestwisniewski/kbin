@@ -60,7 +60,7 @@ entry_comments_front:
   path:
     en: /comments/{sortBy}/{time}
     pl: /komentarze/{sortBy}/{time}
-  methods: [GET]
+  methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_subscribed:
@@ -69,7 +69,7 @@ entry_comments_subscribed:
   path:
     en: /sub/comments/{sortBy}/{time}
     pl: /sub/komentarze/{sortBy}/{time}
-  methods: [GET]
+  methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_moderated:
@@ -78,7 +78,7 @@ entry_comments_moderated:
   path:
     en: /mod/comments/{sortBy}/{time}
     pl: /mod/komentarze/{sortBy}/{time}
-  methods: [GET]
+  methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_favourite:
@@ -96,14 +96,14 @@ magazine_entry_comments:
   path:
     en: /m/{name}/comments/{sortBy}/{time}
     pl: /m/{name}/komentarze/{sortBy}/{time}
-  methods: [GET]
+  methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comment_vote:
   controller: App\Controller\VoteController
   defaults: { entityClass: App\Entity\EntryComment }
   path: /ecv/{id}/{choice}
-  methods: [POST]
+  methods: [ POST ]
 
 entry_comment_report:
   controller: App\Controller\ReportController
@@ -141,6 +141,12 @@ entry_edit:
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/edytuj
   methods: [ GET, POST ]
 
+entry_moderate:
+  controller: App\Controller\Entry\EntryModerateController
+  defaults: { slug: -, sortBy: hot }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/moderate
+  methods: [ GET ]
+
 entry_delete:
   controller: App\Controller\Entry\EntryDeleteController::delete
   defaults: { slug: -, sortBy: hot }
@@ -167,19 +173,22 @@ entry_image_delete:
 
 entry_change_magazine:
   controller: App\Controller\Entry\EntryChangeMagazineController
-  defaults: { slug: - }
+  defaults: { slug:
+                - }
   path: /m/{magazine_name}/e/{entry_id}/{slug}/change_magazine
   methods: [ POST ]
 
 entry_change_lang:
   controller: App\Controller\Entry\EntryChangeLangController
-  defaults: { slug: - }
+  defaults: { slug:
+                - }
   path: /m/{magazine_name}/e/{entry_id}/{slug}/change_lang
   methods: [ POST ]
 
 entry_change_adult:
   controller: App\Controller\Entry\EntryChangeAdultController
-  defaults: { slug: - }
+  defaults: { slug:
+                - }
   path: /m/{magazine_name}/e/{entry_id}/{slug}/change_adult
   methods: [ POST ]
 
@@ -232,7 +241,7 @@ entry_vote:
   controller: App\Controller\VoteController
   defaults: { entityClass: App\Entity\Entry }
   path: /ev/{id}/{choice}
-  methods: [POST]
+  methods: [ POST ]
 
 entry_report:
   controller: App\Controller\ReportController

@@ -39,13 +39,13 @@
                     </li>
                     <li>
                         <a href="#">
-                            {{ 'copy_link'|trans|lower }}
+                            {{ 'copy_url'|trans|lower }}
                         </a>
                     </li>
                     {% if app.request.locale is not same as 'en' %}
                         <li>
                             <a href="#">
-                                {{ 'copy_link_to_fediverse'|trans|lower }}
+                                {{ 'copy_url_to_fediverse'|trans|lower }}
                             </a>
                         </li>
                     {% endif %}

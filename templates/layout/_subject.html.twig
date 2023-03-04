@@ -1,16 +1,18 @@
-{%- set VOTE_NONE = true -%}
-{% if EntryCommentShowMagazineName is not defined %}
-    {% set EntryCommentShowMagazineName = true %}
+{% if attributes is not defined %}
+    {% set attributes = {} %}
+{% endif %}
+{% if entryCommentAttributes is not defined %}
+    {% set entryCommentAttributes = {} %}
 {% endif %}
 
 {% if subject is entry %}
-    {{ component('entry', {entry: subject}) }}
+    {{ component('entry', {entry: subject}|merge(attributes)) }}
 {% elseif subject is entry_comment %}
-    {{ component('entry_comment', {comment: subject, showEntryTitle: false, showMagazineName: EntryCommentShowMagazineName}) }}
+    {{ component('entry_comment', {comment: subject, showEntryTitle: false}|merge(attributes)|merge(entryCommentAttributes)) }}
 {% elseif subject is post %}
-    {{ component('post', {post: subject}) }}
+    {{ component('post', {post: subject}|merge(attributes)) }}
 {% elseif subject is post_comment %}
-    {{ component('post_comment', {comment: subject}) }}
+    {{ component('post_comment', {comment: subject}|merge(attributes)) }}
 {% elseif subject is magazine %}
-    {{ component('magazine', {magazine: subject}) }}
+    {{ component('magazine', {magazine: subject}|merge(attributes)) }}
 {% endif %}
