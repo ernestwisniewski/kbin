@@ -17,38 +17,8 @@
 
     <div id="content" class="section">
         <div class="container">
-            {{ form_start(form) }}
             <h1>{{ 'add_new_link'|trans }}</h1>
-            {{ form_row(form.url, {label: 'url'}) }}
-            {{ form_row(form.title, {label: 'title'}) }}
-            {{ form_row(form.body, {label: 'body'}) }}
-            {{ form_row(form.magazine, {label: 'magazine'}) }}
-            {{ form_row(form.tags, {label: 'tags'}) }}
-            {{ form_row(form.badges, {label: 'badges'}) }}
-            <div class="group params">
-                {{ form_row(form.isAdult, {label: 'is_adult', row_attr: {class: 'checkbox'}}) }}
-                {{ form_row(form.isEng, {label: 'eng', row_attr: {class: 'checkbox'}}) }}
-                {{ form_row(form.isOc, {label: 'oc', row_attr: {class: 'checkbox'}}) }}
-            </div>
-            <div class="group actions">
-                <button type="button"
-                        class="btn btn__secondry"
-                        aria-label="{{ 'markdown_howto'|trans }}"
-                        title="{{ 'markdown_howto'|trans }}">
-                    <i class="fa-solid fa-circle-question"></i>
-                </button>
-                <button type="button"
-                        class="btn btn__secondry"
-                        aria-label="{{ 'add_media'|trans }}"
-                        title="{{ 'add_media'|trans }}">
-                    <i class="fa-solid fa-photo-film"></i>
-                </button>
-                {{ form_row(form.submit, {label: 'add_new_link', attr: {class: 'btn btn__primary'}, row_attr: {class: 'float-end'}}) }}
-            </div>
-            <div hidden class="media">
-                {{ form_row(form.image, {label: 'image'}) }}
-            </div>
-            {{ form_end(form) }}
+            {% include 'entry/_form_link.html.twig' %}
         </div>
     </div>
 {% endblock %}

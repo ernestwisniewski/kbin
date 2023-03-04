@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'add_new_article'|trans }} - {{ parent() -}}
+    {{- 'edit_link'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
 {% block mainClass %}page-entry-create page-entry-create-link{% endblock %}
@@ -13,12 +13,11 @@
 {% endblock %}
 
 {% block body %}
-    {% include 'entry/_create_options.html.twig' %}
-
+    {{ component('entry', {entry: entry, class: 'section--top'}) }}
     <div id="content" class="section">
         <div class="container">
-            <h1>{{ 'add_new_article'|trans }}</h1>
-            {% include 'entry/_form_article.html.twig' %}
+            <h1>{{ 'edit_link'|trans }}</h1>
+            {% include 'entry/_form_link.html.twig' %}
         </div>
     </div>
 {% endblock %}
