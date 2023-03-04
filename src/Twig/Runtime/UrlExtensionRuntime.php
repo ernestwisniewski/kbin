@@ -25,7 +25,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_single', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+            'slug' => empty($entry->slug) ? '-' : $entry->slug,
         ]);
     }
 
@@ -34,7 +34,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_favourites', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+            'slug' => empty($entry->slug) ? '-' : $entry->slug,
         ]);
     }
 
@@ -43,7 +43,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_voters', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+            'slug' => empty($entry->slug) ? '-' : $entry->slug,
             'type' => $type,
         ]);
     }
@@ -53,7 +53,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_edit', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+            'slug' => empty($entry->slug) ? '-' : $entry->slug,
         ]);
     }
 
@@ -62,7 +62,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_moderate', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+            'slug' => empty($entry->slug) ? '-' : $entry->slug,
         ]);
     }
 
@@ -71,7 +71,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_delete', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
-            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+            'slug' => empty($entry->slug) ? '-' : $entry->slug,
         ]);
     }
 
@@ -90,7 +90,16 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_single', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
+            'slug' => empty($post->slug) ? '-' : $post->slug,
+        ]);
+    }
+
+    public function postEditUrl(Post $post): string
+    {
+        return $this->urlGenerator->generate('post_edit', [
+            'magazine_name' => $post->magazine->name,
+            'post_id' => $post->getId(),
+            'slug' => empty($post->slug) ? '-' : $post->slug,
         ]);
     }
 
@@ -99,7 +108,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_favourites', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
+            'slug' => empty($post->slug) ? '-' : $post->slug,
         ]);
     }
 
@@ -108,7 +117,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('post_voters', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
-            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
+            'slug' => empty($post->slug) ? '-' : $post->slug,
             'type' => $type,
         ]);
     }
