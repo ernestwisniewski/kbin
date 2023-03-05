@@ -52,7 +52,7 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'children')]
     #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?PostComment $parent;
-    #[ManyToOne(targetEntity: PostComment::class)]
+    #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'nested')]
     #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?PostComment $root;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
