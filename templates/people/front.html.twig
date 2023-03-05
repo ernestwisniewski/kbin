@@ -26,7 +26,7 @@
             {% for mag in magazines %}
                 <li>
                     <a href="{{ path('magazine_people', {name: mag.name}) }}">
-                        {{ mag.title }}
+                        {{ mag.name }}
                     </a>
                 </li>
             {% endfor %}

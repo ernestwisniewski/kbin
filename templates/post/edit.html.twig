@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    title
+    {{- 'edit'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block mainClass %}page-post-create{% endblock %}
+{% block mainClass %}page-post-edit{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -19,7 +19,10 @@
     {% else %}
         <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
     {% endif %}
-    <section id="content" class="section section--top">
-        {% include 'post/_form_post.html.twig' with {attributes: {action: path('post_create')}} %}
-    </section>
+    <div id="content">
+        {{ component('post', {post: post, isSingle: true}) }}
+        <section class="section">
+            {% include 'post/_form_post.html.twig' %}
+        </section>
+    </div>
 {% endblock %}

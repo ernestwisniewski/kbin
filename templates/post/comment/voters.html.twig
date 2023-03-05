@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'up_votes'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ parent() -}}
+    {{- 'activity'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block mainClass %}page-post-voters{% endblock %}
+{% block mainClass %}page-post-comment-voters{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -13,9 +13,9 @@
 {% endblock %}
 
 {% block body %}
+    {{ component('post_comment', {comment: comment}) }}
+    {% include 'post/comment/_options_activity.html.twig' %}
     <div id="content">
-        {{ component('post', {post: post, isSingle: true}) }}
-        {% include 'post/_options_activity.html.twig' %}
         {% include 'layout/_activity_list.html.twig' with {list: votes} %}
     </div>
 {% endblock %}

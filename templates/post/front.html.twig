@@ -3,9 +3,9 @@
 {%- block title -%}
     {%- if magazine is defined and magazine -%}
         {% if get_active_sort_option('sortBy') is not same as 'hot' %}
-            {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'microblog'|trans }} - {{ magazine.title }} - {{ parent() -}}
+            {{- magazine.title }} - {{ get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'microblog'|trans }} - {{ parent() -}}
         {% else %}
-            {{- 'microblog'|trans }} - {{ magazine.title }} - {{ parent() -}}
+            {{- magazine.title }} - {{ 'microblog'|trans }} - {{ parent() -}}
         {% endif %}
     {%- else -%}
         {% if get_active_sort_option('sortBy') is not same as 'hot' %}
@@ -31,7 +31,9 @@
     {% else %}
         <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
     {% endif %}
-    {% include 'post/_add_post.html.twig' %}
+    <section class="section section--top">
+        {% include 'post/_form_post.html.twig' with {attributes: {action: path('post_create')}} %}
+    </section>
     {% include 'post/_options.html.twig' %}
     {% if magazine is defined and magazine %}
         {% if magazine.apId %}

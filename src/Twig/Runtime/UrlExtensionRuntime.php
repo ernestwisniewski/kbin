@@ -85,6 +85,55 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         ]);
     }
 
+    public function entryCommentEditUrl(EntryComment $comment): string
+    {
+        return $this->urlGenerator->generate('entry_comment_edit', [
+            'magazine_name' => $comment->magazine->name,
+            'entry_id' => $comment->entry->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+        ]);
+    }
+
+    public function entryCommentDeleteUrl(EntryComment $comment): string
+    {
+        return $this->urlGenerator->generate('entry_comment_delete', [
+            'magazine_name' => $comment->magazine->name,
+            'entry_id' => $comment->entry->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+        ]);
+    }
+
+    public function entryCommentVotersUrl(EntryComment $comment): string
+    {
+        return $this->urlGenerator->generate('entry_comment_voters', [
+            'magazine_name' => $comment->magazine->name,
+            'entry_id' => $comment->entry->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+        ]);
+    }
+
+    public function entryCommentFavouritesUrl(EntryComment $comment): string
+    {
+        return $this->urlGenerator->generate('entry_comment_favourites', [
+            'magazine_name' => $comment->magazine->name,
+            'entry_id' => $comment->entry->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+        ]);
+    }
+
+    public function entryCommentModerateUrl(EntryComment $comment): string
+    {
+        return $this->urlGenerator->generate('entry_comment_moderate', [
+            'magazine_name' => $comment->magazine->name,
+            'entry_id' => $comment->entry->getId(),
+            'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+        ]);
+    }
+
     public function postUrl(Post $post): string
     {
         return $this->urlGenerator->generate('post_single', [
@@ -96,6 +145,8 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
 
     public function postEditUrl(Post $post): string
     {
+        ;
+
         return $this->urlGenerator->generate('post_edit', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),
@@ -147,6 +198,56 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
             'post_id' => $comment->post->getId(),
             'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
             'parent_comment_id' => $comment->getId(),
+        ]);
+    }
+
+    public function postCommentEditUrl(PostComment $comment): string
+    {
+        return $this->urlGenerator->generate('post_comment_edit', [
+            'magazine_name' => $comment->magazine->name,
+            'post_id' => $comment->post->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
+        ]);
+    }
+
+    public function postCommentModerateUrl(PostComment $comment): string
+    {
+        return $this->urlGenerator->generate('post_comment_moderate', [
+            'magazine_name' => $comment->magazine->name,
+            'post_id' => $comment->post->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
+        ]);
+    }
+
+    public function postCommentVotersUrl(PostComment $comment): string
+    {
+        return $this->urlGenerator->generate('post_comment_voters', [
+            'magazine_name' => $comment->magazine->name,
+            'post_id' => $comment->post->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
+        ]);
+    }
+
+    public function postCommentFavouritesUrl(PostComment $comment): string
+    {
+        return $this->urlGenerator->generate('post_comment_favourites', [
+            'magazine_name' => $comment->magazine->name,
+            'post_id' => $comment->post->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
+        ]);
+    }
+
+    public function postCommentDeleteUrl(PostComment $comment): string
+    {
+        return $this->urlGenerator->generate('post_comment_delete', [
+            'magazine_name' => $comment->magazine->name,
+            'post_id' => $comment->post->getId(),
+            'comment_id' => $comment->getId(),
+            'slug' => empty($comment->post->slug) ? '-' : $comment->post->slug,
         ]);
     }
 

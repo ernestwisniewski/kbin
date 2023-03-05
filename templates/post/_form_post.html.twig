@@ -1,0 +1,34 @@
+{% if attributes is not defined %}
+    {% set attributes = {} %}
+{% endif %}
+
+<h3 hidden>{{ 'add_post'|trans }}</h3>
+{{ form_start(form, {attr: {class: 'post-add'}}|merge(attributes)) }}
+<div class="group">
+    {{ form_row(form.body, {label: false}) }}
+</div>
+<div class="group params">
+    {{ form_row(form.isAdult, {label:'is_adult'}) }}
+    {{ form_row(form.magazine, {label: false}) }}
+</div>
+<div class="group actions">
+    <button type="button"
+            class="btn btn__secondry"
+            aria-label="{{ 'markdown_howto'|trans }}"
+            title="{{ 'markdown_howto'|trans }}">
+        <i class="fa-solid fa-circle-question"></i>
+    </button>
+    <button type="button"
+            class="btn btn__secondry"
+            aria-label="{{ 'add_media'|trans }}"
+            title="{{ 'add_media'|trans }}">
+        <i class="fa-solid fa-photo-film"></i>
+    </button>
+    {{ form_row(form.submit, {label: post is defined and post ? 'edit_post' : 'add_post', attr: {class: 'btn-kbin btn__primary'}}) }}
+</div>
+<div hidden class="media">
+    {{ form_row(form.image, {label: 'image'}) }}
+    {{ form_row(form.imageAlt, {label: 'image_alt'}) }}
+</div>
+{{ form_end(form) }}
+

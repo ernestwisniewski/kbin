@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'favourites'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-comment-favourites{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {{ component('entry_comment', {comment: comment}) }}
+    {% include 'entry/comment/_options_activity.html.twig' %}
+    <div id="content">
+        {% include 'layout/_activity_list.html.twig' with {list: favourites} %}
+    </div>
+{% endblock %}

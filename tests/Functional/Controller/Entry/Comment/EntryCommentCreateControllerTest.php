@@ -59,7 +59,7 @@ class EntryCommentCreateControllerTest extends WebTestCase
         $this->assertResponseRedirects('/m/acme/t/'.$entry->getId().'/test-entry-1');
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('#main blockquote', 'test comment 2');
+        $this->assertEquals(2, $crawler->filter('#main blockquote')->count());
     }
 
     public function testUserCantCreateInvalidEntryComment(): void

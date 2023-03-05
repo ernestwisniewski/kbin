@@ -29,7 +29,8 @@
   }
 
   &--top {
-    border-top: 0;
+    border-top: 0 !important;
+    margin-top: 0 !important;
   }
 
   &--muted {

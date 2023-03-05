@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'edit_comment'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-comment-edit{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {{ component('entry_comment', {comment: comment, showEntryTitle: false, showNested: false}) }}
+    <section id="content" class="section">
+        {% include 'entry/comment/_form_comment.html.twig' %}
+    </section>
+{% endblock %}

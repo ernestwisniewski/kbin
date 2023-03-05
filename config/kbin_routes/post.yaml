@@ -14,6 +14,14 @@ post_comment_edit:
     pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/edytuj
   methods: [ GET, POST ]
 
+post_comment_moderate:
+  controller: App\Controller\Post\Comment\CommentModerateController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/moderate
+    pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/moderuj
+  methods: [ GET, POST ]
+
 post_comment_delete:
   controller: App\Controller\Post\Comment\CommentDeleteController::delete
   defaults: { slug: -, }
@@ -119,7 +127,7 @@ magazine_posts:
 
 post_voters:
   controller: App\Controller\Post\PostVotersController
-  defaults: { slug: -, sortBy: hot }
+  defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/votes
     pl: /m/{magazine_name}/w/{post_id}/{slug}/głosy
@@ -127,18 +135,10 @@ post_voters:
 
 post_favourites:
   controller: App\Controller\Post\PostFavouriteController
-  defaults: { slug: -, sortBy: hot }
+  defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/favourites
     pl: /m/{magazine_name}/w/{post_id}/{slug}/ulubione
-  methods: [ GET ]
-
-post_single:
-  controller: App\Controller\Post\PostSingleController
-  defaults: { slug: -, sortBy: hot }
-  path:
-    en: /m/{magazine_name}/p/{post_id}/{slug}/{sortBy}
-    pl: /m/{magazine_name}/w/{post_id}/{slug}/{sortBy}
   methods: [ GET ]
 
 post_create:
@@ -188,15 +188,26 @@ post_image_delete:
 
 post_change_magazine:
   controller: App\Controller\Post\PostChangeMagazineController
-  defaults: { slug: - }
+  defaults: { slug:
+                - }
   path: /m/{magazine_name}/p/{post_id}/{slug}/change_magazine
   methods: [ POST ]
 
 post_change_adult:
   controller: App\Controller\Post\PostChangeAdultController
-  defaults: { slug: - }
+  defaults: { slug:
+                - }
   path: /m/{magazine_name}/p/{post_id}/{slug}/change_adult
   methods: [ POST ]
+
+
+post_single:
+  controller: App\Controller\Post\PostSingleController
+  defaults: { slug: -, sortBy: hot }
+  path:
+    en: /m/{magazine_name}/p/{post_id}/{slug}/{sortBy}
+    pl: /m/{magazine_name}/w/{post_id}/{slug}/{sortBy}
+  methods: [ GET ]
 
 post_vote:
   controller: App\Controller\VoteController

@@ -54,6 +54,14 @@ entry_comment_favourites:
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/ulubione
   methods: [ GET ]
 
+entry_comment_moderate:
+  controller: App\Controller\Entry\Comment\EntryCommentModerateController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/moderate
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/moderuj
+  methods: [ GET ]
+
 entry_comments_front:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::front
   defaults: { sortBy: hot, time: ~ }

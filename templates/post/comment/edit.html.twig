@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'edit_comment'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-post-comment-edit{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {{ component('post_comment', {comment: comment}) }}
+
+    <div id="content">
+        <section class="section">
+            {% include 'post/comment/_form_comment.html.twig' %}
+        </section>
+    </div>
+{% endblock %}

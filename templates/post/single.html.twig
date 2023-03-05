@@ -16,12 +16,12 @@
     <div id="content">
         {{ component('post', {post: post, isSingle: true, dateAsUrl: false}) }}
         {% include 'post/comment/_options.html.twig' %}
-        <div id="comments" class="comments-tree">
+        <section id="comments" class="comments-tree">
             {% include 'post/comment/_list.html.twig' %}
-        </div>
-        <div id="comment-add">
-            {% include 'post/comment/_add_comment.html.twig' %}
-        </div>
+        </section>
+        <section id="comment-add" class="section">
+            {% include 'post/comment/_form_comment.html.twig' %}
+        </section>
         {% include 'post/_options_activity.html.twig' %}
     </div>
 {% endblock %}
