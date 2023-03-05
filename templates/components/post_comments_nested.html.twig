@@ -1,5 +1,13 @@
-{% for reply in comment.children %}
-    {% if not app.user or (app.user and not app.user.isBlocked(reply.user)) %}
-        {{ component('post_comment', {comment: reply, showNested:true, level: level + 1, showMagazineName:false}) }}
-    {% endif %}
-{% endfor %}
+{% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::POST_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC') %}
+    {% for reply in comment.children %}
+        {% if not app.user or (app.user and not app.user.isBlocked(reply.user)) %}
+            {{ component('post_comment', {comment: reply, showNested:false, level: 3, showMagazineName:false}) }}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    {% for reply in comment.children %}
+        {% if not app.user or (app.user and not app.user.isBlocked(reply.user)) %}
+            {{ component('post_comment', {comment: reply, showNested:true, level: level + 1, showMagazineName:false}) }}
+        {% endif %}
+    {% endfor %}
+{% endif %}

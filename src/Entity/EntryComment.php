@@ -55,7 +55,7 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'children')]
     #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?EntryComment $parent = null;
-    #[ManyToOne(targetEntity: EntryComment::class)]
+    #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'nested')]
     #[JoinColumn(nullable: true)]
     public ?EntryComment $root = null;
     #[Column(type: 'text', length: 4500)]
@@ -73,6 +73,9 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     #[OneToMany(mappedBy: 'parent', targetEntity: EntryComment::class, orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'ASC'])]
     public Collection $children;
+    #[OneToMany(mappedBy: 'root', targetEntity: EntryComment::class, orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'ASC'])]
+    public Collection $nested;
     #[OneToMany(mappedBy: 'comment', targetEntity: EntryCommentVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $votes;
     #[OneToMany(mappedBy: 'entryComment', targetEntity: EntryCommentReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]

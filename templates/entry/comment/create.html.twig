@@ -17,6 +17,7 @@
     {% if parent is defined and parent %}
         {{ component('entry_comment', {comment: parent, showEntryTitle: false, showNested: false}) }}
     {% endif %}
+
     <section id="content" class="section">
         {% include 'entry/comment/_form_comment.html.twig' %}
     </section>
