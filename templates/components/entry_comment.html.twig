@@ -22,7 +22,9 @@
                    href="{{ entry_comment_create_url(comment) }}">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
-                <form>
+                <form method="post"
+                      action="{{ path('entry_comment_favourite', {id: comment.id}) }}">
+                    <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
                     <button class="stretched-link"
                             type="submit">
                         {{ 'favourites'|trans|lower }} {% if comment.favouriteCount %}({{ comment.favouriteCount }}){% endif %}
@@ -38,7 +40,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ entry_comment_voters_url(comment) }}"
+                        <a href="{{ entry_comment_voters_url(comment, 'up') }}"
                            class="{{ html_classes({'active': is_route_name('entry_comment_favourites') or is_route_name('entry_comment_voters')}) }}">
                             {{ 'activity'|trans|lower }}
                         </a>

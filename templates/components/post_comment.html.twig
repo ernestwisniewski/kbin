@@ -1,4 +1,5 @@
-<blockquote{{ attributes.defaults({class: 'section comment post-comment ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }} id="post-comment-{{ comment.id }}">
+<blockquote{{ attributes.defaults({class: 'section comment post-comment ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
+        id="post-comment-{{ comment.id }}">
     <header>
         {{ component('user_inline', {user: comment.user, hideAvatar: true}) }},
         {% if dateAsUrl %}
@@ -22,7 +23,9 @@
                    href="{{ post_comment_create_url(comment) }}#add-post">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
-                <form>
+                <form method="post"
+                      action="{{ path('post_comment_favourite', {id: comment.id}) }}">
+                    <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
                     <button class="stretched-link"
                             type="submit">
                         {{ 'favourites'|trans|lower }} {% if comment.favouriteCount %}({{ comment.favouriteCount }}){% endif %}

@@ -105,13 +105,14 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         ]);
     }
 
-    public function entryCommentVotersUrl(EntryComment $comment): string
+    public function entryCommentVotersUrl(EntryComment $comment, string $type): string
     {
         return $this->urlGenerator->generate('entry_comment_voters', [
             'magazine_name' => $comment->magazine->name,
             'entry_id' => $comment->entry->getId(),
             'comment_id' => $comment->getId(),
             'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
+            'type' => $type
         ]);
     }
 

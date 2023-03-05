@@ -64,7 +64,9 @@
                    href="{{ entry_url(entry) ~ '#comments' }}">{{ entry.commentCount }} {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}</a>
             </li>
             <li>
-                <form>
+                <form method="post"
+                      action="{{ path('entry_favourite', {id: entry.id}) }}">
+                    <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
                     <button class="stretched-link"
                             type="submit">
                         {{ 'favourites'|trans|lower }} {% if entry.favouriteCount %}({{ entry.favouriteCount }}){% endif %}
@@ -76,7 +78,7 @@
                 <ul class="dropdown__menu">
                     <li>
                         <a href="{{ path('entry_report', {id: entry.id}) }}"
-                            class="{{ html_classes({'active': is_route_name('entry_report')}) }}">
+                           class="{{ html_classes({'active': is_route_name('entry_report')}) }}">
                             {{ 'report'|trans|lower }}
                         </a>
                     </li>

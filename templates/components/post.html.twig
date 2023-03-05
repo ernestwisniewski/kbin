@@ -28,7 +28,9 @@
                    href="{{ post_url(post) ~ '#comment-add' }}">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
-                <form>
+                <form method="post"
+                      action="{{ path('post_favourite', {id: post.id}) }}">
+                    <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
                     <button class="stretched-link"
                             type="submit">
                         {{ 'favourites'|trans|lower }} {% if post.favouriteCount %}({{ post.favouriteCount }}){% endif %}

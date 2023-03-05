@@ -41,9 +41,10 @@ entry_comment_image_delete:
 entry_comment_voters:
   controller: App\Controller\Entry\Comment\EntryCommentVotersController
   defaults: { slug: -, }
+  requirements: { type: 'up|down' }
   path:
-    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/votes
-    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/głosy
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/votes/{type}
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/votes/{type}
   methods: [ GET ]
 
 entry_comment_favourites:
@@ -214,7 +215,7 @@ entry_voters:
   requirements: { type: 'up|down' }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/votes/{type}
-    pl: /m/{magazine_name}/t/{entry_id}/{slug}/głosy/{$type}
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/głosy/{type}
   methods: [ GET ]
 
 entry_favourites:
