@@ -98,14 +98,14 @@
                             </a>
                         </li>
                     {% endif %}
-                    {% if is_granted('edit', this.entry) %}
+                    {% if is_granted('edit', entry) %}
                         <li>
                             <a href="{{ entry_edit_url(entry) }}">
                                 {{ 'edit'|trans|lower }}
                             </a>
                         </li>
                     {% endif %}
-                    {% if app.user and this.entry.isAuthor(app.user) %}
+                    {% if app.user and entry.isAuthor(app.user) %}
                         <li>
                             <form method="post"
                                   action="{{ entry_delete_url(entry) }}"
@@ -115,7 +115,7 @@
                             </form>
                         </li>
                     {% endif %}
-                    {% if is_granted('moderate', this.entry.magazine) %}
+                    {% if is_granted('moderate', entry.magazine) %}
                         <li>
                             <a href="{{ entry_moderate_url(entry) }}">
                                 {{ 'moderate'|trans|lower }}

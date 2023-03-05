@@ -154,6 +154,14 @@ post_edit:
     pl: /m/{magazine_name}/w/{post_id}/{slug}/edytuj
   methods: [ GET, POST ]
 
+post_moderate:
+  controller: App\Controller\Post\PostModerateController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/p/{post_id}/{slug}/moderate
+    pl: /m/{magazine_name}/w/{post_id}/{slug}/moderuj
+  methods: [ GET, POST ]
+
 post_delete:
   controller: App\Controller\Post\PostDeleteController::delete
   defaults: { slug: -, }

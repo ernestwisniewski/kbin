@@ -14,16 +14,19 @@ final class UrlExtension extends AbstractExtension
     {
         return [
             new TwigFunction('entry_url', [UrlExtensionRuntime::class, 'entryUrl']),
+            new TwigFunction('entry_edit_url', [UrlExtensionRuntime::class, 'entryEditUrl']),
             new TwigFunction('entry_favourites_url', [UrlExtensionRuntime::class, 'entryFavouritesUrl']),
             new TwigFunction('entry_voters_url', [UrlExtensionRuntime::class, 'entryVotersUrl']),
-            new TwigFunction('entry_edit_url', [UrlExtensionRuntime::class, 'entryEditUrl']),
             new TwigFunction('entry_moderate_url', [UrlExtensionRuntime::class, 'entryModerateUrl']),
             new TwigFunction('entry_delete_url', [UrlExtensionRuntime::class, 'entryDeleteUrl']),
             new TwigFunction('entry_comment_create_url', [UrlExtensionRuntime::class, 'entryCommentCreateUrl']),
             new TwigFunction('post_url', [UrlExtensionRuntime::class, 'postUrl']),
+            new TwigFunction('post_edit_url', [UrlExtensionRuntime::class, 'postEditUrl']),
             new TwigFunction('post_voters_url', [UrlExtensionRuntime::class, 'postVotersUrl']),
             new TwigFunction('post_favourites_url', [UrlExtensionRuntime::class, 'postFavouritesUrl']),
             new TwigFunction('post_comment_create_url', [UrlExtensionRuntime::class, 'postCommentReplyUrl']),
+            new TwigFunction('post_moderate_url', [UrlExtensionRuntime::class, 'postModerateUrl']),
+            new TwigFunction('post_delete_url', [UrlExtensionRuntime::class, 'postDeleteUrl']),
             new TwigFunction('options_url', [UrlExtensionRuntime::class, 'optionsUrl']),
         ];
     }

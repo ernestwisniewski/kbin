@@ -144,7 +144,9 @@ entry_edit:
 entry_moderate:
   controller: App\Controller\Entry\EntryModerateController
   defaults: { slug: -, sortBy: hot }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/moderate
+  path:
+    en: /m/{magazine_name}/t/{entry_id}/{slug}/moderate
+    pl: /m/{magazine_name}/t/{entry_id}/{slug}/moderuj
   methods: [ GET ]
 
 entry_delete:

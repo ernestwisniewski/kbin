@@ -61,26 +61,26 @@
                             </a>
                         </li>
                     {% endif %}
-                    {% if is_granted('edit', this.entry) %}
+                    {% if is_granted('edit', post) %}
                         <li>
-                            <a href="{{ post_edit_url(entry) }}">
+                            <a href="{{ post_edit_url(post) }}">
                                 {{ 'edit'|trans|lower }}
                             </a>
                         </li>
                     {% endif %}
-                    {% if app.user and this.entry.isAuthor(app.user) %}
+                    {% if app.user and post.isAuthor(app.user) %}
                         <li>
                             <form method="post"
-                                  action="{{ entry_delete_url(entry) }}"
+                                  action="{{ post_delete_url(post) }}"
                                   onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                                <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
                                 <button type="submit" class="stretched-link">{{ 'delete'|trans }}</button>
                             </form>
                         </li>
                     {% endif %}
-                    {% if is_granted('moderate', this.entry.magazine) %}
+                    {% if is_granted('moderate', post.magazine) %}
                         <li>
-                            <a href="{{ entry_moderate_url(entry) }}">
+                            <a href="{{ post_moderate_url(post) }}">
                                 {{ 'moderate'|trans|lower }}
                             </a>
                         </li>

@@ -122,6 +122,24 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         ]);
     }
 
+    public function postModerateUrl(Post $post): string
+    {
+        return $this->urlGenerator->generate('post_moderate', [
+            'magazine_name' => $post->magazine->name,
+            'post_id' => $post->getId(),
+            'slug' => empty($post->slug) ? '-' : $post->slug,
+        ]);
+    }
+
+    public function postDeleteUrl(Post $post): string
+    {
+        return $this->urlGenerator->generate('post_delete', [
+            'magazine_name' => $post->magazine->name,
+            'post_id' => $post->getId(),
+            'slug' => empty($post->slug) ? '-' : $post->slug,
+        ]);
+    }
+
     public function postCommentReplyUrl(PostComment $comment): string
     {
         return $this->urlGenerator->generate('post_comment_create', [
