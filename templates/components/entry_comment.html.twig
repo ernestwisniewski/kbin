@@ -25,7 +25,7 @@
                 <form method="post"
                       action="{{ path('entry_comment_favourite', {id: comment.id}) }}">
                     <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
-                    <button class="stretched-link"
+                    <button class="{{ html_classes('stretched-link', {'active': app.user and comment.isFavored(app.user) }) }}"
                             type="submit">
                         {{ 'favourites'|trans|lower }} {% if comment.favouriteCount %}({{ comment.favouriteCount }}){% endif %}
                     </button>

@@ -75,6 +75,10 @@
     list-style: none;
     opacity: .75;
 
+    .active {
+      text-decoration: underline;
+    }
+
     button, input[type='submit'], a {
       @include kbin-btn-link;
     }

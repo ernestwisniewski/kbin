@@ -31,7 +31,7 @@
                 <form method="post"
                       action="{{ path('post_favourite', {id: post.id}) }}">
                     <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
-                    <button class="stretched-link"
+                    <button class="{{ html_classes('stretched-link', {'active': app.user and post.isFavored(app.user) }) }}"
                             type="submit">
                         {{ 'favourites'|trans|lower }} {% if post.favouriteCount %}({{ post.favouriteCount }}){% endif %}
                     </button>

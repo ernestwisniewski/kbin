@@ -77,6 +77,10 @@
       grid-auto-flow: column;
       list-style: none;
 
+      .active {
+        text-decoration: underline;
+      }
+
       button,
       a {
         font-size: .8rem;
