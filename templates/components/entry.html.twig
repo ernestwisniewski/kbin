@@ -40,8 +40,8 @@
         </div>
     {% endif %}
     <aside class="meta entry__meta">
-        <div>{{ component('user_inline', {user: entry.user}) }},
-            {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}{% endif %}</div>
+        {{ component('user_inline', {user: entry.user}) }},
+        {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}{% endif %}
     </aside>
     <figure>
         <a href="{{ entry_url(entry) }}">
