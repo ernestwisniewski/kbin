@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('entry_comment', {comment: comment, showEntryTitle: false, showNested: false}) }}
+    {{ component('entry_comment', {comment: comment, showEntryTitle: false, showMagazineName: false}) }}
     <section id="content" class="section">
         {% include 'entry/comment/_form_comment.html.twig' %}
     </section>

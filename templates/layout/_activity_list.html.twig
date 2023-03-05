@@ -8,7 +8,7 @@
             {% for subject in list %}
                 <li>
                     {% if attribute(subject, actor).avatar %}
-                        {{ component('user_avatar', {user:attribute(subject, actor) }) }}
+                        {{ component('user_avatar', {user: attribute(subject, actor) }) }}
                     {% endif %}
                     <div>
                         <a href="{{ path('user_overview', {username: attribute(subject, actor).username}) }}"
