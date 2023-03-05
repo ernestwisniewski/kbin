@@ -66,30 +66,27 @@
     }
   }
 
-  footer {
+  menu {
+    column-gap: 1rem;
+    display: grid;
     grid-area: footer;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    list-style: none;
     opacity: .75;
 
-    menu {
-      column-gap: 1rem;
-      display: grid;
-      grid-auto-columns: max-content;
-      grid-auto-flow: column;
-      list-style: none;
+    .active {
+      font-weight: bold;
+    }
 
-      .active {
-        font-weight: bold;
-      }
+    button,
+    a {
+      font-size: .8rem;
+      @include kbin-btn-link;
+    }
 
-      button,
-      a {
-        font-size: .8rem;
-        @include kbin-btn-link;
-      }
-
-      li:first-child a {
-        padding-left: 0;
-      }
+    li:first-child a {
+      padding-left: 0;
     }
   }
 
@@ -106,7 +103,7 @@
 
   &:hover,
   &:focus-visible {
-    header, footer {
+    header, menu {
       -webkit-animation: fadein .5s linear 1 normal forwards;
 
       @-webkit-keyframes fadein {

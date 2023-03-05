@@ -15,78 +15,76 @@
         {{ comment.body|markdown|raw }}
     </div>
     {{ component('vote', {subject: comment}) }}
-    <footer>
-        <menu>
-            <li>
-                <a class="stretched-link"
-                   href="{{ entry_comment_create_url(comment) }}">{{ 'reply'|trans|lower }}</a>
-            </li>
-            <li>
-                <form method="post"
-                      action="{{ path('entry_comment_favourite', {id: comment.id}) }}">
-                    <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
-                    <button class="{{ html_classes('stretched-link', {'active': app.user and comment.isFavored(app.user) }) }}"
-                            type="submit">
-                        {{ 'favourites'|trans|lower }} {% if comment.favouriteCount %}({{ comment.favouriteCount }}){% endif %}
-                    </button>
-                </form>
-            </li>
-            <li class="dropdown">
-                <button class="stretched-link">{{ 'more'|trans|lower }}</button>
-                <ul class="dropdown__menu">
-                    <li>
-                        <a href="{{ path('entry_comment_report', {id: comment.id}) }}"
-                           class="{{ html_classes({'active': is_route_name('entry_comment_report')}) }}">
-                            {{ 'report'|trans|lower }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ entry_comment_voters_url(comment, 'up') }}"
-                           class="{{ html_classes({'active': is_route_name('entry_comment_favourites') or is_route_name('entry_comment_voters')}) }}">
-                            {{ 'activity'|trans|lower }}
-                        </a>
-                    </li>
+    <menu>
+        <li>
+            <a class="stretched-link"
+               href="{{ entry_comment_create_url(comment) }}">{{ 'reply'|trans|lower }}</a>
+        </li>
+        <li>
+            <form method="post"
+                  action="{{ path('entry_comment_favourite', {id: comment.id}) }}">
+                <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
+                <button class="{{ html_classes('stretched-link', {'active': app.user and comment.isFavored(app.user) }) }}"
+                        type="submit">
+                    {{ 'favourites'|trans|lower }} {% if comment.favouriteCount %}({{ comment.favouriteCount }}){% endif %}
+                </button>
+            </form>
+        </li>
+        <li class="dropdown">
+            <button class="stretched-link">{{ 'more'|trans|lower }}</button>
+            <ul class="dropdown__menu">
+                <li>
+                    <a href="{{ path('entry_comment_report', {id: comment.id}) }}"
+                       class="{{ html_classes({'active': is_route_name('entry_comment_report')}) }}">
+                        {{ 'report'|trans|lower }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ entry_comment_voters_url(comment, 'up') }}"
+                       class="{{ html_classes({'active': is_route_name('entry_comment_favourites') or is_route_name('entry_comment_voters')}) }}">
+                        {{ 'activity'|trans|lower }}
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        {{ 'copy_url'|trans|lower }}
+                    </a>
+                </li>
+                {% if app.request.locale is not same as 'en' %}
                     <li>
                         <a href="#">
-                            {{ 'copy_url'|trans|lower }}
+                            {{ 'copy_url_to_fediverse'|trans|lower }}
                         </a>
                     </li>
-                    {% if app.request.locale is not same as 'en' %}
-                        <li>
-                            <a href="#">
-                                {{ 'copy_url_to_fediverse'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('edit', comment) %}
-                        <li>
-                            <a href="{{ entry_comment_edit_url(comment) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_comment_edit')}) }}">
-                                {{ 'edit'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if app.user and comment.isAuthor(app.user) %}
-                        <li>
-                            <form method="post"
-                                  action="{{ entry_comment_delete_url(comment) }}"
-                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
-                                <button type="submit" class="stretched-link">{{ 'delete'|trans|lower }}</button>
-                            </form>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('moderate', comment) %}
-                        <li>
-                            <a href="{{ entry_comment_moderate_url(comment) }}">
-                                {{ 'moderate'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </li>
-        </menu>
-    </footer>
+                {% endif %}
+                {% if is_granted('edit', comment) %}
+                    <li>
+                        <a href="{{ entry_comment_edit_url(comment) }}"
+                           class="{{ html_classes({'active': is_route_name('entry_comment_edit')}) }}">
+                            {{ 'edit'|trans|lower }}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if app.user and comment.isAuthor(app.user) %}
+                    <li>
+                        <form method="post"
+                              action="{{ entry_comment_delete_url(comment) }}"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
+                            <button type="submit" class="stretched-link">{{ 'delete'|trans|lower }}</button>
+                        </form>
+                    </li>
+                {% endif %}
+                {% if is_granted('moderate', comment) %}
+                    <li>
+                        <a href="{{ entry_comment_moderate_url(comment) }}">
+                            {{ 'moderate'|trans|lower }}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+    </menu>
 </blockquote>
 {% if showNested %}
     {{ component('entry_comments_nested', {comment: comment, level: level, showNested: true}) }}

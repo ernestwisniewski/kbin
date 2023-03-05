@@ -67,7 +67,7 @@
     grid-area: meta;
   }
 
-  footer menu {
+  menu {
     column-gap: 1rem;
     display: grid;
     grid-auto-columns: max-content;
@@ -97,7 +97,7 @@
 
   &:hover,
   &:focus-within {
-    footer menu,
+    menu,
     .entry__meta {
       -webkit-animation: fadein .5s linear 1 normal forwards;
 
