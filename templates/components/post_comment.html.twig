@@ -36,7 +36,8 @@
                 <button class="stretched-link">{{ 'more'|trans|lower }}</button>
                 <ul class="dropdown__menu">
                     <li>
-                        <a href="{{ path('post_comment_report', {id: comment.id}) }}">
+                        <a href="{{ path('post_comment_report', {id: comment.id}) }}"
+                           class="{{ html_classes({'active': is_route_name('post_comment_report')}) }}">
                             {{ 'report'|trans|lower }}
                         </a>
                     </li>
@@ -60,7 +61,8 @@
                     {% endif %}
                     {% if is_granted('edit', comment) %}
                         <li>
-                            <a href="{{ post_comment_edit_url(comment) }}">
+                            <a href="{{ post_comment_edit_url(comment) }}"
+                               class="{{ html_classes({'active': is_route_name('post_comment_edit')}) }}">
                                 {{ 'edit'|trans|lower }}
                             </a>
                         </li>

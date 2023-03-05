@@ -102,7 +102,8 @@
                     {% endif %}
                     {% if is_granted('edit', entry) %}
                         <li>
-                            <a href="{{ entry_edit_url(entry) }}">
+                            <a href="{{ entry_edit_url(entry) }}"
+                            class="{{ html_classes({'active': is_route_name('entry_edit')}) }}">
                                 {{ 'edit'|trans|lower }}
                             </a>
                         </li>

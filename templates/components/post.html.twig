@@ -41,8 +41,9 @@
                 <button class="stretched-link">{{ 'more'|trans|lower }}</button>
                 <ul class="dropdown__menu">
                     <li>
-                        <a href="{{ path('post_report', {id: post.id}) }}">
-                            {{ 'report'|trans|lower }}
+                        <a href="{{ path('post_report', {id: post.id}) }}"
+                           class="{{ html_classes({'active': is_route_name('post_report')}) }}">
+                        {{ 'report'|trans|lower }}
                         </a>
                     </li>
                     <li>
@@ -65,7 +66,8 @@
                     {% endif %}
                     {% if is_granted('edit', post) %}
                         <li>
-                            <a href="{{ post_edit_url(post) }}">
+                            <a href="{{ post_edit_url(post) }}"
+                               class="{{ html_classes({'active': is_route_name('post_edit')}) }}">
                                 {{ 'edit'|trans|lower }}
                             </a>
                         </li>
