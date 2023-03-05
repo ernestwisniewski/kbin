@@ -53,7 +53,6 @@ class EntryCreateControllerTest extends WebTestCase
         $this->assertSelectorExists('form[name=entry_article]');
     }
 
-
     public function testUserCanCreateEntryArticleFromMagazinePage()
     {
         $client = $this->createClient();

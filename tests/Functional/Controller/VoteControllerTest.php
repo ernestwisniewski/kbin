@@ -82,7 +82,6 @@ class VoteControllerTest extends WebTestCase
         $this->assertSelectorTextContains($selector.' .vote__down', '0');
     }
 
-
     public function testUserCanVoteOnPost(): void
     {
         $client = $this->createClient();

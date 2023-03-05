@@ -112,7 +112,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
             'entry_id' => $comment->entry->getId(),
             'comment_id' => $comment->getId(),
             'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
-            'type' => $type
+            'type' => $type,
         ]);
     }
 
@@ -146,8 +146,6 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
 
     public function postEditUrl(Post $post): string
     {
-        ;
-
         return $this->urlGenerator->generate('post_edit', [
             'magazine_name' => $post->magazine->name,
             'post_id' => $post->getId(),

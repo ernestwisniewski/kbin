@@ -23,8 +23,8 @@ final class EntryCommentComponent
     public function getLevel(): int
     {
         if (ThemeSettingsController::CLASSIC === $this->requestStack->getMainRequest()->cookies->get(
-                ThemeSettingsController::ENTRY_COMMENTS_VIEW
-            )) {
+            ThemeSettingsController::ENTRY_COMMENTS_VIEW
+        )) {
             return min($this->level, 2);
         }
 

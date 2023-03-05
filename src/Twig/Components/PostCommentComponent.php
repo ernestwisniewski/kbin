@@ -22,8 +22,8 @@ final class PostCommentComponent
     public function getLevel(): int
     {
         if (ThemeSettingsController::CLASSIC === $this->requestStack->getMainRequest()->cookies->get(
-                ThemeSettingsController::POST_COMMENTS_VIEW
-            )) {
+            ThemeSettingsController::POST_COMMENTS_VIEW
+        )) {
             return min($this->level, 2);
         }
 

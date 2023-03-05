@@ -89,7 +89,7 @@ class UserFrontControllerTest extends WebTestCase
         $this->assertEquals(2, $crawler->filter('#main .magazines ul li')->count());
     }
 
-    public function testFollowersPage():void
+    public function testFollowersPage(): void
     {
         $client = $this->createClient();
 
@@ -108,7 +108,7 @@ class UserFrontControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('#main .users ul li')->count());
     }
 
-    public function testFollowingPage():void
+    public function testFollowingPage(): void
     {
         $client = $this->createClient();
 

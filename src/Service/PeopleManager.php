@@ -25,7 +25,7 @@ class PeopleManager
 
             return $this->sort(
                 $this->userRepository->findBy(
-                    ['id' => array_map(fn($val) => $val['id'], $users)]
+                    ['id' => array_map(fn ($val) => $val['id'], $users)]
                 ),
                 $users
             );
@@ -34,7 +34,7 @@ class PeopleManager
         $local = $this->postRepository->findUsers($magazine);
 
         return $this->sort(
-            $this->userRepository->findBy(['id' => array_map(fn($val) => $val['id'], $local)]),
+            $this->userRepository->findBy(['id' => array_map(fn ($val) => $val['id'], $local)]),
             $local
         );
     }
@@ -43,7 +43,7 @@ class PeopleManager
     {
         $result = [];
         foreach ($ids as $id) {
-            $result[] = array_values(array_filter($users, fn($val) => $val->getId() === $id['id']))[0];
+            $result[] = array_values(array_filter($users, fn ($val) => $val->getId() === $id['id']))[0];
         }
 
         return array_values($result);

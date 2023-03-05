@@ -11,22 +11,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ThemeSettingsController extends AbstractController
 {
-    const ENTRIES_VIEW = 'entries_view';
-    const ENTRY_COMMENTS_VIEW = 'entry_comments_view';
-    const POST_COMMENTS_VIEW = 'post_comments_view';
+    public const ENTRIES_VIEW = 'entries_view';
+    public const ENTRY_COMMENTS_VIEW = 'entry_comments_view';
+    public const POST_COMMENTS_VIEW = 'post_comments_view';
 
-    const CLASSIC = 'classic';
-    const CHAT = 'chat';
-    const TREE = 'tree';
-    const COMPACT = 'compact';
+    public const CLASSIC = 'classic';
+    public const CHAT = 'chat';
+    public const TREE = 'tree';
+    public const COMPACT = 'compact';
 
-    const KEYS = [
+    public const KEYS = [
         self::ENTRIES_VIEW,
         self::ENTRY_COMMENTS_VIEW,
         self::POST_COMMENTS_VIEW,
     ];
 
-    const VALUES = [
+    public const VALUES = [
         self::CLASSIC,
         self::CHAT,
         self::TREE,

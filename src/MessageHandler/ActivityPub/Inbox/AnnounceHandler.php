@@ -35,7 +35,7 @@ class AnnounceHandler implements MessageHandlerInterface
             $activity = $this->repository->findByObjectId($message->payload['object']);
 
             if ($activity) {
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
             } else {
                 $object = $this->apHttpClient->getActivityObject($message->payload['object']);
 
