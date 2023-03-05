@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Contracts\FavouriteInterface;
 use App\Service\FavouriteManager;
+use App\Service\GenerateHtmlClassService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FavouriteController extends AbstractController
 {
+    public function __construct(private readonly GenerateHtmlClassService $classService)
+    {
+    }
+
     #[IsGranted('ROLE_USER')]
     public function __invoke(FavouriteInterface $subject, Request $request, FavouriteManager $manager): Response
     {
@@ -33,6 +38,6 @@ class FavouriteController extends AbstractController
             );
         }
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToRefererOrHome($request, ($this->classService)($subject));
     }
 }
