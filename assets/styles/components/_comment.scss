@@ -79,8 +79,9 @@ $comment-margin-sm: .3rem;
     list-style: none;
     opacity: .75;
 
-    .active {
-      font-weight: bold;
+    & > a.active,
+    & > li button.active, {
+      text-decoration: underline;
     }
 
     button,

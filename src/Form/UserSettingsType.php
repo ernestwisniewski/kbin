@@ -26,39 +26,7 @@ class UserSettingsType extends AbstractType
     {
         $builder
             ->add(
-                'darkTheme',
-                CheckboxType::class
-            )
-            ->add(
-                'turboMode',
-                CheckboxType::class
-            )
-            ->add(
-                'hideImages',
-                CheckboxType::class
-            )
-            ->add(
                 'hideAdult',
-                CheckboxType::class
-            )
-            ->add(
-                'hideUserAvatars',
-                CheckboxType::class
-            )
-            ->add(
-                'hideMagazineAvatars',
-                CheckboxType::class
-            )
-            ->add(
-                'rightPosImages',
-                CheckboxType::class
-            )
-            ->add(
-                'entryPopup',
-                CheckboxType::class
-            )
-            ->add(
-                'postPopup',
                 CheckboxType::class
             )
             ->add('homepage', ChoiceType::class, [

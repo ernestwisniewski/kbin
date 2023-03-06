@@ -150,6 +150,7 @@
                 <a class="{{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
                    href="{{ path('user_overview', {username: app.user.username}) }}">{{ app.user.username }}</a>
                 <ul class="dropdown__menu">
+                    <li><a href="{{ path('user_settings_general') }}">{{ 'settings'|trans }}</a></li>
                     <li><a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a></li>
                 </ul>
             {% else %}

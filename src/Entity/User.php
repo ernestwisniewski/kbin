@@ -61,10 +61,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public array $roles = [];
     #[Column(type: 'integer', nullable: false)]
     public int $followersCount = 0;
-    #[Column(type: 'string', nullable: false, options: ['default' => User::THEME_DARK])]
-    public string $theme = self::THEME_DARK;
-    #[Column(type: 'string', nullable: false, options: ['default' => User::MODE_NORMAL])]
-    public string $mode = self::MODE_NORMAL;
     #[Column(type: 'string', nullable: false, options: ['default' => User::HOMEPAGE_SUB])]
     public string $homepage = self::HOMEPAGE_SUB;
     #[Column(type: 'text', nullable: true)]
@@ -83,22 +79,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public ?string $oauthGoogleId = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $oauthFacebookId = null;
-    #[Column(type: 'array', nullable: true)]
-    public ?array $featuredMagazines = null;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $hideImages = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $hideAdult = true;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $hideUserAvatars = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $hideMagazineAvatars = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $rightPosImages = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $entryPopup = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $postPopup = false;
+    #[Column(type: 'array', nullable: true)]
+    public ?array $featuredMagazines = null;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $showProfileSubscriptions = true;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]

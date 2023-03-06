@@ -28,7 +28,7 @@ class UserSettingController extends AbstractController
         }
 
         return $this->render(
-            'user/profile/settings.html.twig',
+            'user/settings/general.html.twig',
             [
                 'form' => $form->createView(),
             ],
