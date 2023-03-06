@@ -1,55 +1,60 @@
-<div id="content" class="section">
-    {% if view is same as 'cards'|trans|lower %}
-        <div class="magazines magazines-cards">
-            {% for magazine in magazines %}
-                {{ component('magazine', {magazine: magazine, showMeta: false, showInfo: false}) }}
-            {% endfor %}
-        </div>
-    {% elseif view is same as 'columns'|trans|lower %}
-        <div class="magazines magazines-columns">
-            <ul>
+<div id="content">
+    <div class="section">
+        {% if view is same as 'cards'|trans|lower %}
+            <div class="magazines magazines-cards">
                 {% for magazine in magazines %}
-                    <li>
-                        {% if magazine.cover %}
-                            <figure>
-                                <img width="32" height="32"
-                                     src="{{ asset(magazine.cover.filePath) | imagine_filter('avatar_thumb') }}"
-                                     alt="{{ magazine.name ~' '~ 'avatar'|trans|lower }}">
-                            </figure>
-                        {% endif %}
-                        <div>
-                            <a href="{{ path('front_magazine', {name: magazine.name}) }}"
-                               class="stretched-link">{{ magazine.name }}</a>
-                            <small>{{ component('date', {date: magazine.createdAt}) }}</small>
-                        </div>
-                    </li>
+                    {{ component('magazine', {magazine: magazine, showMeta: false, showInfo: false}) }}
                 {% endfor %}
-            </ul>
-        </div>
-    {% else %}
-        <div class="magazines magazines-table">
-            <table>
-                <thead>
-                <tr>
-                    <td>{{ 'name'|trans }}</td>
-                    <td>{{ 'threads'|trans }}</td>
-                    <td>{{ 'comments'|trans }}</td>
-                    <td>{{ 'posts'|trans }}</td>
-                    <td></td>
-                </tr>
-                </thead>
-                <tbody>
-                {% for magazine in magazines %}
+            </div>
+        {% elseif view is same as 'columns'|trans|lower %}
+            <div class="magazines magazines-columns">
+                <ul>
+                    {% for magazine in magazines %}
+                        <li>
+                            {% if magazine.cover %}
+                                <figure>
+                                    <img width="32" height="32"
+                                         src="{{ asset(magazine.cover.filePath) | imagine_filter('avatar_thumb') }}"
+                                         alt="{{ magazine.name ~' '~ 'avatar'|trans|lower }}">
+                                </figure>
+                            {% endif %}
+                            <div>
+                                <a href="{{ path('front_magazine', {name: magazine.name}) }}"
+                                   class="stretched-link">{{ magazine.name }}</a>
+                                <small>{{ component('date', {date: magazine.createdAt}) }}</small>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="magazines magazines-table">
+                <table>
+                    <thead>
                     <tr>
-                        <td>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true}) }}</td>
-                        <td>{{ magazine.entryCount }}</td>
-                        <td>{{ magazine.entryCommentCount }}</td>
-                        <td>{{ magazine.postCount + magazine.postCommentCount }}</td>
-                        <td>{{ component('magazine_sub', {magazine: magazine}) }}</td>
+                        <td>{{ 'name'|trans }}</td>
+                        <td>{{ 'threads'|trans }}</td>
+                        <td>{{ 'comments'|trans }}</td>
+                        <td>{{ 'posts'|trans }}</td>
+                        <td></td>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    {% for magazine in magazines %}
+                        <tr>
+                            <td>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true}) }}</td>
+                            <td>{{ magazine.entryCount }}</td>
+                            <td>{{ magazine.entryCommentCount }}</td>
+                            <td>{{ magazine.postCount + magazine.postCommentCount }}</td>
+                            <td>{{ component('magazine_sub', {magazine: magazine}) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+    {% if(magazines.haveToPaginate is defined and magazines.haveToPaginate) %}
+        {{ pagerfanta(magazines, null, {'pageParameter':'[p]'}) }}
     {% endif %}
 </div>

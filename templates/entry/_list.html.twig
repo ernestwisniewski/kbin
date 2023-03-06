@@ -2,9 +2,7 @@
     {{ component('entry', {entry: entry, showMagazineName: magazine is not defined or not magazine}) }}
 {% endfor %}
 {% if(entries.haveToPaginate is defined and entries.haveToPaginate) %}
-    <div class="section">
-        {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
-    </div>
+    {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
 {% endif %}
 {% if not entries|length %}
     <aside class="section section--muted user-list">

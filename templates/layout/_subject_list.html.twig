@@ -1,0 +1,31 @@
+{% if attributes is not defined %}
+    {% set attributes = {} %}
+{% endif %}
+{% if entryCommentAttributes is not defined %}
+    {% set entryCommentAttributes = {} %}
+{% endif %}
+{% if entryAttributes is not defined %}
+    {% set entryAttributes = {} %}
+{% endif %}
+{% if postAttributes is not defined %}
+    {% set postAttributes = {} %}
+{% endif %}
+
+{% for subject in results %}
+    {% include 'layout/_subject.html.twig' %}
+{% endfor %}
+
+{% if pagination is defined and pagination %}
+    {% if(pagination.haveToPaginate is defined and pagination.haveToPaginate) %}
+        {{ pagerfanta(pagination, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+{% else %}
+    {% if(results.haveToPaginate is defined and results.haveToPaginate) %}
+        {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+{% endif %}
+{% if not results|length %}
+    <aside class="section section--muted">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

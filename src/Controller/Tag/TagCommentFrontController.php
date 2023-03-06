@@ -21,14 +21,15 @@ class TagCommentFrontController extends AbstractController
 
     public function __invoke(string $name, ?string $sortBy, ?string $time, Request $request): Response
     {
-        $params = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
             ->setTag($this->tagManager->transliterate(strtolower($name)));
 
-        $params['comments'] = $this->repository->findByCriteria($criteria);
-        $params['tag'] = $name;
+        $params = [
+            'comments' => $this->repository->findByCriteria($criteria),
+            'tag' => $name,
+        ];
 
         $this->repository->hydrate(...$params['comments']);
         $this->repository->hydrateChildren(...$params['comments']);

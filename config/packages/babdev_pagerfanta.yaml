@@ -1,2 +1,3 @@
 babdev_pagerfanta:
   default_view: twig
+  default_twig_template: 'layout/_pagination.html.twig'

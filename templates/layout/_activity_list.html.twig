@@ -19,6 +19,9 @@
             {% endfor %}
         </ul>
     </div>
+    {% if(list.haveToPaginate is defined and list.haveToPaginate) %}
+        {{ pagerfanta(list, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
 {% else %}
     <aside class="section section--muted user-list">
         <p>{{ 'empty'|trans }}</p>

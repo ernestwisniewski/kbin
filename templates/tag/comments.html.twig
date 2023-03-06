@@ -16,14 +16,6 @@
 {% block body %}
     {% include 'tag/_options.html.twig' %}
     <div class="comments entry-comments">
-        {% for comment in comments %}
-            {{ component('entry_comment', {comment: comment}) }}
-        {% endfor %}
-
-        {% if not comments|length %}
-            <aside class="section section--muted">
-                <p>{{ 'empty'|trans }}</p>
-            </aside>
-        {% endif %}
+        {% include 'entry/comment/_list.html.twig' %}
     </div>
 {% endblock %}

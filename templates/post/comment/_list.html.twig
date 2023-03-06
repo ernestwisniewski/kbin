@@ -9,12 +9,14 @@
     {% for comment in comments %}
         {{ component('post_comment', {comment: comment, showNested: showNested, dateAsUrl: not is_route_name('post_single') }) }}
     {% endfor %}
-
+    {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
+        {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
     {% if not comments|length %}
         <aside class="section section--muted user-list">
             <p>{{ 'no_comments'|trans }}</p>
         </aside>
-    {% else %}
+    {% elseif app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::POST_COMMENTS_VIEW')) is null or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::POST_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::TREE') %}
         <div class="comment-line--2"></div>
         <div class="comment-line--3"></div>
         <div class="comment-line--4"></div>

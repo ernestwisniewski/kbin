@@ -16,14 +16,6 @@
 {% block body %}
     {% include 'tag/_options.html.twig' %}
     <div id="content" class="overview subjects">
-        {% for subject in results %}
-            {% include 'layout/_subject.html.twig' with {entryCommentAttributes: {showMagazineName: false}} %}
-        {% endfor %}
-
-        {% if not results|length %}
-            <aside class="section section--muted">
-                <p>{{ 'empty'|trans }}</p>
-            </aside>
-        {% endif %}
+        {% include 'layout/_subject_list.html.twig' with {entryCommentAttributes: {showMagazineName: false}} %}
     </div>
 {% endblock %}

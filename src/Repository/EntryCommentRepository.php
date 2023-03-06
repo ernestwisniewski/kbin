@@ -131,16 +131,17 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
                 ->setParameter('user', $criteria->user);
         }
 
-        if ($criteria->tag) {
-            $qb->andWhere("JSONB_CONTAINS(c.tags, '\"".$criteria->tag."\"') = true");
-        }
-
         $qb->join('c.entry', 'ce');
 
         if ($criteria->domain) {
             $qb->andWhere('ced.name = :domain')
                 ->join('ce.domain', 'ced')
                 ->setParameter('domain', $criteria->domain);
+        }
+
+        if ($criteria->tag) {
+
+            $qb->andWhere("JSONB_CONTAINS(c.tags, '\"".$criteria->tag."\"') = true");
         }
 
         if ($criteria->subscribed) {

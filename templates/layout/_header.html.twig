@@ -23,7 +23,7 @@
         </div>
     {% elseif tag is defined and tag %}
         <div class="magazine">
-            <span>#</span><a href="{{ path('tag_entries', {name: tag}) }}">{{ tag }}</a>
+            <span>#</span><a href="{{ path('tag_overview', {name: tag}) }}">{{ tag }}</a>
         </div>
     {% elseif is_route_name_end_with('_subscribed') %}
         <div class="magazine">

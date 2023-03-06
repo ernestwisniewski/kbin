@@ -16,14 +16,6 @@
 {% block body %}
     {% include 'tag/_options.html.twig' %}
     <div id="content" class="entries">
-        {% for entry in entries %}
-            {{ component('entry', {entry: entry}) }}
-        {% endfor %}
-
-        {% if not entries|length %}
-            <aside class="section section--muted">
-                <p>{{ 'empty'|trans }}</p>
-            </aside>
-        {% endif %}
+        {% include 'entry/_list.html.twig' %}
     </div>
 {% endblock %}

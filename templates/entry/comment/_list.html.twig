@@ -9,7 +9,9 @@
     {% for comment in comments %}
         {{ component('entry_comment', {comment: comment, showNested: showNested, showMagazineName: magazine is not defined or not magazine, showEntryTitle: entry is not defined or not entry}) }}
     {% endfor %}
-
+    {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
+        {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
     {% if not comments|length %}
         <aside class="section section--muted user-list">
             <p>{{ 'no_comments'|trans }}</p>

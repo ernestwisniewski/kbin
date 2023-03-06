@@ -204,7 +204,7 @@ class UserFrontController extends AbstractController
             [
                 'user' => $user,
                 'results' => $results,
-                'comments' => $comments,
+                'pagination' => $comments,
             ]
         );
     }

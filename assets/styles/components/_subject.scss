@@ -18,4 +18,8 @@
   .post-comment {
     margin-left: 1rem;
   }
+
+  > :last-child {
+    margin-top: .5rem;
+  }
 }
