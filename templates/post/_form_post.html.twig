@@ -2,7 +2,7 @@
     {% set attributes = {} %}
 {% endif %}
 
-<h3 hidden>{{ 'add_post'|trans }}</h3>
+<h3 hidden>{{ post is defined and post ? 'edit_post'|trans : 'add_post'|trans }}</h3>
 {{ form_start(form, {attr: {class: 'post-add'}}|merge(attributes)) }}
 <div class="group">
     {{ form_row(form.body, {label: false}) }}

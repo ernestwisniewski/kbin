@@ -1,4 +1,4 @@
-<h3 hidden>{{ 'add_comment'|trans }}</h3>
+<h3 hidden>{{ comment is defined and comment ? 'edit_comment'|trans : 'add_comment'|trans }}</h3>
 {{ form_start(form, {action: path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, parent_comment_id: parent is defined and parent ? parent.id : null}), attr: {class: 'comment-add'}}) }}
 <div class="group">
     {{ form_row(form.body, {label: false}) }}
@@ -16,7 +16,7 @@
             title="{{ 'add_media'|trans }}">
         <i class="fa-solid fa-photo-film"></i>
     </button>
-    {{ form_row(form.submit, {label: 'add_comment', attr: {class: 'btn-kbin btn__primary'}}) }}
+    {{ form_row(form.submit, {label: comment is defined and comment ? 'edit_comment' : 'add_comment', attr: {class: 'btn-kbin btn__primary'}}) }}
 </div>
 <div hidden class="media">
     {{ form_row(form.image, {label: 'image'}) }}

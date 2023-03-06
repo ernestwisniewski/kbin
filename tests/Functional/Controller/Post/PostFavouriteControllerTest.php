@@ -9,22 +9,21 @@ use App\Tests\WebTestCase;
 
 class PostFavouriteControllerTest extends WebTestCase
 {
-    public function testUserCanSeeVoters(): void
+    public function testLoggedUserAddToFavouritesPost(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $post = $this->createPost('test post 1');
-
-        $manager = $client->getContainer()->get(FavouriteManager::class);
-        $manager->toggle($this->getUserByUsername('JaneDoe'), $post);
-        $manager->toggle($this->getUserByUsername('JohnDoe'), $post);
+        $post = $this->createPost('test post 1', null, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
-        $client->click($crawler->filter('.options-activity')->selectLink('favourites (2)')->link());
+        $client->submit(
+            $crawler->filter('#main .post')->selectButton('favourites')->form([])
+        );
 
-        $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
-        $this->assertSelectorTextContains('#main .users-columns', 'JohnDoe');
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('#main .post', 'favourites (1)');
     }
 }
