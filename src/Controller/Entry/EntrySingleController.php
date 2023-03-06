@@ -74,7 +74,15 @@ class EntrySingleController extends AbstractController
                 'magazine' => $magazine,
                 'comments' => $comments,
                 'entry' => $entry,
-                'form' => $this->createForm(EntryCommentType::class)->createView(),
+                'form' => $this->createForm(EntryCommentType::class, null,             [
+                    'action' => $this->generateUrl(
+                        'entry_comment_create',
+                        [
+                            'magazine_name' => $entry->magazine->name,
+                            'entry_id' => $entry->getId(),
+                        ]
+                    ),
+                ])->createView(),
             ]
         );
     }

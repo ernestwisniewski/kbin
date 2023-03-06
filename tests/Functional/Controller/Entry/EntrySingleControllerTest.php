@@ -19,8 +19,13 @@ class EntrySingleControllerTest extends WebTestCase
         $this->getEntryByTitle('test entry 1');
 
         $crawler = $client->request('GET', '/');
+
+        $this->assertSelectorTextContains('#header nav .active', 'Threads');
+
         $client->click($crawler->selectLink('test entry 1')->link());
 
+        $this->assertSelectorTextContains('#header .magazine', '/m/acme');
+        $this->assertSelectorTextContains('#header nav .active', 'Threads');
         $this->assertSelectorTextContains('article h1', 'test entry 1');
         $this->assertSelectorTextContains('#main', 'No comments');
         $this->assertSelectorTextContains('#sidebar .entry-info', 'Thread');
@@ -70,5 +75,26 @@ class EntrySingleControllerTest extends WebTestCase
         $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
         $this->assertSelectorTextContains('.options-activity', 'Activity (3)');
+    }
+
+    public function testCanSortComments()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
+
+        $entry = $this->getEntryByTitle('test entry 1');
+        $this->createEntryComment('test comment 1', $entry);
+        $this->createEntryComment('test comment 2', $entry);
+
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
+        foreach ($this->getSortOptions() as $sortOption) {
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
+        }
+    }
+
+    private function getSortOptions(): array
+    {
+        return ['hot', 'newest', 'active', 'oldest'];
     }
 }

@@ -57,7 +57,7 @@ class EntryCommentCreateControllerTest extends WebTestCase
         );
 
         $this->assertResponseRedirects('/m/acme/t/'.$entry->getId().'/test-entry-1');
-        $client->followRedirect();
+        $crawler = $client->followRedirect();
 
         $this->assertEquals(2, $crawler->filter('#main blockquote')->count());
     }
