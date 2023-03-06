@@ -6,7 +6,7 @@ namespace App\Tests\Functional\Controller;
 
 use App\Tests\WebTestCase;
 
-class FavouriteControllerControllerTest extends WebTestCase
+class FavouriteControllerTest extends WebTestCase
 {
     public function testLoggedUserCanAddToFavouritesEntry(): void
     {
