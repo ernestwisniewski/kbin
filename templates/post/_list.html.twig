@@ -1,7 +1,11 @@
 {% for post in posts %}
     {{ component('post', {post: post, showMagazineName: magazine is not defined or not magazine, showCommentsPreview: true}) }}
 {% endfor %}
-
+{% if(posts.haveToPaginate is defined and posts.haveToPaginate) %}
+    <div class="section">
+        {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
+    </div>
+{% endif %}
 {% if not posts|length %}
     <aside class="section section--muted user-list">
         <p>{{ 'empty'|trans }}</p>

@@ -23,7 +23,6 @@ final class Version20230306134010 extends AbstractMigration
         $this->addSql('ALTER TABLE "user" DROP theme');
         $this->addSql('ALTER TABLE "user" DROP mode');
         $this->addSql('ALTER TABLE "user" DROP right_pos_images');
-        $this->addSql('ALTER TABLE "user" DROP hide_adult');
         $this->addSql('ALTER TABLE "user" DROP hide_user_avatars');
         $this->addSql('ALTER TABLE "user" DROP hide_magazine_avatars');
         $this->addSql('ALTER TABLE "user" DROP entry_popup');
@@ -37,7 +36,6 @@ final class Version20230306134010 extends AbstractMigration
         $this->addSql('ALTER TABLE "user" ADD theme VARCHAR(255) DEFAULT \'dark\' NOT NULL');
         $this->addSql('ALTER TABLE "user" ADD mode VARCHAR(255) DEFAULT \'normal\' NOT NULL');
         $this->addSql('ALTER TABLE "user" ADD right_pos_images BOOLEAN DEFAULT false NOT NULL');
-        $this->addSql('ALTER TABLE "user" ADD hide_adult BOOLEAN DEFAULT true NOT NULL');
         $this->addSql('ALTER TABLE "user" ADD hide_user_avatars BOOLEAN DEFAULT false NOT NULL');
         $this->addSql('ALTER TABLE "user" ADD hide_magazine_avatars BOOLEAN DEFAULT false NOT NULL');
         $this->addSql('ALTER TABLE "user" ADD entry_popup BOOLEAN DEFAULT false NOT NULL');

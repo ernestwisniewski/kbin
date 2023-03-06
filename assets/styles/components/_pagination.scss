@@ -1,0 +1,14 @@
+.pagination {
+  color: var(--kbin-meta-text-color);
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+
+  a, span {
+    padding: 1rem;
+  }
+
+  a {
+    font-weight: bold;
+  }
+}
