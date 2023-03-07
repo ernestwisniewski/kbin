@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'settings'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-settings page-settings-general{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include('user/settings/_options.html.twig') %}
+    <div class="section">
+        {{ component('user_box', {user: app.user, stretchedLink: false}) }}
+    </div>
+    <div id="content" class="section">
+        <div class="container">
+            <h1 hidden>{{ 'profile'|trans }}</h1>
+            {{ form_start(form) }}
+            {{ form_row(form.about, {label: 'about'}) }}
+            {{ form_row(form.username, {label: 'username'}) }}
+            {{ form_row(form.avatar, {label: 'avatar'}) }}
+            {{ form_row(form.cover, {label: 'cover'}) }}
+            <div class="group actions">
+                {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

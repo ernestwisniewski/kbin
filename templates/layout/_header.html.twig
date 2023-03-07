@@ -150,7 +150,24 @@
                 <a class="{{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
                    href="{{ path('user_overview', {username: app.user.username}) }}">{{ app.user.username }}</a>
                 <ul class="dropdown__menu">
-                    <li><a href="{{ path('user_settings_general') }}">{{ 'settings'|trans }}</a></li>
+                    <li>
+                        <a href="{{ path('user_settings_general') }}"
+                           class="{{ html_classes({'active': is_route_name_contains('user_settings')}) }}">
+                            {{ 'settings'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('user_profile_messages') }}"
+                           class="{{ html_classes({'active': is_route_name('user_message')}) }}">
+                            {{ 'messages'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('user_notifications') }}"
+                           class="{{ html_classes({'active': is_route_name('user_notifications')}) }}">
+                            {{ 'notifications'|trans }}
+                        </a>
+                    </li>
                     <li><a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a></li>
                 </ul>
             {% else %}

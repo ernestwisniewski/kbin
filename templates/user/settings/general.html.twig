@@ -5,7 +5,7 @@
 {%- endblock -%}
 
 
-{% block mainClass %}page-settings-general{% endblock %}
+{% block mainClass %}page-settings page-settings-general{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -15,7 +15,28 @@
 
 {% block body %}
     {% include('user/settings/_options.html.twig') %}
-    <div id="content">
-        test
+    <div id="content" class="section">
+        <div class="container">
+            <h1 hidden>{{ 'general'|trans }}</h1>
+            {{ form_start(form) }}
+            <h2>{{ 'appearance'|trans }}</h2>
+            {{ form_row(form.homepage, {label: 'homepage'}) }}
+            {{ form_row(form.featuredMagazines, {label: 'featured_magazines'}) }}
+            {{ form_row(form.hideAdult, {label: 'hide_adult', row_attr: {class: 'checkbox'}}) }}
+            <h2>{{ 'privacy'|trans }}</h2>
+            {{ form_row(form.showProfileSubscriptions, {label: 'show_profile_subscriptions', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.showProfileFollowings, {label: 'show_profile_followings', row_attr: {class: 'checkbox'}}) }}
+            <h2>{{ 'notifications'|trans }}</h2>
+            {{ form_row(form.notifyOnNewEntryReply, {label: 'notify_on_new_entry_reply', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewEntryCommentReply, {label: 'notify_on_new_entry_comment_reply', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewPostReply, {label: 'notify_on_new_post_reply', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewPostCommentReply, {label: 'notify_on_new_post_comment_reply', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewEntry, {label: 'notify_on_new_entry', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewPost, {label: 'notify_on_new_posts', row_attr: {class: 'checkbox'}}) }}
+            <div class="group actions">
+                {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

@@ -8,17 +8,22 @@ use App\Controller\AbstractController;
 use App\DTO\UserDto;
 use App\Form\UserBasicType;
 use App\Form\UserEmailType;
-use App\Form\UserPasswordType;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserEditController extends AbstractController
 {
+    public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher)
+    {
+    }
+
     #[IsGranted('ROLE_USER')]
-    public function __invoke(UserManager $manager, Request $request): Response
+    public function general(UserManager $manager, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
@@ -29,29 +34,38 @@ class UserEditController extends AbstractController
             return $basicForm;
         }
 
-        $emailForm = $this->handleForm($this->createForm(UserEmailType::class, $dto), $dto, $manager, $request);
-        if (!$emailForm instanceof FormInterface) {
-            return $emailForm;
-        }
-
-        $passwordForm = $this->handleForm($this->createForm(UserPasswordType::class, $dto), $dto, $manager, $request);
-        if (!$passwordForm instanceof FormInterface) {
-            return $passwordForm;
-        }
-
         return $this->render(
-            'user/profile/edit.html.twig',
+            'user/settings/profile.html.twig',
             [
-                'form_basic' => $basicForm->createView(),
-                'form_password' => $passwordForm->createView(),
-                'form_email' => $emailForm->createView(),
+                'form' => $basicForm->createView(),
             ],
             new Response(
                 null,
-                $basicForm->isSubmitted() && !$basicForm->isValid()
-                || $passwordForm->isSubmitted() && !$passwordForm->isValid()
-                || $emailForm->isSubmitted() && !$emailForm->isValid()
-                    ? 422 : 200
+                $basicForm->isSubmitted() && !$basicForm->isValid() ? 422 : 200
+            )
+        );
+    }
+
+    #[IsGranted('ROLE_USER')]
+    public function email(UserManager $manager, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
+
+        $dto = $manager->createDto($this->getUserOrThrow());
+
+        $basicForm = $this->handleForm($this->createForm(UserEmailType::class, $dto), $dto, $manager, $request);
+        if (!$basicForm instanceof FormInterface) {
+            return $basicForm;
+        }
+
+        return $this->render(
+            'user/settings/email.html.twig',
+            [
+                'form' => $basicForm->createView(),
+            ],
+            new Response(
+                null,
+                $basicForm->isSubmitted() && !$basicForm->isValid() ? 422 : 200
             )
         );
     }
@@ -63,6 +77,17 @@ class UserEditController extends AbstractController
         Request $request
     ): FormInterface|Response {
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->has('currentPassword')) {
+            $encodedPassword = $this->userPasswordHasher->hashPassword(
+                $this->getUser(),
+                $form->get('currentPassword')->getData()
+            );
+
+            if ($encodedPassword !== $this->getUser()->getPassword()) {
+                $form->get('currentPassword')->addError(new FormError('Password is invalid'));
+            }
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $this->getUser()->email;

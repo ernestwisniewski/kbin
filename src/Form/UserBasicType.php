@@ -12,6 +12,7 @@ use App\Form\EventListener\ImageListener;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,8 +29,8 @@ class UserBasicType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('about', TextareaType::class)
+            ->add('username', TextType::class, ['required' => false])
+            ->add('about', TextareaType::class, ['required' => false])
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber($this->disableUsernameFieldOnUserEdit);

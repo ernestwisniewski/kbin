@@ -31,6 +31,7 @@ final class AddFieldsOnUserEdit implements EventSubscriberInterface
             'avatar',
             FileType::class,
             [
+                'required' => false,
                 'constraints' => $this->getConstraint(),
                 'mapped' => false,
             ]
@@ -40,6 +41,7 @@ final class AddFieldsOnUserEdit implements EventSubscriberInterface
             'cover',
             FileType::class,
             [
+                'required' => false,
                 'constraints' => $this->getConstraint('10M'),
                 'mapped' => false,
             ]

@@ -206,14 +206,14 @@ user_settings_general:
   methods: [ GET, POST ]
 
 user_settings_profile:
-  controller: App\Controller\User\UserEditController
+  controller: App\Controller\User\UserEditController::general
   path:
     en: /settings/profile
     pl: /ustawienia/profil
   methods: [ GET, POST ]
 
 user_settings_email:
-  controller: App\Controller\User\UserEditController
+  controller: App\Controller\User\UserEditController::email
   path:
     en: /settings/email
     pl: /ustawienia/email

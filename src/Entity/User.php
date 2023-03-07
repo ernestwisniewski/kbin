@@ -47,6 +47,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public const HOMEPAGE_ALL = 'front';
     public const HOMEPAGE_SUB = 'front_subscribed';
     public const HOMEPAGE_MOD = 'front_moderated';
+    public const HOMEPAGE_FAV = 'front_favourite';
+
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $avatar = null;
@@ -255,7 +257,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -286,7 +288,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $tokens = $this->moderatorTokens->matching($criteria);
 
         // Magazines
-        $magazines = $tokens->map(fn ($token) => $token->magazine);
+        $magazines = $tokens->map(fn($token) => $token->magazine);
         $criteria = Criteria::create()
             ->orderBy(['lastActive' => Criteria::DESC]);
 
@@ -568,7 +570,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     {
         return $this->notifications
             ->matching($this->getNewNotificationsCriteria())
-            ->filter(fn ($notification) => 'message_notification' !== $notification->getType())
+            ->filter(fn($notification) => 'message_notification' !== $notification->getType())
             ->count();
     }
 
@@ -579,7 +581,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
         return $this->notifications
             ->matching($criteria)
-            ->filter(fn ($notification) => 'message_notification' === $notification->getType())
+            ->filter(fn($notification) => 'message_notification' === $notification->getType())
             ->count();
     }
 

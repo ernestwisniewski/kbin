@@ -39,16 +39,8 @@ class UserSettingsManager
         $user->notifyOnNewEntryCommentReply = $dto->notifyOnNewEntryCommentReply;
         $user->notifyOnNewEntryReply = $dto->notifyOnNewEntryReply;
         $user->notifyOnNewPostCommentReply = $dto->notifyOnNewPostCommentReply;
-        $user->theme = $dto->darkTheme ? User::THEME_DARK : User::THEME_LIGHT;
-        $user->mode = $dto->turboMode ? User::MODE_TURBO : User::MODE_NORMAL;
         $user->homepage = $dto->homepage;
-        $user->hideImages = $dto->hideImages;
         $user->hideAdult = $dto->hideAdult;
-        $user->hideUserAvatars = $dto->hideUserAvatars;
-        $user->hideMagazineAvatars = $dto->hideMagazineAvatars;
-        $user->rightPosImages = $dto->rightPosImages;
-        $user->entryPopup = $dto->entryPopup;
-        $user->postPopup = $dto->postPopup;
         $user->showProfileSubscriptions = $dto->showProfileSubscriptions;
         $user->showProfileFollowings = $dto->showProfileFollowings;
         $user->featuredMagazines = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;
