@@ -25,12 +25,13 @@ class UserEmailType extends AbstractType
     {
         $builder
             ->add(
-                'oldEmail',
+                'email',
                 TextType::class,
-                ['mapped' => false, 'empty_data' => 'asdf']
+                ['mapped' => false]
             )
-            ->add('email', RepeatedType::class, [
+            ->add('newEmail', RepeatedType::class, [
                 'type' => EmailType::class,
+                'mapped' => false,
                 'required' => true,
                 'first_options' => ['label' => 'new_email'],
                 'second_options' => ['label' => 'new_email_repeat'],

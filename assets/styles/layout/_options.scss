@@ -79,3 +79,24 @@
     }
   }
 }
+
+.pills {
+  margin-bottom: .5rem;
+  padding: 1rem 0;
+
+  menu {
+    display: flex;
+    list-style: none;
+
+    a {
+      color: var(--kbin-meta-link-color);
+      font-weight: bold;
+      padding: 2rem;
+    }
+
+    a:hover,
+    .active {
+      color: var(--kbin-meta-link-hover-color);
+    }
+  }
+}

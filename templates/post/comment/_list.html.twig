@@ -13,7 +13,7 @@
         {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
     {% endif %}
     {% if not comments|length %}
-        <aside class="section section--muted user-list">
+        <aside class="section section--muted">
             <p>{{ 'no_comments'|trans }}</p>
         </aside>
     {% elseif app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::POST_COMMENTS_VIEW')) is null or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::POST_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::TREE') %}

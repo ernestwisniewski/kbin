@@ -188,12 +188,12 @@ homepage: Homepage
 hide_adult: Hide adult content
 featured_magazines: Featured magazines
 privacy: Privacy
-show_profile_subscriptions: Show profile subscriptions
-show_profile_followings: Show profile followings
-notify_on_new_entry_reply: 'Notify you of comments in your threads'
-notify_on_new_entry_comment_reply: 'Notify you of replies to your threads comments'
-notify_on_new_post_reply: 'Notify you of replies in your posts'
-notify_on_new_post_comment_reply: 'Notify you of replies to your posts comments'
+show_profile_subscriptions: Show magazine subscriptions
+show_profile_followings: Show followings
+notify_on_new_entry_reply: 'Notify me of comments in your threads'
+notify_on_new_entry_comment_reply: 'Notify me of replies to your threads comments'
+notify_on_new_post_reply: 'Notify me of replies in your posts'
+notify_on_new_post_comment_reply: 'Notify me of replies to your posts comments'
 notify_on_new_entry: 'Notify me of new threads in a subscribed magazine'
 notify_on_new_posts: 'Notify me of new posts in a subscribed magazine'
 save: Save
@@ -201,6 +201,13 @@ about: About
 old_email: Old email
 new_email: New email
 new_email_repeat: Confirm new email
+current_password: Current password
+new_password: New password
+new_password_repeat: Confirm new password
+change_email: Change email
+change_password: Change password
+expand: Expand
+domains: Domains
 Password is invalid: Password is invalid
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

@@ -20,6 +20,6 @@
     {% include('user/_options.html.twig') %}
     {% include('user/_federated_info.html.twig') %}
     <div id="content">
-        {% include 'layout/_activity_list.html.twig' with {list: users, actor: 'follower'} %}
+        {% include 'layout/_user_activity_list.html.twig' with {list: users, actor: 'follower'} %}
     </div>
 {% endblock %}

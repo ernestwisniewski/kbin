@@ -1,18 +1,15 @@
 {% if actor is not defined %}
-    {% set actor = 'user' %}
+    {% set actor = 'magazine' %}
 {% endif %}
 
 {% if list|length %}
-    <div class="section users users-columns">
+    <div class="section magazines magazines-columns">
         <ul>
             {% for subject in list %}
                 <li>
-                    {% if attribute(subject, actor).avatar %}
-                        {{ component('user_avatar', {user: attribute(subject, actor) }) }}
-                    {% endif %}
                     <div>
-                        <a href="{{ path('user_overview', {username: attribute(subject, actor).username}) }}"
-                           class="stretched-link">{{ attribute(subject, actor).username|username }}</a>
+                        <a href="{{ path('domain_entries', {name: attribute(subject, actor).name}) }}"
+                           class="stretched-link">{{ attribute(subject, actor).name }}</a>
                         <small>{{ component('date', {date: subject.createdAt}) }}</small>
                     </div>
                 </li>
@@ -23,7 +20,7 @@
         {{ pagerfanta(list, null, {'pageParameter':'[p]'}) }}
     {% endif %}
 {% else %}
-    <aside class="section section--muted user-list">
+    <aside class="section section--muted">
         <p>{{ 'empty'|trans }}</p>
     </aside>
 {% endif %}

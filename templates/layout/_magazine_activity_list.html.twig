@@ -1,0 +1,33 @@
+{% if actor is not defined %}
+    {% set actor = 'magazine' %}
+{% endif %}
+
+{% if list|length %}
+    <div class="section magazines magazines-columns">
+        <ul>
+            {% for subject in list %}
+                <li>
+                    {% if attribute(subject, actor).cover %}
+                        <figure>
+                            <img width="32" height="32"
+                                 src="{{ asset(attribute(subject, actor).cover.filePath) | imagine_filter('avatar_thumb') }}"
+                                 alt="{{ attribute(subject, actor).name ~' '~ 'cover'|trans|lower }}">
+                        </figure>
+                    {% endif %}
+                    <div>
+                        <a href="{{ path('front_magazine', {name: attribute(subject, actor).name}) }}"
+                           class="stretched-link">{{ attribute(subject, actor).name }}</a>
+                        <small>{{ component('date', {date: subject.createdAt}) }}</small>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if(list.haveToPaginate is defined and list.haveToPaginate) %}
+        {{ pagerfanta(list, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+{% else %}
+    <aside class="section section--muted">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

@@ -1,0 +1,29 @@
+{% if actor is not defined %}
+    {% set actor = 'user' %}
+{% endif %}
+
+{% if list|length %}
+    <div class="section users users-columns">
+        <ul>
+            {% for subject in list %}
+                <li>
+                    {% if attribute(subject, actor).avatar %}
+                        {{ component('user_avatar', {user: attribute(subject, actor) }) }}
+                    {% endif %}
+                    <div>
+                        <a href="{{ path('user_overview', {username: attribute(subject, actor).username}) }}"
+                           class="stretched-link">{{ attribute(subject, actor).username|username }}</a>
+                        <small>{{ component('date', {date: subject.createdAt}) }}</small>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if(list.haveToPaginate is defined and list.haveToPaginate) %}
+        {{ pagerfanta(list, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+{% else %}
+    <aside class="section section--muted">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

@@ -17,7 +17,7 @@
         {{ component('entry', {entry: entry, isSingle: true, showBody: false}) }}
         {% include 'entry/_options_activity.html.twig' %}
         <div id="content">
-            {% include 'layout/_activity_list.html.twig' with {list: votes} %}
+            {% include 'layout/_user_activity_list.html.twig' with {list: votes} %}
         </div>
     </div>
 {% endblock %}

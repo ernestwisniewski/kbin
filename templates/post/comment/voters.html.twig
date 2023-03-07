@@ -16,6 +16,6 @@
     {{ component('post_comment', {comment: comment}) }}
     {% include 'post/comment/_options_activity.html.twig' %}
     <div id="content">
-        {% include 'layout/_activity_list.html.twig' with {list: votes} %}
+        {% include 'layout/_user_activity_list.html.twig' with {list: votes} %}
     </div>
 {% endblock %}

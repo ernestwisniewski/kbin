@@ -25,7 +25,7 @@ class EntryVotersController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
-                'html' => $this->renderView('layout/_activity_list.html.twig', [
+                'html' => $this->renderView('_user_activity_list.html.twig', [
                     'list' => $votes,
                     'more' => null,
                 ]),

@@ -220,10 +220,10 @@ user_settings_email:
   methods: [ GET, POST ]
 
 user_settings_password:
-  controller: App\Controller\User\UserEditController
+  controller: App\Controller\User\UserEditController::password
   path:
     en: /settings/password
-    pl: /ustawienia/password
+    pl: /ustawienia/hasło
   methods: [ GET, POST ]
 
 user_settings_avatar_delete:

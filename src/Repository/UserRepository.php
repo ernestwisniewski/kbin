@@ -205,16 +205,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function findBlockedUsers(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->blocks
             )
         );
 

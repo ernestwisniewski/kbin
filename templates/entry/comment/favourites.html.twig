@@ -16,6 +16,6 @@
     {{ component('entry_comment', {comment: comment, showEntryTitle: false, showMagazineName: false}) }}
     {% include 'entry/comment/_options_activity.html.twig' %}
     <div id="content">
-        {% include 'layout/_activity_list.html.twig' with {list: favourites} %}
+        {% include 'layout/_user_activity_list.html.twig' with {list: favourites} %}
     </div>
 {% endblock %}

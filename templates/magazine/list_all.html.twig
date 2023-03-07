@@ -17,5 +17,7 @@
         <h1 hidden>{{ 'magazines'|trans }}</h1>
     </header>
     {% include 'magazine/_options.html.twig' %}
-    {% include 'magazine/_list.html.twig' %}
+    <div id="content">
+        {% include 'magazine/_list.html.twig' %}
+    </div>
 {% endblock %}

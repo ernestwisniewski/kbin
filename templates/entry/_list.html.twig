@@ -5,7 +5,7 @@
     {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
 {% endif %}
 {% if not entries|length %}
-    <aside class="section section--muted user-list">
+    <aside class="section section--muted">
         <p>{{ 'empty'|trans }}</p>
     </aside>
 {% endif %}

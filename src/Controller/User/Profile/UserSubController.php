@@ -18,7 +18,7 @@ class UserSubController extends AbstractController
     public function magazines(MagazineRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/sub_magazines.html.twig',
+            'user/settings/sub_magazines.html.twig',
             [
                 'magazines' => $repository->findSubscribedMagazines(
                     $this->getPageNb($request),
@@ -32,7 +32,7 @@ class UserSubController extends AbstractController
     public function users(UserRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/sub_users.html.twig',
+            'user/settings/sub_users.html.twig',
             [
                 'users' => $repository->findFollowing($this->getPageNb($request), $this->getUserOrThrow()),
             ]
@@ -43,7 +43,7 @@ class UserSubController extends AbstractController
     public function domains(DomainRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/sub_domains.html.twig',
+            'user/settings/sub_domains.html.twig',
             [
                 'domains' => $repository->findSubscribedDomains($this->getPageNb($request), $this->getUserOrThrow()),
             ]

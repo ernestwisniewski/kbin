@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'settings'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
+    {{- 'email'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
 {%- endblock -%}
 
 
-{% block mainClass %}page-settings page-settings-general{% endblock %}
+{% block mainClass %}page-settings page-settings-email{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -18,9 +18,10 @@
     <div id="content" class="section">
         <div class="container">
             <h1 hidden>{{ 'profile'|trans }}</h1>
+            <h2>{{ 'change_email'|trans }}</h2>
             {{ form_start(form) }}
-            {{ form_row(form.oldEmail, {label: 'old_email', value: app.user.email, attr: {disabled: 'disabled'}}) }}
-            {{ form_row(form.email, {label: 'new_email', value: ''}) }}
+            {{ form_row(form.email, {label: 'old_email', value: app.user.email, attr: {disabled: 'disabled'}}) }}
+            {{ form_row(form.newEmail, {label: 'new_email'}) }}
             {{ form_row(form.currentPassword, {label: 'password'}) }}
             <div class="group actions">
                 {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}

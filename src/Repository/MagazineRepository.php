@@ -7,7 +7,6 @@ namespace App\Repository;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
 use App\Entity\Post;
@@ -19,6 +18,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Doctrine\Collections\CollectionAdapter;
 use Pagerfanta\Doctrine\Collections\SelectableAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
@@ -68,21 +68,14 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findSubscribedMagazines(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
-            'SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->subscriptions
             )
         );
 
         try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -93,19 +86,18 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findBlockedMagazines(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
-            'SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->blockedMagazines
             )
         );
 
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
@@ -253,22 +245,22 @@ class MagazineRepository extends ServiceEntityRepository
         $result = $pagerfanta->getCurrentPageResults();
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry')]
+            ['id' => $this->getOverviewIds((array)$result, 'entry')]
         );
         $this->_em->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
+            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
         );
         $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
         $this->_em->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
+            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
         );
         $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -279,7 +271,7 @@ class MagazineRepository extends ServiceEntityRepository
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -289,9 +281,9 @@ class MagazineRepository extends ServiceEntityRepository
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
 
-        return array_map(fn ($subject) => $subject['id'], $result);
+        return array_map(fn($subject) => $subject['id'], $result);
     }
 
     public function findAudience(Magazine $magazine): array

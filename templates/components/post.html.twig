@@ -26,6 +26,12 @@
             <a class="stretched-link"
                href="{{ post_url(post) ~ '#comment-add' }}">{{ 'reply'|trans|lower }}</a>
         </li>
+        {% if post.commentCount > 2 and not is_route_name('post_signle') %}
+            <li>
+                <a class="stretched-link"
+                   href="#post-{{ post.id }}">{{ 'expand'|trans|lower }} ({{ post.commentCount }})</a>
+            </li>
+        {% endif %}
         <li>
             <form method="post"
                   action="{{ path('post_favourite', {id: post.id}) }}">

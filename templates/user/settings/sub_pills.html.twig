@@ -1,0 +1,22 @@
+<div class="pills">
+    <menu>
+        <li>
+            <a href="{{ path('user_settings_magazine_subscriptions') }}"
+            class="{{ html_classes({'active': is_route_name('user_settings_magazine_subscriptions')}) }}">
+                {{ 'magazines'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_user_subscriptions') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_user_subscriptions')}) }}">
+                {{ 'people'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_domain_subscriptions') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_domain_subscriptions')}) }}">
+                {{ 'domains'|trans }}
+            </a>
+        </li>
+    </menu>
+</div>

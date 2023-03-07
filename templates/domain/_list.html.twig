@@ -1,0 +1,26 @@
+{% if domains|length %}
+    <div class="domains section">
+        <table>
+            <thead>
+            <tr>
+                <td>{{ 'name'|trans }}</td>
+                <td>{{ 'threads'|trans }}</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for domain in domains %}
+                <tr>
+                    <td><a href="{{ path('domain_entries', {name: domain.name}) }}">{{ domain.name }}</a></td>
+                    <td>{{ domain.entries|length }}</td>
+                    <td>{{ component('domain_sub', {domain: domain}) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <aside class="section section--muted">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}
