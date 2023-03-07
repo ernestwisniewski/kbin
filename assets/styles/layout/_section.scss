@@ -41,6 +41,13 @@
       color: var(--kbin-text-muted-color);
       margin: 0;
     }
+
+    small {
+      color: var(--kbin-text-muted-color);
+      display: block;
+      font-size: .8rem;
+      font-weight: normal;
+    }
   }
 
   &--no-bg {

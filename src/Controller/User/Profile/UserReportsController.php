@@ -18,7 +18,7 @@ class UserReportsController extends AbstractController
     public function __invoke(MagazineRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/reports.html.twig',
+            'user/settings/reports.html.twig',
             [
             ]
         );

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'login'|trans }} 429 - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-error{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <div id="content" class="section section--top section--muted">
+        <p>429 Too Many Requests</p>
+    </div>
+{% endblock %}

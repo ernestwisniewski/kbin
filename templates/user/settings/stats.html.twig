@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'reports'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-settings page-settings-reports{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'user/settings/_options.html.twig' %}
+    <aside class="section">
+        <h1 hidden>{{ 'stats'|trans }}</h1>
+        <h2>{{ 'threads'|trans }}</h2>
+        <h2>{{ 'votes'|trans }}</h2>
+        <h2>{{ 'views'|trans }}</h2>
+    </aside>
+{% endblock %}

@@ -42,7 +42,7 @@ class UserStatsController extends AbstractController
         };
 
         return $this->render(
-            'user/profile/front.html.twig', [
+            'user/settings/stats.html.twig', [
                 'user' => $this->getUserOrThrow(),
                 'period' => $request->get('statsPeriod'),
                 'chart' => $results,

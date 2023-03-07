@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'error'|trans }} 404 - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-error{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <div id="content" class="section section--top section--muted">
+        <p>404 Not found</p>
+    </div>
+{% endblock %}

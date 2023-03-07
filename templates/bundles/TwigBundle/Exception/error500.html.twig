@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'login'|trans }} 500 - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-error{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <div id="content" class="section section--top section--muted">
+        <p>500 Server error</p>
+        <small>We're working on this, check back in a few days</small>
+    </div>
+{% endblock %}

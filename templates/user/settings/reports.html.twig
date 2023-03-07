@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'reports'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-settings page-settings-reports{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'user/settings/_options.html.twig' %}
+    {% if false %}
+    {% else %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+{% endblock %}
