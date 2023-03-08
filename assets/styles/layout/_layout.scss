@@ -4,6 +4,7 @@ body {
 
 #kbin {
   background: var(--kbin-bg);
+  overflow: hidden;
 
   .kbin-container {
     display: grid;
