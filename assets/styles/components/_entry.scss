@@ -10,6 +10,31 @@
   position: relative;
   z-index: 2;
 
+  @include media-breakpoint-down(lg) {
+    grid-template-areas: "vote image image"
+                       "vote title title"
+                       "vote meta meta"
+                       "vote description description"
+                       "vote footer footer"
+                       "vote body body";
+    grid-template-columns: min-content auto auto;
+
+    header {
+      margin-top: .5rem;
+    }
+
+    figure img {
+      max-height: 70px;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    header, .meta, menu {
+      margin-left: -5rem;
+    }
+
+  }
+
   &:hover,
   &:focus-visible {
     z-index: 3;
@@ -70,13 +95,14 @@
   menu {
     column-gap: 1rem;
     display: grid;
+    grid-area: footer;
     grid-auto-columns: max-content;
     grid-auto-flow: column;
     list-style: none;
     opacity: .75;
 
-     & > a.active,
-     & > li button.active, {
+    & > a.active,
+    & > li button.active, {
       text-decoration: underline;
     }
 

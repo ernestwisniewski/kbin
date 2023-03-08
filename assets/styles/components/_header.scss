@@ -28,6 +28,12 @@
     margin-left: 2rem;
   }
 
+  @include media-breakpoint-down(sm) {
+    nav {
+      display: none;
+    }
+  }
+
   menu {
     align-items: end;
     display: grid;

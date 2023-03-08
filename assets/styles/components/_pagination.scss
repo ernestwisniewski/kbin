@@ -13,4 +13,10 @@
   a {
     font-weight: bold;
   }
+
+  @include media-breakpoint-down(sm) {
+    a, span {
+      padding: 1rem .3rem;
+    }
+  }
 }

@@ -5,6 +5,27 @@ body {
 #kbin {
   background: var(--kbin-bg);
 
+  .kbin-container {
+    display: grid;
+    grid-template-areas: "header header"
+                         "main sidebar"
+                         "footer footer";
+    grid-template-columns: 3fr 1fr;
+    margin: 0 auto;
+    max-width: 1360px;
+  }
+
+  @include media-breakpoint-down(lg) {
+    .kbin-container {
+      grid-template-areas: "header header"
+                          "main main"
+                          "sidebar sidebar"
+                          "footer footer";
+      grid-template-columns: 1fr;
+      margin: 0 auto;
+    }
+  }
+  
   a:focus-visible,
   input:focus-visible,
   button:focus-visible,
@@ -31,16 +52,6 @@ body {
   #footer {
     grid-area: footer;
     z-index: 5;
-  }
-
-  .kbin-container {
-    display: grid;
-    grid-template-areas: "header header"
-                         "main sidebar"
-                         "footer footer";
-    grid-template-columns: 3fr 1fr;
-    margin: 0 auto;
-    max-width: 1360px;
   }
 }
 
