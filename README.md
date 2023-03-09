@@ -199,7 +199,7 @@ $ docker compose exec php bin/console cache:clear
 
 ###
 
-[<img src="docs/images/partners/browserstack.svg" alt="BrowserStack" style="width:350px;">](https://jb.gg/OpenSourceSupport)
+[<img src="docs/images/partners/browserstack.svg" alt="BrowserStack" style="width:350px;">](https://www.browserstack.com/open-source)
 
 ###
 
