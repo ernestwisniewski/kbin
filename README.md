@@ -3,17 +3,21 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/maintainability)](https://codeclimate.com/github/ernestwisniewski/kbin/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/test_coverage)](https://codeclimate.com/github/ernestwisniewski/kbin/test_coverage)
 
-A reddit-like content aggregator and micro-blogging platform for the fediverse.
+Kbin is a decentralized content aggregator and microblogging platform running on the Fediverse network. It can
+communicate with many other ActivityPub services, including Mastodon, Lemmy, Pleroma, Peertube. The initiative aims to
+promote a free and open internet.
 
-This is a very early beta version, and a lot of features are currently broken or in active development, such as federation.
+This is a very early beta version, and a lot of features are currently broken or in active development, such as
+federation.
 
-|     |     |     |
-| --- | --- | --- |
-![](assets/screenshots/s1.png)  |  ![](assets/screenshots/s2.png)  |  ![](assets/screenshots/s3.png)
+Currently, a new frontend is being implemented on develop branch. In the next stage, a similar refactor will go through the backend and the project will be prepared for contribution.
+
+![](docs/images/screen1.png)
 
 * [https://kbin.pub](https://kbin.pub) - project website
-* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only
 * [https://karab.in](https://karab.in) - polish-lang instance
+* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (main branch)
+* [https://lab.kbin.pub](https://lab.kbin.pub) - instance for testing purposes only (develop branch)
 
 ---
 
@@ -39,8 +43,8 @@ This is a very early beta version, and a lot of features are currently broken or
 * Redis (optional)
 * Mercure (optional)
 * RabbitMQ (optional)
-* Elasticsearch (optional)
-* Cardano Node, Cardano Wallet (optional)
+* Elasticsearch (optional) (deprecated)
+* Cardano Node, Cardano Wallet (optional) (deprecated)
 
 ### Frontend
 
@@ -60,7 +64,8 @@ Based on [https://github.com/dunglas/symfony-docker](https://github.com/dunglas/
 1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/)
 2. Run `docker compose build --pull --no-cache` to build fresh images
 3. Run `docker compose up` (the logs will be displayed in the current shell)
-4. Open `https://app.localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
+4. Open `https://app.localhost` in your favorite web browser
+   and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
 5. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
 ```bash
@@ -90,7 +95,8 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 #### Deploying on Multiple Nodes
 
-If you want to deploy your app on a cluster of machines, you can use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), which is
+If you want to deploy your app on a cluster of machines, you can
+use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), which is
 compatible with the provided Compose files.
 
 ## Configuration
@@ -133,9 +139,9 @@ Next, set up your instance https://localhost/admin
 
 ```bash
 # Backup
-$ docker exec -it database pg_dump -U symfony app > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+$ docker exec -it database pg_dump -U kbin kbin > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
 # Restore
-$ docker compose exec -T database psql -U symfony app < dump.sql
+$ docker compose exec -T database psql -U kbin kbin < dump.sql
 ```
 
 ### Images
@@ -148,7 +154,9 @@ $ docker compose exec -T database psql -U symfony app < dump.sql
 
 ### Editing Permissions on Linux
 
-If you work on linux and cannot edit some of the project files right after the first installation, you can run `docker compose run --rm php chown -R $(id -u):$(id -g) .` to set yourself as owner of the project files that were created by the docker container.
+If you work on linux and cannot edit some of the project files right after the first installation, you can
+run `docker compose run --rm php chown -R $(id -u):$(id -g) .` to set yourself as owner of the project files that were
+created by the docker container.
 
 ### Logs
 
@@ -187,14 +195,24 @@ $ docker compose exec php bin/console cache:clear
 
 ###
 
-[<img src="public/partners/blackfire-io.png" alt="blackfire.io" style="width:350px;"/>](https://www.blackfire.io)
+[<img src="docs/images/partners/entrust.png" alt="NGI Zero Entrust" style="width:450px;">](https://nlnet.nl/project/Kbin/)
 
 ###
 
-[<img src="public/partners/jb_beam.png" alt="JetBrains" style="width:150px;"/>](https://jb.gg/OpenSourceSupport)
+[<img src="docs/images/partners/browserstack.svg" alt="BrowserStack" style="width:350px;">](https://jb.gg/OpenSourceSupport)
+
+###
+
+[<img src="docs/images/partners/blackfire-io.png" alt="blackfire.io" style="width:350px;">](https://www.blackfire.io)
+
+###
+
+[<img src="docs/images/partners/jb_beam.png" alt="JetBrains" style="width:150px;">](https://jb.gg/OpenSourceSupport)
 
 ## Contributing
 
+* [Official repository](https://codeberg.org/Kbin/kbin-core) (currently transferred)
+* [Translations](https://translate.codeberg.org/projects/kbin/) (currently transferred)
 
 ## License
 
