@@ -23,12 +23,12 @@ Currently, a new frontend is being implemented on develop branch. In the next st
 
 ### Apps
 
-* [kbin-mobile](https://github.com/ernestwisniewski/kbin-mobile) (Flutter / Dart)
+* [kbin-mobile](https://codeberg.org/Kbin/kbin-mobile) (Flutter / Dart) (currently transferred)
 
 ### Libraries
 
-* [kbin-js-client](https://github.com/ernestwisniewski/kbin-js-client) (TypeScript)
-* [kbin-dart-client](#) (Dart)
+* [kbin-js-client](https://codeberg.org/Kbin/kbin-js-client) (TypeScript) (currently transferred)
+* [kbin-dart-client](https://codeberg.org/Kbin/kbin-dart-client) (Dart) (currently transferred)
 
 ## Getting Started
 
@@ -211,7 +211,7 @@ $ docker compose exec php bin/console cache:clear
 
 ## Contributing
 
-* [Official repository](https://codeberg.org/Kbin/kbin-core) (currently transferred)
+* [Official repository](https://codeberg.org/Kbin/kbin-core)
 * [Translations](https://translate.codeberg.org/projects/kbin/) (currently transferred)
 
 ## License
