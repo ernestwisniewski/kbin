@@ -17,11 +17,11 @@
   menu {
     font-size: .8rem;
 
-    li:first-child a {
+    > li:first-child a {
       padding-left: 0;
     }
 
-    li {
+    > li {
       padding: .5rem 0;
       position: relative;
     }

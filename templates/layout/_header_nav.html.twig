@@ -1,0 +1,36 @@
+{% if header_nav is empty %}
+    <li>
+        {% include 'layout/_header_bread.html.twig' %}
+    </li>
+    <li>
+        <a href="{{ navbar_threads_url() }}"
+           class="{{ html_classes({'active': is_route_name_starts_with('front') or is_route_name_contains('_entries') or entry is defined and entry }) }}">
+            {{ 'threads'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ navbar_posts_url() }}"
+           class="{{ html_classes({'active': (is_route_name('posts_front') or is_route_name_contains('posts') or post is defined)  and not is_route_name_contains('user') }) }}">
+            {{ 'microblog'|trans }}
+        </a>
+    </li>
+    {#                <li> #}
+    {#                    <a href="#"> #}
+    {#                        {{ 'events'|trans }} #}
+    {#                    </a> #}
+    {#                </li> #}
+    <li>
+        <a href="{{ navbar_people_url() }}"
+           class="{{ html_classes({'active': is_route_name_contains('people') or user is defined}) }}">
+            {{ 'people'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('magazine_list_all') }}"
+           class="{{ html_classes({'active': is_route_name('magazine_list_all') }) }}">
+            {{ 'magazines'|trans }}
+        </a>
+    </li>
+{% else %}
+    {{ header_nav|raw }}
+{% endif %}

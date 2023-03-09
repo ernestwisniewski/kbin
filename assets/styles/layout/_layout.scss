@@ -1,4 +1,5 @@
 body {
+  background: var(--kbin-bg);
   position: relative;
 }
 
@@ -100,6 +101,8 @@ table {
   border-collapse: collapse;
   font-family: sans-serif;
   font-size: .9em;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
   width: 100%;
 }
 

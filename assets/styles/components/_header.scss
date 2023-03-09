@@ -6,6 +6,7 @@
   font-size: .85rem;
   grid-template-areas: 'sr-nav brand magazine nav menu';
   grid-template-columns: min-content max-content max-content auto max-content;
+  height: 3.162rem;
   padding: 0 .55rem 0 1.5rem;
   position: relative;
 
@@ -24,14 +25,8 @@
   }
 
   nav {
+    display: flex;
     grid-area: nav;
-    margin-left: 2rem;
-  }
-
-  @include media-breakpoint-down(sm) {
-    nav {
-      display: none;
-    }
   }
 
   menu {
@@ -59,6 +54,19 @@
 
     li .active {
       border-bottom: 3px solid #fff;
+    }
+
+    .magazine {
+      align-self: center;
+      grid-area: magazine;
+      margin-left: 1rem;
+      padding-top: .2rem;
+
+      span {
+        color: var(--kbin-header-text-color);
+        font-weight: 100;
+        opacity: .75;
+      }
     }
   }
 
@@ -95,19 +103,103 @@
     align-self: center;
     font-size: 1.5rem;
     grid-area: brand;
+    margin-right: 2rem;
     text-decoration: none;
   }
+}
 
-  .magazine {
-    align-self: center;
-    grid-area: magazine;
-    margin-left: 1rem;
-    padding-top: .2rem;
+.head-title {
+  align-items: center;
+  display: flex;
+
+  span {
+    font-weight: lighter;
+    font-size: .75rem;
+  }
+
+  a {
+    padding-left: 0 !important;
+
+    &:hover {
+      border-bottom-color: transparent !important;
+    }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .head-nav {
+    position: relative;
+
+    .brand {
+      padding-bottom: .438rem;
+    }
+
+    menu {
+      grid-auto-flow: row !important;
+    }
+
+    &__menu {
+      background-color: var(--kbin-section-bg);
+      border: var(--kbin-section-border);
+      left: 50%;
+      margin-bottom: 0;
+      margin-top: 0;
+      min-width: 15rem;
+      opacity: 1;
+      padding: .5rem 0;
+      position: absolute;
+      top: calc(100% - 0.25rem);
+      transform: rotateX(-90deg) translateX(-50%);
+      transform-origin: top center;
+      visibility: hidden;
+      z-index: 100;
+
+      li {
+        list-style: none;
+        padding: 0;
+      }
+
+      a, button {
+        color: var(--kbin-meta-link-color) !important;
+        font-weight: normal !important;
+        border: 0 !important;
+        display: block !important;
+        padding: .5rem 1rem !important;
+        text-decoration: none;
+        width: 100%;
+        text-align: left;
+
+        &:hover {
+          color: var(--kbin-meta-link-hover-color) !important;
+          background: var(--kbin-bg) !important;
+        }
+
+        &.active {
+          font-weight: bold !important;
+        }
+      }
+    }
+
+    &:hover,
+    &:focus-within {
+      .head-nav__menu {
+        opacity: 1;
+        transform: rotateX(0) translateX(-50%);
+        visibility: visible;
+      }
+    }
+  }
+
+  .head-title {
+    color: var(--kbin-meta-text-color);
 
     span {
-      color: var(--kbin-header-text-color);
-      font-weight: 100;
-      opacity: .75;
+      padding-left: 1rem;
+    }
+
+    a {
+      padding-left: 0 !important;
+      font-weight: bold !important;
     }
   }
 }

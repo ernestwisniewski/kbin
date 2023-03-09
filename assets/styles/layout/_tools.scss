@@ -44,3 +44,8 @@
 .mb-0 {
   margin-bottom: 0 !important;
 }
+
+.table-responsive {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}

@@ -92,7 +92,7 @@
                         {{ 'copy_url'|trans|lower }}
                     </a>
                 </li>
-                {% if app.request.locale is not same as 'en' %}
+                {% if app.request.locale is same as 'pl' %}
                     <li>
                         <a href="#">
                             {{ 'copy_url_to_fediverse'|trans|lower }}

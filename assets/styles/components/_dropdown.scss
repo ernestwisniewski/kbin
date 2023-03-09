@@ -1,11 +1,10 @@
 // Learn about how this was made:
 // @link https://moderncss.dev/css-only-accessible-dropdown-navigation-menu/
 $transition: 180ms all 120ms ease-out;
-
 .dropdown {
   position: relative;
 
-  .dropdown__menu {
+  &__menu {
     background-color: var(--kbin-section-bg);
     border: var(--kbin-section-border);
     left: 50%;

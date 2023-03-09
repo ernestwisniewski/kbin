@@ -35,6 +35,14 @@
   .posts {
     color: var(--kbin-meta-text-color);
 
+    .container {
+      @include media-breakpoint-only(md) {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     figure {
       border-bottom: var(--kbin-meta-border);
       margin-bottom: 1rem;

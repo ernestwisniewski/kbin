@@ -29,7 +29,7 @@
   }
 
   @include media-breakpoint-down(sm) {
-    header, .meta, menu {
+    header, .meta, menu, .entry__body {
       margin-left: -5rem;
     }
 
@@ -147,6 +147,12 @@
 
     .entry__body {
       padding: 0 2rem;
+      @include media-breakpoint-down(lg) {
+        margin-left: -5rem;
+      }
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
     }
   }
 }
