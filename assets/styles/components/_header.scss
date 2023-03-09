@@ -141,7 +141,7 @@
     &__menu {
       background-color: var(--kbin-section-bg);
       border: var(--kbin-section-border);
-      left: 50%;
+      left: 10rem;
       margin-bottom: 0;
       margin-top: 0;
       min-width: 15rem;
@@ -201,5 +201,11 @@
       padding-left: 0 !important;
       font-weight: bold !important;
     }
+  }
+}
+
+@include media-breakpoint-down(ss) {
+  .head-nav {
+
   }
 }
