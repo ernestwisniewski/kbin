@@ -34,7 +34,9 @@
         {% endif %}
     </style>
 </head>
-<body class="theme--light">
+<body class="{{ app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
+? 'theme--'~app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
+: 'theme--ligth' }}">
 <div id="tools">
     <div class="header-bg"></div>
     <div class="footer-bg"></div>

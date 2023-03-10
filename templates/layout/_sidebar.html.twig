@@ -1,9 +1,38 @@
-<div class="options options--top">
-    <menu>
-        <li><a href="#" title="Federacja" aria-label="Federacja"><i class="fa-solid fa-network-wired"></i></a></li>
-        <li><a href="#" title="Ustawienia" aria-label="Ustawienia"><i class="fa-solid fa-sliders"></i></a></li>
-    </menu>
+<div>
+    <div class="options options--top">
+        <menu>
+            <li><a href="#" title="Federacja" aria-label="Federacja"><i class="fa-solid fa-network-wired"></i></a></li>
+            <li><a href="#" title="Ustawienia" aria-label="Ustawienia"><i class="fa-solid fa-sliders"></i></a></li>
+        </menu>
+    </div>
+    <div class="section">
+        <h3>{{ 'theme'|trans }}</h3>
+        <div class="settings">
+            <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'light'}) }}"
+               title="{{ 'theme'|trans }} {{ 'light'|trans }}"
+               aria-label="{{ 'theme'|trans }} {{ 'light'|trans }}">
+                <div class="theme light"></div>
+            </a>
+            <a href="{{ path('theme_settings', {key: 'kbin_theme', value: 'dark'}) }}"
+               title="{{ 'theme'|trans }} {{ 'dark'|trans }}"
+               aria-label="{{ 'theme'|trans }} {{ 'dark'|trans }}">
+                <div class="theme dark"></div>
+            </a>
+            <a href="{{ path('theme_settings', {key: 'kbin_theme', value: 'solarized-light'}) }}"
+               title="{{ 'theme'|trans }} {{ 'solarized_light'|trans }}"
+               aria-label="{{ 'theme'|trans }} {{ 'solarized_light'|trans }}">
+                <div class="theme solarized-light"></div>
+            </a>
+            <a href="{{ path('theme_settings', {key: 'kbin_theme', value: 'solarized-dark'}) }}"
+               title="{{ 'theme'|trans }} {{ 'solarized_dark'|trans }}"
+               aria-label="{{ 'theme'|trans }} {{ 'solarized_dark'|trans }}">
+                <div class="theme solarized-dark"></div>
+            </a>
+        </div>
+    </div>
 </div>
+
+
 {% if sidebar_top is empty %}
 {% else %}
     {{ sidebar_top|raw }}

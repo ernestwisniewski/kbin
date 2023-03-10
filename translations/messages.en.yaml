@@ -210,6 +210,11 @@ expand: Expand
 domains: Domains
 error: Error
 votes: Votes
+theme: Theme
+dark: Dark
+light: Light
+solarized_light: Solarized light
+solarized_dark: Solarized dark
 Password is invalid: Password is invalid
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
