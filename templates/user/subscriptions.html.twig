@@ -21,6 +21,6 @@
     {% include('user/_options.html.twig') %}
     {% include('user/_federated_info.html.twig') %}
     <div id="content">
-        {% include 'magazine/_list.html.twig' with {view: 'columns'|trans|lower, title: 'subscriptions'|trans} %}
+        {% include 'layout/_magazine_activity_list.html.twig' with {list: magazines} %}
     </div>
 {% endblock %}

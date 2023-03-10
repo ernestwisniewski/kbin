@@ -1,6 +1,6 @@
 <section class="section user-info">
     <h3>{{ 'user'|trans }}</h3>
-    {% if not is_route_name('user') %}
+    {% if not is_route_name('user_overview') %}
         <div class="group">
             {% if user.avatar %}
                 <figure>
@@ -11,7 +11,7 @@
             {% endif %}
             <h4><a href="{{ path('user_overview', {username:user.username}) }}"
                    class="stretched-link">{{ user.username|username(false) }}</a></h4>
-            <p class="user__name">{{ user.apId }}</p>
+            <p class="user__name">{{ user.username|username }}{% if not user.apId %}@{{ kbin_domain() }}{% endif %}</p>
         </div>
         {{ component('user_follow', {user: user}) }}
     {% endif %}

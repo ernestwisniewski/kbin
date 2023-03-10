@@ -1,21 +1,23 @@
 <aside{{ attributes.defaults({class: 'user__follow'}) }}>
     <div><i class="fa-solid fa-users"></i> {{ user.followersCount }}</div>
-    <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unfollow' : 'follow'), {username: user.username}) }}"
-          name="user_follow"
-          method="post">
-        <button type="submit"
-                class="{{ html_classes('btn btn__secondry', {'btn-success': is_user_followed(user)}) }}">
-            {{ is_user_followed(user) ? 'unfollow'|trans : 'follow'|trans }}
-        </button>
-        <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
-    </form>
-    <form action="{{ path('user_' ~ (is_user_blocked(user) ? 'unblock' : 'block'), {username: user.username}) }}"
-          name="user_block"
-          method="post">
-        <button type="submit"
-                class="{{ html_classes('btn btn__secondry', {'btn-warning': is_user_blocked(user)}) }}">
-            <i class="fa-solid fa-ban"></i>
-        </button>
-        <input type="hidden" name="token" value="{{ csrf_token('block') }}">
-    </form>
+    {% if not app.user or app.user is not same as user %}
+        <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unfollow' : 'follow'), {username: user.username}) }}"
+              name="user_follow"
+              method="post">
+            <button type="submit"
+                    class="{{ html_classes('btn btn__secondry', {'btn-success': is_user_followed(user)}) }}">
+                {{ is_user_followed(user) ? 'unfollow'|trans : 'follow'|trans }}
+            </button>
+            <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
+        </form>
+        <form action="{{ path('user_' ~ (is_user_blocked(user) ? 'unblock' : 'block'), {username: user.username}) }}"
+              name="user_block"
+              method="post">
+            <button type="submit"
+                    class="{{ html_classes('btn btn__secondry', {'btn-warning': is_user_blocked(user)}) }}">
+                <i class="fa-solid fa-ban"></i>
+            </button>
+            <input type="hidden" name="token" value="{{ csrf_token('block') }}">
+        </form>
+    {% endif %}
 </aside>

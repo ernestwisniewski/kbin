@@ -27,7 +27,7 @@ body {
       margin: 0 auto;
     }
   }
-  
+
   a:focus-visible,
   input:focus-visible,
   button:focus-visible,
@@ -118,11 +118,11 @@ table td {
 }
 
 table tbody tr {
-  border-bottom: 1px solid var(--kbin-section-border);
+  border-bottom: var(--kbin-section-border);
 }
 
 table tbody tr:nth-of-type(even) {
-  background-color: #fafafa;
+  background-color: var(--kbin-bg-nth);
 }
 
 .opacity-50 {
