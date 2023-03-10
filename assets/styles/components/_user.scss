@@ -93,6 +93,10 @@
   .about {
     margin-bottom: 2.5rem;
     padding: 0 1.5rem;
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 .5rem;
+    }
   }
 
   .with-cover.with-avatar {
