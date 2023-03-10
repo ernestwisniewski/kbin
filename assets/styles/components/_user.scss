@@ -71,6 +71,11 @@
     padding-top: 2rem;
     text-align: center;
 
+    @include media-breakpoint-down(lg) {
+      justify-content: space-around;
+      margin-left: 0;
+    }
+
     h1 {
       margin-bottom: 0;
     }

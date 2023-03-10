@@ -36,9 +36,13 @@
     color: var(--kbin-meta-text-color);
 
     .container {
+      @include media-breakpoint-down(lg) {
+        max-width: 100%;
+      }
+
       @include media-breakpoint-only(md) {
         display: grid;
-        gap: 1rem;
+        gap: 2rem;
         grid-template-columns: repeat(2, 1fr);
       }
     }
