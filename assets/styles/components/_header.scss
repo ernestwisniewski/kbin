@@ -27,6 +27,10 @@
   nav {
     display: flex;
     grid-area: nav;
+
+    .active {
+      background: var(--kbin-header-link-active-bg);
+    }
   }
 
   menu {
@@ -200,11 +204,5 @@
       padding-left: 0 !important;
       font-weight: bold !important;
     }
-  }
-}
-
-@include media-breakpoint-down(ss) {
-  .head-nav {
-
   }
 }

@@ -1,10 +1,4 @@
 .theme--dark {
-  #header {
-    .head-nav .active {
-      background: var(--kbin-options-bg);
-    }
-  }
-
   .ts-dropdown {
     background: var(--kbin-input-bg);
     border-color: #373737;
@@ -83,6 +77,7 @@
   --kbin-header-text-color: #fff;
   --kbin-header-link-color: #fff;
   --kbin-header-link-hover-color: #e8e8e8;
+  --kbin-header-link-active-bg: var(--kbin-options-bg);
   --kbin-header-border: 1px solid #e5eaec;
 
   //sidebar
