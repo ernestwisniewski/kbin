@@ -1,8 +1,6 @@
 <h3 hidden>{{ 'add_comment'|trans }}</h3>
 {{ form_start(form) }}
-<div class="group">
-    {{ form_row(form.body, {label: false}) }}
-</div>
+{{ form_row(form.body, {label: false}) }}
 <div class="group actions">
     <button type="button"
             class="btn btn__secondry"
