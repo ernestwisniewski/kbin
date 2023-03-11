@@ -66,7 +66,7 @@ $green:     #859900;
   --kbin-section-text-color: var(--kbin-text-color);
   --kbin-section-link-color: var(--kbin-link-color);
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
-  --kbin-section-border: 1px solid #011f27;
+  --kbin-section-border: 1px solid #214852;
 
   // meta
   --kbin-meta-bg: none;
@@ -81,7 +81,7 @@ $green:     #859900;
   --kbin-options-text-color: #95a5a6;
   --kbin-options-link-color: #{$base00};
   --kbin-options-link-hover-color: #e1e5ec;
-  --kbin-options-border: 1px solid #011f27;
+  --kbin-options-border: 1px solid #214852;
   --kbin-options-link-hover-border: 3px solid #{$magenta};
 
   // forms
@@ -135,7 +135,7 @@ $green:     #859900;
   --kbin-entry-link-visited-color: #586e75;
 
   // footer
-  --kbin-footer-bg: var(--kbin-primary-color);
+  --kbin-footer-bg: var(--kbin-section-bg);
   --kbin-footer-text-color: var(--kbin-text-color);
   --kbin-footer-link-color: var(--kbin-link-color);
   --kbin-footer-link-hover-color: var(--kbin-link-hover-color);
