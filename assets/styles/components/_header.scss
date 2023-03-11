@@ -47,12 +47,12 @@
     }
 
     li a:hover {
-      border-bottom: 3px solid #fff;
+      border-bottom: var(--kbin-header-hover-border);
 
     }
 
     li .active {
-      border-bottom: 3px solid #fff;
+      border-bottom: var(--kbin-header-hover-border);
     }
 
     .magazine {

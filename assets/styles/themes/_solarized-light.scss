@@ -1,21 +1,29 @@
-$base03:    #002b36;
-$base02:    #073642;
-$base01:    #586e75;
-$base00:    #657b83;
-$base0:     #839496;
-$base1:     #93a1a1;
-$base2:     #eee8d5;
-$base3:     #fdf6e3;
-$yellow:    #b58900;
-$orange:    #cb4b16;
-$red:       #dc322f;
-$magenta:   #d33682;
-$violet:    #6c71c4;
-$blue:      #268bd2;
-$cyan:      #2aa198;
-$green:     #859900;
+$base03: #002b36;
+$base02: #073642;
+$base01: #586e75;
+$base00: #657b83;
+$base0: #839496;
+$base1: #93a1a1;
+$base2: #eee8d5;
+$base3: #fdf6e3;
+$yellow: #b58900;
+$orange: #cb4b16;
+$red: #dc322f;
+$magenta: #d33682;
+$violet: #6c71c4;
+$blue: #268bd2;
+$cyan: #2aa198;
+$green: #859900;
 
 .theme--solarized-light {
+  .options--top {
+    border: var(--kbin-options-border) !important;
+  }
+
+  .section--top {
+    border: var(--kbin-section-border) !important;
+  }
+
   .ts-dropdown {
     background: var(--kbin-input-bg);
     border-color: #373737;
@@ -28,7 +36,7 @@ $green:     #859900;
   }
 
   .entry__domain,
-  .entry__domain a{
+  .entry__domain a {
     color: $yellow !important;
   }
 
@@ -37,12 +45,12 @@ $green:     #859900;
   --kbin-body-font-weight: 400;
   --kbin-body-line-height: 1.5;
   --kbin-body-text-align: left;
-  --kbin-body-bg: #e5decb;
+  --kbin-body-bg: #eee8d5;
 
-  --kbin-bg: #e5decb;
+  --kbin-bg: #eee8d5;
   --kbin-bg-nth: #{$base3};
 
-  --kbin-text-color: #{$base0};
+  --kbin-text-color: #677d84;
   --kbin-link-color: #586e75;
   --kbin-link-hover-color: #44575d;
   --kbin-outline: #ff8c00 solid 4px;
@@ -74,12 +82,12 @@ $green:     #859900;
   --kbin-options-link-color: #{$base01};
   --kbin-options-link-hover-color: #41545b;
   --kbin-options-border: 1px solid #e7dfc6;
-  --kbin-options-link-hover-border: 3px solid #{$magenta};
+  --kbin-options-link-hover-border: 3px solid #{$violet};
 
   // forms
   --kbin-input-bg: #f6edd4;
   --kbin-input-text-color: var(--kbin-text-color);
-  --kbin-input-border: 1px solid #e7dfc6;
+  --kbin-input-border:  var(--kbin-section-border);
 
   // buttons
   --kbin-button-primary-bg: var(--kbin-primary-color);
@@ -101,10 +109,11 @@ $green:     #859900;
   --kbin-header-link-hover-color: #41545b;
   --kbin-header-link-active-bg: var(--kbin-options-bg);
   --kbin-header-border: 1px solid #d8cda9;
+  --kbin-header-hover-border: 3px solid #{$base01};
 
   //sidebar
   --kbin-sidebar-header-text-color: #909ea2;
-  --kbin-sidebar-header-border: 1px solid #d8cda9;
+  --kbin-sidebar-header-border: var(--kbin-section-border);
 
   //vote
   --kbin-vote-bg: #fff5db;
