@@ -190,6 +190,12 @@
     display: flex;
     gap: 1rem;
     justify-content: center;
+    margin-bottom: 2rem;
+    align-items: flex-end;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
 
     .theme {
       border: var(--kbin-avatar-border);
@@ -208,7 +214,7 @@
         background: #fdf6e3;
       }
 
-      &.solarized-dark{
+      &.solarized-dark {
         background: #093642;
       }
     }

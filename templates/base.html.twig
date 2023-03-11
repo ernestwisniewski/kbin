@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl"
+      style="font-size: {{ app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'))
+      ? app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'))~'%'
+      : '100%' }}">
 <head>
     <title>{%- block title -%}{{ kbin_meta_title() }}{%- endblock -%}</title>
 

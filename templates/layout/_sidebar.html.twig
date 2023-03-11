@@ -9,24 +9,45 @@
         <h3>{{ 'theme'|trans }}</h3>
         <div class="settings">
             <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'light'}) }}"
-               title="{{ 'theme'|trans }} {{ 'light'|trans }}"
-               aria-label="{{ 'theme'|trans }} {{ 'light'|trans }}">
+               title="{{ 'light'|trans }} {{ 'theme'|trans }}"
+               aria-label="{{ 'light'|trans }} {{ 'theme'|trans }}">
                 <div class="theme light"></div>
             </a>
-            <a href="{{ path('theme_settings', {key: 'kbin_theme', value: 'dark'}) }}"
-               title="{{ 'theme'|trans }} {{ 'dark'|trans }}"
-               aria-label="{{ 'theme'|trans }} {{ 'dark'|trans }}">
+            <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'dark'}) }}"
+               title="{{ 'dark'|trans }} {{ 'theme'|trans }}"
+               aria-label="{{ 'dark'|trans }} {{ 'theme'|trans }}">
                 <div class="theme dark"></div>
             </a>
-            <a href="{{ path('theme_settings', {key: 'kbin_theme', value: 'solarized-light'}) }}"
-               title="{{ 'theme'|trans }} {{ 'solarized_light'|trans }}"
-               aria-label="{{ 'theme'|trans }} {{ 'solarized_light'|trans }}">
+            <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'solarized-light'}) }}"
+               title="{{ 'solarized_light'|trans }} {{ 'theme'|trans }}"
+               aria-label="{{ 'solarized_light'|trans }} {{ 'theme'|trans }}">
                 <div class="theme solarized-light"></div>
             </a>
-            <a href="{{ path('theme_settings', {key: 'kbin_theme', value: 'solarized-dark'}) }}"
-               title="{{ 'theme'|trans }} {{ 'solarized_dark'|trans }}"
-               aria-label="{{ 'theme'|trans }} {{ 'solarized_dark'|trans }}">
+            <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'solarized-dark'}) }}"
+               title="{{ 'solarized_dark'|trans }} {{ 'theme'|trans }}"
+               aria-label="{{ 'solarized_dark'|trans }} {{ 'theme'|trans }}">
                 <div class="theme solarized-dark"></div>
+            </a>
+        </div>
+        <h3>{{ 'font_size'|trans }}</h3>
+        <div class="settings">
+            <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '100'}) }}"
+               class="link-muted"
+               title="100% {{ 'size'|trans }}"
+               aria-label="100% {{ 'size'|trans }}">
+                <i class="fa-solid fa-font"></i>
+            </a>
+            <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '120'}) }}"
+               class="link-muted"
+               title="120% {{ 'size'|trans }}"
+               aria-label="120% {{ 'size'|trans }}">
+                <i style="font-size:120%" class="fa-solid fa-font"></i>
+            </a>
+            <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '150'}) }}"
+               class="link-muted"
+               title="150% {{ 'size'|trans }}"
+               aria-label="150% {{ 'size'|trans }}">
+                <i style="font-size:150%" class="fa-solid fa-font"></i>
             </a>
         </div>
     </div>

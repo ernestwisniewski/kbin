@@ -15,6 +15,7 @@ class ThemeSettingsController extends AbstractController
     public const ENTRY_COMMENTS_VIEW = 'entry_comments_view';
     public const POST_COMMENTS_VIEW = 'post_comments_view';
     public const KBIN_THEME = 'kbin_theme';
+    public const KBIN_FONT_SIZE = 'kbin_font_size';
 
     public const CLASSIC = 'classic';
     public const CHAT = 'chat';
@@ -31,6 +32,7 @@ class ThemeSettingsController extends AbstractController
         self::ENTRY_COMMENTS_VIEW,
         self::POST_COMMENTS_VIEW,
         self::KBIN_THEME,
+        self::KBIN_FONT_SIZE,
     ];
 
     public const VALUES = [
@@ -42,6 +44,9 @@ class ThemeSettingsController extends AbstractController
         self::DARK,
         self::SOLARIZED_LIGHT,
         self::SOLARIZED_DARK,
+        '100',
+        '120',
+        '150',
     ];
 
     public function __invoke(string $key, string $value, Request $request): Response

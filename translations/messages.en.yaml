@@ -215,6 +215,8 @@ dark: Dark
 light: Light
 solarized_light: Solarized light
 solarized_dark: Solarized dark
+font_size: Font size
+size: Size
 Password is invalid: Password is invalid
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
