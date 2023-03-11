@@ -27,10 +27,6 @@
   nav {
     display: flex;
     grid-area: nav;
-
-    > .active {
-      background: var(--kbin-header-link-active-bg);
-    }
   }
 
   menu {
@@ -203,6 +199,14 @@
     a {
       padding-left: 0 !important;
       font-weight: bold !important;
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .head-nav {
+    li a.active {
+      background: var(--kbin-header-link-active-bg);
     }
   }
 }
