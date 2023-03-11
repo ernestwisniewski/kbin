@@ -3,7 +3,7 @@
         <span aria-label="{{ 'boosts'|trans }}">+</span>
         {% for voter in voters %}
             <a href="{{ path('user_overview', {username: voter}) }}">{{ voter|username }}</a>
-            {% if not loop.last %},{% endif %}
+            {%- if not loop.last %},{% endif %}
         {% endfor %}
         {% if count > 4 %}
             <a href="{{ url }}">+ {{ count - 4 }} {{ 'more'|trans|lower }}</a>
