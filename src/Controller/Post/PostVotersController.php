@@ -21,7 +21,7 @@ class PostVotersController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $post->votes,
+                    'votes' => $post->getUpVotes(),
                     'more' => null,
                 ]),
             ]);
@@ -30,7 +30,7 @@ class PostVotersController extends AbstractController
         return $this->render('post/voters.html.twig', [
             'magazine' => $magazine,
             'post' => $post,
-            'votes' => $post->votes,
+            'votes' => $post->getUpVotes(),
         ]);
     }
 }

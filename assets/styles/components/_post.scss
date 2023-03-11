@@ -14,6 +14,7 @@
   grid-gap: .5rem;
   grid-template-areas: "avatar header vote"
                          "avatar body body"
+                         "avatar meta meta"
                          "avatar footer footer";
   grid-template-columns: min-content auto min-content;
   margin: .5rem 0;
@@ -69,7 +70,7 @@
   menu {
     column-gap: 1rem;
     display: grid;
-    grid-area: footer;
+    grid-area: meta;
     grid-auto-columns: max-content;
     grid-auto-flow: column;
     list-style: none;
@@ -102,9 +103,22 @@
     }
   }
 
+  footer {
+    color: var(--kbin-meta-text-color);
+    font-size: .75rem;
+    font-weight: 300;
+    grid-area: footer;
+    opacity: .75;
+
+    a {
+      font-size: .70rem;
+      @include kbin-btn-link;
+    }
+  }
+
   &:hover,
   &:focus-visible {
-    header, menu {
+    header, menu, footer {
       -webkit-animation: fadein .5s linear 1 normal forwards;
 
       @-webkit-keyframes fadein {

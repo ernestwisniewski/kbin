@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Entry\Comment;
 
 use App\Controller\AbstractController;
+use App\Entity\Contracts\VoteInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
@@ -22,12 +23,17 @@ class EntryCommentVotersController extends AbstractController
         Magazine $magazine,
         Entry $entry,
         EntryComment $comment,
-        Request $request
+        Request $request,
+        string $type
     ): Response {
+        $votes = $comment->votes->filter(
+            fn ($e) => $e->choice === ('up' === $type ? VoteInterface::VOTE_UP : VoteInterface::VOTE_DOWN)
+        );
+
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $comment->votes,
+                    'votes' => $votes,
                     'more' => null,
                 ]),
             ]);
@@ -37,7 +43,7 @@ class EntryCommentVotersController extends AbstractController
             'magazine' => $magazine,
             'entry' => $entry,
             'comment' => $comment,
-            'votes' => $comment->votes,
+            'votes' => $votes,
         ]);
     }
 }

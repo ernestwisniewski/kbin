@@ -31,8 +31,8 @@ more: More
 avatar: Avatar
 added: Added
 views: Views
-up_votes: Up votes
-down_votes: Down votes
+up_votes: Boosts
+down_votes: Reduces
 no_comments: No comments
 created_at: Created
 owner: Owner
@@ -100,8 +100,8 @@ check_email: Check your email
 reset_check_email_desc: If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password. This link will expire in %expire%.
 reset_check_email_desc2: If you don't receive an email please check your spam folder.
 try_again: Try again
-up_vote: Up vote
-down_vote: Down vote
+up_vote: Boost
+down_vote: Reduce
 email_confirm_header: Hello! Confirm your email address.
 email_confirm_content: 'If you want to activate your account click on the link below:'
 email_verify: Confirm email address
@@ -190,12 +190,12 @@ featured_magazines: Featured magazines
 privacy: Privacy
 show_profile_subscriptions: Show magazine subscriptions
 show_profile_followings: Show following users
-notify_on_new_entry_reply: 'Notify me of comments in your threads'
-notify_on_new_entry_comment_reply: 'Notify me of replies to your threads comments'
-notify_on_new_post_reply: 'Notify me of replies in your posts'
-notify_on_new_post_comment_reply: 'Notify me of replies to your posts comments'
-notify_on_new_entry: 'Notify me of new threads in a subscribed magazine'
-notify_on_new_posts: 'Notify me of new posts in a subscribed magazine'
+notify_on_new_entry_reply: Notify me of comments in your threads
+notify_on_new_entry_comment_reply: Notify me of replies to your threads comments
+notify_on_new_post_reply: Notify me of replies in your posts
+notify_on_new_post_comment_reply: Notify me of replies to your posts comments
+notify_on_new_entry: Notify me of new threads in a subscribed magazine
+notify_on_new_posts: Notify me of new posts in a subscribed magazine
 save: Save
 about: About
 old_email: Old email
@@ -217,6 +217,7 @@ solarized_light: Solarized light
 solarized_dark: Solarized dark
 font_size: Font size
 size: Size
+boosts: Boosts
 Password is invalid: Password is invalid
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

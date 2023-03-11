@@ -27,7 +27,7 @@ class PostCommentFavouriteController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $comment->votes,
+                    'votes' => $comment->getUpvotes(),
                     'more' => null,
                 ]),
             ]);
