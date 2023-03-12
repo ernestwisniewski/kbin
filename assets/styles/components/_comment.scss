@@ -79,6 +79,8 @@ $comment-margin-sm: .3rem;
     grid-auto-flow: column;
     list-style: none;
     opacity: .75;
+    position: relative;
+    z-index: 4;
 
     & > a.active,
     & > li button.active, {
