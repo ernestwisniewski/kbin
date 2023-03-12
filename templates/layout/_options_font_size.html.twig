@@ -1,0 +1,24 @@
+
+<div class="settings">
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '150'}) }}"
+       class="link-muted"
+       title="150% {{ 'size'|trans }}"
+       aria-label="150% {{ 'size'|trans }}"
+       rel="nofollow">
+        <i style="font-size:150%" class="fa-solid fa-font"></i>
+    </a>
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '120'}) }}"
+       class="link-muted"
+       title="120% {{ 'size'|trans }}"
+       aria-label="120% {{ 'size'|trans }}"
+       rel="nofollow">
+        <i style="font-size:120%" class="fa-solid fa-font"></i>
+    </a>
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '100'}) }}"
+       class="link-muted"
+       title="100% {{ 'size'|trans }}"
+       aria-label="100% {{ 'size'|trans }}"
+       rel="nofollow">
+        <i class="fa-solid fa-font"></i>
+    </a>
+</div>

@@ -29,17 +29,19 @@
                        "vote body body";
     grid-template-columns: min-content auto auto;
 
-    &.no-image {
-      display: grid;
-      grid-template-areas: "vote title"
+    @include media-breakpoint-down(sm) {
+      &.no-image {
+        display: grid;
+        grid-template-areas: "vote title"
                        "shortDesc shortDesc"
                        "meta meta"
                        "footer footer"
                        "body body";
-      grid-template-columns: min-content auto;
+        grid-template-columns: min-content auto;
 
-      .vote {
-        margin-bottom: 1rem;
+        .vote {
+          margin-bottom: 1rem;
+        }
       }
     }
 
