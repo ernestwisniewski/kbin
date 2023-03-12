@@ -31,7 +31,6 @@
 
     @include media-breakpoint-down(sm) {
       &.no-image {
-        display: grid;
         grid-template-areas: "vote title"
                        "shortDesc shortDesc"
                        "meta meta"

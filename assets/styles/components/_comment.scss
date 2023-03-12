@@ -23,6 +23,13 @@ $comment-margin-sm: .3rem;
   position: relative;
   z-index: 2;
 
+  @include media-breakpoint-down(sm) {
+    grid-template-areas: "avatar header vote"
+                         "body body body"
+                         "meta meta meta"
+                         "footer footer footer";
+  }
+
   &:hover,
   &:focus-visible {
     z-index: 3;
@@ -64,9 +71,12 @@ $comment-margin-sm: .3rem;
     margin: 0;
     width: 40px;
 
-    img {
-      position: absolute;
-      border: var(--kbin-avatar-border);
+
+    @include media-breakpoint-up(sm) {
+      img {
+        position: absolute;
+        border: var(--kbin-avatar-border);
+      }
     }
   }
 
