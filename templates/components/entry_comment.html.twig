@@ -7,9 +7,7 @@
         {% if showEntryTitle %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
     </header>
     {% if comment.user.avatar %}
-        <a href="{{ path('user_overview', {username: comment.user.username}) }}" aria-hidden="true">
-            {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}
-        </a>
+        {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}
     {% endif %}
     <div class="content">
         {{ comment.body|markdown|raw }}
