@@ -108,7 +108,10 @@
     font-size: .75rem;
     font-weight: 300;
     grid-area: footer;
-    opacity: .75;
+
+    menu, .boosts {
+      opacity: .75;
+    }
 
     a {
       font-size: .70rem;
@@ -123,7 +126,7 @@
 
   &:hover,
   &:focus-visible {
-    header, menu, footer {
+    header, menu, footer menu, footer .boosts {
       -webkit-animation: fadein .5s linear 1 normal forwards;
 
       @-webkit-keyframes fadein {
