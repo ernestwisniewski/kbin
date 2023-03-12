@@ -3,7 +3,6 @@
   grid-template-areas: "vote image title"
                        "vote image shortDesc"
                        "vote image meta"
-                       "vote image description"
                        "vote image footer"
                        "body body body";
   grid-template-columns: min-content min-content auto;
@@ -16,7 +15,6 @@
     grid-template-areas: "vote title"
                        "vote shortDesc"
                        "vote meta"
-                       "vote description"
                        "vote footer"
                        "body body";
     grid-template-columns: min-content auto;
@@ -27,7 +25,6 @@
                        "vote title title"
                        "vote shortDesc shortDesc"
                        "vote meta meta"
-                       "vote description description"
                        "vote footer footer"
                        "vote body body";
     grid-template-columns: min-content auto auto;
@@ -37,7 +34,6 @@
       grid-template-areas: "vote title"
                        "shortDesc shortDesc"
                        "meta meta"
-                       "test test"
                        "footer footer"
                        "body body";
       grid-template-columns: min-content auto;
@@ -120,6 +116,7 @@
 
   .short-desc {
     grid-area: shortDesc;
+    margin-bottom: 1rem;
 
     p {
       font-size: .85rem;
