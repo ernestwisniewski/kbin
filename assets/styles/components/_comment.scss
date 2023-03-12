@@ -59,7 +59,7 @@ $comment-margin-sm: .3rem;
     }
   }
 
-  figure {
+  > figure {
     grid-area: avatar;
     margin: 0;
     width: 40px;
@@ -117,6 +117,10 @@ $comment-margin-sm: .3rem;
     a {
       font-size: .70rem;
       @include kbin-btn-link;
+    }
+
+    figure {
+      margin: 0;
     }
 
     figure img {
