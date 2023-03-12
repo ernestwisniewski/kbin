@@ -37,7 +37,7 @@ class PostCommentVotersController extends AbstractController
             'magazine' => $magazine,
             'post' => $post,
             'comment' => $comment,
-            'votes' => $comment->getU,
+            'votes' => $comment->getUpVotes(),
         ]);
     }
 }

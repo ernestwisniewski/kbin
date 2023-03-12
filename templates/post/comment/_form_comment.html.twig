@@ -1,9 +1,9 @@
 <h3 hidden>{{ comment is defined and comment ? 'edit_comment'|trans : 'add_comment'|trans }}</h3>
 {{ form_start(form, {action: path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, parent_comment_id: parent is defined and parent ? parent.id : null}), attr: {class: 'comment-add'}}) }}
-<div class="group">
+<div class="row">
     {{ form_row(form.body, {label: false}) }}
 </div>
-<div class="group actions">
+<div class="row actions">
     <button type="button"
             class="btn btn__secondry"
             aria-label="{{ 'markdown_howto'|trans }}"

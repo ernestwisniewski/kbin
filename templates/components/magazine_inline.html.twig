@@ -1,6 +1,6 @@
 <a href="{{ path('front_magazine', {name: magazine.name}) }}"
    class="{{ html_classes('magazine-inline', {'stretched-link': stretchedLink }) }}">
-    {% if magazine.cover and showAvatar or app.user and not app.user.hideMagazineAvatars and magazine.cover %}
+    {% if magazine.cover and app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_MAGAZINES_ICONS')) is same as 'true' %}
         <img width="30" height="30"
              src="{{ asset(magazine.cover.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ magazine.name ~ ' avatar' }}"

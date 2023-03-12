@@ -1,4 +1,4 @@
-<div>
+<div class="sidebar-options">
     <div class="options options--top">
         <menu>
             <li><a href="#" title="Federacja" aria-label="Federacja"><i class="fa-solid fa-network-wired"></i></a></li>
@@ -6,8 +6,9 @@
         </menu>
     </div>
     <div class="section">
+        <h3>{{ 'theme'|trans }}</h3>
         {% include 'layout/_options_theme.html.twig' %}
-        <h3>{{ 'appearance'|trans }}</h3>
+        {% include 'layout/_options_font_size.html.twig' %}
         {% include 'layout/_options_appearance.html.twig' %}
     </div>
 </div>

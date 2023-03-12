@@ -16,6 +16,9 @@ class ThemeSettingsController extends AbstractController
     public const POST_COMMENTS_VIEW = 'post_comments_view';
     public const KBIN_THEME = 'kbin_theme';
     public const KBIN_FONT_SIZE = 'kbin_font_size';
+    public const KBIN_SHOW_USERS_AVATARS = 'kbin_show_users_avatars';
+    public const KBIN_SHOW_MAGAZINES_ICONS = 'kbin_show_magazines_icons';
+    public const KBIN_SHOW_THREADS_THUMBNAILS = 'kbin_show_threads_thumbnails';
 
     public const CLASSIC = 'classic';
     public const CHAT = 'chat';
@@ -25,6 +28,8 @@ class ThemeSettingsController extends AbstractController
     public const DARK = 'dark';
     public const SOLARIZED_LIGHT = 'solarized-light';
     public const SOLARIZED_DARK = 'solarized-dark';
+    public const TRUE = 'true';
+    public const FALSE = 'false';
 
 
     public const KEYS = [
@@ -33,6 +38,9 @@ class ThemeSettingsController extends AbstractController
         self::POST_COMMENTS_VIEW,
         self::KBIN_THEME,
         self::KBIN_FONT_SIZE,
+        self::KBIN_SHOW_USERS_AVATARS,
+        self::KBIN_SHOW_MAGAZINES_ICONS,
+        self::KBIN_SHOW_THREADS_THUMBNAILS,
     ];
 
     public const VALUES = [
@@ -44,6 +52,8 @@ class ThemeSettingsController extends AbstractController
         self::DARK,
         self::SOLARIZED_LIGHT,
         self::SOLARIZED_DARK,
+        self::TRUE,
+        self::FALSE,
         '100',
         '120',
         '150',

@@ -23,7 +23,7 @@
             {{ form_row(form.email, {label: 'old_email', value: app.user.email, attr: {disabled: 'disabled'}}) }}
             {{ form_row(form.newEmail, {label: 'new_email'}) }}
             {{ form_row(form.currentPassword, {label: 'password'}) }}
-            <div class="group actions">
+            <div class="row actions">
                 {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>
             {{ form_end(form) }}

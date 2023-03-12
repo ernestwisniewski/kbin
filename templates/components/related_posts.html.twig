@@ -4,7 +4,7 @@
         <div class="container">
             {% for post in computed.posts %}
                 <figure>
-                    <div class="group">
+                    <div class="row">
                         {% if post.image %}
                             <img src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
                                  alt="{{ post.image.alt|default('') }}">

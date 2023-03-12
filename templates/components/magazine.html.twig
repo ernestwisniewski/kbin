@@ -2,7 +2,7 @@
     {% if showSectionTitle %}
         <h3>{{ 'magazine'|trans }}</h3>
     {% endif %}
-    <div class="group">
+    <div class="row">
         {% if computed.magazine.cover and showCover %}
             <figure>
                 <img src="{{ asset(computed.magazine.cover.filePath) | imagine_filter('post_thumb') }}"

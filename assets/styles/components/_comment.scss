@@ -4,7 +4,7 @@ $comment-margin-lg: .5rem;
 $comment-margin-sm: .3rem;
 
 .comment-add {
-  .group {
+  .row {
     margin-bottom: 0;
   }
 }
@@ -120,7 +120,6 @@ $comment-margin-sm: .3rem;
     }
 
     a {
-      font-size: .70rem;
       @include kbin-btn-link;
     }
 

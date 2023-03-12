@@ -3,12 +3,12 @@
     {{ form_row(form.magazine, {label: 'magazine'}) }}
     {{ form_row(form.tags, {label: 'tags'}) }}
     {{ form_row(form.badges, {label: 'badges'}) }}
-<div class="group params">
+<div class="row params">
     {{ form_row(form.isAdult, {label: 'is_adult', row_attr: {class: 'checkbox'}}) }}
     {{ form_row(form.isEng, {label: 'eng', row_attr: {class: 'checkbox'}}) }}
     {{ form_row(form.isOc, {label: 'oc', row_attr: {class: 'checkbox'}}) }}
 </div>
-<div class="group actions">
+<div class="row actions">
     <button type="button"
             class="btn btn__secondry"
             aria-label="{{ 'markdown_howto'|trans }}"

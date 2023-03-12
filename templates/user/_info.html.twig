@@ -1,7 +1,7 @@
 <section class="section user-info">
     <h3>{{ 'user'|trans }}</h3>
     {% if not is_route_name('user_overview') %}
-        <div class="group">
+        <div class="row">
             {% if user.avatar %}
                 <figure>
                     <img width="100" height="100"
