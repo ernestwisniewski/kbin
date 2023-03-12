@@ -28,11 +28,11 @@
             </h2>
         {% endif %}
     </header>
-    {% if entry.body and showShortSentence %}
-        <div class="content short-desc">
+    <div class="content short-desc">
+        {% if entry.body and showShortSentence %}
             <p>{{ get_short_sentence(entry.body) }}</p>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
     {% if entry.body and showBody %}
         <div class="content entry__body">
             {{ entry.body|markdown|raw }}
@@ -48,7 +48,7 @@
                 <img width="210" height="120"
                      src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                      alt="{{ entry.image.altText }}">
-                {% else %}
+            {% else %}
                 <img width="210" height="120"
                      src="{{ asset('build/images/entry_placeholder.png') }}"
                      alt="{{ entry.title }}">
