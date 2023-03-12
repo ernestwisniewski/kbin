@@ -118,6 +118,11 @@ $comment-margin-sm: .3rem;
       font-size: .70rem;
       @include kbin-btn-link;
     }
+
+    figure img {
+      margin-top: .5rem;
+      max-width: 100%;
+    }
   }
 
   &:hover,

@@ -1,6 +1,7 @@
 .entry {
   display: grid;
   grid-template-areas: "vote image title"
+                       "vote image shortDesc"
                        "vote image meta"
                        "vote image description"
                        "vote image footer"
@@ -10,14 +11,41 @@
   position: relative;
   z-index: 2;
 
+  &.no-image {
+    display: grid;
+    grid-template-areas: "vote title"
+                       "vote shortDesc"
+                       "vote meta"
+                       "vote description"
+                       "vote footer"
+                       "body body";
+    grid-template-columns: min-content auto;
+  }
+
   @include media-breakpoint-down(lg) {
     grid-template-areas: "vote image image"
                        "vote title title"
+                       "vote shortDesc shortDesc"
                        "vote meta meta"
                        "vote description description"
                        "vote footer footer"
                        "vote body body";
     grid-template-columns: min-content auto auto;
+
+    &.no-image {
+      display: grid;
+      grid-template-areas: "vote title"
+                       "shortDesc shortDesc"
+                       "meta meta"
+                       "test test"
+                       "footer footer"
+                       "body body";
+      grid-template-columns: min-content auto;
+
+      .vote {
+        margin-bottom: 1rem;
+      }
+    }
 
     header {
       margin-top: .5rem;
@@ -29,10 +57,15 @@
   }
 
   @include media-breakpoint-down(sm) {
-    header, .meta, menu, .entry__body {
+    header, .meta, menu, .entry__body, .short-desc {
       margin-left: -5rem;
     }
 
+    &.no-image {
+      header, .meta, menu, .entry__body, .short-desc {
+        margin-left: 0rem;
+      }
+    }
   }
 
   &:hover,
@@ -52,6 +85,12 @@
     img {
       -o-object-fit: none;
       object-fit: none;
+    }
+  }
+
+  &.no-image {
+    figure {
+      display: none;
     }
   }
 
@@ -77,6 +116,10 @@
     h1 {
       font-size: 1.3rem;
     }
+  }
+
+  .short-desc {
+    grid-area: shortDesc;
 
     p {
       font-size: .85rem;

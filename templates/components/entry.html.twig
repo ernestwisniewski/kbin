@@ -1,4 +1,4 @@
-<article{{ attributes.defaults({class: 'entry section'}).without('id') }}
+<article{{ attributes.defaults({class: 'entry section '~(entry.image ? '' : 'no-image')}).without('id') }}
         id="entry-{{ entry.id }}">
     <header>
         {% if isSingle %}
@@ -27,13 +27,12 @@
                 {% endif %}
             </h2>
         {% endif %}
-
-        {% if entry.body and showShortSentence %}
-            <div class="content">
-                <p>{{ get_short_sentence(entry.body) }}</p>
-            </div>
-        {% endif %}
     </header>
+    {% if entry.body and showShortSentence %}
+        <div class="content short-desc">
+            <p>{{ get_short_sentence(entry.body) }}</p>
+        </div>
+    {% endif %}
     {% if entry.body and showBody %}
         <div class="content entry__body">
             {{ entry.body|markdown|raw }}
@@ -48,8 +47,8 @@
             {% if entry.image %}
                 <img width="210" height="120"
                      src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                     alt="{{ entry.image.altText ?? entry.title }}">
-            {% else %}
+                     alt="{{ entry.image.altText }}">
+                {% else %}
                 <img width="210" height="120"
                      src="{{ asset('build/images/entry_placeholder.png') }}"
                      alt="{{ entry.title }}">
