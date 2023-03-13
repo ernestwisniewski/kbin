@@ -30,7 +30,7 @@
     <div class="row">
         <span>{{ 'show_threads_thumbnails'|trans }}:</span>
         <div>
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_MAGAZINES_ICONS')) and app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) is same as 'true'}) }}"
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) and app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) is same as 'true'}) }}"
                href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS'), value: 'true'}) }}">
                 {{ 'yes'|trans }}
             </a>
