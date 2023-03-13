@@ -1,4 +1,4 @@
-<article{{ attributes.defaults({class: 'entry section '~(not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) is same as 'false' ? 'no-image' : '')}).without('id') }}
+<article{{ attributes.defaults({class: 'entry section '~(not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false' ? 'no-image' : '')}).without('id') }}
         id="entry-{{ entry.id }}">
     <header>
         {% if isSingle %}
@@ -39,10 +39,10 @@
         </div>
     {% endif %}
     <aside class="meta entry__meta">
-        {{ component('user_inline', {user: entry.user}) }},
-        {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}{% endif %}
+        {{ component('user_inline', {user: entry.user, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) }},
+        {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}{% endif %}
     </aside>
-    {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) is same as 'true' %}
+    {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true' %}
         <figure>
             <a href="{{ entry_url(entry) }}">
                 {% if entry.image %}

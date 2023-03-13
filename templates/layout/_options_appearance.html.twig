@@ -1,14 +1,30 @@
 <div class="appearance">
+    <strong>{{ 'general'|trans }}</strong>
     <div class="row">
-        <span>{{ 'show_users_avatars'|trans }}:</span>
+        <span>{{ 'rounded_edges'|trans }}:</span>
         <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_USERS_AVATARS')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_USERS_AVATARS'), value: 'true'}) }}">
+            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'true'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES'), value: 'true'}) }}">
                 {{ 'yes'|trans }}
             </a>
             |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_USERS_AVATARS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_USERS_AVATARS')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_USERS_AVATARS'), value: 'false'}) }}">
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'false'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES'), value: 'false'}) }}">
+                {{ 'no'|trans }}
+            </a>
+        </div>
+    </div>
+    <strong>{{ 'threads'|trans }}</strong>
+    <div class="row">
+        <span>{{ 'show_users_avatars'|trans }}:</span>
+        <div>
+            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS'), value: 'true'}) }}">
+                {{ 'yes'|trans }}
+            </a>
+            |
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'false'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS'), value: 'false'}) }}">
                 {{ 'no'|trans }}
             </a>
         </div>
@@ -16,41 +32,27 @@
     <div class="row">
         <span>{{ 'show_magazines_icons'|trans }}:</span>
         <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_MAGAZINES_ICONS'), value: 'true'}) }}">
+            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS'), value: 'true'}) }}">
                 {{ 'yes'|trans }}
             </a>
             |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_MAGAZINES_ICONS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_MAGAZINES_ICONS')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_MAGAZINES_ICONS'), value: 'false'}) }}">
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'false'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS'), value: 'false'}) }}">
                 {{ 'no'|trans }}
             </a>
         </div>
     </div>
     <div class="row">
-        <span>{{ 'show_threads_thumbnails'|trans }}:</span>
+        <span>{{ 'show_thumbnails'|trans }}:</span>
         <div>
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS'), value: 'true'}) }}">
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS'), value: 'true'}) }}">
                 {{ 'yes'|trans }}
             </a>
             |
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_THREADS_THUMBNAILS'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'rounded_edges'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES'), value: 'false'}) }}">
+            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS'), value: 'false'}) }}">
                 {{ 'no'|trans }}
             </a>
         </div>

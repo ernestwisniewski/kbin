@@ -32,5 +32,8 @@
         </a>
     </li>
 {% else %}
+    <li>
+        {% include 'layout/_header_bread.html.twig' %}
+    </li>
     {{ header_nav|raw }}
 {% endif %}

@@ -11,7 +11,6 @@
   z-index: 2;
 
   &.no-image {
-    display: grid;
     grid-template-areas: "vote title"
                        "vote shortDesc"
                        "vote meta"
@@ -56,6 +55,33 @@
 
       .vote {
         margin-bottom: 1rem;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .view-compact & {
+      grid-template-areas: "image title vote"
+                       "image shortDesc vote"
+                       "image meta vote"
+                       "image footer vote"
+                       "body body body" !important;
+      grid-template-columns: min-content auto min-content;
+
+      figure {
+        img {
+          max-height: 100px;
+          max-width: 120px;
+        }
+      }
+
+      .vote {
+        margin-right: 0 !important;
+        margin-left: 1rem;
+      }
+
+      .short-desc {
+        display: none;
       }
     }
   }

@@ -1,5 +1,5 @@
 <a href="{{ path('user_overview', {username: user.username}) }}" class="user-inline">
-    {% if user.avatar and not hideAvatar and app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_SHOW_USERS_AVATARS')) is same as 'true' %}
+    {% if user.avatar and showAvatar %}
         <img width="30" height="30"
              src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ user.username ~ ' avatar' }}"

@@ -1,7 +1,7 @@
 <blockquote{{ attributes.defaults({class: 'section comment entry-comment ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
         id="entry-comment-{{ comment.id }}">
     <header>
-        {{ component('user_inline', {user: comment.user, hideAvatar: true}) }},
+        {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
         {{ component('date', {date: comment.createdAt}) }}
         {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: comment.magazine}) }}{% endif %}
         {% if showEntryTitle %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}

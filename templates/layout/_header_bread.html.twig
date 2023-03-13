@@ -7,7 +7,7 @@
         <span>/u/</span><a
                 href="{{ path('user_overview', {username: user.username}) }}">{{ user.username|username }}</a>
     </div>
-{% elseif domain is defined and domain %}
+{% elseif is_route_name_contains('domain_') %}
     <div class="head-title">
         <span>/d/</span><a href="{{ path('domain_entries', {name: domain.name}) }}">{{ domain.name }}</a>
     </div>

@@ -234,15 +234,18 @@
   }
 
   .appearance {
+    color: var(--kbin-meta-text-color);
+
+    strong {
+      margin-top: .5rem;
+      display: block;
+    }
+
     .row {
       div a {
         font-weight: 100 !important;
       }
-    }
-  }
 
-  .appearance {
-    .row {
       div a.active {
         font-weight: bold !important;
       }

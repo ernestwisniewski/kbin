@@ -5,7 +5,7 @@
 {% endif %}
 <blockquote{{ attributes.defaults({class: 'section post ' ~ class}).without('id') }} id="post-{{ post.id }}">
     <header>
-        {{ component('user_inline', {user: post.user, hideAvatar: true}) }},
+        {{ component('user_inline', {user: post.user, showAvatar: false}) }},
         {% if dateAsUrl %}
             <a href="{{ post_url(post) }}"
                class="link-muted">{{ component('date', {date: post.createdAt}) }}</a>
