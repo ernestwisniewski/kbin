@@ -28,12 +28,12 @@ body {
     }
   }
 
-  a:focus-visible,
-  input:focus-visible,
-  button:focus-visible,
-  textarea:focus-visible {
-    outline-color: darkorange;
-  }
+  //a:focus-visible,
+  //input:focus-visible,
+  //button:focus-visible,
+  //textarea:focus-visible {
+  //  outline-color: darkorange;
+  //}
 
   #header {
     grid-area: header;
