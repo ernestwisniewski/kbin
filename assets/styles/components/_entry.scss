@@ -73,11 +73,19 @@
   .vote {
     grid-area: vote;
     margin-right: 1rem;
+
+    @include media-breakpoint-down(sm) {
+      margin-bottom: .5rem;
+    }
   }
 
   figure {
     grid-area: image;
     margin: 0 1rem 0 0;
+
+    @include media-breakpoint-down(sm) {
+      margin: 0 .5rem 0 0;
+    }
 
     img {
       -o-object-fit: none;
