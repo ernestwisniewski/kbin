@@ -26,23 +26,8 @@
                        "vote shortDesc shortDesc"
                        "vote meta meta"
                        "vote footer footer"
-                       "vote body body";
+                       "body body body";
     grid-template-columns: min-content auto auto;
-
-    @include media-breakpoint-down(sm) {
-      &.no-image {
-        grid-template-areas: "vote title"
-                       "shortDesc shortDesc"
-                       "meta meta"
-                       "footer footer"
-                       "body body";
-        grid-template-columns: min-content auto;
-
-        .vote {
-          margin-bottom: 1rem;
-        }
-      }
-    }
 
     header {
       margin-top: .5rem;
@@ -54,13 +39,23 @@
   }
 
   @include media-breakpoint-down(sm) {
-    header, .meta, menu, .entry__body, .short-desc {
-      margin-left: -5rem;
-    }
-
+    grid-template-areas: "vote image"
+                       "title title"
+                       "shortDesc shortDesc"
+                       "meta meta"
+                       "footer footer"
+                       "body body";
+    grid-template-columns: min-content auto;
     &.no-image {
-      header, .meta, menu, .entry__body, .short-desc {
-        margin-left: 0rem;
+      grid-template-areas: "vote title"
+                       "shortDesc shortDesc"
+                       "meta meta"
+                       "footer footer"
+                       "body body";
+      grid-template-columns: min-content auto;
+
+      .vote {
+        margin-bottom: 1rem;
       }
     }
   }
@@ -196,9 +191,6 @@
 
     .entry__body {
       padding: 0 2rem;
-      @include media-breakpoint-down(lg) {
-        margin-left: -5rem;
-      }
       @include media-breakpoint-down(sm) {
         padding: 0;
       }
