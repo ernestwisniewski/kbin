@@ -140,3 +140,26 @@ table tbody tr:nth-of-type(even) {
 figure {
   margin: 0;
 }
+
+.rounded-edges {
+  .section,
+  .options,
+  figure img,
+  input,
+  textarea,
+  button,
+  .ts-wrapper .ts-control {
+    border-radius: .5rem;
+  }
+
+  .options--top,
+  .section--top {
+    border-radius: 0 0 .5rem .5rem;
+  }
+
+  .dropdown__menu {
+    button {
+      border-radius: 0;
+    }
+  }
+}

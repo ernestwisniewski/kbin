@@ -70,7 +70,7 @@
                                   action="{{ entry_comment_delete_url(comment) }}"
                                   onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                                 <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
-                                <button type="submit" class="stretched-link">{{ 'delete'|trans|lower }}</button>
+                                <button type="submit">{{ 'delete'|trans|lower }}</button>
                             </form>
                         </li>
                     {% endif %}

@@ -19,6 +19,7 @@ class ThemeSettingsController extends AbstractController
     public const KBIN_SHOW_USERS_AVATARS = 'kbin_show_users_avatars';
     public const KBIN_SHOW_MAGAZINES_ICONS = 'kbin_show_magazines_icons';
     public const KBIN_SHOW_THREADS_THUMBNAILS = 'kbin_show_threads_thumbnails';
+    public const KBIN_ROUNDED_EDGES = 'kbin_rounded_edges';
 
     public const CLASSIC = 'classic';
     public const CHAT = 'chat';
@@ -41,6 +42,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_SHOW_USERS_AVATARS,
         self::KBIN_SHOW_MAGAZINES_ICONS,
         self::KBIN_SHOW_THREADS_THUMBNAILS,
+        self::KBIN_ROUNDED_EDGES
     ];
 
     public const VALUES = [

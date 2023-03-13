@@ -41,5 +41,19 @@
             </a>
         </div>
     </div>
+    <div class="row">
+        <span>{{ 'rounded_edges'|trans }}:</span>
+        <div>
+            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES')) is same as 'true'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES'), value: 'true'}) }}">
+                {{ 'yes'|trans }}
+            </a>
+            |
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES')) is same as 'false'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ROUNDED_EDGES'), value: 'false'}) }}">
+                {{ 'no'|trans }}
+            </a>
+        </div>
+    </div>
 </div>
 

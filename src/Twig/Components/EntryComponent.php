@@ -22,9 +22,9 @@ final class EntryComponent
             $this->showMagazineName = false;
 
             if (isset($attr['class'])) {
-                $attr['class'] = trim('entry--single '.$attr['class']);
+                $attr['class'] = trim('entry--single section--top '.$attr['class']);
             } else {
-                $attr['class'] = 'entry--single';
+                $attr['class'] = 'entry--single section--top';
             }
         }
 

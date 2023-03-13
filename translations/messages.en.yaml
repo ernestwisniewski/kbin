@@ -223,6 +223,7 @@ yes: Yes
 no: No
 show_magazines_icons: 'Show magazines’ icons'
 show_threads_thumbnails: 'Show threads’ thumbnails'
+rounded_edges: Rounded edges
 Password is invalid: Password is invalid
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
