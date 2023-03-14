@@ -13,12 +13,12 @@
 {% endblock %}
 
 {% block body %}
-    <div id="content" class="section section--top">
+    <h1>{{ 'login'|trans }}</h1>
+    <div id="content" class="section">
         <div class="container">
             <form method="post">
                 {# todo: remove#}
                 <div class="alert alert__info">Login: <strong>demo</strong><br> Password: <strong>demo</strong></div>
-                <h1>{{ 'login'|trans }}</h1>
                 {% if error %}
                     <div class="alert alert__danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}

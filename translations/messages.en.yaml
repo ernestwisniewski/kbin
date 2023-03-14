@@ -150,13 +150,13 @@ chat_view: Chat view
 tree_view: Tree view
 table_view: Table view
 cards_view: Cards view
-3h: '3h'
-6h: '6h'
-12h: '12h'
-1d: '1d'
-1w: '1t'
-1m: '1m'
-1y: '1y'
+3h: 3h
+6h: 6h
+12h: 12h
+1d: 1d
+1w: 1t
+1m: 1m
+1y: 1y
 links: Links
 articles: Articles
 photos: Photos
@@ -235,6 +235,113 @@ he_unbanned: unban
 read_all: read all
 show_all: show all
 ranking_disabled: Ranking is disabled
-Password is invalid: Password is invalid
+flash_register_success: Your account has been registered. Check your email, we have sent an email with an activation link.
+flash_thread_new_success: The thread has been created correctly and is now visible to other users.
+flash_thread_edit_success: The thread has been correctly edited.
+flash_thread_delete_success: The thread has been correctly deleted.
+flash_thread_pin_success: The thread has been correctly pinned.
+flash_thread_unpin_success: The thread has been correctly unpinned.
+flash_magazine_new_success: The magazine has been created correctly. You can now add new content or explore the magazines administration panel.
+flash_magazine_edit_success: The magazine has been correctly edited.
+too_many_requests: Limit exceeded, please try again later.
+set_magazines_bar: Magazines bar
+set_magazines_bar_desc: add the magazine names after the comma
+set_magazines_bar_empty_desc: if the field is empty, active magazines are displayed on the bar.
+gold: Gold
+silver: Silver
+bronze: Bronze
+bronze_autobiographer: Autobiographer
+bronze_autobiographer_desc: For completing all fields in the profile
+bronze_personality: Bronze personality
+bronze_personality_desc: 20 followers
+bronze_commentator: Bronze commentator
+bronze_commentator_desc: 10 good comments
+bronze_scout: Bronze scout
+bronze_scout_desc: 10 good links
+bronze_redactor: Bronze redactor
+bronze_redactor_desc: 10 good articles
+bronze_poster: Bronze poster
+bronze_poster_desc: 10 good posts
+bronze_link: Good link
+bronze_link_desc: The post has been boosted 5 times
+bronze_article: Bronze article
+bronze_article_desc: The article has been boosted 5 times
+bronze_photo: Good photo
+bronze_photo_desc: The photo has been boosted 5 times
+bronze_comment: Good comment
+bronze_comment_desc: The comment has been boosted 5 times
+bronze_post: Good post
+bronze_post_desc: The post has been boosted 5 times
+bronze_ranking: Number 3
+bronze_ranking_desc: 3rd place in the ranking
+bronze_popular_entry: Popular Thread
+bronze_popular_entry_desc: Thread visited 1000 times
+bronze_magazine: Famous magazine
+bronze_magazine_desc: 20 followers created magazine
+silver_personality: Silver personality
+silver_personality_desc: 50 followers
+silver_commentator: Silver commentator
+silver_commentator_desc: 10 very good comments
+silver_scout: Silver scout
+silver_scout_desc: 10 very good links
+silver_redactor: Silver redactor
+silver_redactor_desc: 10 very good articles
+silver_poster: Silver poster
+silver_poster_desc: 10 very good posts
+silver_link: Very good link
+silver_link_desc: The post has been boosted 10 times
+silver_article: Silver article
+silver_article_desc: The article has been boosted 10 times
+silver_photo: Very good photo
+silver_photo_desc: The photo has been boosted 10 times
+silver_comment: Very good comment
+silver_comment_desc: The comment has been boosted 10 times
+silver_post: Very good post
+silver_post_desc: The post has been boosted 10 times
+silver_ranking: Number 2
+silver_ranking_desc: 2nd place in the ranking
+silver_popular_entry: Popular Thread
+silver_popular_entry_desc: Thread visited 5000 times
+silver_magazine: Popular magazine
+silver_magazine_desc: 50 followers created magazine
+silver_entry_week: Thread of the week
+silver_entry_week_desc: The best thread of the week
+silver_comment_week: Comment of the week
+silver_comment_week_desc: The best comment of the week
+silver_post_week: Post of the week
+silver_post_week_desc: The best post of the week
+gold_personality: Gold personality
+gold_personality_desc: 100 followers
+gold_commentator: Gold commentator
+gold_commentator_desc: 10 excellent comments
+gold_scout: Gold scout
+gold_scout_desc: 10 excellent links
+gold_redactor: Gold redactor
+gold_redactor_desc: 10 excellent articles
+gold_poster: Gold poster
+gold_poster_desc: 10 excellent posts
+gold_link: Excellent link
+gold_link_desc: The post has been boosted 15 times
+gold_article: Gold article
+gold_article_desc: The article has been boosted 15 times
+gold_photo: Excellent photo
+gold_photo_desc: The photo has been boosted 15 times
+gold_comment: Excellent comment
+gold_comment_desc: The comment has been boosted 15 times
+gold_post: Excellent post
+gold_post_desc: The post has been boosted 15 times
+gold_ranking: Number 1
+gold_ranking_desc: 1st place in the ranking
+gold_popular_entry: Popular Thread
+gold_popular_entry_desc: Thread visited 10000 times
+gold_magazine: Popular magazine
+gold_magazine_desc: 100 followers created magazine
+gold_entry_month: Thread of the month
+gold_entry_month_desc: The best thread of the month
+gold_comment_month: Comment of the month
+gold_comment_month_desc: The best comment of the month
+gold_post_month: Post of the month
+gold_post_month_desc: The best post of the month
+Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
