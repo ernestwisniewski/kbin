@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'terms'|trans }} - {{ parent() -}}
+    {{- 'awards'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block mainClass %}page-terms{% endblock %}
+{% block mainClass %}page-awards{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -13,8 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'terms'|trans }}</h1>
-    <div id="content" class="section">
-        {{ body|markdown|raw }}
+    <h1>{{ 'awards'|trans }}</h1>
+    <div id="content" class="section section--muted">
     </div>
 {% endblock %}

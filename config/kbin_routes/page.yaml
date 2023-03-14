@@ -39,3 +39,8 @@ stats:
     en: /stats/{statsType}/{statsPeriod}
     pl: /statystyki/{statsType}/{statsPeriod}
   methods: [ GET ]
+
+ranking:
+  controller: App\Controller\RankingController
+  path: /ranking
+  methods: [ GET ]

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% from 'modlog/_macro.html.twig' import modlog %}
+
+{%- block title -%}
+    {% if magazine is defined and magazine %}
+        {{- 'mod_log'|trans }} - {{ magazine.title }} - {{ parent() -}}
+    {% else %}
+        {{- 'mod_log'|trans }} - {{ parent() -}}
+    {% endif %}
+{%- endblock -%}
+
+{% block mainClass %}page-modlog{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'mod_log'|trans }}</h1>
+    {{ modlog(logs) }}
+{% endblock %}

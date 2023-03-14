@@ -1,0 +1,10 @@
+{% use 'modlog/_list.html.twig' %}
+
+{%- macro modlog(logs, options) -%}
+    {%- with {
+        logs: logs,
+        showMagazine: true,
+    } only -%}
+        {{ block('modlog') }}
+    {%- endwith -%}
+{%- endmacro -%}

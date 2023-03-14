@@ -18,10 +18,12 @@ $green:     #859900;
 .theme--solarized-dark {
   .options--top {
     border: var(--kbin-options-border) !important;
+    border-radius: .5rem;
   }
 
   .section--top {
     border: var(--kbin-section-border) !important;
+    border-radius: .5rem;
   }
 
   .ts-dropdown {

@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'terms'|trans }} - {{ parent() -}}
+    {{- 'stats'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block mainClass %}page-terms{% endblock %}
+{% block mainClass %}page-stats{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'terms'|trans }}</h1>
+    <h1>{{ 'stats'|trans }}</h1>
     <div id="content" class="section">
         {{ body|markdown|raw }}
     </div>

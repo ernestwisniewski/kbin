@@ -39,7 +39,7 @@ class StatsController extends AbstractController
         };
 
         return $this->render(
-            'page/stats.html.twig',
+            'stats/front.html.twig',
             [
                 'type' => $statsType ?? StatsRepository::TYPE_GENERAL,
                 'period' => $request->get('statsPeriod'),

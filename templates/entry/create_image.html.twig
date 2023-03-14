@@ -15,9 +15,9 @@
 {% block body %}
     {% include 'entry/_create_options.html.twig' %}
 
+    <h1>{{ 'add_new_photo'|trans }}</h1>
     <div id="content" class="section">
         <div class="container">
-            <h1>{{ 'add_new_photo'|trans }}</h1>
             {% include 'entry/_form_image.html.twig' %}
         </div>
     </div>

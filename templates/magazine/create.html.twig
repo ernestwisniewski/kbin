@@ -15,10 +15,10 @@
 {% block body %}
     {% include 'entry/_create_options.html.twig' %}
 
+    <h1>{{ 'create_new_magazine'|trans }}</h1>
     <div id="content" class="section">
         <div class="container">
             {{ form_start(form) }}
-            <h1>{{ 'create_new_magazine'|trans }}</h1>
             {{ form_row(form.name, {label: 'name', attr: {placeholder: '/m/'}}) }}
             {{ form_row(form.title, {label: 'title'}) }}
             {{ form_row(form.description, {label: 'description'}) }}

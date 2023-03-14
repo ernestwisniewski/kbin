@@ -13,8 +13,8 @@
 {% endblock %}
 
 {% block body %}
-    <div id="content" class="section section--top">
-        <h1>{{ 'privacy_policy'|trans }}</h1>
+    <h1>{{ 'privacy_policy'|trans }}</h1>
+    <div id="content" class="section">
         {{ body|markdown|raw }}
     </div>
 {% endblock %}

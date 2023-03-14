@@ -14,9 +14,10 @@
 
 {% block body %}
     {{ component('entry', {entry: entry, class: 'section--top'}) }}
+
+    <h1>{{ 'edit_article'|trans }}</h1>
     <div id="content" class="section">
         <div class="container">
-            <h1>{{ 'edit_article'|trans }}</h1>
             {% include 'entry/_form_article.html.twig' %}
         </div>
     </div>

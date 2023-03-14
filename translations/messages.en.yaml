@@ -222,8 +222,19 @@ show_users_avatars: 'Show users’ avatars'
 yes: Yes
 no: No
 show_magazines_icons: 'Show magazines’ icons'
-show_thumbnails: 'Show thumbnails'
+show_thumbnails: Show thumbnails
 rounded_edges: Rounded edges
+removed_thread_by: has removed thread by
+restored_thread_by: has restored thread by
+removed_comment_by: has removed comment by
+restored_comment_by: has restored comment by
+removed_post_by: has removed post by
+restored_post_by: has restored post by
+he_banned: ban
+he_unbanned: unban
+read_all: read all
+show_all: show all
+ranking_disabled: Ranking is disabled
 Password is invalid: Password is invalid
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
