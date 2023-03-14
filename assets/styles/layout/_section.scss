@@ -13,7 +13,6 @@
     }
   }
 
-
   menu {
     font-size: .8rem;
 
@@ -25,6 +24,10 @@
       padding: .5rem 0;
       position: relative;
     }
+  }
+
+  &--small {
+    padding: 1rem 1rem;
   }
 
   &--top {

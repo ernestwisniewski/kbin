@@ -114,7 +114,7 @@ title: Title
 body: Body
 tags: Tags
 badges: Badges
-is_adult: +18
+is_adult: +18 / NSFW
 eng: ENG
 oc: OC
 image: Image
@@ -342,6 +342,26 @@ gold_comment_month: Comment of the month
 gold_comment_month_desc: The best comment of the month
 gold_post_month: Post of the month
 gold_post_month_desc: The best post of the month
+mod_log_alert: In Modlog you may find drastic content removed by moderators. Make sure you know what you are doing...
+added_new_thread: Added a new thread
+edited_thread: Edited a thread
+mod_remove_your_thread: A moderator removed your thread
+added_new_comment: Added a new comment
+edited_comment: Edited a comment
+replied_to_your_comment: Replied to your comment
+mod_deleted_your_comment: A moderator deleted your comment
+added_new_post: Added a new post
+edited_post: Adited a post
+mod_remove_your_post: A moderator removed your post
+added_new_reply: Added a new reply
+wrote_message: Wrote a message in the thread
+banned: Banned you
+removed: Removed by mod
+deleted: Deleted by author
+mentioned_you: Mentioned you
+comment: Comment
+post: Post
+ban_expired: Ban expired
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

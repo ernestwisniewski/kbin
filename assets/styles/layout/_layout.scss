@@ -144,12 +144,27 @@ figure {
 .rounded-edges {
   .section,
   .options,
+  .alert,
   figure img,
   input,
   textarea,
   button,
   .ts-wrapper .ts-control {
     border-radius: .5rem;
+  }
+
+  .options {
+    button {
+      border-radius: 0;
+    }
+
+    li:first-child a {
+      border-radius: 0 0 0 .5rem;
+    }
+
+    li:last-child a {
+      border-radius: 0 0 .5rem 0;
+    }
   }
 
   .options--top,
