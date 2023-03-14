@@ -1,101 +1,101 @@
 {% block entry_created_notification %}
-    {{ component('user_inline', {user: notification.entry.user}) }} {{ 'added_new_thread'|trans }} - <a
+    {{ component('user_inline', {user: notification.entry.user}) }} {{ 'added_new_thread'|trans|lower }} - <a
         href="{{ entry_url(notification.entry) }}">{{ notification.entry.shortTitle }}</a>
 {% endblock entry_created_notification %}
 
 {% block entry_edited_notification %}
-    {{ component('user_inline', {user: notification.entry.user}) }} {{ 'edited_thread'|trans }} - <a
+    {{ component('user_inline', {user: notification.entry.user}) }} {{ 'edited_thread'|trans|lower }} - <a
         href="{{ entry_url(notification.entry) }}">{{ notification.entry.shortTitle }}</a>
 {% endblock entry_edited_notification %}
 
 {% block entry_deleted_notification %}
     <a href="{{ entry_url(notification.entry) }}">{{ notification.entry.shortTitle }}</a>
-    {% if notification.entry.isTrashed %}{{ 'removed'|trans }}{% else %}{{ 'deleted'|trans }}{% endif %}
+    {% if notification.entry.isTrashed %}{{ 'removed'|trans|lower }}{% else %}{{ 'deleted'|trans|lower }}{% endif %}
 {% endblock entry_deleted_notification %}
 
 {% block entry_mentioned_notification %}
-    {{ component('user_inline', {user: notification.entry.user}) }} {{ 'mentioned_you'|trans }} - <a
+    {{ component('user_inline', {user: notification.entry.user}) }} {{ 'mentioned_you'|trans|lower }} - <a
         href="{{ entry_url(notification.entry) }}">{{ notification.entry.shortTitle }}</a>
 {% endblock entry_mentioned_notification %}
 
 {% block entry_comment_created_notification %}
-    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'added_new_comment'|trans }} - <a
+    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'added_new_comment'|trans|lower }} - <a
         href="{{ entry_url(notification.comment.entry) }}#{{ get_url_fragment(notification.comment) }}">{{ notification.comment.shortTitle }}</a>
 {% endblock entry_comment_created_notification %}
 
 {% block entry_comment_edited_notification %}
-    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'edited_comment'|trans }} - <a
+    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'edited_comment'|trans|lower }} - <a
         href="{{ entry_url(notification.comment.entry) }}#{{ get_url_fragment(notification.comment) }}">{{ notification.comment.shortTitle }}</a>
 {% endblock entry_comment_edited_notification %}
 
 {% block entry_comment_reply_notification %}
-    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'replied_to_your_comment'|trans }} - <a
+    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'replied_to_your_comment'|trans|lower }} - <a
         href="{{ entry_url(notification.comment.entry) }}#{{ get_url_fragment(notification.comment) }}">{{ notification.comment.shortTitle }}</a>
 {% endblock entry_comment_reply_notification %}
 
 {% block entry_comment_deleted_notification %}
     {{ 'comment'|trans }} <a
         href="{{ entry_url(notification.comment.entry) }}">{{ notification.comment.shortTitle }}</a> -
-    {% if notification.comment.isTrashed %}{{ 'removed'|trans }}{% else %}{{ 'deleted'|trans }}{% endif %}
+    {% if notification.comment.isTrashed %}{{ 'removed'|trans|lower }}{% else %}{{ 'deleted'|trans|lower }}{% endif %}
 {% endblock entry_comment_deleted_notification %}
 
 {% block entry_comment_mentioned_notification %}
-    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'mentioned_you'|trans }} - <a
+    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'mentioned_you'|trans|lower }} - <a
         href="{{ entry_url(notification.comment.entry) }}#{{ get_url_fragment(notification.comment) }}">{{ notification.comment.shortTitle }}</a>
 {% endblock entry_comment_mentioned_notification %}
 
 {% block post_created_notification %}
-    {{ component('user_inline', {user: notification.post.user}) }} {{ 'added_new_post'|trans }} - <a
+    {{ component('user_inline', {user: notification.post.user}) }} {{ 'added_new_post'|trans|lower }} - <a
         href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a>
 {% endblock post_created_notification %}
 
 {% block post_edited_notification %}
-    {{ component('user_inline', {user: notification.post.user}) }} {{ 'edit_post'|trans }} - <a
+    {{ component('user_inline', {user: notification.post.user}) }} {{ 'edit_post'|trans|lower }} - <a
         href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a>
 {% endblock post_edited_notification %}
 
 {% block post_deleted_notification %}
     {{ 'post'|trans }} <a
         href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a> -
-    {% if notification.comment.isTrashed %}{{ 'removed'|trans }}{% else %}{{ 'deleted'|trans }}{% endif %}
+    {% if notification.comment.isTrashed %}{{ 'removed'|trans|lower }}{% else %}{{ 'deleted'|trans|lower }}{% endif %}
 {% endblock post_deleted_notification %}
 
 {% block post_mentioned_notification %}
-    {{ component('user_inline', {user: notification.post.user}) }} {{ 'mentioned_you'|trans }} - <a
+    {{ component('user_inline', {user: notification.post.user}) }} {{ 'mentioned_you'|trans|lower }} - <a
         href="{{ post_url(notification.post) }}">{{ notification.post.shortTitle }}</a>
 {% endblock post_mentioned_notification %}
 
 {% block post_comment_created_notification %}
-    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'added_new_comment'|trans }} - <a
+    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'added_new_comment'|trans|lower }} - <a
         href="{{ post_url(notification.comment.post) }}#{{ get_url_fragment(notification.comment) }}">{{ notification.comment.shortTitle }}</a>
 {% endblock post_comment_created_notification %}
 
 {% block post_comment_edited_notification %}
-    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'edited_comment'|trans }} - <a
+    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'edited_comment'|trans|lower }} - <a
         href="{{ post_url(notification.comment.post) }}#{{ get_url_fragment(notification.comment) }}">{{ notification.comment.shortTitle }}</a>
 {% endblock post_comment_edited_notification %}
 
 {% block post_comment_reply_notification %}
-    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'replied_to_your_comment'|trans }} - <a
+    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'replied_to_your_comment'|trans|lower }} - <a
         href="{{ post_url(notification.comment.post) }}#{{ get_url_fragment(notification.comment) }}">{{ notification.comment.shortTitle }}</a>
 {% endblock post_comment_reply_notification %}
 
 {% block post_comment_deleted_notification %}
     {{ 'comment'|trans }} <a
         href="{{ post_url(notification.comment.post) }}">{{ notification.comment.shortTitle }}</a> -
-    {% if notification.comment.isTrashed %}{{ 'removed'|trans }}{% else %}{{ 'deleted'|trans }}{% endif %}
+    {% if notification.comment.isTrashed %}{{ 'removed'|trans|lower }}{% else %}{{ 'deleted'|trans|lower }}{% endif %}
 {% endblock post_comment_deleted_notification %}
 
 {% block post_comment_mentioned_notification %}
-    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'mentioned_you'|trans }} - <a
+    {{ component('user_inline', {user: notification.comment.user}) }} {{ 'mentioned_you'|trans|lower }} - <a
         href="{{ post_url(notification.comment.post) }}#{{ get_url_fragment(notification.comment) }}">{{ notification.comment.shortTitle }}</a>
 {% endblock post_comment_mentioned_notification %}
 
 {% block message_notification %}
-    {{ component('user_inline', {user: notification.message.sender}) }} {{ 'wrote_message'|trans }} <a
+    {{ component('user_inline', {user: notification.message.sender}) }} {{ 'wrote_message'|trans|lower }} <a
         href="{{ path('user_profile_message', {'id': notification.message.thread.id}) }}">{{ notification.message.thread.title }}</a>
 {% endblock message_notification %}
 
 {% block magazine_ban_notification %}
-    {{ component('user_inline', {user: notification.ban.bannedBy}) }} {{ 'banned'|trans }}. {{ 'ban_expired'|trans }} {{ component('date', {date: notification.ban.expiredAt}) }}. {{ notification.ban.reason }}
+    {{ component('user_inline', {user: notification.ban.bannedBy}) }} {{ 'banned'|trans|lower }}. {{ 'ban_expired'|trans }} {{ component('date', {date: notification.ban.expiredAt}) }}. {{ notification.ban.reason }}
 {% endblock magazine_ban_notification %}
