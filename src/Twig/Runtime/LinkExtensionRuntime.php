@@ -17,7 +17,7 @@ class LinkExtensionRuntime implements RuntimeExtensionInterface
 
     public function getRel(string $url): string
     {
-        if ($this->settingsManager->get('KBIN_DOMAIN') === parse_url($url, PHP_URL_HOST)) {
+        if (null === parse_url($url, PHP_URL_HOST) || $this->settingsManager->get('KBIN_DOMAIN') === parse_url($url, PHP_URL_HOST)) {
             return 'follow';
         }
 

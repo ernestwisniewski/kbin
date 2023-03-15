@@ -39,22 +39,29 @@
         </div>
     {% endif %}
     <aside class="meta entry__meta">
-        {{ component('user_inline', {user: entry.user, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) }},
+        {{ component('user_inline', {user: entry.user, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) }}
+        ,
         {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}{% endif %}
     </aside>
     {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true' %}
         <figure>
-            <a href="{{ entry_url(entry) }}">
-                {% if entry.image %}
-                    <img width="210" height="120"
-                         src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                         alt="{{ entry.image.altText }}">
-                {% else %}
-                    <img width="210" height="120"
-                         src="{{ asset('build/images/entry_placeholder.png') }}"
-                         alt="{{ entry.title }}">
+            {% if entry.image %}
+                {% if entry.type is same as 'link' or entry.type is same as 'video' %}
+                    <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
+                       rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}">
+                        <img width="210" height="120"
+                             src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                             alt="{{ entry.image.altText }}">
+                    </a>
+                {% elseif entry.type is same as 'image' or entry.type is same as 'article' %}
+                    <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
+                       class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
+                        <img width="210" height="120"
+                             src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                             alt="{{ entry.image.altText }}">
+                    </a>
                 {% endif %}
-            </a>
+            {% endif %}
         </figure>
     {% endif %}
     {{ component('vote', {subject: entry, formDest: 'entry_vote'}) }}
