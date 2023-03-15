@@ -90,7 +90,8 @@
         {{ component('voters_inline', {subject: comment, url: post_comment_voters_url(comment, 'up')}) }}
         {% if comment.image %}
             <figure>
-                <a href="{{ uploaded_asset(comment.image.filePath) }}">
+                <a href="{{ uploaded_asset(comment.image.filePath) }}"
+                   class="thumb">
                     <img src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
                          alt="{{ comment.image.altText }}">
                 </a>

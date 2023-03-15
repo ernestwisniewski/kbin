@@ -101,7 +101,7 @@
         {{ component('voters_inline', {subject: post, url: post_voters_url(post, 'up')}) }}
         {% if post.image %}
             <figure>
-                <a href="{{ uploaded_asset(post.image.filePath) }}">
+                <a class="thumb" href="{{ uploaded_asset(post.image.filePath) }}">
                     <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
                          alt="{{ post.image.altText }}">
                 </a>

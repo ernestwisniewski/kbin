@@ -2434,6 +2434,11 @@ get-stream@^6.0.0:
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-6.0.1.tgz#a262d8eef67aced57c2852ad6167526a43cbf7b7"
   integrity sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==
 
+glightbox@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/glightbox/-/glightbox-3.2.0.tgz#d460e6ffc70ba2dcc2842e0b31d51a2e03266ba2"
+  integrity sha512-iit1xYixqL4YVL+I2YJLfMeyJwvLi6FE6kY3qNKeZHEJgRIz80QU8Rm7YCyw1wOTgXvmNDnXGVhHOHRCwnDltQ==
+
 glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"

@@ -49,7 +49,9 @@
 <div id="kbin" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">
         {% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
-        <main id="main" class="{{ html_classes({'view-compact': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
+        <main id="main"
+              data-controller="lightbox"
+              class="{{ html_classes({'view-compact': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
             {% block body %}{% endblock %}
         </main>
         <aside id="sidebar">
