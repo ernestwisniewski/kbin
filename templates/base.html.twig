@@ -39,7 +39,7 @@
 </head>
 <body class="{{ html_classes(app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
     ? 'theme--'~app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
-    : 'theme--ligth', {
+    : 'theme--dark', {
         'rounded-edges': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'true',
     }) }}">
 <div id="tools">
