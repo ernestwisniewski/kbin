@@ -8,6 +8,7 @@
   grid-template-columns: max-content auto max-content max-content;
   height: 2.5rem;
   margin-bottom: .5rem;
+  z-index: 5;
 
   &--top {
     border-top: 0;
