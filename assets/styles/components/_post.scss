@@ -133,7 +133,7 @@
   }
 
   &:hover,
-  &:focus-visible {
+  &:focus-within {
     header, menu, footer menu, footer .boosts {
       -webkit-animation: fadein .5s linear 1 normal forwards;
 

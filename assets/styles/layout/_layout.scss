@@ -184,5 +184,9 @@ figure {
 }
 
 .text-right {
-  text-align: right;
+  text-align: right !important;
+}
+
+.z-100 {
+  z-index: 100 !important;
 }

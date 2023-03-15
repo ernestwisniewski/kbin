@@ -1,5 +1,6 @@
 <article{{ attributes.defaults({class: 'entry section '~(not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false' ? 'no-image' : '')}).without('id') }}
-        id="entry-{{ entry.id }}">
+        id="entry-{{ entry.id }}"
+        data-controller="subject entry">
     <header>
         {% if isSingle %}
             <h1>
@@ -81,7 +82,7 @@
             </form>
         </li>
         <li class="dropdown">
-            <button class="stretched-link">{{ 'more'|trans|lower }}</button>
+            <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
             <ul class="dropdown__menu">
                 <li>
                     <a href="{{ path('entry_report', {id: entry.id}) }}"

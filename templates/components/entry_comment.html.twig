@@ -1,5 +1,6 @@
 <blockquote{{ attributes.defaults({class: 'section comment entry-comment ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
-        id="entry-comment-{{ comment.id }}">
+        id="entry-comment-{{ comment.id }}"
+        data-controller="comment subject">
     <header>
         {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
         {{ component('date', {date: comment.createdAt}) }}
@@ -30,7 +31,7 @@
                 </form>
             </li>
             <li class="dropdown">
-                <button class="stretched-link">{{ 'more'|trans|lower }}</button>
+                <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
                 <ul class="dropdown__menu">
                     <li>
                         <a href="{{ path('entry_comment_report', {id: comment.id}) }}"
