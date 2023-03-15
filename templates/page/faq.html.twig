@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'faq'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-faq{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'faq'|trans }}</h1>
+    <div id="content" class="section">
+        {{ body|markdown|raw }}
+    </div>
+{% endblock %}

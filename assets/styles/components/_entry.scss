@@ -71,6 +71,10 @@
       .vote {
         text-align: right;
       }
+
+      .short-desc {
+        display: none;
+      }
     }
 
     .view-compact &.no-image {
