@@ -114,16 +114,15 @@
 
   footer {
     color: var(--kbin-meta-text-color);
-    font-size: .75rem;
     font-weight: 300;
     grid-area: footer;
 
     menu, .boosts {
+      font-size: .75rem;
       opacity: .75;
     }
 
     a {
-      font-size: .70rem;
       @include kbin-btn-link;
     }
 

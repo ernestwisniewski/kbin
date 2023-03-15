@@ -33,7 +33,7 @@ class MessageCreateThreadController extends AbstractController
             $this->manager->toThread($form->getData(), $this->getUserOrThrow(), $receiver);
 
             return $this->redirectToRoute(
-                'user_profile_messages'
+                'messages_front'
             );
         }
 

@@ -2,14 +2,10 @@
 {% use 'modlog/_blocks.html.twig' %}
 
 {%- block title -%}
-    {% if magazine is defined and magazine %}
-        {{- 'mod_log'|trans }} - {{ magazine.title }} - {{ parent() -}}
-    {% else %}
-        {{- 'mod_log'|trans }} - {{ parent() -}}
-    {% endif %}
+    {{- 'magazines'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block mainClass %}page-modlog{% endblock %}
+{% block mainClass %}page-magazines{% endblock %}
 
 {% block header_nav %}
 {% endblock %}

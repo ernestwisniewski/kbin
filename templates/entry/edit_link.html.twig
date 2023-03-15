@@ -15,7 +15,7 @@
 {% block body %}
     {{ component('entry', {entry: entry, class: 'section--top'}) }}
 
-    <h1>{{ 'edit_link'|trans }}</h1>
+    <h1 hidden>{{ 'edit_link'|trans }}</h1>
     <div id="content" class="section">
         <div class="container">
             {% include 'entry/_form_link.html.twig' %}

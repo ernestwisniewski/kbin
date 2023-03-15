@@ -87,7 +87,7 @@ hr {
 
 .content {
   blockquote {
-    border-left: 2px solid red;
+    border-left: 2px solid var(--kbin-success-color);
     margin: 0 0 1rem 1rem;
     padding-left: 1rem;
   }
@@ -185,4 +185,8 @@ figure {
   display: inline-block;
   height: 15px;
   width: 15px;
+}
+
+.text-right {
+  text-align: right;
 }

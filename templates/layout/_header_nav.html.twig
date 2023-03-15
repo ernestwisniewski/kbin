@@ -21,7 +21,7 @@
     {#                </li> #}
     <li>
         <a href="{{ navbar_people_url() }}"
-           class="{{ html_classes({'active': is_route_name_contains('people') or user is defined}) }}">
+           class="{{ html_classes({'active': is_route_name_contains('people') or user is defined and not is_route_name_contains('messages')}) }}">
             {{ 'people'|trans }}
         </a>
     </li>

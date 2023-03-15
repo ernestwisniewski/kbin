@@ -16,7 +16,7 @@
             title="{{ 'add_media'|trans }}">
         <i class="fa-solid fa-photo-film"></i>
     </button>
-    {{ form_row(form.submit, {label: comment is defined and comment ? 'edit_comment' : 'add_comment', attr: {class: 'btn-kbin btn__primary'}}) }}
+    {{ form_row(form.submit, {label: comment is defined and comment ? 'edit_comment' : 'add_comment', attr: {class: 'btn btn__primary'}}) }}
 </div>
 <div hidden class="media">
     {{ form_row(form.image, {label: 'image'}) }}

@@ -20,8 +20,7 @@
             <tbody>
             {% for type in types %}
                 <tr>
-                    <td><span class="dot" style="background: {{ type.category is same as 'bronze' ? 'brown' : type.category }}"></span> {{ type.name|trans }} <small
-                                class="text-muted">({{ type.count }})</small></td>
+                    <td><span class="dot" style="background: {{ type.category is same as 'bronze' ? 'brown' : type.category }}"></span> {{ type.name|trans }} <small>({{ type.count }})</small></td>
                     <td>{{ (type.name~'_desc')|trans }}</td>
                 </tr>
             {% endfor %}

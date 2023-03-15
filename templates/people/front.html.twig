@@ -17,9 +17,6 @@
 {% endblock %}
 
 {% block body %}
-    <header>
-        <h1 hidden="">{{ 'people'|trans }}</h1>
-    </header>
     <aside class="options options--top" id="options">
         <div></div>
         <menu class="options__main">
@@ -34,6 +31,7 @@
     </aside>
 
     <div id="content">
+        <h1 hidden>{{ 'people'|trans }}</h1>
         <h2>{{ 'people_local'|trans }}</h2>
         <div class="users users-cards section section--no-bg">
             {% for user in local %}

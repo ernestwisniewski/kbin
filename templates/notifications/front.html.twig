@@ -18,13 +18,13 @@
 
     <div class="pills">
         <menu>
-            <form action="{{ path('user_notifications_read') }}" method="POST" class="me-2">
+            <form action="{{ path('notifications_read') }}" method="POST" class="me-2">
                 <input type="hidden" name="token" value="{{ csrf_token('read_notifications') }}">
                 <button class="btn btn__primary" type="submit">
                     {{ 'read_all'|trans }}
                 </button>
             </form>
-            <form method="post" action="{{ path('user_notifications_clear') }}"
+            <form method="post" action="{{ path('notifications_clear') }}"
                   onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                 <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
                 <button class="btn btn__secondry" type="submit">
@@ -36,7 +36,7 @@
     </div>
 
     {% for notification in notifications %}
-        <div class="section section--small notification">
+        <div class="{{ html_classes('section section--small notification', {'opacity-50': notification.status is not same as 'new' }) }}">
             <div>
                 {%- with {
                     notification: notification,
@@ -45,7 +45,7 @@
                     {{ block(notification.type) }}
                 {%- endwith -%}
             </div>
-            <span class="text--muted">{{ component('date', {date: notification.createdAt}) }}</span>
+            <span>{{ component('date', {date: notification.createdAt}) }}</span>
         </div>
     {% endfor %}
     {% if(notifications.haveToPaginate is defined and notifications.haveToPaginate) %}

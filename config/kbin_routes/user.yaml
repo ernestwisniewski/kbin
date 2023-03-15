@@ -125,19 +125,19 @@ user_note:
   path: /u/{username}/note
   methods: [ POST ]
 
-user_notifications:
+notifications_front:
   controller: App\Controller\User\Profile\UserNotificationController::notifications
   path:
     en: /settings/notifications
     pl: /ustawienia/notyfikacje
   methods: [ GET ]
 
-user_notifications_read:
+notifications_read:
   controller: App\Controller\User\Profile\UserNotificationController::read
   path: /settings/notifications/read
   methods: [ POST ]
 
-user_notifications_clear:
+notifications_clear:
   controller: App\Controller\User\Profile\UserNotificationController::clear
   path: /settings/notifications/clear
   methods: [ POST ]

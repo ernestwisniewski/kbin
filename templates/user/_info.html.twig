@@ -19,5 +19,6 @@
         <li>{{ 'joined'|trans }}: {{ component('date', {date: user.createdAt}) }}</li>
         <li><a href="#" class="stretched-link">{{ 'reputation_points'|trans }}:</a> 13</li>
         <li><a href="#" class="stretched-link">{{ 'moderated'|trans }}:</a> 2</li>
+        <li><a href="{{ path('messages_create', {username: user.username}) }}">{{ 'wrote_message'|trans }}</a> <i class="fa-solid fa-envelope"></i></li>
     </ul>
 </section>

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'wrote_message'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-user page-user-followers{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'wrote_message'|trans }}</h1>
+        <h2 hidden>{{ user.username|username }}</h2>
+    </header>
+    {% include('user/_options.html.twig') %}
+    <div id="content" class="section">
+        {% include 'messages/_form_create.html.twig' %}
+    </div>
+{% endblock %}

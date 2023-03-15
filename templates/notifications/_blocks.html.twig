@@ -93,7 +93,7 @@
 
 {% block message_notification %}
     {{ component('user_inline', {user: notification.message.sender}) }} {{ 'wrote_message'|trans|lower }} <a
-        href="{{ path('user_profile_message', {'id': notification.message.thread.id}) }}">{{ notification.message.thread.title }}</a>
+        href="{{ path('messages_front', {'id': notification.message.thread.id}) }}">{{ notification.message.thread.title }}</a>
 {% endblock message_notification %}
 
 {% block magazine_ban_notification %}

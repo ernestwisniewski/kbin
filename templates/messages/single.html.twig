@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'messages'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-messages page-message{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <div class="section section--top">
+        {% include 'messages/_form_create.html.twig' %}
+    </div>
+    {% for message in thread.messages %}
+        <div class="{{ html_classes('message section content section--small') }}">
+            <div class="meta">{{ component('user_inline', {user: message.sender}) }}</div>
+            {{ message.body|markdown|raw }}
+            <div class="text-right">
+                <small>
+                    {{ component('date', {date: message.createdAt}) }}
+                </small>
+            </div>
+
+        </div>
+    {% endfor %}
+{% endblock %}

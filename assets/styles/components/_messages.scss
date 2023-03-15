@@ -1,0 +1,13 @@
+.page-messages {
+  #main .thread {
+    display: flex;
+    gap: .5rem;
+    justify-content: space-between;
+  }
+}
+
+.page-messages {
+  .meta {
+    margin-bottom: 1.5rem;
+  }
+}

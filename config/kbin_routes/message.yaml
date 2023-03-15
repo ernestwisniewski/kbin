@@ -1,18 +1,18 @@
-user_profile_messages:
+messages_front:
   controller: App\Controller\Message\MessageThreadListController
   path:
     en: /profile/messages
     pl: /profil/wiadomości
   methods: [ GET ]
 
-user_profile_message:
+messages_single:
   controller: App\Controller\Message\MessageThreadController
   path:
     en: /profile/messages/{id}
     pl: /profil/wiadomości/{id}
   methods: [ GET, POST ]
 
-user_message:
+messages_create:
   controller: App\Controller\Message\MessageCreateThreadController
   path:
     en: /u/{username}/message
