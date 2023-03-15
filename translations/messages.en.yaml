@@ -363,6 +363,8 @@ comment: Comment
 post: Post
 ban_expired: Ban expired
 purge: Purge
+send_message: Send message
+message: Message
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
