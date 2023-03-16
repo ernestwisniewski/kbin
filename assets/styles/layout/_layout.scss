@@ -197,7 +197,7 @@ figure {
 
 .loader {
   animation: rotation 1s linear infinite;
-  border: 5px solid #fff;
+  border: 5px solid var(--kbin-meta-text-color);
   border-bottom-color: transparent;
   border-radius: 50%;
   box-sizing: border-box;

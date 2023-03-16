@@ -15,6 +15,15 @@
     </div>
     {{ component('vote', {subject: comment}) }}
     <footer>
+        {% if comment.image %}
+            <figure>
+                <a href="{{ uploaded_asset(comment.image.filePath) }}"
+                   class="thumb">
+                    <img src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
+                         alt="{{ comment.image.altText }}">
+                </a>
+            </figure>
+        {% endif %}
         <menu>
             <li>
                 <a class="stretched-link"
@@ -85,15 +94,6 @@
                 </ul>
             </li>
         </menu>
-        {% if comment.image %}
-            <figure>
-                <a href="{{ uploaded_asset(comment.image.filePath) }}"
-                   class="thumb">
-                    <img src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
-                         alt="{{ comment.image.altText }}">
-                </a>
-            </figure>
-        {% endif %}
     </footer>
 </blockquote>
 {% if showNested %}
