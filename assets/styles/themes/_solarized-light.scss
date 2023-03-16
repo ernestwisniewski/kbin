@@ -16,14 +16,14 @@ $cyan: #2aa198;
 $green: #859900;
 
 .theme--solarized-light {
-  .options--top {
+  .options--top, .section--top {
     border: var(--kbin-options-border) !important;
-    border-radius: .5rem;
   }
 
-  .section--top {
-    border: var(--kbin-section-border) !important;
-    border-radius: .5rem;
+  &.rounded-edges {
+    .section--top, .options--top {
+      border-radius: .5rem !important;
+    }
   }
 
   .ts-dropdown {
@@ -89,7 +89,7 @@ $green: #859900;
   // forms
   --kbin-input-bg: #f6edd4;
   --kbin-input-text-color: var(--kbin-text-color);
-  --kbin-input-border:  var(--kbin-section-border);
+  --kbin-input-border: var(--kbin-section-border);
 
   // buttons
   --kbin-button-primary-bg: var(--kbin-primary-color);
