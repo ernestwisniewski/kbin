@@ -4,7 +4,7 @@
 {% if(entries.haveToPaginate is defined and entries.haveToPaginate) %}
     {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
         <div data-controller="infinite-scroll" class="infinite-scroll">
-            {{ component('loader', {'data-infinite-scroll-target': 'loading'}) }}
+            {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
             <div data-infinite-scroll-target="pagination" class="visually-hidden">
                 {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
             </div>

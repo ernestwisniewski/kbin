@@ -1,0 +1,21 @@
+<aside class="comments post-comments">
+    {% for comment in comments %}
+        {{ component('post_comment', {comment: comment, showNested: true, dateAsUrl: true, level: 2,  }) }}
+    {% endfor %}
+    {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
+        {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not comments|length %}
+        <aside class="section section--muted">
+            <p>{{ 'no_comments'|trans }}</p>
+        </aside>
+    {% endif %}
+    <div class="comment-line--2"></div>
+    <div class="comment-line--3"></div>
+    <div class="comment-line--4"></div>
+    <div class="comment-line--5"></div>
+    <div class="comment-line--6"></div>
+    <div class="comment-line--7"></div>
+    <div class="comment-line--8"></div>
+    <div class="comment-line--9"></div>
+</aside>

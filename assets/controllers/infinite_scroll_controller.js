@@ -3,7 +3,7 @@ import {fetch, ok} from "../utils/http";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['loading', 'pagination'];
+    static targets = ['loader', 'pagination'];
     static values = {
         loading: Boolean
     };
@@ -78,7 +78,7 @@ export default class extends Controller {
     }
 
     loadingValueChanged(val) {
-        this.loadingTarget.style.display = val === true ? 'block' : 'none';
+        this.loaderTarget.style.display = val === true ? 'block' : 'none';
     }
 
     showPagination() {

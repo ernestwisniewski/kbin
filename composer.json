@@ -22,7 +22,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "embed/embed": "master",
-        "friendsofsymfony/jsrouting-bundle": "^3.1",
+        "friendsofsymfony/jsrouting-bundle": "^3.2",
         "furqansiddiqui/bip39-mnemonic-php": "^0.1.4",
         "gmostafa/php-graphql-client": "^1.13",
         "gumlet/php-image-resize": "2.0.*",

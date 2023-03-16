@@ -4,6 +4,7 @@ namespace App\Twig\Components;
 
 use App\Entity\PostComment;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
 
 #[AsTwigComponent('post_comments_nested', template: 'components/cached.html.twig')]
@@ -17,7 +18,7 @@ final class PostCommentsNestedComponent
     ) {
     }
 
-    public function getHtml(): string
+    public function getHtml(ComponentAttributes $attributes): string
     {
         return $this->render();
     }

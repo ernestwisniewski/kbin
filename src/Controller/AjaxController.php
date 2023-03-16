@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\User\ThemeSettingsController;
 use App\DTO\UserNoteDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
@@ -130,7 +131,10 @@ class AjaxController extends AbstractController
 
         return new JsonResponse(
             [
-                'html' => $this->renderView('post/comment/_list.html.twig', ['comments' => $comments, 'post' => $post]),
+                'html' => $this->renderView(
+                    'post/comment/_preview.html.twig',
+                    ['comments' => $comments, 'post' => $post]
+                ),
             ]
         );
     }

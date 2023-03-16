@@ -19,7 +19,7 @@
     {% if(pagination.haveToPaginate is defined and pagination.haveToPaginate) %}
         {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
             <div data-controller="infinite-scroll" class="infinite-scroll">
-                {{ component('loader', {'data-infinite-scroll-target': 'loading'}) }}
+                {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
                 <div data-infinite-scroll-target="pagination" class="visually-hidden">
                     {{ pagerfanta(pagination, null, {'pageParameter':'[p]'}) }}
                 </div>
@@ -32,7 +32,7 @@
     {% if(results.haveToPaginate is defined and results.haveToPaginate) %}
         {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
             <div data-controller="infinite-scroll" class="infinite-scroll">
-                {{ component('loader', {'data-infinite-scroll-target': 'loading'}) }}
+                {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
                 <div data-infinite-scroll-target="pagination" class="visually-hidden">
                     {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
                 </div>

@@ -130,6 +130,17 @@
       margin-top: .5rem;
       max-width: 100%;
     }
+
+    button {
+      position: relative;
+      top: 1px;
+    }
+  }
+
+  .loader {
+    height: 20px;
+    position: absolute;
+    width: 20px;
   }
 
   &:hover,

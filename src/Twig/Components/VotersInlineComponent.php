@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ExpressionBuilder;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
 
 #[AsTwigComponent('voters_inline', template: 'components/cached.html.twig')]
@@ -21,7 +22,7 @@ final class VotersInlineComponent
     ) {
     }
 
-    public function getHtml(): string
+    public function getHtml(ComponentAttributes $attributes): string
     {
         /**
          * @var Collection $votes

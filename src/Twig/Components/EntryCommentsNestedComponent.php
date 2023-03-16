@@ -4,6 +4,7 @@ namespace App\Twig\Components;
 
 use App\Entity\EntryComment;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
 
 #[AsTwigComponent('entry_comments_nested', template: 'components/cached.html.twig')]
@@ -17,7 +18,7 @@ final class EntryCommentsNestedComponent
     ) {
     }
 
-    public function getHtml(): string
+    public function getHtml(ComponentAttributes $attributes): string
     {
         return $this->render();
     }
