@@ -73,6 +73,8 @@ export default class extends Controller {
         this.element.after(div.querySelector(`[data-controller='infinite-scroll']`));
 
         this.element.remove();
+
+        this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
     }
 
     loadingValueChanged(val) {
@@ -80,7 +82,7 @@ export default class extends Controller {
     }
 
     showPagination() {
-        self.loadingValue = false;
+        this.loadingValue = false;
         this.paginationTarget.classList.remove('visually-hidden');
     }
 }
