@@ -39,7 +39,6 @@ export default class extends Controller {
             } catch (e) {
                 self.showPagination();
             } finally {
-                self.loadingValue = false;
                 observer.unobserve(self.element);
             }
         }, {threshold: [0]});
