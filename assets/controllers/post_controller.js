@@ -22,12 +22,12 @@ export default class extends Controller {
 
             const url = router().generate('ajax_fetch_post_comments', {'id': getIdFromElement(this.element)});
 
-            this.handleEntries(url);
+            this.handleExpandedEntries(url);
         } catch (e) {
         }
     }
 
-    async handleEntries(url) {
+    async handleExpandedEntries(url) {
         let response = await fetch(url, {method: 'GET'});
 
         response = await ok(response);

@@ -30,6 +30,20 @@
     </div>
     <strong>{{ 'threads'|trans }}</strong>
     <div class="row">
+        <span>{{ 'compact_view'|trans }}:</span>
+        <div>
+            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
+                {{ 'yes'|trans }}
+            </a>
+            |
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}">
+                {{ 'no'|trans }}
+            </a>
+        </div>
+    </div>
+    <div class="row">
         <span>{{ 'show_users_avatars'|trans }}:</span>
         <div>
             <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) }}"
