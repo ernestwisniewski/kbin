@@ -207,6 +207,7 @@ new_password_repeat: Confirm new password
 change_email: Change email
 change_password: Change password
 expand: Expand
+collapse: Collapse
 domains: Domains
 error: Error
 votes: Votes

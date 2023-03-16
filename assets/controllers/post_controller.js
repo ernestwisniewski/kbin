@@ -5,7 +5,7 @@ import getIdFromElement from "../utils/kbin";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['loader'];
+    static targets = ['loader', 'expand', 'collapse'];
     static values = {
         loading: Boolean
     };
@@ -24,8 +24,6 @@ export default class extends Controller {
 
             this.handleEntries(url);
         } catch (e) {
-        } finally {
-            event.target.closest('li').remove();
         }
     }
 
@@ -41,16 +39,22 @@ export default class extends Controller {
             throw new Error('Invalid JSON response');
         }
 
+        this.collapse(new Event('click'));
+
         const preview = this.element.nextElementSibling;
-
-        this.collapse(preview);
-
         preview.innerHTML = response.html;
 
+
         this.loadingValue = false;
+        this.expandTarget.style.display = 'none';
+        this.collapseTarget.style.display = 'block';
     }
 
-    collapse(preview) {
+    collapse(event) {
+        event.preventDefault();
+
+        const preview = this.element.nextElementSibling;
+
         if (false === preview.classList.contains('comments')) {
             return;
         }
@@ -59,7 +63,8 @@ export default class extends Controller {
             preview.removeChild(preview.firstChild);
         }
 
-        return preview;
+        this.expandTarget.style.display = 'block';
+        this.collapseTarget.style.display = 'none';
     }
 
     loadingValueChanged(val) {
