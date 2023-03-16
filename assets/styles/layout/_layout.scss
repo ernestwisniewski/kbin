@@ -125,10 +125,6 @@ table tbody tr:nth-of-type(even) {
   background-color: var(--kbin-bg-nth);
 }
 
-.opacity-50 {
-  opacity: .5;
-}
-
 .icon {
   font-size: 0;
 
@@ -183,10 +179,43 @@ figure {
   width: 15px;
 }
 
+.opacity-50 {
+  opacity: .5;
+}
+
 .text-right {
   text-align: right !important;
 }
 
 .z-100 {
   z-index: 100 !important;
+}
+
+.visually-hidden {
+  visibility: hidden;
+}
+
+.loader {
+  animation: rotation 1s linear infinite;
+  border: 5px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 28px;
+  text-align: center;
+  width: 28px;
+
+  span {
+    visibility: hidden;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

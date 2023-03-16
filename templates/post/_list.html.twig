@@ -2,7 +2,16 @@
     {{ component('post', {post: post, showMagazineName: magazine is not defined or not magazine, showCommentsPreview: true}) }}
 {% endfor %}
 {% if(posts.haveToPaginate is defined and posts.haveToPaginate) %}
-    {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
+    {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
+        <div data-controller="infinite-scroll" class="infinite-scroll">
+            {{ component('loader', {'data-infinite-scroll-target': 'loading'}) }}
+            <div data-infinite-scroll-target="pagination" class="visually-hidden">
+                {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
+            </div>
+        </div>
+    {% else %}
+        {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
 {% endif %}
 {% if not posts|length %}
     <aside class="section section--muted">

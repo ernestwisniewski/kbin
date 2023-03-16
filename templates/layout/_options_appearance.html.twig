@@ -14,6 +14,20 @@
             </a>
         </div>
     </div>
+    <div class="row">
+        <span>{{ 'infinite_scroll'|trans }}:</span>
+        <div>
+            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL'), value: 'true'}) }}">
+                {{ 'yes'|trans }}
+            </a>
+            |
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'false'}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL'), value: 'false'}) }}">
+                {{ 'no'|trans }}
+            </a>
+        </div>
+    </div>
     <strong>{{ 'threads'|trans }}</strong>
     <div class="row">
         <span>{{ 'show_users_avatars'|trans }}:</span>

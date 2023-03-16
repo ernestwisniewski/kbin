@@ -1,4 +1,4 @@
-<blockquote{{ attributes.defaults({class: 'section comment post-comment ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
+<blockquote{{ attributes.defaults({class: 'section comment post-comment subject ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
         id="post-comment-{{ comment.id }}"
         data-controller="comment subject">
     <header>

@@ -1,4 +1,4 @@
-<article{{ attributes.defaults({class: 'entry section '~(not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false' ? 'no-image' : '')}).without('id') }}
+<article{{ attributes.defaults({class: 'entry section subject '~(not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false' ? 'no-image' : '')}).without('id') }}
         id="entry-{{ entry.id }}"
         data-controller="subject entry">
     <header>

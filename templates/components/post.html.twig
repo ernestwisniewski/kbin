@@ -3,7 +3,7 @@
 {% else %}
     {% set class = '' %}
 {% endif %}
-<blockquote{{ attributes.defaults({class: 'section post ' ~ class}).without('id') }}
+<blockquote{{ attributes.defaults({class: 'section post subject ' ~ class}).without('id') }}
         id="post-{{ post.id }}"
         data-controller="post subject">
     <header>

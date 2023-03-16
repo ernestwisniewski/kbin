@@ -21,6 +21,7 @@ class ThemeSettingsController extends AbstractController
     public const KBIN_ENTRIES_SHOW_THUMBNAILS = 'kbin_entries_show_thumbnails';
     public const KBIN_ENTRIES_VIEW = 'kbin_entries_view';
     public const KBIN_GENERAL_ROUNDED_EDGES = 'kbin_general_rounded_edges';
+    public const KBIN_GENERAL_INFINITE_SCROLL = 'kbin_general_infinite_scroll';
 
     public const CLASSIC = 'classic';
     public const CHAT = 'chat';
@@ -45,6 +46,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_ENTRIES_SHOW_THUMBNAILS,
         self::KBIN_ENTRIES_VIEW,
         self::KBIN_GENERAL_ROUNDED_EDGES,
+        self::KBIN_GENERAL_INFINITE_SCROLL,
     ];
 
     public const VALUES = [
