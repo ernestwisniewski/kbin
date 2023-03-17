@@ -1,6 +1,7 @@
 <blockquote{{ attributes.defaults({class: 'section comment entry-comment subject ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
         id="entry-comment-{{ comment.id }}"
-        data-controller="comment subject">
+        data-controller="comment subject"
+        data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}">
     <header>
         {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
         {{ component('date', {date: comment.createdAt}) }}
@@ -27,7 +28,8 @@
         <menu>
             <li>
                 <a class="stretched-link"
-                   href="{{ entry_comment_create_url(comment) }}">{{ 'reply'|trans|lower }}</a>
+                   href="{{ entry_comment_create_url(comment) }}"
+                   data-actio="subject#getCommentForm">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
                 <form method="post"

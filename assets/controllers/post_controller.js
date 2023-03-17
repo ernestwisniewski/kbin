@@ -10,7 +10,7 @@ export default class extends Controller {
         loading: Boolean
     };
 
-    expand(event) {
+    async expandComments(event) {
         event.preventDefault();
 
         if (this.loadingValue === true) {
@@ -22,35 +22,34 @@ export default class extends Controller {
 
             const url = router().generate('ajax_fetch_post_comments', {'id': getIdFromElement(this.element)});
 
-            this.handleExpandedEntries(url);
-        } catch (e) {
-        }
-    }
+            let response = await fetch(url, {method: 'GET'});
 
-    async handleExpandedEntries(url) {
-        let response = await fetch(url, {method: 'GET'});
-
-        response = await ok(response);
-
-        try {
+            response = await ok(response);
             response = await response.json();
+
+            this.collapseComments(new Event('click'));
+
+            const preview = this.element.nextElementSibling;
+
+            if (true === preview.classList.contains('comments')) {
+                preview.innerHTML = response.html;
+            } else {
+                while (this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('post-comment')) {
+                    this.element.nextElementSibling.remove();
+                }
+
+                this.element.insertAdjacentHTML('afterend', response.html);
+            }
+
+            this.expandTarget.style.display = 'none';
+            this.collapseTarget.style.display = 'block';
         } catch (e) {
+        } finally {
             this.loadingValue = false;
-            throw new Error('Invalid JSON response');
         }
-
-        this.collapse(new Event('click'));
-
-        const preview = this.element.nextElementSibling;
-        preview.innerHTML = response.html;
-
-
-        this.loadingValue = false;
-        this.expandTarget.style.display = 'none';
-        this.collapseTarget.style.display = 'block';
     }
 
-    collapse(event) {
+    collapseComments(event) {
         event.preventDefault();
 
         const preview = this.element.nextElementSibling;
@@ -67,15 +66,22 @@ export default class extends Controller {
         this.collapseTarget.style.display = 'none';
     }
 
-    async showVoters(event) {
+    async expandVoters(event) {
         event.preventDefault();
 
-        let response = await fetch(event.target.href, {method: 'GET'});
+        try {
+            this.loadingValue = true;
 
-        response = await ok(response);
-        response = await response.json();
+            let response = await fetch(event.target.href, {method: 'GET'});
 
-        event.target.parentNode.innerHTML = response.html;
+            response = await ok(response);
+            response = await response.json();
+
+            event.target.parentNode.innerHTML = response.html;
+        } catch (e) {
+        } finally {
+            this.loadingValue = false;
+        }
     }
 
     loadingValueChanged(val) {

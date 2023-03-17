@@ -6,7 +6,7 @@
             {%- if not loop.last %},{% endif %}
         {% endfor %}
         {% if count > 4 %}
-            <a data-action="post#showVoters" href="{{ url }}">+{{ count - 4 }} {{ 'more'|trans|lower }}</a>
+            <a data-action="post#expandVoters" href="{{ url }}">+{{ count - 4 }} {{ 'more'|trans|lower }}</a>
         {% endif %}
     </div>
 {% endif %}

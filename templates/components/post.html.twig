@@ -40,13 +40,13 @@
                 <li data-post-target="expand">
                     <a class="stretched-link"
                        href="#{{ get_url_fragment(post) }}"
-                       data-action="post#expand">{{ 'expand'|trans|lower }} ({{ post.commentCount }})</a>
+                       data-action="post#expandComments">{{ 'expand'|trans|lower }} ({{ post.commentCount }})</a>
                 </li>
                 <li data-post-target="collapse"
                     style="display: none">
                     <a class="stretched-link"
                        href="#{{ get_url_fragment(post) }}"
-                       data-action="post#collapse">{{ 'collapse'|trans|lower }} ({{ post.commentCount }})</a>
+                       data-action="post#collapseComments">{{ 'collapse'|trans|lower }} ({{ post.commentCount }})</a>
                 </li>
             {% endif %}
             <li>
