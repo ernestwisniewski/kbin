@@ -9,7 +9,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
 
-#[AsTwigComponent('voters_inline', template: 'components/cached.html.twig')]
+#[AsTwigComponent('voters_inline', template: 'components/_cached.html.twig')]
 final class VotersInlineComponent
 {
     public VoteInterface $subject;

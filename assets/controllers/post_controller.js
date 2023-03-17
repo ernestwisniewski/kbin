@@ -85,6 +85,11 @@ export default class extends Controller {
     }
 
     loadingValueChanged(val) {
-        this.loaderTarget.style.display = val === true ? 'block' : 'none';
+        this.setLoader(val)
+    }
+
+    setLoader(val) {
+        const subjectController = this.application.getControllerForElementAndIdentifier(this.element, 'subject');
+        subjectController.loadingValue = val;
     }
 }

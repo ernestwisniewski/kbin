@@ -28,16 +28,11 @@ trait CommentResponseTrait
             $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');
         }
 
-        $comments = $this->repository->findByCriteria($criteria);
-        $this->repository->hydrate(...$comments);
-        $this->repository->hydrateChildren(...$comments);
-
         return $this->render(
             $template,
             [
                 'magazine' => $criteria->entry->magazine,
                 'entry' => $criteria->entry,
-                'comments' => $comments,
                 'parent' => $parent,
                 'comment' => $parent,
                 'form' => $form->createView(),
@@ -52,9 +47,13 @@ trait CommentResponseTrait
             [
                 'id' => $comment->getId(),
                 'html' => $this->renderView(
-                    'entry/comment/_comment.html.twig',
+                    'components/_ajax.html.twig',
                     [
-                        'comment' => $comment,
+                        'component' => 'entry_comment',
+                        'attributes' => [
+                            'comment' => $comment,
+                            'showEntryTitle' => false,
+                        ],
                     ]
                 ),
             ]

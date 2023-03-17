@@ -8,7 +8,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
 
-#[AsTwigComponent('post_comments_preview', template: 'components/cached.html.twig')]
+#[AsTwigComponent('post_comments_preview', template: 'components/_cached.html.twig')]
 final class PostCommentsPreviewComponent
 {
     public Post $post;

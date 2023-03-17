@@ -7,7 +7,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
 
-#[AsTwigComponent('post_comments_nested', template: 'components/cached.html.twig')]
+#[AsTwigComponent('post_comments_nested', template: 'components/_cached.html.twig')]
 final class PostCommentsNestedComponent
 {
     public PostComment $comment;

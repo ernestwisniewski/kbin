@@ -225,6 +225,12 @@
     }
   }
 
+  .loader {
+    height: 20px;
+    position: absolute;
+    width: 20px;
+  }
+
   &:hover,
   &:focus-within {
     menu,

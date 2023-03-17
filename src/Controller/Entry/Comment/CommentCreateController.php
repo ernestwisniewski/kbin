@@ -11,13 +11,13 @@ use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
-use App\Repository\EntryCommentRepository;
 use App\Service\CloudflareIpResolver;
 use App\Service\EntryCommentManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -27,7 +27,7 @@ class CommentCreateController extends AbstractController
 
     public function __construct(
         private readonly EntryCommentManager $manager,
-        private readonly EntryCommentRepository $repository,
+        private readonly RequestStack $requestStack,
         private readonly CloudflareIpResolver $ipResolver
     ) {
     }
@@ -63,8 +63,7 @@ class CommentCreateController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonFormResponse(
                 $form,
-                'entry/comment/_form.html.twig',
-                ['parent' => $parent, 'comment' => null, 'entry' => $entry]
+                'entry/comment/_form_comment.html.twig',
             );
         }
 

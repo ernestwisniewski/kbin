@@ -177,6 +177,12 @@ $comment-margin-sm: .3rem;
     margin-bottom: .5rem;
   }
 
+  .loader {
+    height: 20px;
+    position: absolute;
+    width: 20px;
+  }
+
   .comment {
     @for $i from 2 to 11 {
       &-line--#{$i} {
