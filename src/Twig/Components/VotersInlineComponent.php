@@ -3,10 +3,8 @@
 namespace App\Twig\Components;
 
 use App\Entity\Contracts\VoteInterface;
-use App\Entity\Vote;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\ExpressionBuilder;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
@@ -30,12 +28,13 @@ final class VotersInlineComponent
         $votes = $this->subject->votes;
         $votes = $votes->matching(
             (new Criteria(Criteria::expr()->eq('choice', VoteInterface::VOTE_UP), ['createdAt' => Criteria::DESC]))
-        )->slice(0,4);
+        )->slice(0, 4);
 
 
         return $this->twig->render(
             'components/voters_inline.html.twig',
             [
+                'attributes' => new ComponentAttributes($attributes->all()),
                 'voters' => array_map(fn($vote) => $vote->user->username, $votes),
                 'count' => $this->subject->countUpVotes(),
                 'url' => $this->url,

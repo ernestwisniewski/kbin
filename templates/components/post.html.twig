@@ -119,7 +119,7 @@
                 </div>
             </li>
         </menu>
-        {{ component('voters_inline', {subject: post, url: post_voters_url(post, 'up')}) }}
+        {{ component('voters_inline', {subject: post, url: post_voters_url(post, 'up'), 'data-post-target': 'voters'}) }}
     </footer>
 </blockquote>
 {% if(showCommentsPreview) %}

@@ -67,6 +67,17 @@ export default class extends Controller {
         this.collapseTarget.style.display = 'none';
     }
 
+    async showVoters(event) {
+        event.preventDefault();
+
+        let response = await fetch(event.target.href, {method: 'GET'});
+
+        response = await ok(response);
+        response = await response.json();
+
+        event.target.parentNode.innerHTML = response.html;
+    }
+
     loadingValueChanged(val) {
         this.loaderTarget.style.display = val === true ? 'block' : 'none';
     }
