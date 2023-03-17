@@ -1,6 +1,7 @@
 <blockquote{{ attributes.defaults({class: 'section comment post-comment subject ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
         id="post-comment-{{ comment.id }}"
-        data-controller="comment subject">
+        data-controller="comment subject"
+        data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}">
     <header>
         {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
         {% if dateAsUrl %}
@@ -30,7 +31,8 @@
         <menu>
             <li>
                 <a class="stretched-link"
-                   href="{{ post_comment_create_url(comment) }}#add-post">{{ 'reply'|trans|lower }}</a>
+                   href="{{ post_comment_create_url(comment) }}#add-comment"
+                   data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
                 <form method="post"
@@ -47,7 +49,8 @@
                 <ul class="dropdown__menu">
                     <li>
                         <a href="{{ path('post_comment_report', {id: comment.id}) }}"
-                           class="{{ html_classes({'active': is_route_name('post_comment_report')}) }}">
+                           class="{{ html_classes({'active': is_route_name('post_comment_report')}) }}"
+                           data-action="subject#getForm">
                             {{ 'report'|trans|lower }}
                         </a>
                     </li>

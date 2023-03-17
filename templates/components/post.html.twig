@@ -34,7 +34,8 @@
         <menu>
             <li>
                 <a class="stretched-link"
-                   href="{{ post_url(post) ~ '#comment-add' }}">{{ 'reply'|trans|lower }}</a>
+                   href="{{ path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, slug: post.slug}) }}"
+                   data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
             </li>
             {% if post.commentCount > 2 and not is_route_name('post_signle') %}
                 <li data-post-target="expand">
@@ -64,7 +65,8 @@
                 <ul class="dropdown__menu">
                     <li>
                         <a href="{{ path('post_report', {id: post.id}) }}"
-                           class="{{ html_classes({'active': is_route_name('post_report')}) }}">
+                           class="{{ html_classes({'active': is_route_name('post_report')}) }}"
+                           data-action="subject#getForm">
                             {{ 'report'|trans|lower }}
                         </a>
                     </li>

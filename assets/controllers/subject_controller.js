@@ -20,8 +20,14 @@ export default class extends Controller {
         });
     }
 
-    async getCommentForm(event) {
+    async getForm(event) {
         event.preventDefault();
+
+        if ('' !== this.containerTarget.innerHTML.trim()) {
+            if (false === confirm('Do you really want to leave?')) {
+                return;
+            }
+        }
 
         try {
             this.loadingValue = true;
@@ -39,7 +45,7 @@ export default class extends Controller {
         }
     }
 
-    async createComment(event) {
+    async sendForm(event) {
         event.preventDefault();
 
         let response = await fetch(event.target.closest('form').action, {
@@ -50,15 +56,23 @@ export default class extends Controller {
         response = await ok(response);
         response = await response.json();
 
-        const div = document.createElement('div');
-        div.innerHTML = response.html;
+        if (response.form) {
+            console.log(this.containerTarget)
+            this.containerTarget.innerHTML = response.form;
+        } else {
+            const div = document.createElement('div');
+            div.innerHTML = response.html;
 
-        let level = parseInt(this.element.className.replace('comment-level--1', '').split('--')[1]);
-        if (isNaN(level)) {
-            level = 1;
+            let level = parseInt(this.element.className.replace('comment-level--1', '').split('--')[1]);
+            if (isNaN(level)) {
+                level = 1;
+            }
+
+            div.firstElementChild.classList.add('comment-level--' + (level >= 10 ? 10 : level + 1));
+            this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
+
+            this.element.remove();
         }
-        div.firstElementChild.classList.add('comment-level--' + (level >= 10 ? 10 : level + 1));
-        this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
     }
 
     loadingValueChanged(val) {

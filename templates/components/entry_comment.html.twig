@@ -28,8 +28,8 @@
         <menu>
             <li>
                 <a class="stretched-link"
-                   href="{{ entry_comment_create_url(comment) }}"
-                   data-action="subject#getCommentForm">{{ 'reply'|trans|lower }}</a>
+                   href="{{ entry_comment_create_url(comment) }}#add-comment"
+                   data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
                 <form method="post"
@@ -46,7 +46,8 @@
                 <ul class="dropdown__menu">
                     <li>
                         <a href="{{ path('entry_comment_report', {id: comment.id}) }}"
-                           class="{{ html_classes({'active': is_route_name('entry_comment_report')}) }}">
+                           class="{{ html_classes({'active': is_route_name('entry_comment_report')}) }}"
+                           data-action="subject#getForm">
                             {{ 'report'|trans|lower }}
                         </a>
                     </li>

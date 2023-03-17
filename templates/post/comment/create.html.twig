@@ -21,5 +21,9 @@
         <section class="section">
             {% include 'post/comment/_form_comment.html.twig' %}
         </section>
+        <section id="comments" class="comments-tree">
+            {% include 'post/comment/_list.html.twig' %}
+        </section>
+        {% include 'post/_options_activity.html.twig' %}
     </div>
 {% endblock %}

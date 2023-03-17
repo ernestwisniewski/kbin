@@ -16,9 +16,13 @@ trait CommentResponseTrait
             [
                 'id' => $comment->getId(),
                 'html' => $this->renderView(
-                    'post/comment/_comment.html.twig',
+                    'components/_ajax.html.twig',
                     [
-                        'comment' => $comment,
+                        'component' => 'post_comment',
+                        'attributes' => [
+                            'comment' => $comment,
+                            'showEntryTitle' => false,
+                        ],
                     ]
                 ),
             ]

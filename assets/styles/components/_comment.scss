@@ -142,6 +142,12 @@ $comment-margin-sm: .3rem;
     }
   }
 
+  .loader {
+    height: 20px;
+    position: absolute;
+    width: 20px;
+  }
+
   &:hover,
   &:focus-within {
     header, menu, footer menu, footer .boosts {
@@ -175,12 +181,6 @@ $comment-margin-sm: .3rem;
 
   blockquote:last-of-type {
     margin-bottom: .5rem;
-  }
-
-  .loader {
-    height: 20px;
-    position: absolute;
-    width: 20px;
   }
 
   .comment {
