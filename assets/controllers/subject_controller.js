@@ -57,7 +57,6 @@ export default class extends Controller {
         response = await response.json();
 
         if (response.form) {
-            console.log(this.containerTarget)
             this.containerTarget.innerHTML = response.form;
         } else {
             const div = document.createElement('div');
@@ -71,7 +70,7 @@ export default class extends Controller {
             div.firstElementChild.classList.add('comment-level--' + (level >= 10 ? 10 : level + 1));
             this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
 
-            this.element.remove();
+            this.containerTarget.innerHTML = '';
         }
     }
 
