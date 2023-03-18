@@ -44,42 +44,42 @@ class UserSettingsType extends AbstractType
             ->add(
                 'showProfileSubscriptions',
                 CheckboxType::class,
-                [ 'required' => false]
+                ['required' => false]
             )
             ->add(
                 'showProfileFollowings',
                 CheckboxType::class,
-                [ 'required' => false]
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewEntry',
                 CheckboxType::class,
-                [ 'required' => false]
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewEntryReply',
                 CheckboxType::class,
-                [ 'required' => false]
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewEntryCommentReply',
                 CheckboxType::class,
-                [ 'required' => false]
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewPost',
                 CheckboxType::class,
-                [ 'required' => false]
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewPostReply',
                 CheckboxType::class,
-                [ 'required' => false]
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewPostCommentReply',
                 CheckboxType::class,
-                [ 'required' => false]
+                ['required' => false]
             )
             ->add('submit', SubmitType::class);
 

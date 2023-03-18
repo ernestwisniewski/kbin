@@ -22,7 +22,7 @@ class PostVotersControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
-        $client->click($crawler->filter('.options-activity')->selectLink('up votes (1)')->link());
+        $client->click($crawler->filter('.options-activity')->selectLink('boosts (1)')->link());
 
         $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }

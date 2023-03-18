@@ -113,7 +113,7 @@ class UserEditController extends AbstractController
             }
         }
 
-        if($form->has('newEmail')) {
+        if ($form->has('newEmail')) {
             $dto->email = $form->get('newEmail')->getData();
         }
 

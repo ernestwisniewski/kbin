@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 
 class EntryFavouriteControllerTest extends WebTestCase

@@ -24,7 +24,7 @@ class EntrySingleControllerTest extends WebTestCase
 
         $client->click($crawler->selectLink('test entry 1')->link());
 
-        $this->assertSelectorTextContains('#header .magazine', '/m/acme');
+        $this->assertSelectorTextContains('#header .head-title', '/m/acme');
         $this->assertSelectorTextContains('#header nav .active', 'Threads');
         $this->assertSelectorTextContains('article h1', 'test entry 1');
         $this->assertSelectorTextContains('#main', 'No comments');

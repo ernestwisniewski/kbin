@@ -22,7 +22,7 @@ class PostVotersController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('components/voters_inline.html.twig', [
-                    'voters' => $post->getUpVotes()->map(fn($vote) => $vote->user->username),
+                    'voters' => $post->getUpVotes()->map(fn ($vote) => $vote->user->username),
                     'attributes' => new ComponentAttributes([]),
                     'count' => 0,
                 ]),

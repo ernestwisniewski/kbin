@@ -18,7 +18,7 @@
     </button>
     {{ form_row(form.submit, {label: comment is defined and comment ? 'edit_comment' : 'add_comment', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}}) }}
 </div>
-<div  class="media">
+<div hidden class="media">
     {{ form_row(form.image, {label: 'image'}) }}
     {{ form_row(form.imageAlt, {label: 'image_alt'}) }}
 </div>

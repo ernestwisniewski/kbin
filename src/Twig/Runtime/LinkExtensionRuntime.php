@@ -27,6 +27,7 @@ class LinkExtensionRuntime implements RuntimeExtensionInterface
     public function getHtmlClass(ContentInterface $content): string
     {
         $service = $this->generateHtmlClassService;
+
         return $service($content);
     }
 }

@@ -257,7 +257,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -288,7 +288,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $tokens = $this->moderatorTokens->matching($criteria);
 
         // Magazines
-        $magazines = $tokens->map(fn($token) => $token->magazine);
+        $magazines = $tokens->map(fn ($token) => $token->magazine);
         $criteria = Criteria::create()
             ->orderBy(['lastActive' => Criteria::DESC]);
 
@@ -570,7 +570,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     {
         return $this->notifications
             ->matching($this->getNewNotificationsCriteria())
-            ->filter(fn($notification) => 'message_notification' !== $notification->getType())
+            ->filter(fn ($notification) => 'message_notification' !== $notification->getType())
             ->count();
     }
 
@@ -581,7 +581,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
         return $this->notifications
             ->matching($criteria)
-            ->filter(fn($notification) => 'message_notification' === $notification->getType())
+            ->filter(fn ($notification) => 'message_notification' === $notification->getType())
             ->count();
     }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\User\ThemeSettingsController;
 use App\DTO\UserNoteDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;

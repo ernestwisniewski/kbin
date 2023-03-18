@@ -47,7 +47,7 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.post header', 'JohnDoe');
         $this->assertSelectorTextNotContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#header .magazine', '/m/acme');
+        $this->assertSelectorTextContains('#header .head-title', '/m/acme');
         $this->assertSelectorTextContains('#sidebar .magazine', 'acme');
 
         $this->assertSelectorTextContains('#header .active', 'Microblog');
@@ -79,7 +79,7 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.post header', 'JohnDoe');
         $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#header .magazine', '/sub');
+        $this->assertSelectorTextContains('#header .head-title', '/sub');
 
         $this->assertSelectorTextContains('#header .active', 'Microblog');
 
@@ -111,7 +111,7 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.post header', 'JohnDoe');
         $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#header .magazine', '/mod');
+        $this->assertSelectorTextContains('#header .head-title', '/mod');
 
         $this->assertSelectorTextContains('#header .active', 'Microblog');
 
@@ -141,7 +141,7 @@ class PostFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.post header', 'JohnDoe');
         $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $this->assertSelectorTextContains('#header .magazine', '/fav');
+        $this->assertSelectorTextContains('#header .head-title', '/fav');
 
         $this->assertSelectorTextContains('#header .active', 'Microblog');
 

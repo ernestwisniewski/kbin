@@ -47,7 +47,7 @@ class EntryFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
         $this->assertSelectorTextNotContains('.entry__meta', 'to acme');
 
-        $this->assertSelectorTextContains('#header .magazine', '/m/acme');
+        $this->assertSelectorTextContains('#header .head-title', '/m/acme');
         $this->assertSelectorTextContains('#sidebar .magazine', 'acme');
 
         $this->assertSelectorTextContains('#header .active', 'Threads');
@@ -79,7 +79,7 @@ class EntryFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
         $this->assertSelectorTextContains('.entry__meta', 'to acme');
 
-        $this->assertSelectorTextContains('#header .magazine', '/sub');
+        $this->assertSelectorTextContains('#header .head-title', '/sub');
 
         $this->assertSelectorTextContains('#header .active', 'Threads');
 
@@ -111,7 +111,7 @@ class EntryFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
         $this->assertSelectorTextContains('.entry__meta', 'to acme');
 
-        $this->assertSelectorTextContains('#header .magazine', '/mod');
+        $this->assertSelectorTextContains('#header .head-title', '/mod');
 
         $this->assertSelectorTextContains('#header .active', 'Threads');
 
@@ -141,7 +141,7 @@ class EntryFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.entry__meta', 'JaneDoe');
         $this->assertSelectorTextContains('.entry__meta', 'to kbin');
 
-        $this->assertSelectorTextContains('#header .magazine', '/fav');
+        $this->assertSelectorTextContains('#header .head-title', '/fav');
 
         $this->assertSelectorTextContains('#header .active', 'Threads');
 

@@ -28,7 +28,7 @@ class MagazineCreateControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('header .magazine', '/m/TestMagazine');
+        $this->assertSelectorTextContains('header .head-title', '/m/TestMagazine');
         $this->assertSelectorTextContains('#content', 'Empty');
     }
 

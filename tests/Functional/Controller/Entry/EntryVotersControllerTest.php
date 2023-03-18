@@ -22,7 +22,7 @@ class EntryVotersControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $client->click($crawler->filter('.options-activity')->selectLink('up votes (1)')->link());
+        $client->click($crawler->filter('.options-activity')->selectLink('boosts (1)')->link());
 
         $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }
@@ -39,7 +39,7 @@ class EntryVotersControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $client->click($crawler->filter('.options-activity')->selectLink('down votes (1)')->link());
+        $client->click($crawler->filter('.options-activity')->selectLink('reduces (1)')->link());
 
         $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }

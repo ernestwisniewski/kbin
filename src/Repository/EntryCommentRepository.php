@@ -140,7 +140,6 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         }
 
         if ($criteria->tag) {
-
             $qb->andWhere("JSONB_CONTAINS(c.tags, '\"".$criteria->tag."\"') = true");
         }
 

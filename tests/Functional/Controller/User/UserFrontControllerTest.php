@@ -17,7 +17,7 @@ class UserFrontControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/u/JohnDoe');
 
-        $this->assertSelectorTextContains('.options.options--top .active', 'overview');
+        $this->assertSelectorTextContains('.options.options .active', 'overview');
         $this->assertEquals(2, $crawler->filter('#main .entry')->count());
         $this->assertEquals(2, $crawler->filter('#main .entry-comment')->count());
         $this->assertEquals(2, $crawler->filter('#main .post')->count());

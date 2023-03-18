@@ -43,11 +43,11 @@ class PostCommentCreateControllerTest extends WebTestCase
         $crawler = $client->submit(
             $crawler->filter('form[name=post_comment]')->selectButton('Add comment')->form(
                 [
-                    'post_comment[body]' => 't',
+                    'post_comment[body]' => '',
                 ]
             )
         );
 
-        $this->assertSelectorTextContains('#content', 'This value is too short. It should have 2 characters or more.');
+        $this->assertSelectorTextContains('#content', 'This value should not be blank.');
     }
 }

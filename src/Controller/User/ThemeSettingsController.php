@@ -34,7 +34,6 @@ class ThemeSettingsController extends AbstractController
     public const TRUE = 'true';
     public const FALSE = 'false';
 
-
     public const KEYS = [
         self::ENTRIES_VIEW,
         self::ENTRY_COMMENTS_VIEW,

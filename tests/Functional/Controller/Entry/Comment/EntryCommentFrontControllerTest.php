@@ -48,7 +48,7 @@ class EntryCommentFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('blockquote header', 'in test entry 1');
         $this->assertSelectorTextContains('blockquote .content', 'test comment 2');
 
-        $this->assertSelectorTextContains('#header .magazine', '/m/acme');
+        $this->assertSelectorTextContains('#header .head-title', '/m/acme');
         $this->assertSelectorTextContains('#sidebar .magazine', 'acme');
 
         $this->assertcount(2, $crawler->filter('.comment'));
@@ -79,7 +79,7 @@ class EntryCommentFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('blockquote header', 'to acme in test entry 1');
         $this->assertSelectorTextContains('blockquote .content', 'test comment 2');
 
-        $this->assertSelectorTextContains('#header .magazine', '/sub');
+        $this->assertSelectorTextContains('#header .head-title', '/sub');
 
         $this->assertcount(2, $crawler->filter('.comment'));
 
@@ -110,7 +110,7 @@ class EntryCommentFrontControllerTest extends WebTestCase
         $this->assertSelectorTextContains('blockquote header', 'to acme in test entry 1');
         $this->assertSelectorTextContains('blockquote .content', 'test comment 2');
 
-        $this->assertSelectorTextContains('#header .magazine', '/mod');
+        $this->assertSelectorTextContains('#header .head-title', '/mod');
 
         $this->assertcount(2, $crawler->filter('.comment'));
 
