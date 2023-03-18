@@ -1,5 +1,4 @@
 .subjects {
-
   .post,
   .entry {
     margin-bottom: 0;
@@ -21,5 +20,11 @@
 
   > :last-child {
     margin-top: .5rem;
+  }
+}
+
+.subject {
+  .js-container {
+    font-size: 1rem;
   }
 }

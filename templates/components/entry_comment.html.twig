@@ -75,7 +75,7 @@
                             <form method="post"
                                   action="{{ entry_comment_delete_url(comment) }}"
                                   onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
+                                <input type="hidden" name="token" value="{{ csrf_token('entry_comment_delete') }}">
                                 <button type="submit">{{ 'delete'|trans|lower }}</button>
                             </form>
                         </li>
@@ -95,7 +95,7 @@
                 </div>
             </li>
         </menu>
-        <div data-subject-target="container">
+        <div data-subject-target="container" class="js-container">
         </div>
     </footer>
 </blockquote>
