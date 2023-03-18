@@ -104,7 +104,7 @@ export default class extends Controller {
 
             event.target.closest('form').innerHTML = response.html;
         } catch (e) {
-            window.location.href = event.target.href;
+            event.target.closest('form').submit();
         } finally {
             this.loadingValue = false;
         }
