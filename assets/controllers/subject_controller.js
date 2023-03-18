@@ -68,7 +68,12 @@ export default class extends Controller {
             }
 
             div.firstElementChild.classList.add('comment-level--' + (level >= 10 ? 10 : level + 1));
-            this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
+
+            if (this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('comments')) {
+                this.element.nextElementSibling.appendChild(div.firstElementChild);
+            } else {
+                this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
+            }
 
             this.containerTarget.innerHTML = '';
         }
