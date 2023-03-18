@@ -14,5 +14,7 @@
 
 {% block body %}
     {% include 'layout/_subject.html.twig' with {entryAttributes: {class: 'section--top'}, postAttributes: {class: 'post--single section--top'}} %}
-    {% include 'report/_add_report.html.twig' %}
+    <section class="section">
+        {% include 'report/_form_report.html.twig' %}
+    </section>
 {% endblock %}

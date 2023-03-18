@@ -37,7 +37,7 @@ trait CommentResponseTrait
                 'comment' => $parent,
                 'form' => $form->createView(),
             ],
-            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 322 : 200)
         );
     }
 

@@ -195,22 +195,25 @@
     grid-area: meta;
   }
 
-  menu {
-    column-gap: 1rem;
-    display: grid;
+  footer {
     grid-area: footer;
-    grid-auto-columns: max-content;
-    grid-auto-flow: column;
-    list-style: none;
-    opacity: .75;
 
-    & > a.active,
-    & > li button.active, {
-      text-decoration: underline;
-    }
+    menu {
+      column-gap: 1rem;
+      display: grid;
+      grid-auto-columns: max-content;
+      grid-auto-flow: column;
+      list-style: none;
+      opacity: .75;
 
-    button, input[type='submit'], a {
-      @include kbin-btn-link;
+      & > a.active,
+      & > li button.active, {
+        text-decoration: underline;
+      }
+
+      button, input[type='submit'], a {
+        @include kbin-btn-link;
+      }
     }
   }
 

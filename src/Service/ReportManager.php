@@ -31,14 +31,14 @@ class ReportManager
 
         if ($report) {
             if ($report->reporting === $reporting) {
+                $report->increaseWeight();
                 throw new SubjectHasBeenReportedException();
             }
         }
 
-        if (!$report) {
+        if (!$report || Report::STATUS_PENDING === $report->status) {
             $report = $this->factory->createFromDto($dto);
-        } elseif (Report::STATUS_PENDING === $report->status) {
-            $report->increaseWeight();
+            $report->reporting = $reporting;
         }
 
         $this->entityManager->persist($report);

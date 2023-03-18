@@ -1,0 +1,6 @@
+<h3 hidden>{{ 'report'|trans }}</h3>
+{{ form_start(form) }}
+{{ form_row(form.reason, {label: 'reason'}) }}
+{{ form_row(form.submit, {label: 'report', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}, row_attr: {class: 'float-end'}}) }}
+{{ form_end(form) }}
+

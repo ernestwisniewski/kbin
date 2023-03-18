@@ -47,39 +47,59 @@ export default class extends Controller {
 
     async sendForm(event) {
         event.preventDefault();
+        this.loadingValue = true;
 
-        let response = await fetch(event.target.closest('form').action, {
-            method: 'POST',
-            body: new FormData(event.target.closest('form'))
-        });
+        try {
+            let response = await fetch(event.target.closest('form').action, {
+                method: 'POST',
+                body: new FormData(event.target.closest('form'))
+            });
 
-        response = await ok(response);
-        response = await response.json();
+            response = await ok(response);
+            response = await response.json();
 
-        if (response.form) {
-            this.containerTarget.innerHTML = response.form;
-        } else {
-            const div = document.createElement('div');
-            div.innerHTML = response.html;
-
-            let level = parseInt(this.element.className.replace('comment-level--1', '').split('--')[1]);
-            if (isNaN(level)) {
-                level = 1;
-            }
-
-            div.firstElementChild.classList.add('comment-level--' + (level >= 10 ? 10 : level + 1));
-
-            if (this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('comments')) {
-                this.element.nextElementSibling.appendChild(div.firstElementChild);
+            if (response.form) {
+                this.containerTarget.innerHTML = response.form;
             } else {
-                this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
-            }
+                const div = document.createElement('div');
+                div.innerHTML = response.html;
 
+                let level = parseInt(this.element.className.replace('comment-level--1', '').split('--')[1]);
+                if (isNaN(level)) {
+                    level = 1;
+                }
+
+                div.firstElementChild.classList.add('comment-level--' + (level >= 10 ? 10 : level + 1));
+
+                if (this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('comments')) {
+                    this.element.nextElementSibling.appendChild(div.firstElementChild);
+                } else {
+                    this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
+                }
+
+                this.containerTarget.innerHTML = '';
+            }
+        } catch (e) {
             this.containerTarget.innerHTML = '';
+        } finally {
+            this.loadingValue = false;
         }
+
     }
 
     loadingValueChanged(val) {
-        this.loaderTarget.style.display = val === true ? 'block' : 'none';
+        const submitButton = this.containerTarget.querySelector('form button[type="submit"]');
+
+        if (true === val) {
+            if (submitButton) {
+                submitButton.disabled = true;
+            }
+            this.loaderTarget.style.display = 'block';
+        } else {
+            if (submitButton) {
+                submitButton.disabled = false;
+            }
+            this.loaderTarget.style.display = 'none';
+        }
     }
 }

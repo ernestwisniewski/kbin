@@ -52,6 +52,7 @@ abstract class AbstractController extends BaseAbstractController
         return new JsonResponse(
             [
                 'success' => true,
+                'html' => '<div class="alert alert__info">Reported</div>'
             ]
         );
     }

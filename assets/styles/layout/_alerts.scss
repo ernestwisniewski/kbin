@@ -1,6 +1,8 @@
 .alert {
   margin: .5rem 0;
   padding: 1rem;
+  position: relative;
+  z-index: 2;
 
   p {
     margin: 0;

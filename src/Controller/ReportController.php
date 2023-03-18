@@ -10,13 +10,17 @@ use App\Form\ReportType;
 use App\Service\ReportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ReportController extends AbstractController
 {
-    public function __construct(private readonly ReportManager $manager)
-    {
+    public function __construct(
+        private readonly ReportManager $manager,
+        private readonly TranslatorInterface $translator
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
@@ -32,7 +36,7 @@ class ReportController extends AbstractController
         }
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'report/_form.html.twig');
+            return $this->getJsonFormResponse($form, 'report/_form_report.html.twig');
         }
 
         return $this->render(
@@ -61,7 +65,12 @@ class ReportController extends AbstractController
         $this->manager->report($dto, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonSuccessResponse();
+            return new JsonResponse(
+                [
+                    'success' => true,
+                    'html' => "<div class=\"alert alert__info\">{$this->translator->trans('subject_reported')}</div>",
+                ]
+            );
         }
 
         // @todo flash message
