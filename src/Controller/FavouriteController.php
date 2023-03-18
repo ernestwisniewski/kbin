@@ -23,17 +23,21 @@ class FavouriteController extends AbstractController
     {
         $this->validateCsrf('favourite', $request->request->get('token'));
 
-        $favourite = $manager->toggle($this->getUserOrThrow(), $subject);
-        $isFavored = false;
+        $manager->toggle($this->getUserOrThrow(), $subject);
 
-        if ($this->getUser()) {
-            $isFavored = $subject->isFavored($this->getUser());
-        }
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'count' => $subject->favouriteCount,
-                    'isFavored' => $isFavored,
+                    'html' => $this->renderView(
+                        'components/_ajax.html.twig',
+                        [
+                            'component' => 'favourite',
+                            'attributes' => [
+                                'subject' => $subject,
+                                'path' => $request->attributes->get('_route'),
+                            ],
+                        ]
+                    ),
                 ]
             );
         }

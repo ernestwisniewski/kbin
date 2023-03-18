@@ -29,7 +29,7 @@ class MessageThreadController extends AbstractController
             $this->manager->toMessage($form->getData(), $thread, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
-                'message_front',
+                'messages_front',
                 ['id' => $thread->getId()]
             );
         }

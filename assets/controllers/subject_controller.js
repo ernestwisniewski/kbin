@@ -78,6 +78,7 @@ export default class extends Controller {
                 }
 
                 this.containerTarget.innerHTML = '';
+                this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
             }
         } catch (e) {
             this.containerTarget.innerHTML = '';
@@ -85,6 +86,28 @@ export default class extends Controller {
             this.loadingValue = false;
         }
 
+    }
+
+    async favourite(event) {
+        event.preventDefault();
+
+        try {
+            this.loadingValue = true;
+
+            let response = await fetch(event.target.closest('form').action, {
+                method: 'POST',
+                body: new FormData(event.target.closest('form'))
+            });
+
+            response = await ok(response);
+            response = await response.json();
+
+            event.target.closest('form').innerHTML = response.html;
+        } catch (e) {
+            window.location.href = event.target.href;
+        } finally {
+            this.loadingValue = false;
+        }
     }
 
     loadingValueChanged(val) {

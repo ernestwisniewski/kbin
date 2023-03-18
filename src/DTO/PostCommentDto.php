@@ -10,7 +10,9 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PostCommentDto
 {
@@ -21,7 +23,7 @@ class PostCommentDto
     public ?PostComment $root = null;
     public ?Image $image = null;
     public ?string $imageAlt = null;
-    #[Assert\Length(min: 2, max: 5000)]
+    #[Assert\Length(max: 5000)]
     public ?string $body = null;
     public int $uv = 0;
     public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
@@ -31,6 +33,31 @@ class PostCommentDto
     public ?\DateTimeImmutable $createdAt = null;
     public ?\DateTime $lastActive = null;
     private ?int $id = null;
+
+    #[Assert\Callback]
+    public function validate(
+        ExecutionContextInterface $context,
+        $payload
+    ) {
+        $image = Request::createFromGlobals()->files->filter('post_comment');
+
+        if (is_array($image) && isset($image['image'])) {
+            $image = $image['image'];
+        } else {
+            $image = $context->getValue()->image;
+        }
+
+        if (empty($this->body) && empty($image)) {
+            $this->buildViolation($context, 'body');
+        }
+    }
+
+    private function buildViolation(ExecutionContextInterface $context, $path)
+    {
+        $context->buildViolation('This value should not be blank.')
+            ->atPath($path)
+            ->addViolation();
+    }
 
     public function createWithParent(Post $post, ?PostComment $parent, ?Image $image = null, ?string $body = null): self
     {

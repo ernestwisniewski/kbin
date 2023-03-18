@@ -58,7 +58,7 @@ class PostManager implements ContentManagerInterface
         }
 
         $post = $this->factory->createFromDto($dto, $user);
-        $post->slug = $this->slugger->slug($dto->body);
+        $post->slug = $this->slugger->slug($dto->body ?? $dto->magazine->name.' '.$dto->image->altText);
         $post->image = $dto->image;
         if ($post->image && !$post->image->altText) {
             $post->image->altText = $dto->imageAlt;

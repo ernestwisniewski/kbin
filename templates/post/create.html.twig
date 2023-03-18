@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'add_new_post'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ parent() -}}
+    {{- 'add_new_post'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
 {% block mainClass %}page-post-create{% endblock %}
