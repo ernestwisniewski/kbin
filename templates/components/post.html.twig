@@ -3,7 +3,10 @@
 {% else %}
     {% set class = '' %}
 {% endif %}
-<blockquote{{ attributes.defaults({class: 'section post subject ' ~ class, 'data-controller': 'post subject'}).without('id') }}
+<blockquote{{ attributes.defaults({
+    class: html_classes('section post subject ' ~ class,{
+        'author': app.user and post.isAuthor(app.user),
+    }), 'data-controller': 'post subject'}).without('id') }}
         id="post-{{ post.id }}">
     <header>
         {{ component('user_inline', {user: post.user, showAvatar: false}) }},

@@ -47,10 +47,11 @@ export default class extends Controller {
     }
 
     async handleEntries(url) {
-        try {
-            let response = await fetch(url, {method: 'GET'});
+        let response = await fetch(url, {method: 'GET'});
 
-            response = await ok(response);
+        response = await ok(response);
+
+        try {
             response = await response.json();
         } catch (e) {
             this.showPagination();

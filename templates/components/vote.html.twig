@@ -1,7 +1,7 @@
 {%- set VOTE_NONE = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_NONE') -%}
+{%- set VOTE_UP = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_UP') -%}
+{%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_DOWN') -%}
 {% if app.user %}
-    {%- set VOTE_UP = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_UP') -%}
-    {%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_DOWN') -%}
     {%- set user_choice = is_granted('ROLE_USER') ? subject.userChoice(app.user) : null -%}
 
     {% set upUrl = path(formDest, {id: subject.id, choice: VOTE_UP}) %}
@@ -15,17 +15,21 @@
         {% set choice = VOTE_NONE %}
     {% endif %}
 {% else %}
+    {% set choice = VOTE_NONE %}
     {% set upUrl = path(formDest, {id: subject.id, choice: VOTE_NONE}) %}
     {% set downUrl = path(formDest, {id: subject.id, choice: VOTE_NONE}) %}
 {% endif %}
 <aside{{ attributes.defaults({class: 'vote'}) }}>
     <form method="post"
           action="{{ upUrl }}"
-          class="vote__up">
+          class="{{ html_classes('vote__up',{
+              'active': choice is same as(VOTE_UP),
+          }) }}">
         <button type="submit"
                 title="{{ 'up_vote'|trans }}"
                 aria-label="{{ 'up_vote'|trans }}"
-                data-action="subject#vote">
+                data-action="subject#vote"
+                {{ html_classes({'disabled': app.user and subject.isAuthor(app.user)}) }}>
             {{ subject.countUpvotes }} <span><i class="fa-solid fa-arrow-up"></i></span>
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
@@ -33,11 +37,14 @@
     {% if showDownvote %}
         <form method="post"
               action="{{ downUrl }}"
-              class="vote__down">
+              class="{{ html_classes('vote__down', {
+                  'active': choice is same as(VOTE_DOWN),
+              }) }}">
             <button type="submit"
                     title="{{ 'down_vote'|trans }}"
                     aria-label="{{ 'down_vote'|trans }}"
-                    data-action="subject#vote">
+                    data-action="subject#vote"
+                    {{ html_classes({'disabled': app.user and subject.isAuthor(app.user)}) }}>
                 {{ subject.countDownvotes }} <span><i class="fa-solid fa-arrow-down"></i></span>
             </button>
             <input type="hidden" name="token" value="{{ csrf_token('vote') }}">

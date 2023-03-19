@@ -5,7 +5,7 @@
               name="user_follow"
               method="post">
             <button type="submit"
-                    class="{{ html_classes('btn btn__secondry', {'btn-success': is_user_followed(user)}) }}"
+                    class="{{ html_classes('btn btn__secondry', {'active': is_user_followed(user)}) }}"
                     data-action="subs#send">
                 {{ is_user_followed(user) ? 'unfollow'|trans : 'follow'|trans }}
             </button>
@@ -15,7 +15,7 @@
               name="user_block"
               method="post">
             <button type="submit"
-                    class="{{ html_classes('btn btn__secondry', {'btn-warning': is_user_blocked(user)}) }}"
+                    class="{{ html_classes('btn btn__secondry', {'active': is_user_blocked(user)}) }}"
                     data-action="subs#send">
                 <i class="fa-solid fa-ban"></i>
             </button>

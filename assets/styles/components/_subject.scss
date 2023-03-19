@@ -27,4 +27,8 @@
   .js-container {
     font-size: 1rem;
   }
+
+  .author {
+    border-left: var(--kbin-author-border);
+  }
 }

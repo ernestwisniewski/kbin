@@ -1,4 +1,7 @@
-<blockquote{{ attributes.defaults({class: 'section comment entry-comment subject ' ~ 'comment-level--' ~ this.getLevel()}).without('id') }}
+<blockquote{{ attributes.defaults({
+    class: html_classes('section comment entry-comment subject ' ~ 'comment-level--' ~ this.getLevel(),{
+        'author': app.user and comment.isAuthor(app.user),
+    })}).without('id') }}
         id="entry-comment-{{ comment.id }}"
         data-controller="comment subject"
         data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}">

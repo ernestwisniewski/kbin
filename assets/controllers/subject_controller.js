@@ -85,11 +85,11 @@ export default class extends Controller {
                 }
 
                 this.containerTarget.innerHTML = '';
-                this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
             }
         } catch (e) {
             // this.containerTarget.innerHTML = '';
         } finally {
+            this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
             this.loadingValue = false;
         }
 
