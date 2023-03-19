@@ -25,6 +25,7 @@ export default class extends Controller {
 
             this.element.outerHTML = response.html;
         } catch (e) {
+            form.submit();
         } finally {
             this.loadingValue = false;
         }
