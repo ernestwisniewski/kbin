@@ -43,6 +43,8 @@ export default class extends Controller {
 
             this.expandTarget.style.display = 'none';
             this.collapseTarget.style.display = 'block';
+
+            this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
         } catch (e) {
         } finally {
             this.loadingValue = false;

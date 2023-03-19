@@ -23,12 +23,7 @@ class UserFollowController extends AbstractController
         $manager->follow($this->getUserOrThrow(), $following);
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount' => $following->followersCount,
-                    'isSubscribed' => true,
-                ]
-            );
+            return $this->getJsonResponse($following);
         }
 
         return $this->redirectToRefererOrHome($request);
@@ -43,14 +38,26 @@ class UserFollowController extends AbstractController
         $manager->unfollow($this->getUserOrThrow(), $following);
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount' => $following->followersCount,
-                    'isSubscribed' => false,
-                ]
-            );
+            return $this->getJsonResponse($following);
         }
 
         return $this->redirectToRefererOrHome($request);
+    }
+
+    private function getJsonResponse(User $user): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'user_follow',
+                        'attributes' => [
+                            'user' => $user,
+                        ],
+                    ]
+                ),
+            ]
+        );
     }
 }

@@ -14,7 +14,7 @@
 
 {% block body %}
     <div id="content">
-        {{ component('post', {post: post, isSingle: true, dateAsUrl: false}) }}
+        {{ component('post', {post: post, isSingle: true, dateAsUrl: false, class: 'section--top'}) }}
         {% include 'post/comment/_options.html.twig' %}
         <section id="comments" class="comments-tree">
             {% include 'post/comment/_list.html.twig' %}

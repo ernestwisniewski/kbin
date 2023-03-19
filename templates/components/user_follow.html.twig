@@ -1,11 +1,12 @@
-<aside{{ attributes.defaults({class: 'user__follow'}) }}>
+<aside{{ attributes.defaults({class: 'user__follow', 'data-controller': 'subs'}) }}>
     <div><i class="fa-solid fa-users"></i> {{ user.followersCount }}</div>
     {% if not app.user or app.user is not same as user %}
         <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unfollow' : 'follow'), {username: user.username}) }}"
               name="user_follow"
               method="post">
             <button type="submit"
-                    class="{{ html_classes('btn btn__secondry', {'btn-success': is_user_followed(user)}) }}">
+                    class="{{ html_classes('btn btn__secondry', {'btn-success': is_user_followed(user)}) }}"
+                    data-action="subs#send">
                 {{ is_user_followed(user) ? 'unfollow'|trans : 'follow'|trans }}
             </button>
             <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
@@ -14,7 +15,8 @@
               name="user_block"
               method="post">
             <button type="submit"
-                    class="{{ html_classes('btn btn__secondry', {'btn-warning': is_user_blocked(user)}) }}">
+                    class="{{ html_classes('btn btn__secondry', {'btn-warning': is_user_blocked(user)}) }}"
+                    data-action="subs#send">
                 <i class="fa-solid fa-ban"></i>
             </button>
             <input type="hidden" name="token" value="{{ csrf_token('block') }}">

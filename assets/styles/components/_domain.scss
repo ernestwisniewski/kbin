@@ -32,6 +32,10 @@
       padding: .3rem .5rem;
       position: relative;
 
+      .rounded-edges & {
+        border-radius: .5rem;
+      }
+
       i {
         padding-right: .5rem;
       }

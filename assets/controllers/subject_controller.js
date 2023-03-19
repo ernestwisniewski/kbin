@@ -47,12 +47,13 @@ export default class extends Controller {
 
     async sendForm(event) {
         event.preventDefault();
-        this.loadingValue = true;
 
         const form = event.target.closest('form');
         const url = form.action;
 
         try {
+            this.loadingValue = true;
+
             let response = await fetch(url, {
                 method: 'POST',
                 body: new FormData(form)

@@ -1,10 +1,11 @@
-<aside{{ attributes.defaults({class: 'domain__subscribe'}) }}>
+<aside{{ attributes.defaults({class: 'domain__subscribe', 'data-controller': 'subs'}) }}>
     <div><i class="fa-solid fa-users"></i> {{ domain.subscriptionsCount }}</div>
     <form action="{{ path('domain_' ~ (is_domain_subscribed(domain) ? 'unsubscribe' : 'subscribe'), {name: domain.name}) }}"
           name="domain_subscribe"
           method="post">
         <button type="submit"
-                class="{{ html_classes('btn btn__secondry', {'btn-success': is_domain_subscribed(domain)}) }}">
+                class="{{ html_classes('btn btn__secondry', {'btn-success': is_domain_subscribed(domain)}) }}"
+                data-action="subs#send">
             {{ is_domain_subscribed(domain) ? 'unsubscribe'|trans : 'subscribe'|trans }}
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
@@ -13,7 +14,8 @@
           name="domain_block"
           method="post">
         <button type="submit"
-                class="{{ html_classes('btn btn__secondry', {'btn-warning': is_domain_blocked(domain)}) }}">
+                class="{{ html_classes('btn btn__secondry', {'btn-warning': is_domain_blocked(domain)}) }}"
+                data-action="subs#send">
             <i class="fa-solid fa-ban"></i>
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('block') }}">
