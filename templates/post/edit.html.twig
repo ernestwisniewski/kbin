@@ -22,7 +22,7 @@
     <div id="content">
         {{ component('post', {post: post, isSingle: true}) }}
         <section class="section">
-            {% include 'post/_form_post.html.twig' %}
+            {% include 'post/_form_post.html.twig' with {edit: true} %}
         </section>
     </div>
 {% endblock %}

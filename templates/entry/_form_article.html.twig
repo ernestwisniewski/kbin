@@ -1,3 +1,6 @@
+{% if edit is not defined %}
+    {% set edit = false %}
+{% endif %}
 {{ form_start(form) }}
     {{ form_row(form.title, {label: 'title'}) }}
     {{ form_row(form.body, {label: 'body'}) }}
@@ -9,7 +12,7 @@
     {{ form_row(form.isEng, {label: 'eng', row_attr: {class: 'checkbox'}}) }}
     {{ form_row(form.isOc, {label: 'oc', row_attr: {class: 'checkbox'}}) }}
 </div>
-{{ form_row(form.submit, {label: entry is defined and entry ? 'edit_article' : 'add_new_article', attr: {class: 'btn btn__primary'}, row_attr: {class: 'float-end'}}) }}
+{{ form_row(form.submit, {label: edit ? 'edit_article' : 'add_new_article', attr: {class: 'btn btn__primary'}, row_attr: {class: 'float-end'}}) }}
 
 <div hidden class="media">
     {{ form_row(form.image, {label: 'image'}) }}

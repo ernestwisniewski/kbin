@@ -15,6 +15,6 @@
 {% block body %}
     {{ component('entry_comment', {comment: comment, showEntryTitle: false, showMagazineName: false}) }}
     <section id="content" class="section">
-        {% include 'entry/comment/_form_comment.html.twig' %}
+        {% include 'entry/comment/_form_comment.html.twig' with {edit: true} %}
     </section>
 {% endblock %}

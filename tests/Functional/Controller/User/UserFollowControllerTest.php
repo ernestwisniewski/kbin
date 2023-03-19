@@ -21,7 +21,7 @@ class UserFollowControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorExists('#sidebar form[name=user_follow] .btn-success');
+        $this->assertSelectorExists('#sidebar form[name=user_follow] .active');
         $this->assertSelectorTextContains('#sidebar .entry-info', 'Unfollow');
         $this->assertSelectorTextContains('#sidebar .entry-info', '1');
     }

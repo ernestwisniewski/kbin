@@ -18,7 +18,7 @@
     <h1 hidden>{{ 'edit_photo'|trans }}</h1>
     <div id="content" class="section">
         <div class="container">
-            {% include 'entry/_form_image.html.twig' %}
+            {% include 'entry/_form_image.html.twig' with {edit: true} %}
         </div>
     </div>
 {% endblock %}

@@ -17,7 +17,7 @@
 
     <div id="content">
         <section class="section">
-            {% include 'post/comment/_form_comment.html.twig' %}
+            {% include 'post/comment/_form_comment.html.twig' with {edit: true} %}
         </section>
     </div>
 {% endblock %}

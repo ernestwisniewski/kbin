@@ -1,3 +1,6 @@
+{% if edit is not defined %}
+    {% set edit = false %}
+{% endif %}
 {{ form_start(form) }}
     {{ form_row(form.url, {label: 'url'}) }}
     {{ form_row(form.title, {label: 'title'}) }}
@@ -23,7 +26,7 @@
             title="{{ 'add_media'|trans }}">
         <i class="fa-solid fa-photo-film"></i>
     </button>
-    {{ form_row(form.submit, {label: entry is defined and entry ? 'edit_link' : 'add_new_link', attr: {class: 'btn btn__primary'}}) }}
+    {{ form_row(form.submit, {label: edit ? 'edit_link' : 'add_new_link', attr: {class: 'btn btn__primary'}}) }}
 </div>
 <div hidden class="media">
     {{ form_row(form.image, {label: 'image'}) }}

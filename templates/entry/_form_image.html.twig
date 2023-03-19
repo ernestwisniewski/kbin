@@ -1,3 +1,6 @@
+{% if edit is not defined %}
+    {% set edit = false %}
+{% endif %}
 {{ form_start(form) }}
     {{ form_row(form.title, {label: 'title'}) }}
     {{ form_row(form.magazine, {label: 'magazine'}) }}
@@ -21,7 +24,7 @@
             title="{{ 'add_media'|trans }}">
         <i class="fa-solid fa-photo-film"></i>
     </button>
-    {{ form_row(form.submit, {label: entry is defined and entry ? 'edit_photo' : 'add_new_photo', attr: {class: 'btn btn__primary'}}) }}
+    {{ form_row(form.submit, {label: edit ? 'edit_photo' : 'add_new_photo', attr: {class: 'btn btn__primary'}}) }}
 </div>
 
 {% if entry is not defined %}

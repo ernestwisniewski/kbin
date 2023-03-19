@@ -61,7 +61,7 @@
                     </a>
                 {% elseif entry.type is same as 'image' or entry.type is same as 'article' %}
                     <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
-                       class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
+                       class="{{ html_classes({'thumb': is_route_name('entry_single') or entry.type is same as 'image '}) }}">
                         <img width="220" height="145"
                              src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                              alt="{{ entry.image.altText }}">

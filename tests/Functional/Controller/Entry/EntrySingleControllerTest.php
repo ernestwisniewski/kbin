@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Service\FavouriteManager;
 use App\Service\VoteManager;
 use App\Tests\WebTestCase;
@@ -66,7 +66,7 @@ class EntrySingleControllerTest extends WebTestCase
         $entry = $this->getEntryByTitle('test entry 1');
 
         $manager = $client->getContainer()->get(VoteManager::class);
-        $manager->vote(VoteInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
+        $manager->vote(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
         $manager = $client->getContainer()->get(FavouriteManager::class);
         $manager->toggle($this->getUserByUsername('JohnDoe'), $entry);

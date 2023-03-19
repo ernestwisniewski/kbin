@@ -1,4 +1,6 @@
-{% set edit = comment is defined and comment %}
+{% if edit is not defined %}
+    {% set edit = false %}
+{% endif %}
 {% if edit %}
     {% set title = 'edit_comment'|trans %}
     {% set action = path('post_comment_edit', {magazine_name: post.magazine.name, post_id: post.id, comment_id: comment.id}) %}

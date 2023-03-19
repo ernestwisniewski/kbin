@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 
@@ -18,7 +18,7 @@ class EntryVotersControllerTest extends WebTestCase
         $entry = $this->getEntryByTitle('test entry 1');
 
         $manager = $client->getContainer()->get(VoteManager::class);
-        $manager->vote(VoteInterface::VOTE_UP, $entry, $this->getUserByUsername('JaneDoe'));
+        $manager->vote(VotableInterface::VOTE_UP, $entry, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
@@ -35,7 +35,7 @@ class EntryVotersControllerTest extends WebTestCase
         $entry = $this->getEntryByTitle('test entry 1');
 
         $manager = $client->getContainer()->get(VoteManager::class);
-        $manager->vote(VoteInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
+        $manager->vote(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 

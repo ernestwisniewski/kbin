@@ -21,6 +21,6 @@ class UserBlockControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorExists('#sidebar form[name=user_block] .btn-warning');
+        $this->assertSelectorExists('#sidebar form[name=user_block] .active');
     }
 }

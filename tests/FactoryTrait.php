@@ -8,7 +8,7 @@ use App\DTO\MagazineBanDto;
 use App\DTO\MagazineDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
@@ -26,7 +26,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 trait FactoryTrait
 {
-    public function createVote(int $choice, VoteInterface $subject, User $user): Vote
+    public function createVote(int $choice, VotableInterface $subject, User $user): Vote
     {
         $manager = $this->getContainer()->get(EntityManagerInterface::class);
         /**

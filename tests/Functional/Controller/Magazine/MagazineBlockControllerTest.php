@@ -21,6 +21,6 @@ class MagazineBlockControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorExists('#sidebar form[name=magazine_block] .btn-warning');
+        $this->assertSelectorExists('#sidebar form[name=magazine_block] .active');
     }
 }

@@ -27,7 +27,7 @@ class DomainSubControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorExists('#sidebar form[name=domain_subscribe] .btn-success');
+        $this->assertSelectorExists('#sidebar form[name=domain_subscribe] .active');
         $this->assertSelectorTextContains('#sidebar .domain', 'Unsubscribe');
         $this->assertSelectorTextContains('#sidebar .domain', '1');
     }

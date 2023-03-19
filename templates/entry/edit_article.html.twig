@@ -18,7 +18,7 @@
     <h1 hidden>{{ 'edit_article'|trans }}</h1>
     <div id="content" class="section">
         <div class="container">
-            {% include 'entry/_form_article.html.twig' %}
+            {% include 'entry/_form_article.html.twig' with {edit: true} %}
         </div>
     </div>
 {% endblock %}

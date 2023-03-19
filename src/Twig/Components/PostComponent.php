@@ -14,6 +14,7 @@ final class PostComponent
     public bool $showMagazineName = true;
     public bool $dateAsUrl = true;
     public bool $showCommentsPreview = false;
+    public bool $showExpand = true;
 
     #[PostMount]
     public function postMount(array $attr): array

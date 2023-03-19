@@ -27,6 +27,6 @@ class DomainBlockControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorExists('#sidebar form[name=domain_block] .btn-warning');
+        $this->assertSelectorExists('#sidebar form[name=domain_block] .active');
     }
 }
