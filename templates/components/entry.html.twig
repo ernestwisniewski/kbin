@@ -1,7 +1,7 @@
 <article{{ attributes.defaults({
     class: html_classes('entry section subject', {
         'no-image': not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
-        'author': app.user and entry.isAuthor(app.user),
+        'own': app.user and entry.isAuthor(app.user),
     })}).without('id') }}
         id="entry-{{ entry.id }}"
         data-controller="subject entry">

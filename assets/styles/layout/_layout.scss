@@ -211,6 +211,10 @@ figure {
   }
 }
 
+.danger, .danger i {
+  color: var(--kbin-danger-color);
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);

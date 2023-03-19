@@ -3,6 +3,14 @@
   gap: .5rem;
   grid-template-rows: min-content min-content;
 
+  .active.vote__up button {
+    color: var(--kbin-success-color);
+  }
+
+  .active.vote__down button {
+    color: var(--kbin-danger-color);
+  }
+
   button {
     background-color: var(--kbin-vote-bg);
     border: 0;

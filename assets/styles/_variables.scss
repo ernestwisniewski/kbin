@@ -30,13 +30,13 @@ $grid-breakpoints: (
   --kbin-danger-color: #842029;
 
   // section
-
   --kbin-section-bg: #fff;
   --kbin-section-text-color: var(--kbin-text-color);
   --kbin-section-link-color: var(--kbin-link-color);
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
   --kbin-section-border: 1px solid #e5eaec;
-  --kbin-author-border: 5px solid #e5eaec;
+  --kbin-author-border: 2px dashed var(--kbin-danger-color);
+  --kbin-own-border: 2px dashed var(--kbin-success-color);
 
   // meta
   --kbin-meta-bg: none;

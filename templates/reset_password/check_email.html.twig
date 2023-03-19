@@ -18,7 +18,7 @@
         <div class="container">
             <p>{{ 'reset_check_email_desc'|trans({'%expire%': resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle')}) }}</p>
             <p>{{ 'reset_check_email_desc2'|trans }}</p>
-            <p><a class="btn btn__secondry" href="{{ path('app_forgot_password_request') }}">{{ 'try_again'|trans }}</a></p>
+            <p><a class="btn btn__secondary" href="{{ path('app_forgot_password_request') }}">{{ 'try_again'|trans }}</a></p>
         </div>
     </div>
 {% endblock %}

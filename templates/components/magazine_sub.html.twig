@@ -4,7 +4,7 @@
           name="magazine_subscribe"
           method="post">
         <button type="submit"
-                class="{{ html_classes('btn btn__secondry', {'active': is_magazine_subscribed(magazine)}) }}"
+                class="{{ html_classes('btn btn__secondary', {'active': is_magazine_subscribed(magazine)}) }}"
                 data-action="subs#send">
             {{ is_magazine_subscribed(magazine) ? 'unsubscribe'|trans : 'subscribe'|trans }}
         </button>
@@ -16,7 +16,7 @@
         <button type="submit"
                 aria-label="{{ 'block_magazine' }}"
                 title="{{ 'block_magazine' }}"
-                class="{{ html_classes('btn btn__secondry', {'active': is_magazine_blocked(magazine)}) }}"
+                class="{{ html_classes('btn btn__secondary', {'active danger': is_magazine_blocked(magazine)}) }}"
                 data-action="subs#send">
             <i class="fa-solid fa-ban"></i>
         </button>

@@ -60,8 +60,8 @@ $green: #859900;
   --kbin-primary-color: #{$base2};
   --kbin-text-muted-color: #bebfbf;
 
-  --kbin-success-color: #0f5132;
-  --kbin-danger-color: #842029;
+  --kbin-success-color: #{$green};
+  --kbin-danger-color: #{$red};
 
   // section
   --kbin-section-bg: #{$base3};
@@ -69,6 +69,8 @@ $green: #859900;
   --kbin-section-link-color: var(--kbin-link-color);
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
   --kbin-section-border: 1px solid #c8cac0;
+  --kbin-author-border: 2px dashed var(--kbin-danger-color);
+  --kbin-own-border: 2px dashed var(--kbin-success-color);
 
   // meta
   --kbin-meta-bg: none;

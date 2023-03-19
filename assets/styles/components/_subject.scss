@@ -28,7 +28,11 @@
     font-size: 1rem;
   }
 
-  .author {
+  &.author {
     border-left: var(--kbin-author-border);
+  }
+
+  &.own {
+    border-left: var(--kbin-own-border);
   }
 }

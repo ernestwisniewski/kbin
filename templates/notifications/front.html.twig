@@ -27,7 +27,7 @@
             <form method="post" action="{{ path('notifications_clear') }}"
                   onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                 <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
-                <button class="btn btn__secondry" type="submit">
+                <button class="btn btn__secondary" type="submit">
                     <span>{{ 'purge'|trans }}</span>
                 </button>
             </form>

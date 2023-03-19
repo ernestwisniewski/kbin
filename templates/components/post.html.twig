@@ -5,7 +5,7 @@
 {% endif %}
 <blockquote{{ attributes.defaults({
     class: html_classes('section post subject ' ~ class,{
-        'author': app.user and post.isAuthor(app.user),
+        'own': app.user and post.isAuthor(app.user),
     }), 'data-controller': 'post subject'}).without('id') }}
         id="post-{{ post.id }}">
     <header>
