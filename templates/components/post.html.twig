@@ -37,7 +37,7 @@
         <menu>
             <li>
                 <a class="stretched-link"
-                   href="{{ path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, slug: post.slug}) }}"
+                   href="{{ path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, slug: post.slug|length ? post.slug : '-'}) }}"
                    data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
             </li>
             {% if post.commentCount > 2 and not is_route_name('post_signle') %}

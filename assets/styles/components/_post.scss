@@ -2,6 +2,14 @@
   .row {
     flex-wrap: wrap-reverse;
     margin-bottom: 0;
+
+    @include media-breakpoint-down(sm) {
+      display: block;
+
+      div {
+        margin-bottom: 1rem;
+      }
+    }
   }
 
   div {
