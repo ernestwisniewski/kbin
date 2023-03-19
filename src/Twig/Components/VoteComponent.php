@@ -2,7 +2,7 @@
 
 namespace App\Twig\Components;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
@@ -13,7 +13,7 @@ use Symfony\UX\TwigComponent\Attribute\PostMount;
 #[AsTwigComponent('vote')]
 final class VoteComponent
 {
-    public VoteInterface $subject;
+    public VotableInterface $subject;
     public string $formDest;
 
     public bool $showDownvote = true;

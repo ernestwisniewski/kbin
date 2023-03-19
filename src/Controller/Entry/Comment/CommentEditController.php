@@ -55,7 +55,11 @@ class CommentEditController extends AbstractController
         }
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig', ['comment' => $comment]);
+            return $this->getJsonFormResponse(
+                $form,
+                'entry/comment/_form_comment.html.twig',
+                ['comment' => $comment, 'entry' => $entry]
+            );
         }
 
         $criteria = new EntryCommentPageView($this->getPageNb($request));

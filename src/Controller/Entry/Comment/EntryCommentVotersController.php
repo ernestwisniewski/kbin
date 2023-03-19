@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Entry\Comment;
 
 use App\Controller\AbstractController;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
@@ -27,7 +27,7 @@ class EntryCommentVotersController extends AbstractController
         string $type
     ): Response {
         $votes = $comment->votes->filter(
-            fn ($e) => $e->choice === ('up' === $type ? VoteInterface::VOTE_UP : VoteInterface::VOTE_DOWN)
+            fn ($e) => $e->choice === ('up' === $type ? VotableInterface::VOTE_UP : VotableInterface::VOTE_DOWN)
         );
 
         if ($request->isXmlHttpRequest()) {

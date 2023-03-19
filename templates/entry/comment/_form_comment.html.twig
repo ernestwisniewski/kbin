@@ -1,5 +1,14 @@
-<h3 hidden>{{ 'add_comment'|trans }}</h3>
-{{ form_start(form) }}
+{% set edit = comment is defined and comment %}
+{% if edit %}
+    {% set title = 'edit_comment'|trans %}
+    {% set action = path('entry_comment_edit', {magazine_name: entry.magazine.name, entry_id: entry.id, comment_id: comment.id}) %}
+{% else %}
+    {% set title = 'add_comment'|trans %}
+    {% set action = path('entry_comment_create', {magazine_name: entry.magazine.name, entry_id: entry.id, parent_comment_id: parent is defined and parent ? parent.id : null}) %}
+{% endif %}
+
+<h3 hidden>{{ title }}</h3>
+{{ form_start(form, {action: action, attr: {class: edit ? 'comment-edit replace' : 'comment-add'}}) }}
 {{ form_row(form.body, {label: false}) }}
 <div class="row actions">
     <button type="button"
@@ -14,7 +23,7 @@
             title="{{ 'add_media'|trans }}">
         <i class="fa-solid fa-photo-film"></i>
     </button>
-    {{ form_row(form.submit, {label: is_route_name('entry_comment_edit') ? 'edit_comment' : 'add_comment', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}}) }}
+    {{ form_row(form.submit, {label: edit ? 'edit_comment' : 'add_comment', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}}) }}
 </div>
 <div hidden class="media">
     {{ form_row(form.image, {label: 'image'}) }}

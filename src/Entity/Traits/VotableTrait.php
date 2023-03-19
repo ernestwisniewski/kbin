@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\User;
 use App\Entity\Vote;
 use Doctrine\Common\Collections\Collection;
@@ -38,7 +38,7 @@ trait VotableTrait
     {
         $vote = $this->getUserVote($user);
 
-        return $vote ? $vote->choice : VoteInterface::VOTE_NONE;
+        return $vote ? $vote->choice : VotableInterface::VOTE_NONE;
     }
 
     public function getUserVote(User $user): ?Vote

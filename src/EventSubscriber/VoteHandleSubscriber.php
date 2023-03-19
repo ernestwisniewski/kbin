@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Event\VoteEvent;
@@ -56,7 +56,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function clearCache(VoteInterface $votable)
+    public function clearCache(VotableInterface $votable)
     {
         $this->cache->delete($this->cacheService->getVotersCacheKey($votable));
 

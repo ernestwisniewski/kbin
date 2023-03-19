@@ -64,7 +64,7 @@ class CommentCreateController extends AbstractController
             return $this->getJsonFormResponse(
                 $form,
                 'post/comment/_form_comment.html.twig',
-                ['post' => $post, 'parent' => $parent, 'comment' => null]
+                ['post' => $post, 'parent' => $parent]
             );
         }
 

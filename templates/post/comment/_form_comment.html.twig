@@ -1,5 +1,14 @@
-<h3 hidden>{{ comment is defined and comment ? 'edit_comment'|trans : 'add_comment'|trans }}</h3>
-{{ form_start(form, {action: path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, parent_comment_id: parent is defined and parent ? parent.id : null}), attr: {class: 'comment-add'}}) }}
+{% set edit = comment is defined and comment %}
+{% if edit %}
+    {% set title = 'edit_comment'|trans %}
+    {% set action = path('post_comment_edit', {magazine_name: post.magazine.name, post_id: post.id, comment_id: comment.id}) %}
+{% else %}
+    {% set title = 'add_comment'|trans %}
+    {% set action = path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, parent_comment_id: parent is defined and parent ? parent.id : null}) %}
+{% endif %}
+
+<h3 hidden>{{ title }}</h3>
+{{ form_start(form, {action: action, attr: {class: edit ? 'comment-edit replace' : 'comment-add'}}) }}
 <div class="row">
     {{ form_row(form.body, {label: false}) }}
 </div>

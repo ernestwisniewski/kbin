@@ -12,7 +12,7 @@ use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\TagInterface;
 use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Traits\ActivityPubActivityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\EditedAtTrait;
@@ -35,7 +35,7 @@ use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryRepository::class)]
-class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
+class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use RankingTrait;

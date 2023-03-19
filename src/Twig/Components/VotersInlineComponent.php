@@ -2,7 +2,7 @@
 
 namespace App\Twig\Components;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -12,7 +12,7 @@ use Twig\Environment;
 #[AsTwigComponent('voters_inline', template: 'components/_cached.html.twig')]
 final class VotersInlineComponent
 {
-    public VoteInterface $subject;
+    public VotableInterface $subject;
     public string $url;
 
     public function __construct(
@@ -27,7 +27,7 @@ final class VotersInlineComponent
          */
         $votes = $this->subject->votes;
         $votes = $votes->matching(
-            new Criteria(Criteria::expr()->eq('choice', VoteInterface::VOTE_UP), ['createdAt' => Criteria::DESC])
+            new Criteria(Criteria::expr()->eq('choice', VotableInterface::VOTE_UP), ['createdAt' => Criteria::DESC])
         )->slice(0, 4);
 
         return $this->twig->render(

@@ -11,7 +11,7 @@ use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\TagInterface;
 use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Traits\ActivityPubActivityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\EditedAtTrait;
@@ -32,7 +32,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostRepository::class)]
-class Post implements VoteInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
+class Post implements VotableInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use RankingTrait;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Contracts\VotableInterface;
 use Doctrine\ORM\Mapping\AssociationOverride;
 use Doctrine\ORM\Mapping\AssociationOverrides;
 use Doctrine\ORM\Mapping\Cache;
@@ -31,5 +32,10 @@ class PostVote extends Vote
         parent::__construct($choice, $user, $post->user);
 
         $this->post = $post;
+    }
+
+    public function getSubject(): VotableInterface
+    {
+        return $this->post;
     }
 }

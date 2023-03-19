@@ -1,9 +1,18 @@
+{% set edit = post is defined and post %}
+{% if edit %}
+    {% set title = 'edit_post'|trans %}
+    {% set action = path('post_edit', {magazine_name: post.magazine.name, post_id: post.id}) %}
+{% else %}
+    {% set title = 'add_post'|trans %}
+    {% set action = path('post_create') %}
+{% endif %}
+
 {% if attributes is not defined %}
     {% set attributes = {} %}
 {% endif %}
 
-<h3 hidden>{{ post is defined and post ? 'edit_post'|trans : 'add_post'|trans }}</h3>
-{{ form_start(form, {attr: {class: 'post-add'}}|merge(attributes)) }}
+<h3 hidden>{{ title }}</h3>
+{{ form_start(form, {action: action, attr: {class: edit ? 'comment-edit replace' : 'comment-add'}|merge(attributes)}) }}
 <div class="row">
     {{ form_row(form.body, {label: false}) }}
 </div>

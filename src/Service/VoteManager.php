@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Entity\User;
@@ -26,7 +26,7 @@ class VoteManager
     ) {
     }
 
-    public function vote(int $choice, VoteInterface $votable, User $user, $limiter = true): Vote
+    public function vote(int $choice, VotableInterface $votable, User $user, $limiter = true): Vote
     {
         if ($limiter) {
             $limiter = $this->voteLimiter->create($user->username);
@@ -43,7 +43,7 @@ class VoteManager
             $choice = $this->guessUserChoice($choice, $votable->getUserChoice($user));
             $vote->choice = $choice;
         } else {
-            if (VoteInterface::VOTE_UP === $choice) {
+            if (VotableInterface::VOTE_UP === $choice) {
                 return $this->upvote($votable, $user);
             }
 
@@ -62,22 +62,22 @@ class VoteManager
 
     private function guessUserChoice(int $choice, int $vote): int
     {
-        if (VoteInterface::VOTE_NONE === $choice) {
+        if (VotableInterface::VOTE_NONE === $choice) {
             return $choice;
         }
 
-        if (VoteInterface::VOTE_UP === $vote) {
+        if (VotableInterface::VOTE_UP === $vote) {
             return match ($choice) {
-                VoteInterface::VOTE_UP => VoteInterface::VOTE_NONE,
-                VoteInterface::VOTE_DOWN => VoteInterface::VOTE_DOWN,
+                VotableInterface::VOTE_UP => VotableInterface::VOTE_NONE,
+                VotableInterface::VOTE_DOWN => VotableInterface::VOTE_DOWN,
                 default => throw new \LogicException(),
             };
         }
 
-        if (VoteInterface::VOTE_DOWN === $vote) {
+        if (VotableInterface::VOTE_DOWN === $vote) {
             return match ($choice) {
-                VoteInterface::VOTE_UP => VoteInterface::VOTE_UP,
-                VoteInterface::VOTE_DOWN => VoteInterface::VOTE_NONE,
+                VotableInterface::VOTE_UP => VotableInterface::VOTE_UP,
+                VotableInterface::VOTE_DOWN => VotableInterface::VOTE_NONE,
                 default => throw new \LogicException(),
             };
         }
@@ -85,7 +85,7 @@ class VoteManager
         return $choice;
     }
 
-    public function upvote(VoteInterface $votable, User $user): Vote
+    public function upvote(VotableInterface $votable, User $user): Vote
     {
         // @todo save activity pub object id
         $vote = $votable->getUserVote($user);

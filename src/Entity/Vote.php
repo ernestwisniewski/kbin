@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Contracts\VotableInterface;
+use App\Entity\Contracts\VoteInterface;
 use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -13,7 +15,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 
 #[MappedSuperclass]
-class Vote
+class Vote implements VoteInterface
 {
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
@@ -49,5 +51,10 @@ class Vote
     public function __sleep()
     {
         return [];
+    }
+
+    public function getSubject(): VotableInterface
+    {
+        throw new \Exception('Not implemented');
     }
 }

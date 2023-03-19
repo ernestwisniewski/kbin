@@ -84,7 +84,8 @@
                     {% if is_granted('edit', post) %}
                         <li>
                             <a href="{{ post_edit_url(post) }}"
-                               class="{{ html_classes({'active': is_route_name('post_edit')}) }}">
+                               class="{{ html_classes({'active': is_route_name('post_edit')}) }}"
+                               data-action="subject#getForm">
                                 {{ 'edit'|trans|lower }}
                             </a>
                         </li>

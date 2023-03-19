@@ -53,6 +53,7 @@ trait CommentResponseTrait
                         'attributes' => [
                             'comment' => $comment,
                             'showEntryTitle' => false,
+                            'showMagazineName' => false,
                         ],
                     ]
                 ),

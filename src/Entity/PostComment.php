@@ -9,7 +9,7 @@ use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\TagInterface;
 use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Traits\ActivityPubActivityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\EditedAtTrait;
@@ -30,7 +30,7 @@ use Doctrine\ORM\Mapping\OrderBy;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostCommentRepository::class)]
-class PostComment implements VoteInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
+class PostComment implements VotableInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use VisibilityTrait;

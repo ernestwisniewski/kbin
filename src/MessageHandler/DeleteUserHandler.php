@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\MagazineBlock;
@@ -209,7 +209,7 @@ class DeleteUserHandler implements MessageHandlerInterface
             foreach ($subjects as $subject) {
                 $retry = true;
 
-                $this->voteManager->vote(VoteInterface::VOTE_NONE, $subject, $this->user);
+                $this->voteManager->vote(VotableInterface::VOTE_NONE, $subject, $this->user);
             }
 
             $this->entityManager->commit();

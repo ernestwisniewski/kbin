@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\MessageHandler\Notification;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Factory\MagazineFactory;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\VotableRepositoryResolver;
@@ -29,7 +29,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
         $this->notifyMagazine($repo->find($message->subjectId));
     }
 
-    private function notifyMagazine(VoteInterface $votable)
+    private function notifyMagazine(VotableInterface $votable)
     {
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($votable->magazine));
@@ -44,7 +44,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
         }
     }
 
-    private function getNotification(VoteInterface $votable)
+    private function getNotification(VotableInterface $votable)
     {
         $subject = explode('\\', get_class($votable));
 

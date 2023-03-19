@@ -1,8 +1,7 @@
-{%- set VOTE_NONE = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_NONE') -%}
-
+{%- set VOTE_NONE = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_NONE') -%}
 {% if app.user %}
-    {%- set VOTE_UP = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_UP') -%}
-    {%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\VoteInterface::VOTE_DOWN') -%}
+    {%- set VOTE_UP = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_UP') -%}
+    {%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_DOWN') -%}
     {%- set user_choice = is_granted('ROLE_USER') ? subject.userChoice(app.user) : null -%}
 
     {% set upUrl = path(formDest, {id: subject.id, choice: VOTE_UP}) %}
@@ -19,14 +18,14 @@
     {% set upUrl = path(formDest, {id: subject.id, choice: VOTE_NONE}) %}
     {% set downUrl = path(formDest, {id: subject.id, choice: VOTE_NONE}) %}
 {% endif %}
-
 <aside{{ attributes.defaults({class: 'vote'}) }}>
     <form method="post"
           action="{{ upUrl }}"
           class="vote__up">
         <button type="submit"
                 title="{{ 'up_vote'|trans }}"
-                aria-label="{{ 'up_vote'|trans }}">
+                aria-label="{{ 'up_vote'|trans }}"
+                data-action="subject#vote">
             {{ subject.countUpvotes }} <span><i class="fa-solid fa-arrow-up"></i></span>
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
@@ -37,7 +36,8 @@
               class="vote__down">
             <button type="submit"
                     title="{{ 'down_vote'|trans }}"
-                    aria-label="{{ 'down_vote'|trans }}">
+                    aria-label="{{ 'down_vote'|trans }}"
+                    data-action="subject#vote">
                 {{ subject.countDownvotes }} <span><i class="fa-solid fa-arrow-down"></i></span>
             </button>
             <input type="hidden" name="token" value="{{ csrf_token('vote') }}">

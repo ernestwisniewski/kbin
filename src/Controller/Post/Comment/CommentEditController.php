@@ -58,7 +58,11 @@ class CommentEditController extends AbstractController
         $criteria->post = $post;
 
         if ($request->isXmlHttpRequest()) {
-            return $this->getJsonFormResponse($form, 'post/comment/_form.html.twig', ['comment' => $comment]);
+            return $this->getJsonFormResponse(
+                $form,
+                'post/comment/_form_comment.html.twig',
+                ['comment' => $comment, 'post' => $post]
+            );
         }
 
         $comments = $this->repository->findByCriteria($criteria);

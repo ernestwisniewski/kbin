@@ -5,7 +5,7 @@ import {fetch, ok} from "../utils/http";
 export default class extends Controller {
     static targets = ['loader', 'more', 'container']
     static values = {
-        loading: Boolean
+        loading: Boolean,
     };
 
     connect() {
@@ -49,10 +49,13 @@ export default class extends Controller {
         event.preventDefault();
         this.loadingValue = true;
 
+        const form = event.target.closest('form');
+        const url = form.action;
+
         try {
-            let response = await fetch(event.target.closest('form').action, {
+            let response = await fetch(url, {
                 method: 'POST',
-                body: new FormData(event.target.closest('form'))
+                body: new FormData(form)
             });
 
             response = await ok(response);
@@ -60,14 +63,17 @@ export default class extends Controller {
 
             if (response.form) {
                 this.containerTarget.innerHTML = response.form;
+            } else if (form.classList.contains('replace')) {
+                const div = document.createElement('div');
+                div.innerHTML = response.html;
+                div.firstElementChild.className = this.element.className;
+
+                this.element.innerHTML = div.firstElementChild.innerHTML;
             } else {
                 const div = document.createElement('div');
                 div.innerHTML = response.html;
 
-                let level = parseInt(this.element.className.replace('comment-level--1', '').split('--')[1]);
-                if (isNaN(level)) {
-                    level = 1;
-                }
+                let level = this.getLevel();
 
                 div.firstElementChild.classList.add('comment-level--' + (level >= 10 ? 10 : level + 1));
 
@@ -81,7 +87,7 @@ export default class extends Controller {
                 this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
             }
         } catch (e) {
-            this.containerTarget.innerHTML = '';
+            // this.containerTarget.innerHTML = '';
         } finally {
             this.loadingValue = false;
         }
@@ -91,20 +97,46 @@ export default class extends Controller {
     async favourite(event) {
         event.preventDefault();
 
+        const form = event.target.closest('form');
+
         try {
             this.loadingValue = true;
 
-            let response = await fetch(event.target.closest('form').action, {
+            let response = await fetch(form.action, {
                 method: 'POST',
-                body: new FormData(event.target.closest('form'))
+                body: new FormData(form)
             });
 
             response = await ok(response);
             response = await response.json();
 
-            event.target.closest('form').innerHTML = response.html;
+            form.innerHTML = response.html;
         } catch (e) {
-            event.target.closest('form').submit();
+            form.submit();
+        } finally {
+            this.loadingValue = false;
+        }
+    }
+
+    async vote(event) {
+        event.preventDefault();
+
+        const form = event.target.closest('form');
+
+        try {
+            this.loadingValue = true;
+
+            let response = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form)
+            });
+
+            response = await ok(response);
+            response = await response.json();
+
+            event.target.closest('.vote').insertAdjacentHTML('afterend', response.html);
+        } catch (e) {
+            form.submit();
         } finally {
             this.loadingValue = false;
         }
@@ -124,5 +156,10 @@ export default class extends Controller {
             }
             this.loaderTarget.style.display = 'none';
         }
+    }
+
+    getLevel() {
+        let level = parseInt(this.element.className.replace('comment-level--1', '').split('--')[1]);
+        return isNaN(level) ? 1 : level;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
@@ -23,7 +23,7 @@ class VoteController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[IsGranted('vote', subject: 'votable')]
-    public function __invoke(VoteInterface $votable, int $choice, Request $request): Response
+    public function __invoke(VotableInterface $votable, int $choice, Request $request): Response
     {
         $this->validateCsrf('vote', $request->request->get('token'));
 
@@ -32,9 +32,14 @@ class VoteController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'choice' => $vote->choice,
-                    'upVotes' => $votable->countUpVotes(),
-                    'downVotes' => $votable->countDownVotes(),
+                    'html' => $this->renderView('components/_ajax.html.twig', [
+                            'component' => 'vote',
+                            'attributes' => [
+                                'subject' => $vote->getSubject(),
+                                'showDownvote' => str_contains(get_class($vote->getSubject()), 'Entry'),
+                            ],
+                        ]
+                    ),
                 ]
             );
         }

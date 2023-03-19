@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\EntryCommentVote;
@@ -18,7 +18,7 @@ use App\Entity\Vote;
 
 class VoteFactory
 {
-    public function create(int $choice, VoteInterface $votable, User $user): Vote
+    public function create(int $choice, VotableInterface $votable, User $user): Vote
     {
         $vote = match (true) {
             $votable instanceof Entry => new EntryVote($choice, $user, $votable),

@@ -13,6 +13,7 @@ use App\Repository\PostCommentRepository;
 use App\Service\PostManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -45,11 +46,37 @@ class PostEditController extends AbstractController
 
             $post = $this->manager->edit($post, $dto);
 
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(
+                    [
+                        'id' => $post->getId(),
+                        'html' => $this->renderView(
+                            'components/_ajax.html.twig',
+                            [
+                                'component' => 'post',
+                                'attributes' => [
+                                    'post' => $post,
+                                    'showMagazineName' => false,
+                                ],
+                            ]
+                        ),
+                    ]
+                );
+            }
+
             return $this->redirectToPost($post);
         }
 
         $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->post = $post;
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->getJsonFormResponse(
+                $form,
+                'post/_form_post.html.twig',
+                ['post' => $post]
+            );
+        }
 
         return $this->render(
             'post/edit.html.twig',

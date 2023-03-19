@@ -65,7 +65,8 @@
                     {% if is_granted('edit', comment) %}
                         <li>
                             <a href="{{ entry_comment_edit_url(comment) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_comment_edit')}) }}">
+                               class="{{ html_classes({'active': is_route_name('entry_comment_edit')}) }}"
+                               data-action="subject#getForm">
                                 {{ 'edit'|trans|lower }}
                             </a>
                         </li>
