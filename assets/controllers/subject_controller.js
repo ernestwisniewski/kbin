@@ -12,11 +12,11 @@ export default class extends Controller {
         const self = this;
         this.moreTarget.addEventListener('focusin', () => {
             self.element.parentNode
-                .querySelectorAll('.z-100')
+                .querySelectorAll('.z-5')
                 .forEach((el) => {
-                    el.classList.remove('z-100');
+                    el.classList.remove('z-5');
                 });
-            this.element.classList.add('z-100');
+            this.element.classList.add('z-5');
         });
     }
 

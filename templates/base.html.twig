@@ -41,7 +41,9 @@
     ? 'theme--'~app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
     : 'theme--dark', {
         'rounded-edges': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'true',
-    }) }}">
+        'topbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true',
+        'fixed-navbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true',
+    }) }}" data-controller="kbin">
 <div id="tools">
     <div class="header-bg"></div>
     <div class="footer-bg"></div>
@@ -61,6 +63,7 @@
         </aside>
         {% include 'layout/_footer.html.twig' %}
     </div>
+    {% include 'layout/_topbar.html.twig' %}
 </div>
 </body>
 </html>

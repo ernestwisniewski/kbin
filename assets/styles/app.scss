@@ -13,6 +13,7 @@
 @import 'layout/tools';
 @import 'layout/alerts';
 @import 'layout/forms';
+@import 'components/topbar';
 @import 'components/header';
 @import 'components/sidebar';
 @import 'components/magazine';
@@ -37,4 +38,4 @@
 @import 'themes/dark';
 @import 'themes/solarized-dark';
 @import 'themes/solarized-light';
-@import "glightbox/dist/css/glightbox.min.css";
+@import 'glightbox/dist/css/glightbox.min.css';

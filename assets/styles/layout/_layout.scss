@@ -37,18 +37,34 @@ body {
 
   #header {
     grid-area: header;
-    z-index: 5;
+    z-index: 12;
   }
 
   #main {
     grid-area: main;
     padding: 0 .5rem;
     position: relative;
+
+    .fixed-navbar & {
+      margin-top: 3.162rem;
+    }
+
+    .fixed-navbar.topbar & {
+      margin-top: 4.362rem;
+    }
   }
 
   #sidebar {
     grid-area: sidebar;
     padding: 0 .5rem;
+
+    .fixed-navbar & {
+      margin-top: 3.162rem;
+    }
+
+    .fixed-navbar.topbar & {
+      margin-top: 4.362rem;
+    }
   }
 
   #footer {
@@ -187,8 +203,8 @@ figure {
   text-align: right !important;
 }
 
-.z-100 {
-  z-index: 100 !important;
+.z-5 {
+  z-index: 5 !important;
 }
 
 .visually-hidden {

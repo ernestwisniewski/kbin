@@ -367,7 +367,9 @@ purge: Purge
 send_message: Send message
 message: Message
 infinite_scroll: Infinite scroll
-subject_reported: Content has been reported
+top_bar: Top bar
+fixed_navbar: Fixed navbar
+subject_reported: Content has been reported.
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

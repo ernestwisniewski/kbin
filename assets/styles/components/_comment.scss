@@ -7,6 +7,20 @@ $comment-margin-sm: .3rem;
   .row {
     margin-bottom: 0;
   }
+
+  @include media-breakpoint-down(sm) {
+    .params {
+      display: block;
+
+      div {
+        margin-bottom: 1rem;
+      }
+
+      > div:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
 }
 
 .comment {

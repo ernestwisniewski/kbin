@@ -1,0 +1,31 @@
+#topbar {
+  background: black;
+  display: none;
+  height: 1.2rem;
+  top: 0;
+  width: 100%;
+  z-index: 20;
+
+  .topbar & {
+    display: block;
+    position: fixed;
+  }
+
+  .fixed-navbar & {
+    position: fixed;
+  }
+
+  menu {
+    display: flex;
+    font-size: .8rem;
+    list-style: none;
+
+    li {
+      padding: 0 .5rem;
+    }
+
+    li.active {
+      background: red;
+    }
+  }
+}

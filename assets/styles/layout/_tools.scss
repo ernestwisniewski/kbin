@@ -7,6 +7,15 @@
     top: 0;
     width: 100%;
     z-index: 0;
+
+    .topbar & {
+      height: 4.362rem;
+    }
+
+    .fixed-navbar & {
+      position: fixed;
+      z-index: 9;
+    }
   }
 
   .footer-bg {

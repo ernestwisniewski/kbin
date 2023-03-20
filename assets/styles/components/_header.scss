@@ -9,7 +9,15 @@
   height: 3.162rem;
   padding: 0 .55rem 0 1.5rem;
   position: relative;
-  z-index: 6;
+  z-index: 10;
+
+  .topbar & {
+    margin-top: 1.2rem;
+  }
+
+  .fixed-navbar & {
+    position: fixed;
+  }
 
   .login {
     font-weight: normal;

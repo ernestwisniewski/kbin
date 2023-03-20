@@ -1,0 +1,16 @@
+<div id="topbar">
+    <menu>
+        <li class="{{ html_classes({'active': is_route_name('front')}) }}">
+            <a href="{{ path('front') }}">{{ 'all'|trans }}</a>
+        </li>
+        <li class="{{ html_classes({'active': is_route_name('front_subscribed')}) }}">
+            <a href="{{ path('front_subscribed') }}">{{ 'subscribed'|trans }}</a>
+        </li>
+        <li class="{{ html_classes({'active': is_route_name('front_moderated')}) }}">
+            <a href="{{ path('front_moderated') }}">{{ 'moderated'|trans }}</a>
+        </li>
+        <li class="{{ html_classes({'active': is_route_name('front_favourite')}) }}">
+            <a href="{{ path('front_favourite') }}">{{ 'favourites'|trans }}</a>
+        </li>
+    </menu>
+</div>

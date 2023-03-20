@@ -94,13 +94,13 @@
                     </li>
                     <li>
                         <a href="{{ path('messages_front') }}"
-                           class="{{ html_classes({'active': is_route_name('user_message')}) }}">
+                           class="{{ html_classes({'active': is_route_name_contains('messages')}) }}">
                             {{ 'messages'|trans }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ path('notifications_front') }}"
-                           class="{{ html_classes({'active': is_route_name('user_notifications')}) }}">
+                           class="{{ html_classes({'active': is_route_name_contains('notifications')}) }}">
                             {{ 'notifications'|trans }}
                         </a>
                     </li>
