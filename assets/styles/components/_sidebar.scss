@@ -20,9 +20,9 @@
       justify-content: space-between;
 
       div {
+        color: var(--kbin-meta-text-color);
         display: inline-block;
         margin-bottom: .5rem;
-        color: var(--kbin-meta-text-color);
       }
     }
   }

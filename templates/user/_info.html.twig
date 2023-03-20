@@ -20,7 +20,8 @@
         <li><a href="#" class="stretched-link">{{ 'reputation_points'|trans }}:</a> 13</li>
         <li><a href="#" class="stretched-link">{{ 'moderated'|trans }}:</a> 2</li>
         {% if app.user is not same as user %}
-            <li><a href="{{ path('messages_create', {username: user.username}) }}">{{ 'send_message'|trans }}</a> <i
+            <li><a href="{{ path('messages_create', {username: user.username}) }}"
+                   class="stretched-link">{{ 'send_message'|trans }}</a> <i
                         class="fa-solid fa-envelope"></i></li>
         {% endif %}
     </ul>

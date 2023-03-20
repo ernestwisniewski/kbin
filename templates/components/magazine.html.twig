@@ -22,7 +22,7 @@
         <div class="content magazine__rules">{{ computed.magazine.rules|markdown|raw }}</div>
     {% endif %}
     {% if showInfo %}
-        <ul class="info">
+        <ul class="info mb-1">
             <li>{{ 'created_at'|trans }}:
                 {{ component('date', {date: computed.magazine.createdAt}) }}
             </li>

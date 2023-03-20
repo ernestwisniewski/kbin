@@ -45,7 +45,7 @@
   --kbin-meta-text-color: #cecece;
   --kbin-meta-link-color: #d9dde5;
   --kbin-meta-link-hover-color: var(--kbin-link-hover-color);
-  --kbin-meta-border: 1px dashed #373737;
+  --kbin-meta-border: 1px dashed #4d5052;
   --kbin-avatar-border: 3px solid #373737;
 
   // options
@@ -84,10 +84,11 @@
   --kbin-header-hover-border: 3px solid #fff;
 
   // topbar
-  --kbin-topbar-bg: #000;
+  --kbin-topbar-bg: var(--kbin-section-bg);
   --kbin-topbar-active-bg: #fff;
   --kbin-topbar-active-link-color: #000;
   --kbin-topbar-hover-bg: #282828;
+  --kbin-topbar-border: 1px solid #4d5052;
 
   //sidebar
   --kbin-sidebar-header-text-color: #909ea2;
