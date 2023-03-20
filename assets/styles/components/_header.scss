@@ -2,21 +2,24 @@
   align-items: end;
   background: var(--kbin-header-bg);
   color: var(--kbin-header-text-color);
-  display: grid;
   font-size: .85rem;
-  grid-template-areas: 'sr-nav brand magazine nav menu';
-  grid-template-columns: min-content max-content max-content auto max-content;
-  height: 3.162rem;
   padding: 0 .55rem 0 1.5rem;
   position: relative;
   z-index: 10;
 
-  .topbar & {
-    margin-top: 1.2rem;
+  .kbin-container {
+    display: grid;
+    grid-template-areas: 'sr-nav brand magazine nav menu';
+    grid-template-columns: min-content max-content max-content auto max-content;
   }
 
   .fixed-navbar & {
-    position: fixed;
+    position: sticky;
+    top: 0;
+  }
+
+  .topbar & {
+    padding-top: 1.2rem;
   }
 
   .login {

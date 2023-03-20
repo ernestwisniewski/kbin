@@ -24,6 +24,7 @@ class ThemeSettingsController extends AbstractController
     public const KBIN_GENERAL_INFINITE_SCROLL = 'kbin_general_infinite_scroll';
     public const KBIN_GENERAL_TOPBAR = 'kbin_general_topbar';
     public const KBIN_GENERAL_FIXED_NAVBAR = 'kbin_general_fixed_navbar';
+    public const KBIN_GENERAL_SIDEBAR_POSITION = 'kbin_general_sidebar_position';
 
     public const CLASSIC = 'classic';
     public const CHAT = 'chat';
@@ -35,6 +36,8 @@ class ThemeSettingsController extends AbstractController
     public const SOLARIZED_DARK = 'solarized-dark';
     public const TRUE = 'true';
     public const FALSE = 'false';
+    public const LEFT = 'left';
+    public const RIGHT = 'right';
 
     public const KEYS = [
         self::ENTRIES_VIEW,
@@ -50,6 +53,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_GENERAL_INFINITE_SCROLL,
         self::KBIN_GENERAL_TOPBAR,
         self::KBIN_GENERAL_FIXED_NAVBAR,
+        self::KBIN_GENERAL_SIDEBAR_POSITION
     ];
 
     public const VALUES = [
@@ -63,6 +67,8 @@ class ThemeSettingsController extends AbstractController
         self::SOLARIZED_DARK,
         self::TRUE,
         self::FALSE,
+        self::LEFT,
+        self::RIGHT,
         '100',
         '120',
         '150',

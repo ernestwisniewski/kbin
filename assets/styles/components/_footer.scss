@@ -1,13 +1,16 @@
 #footer {
   background: var(--kbin-footer-bg);
   color: var(--kbin-footer-text-color);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
   margin-top: 3rem;
   padding: 0 .5rem 3rem;
 
-  @include media-breakpoint-down(sm) {
-    grid-template-columns: repeat(1, 1fr);
+  .kbin-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    @include media-breakpoint-down(sm) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   h5 {

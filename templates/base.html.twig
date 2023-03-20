@@ -43,14 +43,11 @@
         'rounded-edges': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'true',
         'topbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true',
         'fixed-navbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true',
+        'sidebar-left': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::LEFT'),
     }) }}" data-controller="kbin">
-<div id="tools">
-    <div class="header-bg"></div>
-    <div class="footer-bg"></div>
-</div>
-<div id="kbin" class="{%- block mainClass -%}page{%- endblock %}">
+{% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
+<div id="middle" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">
-        {% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
         <main id="main"
               data-controller="lightbox"
               class="{{ html_classes({'view-compact': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
@@ -61,9 +58,9 @@
                 {% include 'layout/_sidebar.html.twig' with {sidebar_top: block('sidebar_top')} %}
             {% endblock %}
         </aside>
-        {% include 'layout/_footer.html.twig' %}
     </div>
-    {% include 'layout/_topbar.html.twig' %}
 </div>
+{% include 'layout/_footer.html.twig' %}
+{% include 'layout/_topbar.html.twig' %}
 </body>
 </html>

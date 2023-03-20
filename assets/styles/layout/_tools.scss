@@ -1,34 +1,3 @@
-#tools {
-  .header-bg {
-    background: var(--kbin-header-bg);
-    height: 3.162rem;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 0;
-
-    .topbar & {
-      height: 4.362rem;
-    }
-
-    .fixed-navbar & {
-      position: fixed;
-      z-index: 9;
-    }
-  }
-
-  .footer-bg {
-    background: var(--kbin-footer-bg);
-    bottom: 0;
-    height: 17rem;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    z-index: 0;
-  }
-}
-
 .stretched-link {
   &::after {
     bottom: 0;

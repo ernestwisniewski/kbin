@@ -1,6 +1,20 @@
 <div class="appearance">
     <strong>{{ 'general'|trans }}</strong>
     <div class="row">
+        <span>{{ 'sidebar_position'|trans }}:</span>
+        <div>
+            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::LEFT')}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION'), value: constant('App\\Controller\\User\\ThemeSettingsController::LEFT')}) }}">
+                {{ 'left'|trans }}
+            </a>
+            |
+            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::RIGHT')}) }}"
+               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION'), value: constant('App\\Controller\\User\\ThemeSettingsController::RIGHT')}) }}">
+                {{ 'right'|trans }}
+            </a>
+        </div>
+    </div>
+    <div class="row">
         <span>{{ 'rounded_edges'|trans }}:</span>
         <div>
             <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'true'}) }}"
