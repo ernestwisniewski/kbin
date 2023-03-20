@@ -28,6 +28,10 @@ $green: #859900;
     .section--top, .options--top {
       border-radius: .5rem !important;
     }
+
+    .head-nav__menu li a {
+      border-radius: 0 0 .5rem .5rem;
+    }
   }
 
   .ts-dropdown {
