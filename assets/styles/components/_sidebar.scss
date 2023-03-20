@@ -233,7 +233,7 @@
     }
   }
 
-  .appearance {
+  .settings-list {
     color: var(--kbin-meta-text-color);
 
     strong {
@@ -250,5 +250,13 @@
         font-weight: bold !important;
       }
     }
+  }
+
+  #settings, #federation {
+    display: none;
+  }
+
+  #settings:target, #federation:target {
+    display: block;
   }
 }

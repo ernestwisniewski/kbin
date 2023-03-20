@@ -53,7 +53,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_GENERAL_INFINITE_SCROLL,
         self::KBIN_GENERAL_TOPBAR,
         self::KBIN_GENERAL_FIXED_NAVBAR,
-        self::KBIN_GENERAL_SIDEBAR_POSITION
+        self::KBIN_GENERAL_SIDEBAR_POSITION,
     ];
 
     public const VALUES = [
@@ -83,7 +83,7 @@ class ThemeSettingsController extends AbstractController
         }
 
         return new \Symfony\Component\HttpFoundation\RedirectResponse(
-            $request->headers->get('referer') ?? '/',
+            ($request->headers->get('referer') ?? '/').'#settings',
             302,
             $response->headers->all()
         );

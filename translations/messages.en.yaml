@@ -373,6 +373,11 @@ subject_reported: Content has been reported.
 sidebar_position: Sidebar position
 left: Left
 right: Right
+federation: Federation
+status: Status
+on: On
+off: Off
+instances: Instances
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

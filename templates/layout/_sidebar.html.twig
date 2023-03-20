@@ -1,15 +1,40 @@
 <div class="sidebar-options">
     <div class="options options--top">
         <menu>
-            <li><a href="#" title="Federacja" aria-label="Federacja"><i class="fa-solid fa-network-wired"></i></a></li>
-            <li><a href="#" title="Ustawienia" aria-label="Ustawienia"><i class="fa-solid fa-gear"></i></a></li>
+            <li><a href="#federation" title="{{ 'federation'|trans }}" aria-label="{{ 'federation'|trans }}"><i
+                            class="fa-solid fa-network-wired"></i></a></li>
+            <li><a href="#settings" title="{{ 'settings'|trans }}" aria-label="{{ 'settings'|trans }}"><i
+                            class="fa-solid fa-gear"></i></a></li>
         </menu>
     </div>
-    <div class="section">
+    <div id="settings" class="section">
         <h3>{{ 'theme'|trans }}</h3>
         {% include 'layout/_options_theme.html.twig' %}
         {% include 'layout/_options_font_size.html.twig' %}
         {% include 'layout/_options_appearance.html.twig' %}
+    </div>
+    <div id="federation" class="section">
+        <h3>{{ 'federation'|trans }}</h3>
+        <div class="settings-list">
+            <div class="row">
+                <span>{{ 'status'|trans }}:</span>
+                <div>
+                    <a class="active"
+                       href="#federation">
+                        {{ 'on'|trans }}
+                    </a>
+                    |
+                    <a class=""
+                       href="#federation">
+                        {{ 'off'|trans }}
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <strong>{{ 'instances'|trans }}:</strong>
+            </div>
+        </div>
     </div>
 </div>
 
