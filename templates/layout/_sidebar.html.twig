@@ -1,19 +1,30 @@
-<div class="sidebar-options">
+<div class="sidebar-options" data-controller="options">
     <div class="options options--top">
         <menu>
-            <li><a href="#federation" title="{{ 'federation'|trans }}" aria-label="{{ 'federation'|trans }}"><i
-                            class="fa-solid fa-network-wired"></i></a></li>
-            <li><a href="#settings" title="{{ 'settings'|trans }}" aria-label="{{ 'settings'|trans }}"><i
-                            class="fa-solid fa-gear"></i></a></li>
+            <li>
+                <a href="#federation"
+                   data-action="options#toggleFederation"
+                   title="{{ 'federation'|trans }}"
+                   aria-label="{{ 'federation'|trans }}">
+                    <i class="fa-solid fa-network-wired"></i>
+                </a>
+            </li>
+            <li><a href="#settings"
+                   data-action="options#toggleSettings"
+                   title="{{ 'settings'|trans }}"
+                   aria-label="{{ 'settings'|trans }}">
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+            </li>
         </menu>
     </div>
-    <div id="settings" class="section">
+    <div id="settings" class="section" data-options-target="settings">
         <h3>{{ 'theme'|trans }}</h3>
         {% include 'layout/_options_theme.html.twig' %}
         {% include 'layout/_options_font_size.html.twig' %}
         {% include 'layout/_options_appearance.html.twig' %}
     </div>
-    <div id="federation" class="section">
+    <div id="federation" class="section" data-options-target="federation">
         <h3>{{ 'federation'|trans }}</h3>
         <div class="settings-list">
             <div class="row">
