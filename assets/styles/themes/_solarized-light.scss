@@ -16,6 +16,10 @@ $cyan: #2aa198;
 $green: #859900;
 
 .theme--solarized-light {
+  #middle {
+    margin-top: 1rem;
+  }
+
   .options--top, .section--top {
     border: var(--kbin-options-border) !important;
   }
