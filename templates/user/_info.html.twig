@@ -1,5 +1,5 @@
 <section class="section user-info">
-    <h3>{{ 'user'|trans }}</h3>
+    <h3>{{ user.username|username }}</h3>
     {% if not is_route_name('user_overview') %}
         <div class="row">
             {% if user.avatar %}
