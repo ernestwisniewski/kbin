@@ -3,7 +3,6 @@
   background: var(--kbin-header-bg);
   color: var(--kbin-header-text-color);
   font-size: .85rem;
-  padding: 0 .55rem 0 1.5rem;
   position: relative;
   z-index: 10;
 
@@ -11,6 +10,7 @@
     display: grid;
     grid-template-areas: 'sr-nav brand magazine nav menu';
     grid-template-columns: min-content max-content max-content auto max-content;
+    padding: 0 .55rem 0 1rem;
     position: relative;
   }
 
