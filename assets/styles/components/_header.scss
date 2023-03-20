@@ -11,6 +11,7 @@
     display: grid;
     grid-template-areas: 'sr-nav brand magazine nav menu';
     grid-template-columns: min-content max-content max-content auto max-content;
+    position: relative;
   }
 
   .fixed-navbar & {
@@ -19,7 +20,7 @@
   }
 
   .topbar & {
-    padding-top: 1.2rem;
+    padding-top: 1.14rem;
   }
 
   .login {

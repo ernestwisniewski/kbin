@@ -26,7 +26,7 @@ export default class extends Controller {
 
                 const paginationElem = pagination[0].target.getElementsByClassName('pagination__item--current-page')[0].nextElementSibling;
                 if (paginationElem.classList.contains('pagination__item--disabled')) {
-                    return;
+                    throw new Error('No more pages');
                 }
 
                 if (window.infiniteScrollUrls.includes(paginationElem.href)) {

@@ -66,19 +66,19 @@
                 <ul class="dropdown__menu">
                     <li>
                         <a href="{{ path('front') }}"
-                           class="{{ html_classes({'active': is_route_name('front')}) }}">{{ 'all'|trans }}</a>
+                           class="{{ html_classes({'active': is_route_name('front') or is_route_name('posts_front') or is_route_name('people_front')}) }}">{{ 'all'|trans }}</a>
                     </li>
                     <li>
                         <a href="{{ path('front_subscribed') }}"
-                           class="{{ html_classes({'active': is_route_name('front_subscribed')}) }}">{{ 'subscribed'|trans }}</a>
+                           class="{{ html_classes({'active': is_route_name_contains('_subscribed')}) }}">{{ 'subscribed'|trans }}</a>
                     </li>
                     <li>
                         <a href="{{ path('front_moderated') }}"
-                           class="{{ html_classes({'active': is_route_name('front_moderated')}) }}">{{ 'moderated'|trans }}</a>
+                           class="{{ html_classes({'active': is_route_name_contains('_moderated')}) }}">{{ 'moderated'|trans }}</a>
                     </li>
                     <li>
                         <a href="{{ path('front_favourite') }}"
-                           class="{{ html_classes({'active': is_route_name('front_favourite')}) }}">{{ 'favourites'|trans }}</a>
+                           class="{{ html_classes({'active': is_route_name_contains('_favourite')}) }}">{{ 'favourites'|trans }}</a>
                     </li>
                 </ul>
             </li>

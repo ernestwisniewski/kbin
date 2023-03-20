@@ -115,6 +115,13 @@ $green: #859900;
   --kbin-header-border: 1px solid #d8cda9;
   --kbin-header-hover-border: 3px solid #{$base01};
 
+  // topbar
+  --kbin-topbar-bg: #{$base3};
+  --kbin-topbar-active-bg: var(--kbin-primary-color);
+  --kbin-topbar-link-color: var(--kbin-meta-text-color);
+  --kbin-topbar-active-link-color: #{$base01};
+  --kbin-topbar-hover-bg: var(--kbin-primary-color);
+
   //sidebar
   --kbin-sidebar-header-text-color: #909ea2;
   --kbin-sidebar-header-border: var(--kbin-section-border);
