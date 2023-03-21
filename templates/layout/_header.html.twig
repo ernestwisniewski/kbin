@@ -88,6 +88,12 @@
                        href="{{ path('user_overview', {username: app.user.username}) }}">{{ app.user.username }}</a>
                     <ul class="dropdown__menu">
                         <li>
+                            <a href="{{ path('user_overview', {username: app.user.username}) }}"
+                               class="{{ html_classes({'active': is_route_name_contains('user_overview')}) }}">
+                                {{ 'profile'|trans }}
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ path('user_settings_general') }}"
                                class="{{ html_classes({'active': is_route_name_contains('user_settings')}) }}">
                                 {{ 'settings'|trans }}

@@ -1,7 +1,7 @@
 $levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353', '#2b7070ff', '#b9ab52', '#808080ff');
 $comment-margin-xl: 1rem;
 $comment-margin-lg: .5rem;
-$comment-margin-sm: .3rem;
+$comment-margin-sm: .2rem;
 
 .comment-add {
   .row {
@@ -222,17 +222,20 @@ $comment-margin-sm: .3rem;
     @for $i from 2 to 11 {
       &-level--#{$i} {
         border-left: .15rem solid unquote(nth($levels, $i));
-        margin-left: $comment-margin-lg * ($i - 1);
+        margin-left: $comment-margin-lg * ($i - 1) !important;
 
         @include media-breakpoint-up(xl) {
-          margin-left: $comment-margin-xl * ($i - 1);
+          margin-left: $comment-margin-xl * ($i - 1) !important;
         }
 
         @include media-breakpoint-down(sm) {
-          margin-left: $comment-margin-sm * ($i - 1);
+          margin-left: $comment-margin-sm * ($i - 1) !important;
         }
       }
     }
   }
 }
 
+aside.comments {
+  position: relative;
+}

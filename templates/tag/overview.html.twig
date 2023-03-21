@@ -15,7 +15,7 @@
 
 {% block body %}
     {% include 'tag/_options.html.twig' %}
-    <div id="content" class="overview subjects">
+    <div id="content" class="overview subjects comments-tree comments">
         {% include 'layout/_subject_list.html.twig' with {entryCommentAttributes: {showMagazineName: false}} %}
     </div>
 {% endblock %}
