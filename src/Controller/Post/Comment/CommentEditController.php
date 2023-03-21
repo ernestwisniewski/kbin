@@ -61,7 +61,7 @@ class CommentEditController extends AbstractController
             return $this->getJsonFormResponse(
                 $form,
                 'post/comment/_form_comment.html.twig',
-                ['comment' => $comment, 'post' => $post]
+                ['comment' => $comment, 'post' => $post, 'edit' => true]
             );
         }
 

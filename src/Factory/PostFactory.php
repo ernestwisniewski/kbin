@@ -13,7 +13,7 @@ class PostFactory
     public function createFromDto(PostDto $dto, User $user): Post
     {
         return new Post(
-            $dto->body ?? '',
+            $dto->body,
             $dto->magazine,
             $user,
             $dto->isAdult,

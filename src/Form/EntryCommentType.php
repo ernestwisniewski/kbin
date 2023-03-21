@@ -24,7 +24,7 @@ class EntryCommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('body', TextareaType::class, ['required' => false])
+            ->add('body', TextareaType::class, ['required' => false, 'empty_data' => ''])
             ->add(
                 'image',
                 FileType::class,

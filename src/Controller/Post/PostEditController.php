@@ -74,7 +74,7 @@ class PostEditController extends AbstractController
             return $this->getJsonFormResponse(
                 $form,
                 'post/_form_post.html.twig',
-                ['post' => $post]
+                ['post' => $post, 'edit' => true]
             );
         }
 

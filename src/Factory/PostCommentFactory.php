@@ -13,7 +13,7 @@ class PostCommentFactory
     public function createFromDto(PostCommentDto $dto, User $user): PostComment
     {
         return new PostComment(
-            $dto->body ?? '',
+            $dto->body,
             $dto->post,
             $user,
             $dto->parent,

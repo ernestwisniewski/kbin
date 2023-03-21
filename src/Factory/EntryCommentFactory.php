@@ -13,7 +13,7 @@ class EntryCommentFactory
     public function createFromDto(EntryCommentDto $dto, User $user): EntryComment
     {
         return new EntryComment(
-            $dto->body ?? '',
+            $dto->body,
             $dto->entry,
             $user,
             $dto->parent,
