@@ -6,7 +6,7 @@
     @include media-breakpoint-down(sm) {
       display: block;
 
-      div {
+      > div {
         margin-bottom: 1rem;
       }
     }
