@@ -367,8 +367,8 @@ purge: Purge
 send_message: Send message
 message: Message
 infinite_scroll: Infinite scroll
-top_bar: Top bar
-fixed_navbar: Fixed navbar
+show_top_bar: Show top bar
+sticky_navbar: Sticky navbar
 subject_reported: Content has been reported.
 sidebar_position: Sidebar position
 left: Left

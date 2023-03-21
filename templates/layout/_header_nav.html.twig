@@ -25,12 +25,14 @@
             {{ 'people'|trans }}
         </a>
     </li>
-    <li>
-        <a href="{{ path('magazine_list_all') }}"
-           class="{{ html_classes({'active': is_route_name('magazine_list_all') }) }}">
-            {{ 'magazines'|trans }}
-        </a>
-    </li>
+    {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is not same as 'true' %}
+        <li>
+            <a href="{{ path('magazine_list_all') }}"
+               class="{{ html_classes({'active': is_route_name('magazine_list_all') }) }}">
+                {{ 'magazines'|trans }}
+            </a>
+        </li>
+    {% endif %}
 {% else %}
     <li>
         {% include 'layout/_header_bread.html.twig' %}
