@@ -22,6 +22,7 @@ class EntryCommentDto
     public ?EntryComment $parent = null;
     public ?EntryComment $root = null;
     public Image|ImageDto|null $image = null;
+    public ?string $imageUrl = null;
     public ?string $imageAlt = null;
     #[Assert\Length(max: 5000)]
     public ?string $body = null;

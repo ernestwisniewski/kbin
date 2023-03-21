@@ -118,7 +118,7 @@ is_adult: +18 / NSFW
 eng: ENG
 oc: OC
 image: Image
-image_alt: Image alt
+image_alt: Image alternative text
 name: Name
 description: Description
 rules: Rules
@@ -378,6 +378,8 @@ status: Status
 on: On
 off: Off
 instances: Instances
+upload_file: Upload file
+from_url: From url
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

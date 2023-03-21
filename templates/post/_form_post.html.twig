@@ -14,7 +14,7 @@
 {% endif %}
 
 <h3 hidden>{{ title }}</h3>
-{{ form_start(form, {action: action, attr: {class: edit ? 'comment-edit replace' : 'comment-add'}|merge(attributes)}) }}
+{{ form_start(form, {action: action, attr: {class: edit ? 'post-edit replace' : 'post-add'}|merge(attributes)}) }}
 <div class="row">
     {{ form_row(form.body, {label: false}) }}
 </div>
@@ -23,23 +23,30 @@
     {{ form_row(form.magazine, {label: false}) }}
 </div>
 <div class="row actions">
-    <button type="button"
-            class="btn btn__secondary"
-            aria-label="{{ 'markdown_howto'|trans }}"
-            title="{{ 'markdown_howto'|trans }}">
-        <i class="fa-solid fa-circle-question"></i>
-    </button>
-    <button type="button"
-            class="btn btn__secondary"
-            aria-label="{{ 'add_media'|trans }}"
-            title="{{ 'add_media'|trans }}">
-        <i class="fa-solid fa-photo-film"></i>
-    </button>
-    {{ form_row(form.submit, {label: post is defined and post ? 'edit_post' : 'add_post', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}}) }}
+    <ul>
+        <li>
+            <button type="button"
+                    class="btn btn__secondary"
+                    aria-label="{{ 'markdown_howto'|trans }}"
+                    title="{{ 'markdown_howto'|trans }}">
+                <i class="fa-solid fa-circle-question"></i>
+            </button>
+        </li>
+        <li class="dropdown">
+            <button type="button"
+                    class="btn btn__secondary"
+                    aria-label="{{ 'add_media'|trans }}"
+                    title="{{ 'add_media'|trans }}">
+                <i class="fa-solid fa-photo-film"></i>
+            </button>
+            <div class="dropdown__menu">
+                {% include 'layout/_form_media.html.twig' %}
+            </div>
+        </li>
+        <li>
+            {{ form_row(form.submit, {label: edit ? 'edit_post' : 'add_post', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}}) }}
+        </li>
+    </ul>
 </div>
-<div hidden class="media">
-    {{ form_row(form.image, {label: 'image'}) }}
-    {{ form_row(form.imageAlt, {label: 'image_alt'}) }}
-</div>
-{{ form_end(form) }}
+
 

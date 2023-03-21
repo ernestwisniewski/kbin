@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -33,6 +34,7 @@ class PostCommentType extends AbstractType
                     'required' => false,
                 ]
             )
+            ->add('imageUrl', TextType::class, ['required' => false])
             ->add('imageAlt', TextareaType::class, ['required' => false])
             ->add('submit', SubmitType::class);
 

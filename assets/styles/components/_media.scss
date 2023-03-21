@@ -1,0 +1,43 @@
+.media {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+
+  > div:first-child {
+    background: lightgray;
+    display: none;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    vertical-align: middle;
+    width: 200px;
+  }
+}
+
+.comment-add,
+.post-add {
+  .dropdown__menu {
+    left: -3rem;
+    padding: 1rem 2rem;
+    top: -17.5rem;
+    z-index: 5;
+  }
+
+  .media div {
+    margin-bottom: 1rem;
+  }
+
+  .media {
+    color: var(--kbin-meta-text-color);
+    font-size: .9rem;
+    list-style: none;
+  }
+}
+
+.page-post-front {
+  .post-add {
+    .dropdown__menu {
+      top: 2.5rem;
+    }
+  }
+}

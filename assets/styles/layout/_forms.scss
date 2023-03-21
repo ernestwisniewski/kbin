@@ -136,7 +136,12 @@ form {
   }
 }
 
+.actions ul {
+  margin: 0;
+}
+
 .actions,
+.actions ul,
 .params {
   display: flex;
   gap: .5rem;

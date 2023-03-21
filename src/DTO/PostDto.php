@@ -18,6 +18,7 @@ class PostDto
     public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
     public Image|ImageDto|null $image = null;
+    public ?string $imageUrl = null;
     public ?string $imageAlt = null;
     #[Assert\Length(max: 5000)]
     public ?string $body = null;

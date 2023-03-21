@@ -66,9 +66,12 @@ menu {
   padding: 0;
 }
 
-.row,
 .content {
   overflow: hidden;
+}
+
+.row,
+.content {
   position: relative;
   word-break: break-word;
 
