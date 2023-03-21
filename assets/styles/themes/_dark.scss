@@ -37,8 +37,8 @@
   --kbin-section-link-color: var(--kbin-link-color);
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
   --kbin-section-border: 1px solid #373737;
-  --kbin-author-border: 2px dashed var(--kbin-danger-color);
-  --kbin-own-border: 2px dashed var(--kbin-success-color);
+  --kbin-author-border: 1.5px dashed var(--kbin-danger-color);
+  --kbin-own-border: 1.5px dashed var(--kbin-success-color);
 
   // meta
   --kbin-meta-bg: none;
