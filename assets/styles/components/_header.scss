@@ -6,7 +6,7 @@
   position: relative;
   z-index: 10;
 
-  .dropdown__menu {
+  menu .dropdown__menu {
     left: -3.75rem;
   }
 
@@ -157,6 +157,7 @@
     &__menu {
       background-color: var(--kbin-section-bg);
       border: var(--kbin-section-border);
+      left: 8rem;
       margin-bottom: 0;
       margin-top: 0;
       min-width: 15rem;
