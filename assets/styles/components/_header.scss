@@ -6,6 +6,10 @@
   position: relative;
   z-index: 10;
 
+  .dropdown__menu {
+    left: -3.75rem;
+  }
+
   .kbin-container {
     display: grid;
     grid-template-areas: 'sr-nav brand magazine nav menu';
@@ -153,7 +157,6 @@
     &__menu {
       background-color: var(--kbin-section-bg);
       border: var(--kbin-section-border);
-      left: 10rem;
       margin-bottom: 0;
       margin-top: 0;
       min-width: 15rem;
