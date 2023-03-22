@@ -101,6 +101,8 @@ form {
 }
 
 .ts-wrapper {
+  min-height: 40px;
+
   div {
     margin-bottom: 0;
   }
@@ -125,6 +127,10 @@ form {
     display: block;
     padding: 1rem .5rem;
     width: 100%;
+  }
+
+  &.single.input-active .ts-control input {
+    display: none !important;
   }
 
   &.single .ts-control, .ts-dropdown.single {
@@ -170,6 +176,24 @@ form {
       box-shadow: none;
     }
   }
+
+  select {
+    background: var(--kbin-button-secondary-bg);
+    border: var(--kbin-button-secondary-border);
+    color: var(--kbin-button-secondary-text-color) !important;
+    padding: .7rem;
+  }
+}
+
+.actions {
+  @include media-breakpoint-down(sm) {
+    display: block;
+    text-align: right;
+
+    > * {
+      margin-bottom: .5rem !important;
+    }
+  }
 }
 
 .params {
@@ -178,10 +202,6 @@ form {
   gap: 1rem;
   margin-bottom: .5rem !important;
   overflow: visible;
-
-  .ts-control {
-    min-width: 18rem;
-  }
 
   > div {
     align-items: center;

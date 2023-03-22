@@ -60,8 +60,8 @@
                              alt="{{ entry.image.altText }}">
                     </a>
                 {% elseif entry.type is same as 'image' or entry.type is same as 'article' %}
-                    <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
-                       class="{{ html_classes({'thumb': is_route_name('entry_single') or entry.type is same as 'image '}) }}">
+                    <a href="{{ is_route_name('entry_single') or entry.type is same as 'image' ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
+                       class="{{ html_classes({'thumb': is_route_name('entry_single') or entry.type is same as 'image'}) }}">
                         <img width="220" height="145"
                              src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                              alt="{{ entry.image.altText }}">
@@ -92,7 +92,7 @@
                     </li>
                     <li>
                         <a href="{{ entry_voters_url(entry, 'up') }}"
-                           class="{{ html_classes({'active': is_route_name('entry_favourites') or is_route_name('entry_voters')}) }}">
+                           class="{{ html_classes({'active': is_route_name('entry_fav') or is_route_name('entry_voters')}) }}">
                             {{ 'activity'|trans|lower }}
                         </a>
                     </li>

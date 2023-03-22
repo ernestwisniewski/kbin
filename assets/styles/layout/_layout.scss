@@ -10,7 +10,6 @@ body {
 
 #middle {
   background: var(--kbin-bg);
-  overflow: hidden;
 
   .kbin-container {
     display: grid;
@@ -43,7 +42,6 @@ body {
     grid-area: main;
     padding: 0 .5rem;
     position: relative;
-    overflow: hidden;
   }
 
   #sidebar {
@@ -143,6 +141,7 @@ figure {
   figure img,
   input,
   textarea,
+  select,
   button,
   .ts-wrapper .ts-control {
     border-radius: .5rem;

@@ -218,7 +218,7 @@ entry_voters:
     pl: /m/{magazine_name}/t/{entry_id}/{slug}/głosy/{type}
   methods: [ GET ]
 
-entry_favourites:
+entry_fav:
   controller: App\Controller\Entry\EntryFavouriteController
   defaults: { slug: -, sortBy: hot }
   path:

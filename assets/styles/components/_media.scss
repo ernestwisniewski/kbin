@@ -17,7 +17,8 @@
 .comment-add,
 .post-add,
 .comment-edit,
-.post-edit {
+.post-edit,
+.page-entry-create {
   .dropdown__menu {
     left: -3rem;
     padding: 1rem 2rem;
@@ -40,6 +41,16 @@
   .post-add {
     .dropdown__menu {
       top: 2.5rem;
+    }
+  }
+}
+
+.page-entry-create,
+.page-entry-edit {
+  .entry-create,
+  .entry-edit {
+    .dropdown__menu {
+      top: -15.5rem;
     }
   }
 }

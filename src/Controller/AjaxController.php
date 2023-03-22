@@ -30,11 +30,13 @@ class AjaxController extends AbstractController
     public function fetchTitle(Embed $embed, Request $request): JsonResponse
     {
         $url = json_decode($request->getContent())->url;
+        $embed = $embed->fetch($url);
 
         return new JsonResponse(
             [
-                'title' => $embed->fetch($url)->title,
-                'description' => $embed->fetch($url)->description,
+                'title' => $embed->title,
+                'description' => $embed->description,
+                'image' => $embed->image,
             ]
         );
     }

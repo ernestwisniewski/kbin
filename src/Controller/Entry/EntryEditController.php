@@ -41,8 +41,6 @@ class EntryEditController extends AbstractController
                 throw new AccessDeniedHttpException();
             }
 
-            $dto->lang = $form->get('isEng')->getData() ? 'en' : null;
-
             $entry = $this->manager->edit($entry, $dto);
 
             $this->addFlash(

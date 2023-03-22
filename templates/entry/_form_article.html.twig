@@ -1,7 +1,7 @@
 {% if edit is not defined %}
     {% set edit = false %}
 {% endif %}
-{{ form_start(form) }}
+{{ form_start(form, {attr: {class: edit ? 'entry_edit' : 'entry-create'}}) }}
     {{ form_row(form.title, {label: 'title'}) }}
     {{ form_row(form.body, {label: 'body'}) }}
     {{ form_row(form.magazine, {label: 'magazine'}) }}
@@ -9,12 +9,35 @@
     {{ form_row(form.badges, {label: 'badges'}) }}
 <div class="row params">
     {{ form_row(form.isAdult, {label: 'is_adult', row_attr: {class: 'checkbox'}}) }}
-    {{ form_row(form.isEng, {label: 'eng', row_attr: {class: 'checkbox'}}) }}
     {{ form_row(form.isOc, {label: 'oc', row_attr: {class: 'checkbox'}}) }}
 </div>
-{{ form_row(form.submit, {label: edit ? 'edit_article' : 'add_new_article', attr: {class: 'btn btn__primary'}, row_attr: {class: 'float-end'}}) }}
-
-<div hidden class="media">
-    {{ form_row(form.image, {label: 'image'}) }}
+<div class="row actions">
+    <ul>
+        <li>
+            <button type="button"
+                    class="btn btn__secondary"
+                    aria-label="{{ 'markdown_howto'|trans }}"
+                    title="{{ 'markdown_howto'|trans }}">
+                <i class="fa-solid fa-circle-question"></i>
+            </button>
+        </li>
+        <li class="dropdown">
+            <button type="button"
+                    class="btn btn__secondary"
+                    aria-label="{{ 'add_media'|trans }}"
+                    title="{{ 'add_media'|trans }}">
+                <i class="fa-solid fa-photo-film"></i>
+            </button>
+            <div class="dropdown__menu">
+                {% include 'layout/_form_media.html.twig' %}
+            </div>
+        </li>
+        <li>
+            {{ form_row(form.lang, {label: false}) }}
+        </li>
+        <li>
+            {{ form_row(form.submit, {label: edit ? 'edit_article' : 'add_new_article', attr: {class: 'btn btn__primary'}}) }}
+        </li>
+    </ul>
 </div>
 {{ form_end(form) }}

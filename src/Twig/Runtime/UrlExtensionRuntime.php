@@ -31,7 +31,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
 
     public function entryFavouritesUrl(Entry $entry): string
     {
-        return $this->urlGenerator->generate('entry_favourites', [
+        return $this->urlGenerator->generate('entry_fav', [
             'magazine_name' => $entry->magazine->name,
             'entry_id' => $entry->getId(),
             'slug' => empty($entry->slug) ? '-' : $entry->slug,

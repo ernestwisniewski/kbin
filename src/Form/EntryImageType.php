@@ -15,10 +15,12 @@ use App\Form\Type\BadgesType;
 use App\Service\SettingsManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -59,12 +61,27 @@ class EntryImageType extends AbstractType
                     'mapped' => false,
                 ]
             )
-            ->add('imageAlt', TextareaType::class)
+            ->add('imageUrl', UrlType::class, [
+                'required' => false,
+            ])
+            ->add('imageAlt', TextType::class, [
+                'required' => false,
+            ])
             ->add('isAdult', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('isEng', CheckboxType::class, [
-                'required' => false,
+            ->add('lang', ChoiceType::class, [
+                'choices' => [
+                    'english' => 'en',
+                    'spanish' => 'es',
+                    'polish' => 'pl',
+                    'ukrainian' => 'uk',
+                ],
+                'required' => true,
+                'autocomplete' => false,
+                'tom_select_options' => [
+                    'allowEmptyOption' => false,
+                ],
             ])
             ->add('isOc', CheckboxType::class, [
                 'required' => false,

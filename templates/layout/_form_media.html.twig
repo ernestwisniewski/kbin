@@ -5,7 +5,9 @@
         </div>
     </div>
     <div>
-        {{ form_row(form.image, {label: 'image'}) }}
+        {% if form.image is defined %}
+            {{ form_row(form.image, {label: 'image'}) }}
+        {% endif %}
         <div hidden>
             {{ form_row(form.imageUrl, {label: 'url'}) }}
         </div>
