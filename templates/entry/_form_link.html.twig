@@ -2,7 +2,7 @@
     {% set edit = false %}
 {% endif %}
 {{ form_start(form) }}
-    {{ form_row(form.url, {label: 'url'}) }}
+    {{ form_row(form.url, {label: 'url', attr: {'data-action': 'entry-link-create#fetchLink'}}) }}
     {{ form_row(form.title, {label: 'title'}) }}
     {{ form_row(form.body, {label: 'body'}) }}
     {{ form_row(form.magazine, {label: 'magazine'}) }}

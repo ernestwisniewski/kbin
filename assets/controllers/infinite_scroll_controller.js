@@ -1,5 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
+import {useIntersection} from 'stimulus-use'
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -10,40 +11,34 @@ export default class extends Controller {
 
     connect() {
         window.infiniteScrollUrls = [];
+        useIntersection(this)
+    }
 
-        let self = this;
-        let observer = new IntersectionObserver(function (pagination, observer) {
-            if (self.loadingValue === true) {
+    async appear(event) {
+        if (this.loadingValue === true) {
+            return;
+        }
+
+        try {
+            this.loadingValue = true;
+
+            const paginationElem = this.paginationTarget.getElementsByClassName('pagination__item--current-page')[0].nextElementSibling;
+            if (paginationElem.classList.contains('pagination__item--disabled')) {
+                this.loadingValue = false;
+                throw new Error('No more pages');
+            }
+
+            if (window.infiniteScrollUrls.includes(paginationElem.href)) {
                 return;
             }
 
-            if (pagination[0].isIntersecting !== true) {
-                return;
-            }
+            window.infiniteScrollUrls.push(paginationElem.href);
 
-            try {
-                self.loadingValue = true;
-
-                const paginationElem = pagination[0].target.getElementsByClassName('pagination__item--current-page')[0].nextElementSibling;
-                if (paginationElem.classList.contains('pagination__item--disabled')) {
-                    throw new Error('No more pages');
-                }
-
-                if (window.infiniteScrollUrls.includes(paginationElem.href)) {
-                    return;
-                }
-
-                window.infiniteScrollUrls.push(paginationElem.href);
-
-                self.handleEntries(paginationElem.href);
-            } catch (e) {
-                self.showPagination();
-            } finally {
-                observer.unobserve(self.element);
-            }
-        }, {threshold: [0]});
-
-        observer.observe(this.element);
+            this.handleEntries(paginationElem.href);
+        } catch (e) {
+            this.showPagination();
+        } finally {
+        }
     }
 
     async handleEntries(url) {
@@ -78,6 +73,7 @@ export default class extends Controller {
     }
 
     loadingValueChanged(val) {
+        console.log(val);
         this.loaderTarget.style.display = val === true ? 'block' : 'none';
     }
 

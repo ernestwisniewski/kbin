@@ -1,4 +1,5 @@
 fos_js_routing:
-    routes_to_expose: [
-            'ajax_fetch_post_comments',
-    ]
+  routes_to_expose: [
+    'ajax_fetch_post_comments',
+    'ajax_fetch_embed',
+  ]

@@ -32,15 +32,15 @@
                 </a>
                 <ul class="dropdown__menu">
                     <li>
-                        <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
-                           class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
-                            {{ 'add_new_article'|trans }}
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}"
                            class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.link'|trans|lower)}) }}">
                             {{ 'add_new_link'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
+                           class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
+                            {{ 'add_new_article'|trans }}
                         </a>
                     </li>
                     <li>
@@ -65,10 +65,6 @@
                 </a>
                 <ul class="dropdown__menu">
                     <li>
-                        <a href="{{ path('front') }}"
-                           class="{{ html_classes({'active': is_route_name('front') or is_route_name('posts_front') or is_route_name('people_front')}) }}">{{ 'all'|trans }}</a>
-                    </li>
-                    <li>
                         <a href="{{ path('front_subscribed') }}"
                            class="{{ html_classes({'active': is_route_name_contains('_subscribed')}) }}">{{ 'subscribed'|trans }}</a>
                     </li>
@@ -79,6 +75,10 @@
                     <li>
                         <a href="{{ path('front_favourite') }}"
                            class="{{ html_classes({'active': is_route_name_contains('_favourite')}) }}">{{ 'favourites'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('front') }}"
+                           class="{{ html_classes({'active': is_route_name('front') or is_route_name('posts_front') or is_route_name('people_front')}) }}">{{ 'all'|trans }}</a>
                     </li>
                 </ul>
             </li>

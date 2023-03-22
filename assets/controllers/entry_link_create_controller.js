@@ -2,6 +2,8 @@ import {Controller} from '@hotwired/stimulus';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    connect() {
+    async fetchLink(event) {
+        console.log('eee');
     }
+
 }
