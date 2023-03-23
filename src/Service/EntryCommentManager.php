@@ -49,6 +49,8 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment = $this->factory->createFromDto($dto, $user);
 
+        $comment->lang = $dto->lang;
+        $comment->isAdult = $dto->isAdult;
         $comment->magazine = $dto->entry->magazine;
         $comment->image = $dto->image;
         if ($comment->image && !$comment->image->altText) {
@@ -80,6 +82,8 @@ class EntryCommentManager implements ContentManagerInterface
         Assert::same($comment->entry->getId(), $dto->entry->getId());
 
         $comment->body = $dto->body;
+        $comment->lang = $dto->lang;
+        $comment->isAdult = $dto->isAdult;
         $oldImage = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;

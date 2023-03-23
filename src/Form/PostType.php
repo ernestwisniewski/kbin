@@ -7,6 +7,7 @@ namespace App\Form;
 use App\DTO\PostDto;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\ImageListener;
+use App\Form\Type\LanguageType;
 use App\Form\Type\MagazineAutocompleteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -37,6 +38,7 @@ class PostType extends AbstractType
                 ]
             )
             ->add('magazine', MagazineAutocompleteType::class)
+            ->add('lang', LanguageType::class)
             ->add('imageUrl', UrlType::class, ['required' => false])
             ->add('imageAlt', TextareaType::class, ['required' => false])
             ->add('isAdult', CheckboxType::class, ['required' => false])

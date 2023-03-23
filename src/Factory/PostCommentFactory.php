@@ -28,6 +28,8 @@ class PostCommentFactory
         $dto->post = $comment->post;
         $dto->user = $comment->user;
         $dto->body = $comment->body;
+        $dto->lang = $comment->lang;
+        $dto->isAdult = $comment->isAdult;
         $dto->uv = $comment->countUpVotes();
         $dto->visibility = $comment->visibility;
         $dto->createdAt = $comment->createdAt;

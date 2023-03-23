@@ -28,6 +28,8 @@ class EntryCommentFactory
         $dto->entry = $comment->entry;
         $dto->user = $comment->user;
         $dto->body = $comment->body;
+        $dto->lang = $comment->lang;
+        $dto->isAdult = $comment->isAdult;
         $dto->image = $comment->image;
         $dto->visibility = $comment->visibility;
         $dto->uv = $comment->countUpVotes();

@@ -72,8 +72,8 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     public ?string $body = null;
     #[Column(type: 'string', nullable: false)]
     public string $type = self::ENTRY_TYPE_ARTICLE;
-    #[Column(type: 'string', nullable: true)]
-    public ?string $lang = null;
+    #[Column(type: 'string', nullable: false)]
+    public string $lang;
     #[Column(type: 'boolean', options: ['default' => false])]
     public bool $isOc = false;
     #[Column(type: 'boolean', nullable: false)]

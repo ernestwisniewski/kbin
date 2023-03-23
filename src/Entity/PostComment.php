@@ -60,6 +60,8 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     public ?Image $image = null;
     #[Column(type: 'text', length: 4500)]
     public ?string $body;
+    #[Column(type: 'string', nullable: false)]
+    public string $lang;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
     #[Column(type: 'datetimetz')]
@@ -70,6 +72,8 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     public ?array $tags = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $mentions = null;
+    #[Column(type: 'boolean', nullable: false)]
+    public ?bool $isAdult = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public ?bool $updateMark = false;
     #[OneToMany(mappedBy: 'parent', targetEntity: PostComment::class, orphanRemoval: true)]

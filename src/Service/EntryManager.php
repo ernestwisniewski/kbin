@@ -62,14 +62,16 @@ class EntryManager implements ContentManagerInterface
         }
 
         $entry = $this->factory->createFromDto($dto, $user);
-        $entry->slug = $this->slugger->slug($dto->title);
+
         $entry->lang = $dto->lang;
+        $entry->isAdult = $dto->isAdult;
+        $entry->slug = $this->slugger->slug($dto->title);
         $entry->image = $dto->image;
         if ($entry->image && !$entry->image->altText) {
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
@@ -132,6 +134,7 @@ class EntryManager implements ContentManagerInterface
         $entry->title = $dto->title;
         $entry->url = $dto->url;
         $entry->body = $dto->body;
+        $entry->lang = $dto->lang;
         $entry->isAdult = $dto->isAdult;
         $entry->slug = $this->slugger->slug($dto->title);
         $entry->visibility = $dto->visibility;
@@ -140,7 +143,7 @@ class EntryManager implements ContentManagerInterface
             $entry->image = $dto->image;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;

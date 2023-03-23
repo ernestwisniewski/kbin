@@ -44,6 +44,9 @@
             </div>
         </li>
         <li>
+            {{ form_row(form.lang, {label: false}) }}
+        </li>
+        <li>
             {{ form_row(form.submit, {label: edit ? 'edit_post' : 'add_post', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}}) }}
         </li>
     </ul>

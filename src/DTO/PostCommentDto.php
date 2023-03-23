@@ -26,6 +26,8 @@ class PostCommentDto
     public ?string $imageAlt = null;
     #[Assert\Length(max: 5000)]
     public ?string $body = null;
+    public ?string $lang = null;
+    public bool $isAdult = false;
     public int $uv = 0;
     public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public ?string $ip = null;

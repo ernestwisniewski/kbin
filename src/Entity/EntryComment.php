@@ -60,6 +60,10 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
     public ?EntryComment $root = null;
     #[Column(type: 'text', length: 4500)]
     public ?string $body = null;
+    #[Column(type: 'string', nullable: false)]
+    public string $lang;
+    #[Column(type: 'boolean', nullable: false)]
+    public ?bool $isAdult = false;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
     #[Column(type: 'datetimetz')]

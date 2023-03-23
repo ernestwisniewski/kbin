@@ -56,6 +56,8 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     public string $slug;
     #[Column(type: 'text', length: 15000, nullable: true)]
     public ?string $body = null;
+    #[Column(type: 'string', nullable: false)]
+    public string $lang;
     #[Column(type: 'integer', nullable: false)]
     public int $commentCount = 0;
     #[Column(type: 'integer', options: ['default' => 0])]

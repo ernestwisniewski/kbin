@@ -20,7 +20,7 @@
 .post-edit,
 .page-entry-create {
   .dropdown__menu {
-    left: -.5rem;
+    left: 6.9rem;
     padding: 1rem 2rem;
     top: -17.5rem;
     z-index: 5;
@@ -40,19 +40,8 @@
 .page-post-front {
   .post-add {
     .dropdown__menu {
-      left: -2rem;
+      left: 5.4rem;
       top: 2.5rem;
-    }
-  }
-}
-
-.page-entry-create,
-.page-entry-edit {
-  .entry-create,
-  .entry-edit {
-    .dropdown__menu {
-      left: 6.2rem;
-      top: -15.5rem;
     }
   }
 }

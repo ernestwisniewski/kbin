@@ -99,14 +99,4 @@ class EntryDto
 
         return $type;
     }
-
-    public function setIsEng(string $lang)
-    {
-        $this->lang = $lang ? 'en' : null;
-    }
-
-    public function isEng(): bool
-    {
-        return (bool) $this->lang;
-    }
 }
