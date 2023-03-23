@@ -17,7 +17,7 @@
         <header>
             <h4><a href="{{ path('front_magazine', {name: magazine.name}) }}"
                    class="stretched-link">{{ computed.magazine.title }}</a></h4>
-            <p class="magazine__name">{{ computed.magazine.name }}</p>
+            <p class="magazine__name">{{ magazine.name|username(true) }}{% if not magazine.apId %}@{{ kbin_domain() }}{% endif %}</p>
         </header>
     </div>
     {{ component('magazine_sub', {magazine: magazine}) }}

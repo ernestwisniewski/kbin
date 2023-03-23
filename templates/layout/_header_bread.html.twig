@@ -2,11 +2,6 @@
     <div class="head-title">
         <span>/m/</span><a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
     </div>
-{% elseif user is defined and user %}
-    <div class="head-title">
-        <span>/u/</span><a
-                href="{{ path('user_overview', {username: user.username}) }}">{{ user.username|username }}</a>
-    </div>
 {% elseif is_route_name_starts_with('domain_') %}
     <div class="head-title">
         <span>/d/</span><a href="{{ path('domain_entries', {name: domain.name}) }}">{{ domain.name }}</a>
