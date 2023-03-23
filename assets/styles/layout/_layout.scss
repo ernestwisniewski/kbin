@@ -145,7 +145,7 @@ figure {
   select,
   button,
   .ts-wrapper .ts-control {
-    border-radius: .5rem;
+    border-radius: .5rem !important;
   }
 
   .options {
@@ -225,4 +225,12 @@ figure {
 
 .hidden {
   display: none;
+}
+
+.select {
+  height: 100%;
+
+  select {
+    height: 100%;
+  }
 }
