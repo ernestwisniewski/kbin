@@ -19,7 +19,7 @@
                                href="{{ path('user_overview', {'username': user.username}) }}">{{ user.username|username(false) }}</a>
                         </h1>
                     {% else %}
-                        <h1>{{ user.username|username(false) }}</h1>
+                        <h1>{{ user.apPreferredUsername ?? user.username|username(false) }}</h1>
                     {% endif %}
                     <small>{{ user.username|username(true) }}{% if not user.apId %}@{{ kbin_domain() }}{% endif %}</small>
                 </div>

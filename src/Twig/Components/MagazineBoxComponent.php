@@ -5,8 +5,8 @@ namespace App\Twig\Components;
 use App\Entity\Magazine;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('magazine')]
-final class MagazineComponent
+#[AsTwigComponent('magazine_box')]
+final class MagazineBoxComponent
 {
     public Magazine $magazine;
     public bool $showCover = true;

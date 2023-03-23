@@ -3,7 +3,7 @@
         {% if view is same as 'cards'|trans|lower %}
             <div class="magazines magazines-cards">
                 {% for magazine in magazines %}
-                    {{ component('magazine', {magazine: magazine, showMeta: false, showInfo: false}) }}
+                    {{ component('magazine_box', {magazine: magazine, showMeta: false, showInfo: false}) }}
                 {% endfor %}
             </div>
         {% elseif view is same as 'columns'|trans|lower %}

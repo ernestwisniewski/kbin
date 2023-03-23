@@ -1,4 +1,14 @@
 .magazine {
+  .panel {
+    margin-bottom: 1rem;
+    text-align: center;
+
+    a {
+      display: block;
+      width: 100%;
+    }
+  }
+
   header {
     h4 {
       font-size: 1rem;

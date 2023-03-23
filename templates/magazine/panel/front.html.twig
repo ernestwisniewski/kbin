@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'stats'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-stats{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+
+    <h1 hidden>{{ 'stats'|trans }}</h1>
+    <div id="content" class="section">
+        <div class="container">
+        </div>
+    </div>
+{% endblock %}

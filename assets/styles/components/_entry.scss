@@ -238,16 +238,7 @@
   &:focus-within {
     menu,
     .entry__meta {
-      -webkit-animation: fadein .5s linear 1 normal forwards;
-
-      @-webkit-keyframes fadein {
-        from {
-          opacity: .75;
-        }
-        to {
-          opacity: 1;
-        }
-      }
+      @include fade-in(.5s);
     }
   }
 

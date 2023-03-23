@@ -2,6 +2,11 @@
     {% if showSectionTitle %}
         <h3>{{ 'magazine'|trans }}</h3>
     {% endif %}
+    {% if app.user and magazine.userIsOwner(app.user) and not is_route_name_contains('magazine_panel') %}
+        <div class="panel">
+            <a href="{{ path('magazine_panel_front', {name: magazine.name}) }}" class="btn btn__primary">Magazine panel</a>
+        </div>
+    {% endif %}
     <div class="row">
         {% if computed.magazine.cover and showCover %}
             <figure>
@@ -10,7 +15,8 @@
             </figure>
         {% endif %}
         <header>
-            <h4><a href="{{ path('front_magazine', {name: magazine.name}) }}" class="stretched-link">{{ computed.magazine.title }}</a></h4>
+            <h4><a href="{{ path('front_magazine', {name: magazine.name}) }}"
+                   class="stretched-link">{{ computed.magazine.title }}</a></h4>
             <p class="magazine__name">{{ computed.magazine.name }}</p>
         </header>
     </div>

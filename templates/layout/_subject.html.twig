@@ -20,5 +20,5 @@
 {% elseif subject is post_comment %}
     {{ component('post_comment', {comment: subject}|merge(attributes)) }}
 {% elseif subject is magazine %}
-    {{ component('magazine', {magazine: subject}|merge(attributes)) }}
+    {{ component('magazine_box', {magazine: subject}|merge(attributes)) }}
 {% endif %}
