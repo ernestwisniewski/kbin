@@ -51,14 +51,10 @@ $comment-margin-sm: .3rem;
 
   header {
     color: var(--kbin-meta-text-color);
-    display: block;
     font-size: .8rem;
     grid-area: header;
     margin-bottom: .5rem;
     opacity: .75;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 
     a {
       color: var(--kbin-meta-text-color);

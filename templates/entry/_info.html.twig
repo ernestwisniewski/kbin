@@ -10,7 +10,7 @@
         {% endif %}
         <h4><a href="{{ path('user_overview', {username:entry.user.username}) }}"
                class="stretched-link">{{ entry.user.username|username(false) }}</a></h4>
-        <p class="user__name">{{ entry.user.apId }}</p>
+        <p class="user__name">{{ entry.user.username|username(true) }}{% if not entry.apId %}@{{ kbin_domain() }}{% endif %}</p>
     </div>
     {{ component('user_follow', {user: entry.user}) }}
     <ul class="info">

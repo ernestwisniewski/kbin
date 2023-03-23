@@ -60,6 +60,9 @@
 {% if entry is defined and magazine %}
     {% include 'entry/_info.html.twig' %}
 {% endif %}
+{% if post is defined and magazine %}
+    {% include 'post/_info.html.twig' %}
+{% endif %}
 {% if magazine is defined and magazine %}
     {{ component('magazine', {magazine: magazine, showSectionTitle: true}) }}
     {% include 'magazine/_moderators_sidebar.html.twig' %}
