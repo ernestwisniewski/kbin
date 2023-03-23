@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\DTO\EntryDto;
-use App\Form\Autocomplete\MagazineAutocompleteField;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\DataTransformer\TagTransformer;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
 use App\Form\Type\BadgesType;
+use App\Form\Type\LanguageType;
+use App\Form\Type\MagazineAutocompleteType;
 use App\Service\SettingsManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -57,7 +57,7 @@ class EntryLinkType extends AbstractType
                     'required' => false,
                 ]
             )
-            ->add('magazine', MagazineAutocompleteField::class)
+            ->add('magazine', MagazineAutocompleteType::class)
             ->add(
                 'image',
                 FileType::class,
@@ -76,19 +76,7 @@ class EntryLinkType extends AbstractType
             ->add('isAdult', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('lang', ChoiceType::class, [
-                'choices' => [
-                    'english' => 'en',
-                    'spanish' => 'es',
-                    'polish' => 'pl',
-                    'ukrainian' => 'uk',
-                ],
-                'required' => true,
-                'autocomplete' => false,
-                'tom_select_options' => [
-                    'allowEmptyOption' => false,
-                ],
-            ])
+            ->add('lang', LanguageType::class)
             ->add('isOc', CheckboxType::class, [
                 'required' => false,
             ])

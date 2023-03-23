@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Autocomplete;
+namespace App\Form\Type;
 
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Magazine;
@@ -11,7 +11,7 @@ use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 use Symfony\UX\Autocomplete\Form\ParentEntityAutocompleteType;
 
 #[AsEntityAutocompleteField]
-class MagazineAutocompleteField extends AbstractType
+class MagazineAutocompleteType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {

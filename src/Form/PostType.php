@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\DTO\PostDto;
-use App\Form\Autocomplete\MagazineAutocompleteField;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\ImageListener;
+use App\Form\Type\MagazineAutocompleteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,7 +36,7 @@ class PostType extends AbstractType
                     'required' => false,
                 ]
             )
-            ->add('magazine', MagazineAutocompleteField::class)
+            ->add('magazine', MagazineAutocompleteType::class)
             ->add('imageUrl', UrlType::class, ['required' => false])
             ->add('imageAlt', TextareaType::class, ['required' => false])
             ->add('isAdult', CheckboxType::class, ['required' => false])
