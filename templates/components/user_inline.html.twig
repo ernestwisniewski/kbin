@@ -1,9 +1,11 @@
-<a href="{{ path('user_overview', {username: user.username}) }}" class="user-inline" title="{{ user.username|username(true) }}">
+<a href="{{ path('user_overview', {username: user.username}) }}"
+   class="user-inline"
+   title="{{ user.username|username(true) }}">
     {% if user.avatar and showAvatar %}
         <img width="30" height="30"
              src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ user.username ~ ' avatar' }}"
              aria-hidden="true">
     {% endif %}
-    {{ user.username|username -}}
+    {{ user.apPreferredUsername ?? user.username|username -}}
 </a>
