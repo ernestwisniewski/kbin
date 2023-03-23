@@ -49,10 +49,14 @@
 
   header {
     color: var(--kbin-meta-text-color);
+    display: block;
     font-size: .8rem;
     grid-area: header;
     margin-bottom: 0;
     opacity: .75;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     a {
       color: var(--kbin-meta-link-color);

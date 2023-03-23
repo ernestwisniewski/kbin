@@ -21,7 +21,7 @@
                     {% else %}
                         <h1>{{ user.username|username(false) }}</h1>
                     {% endif %}
-                    <small>{{ user.username|username }}{% if not user.apId %}@{{ kbin_domain() }}{% endif %}</small>
+                    <small>{{ user.username|username(true) }}{% if not user.apId %}@{{ kbin_domain() }}{% endif %}</small>
                 </div>
                 {{ component('user_follow', {user: user}) }}
             </div>

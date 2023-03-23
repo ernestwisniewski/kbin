@@ -1,4 +1,4 @@
-<a href="{{ path('user_overview', {username: user.username}) }}" class="user-inline">
+<a href="{{ path('user_overview', {username: user.username}) }}" class="user-inline" title="{{ user.username|username(true) }}">
     {% if user.avatar and showAvatar %}
         <img width="30" height="30"
              src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"

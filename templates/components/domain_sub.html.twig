@@ -14,7 +14,7 @@
           name="domain_block"
           method="post">
         <button type="submit"
-                class="{{ html_classes('btn btn__secondary', {'active': is_domain_blocked(domain)}) }}"
+                class="{{ html_classes('btn btn__secondary', {'active danger': is_domain_blocked(domain)}) }}"
                 data-action="subs#send">
             <i class="fa-solid fa-ban"></i>
         </button>

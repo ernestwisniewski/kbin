@@ -15,7 +15,7 @@
               name="user_block"
               method="post">
             <button type="submit"
-                    class="{{ html_classes('btn btn__secondary', {'active': is_user_blocked(user)}) }}"
+                    class="{{ html_classes('btn btn__secondary', {'active danger': is_user_blocked(user)}) }}"
                     data-action="subs#send">
                 <i class="fa-solid fa-ban"></i>
             </button>

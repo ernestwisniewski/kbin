@@ -7,6 +7,7 @@ export default class extends Controller {
     static values = {
         loading: Boolean,
     };
+    static sendBtnLabel = null;
 
     connect() {
         const self = this;
@@ -53,6 +54,9 @@ export default class extends Controller {
 
         try {
             this.loadingValue = true;
+            self.sendBtnLabel = event.target.innerHTML;
+            event.target.disabled = true;
+            event.target.innerHTML = 'Sending...';
 
             let response = await fetch(url, {
                 method: 'POST',
@@ -91,6 +95,8 @@ export default class extends Controller {
         } finally {
             this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
             this.loadingValue = false;
+            event.target.disabled = false;
+            event.target.innerHTML = self.sendBtnLabel;
         }
 
     }
