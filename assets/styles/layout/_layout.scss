@@ -40,9 +40,12 @@ body {
 
   #main {
     grid-area: main;
-    //overflow: hidden;
     padding: 0 .5rem;
     position: relative;
+
+    @include media-breakpoint-down(md) {
+      overflow: hidden;
+    }
   }
 
   #sidebar {
