@@ -10,6 +10,7 @@ final class MagazineInlineComponent
 {
     public Magazine $magazine;
     public bool $showTitle = true;
+    public bool $fullName = false;
     public bool $stretchedLink = false;
     public bool $showAvatar = false;
 }

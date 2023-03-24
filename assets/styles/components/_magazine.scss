@@ -10,8 +10,8 @@
   }
 
   header {
-    h4 {
-      font-size: 1rem;
+    h4, h4 a {
+      font-size: 1.2rem;
       margin-bottom: 0;
       margin-top: .5rem;
     }
@@ -151,14 +151,17 @@ td {
 
 .page-magazine-panel {
   .report {
-    > div {
+    div {
       margin-bottom: .5rem;
     }
   }
 
   .actions {
+    margin-bottom: 0!important;
+
     @include media-breakpoint-down(sm) {
       display: flex;
+      flex-wrap: wrap;
     }
   }
 }

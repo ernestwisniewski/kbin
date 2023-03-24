@@ -42,7 +42,7 @@
                     <tbody>
                     {% for magazine in magazines %}
                         <tr>
-                            <td>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true}) }}</td>
+                            <td>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true, fullName: true}) }}</td>
                             <td>{{ magazine.entryCount }}</td>
                             <td>{{ magazine.entryCommentCount }}</td>
                             <td>{{ magazine.postCount + magazine.postCommentCount }}</td>

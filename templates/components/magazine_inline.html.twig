@@ -7,5 +7,5 @@
              alt="{{ magazine.name ~ ' avatar' }}"
              aria-hidden="true">
     {% endif %}
-    {{ magazine.name|username -}}
+    {{ magazine.name|username(fullName) -}}
 </a>

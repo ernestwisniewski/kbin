@@ -232,9 +232,6 @@ figure {
 
 .select div {
   height: 100%;
-  @include media-breakpoint-down(sm) {
-    padding: 2px;
-  }
 
   select {
     height: 100%;

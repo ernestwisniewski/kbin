@@ -22,10 +22,10 @@
     </div>
     {{ component('magazine_sub', {magazine: magazine}) }}
     {% if computed.magazine.description and showDescription %}
-        <div class="content magazine__description">{{ computed.magazine.description|markdown|raw }}</div>
+        <div class="content magazine__description formatted">{{ computed.magazine.description|markdown|raw }}</div>
     {% endif %}
     {% if computed.magazine.rules and showRules %}
-        <div class="content magazine__rules">{{ computed.magazine.rules|markdown|raw }}</div>
+        <div class="content magazine__rules formatted">{{ computed.magazine.rules|markdown|raw }}</div>
     {% endif %}
     {% if showInfo %}
         <ul class="info mb-1">
