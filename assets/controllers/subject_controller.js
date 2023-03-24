@@ -38,6 +38,7 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
+            this.containerTarget.style.display = 'block';
             this.containerTarget.innerHTML = response.form;
         } catch (e) {
             window.location.href = event.target.href;
@@ -67,6 +68,7 @@ export default class extends Controller {
             response = await response.json();
 
             if (response.form) {
+                this.containerTarget.style.display = 'block';
                 this.containerTarget.innerHTML = response.form;
             } else if (form.classList.contains('replace')) {
                 const div = document.createElement('div');
@@ -88,6 +90,7 @@ export default class extends Controller {
                     this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
                 }
 
+                this.containerTarget.style.display = 'none';
                 this.containerTarget.innerHTML = '';
             }
         } catch (e) {

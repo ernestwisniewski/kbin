@@ -148,3 +148,17 @@ td {
     margin: 0;
   }
 }
+
+.page-magazine-panel {
+  .report {
+    > div {
+      margin-bottom: .5rem;
+    }
+  }
+
+  .actions {
+    @include media-breakpoint-down(sm) {
+      display: flex;
+    }
+  }
+}

@@ -16,8 +16,44 @@
     {% include 'magazine/panel/_options.html.twig' %}
 
     <h1 hidden>{{ 'reports'|trans }}</h1>
-    <div id="content" class="section">
-        <div class="container">
-        </div>
+    <div id="content">
+        {% for report in reports %}
+            <div class="{{ html_classes('section section--small report') }}">
+                <div>
+                    <small class="meta">{{ component('user_inline', {user: report.reporting}) }},
+                        {{ component('date', {date: report.createdAt}) }}</small>
+                </div>
+                <div>
+                    <small class="meta">{% include 'layout/_subject_link.html.twig' with {subject: report.subject} -%}</small>
+                </div>
+                <div>
+                    {{ report.reason }}
+                </div>
+                <div class="actions">
+                    <form method="post"
+                          action="{{ path('magazine_panel_report_reject', {'magazine_name': report.subject.magazine.name, 'report_id': report.id}) }}"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('report_decline') }}">
+                        <button type="submit" class="btn btn__secondry">{{ 'reject'|trans }}</button>
+                    </form>
+                    <form method="post"
+                          action="{{ path('magazine_panel_report_approve', {'magazine_name': report.subject.magazine.name, 'report_id': report.id} ) }}"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('report_approve') }}">
+                        <button type="submit" class="btn btn__secondry">{{ 'approve'|trans }}</button>
+                    </form>
+                    <a href="{{ path('magazine_panel_ban', {'magazine_name': report.subject.magazine.name,'user_username': report.reported.username}) }}"
+                       class="btn btn__secondry">{{ 'ban'|trans }} ({{ report.reported.username|username(true) }})</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% if(reports.haveToPaginate is defined and reports.haveToPaginate) %}
+            {{ pagerfanta(reports, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
+        {% if not reports|length %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
     </div>
 {% endblock %}

@@ -381,6 +381,8 @@ instances: Instances
 upload_file: Upload file
 from_url: From url
 magazine_panel: Magazine panel
+reject: Reject
+approve: Approve
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

@@ -82,8 +82,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="dropdown">
-                {% if app.user %}
+            {% if app.user %}
+                <li class="dropdown">
                     <a class="{{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
                        href="{{ path('user_overview', {username: app.user.username}) }}">{{ app.user.username }}</a>
                     <ul class="dropdown__menu">
@@ -113,11 +113,13 @@
                         </li>
                         <li><a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a></li>
                     </ul>
-                {% else %}
+                </li>
+            {% else %}
+                <li>
                     <a class="{{ html_classes('login', {'active': is_route_name('app_login')}) }}"
                        href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
-                {% endif %}
-            </li>
+                </li>
+            {% endif %}
         </menu>
     </div>
 </header>

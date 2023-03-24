@@ -9,5 +9,11 @@
                 {{ 'stats'|trans|lower }}
             </a>
         </li>
+        <li>
+            <a href="{{ path('magazine_panel_reports', {name: magazine.name}) }}"
+               class="{{ html_classes({'active': is_route_name('magazine_panel_reports')}) }}">
+                {{ 'reports'|trans|lower }}
+            </a>
+        </li>
     </menu>
 </aside>

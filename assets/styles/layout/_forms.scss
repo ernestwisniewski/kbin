@@ -1,4 +1,6 @@
 .btn {
+  font-size: .85rem;
+  height: 100%;
   padding: .7rem;
 
   &__primary {
@@ -105,8 +107,6 @@ form {
 }
 
 .ts-wrapper {
-  min-height: 40px;
-
   div {
     margin-bottom: 0;
   }
@@ -154,7 +154,7 @@ form {
 .actions ul,
 .params {
   display: flex;
-  gap: .5rem;
+  gap: .25rem;
   justify-content: flex-end;
 
   div {

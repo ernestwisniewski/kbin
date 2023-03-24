@@ -38,7 +38,7 @@ magazine_panel_reports:
   controller: App\Controller\Magazine\Panel\MagazineReportController::reports
   path:
     en: /m/{name}/panel/reports
-    pl: /m/{name}/panel/zgloszenia
+    pl: /m/{name}/panel/zgłoszenia
   methods: [ GET ]
 
 magazine_panel_report_approve:
