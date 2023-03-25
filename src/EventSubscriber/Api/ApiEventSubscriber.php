@@ -134,6 +134,6 @@ final class ApiEventSubscriber implements EventSubscriberInterface
     private function magazine(MagazineDto $dto): void
     {
         $dto->user = $this->userFactory->createDto($dto->user);
-        $dto->cover = $dto->cover ? $this->imageFactory->createDto($dto->cover) : null;
+        $dto->icon = $dto->icon ? $this->imageFactory->createDto($dto->icon) : null;
     }
 }

@@ -19,7 +19,7 @@ class MagazineFactory
             $dto->description,
             $dto->rules,
             $dto->isAdult,
-            $dto->cover
+            $dto->icon
         );
     }
 
@@ -27,7 +27,7 @@ class MagazineFactory
     {
         $dto = new MagazineDto();
         $dto->user = $magazine->getOwner();
-        $dto->cover = $magazine->cover;
+        $dto->icon = $magazine->icon;
         $dto->name = $magazine->name;
         $dto->title = $magazine->title;
         $dto->description = $magazine->description;

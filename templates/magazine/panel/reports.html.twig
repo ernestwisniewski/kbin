@@ -34,16 +34,16 @@
                           action="{{ path('magazine_panel_report_reject', {'magazine_name': report.subject.magazine.name, 'report_id': report.id}) }}"
                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('report_decline') }}">
-                        <button type="submit" class="btn btn__secondry">{{ 'reject'|trans }}</button>
+                        <button type="submit" class="btn btn__secondary">{{ 'reject'|trans }}</button>
                     </form>
                     <form method="post"
                           action="{{ path('magazine_panel_report_approve', {'magazine_name': report.subject.magazine.name, 'report_id': report.id} ) }}"
                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('report_approve') }}">
-                        <button type="submit" class="btn btn__secondry">{{ 'approve'|trans }}</button>
+                        <button type="submit" class="btn btn__secondary">{{ 'approve'|trans }}</button>
                     </form>
                     <a href="{{ path('magazine_panel_ban', {'magazine_name': report.subject.magazine.name,'user_username': report.reported.username}) }}"
-                       class="btn btn__secondry">{{ 'ban'|trans }} ({{ report.reported.username|username(true) }})</a>
+                       class="btn btn__secondary">{{ 'ban'|trans }} ({{ report.reported.username|username(true) }})</a>
                 </div>
             </div>
         {% endfor %}

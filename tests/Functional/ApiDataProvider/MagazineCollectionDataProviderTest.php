@@ -48,7 +48,7 @@ class MagazineCollectionDataProviderTest extends ApiTestCase
                         '@type' => 'user',
                         'username' => 'JohnDoe',
                     ],
-                    'cover' => null,
+                    'icon' => null,
                     'name' => 'acme',
                     'title' => 'Magazine title',
                     'description' => null,

@@ -283,10 +283,10 @@ class ActivityPubManager
 
         if (isset($actor['icon'])) {
             $newImage = $this->handleImages([$actor['icon']]);
-            if ($magazine->cover && $newImage !== $magazine->cover) {
-                $this->bus->dispatch(new DeleteImageMessage($magazine->cover->filePath));
+            if ($magazine->icon && $newImage !== $magazine->icon) {
+                $this->bus->dispatch(new DeleteImageMessage($magazine->icon->filePath));
             }
-            $magazine->cover = $newImage;
+            $magazine->icon = $newImage;
         }
 
         if ($actor['preferredUsername']) {

@@ -20,7 +20,7 @@
       .rounded-edges & {
         border-radius: .5rem;
       }
-      
+
       i {
         padding-right: .5rem;
       }
@@ -166,8 +166,13 @@
   ul li {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     list-style: none;
     position: relative;
+
+    form {
+      margin-bottom: 0 !important;
+    }
   }
 
 

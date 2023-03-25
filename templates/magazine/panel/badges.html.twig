@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'badges'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-badges{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+    <h1 hidden>{{ 'badges'|trans }}</h1>
+    {% if badges|length %}
+        <div id="content" class="section users users-columns">
+            <ul>
+                {% for badge in badges %}
+                    <li>
+                        <div>
+                            {{ badge.name }}
+                        </div>
+                        {% if is_granted('edit', magazine) %}
+                            <div class="actions">
+                                <form method="post"
+                                      action="{{ path('magazine_panel_badge_remove', {'magazine_name': badge.magazine.name, 'badge_id': badge.id} ) }}"
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                    <input type="hidden" name="token" value="{{ csrf_token('badge_remove') }}">
+                                    <button type="submit" class="btn btn__secondary">{{ 'delete'|trans }}</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% if(badges.haveToPaginate is defined and badges.haveToPaginate) %}
+        {{ pagerfanta(badges, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not badges|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+    <div class="section badge-add">
+        {{ form_start(form) }}
+        <div class="row">
+            {{ form_errors(form.name) }}
+        </div>
+        <div>
+            {{ form_label(form.name, 'name') }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="actions">
+            {{ form_row(form.submit, { 'label': 'add', attr: {class: 'btn btn__primary'} }) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

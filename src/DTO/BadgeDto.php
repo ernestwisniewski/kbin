@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace App\DTO;
 
 use App\Entity\Magazine;
+use App\Validator\Unique;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Unique({"name"}, entityClass="App\Entity\Badge", errorPath="name")
+ */
 class BadgeDto
 {
     public Magazine|MagazineDto|null $magazine = null;

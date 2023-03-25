@@ -37,7 +37,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
 
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
-    public ?Image $cover = null;
+    public ?Image $icon = null;
     #[Column(type: 'string', nullable: false)]
     public string $name;
     #[Column(type: 'string')]
@@ -109,14 +109,14 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         ?string $description,
         ?string $rules,
         ?bool $isAdult,
-        ?Image $cover
+        ?Image $icon
     ) {
         $this->name = $name;
         $this->title = $title;
         $this->description = $description;
         $this->rules = $rules;
         $this->isAdult = $isAdult ?? false;
-        $this->cover = $cover;
+        $this->icon = $icon;
         $this->moderators = new ArrayCollection();
         $this->entries = new ArrayCollection();
         $this->posts = new ArrayCollection();

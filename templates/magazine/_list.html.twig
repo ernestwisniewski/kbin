@@ -11,10 +11,10 @@
                 <ul>
                     {% for magazine in magazines %}
                         <li>
-                            {% if magazine.cover %}
+                            {% if magazine.icon %}
                                 <figure>
                                     <img width="32" height="32"
-                                         src="{{ asset(magazine.cover.filePath) | imagine_filter('avatar_thumb') }}"
+                                         src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
                                          alt="{{ magazine.name ~' '~ 'avatar'|trans|lower }}">
                                 </figure>
                             {% endif %}

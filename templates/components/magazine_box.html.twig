@@ -8,10 +8,10 @@
         </div>
     {% endif %}
     <div class="row">
-        {% if computed.magazine.cover and showCover %}
+        {% if computed.magazine.icon and showCover %}
             <figure>
-                <img src="{{ asset(computed.magazine.cover.filePath) | imagine_filter('post_thumb') }}"
-                     alt="{{ computed.magazine.name ~ ' ' ~ 'cover'|trans }}" width="260">
+                <img src="{{ asset(computed.magazine.icon.filePath) | imagine_filter('post_thumb') }}"
+                     alt="{{ computed.magazine.name ~ ' ' ~ 'icon'|trans }}" width="260">
             </figure>
         {% endif %}
         <header>

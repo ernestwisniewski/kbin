@@ -22,7 +22,7 @@ class PostDto
     public ?string $imageAlt = null;
     #[Assert\Length(max: 5000)]
     public ?string $body = null;
-    public ?string $lang = null;
+    public ?string $lang = 'en';
     public bool $isAdult = false;
     public ?string $slug = null;
     public int $comments = 0;

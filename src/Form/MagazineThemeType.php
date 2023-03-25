@@ -26,7 +26,7 @@ class MagazineThemeType extends AbstractType
     {
         $builder
             ->add(
-                'cover',
+                'icon',
                 FileType::class,
                 [
                     'constraints' => ImageConstraint::default(),
@@ -49,7 +49,7 @@ class MagazineThemeType extends AbstractType
             ])
             ->add('submit', SubmitType::class);
 
-        $builder->addEventSubscriber($this->imageListener->setFieldName('cover'));
+        $builder->addEventSubscriber($this->imageListener->setFieldName('icon'));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

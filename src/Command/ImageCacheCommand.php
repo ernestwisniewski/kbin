@@ -150,7 +150,7 @@ class ImageCacheCommand extends Command
     {
         $repo = $this->entityManager->getRepository(Magazine::class);
         $res = $repo->createQueryBuilder('m')->select('m')
-            ->join('m.cover', 'i')
+            ->join('m.icon', 'i')
             ->getQuery()
             ->getResult();
 
@@ -158,7 +158,7 @@ class ImageCacheCommand extends Command
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths' => [$magazine->cover->filePath],
+                'paths' => [$magazine->icon->filePath],
                 '--filter' => ['post_thumb'],
             ];
 

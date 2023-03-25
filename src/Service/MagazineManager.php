@@ -192,7 +192,7 @@ class MagazineManager
     {
         $magazine = $dto->magazine;
 
-        $magazine->cover = $dto->cover ?? $magazine->cover;
+        $magazine->icon = $dto->icon ?? $magazine->icon;
 
         $background = null;
         $customCss = null;

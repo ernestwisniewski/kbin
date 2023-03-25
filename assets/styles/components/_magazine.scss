@@ -157,11 +157,29 @@ td {
   }
 
   .actions {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 
     @include media-breakpoint-down(sm) {
       display: flex;
       flex-wrap: wrap;
+    }
+  }
+
+  .users-columns {
+    .actions {
+      margin-left: 1rem;
+
+      .btn {
+        padding: .5rem;
+      }
+    }
+  }
+
+  .moderator-add form,
+  .badge-add form {
+    @include media-breakpoint-up(md) {
+      margin: 0 auto;
+      width: 50%;
     }
   }
 }

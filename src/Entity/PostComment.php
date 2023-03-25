@@ -61,7 +61,7 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     #[Column(type: 'text', length: 4500)]
     public ?string $body;
     #[Column(type: 'string', nullable: false)]
-    public string $lang;
+    public string $lang = 'en';
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
     #[Column(type: 'datetimetz')]
