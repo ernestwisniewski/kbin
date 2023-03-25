@@ -8,6 +8,7 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Service\ImageManager;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;

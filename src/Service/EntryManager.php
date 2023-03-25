@@ -81,6 +81,9 @@ class EntryManager implements ContentManagerInterface
         $entry->user->lastActive = new \DateTime();
         $entry->lastActive = $dto->lastActive ?? $entry->lastActive;
         $entry->createdAt = $dto->createdAt ?? $entry->createdAt;
+        if(empty($entry->body) && empty($entry->image)) {
+            throw new \Exception('Entry body and image cannot be empty');
+        }
 
         $entry->magazine->addEntry($entry);
 
@@ -150,9 +153,11 @@ class EntryManager implements ContentManagerInterface
         $entry->isOc = $dto->isOc;
         $entry->lang = $dto->lang;
         $entry->editedAt = new \DateTimeImmutable('@'.time());
-
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);
+        }
+        if(empty($entry->body) && empty($entry->image)) {
+            throw new \Exception('Entry body and image cannot be empty');
         }
 
         $this->entityManager->flush();
