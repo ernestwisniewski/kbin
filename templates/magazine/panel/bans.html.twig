@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'bans'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-bans{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+    <h1 hidden>{{ 'bans'|trans }}</h1>
+    {% if bans|length %}
+        <div id="content" class="section bans bans-table table-responsive">
+            <table>
+                <thead>
+                <tr>
+                    <th>{{ 'name'|trans }}</th>
+                    <th>{{ 'reason'|trans }}</th>
+                    <th>{{ 'created'|trans }}</th>
+                    <th>{{ 'expires'|trans }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ban in bans %}
+                    <tr>
+                        <td>{{ component('user_inline', {user: ban.user}) }}</td>
+                        <td>{{ ban.reason }}</td>
+                        <td>{{ component('date', {date: ban.createdAt}) }}</td>
+                        <td>
+                            {% if ban.expiredAt %}
+                                {{ component('date', {date: ban.expiredAt}) }}
+                            {% else %}
+                                {{ 'perm'|trans }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form method="post"
+                                  action="{{ path('magazine_panel_unban', {name: ban.magazine.name, username: ban.user.username}) }}"
+                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                <input type="hidden" name="token" value="{{ csrf_token('magazine_unban') }}">
+                                <button class="btn btn__secondry">{{ 'delete'|trans }}</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    {% if(bans.haveToPaginate is defined and bans.haveToPaginate) %}
+        {{ pagerfanta(bans, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not bans|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+    <section class="section ban-add">
+        <div class="container">
+            <h3 hidden>{{ 'add_ban'|trans }}</h3>
+            <form action="{{ path('magazine_panel_ban', {name: magazine.name}) }}" method="get">
+                <div>
+                    <label for="username">{{ 'username'|trans }}</label>
+                    <input id="username" type="text" name="username">
+                </div>
+                <div class="actions">
+                    <button class="btn btn__primary" type="submit">{{ 'add_ban'|trans }}</button>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

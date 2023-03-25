@@ -12,8 +12,10 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 #[Entity]
+#[UniqueConstraint(name: 'badge_magazine_name_idx', columns: ['name', 'magazine_id'])]
 class Badge
 {
     #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'badges')]

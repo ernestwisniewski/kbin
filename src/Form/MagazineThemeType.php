@@ -9,7 +9,6 @@ use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\ImageListener;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -31,15 +30,15 @@ class MagazineThemeType extends AbstractType
                 [
                     'constraints' => ImageConstraint::default(),
                     'mapped' => false,
+                    'required' => false,
                 ]
             )
-            ->add('customCss', TextareaType::class)
-            ->add('customJs', TextareaType::class)
-            ->add('primaryColor', ColorType::class)
-            ->add('primaryDarkerColor', ColorType::class)
+            ->add('customCss', TextareaType::class, ['required' => false])
+            ->add('customJs', TextareaType::class, ['required' => false])
             ->add('backgroundImage', ChoiceType::class, [
                 'multiple' => false,
                 'expanded' => true,
+                'data' => 'none',
                 'choices' => [
                     'none' => 'none',
                     'shape1' => 'shape1',

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'stats'|trans }} - {{ parent() -}}
+    {{- 'stats'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
 {% block mainClass %}page-magazine-panel page-magazine-stats{% endblock %}
@@ -17,10 +17,8 @@
 
     <h1 hidden>{{ 'stats'|trans }}</h1>
     <div id="content" class="section">
-        <div class="container">
-            <h2>{{ 'threads'|trans }}</h2>
-            <h2>{{ 'votes'|trans }}</h2>
-            <h2>{{ 'views'|trans }}</h2>
-        </div>
+        <h2>{{ 'threads'|trans }}</h2>
+        <h2>{{ 'votes'|trans }}</h2>
+        <h2>{{ 'views'|trans }}</h2>
     </div>
 {% endblock %}

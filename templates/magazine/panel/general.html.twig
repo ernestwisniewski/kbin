@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'general'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-general{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+
+    <h1 hidden>{{ 'general'|trans }}</h1>
+    <div id="content" class="section theme">
+        <div class="container">
+            {{ form_start(form) }}
+            <div>
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title) }}
+            </div>
+            <div>
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+            </div>
+            <div>
+                {{ form_label(form.rules) }}
+                {{ form_widget(form.rules) }}
+            </div>
+            <div class="checkbox">
+                {{ form_label(form.isAdult) }}
+                {{ form_widget(form.isAdult) }}
+            </div>
+            <div class="actions">
+                {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

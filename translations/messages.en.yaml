@@ -388,6 +388,16 @@ filters: Filters
 approved: Approved
 rejected: Rejected
 add_moderator: Add moderator
+add_badge: Add badge
+bans: Bans
+created: Created
+expires: Expires
+perm: Perm
+expired_at: Expired at
+add_ban: Add ban
+trash: Trash
+icon: Icon
+done: Done
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

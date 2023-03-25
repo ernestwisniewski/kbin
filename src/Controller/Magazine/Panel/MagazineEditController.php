@@ -36,11 +36,11 @@ class MagazineEditController extends AbstractController
                 'flash_magazine_edit_success'
             );
 
-            return $this->redirectToMagazine($magazine);
+            return $this->redirectToRefererOrHome($request);
         }
 
         return $this->render(
-            'magazine/panel/edit.html.twig',
+            'magazine/panel/general.html.twig',
             [
                 'magazine' => $magazine,
                 'form' => $form->createView(),

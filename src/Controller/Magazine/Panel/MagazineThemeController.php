@@ -30,6 +30,7 @@ class MagazineThemeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $magazine = $this->manager->changeTheme($dto);
+            $this->redirectToRefererOrHome($request);
         }
 
         return $this->render(

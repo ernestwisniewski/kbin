@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'moderators'|trans }} - {{ parent() -}}
+    {{- 'moderators'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
 {% block mainClass %}page-magazine-panel page-magazine-moderators{% endblock %}
@@ -51,17 +51,19 @@
         </aside>
     {% endif %}
     <div class="section moderator-add">
-        {{ form_start(form) }}
-        <div class="row">
-            {{ form_errors(form.user) }}
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="row">
+                {{ form_errors(form.user) }}
+            </div>
+            <div>
+                {{ form_label(form.user, 'username') }}
+                {{ form_widget(form.user) }}
+            </div>
+            <div class="actions row">
+                {{ form_row(form.submit, { 'label': 'add_moderator', attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
         </div>
-        <div>
-            {{ form_label(form.user, 'username') }}
-            {{ form_widget(form.user) }}
-        </div>
-        <div class="actions row">
-            {{ form_row(form.submit, { 'label': 'add_moderator', attr: {class: 'btn btn__primary'} }) }}
-        </div>
-        {{ form_end(form) }}
     </div>
 {% endblock %}

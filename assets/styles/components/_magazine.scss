@@ -150,6 +150,11 @@ td {
 }
 
 .page-magazine-panel {
+  .container {
+    margin: 0 auto;
+    max-width: 30rem;
+  }
+
   .report {
     div {
       margin-bottom: .5rem;
@@ -172,14 +177,6 @@ td {
       .btn {
         padding: .5rem;
       }
-    }
-  }
-
-  .moderator-add form,
-  .badge-add form {
-    @include media-breakpoint-up(md) {
-      margin: 0 auto;
-      width: 50%;
     }
   }
 }

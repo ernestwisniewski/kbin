@@ -9,7 +9,7 @@ use App\Validator\Unique;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @Unique({"name"}, entityClass="App\Entity\Badge", errorPath="name")
+ * @Unique({"magazine", "name"}, entityClass="App\Entity\Badge", errorPath="user")
  */
 class BadgeDto
 {

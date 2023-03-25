@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'trash'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-trash{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+
+    <h1 hidden>{{ 'trash'|trans }}</h1>
+    {% if results|length %}
+        {% for subject in results %}
+            {% include 'layout/_subject.html.twig' %}
+        {% endfor %}
+    {% endif %}
+    {% if(results.haveToPaginate is defined and results.haveToPaginate) %}
+        {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not results|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+
+{% endblock %}

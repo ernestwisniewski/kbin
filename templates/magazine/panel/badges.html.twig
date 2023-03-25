@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'badges'|trans }} - {{ parent() -}}
+    {{- 'badges'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
 {% block mainClass %}page-magazine-panel page-magazine-badges{% endblock %}
@@ -47,17 +47,19 @@
         </aside>
     {% endif %}
     <div class="section badge-add">
-        {{ form_start(form) }}
-        <div class="row">
-            {{ form_errors(form.name) }}
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="row">
+                {{ form_errors(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.name, 'name') }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div class="actions">
+                {{ form_row(form.submit, { 'label': 'add_badge', attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
         </div>
-        <div>
-            {{ form_label(form.name, 'name') }}
-            {{ form_widget(form.name) }}
-        </div>
-        <div class="actions">
-            {{ form_row(form.submit, { 'label': 'add', attr: {class: 'btn btn__primary'} }) }}
-        </div>
-        {{ form_end(form) }}
     </div>
 {% endblock %}
