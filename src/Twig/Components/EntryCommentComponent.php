@@ -19,6 +19,7 @@ final class EntryCommentComponent
     public bool $showEntryTitle = true;
     public bool $showNested = false;
     public int $level = 1;
+    public bool $showModeratePanel = false;
 
     public function getLevel(): int
     {

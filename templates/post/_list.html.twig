@@ -1,5 +1,9 @@
 {% for post in posts %}
-    {{ component('post', {post: post, showMagazineName: magazine is not defined or not magazine, showCommentsPreview: true}) }}
+    {{ component('post', {
+        post: post,
+        showMagazineName: magazine is not defined or not magazine,
+        showCommentsPreview: true
+    }) }}
 {% endfor %}
 {% if(posts.haveToPaginate is defined and posts.haveToPaginate) %}
     {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}

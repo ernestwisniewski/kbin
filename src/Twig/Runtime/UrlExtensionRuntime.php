@@ -131,6 +131,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('entry_comment_moderate', [
             'magazine_name' => $comment->magazine->name,
             'entry_id' => $comment->entry->getId(),
+            'comment_id' => $comment->getId(),
             'slug' => empty($comment->entry->slug) ? '-' : $comment->entry->slug,
         ]);
     }

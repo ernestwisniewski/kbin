@@ -13,9 +13,17 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('post', {post: post, isSingle: true, showMagazineName: false}) }}
+    {{ component('post', {
+        post: post,
+        isSingle: true,
+        showMagazineName: false
+    }) }}
     {% if parent is defined and parent %}
-        {{ component('post_comment', {comment: parent, showEntryTitle: false, showNested: false}) }}
+        {{ component('post_comment', {
+            comment: parent,
+            showEntryTitle: false,
+            showNested: false
+        }) }}
     {% endif %}
     <div id="content">
         <section class="section">

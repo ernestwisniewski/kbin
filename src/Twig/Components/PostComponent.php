@@ -15,6 +15,7 @@ final class PostComponent
     public bool $dateAsUrl = true;
     public bool $showCommentsPreview = false;
     public bool $showExpand = true;
+    public bool $showModeratePanel = false;
 
     #[PostMount]
     public function postMount(array $attr): array

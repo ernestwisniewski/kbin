@@ -7,7 +7,12 @@
 {% endif %}
 <aside class="comments entry-comments">
     {% for comment in comments %}
-        {{ component('entry_comment', {comment: comment, showNested: showNested, showMagazineName: magazine is not defined or not magazine, showEntryTitle: entry is not defined or not entry}) }}
+        {{ component('entry_comment', {
+            comment: comment,
+            showNested: showNested,
+            showMagazineName: magazine is not defined or not magazine,
+            showEntryTitle: entry is not defined or not entry
+        }) }}
     {% endfor %}
     {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
         {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}

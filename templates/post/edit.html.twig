@@ -20,7 +20,10 @@
         <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
     {% endif %}
     <div id="content">
-        {{ component('post', {post: post, isSingle: true}) }}
+        {{ component('post', {
+            post: post,
+            isSingle: true
+        }) }}
         <section class="section">
             {% include 'post/_form_post.html.twig' with {edit: true} %}
         </section>

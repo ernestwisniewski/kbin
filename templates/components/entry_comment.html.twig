@@ -85,7 +85,7 @@
                             </form>
                         </li>
                     {% endif %}
-                    {% if is_granted('moderate', comment) %}
+                    {% if is_granted('moderate', comment.magazine) %}
                         <li>
                             <a href="{{ entry_comment_moderate_url(comment) }}">
                                 {{ 'moderate'|trans|lower }}
@@ -104,6 +104,13 @@
         </div>
     </footer>
 </blockquote>
+{% if showModeratePanel %}
+    {% include 'entry/comment/_moderate_panel.html.twig' %}
+{% endif %}
 {% if showNested %}
-    {{ component('entry_comments_nested', {comment: comment, level: level, showNested: true}) }}
+    {{ component('entry_comments_nested', {
+        comment: comment,
+        level: level,
+        showNested: true
+    }) }}
 {% endif %}

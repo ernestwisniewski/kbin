@@ -13,7 +13,9 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('post_comment', {comment: comment}) }}
+    {{ component('post_comment', {
+        comment: comment
+    }) }}
     {% include 'post/comment/_options_activity.html.twig' %}
     <div id="content">
         {% include 'layout/_user_activity_list.html.twig' with {list: votes} %}

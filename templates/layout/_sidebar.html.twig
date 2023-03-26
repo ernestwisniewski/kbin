@@ -64,7 +64,10 @@
     {% include 'post/_info.html.twig' %}
 {% endif %}
 {% if magazine is defined and magazine %}
-    {{ component('magazine_box', {magazine: magazine, showSectionTitle: true}) }}
+    {{ component('magazine_box', {
+        magazine: magazine,
+        showSectionTitle: true
+    }) }}
     {% include 'magazine/_moderators_sidebar.html.twig' %}
 {% endif %}
 {{ component('related_posts') }}

@@ -1,5 +1,8 @@
 {% for entry in entries %}
-    {{ component('entry', {entry: entry, showMagazineName: magazine is not defined or not magazine}) }}
+    {{ component('entry', {
+        entry: entry,
+        showMagazineName: magazine is not defined or not magazine
+    }) }}
 {% endfor %}
 {% if(entries.haveToPaginate is defined and entries.haveToPaginate) %}
     {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}

@@ -26,6 +26,17 @@ class CommentModerateController extends AbstractController
         PostComment $comment,
         Request $request,
     ): Response {
-        return new Response('moderate');
+        if ($post->magazine !== $magazine) {
+            return $this->redirectToRoute(
+                'post_single',
+                ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId(), 'slug' => $post->slug],
+                301
+            );
+        }
+
+        return $this->render('post/comment/moderate.html.twig', [
+            'magazine' => $magazine,
+            'entry' => $post,
+        ]);
     }
 }

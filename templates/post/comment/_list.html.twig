@@ -10,7 +10,12 @@
 {% endif %}
 <aside class="comments post-comments">
     {% for comment in comments %}
-        {{ component('post_comment', {comment: comment, showNested: showNested, dateAsUrl: not is_route_name('post_single'), level: level }) }}
+        {{ component('post_comment', {
+            comment: comment,
+            showNested: showNested,
+            dateAsUrl: not is_route_name('post_single'),
+            level: level
+        }) }}
     {% endfor %}
     {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
         {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}

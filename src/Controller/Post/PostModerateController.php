@@ -18,13 +18,24 @@ class PostModerateController extends AbstractController
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
-    #[IsGranted('moderate', subject: 'post')]
+    #[IsGranted('moderate', subject: 'magazine')]
     public function __invoke(
         Magazine $magazine,
         Post $post,
         Request $request,
         PostCommentRepository $repository
     ): Response {
-        return new Response('moderate');
+        if ($post->magazine !== $magazine) {
+            return $this->redirectToRoute(
+                'post_single',
+                ['magazine_name' => $post->magazine->name, 'post_id' => $post->getId(), 'slug' => $post->slug],
+                301
+            );
+        }
+
+        return $this->render('post/moderate.html.twig', [
+            'magazine' => $magazine,
+            'entry' => $post,
+        ]);
     }
 }

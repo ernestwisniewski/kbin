@@ -13,7 +13,11 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('entry_comment', {comment: comment, showEntryTitle: false, showMagazineName: false}) }}
+    {{ component('entry_comment', {
+        comment: comment,
+        showEntryTitle: false,
+        showMagazineName: false
+    }) }}
     {% include 'entry/comment/_options_activity.html.twig' %}
     <div id="content">
         {% include 'layout/_user_activity_list.html.twig' with {list: favourites} %}

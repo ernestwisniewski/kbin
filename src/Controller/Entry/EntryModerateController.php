@@ -20,6 +20,17 @@ class EntryModerateController extends AbstractController
     #[IsGranted('moderate', subject: 'magazine')]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
-        return new Response('moderate');
+        if ($entry->magazine !== $magazine) {
+            return $this->redirectToRoute(
+                'entry_single',
+                ['magazine_name' => $entry->magazine->name, 'entry_id' => $entry->getId(), 'slug' => $entry->slug],
+                301
+            );
+        }
+
+        return $this->render('entry/moderate.html.twig', [
+            'magazine' => $magazine,
+            'entry' => $entry,
+        ]);
     }
 }

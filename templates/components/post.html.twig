@@ -19,12 +19,19 @@
         {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
     </header>
     {% if post.user.avatar %}
-        {{ component('user_avatar', {user: post.user, width: 40, height: 40}) }}
+        {{ component('user_avatar', {
+            user: post.user,
+            width: 40,
+            height: 40
+        }) }}
     {% endif %}
     <div class="content">
         {{ post.body|markdown|raw }}
     </div>
-    {{ component('vote', {subject: post, showDownvote: false}) }}
+    {{ component('vote', {
+        subject: post,
+        showDownvote: false
+    }) }}
     <footer>
         {% if post.image %}
             <figure>
@@ -54,7 +61,10 @@
                 </li>
             {% endif %}
             <li>
-                {{ component('favourite', {subject: post, path: 'post_favourite'}) }}
+                {{ component('favourite', {
+                    subject: post,
+                    path: 'post_favourite'
+                }) }}
             </li>
             <li class="dropdown">
                 <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
@@ -118,11 +128,18 @@
                 </div>
             </li>
         </menu>
-        {{ component('voters_inline', {subject: post, url: post_voters_url(post, 'up'), 'data-post-target': 'voters'}) }}
+        {{ component('voters_inline', {
+            subject: post,
+            url: post_voters_url(post, 'up'),
+            'data-post-target': 'voters'
+        }) }}
         <div data-subject-target="container" class="js-container">
         </div>
     </footer>
 </blockquote>
+{% if showModeratePanel %}
+    {% include 'post/_moderate_panel.html.twig' %}
+{% endif %}
 {% if(showCommentsPreview) %}
     {{ component('post_comments_preview', {post: post, 'data-post-target': 'preview'}) }}
 {% endif %}

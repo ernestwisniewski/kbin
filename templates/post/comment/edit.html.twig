@@ -13,8 +13,9 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('post_comment', {comment: comment}) }}
-
+    {{ component('post_comment', {
+        comment: comment
+    }) }}
     <div id="content">
         <section class="section">
             {% include 'post/comment/_form_comment.html.twig' with {edit: true} %}

@@ -70,7 +70,10 @@
             {% endif %}
         </figure>
     {% endif %}
-    {{ component('vote', {subject: entry, formDest: 'entry_vote'}) }}
+    {{ component('vote', {
+        subject: entry,
+        formDest: 'entry_vote'
+    }) }}
     <footer>
         <menu>
             <li>
@@ -78,7 +81,10 @@
                    href="{{ entry_url(entry) ~ '#comments' }}">{{ entry.commentCount }} {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}</a>
             </li>
             <li>
-                {{ component('favourite', {subject: entry, path: 'entry_favourite'}) }}
+                {{ component('favourite', {
+                    subject: entry,
+                    path: 'entry_favourite'
+                }) }}
             </li>
             <li class="dropdown">
                 <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
@@ -145,4 +151,6 @@
         </div>
     </footer>
 </article>
-
+{% if showModeratePanel %}
+    {% include 'entry/_moderate_panel.html.twig' %}
+{% endif %}

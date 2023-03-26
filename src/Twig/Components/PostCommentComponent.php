@@ -18,6 +18,7 @@ final class PostCommentComponent
     public bool $dateAsUrl = true;
     public bool $showNested = false;
     public int $level = 1;
+    public bool $showModeratePanel = false;
 
     public function getLevel(): int
     {

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'moderate'|trans }} - {{ entry.title }} - {{ magazine.title }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-moderate{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <div id="content">
+        {{ component('entry', {
+            entry: entry,
+            isSingle: true,
+            showShortSentence: false,
+            showBody:true,
+            moderate:true,
+            showModeratePanel: true,
+            class: 'section--top'
+        }) }}
+    </div>
+{% endblock %}

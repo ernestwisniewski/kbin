@@ -16,12 +16,19 @@
         {% endif %}
     </header>
     {% if comment.user.avatar %}
-        {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}
+        {{ component('user_avatar', {
+            user: comment.user,
+            width: 40,
+            height: 40
+        }) }}
     {% endif %}
     <div class="content">
         {{ comment.body|markdown|raw }}
     </div>
-    {{ component('vote', {subject: comment, showDownvote: false}) }}
+    {{ component('vote', {
+        subject: comment,
+        showDownvote: false
+    }) }}
     <footer>
         {% if comment.image %}
             <figure>
@@ -39,7 +46,10 @@
                    data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
             </li>
             <li>
-                {{ component('favourite', {subject: comment, path: 'post_comment_favourite'}) }}
+                {{ component('favourite', {
+                    subject: comment,
+                    path: 'post_comment_favourite'
+                }) }}
             </li>
             <li class="dropdown">
                 <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
@@ -88,7 +98,7 @@
                             </form>
                         </li>
                     {% endif %}
-                    {% if is_granted('moderate', comment) %}
+                    {% if is_granted('moderate', comment.magazine) %}
                         <li>
                             <a href="{{ post_comment_moderate_url(comment) }}">
                                 {{ 'moderate'|trans|lower }}
@@ -103,11 +113,21 @@
                 </div>
             </li>
         </menu>
-        {{ component('voters_inline', {subject: comment, url: post_comment_voters_url(comment, 'up')}) }}
+        {{ component('voters_inline', {
+            subject: comment,
+            url: post_comment_voters_url(comment, 'up')
+        }) }}
         <div data-subject-target="container" class="js-container">
         </div>
     </footer>
 </blockquote>
+{% if showModeratePanel %}
+    {% include 'post/comment/_moderate_panel.html.twig' %}
+{% endif %}
 {% if showNested %}
-    {{ component('post_comments_nested', {comment: comment, level: level, showNested: true}) }}
+    {{ component('post_comments_nested', {
+        comment: comment,
+        level: level,
+        showNested: true
+    }) }}
 {% endif %}

@@ -14,7 +14,10 @@
 
 {% block body %}
     <div id="content">
-        {{ component('post', {post: post, isSingle: true}) }}
+        {{ component('post', {
+            post: post,
+            isSingle: true
+        }) }}
         {% include 'post/_options_activity.html.twig' %}
         {% include 'layout/_user_activity_list.html.twig' with {list: votes} %}
     </div>

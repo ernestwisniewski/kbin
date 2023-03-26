@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'moderate'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ magazine.title }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-post-single{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <div id="content">
+        {{ component('post', {
+            post: post,
+            isSingle: true,
+            dateAsUrl: false,
+            showModeratePanel: true
+            class: 'section--top',
+        }) }}
+    </div>
+{% endblock %}
