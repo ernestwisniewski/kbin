@@ -74,7 +74,7 @@ class PostManager implements ContentManagerInterface
         $post->user->lastActive = new \DateTime();
         $post->lastActive = $dto->lastActive ?? $post->lastActive;
         $post->createdAt = $dto->createdAt ?? $post->createdAt;
-        if(empty($post->body) && empty($post->image)) {
+        if (empty($post->body) && null === $post->image) {
             throw new \Exception('Post body and image cannot be empty');
         }
 
@@ -104,7 +104,7 @@ class PostManager implements ContentManagerInterface
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->visibility = $dto->visibility;
         $post->editedAt = new \DateTimeImmutable('@'.time());
-        if(empty($post->body) && empty($post->image)) {
+        if (empty($post->body) && null === $post->image) {
             throw new \Exception('Post body and image cannot be empty');
         }
 

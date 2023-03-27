@@ -16,7 +16,7 @@ class EntrySingleControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $this->getEntryByTitle('test entry 1');
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
         $crawler = $client->request('GET', '/');
 
@@ -63,7 +63,7 @@ class EntrySingleControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('test entry 1');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
         $manager = $client->getContainer()->get(VoteManager::class);
         $manager->vote(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
@@ -82,7 +82,7 @@ class EntrySingleControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('test entry 1');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
         $this->createEntryComment('test comment 1', $entry);
         $this->createEntryComment('test comment 2', $entry);
 

@@ -66,7 +66,7 @@ class PostCommentManager implements ContentManagerInterface
         $comment->user->lastActive = new \DateTime();
         $comment->lastActive = $dto->lastActive ?? $comment->lastActive;
         $comment->createdAt = $dto->createdAt ?? $comment->createdAt;
-        if(empty($comment->body) && empty($comment->image)) {
+        if (empty($comment->body) && null === $comment->image) {
             throw new \Exception('Comment body and image cannot be empty');
         }
 
@@ -97,7 +97,7 @@ class PostCommentManager implements ContentManagerInterface
             : $dto->mentions;
         $comment->visibility = $dto->visibility;
         $comment->editedAt = new \DateTimeImmutable('@'.time());
-        if(empty($comment->body) && empty($comment->image)) {
+        if (empty($comment->body) && null === $comment->image) {
             throw new \Exception('Comment body and image cannot be empty');
         }
 

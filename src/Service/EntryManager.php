@@ -81,7 +81,7 @@ class EntryManager implements ContentManagerInterface
         $entry->user->lastActive = new \DateTime();
         $entry->lastActive = $dto->lastActive ?? $entry->lastActive;
         $entry->createdAt = $dto->createdAt ?? $entry->createdAt;
-        if(empty($entry->body) && empty($entry->image)) {
+        if (empty($entry->body) && null === $entry->image && null === $entry->url) {
             throw new \Exception('Entry body and image cannot be empty');
         }
 
@@ -156,7 +156,7 @@ class EntryManager implements ContentManagerInterface
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);
         }
-        if(empty($entry->body) && empty($entry->image)) {
+        if (empty($entry->body) && null === $entry->image && null === $entry->url) {
             throw new \Exception('Entry body and image cannot be empty');
         }
 

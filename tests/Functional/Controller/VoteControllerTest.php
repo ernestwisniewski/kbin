@@ -13,7 +13,7 @@ class VoteControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('Actor'));
 
-        $entry = $this->getEntryByTitle('test entry 1');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
         $u1 = $this->getUserByUsername('JohnDoe');
         $u2 = $this->getUserByUsername('JaneDoe');

@@ -13,7 +13,7 @@ class UserFollowControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        $entry = $this->getEntryByTitle('test entry 1');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
         $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
 

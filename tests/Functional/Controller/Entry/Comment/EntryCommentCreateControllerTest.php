@@ -13,7 +13,7 @@ class EntryCommentCreateControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('test entry 1');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
@@ -37,7 +37,7 @@ class EntryCommentCreateControllerTest extends WebTestCase
 
         $comment = $this->createEntryComment(
             'test comment 1',
-            $entry = $this->getEntryByTitle('test entry 1'),
+            $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub'),
             $this->getUserByUsername('JaneDoe')
         );
 
@@ -67,7 +67,7 @@ class EntryCommentCreateControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('test entry 1');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 

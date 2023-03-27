@@ -236,8 +236,12 @@ trait FactoryTrait
         return $entry;
     }
 
-    public function createEntryComment(string $body, ?Entry $entry = null, ?User $user = null, ?EntryComment $parent = null): EntryComment
-    {
+    public function createEntryComment(
+        string $body,
+        ?Entry $entry = null,
+        ?User $user = null,
+        ?EntryComment $parent = null
+    ): EntryComment {
         /**
          * @var $manager EntryCommentManager
          */
@@ -245,14 +249,14 @@ trait FactoryTrait
 
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent(
-                $entry ?? $this->getEntryByTitle('test entry content'),
+                $entry ?? $this->getEntryByTitle('test entry content', 'https://kbin.pub'),
                 $parent,
                 null,
                 $body
             );
         } else {
             $dto = new EntryCommentDto();
-            $dto->entry = $entry ?? $this->getEntryByTitle('test entry content');
+            $dto->entry = $entry ?? $this->getEntryByTitle('test entry content', 'https://kbin.pub');
             $dto->body = $body;
         }
 
