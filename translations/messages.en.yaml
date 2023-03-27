@@ -398,6 +398,11 @@ add_ban: Add ban
 trash: Trash
 icon: Icon
 done: Done
+pin: Pin
+unpin: Unpin
+change_magazine: Change magazine
+change_language: Change language
+change: Change
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

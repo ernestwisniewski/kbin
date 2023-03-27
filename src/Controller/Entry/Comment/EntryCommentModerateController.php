@@ -8,6 +8,7 @@ use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
+use App\Form\LangType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ class EntryCommentModerateController extends AbstractController
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
     #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
-    #[IsGranted('moderate', subject: 'magazine')]
+    #[IsGranted('moderate', subject: 'comment')]
     public function __invoke(
         Magazine $magazine,
         Entry $entry,
@@ -33,10 +34,15 @@ class EntryCommentModerateController extends AbstractController
             );
         }
 
+        $form = $this->createForm(LangType::class);
+        $form->get('lang')
+            ->setData($comment->lang);
+
         return $this->render('entry/comment/moderate.html.twig', [
             'magazine' => $magazine,
             'entry' => $entry,
             'comment' => $comment,
+            'form' => $form->createView()
         ]);
     }
 }

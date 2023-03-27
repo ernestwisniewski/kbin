@@ -40,6 +40,18 @@ post_comment_purge:
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/purge
   methods: [ POST ]
 
+post_comment_change_lang:
+  controller: App\Controller\Post\Comment\PostCommentChangeLangController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/comments/{comment_id}/change_lang
+  methods: [ POST ]
+
+post_comment_change_adult:
+  controller: App\Controller\Post\Comment\PostCommentChangeAdultController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/comments/{comment_id}/change_adult
+  methods: [ POST ]
+
 post_comment_image_delete:
   controller: App\Controller\Post\Comment\CommentDeleteImageController
   defaults: { slug: -, }
@@ -188,18 +200,21 @@ post_image_delete:
 
 post_change_magazine:
   controller: App\Controller\Post\PostChangeMagazineController
-  defaults: { slug:
-                - }
+  defaults: { slug: - }
   path: /m/{magazine_name}/p/{post_id}/{slug}/change_magazine
+  methods: [ POST ]
+
+post_change_lang:
+  controller: App\Controller\Post\PostChangeLangController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/change_lang
   methods: [ POST ]
 
 post_change_adult:
   controller: App\Controller\Post\PostChangeAdultController
-  defaults: { slug:
-                - }
+  defaults: { slug: - }
   path: /m/{magazine_name}/p/{post_id}/{slug}/change_adult
   methods: [ POST ]
-
 
 post_single:
   controller: App\Controller\Post\PostSingleController

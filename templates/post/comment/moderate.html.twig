@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- 'moderate'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ magazine.title }} - {{ parent() -}}
+    {{- 'moderate'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ magazine.title }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block mainClass %}page-post-single{% endblock %}
+{% block mainClass %}page-post-moderate{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -18,8 +18,8 @@
             post: post,
             isSingle: true,
             dateAsUrl: false,
-            showModeratePanel: true
-            class: 'section--top',
+            showModeratePanel: true,
         }) }}
+        {% include 'post/comment/_moderate_panel.html.twig' %}
     </div>
 {% endblock %}

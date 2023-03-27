@@ -38,3 +38,41 @@
     border-left: var(--kbin-own-border);
   }
 }
+
+.moderate-panel {
+  menu {
+    align-items: center;
+    column-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    justify-content: space-around;
+    list-style: none;
+
+    select {
+      padding: .25rem;
+    }
+
+    .actions form {
+      display: flex;
+    }
+
+    input,
+    select,
+    input[type=checkbox] {
+      border: var(--kbin-meta-border);
+      border-radius: 0 !important;
+      margin-right: .25rem;
+    }
+
+    & > a.active,
+    & > li button.active, {
+      text-decoration: underline;
+    }
+
+    button, input[type='submit'], a {
+      @include kbin-btn-link;
+    }
+  }
+}

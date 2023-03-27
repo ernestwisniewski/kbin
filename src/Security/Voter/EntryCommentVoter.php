@@ -15,12 +15,13 @@ class EntryCommentVoter extends Voter
     public const DELETE = 'delete';
     public const PURGE = 'purge';
     public const VOTE = 'vote';
+    public const MODERATE = 'moderate';
 
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof EntryComment && \in_array(
             $attribute,
-            [self::EDIT, self::DELETE, self::PURGE, self::VOTE],
+            [self::EDIT, self::DELETE, self::PURGE, self::VOTE, self::MODERATE],
             true
         );
     }
@@ -38,6 +39,7 @@ class EntryCommentVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
+            self::MODERATE => $this->canModerate($subject, $user),
             default => throw new \LogicException(),
         };
     }
@@ -84,5 +86,10 @@ class EntryCommentVoter extends Voter
         }
 
         return true;
+    }
+
+    private function canModerate(EntryComment $comment, User $user): bool
+    {
+        return $comment->magazine->userIsModerator($user);
     }
 }

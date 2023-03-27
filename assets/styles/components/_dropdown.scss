@@ -25,6 +25,7 @@ $transition: 180ms all 120ms ease-out;
       padding: 0;
     }
 
+
     a, button {
       color: var(--kbin-meta-link-color) !important;
       font-weight: normal !important;
@@ -34,6 +35,7 @@ $transition: 180ms all 120ms ease-out;
       text-decoration: none;
       width: 100%;
       text-align: left;
+      border-radius: 0 !important;
 
       &:hover {
         color: var(--kbin-meta-link-hover-color) !important;

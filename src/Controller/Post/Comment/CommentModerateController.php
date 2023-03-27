@@ -8,6 +8,7 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Form\LangType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,9 +35,15 @@ class CommentModerateController extends AbstractController
             );
         }
 
+        $form = $this->createForm(LangType::class);
+        $form->get('lang')
+            ->setData($comment->lang);
+
         return $this->render('post/comment/moderate.html.twig', [
             'magazine' => $magazine,
-            'entry' => $post,
+            'post' => $post,
+            'comment' => $comment,
+            'form' => $form->createView(),
         ]);
     }
 }

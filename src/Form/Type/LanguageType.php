@@ -6,23 +6,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
-use Symfony\UX\Autocomplete\Form\ParentEntityAutocompleteType;
 
 #[AsEntityAutocompleteField]
 class LanguageType extends AbstractType
 {
+    public static array $choices = [
+        'en' => 'english',
+        'es' => 'spanish',
+        'fr' => 'french',
+        'de' => 'german',
+        'pl' => 'polish',
+        'pt' => 'portuguese',
+        'uk' => 'ukrainian',
+    ];
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-                'choices' => [
-                    'english' => 'en',
-                    'spanish' => 'es',
-                    'french' => 'fr',
-                    'german' => 'de',
-                    'polish' => 'pl',
-                    'portuguese' => 'pt',
-                    'ukrainian' => 'uk',
-                ],
+                'choices' => array_flip(self::$choices),
                 'required' => true,
                 'autocomplete' => false,
                 'tom_select_options' => [

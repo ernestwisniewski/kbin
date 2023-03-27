@@ -1,3 +1,48 @@
-<div class="section section--small">
-
+<div class="section section--small moderate-panel">
+    <menu>
+        <li>
+            <a class="stretched-link"
+               href="{{ path('magazine_panel_ban', {'name': comment.magazine.name, 'username': comment.user.username}) }}">{{ 'ban'|trans|lower }}</a>
+        </li>
+        <li>
+            <form action="{{ entry_comment_delete_url(comment) }}"
+                  method="post"
+                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                <input type="hidden" name="token" value="{{ csrf_token('entry_comment_delete') }}">
+                <button type="submit">
+                    <span>{{ 'delete'|trans|lower }}</span>
+                </button>
+            </form>
+        </li>
+        {% if is_granted('purge', comment) %}
+            <li>
+                <form action="{{ path('entry_comment_purge', {magazine_name: comment.magazine.name, entry_id: comment.entry.id, comment_id: comment.id}) }}"
+                      method="post"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('entry_comment_purge') }}">
+                    <button type="submit">
+                        <span>{{ 'purge'|trans|lower }}</span>
+                    </button>
+                </form>
+            </li>
+        {% endif %}
+        <li class="actions">
+            {{ form_start(form, {action: path('entry_comment_change_lang', {magazine_name: magazine.name, entry_id: entry.id, comment_id: comment.id})}) }}
+            {{ form_row(form.lang, {label: false, row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.submit, {label: 'change_language'|trans|lower, attr: {class: 'btn btn__secondary'}}) }}
+            {{ form_end(form) }}
+        </li>
+        <li class="actions">
+            <div class="checkbox">
+                <form action="{{ path('entry_comment_change_adult', {magazine_name: magazine.name, entry_id: entry.id, comment_id: comment.id}) }}"
+                      method="post"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('change_adult') }}">
+                    <input name="adult"
+                           type="checkbox" {{ comment.isAdult ? 'checked' : '' }}>
+                    <button type="submit">{{ 'is_adult'|trans|lower }}</button>
+                </form>
+            </div>
+        </li>
+    </menu>
 </div>

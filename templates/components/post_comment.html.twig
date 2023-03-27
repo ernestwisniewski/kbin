@@ -98,9 +98,10 @@
                             </form>
                         </li>
                     {% endif %}
-                    {% if is_granted('moderate', comment.magazine) %}
+                    {% if is_granted('moderate', comment) %}
                         <li>
-                            <a href="{{ post_comment_moderate_url(comment) }}">
+                            <a href="{{ post_comment_moderate_url(comment) }}"
+                               class="{{ html_classes({'active': is_route_name('post_comment_moderate')}) }}">
                                 {{ 'moderate'|trans|lower }}
                             </a>
                         </li>
@@ -121,9 +122,6 @@
         </div>
     </footer>
 </blockquote>
-{% if showModeratePanel %}
-    {% include 'post/comment/_moderate_panel.html.twig' %}
-{% endif %}
 {% if showNested %}
     {{ component('post_comments_nested', {
         comment: comment,

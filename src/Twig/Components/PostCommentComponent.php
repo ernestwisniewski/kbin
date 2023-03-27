@@ -18,13 +18,12 @@ final class PostCommentComponent
     public bool $dateAsUrl = true;
     public bool $showNested = false;
     public int $level = 1;
-    public bool $showModeratePanel = false;
 
     public function getLevel(): int
     {
         if (ThemeSettingsController::CLASSIC === $this->requestStack->getMainRequest()->cookies->get(
-            ThemeSettingsController::POST_COMMENTS_VIEW
-        )) {
+                ThemeSettingsController::POST_COMMENTS_VIEW
+            )) {
             return min($this->level, 2);
         }
 

@@ -14,7 +14,6 @@ final class EntryComponent
     public bool $showShortSentence = true;
     public bool $showBody = false;
     public bool $showMagazineName = true;
-    public bool $showModeratePanel = false;
 
     #[PostMount]
     public function postMount(array $attr): array

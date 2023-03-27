@@ -132,9 +132,10 @@
                             </form>
                         </li>
                     {% endif %}
-                    {% if is_granted('moderate', entry.magazine) %}
+                    {% if is_granted('moderate', entry) %}
                         <li>
-                            <a href="{{ entry_moderate_url(entry) }}">
+                            <a href="{{ entry_moderate_url(entry) }}"
+                               class="{{ html_classes({'active': is_route_name('entry_moderate')}) }}">
                                 {{ 'moderate'|trans|lower }}
                             </a>
                         </li>
@@ -151,6 +152,4 @@
         </div>
     </footer>
 </article>
-{% if showModeratePanel %}
-    {% include 'entry/_moderate_panel.html.twig' %}
-{% endif %}
+
