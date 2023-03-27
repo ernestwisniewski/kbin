@@ -41,6 +41,8 @@
 
 .moderate-panel {
   margin: .5rem 0 !important;
+  position: relative;
+  z-index: 2;
 
   menu {
     align-items: center;
