@@ -172,4 +172,27 @@ export default class extends Controller {
         let level = parseInt(this.element.className.replace('comment-level--1', '').split('--')[1]);
         return isNaN(level) ? 1 : level;
     }
+
+    async showModPanel(event) {
+        event.preventDefault();
+
+        if (this.element.nextElementSibling.classList.contains('moderate-panel')) {
+            return;
+        }
+
+        try {
+            this.loadingValue = true;
+
+            let response = await fetch(event.target.href, {method: 'GET'});
+
+            response = await ok(response);
+            response = await response.json();
+
+            this.element.insertAdjacentHTML('afterend', response.html);
+        } catch (e) {
+            window.location.href = event.target.href;
+        } finally {
+            this.loadingValue = false;
+        }
+    }
 }

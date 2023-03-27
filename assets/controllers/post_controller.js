@@ -17,6 +17,10 @@ export default class extends Controller {
             return;
         }
 
+        if (this.element.nextElementSibling.classList.contains('moderate-panel')) {
+            this.element.nextElementSibling.remove();
+        }
+
         try {
             this.loadingValue = true;
 
@@ -88,7 +92,7 @@ export default class extends Controller {
 
     loadingValueChanged(val) {
         const subjectController = this.application.getControllerForElementAndIdentifier(this.element, 'subject');
-        if(null !== subjectController) {
+        if (null !== subjectController) {
             subjectController.loadingValue = val;
         }
     }

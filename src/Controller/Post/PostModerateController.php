@@ -11,6 +11,7 @@ use App\Form\LangType;
 use App\Repository\PostCommentRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,6 +38,16 @@ class PostModerateController extends AbstractController
         $form = $this->createForm(LangType::class);
         $form->get('lang')
             ->setData($post->lang);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse([
+                'html' => $this->renderView('post/_moderate_panel.html.twig', [
+                    'magazine' => $magazine,
+                    'post' => $post,
+                    'form' => $form->createView(),
+                ]),
+            ]);
+        }
 
         return $this->render('post/moderate.html.twig', [
             'magazine' => $magazine,

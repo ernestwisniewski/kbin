@@ -135,7 +135,8 @@
                     {% if is_granted('moderate', entry) %}
                         <li>
                             <a href="{{ entry_moderate_url(entry) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_moderate')}) }}">
+                               class="{{ html_classes({'active': is_route_name('entry_moderate')}) }}"
+                               data-action="subject#showModPanel">
                                 {{ 'moderate'|trans|lower }}
                             </a>
                         </li>

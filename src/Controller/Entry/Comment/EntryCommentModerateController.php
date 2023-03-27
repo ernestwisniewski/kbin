@@ -11,6 +11,7 @@ use App\Entity\Magazine;
 use App\Form\LangType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,6 +38,17 @@ class EntryCommentModerateController extends AbstractController
         $form = $this->createForm(LangType::class);
         $form->get('lang')
             ->setData($comment->lang);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse([
+                'html' => $this->renderView('entry/comment/_moderate_panel.html.twig', [
+                    'magazine' => $magazine,
+                    'entry' => $entry,
+                    'comment' => $comment,
+                    'form' => $form->createView()
+                ]),
+            ]);
+        }
 
         return $this->render('entry/comment/moderate.html.twig', [
             'magazine' => $magazine,

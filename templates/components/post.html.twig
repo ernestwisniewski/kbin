@@ -116,7 +116,8 @@
                     {% if is_granted('moderate', post) %}
                         <li>
                             <a href="{{ post_moderate_url(post) }}"
-                               class="{{ html_classes({'active': is_route_name('post_moderate')}) }}">
+                               class="{{ html_classes({'active': is_route_name('post_moderate')}) }}"
+                               data-action="subject#showModPanel">
                                 {{ 'moderate'|trans|lower }}
                             </a>
                         </li>

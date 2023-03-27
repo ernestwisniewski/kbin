@@ -88,7 +88,8 @@
                     {% if is_granted('moderate', comment) %}
                         <li>
                             <a href="{{ entry_comment_moderate_url(comment) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_comment_moderate')}) }}">
+                               class="{{ html_classes({'active': is_route_name('entry_comment_moderate')}) }}"
+                               data-action="subject#showModPanel">
                                 {{ 'moderate'|trans|lower }}
                             </a>
                         </li>
