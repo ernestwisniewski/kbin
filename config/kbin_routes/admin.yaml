@@ -1,31 +1,31 @@
 admin_dashboard:
-  controller: App\Controller\Admin\DashboardController
+  controller: App\Controller\Admin\AdminDashboardController
   path: /admin
   methods: [ GET ]
 
 admin_users:
-  controller: App\Controller\Admin\UserController
+  controller: App\Controller\Admin\AdminUserController
   path:
     en: /admin/users
     pl: /admin/użytkownicy
   methods: [ GET ]
 
 admin_settings:
-  controller: App\Controller\Admin\SettingsController
+  controller: App\Controller\Admin\AdminSettingsController
   path:
     en: /admin/settings
     pl: /admin/ustawienia
   methods: [ GET, POST ]
 
 admin_terms:
-  controller: App\Controller\Admin\TermsController
+  controller: App\Controller\Admin\AdminTermsController
   path:
     en: /admin/terms
     pl: /admin/regulamin
   methods: [ GET, POST ]
 
 admin_cc:
-  controller: App\Controller\Admin\ClearCacheController
+  controller: App\Controller\Admin\AdminClearCacheController
   path: /admin/cc
   methods: [ GET ]
 

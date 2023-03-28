@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SettingsController extends AbstractController
+class AdminSettingsController extends AbstractController
 {
     public function __construct(private readonly SettingsManager $settings)
     {

@@ -8,7 +8,7 @@ use App\Controller\AbstractController;
 use App\Service\InstanceStatsManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class DashboardController extends AbstractController
+class AdminDashboardController extends AbstractController
 {
     public function __construct(private readonly InstanceStatsManager $counter)
     {

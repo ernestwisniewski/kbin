@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TermsController extends AbstractController
+class AdminTermsController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

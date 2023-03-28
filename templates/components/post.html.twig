@@ -18,6 +18,7 @@
         {% endif %}
         {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
     </header>
+    {% if post.isAdult %}<span class="badge danger">+18</span>{% endif %}
     {% if post.user.avatar %}
         {{ component('user_avatar', {
             user: post.user,

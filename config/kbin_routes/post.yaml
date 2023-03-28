@@ -1,5 +1,5 @@
 post_comment_create:
-  controller: App\Controller\Post\Comment\CommentCreateController
+  controller: App\Controller\Post\Comment\PostCommentCreateController
   defaults: { slug: -, parent_comment_id: null }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{parent_comment_id}
@@ -7,7 +7,7 @@ post_comment_create:
   methods: [ GET, POST ]
 
 post_comment_edit:
-  controller: App\Controller\Post\Comment\CommentEditController
+  controller: App\Controller\Post\Comment\PostCommentEditController
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/edit
@@ -15,7 +15,7 @@ post_comment_edit:
   methods: [ GET, POST ]
 
 post_comment_moderate:
-  controller: App\Controller\Post\Comment\CommentModerateController
+  controller: App\Controller\Post\Comment\PostCommentModerateController
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/moderate
@@ -23,19 +23,19 @@ post_comment_moderate:
   methods: [ GET, POST ]
 
 post_comment_delete:
-  controller: App\Controller\Post\Comment\CommentDeleteController::delete
+  controller: App\Controller\Post\Comment\PostCommentDeleteController::delete
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/delete
   methods: [ POST ]
 
 post_comment_restore:
-  controller: App\Controller\Post\Comment\CommentDeleteController::restore
+  controller: App\Controller\Post\Comment\PostCommentDeleteController::restore
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/restore
   methods: [ POST ]
 
 post_comment_purge:
-  controller: App\Controller\Post\Comment\CommentDeleteController::purge
+  controller: App\Controller\Post\Comment\PostCommentDeleteController::purge
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/purge
   methods: [ POST ]
@@ -53,7 +53,7 @@ post_comment_change_adult:
   methods: [ POST ]
 
 post_comment_image_delete:
-  controller: App\Controller\Post\Comment\CommentDeleteImageController
+  controller: App\Controller\Post\Comment\PostCommentDeleteImageController
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/delete_image
   methods: [ POST ]

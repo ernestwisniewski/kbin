@@ -20,9 +20,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class CommentEditController extends AbstractController
+class EntryCommentEditController extends AbstractController
 {
-    use CommentResponseTrait;
+    use EntryCommentResponseTrait;
 
     public function __construct(
         private readonly EntryCommentManager $manager,

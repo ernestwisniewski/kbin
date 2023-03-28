@@ -9,7 +9,7 @@ use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class UserController extends AbstractController
+class AdminUserController extends AbstractController
 {
     public function __construct(private readonly UserRepository $repository, private readonly RequestStack $request)
     {

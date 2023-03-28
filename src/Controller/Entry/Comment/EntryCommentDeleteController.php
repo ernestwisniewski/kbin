@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CommentDeleteController extends AbstractController
+class EntryCommentDeleteController extends AbstractController
 {
     public function __construct(
         private readonly EntryCommentManager $manager,

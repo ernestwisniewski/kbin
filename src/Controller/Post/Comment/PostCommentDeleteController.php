@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CommentDeleteController extends AbstractController
+class PostCommentDeleteController extends AbstractController
 {
     public function __construct(private readonly PostCommentManager $manager)
     {

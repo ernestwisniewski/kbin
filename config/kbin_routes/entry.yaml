@@ -1,5 +1,5 @@
 entry_comment_create:
-  controller: App\Controller\Entry\Comment\CommentCreateController
+  controller: App\Controller\Entry\Comment\EntryCommentCreateController
   defaults: { slug: -, parent_comment_id: null }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{parent_comment_id}
@@ -7,7 +7,7 @@ entry_comment_create:
   methods: [ GET, POST ]
 
 entry_comment_edit:
-  controller: App\Controller\Entry\Comment\CommentEditController
+  controller: App\Controller\Entry\Comment\EntryCommentEditController
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/edit
@@ -15,19 +15,19 @@ entry_comment_edit:
   methods: [ GET, POST ]
 
 entry_comment_delete:
-  controller: App\Controller\Entry\Comment\CommentDeleteController::delete
+  controller: App\Controller\Entry\Comment\EntryCommentDeleteController::delete
   defaults: { slug: -, }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/delete
   methods: [ POST ]
 
 entry_comment_restore:
-  controller: App\Controller\Entry\Comment\CommentDeleteController::restore
+  controller: App\Controller\Entry\Comment\EntryCommentDeleteController::restore
   defaults: { slug: -, }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/restore
   methods: [ POST ]
 
 entry_comment_purge:
-  controller: App\Controller\Entry\Comment\CommentDeleteController::purge
+  controller: App\Controller\Entry\Comment\EntryCommentDeleteController::purge
   defaults: { slug: -, }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/purge
   methods: [ POST ]
@@ -45,7 +45,7 @@ entry_comment_change_adult:
   methods: [ POST ]
 
 entry_comment_image_delete:
-  controller: App\Controller\Entry\Comment\CommentDeleteImageController
+  controller: App\Controller\Entry\Comment\EntryCommentDeleteImageController
   defaults: { slug: -, }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/delete_image
   methods: [ POST ]

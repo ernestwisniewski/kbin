@@ -8,7 +8,7 @@ use App\Entity\PostComment;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-trait CommentResponseTrait
+trait PostCommentResponseTrait
 {
     private function getPostCommentJsonSuccessResponse(PostComment $comment): Response
     {

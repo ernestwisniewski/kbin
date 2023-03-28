@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @method getJsonFormResponse(FormInterface $form, string $string, ?array $variables = null)
  * @method render(string $template, array $array, Response $param)
  */
-trait CommentResponseTrait
+trait EntryCommentResponseTrait
 {
     private function getEntryCommentPageResponse(
         string $template,
