@@ -5,7 +5,7 @@
         {% set showNested = true %}
     {% endif %}
 {% endif %}
-<aside class="comments entry-comments">
+<section class="comments entry-comments">
     {% for comment in comments %}
         {{ component('entry_comment', {
             comment: comment,
@@ -31,4 +31,4 @@
         <div class="comment-line--8"></div>
         <div class="comment-line--9"></div>
     {% endif %}
-</aside>
+</section>

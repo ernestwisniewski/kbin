@@ -134,7 +134,8 @@ form {
   }
 
   &.single.input-active .ts-control input {
-    display: none !important;
+    color: var(--kbin-meta-text-color)
+    //display: none !important;
   }
 
   &.single .ts-control, .ts-dropdown.single {
