@@ -29,8 +29,9 @@ class LanguageType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        $default = 'en'; // @todo: get default language from config
         $resolver->setDefaults([
-                'choices' => array_flip(self::$choices),
+                'choices' => array_merge([self::$choices[$default] => $default], array_flip(self::$choices)),
                 'required' => true,
                 'empty_data' => 'en',
                 'autocomplete' => false,

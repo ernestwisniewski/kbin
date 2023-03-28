@@ -7,6 +7,8 @@ namespace App\Form;
 use App\DTO\PostDto;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\EventListener\ImageListener;
+use App\Form\EventListener\LanguageTypeSetField;
+use App\Form\EventListener\SetLanguageField;
 use App\Form\Type\LanguageType;
 use App\Form\Type\MagazineAutocompleteType;
 use Symfony\Component\Form\AbstractType;
