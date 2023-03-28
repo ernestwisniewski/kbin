@@ -37,12 +37,13 @@
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
             <li class="actions">
-                <form action="{{ path('entry_change_magazine', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}"
+                <form name="change_magazine"
+                      action="{{ path('entry_change_magazine', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}"
                       method="post"
                       onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('change_magazine') }}">
-                    <input name="new_magazine">
-                    <button type="submit" class="btn btn__secondry">
+                    <input id="change_magazine_new_magazine" name="change_magazine[new_magazine]">
+                    <button type="submit" class="btn btn__secondary">
                         {{ 'change_magazine'|trans|lower }}
                     </button>
                 </form>

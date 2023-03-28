@@ -11,12 +11,19 @@ use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 class LanguageType extends AbstractType
 {
     public static array $choices = [
+        'cz' => 'czech',
+        'dk' => 'danish',
+        'nl' => 'dutch',
         'en' => 'english',
-        'es' => 'spanish',
         'fr' => 'french',
         'de' => 'german',
+        'gr' => 'greek',
+        'hu' => 'hungarian',
+        'it' => 'italian',
+        'jp' => 'japanese',
         'pl' => 'polish',
         'pt' => 'portuguese',
+        'es' => 'spanish',
         'uk' => 'ukrainian',
     ];
 
@@ -25,6 +32,7 @@ class LanguageType extends AbstractType
         $resolver->setDefaults([
                 'choices' => array_flip(self::$choices),
                 'required' => true,
+                'empty_data' => 'en',
                 'autocomplete' => false,
                 'tom_select_options' => [
                     'allowEmptyOption' => false,

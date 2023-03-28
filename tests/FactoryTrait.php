@@ -133,6 +133,17 @@ trait FactoryTrait
         return $user;
     }
 
+    protected function setAdmin(User $user): void
+    {
+        $user->roles = ['ROLE_ADMIN'];
+        $manager = $this->getContainer()->get(EntityManagerInterface::class);
+
+        $manager->persist($user);
+        $manager->flush();
+
+        $manager->refresh($user);
+    }
+
     private function createMagazine(string $name, string $title = null, User $user = null): Magazine
     {
         /**

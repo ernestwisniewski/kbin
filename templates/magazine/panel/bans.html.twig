@@ -45,7 +45,7 @@
                                   action="{{ path('magazine_panel_unban', {name: ban.magazine.name, username: ban.user.username}) }}"
                                   onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                                 <input type="hidden" name="token" value="{{ csrf_token('magazine_unban') }}">
-                                <button class="btn btn__secondry">{{ 'delete'|trans }}</button>
+                                <button class="btn btn__secondary">{{ 'delete'|trans }}</button>
                             </form>
                         </td>
                     </tr>

@@ -29,7 +29,7 @@ class PostChangeMagazineController extends AbstractController
     {
         $this->validateCsrf('change_magazine', $request->request->get('token'));
 
-        $newMagazine = $this->repository->findOneByName($request->get('new_magazine'));
+        $newMagazine = $this->repository->findOneByName($request->get('change_magazine')['new_magazine']);
 
         $this->manager->changeMagazine($post, $newMagazine);
 
