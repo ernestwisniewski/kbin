@@ -194,6 +194,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         if (!$user || $user->hideAdult) {
             $qb->andWhere('m.isAdult = :isAdult')
+                ->andWhere('e.isAdult = :isAdult')
                 ->setParameter('isAdult', false);
         }
 

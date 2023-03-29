@@ -21,8 +21,12 @@ class PostFavouriteControllerTest extends WebTestCase
             $crawler->filter('#main .post')->selectButton('favourites')->form([])
         );
 
-        $client->followRedirect();
+        $crawler = $client->followRedirect();
 
         $this->assertSelectorTextContains('#main .post', 'favourites (1)');
+
+        $client->click($crawler->filter('#activity')->selectLink('favourites (1)')->link());
+
+        $this->assertSelectorTextContains('#main .users-columns', 'JohnDoe');
     }
 }

@@ -154,6 +154,9 @@
   }
 
   header {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
     grid-area: title;
     margin-bottom: 1rem;
 
@@ -161,7 +164,7 @@
       font-size: 1.1rem;
       font-weight: 500;
       line-height: 1.2;
-      margin: 0 0 .5rem;
+      margin: 0;
 
       a:visited {
         color: var(--kbin-entry-link-visited-color);
@@ -174,6 +177,15 @@
 
     h1 {
       font-size: 1.3rem;
+    }
+
+    & > * {
+      margin-right: .5rem !important;
+    }
+
+    // last child element
+    & > *:last-child {
+      margin-right: 0 !important;
     }
   }
 
@@ -218,10 +230,8 @@
   }
 
   &__domain {
-    bottom: .1rem;
     color: var(--kbin-meta-text-color);
     font-size: .7rem;
-    position: relative;
 
     a {
       color: var(--kbin-meta-text-color);

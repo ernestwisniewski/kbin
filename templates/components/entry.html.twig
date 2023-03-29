@@ -6,19 +6,13 @@
         id="entry-{{ entry.id }}"
         data-controller="subject entry">
     <header>
+        {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
+        {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
         {% if isSingle %}
             <h1>
-                {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
-                {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
                 {% if entry.url %}
                     <a rel="{{ get_rel(entry.url) }}"
                        href="{{ entry.url }}">{{ entry.title }}</a>
-                    {% if entry.domain %}
-                        <span class="entry__domain">
-                            (<a
-                                    href="{{ path('domain_entries', {name: entry.domain.name}) }}">{{ entry.domain.name }}</a>)
-                        </span>
-                    {% endif %}
                 {% else %}
                     {{ entry.title }}
                 {% endif %}
@@ -26,14 +20,14 @@
         {% else %}
             <h2>
                 <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
-                {% if entry.domain %}
-                    <span class="entry__domain">
-                        (<a href="{{ path('domain_entries', {
-                            name: entry.domain.name
-                        }) }}">{{ entry.domain.name }}</a>)
-                    </span>
-                {% endif %}
             </h2>
+        {% endif %}
+        {% if entry.domain %}
+            <span class="entry__domain">
+                        (<a href="{{ path('domain_entries', {
+                    name: entry.domain.name
+                }) }}">{{ entry.domain.name }}</a>)
+                    </span>
         {% endif %}
     </header>
     <div class="content short-desc">
@@ -78,6 +72,11 @@
     }) }}
     <footer>
         <menu>
+            {% if entry.sticky %}
+                <li>
+                    <i class="fa-solid fa-thumbtack" aria-label="{{ 'pinned'|trans }}"></i>
+                </li>
+            {% endif %}
             <li>
                 <a class="stretched-link"
                    href="{{ entry_url(entry) ~ '#comments' }}">{{ entry.commentCount }} {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}</a>

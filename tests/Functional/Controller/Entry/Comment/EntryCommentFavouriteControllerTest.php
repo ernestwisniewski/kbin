@@ -28,8 +28,14 @@ class EntryCommentFavouriteControllerTest extends WebTestCase
             $crawler->filter('#main .entry-comment')->selectButton('favourites')->form([])
         );
 
-        $client->followRedirect();
+        $crawler = $client->followRedirect();
 
         $this->assertSelectorTextContains('#main .entry-comment', 'favourites (1)');
+
+        $crawler = $client->click($crawler->filter('#main .entry-comment')->selectLink('activity')->link());
+
+        $client->click($crawler->filter('#main #activity')->selectLink('favourites (1)')->link());
+
+        $this->assertSelectorTextContains('#main .users-columns', 'JohnDoe');
     }
 }

@@ -27,6 +27,20 @@ class VoteControllerTest extends WebTestCase
         $this->assertUpDownVoteActions($client, $crawler);
     }
 
+    public function testXmlUserCanVoteOnEntry(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $crawler = $client->request('GET', '/');
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->click($crawler->filter('.entry .vote__up')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+    }
+
     public function testUserCanVoteOnEntryComment(): void
     {
         $client = $this->createClient();
@@ -44,6 +58,20 @@ class VoteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/t/'.$comment->entry->getId().'/-/comments');
 
         $this->assertUpDownVoteActions($client, $crawler, '.comment');
+    }
+
+    public function testXmlUserCanVoteOnEntryComment(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $comment = $this->createEntryComment('test entry comment 1');
+
+        $crawler = $client->request('GET', '/m/acme/t/'.$comment->entry->getId().'/-/comments');
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->click($crawler->filter('.entry-comment .vote__up')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
     }
 
     private function assertUpDownVoteActions($client, $crawler, string $selector = ''): void
@@ -100,6 +128,20 @@ class VoteControllerTest extends WebTestCase
         $this->assertUpVoteActions($client, $crawler);
     }
 
+    public function testXmlUserCanVoteOnPost(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $this->createPost('test post 1');
+
+        $crawler = $client->request('GET', '/microblog');
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->click($crawler->filter('.post .vote__up')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+    }
+
     public function testUserCanVoteOnPostComment(): void
     {
         $client = $this->createClient();
@@ -116,6 +158,20 @@ class VoteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/p/'.$comment->post->getId());
 
         $this->assertUpVoteActions($client, $crawler, '.comment');
+    }
+
+    public function testXmlUserCanVoteOnPostComment(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $comment = $this->createPostComment('test post comment 1');
+
+        $crawler = $client->request('GET', '/m/acme/p/'.$comment->post->getId().'/-');
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->click($crawler->filter('.post-comment .vote__up')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
     }
 
     private function assertUpVoteActions($client, $crawler, string $selector = ''): void

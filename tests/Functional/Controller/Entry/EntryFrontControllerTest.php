@@ -35,6 +35,18 @@ class EntryFrontControllerTest extends WebTestCase
         }
     }
 
+    public function testXmlFrontPage(): void
+    {
+        $client = $this->createClient();
+
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->request('GET', '/');
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+    }
+
     public function testMagazinePage(): void
     {
         $client = $this->prepareEntries();
@@ -60,6 +72,18 @@ class EntryFrontControllerTest extends WebTestCase
             $this->assertSelectorTextContains('h1', 'Magazine title');
             $this->assertSelectorTextContains('h2', ucfirst($sortOption));
         }
+    }
+
+    public function testXmlMagazinePage(): void
+    {
+        $client = $this->createClient();
+
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->request('GET', '/m/acme/newest');
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
     }
 
     public function testSubPage(): void
@@ -90,6 +114,24 @@ class EntryFrontControllerTest extends WebTestCase
             $this->assertSelectorTextContains('.options__main', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
+    }
+
+
+    public function testXmlSubPage(): void
+    {
+        $client = $this->createClient();
+
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $magazineManager = $client->getContainer()->get(MagazineManager::class);
+        $magazineManager->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('Actor'));
+
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->request('GET', '/sub');
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
     }
 
     public function testModPage(): void
@@ -124,12 +166,34 @@ class EntryFrontControllerTest extends WebTestCase
         }
     }
 
+    public function testXmlModPage(): void
+    {
+        $client = $this->createClient();
+
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $magazineManager = $client->getContainer()->get(MagazineManager::class);
+        $moderator = new ModeratorDto($this->getMagazineByName('acme'));
+        $moderator->user = $this->getUserByUsername('Actor');
+        $magazineManager->addModerator($moderator);
+
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->request('GET', '/mod');
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+    }
+
     public function testFavPage(): void
     {
         $client = $this->prepareEntries();
 
         $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
-        $favouriteManager->toggle($this->getUserByUsername('Actor'), $this->getEntryByTitle('test entry 1', 'https://kbin.pub'));
+        $favouriteManager->toggle(
+            $this->getUserByUsername('Actor'),
+            $this->getEntryByTitle('test entry 1', 'https://kbin.pub')
+        );
 
         $client->loginUser($this->getUserByUsername('Actor'));
 
@@ -152,6 +216,26 @@ class EntryFrontControllerTest extends WebTestCase
             $this->assertSelectorTextContains('.options__main', $sortOption);
             $this->assertSelectorTextContains('h1', ucfirst($sortOption));
         }
+    }
+
+    public function testXmlFavPage(): void
+    {
+        $client = $this->createClient();
+
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
+        $favouriteManager->toggle(
+            $this->getUserByUsername('Actor'),
+            $this->getEntryByTitle('test entry 1', 'https://kbin.pub')
+        );
+
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->request('GET', '/fav');
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
     }
 
     private function prepareEntries(): KernelBrowser

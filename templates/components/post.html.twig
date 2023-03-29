@@ -9,6 +9,7 @@
     }), 'data-controller': 'post subject'}).without('id') }}
         id="post-{{ post.id }}">
     <header>
+        {% if post.isAdult %}<span class="badge danger">+18</span>{% endif %}
         {{ component('user_inline', {user: post.user, showAvatar: false}) }},
         {% if dateAsUrl %}
             <a href="{{ post_url(post) }}"
@@ -18,7 +19,6 @@
         {% endif %}
         {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
     </header>
-    {% if post.isAdult %}<span class="badge danger">+18</span>{% endif %}
     {% if post.user.avatar %}
         {{ component('user_avatar', {
             user: post.user,

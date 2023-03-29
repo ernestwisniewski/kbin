@@ -217,6 +217,10 @@ figure {
   color: var(--kbin-danger-color);
 }
 
+.success, .success i {
+  color: var(--kbin-success-color);
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
