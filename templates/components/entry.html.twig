@@ -4,30 +4,39 @@
         'own': app.user and entry.isAuthor(app.user),
     })}).without('id') }}
         id="entry-{{ entry.id }}"
-        data-controller="subject entry">
+        data-controller="subject preview">
     <header>
-        {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
-        {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
         {% if isSingle %}
             <h1>
+                {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
+                {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
                 {% if entry.url %}
                     <a rel="{{ get_rel(entry.url) }}"
                        href="{{ entry.url }}">{{ entry.title }}</a>
                 {% else %}
                     {{ entry.title }}
                 {% endif %}
+                {% if entry.domain %}
+                    <span class="entry__domain">
+                        (<a href="{{ path('domain_entries', {
+                            name: entry.domain.name
+                        }) }}">{{ entry.domain.name }}</a>)
+                    </span>
+                {% endif %}
             </h1>
         {% else %}
             <h2>
+                {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
+                {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
                 <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
-            </h2>
-        {% endif %}
-        {% if entry.domain %}
-            <span class="entry__domain">
+                {% if entry.domain %}
+                    <span class="entry__domain">
                         (<a href="{{ path('domain_entries', {
-                    name: entry.domain.name
-                }) }}">{{ entry.domain.name }}</a>)
+                            name: entry.domain.name
+                        }) }}">{{ entry.domain.name }}</a>)
                     </span>
+                {% endif %}
+            </h2>
         {% endif %}
     </header>
     <div class="content short-desc">
@@ -75,6 +84,20 @@
             {% if entry.sticky %}
                 <li>
                     <i class="fa-solid fa-thumbtack" aria-label="{{ 'pinned'|trans }}"></i>
+                </li>
+            {% endif %}
+            {% if entry.type is same as 'article' %}
+                <li>
+                    <i class="fa-regular fa-newspaper" aria-label="{{ 'article'|trans }}"></i>
+                </li>
+            {% endif %}
+            {% if entry.hasEmbed %}
+                <li>
+                    <button data-action="preview#show"
+                            data-preview-url-param="{{ entry.url }}"
+                            data-preview-ratio-param="{{ entry.domain.shouldRatio ? true : false }}">
+                        <i class="fa-solid fa-photo-film" aria-label="{{ 'preview'|trans }}"></i>
+                    </button>
                 </li>
             {% endif %}
             <li>

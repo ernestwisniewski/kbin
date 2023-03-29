@@ -53,13 +53,12 @@ export default class extends Controller {
             throw new Error('Invalid JSON response');
         }
 
-        let div = document.createElement('div');
+        const div = document.createElement('div');
         div.innerHTML = response.html;
 
-        let elements = div.getElementsByClassName('subject');
-        elements = [...elements];
+        const elements = div.getElementsByClassName('subject');
 
-        for (const element of elements) {
+        for (const element of [...elements]) {
             if (null === document.getElementById(element.id)) {
                 this.element.before(element);
             }

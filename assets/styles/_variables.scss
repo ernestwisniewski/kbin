@@ -7,6 +7,13 @@ $grid-breakpoints: (
         xxl: 1400px
 ) !default;
 
+$aspect-ratios: (
+        "1x1": 100%,
+        "4x3": calc(3 / 4 * 100%),
+        "16x9": calc(9 / 16 * 100%),
+        "21x9": calc(9 / 21 * 100%)
+) !default;
+
 :root {
   --kbin-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --kbin-body-font-size: 1rem;

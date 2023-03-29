@@ -176,8 +176,15 @@ export default class extends Controller {
     async showModPanel(event) {
         event.preventDefault();
 
-        if (this.element.nextElementSibling.classList.contains('moderate-panel')) {
-            return;
+        let container = this.element.nextElementSibling.classList.contains('js-container') ? this.element.nextElementSibling : null;
+        if (null === container) {
+            container = document.createElement('div');
+            container.classList.add('js-container');
+            this.element.insertAdjacentHTML('afterend', container.outerHTML);
+        } else {
+            if (container.querySelector('.moderate-panel')) {
+                return;
+            }
         }
 
         try {
@@ -188,7 +195,7 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            this.element.insertAdjacentHTML('afterend', response.html);
+            this.element.nextElementSibling.insertAdjacentHTML('afterbegin', response.html);
         } catch (e) {
             window.location.href = event.target.href;
         } finally {

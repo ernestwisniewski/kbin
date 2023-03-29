@@ -58,7 +58,7 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'html' => $embed->fetch($request->get('url'))->html,
+                'html' => '<div class="preview">'.$embed->fetch($request->get('url'))->html.'</div>',
             ]
         );
     }

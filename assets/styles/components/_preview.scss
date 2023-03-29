@@ -1,0 +1,32 @@
+.preview {
+  margin: .5rem 0;
+}
+
+// Credit: Nicolas Gallagher and SUIT CSS.
+
+.ratio {
+  --aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  width: 100%;
+
+  &::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%;
+  }
+
+  > * {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
+@each $key, $ratio in $aspect-ratios {
+  .ratio-#{$key} {
+    aspect-ratio: #{$ratio};
+  }
+}
