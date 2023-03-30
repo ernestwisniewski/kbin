@@ -4,6 +4,12 @@
   img {
     max-width: 100%;
   }
+
+  .show-preview {
+    background: none;
+    border: 0;
+    color: var(--kbin-meta-text-color);
+  }
 }
 
 // Credit: Nicolas Gallagher and SUIT CSS.

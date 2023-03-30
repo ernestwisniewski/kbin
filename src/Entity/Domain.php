@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\DomainInterface;
 use App\Repository\DomainRepository;
+use App\Service\DomainManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -127,8 +128,7 @@ class Domain
 
     public function shouldRatio(): bool
     {
-        return in_array($this->name, ['youtube.com', 'streamable.com', 'youtu.be', 'm.youtube.com']
-        ); // @todo change youtu.be, m.youtube.com to youtube.com
+        return DomainManager::shouldRatio($this->name);
     }
 
     public function __sleep()

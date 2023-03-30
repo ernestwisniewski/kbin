@@ -84,4 +84,11 @@ class DomainManager
 
         $this->dispatcher->dispatch(new DomainBlockedEvent($domain, $user));
     }
+
+    public static function shouldRatio(string $domain): bool
+    {
+        $domainsWithRatio = ['youtube.com', 'streamable.com', 'youtu.be', 'm.youtube.com'];
+
+        return (bool)array_filter($domainsWithRatio, fn($item) => str_contains($domain, $item));
+    }
 }
