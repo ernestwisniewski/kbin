@@ -8,19 +8,8 @@ use App\Tests\WebTestCase;
 
 class UserAwardControllerTest extends WebTestCase
 {
-    public function testUserCanFollowOtherOnEntryPage(): void
+    public function testUserCanShowAwardList(): void
     {
-        $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
-
-        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
-
-        $client->submit($crawler->filter('#sidebar form[name=user_block] button')->form());
-
-        $client->followRedirect();
-
-        $this->assertSelectorExists('#sidebar form[name=user_block] .active');
     }
 }

@@ -1,5 +1,11 @@
 <figure{{ attributes }}>
-    <img width="{{ width }}" height="{{ height }}"
-         src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
-         alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
+    {% if asLink %}
+        <a href="{{ path('user_overview', {username: user.username}) }}" aria-hidden="true">
+    {% endif %}
+        <img width="{{ width }}" height="{{ height }}"
+             src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+             alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
+    {% if asLink %}
+        </a>
+    {% endif %}
 </figure>

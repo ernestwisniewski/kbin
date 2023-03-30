@@ -14,7 +14,12 @@
         {% if showEntryTitle %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
     </header>
     {% if comment.user.avatar %}
-        {{ component('user_avatar', {user: comment.user, width: 40, height: 40}) }}
+        {{ component('user_avatar', {
+            user: comment.user,
+            width: 40,
+            height: 40,
+            asLink: true
+        }) }}
     {% endif %}
     <div class="content">
         {{ comment.body|markdown|raw }}

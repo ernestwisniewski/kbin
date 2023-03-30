@@ -11,4 +11,5 @@ final class UserAvatarComponent
     public int $width = 32;
     public int $height = 32;
     public User $user;
+    public bool $asLink = false;
 }

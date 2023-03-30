@@ -17,10 +17,14 @@ export default class extends Controller {
         if (null === container) {
             container = document.createElement('div');
             container.classList.add('js-container');
+            container.style.display = 'none';
             this.element.insertAdjacentHTML('afterend', container.outerHTML);
         } else {
             if (container.querySelector('.preview')) {
                 container.querySelector('.preview').remove();
+                if (0 === container.children.length) {
+                    container.remove();
+                }
                 return;
             }
         }
@@ -34,6 +38,7 @@ export default class extends Controller {
             response = await response.json();
 
             this.element.nextElementSibling.insertAdjacentHTML('afterbegin', response.html);
+            this.element.nextElementSibling.style.display = 'block';
             if (event.params.ratio) {
                 this.element.nextElementSibling.querySelector('.preview').classList.add('ratio');
             }
