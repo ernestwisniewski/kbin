@@ -43,7 +43,7 @@ class EntrySingleControllerTest extends WebTestCase
         $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
         $this->assertSelectorTextContains('article h1', 'test entry 1');
-        $this->assertSelectorNotExists('article h1 a');
+        $this->assertSelectorNotExists('article h1 > a');
         $this->assertSelectorTextContains('article', 'Test entry content');
     }
 

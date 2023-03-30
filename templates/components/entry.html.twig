@@ -92,22 +92,13 @@
                 </li>
             {% endif %}
             {% if entry.hasEmbed %}
-                {% if entry.image and entry.type is same as 'image' %}
-                    <li>
-                        <a href="{{ uploaded_asset(entry.image.filePath) }}"
-                           class="thumb">
-                            <i class="fa-solid fa-photo-film" aria-label="{{ 'preview'|trans }}"></i>
-                        </a>
-                    </li>
-                {% else %}
-                    <li>
-                        <button data-action="preview#show"
-                                data-preview-url-param="{{ entry.url }}"
-                                data-preview-ratio-param="{{ entry.domain and entry.domain.shouldRatio ? true : false }}">
-                            <i class="fa-solid fa-photo-film" aria-label="{{ 'preview'|trans }}"></i>
-                        </button>
-                    </li>
-                {% endif %}
+                <li>
+                    <button data-action="preview#show"
+                            data-preview-url-param="{{ entry.url }}"
+                            data-preview-ratio-param="{{ entry.domain and entry.domain.shouldRatio ? true : false }}">
+                        <i class="fa-solid fa-photo-film" aria-label="{{ 'preview'|trans }}"></i>
+                    </button>
+                </li>
             {% endif %}
             <li>
                 <a class="stretched-link"
