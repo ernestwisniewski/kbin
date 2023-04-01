@@ -176,7 +176,7 @@ export default class extends Controller {
     async showModPanel(event) {
         event.preventDefault();
 
-        let container = this.element.nextElementSibling.classList.contains('js-container') ? this.element.nextElementSibling : null;
+        let container = this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('js-container') ? this.element.nextElementSibling : null;
         if (null === container) {
             container = document.createElement('div');
             container.classList.add('js-container');

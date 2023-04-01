@@ -29,28 +29,10 @@ class MagazineBanController extends AbstractController
     #[IsGranted('moderate', subject: 'magazine')]
     public function bans(Magazine $magazine, UserRepository $repository, Request $request): Response
     {
-        if ($request->isMethod('POST')) {
-            $user = $repository->findOneByUsername($request->get('user'));
-
-            if (!$user) {
-                return $this->redirectToRefererOrHome($request);
-            }
-
-            return $this->redirectToRoute(
-                'magazine_panel_ban',
-                [
-                    'magazine_name' => $magazine->name,
-                    'user_username' => $user->getUsername(),
-                ]
-            );
-        }
-
-        $bans = $this->repository->findBans($magazine, $this->getPageNb($request));
-
         return $this->render(
             'magazine/panel/bans.html.twig',
             [
-                'bans' => $bans,
+                'bans' => $this->repository->findBans($magazine, $this->getPageNb($request)),
                 'magazine' => $magazine,
             ]
         );

@@ -65,7 +65,9 @@
     <section class="section ban-add">
         <div class="container">
             <h3 hidden>{{ 'add_ban'|trans }}</h3>
-            <form action="{{ path('magazine_panel_ban', {name: magazine.name}) }}" method="get">
+            <form action="{{ path('magazine_panel_ban', {name: magazine.name}) }}"
+                  method="get"
+                  name="ban">
                 <div>
                     <label for="username">{{ 'username'|trans }}</label>
                     <input id="username" type="text" name="username">
