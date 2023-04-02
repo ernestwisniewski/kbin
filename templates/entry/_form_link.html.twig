@@ -4,8 +4,9 @@
 {{ form_start(form, {attr: {class: edit ? 'entry-edit' : 'entry-create'}}) }}
     {{ form_row(form.url, {label: 'url', attr: {'data-action': 'entry-link-create#fetchLink'}}) }}
     {{ form_row(form.title, {label: 'title', attr: {'data-entry-link-create-target': 'title'}}) }}
-    {{ form_row(form.body, {label: 'body', attr: {'data-entry-link-create-target': 'description'}}) }}
-    {{ form_row(form.magazine, {label: 'magazine'}) }}
+    {{ component('editor_toolbar', {id: 'entry_link_body'}) }}
+    {{ form_row(form.body, {label: false, attr: {placeholder: 'body', 'data-entry-link-create-target': 'description'}}) }}
+    {{ form_row(form.magazine, {label: false}) }}
     {{ form_row(form.tags, {label: 'tags'}) }}
     {{ form_row(form.badges, {label: 'badges'}) }}
 <div class="row params">

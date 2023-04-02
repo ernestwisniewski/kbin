@@ -52,6 +52,7 @@ enter_your_post: Enter your post
 activity: Activity
 cover: Cover
 related_posts: Related posts
+random_posts: Random posts
 federated_magazine_info: The magazine from the federated server may be incomplete.
 federated_user_info: The profile from the federated server may be incomplete.
 go_to_original_instance: Browse more on the original instance.

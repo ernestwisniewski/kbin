@@ -67,8 +67,8 @@
                 </table>
             </div>
         {% endif %}
-        {% if(pagination.haveToPaginate is defined and pagination.haveToPaginate) %}
-            {{ pagerfanta(pagination, null, {'pageParameter':'[p]'}) }}
+        {% if(results.haveToPaginate is defined and results.haveToPaginate) %}
+            {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
         {% endif %}
         {% if not results|length %}
             <aside class="section section--muted">

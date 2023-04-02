@@ -1,16 +1,18 @@
 {% if computed.posts|length %}
     <section{{ attributes.defaults({class: 'posts section'}) }}>
-        <h3>{{ 'related_posts'|trans }}</h3>
+        <h3>{{ title|trans }}</h3>
         <div class="container">
             {% for post in computed.posts %}
                 <figure>
                     <div class="row">
                         {% if post.image %}
-                            <img src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
-                                 alt="{{ post.image.alt|default('') }}">
+                            <a href="{{ post_url(post) }}" class="stretched-link">
+                                <img src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
+                                     alt="{{ post.image.alt|default('') }}">
+                            </a>
                         {% endif %}
                         {% if post.body %}
-                            <blockquote>
+                            <blockquote class="content">
                                 {{ get_short_sentence(post.body)|markdown|raw }}
                                 <div>
                                     <a href="{{ post_url(post) }}" class="stretched-link">{{ 'show_more'|trans }}</a>

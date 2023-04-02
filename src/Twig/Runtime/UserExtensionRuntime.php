@@ -31,7 +31,7 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
         return $this->security->getUser()->isBlocked($blocked);
     }
 
-    public function username(string $value, ?bool $withApPostfix = false): string
+    public static function username(string $value, ?bool $withApPostfix = false): string
     {
         $value = ltrim($value, '@');
 

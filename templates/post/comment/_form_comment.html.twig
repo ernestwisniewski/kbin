@@ -12,6 +12,7 @@
 <h3 hidden>{{ title }}</h3>
 {{ form_start(form, {action: action, attr: {class: edit ? 'comment-edit replace' : 'comment-add'}}) }}
 <div class="row">
+    {{ component('editor_toolbar', {id: 'post_comment_body'}) }}
     {{ form_row(form.body, {label: false}) }}
 </div>
 <div class="row actions">

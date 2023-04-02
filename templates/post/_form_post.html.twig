@@ -16,11 +16,12 @@
 <h3 hidden>{{ title }}</h3>
 {{ form_start(form, {action: action, attr: {class: edit ? 'post-edit replace' : 'post-add'}|merge(attributes)}) }}
 <div class="row">
+    {{ component('editor_toolbar', {id: 'post_body'}) }}
     {{ form_row(form.body, {label: false}) }}
 </div>
 <div class="row params">
     {{ form_row(form.isAdult, {label:'is_adult'}) }}
-    {{ form_row(form.magazine, {label: false}) }}
+    {{ form_row(form.magazine, {label: false, attr: {placeholder: false}}) }}
 </div>
 <div class="row actions">
     <ul>

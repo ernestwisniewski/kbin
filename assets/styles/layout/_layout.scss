@@ -69,7 +69,15 @@ menu {
 }
 
 .content {
-  overflow: hidden;
+  margin: -3px !important;
+  overflow: hidden !important;
+  padding: 3px !important;
+
+  blockquote {
+    border-left: 2px solid var(--kbin-success-color);
+    margin: 0 0 1rem 1rem;
+    padding-left: 1rem;
+  }
 }
 
 .row,
@@ -84,14 +92,6 @@ menu {
 
 hr {
   border: 1px solid var(--kbin-bg);
-}
-
-.content {
-  blockquote {
-    border-left: 2px solid var(--kbin-success-color);
-    margin: 0 0 1rem 1rem;
-    padding-left: 1rem;
-  }
 }
 
 .float-end {
@@ -250,4 +250,11 @@ figure {
 pre, code {
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+.markdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: .5rem;
 }

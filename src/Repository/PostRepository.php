@@ -250,8 +250,10 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->andWhere("JSONB_CONTAINS(p.tags, '\"".$tag."\"') = true")
             ->andWhere('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
+            ->andWhere('m.name != :name')
+            ->join('p.magazine', 'm')
             ->orderBy('p.createdAt', 'DESC')
-            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'name' => $tag])
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

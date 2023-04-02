@@ -70,4 +70,4 @@
     }) }}
     {% include 'magazine/_moderators_sidebar.html.twig' %}
 {% endif %}
-{{ component('related_posts') }}
+{{ component('related_posts', {magazine: magazine is defined and magazine ? magazine.name : null}) }}
