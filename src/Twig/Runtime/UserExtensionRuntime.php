@@ -3,12 +3,13 @@
 namespace App\Twig\Runtime;
 
 use App\Entity\User;
+use App\Repository\ReputationRepository;
 use Symfony\Component\Security\Core\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class UserExtensionRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly Security $security)
+    public function __construct(private readonly Security $security, private ReputationRepository $reputationRepository)
     {
     }
 
@@ -39,5 +40,10 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
         }
 
         return explode('@', $value)[0];
+    }
+
+    public function getReputationTotal(User $user): int
+    {
+        return $this->reputationRepository->getUserReputationTotal($user);
     }
 }

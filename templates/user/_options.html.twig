@@ -53,5 +53,12 @@
                 </a>
             </li>
         {% endif %}
+        <li>
+            {%- set TYPE_ENTRY = constant('App\\Repository\\ReputationRepository::TYPE_ENTRY') -%}
+            <a href="{{ path('user_reputation', {username: user.username, reputationType: TYPE_ENTRY}) }}"
+               class="{{ html_classes({'active': is_route_name('user_reputation')}) }}">
+                {{ 'reputation'|trans|lower }} ({{ get_reputation_total(user) }})
+            </a>
+        </li>
     </menu>
 </aside>
