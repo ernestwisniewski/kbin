@@ -179,7 +179,7 @@ edit_comment: Edit comment
 settings: Settings
 general: General
 profile: Profile
-blacklists: Blacklists
+blocked: Blocked
 reports: Reports
 notifications: Notifications
 messages: Messages
@@ -233,8 +233,8 @@ removed_post_by: has removed post by
 restored_post_by: has restored post by
 he_banned: ban
 he_unbanned: unban
-read_all: read all
-show_all: show all
+read_all: Read all
+show_all: Show all
 ranking_disabled: Ranking is disabled
 flash_register_success: Your account has been registered. Check your email, we have sent an email with an activation link.
 flash_thread_new_success: The thread has been created correctly and is now visible to other users.

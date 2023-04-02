@@ -9,6 +9,10 @@ use App\Service\CardanoManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class CardanoWalletMnemonicController extends CardanoController
 {
     public function __invoke(CardanoManager $wallet, Request $request): Response

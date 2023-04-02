@@ -6,6 +6,10 @@ namespace App\Cardano;
 
 use GraphQL\Client;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class CardanoExplorer
 {
     public function __construct(private readonly string $cardanoExplorerUrl)

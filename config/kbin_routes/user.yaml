@@ -152,21 +152,21 @@ user_settings_reports:
 user_settings_magazine_blocks:
   controller: App\Controller\User\Profile\UserBlockController::magazines
   path:
-    en: /settings/blacklist/magazines
+    en: /settings/blocked/magazines
     pl: /ustawienia/blokady/magazyny
   methods: [ GET ]
 
 user_settings_domain_blocks:
   controller: App\Controller\User\Profile\UserBlockController::domains
   path:
-    en: /settings/blacklist/domains
+    en: /settings/blocked/domains
     pl: /ustawienia/blokady/domeny
   methods: [ GET ]
 
 user_settings_user_blocks:
   controller: App\Controller\User\Profile\UserBlockController::users
   path:
-    en: /settings/blacklist/people
+    en: /settings/blocked/people
     pl: /ustawienia/blokady/ludzie
   methods: [ GET ]
 
@@ -206,21 +206,21 @@ user_settings_general:
   methods: [ GET, POST ]
 
 user_settings_profile:
-  controller: App\Controller\User\UserEditController::general
+  controller: App\Controller\User\Profile\UserEditController::general
   path:
     en: /settings/profile
     pl: /ustawienia/profil
   methods: [ GET, POST ]
 
 user_settings_email:
-  controller: App\Controller\User\UserEditController::email
+  controller: App\Controller\User\Profile\UserEditController::email
   path:
     en: /settings/email
     pl: /ustawienia/email
   methods: [ GET, POST ]
 
 user_settings_password:
-  controller: App\Controller\User\UserEditController::password
+  controller: App\Controller\User\Profile\UserEditController::password
   path:
     en: /settings/password
     pl: /ustawienia/hasło

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Security;
 
+use App\Entity\User;
 use App\Tests\WebTestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -25,7 +26,7 @@ class RegisterControllerTest extends WebTestCase
 
         $verifyLink = $email->getContext()['signedUrl'];
 
-        $crawler = $client->request('GET', $verifyLink);
+        $client->request('GET', $verifyLink);
         $crawler = $client->followRedirect();
 
         $client->submit(
@@ -81,5 +82,34 @@ class RegisterControllerTest extends WebTestCase
         $client->followRedirect();
 
         $this->assertSelectorTextContains('.alert__danger', 'Your account is not active.');
+    }
+
+    public static function register($active = false): KernelBrowser
+    {
+        $client = self::createClient();
+        $crawler = $client->request('GET', '/register');
+
+        $client->submit(
+            $crawler->filter('form[name=user_register]')->selectButton('Register')->form(
+                [
+                    'user_register[username]' => 'JohnDoe',
+                    'user_register[email]' => 'johndoe@kbin.pub',
+                    'user_register[plainPassword][first]' => 'secret',
+                    'user_register[plainPassword][second]' => 'secret',
+                    'user_register[agreeTerms]' => true,
+                ]
+            )
+        );
+
+        if ($active) {
+            $user = self::getContainer()->get('doctrine')->getRepository(User::class)
+                ->findOneBy(['username' => 'JohnDoe']);
+            $user->isVerified = true;
+
+            self::getContainer()->get('doctrine')->getManager()->flush();
+            self::getContainer()->get('doctrine')->getManager()->refresh($user);
+        }
+
+        return $client;
     }
 }

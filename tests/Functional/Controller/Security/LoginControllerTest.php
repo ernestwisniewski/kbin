@@ -8,6 +8,48 @@ use App\Tests\WebTestCase;
 
 class LoginControllerTest extends WebTestCase
 {
+    public function testUserCanLogin(): void
+    {
+        $client = RegisterControllerTest::register(true);
+
+        $crawler = $client->request('get', '/');
+        $crawler = $client->click($crawler->filter('header')->selectLink('Log in')->link());
+
+        $client->submit(
+            $crawler->selectButton('Log in')->form(
+                [
+                    'email' => 'JohnDoe',
+                    'password' => 'secret',
+                ]
+            )
+        );
+
+        $crawler= $client->followRedirect();
+
+        $this->assertSelectorTextContains('#header', 'JohnDoe');
+    }
+
+    public function testUserCannotLoginWithoutActivation(): void
+    {
+        $client = RegisterControllerTest::register();
+
+        $crawler = $client->request('get', '/');
+        $crawler = $client->click($crawler->filter('header')->selectLink('Log in')->link());
+
+        $client->submit(
+            $crawler->selectButton('Log in')->form(
+                [
+                    'email' => 'JohnDoe',
+                    'password' => 'secret',
+                ]
+            )
+        );
+
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('#main', 'Your account is not active.');
+    }
+
     public function testUserCantLoginWithWrongPassword(): void
     {
         $client = $this->createClient();

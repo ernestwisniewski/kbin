@@ -15,6 +15,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class EntryTipController extends AbstractController
 {
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]

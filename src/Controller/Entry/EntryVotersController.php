@@ -9,7 +9,6 @@ use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,17 +19,8 @@ class EntryVotersController extends AbstractController
     public function __invoke(string $type, Magazine $magazine, Entry $entry, Request $request): Response
     {
         $votes = $entry->votes->filter(
-            fn ($e) => $e->choice === ('up' === $type ? VotableInterface::VOTE_UP : VotableInterface::VOTE_DOWN)
+            fn($e) => $e->choice === ('up' === $type ? VotableInterface::VOTE_UP : VotableInterface::VOTE_DOWN)
         );
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse([
-                'html' => $this->renderView('_user_activity_list.html.twig', [
-                    'list' => $votes,
-                    'more' => null,
-                ]),
-            ]);
-        }
 
         return $this->render('entry/voters.html.twig', [
             'magazine' => $magazine,

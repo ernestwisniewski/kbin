@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\User;
+namespace App\Controller\User\Profile;
 
 use App\Controller\AbstractController;
 use App\DTO\UserDto;

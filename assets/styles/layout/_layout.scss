@@ -246,3 +246,8 @@ figure {
   display: flex;
   gap: .25rem;
 }
+
+pre, code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
