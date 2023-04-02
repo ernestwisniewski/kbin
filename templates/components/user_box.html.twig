@@ -31,8 +31,10 @@
             </div>
         </div>
         {% if user.about|length %}
-            <div class="about content">
-                {{ user.about|markdown|raw }}
+            <div class="about">
+                <div class="content">
+                    {{ user.about|markdown|raw }}
+                </div>
             </div>
         {% endif %}
     </div>
