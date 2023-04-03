@@ -11,7 +11,7 @@ $transition: 180ms all 120ms ease-out;
     margin-bottom: 0;
     margin-top: 0;
     min-width: 15rem;
-    opacity: 1;
+    opacity: 0;
     padding: .5rem 0;
     position: absolute;
     top: calc(100% - 0.25rem);
@@ -51,9 +51,10 @@ $transition: 180ms all 120ms ease-out;
   &:hover,
   &:focus-within {
     .dropdown__menu {
-      opacity: 1;
       transform: rotateX(0) translateX(-50%);
       visibility: visible;
+      transition: visibility 0s, opacity .2s;
+      opacity: 1;
     }
   }
 }

@@ -1,4 +1,5 @@
 <a href="{{ path('user_overview', {username: user.username}) }}"
+   data-action="mouseover->kbin#mention"
    class="user-inline"
    title="{{ user.username|username(true) }}">
     {% if user.avatar and showAvatar %}

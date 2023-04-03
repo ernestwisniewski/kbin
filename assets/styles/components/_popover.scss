@@ -1,0 +1,78 @@
+:root {
+  --popover-width: 250px;
+  --popover-control-gap: 4px; // ⚠️ use px units - vertical gap between the popover and its control
+  --popover-viewport-gap: 20px; // ⚠️ use px units - vertical gap between the popover and the viewport - visible if popover height > viewport height
+  --popover-transition-duration: 0.2s;
+}
+
+.popover {
+  margin-bottom: var(--popover-control-gap); // top/left position set in JS
+  margin-top: var(--popover-control-gap);
+  opacity: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  position: fixed;
+  transition: visibility 0s var(--popover-transition-duration), opacity var(--popover-transition-duration);
+
+  visibility: hidden;
+  //width: var(--popover-width);
+  z-index: var(--z-index-popover, 25);
+}
+
+.popover--is-visible {
+  opacity: 1;
+  outline: none;
+  transition: visibility 0s, opacity var(--popover-transition-duration);
+  visibility: visible;
+}
+
+.popover-control--active {
+  outline: none;
+  // class added to the trigger when popover is visible
+}
+
+.user-popover {
+  min-width: 26rem;
+
+  header {
+    display: flex;
+    gap: 1rem;
+
+    h3 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    p {
+      font-size: .9rem;
+      margin: 0;
+    }
+
+    ul {
+      font-size: .9rem;
+      list-style: none;
+      padding: 0;
+    }
+
+    .user__follow {
+      justify-content: left;
+      margin-bottom: 1rem;
+    }
+  }
+
+  footer {
+    menu {
+      display: flex;
+      font-size: .9rem;
+      font-weight: 800;
+      gap: 1rem;
+      justify-content: space-around;
+      list-style: none;
+      position: relative;
+
+      li {
+        text-align: center;
+      }
+    }
+  }
+}

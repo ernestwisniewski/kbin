@@ -1,0 +1,64 @@
+<div class="user-popover">
+    <header>
+        {% if user.avatar %}
+            {{ component('user_avatar', {
+                user: user,
+                width: 100,
+                height: 100,
+                asLink: true
+            }) }}
+        {% endif %}
+        <div>
+            <h3>{{ user.username|username }}</h3>
+            <p>{{ user.username|username(true) }}</p>
+            <ul>
+                <li>{{ 'joined'|trans }}: {{ component('date', {date: user.createdAt}) }}</li>
+                <li>
+                    <a href="{{ path('user_reputation', {username: user.username}) }}">
+                        {{ 'reputation_points'|trans }}: {{ get_reputation_total(user) }}
+                    </a>
+                </li>
+                {% if user.apProfileId %}
+                    <li><a href="{{ user.apProfileId }}">{{ 'go_to_original_instance'|trans|trim('.', 'right') }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+            {{ component('user_follow', {user: user}) }}
+        </div>
+    </header>
+    <div class="user-note">
+        {{ form_start(form) }}
+        {{ form_row(form.body, {label: 'note'}) }}
+        {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary', 'data-action': ''}, row_attr: {class: 'float-end'}}) }}
+        {{ form_end(form) }}
+    </div>
+    <footer>
+        <hr>
+        <menu>
+            <li>
+                <a class="stretched-link" href="{{ path('user_entries', {username: user.username}) }}">
+                    <div>{{ user.entries|length }}</div>
+                    <div>{{ 'threads'|trans }}</div>
+                </a>
+            </li>
+            <li>
+                <a class="stretched-link" href="{{ path('user_comments', {username: user.username}) }}">
+                    <div>{{ user.entryComments|length }}</div>
+                    <div>{{ 'comments'|trans }}</div>
+                </a>
+            </li>
+            <li>
+                <a class="stretched-link" href="{{ path('user_posts', {username: user.username}) }}">
+                    <div>{{ user.posts|length }}</div>
+                    <div>{{ 'posts'|trans }}</div>
+                </a>
+            </li>
+            <li>
+                <a class="stretched-link" href="{{ path('user_replies', {username: user.username}) }}">
+                    <div>{{ user.postComments|length }}</div>
+                    <div>{{ 'replies'|trans }}</div>
+                </a>
+            </li>
+        </menu>
+    </footer>
+</div>

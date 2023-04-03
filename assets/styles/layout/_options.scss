@@ -10,6 +10,10 @@
   margin-bottom: .5rem;
   z-index: 5;
 
+  .dropdown__menu {
+    opacity: 1;
+  }
+
   &--top {
     border-top: 0;
   }

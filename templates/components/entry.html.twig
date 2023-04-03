@@ -45,8 +45,10 @@
         {% endif %}
     </div>
     {% if entry.body and showBody %}
-        <div class="content entry__body formatted">
-            {{ entry.body|markdown|raw }}
+        <div class="entry__body">
+            <div class="content formatted">
+                {{ entry.body|markdown|raw }}
+            </div>
         </div>
     {% endif %}
     <aside class="meta entry__meta">
@@ -127,7 +129,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#" aria-controls="popover-example">
                             {{ 'copy_url'|trans|lower }}
                         </a>
                     </li>

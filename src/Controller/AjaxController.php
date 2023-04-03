@@ -177,7 +177,7 @@ class AjaxController extends AbstractController
         ]);
 
         return new JsonResponse([
-            'html' => $this->renderView('user/user_popup.html.twig', ['user' => $user, 'form' => $form->createView()]),
+            'html' => $this->renderView('user/_user_popover.html.twig', ['user' => $user, 'form' => $form->createView()]),
         ]);
     }
 
