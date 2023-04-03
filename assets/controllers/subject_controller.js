@@ -40,10 +40,16 @@ export default class extends Controller {
 
             this.containerTarget.style.display = 'block';
             this.containerTarget.innerHTML = response.form;
+
+            const textarea = this.containerTarget.querySelector('textarea');
+            if (textarea) {
+                textarea.focus();
+            }
         } catch (e) {
             window.location.href = event.target.href;
         } finally {
             this.loadingValue = false;
+            popover.togglePopover(false);
         }
     }
 

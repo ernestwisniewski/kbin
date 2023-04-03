@@ -28,6 +28,10 @@ export default class extends ApplicationController {
     }
 
     async mention(event) {
+        if (false === event.target.matches(':hover')) {
+            return;
+        }
+
         try {
             const username = event.target.title.includes('@') ? `@${event.target.title}` : event.target.title;
             const url = router().generate('ajax_fetch_user_popup', {username: username});
