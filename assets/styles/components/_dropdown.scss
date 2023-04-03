@@ -7,6 +7,7 @@ $transition: 180ms all 120ms ease-out;
   &__menu {
     background-color: var(--kbin-section-bg);
     border: var(--kbin-section-border);
+    box-shadow: var(--kbin-shadow);
     left: 50%;
     margin-bottom: 0;
     margin-top: 0;

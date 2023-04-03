@@ -6,6 +6,7 @@
 }
 
 .popover {
+  box-shadow: var(--kbin-shadow);
   margin-bottom: var(--popover-control-gap); // top/left position set in JS
   margin-top: var(--popover-control-gap);
   opacity: 0;
