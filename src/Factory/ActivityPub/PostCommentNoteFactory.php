@@ -59,14 +59,14 @@ class PostCommentNoteFactory
                 $comment->apId
                     ? ($this->client->getActorObject($comment->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                        'ap_user_followers',
-                        ['username' => $comment->user->username],
-                        UrlGeneratorInterface::ABSOLUTE_URL
-                    ),
+                    'ap_user_followers',
+                    ['username' => $comment->user->username],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ],
             'sensitive' => $comment->post->isAdult(),
             'content' => $this->markdownConverter->convertToHtml(
-                $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions ?? []),
+                $comment->body,
             ),
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($comment),

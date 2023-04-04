@@ -13,6 +13,7 @@ use App\Form\PostCommentType;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use App\Service\CloudflareIpResolver;
+use App\Service\MentionManager;
 use App\Service\PostCommentManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -28,7 +29,8 @@ class PostCommentCreateController extends AbstractController
     public function __construct(
         private readonly PostCommentManager $manager,
         private readonly PostCommentRepository $repository,
-        private readonly CloudflareIpResolver $ipResolver
+        private readonly CloudflareIpResolver $ipResolver,
+        private readonly MentionManager $mentionManager
     ) {
     }
 
@@ -88,9 +90,35 @@ class PostCommentCreateController extends AbstractController
 
     private function getForm(Post $post, ?PostComment $parent): FormInterface
     {
+        $dto = new PostCommentDto();
+
+        if ($parent && $this->getUser()->addMentionsPosts) {
+            $handle = MentionManager::addHandle([$parent->user->username])[0];
+
+            if ($parent->user !== $this->getUser()) {
+                $dto->body = $handle;
+            } else {
+                $dto->body .= PHP_EOL;
+            }
+
+            if ($parent->mentions) {
+                $mentions = MentionManager::addHandle($parent->mentions);
+                $mentions = array_filter(
+                    $mentions,
+                    fn(string $mention) => $mention !== $handle && $mention !== MentionManager::addHandle([$this->getUser()->username])[0]
+                );
+                $dto->body .= PHP_EOL.PHP_EOL;
+                $dto->body .= implode(' ', array_unique($mentions));
+            }
+        } elseif ($this->getUser()->addMentionsPosts) {
+            if ($post->user !== $this->getUser()) {
+                $dto->body = MentionManager::addHandle([$post->user->username])[0];
+            }
+        }
+
         return $this->createForm(
             PostCommentType::class,
-            null,
+            $dto,
             [
                 'action' => $this->generateUrl(
                     'post_comment_create',

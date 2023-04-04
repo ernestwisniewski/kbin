@@ -59,7 +59,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     private function sendMentionedNotification(EntryComment $subject): array
     {
         $users = [];
-        $mentions = $this->mentionManager->clearLocal($this->mentionManager->extract($subject->body));
+        $mentions = MentionManager::clearLocal($this->mentionManager->extract($subject->body));
 
         foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
             if (!$user->apId) {
@@ -163,7 +163,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         }
 
         if (count($exclude)) {
-            $usersToNotify = array_filter($usersToNotify, fn ($user) => !in_array($user, $exclude));
+            $usersToNotify = array_filter($usersToNotify, fn($user) => !in_array($user, $exclude));
         }
 
         foreach ($usersToNotify as $subscriber) {

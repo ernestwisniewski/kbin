@@ -81,6 +81,16 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class,
                 ['required' => false]
             )
+            ->add(
+                'addMentionsEntries',
+                CheckboxType::class,
+                ['required' => false]
+            )
+            ->add(
+                'addMentionsPosts',
+                CheckboxType::class,
+                ['required' => false]
+            )
             ->add('submit', SubmitType::class);
 
         $builder->get('featuredMagazines')->addModelTransformer(

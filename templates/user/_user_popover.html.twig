@@ -9,8 +9,10 @@
             }) }}
         {% endif %}
         <div>
-            <h3>{{ user.username|username }}</h3>
-            <p>{{ user.username|username(true) }}</p>
+            <a class="link-muted" href="{{ path('user_overview', {username: user.username}) }}">
+                <h3>{{ user.username|username }}</h3>
+                <p>{{ user.username|username(true) }}</p>
+            </a>
             <ul>
                 <li>{{ 'joined'|trans }}: {{ component('date', {date: user.createdAt}) }}</li>
                 <li>

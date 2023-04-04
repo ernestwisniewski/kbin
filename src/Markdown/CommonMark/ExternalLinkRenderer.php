@@ -6,6 +6,7 @@ namespace App\Markdown\CommonMark;
 
 use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
+use App\Service\MentionManager;
 use App\Service\SettingsManager;
 use App\Utils\Embed;
 use League\CommonMark\ElementRendererInterface;
@@ -83,9 +84,8 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
                     '@' => [
                         'class' => 'mention u-url',
                         'title' => $inline->data['title'] ?? '',
-                        'data-bs-toggle' => 'popover',
-                        'data-bs-trigger' => 'hover focus',
-                        'data-bs-placement' => 'top',
+                        'data-action' => 'mouseover->kbin#mention',
+                        'data-kbin-username-param' => MentionManager::getRoute([$inline->data['title']])[0],
                     ],
                     '#' => ['class' => 'hashtag tag', 'rel' => 'tag'],
                     default => [],

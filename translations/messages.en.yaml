@@ -409,6 +409,9 @@ preview: Preview
 article: Article
 reputation: Reputation
 note: Note
+writing: Writing
+add_mentions_entries: Add mention tags in entries
+add_mentions_posts: Add mention tags in posts
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.

@@ -16,6 +16,8 @@ class UserSettingsDto
         public bool $hideAdult = false,
         public bool $showProfileSubscriptions = true,
         public bool $showProfileFollowings = true,
+        public bool $addMentionsEntries = true,
+        public bool $addMentionsPosts = true,
         public string $homepage = 'front_subscribed',
         public ?array $featuredMagazines = null,
     ) {

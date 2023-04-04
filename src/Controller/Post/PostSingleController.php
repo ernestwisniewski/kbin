@@ -7,6 +7,7 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Controller\Traits\PrivateContentTrait;
 use App\Controller\User\ThemeSettingsController;
+use App\DTO\PostCommentDto;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
@@ -14,6 +15,7 @@ use App\Form\PostCommentType;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;
+use App\Service\MentionManager;
 use Pagerfanta\PagerfantaInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -52,8 +54,8 @@ class PostSingleController extends AbstractController
         $criteria->perPage = 25;
 
         if (ThemeSettingsController::CHAT === $request->cookies->get(
-            ThemeSettingsController::POST_COMMENTS_VIEW
-        )) {
+                ThemeSettingsController::POST_COMMENTS_VIEW
+            )) {
             $criteria->showSortOption(Criteria::SORT_OLD);
             $criteria->perPage = 100;
             $criteria->onlyParents = false;
@@ -67,13 +69,18 @@ class PostSingleController extends AbstractController
             return $this->getJsonResponse($magazine, $post, $comments);
         }
 
+        $dto = new PostCommentDto();
+        if ($this->getUser() && $post->user !== $this->getUser()) {
+            $dto->body = MentionManager::addHandle([$post->user->username])[0];
+        }
+
         return $this->render(
             'post/single.html.twig',
             [
                 'magazine' => $magazine,
                 'post' => $post,
                 'comments' => $comments,
-                'form' => $this->createForm(PostCommentType::class)->createView(),
+                'form' => $this->createForm(PostCommentType::class, $dto)->createView(),
             ]
         );
     }

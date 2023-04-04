@@ -12,7 +12,7 @@ use JetBrains\PhpStorm\Pure;
 
 class SettingsManager
 {
-    private ?SettingsDto $dto = null;
+    private static ?SettingsDto $dto = null;
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -30,10 +30,10 @@ class SettingsManager
         private readonly bool $kbinFederationEnabled,
         private readonly bool $kbinRegistrationsEnabled,
     ) {
-        if (!$this->dto) {
+        if (!self::$dto) {
             $results = $this->repository->findAll();
 
-            $this->dto = new SettingsDto(
+            self::$dto = new SettingsDto(
                 $this->kbinDomain,
                 $this->find($results, 'KBIN_TITLE') ?? $this->kbinTitle,
                 $this->find($results, 'KBIN_META_TITLE') ?? $this->kbinMetaTitle,
@@ -77,7 +77,7 @@ class SettingsManager
 
     public function getDto(): SettingsDto
     {
-        return $this->dto;
+        return self::$dto;
     }
 
     public function save(SettingsDto $dto): void
@@ -109,6 +109,11 @@ class SettingsManager
 
     public function get(string $name)
     {
-        return $this->dto->{$name};
+        return self::$dto->{$name};
+    }
+    
+    public static function getValue(string $name): string
+    {
+        return self::$dto->{$name};
     }
 }

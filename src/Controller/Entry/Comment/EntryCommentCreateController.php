@@ -13,6 +13,7 @@ use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
 use App\Service\CloudflareIpResolver;
 use App\Service\EntryCommentManager;
+use App\Service\MentionManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormInterface;
@@ -82,9 +83,32 @@ class EntryCommentCreateController extends AbstractController
 
     private function getForm(Entry $entry, ?EntryComment $parent = null): FormInterface
     {
+        $dto = new EntryCommentDto();
+
+        if ($parent && $this->getUser()->addMentionsEntries) {
+            $handle = MentionManager::addHandle([$parent->user->username])[0];
+
+            if ($parent->user !== $this->getUser()) {
+                $dto->body = $handle;
+            } else {
+                $dto->body .= PHP_EOL;
+            }
+
+            if ($parent->mentions) {
+                $mentions = MentionManager::addHandle($parent->mentions);
+                $mentions = array_filter(
+                    $mentions,
+                    fn(string $mention) => $mention !== $handle && $mention !== MentionManager::addHandle([$this->getUser()->username])[0]
+                );
+
+                $dto->body .= PHP_EOL.PHP_EOL;
+                $dto->body .= implode(' ', array_unique($mentions));
+            }
+        }
+
         return $this->createForm(
             EntryCommentType::class,
-            null,
+            $dto,
             [
                 'action' => $this->generateUrl(
                     'entry_comment_create',

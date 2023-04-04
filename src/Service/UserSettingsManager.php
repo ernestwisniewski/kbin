@@ -26,6 +26,8 @@ class UserSettingsManager
             $user->hideAdult,
             $user->showProfileSubscriptions,
             $user->showProfileFollowings,
+            $user->addMentionsEntries,
+            $user->addMentionsPosts,
             $user->homepage,
             $user->featuredMagazines,
         );
@@ -43,6 +45,8 @@ class UserSettingsManager
         $user->hideAdult = $dto->hideAdult;
         $user->showProfileSubscriptions = $dto->showProfileSubscriptions;
         $user->showProfileFollowings = $dto->showProfileFollowings;
+        $user->addMentionsEntries = $dto->addMentionsEntries;
+        $user->addMentionsPosts = $dto->addMentionsPosts;
         $user->featuredMagazines = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;
 
         $this->entityManager->flush();

@@ -4,13 +4,17 @@ namespace App\Twig\Runtime;
 
 use App\Entity\User;
 use App\Repository\ReputationRepository;
+use App\Service\MentionManager;
 use Symfony\Component\Security\Core\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class UserExtensionRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly Security $security, private ReputationRepository $reputationRepository)
-    {
+    public function __construct(
+        private readonly Security $security,
+        private readonly ReputationRepository $reputationRepository,
+        private readonly MentionManager $mentionManager
+    ) {
     }
 
     public function isFollowed(User $followed)
@@ -33,13 +37,13 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
 
     public static function username(string $value, ?bool $withApPostfix = false): string
     {
-        $value = ltrim($value, '@');
+        $value = MentionManager::addHandle([$value])[0];
 
         if (true === $withApPostfix) {
             return $value;
         }
 
-        return explode('@', $value)[0];
+        return explode('@', $value)[1];
     }
 
     public function getReputationTotal(User $user): int

@@ -69,7 +69,7 @@ class PostNoteFactory
             'sensitive' => $post->isAdult(),
             'content' => $this->markdownConverter->convertToHtml(
                 $this->tagManager->joinTagsToBody(
-                    $this->mentionManager->joinMentionsToBody($post->body ?? '', $post->mentions ?? []),
+                    $post->body,
                     $tags
                 )
             ),

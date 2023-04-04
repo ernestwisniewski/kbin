@@ -43,6 +43,18 @@ export default class extends Controller {
 
             const textarea = this.containerTarget.querySelector('textarea');
             if (textarea) {
+                let firstLineEnd = textarea.value.indexOf("\n");
+                if (-1 === firstLineEnd) {
+                    firstLineEnd = textarea.value.length;
+                    textarea.value = textarea.value.slice(0, firstLineEnd) + " " + textarea.value.slice(firstLineEnd);
+                    textarea.selectionStart = firstLineEnd + 1;
+                    textarea.selectionEnd = firstLineEnd + 1;
+                } else {
+                    textarea.value = textarea.value.slice(0, firstLineEnd) + " " + textarea.value.slice(firstLineEnd);
+                    textarea.selectionStart = firstLineEnd + 1;
+                    textarea.selectionEnd = firstLineEnd + 1;
+                }
+
                 textarea.focus();
             }
         } catch (e) {
