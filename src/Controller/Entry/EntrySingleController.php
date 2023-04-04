@@ -71,7 +71,7 @@ class EntrySingleController extends AbstractController
         }
 
         $dto = new EntryCommentDto();
-        if ($this->getUser() && $entry->user !== $this->getUser()) {
+        if ($this->getUser() && $this->getUser()->addMentionsEntries && $entry->user !== $this->getUser()) {
             $dto->body = MentionManager::addHandle([$entry->user->username])[0];
         }
 

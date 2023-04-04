@@ -1,11 +1,11 @@
 <a href="{{ path('front_magazine', {name: magazine.name}) }}"
    class="{{ html_classes('magazine-inline', {'stretched-link': stretchedLink }) }}"
-   title="{{ magazine.name|username(true) }}">
+   title="{{ ('@'~magazine.name)|username(true) }}">
     {% if magazine.icon and showAvatar %}
         <img width="30" height="30"
              src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ magazine.name ~ ' avatar' }}"
              aria-hidden="true">
     {% endif %}
-    {{ magazine.name|username(fullName) -}}
+    {{ ('@'~magazine.name)|username(magazine.apId ? true : false)|trim('@', 'left') -}}
 </a>

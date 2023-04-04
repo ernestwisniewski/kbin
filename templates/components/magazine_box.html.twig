@@ -17,7 +17,7 @@
         <header>
             <h4><a href="{{ path('front_magazine', {name: magazine.name}) }}"
                    class="stretched-link">{{ computed.magazine.title }}</a></h4>
-            <p class="magazine__name">{{ magazine.name|username(true) }}</p>
+            <p class="magazine__name">{{ ('@'~magazine.name)|username(true) }}</p>
         </header>
     </div>
     {{ component('magazine_sub', {magazine: magazine}) }}

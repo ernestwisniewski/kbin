@@ -70,7 +70,7 @@ class PostSingleController extends AbstractController
         }
 
         $dto = new PostCommentDto();
-        if ($this->getUser() && $post->user !== $this->getUser()) {
+        if ($this->getUser() && $this->getUser()->addMentionsPosts && $post->user !== $this->getUser()) {
             $dto->body = MentionManager::addHandle([$post->user->username])[0];
         }
 
