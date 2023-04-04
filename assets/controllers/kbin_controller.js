@@ -29,13 +29,11 @@ export default class extends ApplicationController {
 
     async mention(event) {
         if (false === event.target.matches(':hover')) {
-
             return;
         }
 
         try {
             let param = event.params.username;
-            console.log(param);
 
             if (param.charAt(0) === "@") {
                 param = param.substring(1);

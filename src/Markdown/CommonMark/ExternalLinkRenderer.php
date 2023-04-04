@@ -85,7 +85,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
                         'class' => 'mention u-url',
                         'title' => $inline->data['title'] ?? '',
                         'data-action' => 'mouseover->kbin#mention',
-                        'data-kbin-username-param' => MentionManager::getRoute([$inline->data['title']])[0],
+                        'data-kbin-username-param' => $inline->data['title'] ? MentionManager::getRoute([$inline->data['title']])[0] : '',
                     ],
                     '#' => ['class' => 'hashtag tag', 'rel' => 'tag'],
                     default => [],
