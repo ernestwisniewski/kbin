@@ -4,8 +4,7 @@
     {% if magazine.icon and showAvatar %}
         <img width="30" height="30"
              src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
-             alt="{{ magazine.name ~ ' avatar' }}"
-             aria-hidden="true">
+             alt="{{ magazine.name ~ ' avatar' }}">
     {% endif %}
     {{ ('@'~magazine.name)|username(magazine.apId ? true : false)|trim('@', 'left') -}}
 </a>

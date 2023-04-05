@@ -1,9 +1,8 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
-
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['loader', 'more', 'container']
+    static targets = ['loader', 'more', 'container', 'commentsCounter']
     static values = {
         loading: Boolean,
     };
@@ -114,7 +113,9 @@ export default class extends Controller {
         } catch (e) {
             // this.containerTarget.innerHTML = '';
         } finally {
-            this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
+            this.application
+                .getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox')
+                .connect();
             this.loadingValue = false;
             event.target.disabled = false;
             event.target.innerHTML = self.sendBtnLabel;

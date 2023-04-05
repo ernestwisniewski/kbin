@@ -26,12 +26,14 @@ export default class extends Controller {
         let cb = function (e) {
             let data = JSON.parse(e.data);
 
-            if (data.op.endsWith('Notification')) {
-                self.dispatch('Notification', data);
-            }
+            self.dispatch('Notification', {detail: data});
 
-            self.notify(data);
-            self.dispatch(data.op, data);
+            // if (data.op.endsWith('Notification')) {
+            //     self.dispatch('Notification', {detail: data});
+            // }
+
+            // self.notify(data);
+            // self.dispatch(data.op, {detail: data});
         }
 
         window.es = Subscribe(topics, cb);
@@ -44,11 +46,34 @@ export default class extends Controller {
     }
 
     getTopics() {
+        let pub = true;
         const topics = [
-            'pub',
             'count'
-        ];
+        ]
 
+        if (window.KBIN_USER) {
+            topics.push(`/api/user/${window.KBIN_USER}`);
+            pub = true;
+        }
+
+        if (window.KBIN_MAGAZINE) {
+            topics.push(`/api/magazines/${window.KBIN_MAGAZINE}`);
+            pub = false;
+        }
+
+        if (window.KBIN_ENTRY_ID) {
+            topics.push(`/api/entries/${window.KBIN_ENTRY_ID}`);
+            pub = false;
+        }
+
+        if (window.KBIN_POST_ID) {
+            topics.push(`/api/posts/${window.KBIN_POST_ID}`);
+            pub = false;
+        }
+
+        if (pub) {
+            topics.push('pub');
+        }
 
         return topics;
     }

@@ -68,7 +68,9 @@ export default class extends Controller {
 
         this.element.remove();
 
-        this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
+        this.application
+            .getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox')
+            .connect();
     }
 
     loadingValueChanged(val) {

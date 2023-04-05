@@ -8,6 +8,7 @@ use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\Contracts\VotableInterface;
 use App\Factory\MagazineFactory;
 use App\Message\Notification\VoteNotificationMessage;
+use App\Service\GenerateHtmlClassService;
 use App\Service\VotableRepositoryResolver;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -20,6 +21,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
         private readonly MagazineFactory $magazineFactory,
         private readonly VotableRepositoryResolver $resolver,
         private readonly HubInterface $publisher,
+        private readonly GenerateHtmlClassService $classService,
     ) {
     }
 
@@ -52,6 +54,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
             [
                 'op' => end($subject).'Vote',
                 'id' => $votable->getId(),
+                'htmlId' => $this->classService->fromEntity($votable),
                 'up' => $votable->countUpVotes(),
                 'down' => $votable->countDownVotes(),
             ]

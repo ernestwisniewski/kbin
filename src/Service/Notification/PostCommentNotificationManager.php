@@ -18,6 +18,7 @@ use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,7 +42,8 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
+        private readonly ImageManager $imageManager,
+        private readonly GenerateHtmlClassService $classService
     ) {
     }
 
@@ -133,8 +135,10 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
             [
                 'op' => end($class),
                 'id' => $comment->getId(),
-                'subject' => [
+                'htmlId' => $this->classService->fromEntity($comment),
+                'parentSubject' => [
                     'id' => $comment->post->getId(),
+                    'htmlId' => $this->classService->fromEntity($comment->post),
                 ],
                 'title' => $comment->post->body,
                 'body' => $comment->body,
@@ -145,7 +149,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
                         'post_id' => $comment->post->getId(),
                         'slug' => $comment->post->slug,
                     ]).'#post-comment-'.$comment->getId(),
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+//                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
@@ -163,7 +167,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         }
 
         if (count($exclude)) {
-            $usersToNotify = array_filter($usersToNotify, fn ($user) => !in_array($user, $exclude));
+            $usersToNotify = array_filter($usersToNotify, fn($user) => !in_array($user, $exclude));
         }
 
         foreach ($usersToNotify as $subscriber) {

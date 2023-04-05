@@ -23,11 +23,14 @@
     {% endblock %}
 
     {% block javascripts %}
-        <script type="application/json" id="mercure-url">
-            {{ mercure()|raw }}
-
-        </script>
         {{ encore_entry_script_tags('app') }}
+        <script type="application/json" id="mercure-url">{{ mercure()|raw }}</script>
+        <script>
+            window.KBIN_USER = "{{ app.user ? app.user.username : null }}";
+            window.KBIN_MAGAZINE = "{{ magazine is defined and magazine ? magazine.name : null }}"
+            window.KBIN_ENTRY_ID = "{{ entry is defined and entry ? entry.id : null }}"
+            window.KBIN_POST_ID = "{{ post is defined and post ? post.id : null }}"
+        </script>
     {% endblock %}
 
     <style>
@@ -43,7 +46,7 @@
         'topbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true',
         'fixed-navbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true',
         'sidebar-left': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::LEFT'),
-    }) }}" data-controller="kbin">
+    }) }}" data-controller="kbin notifications">
 {% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
 <div id="middle" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">
@@ -61,8 +64,6 @@
 </div>
 {% include 'layout/_footer.html.twig' %}
 {% include 'layout/_topbar.html.twig' %}
-<div data-controller="notifications"
-     data-notifications-magazine-name-value="{{ magazine is defined and magazine ? magazine.name : '' }}"></div>
 <div id="popover" class="popover js-popover section section--small" role="dialog">
 </div>
 </body>

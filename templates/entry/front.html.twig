@@ -37,7 +37,9 @@
     {% if magazine is defined and magazine %}
         {% include 'magazine/_federated_info.html.twig' %}
     {% endif %}
-    <div id="content">
+    <div id="content"
+         data-controller="subject-list"
+         data-action="notifications:Notification@window->subject-list#notification">
         {% include 'entry/_list.html.twig' %}
     </div>
 {% endblock %}

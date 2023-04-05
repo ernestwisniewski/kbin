@@ -28,6 +28,6 @@ class LinkExtensionRuntime implements RuntimeExtensionInterface
     {
         $service = $this->generateHtmlClassService;
 
-        return $service($content);
+        return $service->fromEntity($content);
     }
 }

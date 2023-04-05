@@ -18,6 +18,7 @@ use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,7 +42,8 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
+        private readonly ImageManager $imageManager,
+        private readonly GenerateHtmlClassService $classService
     ) {
     }
 
@@ -133,8 +135,10 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
             [
                 'op' => end($class),
                 'id' => $comment->getId(),
-                'subject' => [
+                'htmlId' => $this->classService->fromEntity($comment),
+                'parentSubject' => [
                     'id' => $comment->entry->getId(),
+                    'htmlId' => $this->classService->fromEntity($comment->entry),
                 ],
                 'title' => $comment->entry->title,
                 'body' => $comment->body,
@@ -145,7 +149,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
                         'entry_id' => $comment->entry->getId(),
                         'slug' => $comment->entry->slug,
                     ]).'#entry-comment-'.$comment->getId(),
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+//                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

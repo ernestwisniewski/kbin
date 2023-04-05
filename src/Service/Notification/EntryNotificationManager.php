@@ -17,6 +17,7 @@ use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +40,8 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
+        private readonly ImageManager $imageManager,
+        private readonly GenerateHtmlClassService $classService
     ) {
     }
 
@@ -108,6 +110,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
             [
                 'op' => end($class),
                 'id' => $entry->getId(),
+                'htmlId' => $this->classService->fromEntity($entry),
                 'magazine' => [
                     'name' => $magazine->name,
                 ],
@@ -120,7 +123,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
                     'entry_id' => $entry->getId(),
                     'slug' => $entry->slug,
                 ]),
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+//                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

@@ -42,6 +42,6 @@ class FavouriteController extends AbstractController
             );
         }
 
-        return $this->redirectToRefererOrHome($request, ($this->classService)($subject));
+        return $this->redirectToRefererOrHome($request, ($this->classService)->fromEntity($subject));
     }
 }

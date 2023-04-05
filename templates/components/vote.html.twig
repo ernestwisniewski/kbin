@@ -44,7 +44,7 @@
                     title="{{ 'down_vote'|trans }}"
                     aria-label="{{ 'down_vote'|trans }}"
                     data-action="subject#vote"
-                    {{ html_classes({'disabled': app.user and subject.isAuthor(app.user)}) }}>
+                    {{ html_classes('vote__up', {'disabled': app.user and subject.isAuthor(app.user)}) }}>
                 {{ subject.countDownvotes }} <span><i class="fa-solid fa-arrow-down"></i></span>
             </button>
             <input type="hidden" name="token" value="{{ csrf_token('vote') }}">

@@ -1,7 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
-import getIdFromElement from "../utils/kbin";
+import getIntIdFromElement from "../utils/kbin";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -24,7 +24,7 @@ export default class extends Controller {
         try {
             this.loadingValue = true;
 
-            const url = router().generate('ajax_fetch_post_comments', {'id': getIdFromElement(this.element)});
+            const url = router().generate('ajax_fetch_post_comments', {'id': getIntIdFromElement(this.element)});
 
             let response = await fetch(url, {method: 'GET'});
 
@@ -48,7 +48,9 @@ export default class extends Controller {
             this.expandTarget.style.display = 'none';
             this.collapseTarget.style.display = 'block';
 
-            this.application.getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox').connect();
+            this.application
+                .getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox')
+                .connect();
         } catch (e) {
         } finally {
             this.loadingValue = false;

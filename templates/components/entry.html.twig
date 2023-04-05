@@ -104,7 +104,9 @@
             {% endif %}
             <li>
                 <a class="stretched-link"
-                   href="{{ entry_url(entry) ~ '#comments' }}">{{ entry.commentCount }} {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}</a>
+                   href="{{ entry_url(entry) ~ '#comments' }}">
+                    <span data-subject-target="commentsCounter">{{ entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}
+                </a>
             </li>
             <li>
                 {{ component('favourite', {

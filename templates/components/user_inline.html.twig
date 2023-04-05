@@ -6,8 +6,7 @@
     {% if user.avatar and showAvatar %}
         <img width="30" height="30"
              src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
-             alt="{{ user.username ~ ' avatar' }}"
-             aria-hidden="true">
+             alt="{{ user.username ~ ' avatar' }}">
     {% endif %}
     {{ user.apPreferredUsername ?? user.username|username -}}
 </a>
