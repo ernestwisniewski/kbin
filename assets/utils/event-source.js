@@ -1,9 +1,6 @@
-import Cookies from 'js-cookie';
-
 export default function
     subscribe(topics, cb) {
-
-    const url = new URL(window.MERCURE_PUBLISH_URL, window.origin);
+    const url = new URL(document.getElementById("mercure-url").textContent.trim());
 
     topics.forEach(topic => {
         url.searchParams.append('topic', topic);

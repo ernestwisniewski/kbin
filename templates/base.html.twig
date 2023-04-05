@@ -23,12 +23,11 @@
     {% endblock %}
 
     {% block javascripts %}
-        {% if kbin_js_enabled() %}
-            <script>
-                window.MERCURE_PUBLISH_URL = "{{ mercure_public_url }}";
-            </script>
-            {{ encore_entry_script_tags('app') }}
-        {% endif %}
+        <script type="application/json" id="mercure-url">
+            {{ mercure()|raw }}
+
+        </script>
+        {{ encore_entry_script_tags('app') }}
     {% endblock %}
 
     <style>
@@ -62,7 +61,8 @@
 </div>
 {% include 'layout/_footer.html.twig' %}
 {% include 'layout/_topbar.html.twig' %}
-
+<div data-controller="notifications"
+     data-notifications-magazine-name-value="{{ magazine is defined and magazine ? magazine.name : '' }}"></div>
 <div id="popover" class="popover js-popover section section--small" role="dialog">
 </div>
 </body>

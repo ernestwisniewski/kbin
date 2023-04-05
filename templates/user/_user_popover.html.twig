@@ -16,7 +16,8 @@
             <ul>
                 <li>{{ 'joined'|trans }}: {{ component('date', {date: user.createdAt}) }}</li>
                 <li>
-                    <a href="{{ path('user_reputation', {username: user.username}) }}">
+                    {%- set TYPE_ENTRY = constant('App\\Repository\\ReputationRepository::TYPE_ENTRY') -%}
+                    <a href="{{ path('user_reputation', {username: user.username, reputationType: TYPE_ENTRY}) }}">
                         {{ 'reputation_points'|trans }}: {{ get_reputation_total(user) }}
                     </a>
                 </li>
