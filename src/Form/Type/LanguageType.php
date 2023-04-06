@@ -15,6 +15,7 @@ class LanguageType extends AbstractType
         'dk' => 'danish',
         'nl' => 'dutch',
         'en' => 'english',
+        'fi' => 'finnish',
         'fr' => 'french',
         'de' => 'german',
         'gr' => 'greek',

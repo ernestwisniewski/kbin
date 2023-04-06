@@ -2,7 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['loader', 'more', 'container', 'commentsCounter']
+    static targets = ['loader', 'more', 'container', 'commentsCounter', 'favCounter']
     static values = {
         loading: Boolean,
     };

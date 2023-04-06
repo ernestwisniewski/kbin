@@ -9,7 +9,9 @@ use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Event\FavouriteEvent;
 use App\Message\ActivityPub\Outbox\LikeMessage;
+use App\Message\Notification\FavouriteNotificationMessage;
 use App\Service\CacheService;
+use Doctrine\Common\Util\ClassUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -25,16 +27,23 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
     }
 
     #[ArrayShape([FavouriteEvent::class => 'string'])]
- public static function getSubscribedEvents(): array
- {
-     return [
-         FavouriteEvent::class => 'onFavourite',
-     ];
- }
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            FavouriteEvent::class => 'onFavourite',
+        ];
+    }
 
     public function onFavourite(FavouriteEvent $event): void
     {
         $subject = $event->subject;
+
+        $this->bus->dispatch(
+            new FavouriteNotificationMessage(
+                $subject->getId(),
+                ClassUtils::getRealClass(get_class($event->subject))
+            )
+        );
 
         $this->deleteFavouriteCache($subject);
 

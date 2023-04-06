@@ -29,5 +29,5 @@ framework:
 
     routing:
       # Route your messages to the transports
-      App\Message\Contracts\AsyncMessageInterface: sync
+      App\Message\Contracts\AsyncMessageInterface: async
       App\Message\Contracts\AsyncApMessageInterface: async_ap

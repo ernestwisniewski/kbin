@@ -1,5 +1,5 @@
 import {Controller} from '@hotwired/stimulus';
-import {getIdPrefixFromNotification} from "../utils/kbin";
+
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     notification(data) {
@@ -18,6 +18,10 @@ export default class extends Controller {
 
         if (data.detail.op.includes('Vote')) {
             this.updateVotes(subject, data);
+        }
+
+        if (data.detail.op.includes('Favourite')) {
+            this.updateFavourites(subject, data);
         }
     }
 
@@ -43,6 +47,14 @@ export default class extends Controller {
         const subjectController = this.application.getControllerForElementAndIdentifier(subject, 'subject')
         if (subjectController.hasCommentsCounterTarget) {
             subjectController.commentsCounterTarget.innerText = parseInt(subjectController.commentsCounterTarget.innerText) - 1;
+        }
+    }
+
+    updateFavourites(subject, data) {
+        const subjectController = this.application.getControllerForElementAndIdentifier(subject, 'subject')
+        if (subjectController.hasFavCounterTarget) {
+            subjectController.favCounterTarget.parentElement.classList.remove('hidden');
+            subjectController.favCounterTarget.innerText = data.detail.count;
         }
     }
 }

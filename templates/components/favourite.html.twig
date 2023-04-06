@@ -4,6 +4,8 @@
     <button class="{{ html_classes('stretched-link', {'active': app.user and subject.isFavored(app.user) }) }}"
             type="submit"
             data-action="subject#favourite">
-        {{ 'favourites'|trans|lower }} {% if subject.favouriteCount %}({{ subject.favouriteCount }}){% endif %}
+        {{ 'favourites'|trans|lower }} <span class="{{ html_classes({'hidden': not subject.favouriteCount}) }}">
+            (<span data-subject-target="favCounter">{{ subject.favouriteCount }}</span>)
+        </span>
     </button>
 </form>

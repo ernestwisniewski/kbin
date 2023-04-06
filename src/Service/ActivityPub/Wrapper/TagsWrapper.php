@@ -18,7 +18,7 @@ class TagsWrapper
             'type' => 'Hashtag',
             'href' => $this->urlGenerator->generate(
                 'tag_overview',
-                ['tag' => $tag],
+                ['name' => $tag],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
             'tag' => '#'.$tag,
