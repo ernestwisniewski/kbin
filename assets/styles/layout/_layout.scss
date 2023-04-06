@@ -80,6 +80,14 @@ menu {
   }
 }
 
+main {
+  .content {
+    a {
+      color: var(--kbin-section-link-color) !important;
+    }
+  }
+}
+
 .row,
 .content {
   position: relative;

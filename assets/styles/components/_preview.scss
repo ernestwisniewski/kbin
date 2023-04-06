@@ -1,5 +1,10 @@
 .preview {
-  margin: .5rem 0;
+  display: inline-flex;
+
+  button {
+    padding: 0;
+    margin: 0 .25rem;
+  }
 
   img {
     max-width: 100%;

@@ -21,7 +21,7 @@
   --kbin-bg-nth: #232323;
 
   --kbin-text-color: #cacece;
-  --kbin-link-color: #85a1c0;
+  --kbin-link-color: #cdd5de;
   --kbin-link-hover-color: #fafafa;
   --kbin-outline: #ff8c00 solid 4px;
 
@@ -34,7 +34,8 @@
   // section
   --kbin-section-bg: #2c2c2c;
   --kbin-section-text-color: var(--kbin-text-color);
-  --kbin-section-link-color: var(--kbin-link-color);
+  --kbin-section-title-link-color: var(--kbin-link-color);
+  --kbin-section-link-color: #85a1c0;
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
   --kbin-section-border: 1px solid #373737;
   --kbin-author-border: 1px dashed var(--kbin-danger-color);
