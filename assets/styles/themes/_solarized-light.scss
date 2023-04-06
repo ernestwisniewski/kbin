@@ -74,7 +74,7 @@ $green: #859900;
   // section
   --kbin-section-bg: #{$base3};
   --kbin-section-text-color: var(--kbin-text-color);
-  --kbin-section-link-color: var(--kbin-link-color);
+  --kbin-section-link-color: #{$yellow};
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
   --kbin-section-border: 1px solid #c8cac0;
   --kbin-author-border: 1px dashed var(--kbin-danger-color);

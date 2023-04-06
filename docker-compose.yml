@@ -42,7 +42,6 @@ services:
       - caddy_data:/data
       - caddy_config:/config
       - ./:/srv/app:ro
-
     ports:
       # HTTP
       - target: 80
@@ -118,8 +117,6 @@ volumes:
   php_socket:
   caddy_data:
   caddy_config:
-  elasticsearch-data:
-    driver: local
   db-data:
 
 ###> symfony/mercure-bundle ###

@@ -26,6 +26,10 @@ export default class extends Controller {
     }
 
     updateVotes(subject, data) {
+        if (null === subject) {
+            return;
+        }
+
         const upButton = subject.querySelector('.vote__up button');
 
         upButton.replaceChild(document.createTextNode(data.detail.up + ' '), upButton.firstChild);
@@ -51,6 +55,10 @@ export default class extends Controller {
     }
 
     updateFavourites(subject, data) {
+        if (null === subject) {
+            return;
+        }
+
         const subjectController = this.application.getControllerForElementAndIdentifier(subject, 'subject')
         if (subjectController.hasFavCounterTarget) {
             subjectController.favCounterTarget.parentElement.classList.remove('hidden');

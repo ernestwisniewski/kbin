@@ -18,6 +18,14 @@
   visibility: hidden;
   //width: var(--popover-width);
   z-index: var(--z-index-popover, 25);
+
+  a {
+    color: var(--kbin-meta-link-color) !important;
+
+    &:hover {
+      color: var(--kbin-meta-link-color-hover) !important;
+    }
+  }
 }
 
 .popover--is-visible {
