@@ -84,15 +84,13 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id' => $comment->getId(),
                 'html' => $this->renderView(
-                    'entry/comment/_comment.html.twig',
+                    'components/_ajax.html.twig',
                     [
-                        'extraClass' => 'kbin-comment',
-                        'withParent' => false,
-                        'comment' => $comment,
-                        'level' => 1,
-                        'nested' => false,
+                        'component' => 'entry_comment',
+                        'attributes' => [
+                            'comment' => $comment,
+                        ],
                     ]
                 ),
             ]
@@ -103,8 +101,15 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id' => $post->getId(),
-                'html' => $this->renderView('post/_post.html.twig', ['post' => $post]),
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'post',
+                        'attributes' => [
+                            'post' => $post,
+                        ],
+                    ]
+                ),
             ]
         );
     }
@@ -113,15 +118,13 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id' => $comment->getId(),
                 'html' => $this->renderView(
-                    'post/comment/_comment.html.twig',
+                    'components/_ajax.html.twig',
                     [
-                        'extra_classes' => 'kbin-comment',
-                        'with_parent' => false,
-                        'comment' => $comment,
-                        'level' => 1,
-                        'nested' => false,
+                        'component' => 'post_comment',
+                        'attributes' => [
+                            'comment' => $comment,
+                        ],
                     ]
                 ),
             ]

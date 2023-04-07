@@ -5,7 +5,8 @@
     })}).without('id') }}
         id="entry-{{ entry.id }}"
         data-controller="subject preview"
-        data-subject-name-value="entry">
+        data-subject-name-value="entry"
+        data-action="notifications:Notification@window->subject#notification">
     <header>
         {% if isSingle %}
             <h1>
@@ -97,9 +98,10 @@
             {% if entry.hasEmbed %}
                 <li>
                     <button data-action="preview#show"
+                            aria-label="{{ 'preview'|trans }}"
                             data-preview-url-param="{{ entry.url }}"
                             data-preview-ratio-param="{{ entry.domain and entry.domain.shouldRatio ? true : false }}">
-                        <i class="fa-solid fa-photo-film" aria-label="{{ 'preview'|trans }}"></i>
+                        <i class="fa-solid fa-photo-film"></i>
                     </button>
                 </li>
             {% endif %}

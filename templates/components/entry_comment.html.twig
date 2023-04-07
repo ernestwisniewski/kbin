@@ -6,7 +6,8 @@
         id="entry-comment-{{ comment.id }}"
         data-controller="comment subject"
         data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}"
-        data-subject-name-value="entry_comment">
+        data-subject-name-value="entry_comment"
+        data-action="notifications:Notification@window->subject#notification">
     <header>
         {% if comment.isAdult %}<span class="badge danger">+18</span>{% endif %}
         {{ component('user_inline', {user: comment.user, showAvatar: false}) }},

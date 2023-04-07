@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\DomainInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\RankingInterface;

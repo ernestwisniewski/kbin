@@ -167,7 +167,7 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            event.target.closest('.vote').insertAdjacentHTML('afterend', response.html);
+            event.target.closest('.vote').outerHTML = response.html;
         } catch (e) {
             form.submit();
         } finally {
@@ -226,7 +226,40 @@ export default class extends Controller {
         }
     }
 
-    async refresh() {
+    notification(data) {
+        if (data.detail.parentSubject && this.element.id.trim() === data.detail.parentSubject.htmlId.trim()) {
+            if (data.detail.op.endsWith('CommentDeletedNotification') || data.detail.op.endsWith('CommentCreatedNotification')) {
+                this.updateCommentCounter(data);
+            }
+        }
+
+        if (this.element.id.trim() !== data.detail.htmlId.trim()) {
+            console.log(this.element.id.trim(), data.detail.htmlId.trim())
+            return;
+        }
+        console.log('@@@@2')
+        if (data.detail.op.endsWith('EditedNotification')) {
+            this.refresh(data);
+            return;
+        }
+
+        if (data.detail.op.endsWith('DeletedNotification')) {
+            this.element.remove();
+            return;
+        }
+
+        if (data.detail.op.endsWith('Vote')) {
+            this.updateVotes(data);
+            return;
+        }
+
+        if (data.detail.op.endsWith('Favourite')) {
+            this.updateFavourites(data);
+            return;
+        }
+    }
+
+    async refresh(data) {
         try {
             this.loadingValue = true;
 
@@ -241,6 +274,33 @@ export default class extends Controller {
         } catch (e) {
         } finally {
             this.loadingValue = false;
+        }
+    }
+
+    updateVotes(data) {
+        const upButton = this.element.querySelector('.vote__up button');
+        upButton.replaceChild(document.createTextNode(data.detail.up + ' '), upButton.firstChild);
+
+        const downButton = this.element.querySelector('.vote__down button');
+        if (downButton) {
+            downButton.replaceChild(document.createTextNode(data.detail.down + ' '), downButton.firstChild);
+        }
+    }
+
+    updateFavourites(data) {
+        if (this.hasFavCounterTarget) {
+            this.favCounterTarget.parentElement.classList.remove('hidden');
+            this.favCounterTarget.innerText = data.detail.count;
+        }
+    }
+
+    updateCommentCounter(data) {
+        if (data.detail.op.endsWith('CommentCreatedNotification')) {
+            this.commentsCounterTarget.innerText = parseInt(this.commentsCounterTarget.innerText) + 1;
+        }
+
+        if (data.detail.op.endsWith('CommentDeletedNotification')) {
+            this.commentsCounterTarget.innerText = parseInt(this.commentsCounterTarget.innerText) - 1;
         }
     }
 }

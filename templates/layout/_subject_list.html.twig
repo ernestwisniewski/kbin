@@ -11,10 +11,20 @@
     {% set postAttributes = {} %}
 {% endif %}
 
+{% set prev = null %}
+{% set child = false %}
 {% for subject in results %}
+    {% if subject.parentSubject is not defined and prev and prev.parentSubject is defined and child %}
+        </div>
+        {% set child = false %}
+    {% endif %}
+    {% if subject.parentSubject is defined and loop.index > 1 and subject.parentSubject is same as prev %}
+        <div class="comments comments-tree">
+        {% set child = true %}
+    {% endif %}
     {% include 'layout/_subject.html.twig' %}
+    {% set prev = subject %}
 {% endfor %}
-
 {% if pagination is defined and pagination %}
     {% if(pagination.haveToPaginate is defined and pagination.haveToPaginate) %}
         {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}

@@ -31,7 +31,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
         $this->notifyMagazine($repo->find($message->subjectId));
     }
 
-    private function notifyMagazine(VotableInterface $votable)
+    private function notifyMagazine(VotableInterface $votable): void
     {
         try {
             $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($votable->magazine));
@@ -46,7 +46,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
         }
     }
 
-    private function getNotification(VotableInterface $votable)
+    private function getNotification(VotableInterface $votable): string
     {
         $subject = explode('\\', get_class($votable));
 

@@ -28,12 +28,7 @@ export default class extends Controller {
 
             self.dispatch('Notification', {detail: data});
 
-            // if (data.op.endsWith('Notification')) {
-            //     self.dispatch('Notification', {detail: data});
-            // }
-
-            // self.notify(data);
-            // self.dispatch(data.op, {detail: data});
+            self.dispatch(data.op, {detail: data});
         }
 
         window.es = Subscribe(topics, cb);
@@ -76,9 +71,5 @@ export default class extends Controller {
         }
 
         return topics;
-    }
-
-    notify(data) {
-
     }
 }

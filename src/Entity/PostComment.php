@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\TagInterface;
@@ -226,5 +227,10 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
 
     public function updateRanking(): void
     {
+    }
+
+    public function getParentSubject(): ?ContentInterface
+    {
+        return $this->post;
     }
 }
