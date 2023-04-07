@@ -31,10 +31,10 @@ export default class extends Controller {
             return;
         }
 
-        if (data.detail.op.includes('CommentCreatedNotification')) {
+        if (data.detail.op.endsWith('CommentCreatedNotification')) {
             this.increaseCommentsCounter(parent);
         }
-        if (data.detail.op.includes('CommentDeletedNotification')) {
+        if (data.detail.op.endsWith('CommentDeletedNotification')) {
             this.decreaseCommentsCounter(parent);
         }
     }
