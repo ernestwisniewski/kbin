@@ -234,10 +234,9 @@ export default class extends Controller {
         }
 
         if (this.element.id.trim() !== data.detail.htmlId.trim()) {
-            console.log(this.element.id.trim(), data.detail.htmlId.trim())
             return;
         }
-        console.log('@@@@2')
+
         if (data.detail.op.endsWith('EditedNotification')) {
             this.refresh(data);
             return;
