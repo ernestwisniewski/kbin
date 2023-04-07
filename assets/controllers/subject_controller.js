@@ -1,9 +1,13 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
+import router from "../utils/routing";
+import getIntIdFromElement from "../utils/kbin";
+
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = ['loader', 'more', 'container', 'commentsCounter', 'favCounter']
     static values = {
+        name: String,
         loading: Boolean,
     };
     static sendBtnLabel = null;
@@ -209,7 +213,7 @@ export default class extends Controller {
         try {
             this.loadingValue = true;
 
-            let response = await fetch(event.target.href, {method: 'GET'});
+            let response = await fetch(event.target.href);
 
             response = await ok(response);
             response = await response.json();
@@ -217,6 +221,24 @@ export default class extends Controller {
             this.element.nextElementSibling.insertAdjacentHTML('afterbegin', response.html);
         } catch (e) {
             window.location.href = event.target.href;
+        } finally {
+            this.loadingValue = false;
+        }
+    }
+
+    async refresh() {
+        try {
+            this.loadingValue = true;
+
+            const url = router().generate(`ajax_fetch_${this.nameValue}`, {id: getIntIdFromElement(this.element)});
+
+            let response = await fetch(url);
+
+            response = await ok(response);
+            response = await response.json();
+
+            this.element.outerHTML = response.html;
+        } catch (e) {
         } finally {
             this.loadingValue = false;
         }

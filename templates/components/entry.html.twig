@@ -4,7 +4,8 @@
         'own': app.user and entry.isAuthor(app.user),
     })}).without('id') }}
         id="entry-{{ entry.id }}"
-        data-controller="subject preview">
+        data-controller="subject preview"
+        data-subject-name-value="entry">
     <header>
         {% if isSingle %}
             <h1>
@@ -131,7 +132,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" aria-controls="popover-example">
+                        <a href="#">
                             {{ 'copy_url'|trans|lower }}
                         </a>
                     </li>

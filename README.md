@@ -16,7 +16,7 @@ Currently, a new frontend is being implemented on develop branch. In the next st
 
 * [https://kbin.pub](https://kbin.pub) - project website
 * [https://karab.in](https://karab.in) - polish-lang instance
-* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (main branch)
+* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (develop/main branch)
 * [https://lab.kbin.pub](https://lab.kbin.pub) - instance for testing purposes only (develop branch)
 
 ---

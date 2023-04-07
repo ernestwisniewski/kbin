@@ -63,12 +63,19 @@ class AjaxController extends AbstractController
         );
     }
 
-    public function fetchEntry(Entry $entry): JsonResponse
+    public function fetchEntry(Entry $entry, Request $request): JsonResponse
     {
         return new JsonResponse(
             [
-                'id' => $entry->getId(),
-                'html' => $this->renderView('entry/_entry.html.twig', ['entry' => $entry, 'isAjax' => true]),
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'entry',
+                        'attributes' => [
+                            'entry' => $entry,
+                        ],
+                    ]
+                ),
             ]
         );
     }
@@ -177,7 +184,8 @@ class AjaxController extends AbstractController
         ]);
 
         return new JsonResponse([
-            'html' => $this->renderView('user/_user_popover.html.twig', ['user' => $user, 'form' => $form->createView()]),
+            'html' => $this->renderView('user/_user_popover.html.twig', ['user' => $user, 'form' => $form->createView()]
+            ),
         ]);
     }
 

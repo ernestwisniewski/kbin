@@ -22,7 +22,7 @@ class SettingsManager
         private readonly string $kbinMetaTitle,
         private readonly string $kbinMetaDescription,
         private readonly string $kbinMetaKeywords,
-        private string $kbinDefaultLang,
+        private readonly string $kbinDefaultLang,
         private readonly string $kbinContactEmail,
         private readonly string $kbinSenderEmail,
         private readonly string $kbinMarkdownHowtoUrl,

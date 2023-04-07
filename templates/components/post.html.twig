@@ -6,8 +6,10 @@
 <blockquote{{ attributes.defaults({
     class: html_classes('section post subject ' ~ class,{
         'own': app.user and post.isAuthor(app.user),
-    }), 'data-controller': 'post subject'}).without('id') }}
-        id="post-{{ post.id }}">
+    })}).without('id') }}
+        id="post-{{ post.id }}"
+        data-controller="post subject"
+        data-subject-name-value="post">
     <header>
         {% if post.isAdult %}<span class="badge danger">+18</span>{% endif %}
         {{ component('user_inline', {user: post.user, showAvatar: false}) }},
@@ -49,7 +51,7 @@
                    href="{{ path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, slug: post.slug|length ? post.slug : '-'}) }}"
                    data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
             </li>
-            {% if post.commentCount > 2 and not is_route_name('post_signle') %}
+            {% if post.commentCount > 2 and not is_route_name('post_single', true) %}
                 <li data-post-target="expand">
                     <a class="stretched-link"
                        href="#{{ get_url_fragment(post) }}"

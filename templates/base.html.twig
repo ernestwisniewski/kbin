@@ -33,11 +33,11 @@
         </script>
     {% endblock %}
 
-    <style>
-        {% if magazine is defined and magazine %}
-        {{ magazine.customCss }}
-        {% endif %}
-    </style>
+    {% if magazine is defined and magazine %}
+        <style>
+            {{ magazine.customCss }}
+        </style>
+    {% endif %}
 </head>
 <body class="{{ html_classes(app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
     ? 'theme--'~app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))

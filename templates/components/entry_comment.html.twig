@@ -5,7 +5,8 @@
     })}).without('id') }}
         id="entry-comment-{{ comment.id }}"
         data-controller="comment subject"
-        data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}">
+        data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}"
+        data-subject-name-value="entry_comment">
     <header>
         {% if comment.isAdult %}<span class="badge danger">+18</span>{% endif %}
         {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
