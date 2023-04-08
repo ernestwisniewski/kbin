@@ -90,6 +90,8 @@ class AjaxController extends AbstractController
                         'component' => 'entry_comment',
                         'attributes' => [
                             'comment' => $comment,
+                            'showEntryTitle' => false,
+                            'showMagazineName' => false,
                         ],
                     ]
                 ),

@@ -9,7 +9,6 @@
     })}).without('id') }}
         id="post-{{ post.id }}"
         data-controller="post subject"
-        data-subject-name-value="post"
         data-action="notifications:Notification@window->subject#notification">
     <header>
         {% if post.isAdult %}<span class="badge danger">+18</span>{% endif %}

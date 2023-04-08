@@ -107,6 +107,7 @@ class PostCommentCreateController extends AbstractController
                     $mentions,
                     fn(string $mention) => $mention !== $handle && $mention !== MentionManager::addHandle([$this->getUser()->username])[0]
                 );
+
                 $dto->body .= PHP_EOL.PHP_EOL;
                 $dto->body .= implode(' ', array_unique($mentions));
             }

@@ -3,7 +3,7 @@
 {%- block title -%}
     {%- if magazine is defined and magazine -%}
         {% if get_active_sort_option('sortBy') is not same as 'hot' %}
-            {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ magazine.title }} - {{ parent() }} -}}
+            {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ magazine.title }} - {{ parent() -}}
         {% else %}
             {{- magazine.title }} - {{ parent() -}}
         {% endif %}
@@ -37,8 +37,7 @@
     {% if magazine is defined and magazine %}
         {% include 'magazine/_federated_info.html.twig' %}
     {% endif %}
-    <div id="content"
-         data-controller="subject-list">
+    <div id="content">
         {% include 'entry/_list.html.twig' %}
     </div>
 {% endblock %}

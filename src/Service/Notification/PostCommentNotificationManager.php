@@ -136,6 +136,10 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
                 'op' => end($class),
                 'id' => $comment->getId(),
                 'htmlId' => $this->classService->fromEntity($comment),
+                'parent' => $comment->parent ? [
+                    'id' => $comment->parent->getId(),
+                    'htmlId' => $this->classService->fromEntity($comment->parent),
+                ] : null,
                 'parentSubject' => [
                     'id' => $comment->post->getId(),
                     'htmlId' => $this->classService->fromEntity($comment->post),

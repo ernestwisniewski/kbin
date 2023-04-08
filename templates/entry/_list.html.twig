@@ -1,23 +1,26 @@
-{% for entry in entries %}
-    {{ component('entry', {
-        entry: entry,
-        showMagazineName: magazine is not defined or not magazine
-    }) }}
-{% endfor %}
-{% if(entries.haveToPaginate is defined and entries.haveToPaginate) %}
-    {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
-        <div data-controller="infinite-scroll" class="infinite-scroll">
-            {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
-            <div data-infinite-scroll-target="pagination" class="visually-hidden">
-                {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
+<div data-controller="subject-list"
+     data-action="notifications:EntryCreatedNotification@window->subject-list#addMainSubject">
+    {% for entry in entries %}
+        {{ component('entry', {
+            entry: entry,
+            showMagazineName: magazine is not defined or not magazine
+        }) }}
+    {% endfor %}
+    {% if(entries.haveToPaginate is defined and entries.haveToPaginate) %}
+        {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
+            <div data-controller="infinite-scroll" class="infinite-scroll">
+                {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
+                <div data-infinite-scroll-target="pagination" class="visually-hidden">
+                    {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
+                </div>
             </div>
-        </div>
-    {% else %}
-        {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
+        {% else %}
+            {{ pagerfanta(entries, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
     {% endif %}
-{% endif %}
-{% if not entries|length %}
-    <aside class="section section--muted">
-        <p>{{ 'empty'|trans }}</p>
-    </aside>
-{% endif %}
+    {% if not entries|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+</div>

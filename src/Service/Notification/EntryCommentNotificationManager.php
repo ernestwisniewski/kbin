@@ -136,6 +136,10 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
                 'op' => end($class),
                 'id' => $comment->getId(),
                 'htmlId' => $this->classService->fromEntity($comment),
+                'parent' => $comment->parent ? [
+                    'id' => $comment->parent->getId(),
+                    'htmlId' => $this->classService->fromEntity($comment->parent),
+                ] : null,
                 'parentSubject' => [
                     'id' => $comment->entry->getId(),
                     'htmlId' => $this->classService->fromEntity($comment->entry),

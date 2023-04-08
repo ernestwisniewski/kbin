@@ -8,7 +8,9 @@
 {% if level is not defined %}
     {% set level = 1 %}
 {% endif %}
-<div class="comments post-comments">
+<div class="comments post-comments comments-tree"
+     data-controller="subject-list"
+     data-action="notifications:PostCreatedNotification@window->subject-list#addMainSubject {{ is_route_name('post_single') ? 'notifications:PostCommentCreatedNotification@window->subject-list#addMainSubject' : 'notifications:PostCommentCreatedNotification@window->subject-list#addCommentOverview' }}">
     {% for comment in comments %}
         {{ component('post_comment', {
             comment: comment,

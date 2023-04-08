@@ -1,13 +1,12 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
-import getIntIdFromElement from "../utils/kbin";
+import getIntIdFromElement, {getLevel, getTypeFromEditedNotification, getTypeFromNotification} from "../utils/kbin";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = ['loader', 'more', 'container', 'commentsCounter', 'favCounter']
     static values = {
-        name: String,
         loading: Boolean,
     };
     static sendBtnLabel = null;
@@ -101,12 +100,13 @@ export default class extends Controller {
                 const div = document.createElement('div');
                 div.innerHTML = response.html;
 
-                let level = this.getLevel();
+                let level = getLevel(this.element);
 
                 div.firstElementChild.classList.add('comment-level--' + (level >= 10 ? 10 : level + 1));
 
                 if (this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('comments')) {
                     this.element.nextElementSibling.appendChild(div.firstElementChild);
+                    this.element.classList.add('mb-0');
                 } else {
                     this.element.parentNode.insertBefore(div.firstElementChild, this.element.nextSibling);
                 }
@@ -191,11 +191,6 @@ export default class extends Controller {
         }
     }
 
-    getLevel() {
-        let level = parseInt(this.element.className.replace('comment-level--1', '').split('--')[1]);
-        return isNaN(level) ? 1 : level;
-    }
-
     async showModPanel(event) {
         event.preventDefault();
 
@@ -227,13 +222,13 @@ export default class extends Controller {
     }
 
     notification(data) {
-        if (data.detail.parentSubject && this.element.id.trim() === data.detail.parentSubject.htmlId.trim()) {
+        if (data.detail.parentSubject && this.element.id === data.detail.parentSubject.htmlId) {
             if (data.detail.op.endsWith('CommentDeletedNotification') || data.detail.op.endsWith('CommentCreatedNotification')) {
                 this.updateCommentCounter(data);
             }
         }
 
-        if (this.element.id.trim() !== data.detail.htmlId.trim()) {
+        if (this.element.id!== data.detail.htmlId) {
             return;
         }
 
@@ -262,7 +257,7 @@ export default class extends Controller {
         try {
             this.loadingValue = true;
 
-            const url = router().generate(`ajax_fetch_${this.nameValue}`, {id: getIntIdFromElement(this.element)});
+            const url = router().generate(`ajax_fetch_${getTypeFromNotification(data)}`, {id: getIntIdFromElement(this.element)});
 
             let response = await fetch(url);
 
@@ -271,6 +266,7 @@ export default class extends Controller {
 
             this.element.outerHTML = response.html;
         } catch (e) {
+            console.log(e)
         } finally {
             this.loadingValue = false;
         }
@@ -294,11 +290,11 @@ export default class extends Controller {
     }
 
     updateCommentCounter(data) {
-        if (data.detail.op.endsWith('CommentCreatedNotification')) {
+        if (data.detail.op.endsWith('CommentCreatedNotification') && this.hasCommentsCounterTarget) {
             this.commentsCounterTarget.innerText = parseInt(this.commentsCounterTarget.innerText) + 1;
         }
 
-        if (data.detail.op.endsWith('CommentDeletedNotification')) {
+        if (data.detail.op.endsWith('CommentDeletedNotification') && this.hasCommentsCounterTarget) {
             this.commentsCounterTarget.innerText = parseInt(this.commentsCounterTarget.innerText) - 1;
         }
     }
