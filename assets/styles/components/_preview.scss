@@ -16,6 +16,10 @@
     color: var(--kbin-meta-text-color);
     padding-left: 0;
   }
+
+  video, iframe {
+    max-width: 100%;
+  }
 }
 
 // Credit: Nicolas Gallagher and SUIT CSS.

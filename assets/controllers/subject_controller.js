@@ -266,7 +266,6 @@ export default class extends Controller {
 
             this.element.outerHTML = response.html;
         } catch (e) {
-            console.log(e)
         } finally {
             this.loadingValue = false;
         }

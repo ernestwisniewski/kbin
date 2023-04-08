@@ -88,7 +88,6 @@ export default class extends Controller {
 
             parent.nextElementSibling.appendChild(div.firstElementChild);
         } catch (e) {
-            throw e;
         } finally {
         }
     }
