@@ -191,10 +191,10 @@ featured_magazines: Featured magazines
 privacy: Privacy
 show_profile_subscriptions: Show magazine subscriptions
 show_profile_followings: Show following users
-notify_on_new_entry_reply: Notify me of comments in your threads
-notify_on_new_entry_comment_reply: Notify me of replies to your threads comments
-notify_on_new_post_reply: Notify me of replies in your posts
-notify_on_new_post_comment_reply: Notify me of replies to your posts comments
+notify_on_new_entry_reply: Notify me of comments in my threads
+notify_on_new_entry_comment_reply: Notify me of replies to my threads comments
+notify_on_new_post_reply: Notify me of replies in my posts
+notify_on_new_post_comment_reply: Notify me of replies to my posts comments
 notify_on_new_entry: Notify me of new threads in a subscribed magazine
 notify_on_new_posts: Notify me of new posts in a subscribed magazine
 save: Save
@@ -417,6 +417,8 @@ weeks: Weeks
 month: Month
 months: Months
 year: Year
+federated: Federated
+local: Local
 add_mentions_entries: Add mention tags in entries
 add_mentions_posts: Add mention tags in posts
 Password is invalid: Password is invalid.
