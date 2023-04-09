@@ -21,6 +21,13 @@ export default class extends Controller {
                 });
             this.element.classList.add('z-5');
         });
+
+        this.element.querySelectorAll('.content .mention').forEach((el) => {
+            el.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.location = '/u/' + el.title;
+            });
+        });
     }
 
     async getForm(event) {

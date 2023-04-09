@@ -33,10 +33,13 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
         if (2 == substr_count($handle, '@')) {
             $user = $this->repository->findOneByUsername($suffix);
-            $username = $handle;
-            if (!$user) {
-                $this->bus->dispatch(new CreateActorMessage($suffix));
+            if ($user && $user->apPublicUrl) {
+                return $user->apPublicUrl;
             }
+
+            $this->bus->dispatch(new CreateActorMessage($suffix));
+
+            $username = $handle;
         }
 
         return $this->urlGenerator->generate(

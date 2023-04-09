@@ -31,8 +31,13 @@ class UsernameConverter implements ParamConverterInterface
 
         // @todo case-insensitive
         if (!$user = $this->repository->findOneByUsername($username)) {
-            if (substr_count($username, '@') > 1
-                && !str_ends_with($username, '@'.$this->settingsManager->get('KBIN_DOMAIN'))) {
+            if (str_ends_with($username, '@'.$this->settingsManager->get('KBIN_DOMAIN'))) {
+                $username = ltrim($username, '@');
+                $username = str_replace('@'.$this->settingsManager->get('KBIN_DOMAIN'), '', $username);
+                $user = $this->repository->findOneByUsername($username);
+            }
+
+            if (!$user && substr_count($username, '@') > 1) {
                 try {
                     $user = $this->activityPubManager->findActorOrCreate($username);
                 } catch (\Exception $e) {
@@ -49,16 +54,16 @@ class UsernameConverter implements ParamConverterInterface
     }
 
     #[Pure]
- public function supports(ParamConverter $configuration): bool
- {
-     if (null === $configuration->getClass()) {
-         return false;
-     }
+    public function supports(ParamConverter $configuration): bool
+    {
+        if (null === $configuration->getClass()) {
+            return false;
+        }
 
-     if (User::class !== $configuration->getClass()) {
-         return false;
-     }
+        if (User::class !== $configuration->getClass()) {
+            return false;
+        }
 
-     return true;
- }
+        return true;
+    }
 }
