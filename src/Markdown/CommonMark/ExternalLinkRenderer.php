@@ -46,16 +46,16 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
         $embed = false;
         try {
             if (filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($title, '@') && !str_starts_with(
-                $title,
-                '#'
-            )) {
+                    $title,
+                    '#'
+                )) {
                 if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
                     $embed = $entity->hasEmbed;
                 } else {
                     try {
                         $embed = $this->embed->fetch($url)->html;
                         if ($embed) {
-                            $entity = new \App\Entity\Embed($url, (bool) $embed);
+                            $entity = new \App\Entity\Embed($url, (bool)$embed);
                             $this->embedRepository->add($entity);
                         }
                     } catch (\Exception $e) {
@@ -76,6 +76,7 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             return EmbedElement::buildEmbed($url, $title);
         }
 
+        $htmlTitle = $inline->data['title'] ?? '';
         $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer'];
 
         foreach (['@', '!', '#'] as $tag) {
@@ -83,9 +84,13 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
                 $attr = match ($tag) {
                     '@' => [
                         'class' => 'mention u-url',
-                        'title' => $inline->data['title'] ?? '',
+                        'title' => substr_count($htmlTitle, '@') === 1 ? $htmlTitle.'@'.$this->settingsManager->get(
+                                'KBIN_DOMAIN'
+                            ) : $htmlTitle,
                         'data-action' => 'mouseover->kbin#mention',
-                        'data-kbin-username-param' => isset($inline->data['title']) ? MentionManager::getRoute([$inline->data['title']])[0] : '',
+                        'data-kbin-username-param' => isset($inline->data['title']) ? MentionManager::getRoute(
+                            [$inline->data['title']]
+                        )[0] : '',
                     ],
                     '#' => ['class' => 'hashtag tag', 'rel' => 'tag'],
                     default => [],
