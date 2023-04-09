@@ -410,6 +410,13 @@ article: Article
 reputation: Reputation
 note: Note
 writing: Writing
+users: Users
+content: Content
+week: Week
+weeks: Weeks
+month: Month
+months: Months
+year: Year
 add_mentions_entries: Add mention tags in entries
 add_mentions_posts: Add mention tags in posts
 Password is invalid: Password is invalid.

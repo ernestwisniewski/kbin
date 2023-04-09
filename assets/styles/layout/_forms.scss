@@ -181,14 +181,14 @@ form {
       box-shadow: none;
     }
   }
+}
 
-  select {
-    background: var(--kbin-button-secondary-bg);
-    border: var(--kbin-button-secondary-border);
-    color: var(--kbin-button-secondary-text-color) !important;
-    padding: 0.65rem;
-    border-radius: 0;
-  }
+select {
+  background: var(--kbin-button-secondary-bg);
+  border: var(--kbin-button-secondary-border);
+  color: var(--kbin-button-secondary-text-color) !important;
+  padding: 0.65rem;
+  border-radius: 0;
 }
 
 .actions {

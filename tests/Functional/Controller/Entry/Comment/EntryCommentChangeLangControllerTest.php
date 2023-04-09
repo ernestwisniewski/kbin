@@ -21,7 +21,7 @@ class EntryCommentChangeLangControllerTest extends WebTestCase
 
         $form = $crawler->filter('.moderate-panel')->selectButton('change language')->form();
         $values = $form['lang']['lang']->availableOptionValues();
-        $form['lang']['lang']->select($values[4]);
+        $form['lang']['lang']->select($values[5]);
 
         $client->submit($form);
         $client->followRedirect();

@@ -20,6 +20,10 @@ class StatsController extends AbstractController
     {
         $statsType = $this->manager->resolveType($statsType);
 
+        if(!$statsPeriod) {
+            $statsPeriod = 31;
+        }
+
         if ($statsPeriod) {
             $statsPeriod = min($statsPeriod, 256);
             $start = (new \DateTime())->modify("-$statsPeriod days");
@@ -42,7 +46,7 @@ class StatsController extends AbstractController
             'stats/front.html.twig',
             [
                 'type' => $statsType ?? StatsRepository::TYPE_GENERAL,
-                'period' => $request->get('statsPeriod'),
+                'period' => (string) $statsPeriod,
                 'chart' => $results,
             ] + ((!$statsType || StatsRepository::TYPE_GENERAL === $statsType) ? $this->counter->count() : []),
         );

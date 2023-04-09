@@ -13,7 +13,33 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'stats'|trans }}</h1>
-    <div id="content" class="section">
-    </div>
+    {% include 'stats/_options.html.twig' %}
+    <h1 hidden>{{ 'stats'|trans }}</h1>
+    {% if route_has_param('statsType', 'general'|trans|lower) or chart is null %}
+        {% include 'stats/_stats_count.html.twig' %}
+    {% else %}
+        <div class="section">
+            <div class="flex">
+                <label class="select">
+                    <select onchange="location = this.value;">
+                        <option value="{{ options_url('statsPeriod', 0) }}">{{ 'all'|trans|lower }}</option>
+                        <option value="{{ options_url('statsPeriod', 7) }}" {{ period is same as '7' ? 'selected' : '' }}>{{ 'week'|trans|lower }}</option>
+                        <option value="{{ options_url('statsPeriod', 14) }}" {{ period is same as '14' ? 'selected' : '' }}>2 {{ 'weeks'|trans|lower }}</option>
+                        <option value="{{ options_url('statsPeriod', 31) }}" {{ period is same as '31' ? 'selected' : '' }}>{{ 'month'|trans|lower }}</option>
+                        <option value="{{ options_url('statsPeriod', 183) }}" {{ period is same as '183' ? 'selected' : '' }}>
+                            6 {{ 'months'|trans|lower }}</option>
+                        <option value="{{ options_url('statsPeriod', 256) }}" {{ period is same as '256' ? 'selected' : '' }}>{{ 'year'|trans|lower }}</option>
+                    </select>
+                </label>
+
+                <label class="select">
+                    <select>
+                        <option value="#">{{ 'federated'|trans|lower }}</option>
+                        <option value="#" disabled>{{ 'local'|trans|lower }}</option>
+                    </select>
+                </label>
+            </div>
+            {{ render_chart(chart) }}
+        </div>
+    {% endif %}
 {% endblock %}

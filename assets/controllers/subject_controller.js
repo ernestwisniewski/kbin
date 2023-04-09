@@ -1,7 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
-import getIntIdFromElement, {getLevel, getTypeFromEditedNotification, getTypeFromNotification} from "../utils/kbin";
+import getIntIdFromElement, {getLevel, getTypeFromNotification} from "../utils/kbin";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -228,7 +228,7 @@ export default class extends Controller {
             }
         }
 
-        if (this.element.id!== data.detail.htmlId) {
+        if (this.element.id !== data.detail.htmlId) {
             return;
         }
 
@@ -264,7 +264,11 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            this.element.outerHTML = response.html;
+            const div = document.createElement('div');
+            div.innerHTML = response.html;
+
+            div.firstElementChild.className = this.element.className;
+            this.element.outerHTML = div.firstElementChild.outerHTML;
         } catch (e) {
         } finally {
             this.loadingValue = false;
