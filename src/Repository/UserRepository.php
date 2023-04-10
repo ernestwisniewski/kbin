@@ -331,22 +331,17 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getResult();
     }
 
-    public function findPeople(?Magazine $magazine = null, ?bool $federated = false): array
+    public function findPeople(Magazine $magazine, ?bool $federated = false): array
     {
-        $where = '';
-        if ($magazine) {
-            $where = 'WHERE magazine_id = '.$magazine->getId();
-        }
-
         $conn = $this->_em->getConnection();
         $sql = "
-        (SELECT count(id), user_id FROM entry WHERE $where GROUP BY user_id LIMIT 50) 
+        (SELECT count(id), user_id FROM entry WHERE magazine_id = {$magazine->getId()} GROUP BY user_id LIMIT 50) 
         UNION 
-        (SELECT count(id), user_id FROM entry_comment $where GROUP BY user_id LIMIT 50)
+        (SELECT count(id), user_id FROM entry_comment WHERE magazine_id = {$magazine->getId()} GROUP BY user_id LIMIT 50)
         UNION 
-        (SELECT count(id), user_id FROM post $where GROUP BY user_id LIMIT 50)
+        (SELECT count(id), user_id FROM post WHERE magazine_id = {$magazine->getId()} GROUP BY user_id LIMIT 50)
         UNION 
-        (SELECT count(id), user_id FROM post_comment $where GROUP BY user_id LIMIT 50)
+        (SELECT count(id), user_id FROM post_comment WHERE magazine_id = {$magazine->getId()} GROUP BY user_id LIMIT 50)
         ORDER BY count DESC
         ";
 
@@ -374,7 +369,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         if ($federated) {
             $qb->andWhere('u.apId IS NOT NULL')
-                ->where('u.apDiscoverable = true');
+                ->andWhere('u.apDiscoverable = true');
         } else {
             $qb->andWhere('u.apId IS NULL');
         }
