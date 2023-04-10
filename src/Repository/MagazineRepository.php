@@ -322,7 +322,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.postCount > 0')
-            ->andWhere('m.postCommentCount > 0')
+            ->orWhere('m.entryCount > 0')
             ->orderBy('m.postCount', 'DESC')
             ->setMaxResults(50)
             ->getQuery()

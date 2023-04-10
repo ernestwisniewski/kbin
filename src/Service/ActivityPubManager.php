@@ -226,7 +226,7 @@ class ActivityPubManager
 
         $user->apFollowersUrl = $actor['followers'] ?? null;
         $user->apPreferredUsername = $actor['preferredUsername'] ?? null;
-        $user->apDiscoverable = $actor['discoverable'] ?? null;
+        $user->apDiscoverable = $actor['discoverable'] ?? true;
         $user->apManuallyApprovesFollowers = $actor['manuallyApprovesFollowers'] ?? null;
         $user->apPublicUrl = $actor['url'] ?? $actorUrl;
         $user->apFetchedAt = new \DateTime();
@@ -295,7 +295,7 @@ class ActivityPubManager
 
         $magazine->apFollowersUrl = $actor['followers'] ?? null;
         $magazine->apPreferredUsername = $actor['preferredUsername'] ?? null;
-        $magazine->apDiscoverable = $actor['discoverable'] ?? null;
+        $magazine->apDiscoverable = $actor['discoverable'] ?? true;
         $magazine->apPublicUrl = $actor['url'] ?? $actorUrl;
         $magazine->apFetchedAt = new \DateTime();
 
