@@ -50,7 +50,7 @@ class StatsController extends AbstractController
             'stats/front.html.twig',
             [
                 'type' => $statsType ?? StatsRepository::TYPE_GENERAL,
-                'period' => (string)$statsPeriod,
+                'period' => $statsPeriod,
                 'chart' => $results,
             ] + ((!$statsType || StatsRepository::TYPE_GENERAL === $statsType) ? $this->counter->count() : []),
         );

@@ -26,11 +26,18 @@ class MagazineStatsController extends AbstractController
 
         $statsType = $this->manager->resolveType($statsType);
 
+        if (!$statsPeriod) {
+            $statsPeriod = 31;
+        }
+
+        if (-1 === $statsPeriod) {
+            $statsPeriod = null;
+        }
+
         if ($statsPeriod) {
             $statsPeriod = min($statsPeriod, 256);
             $start = (new \DateTime())->modify("-$statsPeriod days");
         }
-
         $results = match ($statsType) {
             StatsRepository::TYPE_VIEWS => $statsPeriod
                 ? $this->manager->drawDailyViewsStatsByTime($start, null, $magazine)
@@ -46,8 +53,8 @@ class MagazineStatsController extends AbstractController
         return $this->render(
             'magazine/panel/stats.html.twig', [
                 'magazine' => $magazine,
-                'period' => $request->get('statsPeriod'),
-                'contentChart' => $results,
+                'period' => $statsPeriod,
+                'chart' => $results,
             ]
         );
     }

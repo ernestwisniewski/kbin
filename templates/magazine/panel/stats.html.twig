@@ -14,11 +14,9 @@
 
 {% block body %}
     {% include 'magazine/panel/_options.html.twig' %}
-
-    <h1 hidden>{{ 'stats'|trans }}</h1>
+    {% include 'magazine/panel/_stats_pills.html.twig' %}
     <div id="content" class="section">
-        <h2>{{ 'threads'|trans }}</h2>
-        <h2>{{ 'votes'|trans }}</h2>
-        <h2>{{ 'views'|trans }}</h2>
+        {% include 'stats/_filters.html.twig' %}
+        {{ render_chart(chart) }}
     </div>
 {% endblock %}

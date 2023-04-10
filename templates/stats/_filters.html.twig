@@ -1,0 +1,19 @@
+<div class="flex">
+    <label class="select">
+        <select onchange="location = this.value;">
+            <option value="{{ options_url('statsPeriod', -1) }}">{{ 'all'|trans|lower }}</option>
+            <option value="{{ options_url('statsPeriod', 7) }}" {{ period is same as 7 ? 'selected' : '' }}>{{ 'week'|trans|lower }}</option>
+            <option value="{{ options_url('statsPeriod', 14) }}" {{ period is same as 14 ? 'selected' : '' }}>2 {{ 'weeks'|trans|lower }}</option>
+            <option value="{{ options_url('statsPeriod', 31) }}" {{ period is same as 31 ? 'selected' : '' }}>{{ 'month'|trans|lower }}</option>
+            <option value="{{ options_url('statsPeriod', 183) }}" {{ period is same as 183 ? 'selected' : '' }}>
+                6 {{ 'months'|trans|lower }}</option>
+            <option value="{{ options_url('statsPeriod', 256) }}" {{ period is same as 256 ? 'selected' : '' }}>{{ 'year'|trans|lower }}</option>
+        </select>
+    </label>
+    <label class="select">
+        <select>
+            <option value="#">{{ 'federated'|trans|lower }}</option>
+            <option value="#" disabled>{{ 'local'|trans|lower }}</option>
+        </select>
+    </label>
+</div>

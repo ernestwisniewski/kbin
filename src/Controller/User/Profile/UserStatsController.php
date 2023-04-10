@@ -24,6 +24,14 @@ class UserStatsController extends AbstractController
 
         $statsType = $this->manager->resolveType($statsType);
 
+        if (!$statsPeriod) {
+            $statsPeriod = 31;
+        }
+
+        if (-1 === $statsPeriod) {
+            $statsPeriod = null;
+        }
+
         if ($statsPeriod) {
             $statsPeriod = min($statsPeriod, 256);
             $start = (new \DateTime())->modify("-$statsPeriod days");
@@ -44,7 +52,7 @@ class UserStatsController extends AbstractController
         return $this->render(
             'user/settings/stats.html.twig', [
                 'user' => $this->getUserOrThrow(),
-                'period' => $request->get('statsPeriod'),
+                'period' => $statsPeriod,
                 'chart' => $results,
             ]
         );

@@ -1,0 +1,25 @@
+{%- set TYPE_CONTENT = constant('App\\Repository\\StatsRepository::TYPE_CONTENT') -%}
+{%- set TYPE_VIEWS = constant('App\\Repository\\StatsRepository::TYPE_VIEWS') -%}
+{%- set TYPE_VOTES = constant('App\\Repository\\StatsRepository::TYPE_VOTES') -%}
+<div class="pills">
+    <menu>
+        <li>
+            <a href="{{ path('user_settings_stats', {username: app.user.username, statsType: TYPE_CONTENT|trans|lower}) }}"
+               class="{{ html_classes({'active': route_has_param('statsType', TYPE_CONTENT|trans|lower) or get_route_param('statsType') is same as null}) }}">
+                {{ TYPE_CONTENT|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_stats', {username: app.user.username, statsType: TYPE_VOTES|trans|lower}) }}"
+               class="{{ html_classes({'active': route_has_param('statsType', TYPE_VOTES|trans|lower)}) }}">
+                {{ TYPE_VOTES|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_stats', {username: app.user.username, statsType: TYPE_VIEWS|trans|lower}) }}"
+               class="{{ html_classes({'active': route_has_param('statsType', TYPE_VIEWS|trans|lower)}) }}">
+                {{ TYPE_VIEWS|trans }}
+            </a>
+        </li>
+    </menu>
+</div>
