@@ -1,3 +1,6 @@
+{% if withPost %}
+    {{ component('post', {post: comment.post}) }}
+{% endif %}
 <blockquote{{ attributes.defaults({
     class: html_classes('section comment post-comment subject ' ~ 'comment-level--' ~ this.getLevel(),{
         'own': app.user and comment.isAuthor(app.user),

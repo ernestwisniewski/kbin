@@ -427,6 +427,7 @@ instance: Instance
 pages: Pages
 FAQ: FAQ
 inactive: Innactive
+type_search_term: Type search term
 federation_enabled: Federation enabled
 registrations_enabled: Registrations enabled
 registration_disabled: Registration disabled

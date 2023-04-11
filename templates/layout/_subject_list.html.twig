@@ -10,6 +10,9 @@
 {% if postAttributes is not defined %}
     {% set postAttributes = {} %}
 {% endif %}
+{% if postCommentAttributes is not defined %}
+    {% set postCommentAttributes = {} %}
+{% endif %}
 
 {% set prev = null %}
 {% set child = false %}

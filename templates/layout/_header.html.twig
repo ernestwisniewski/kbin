@@ -3,7 +3,7 @@
         <div class="sr-nav">
             <a href="#content">{{ 'go_to_content'|trans }}</a>
             <a href="#options">{{ 'go_to_filters'|trans }}</a>
-            <a href="#search">{{ 'go_to_search'|trans }}</a>
+            <a href="{{ path('search') }}">{{ 'go_to_search'|trans }}</a>
             <a href="#footer">{{ 'go_to_footer'|trans }}</a>
         </div>
         <nav class="head-nav">
@@ -16,7 +16,7 @@
         </nav>
         <menu>
             <li>
-                <a href="#"
+                <a href="{{ path('search') }}"
                    class="icon"
                    aria-label="{{ 'search'|trans }}"
                    title="{{ 'search'|trans }}">

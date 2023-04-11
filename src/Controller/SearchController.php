@@ -29,6 +29,17 @@ class SearchController extends AbstractController
     {
         $query = $request->query->get('q');
 
+        if (!$query) {
+            return $this->render(
+                'search/front.html.twig',
+                [
+                    'objects' => [],
+                    'results' => [],
+                    'q' => '',
+                ]
+            );
+        }
+
         $objects = [];
         if (str_contains($query, '@')) {
             $name = str_starts_with($query, '@') ? $query : '@'.$query;
@@ -56,9 +67,11 @@ class SearchController extends AbstractController
         }
 
         if (false !== filter_var($query, FILTER_VALIDATE_URL)) {
-            $body = $this->apHttpClient->getActivityObject($query, false);
-
-            $this->bus->dispatch(new ActivityMessage($body));
+            $objects = $this->manager->findByApId($query);
+            if (!$objects) {
+                $body = $this->apHttpClient->getActivityObject($query, false);
+                $this->bus->dispatch(new ActivityMessage($body));
+            }
         }
 
         return $this->render(

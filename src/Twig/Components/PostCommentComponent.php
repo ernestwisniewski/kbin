@@ -17,6 +17,7 @@ final class PostCommentComponent
     public PostComment $comment;
     public bool $dateAsUrl = true;
     public bool $showNested = false;
+    public bool $withPost = false;
     public int $level = 1;
 
     public function getLevel(): int
