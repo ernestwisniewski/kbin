@@ -17,11 +17,9 @@ admin_settings:
     pl: /admin/ustawienia
   methods: [ GET, POST ]
 
-admin_terms:
-  controller: App\Controller\Admin\AdminTermsController
-  path:
-    en: /admin/terms
-    pl: /admin/regulamin
+admin_pages:
+  controller: App\Controller\Admin\AdminPagesController
+  path: /admin/pages/{page}
   methods: [ GET, POST ]
 
 admin_cc:

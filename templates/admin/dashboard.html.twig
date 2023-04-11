@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'dashboard'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-dashboard{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+    <div class="section">
+        <div class="flex">
+            <label class="select">
+                <select onchange="location = this.value;">
+                    <option value="">24h</option>
+                </select>
+            </label>
+        </div>
+        <div class="stats-count">
+            <div>
+                <h3>{{ 'users'|trans|upper }}</h3>
+                <p>{{ users }}</p>
+            </div>
+            <div>
+                <h3>{{ 'magazines'|trans|upper }}</h3>
+                <p>{{ magazines }}</p>
+            </div>
+            <div>
+                <h3>{{ 'votes'|trans|upper }}</h3>
+                <p>{{ votes }}</p>
+            </div>
+            <div>
+                <h3>{{ 'threads'|trans|upper }}</h3>
+                <p>{{ entries }}</p>
+            </div>
+            <div>
+                <h3>{{ 'comments'|trans|upper }}</h3>
+                <p>{{ comments }}</p>
+            </div>
+            <div>
+                <h3>{{ 'posts'|trans|upper }}</h3>
+                <p>{{ posts }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

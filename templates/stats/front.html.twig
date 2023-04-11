@@ -18,7 +18,7 @@
     {% if route_has_param('statsType', 'general'|trans|lower) or chart is null %}
         {% include 'stats/_stats_count.html.twig' %}
     {% else %}
-        <div class="section">
+        <div class="section" id="content">
             {% include 'stats/_filters.html.twig' %}
             {{ render_chart(chart) }}
         </div>

@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\AbstractController;
+use App\DTO\PageDto;
 use App\Entity\Site;
-use App\Form\SiteType;
+use App\Form\PageType;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminTermsController extends AbstractController
+class AdminPagesController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -22,26 +23,27 @@ class AdminTermsController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, ?string $page = 'about'): Response
     {
-        $dto = $this->repository->findAll();
-        if (!count($dto)) {
-            $dto = new Site();
+        $entity = $this->repository->findAll();
+        if (!count($entity)) {
+            $entity = new Site();
         } else {
-            $dto = $dto[0];
+            $entity = $entity[0];
         }
 
-        $form = $this->createForm(SiteType::class, $dto);
+        $form = $this->createForm(PageType::class, (new PageDto())->create($entity->{$page} ?? ''));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($dto);
+            $entity->{$page} = $form->getData()->body;
+            $this->entityManager->persist($entity);
             $this->entityManager->flush();
 
             return $this->redirectToRefererOrHome($request);
         }
 
-        return $this->render('admin/terms.html.twig', [
+        return $this->render('admin/pages.html.twig', [
             'form' => $form->createView(),
         ]);
     }

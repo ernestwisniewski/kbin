@@ -33,10 +33,11 @@
                 <p>{{ 'already_have_account'|trans }} <a
                             class="font-weight-bold"
                             href="{{ path('app_login') }}">{{ 'login'|trans }}</a></p>
-
-                <p>{{ 'dont_have_account'|trans }} <a
-                            class="font-weight-bold"
-                            href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>
+                {% if kbin_registrations_enabled() %}
+                    <p>{{ 'dont_have_account'|trans }} <a
+                                class="font-weight-bold"
+                                href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>
+                {% endif %}
             </div>
             {% include 'user/_login_socials.html.twig' %}
         </div>

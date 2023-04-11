@@ -18,6 +18,10 @@ class Site
     public ?string $privacyPolicy = null;
     #[Column(type: 'text', nullable: true)]
     public ?string $faq = null;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $about = null;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $contact = null;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'settings'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-settings page-settings{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+    <div class="section" id="content">
+        <div class="container">
+            <h1 hidden>{{ 'settings'|trans }}</h1>
+            {{ form_start(form) }}
+            <h2>{{ 'general'|trans }}</h2>
+            {{ form_row(form.KBIN_DOMAIN, {label: 'domain'}) }}
+            {{ form_row(form.KBIN_CONTACT_EMAIL, {label: 'contact_email'}) }}
+            <h2>{{ 'meta'|trans }}</h2>
+            {{ form_row(form.KBIN_META_TITLE, {label: 'title'}) }}
+            {{ form_row(form.KBIN_META_DESCRIPTION, {label: 'description'}) }}
+            {{ form_row(form.KBIN_META_KEYWORDS, {label: 'keywords'}) }}
+            <h2>{{ 'instance'|trans }}</h2>
+            {{ form_row(form.KBIN_TITLE, {label: 'title'}) }}
+            <div class="checkbox">
+                {{ form_label(form.KBIN_REGISTRATIONS_ENABLED, 'registrations_enabled') }}
+                {{ form_widget(form.KBIN_REGISTRATIONS_ENABLED) }}
+            </div>
+            <div class="checkbox">
+                {{ form_label(form.KBIN_FEDERATION_ENABLED, 'federation_enabled') }}
+                {{ form_widget(form.KBIN_FEDERATION_ENABLED) }}
+            </div>
+            <div class="row actions">
+                {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

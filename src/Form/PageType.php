@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Site;
+use App\DTO\PageDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SiteType extends AbstractType
+class PageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('terms', TextareaType::class)
-            ->add('privacyPolicy', TextareaType::class)
+            ->add('body', TextareaType::class)
             ->add('submit', SubmitType::class);
     }
 
@@ -25,7 +24,7 @@ class SiteType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Site::class,
+                'data_class' => PageDto::class,
             ]
         );
     }

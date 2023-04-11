@@ -419,6 +419,17 @@ months: Months
 year: Year
 federated: Federated
 local: Local
+admin_panel: Admin panel
+dashboard: Dashboard
+contact_email: Contact email
+meta: Meta
+instance: Instance
+pages: Pages
+FAQ: FAQ
+inactive: Innactive
+federation_enabled: Federation enabled
+registrations_enabled: Registrations enabled
+registration_disabled: Registration disabled
 add_mentions_entries: Add mention tags in entries
 add_mentions_posts: Add mention tags in posts
 Password is invalid: Password is invalid.

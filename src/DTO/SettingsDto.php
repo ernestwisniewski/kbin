@@ -15,7 +15,6 @@ class SettingsDto
         public string $KBIN_DEFAULT_LANG,
         public string $KBIN_CONTACT_EMAIL,
         public string $KBIN_SENDER_EMAIL,
-        public string $KBIN_MARKDOWN_HOWTO_URL,
         public bool $KBIN_JS_ENABLED,
         public bool $KBIN_FEDERATION_ENABLED,
         public bool $KBIN_REGISTRATIONS_ENABLED

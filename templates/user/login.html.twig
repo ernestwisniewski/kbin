@@ -48,10 +48,11 @@
             </form>
 
             <div class="actions">
+                {% if kbin_registrations_enabled() %}
                 <p>{{ 'dont_have_account'|trans }} <a
                             class="font-weight-bold"
                             href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>
-
+                {% endif %}
                 <p>{{ 'you_cant_login'|trans }} <a
                             class="font-weight-bold"
                             href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}</a></p>

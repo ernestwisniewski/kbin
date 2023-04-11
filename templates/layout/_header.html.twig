@@ -111,6 +111,14 @@
                                 {{ 'notifications'|trans }}
                             </a>
                         </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('admin_dashboard') }}"
+                                   class="{{ html_classes({'active': is_route_name_starts_with('admin')}) }}">
+                                    {{ 'admin_panel'|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
                         <li><a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a></li>
                     </ul>
                 </li>

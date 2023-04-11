@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'users'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-users{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+    <div class="section" id="content">
+        <div class="flex">
+            <label class="select">
+                <select>
+                    <option value="federated">{{ 'federated'|trans }}</option>
+                    <option value="local" disabled>{{ 'local'|trans }}</option>
+                </select>
+            </label>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <td>{{ 'username'|trans }}</td>
+                <td>{{ 'email'|trans }}</td>
+                <td>{{ 'created_at'|trans }}</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ component('user_inline', {user: user}) }}</td>
+                    <td>{{ user.apId ? '-' : user.email }}</td>
+                    <td>{{ component('date', {date: user.createdAt}) }}</td>
+                    <td>
+                        <button class="btn btn__secondary">{{ (user.isVerified or user.apId) and not user.isBanned ? 'active'|trans : 'inactive'|trans }}</button>
+                        <button class="btn btn__secondary">{{ user.apId ? 'federated'|trans : 'local'|trans }}</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if(users.haveToPaginate is defined and users.haveToPaginate) %}
+        {{ pagerfanta(users, null, {'pageParameter':'[p]'}) }}
+    {% else %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+{% endblock %}
