@@ -51,7 +51,8 @@
     <div class="section" id="content">
         <div class="container">
             {{ form_start(form) }}
-            {{ form_row(form.body) }}
+            {{ component('editor_toolbar', {id: 'admin_pages'}) }}
+            {{ form_row(form.body, {label: false, attr: {placeholder: 'body', 'data-entry-link-create-target': 'admin_pages'}}) }}
             <div class="row actions">
                 {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>

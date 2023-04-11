@@ -28,12 +28,12 @@
                 {{ form_widget(form.title) }}
             </div>
             <div>
-                {{ form_label(form.description) }}
-                {{ form_widget(form.description) }}
+                {{ component('editor_toolbar', {id: 'magazine_description'}) }}
+                {{ form_row(form.description, {label: false, attr: {placeholder: 'description', 'data-entry-link-create-target': 'magazine_description'}}) }}
             </div>
             <div>
-                {{ form_label(form.rules) }}
-                {{ form_widget(form.rules) }}
+                {{ component('editor_toolbar', {id: 'magazine_rules'}) }}
+                {{ form_row(form.rules, {label: false, attr: {placeholder: 'rules', 'data-entry-link-create-target': 'magazine_rules'}}) }}
             </div>
             <div class="checkbox">
                 {{ form_label(form.isAdult) }}
