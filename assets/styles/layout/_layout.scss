@@ -75,7 +75,7 @@ menu {
 
   blockquote {
     border-left: 2px solid var(--kbin-success-color);
-    margin: 0 0 1rem 1rem;
+    margin: 0 0 1rem 1rem !important;
     padding-left: 1rem;
   }
 }
