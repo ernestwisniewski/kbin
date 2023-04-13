@@ -19,6 +19,7 @@ final class PostCommentComponent
     public bool $showNested = false;
     public bool $withPost = false;
     public int $level = 1;
+    public bool $canSeeTrashed = false;
 
     public function getLevel(): int
     {

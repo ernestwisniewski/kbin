@@ -3,147 +3,157 @@
 {% else %}
     {% set class = '' %}
 {% endif %}
-<blockquote{{ attributes.defaults({
-    class: html_classes('section post subject ' ~ class,{
-        'own': app.user and post.isAuthor(app.user),
-    })}).without('id') }}
-        id="post-{{ post.id }}"
-        data-controller="post subject"
-        data-action="notifications:Notification@window->subject#notification">
-    <header>
-        {% if post.isAdult %}<span class="badge danger">+18</span>{% endif %}
-        {{ component('user_inline', {user: post.user, showAvatar: false}) }},
-        {% if dateAsUrl %}
-            <a href="{{ post_url(post) }}"
-               class="link-muted">{{ component('date', {date: post.createdAt}) }}</a>
-        {% else %}
-            {{ component('date', {date: post.createdAt}) }}
-        {% endif %}
-        {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
-    </header>
-    {% if post.user.avatar %}
-        {{ component('user_avatar', {
-            user: post.user,
-            width: 40,
-            height: 40,
-            asLink: true
-        }) }}
-    {% endif %}
-    <div class="content">
-        {{ post.body|markdown|raw }}
-    </div>
-    {{ component('vote', {
-        subject: post,
-        showDownvote: false
-    }) }}
-    <footer>
-        {% if post.image %}
-            <figure>
-                <a class="thumb" href="{{ uploaded_asset(post.image.filePath) }}">
-                    <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
-                         alt="{{ post.image.altText }}">
-                </a>
-            </figure>
-        {% endif %}
-        <menu>
-            <li>
-                <a class="stretched-link"
-                   href="{{ path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, slug: post.slug|length ? post.slug : '-'}) }}"
-                   data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
-            </li>
-            {% if post.commentCount > 2 and not is_route_name('post_single', true) %}
-                <li data-post-target="expand">
-                    <a class="stretched-link"
-                       href="#{{ get_url_fragment(post) }}"
-                       data-action="post#expandComments">{{ 'expand'|trans|lower }} (<span
-                                data-subject-target="commentsCounter">{{ post.commentCount }}</span>)</a>
-                </li>
-                <li data-post-target="collapse"
-                    style="display: none">
-                    <a class="stretched-link"
-                       href="#{{ get_url_fragment(post) }}"
-                       data-action="post#collapseComments">{{ 'collapse'|trans|lower }} ({{ post.commentCount }})</a>
-                </li>
-            {% endif %}
-            <li>
-                {{ component('favourite', {
-                    subject: post,
-                    path: 'post_favourite'
-                }) }}
-            </li>
-            <li class="dropdown">
-                <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
-                <ul class="dropdown__menu">
-                    <li>
-                        <a href="{{ path('post_report', {id: post.id}) }}"
-                           class="{{ html_classes({'active': is_route_name('post_report')}) }}"
-                           data-action="subject#getForm">
-                            {{ 'report'|trans|lower }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ post_voters_url(post, 'up') }}"
-                           class="{{ html_classes({'active': is_route_name('post_favourites') or is_route_name('post_voters')}) }}">
-                            {{ 'activity'|trans|lower }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            {{ 'copy_url'|trans|lower }}
-                        </a>
-                    </li>
-                    {% if app.request.locale is same as 'pl' %}
-                        <li>
-                            <a href="#">
-                                {{ 'copy_url_to_fediverse'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('edit', post) %}
-                        <li>
-                            <a href="{{ post_edit_url(post) }}"
-                               class="{{ html_classes({'active': is_route_name('post_edit')}) }}"
-                               data-action="subject#getForm">
-                                {{ 'edit'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if app.user and post.isAuthor(app.user) %}
-                        <li>
-                            <form method="post"
-                                  action="{{ post_delete_url(post) }}"
-                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
-                                <button type="submit">{{ 'delete'|trans|lower }}</button>
-                            </form>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('moderate', post) %}
-                        <li>
-                            <a href="{{ post_moderate_url(post) }}"
-                               class="{{ html_classes({'active': is_route_name('post_moderate')}) }}"
-                               data-action="subject#showModPanel">
-                                {{ 'moderate'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </li>
-            <li data-subject-target="loader" style="display:none">
-                <div class="loader" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </li>
-        </menu>
-        {{ component('voters_inline', {
-            subject: post,
-            url: post_voters_url(post, 'up'),
-            'data-post-target': 'voters'
-        }) }}
-        <div data-subject-target="container" class="js-container">
+{% if not app.user or (app.user and not app.user.isBlocked(post.user)) %}
+    {% if post.visibility is same as 'private' and (not app.user or not app.user.isFollower(post.user)) %}
+        <div class="section section--small"
+             style="z-index:3; position:relative;margin-bottom:0;">
+            Private
         </div>
-    </footer>
-</blockquote>
-{% if(showCommentsPreview) %}
-    {{ component('post_comments_preview', {post: post, 'data-post-target': 'preview'}) }}
+    {% else %}
+        <blockquote{{ attributes.defaults({
+            class: html_classes('section post subject ' ~ class,{
+                'own': app.user and post.isAuthor(app.user),
+            })}).without('id') }}
+                id="post-{{ post.id }}"
+                data-controller="post subject"
+                data-action="notifications:Notification@window->subject#notification">
+            <header>
+                {% if post.isAdult %}<span class="badge danger">+18</span>{% endif %}
+                {{ component('user_inline', {user: post.user, showAvatar: false}) }},
+                {% if dateAsUrl %}
+                    <a href="{{ post_url(post) }}"
+                       class="link-muted">{{ component('date', {date: post.createdAt}) }}</a>
+                {% else %}
+                    {{ component('date', {date: post.createdAt}) }}
+                {% endif %}
+                {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
+            </header>
+            {% if post.user.avatar %}
+                {{ component('user_avatar', {
+                    user: post.user,
+                    width: 40,
+                    height: 40,
+                    asLink: true
+                }) }}
+            {% endif %}
+            <div class="content">
+                {{ post.body|markdown|raw }}
+            </div>
+            {{ component('vote', {
+                subject: post,
+                showDownvote: false
+            }) }}
+            <footer>
+                {% if post.image %}
+                    <figure>
+                        <a class="thumb" href="{{ uploaded_asset(post.image.filePath) }}">
+                            <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
+                                 alt="{{ post.image.altText }}">
+                        </a>
+                    </figure>
+                {% endif %}
+                <menu>
+                    <li>
+                        <a class="stretched-link"
+                           href="{{ path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, slug: post.slug|length ? post.slug : '-'}) }}"
+                           data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
+                    </li>
+                    {% if post.commentCount > 2 and not is_route_name('post_single', true) %}
+                        <li data-post-target="expand">
+                            <a class="stretched-link"
+                               href="#{{ get_url_fragment(post) }}"
+                               data-action="post#expandComments">{{ 'expand'|trans|lower }} (<span
+                                        data-subject-target="commentsCounter">{{ post.commentCount }}</span>)</a>
+                        </li>
+                        <li data-post-target="collapse"
+                            style="display: none">
+                            <a class="stretched-link"
+                               href="#{{ get_url_fragment(post) }}"
+                               data-action="post#collapseComments">{{ 'collapse'|trans|lower }} ({{ post.commentCount }}
+                                )</a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        {{ component('favourite', {
+                            subject: post,
+                            path: 'post_favourite'
+                        }) }}
+                    </li>
+                    <li class="dropdown">
+                        <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="{{ path('post_report', {id: post.id}) }}"
+                                   class="{{ html_classes({'active': is_route_name('post_report')}) }}"
+                                   data-action="subject#getForm">
+                                    {{ 'report'|trans|lower }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ post_voters_url(post, 'up') }}"
+                                   class="{{ html_classes({'active': is_route_name('post_favourites') or is_route_name('post_voters')}) }}">
+                                    {{ 'activity'|trans|lower }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    {{ 'copy_url'|trans|lower }}
+                                </a>
+                            </li>
+                            {% if app.request.locale is same as 'pl' %}
+                                <li>
+                                    <a href="#">
+                                        {{ 'copy_url_to_fediverse'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('edit', post) %}
+                                <li>
+                                    <a href="{{ post_edit_url(post) }}"
+                                       class="{{ html_classes({'active': is_route_name('post_edit')}) }}"
+                                       data-action="subject#getForm">
+                                        {{ 'edit'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if app.user and post.isAuthor(app.user) %}
+                                <li>
+                                    <form method="post"
+                                          action="{{ post_delete_url(post) }}"
+                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                        <input type="hidden" name="token" value="{{ csrf_token('post_delete') }}">
+                                        <button type="submit">{{ 'delete'|trans|lower }}</button>
+                                    </form>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('moderate', post) %}
+                                <li>
+                                    <a href="{{ post_moderate_url(post) }}"
+                                       class="{{ html_classes({'active': is_route_name('post_moderate')}) }}"
+                                       data-action="subject#showModPanel">
+                                        {{ 'moderate'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li data-subject-target="loader" style="display:none">
+                        <div class="loader" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </li>
+                </menu>
+                {{ component('voters_inline', {
+                    subject: post,
+                    url: post_voters_url(post, 'up'),
+                    'data-post-target': 'voters'
+                }) }}
+                <div data-subject-target="container" class="js-container">
+                </div>
+            </footer>
+        </blockquote>
+    {% endif %}
+    {% if(showCommentsPreview) %}
+        {{ component('post_comments_preview', {post: post, 'data-post-target': 'preview'}) }}
+    {% endif %}
 {% endif %}

@@ -1,138 +1,148 @@
 {% if withPost %}
     {{ component('post', {post: comment.post}) }}
 {% endif %}
-<blockquote{{ attributes.defaults({
-    class: html_classes('section comment post-comment subject ' ~ 'comment-level--' ~ this.getLevel(),{
-        'own': app.user and comment.isAuthor(app.user),
-        'author': comment.isAuthor(comment.post.user),
-    })}).without('id') }}
-        id="post-comment-{{ comment.id }}"
-        data-controller="comment subject"
-        data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}"
-        data-action="notifications:Notification@window->subject#notification">
-    <header>
-        {% if comment.isAdult %}<span class="badge danger">+18</span>{% endif %}
-        {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
-        {% if dateAsUrl %}
-            <a href="{{ post_url(comment.post) ~ '#post-comment-' ~ comment.id }}"
-               class="link-muted">{{ component('date', {date: comment.createdAt}) }}</a>
-        {% else %}
-            {{ component('date', {date: comment.createdAt}) }}
-        {% endif %}
-    </header>
-    {% if comment.user.avatar %}
-        {{ component('user_avatar', {
-            user: comment.user,
-            width: 40,
-            height: 40,
-            asLink: true
+{% if not app.user or (app.user and not app.user.isBlocked(comment.user)) %}
+    {% if comment.visibility is same as 'private' and (not app.user or not app.user.isFollower(comment.user)) %}
+        <div class="section section--small {{ 'comment-level--' ~ this.getLevel() }}"
+             style="z-index:3; position:relative;margin-bottom:0;">
+            Private
+        </div>
+    {% else %}
+        <blockquote{{ attributes.defaults({
+            class: html_classes('section comment post-comment subject ' ~ 'comment-level--' ~ this.getLevel(),{
+                'own': app.user and comment.isAuthor(app.user),
+                'author': comment.isAuthor(comment.post.user),
+            })}).without('id') }}
+                id="post-comment-{{ comment.id }}"
+                data-controller="comment subject"
+                data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}"
+                data-action="notifications:Notification@window->subject#notification">
+            <header>
+                {% if comment.isAdult %}<span class="badge danger">+18</span>{% endif %}
+                {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
+                {% if dateAsUrl %}
+                    <a href="{{ post_url(comment.post) ~ '#post-comment-' ~ comment.id }}"
+                       class="link-muted">{{ component('date', {date: comment.createdAt}) }}</a>
+                {% else %}
+                    {{ component('date', {date: comment.createdAt}) }}
+                {% endif %}
+            </header>
+            {% if comment.user.avatar %}
+                {{ component('user_avatar', {
+                    user: comment.user,
+                    width: 40,
+                    height: 40,
+                    asLink: true
+                }) }}
+            {% endif %}
+            <div class="content">
+                {{ comment.body|markdown|raw }}
+            </div>
+            {{ component('vote', {
+                subject: comment,
+                showDownvote: false
+            }) }}
+            <footer>
+                {% if comment.image %}
+                    <figure>
+                        <a href="{{ uploaded_asset(comment.image.filePath) }}"
+                           class="thumb">
+                            <img src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
+                                 alt="{{ comment.image.altText }}">
+                        </a>
+                    </figure>
+                {% endif %}
+                <menu>
+                    <li>
+                        <a class="stretched-link"
+                           href="{{ post_comment_create_url(comment) }}#add-comment"
+                           data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
+                    </li>
+                    <li>
+                        {{ component('favourite', {
+                            subject: comment,
+                            path: 'post_comment_favourite'
+                        }) }}
+                    </li>
+                    <li class="dropdown">
+                        <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="{{ path('post_comment_report', {id: comment.id}) }}"
+                                   class="{{ html_classes({'active': is_route_name('post_comment_report')}) }}"
+                                   data-action="subject#getForm">
+                                    {{ 'report'|trans|lower }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ post_comment_voters_url(comment) }}"
+                                   class="{{ html_classes({'active': is_route_name('post_comment_favourites') or is_route_name('post_comment_voters')}) }}">
+                                    {{ 'activity'|trans|lower }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    {{ 'copy_url'|trans|lower }}
+                                </a>
+                            </li>
+                            {% if app.request.locale is same as 'pl' %}
+                                <li>
+                                    <a href="#">
+                                        {{ 'copy_url_to_fediverse'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('edit', comment) %}
+                                <li>
+                                    <a href="{{ post_comment_edit_url(comment) }}"
+                                       class="{{ html_classes({'active': is_route_name('post_comment_edit')}) }}"
+                                       data-action="subject#getForm">
+                                        {{ 'edit'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if app.user and comment.isAuthor(app.user) %}
+                                <li>
+                                    <form method="post"
+                                          action="{{ post_comment_delete_url(comment) }}"
+                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                        <input type="hidden" name="token"
+                                               value="{{ csrf_token('post_comment_delete') }}">
+                                        <button type="submit">{{ 'delete'|trans|lower }}</button>
+                                    </form>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('moderate', comment) %}
+                                <li>
+                                    <a href="{{ post_comment_moderate_url(comment) }}"
+                                       class="{{ html_classes({'active': is_route_name('post_comment_moderate')}) }}"
+                                       data-action="subject#showModPanel">
+                                        {{ 'moderate'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li data-subject-target="loader" style="display:none">
+                        <div class="loader" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </li>
+                </menu>
+                {{ component('voters_inline', {
+                    subject: comment,
+                    url: post_comment_voters_url(comment, 'up')
+                }) }}
+                <div data-subject-target="container" class="js-container">
+                </div>
+            </footer>
+        </blockquote>
+    {% endif %}
+    {% if showNested %}
+        {{ component('post_comments_nested', {
+            comment: comment,
+            level: level,
+            showNested: true
         }) }}
     {% endif %}
-    <div class="content">
-        {{ comment.body|markdown|raw }}
-    </div>
-    {{ component('vote', {
-        subject: comment,
-        showDownvote: false
-    }) }}
-    <footer>
-        {% if comment.image %}
-            <figure>
-                <a href="{{ uploaded_asset(comment.image.filePath) }}"
-                   class="thumb">
-                    <img src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
-                         alt="{{ comment.image.altText }}">
-                </a>
-            </figure>
-        {% endif %}
-        <menu>
-            <li>
-                <a class="stretched-link"
-                   href="{{ post_comment_create_url(comment) }}#add-comment"
-                   data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
-            </li>
-            <li>
-                {{ component('favourite', {
-                    subject: comment,
-                    path: 'post_comment_favourite'
-                }) }}
-            </li>
-            <li class="dropdown">
-                <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
-                <ul class="dropdown__menu">
-                    <li>
-                        <a href="{{ path('post_comment_report', {id: comment.id}) }}"
-                           class="{{ html_classes({'active': is_route_name('post_comment_report')}) }}"
-                           data-action="subject#getForm">
-                            {{ 'report'|trans|lower }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ post_comment_voters_url(comment) }}"
-                           class="{{ html_classes({'active': is_route_name('post_comment_favourites') or is_route_name('post_comment_voters')}) }}">
-                            {{ 'activity'|trans|lower }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            {{ 'copy_url'|trans|lower }}
-                        </a>
-                    </li>
-                    {% if app.request.locale is same as 'pl' %}
-                        <li>
-                            <a href="#">
-                                {{ 'copy_url_to_fediverse'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('edit', comment) %}
-                        <li>
-                            <a href="{{ post_comment_edit_url(comment) }}"
-                               class="{{ html_classes({'active': is_route_name('post_comment_edit')}) }}"
-                               data-action="subject#getForm">
-                                {{ 'edit'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if app.user and comment.isAuthor(app.user) %}
-                        <li>
-                            <form method="post"
-                                  action="{{ post_comment_delete_url(comment) }}"
-                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                <input type="hidden" name="token" value="{{ csrf_token('post_comment_delete') }}">
-                                <button type="submit">{{ 'delete'|trans|lower }}</button>
-                            </form>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('moderate', comment) %}
-                        <li>
-                            <a href="{{ post_comment_moderate_url(comment) }}"
-                               class="{{ html_classes({'active': is_route_name('post_comment_moderate')}) }}"
-                               data-action="subject#showModPanel">
-                                {{ 'moderate'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </li>
-            <li data-subject-target="loader" style="display:none">
-                <div class="loader" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </li>
-        </menu>
-        {{ component('voters_inline', {
-            subject: comment,
-            url: post_comment_voters_url(comment, 'up')
-        }) }}
-        <div data-subject-target="container" class="js-container">
-        </div>
-    </footer>
-</blockquote>
-{% if showNested %}
-    {{ component('post_comments_nested', {
-        comment: comment,
-        level: level,
-        showNested: true
-    }) }}
 {% endif %}

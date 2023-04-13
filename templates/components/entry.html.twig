@@ -1,186 +1,194 @@
-<article{{ attributes.defaults({
-    class: html_classes('entry section subject', {
-        'no-image': not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
-        'own': app.user and entry.isAuthor(app.user),
-    })}).without('id') }}
-        id="entry-{{ entry.id }}"
-        data-controller="subject preview"
-        data-action="notifications:Notification@window->subject#notification">
-    <header>
-        {% if isSingle %}
-            <h1>
-                {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
-                {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
-                {% if entry.url %}
-                    <a rel="{{ get_rel(entry.url) }}"
-                       href="{{ entry.url }}">{{ entry.title }}</a>
+{% if not app.user or (app.user and not app.user.isBlocked(entry.user)) %}
+    {% if entry.visibility is same as 'private' and (not app.user or not app.user.isFollower(entry.user)) %}
+        <div class="section section--small"
+             style="z-index:3; position:relative;margin-bottom:0;">
+            Private
+        </div>
+    {% else %}
+        <article{{ attributes.defaults({
+            class: html_classes('entry section subject', {
+                'no-image': not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
+                'own': app.user and entry.isAuthor(app.user),
+            })}).without('id') }}
+                id="entry-{{ entry.id }}"
+                data-controller="subject preview"
+                data-action="notifications:Notification@window->subject#notification">
+            <header>
+                {% if isSingle %}
+                    <h1>
+                        {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
+                        {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
+                        {% if entry.url %}
+                            <a rel="{{ get_rel(entry.url) }}"
+                               href="{{ entry.url }}">{{ entry.title }}</a>
+                        {% else %}
+                            {{ entry.title }}
+                        {% endif %}
+                        {% if entry.domain %}
+                            <span class="entry__domain">
+                        (<a href="{{ path('domain_entries', {
+                                    name: entry.domain.name
+                                }) }}">{{ entry.domain.name }}</a>)
+                    </span>
+                        {% endif %}
+                    </h1>
                 {% else %}
-                    {{ entry.title }}
-                {% endif %}
-                {% if entry.domain %}
-                    <span class="entry__domain">
+                    <h2>
+                        {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
+                        {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
+                        <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
+                        {% if entry.domain %}
+                            <span class="entry__domain">
                         (<a href="{{ path('domain_entries', {
-                            name: entry.domain.name
-                        }) }}">{{ entry.domain.name }}</a>)
+                                    name: entry.domain.name
+                                }) }}">{{ entry.domain.name }}</a>)
                     </span>
+                        {% endif %}
+                    </h2>
                 {% endif %}
-            </h1>
-        {% else %}
-            <h2>
-                {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
-                {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
-                <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
-                {% if entry.domain %}
-                    <span class="entry__domain">
-                        (<a href="{{ path('domain_entries', {
-                            name: entry.domain.name
-                        }) }}">{{ entry.domain.name }}</a>)
-                    </span>
+            </header>
+            <div class="content short-desc">
+                {% if entry.body and showShortSentence %}
+                    <p>{{ get_short_sentence(entry.body) }}</p>
                 {% endif %}
-            </h2>
-        {% endif %}
-    </header>
-    <div class="content short-desc">
-        {% if entry.body and showShortSentence %}
-            <p>{{ get_short_sentence(entry.body) }}</p>
-        {% endif %}
-    </div>
-    {% if entry.body and showBody %}
-        <div class="entry__body">
-            <div class="content formatted">
-                {{ entry.body|markdown|raw }}
             </div>
-        </div>
-    {% endif %}
-    <aside class="meta entry__meta">
-        {{ component('user_inline', {user: entry.user, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) -}}
-        ,
-        {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}{% endif %}
-    </aside>
-    {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true' %}
-        <figure>
-            {% if entry.image %}
-                {% if entry.type is same as 'link' or entry.type is same as 'video' %}
-                    <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
-                       rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}">
-                        <img width="220" height="145"
-                             src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                             alt="{{ entry.image.altText }}">
-                    </a>
-                {% elseif entry.type is same as 'image' or entry.type is same as 'article' %}
-                    <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
-                       class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
-                        <img width="220" height="145"
-                             src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
-                             alt="{{ entry.image.altText }}">
-                    </a>
-                {% endif %}
-            {% endif %}
-        </figure>
-    {% endif %}
-    {{ component('vote', {
-        subject: entry,
-        formDest: 'entry_vote'
-    }) }}
-    <footer>
-        <menu>
-            {% if entry.sticky %}
-                <li>
-                    <i class="fa-solid fa-thumbtack" aria-label="{{ 'pinned'|trans }}"></i>
-                </li>
-            {% endif %}
-            {% if entry.type is same as 'article' %}
-                <li class="meta-link">
-                    <i class="fa-regular fa-newspaper" aria-label="{{ 'article'|trans }}"></i>
-                </li>
-            {% endif %}
-            {% if entry.hasEmbed %}
-                <li>
-                    <button data-action="preview#show"
-                            aria-label="{{ 'preview'|trans }}"
-                            data-preview-url-param="{{ entry.url }}"
-                            data-preview-ratio-param="{{ entry.domain and entry.domain.shouldRatio ? true : false }}">
-                        <i class="fa-solid fa-photo-film"></i>
-                    </button>
-                </li>
-            {% endif %}
-            <li>
-                <a class="stretched-link"
-                   href="{{ entry_url(entry) ~ '#comments' }}">
-                    <span data-subject-target="commentsCounter">{{ entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}
-                </a>
-            </li>
-            <li>
-                {{ component('favourite', {
-                    subject: entry,
-                    path: 'entry_favourite'
-                }) }}
-            </li>
-            <li class="dropdown">
-                <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
-                <ul class="dropdown__menu">
-                    <li>
-                        <a href="{{ path('entry_report', {id: entry.id}) }}"
-                           class="{{ html_classes({'active': is_route_name('entry_report')}) }}"
-                           data-action="subject#getForm">
-                            {{ 'report'|trans|lower }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ entry_voters_url(entry, 'up') }}"
-                           class="{{ html_classes({'active': is_route_name('entry_fav') or is_route_name('entry_voters')}) }}">
-                            {{ 'activity'|trans|lower }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            {{ 'copy_url'|trans|lower }}
-                        </a>
-                    </li>
-                    {% if app.request.locale is same as 'pl' %}
-                        <li>
-                            <a href="#">
-                                {{ 'copy_url_to_fediverse'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('edit', entry) %}
-                        <li>
-                            <a href="{{ entry_edit_url(entry) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_edit')}) }}">
-                                {{ 'edit'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if app.user and entry.isAuthor(app.user) %}
-                        <li>
-                            <form method="post"
-                                  action="{{ entry_delete_url(entry) }}"
-                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
-                                <button type="submit">{{ 'delete'|trans|lower }}</button>
-                            </form>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('moderate', entry) %}
-                        <li>
-                            <a href="{{ entry_moderate_url(entry) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_moderate')}) }}"
-                               data-action="subject#showModPanel">
-                                {{ 'moderate'|trans|lower }}
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </li>
-            <li data-subject-target="loader" style="display:none">
-                <div class="loader" role="status">
-                    <span class="visually-hidden">Loading...</span>
+            {% if entry.body and showBody %}
+                <div class="entry__body">
+                    <div class="content formatted">
+                        {{ entry.body|markdown|raw }}
+                    </div>
                 </div>
-            </li>
-        </menu>
-        <div data-subject-target="container" class="js-container">
-        </div>
-    </footer>
-</article>
-
+            {% endif %}
+            <aside class="meta entry__meta">
+                {{ component('user_inline', {user: entry.user, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) -}}
+                ,
+                {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}{% endif %}
+            </aside>
+            {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true' %}
+                <figure>
+                    {% if entry.image %}
+                        {% if entry.type is same as 'link' or entry.type is same as 'video' %}
+                            <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
+                               rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}">
+                                <img width="220" height="145"
+                                     src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                                     alt="{{ entry.image.altText }}">
+                            </a>
+                        {% elseif entry.type is same as 'image' or entry.type is same as 'article' %}
+                            <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
+                               class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
+                                <img width="220" height="145"
+                                     src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                                     alt="{{ entry.image.altText }}">
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </figure>
+            {% endif %}
+            {{ component('vote', {
+                subject: entry,
+                formDest: 'entry_vote'
+            }) }}
+            <footer>
+                <menu>
+                    {% if entry.sticky %}
+                        <li>
+                            <i class="fa-solid fa-thumbtack" aria-label="{{ 'pinned'|trans }}"></i>
+                        </li>
+                    {% endif %}
+                    {% if entry.type is same as 'article' %}
+                        <li class="meta-link">
+                            <i class="fa-regular fa-newspaper" aria-label="{{ 'article'|trans }}"></i>
+                        </li>
+                    {% endif %}
+                    {% if entry.hasEmbed %}
+                        <li>
+                            <button data-action="preview#show"
+                                    aria-label="{{ 'preview'|trans }}"
+                                    data-preview-url-param="{{ entry.url }}"
+                                    data-preview-ratio-param="{{ entry.domain and entry.domain.shouldRatio ? true : false }}">
+                                <i class="fa-solid fa-photo-film"></i>
+                            </button>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a class="stretched-link"
+                           href="{{ entry_url(entry) ~ '#comments' }}">
+                            <span data-subject-target="commentsCounter">{{ entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}
+                        </a>
+                    </li>
+                    <li>
+                        {{ component('favourite', {
+                            subject: entry,
+                            path: 'entry_favourite'
+                        }) }}
+                    </li>
+                    <li class="dropdown">
+                        <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="{{ path('entry_report', {id: entry.id}) }}"
+                                   class="{{ html_classes({'active': is_route_name('entry_report')}) }}"
+                                   data-action="subject#getForm">
+                                    {{ 'report'|trans|lower }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ entry_voters_url(entry, 'up') }}"
+                                   class="{{ html_classes({'active': is_route_name('entry_fav') or is_route_name('entry_voters')}) }}">
+                                    {{ 'activity'|trans|lower }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    {{ 'copy_url'|trans|lower }}
+                                </a>
+                            </li>
+                            {% if app.request.locale is same as 'pl' %}
+                                <li>
+                                    <a href="#">
+                                        {{ 'copy_url_to_fediverse'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('edit', entry) %}
+                                <li>
+                                    <a href="{{ entry_edit_url(entry) }}"
+                                       class="{{ html_classes({'active': is_route_name('entry_edit')}) }}">
+                                        {{ 'edit'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if app.user and entry.isAuthor(app.user) %}
+                                <li>
+                                    <form method="post"
+                                          action="{{ entry_delete_url(entry) }}"
+                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                        <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                                        <button type="submit">{{ 'delete'|trans|lower }}</button>
+                                    </form>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('moderate', entry) %}
+                                <li>
+                                    <a href="{{ entry_moderate_url(entry) }}"
+                                       class="{{ html_classes({'active': is_route_name('entry_moderate')}) }}"
+                                       data-action="subject#showModPanel">
+                                        {{ 'moderate'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li data-subject-target="loader" style="display:none">
+                        <div class="loader" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </li>
+                </menu>
+                <div data-subject-target="container" class="js-container">
+                </div>
+            </footer>
+        </article>
+    {% endif %}
+{% endif %}
