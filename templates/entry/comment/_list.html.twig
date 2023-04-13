@@ -7,7 +7,7 @@
 {% endif %}
 <section class="comments entry-comments comments-tree"
          data-controller="subject-list"
-         data-action="notifications:EntryCommentCreatedNotification@window->subject-list#addMainSubject">
+         data-action="notifications:EntryCommentCreatedNotification@window->subject-list#addComment">
     {% for comment in comments %}
         {{ component('entry_comment', {
             comment: comment,

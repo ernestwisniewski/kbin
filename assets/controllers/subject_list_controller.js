@@ -5,6 +5,14 @@ import {getLevel, getTypeFromNotification} from "../utils/kbin";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
+    addComment(data) {
+        if (!document.getElementById(data.detail.parentSubject.htmlId)) {
+            return;
+        }
+
+        this.addMainSubject(data);
+    }
+
     async addMainSubject(data) {
         try {
             const url = router().generate(`ajax_fetch_${getTypeFromNotification(data)}`, {id: data.detail.id});
