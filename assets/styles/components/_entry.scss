@@ -1,11 +1,11 @@
 .entry {
   display: grid;
-  grid-template-areas: "vote image title"
-                       "vote image shortDesc"
-                       "vote image meta"
-                       "vote image footer"
+  grid-template-areas: "vote title image"
+                       "vote shortDesc image"
+                       "vote meta image"
+                       "vote footer image"
                        "body body body";
-  grid-template-columns: min-content min-content auto;
+  grid-template-columns: min-content auto min-content;
   padding: 1rem .5rem;
   position: relative;
   z-index: 2;
@@ -89,10 +89,9 @@
 
   @include media-breakpoint-up(sm) {
     .view-compact & {
-      grid-template-areas: "image title vote"
-                       "image shortDesc vote"
-                       "image meta vote"
-                       "image footer vote"
+      grid-template-areas: "vote title image "
+                       "vote meta image"
+                       "vote footer image"
                        "body body body" !important;
       grid-template-columns: min-content auto min-content;
 
@@ -104,8 +103,8 @@
       }
 
       .vote {
-        margin-right: 0 !important;
-        margin-left: 1rem !important;
+        margin-right: 1rem !important;
+        margin-left: 0 !important;
       }
 
       .short-desc {
@@ -135,7 +134,7 @@
 
   figure {
     grid-area: image;
-    margin: 0 1rem 0 0;
+    margin: 0 0 0 1rem;
 
     @include media-breakpoint-down(sm) {
       margin: 0 .5rem 0 0;
