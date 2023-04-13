@@ -30,9 +30,17 @@
                 }) }}
             {% endif %}
             <div class="content">
-                {{ comment.body|markdown|raw }}
+                {% if comment.visibility in ['visible', 'private'] or (comment.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                    {{ comment.body|markdown|raw }}
+                {% elseif(comment.visibility is same as 'trashed') %}
+                    <p class="text-muted">{{ 'deleted_by_moderator' }}</p>
+                {% elseif(comment.visibility is same as 'soft_deleted') %}
+                    <p class="text-muted">{{ 'deleted_by_author' }}</p>
+                {% endif %}
             </div>
-            {{ component('vote', {subject: comment}) }}
+            {% if comment.visibility in ['visible', 'private'] %}
+                {{ component('vote', {subject: comment}) }}
+            {% endif %}
             <footer>
                 {% if comment.image %}
                     <figure>
@@ -43,80 +51,106 @@
                         </a>
                     </figure>
                 {% endif %}
-                <menu>
-                    <li>
-                        <a class="stretched-link"
-                           href="{{ entry_comment_create_url(comment) }}#add-comment"
-                           data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
-                    </li>
-                    <li>
-                        {{ component('favourite', {subject: comment, path: 'entry_comment_favourite'}) }}
-                    </li>
-                    <li class="dropdown">
-                        <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
-                        <ul class="dropdown__menu">
-                            <li>
-                                <a href="{{ path('entry_comment_report', {id: comment.id}) }}"
-                                   class="{{ html_classes({'active': is_route_name('entry_comment_report')}) }}"
-                                   data-action="subject#getForm">
-                                    {{ 'report'|trans|lower }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ entry_comment_voters_url(comment, 'up') }}"
-                                   class="{{ html_classes({'active': is_route_name('entry_comment_favourites') or is_route_name('entry_comment_voters')}) }}">
-                                    {{ 'activity'|trans|lower }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    {{ 'copy_url'|trans|lower }}
-                                </a>
-                            </li>
-                            {% if app.request.locale is same as 'pl' %}
+                {% if comment.visibility in ['visible', 'private'] %}
+                    <menu>
+                        <li>
+                            <a class="stretched-link"
+                               href="{{ entry_comment_create_url(comment) }}#add-comment"
+                               data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
+                        </li>
+                        <li>
+                            {{ component('favourite', {subject: comment, path: 'entry_comment_favourite'}) }}
+                        </li>
+                        <li class="dropdown">
+                            <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
+                            <ul class="dropdown__menu">
+                                <li>
+                                    <a href="{{ path('entry_comment_report', {id: comment.id}) }}"
+                                       class="{{ html_classes({'active': is_route_name('entry_comment_report')}) }}"
+                                       data-action="subject#getForm">
+                                        {{ 'report'|trans|lower }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ entry_comment_voters_url(comment, 'up') }}"
+                                       class="{{ html_classes({'active': is_route_name('entry_comment_favourites') or is_route_name('entry_comment_voters')}) }}">
+                                        {{ 'activity'|trans|lower }}
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="#">
-                                        {{ 'copy_url_to_fediverse'|trans|lower }}
+                                        {{ 'copy_url'|trans|lower }}
                                     </a>
                                 </li>
-                            {% endif %}
-                            {% if is_granted('edit', comment) %}
-                                <li>
-                                    <a href="{{ entry_comment_edit_url(comment) }}"
-                                       class="{{ html_classes({'active': is_route_name('entry_comment_edit')}) }}"
-                                       data-action="subject#getForm">
-                                        {{ 'edit'|trans|lower }}
-                                    </a>
-                                </li>
-                            {% endif %}
-                            {% if app.user and comment.isAuthor(app.user) %}
-                                <li>
-                                    <form method="post"
-                                          action="{{ entry_comment_delete_url(comment) }}"
-                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                                        <input type="hidden" name="token"
-                                               value="{{ csrf_token('entry_comment_delete') }}">
-                                        <button type="submit">{{ 'delete'|trans|lower }}</button>
-                                    </form>
-                                </li>
-                            {% endif %}
-                            {% if is_granted('moderate', comment) %}
-                                <li>
-                                    <a href="{{ entry_comment_moderate_url(comment) }}"
-                                       class="{{ html_classes({'active': is_route_name('entry_comment_moderate')}) }}"
-                                       data-action="subject#showModPanel">
-                                        {{ 'moderate'|trans|lower }}
-                                    </a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </li>
-                    <li data-subject-target="loader" style="display:none">
-                        <div class="loader" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </li>
-                </menu>
+                                {% if app.request.locale is same as 'pl' %}
+                                    <li>
+                                        <a href="#">
+                                            {{ 'copy_url_to_fediverse'|trans|lower }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('edit', comment) %}
+                                    <li>
+                                        <a href="{{ entry_comment_edit_url(comment) }}"
+                                           class="{{ html_classes({'active': is_route_name('entry_comment_edit')}) }}"
+                                           data-action="subject#getForm">
+                                            {{ 'edit'|trans|lower }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if app.user and comment.isAuthor(app.user) %}
+                                    <li>
+                                        <form method="post"
+                                              action="{{ entry_comment_delete_url(comment) }}"
+                                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                            <input type="hidden" name="token"
+                                                   value="{{ csrf_token('entry_comment_delete') }}">
+                                            <button type="submit">{{ 'delete'|trans|lower }}</button>
+                                        </form>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('moderate', comment) %}
+                                    <li>
+                                        <a href="{{ entry_comment_moderate_url(comment) }}"
+                                           class="{{ html_classes({'active': is_route_name('entry_comment_moderate')}) }}"
+                                           data-action="subject#showModPanel">
+                                            {{ 'moderate'|trans|lower }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        <li data-subject-target="loader" style="display:none">
+                            <div class="loader" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </li>
+                    </menu>
+                {% elseif(comment.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                    <menu>
+                        <li>
+                            <form method="post"
+                                  action="{{ path('entry_comment_restore', {magazine_name: comment.magazine.name, entry_id: comment.entry.id, comment_id: comment.id}) }}"
+                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                <input type="hidden" name="token" value="{{ csrf_token('entry_comment_restore') }}">
+                                <button type="submit">{{ 'restore'|trans|lower }}</button>
+                            </form>
+                        </li>
+                        <li data-subject-target="loader" style="display:none">
+                            <div class="loader" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </li>
+                    </menu>
+                {% else %}
+                    <menu>
+                        <li data-subject-target="loader" style="display:none">
+                            <div class="loader" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </li>
+                    </menu>
+                {% endif %}
                 <div data-subject-target="container" class="js-container">
                 </div>
             </footer>

@@ -10,7 +10,8 @@
   }
 }
 
-.link-muted {
+.link-muted,
+.text-muted {
   color: var(--kbin-meta-text-color) !important;
   font-weight: normal !important;
 

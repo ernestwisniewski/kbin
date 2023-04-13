@@ -18,7 +18,7 @@
     <h1 hidden>{{ 'trash'|trans }}</h1>
     {% if results|length %}
         {% for subject in results %}
-            {% include 'layout/_subject.html.twig' %}
+            {% include 'layout/_subject.html.twig' with {attributes: {canSeeTrash: true, showMagazineName: true, showEntryTitle: true}} %}
         {% endfor %}
     {% endif %}
     {% if(results.haveToPaginate is defined and results.haveToPaginate) %}

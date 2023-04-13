@@ -431,6 +431,7 @@ type_search_term: Type search term
 federation_enabled: Federation enabled
 registrations_enabled: Registrations enabled
 registration_disabled: Registration disabled
+restore: Restore
 add_mentions_entries: Add mention tags in entries
 add_mentions_posts: Add mention tags in posts
 Password is invalid: Password is invalid.

@@ -1,41 +1,41 @@
 {% block log_entry_deleted %}
     {{ component('user_inline', {user: log.user, showAvatar: false}) }} {{ 'removed_thread_by'|trans|lower }} {{ component('user_inline', {user: log.entry.user, showAvatar: false}) }}{% if showMagazine %} {{ 'in'|trans|lower }} {{ component('magazine_inline', {magazine: log.entry.magazine, showIcon: false }) }}{% endif %} -
-    <a href="{{ entry_url(log.entry) }}">{{ log.entry.shortTitle }}</a>
+    <a href="{{ entry_url(log.entry) }}">{{ log.entry.shortTitle(300) }}</a>
 {% endblock %}
 
 {% block log_entry_restored %}
     {{ component('user_inline', {user: log.user, showAvatar: false}) }} {{ 'restored_thread_by'|trans|lower }} {{ component('user_inline', {user: log.entry.user, showAvatar: false}) }}{% if showMagazine %} {{ 'in'|trans|lower }} {{ component('magazine_inline', {magazine: log.entry.magazine, showIcon: false }) }}{% endif %} -
-    <a href="{{ entry_url(log.entry) }}">{{ log.entry.shortTitle }}</a>
+    <a href="{{ entry_url(log.entry) }}">{{ log.entry.shortTitle(300) }}</a>
 {% endblock %}
 
 {% block log_entry_comment_deleted %}
     {{ component('user_inline', {user: log.user, showAvatar: false}) }} {{ 'removed_comment_by'|trans|lower }} {{ component('user_inline', {user: log.comment.user, showAvatar: false}) }}{% if showMagazine %} {{ 'in'|trans|lower }} {{ component('magazine_inline', {magazine: log.comment.magazine, showIcon: false }) }}{% endif %} -
-    <a href="{{ entry_url(log.comment.entry) }}#{{ get_url_fragment(log.comment) }}">{{ log.comment.shortTitle }}</a>
+    <a href="{{ entry_url(log.comment.entry) }}#{{ get_url_fragment(log.comment) }}">{{ log.comment.shortTitle(300) }}</a>
 {% endblock %}
 
 {% block log_entry_comment_restored %}
     {{ component('user_inline', {user: log.user, showAvatar: false}) }} {{ 'restored_comment_by'|trans|lower }} {{ component('user_inline', {user: log.comment.user, showAvatar: false}) }}{% if showMagazine %} {{ 'in'|trans|lower }} {{ component('magazine_inline', {magazine: log.comment.magazine, showIcon: false }) }}{% endif %} -
-    <a href="{{ entry_url(log.comment.entry) }}#{{ get_url_fragment(log.comment) }}">{{ log.comment.shortTitle }}</a>
+    <a href="{{ entry_url(log.comment.entry) }}#{{ get_url_fragment(log.comment) }}">{{ log.comment.shortTitle(300) }}</a>
 {% endblock %}
 
 {% block log_post_deleted %}
     {{ component('user_inline', {user: log.user, showAvatar: false}) }} {{ 'removed_post_by'|trans|lower }} {{ component('user_inline', {user: log.post.user, showAvatar: false}) }}{% if showMagazine %} {{ 'in'|trans|lower }} {{ component('magazine_inline', {magazine: log.post.magazine, showIcon: false }) }}{% endif %} -
-    <a href="{{ post_url(log.post) }}">{{ log.post.shortTitle }}</a>
+    <a href="{{ post_url(log.post) }}">{{ log.post.shortTitle(300) }}</a>
 {% endblock %}
 
 {% block log_post_restored %}
     {{ component('user_inline', {user: log.user, showAvatar: false}) }} {{ 'restored_post_by'|trans|lower }} {{ component('user_inline', {user: log.post.user, showAvatar: false}) }}{% if showMagazine %} {{ 'in'|trans|lower }} {{ component('magazine_inline', {magazine: log.post.magazine, showIcon: false }) }}{% endif %} -
-    <a href="{{ post_url(log.post) }}">{{ log.post.shortTitle }}</a>
+    <a href="{{ post_url(log.post) }}">{{ log.post.shortTitle(300) }}</a>
 {% endblock %}
 
 {% block log_post_comment_deleted %}
     {{ component('user_inline', {user: log.user, showAvatar: false}) }} {{ 'removed_comment_by'|trans|lower }} {{ component('user_inline', {user: log.comment.user, showAvatar: false}) }}{% if showMagazine %} {{ 'in'|trans|lower }} {{ component('magazine_inline', {magazine: log.comment.magazine, showIcon: false }) }}{% endif %} -
-    <a href="{{ post_url(log.comment.post) }}#{{ get_url_fragment(log.comment) }}">{{ log.comment.shortTitle }}</a>
+    <a href="{{ post_url(log.comment.post) }}#{{ get_url_fragment(log.comment) }}">{{ log.comment.shortTitle(300) }}</a>
 {% endblock %}
 
 {% block log_post_comment_restored %}
     {{ component('user_inline', {user: log.user, showAvatar: false}) }} {{ 'restored_comment_by'|trans|lower }} {{ component('user_inline', {user: log.comment.user, showAvatar: false}) }}{% if showMagazine %} {{ 'in'|trans|lower }} {{ component('magazine_inline', {magazine: log.comment.magazine, showIcon: false }) }}{% endif %} -
-    <a href="{{ post_url(log.comment.post) }}#{{ get_url_fragment(log.comment) }}">{{ log.comment.shortTitle }}</a>
+    <a href="{{ post_url(log.comment.post) }}#{{ get_url_fragment(log.comment) }}">{{ log.comment.shortTitle(300) }}</a>
 {% endblock %}
 
 {% block log_ban %}
