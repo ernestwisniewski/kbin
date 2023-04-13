@@ -136,7 +136,7 @@
                         </li>
                         <li class="dropdown">
                             <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
-                            <ul class="dropdown__menu">
+                            <ul class="dropdown__menu" data-controller="clipboard">
                                 <li>
                                     <a href="{{ path('entry_report', {id: entry.id}) }}"
                                        class="{{ html_classes({'active': is_route_name('entry_report')}) }}"
@@ -151,17 +151,13 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
-                                        {{ 'copy_url'|trans|lower }}
+                                    <a data-action="clipboard#copy" href="{{ entry_url(entry) }}">{{ 'copy_url'|trans|lower }}</a>
+                                </li>
+                                <li>
+                                    <a data-action="clipboard#copy" href="{{ entry.apId ?? path('ap_entry', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}">
+                                        {{ 'copy_url_to_fediverse'|trans|lower }}
                                     </a>
                                 </li>
-                                {% if app.request.locale is same as 'pl' %}
-                                    <li>
-                                        <a href="#">
-                                            {{ 'copy_url_to_fediverse'|trans|lower }}
-                                        </a>
-                                    </li>
-                                {% endif %}
                                 {% if is_granted('edit', entry) %}
                                     <li>
                                         <a href="{{ entry_edit_url(entry) }}"

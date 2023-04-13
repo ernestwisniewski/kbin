@@ -9,7 +9,7 @@
         </li>
         <li>
             <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'hot'|trans|lower)}) }}">
+               class="{{ html_classes({'active': route_has_param('sortBy', 'hot'|trans|lower) or route_has_param('sortBy', 'hot'|lower)}) }}">
                 {{ 'hot'|trans|lower }}
             </a>
         </li>

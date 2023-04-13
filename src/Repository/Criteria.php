@@ -168,8 +168,8 @@ abstract class Criteria
             'artykuł' => Entry::ENTRY_TYPE_ARTICLE,
             'artykuły' => Entry::ENTRY_TYPE_ARTICLE,
             'linki' => Entry::ENTRY_TYPE_LINK,
-            'zdjęcie' => Entry::ENTRY_TYPE_IMAGE,
-            'zdjęcia' => Entry::ENTRY_TYPE_IMAGE,
+            'obraz' => Entry::ENTRY_TYPE_IMAGE,
+            'obrazy' => Entry::ENTRY_TYPE_IMAGE,
         ];
 
         return $routes[$value] ?? null;

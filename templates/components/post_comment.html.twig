@@ -75,7 +75,7 @@
                         </li>
                         <li class="dropdown">
                             <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
-                            <ul class="dropdown__menu">
+                            <ul class="dropdown__menu" data-controller="clipboard">
                                 <li>
                                     <a href="{{ path('post_comment_report', {id: comment.id}) }}"
                                        class="{{ html_classes({'active': is_route_name('post_comment_report')}) }}"
@@ -90,17 +90,15 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a data-action="clipboard#copy" href="{{ post_url(comment.post) }}#{{ get_url_fragment(comment) }}">
                                         {{ 'copy_url'|trans|lower }}
                                     </a>
                                 </li>
-                                {% if app.request.locale is same as 'pl' %}
-                                    <li>
-                                        <a href="#">
-                                            {{ 'copy_url_to_fediverse'|trans|lower }}
-                                        </a>
-                                    </li>
-                                {% endif %}
+                                <li>
+                                    <a data-action="clipboard#copy" href="{{ appId ?? path('ap_post_comment', {magazine_name: comment.magazine.name, post_id: comment.post.id, comment_id: comment.id}) }}">
+                                        {{ 'copy_url_to_fediverse'|trans|lower }}
+                                    </a>
+                                </li>
                                 {% if is_granted('edit', comment) %}
                                     <li>
                                         <a href="{{ post_comment_edit_url(comment) }}"

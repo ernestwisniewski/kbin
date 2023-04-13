@@ -2,6 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
 import getIntIdFromElement, {getLevel, getTypeFromNotification} from "../utils/kbin";
+import GLightbox from 'glightbox';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -12,6 +13,9 @@ export default class extends Controller {
     static sendBtnLabel = null;
 
     connect() {
+        const params = {selector: '.thumb', openEffect: 'none', closeEffect: 'none', slideEffect: 'none'};
+        GLightbox(params);
+
         const self = this;
         this.moreTarget.addEventListener('focusin', () => {
             self.element.parentNode
