@@ -77,6 +77,10 @@ class PostCommentNoteFactory
             'published' => $comment->createdAt->format(DATE_ATOM),
         ]);
 
+        $note['contentMap'] = [
+            $comment->lang => $note['content'],
+        ];
+
         if ($comment->image) {
             $note = $this->imageWrapper->build($note, $comment->image, $comment->getShortTitle());
         }

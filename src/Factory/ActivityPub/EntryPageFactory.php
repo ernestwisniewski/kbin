@@ -87,6 +87,10 @@ class EntryPageFactory
             ],
         ]);
 
+        $page['contentMap'] = [
+            $entry->lang => $page['content'],
+        ];
+
         if ($entry->url) {
             $page['source'] = $entry->url;
         } else {

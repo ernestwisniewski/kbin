@@ -75,6 +75,13 @@ class Note
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
 
+        if (!empty($object['language'])) {
+            $dto->lang = $object['language']['identifier'];
+        }
+        if (!empty($object['contentMap'])) {
+            $dto->lang = array_keys($object['contentMap'])[0];
+        }
+
         return $this->entryCommentManager->create(
             $dto,
             $actor,
@@ -113,13 +120,13 @@ class Note
     {
         $current = $this->repository->findByObjectId($object['id']);
         if ($current) {
-            return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
+            return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
         }
 
         if (isset($object['inReplyTo']) && $replyTo = $object['inReplyTo']) {
             // Create post or entry comment
             $parent = $this->repository->findByObjectId($replyTo);
-            $parent = $this->entityManager->getRepository($parent['type'])->find((int) $parent['id']);
+            $parent = $this->entityManager->getRepository($parent['type'])->find((int)$parent['id']);
 
             $root = null;
             $fn = null;
@@ -185,6 +192,13 @@ class Note
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
 
+        if (!empty($object['language'])) {
+            $dto->lang = $object['language']['identifier'];
+        }
+        if (!empty($object['contentMap'])) {
+            $dto->lang = array_keys($object['contentMap'])[0];
+        }
+
         return $this->postManager->create(
             $dto,
             $actor,
@@ -228,6 +242,13 @@ class Note
         $dto->body = $this->markdownConverter->convert($object['content']);
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
+
+        if (!empty($object['language'])) {
+            $dto->lang = $object['language']['identifier'];
+        }
+        if (!empty($object['contentMap'])) {
+            $dto->lang = array_keys($object['contentMap'])[0];
+        }
 
         return $this->postCommentManager->create(
             $dto,

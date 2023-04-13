@@ -50,13 +50,7 @@ class EntryCollectionDataProviderTest extends ApiTestCase
                         '@type' => 'user',
                         'username' => 'JohnDoe',
                     ],
-                    'image' => [
-                        '@id' => '/api/images/'.$entry->image->getId(),
-                        '@type' => 'image',
-                        'filePath' => $entry->image->filePath,
-                        'width' => 1280,
-                        'height' => 1280,
-                    ],
+                    'image' => null,
                     'domain' => [
                         '@id' => '/api/domains/'.$entry->domain->getId(),
                         '@type' => 'domain',

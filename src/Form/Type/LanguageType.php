@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Service\SettingsManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,6 +11,11 @@ use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 #[AsEntityAutocompleteField]
 class LanguageType extends AbstractType
 {
+    public function __construct(
+        private readonly SettingsManager $settingsManager,
+    ) {
+    }
+
     public static array $choices = [
         'cz' => 'czech',
         'dk' => 'danish',
@@ -30,11 +36,10 @@ class LanguageType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $default = 'en'; // @todo: get default language from config
+        $default = $this->settingsManager->get('KBIN_DEFAULT_LANG'); // @todo: get default language from config
         $resolver->setDefaults([
                 'choices' => array_merge([self::$choices[$default] => $default], array_flip(self::$choices)),
                 'required' => true,
-                'empty_data' => 'en',
                 'autocomplete' => false,
                 'tom_select_options' => [
                     'allowEmptyOption' => false,

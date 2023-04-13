@@ -53,6 +53,13 @@ class Page
         $this->handleUrl($dto, $object);
         $this->handleDate($dto, $object['published']);
 
+        if (!empty($object['language'])) {
+            $dto->lang = $object['language']['identifier'];
+        }
+        if (!empty($object['contentMap'])) {
+            $dto->lang = array_keys($object['contentMap'])[0];
+        }
+
         return $this->entryManager->create(
             $dto,
             $actor,
