@@ -9,12 +9,15 @@ use App\DTO\MagazineDto;
 use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
+use App\Entity\MagazineSubscriptionRequest;
 use App\Entity\Moderator;
 use App\Entity\User;
 use App\Event\Magazine\MagazineBanEvent;
 use App\Event\Magazine\MagazineBlockedEvent;
 use App\Event\Magazine\MagazineSubscribedEvent;
 use App\Factory\MagazineFactory;
+use App\Repository\MagazineSubscriptionRepository;
+use App\Repository\MagazineSubscriptionRequestRepository;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -30,7 +33,9 @@ class MagazineManager
         private readonly EventDispatcherInterface $dispatcher,
         private readonly RateLimiterFactory $magazineLimiter,
         private readonly CacheInterface $cache,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MagazineSubscriptionRequestRepository $requestRepository,
+        private readonly MagazineSubscriptionRepository $subscriptionRepository,
     ) {
     }
 
@@ -59,9 +64,36 @@ class MagazineManager
         return $magazine;
     }
 
-    public function subscribe(Magazine $magazine, User $user): void
+    public function acceptFollow(User $user, Magazine $magazine): void
+    {
+        if ($request = $this->requestRepository->findOneby(['user' => $user, 'magazine' => $magazine])) {
+            $this->entityManager->remove($request);
+        }
+
+        if ($this->subscriptionRepository->findOneBy(['user' => $user, 'magazine' => $magazine])) {
+            return;
+        }
+
+        $this->subscribe($magazine, $user, false);
+    }
+
+    public function subscribe(Magazine $magazine, User $user, $createRequest = true): void
     {
         $user->unblockMagazine($magazine);
+
+        if ($magazine->apId && $createRequest) {
+            if ($this->requestRepository->findOneby(['user' => $user, 'following' => $magazine])) {
+                return;
+            }
+
+            $request = new MagazineSubscriptionRequest($user, $magazine);
+            $this->entityManager->persist($request);
+            $this->entityManager->flush();
+
+            $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
+
+            return;
+        }
 
         $magazine->subscribe($user);
 

@@ -112,6 +112,10 @@ class FollowHandler implements MessageHandlerInterface
         if ($object instanceof User) {
             $this->userManager->acceptFollow($object, $actor);
         }
+
+        if ($object instanceof Magazine) {
+            $this->magazineManager->acceptFollow($actor, $object);
+        }
     }
 
     private function handleReject(User $actor, User|Magazine $object): void
