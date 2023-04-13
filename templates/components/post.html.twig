@@ -111,7 +111,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-action="clipboard#copy" href="{{ appId ?? path('ap_post', {magazine_name: post.magazine.name, post_id: post.id}) }}">
+                                    <a data-action="clipboard#copy" href="{{ post.apId ?? path('ap_post', {magazine_name: post.magazine.name, post_id: post.id}) }}">
                                         {{ 'copy_url_to_fediverse'|trans|lower }}
                                     </a>
                                 </li>
