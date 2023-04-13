@@ -1,0 +1,449 @@
+type.photo: Obraz
+done: Gotowe
+type.link: Link
+type.video: Video
+image: Obraz
+1y: 1r
+expand: Rozwiń
+error: Błąd
+icon: Ikona
+pin: Przypnij
+unpin: Odepnij
+month: Miesiąc
+message: Wiadomość
+infinite_scroll: Infinite scroll
+show_top_bar: Pokaż top bar
+sticky_navbar: Sticky navbar
+subject_reported: Treść została zgłoszona.
+sidebar_position: Pozycja sidebara
+left: Lewo
+right: Prawo
+federation: Federacja
+status: Status
+on: Wł
+off: Wył
+instances: Instancje
+upload_file: Dołącz plik
+from_url: Dołącz url
+magazine_panel: Panel magazynu
+reject: Odrzuć
+approve: Zatwierdź
+ban: Ban
+filters: Filtry
+approved: Zatwierdzone
+rejected: Odrzucone
+add_moderator: Dodaj moderatora
+add_badge: Dodaj etykietę
+bans: Bany
+created: Utworzono
+expires: Wygasa
+perm: Perm
+expired_at: Wygasa
+add_ban: Dodaj ban
+reports: Zgłoszenia
+notifications: Notyfikacje
+messages: Wiadomości
+appearance: Wygląd
+homepage: Strona główna
+hide_adult: Ukryj treści dla do dorosłych
+featured_magazines: Polecane magazyny
+privacy: Prywatność
+show_profile_subscriptions: Pokaż w profilu obserwowane magazyny
+show_profile_followings: Pokaż w profilu obserwowanych ludzi
+notify_on_new_entry_reply: Powiadom mnie o komentarzu w mojej treści
+notify_on_new_entry_comment_reply: Powiadom mnie o odpowiedzi na moje komentarze w
+  treściach
+notify_on_new_post_reply: Powiadom mnie o odpowiedzi na moje posty
+notify_on_new_post_comment_reply: Powiadom mnie o odpowiedzi na moje komentarze na
+  mikroblogu
+notify_on_new_entry: Powiadom mnie o nowych treściach w obserwowanych magazynach
+notify_on_new_posts: Powiadom mnie o nowych postach w obserwowanych magazynach
+save: Zapisz
+about: Notka
+old_email: Stary email
+new_email: Nowy email
+new_email_repeat: Powtórz nowy email
+current_password: Obecne hasło
+new_password: Nowe hasło
+new_password_repeat: Powtórz nowe hasło
+change_email: Zmień email
+change_password: Zmień hasło
+collapse: Zwiń
+domains: Domeny
+votes: Głosy
+theme: Wygląd
+dark: Ciemny
+light: Jasny
+solarized_light: Solarized light
+solarized_dark: Solarized dark
+font_size: Rozmiar czcionki
+size: Rozmiar
+boosts: Podbicia
+yes: Tak
+no: Nie
+show_magazines_icons: Pokaż ikony magazynów
+show_thumbnails: Pokaż miniaturki
+rounded_edges: Zaokrąglone rogi
+removed_thread_by: Usunął treść utworzoną przez
+removed_comment_by: usunął komentarz utworzony przez
+restored_comment_by: przywrócił komentarz utworzony przez
+removed_post_by: usunął post utworzony przez
+restored_post_by: przywrócił post utworzony przez
+he_banned: ban
+he_unbanned: odbanuj
+show_all: Pokaż wszystko
+ranking_disabled: Ranking jest wyłączony
+flash_thread_new_success: Treść została poprawnie utworzona i za chwilę będzie widoczna
+  dla innych.
+flash_thread_edit_success: Treść została poprawnie zedytowana.
+flash_thread_delete_success: Treść została poprawnie usunięta.
+flash_thread_pin_success: Treść została przypięta.
+flash_thread_unpin_success: Treść została odpięta.
+flash_magazine_edit_success: Magazyn został poprawnie zedytowany.
+too_many_requests: Limit wyczerpany, sprawdź ponownie później.
+set_magazines_bar: Pasek magazynów
+set_magazines_bar_desc: podaj nazwy magazynów oddzielone przecinkiem
+set_magazines_bar_empty_desc: jeżeli pole jest puste, na pasku wyświetlane będą aktywne
+  magazyny.
+gold: Złote
+silver: Srebrne
+bronze: Brązowe
+bronze_autobiographer: Autobiograf
+bronze_personality: Brązowa osobistość
+bronze_personality_desc: 20 obserwujących
+bronze_commentator: Brązowy komentator
+bronze_commentator_desc: Dodanie 10 dobrych komentarzy
+bronze_scout: Brązowy zwiadowca
+trash: Kosz
+type.magazine: Magazyn
+thread: Treść
+threads: Treści
+microblog: Mikroblog
+people: Ludzie
+events: Wydarzenia
+magazine: Magazyn
+search: Szukaj
+add: Dodaj
+select_channel: Wybierz kanał
+login: Zaloguj
+top: Ważne
+hot: Gorące
+active: Aktywne
+newest: Najnowsze
+oldest: Najstarsze
+commented: Komentowane
+change_view: Zmień widok
+filter_by_type: Filtruj po typie
+comments_count: '{0}komentarzy|{1}komentarz|]1,Inf[ komentarze'
+favourites: Ulubione
+favourite: Ulubione
+more: Więcej
+avatar: Avatar
+added: Dodano
+views: Wyświetleń
+down_votes: Minusy
+no_comments: Brak komentarzy
+created_at: Utworzono
+owner: Właściciel
+subscribers: Obserwujący
+online: Online
+comments: Komentarze
+posts: Posty
+replies: Odpowiedzi
+mod_log: Log moderatorski
+add_comment: Dodaj komentarz
+add_post: Dodaj post
+add_media: Dodaj media
+markdown_howto: Jak działa edytor?
+enter_your_comment: Napisz komentarz
+enter_your_post: Napisz post
+activity: Aktywność
+cover: Okładka
+random_posts: Losowe posty
+federated_magazine_info: Magazyn ze zdalnego serwera może być niekompletny.
+go_to_original_instance: Zobacz więcej na oryginalnej instancji.
+empty: Pusto
+subscribe: Subskrybuj
+follow: Obserwuj
+unsubscribe: Subskrybujesz
+unfollow: Obserwujesz
+reply: Odpowiedz
+password: Hasło
+remember_me: Zapamiętaj mnie
+you_cant_login: Nie możesz się zalogować?
+already_have_account: Masz już konto?
+register: Zarejestruj
+reset_password: Przypomnij hasło
+show_more: Pokaż więcej
+to: do
+in: w
+username: Nazwa użytkownika
+email: Email
+terms: Regulamin
+privacy_policy: Polityka prywatności
+about_instance: O instancji
+all_magazines: Wszystkie magazyny
+stats: Statystyki
+fediverse: Fediwersum
+awards: Odznaczenia
+ranking: Ranking
+create_new_magazine: Utwórz nowy magazyn
+add_new_video: Dodaj video
+add_new_article: Dodaj artykuł
+add_new_link: Dodaj link
+add_new_post: Dodaj wpis na mikroblogu
+contact: Kontakt
+faq: FAQ
+rss: RSS
+change_theme: Zmień wygląd
+useful: Przydatne
+help: Pomoc
+check_email: Sprawdź swój mail
+reset_check_email_desc2: Jeśli nie otrzymasz e-maila, sprawdź folder ze spamem.
+try_again: Spróbuj ponownie
+up_vote: Podbij
+down_vote: Zminusuj
+email_confirm_header: Cześć! Potwierdź adres email.
+email_confirm_content: 'Jeśli chcesz aktywować swoje konto, kliknij poniższy link:'
+email_verify: Potwierdź adres email
+email_confirm_expire: Link wygaśnie za godzinę.
+email_confirm_title: Potwierdź adres email.
+select_magazine: Wybierz magazyn
+add_new: Dodaj nowy
+url: URL
+title: Tytuł
+body: Treść
+tags: Tagi
+badges: Etykiety
+is_adult: +18 / NSFW
+eng: ENG
+oc: OC
+add_new_photo: Dodaj obraz
+name: Nazwa
+description: Opis
+rules: Zasady
+domain: Domena
+followers: Obserwujący
+following: Obserwowani
+overview: Przegląd
+cards: Karty
+columns: Kolumny
+user: Użytkownik
+joined: Dołączył
+moderated: Moderowane
+ratio: Ratio
+people_local: Lokalne
+people_federated: Sfederowane
+related_tags: Powiązane tagi
+go_to_content: Przejdź to treści
+go_to_filters: Przejdź do filtrów
+go_to_search: przejdź do wyszukiwarki
+go_to_footer: Przejdź do stopki
+subscribed: Subskrybowane
+all: Wszystkie
+logout: Wyloguj
+compact_view: Widok kompaktowy
+chat_view: Widok czatu
+tree_view: Widok drzewa
+table_view: Widok tabeli
+cards_view: Widok kart
+3h: 3g
+6h: 6g
+12h: 12g
+1d: 1d
+1w: 1t
+1m: 1m
+links: Linki
+articles: Artykuły
+photos: Obrazy
+videos: Video
+report: Zgłoś
+share: Udostępnij
+copy_url: Kopiuj link
+share_on_fediverse: Podziel się w Fediwersum
+edit: Edytuj
+are_you_sure: Jesteś pewien?
+moderate: Moderuj
+reason: Powód
+edit_link: Edytuj link
+edit_article: Edytuj artykuł
+edit_photo: Edytuj obraz
+delete: Usuń
+edit_post: Edytuj post
+settings: Ustawienia
+general: Ogólne
+profile: Profil
+blocked: Blokady
+bronze_redactor: Brązowy redaktor
+bronze_redactor_desc: Dodanie 10 dobrych artykułów
+bronze_poster: Brązowy wpisowicz
+bronze_poster_desc: Dodanie 10 dobrych wpisów
+bronze_link: Dobry link
+bronze_article: Dobry artykuł
+bronze_article_desc: Artykuł zdobył 5 punktów
+bronze_photo: Dobra fotografia
+bronze_photo_desc: Fotografia zdobyła 5 punktów
+bronze_comment: Dobry komentarz
+bronze_post: Dobry post
+bronze_post_desc: Post zdobył 5 punktów
+bronze_ranking: Numer 3
+bronze_ranking_desc: 3 miejsce w rankingu
+bronze_popular_entry: Popularna treść
+bronze_popular_entry_desc: Treść odwiedzona 1000 razy
+bronze_magazine: Znany magazyn
+silver_personality: Srebrna osobistość
+silver_personality_desc: 50 obserwujących
+silver_commentator: Srebrny komentator
+silver_commentator_desc: Dodanie 10 bardzo dobrych komentarzy
+silver_scout: Srebrny zwiadowca
+silver_scout_desc: Dodanie 10 bardzo dobrych linków
+silver_redactor: Srebrny redaktor
+silver_poster: Srebrny wpisowicz
+silver_poster_desc: Dodanie 10 bardzo dobrych wpisów
+silver_link: Bardzo dobry link
+silver_link_desc: Link zdobył 10 punktów
+silver_article: Bardzo dobry artykuł
+silver_photo: Bardzo dobra fotografia
+silver_photo_desc: Fotografia zdobyła 10 punktów
+silver_comment: Bardzo dobry komentarz
+silver_comment_desc: Komentarz zdobył 10 punktów
+silver_post: Bardzo dobry post
+silver_post_desc: Post zdobył 10 punktów
+silver_ranking: Numer 2
+silver_popular_entry: Sławna treść
+silver_popular_entry_desc: Treść odwiedzona 5000 razy
+silver_magazine: Popularny magazyn
+silver_magazine_desc: 50 obserwujących stworzony magazyn
+silver_entry_week: Treść tygodnia
+silver_entry_week_desc: Najlepsza treść tygodnia
+silver_comment_week_desc: Najlepszy komentarz tygodnia
+silver_post_week: Komentarz tygodnia
+silver_post_week_desc: Najlepszy post tygodnia
+gold_personality_desc: 100 obserwujących
+gold_commentator: Złoty komentator
+gold_scout: Złoty zwiadowca
+gold_scout_desc: Dodanie 10 świetnych linków
+gold_redactor: Złoty redaktor
+gold_redactor_desc: Dodanie 10 świetnych artykułów
+gold_poster: Złoty wpisowicz
+gold_poster_desc: Dodanie 10 świetnych wpisów
+gold_link: Świetny link
+gold_article: Świetny artykuł
+gold_article_desc: Artykuł zdobył 15 punktów
+gold_photo: Świetna fotografia
+gold_photo_desc: Fotografia zdobyła 15 punktów
+gold_comment: Świetny komentarz
+gold_post: Świetny post
+gold_post_desc: Post zdobył 15 punktów
+gold_ranking: Numer 1
+gold_ranking_desc: 1 miejsce w rankingu
+gold_popular_entry: Sławna treść
+gold_popular_entry_desc: Treść odwiedzona 10000 razy
+gold_magazine: Sławny magazyn
+gold_entry_month: Treść tygodnia
+gold_entry_month_desc: Najlepsza treść tygodnia
+gold_comment_month: Komentarz tygodnia
+gold_comment_month_desc: Najlepszy komentarz tygodnia
+gold_post_month: Post miesiąca
+gold_post_month_desc: Najlepszy post tygodnia
+edited_thread: Edytował/a treść
+mod_remove_your_thread: Moderator usunął twoją treść
+added_new_thread: Dodał/a nową treść
+added_new_comment: Dodał/a nowy komentarz
+edited_comment: Edytował/a komentarz
+replied_to_your_comment: Odpowiedział/a na twój komentarz
+mod_deleted_your_comment: Moderator usunął twój komentarz
+added_new_post: Dodał/a nowy post
+edited_post: Edytował/a post
+added_new_reply: Dodał/a nową odpowiedź
+wrote_message: Napisał/a wiadomość
+banned: Zbanował/a cię
+removed: Usunięte przez moderację
+deleted: Usunięte przez autora
+mentioned_you: Wspomniał cię
+comment: Komentarz
+post: Post
+purge: Wyczyść
+send_message: Wyślij wiadomość
+type.article: Artykuł
+type.smart_contract: Smart contract
+magazines: Magazyny
+filter_by_time: Wybierz zakres
+up_votes: Podbicia
+moderators: Moderatorzy
+related_posts: Powiązane posty
+federated_user_info: Profil ze zdalnego serwera może być niekompletny.
+login_or_email: Login lub email
+dont_have_account: Nie masz konta?
+repeat_password: Powtórz hasło
+agree_terms: Zgadzam się z %terms_link_start%Regulaminem%terms_link_end% i %policy_link_start%Polityką
+  prywatności%policy_link_end%
+reset_check_email_desc: Jeśli istnieje konto pasujące do twojego adresu e-mail, to
+  właśnie wysłano e-mail zawierający link, który możesz użyć do zresetowania hasła.
+  Ten link wygaśnie za %expire%.
+image_alt: Alternatywny tekst opisujący obraz
+subscriptions: Subskrypcje
+reputation_points: Punkty reputacji
+change_language: Zmień język
+change: Zmień
+pinned: Przypięty
+preview: Podgląd
+article: Artykuł
+reputation: Reputacja
+note: Notatka
+writing: Pisanie
+users: Ludzie
+content: Treści
+week: Tydzień
+weeks: Tygodnie
+months: Miesiące
+year: Rok
+federated: Sfederowane
+local: Lokalne
+admin_panel: Panel administratora
+dashboard: Dashboard
+contact_email: Email kontaktowy
+meta: Meta
+instance: Instancja
+pages: Strony
+FAQ: FAQ
+type_search_term: Wpisz frazę wyszukiwania
+federation_enabled: Federacją włączona
+registrations_enabled: Rejestracja włączona
+restore: Przywróć
+add_mentions_entries: Dodaj oznaczenia użytkowników w treściach
+add_mentions_posts: Dodaj oznaczenia użytkowników na mikroblogu
+Password is invalid: Hasło jest nieprawidłowe.
+Your account has been banned: Twoje konto zostało zbanowane.
+classic_view: Widok klasyczny
+copy_url_to_fediverse: Kopiuj link (Fediwersum)
+edit_comment: Edytuj komentarz
+show_users_avatars: Pokaż avatary użytkowników
+restored_thread_by: przywrócił treść utworzoną przez
+read_all: Przeczytaj wszystkie
+flash_register_success: Twoje konto zostało zarejestrowane. Sprawdź swoją skrzynkę
+  e-mail, wysłaliśmy wiadomość z linkiem aktywacyjnym.
+flash_magazine_new_success: Magazyn został poprawnie utworzony. Możesz dodawać nowe
+  treści lub zapoznać się z panelem administratora.
+bronze_autobiographer_desc: Za uzupełnienie wszystkich pól w profilu
+bronze_scout_desc: Dodanie 10 dobrych linków
+bronze_link_desc: Link zdobył 5 punktów
+bronze_comment_desc: Komentarz zdobył 5 punktów
+bronze_magazine_desc: 20 obserwujących stworzony magazyn
+silver_redactor_desc: Dodanie 10 bardzo dobrych artykułów
+silver_article_desc: Artykuł zdobył 10 punktów
+silver_ranking_desc: 2 miejsce w rankingu
+silver_comment_week: Komentarz tygodnia
+gold_personality: Złota osobistość
+gold_commentator_desc: Dodanie 10 świetnych komentarzy
+gold_link_desc: Link zdobył 15 punktów
+gold_comment_desc: Komentarz zdobył 15 punktów
+gold_magazine_desc: 50 obserwujących stworzony magazyn
+mod_log_alert: W modlogu możesz trafić na drastyczne treści usunięte przez moderatorów.
+  Upewnij się, że wiesz co robisz...
+mod_remove_your_post: Moderator usunął twój post
+ban_expired: Ban wygasa
+change_magazine: Zmień magazyn
+inactive: Nieaktywne
+registration_disabled: Rejestracja wyłączona
+Your account is not active: Twoje konto nie jest aktywne.

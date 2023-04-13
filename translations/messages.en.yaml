@@ -76,7 +76,8 @@ in: in
 username: Username
 email: Email
 repeat_password: Repeat password
-agree_terms: Consent to %terms_link_start%Terms and Conditions%terms_link_end% and %policy_link_start%Privacy Policy%policy_link_end%
+agree_terms: Consent to %terms_link_start%Terms and Conditions%terms_link_end% and
+  %policy_link_start%Privacy Policy%policy_link_end%
 terms: Terms of service
 privacy_policy: Privacy policy
 about_instance: About
@@ -98,7 +99,9 @@ change_theme: Change theme
 useful: Useful
 help: Help
 check_email: Check your email
-reset_check_email_desc: If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password. This link will expire in %expire%.
+reset_check_email_desc: If an account matching your email exists, then an email was
+  just sent that contains a link that you can use to reset your password. This link
+  will expire in %expire%.
 reset_check_email_desc2: If you don't receive an email please check your spam folder.
 try_again: Try again
 up_vote: Boost
@@ -237,18 +240,22 @@ he_unbanned: unban
 read_all: Read all
 show_all: Show all
 ranking_disabled: Ranking is disabled
-flash_register_success: Your account has been registered. Check your email, we have sent an email with an activation link.
-flash_thread_new_success: The thread has been created correctly and is now visible to other users.
+flash_register_success: Your account has been registered. Check your email, we have
+  sent an email with an activation link.
+flash_thread_new_success: The thread has been created correctly and is now visible
+  to other users.
 flash_thread_edit_success: The thread has been correctly edited.
 flash_thread_delete_success: The thread has been correctly deleted.
 flash_thread_pin_success: The thread has been correctly pinned.
 flash_thread_unpin_success: The thread has been correctly unpinned.
-flash_magazine_new_success: The magazine has been created correctly. You can now add new content or explore the magazines administration panel.
+flash_magazine_new_success: The magazine has been created correctly. You can now add
+  new content or explore the magazines administration panel.
 flash_magazine_edit_success: The magazine has been correctly edited.
 too_many_requests: Limit exceeded, please try again later.
 set_magazines_bar: Magazines bar
 set_magazines_bar_desc: add the magazine names after the comma
-set_magazines_bar_empty_desc: if the field is empty, active magazines are displayed on the bar.
+set_magazines_bar_empty_desc: if the field is empty, active magazines are displayed
+  on the bar.
 gold: Gold
 silver: Silver
 bronze: Bronze
@@ -344,7 +351,8 @@ gold_comment_month: Comment of the month
 gold_comment_month_desc: The best comment of the month
 gold_post_month: Post of the month
 gold_post_month_desc: The best post of the month
-mod_log_alert: In Modlog you may find drastic content removed by moderators. Make sure you know what you are doing...
+mod_log_alert: In Modlog you may find drastic content removed by moderators. Make
+  sure you know what you are doing.
 added_new_thread: Added a new thread
 edited_thread: Edited a thread
 mod_remove_your_thread: A moderator removed your thread
