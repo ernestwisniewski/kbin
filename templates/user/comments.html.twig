@@ -20,6 +20,6 @@
     {% include('user/_options.html.twig') %}
     {% include('user/_federated_info.html.twig') %}
     <div id="content">
-        {% include 'entry/comment/_list.html.twig' with {showNested: false} %}
+        {% include 'entry/comment/_list.html.twig' with {showNested: false, dateAsUrl: true} %}
     </div>
 {% endblock %}

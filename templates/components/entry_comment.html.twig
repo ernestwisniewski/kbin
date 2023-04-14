@@ -17,7 +17,12 @@
             <header>
                 {% if comment.isAdult %}<span class="badge danger">+18</span>{% endif %}
                 {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
-                {{ component('date', {date: comment.createdAt}) }}
+                {% if dateAsUrl %}
+                    <a href="{{ entry_url(comment.entry) }}#{{ get_url_fragment(comment) }}"
+                       class="link-muted">{{ component('date', {date: comment.createdAt}) }}</a>
+                {% else %}
+                    {{ component('date', {date: comment.createdAt}) }}
+                {% endif %}
                 {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: comment.magazine}) }}{% endif %}
                 {% if showEntryTitle %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
             </header>

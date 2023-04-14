@@ -23,6 +23,6 @@
     {% include('user/_options.html.twig') %}
     {% include('user/_federated_info.html.twig') %}
     <div id="content" class="overview subjects comments-tree comments">
-        {% include 'layout/_subject_list.html.twig' with {entryCommentAttributes: {showMagazineName: false}} %}
+        {% include 'layout/_subject_list.html.twig' with {attributes: {dateAsUrl: true}, entryCommentAttributes: {showMagazineName: false}} %}
     </div>
 {% endblock %}

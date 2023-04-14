@@ -12,6 +12,7 @@
         {{ component('entry_comment', {
             comment: comment,
             showNested: showNested,
+            dateAsUrl: dateAsUrl is defined ? dateAsUrl : false,
             showMagazineName: magazine is not defined or not magazine,
             showEntryTitle: entry is not defined or not entry
         }) }}
