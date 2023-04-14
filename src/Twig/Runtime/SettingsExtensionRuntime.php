@@ -44,14 +44,13 @@ class SettingsExtensionRuntime implements RuntimeExtensionInterface
     }
 
     #[Pure]
-    public function kbinJsEnabled(): bool
-    {
-        return $this->settings->get('KBIN_JS_ENABLED');
-    }
-
-    #[Pure]
     public function kbinRegistrationsEnabled(): bool
     {
         return $this->settings->get('KBIN_REGISTRATIONS_ENABLED');
+    }
+
+    public function kbinDefaultLang(): string
+    {
+        return $this->settings->get('KBIN_DEFAULT_LANG');
     }
 }

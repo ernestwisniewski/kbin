@@ -31,8 +31,7 @@ class EntryModerateController extends AbstractController
         }
 
         $form = $this->createForm(LangType::class);
-        $form->get('lang')
-            ->setData($entry->lang);
+//        $form->get('lang')->setData(['lang' => $entry->lang]);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([

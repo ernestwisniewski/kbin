@@ -17,13 +17,16 @@
                 {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
                     {% if isSingle %}
                         <h1>
-                            {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
-                            {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
+                            {% if entry.isAdult %}<small class="badge danger">+18</small>{% endif %}
+                            {% if entry.isOc %}<small class="badge success">OC</small>{% endif %}
                             {% if entry.url %}
                                 <a rel="{{ get_rel(entry.url) }}"
                                    href="{{ entry.url }}">{{ entry.title }}</a>
                             {% else %}
                                 {{ entry.title }}
+                            {% endif %}
+                            {% if entry.lang is not same as kbin_default_lang() %}
+                                <small class="badge">{{ entry.lang }}</small>
                             {% endif %}
                             {% if entry.domain %}
                                 <span class="entry__domain">
@@ -35,8 +38,8 @@
                         </h1>
                     {% else %}
                         <h2>
-                            {% if entry.isAdult %}<span class="badge danger">+18</span>{% endif %}
-                            {% if entry.isOc %}<span class="badge success">OC</span>{% endif %}
+                            {% if entry.isAdult %}<small class="badge danger">+18</small>{% endif %}
+                            {% if entry.isOc %}<small class="badge success">OC</small>{% endif %}
                             <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
                             {% if entry.domain %}
                                 <span class="entry__domain">
@@ -44,6 +47,9 @@
                                         name: entry.domain.name
                                     }) }}">{{ entry.domain.name }}</a>)
                                 </span>
+                            {% endif %}
+                            {% if entry.lang is not same as kbin_default_lang() %}
+                                <small class="badge kbin-bg">{{ entry.lang }}</small>
                             {% endif %}
                         </h2>
                     {% endif %}
@@ -151,10 +157,12 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-action="clipboard#copy" href="{{ entry_url(entry) }}">{{ 'copy_url'|trans|lower }}</a>
+                                    <a data-action="clipboard#copy"
+                                       href="{{ entry_url(entry) }}">{{ 'copy_url'|trans|lower }}</a>
                                 </li>
                                 <li>
-                                    <a data-action="clipboard#copy" href="{{ entry.apId ?? path('ap_entry', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}">
+                                    <a data-action="clipboard#copy"
+                                       href="{{ entry.apId ?? path('ap_entry', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}">
                                         {{ 'copy_url_to_fediverse'|trans|lower }}
                                     </a>
                                 </li>

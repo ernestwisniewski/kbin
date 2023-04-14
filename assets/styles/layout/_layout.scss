@@ -237,13 +237,18 @@ figure {
   background: var(--kbin-danger-color);;
 }
 
-.success, .success i {
+.success,
+.success i {
   color: var(--kbin-success-color);
 }
 
 .secondary-bg {
-  color: var(--kbin-meta-text-color);
   background: var(--kbin-section-bg);
+  color: var(--kbin-meta-text-color);
+}
+
+.kbin-bg {
+  background: var(--kbin-bg);
 }
 
 @keyframes rotation {

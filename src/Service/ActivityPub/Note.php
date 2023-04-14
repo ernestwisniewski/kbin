@@ -21,6 +21,7 @@ use App\Service\ActivityPubManager;
 use App\Service\EntryCommentManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
+use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Note
@@ -33,7 +34,8 @@ class Note
         private readonly MagazineRepository $magazineRepository,
         private readonly ActivityPubManager $activityPubManager,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MarkdownConverter $markdownConverter
+        private readonly MarkdownConverter $markdownConverter,
+        private readonly SettingsManager $settingsManager,
     ) {
     }
 
@@ -77,9 +79,10 @@ class Note
 
         if (!empty($object['language'])) {
             $dto->lang = $object['language']['identifier'];
-        }
-        if (!empty($object['contentMap'])) {
+        } elseif (!empty($object['contentMap'])) {
             $dto->lang = array_keys($object['contentMap'])[0];
+        } else {
+            $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
         }
 
         return $this->entryCommentManager->create(
@@ -194,9 +197,10 @@ class Note
 
         if (!empty($object['language'])) {
             $dto->lang = $object['language']['identifier'];
-        }
-        if (!empty($object['contentMap'])) {
+        } elseif (!empty($object['contentMap'])) {
             $dto->lang = array_keys($object['contentMap'])[0];
+        } else {
+            $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
         }
 
         return $this->postManager->create(
@@ -245,9 +249,10 @@ class Note
 
         if (!empty($object['language'])) {
             $dto->lang = $object['language']['identifier'];
-        }
-        if (!empty($object['contentMap'])) {
+        } elseif (!empty($object['contentMap'])) {
             $dto->lang = array_keys($object['contentMap'])[0];
+        } else {
+            $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
         }
 
         return $this->postCommentManager->create(
