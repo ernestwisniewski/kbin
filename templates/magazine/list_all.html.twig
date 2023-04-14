@@ -17,6 +17,19 @@
         <h1 hidden>{{ 'magazines'|trans }}</h1>
     </header>
     {% include 'magazine/_options.html.twig' %}
+    <div class="section">
+        <div class="container">
+            <form method="get">
+                <div class="flex" style="align-items: center">
+                    <input value="{{ q }}" type="text" name="q" class="form-control"
+                           placeholder="{{ 'type_search_term'|trans }}">
+                    <button class="btn btn__primary" type="submit" aria-label="{{ 'search'|trans }}">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div id="content">
         {% include 'magazine/_list.html.twig' %}
     </div>

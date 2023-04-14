@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
+use App\PageView\EntryPageView;
+use App\PageView\MagazinePageView;
 use App\Repository\MagazineRepository;
 use App\Service\SearchManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +20,11 @@ class MagazineListController extends AbstractController
 
     public function __invoke(?string $sortBy, ?string $view, MagazineRepository $repository, Request $request): Response
     {
+
         if ($q = $request->get('q')) {
             $magazines = $this->searchManager->findMagazinesPaginated($q);
         } else {
-            $magazines = $repository->findAllPaginated($this->getPageNb($request));
+            $magazines = $repository->findAllPaginated($this->getPageNb($request), (new MagazinePageView(1))->resolveSort($sortBy));
         }
 
         return $this->render(
@@ -29,6 +32,7 @@ class MagazineListController extends AbstractController
             [
                 'magazines' => $magazines,
                 'view' => $view,
+                'q' => $q ?? '',
             ]
         );
     }

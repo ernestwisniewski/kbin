@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Repository\MagazineRepository;
 use App\Repository\SearchRepository;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
@@ -11,9 +12,12 @@ use Pagerfanta\PagerfantaInterface;
 
 class SearchManager
 {
-    public function __construct(private readonly SearchRepository $repository)
-    {
+    public function __construct(
+        private readonly SearchRepository $repository,
+        private readonly MagazineRepository $magazineRepository
+    ) {
     }
+
     public function findByTagPaginated(string $val, int $page = 1): PagerfantaInterface
     {
         return new Pagerfanta(new ArrayAdapter([]));
@@ -21,7 +25,7 @@ class SearchManager
 
     public function findMagazinesPaginated(string $magazine, int $page = 1): PagerfantaInterface
     {
-        return new Pagerfanta(new ArrayAdapter([]));
+        return $this->magazineRepository->search($magazine, $page);
     }
 
     public function findPaginated(string $val, int $page = 1): PagerfantaInterface
