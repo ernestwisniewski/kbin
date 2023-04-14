@@ -358,7 +358,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.visibility = :visibility')
-            ->andWhere('LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.description) LIKE LOWER(:q)')
+            ->andWhere('LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.title) LIKE LOWER(:q) OR LOWER(m.description) LIKE LOWER(:q)')
             ->orderBy('m.apId', 'DESC')
             ->orderBy('m.subscriptionsCount', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'q' => '%'.$magazine.'%']);
