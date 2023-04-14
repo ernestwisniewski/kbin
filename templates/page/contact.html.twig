@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'contact'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-contact page-settings{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1 hidden>{{ 'contact'|trans }}</h1>
+    <div id="content" class="section section--top">
+        <div class="container">
+            {{ form_start(form) }}
+            {{ form_row(form.name, {label: 'firstname'}) }}
+            {{ form_row(form.email, {label: 'email'}) }}
+            {{ form_row(form.message, {label: 'message'}) }}
+            {{ form_row(form.surname, {label: false, attr: {style: 'display:none !important'}}) }}
+            <div class="actions">
+                {{ form_row(form.submit, {label: 'send', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    {% if body %}
+        <div class="section">
+            {{ body|raw }}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -39,7 +39,7 @@
                     {% else %}
                         <h2>
                             {% if entry.isAdult %}<small class="badge danger">+18</small>{% endif %}
-                            {% if entry.isOc %}<small class="badge success">OC</small>{% endif %}
+                            {% if entry.isOc %}<small class="badge kbin-bg">OC</small>{% endif %}
                             <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
                             {% if entry.domain %}
                                 <span class="entry__domain">

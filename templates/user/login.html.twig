@@ -17,8 +17,6 @@
     <div id="content" class="section">
         <div class="container">
             <form method="post">
-                {# todo: remove#}
-                <div class="alert alert__info">Login: <strong>demo</strong><br> Password: <strong>demo</strong></div>
                 {% if error %}
                     <div class="alert alert__danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
