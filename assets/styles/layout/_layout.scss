@@ -193,6 +193,14 @@ figure {
   opacity: .5;
 }
 
+.ms-1 {
+  margin-left: .5rem;
+}
+
+.me-1 {
+  margin-right: .5rem;
+}
+
 .text-right {
   text-align: right !important;
 }
@@ -225,8 +233,17 @@ figure {
   color: var(--kbin-danger-color);
 }
 
+.danger-bg {
+  background: var(--kbin-danger-color);;
+}
+
 .success, .success i {
   color: var(--kbin-success-color);
+}
+
+.secondary-bg {
+  color: var(--kbin-meta-text-color);
+  background: var(--kbin-section-bg);
 }
 
 @keyframes rotation {

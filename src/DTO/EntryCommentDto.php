@@ -26,7 +26,7 @@ class EntryCommentDto
     public ?string $imageAlt = null;
     #[Assert\Length(max: 5000)]
     public ?string $body = null;
-    public ?string $lang = 'en';
+    public ?string $lang = null;
     public bool $isAdult = false;
     public ?int $uv = null;
     public ?int $dv = null;

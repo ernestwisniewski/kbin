@@ -36,14 +36,11 @@ class LanguageType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $default = $this->settingsManager->get('KBIN_DEFAULT_LANG'); // @todo: get default language from config
         $resolver->setDefaults([
-                'choices' => array_merge([self::$choices[$default] => $default], array_flip(self::$choices)),
+                'choices' => array_flip(self::$choices),
+                'data' => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
                 'required' => true,
                 'autocomplete' => false,
-                'tom_select_options' => [
-                    'allowEmptyOption' => false,
-                ],
             ]
         );
     }

@@ -83,6 +83,13 @@
                 </ul>
             </li>
             {% if app.user %}
+                {% if app.user.countNewNotifications %}
+                    <li class="counter">
+                        <a href="{{ path('notifications_front') }}">
+                            <span class="badge secondary-bg">{{ app.user.countNewNotifications }}</span>
+                        </a>
+                    </li>
+                {% endif %}
                 <li class="dropdown">
                     <a class="{{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
                        href="{{ path('user_overview', {username: app.user.username}) }}">{{ app.user.username }}</a>
@@ -103,12 +110,18 @@
                             <a href="{{ path('messages_front') }}"
                                class="{{ html_classes({'active': is_route_name_contains('messages')}) }}">
                                 {{ 'messages'|trans }}
+                                {% if app.user.countNewMessages %}
+                                    <span class="badge danger-bg ms-1">{{ app.user.countNewMessages }}</span>
+                                {% endif %}
                             </a>
                         </li>
                         <li>
                             <a href="{{ path('notifications_front') }}"
                                class="{{ html_classes({'active': is_route_name_contains('notifications')}) }}">
                                 {{ 'notifications'|trans }}
+                                {% if app.user.countNewNotifications %}
+                                    <span class="badge secondary-bg ms-1">{{ app.user.countNewNotifications }}</span>
+                                {% endif %}
                             </a>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
@@ -122,6 +135,13 @@
                         <li><a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a></li>
                     </ul>
                 </li>
+                {% if app.user.countNewMessages %}
+                    <li class="counter">
+                        <a href="{{ path('messages_front') }}">
+                            <span class="badge danger-bg">{{ app.user.countNewMessages }}</span>
+                        </a>
+                    </li>
+                {% endif %}
             {% else %}
                 <li>
                     <a class="{{ html_classes('login', {'active': is_route_name('app_login')}) }}"

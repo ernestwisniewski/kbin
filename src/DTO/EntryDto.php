@@ -31,7 +31,7 @@ class EntryDto
     public ?string $url = null;
     #[Assert\Length(max: 35000)]
     public ?string $body = null;
-    public ?string $lang = 'en';
+    public ?string $lang = null;
     public int $comments = 0;
     public int $uv = 0;
     public int $dv = 0;

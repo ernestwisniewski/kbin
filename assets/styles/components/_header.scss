@@ -28,9 +28,20 @@
     padding-top: 1.14rem;
   }
 
-  .login {
+  .login,
+  .counter a {
     font-weight: normal;
     padding-bottom: .6rem;
+  }
+
+  .counter a {
+    padding-left: .1rem;
+    padding-right: .1rem;
+  }
+
+  .badge {
+    opacity: .8;
+    padding: .1rem .4em;
   }
 
   a {
