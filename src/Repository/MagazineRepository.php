@@ -47,18 +47,18 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.visibility = :visibility')
-            ->orderBy('m.apId', 'DESC');
+            ->orderBy('CASE WHEN m.apId IS NULL THEN 1 ELSE 0 END', 'DESC');
 
         if ($sortBy) {
             switch ($sortBy) {
                 case 'hot':
-                    $qb = $qb->orderBy('m.subscriptionsCount', 'DESC');
+                    $qb = $qb->addOrderBy('m.subscriptionsCount', 'DESC');
                     break;
                 case 'active':
                     $qb = $qb->addOrderBy('m.lastActive', 'DESC');
                     break;
                 case 'newest':
-                    $qb = $qb->orderBy('m.createdAt', 'DESC');
+                    $qb = $qb->addOrderBy('m.createdAt', 'DESC');
                     break;
             }
         }

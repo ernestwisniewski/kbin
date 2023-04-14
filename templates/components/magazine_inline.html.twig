@@ -6,5 +6,9 @@
              src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ magazine.name ~ ' avatar' }}">
     {% endif %}
-    {{ ('@'~magazine.name)|username(false) -}}
+    {% if fullName %}
+        {{ magazine.name }}
+    {% else %}
+        {{ ('@'~magazine.name)|username(false) -}}
+    {% endif %}
 </a>
