@@ -252,6 +252,7 @@ class ActivityPubManager
                     }
                 }
             } catch (\Exception $e) {
+                return null;
             }
 
             return $image ?? null;

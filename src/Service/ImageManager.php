@@ -31,7 +31,7 @@ class ImageManager
     {
         $urlExt = pathinfo($url, PATHINFO_EXTENSION);
 
-        $types = array_map(fn ($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
+        $types = array_map(fn($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
 
         return in_array($urlExt, $types);
     }
@@ -49,7 +49,11 @@ class ImageManager
 
             $this->publicUploadsFilesystem->writeStream($filePath, $fh);
 
-            return $this->publicUploadsFilesystem->has($filePath);
+            if (!$this->publicUploadsFilesystem->has($filePath)) {
+                throw new \Exception('File not found');
+            }
+
+            return true;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         } finally {
