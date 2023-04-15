@@ -26,9 +26,9 @@
                 {% else %}
                     {{ component('date', {date: comment.createdAt}) }}
                 {% endif %}
-{#                {% if comment.lang is not same as kbin_default_lang() %}#}
-                    <small class="badge">{{ comment.lang }}</small>
-{#                {% endif %}#}
+                {% if comment.lang is not same as kbin_default_lang() %}
+                    <small hidden class="badge">{{ comment.lang }}</small>
+                {% endif %}
             </header>
             {% if comment.user.avatar %}
                 {{ component('user_avatar', {
