@@ -13,9 +13,10 @@ use App\Repository\CardanoTxInitRepository;
 use App\Repository\CardanoTxRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class SubjectTransactionsRefreshHandler
 {
     public function __construct(
         private readonly CardanoExplorer $explorer,
@@ -78,7 +79,7 @@ class SubjectTransactionsRefreshHandler implements MessageHandlerInterface
 
             $sender = $this->userRepository->findOneBy(['cardanoWalletAddress' => $senderAddress]);
 
-            return new EntryCardanoTx($subject, (int) $amount, $txHash, $createdAt, $sender);
+            return new EntryCardanoTx($subject, (int)$amount, $txHash, $createdAt, $sender);
         }
 
         return null;

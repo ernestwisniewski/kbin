@@ -3,7 +3,7 @@
 namespace App\Twig\Runtime;
 
 use App\Entity\Magazine;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class MagazineExtensionRuntime implements RuntimeExtensionInterface

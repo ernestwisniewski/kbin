@@ -11,10 +11,11 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\FavouriteManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class LikeHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class LikeHandler
 {
     public function __construct(
         private readonly ActivityPubManager $activityPubManager,
@@ -32,7 +33,7 @@ class LikeHandler implements MessageHandlerInterface
             $activity = $this->repository->findByObjectId($message->payload['object']);
 
             if ($activity) {
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
             } else {
                 $object = $this->apHttpClient->getActivityObject($message->payload['object']);
 
@@ -49,7 +50,7 @@ class LikeHandler implements MessageHandlerInterface
         if ('Undo' === $message->payload['type']) {
             if ('Like' === $message->payload['object']['type']) {
                 $activity = $this->repository->findByObjectId($message->payload['object']['object']);
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
                 $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
                 $this->manager->toggle($actor, $entity, FavouriteManager::TYPE_UNLIKE);

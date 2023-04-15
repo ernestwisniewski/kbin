@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageHandler\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\VotableInterface;
 use App\Factory\MagazineFactory;
 use App\Message\Notification\VoteNotificationMessage;
@@ -12,9 +12,10 @@ use App\Service\GenerateHtmlClassService;
 use App\Service\VotableRepositoryResolver;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class SentVoteNotificationHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class SentVoteNotificationHandler
 {
     public function __construct(
         private readonly IriConverterInterface $iriConverter,
@@ -34,7 +35,7 @@ class SentVoteNotificationHandler implements MessageHandlerInterface
     private function notifyMagazine(VotableInterface $votable): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($votable->magazine));
+            $iri = $this->iriConverter->getIriFromResource($this->magazineFactory->createDto($votable->magazine));
 
             $update = new Update(
                 ['pub', $iri],

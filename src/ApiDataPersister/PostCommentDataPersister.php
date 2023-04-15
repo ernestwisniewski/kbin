@@ -8,7 +8,7 @@ use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DTO\PostCommentDto;
 use App\Factory\PostCommentFactory;
 use App\Service\PostCommentManager;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class PostCommentDataPersister implements ContextAwareDataPersisterInterface
 {

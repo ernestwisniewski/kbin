@@ -26,6 +26,6 @@ class PostChangeLangControllerTest extends WebTestCase
         $client->submit($form);
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('select[name="lang[lang]"] option[selected]', 'french');
+        $this->assertSelectorTextContains('#main .badge', 'fr');
     }
 }

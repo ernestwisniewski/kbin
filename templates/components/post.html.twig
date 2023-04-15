@@ -27,6 +27,9 @@
                     {{ component('date', {date: post.createdAt}) }}
                 {% endif %}
                 {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
+                {% if post.lang is not same as kbin_default_lang() %}
+                    <small hidden class="badge">{{ post.lang }}</small>
+                {% endif %}
             </header>
             {% if post.user.avatar %}
                 {{ component('user_avatar', {

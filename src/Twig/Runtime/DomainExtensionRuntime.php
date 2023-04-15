@@ -3,7 +3,7 @@
 namespace App\Twig\Runtime;
 
 use App\Entity\Domain;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class DomainExtensionRuntime implements RuntimeExtensionInterface

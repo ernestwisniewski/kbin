@@ -8,7 +8,7 @@ use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DTO\MagazineDto;
 use App\Factory\MagazineFactory;
 use App\Service\MagazineManager;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class MagazineDataPersister implements ContextAwareDataPersisterInterface
 {

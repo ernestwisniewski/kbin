@@ -5,7 +5,7 @@ namespace App\Twig\Runtime;
 use App\Entity\User;
 use App\Repository\ReputationRepository;
 use App\Service\MentionManager;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class UserExtensionRuntime implements RuntimeExtensionInterface

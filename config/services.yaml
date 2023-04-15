@@ -48,12 +48,12 @@ parameters:
   env(MONGODB_URL): ''
   env(MONGODB_DB): ''
 
-  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
-  #  elastica_enabled: false
-  elastica_listener:
-    insert: '%elastica_enabled%'
-    update: '%elastica_enabled%'
-    delete: '%elastica_enabled%'
+#  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
+#  #  elastica_enabled: false
+#  elastica_listener:
+#    insert: '%elastica_enabled%'
+#    update: '%elastica_enabled%'
+#    delete: '%elastica_enabled%'
 
   cardano_wallet_url: '%env(CARDANO_WALLET_URL)%'
   cardano_explorer_url: '%env(CARDANO_EXPLORER_URL)%'
@@ -63,7 +63,6 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $elasticaEnabled: '%elastica_enabled%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
       $cardanoWalletUrl: '%cardano_wallet_url%'

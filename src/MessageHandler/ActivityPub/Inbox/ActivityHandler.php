@@ -15,10 +15,11 @@ use App\Message\ActivityPub\Inbox\UpdateMessage;
 use App\Service\ActivityPub\SignatureValidator;
 use App\Service\ActivityPubManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class ActivityHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class ActivityHandler
 {
     public function __construct(
         private readonly SignatureValidator $signatureValidator,
@@ -77,7 +78,7 @@ class ActivityHandler implements MessageHandlerInterface
             case 'Article':
             case 'Question':
                 $this->bus->dispatch(new CreateMessage($payload));
-                // no break
+            // no break
             case 'Announce':
                 $this->bus->dispatch(new AnnounceMessage($payload));
                 break;

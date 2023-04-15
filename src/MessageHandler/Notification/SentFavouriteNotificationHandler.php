@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageHandler\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Factory\MagazineFactory;
 use App\Message\Notification\FavouriteNotificationMessage;
@@ -12,9 +12,10 @@ use App\Service\GenerateHtmlClassService;
 use App\Service\VotableRepositoryResolver;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class SentFavouriteNotificationHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class SentFavouriteNotificationHandler
 {
     public function __construct(
         private readonly IriConverterInterface $iriConverter,
@@ -34,7 +35,7 @@ class SentFavouriteNotificationHandler implements MessageHandlerInterface
     private function notifyMagazine(FavouriteInterface $subject): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->magazineFactory->createDto($subject->magazine));
+            $iri = $this->iriConverter->getIriFromResource($this->magazineFactory->createDto($subject->magazine));
 
             $update = new Update(
                 ['pub', $iri],

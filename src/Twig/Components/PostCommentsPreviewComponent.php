@@ -3,7 +3,7 @@
 namespace App\Twig\Components;
 
 use App\Entity\Post;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;

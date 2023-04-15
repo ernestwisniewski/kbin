@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Entry;
 use App\Factory\EntryFactory;
 use App\PageView\EntryPageView;
@@ -108,7 +108,7 @@ class FeedManager
                     'slug' => $entry->slug,
                 ])
             );
-            $item->setPublicId($this->iriConverter->getIriFromItem($this->entryFactory->createDto($entry)));
+            $item->setPublicId($this->iriConverter->getIriFromResource($this->entryFactory->createDto($entry)));
             $item->setAuthor((new Item\Author())->setName($entry->user->username));
             yield $item;
         }

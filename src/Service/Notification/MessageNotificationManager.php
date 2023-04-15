@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Message;
 use App\Entity\MessageNotification;
 use App\Entity\User;

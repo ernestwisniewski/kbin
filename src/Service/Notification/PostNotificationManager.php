@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Notification;
 use App\Entity\Post;
@@ -78,7 +78,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
     private function notifyMagazine(Notification $notification)
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem(
+            $iri = $this->iriConverter->getIriFromResource(
                 $this->magazineFactory->createDto($notification->post->magazine)
             );
 

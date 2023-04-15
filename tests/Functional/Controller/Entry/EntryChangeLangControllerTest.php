@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
+use App\Entity\Entry;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -30,6 +31,6 @@ class EntryChangeLangControllerTest extends WebTestCase
         $client->submit($form);
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('select[name="lang[lang]"] option[selected]', 'french');
+        $this->assertSelectorTextContains('#main .badge', 'fr');
     }
 }

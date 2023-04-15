@@ -325,9 +325,6 @@
     "oscarotero/html-parser": {
         "version": "v0.1.6"
     },
-    "pagerfanta/pagerfanta": {
-        "version": "v2.7.1"
-    },
     "paragonie/constant_time_encoding": {
         "version": "v2.4.0"
     },
@@ -513,12 +510,12 @@
         "version": "v5.3.0"
     },
     "symfony/lock": {
-        "version": "5.2",
+        "version": "6.2",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "5.2",
-            "ref": "a1c8800e40ae735206bb14586fdd6c4630a51b8d"
+            "ref": "8e937ff2b4735d110af1770f242c1107fdab4c8e"
         },
         "files": [
             "config/packages/lock.yaml"
@@ -738,6 +735,18 @@
         "files": [
             "config/packages/twig.yaml",
             "templates/base.html.twig"
+        ]
+    },
+    "symfony/uid": {
+        "version": "6.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.2",
+            "ref": "d294ad4add3e15d7eb1bae0221588ca89b38e558"
+        },
+        "files": [
+            "config/packages/uid.yaml"
         ]
     },
     "symfony/ux-autocomplete": {

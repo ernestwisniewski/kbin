@@ -239,6 +239,7 @@ trait FactoryTrait
         $dto->user = $user;
         $dto->url = $url;
         $dto->body = $body;
+        $dto->lang = 'en';
 
         $entry = $manager->create($dto, $user);
 
@@ -269,6 +270,7 @@ trait FactoryTrait
             $dto = new EntryCommentDto();
             $dto->entry = $entry ?? $this->getEntryByTitle('test entry content', 'https://kbin.pub');
             $dto->body = $body;
+            $dto->lang = 'en';
         }
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
@@ -284,6 +286,7 @@ trait FactoryTrait
         $dto = new PostDto();
         $dto->magazine = $magazine ?: $this->getMagazineByName('acme');
         $dto->body = $body;
+        $dto->lang = 'en';
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
@@ -298,6 +301,7 @@ trait FactoryTrait
         $dto = new PostCommentDto();
         $dto->post = $post ?? $this->createPost('test post content');
         $dto->body = $body;
+        $dto->lang = 'en';
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }

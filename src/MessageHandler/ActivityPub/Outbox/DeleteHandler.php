@@ -12,11 +12,12 @@ use App\Service\ActivityPub\Wrapper\DeleteWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Uid\Uuid;
 
-class DeleteHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class DeleteHandler
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

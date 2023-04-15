@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Notification;
 use App\Entity\PostComment;
@@ -110,7 +110,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     private function notifyUser(PostCommentReplyNotification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->userFactory->createDto($notification->user));
+            $iri = $this->iriConverter->getIriFromResource($this->userFactory->createDto($notification->user));
 
             $update = new Update(
                 $iri,
@@ -185,7 +185,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     private function notifyMagazine(Notification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem(
+            $iri = $this->iriConverter->getIriFromResource(
                 $this->magazineFactory->createDto($notification->getComment()->magazine)
             );
 

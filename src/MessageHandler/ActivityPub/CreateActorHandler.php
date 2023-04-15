@@ -6,9 +6,10 @@ namespace App\MessageHandler\ActivityPub;
 
 use App\Message\ActivityPub\CreateActorMessage;
 use App\Service\ActivityPubManager;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class CreateActorHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class CreateActorHandler
 {
     public function __construct(private readonly ActivityPubManager $activityPubManager)
     {

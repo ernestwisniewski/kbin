@@ -7,10 +7,11 @@ namespace App\MessageHandler\Notification;
 use App\Message\Notification\PostCommentEditedNotificationMessage;
 use App\Repository\PostCommentRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class SentPostCommentEditedNotificationHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class SentPostCommentEditedNotificationHandler
 {
     public function __construct(
         private readonly PostCommentRepository $repository,

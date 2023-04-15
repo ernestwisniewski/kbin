@@ -35,7 +35,7 @@ final class FeaturedMagazinesComponent
             array_unshift($magazines, $this->magazine);
         }
 
-        usort($magazines, fn($a, $b) => $a->lastActive < $b->lastActive);
+        usort($magazines, fn($a, $b) => $a->lastActive < $b->lastActive ? 1 : -1);
 
         return $this->twig->render(
             'components/featured_magazines.html.twig',

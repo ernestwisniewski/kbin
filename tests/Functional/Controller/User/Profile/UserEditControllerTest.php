@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Controller\User\Profile;
 use App\Repository\UserRepository;
 use App\Tests\Functional\Controller\Security\RegisterControllerTest;
 use App\Tests\WebTestCase;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class UserEditControllerTest extends WebTestCase
 {

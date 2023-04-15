@@ -14,11 +14,10 @@
 
 {% block body %}
     <div id="content">
-        {{ component('post', {
-            post: post,
+        {{ component('post_comment', {
+            comment: comment,
             isSingle: true,
             dateAsUrl: false,
-            showModeratePanel: true,
         }) }}
         {% include 'post/comment/_moderate_panel.html.twig' %}
     </div>

@@ -11,9 +11,10 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class DeliverHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class DeliverHandler
 {
     public function __construct(
         private readonly ApHttpClient $client,

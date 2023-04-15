@@ -13,9 +13,10 @@ use App\Service\ActivityPubManager;
 use App\Service\MagazineManager;
 use App\Service\UserManager;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class FollowHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class FollowHandler
 {
     public function __construct(
         private readonly ActivityPubManager $activityPubManager,
@@ -85,18 +86,18 @@ class FollowHandler implements MessageHandlerInterface
         'actor' => 'mixed',
         'object' => 'mixed',
     ])]
- private function accept(
+    private function accept(
         array $payload,
         User $object
     ): void {
-     $accept = $this->acceptWrapper->build(
-         $payload['object'],
-         $payload['actor'],
-         $payload['id'],
-     );
+        $accept = $this->acceptWrapper->build(
+            $payload['object'],
+            $payload['actor'],
+            $payload['id'],
+        );
 
-     $this->client->post($this->client->getInboxUrl($payload['actor']), $object, $accept);
- }
+        $this->client->post($this->client->getInboxUrl($payload['actor']), $object, $accept);
+    }
 
     private function handleUnfollow(User|Magazine $object, User $actor): void
     {

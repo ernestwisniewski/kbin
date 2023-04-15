@@ -25,11 +25,12 @@ use App\Service\PostManager;
 use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class DeleteUserHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class DeleteUserHandler
 {
     private ?User $user;
     private int $batchSize = 5;
