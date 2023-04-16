@@ -52,9 +52,10 @@ final class RelatedPostsComponent
     public function getHtml(ComponentAttributes $attributes): string
     {
         $postId = $this->post?->getId();
+        $magazine = str_replace('@', '', $this->magazine);
 
         return $this->cache->get(
-            "related_posts_{$this->magazine}_{$this->tag}_{$postId}_{$this->type}",
+            "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}",
             function (ItemInterface $item) use ($attributes) {
                 $item->expiresAfter(60);
 
