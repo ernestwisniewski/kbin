@@ -25,15 +25,18 @@ final class PostCommentsNestedComponent
 
     public function getHtml(ComponentAttributes $attributes): string
     {
-        $commentId = $this->comment->root?->getId() ?? $this->comment->getId();
+        $comment = $this->comment->root ?? $this->comment;
+        $commentId = $comment->getId();
+        $postId = $comment->post->getId();
         $userId = $this->security->getUser()?->getId();
 
         return $this->cache->get(
-            "post_comment_nested_{$commentId}_{$userId}_{$this->level}",
-            function (ItemInterface $item) use ($commentId, $userId) {
+            "post_comments_nested_{$commentId}_{$userId}_{$this->level}",
+            function (ItemInterface $item) use ($commentId, $userId, $postId) {
                 $item->expiresAfter(3600);
                 $item->tag(['post_comments_user_'.$userId]);
                 $item->tag(['post_comment_'.$commentId]);
+                $item->tag(['post_'.$postId]);
 
                 return $this->twig->render(
                     'components/post_comments_nested.html.twig',
