@@ -369,7 +369,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->andWhere('u.avatar IS NOT NULL');
 
         if (null !== $federated) {
-            $qb->andWhere('u.apId IS NULL');
             if ($federated) {
                 $qb->andWhere('u.apId IS NOT NULL')
                     ->andWhere('u.apDiscoverable = true');
@@ -378,8 +377,13 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             }
         }
 
-        $qb->setMaxResults(200);
-        $users = $qb->getQuery()->getResult();
+        $qb->setMaxResults($limit);
+
+        try {
+            $users = $qb->getQuery()->getResult(); // @todo
+        } catch (\Exception $e) {
+            return [];
+        }
 
         $res = [];
         foreach ($output as $item) {
@@ -396,7 +400,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function findActiveUsers(?Magazine $magazine = null)
     {
-
         if ($magazine) {
             $results = $this->findPeople($magazine, null, 35);
         } else {
@@ -407,14 +410,13 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->andWhere('u.avatar IS NOT NULL')
                 ->join('u.avatar', 'a')
                 ->orderBy('u.lastActive', 'DESC')
-                ->setParameters(['lastActive' => (new \DateTime())->modify('-1112 days')])
+                ->setParameters(['lastActive' => (new \DateTime())->modify('-7 days')])
                 ->setMaxResults(35)
                 ->getQuery()
                 ->getResult();
         }
 
         shuffle($results);
-
 
         return array_slice($results, 0, 12);
     }

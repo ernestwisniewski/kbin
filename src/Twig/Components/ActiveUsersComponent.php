@@ -24,12 +24,7 @@ final class ActiveUsersComponent
 
     public function getHtml(ComponentAttributes $attributes): string
     {
-        return $this->render();
-    }
-
-    private function render(): string
-    {
-        return $this->cache->get('active_users_'.$this->magazine?->getId(), function (ItemInterface $item) {
+        return $this->cache->get("active_users_{$this->magazine?->getId()}", function (ItemInterface $item) {
             $item->expiresAfter(60);
 
             return $this->twig->render(
