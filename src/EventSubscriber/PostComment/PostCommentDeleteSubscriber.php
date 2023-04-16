@@ -30,14 +30,20 @@ class PostCommentDeleteSubscriber implements EventSubscriberInterface
 
     public function onPostCommentDeleted(PostCommentDeletedEvent $event): void
     {
-        $this->cache->invalidateTags(['post_'.$event->comment->post->getId()]);
+        $this->cache->invalidateTags([
+            'post_'.$event->comment->post->getId(),
+            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
+        ]);
 
         $this->bus->dispatch(new PostCommentDeletedNotificationMessage($event->comment->getId()));
     }
 
     public function onPostCommentBeforePurge(PostCommentBeforePurgeEvent $event): void
     {
-        $this->cache->invalidateTags(['post_'.$event->comment->post->getId()]);
+        $this->cache->invalidateTags([
+            'post_'.$event->comment->post->getId(),
+            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
+        ]);
 
         $this->bus->dispatch(new PostCommentDeletedNotificationMessage($event->comment->getId()));
 

@@ -38,6 +38,7 @@ final class UrlExtension extends AbstractExtension
             new TwigFunction('post_comment_favourites_url', [UrlExtensionRuntime::class, 'postCommentFavouritesUrl']),
             new TwigFunction('post_comment_delete_url', [UrlExtensionRuntime::class, 'postCommentDeleteUrl']),
             new TwigFunction('options_url', [UrlExtensionRuntime::class, 'optionsUrl']),
+            new TwigFunction('mention_url', [UrlExtensionRuntime::class, 'mentionUrl']),
         ];
     }
 }

@@ -27,12 +27,12 @@ class VoteHandleSubscriber implements EventSubscriberInterface
     }
 
     #[ArrayShape([VoteEvent::class => 'string'])]
- public static function getSubscribedEvents(): array
- {
-     return [
-         VoteEvent::class => 'onVote',
-     ];
- }
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            VoteEvent::class => 'onVote',
+        ];
+    }
 
     public function onVote(VoteEvent $event): void
     {
@@ -61,11 +61,14 @@ class VoteHandleSubscriber implements EventSubscriberInterface
         $this->cache->delete($this->cacheService->getVotersCacheKey($votable));
 
         if ($votable instanceof PostComment) {
-            $this->cache->invalidateTags(['post_'.$votable->post->getId()]);
+            $this->cache->invalidateTags([
+                'post_'.$votable->post->getId(),
+                'post_comment_'.$votable?->root?->getId() ?? $votable->getId(),
+            ]);
         }
 
         if ($votable instanceof EntryComment && $votable->root) {
-            $this->cache->invalidateTags(['entry_comment_'.$votable?->root->getId() ?? $votable->getId()]);
+            $this->cache->invalidateTags(['entry_comment_'.$votable?->root?->getId() ?? $votable->getId()]);
         }
     }
 }

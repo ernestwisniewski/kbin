@@ -331,7 +331,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getResult();
     }
 
-    public function findPeople(Magazine $magazine, ?bool $federated = false): array
+    public function findPeople(Magazine $magazine, ?bool $federated = false, $limit = 200): array
     {
         $conn = $this->_em->getConnection();
         $sql = "
@@ -365,13 +365,17 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $qb->andWhere($qb->expr()->in('u.id', $user))
             ->andWhere('u.isBanned = false')
             ->andWhere('u.apDeletedAt IS NULL')
-            ->andWhere('u.about IS NOT NULL');
+            ->andWhere('u.about IS NOT NULL')
+            ->andWhere('u.avatar IS NOT NULL');
 
-        if ($federated) {
-            $qb->andWhere('u.apId IS NOT NULL')
-                ->andWhere('u.apDiscoverable = true');
-        } else {
+        if (null !== $federated) {
             $qb->andWhere('u.apId IS NULL');
+            if ($federated) {
+                $qb->andWhere('u.apId IS NOT NULL')
+                    ->andWhere('u.apDiscoverable = true');
+            } else {
+                $qb->andWhere('u.apId IS NULL');
+            }
         }
 
         $qb->setMaxResults(200);
@@ -390,4 +394,28 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $res;
     }
 
+    public function findActiveUsers(?Magazine $magazine = null)
+    {
+
+        if ($magazine) {
+            $results = $this->findPeople($magazine, null, 35);
+        } else {
+            $results = $this->createQueryBuilder('u')
+                ->andWhere('u.lastActive >= :lastActive')
+                ->andWhere('u.isBanned = false')
+                ->andWhere('u.apDeletedAt IS NULL')
+                ->andWhere('u.avatar IS NOT NULL')
+                ->join('u.avatar', 'a')
+                ->orderBy('u.lastActive', 'DESC')
+                ->setParameters(['lastActive' => (new \DateTime())->modify('-1112 days')])
+                ->setMaxResults(35)
+                ->getQuery()
+                ->getResult();
+        }
+
+        shuffle($results);
+
+
+        return array_slice($results, 0, 12);
+    }
 }

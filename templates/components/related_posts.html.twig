@@ -1,8 +1,8 @@
-{% if computed.posts|length %}
+{% if posts|length %}
     <section{{ attributes.defaults({class: 'posts section'}) }}>
         <h3>{{ title|trans }}</h3>
         <div class="container">
-            {% for post in computed.posts %}
+            {% for post in posts %}
                 <figure>
                     <div class="row">
                         {% if post.image %}

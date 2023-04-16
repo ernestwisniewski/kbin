@@ -8,6 +8,7 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Service\MentionManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
@@ -16,7 +17,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
     ) {
     }
 
@@ -259,5 +260,10 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
         $params[$name] = $value;
 
         return $this->urlGenerator->generate($route, $params);
+    }
+
+    public function mentionUrl(string $username): string
+    {
+        return MentionManager::getRoute([$username])[0];
     }
 }

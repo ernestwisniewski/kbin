@@ -77,6 +77,9 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
 
     private function clearPostCommentCache(PostComment $comment)
     {
-        $this->cache->invalidateTags(['post_'.$comment->post->getId()]);
+        $this->cache->invalidateTags([
+            'post_'.$comment->post->getId(),
+            'post_comment_'.$comment->root?->getId() ?? $comment->getId(),
+        ]);
     }
 }

@@ -1,11 +1,13 @@
 <figure{{ attributes }}>
     {% if asLink %}
-        <a href="{{ path('user_overview', {username: user.username}) }}">
-    {% endif %}
+    <a data-action="mouseover->kbin#mention" data-kbin-username-param="{{ mention_url(user.username) }}"
+       href="{{ path('user_overview', {username: user.username}) }}">
+        {% endif %}
         <img width="{{ width }}" height="{{ height }}"
+             style="max-width: {{ width }}px; max-height: {{ height }}px;"
              src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
-    {% if asLink %}
-        </a>
+        {% if asLink %}
+    </a>
     {% endif %}
 </figure>

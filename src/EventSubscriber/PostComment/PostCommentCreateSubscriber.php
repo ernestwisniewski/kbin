@@ -26,7 +26,10 @@ class PostCommentCreateSubscriber implements EventSubscriberInterface
 
     public function onPostCommentCreated(PostCommentCreatedEvent $event)
     {
-        $this->cache->invalidateTags(['post_'.$event->comment->post->getId()]);
+        $this->cache->invalidateTags([
+            'post_'.$event->comment->post->getId(),
+            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
+        ]);
 
         $this->bus->dispatch(new PostCommentCreatedNotificationMessage($event->comment->getId()));
 

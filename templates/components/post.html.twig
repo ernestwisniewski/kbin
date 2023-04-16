@@ -82,8 +82,8 @@
                                 <a class="stretched-link"
                                    href="#{{ get_url_fragment(post) }}"
                                    data-action="post#collapseComments">{{ 'collapse'|trans|lower }}
-                                    ({{ post.commentCount }}
-                                    )</a>
+                                    ({{ post.commentCount }})
+                                </a>
                             </li>
                         {% endif %}
                         <li>
@@ -114,7 +114,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-action="clipboard#copy" href="{{ post.apId ?? path('ap_post', {magazine_name: post.magazine.name, post_id: post.id}) }}">
+                                    <a data-action="clipboard#copy"
+                                       href="{{ post.apId ?? path('ap_post', {magazine_name: post.magazine.name, post_id: post.id}) }}">
                                         {{ 'copy_url_to_fediverse'|trans|lower }}
                                     </a>
                                 </li>

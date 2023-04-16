@@ -70,4 +70,7 @@
     }) }}
     {% include 'magazine/_moderators_sidebar.html.twig' %}
 {% endif %}
+{% if not is_route_name_contains('people') %}
+    {{ component('active_users', {magazine: magazine is defined and magazine ? magazine : null}) }}
+{% endif %}
 {{ component('related_posts', {magazine: magazine is defined and magazine ? magazine.name : null}) }}
