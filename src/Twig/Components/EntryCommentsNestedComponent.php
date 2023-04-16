@@ -29,7 +29,7 @@ final class EntryCommentsNestedComponent
         $userId = $this->security->getUser()?->getId();
 
         return $this->cache->get(
-            "entry_comment_nested_{$commentId}_{$userId}_{$this->level}",
+            "entry_comment_nested_{$commentId}_{$userId}",
             function (ItemInterface $item) use ($commentId, $userId) {
                 $item->expiresAfter(3600);
                 $item->tag(['entry_comments_user_'.$userId]);

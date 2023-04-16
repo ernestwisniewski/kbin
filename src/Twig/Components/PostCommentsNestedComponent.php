@@ -29,9 +29,8 @@ final class PostCommentsNestedComponent
         $commentId = $comment->getId();
         $postId = $comment->post->getId();
         $userId = $this->security->getUser()?->getId();
-
         return $this->cache->get(
-            "post_comments_nested_{$commentId}_{$userId}_{$this->level}",
+            "post_comments_nested_{$commentId}_{$userId}",
             function (ItemInterface $item) use ($commentId, $userId, $postId) {
                 $item->expiresAfter(3600);
                 $item->tag(['post_comments_user_'.$userId]);
