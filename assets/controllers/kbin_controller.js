@@ -13,6 +13,7 @@ export default class extends ApplicationController {
     connect() {
         useDebounce(this, {wait: 800})
         this.handleAndroidDropdowns();
+        this.handleOptionsBarScroll();
     }
 
     handleAndroidDropdowns() {
@@ -57,5 +58,15 @@ export default class extends ApplicationController {
         } finally {
             this.loadingValue = false;
         }
+    }
+
+    handleOptionsBarScroll() {
+        const containers = document.querySelectorAll('.options__main');
+        containers.forEach((container) => {
+            container.addEventListener("wheel", (event) => {
+                event.preventDefault();
+                container.scrollLeft += event.deltaY;
+            });
+        });
     }
 }
