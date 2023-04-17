@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl"
+<html lang="{{ app.request.locale }}"
       style="font-size: {{ app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'))
       ? app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'))~'%'
       : '100%' }}">
@@ -51,7 +51,7 @@
 <div id="middle" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">
         <main id="main"
-              data-controller="lightbox"
+              data-controller="lightbox timeago"
               class="{{ html_classes({'view-compact': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
             {% block body %}{% endblock %}
         </main>

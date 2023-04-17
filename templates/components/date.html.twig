@@ -1,1 +1,3 @@
-<time title="{{ date|date('Y-m-d h:m:s') }}" datetime="{{ date|date('Y-m-d h:m:s') }}">{{ date|ago }}</time>
+<time class="timeago"
+      title="{{ date|date('c') }}"
+      datetime="{{ date|date('c') }}">{{ date|ago }}</time>

@@ -51,6 +51,9 @@ export default class extends Controller {
             this.application
                 .getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox')
                 .connect();
+            this.application
+                .getControllerForElementAndIdentifier(document.getElementById('main'), 'timeago')
+                .connect();
         } catch (e) {
         } finally {
             this.loadingValue = false;

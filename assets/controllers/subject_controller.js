@@ -131,6 +131,9 @@ export default class extends Controller {
             this.application
                 .getControllerForElementAndIdentifier(document.getElementById('main'), 'lightbox')
                 .connect();
+            this.application
+                .getControllerForElementAndIdentifier(document.getElementById('main'), 'timeago')
+                .connect();
             this.loadingValue = false;
             event.target.disabled = false;
             event.target.innerHTML = self.sendBtnLabel;
