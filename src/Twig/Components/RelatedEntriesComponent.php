@@ -57,7 +57,7 @@ final class RelatedEntriesComponent
         return $this->cache->get(
             "related_entries_{$magazine}_{$this->tag}_{$entryId}_{$this->type}",
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(0);
+                $item->expiresAfter(60);
 
                 $entries = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),

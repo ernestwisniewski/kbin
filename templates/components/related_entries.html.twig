@@ -11,12 +11,12 @@
                                      alt="{{ entry.image.alt|default('') }}">
                             </a>
                         {% endif %}
-                            <blockquote class="content">
-                                {{ entry.title }}
-                                <div>
-                                    <a href="{{ entry_url(entry) }}" class="stretched-link">{{ 'show_more'|trans }}</a>
-                                </div>
-                            </blockquote>
+                        <blockquote class="content">
+                            <p>{{ entry.title }}</p>
+                            <div>
+                                <a href="{{ entry_url(entry) }}" class="stretched-link">{{ 'show_more'|trans }}</a>
+                            </div>
+                        </blockquote>
                     </div>
                     <figcaption>
                         {{ component('date', {date: entry.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}
