@@ -74,3 +74,4 @@
     {{ component('active_users', {magazine: magazine is defined and magazine ? magazine : null}) }}
 {% endif %}
 {{ component('related_posts', {magazine: magazine is defined and magazine ? magazine.name : null}) }}
+{{ component('related_entries', {magazine: magazine is defined and magazine ? magazine.name : null}) }}

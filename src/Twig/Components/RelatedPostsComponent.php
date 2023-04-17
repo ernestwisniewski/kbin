@@ -65,7 +65,7 @@ final class RelatedPostsComponent
                         UserExtensionRuntime::username($this->magazine),
                         $this->limit + 20
                     ),
-                    default => $this->repository->findLast($this->limit + 50),
+                    default => $this->repository->findLast($this->limit + 150),
                 };
 
                 if (count($posts) > $this->limit) {

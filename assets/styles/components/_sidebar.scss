@@ -1,5 +1,6 @@
 #sidebar {
   font-size: .85rem;
+  opacity: .75;
   padding-bottom: 1rem;
 
   h3 {
@@ -45,7 +46,8 @@
     padding: .5rem .5rem 1rem;
   }
 
-  .posts {
+  .posts,
+  .entries {
     color: var(--kbin-meta-text-color);
 
     .container {
@@ -97,6 +99,10 @@
         text-align: right;
       }
     }
+  }
+
+  .entries blockquote {
+    font-weight: bold;
   }
 
   .meta, .info {
@@ -267,8 +273,14 @@
       grid-template-columns: repeat(4, 1fr);
       text-align: center;
     }
+
     img {
-        border: var(--kbin-avatar-border);
+      border: var(--kbin-avatar-border);
     }
+  }
+
+  &:hover,
+  &:focus-within {
+    @include fade-in(.5s);
   }
 }
