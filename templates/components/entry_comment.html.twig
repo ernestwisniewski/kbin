@@ -86,12 +86,14 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-action="clipboard#copy" href="{{ entry_url(comment.entry) }}#{{ get_url_fragment(comment) }}">
+                                    <a data-action="clipboard#copy"
+                                       href="{{ entry_url(comment.entry) }}#{{ get_url_fragment(comment) }}">
                                         {{ 'copy_url'|trans|lower }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-action="clipboard#copy" href="{{ comment.apId ?? path('ap_entry_comment', {magazine_name: comment.magazine.name, entry_id: comment.entry.id, comment_id: comment.id}) }}">
+                                    <a data-action="clipboard#copy"
+                                       href="{{ comment.apId ?? path('ap_entry_comment', {magazine_name: comment.magazine.name, entry_id: comment.entry.id, comment_id: comment.id}) }}">
                                         {{ 'copy_url_to_fediverse'|trans|lower }}
                                     </a>
                                 </li>
@@ -166,7 +168,8 @@
         {{ component('entry_comments_nested', {
             comment: comment,
             level: level,
-            showNested: true
+            showNested: true,
+            view: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW'), 'tree')
         }) }}
     {% endif %}
 {% endif %}

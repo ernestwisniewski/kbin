@@ -2,6 +2,7 @@
 
 namespace App\Twig\Components;
 
+use App\Controller\User\ThemeSettingsController;
 use App\Entity\PostComment;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -15,6 +16,7 @@ final class PostCommentsNestedComponent
 {
     public PostComment $comment;
     public int $level;
+    public string $view = ThemeSettingsController::TREE;
 
     public function __construct(
         private readonly Environment $twig,
@@ -29,8 +31,9 @@ final class PostCommentsNestedComponent
         $commentId = $comment->getId();
         $postId = $comment->post->getId();
         $userId = $this->security->getUser()?->getId();
+
         return $this->cache->get(
-            "post_comments_nested_{$commentId}_{$userId}",
+            "post_comments_nested_{$commentId}_{$userId}_{$this->view}",
             function (ItemInterface $item) use ($commentId, $userId, $postId) {
                 $item->expiresAfter(3600);
                 $item->tag(['post_comments_user_'.$userId]);
@@ -42,6 +45,7 @@ final class PostCommentsNestedComponent
                     [
                         'comment' => $this->comment,
                         'level' => $this->level,
+                        'view' => $this->view,
                     ]
                 );
             }

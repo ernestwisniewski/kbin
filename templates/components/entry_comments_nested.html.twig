@@ -1,4 +1,4 @@
-{% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC') %}
+{% if view is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC') %}
     {% for reply in comment.nested %}
         {{ component('entry_comment', {
             comment: reply,
