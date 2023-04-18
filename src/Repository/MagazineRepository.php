@@ -177,29 +177,6 @@ class MagazineRepository extends ServiceEntityRepository
         return $magazine->badges;
     }
 
-    public function findRandom(): ?Magazine
-    {
-        $qb = $this->createQueryBuilder('m')
-            ->select('COUNT(m)')
-            ->where('m.entryCount > 0')
-            ->orWhere('m.postCount > 0');
-
-        $totalRecords = $qb->getQuery()->getSingleScalarResult();
-
-        if ($totalRecords < 1) {
-            return null;
-        }
-
-        $rowToFetch = rand(0, $totalRecords - 1);
-
-        return $qb
-            ->select('m')
-            ->setMaxResults(1)
-            ->setFirstResult($rowToFetch)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
     public function findModeratedMagazines(User $user, ?int $page = 1): PagerfantaInterface
     {
         $dql =
@@ -358,7 +335,9 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.visibility = :visibility')
-            ->andWhere('LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.title) LIKE LOWER(:q) OR LOWER(m.description) LIKE LOWER(:q)')
+            ->andWhere(
+                'LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.title) LIKE LOWER(:q) OR LOWER(m.description) LIKE LOWER(:q)'
+            )
             ->orderBy('m.apId', 'DESC')
             ->orderBy('m.subscriptionsCount', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'q' => '%'.$magazine.'%']);
@@ -377,5 +356,36 @@ class MagazineRepository extends ServiceEntityRepository
         }
 
         return $pagerfanta;
+    }
+
+    public function findRandom(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            SELECT id FROM magazine
+            WHERE ap_id IS NULL
+            ORDER BY random()
+            LIMIT 5
+            ';
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+        $ids = $stmt->fetchAllAssociative();
+
+        return $this->createQueryBuilder('m')
+            ->where('m.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findRelated(string $magazine): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.entryCount > 0 OR m.postCount > 0')
+            ->andWhere('m.title LIKE :magazine OR m.description LIKE :magazine OR m.name LIKE :magazine')
+            ->setParameter('magazine', "%{$magazine}%")
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
     }
 }

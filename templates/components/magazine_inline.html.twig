@@ -3,6 +3,7 @@
    title="{{ ('@'~magazine.name)|username(true) }}">
     {% if magazine.icon and showAvatar %}
         <img width="30" height="30"
+             style="max-width: 30px; max-height: 30px;"
              src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ magazine.name ~ ' avatar' }}">
     {% endif %}

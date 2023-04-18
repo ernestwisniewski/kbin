@@ -1,0 +1,14 @@
+{% if magazines|length %}
+    <section{{ attributes.defaults({class: 'magazines section related-magazines'}) }}>
+        <h3>{{ title|trans }}</h3>
+        <div class="container">
+            <ul class="meta">
+                {% for magazine in magazines %}
+                    <li>
+                        {{ component('magazine_inline', {magazine: magazine, showAvatar: true, fullName:true, stretchedLink:true}) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+{% endif %}

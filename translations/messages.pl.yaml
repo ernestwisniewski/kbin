@@ -237,7 +237,7 @@ people_federated: Sfederowane
 related_tags: Powiązane tagi
 go_to_content: Przejdź to treści
 go_to_filters: Przejdź do filtrów
-go_to_search: przejdź do wyszukiwarki
+go_to_search: Przejdź do wyszukiwarki
 go_to_footer: Przejdź do stopki
 subscribed: Subskrybowane
 all: Wszystkie
@@ -457,3 +457,5 @@ purge_account: Wyczyść konto
 ban_account: Zbanuj konto
 unban_account: Odbanuj konto
 delete_account_request_send: Twój zlecenie usunięcia konta zostało przesłane.
+related_magazines: Powiązane magazyny
+random_magazines: Losowe magazyny

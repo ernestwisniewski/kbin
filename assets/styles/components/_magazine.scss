@@ -182,3 +182,9 @@ td {
     }
   }
 }
+
+.related-magazines {
+  ul.meta li:first-child {
+    border-top: 0 !important;
+  }
+}

@@ -455,3 +455,5 @@ purge_account: Purge account
 ban_account: Ban account
 unban_account: Unban account
 delete_account_request_send: Your request to delete the account has been submitted.
+related_magazines: Related magazines
+random_magazines: Random magazines
