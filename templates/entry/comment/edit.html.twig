@@ -18,6 +18,7 @@
         showEntryTitle: false,
         showMagazineName: false
     }) }}
+    {% include 'layout/_flash.html.twig' %}
     <section id="content" class="section">
         {% include 'entry/comment/_form_comment.html.twig' with {edit: true} %}
     </section>

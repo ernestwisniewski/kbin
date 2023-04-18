@@ -35,6 +35,7 @@
         {% include 'post/_form_post.html.twig' %}
     </section>
     {% include 'post/_options.html.twig' %}
+    {% include 'layout/_flash.html.twig' %}
     {% if magazine is defined and magazine %}
         {% if magazine.apId %}
             <div class="alert alert__info">

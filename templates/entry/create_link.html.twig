@@ -14,8 +14,8 @@
 
 {% block body %}
     {% include 'entry/_create_options.html.twig' %}
-
     <h1 hidden>{{ 'add_new_link'|trans }}</h1>
+    {% include 'layout/_flash.html.twig' %}
     <div id="content" class="section">
         <div class="container" data-controller="entry-link-create">
             {% include 'entry/_form_link.html.twig' %}

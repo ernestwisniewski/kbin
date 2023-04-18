@@ -16,6 +16,7 @@
     {{ component('post_comment', {
         comment: comment
     }) }}
+    {% include 'layout/_flash.html.twig' %}
     <div id="content">
         <section class="section">
             {% include 'post/comment/_form_comment.html.twig' with {edit: true} %}

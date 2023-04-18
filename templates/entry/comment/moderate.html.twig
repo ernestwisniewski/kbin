@@ -17,6 +17,7 @@
         {{ component('entry_comment', {
             comment: comment,
         }) }}
+        {% include 'layout/_flash.html.twig' %}
         {% include 'entry/comment/_moderate_panel.html.twig' %}
     </div>
 {% endblock %}

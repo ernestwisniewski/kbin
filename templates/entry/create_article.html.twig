@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+c{% extends 'base.html.twig' %}
 
 {%- block title -%}
     {{- 'add_new_article'|trans }} - {{ parent() -}}
@@ -14,8 +14,8 @@
 
 {% block body %}
     {% include 'entry/_create_options.html.twig' %}
-
     <h1 hidden>{{ 'add_new_article'|trans }}</h1>
+    {% include 'layout/_flash.html.twig' %}
     <div id="content" class="section">
         <div class="container">
             {% include 'entry/_form_article.html.twig' %}

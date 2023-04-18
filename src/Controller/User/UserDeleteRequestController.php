@@ -40,17 +40,17 @@ class UserDeleteRequestController extends AbstractController
             throw new TooManyRequestsHttpException();
         }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address($this->settings->get('KBIN_SENDER_EMAIL'), $this->settings->get('KBIN_DOMAIN')))
-            ->to($this->settings->get('KBIN_CONTACT_EMAIL'))
-            ->subject('User Delete Account Request')
-            ->htmlTemplate('_email/delete_account_request.html.twig')
-            ->context([
-                'username' => $this->getUser()->getUsername(),
-                'mail' => $this->getUser()->getEmail(),
-            ]);
-
-        $this->mailer->send($email);
+//        $email = (new TemplatedEmail())
+//            ->from(new Address($this->settings->get('KBIN_SENDER_EMAIL'), $this->settings->get('KBIN_DOMAIN')))
+//            ->to($this->settings->get('KBIN_CONTACT_EMAIL'))
+//            ->subject('User Delete Account Request')
+//            ->htmlTemplate('_email/delete_account_request.html.twig')
+//            ->context([
+//                'username' => $this->getUser()->getUsername(),
+//                'mail' => $this->getUser()->getEmail(),
+//            ]);
+//
+//        $this->mailer->send($email);
 
         $this->addFlash('success', 'delete_account_request_send');
 

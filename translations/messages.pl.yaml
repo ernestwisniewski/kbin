@@ -159,7 +159,7 @@ enter_your_comment: Napisz komentarz
 enter_your_post: Napisz post
 activity: Aktywność
 cover: Okładka
-random_posts: Losowe posty
+random_posts: Losowe wpisy
 federated_magazine_info: Magazyn ze zdalnego serwera może być niekompletny.
 go_to_original_instance: Zobacz więcej na oryginalnej instancji.
 empty: Pusto
@@ -452,3 +452,8 @@ firstname: Imię
 active_users: Ostatnio aktywni
 random_entries: Losowe treści
 related_entries: Powiązane treści
+delete_account: Usuń konto
+purge_account: Wyczyść konto
+ban_account: Zbanuj konto
+unban_account: Odbanuj konto
+delete_account_request_send: Twój zlecenie usunięcia konta zostało przesłane.

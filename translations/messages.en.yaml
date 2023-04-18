@@ -450,3 +450,8 @@ send: Send
 active_users: Active people
 random_entries: Random threads
 related_entries: Related threads
+delete_account: Delete account
+purge_account: Purge account
+ban_account: Ban account
+unban_account: Unban account
+delete_account_request_send: Your request to delete the account has been submitted.

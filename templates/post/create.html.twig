@@ -19,6 +19,7 @@
     {% else %}
         <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
     {% endif %}
+    {% include 'layout/_flash.html.twig' %}
     <section id="content" class="section section--top">
         {% include 'post/_form_post.html.twig' %}
     </section>

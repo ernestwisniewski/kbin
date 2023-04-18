@@ -19,6 +19,7 @@
             post: post,
             isSingle: true
         }) }}
+        {% include 'layout/_flash.html.twig' %}
         {% include 'post/_options_activity.html.twig' %}
         <div id="content">
             {% include 'layout/_user_activity_list.html.twig' with {list: favourites} %}

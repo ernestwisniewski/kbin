@@ -15,6 +15,7 @@
 {% block body %}
     <div id="content">
         {{ component('entry', {entry: entry, isSingle: true, showBody: false}) }}
+        {% include 'layout/_flash.html.twig' %}
         {% include 'entry/_options_activity.html.twig' %}
         <div id="content">
             {% include 'layout/_user_activity_list.html.twig' with {list: votes} %}

@@ -24,6 +24,7 @@
             post: post,
             isSingle: true
         }) }}
+        {% include 'layout/_flash.html.twig' %}
         <section class="section">
             {% include 'post/_form_post.html.twig' with {edit: true} %}
         </section>
