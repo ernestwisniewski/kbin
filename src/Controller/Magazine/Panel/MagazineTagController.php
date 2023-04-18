@@ -2,24 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Magazine;
+namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Form\MagazineTagsType;
+use App\Service\BadgeManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MagazineAddTagsController extends AbstractController
+class MagazineTagController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {
     }
 
-    #[IsGranted('ROLE_ADMIN')]
-    public function __invoke(Magazine $magazine, Request $request): Response
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('moderate', subject: 'magazine')]
+    public function __invoke(Magazine $magazine, BadgeManager $manager, Request $request): Response
     {
         $form = $this->createForm(MagazineTagsType::class, $magazine);
 
@@ -31,7 +34,7 @@ class MagazineAddTagsController extends AbstractController
             return $this->redirectToRefererOrHome($request);
         }
 
-        return $this->renderForm('magazine/panel/tags.html.twig', [
+        return $this->render('magazine/panel/tags.html.twig', [
             'magazine' => $magazine,
             'form' => $form,
         ]);

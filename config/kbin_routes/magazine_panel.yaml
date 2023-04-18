@@ -75,19 +75,19 @@ magazine_panel_badge_remove:
   path: /m/{magazine_name}/panel/badges/{badge_id}/purge
   methods: [ POST ]
 
+magazine_panel_tags:
+  controller: App\Controller\Magazine\Panel\MagazineTagController
+  path:
+    en: /m/{name}/panel/tags
+    pl: /m/{name}/panel/tagi
+  methods: [ GET, POST ]
+
 magazine_panel_trash:
   controller: App\Controller\Magazine\Panel\MagazineTrashController
   path:
     en: /m/{name}/panel/trash
     pl: /m/{name}/panel/kosz
   methods: [ GET ]
-
-magazine_add_tags:
-  controller: App\Controller\Magazine\MagazineAddTagsController
-  path:
-    en: /m/{name}/panel/tags
-    pl: /m/{name}/panel/tagi
-  methods: [ GET, POST ]
 
 magazine_panel_stats:
   controller: App\Controller\Magazine\Panel\MagazineStatsController

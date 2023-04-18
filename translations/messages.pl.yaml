@@ -459,3 +459,5 @@ unban_account: Odbanuj konto
 delete_account_request_send: Twój zlecenie usunięcia konta zostało przesłane.
 related_magazines: Powiązane magazyny
 random_magazines: Losowe magazyny
+magazine_panel_tags_info: Wprowadź tylko wtedy, gdy chcesz żeby treści z fediwersum
+  były umieszczane w tym magazynie na podstawie tagów.

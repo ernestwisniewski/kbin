@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    title
+    {{ domain.name }} - {{ parent() -}}
 {%- endblock -%}
 
 {% block mainClass %}page-domain-entry-front{% endblock %}

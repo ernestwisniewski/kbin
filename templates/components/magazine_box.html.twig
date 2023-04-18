@@ -28,7 +28,7 @@
         <div class="content magazine__rules">{{ computed.magazine.rules|markdown|raw }}</div>
     {% endif %}
     {% if showInfo %}
-        <ul class="info mb-1">
+        <ul class="info mb-2">
             <li>{{ 'created_at'|trans }}:
                 {{ component('date', {date: computed.magazine.createdAt}) }}
             </li>
@@ -50,4 +50,12 @@
     {% macro meta_item(name, url, count) %}
         <li><a href="{{ url }}" class="stretched-link">{{ name }}</a> <span>{{ count }}</span></li>
     {% endmacro %}
+    {% if magazine.tags %}
+        <h3 class="mt-3">{{ 'tags'|trans }}</h3>
+        <div class="mt-2">
+            {% for tag in magazine.tags %}
+                <small><a class="badge" href="{{ path('tag_overview', {name: tag}) }}">#{{ tag }}</a></small>
+            {% endfor %}
+        </div>
+    {% endif %}
 </section>

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'tags'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-tags{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+    <h1 hidden>{{ 'tags'|trans }}</h1>
+    <div class="alert alert__info">
+        {{ 'magazine_panel_tags_info'|trans }}
+    </div>
+    <div id="content" class="section">
+        <div class="container">
+            {{ form_start(form) }}
+            {{ form_row(form.tags) }}
+            <div class="actions">
+                {{ form_row(form.submit, { 'label': 'save'|trans, attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
