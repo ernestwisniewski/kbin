@@ -184,7 +184,12 @@ td {
 }
 
 .related-magazines {
+  h3 {
+    margin: 0 0 .5rem !important;
+  }
+
   ul.meta li:first-child {
     border-top: 0 !important;
+    margin-top: 0 !important;
   }
 }
