@@ -1,3 +1,7 @@
+{% set hasImage = false %}
+{% if comment is defined and comment is not null and comment.image %}
+    {% set hasImage = true %}
+{% endif %}
 {% if edit is not defined %}
     {% set edit = false %}
 {% endif %}
@@ -23,7 +27,19 @@
                 <i class="fa-solid fa-circle-question"></i>
             </button>
         </li>
-        <li class="dropdown">
+        {% if hasImage %}
+            <img width="40"
+                 height="40"
+                 src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
+                 alt="{{ comment.image.altText }}">
+            <button formaction="{{ path('entry_comment_image_delete', {magazine_name: comment.magazine.name, entry_id: comment.entry.id, comment_id: comment.id}) }}"
+                    class="btn-link"
+                    data-action="subject#removeImage"
+                    onclick="return confirm('{{ 'are_you_sure'|trans }}');">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        {% endif %}
+        <li class="{{ html_classes('dropdown', {'hidden': hasImage}) }}">
             <button type="button"
                     class="btn btn__secondary"
                     aria-label="{{ 'add_media'|trans }}"

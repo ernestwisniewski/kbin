@@ -1,3 +1,7 @@
+{% set hasImage = false %}
+{% if post is defined and post is not null and post.image %}
+    {% set hasImage = true %}
+{% endif %}
 {% if edit is not defined %}
     {% set edit = false %}
 {% endif %}
@@ -33,7 +37,19 @@
                 <i class="fa-solid fa-circle-question"></i>
             </button>
         </li>
-        <li class="dropdown">
+        {% if hasImage %}
+            <img width="40"
+                 height="40"
+                 src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
+                 alt="{{ post.image.altText }}">
+            <button formaction="{{ path('post_image_delete', {magazine_name: post.magazine.name, post_id: post.id}) }}"
+                    class="btn-link"
+                    data-action="subject#removeImage"
+                    onclick="return confirm('{{ 'are_you_sure'|trans }}');">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        {% endif %}
+        <li class="{{ html_classes('dropdown', {'hidden': hasImage}) }}">
             <button type="button"
                     class="btn btn__secondary"
                     aria-label="{{ 'add_media'|trans }}"

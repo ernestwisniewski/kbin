@@ -158,6 +158,11 @@ form {
   gap: .25rem;
   justify-content: flex-end;
 
+  .btn-link i {
+    bottom: 15px;
+    position: relative;
+  }
+
   div {
     margin-bottom: 0;
   }

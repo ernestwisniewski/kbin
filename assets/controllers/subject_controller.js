@@ -315,4 +315,24 @@ export default class extends Controller {
             this.commentsCounterTarget.innerText = parseInt(this.commentsCounterTarget.innerText) - 1;
         }
     }
+
+    async removeImage(event) {
+        event.preventDefault();
+
+        try {
+            this.loadingValue = true;
+
+            let response = await fetch(event.target.parentNode.formAction, {method: 'POST'});
+
+            response = await ok(response);
+            response = await response.json();
+
+            event.target.parentNode.previousElementSibling.remove();
+            event.target.parentNode.nextElementSibling.classList.remove('hidden');
+            event.target.parentNode.remove();
+        } catch (e) {
+        } finally {
+            this.loadingValue = false;
+        }
+    }
 }

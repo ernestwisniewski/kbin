@@ -55,3 +55,7 @@ h6 {
     font-weight: bold;
   }
 }
+
+.btn-link {
+  @include kbin-btn-link;
+}
