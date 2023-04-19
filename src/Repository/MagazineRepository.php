@@ -301,13 +301,14 @@ class MagazineRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByTag($tag): Magazine
+    public function findByTag($tag): ?Magazine
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.tags IS NOT NULL')
-            ->andWhere("JSONB_CONTAINS(m.tags, '\"".$tag."\"') = true")
+            ->andWhere('m.name = :tag')
+            ->orWhere("m.tags IS NOT NULL AND JSONB_CONTAINS(m.tags, '\"".$tag."\"') = true")
             ->orderBy('m.lastActive', 'DESC')
             ->setMaxResults(1)
+            ->setParameter('tag', $tag)
             ->getQuery()
             ->getOneOrNullResult();
     }
