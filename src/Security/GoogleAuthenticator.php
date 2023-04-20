@@ -64,6 +64,9 @@ class GoogleAuthenticator extends OAuth2Authenticator
             $session->set('access_token', $accessToken);
         }
 
+        $rememberBadge = new RememberMeBadge();
+        $rememberBadge = $rememberBadge->enable();
+
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client, $slugger) {
                 /** @var GoogleUser $googleUser */
@@ -103,7 +106,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
                 return $user;
             }),
             [
-                new RememberMeBadge(),
+                $rememberBadge,
             ]
         );
     }

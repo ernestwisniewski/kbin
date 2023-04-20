@@ -59,6 +59,9 @@ class FacebookAuthenticator extends OAuth2Authenticator
         } catch (\Exception $e) {
         }
 
+        $rememberBadge = new RememberMeBadge();
+        $rememberBadge = $rememberBadge->enable();
+
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client, $slugger) {
                 /** @var FacebookUser $facebookUser */
@@ -100,7 +103,7 @@ class FacebookAuthenticator extends OAuth2Authenticator
                 return $user;
             }),
             [
-                new RememberMeBadge(),
+                $rememberBadge,
             ]
         );
     }
