@@ -9,6 +9,7 @@
             class: html_classes('entry section subject', {
                 'no-image': not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
                 'own': app.user and entry.isAuthor(app.user),
+                'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
                 id="entry-{{ entry.id }}"
                 data-controller="subject preview"
@@ -120,7 +121,8 @@
                         {% endif %}
                         {% if entry.hasEmbed %}
                             <li>
-                                <button data-action="preview#show"
+                                <button class="show-preview"
+                                        data-action="preview#show"
                                         aria-label="{{ 'preview'|trans }}"
                                         data-preview-url-param="{{ entry.url }}"
                                         data-preview-ratio-param="{{ entry.domain and entry.domain.shouldRatio ? true : false }}">

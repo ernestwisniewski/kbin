@@ -1,11 +1,13 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
+import {useIntersection} from 'stimulus-use'
 import router from "../utils/routing";
 import getIntIdFromElement, {getLevel, getTypeFromNotification} from "../utils/kbin";
 import GLightbox from 'glightbox';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
+    static previewInit = false;
     static targets = ['loader', 'more', 'container', 'commentsCounter', 'favCounter']
     static values = {
         loading: Boolean,
@@ -32,6 +34,10 @@ export default class extends Controller {
                 window.location = '/u/' + el.title;
             });
         });
+
+        if (this.element.classList.contains('show-preview')) {
+            useIntersection(this)
+        }
     }
 
     async getForm(event) {
@@ -334,5 +340,19 @@ export default class extends Controller {
         } finally {
             this.loadingValue = false;
         }
+    }
+
+    appear() {
+        if (this.previewInit) {
+            return;
+        }
+
+        const prev = this.element.querySelectorAll('.show-preview');
+
+        prev.forEach((el) => {
+            el.click();
+        });
+
+        this.previewInit = true;
     }
 }

@@ -16,7 +16,7 @@
         {% endif %}
         <header>
             <h4><a href="{{ path('front_magazine', {name: magazine.name}) }}"
-                   class="stretched-link">{{ computed.magazine.title }}</a></h4>
+                   class="{{ html_classes({'stretched-link': false}) }}">{{ computed.magazine.title }}</a></h4>
             <p class="magazine__name">{{ ('@'~magazine.name)|username(true) }}</p>
         </header>
     </div>
@@ -48,7 +48,7 @@
         </ul>
     {% endif %}
     {% macro meta_item(name, url, count) %}
-        <li><a href="{{ url }}" class="stretched-link">{{ name }}</a> <span>{{ count }}</span></li>
+        <li><a href="{{ url }}" class="{{ html_classes({'stretched-link': false}) }}">{{ name }}</a> <span>{{ count }}</span></li>
     {% endmacro %}
     {% if magazine.tags %}
         <h3 class="mt-3">{{ 'tags'|trans }}</h3>

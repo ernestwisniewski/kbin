@@ -24,6 +24,10 @@
 }
 
 .subject {
+  .show-preview {
+    cursor: pointer;
+  }
+
   &:nth-of-type(odd) {
   }
 

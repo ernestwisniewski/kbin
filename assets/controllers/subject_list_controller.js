@@ -61,6 +61,9 @@ export default class extends Controller {
             }
         } catch (e) {
         } finally {
+            this.application
+                .getControllerForElementAndIdentifier(document.getElementById('main'), 'timeago')
+                .connect();
         }
     }
 
@@ -97,6 +100,9 @@ export default class extends Controller {
             parent.nextElementSibling.appendChild(div.firstElementChild);
         } catch (e) {
         } finally {
+            this.application
+                .getControllerForElementAndIdentifier(document.getElementById('main'), 'timeago')
+                .connect();
         }
     }
 }

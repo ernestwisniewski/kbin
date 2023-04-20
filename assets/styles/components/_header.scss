@@ -64,6 +64,10 @@
     grid-auto-flow: column;
     list-style: none;
 
+    .sidebar-link {
+      display: none;
+    }
+
     .icon i {
       font-size: .85rem;
     }
@@ -135,6 +139,24 @@
     margin-right: 2rem;
     text-decoration: none;
     font-weight: 400;
+
+    small {
+      display: none;
+      font-size: .9rem;
+    }
+
+    @include media-breakpoint-down(lg) {
+      a {
+        align-items: center;
+        display: flex;
+        gap: .5rem;
+        justify-content: center;
+      }
+
+      small {
+        display: inline;
+      }
+    }
   }
 }
 
@@ -184,6 +206,10 @@
       transform-origin: top center;
       visibility: hidden;
       z-index: 100;
+
+      .sidebar-link {
+        display: block !important;
+      }
 
       li {
         list-style: none;

@@ -5,13 +5,20 @@ import router from "../utils/routing";
 /* stimulusFetch: 'lazy' */
 export default class extends ApplicationController {
     static debounces = ['fetchLink']
-    static targets = ['title', 'description'];
+    static targets = ['title', 'description', 'url'];
     static values = {
         loading: Boolean
     };
 
     connect() {
-        useDebounce(this, {wait: 800})
+        useDebounce(this, {wait: 800});
+
+        let params = new URLSearchParams(window.location.search);
+        let url = params.get('url');
+        if (url) {
+            this.urlTarget.value = url;
+            this.urlTarget.dispatchEvent(new Event('input'));
+        }
     }
 
     async fetchLink(event) {

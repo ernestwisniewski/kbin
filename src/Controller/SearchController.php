@@ -27,7 +27,7 @@ class SearchController extends AbstractController
 
     public function __invoke(Request $request): Response
     {
-        $query = $request->query->get('q');
+        $query = $request->query->get('q') ? trim($request->query->get('q')) : null;
 
         if (!$query) {
             return $this->render(

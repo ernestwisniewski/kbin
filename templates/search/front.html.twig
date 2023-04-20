@@ -35,7 +35,7 @@
                         {{ component('user_box', {user: object.object}) }}
                     </div>
                 {% elseif object.type is same as 'magazine' %}
-                    {{ component('magazine_box', {magazine: object.object}) }}
+                    {{ component('magazine_box', {magazine: object.object, stretchedLink: false}) }}
                 {% else %}
                     {% include 'layout/_subject_list.html.twig' with {results: [object], entryCommentAttributes: {showMagazineName: true, showEntryTitle: true}, postCommentAttributes: {withPost: true}} %}
                 {% endif %}

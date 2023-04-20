@@ -13,6 +13,7 @@
         <blockquote{{ attributes.defaults({
             class: html_classes('section post subject ' ~ class,{
                 'own': app.user and post.isAuthor(app.user),
+                'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
                 id="post-{{ post.id }}"
                 data-controller="post subject"
@@ -28,7 +29,7 @@
                 {% endif %}
                 {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}{% endif %}
                 {% if post.lang is not same as kbin_default_lang() %}
-                    <small hidden class="badge">{{ post.lang }}</small>
+                    <small class="badge kbin-bg">{{ post.lang }}</small>
                 {% endif %}
             </header>
             {% if post.user.avatar %}

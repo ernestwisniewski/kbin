@@ -461,3 +461,6 @@ related_magazines: Powiązane magazyny
 random_magazines: Losowe magazyny
 magazine_panel_tags_info: Wprowadź tylko wtedy, gdy chcesz żeby treści z fediwersum
   były umieszczane w tym magazynie na podstawie tagów.
+sidebar: Menu boczne
+auto_preview: Pogląd mediów
+dynamic_lists: Dynamiczne listy

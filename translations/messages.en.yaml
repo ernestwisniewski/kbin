@@ -459,3 +459,6 @@ related_magazines: Related magazines
 random_magazines: Random magazines
 magazine_panel_tags_info: Provide only if you want content from the fediverse to be
   included in this magazine based on tags
+sidebar: Sidebar
+auto_preview: Auto media preview
+dynamic_lists: Dynamic lists

@@ -19,12 +19,15 @@ class ThemeSettingsController extends AbstractController
     public const KBIN_ENTRIES_SHOW_USERS_AVATARS = 'kbin_entries_show_users_avatars';
     public const KBIN_ENTRIES_SHOW_MAGAZINES_ICONS = 'kbin_entries_show_magazines_icons';
     public const KBIN_ENTRIES_SHOW_THUMBNAILS = 'kbin_entries_show_thumbnails';
+    public const KBIN_ENTRIES_SHOW_PREVIEW = 'kbin_entries_show_preview';
     public const KBIN_ENTRIES_VIEW = 'kbin_entries_view';
+    public const KBIN_POSTS_SHOW_PREVIEW = 'kbin_posts_show_preview';
     public const KBIN_GENERAL_ROUNDED_EDGES = 'kbin_general_rounded_edges';
     public const KBIN_GENERAL_INFINITE_SCROLL = 'kbin_general_infinite_scroll';
     public const KBIN_GENERAL_TOPBAR = 'kbin_general_topbar';
     public const KBIN_GENERAL_FIXED_NAVBAR = 'kbin_general_fixed_navbar';
     public const KBIN_GENERAL_SIDEBAR_POSITION = 'kbin_general_sidebar_position';
+    public const KBIN_GENERAL_DYNAMIC_LISTS = 'kbin_general_dynamic_lists';
 
     public const CLASSIC = 'classic';
     public const CHAT = 'chat';
@@ -54,6 +57,9 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_GENERAL_TOPBAR,
         self::KBIN_GENERAL_FIXED_NAVBAR,
         self::KBIN_GENERAL_SIDEBAR_POSITION,
+        self::KBIN_ENTRIES_SHOW_PREVIEW,
+        self::KBIN_POSTS_SHOW_PREVIEW,
+        self::KBIN_GENERAL_DYNAMIC_LISTS,
     ];
 
     public const VALUES = [

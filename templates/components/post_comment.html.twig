@@ -12,6 +12,7 @@
             class: html_classes('section comment post-comment subject ' ~ 'comment-level--' ~ this.getLevel(),{
                 'own': app.user and comment.isAuthor(app.user),
                 'author': comment.isAuthor(comment.post.user),
+                'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
                 id="post-comment-{{ comment.id }}"
                 data-controller="comment subject"

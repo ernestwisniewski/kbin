@@ -16,4 +16,6 @@ final class MagazineBoxComponent
     public bool $showInfo = true;
     public bool $showMeta = true;
     public bool $showSectionTitle = false;
+    public bool $stretchedLink = true;
+
 }
