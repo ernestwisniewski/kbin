@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'about_instance'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-about{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'about_instance'|trans }}</h1>
+    <div id="content" class="section">
+        {{ body|raw }}
+    </div>
+{% endblock %}

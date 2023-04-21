@@ -15,14 +15,15 @@ class PostCommentVoter extends Voter
     public const DELETE = 'delete';
     public const PURGE = 'purge';
     public const VOTE = 'vote';
+    public const MODERATE = 'moderate';
 
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof PostComment && \in_array(
-            $attribute,
-            [self::EDIT, self::DELETE, self::PURGE, self::VOTE],
-            true
-        );
+                $attribute,
+                [self::EDIT, self::DELETE, self::PURGE, self::VOTE, self::MODERATE],
+                true
+            );
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -38,6 +39,7 @@ class PostCommentVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
+            self::MODERATE => $this->canModerate($subject, $user),
             default => throw new \LogicException(),
         };
     }
@@ -80,5 +82,10 @@ class PostCommentVoter extends Voter
         }
 
         return true;
+    }
+
+    private function canModerate(PostComment $comment, User $user): bool
+    {
+        return $comment->magazine->userIsModerator($user);
     }
 }

@@ -1,15 +1,34 @@
-{% extends 'post/single.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'reply'|trans|capitalize -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'add_comment'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-post-comment-create{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    {% embed 'post/_single.html.twig' %}
-        {% block before_comments %}
-            {% if parent %}
-                {{ component('post_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0'}) }}
-            {% endif %}
-
-            {% include 'post/comment/_form.html.twig' %}
-        {% endblock %}
-    {% endembed %}
+    {{ component('post', {
+        post: post,
+        isSingle: true,
+        showMagazineName: false
+    }) }}
+    {% if parent is defined and parent %}
+        {{ component('post_comment', {
+            comment: parent,
+            showEntryTitle: false,
+            showNested: false
+        }) }}
+    {% endif %}
+    {% include 'layout/_flash.html.twig' %}
+    <div id="content">
+        <section class="section">
+            {% include 'post/comment/_form_comment.html.twig' %}
+        </section>
+    </div>
 {% endblock %}

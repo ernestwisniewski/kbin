@@ -1,0 +1,163 @@
+$base03: #002b36;
+$base02: #073642;
+$base01: #586e75;
+$base00: #657b83;
+$base0: #839496;
+$base1: #93a1a1;
+$base2: #eee8d5;
+$base3: #fdf6e3;
+$yellow: #b58900;
+$orange: #cb4b16;
+$red: #dc322f;
+$magenta: #d33682;
+$violet: #6c71c4;
+$blue: #268bd2;
+$cyan: #2aa198;
+$green: #859900;
+
+.theme--solarized-dark {
+  #middle {
+    margin-top: 1rem;
+  }
+
+  .options--top, .section--top {
+    border: var(--kbin-options-border) !important;
+  }
+
+  &.rounded-edges {
+    .section--top, .options--top {
+      border-radius: .5rem !important;
+    }
+
+    .head-nav__menu li a {
+      border-radius: 0 0 .5rem .5rem;
+    }
+  }
+
+  .ts-dropdown {
+    background: var(--kbin-input-bg);
+    border-color: #373737;
+    color: var(--kbin-meta-text-color);
+
+    .active {
+      background: var(--kbin-options-bg);
+      color: var(--kbin-meta-text-color);
+    }
+  }
+
+  .entry__domain,
+  .entry__domain a {
+    color: $yellow !important;
+  }
+
+  --kbin-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --kbin-body-font-size: 1rem;
+  --kbin-body-font-weight: 400;
+  --kbin-body-line-height: 1.5;
+  --kbin-body-text-align: left;
+  --kbin-body-bg: #{$base02};
+
+  --kbin-bg: #{$base02};
+  --kbin-bg-nth: #{$base03};
+
+  --kbin-text-color: #809293;
+  --kbin-link-color: #b2c9cc;
+  --kbin-link-hover-color: #dcf5f8;
+  --kbin-outline: #ff8c00 solid 4px;
+
+  --kbin-primary-color: #{$base02};
+  --kbin-text-muted-color: #{$base01};
+
+  --kbin-success-color: #{$green};
+  --kbin-danger-color: #{$red};
+
+  // section
+  --kbin-section-bg: #{$base03};
+  --kbin-section-text-color: var(--kbin-text-color);
+  --kbin-section-title-link-color: var(--kbin-link-color);
+  --kbin-section-link-color: #{$yellow};;
+  --kbin-section-link-hover-color: var(--kbin-link-hover-color);
+  --kbin-section-border: 1px solid #214852;
+  --kbin-author-border: 1px dashed var(--kbin-danger-color);
+  --kbin-own-border: 1px dashed var(--kbin-success-color);
+
+  // meta
+  --kbin-meta-bg: none;
+  --kbin-meta-text-color: #{$base1};
+  --kbin-meta-link-color: #{$base01};
+  --kbin-meta-link-hover-color: #a9bbbb;
+  --kbin-meta-border: 1px dashed #001a21;;
+  --kbin-avatar-border: 3px solid #373737;
+
+  // options
+  --kbin-options-bg: #{$base03};
+  --kbin-options-text-color: #95a5a6;
+  --kbin-options-link-color: #{$base00};
+  --kbin-options-link-hover-color: #e1e5ec;
+  --kbin-options-border: 1px solid #214852;
+  --kbin-options-link-hover-border: 3px solid #{$magenta};
+
+  // forms
+  --kbin-input-bg: #00242c;
+  --kbin-input-text-color: var(--kbin-text-color);
+  --kbin-input-border: var(--kbin-section-border);
+
+  // buttons
+  --kbin-button-primary-bg: var(--kbin-primary-color);
+  --kbin-button-primary-hover-bg: #0b5467;
+  --kbin-button-primary-text-color: #fff;
+  --kbin-button-primary-text-hover-color: #fff;
+  --kbin-button-primary-border: 1px solid #04242c;
+
+  --kbin-button-secondary-bg: #00242c;
+  --kbin-button-secondary-hover-bg: #01313b;
+  --kbin-button-secondary-text-color: var(--kbin-meta-text-color);
+  --kbin-button-secondary-text-hover-color: var(--kbin-text-color);
+  --kbin-button-secondary-border: 1px dashed #001a21;
+
+  // header
+  --kbin-header-bg: var(--kbin-primary-color);
+  --kbin-header-text-color: #{$base0};
+  --kbin-header-link-color: #{$base0};
+  --kbin-header-link-hover-color: #e8e8e8;
+  --kbin-header-link-active-bg: var(--kbin-options-bg);
+  --kbin-header-border: 1px solid #e5eaec;
+  --kbin-header-hover-border: 3px solid #{$base01};
+
+  // topbar
+  --kbin-topbar-bg: #{$base03};
+  --kbin-topbar-active-bg: var(--kbin-primary-color);
+  --kbin-topbar-link-color: var(--kbin-meta-text-color);
+  --kbin-topbar-active-link-color: #{$base2};
+  --kbin-topbar-hover-bg: var(--kbin-primary-color);
+  --kbin-topbar-border: 1px solid #{$base02};
+
+  //sidebar
+  --kbin-sidebar-header-text-color: #909ea2;
+  --kbin-sidebar-header-border: var(--kbin-section-border);
+
+  //vote
+  --kbin-vote-bg: #00242c;
+  --kbin-vote-text-color: #b6b6b6;
+  --kbin-vote-text-hover-color: #fafafa;
+
+  // alerts
+  --kbin-alert-info-bg: #fff3cd;
+  --kbin-alert-info-border: 1px solid #ffe69c;
+  --kbin-alert-info-text-color: #997404;
+  --kbin-alert-info-link-color: #997404;
+
+  --kbin-alert-danger-bg: #f8d7da;
+  --kbin-alert-danger-border: 1px solid #f5c2c7;
+  --kbin-alert-danger-text-color: var(--kbin-danger-color);
+  --kbin-alert-danger-link-color: var(--kbin-danger-color);
+
+  //entry
+  --kbin-entry-link-visited-color: #586e75;
+
+  // footer
+  --kbin-footer-bg: var(--kbin-section-bg);
+  --kbin-footer-text-color: var(--kbin-text-color);
+  --kbin-footer-link-color: var(--kbin-link-color);
+  --kbin-footer-link-hover-color: var(--kbin-link-hover-color);
+}

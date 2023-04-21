@@ -7,15 +7,16 @@ namespace App\Repository;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Result;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Doctrine\Collections\CollectionAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
@@ -35,7 +36,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, PasswordUpgraderInterface
 {
-    public const PER_PAGE = 25;
+    public const PER_PAGE = 48;
     public const USERS_ALL = 'all';
     public const USERS_LOCAL = 'local';
     public const USERS_REMOTE = 'remote';
@@ -111,22 +112,22 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $result = $pagerfanta->getCurrentPageResults();
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry')]
+            ['id' => $this->getOverviewIds((array)$result, 'entry')]
         );
         $this->_em->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
+            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
         );
         $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
         $this->_em->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
+            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
         );
         $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -137,7 +138,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -147,23 +148,16 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
 
-        return array_map(fn ($subject) => $subject['id'], $result);
+        return array_map(fn($subject) => $subject['id'], $result);
     }
 
     public function findFollowing(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.following) FROM '.UserFollow::class.' us WHERE us.follower = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->follows
             )
         );
 
@@ -179,16 +173,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function findFollowers(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->followers
             )
         );
 
@@ -218,16 +205,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function findBlockedUsers(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT u FROM '.User::class.' u WHERE u IN ('.
-            'SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->blocks
             )
         );
 
@@ -349,5 +329,95 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findPeople(Magazine $magazine, ?bool $federated = false, $limit = 200): array
+    {
+        $conn = $this->_em->getConnection();
+        $sql = "
+        (SELECT count(id), user_id FROM entry WHERE magazine_id = {$magazine->getId()} GROUP BY user_id ORDER BY count DESC LIMIT 50) 
+        UNION 
+        (SELECT count(id), user_id FROM entry_comment WHERE magazine_id = {$magazine->getId()} GROUP BY user_id ORDER BY count DESC LIMIT 50)
+        UNION 
+        (SELECT count(id), user_id FROM post WHERE magazine_id = {$magazine->getId()} GROUP BY user_id ORDER BY count DESC LIMIT 50)
+        UNION 
+        (SELECT count(id), user_id FROM post_comment WHERE magazine_id = {$magazine->getId()} GROUP BY user_id ORDER BY count DESC LIMIT 50)
+        ORDER BY count DESC
+        ";
+
+        $stmt = $conn->prepare($sql);
+        $counter = $stmt->executeQuery()->fetchAllAssociative();
+
+        $output = [];
+        foreach ($counter as $item) {
+            $user_id = $item["user_id"];
+            $count = $item["count"];
+            if (isset($output[$user_id])) {
+                $output[$user_id]["count"] += $count;
+            } else {
+                $output[$user_id] = ["count" => $count, "user_id" => $user_id];
+            }
+        }
+
+        $user = array_map(fn($item) => $item['user_id'], $output);
+
+        $qb = $this->createQueryBuilder('u', 'u.id');
+        $qb->andWhere($qb->expr()->in('u.id', $user))
+            ->andWhere('u.isBanned = false')
+            ->andWhere('u.apDeletedAt IS NULL')
+            ->andWhere('u.about IS NOT NULL')
+            ->andWhere('u.avatar IS NOT NULL');
+
+        if (null !== $federated) {
+            if ($federated) {
+                $qb->andWhere('u.apId IS NOT NULL')
+                    ->andWhere('u.apDiscoverable = true');
+            } else {
+                $qb->andWhere('u.apId IS NULL');
+            }
+        }
+
+        $qb->setMaxResults($limit);
+
+        try {
+            $users = $qb->getQuery()->getResult(); // @todo
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        $res = [];
+        foreach ($output as $item) {
+            if (isset($users[$item['user_id']])) {
+                $res[] = $users[$item['user_id']];
+            }
+            if (count($res) >= 35) {
+                break;
+            }
+        }
+
+        return $res;
+    }
+
+    public function findActiveUsers(?Magazine $magazine = null)
+    {
+        if ($magazine) {
+            $results = $this->findPeople($magazine, null, 35);
+        } else {
+            $results = $this->createQueryBuilder('u')
+                ->andWhere('u.lastActive >= :lastActive')
+                ->andWhere('u.isBanned = false')
+                ->andWhere('u.apDeletedAt IS NULL')
+                ->andWhere('u.avatar IS NOT NULL')
+                ->join('u.avatar', 'a')
+                ->orderBy('u.lastActive', 'DESC')
+                ->setParameters(['lastActive' => (new \DateTime())->modify('-7 days')])
+                ->setMaxResults(35)
+                ->getQuery()
+                ->getResult();
+        }
+
+        shuffle($results);
+
+        return array_slice($results, 0, 12);
     }
 }

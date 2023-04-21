@@ -1,0 +1,68 @@
+.section {
+  background-color: var(--kbin-section-bg);
+  border: var(--kbin-section-border);
+  color: var(--kbin-section-text-color);
+  margin-bottom: .5rem;
+  padding: 2rem 1rem;
+
+  a {
+    color: var(--kbin-section-title-link-color);
+
+    &:hover {
+      color: var(--kbin-section-link-hover-color);
+    }
+  }
+
+  menu {
+    font-size: .8rem;
+
+    > li:first-child a {
+      padding-left: 0;
+    }
+
+    > li {
+      padding: .5rem 0;
+      position: relative;
+    }
+  }
+
+  &--small {
+    padding: 1rem 1rem;
+  }
+
+  &--top {
+    border-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  &--muted {
+    font-size: 1.3rem !important;
+    font-weight: bold;
+    text-align: center;
+
+    p {
+      color: var(--kbin-text-muted-color);
+      margin: 0;
+    }
+
+    small {
+      color: var(--kbin-text-muted-color);
+      display: block;
+      font-size: .8rem;
+      font-weight: normal;
+    }
+  }
+
+  &--no-bg {
+    background: none;
+    border: 0;
+  }
+}
+
+.page-search {
+  .section--top {
+    button {
+      padding: 1rem 1.5rem;
+    }
+  }
+}

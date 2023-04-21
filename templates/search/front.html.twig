@@ -1,48 +1,47 @@
 {% extends 'base.html.twig' %}
-{% from '_layout/_not_found.html.twig' import not_found %}
 
-{%- block title -%}{{- 'search'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'search'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-search page-settings{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
-        {% if not objects|length %}
-            <h1 class="my-4 font-weight-bold">{{ q }}</h1>
-        {% endif %}
-        {% for object in objects %}
-            {% if object.type is same as 'user' %}
-                <div class="mx-auto my-4 small align-content-center" style="max-width: 25rem">
-                    {{ component('user_box', {user: object.object}) }}
-                </div>
-            {% else %}
-                {% include '_layout/_subject.html.twig' with {subject: object.object} %}
-            {% endif %}
-        {% endfor %}
-
-        <div class="text-justify mx-5 my-5">
+    <h1 hidden>{{ 'search'|trans }}</h1>
+    <div class="section section--top">
+        <div class="container">
             <form method="get" action="{{ path('search') }}">
-                <div class="input-group input-group-lg input-group-btn">
-                    <input type="text" name="q" class="form-control" placeholder="{{ 'type_search_term'|trans }}">
-                    <button href="#" class="kbin-search-btn btn btn-default" type="submit">
+                <div class="flex" style="align-items: center">
+                    <input value="{{ q }}" type="text" name="q" class="form-control"
+                           placeholder="{{ 'type_search_term'|trans }}" autofocus>
+                    <button class="btn btn__primary" type="submit" aria-label="{{ 'search'|trans }}">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
             </form>
         </div>
-
-        <div>
-            {% if results|length %}
-                {% for subject in results %}
-                    {% include '_layout/_subject.html.twig' with {subject: subject} %}
-                {% endfor %}
-            {% elseif not object %}
-                {{ not_found() }}
-            {% endif %}
-
-            {% if(results.haveToPaginate) %}
-                {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
-            {% endif %}
-        </div>
+    </div>
+    <div id="content" class="overview subjects comments-tree comments">
+        {% if objects|length %}
+            {% for object in objects %}
+                {% if object.type is same as 'user' %}
+                    <div class="section">
+                        {{ component('user_box', {user: object.object}) }}
+                    </div>
+                {% elseif object.type is same as 'magazine' %}
+                    {{ component('magazine_box', {magazine: object.object, stretchedLink: false}) }}
+                {% else %}
+                    {% include 'layout/_subject_list.html.twig' with {results: [object], entryCommentAttributes: {showMagazineName: true, showEntryTitle: true}, postCommentAttributes: {withPost: true}} %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% include 'layout/_subject_list.html.twig' with {entryCommentAttributes: {showMagazineName: true, showEntryTitle: true}, postCommentAttributes: {withPost: true}} %}
+        {% endif %}
     </div>
 {% endblock %}
-
-

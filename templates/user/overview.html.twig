@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'overview'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-user page-user-overview{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+    <div class="section magazine">
+        <h3>{{ 'admin_panel'|trans }}</h3>
+        <div class="panel">
+            <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}"
+                  method="POST"
+                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
+                <button type="submit" class="btn btn__secondary">
+                    <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account': 'ban_account'|trans }}
+                </button>
+            </form>
+            <form action="{{ path('user_delete', {username: user.username}) }}" method="POST"
+                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
+                <button type="submit" class="btn btn__secondary">
+                    <i class="fa fa-dumpster"></i> {{ 'delete_account'|trans }}
+                </button>
+            </form>
+            <form action="{{ path('user_purge', {username: user.username}) }}" method="POST"
+                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
+                <button type="submit" class="btn btn__secondary">
+                    <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+    {% block body %}
+        <div class="section section--top">
+            {{ component('user_box', {
+                user: user,
+                stretchedLink: false
+            }) }}
+        </div>
+        {% include('user/_options.html.twig') %}
+        {% include('user/_federated_info.html.twig') %}
+        <div id="content" class="overview subjects comments-tree comments">
+            {% include 'layout/_subject_list.html.twig' with {attributes: {dateAsUrl: true}, entryCommentAttributes: {showMagazineName: false}} %}
+        </div>
+    {% endblock %}

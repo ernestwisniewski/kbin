@@ -1,0 +1,9 @@
+{%- if subject is entry -%}
+    <a href="{{ entry_url(subject) }}">{{ subject.shortTitle }}</a>
+{%- elseif subject is entry_comment -%}
+    <a href="{{ entry_url(subject.entry) }}#{{ get_url_fragment(subject) }}">{{ subject.shortTitle }}</a>
+{%- elseif subject is post -%}
+    <a href="{{ post_url(subject) }}">{{ subject.shortTitle }}</a>
+{%- elseif subject is post_comment -%}
+    <a href="{{ post_url(subject.post) }}#{{ get_url_fragment(subject) }}">{{ subject.shortTitle }}</a>
+{%- endif -%}

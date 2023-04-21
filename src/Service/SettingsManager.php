@@ -12,35 +12,35 @@ use JetBrains\PhpStorm\Pure;
 
 class SettingsManager
 {
-    private ?SettingsDto $dto = null;
+    private static ?SettingsDto $dto = null;
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly SettingsRepository $repository,
         private readonly string $kbinDomain,
+        private readonly string $kbinTitle,
         private readonly string $kbinMetaTitle,
         private readonly string $kbinMetaDescription,
         private readonly string $kbinMetaKeywords,
-        private string $kbinDefaultLang,
+        private readonly string $kbinDefaultLang,
         private readonly string $kbinContactEmail,
         private readonly string $kbinSenderEmail,
-        private readonly string $kbinMarkdownHowtoUrl,
         private readonly bool $kbinJsEnabled,
         private readonly bool $kbinFederationEnabled,
         private readonly bool $kbinRegistrationsEnabled,
     ) {
-        if (!$this->dto) {
+        if (!self::$dto) {
             $results = $this->repository->findAll();
 
-            $this->dto = new SettingsDto(
+            self::$dto = new SettingsDto(
                 $this->kbinDomain,
+                $this->find($results, 'KBIN_TITLE') ?? $this->kbinTitle,
                 $this->find($results, 'KBIN_META_TITLE') ?? $this->kbinMetaTitle,
                 $this->find($results, 'KBIN_META_KEYWORDS') ?? $this->kbinMetaKeywords,
                 $this->find($results, 'KBIN_META_DESCRIPTION') ?? $this->kbinMetaDescription,
                 $this->find($results, 'KBIN_DEFAULT_LANG') ?? $this->kbinDefaultLang,
                 $this->find($results, 'KBIN_CONTACT_EMAIL') ?? $this->kbinContactEmail,
                 $this->find($results, 'KBIN_SENDER_EMAIL') ?? $this->kbinSenderEmail,
-                $this->find($results, 'KBIN_MARKDOWN_HOWTO_URL') ?? $this->kbinMarkdownHowtoUrl,
                 $this->find($results, 'KBIN_JS_ENABLED', FILTER_VALIDATE_BOOLEAN) ?? $this->kbinJsEnabled,
                 $this->find(
                     $results,
@@ -75,7 +75,7 @@ class SettingsManager
 
     public function getDto(): SettingsDto
     {
-        return $this->dto;
+        return self::$dto;
     }
 
     public function save(SettingsDto $dto): void
@@ -107,6 +107,11 @@ class SettingsManager
 
     public function get(string $name)
     {
-        return $this->dto->{$name};
+        return self::$dto->{$name};
+    }
+    
+    public static function getValue(string $name): string
+    {
+        return self::$dto->{$name};
     }
 }

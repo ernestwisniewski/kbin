@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {%- if magazine is defined and magazine -%}
+        {% if get_active_sort_option('sortBy') is not same as 'hot' %}
+            {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ magazine.title }} - {{ parent() -}}
+        {% else %}
+            {{- magazine.title }} - {{ parent() -}}
+        {% endif %}
+    {%- else -%}
+        {% if get_active_sort_option('sortBy') is not same as 'hot' %}
+            {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ parent() }} - {{ kbin_meta_description() -}}
+        {% else %}
+            {{- parent() }} - {{ kbin_meta_description() -}}
+        {% endif %}
+    {%- endif -%}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-front{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        {% if magazine is defined and magazine %}
+            <h1 hidden>{{ magazine.title }}</h1>
+            <h2 hidden>{{ get_active_sort_option()|trans }}</h2>
+        {% else %}
+            <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
+        {% endif %}
+    </header>
+    {% include 'entry/_options.html.twig' %}
+    {% include 'layout/_flash.html.twig' %}
+    {% if magazine is defined and magazine %}
+        {% include 'magazine/_federated_info.html.twig' %}
+    {% endif %}
+    <div id="content">
+        {% include 'entry/_list.html.twig' %}
+    </div>
+{% endblock %}
+

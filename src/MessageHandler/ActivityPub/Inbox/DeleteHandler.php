@@ -18,9 +18,10 @@ use App\Service\PostCommentManager;
 use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class DeleteHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class DeleteHandler
 {
     public function __construct(
         private readonly ActivityPubManager $activityPubManager,
@@ -51,7 +52,7 @@ class DeleteHandler implements MessageHandlerInterface
             return;
         }
 
-        $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
+        $object = $this->entityManager->getRepository($object['type'])->find((int)$object['id']);
 
         if (Entry::class === get_class($object)) {
             $fn = 'deleteEntry';

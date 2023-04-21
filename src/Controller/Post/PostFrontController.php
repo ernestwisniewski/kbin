@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Post;
 
 use App\Controller\AbstractController;
+use App\DTO\PostDto;
 use App\Entity\Magazine;
+use App\Form\PostType;
 use App\PageView\PostPageView;
 use App\Repository\PostRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -40,6 +42,7 @@ class PostFrontController extends AbstractController
             'post/front.html.twig',
             [
                 'posts' => $posts,
+                'form' => $this->createForm(PostType::class)->createView(),
             ]
         );
     }
@@ -71,6 +74,7 @@ class PostFrontController extends AbstractController
             'post/front.html.twig',
             [
                 'posts' => $posts,
+                'form' => $this->createForm(PostType::class)->createView(),
             ]
         );
     }
@@ -102,6 +106,7 @@ class PostFrontController extends AbstractController
             'post/front.html.twig',
             [
                 'posts' => $posts,
+                'form' => $this->createForm(PostType::class)->createView(),
             ]
         );
     }
@@ -133,6 +138,7 @@ class PostFrontController extends AbstractController
             'post/front.html.twig',
             [
                 'posts' => $posts,
+                'form' => $this->createForm(PostType::class)->createView(),
             ]
         );
     }
@@ -165,11 +171,15 @@ class PostFrontController extends AbstractController
             );
         }
 
+        $dto = new PostDto();
+        $dto->magazine = $magazine;
+
         return $this->render(
             'post/front.html.twig',
             [
                 'magazine' => $magazine,
                 'posts' => $posts,
+                'form' => $this->createForm(PostType::class)->setData($dto)->createView(),
             ]
         );
     }

@@ -1,0 +1,71 @@
+<div class="section section--small moderate-panel">
+    <menu>
+        <li>
+            <a class="stretched-link"
+               href="{{ path('magazine_panel_ban', {'name': entry.magazine.name, 'username': entry.user.username}) }}">{{ 'ban'|trans|lower }}</a>
+        </li>
+        <li>
+            <form action="{{ path('entry_pin', {'magazine_name': entry.magazine.name, 'entry_id': entry.id}) }}"
+                  method="post">
+                <input type="hidden" name="token" value="{{ csrf_token('entry_pin') }}">
+                <button type="submit">
+                    <span>{{ entry.sticky ? 'unpin'|trans|lower : 'pin'|trans|lower }}</span>
+                </button>
+            </form>
+        </li>
+        <li>
+            <form action="{{ entry_delete_url(entry) }}"
+                  method="post"
+                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                <button type="submit">
+                    <span>{{ 'delete'|trans|lower }}</span>
+                </button>
+            </form>
+        </li>
+        {% if is_granted('purge', entry) %}
+            <li>
+                <form action="{{ path('entry_purge', {magazine_name: entry.magazine.name,entry_id: entry.id,}) }}"
+                      method="post"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('entry_purge') }}">
+                    <button type="submit">
+                        <span>{{ 'purge'|trans|lower }}</span>
+                    </button>
+                </form>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class="actions">
+                <form name="change_magazine"
+                      action="{{ path('entry_change_magazine', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}"
+                      method="post"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('change_magazine') }}">
+                    <input id="change_magazine_new_magazine" name="change_magazine[new_magazine]">
+                    <button type="submit" class="btn btn__secondary">
+                        {{ 'change_magazine'|trans|lower }}
+                    </button>
+                </form>
+            </li>
+        {% endif %}
+        <li class="actions">
+            {{ form_start(form, {action: path('entry_change_lang', {magazine_name: magazine.name, entry_id: entry.id})}) }}
+            {{ form_row(form.lang, {label: false, row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.submit, {label: 'change_language'|trans|lower, attr: {class: 'btn btn__secondary'}}) }}
+            {{ form_end(form) }}
+        </li>
+        <li class="actions">
+            <div class="checkbox">
+                <form action="{{ path('entry_change_adult', {magazine_name: magazine.name, entry_id: entry.id}) }}"
+                      method="post"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('change_adult') }}">
+                    <input name="adult"
+                           type="checkbox" {{ entry.isAdult ? 'checked' : '' }}>
+                    <button type="submit">{{ 'is_adult'|trans|lower }}</button>
+                </form>
+            </div>
+        </li>
+    </menu>
+</div>

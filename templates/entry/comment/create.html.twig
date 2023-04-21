@@ -1,17 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'reply'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'add_comment'|trans }} - {{ entry.title }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-comment-create{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    {% embed 'entry/_single.html.twig' %}
-        {% block after_entry %}
-            {% if comment is defined and comment %}
-                <section class="kbin-comment-wrapper mt-4">
-                    {{ component('entry_comment', {comment: parent, extraClass: 'kbin-comment-list-item mb-0', withParent: false, nested:false }) }}
-                </section>
-            {% endif %}
-
-            {% include 'entry/comment/_form.html.twig' %}
-        {% endblock %}
-    {% endembed %}
+    {{ component('entry', {
+        entry: entry,
+        isSingle: true,
+        showShortSentence: false,
+        showBody:false
+    }) }}
+    {% if parent is defined and parent %}
+        {{ component('entry_comment', {
+            comment: parent,
+            showEntryTitle: false,
+            showNested: false
+        }) }}
+    {% endif %}
+    {% include 'layout/_flash.html.twig' %}
+    <section id="content" class="section">
+        {% include 'entry/comment/_form_comment.html.twig' %}
+    </section>
 {% endblock %}

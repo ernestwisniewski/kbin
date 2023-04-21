@@ -1,0 +1,61 @@
+#footer {
+  background: var(--kbin-footer-bg);
+  color: var(--kbin-footer-text-color);
+  margin-top: 3rem;
+  overflow: hidden;
+  padding: 0 .5rem 3rem;
+
+  .kbin-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    @include media-breakpoint-down(sm) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  h5 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: .5rem;
+  }
+
+  a {
+    color: var(--kbin-footer-link-color);
+
+    &:hover {
+      color: var(--kbin-footer-link-hover-color);
+    }
+  }
+
+  div {
+    margin-bottom: .5rem;
+  }
+
+  li {
+    font-size: .9rem;
+    list-style: none;
+    padding: .1rem 0;
+  }
+
+  section:last-child {
+    align-self: center;
+    font-size: .85rem;
+    text-align: center;
+
+    menu {
+      align-items: baseline;
+      display: flex;
+      inline-size: max-content;
+      margin: 0 auto;
+    }
+
+    menu li {
+      padding: 1rem;
+    }
+
+    h5 {
+      font-size: 1rem;
+    }
+  }
+}

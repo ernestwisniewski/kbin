@@ -1,0 +1,37 @@
+{% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC') %}
+    {% for reply in comment.nested %}
+        {% if reply.visibility is same as 'private' %}
+            {% if app.user and reply.user.isFollower(app.user) %}
+                {% if not app.user.isBlocked(reply.user) %}
+                    {{ component('post_comment', {comment: reply, showNested:false, level: 3}) }}
+                {% endif %}
+            {% else %}
+                <div class="section">
+                    {{ 'Private' }}
+                </div>
+            {% endif %}
+        {% else %}
+            {% if not app.user or (app.user and not app.user.isBlocked(reply.user)) %}
+                {{ component('post_comment', {comment: reply, showNested:false, level: 3}) }}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    {% for reply in comment.children %}
+        {% if reply.visibility is same as 'private' %}
+            {% if app.user and reply.user.isFollower(app.user) %}
+                {% if not app.user.isBlocked(reply.user) %}
+                    {{ component('entry_comment', {comment: reply, showNested:true, level: level + 1, showEntryTitle:false, showMagazineName:false}) }}
+                {% endif %}
+            {% else %}
+                <div class="section">
+                    {{ 'Private' }}
+                </div>
+            {% endif %}
+        {% else %}
+            {% if not app.user or (app.user and not app.user.isBlocked(reply.user)) %}
+                {{ component('post_comment', {comment: reply, showNested:true, level: level + 1}) }}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

@@ -1,21 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'edit_magazine'|trans }} | /m/{{ magazine.name }} | {{ parent() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'tags'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-magazine-edit-page">
-        {% include 'magazine/panel/_tabs.html.twig' %}
-        {% include '_layout/_flash.html.twig' %}
-        <div class="kbin-magazine-edit mt-lg-4">
-            <div class="kbin-magazine-background"></div>
+{% block mainClass %}page-magazine-panel page-magazine-tags{% endblock %}
 
-            {% include 'magazine/panel/_form_tags.html.twig' %}
-        </div>
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+    <h1 hidden>{{ 'tags'|trans }}</h1>
+    <div class="alert alert__info">
+        {{ 'magazine_panel_tags_info'|trans }}
+    </div>
+    <div id="content" class="section">
+        <div class="container">
+            {{ form_start(form) }}
+            {{ form_row(form.tags) }}
+            <div class="actions">
+                {{ form_row(form.submit, { 'label': 'save'|trans, attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

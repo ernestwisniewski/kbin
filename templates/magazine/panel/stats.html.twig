@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'stats'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-stats{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+    {% include 'magazine/panel/_stats_pills.html.twig' %}
+    <div id="content" class="section">
+        {% include 'stats/_filters.html.twig' %}
+        {{ render_chart(chart) }}
+    </div>
+{% endblock %}

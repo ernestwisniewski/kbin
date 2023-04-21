@@ -1,0 +1,19 @@
+.meta {
+  color: var(--kbin-meta-text-color);
+  font-size: .8rem;
+  opacity: .75;
+
+  a {
+    color: var(--kbin-meta-link-color);
+    font-weight: bold;
+    padding: .5rem 0;
+
+    &:hover {
+      color: var(--kbin-meta-link-hover-color);
+    }
+  }
+}
+
+.meta-link {
+  color: var(--kbin-meta-link-color);
+}

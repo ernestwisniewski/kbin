@@ -61,15 +61,15 @@ class PostNoteFactory
                 $post->apId
                     ? ($this->client->getActorObject($post->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                        'ap_user_followers',
-                        ['username' => $post->user->username],
-                        UrlGeneratorInterface::ABSOLUTE_URL
-                    ),
+                    'ap_user_followers',
+                    ['username' => $post->user->username],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ],
             'sensitive' => $post->isAdult(),
             'content' => $this->markdownConverter->convertToHtml(
                 $this->tagManager->joinTagsToBody(
-                    $this->mentionManager->joinMentionsToBody($post->body ?? '', $post->mentions ?? []),
+                    $post->body,
                     $tags
                 )
             ),
@@ -82,6 +82,10 @@ class PostNoteFactory
             'commentsEnabled' => true,
             'published' => $post->createdAt->format(DATE_ATOM),
         ]);
+
+        $note['contentMap'] = [
+            $post->lang => $note['content'],
+        ];
 
         if ($post->image) {
             $note = $this->imageWrapper->build($note, $post->image, $post->getShortTitle());
@@ -97,14 +101,14 @@ class PostNoteFactory
         'sensitive' => 'string',
         'votersCount' => 'string',
     ])]
- public static function getContext(): array
- {
-     return [
-         'ostatus' => 'http://ostatus.org#',
-         'sensitive' => 'as:sensitive',
-         'votersCount' => 'toot:votersCount',
-     ];
- }
+    public static function getContext(): array
+    {
+        return [
+            'ostatus' => 'http://ostatus.org#',
+            'sensitive' => 'as:sensitive',
+            'votersCount' => 'toot:votersCount',
+        ];
+    }
 
     public function getActivityPubId(Post $post): string
     {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Post;
 
@@ -6,28 +8,46 @@ use App\Tests\WebTestCase;
 
 class PostCreateControllerTest extends WebTestCase
 {
-    public function testCanCreatePost(): void
+    public function testUserCanCreatePost(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('user'));
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
         $this->getMagazineByName('acme');
 
-        $crawler = $client->request('GET', '/m/acme/wpisy');
+        $crawler = $client->request('GET', '/m/acme/microblog');
 
         $client->submit(
-            $crawler->filter('form[name=post]')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=post]')->selectButton('Add post')->form(
                 [
-                    'post[body]' => 'Lorem ipsum',
+                    'post[body]' => 'test post 1',
                 ]
             )
         );
 
-        $this->assertResponseRedirects();
-
+        $this->assertResponseRedirects('/m/acme/microblog/newest');
         $client->followRedirect();
 
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.kbin-post-main', 'Lorem ipsum');
+        $this->assertSelectorTextContains('#content .post', 'test post 1');
+    }
+
+    public function testUserCannotCreateInvalidPost(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
+
+        $this->getMagazineByName('acme');
+
+        $crawler = $client->request('GET', '/m/acme/microblog');
+
+        $crawler = $client->submit(
+            $crawler->filter('form[name=post]')->selectButton('Add post')->form(
+                [
+                    'post[body]' => '',
+                ]
+            )
+        );
+
+        $this->assertSelectorTextContains('#content', 'This value should not be blank.');
     }
 }

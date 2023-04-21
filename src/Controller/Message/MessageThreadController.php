@@ -29,7 +29,7 @@ class MessageThreadController extends AbstractController
             $this->manager->toMessage($form->getData(), $thread, $this->getUserOrThrow());
 
             return $this->redirectToRoute(
-                'user_profile_message',
+                'messages_front',
                 ['id' => $thread->getId()]
             );
         }
@@ -37,7 +37,7 @@ class MessageThreadController extends AbstractController
         $this->manager->readMessages($thread, $this->getUserOrThrow());
 
         return $this->render(
-            'user/profile/message.html.twig',
+            'messages/single.html.twig',
             [
                 'user' => $this->getUserOrThrow(),
                 'thread' => $thread,

@@ -1,0 +1,24 @@
+<div id="topbar">
+    <menu>
+        <li class="{{ html_classes({'active': is_route_name('front') or is_route_name('posts_front') or is_route_name('people_front')}) }}">
+            <a class="stretched-link" href="{{ path('front') }}">{{ 'all'|trans }}</a>
+        </li>
+        <li class="{{ html_classes({'active': is_route_name_contains('_subscribed')}) }}">
+            <a class="stretched-link" href="{{ path('front_subscribed') }}">{{ 'subscribed'|trans }}</a>
+        </li>
+        <li class="{{ html_classes({'active': is_route_name_contains('_moderated')}) }}">
+            <a class="stretched-link" href="{{ path('front_moderated') }}">{{ 'moderated'|trans }}</a>
+        </li>
+        <li class="{{ html_classes({'active': is_route_name_contains('_favourite')}) }}">
+            <a class="stretched-link" href="{{ path('front_favourite') }}">{{ 'favourites'|trans }}</a>
+        </li>
+        <li>
+            <a class="stretched-link" href="#">•</a>
+        </li>
+    </menu>
+    {{ component('featured_magazines', {magazine: magazine is defined and magazine ? magazine : null}) }}
+    <menu>
+        <li class="{{ html_classes({'active': is_route_name('magazine_list_all')}) }}">
+            <a class="stretched-link" href="{{ path('magazine_list_all') }}">{{ 'all_magazines'|trans }}</a></li>
+    </menu>
+</div>

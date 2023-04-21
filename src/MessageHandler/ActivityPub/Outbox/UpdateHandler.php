@@ -13,11 +13,12 @@ use App\Service\ActivityPub\Wrapper\CreateWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Uid\Uuid;
 
-class UpdateHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class UpdateHandler
 {
     public function __construct(
         private readonly MessageBusInterface $bus,

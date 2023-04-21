@@ -1,11 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\ApiDataProvider;
 
-
 use App\Tests\ApiTestCase;
 use App\Tests\FactoryTrait;
-use DateTimeInterface;
 
 class EntryCollectionDataProviderTest extends ApiTestCase
 {
@@ -33,59 +33,52 @@ class EntryCollectionDataProviderTest extends ApiTestCase
 //        $this->assertMatchesResourceCollectionJsonSchema(EntryDto::class); // todo image
 
         $this->assertJsonContains([
-            '@context'         => '/api/contexts/entry',
-            '@id'              => '/api/entries',
-            '@type'            => 'hydra:Collection',
-            'hydra:member'     => [
+            '@context' => '/api/contexts/entry',
+            '@id' => '/api/entries',
+            '@type' => 'hydra:Collection',
+            'hydra:member' => [
                 [
-                    '@id'        => '/api/entries/'.$entry->getId(),
-                    '@type'      => 'entry',
-                    'magazine'   => [
-                        '@id'   => '/api/magazines/acme',
+                    '@id' => '/api/entries/'.$entry->getId(),
+                    '@type' => 'entry',
+                    'magazine' => [
+                        '@id' => '/api/magazines/acme',
                         '@type' => 'magazine',
-                        'name'  => 'acme',
+                        'name' => 'acme',
                     ],
-                    'user'       => [
-                        '@id'      => '/api/users/JohnDoe',
-                        '@type'    => 'user',
+                    'user' => [
+                        '@id' => '/api/users/JohnDoe',
+                        '@type' => 'user',
                         'username' => 'JohnDoe',
                     ],
-                    'image'      => [
-                        '@id'       => '/api/images/'.$entry->image->getId(),
-                        '@type'     => 'image',
-                        'filePath'  => $entry->image->filePath,
-                        'width'     => 1280,
-                        'height'    => 1280
-                    ],
-                    'domain'     => [
-                        '@id'   => '/api/domains/'.$entry->domain->getId(),
+                    'image' => null,
+                    'domain' => [
+                        '@id' => '/api/domains/'.$entry->domain->getId(),
                         '@type' => 'domain',
-                        'name'  => 'karab.in',
+                        'name' => 'karab.in',
                     ],
-                    'title'      => 'test1',
-                    'url'        => 'https://karab.in/',
-                    'comments'   => 1,
-                    'uv'         => 1,
-                    'dv'         => 1,
-                    'isAdult'    => false,
-                    'views'      => 0,
-                    'score'      => 0,
+                    'title' => 'test1',
+                    'url' => 'https://karab.in/',
+                    'comments' => 1,
+                    'uv' => 1,
+                    'dv' => 1,
+                    'isAdult' => false,
+                    'views' => 0,
+                    'score' => 0,
                     'visibility' => 'visible',
-                    'createdAt'  => $entry->createdAt->format(DateTimeInterface::RFC3339),
-                    'lastActive' => $entry->lastActive->format(DateTimeInterface::RFC3339),
-                    'id'         => $entry->getId(),
-                    'type'       => 'link',
+                    'createdAt' => $entry->createdAt->format(\DateTimeInterface::RFC3339),
+                    'lastActive' => $entry->lastActive->format(\DateTimeInterface::RFC3339),
+                    'id' => $entry->getId(),
+                    'type' => 'link',
                 ],
             ],
             'hydra:totalItems' => 3,
-            'hydra:view'       => [
-                '@id'         => '/api/entries?page=1',
-                '@type'       => 'hydra:PartialCollectionView',
+            'hydra:view' => [
+                '@id' => '/api/entries?page=1',
+                '@type' => 'hydra:PartialCollectionView',
                 'hydra:first' => '/api/entries?page=1',
-                'hydra:last'  => '/api/entries?page=2',
-                'hydra:next'  => '/api/entries?page=2',
+                'hydra:last' => '/api/entries?page=2',
+                'hydra:next' => '/api/entries?page=2',
             ],
         ]);
-
     }
 }

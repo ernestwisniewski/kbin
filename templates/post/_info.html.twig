@@ -1,0 +1,23 @@
+<section class="section entry-info">
+    <h3>{{ 'thread'|trans }}</h3>
+    <div class="row">
+        {% if post.user.avatar %}
+            <figure>
+                <img width="100" height="100"
+                     src="{{ asset(post.user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+                     alt="{{ post.user.username ~' '~ 'avatar'|trans|lower }}">
+            </figure>
+        {% endif %}
+        <h4><a href="{{ path('user_overview', {username:post.user.username}) }}"
+               class="stretched-link">{{ post.user.username|username(false) }}</a></h4>
+        <p class="user__name">{{ post.user.username|username(true) }}</p>
+    </div>
+    {{ component('user_follow', {user: post.user}) }}
+    <ul class="info">
+        <li>{{ 'added'|trans }}: {{ component('date', {date: post.createdAt}) }}</li>
+        <li>{{ 'online'|trans }}: <span>-</span></li>
+        <li>{{ 'up_votes'|trans }}:
+            <span>{{ post.countUpvotes }}</span>
+        </li>
+    </ul>
+</section>

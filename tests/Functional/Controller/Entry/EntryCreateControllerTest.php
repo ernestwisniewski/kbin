@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
@@ -6,61 +8,94 @@ use App\Tests\WebTestCase;
 
 class EntryCreateControllerTest extends WebTestCase
 {
-    public function testCanCreateArticle(): void
+    public function testUserCanCreateEntryLink()
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('user'));
 
-        $magazine = $this->getMagazineByName('acme');
+        $client->request('GET', '/m/acme/new');
 
-        $crawler = $client->request('GET', '/nowy/artykuł');
-
-        $client->submit(
-            $crawler->filter('form[name=entry_article]')->selectButton('Gotowe')->form(
-                [
-                    'entry_article[title]'    => 'example content',
-                    'entry_article[body]'     => 'Lorem ipsum',
-                    'entry_article[magazine]' => $magazine->getId(),
-                ]
-            )
-        );
-
-        $this->assertResponseRedirects();
-
-        $client->followRedirect();
-
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.kbin-entry-title', 'example content');
+        $this->assertSelectorExists('form[name=entry_link]');
     }
 
-    public function testCanCreateLink(): void
+    public function testUserCanCreateEntryLinkFromMagazinePage(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('user'));
 
-        $magazine = $this->getMagazineByName('acme');
-        $this->getEntryByTitle('test1');
-        $this->getEntryByTitle('test2');
+        $this->getMagazineByName('acme');
 
-        $crawler = $client->request('GET', '/nowy/link');
+        $crawler = $client->request('GET', '/m/acme/new');
 
         $client->submit(
-            $crawler->filter('form[name=entry_link]')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_link]')->selectButton('Add new link')->form(
                 [
-                    'entry_link[title]'    => 'example content',
-                    'entry_link[url]'      => 'https://example.pl',
-                    'entry_link[magazine]' => $magazine->getId(),
-                    'entry_link[body]'  => 'example comment',
+                    'entry_link[url]' => 'https://kbin.pub',
+                    'entry_link[title]' => 'Test entry 1',
+                    'entry_link[body]' => 'Test body',
                 ]
             )
         );
 
-        $crawler = $client->followRedirect();
+        $this->assertResponseRedirects('/m/acme/newest');
+        $client->followRedirect();
 
-        $client->click($crawler->filter('.kbin-entry-title')->selectLink('example content')->link());
+        $this->assertSelectorTextContains('article h2', 'Test entry 1');
+    }
 
-        $this->assertSelectorTextContains('.kbin-entry-title', 'example content');
-        $this->assertSelectorTextContains('.kbin-entry-content', 'example comment');
-        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Treści 3');
+    public function testUserCanCreateEntryArticle()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('user'));
+
+        $client->request('GET', '/m/acme/new/article');
+
+        $this->assertSelectorExists('form[name=entry_article]');
+    }
+
+    public function testUserCanCreateEntryArticleFromMagazinePage()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('user'));
+
+        $this->getMagazineByName('acme');
+
+        $crawler = $client->request('GET', '/m/acme/new/article');
+
+        $client->submit(
+            $crawler->filter('form[name=entry_article]')->selectButton('Add new article')->form(
+                [
+                    'entry_article[title]' => 'Test entry 1',
+                    'entry_article[body]' => 'Test body',
+                ]
+            )
+        );
+
+        $this->assertResponseRedirects('/m/acme/newest');
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('article h2', 'Test entry 1');
+    }
+
+    public function testUserCanCreateEntryPhoto()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('user'));
+
+        $client->request('GET', '/m/acme/new/photo');
+
+        $this->assertSelectorExists('form[name=entry_image]');
+    }
+
+    public function testUserCanCreateEntryPhotoFromMagazinePage()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('user'));
+
+        $this->getMagazineByName('acme');
+
+        $client->request('GET', '/m/acme/new/photo');
+
+        $this->assertSelectorExists('form[name=entry_image]');
     }
 }

@@ -1,51 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Post;
 
+use App\Entity\Contracts\VotableInterface;
+use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 
 class PostVotersControllerTest extends WebTestCase
 {
-    public function testUserCanSeePostVoters(): void
+    public function testUserCanSeeVoters(): void
     {
         $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $this->getMagazineByName('acme');
+        $post = $this->createPost('test post 1');
 
-        $user  = $this->getUserByUsername('user');
-        $user1 = $this->getUserByUsername('JohnDoe');
-        $user2 = $this->getUserByUsername('JaneDoe');
+        $manager = $client->getContainer()->get(VoteManager::class);
+        $manager->vote(VotableInterface::VOTE_UP, $post, $this->getUserByUsername('JaneDoe'));
 
-        $post = $this->createPost('post test', null, $user);
+        $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
-        $this->createVote(1, $post, $user1);
-        $this->createVote(1, $post, $user2);
+        $client->click($crawler->filter('.options-activity')->selectLink('boosts (1)')->link());
 
-        $id      = $post->getId();
-        $crawler = $client->request('GET', "/m/acme/w/$id/-/głosy");
-
-        $this->assertCount(2, $crawler->filter('.kbin-voters .card'));
-    }
-
-    public function testXmlUserCanSeePostVoters(): void
-    {
-        $client = $this->createClient();
-
-        $this->getMagazineByName('acme');
-
-        $user  = $this->getUserByUsername('user');
-        $user1 = $this->getUserByUsername('JohnDoe');
-        $user2 = $this->getUserByUsername('JaneDoe');
-
-        $post = $this->createPost('post test', null, $user);
-
-        $this->createVote(1, $post, $user1);
-        $this->createVote(1, $post, $user2);
-
-        $id = $post->getId();
-        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
-        $client->request('GET', "/m/acme/w/$id/-/głosy");
-
-        $this->assertStringContainsString('JaneDoe', $client->getResponse()->getContent());
+        $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }
 }

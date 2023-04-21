@@ -35,7 +35,6 @@ class SubMagazineCommand extends Command
             ->addArgument('magazine', InputArgument::REQUIRED)
             ->addArgument('username', InputArgument::REQUIRED)
             ->addOption('unsub', 'u', InputOption::VALUE_NONE, 'Unsubscribe magazine.');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -47,11 +46,13 @@ class SubMagazineCommand extends Command
 
         if (!$user) {
             $io->error('User not found.');
+
             return Command::FAILURE;
         }
 
         if (!$magazine) {
             $io->error('Magazine not found.');
+
             return Command::FAILURE;
         }
 

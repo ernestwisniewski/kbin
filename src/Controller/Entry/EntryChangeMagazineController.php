@@ -24,12 +24,12 @@ class EntryChangeMagazineController extends AbstractController
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[IsGranted('moderate', subject: 'magazine')]
+    #[IsGranted('moderate', subject: 'entry')]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
         $this->validateCsrf('change_magazine', $request->request->get('token'));
 
-        $newMagazine = $this->repository->findOneByName($request->get('new_magazine'));
+        $newMagazine = $this->repository->findOneByName($request->get('change_magazine')['new_magazine']);
 
         $this->manager->changeMagazine($entry, $newMagazine);
 

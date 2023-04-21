@@ -7,10 +7,11 @@ namespace App\MessageHandler\Notification;
 use App\Message\Notification\EntryCommentDeletedNotificationMessage;
 use App\Repository\EntryCommentRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class SentEntryCommentDeletedNotificationHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class SentEntryCommentDeletedNotificationHandler
 {
     public function __construct(
         private readonly EntryCommentRepository $repository,

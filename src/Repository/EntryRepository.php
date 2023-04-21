@@ -27,7 +27,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @method Entry|null find($id, $lockMode = null, $lockVersion = null)
@@ -194,6 +194,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         if (!$user || $user->hideAdult) {
             $qb->andWhere('m.isAdult = :isAdult')
+                ->andWhere('e.isAdult = :isAdult')
                 ->setParameter('isAdult', false);
         }
 
@@ -214,6 +215,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
 
         $qb->addOrderBy('e.createdAt', 'DESC');
+        $qb->addOrderBy('e.id', 'DESC');
 
         return $qb;
     }
@@ -225,7 +227,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->addSelect('u')
             ->addSelect('ua')
             ->addSelect('m')
-            ->addSelect('mc')
+            ->addSelect('mi')
             ->addSelect('d')
             ->addSelect('i')
             ->addSelect('b')
@@ -234,7 +236,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->join('e.magazine', 'm')
             ->join('e.domain', 'd')
             ->leftJoin('u.avatar', 'ua')
-            ->leftJoin('m.cover', 'mc')
+            ->leftJoin('m.icon', 'mi')
             ->leftJoin('e.image', 'i')
             ->leftJoin('e.badges', 'b')
             ->where('e IN (?1)')

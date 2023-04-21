@@ -1,0 +1,61 @@
+{% if users|length %}
+    <div id="content" class="section">
+        {% if view is same as 'cards'|trans|lower %}
+            <div class="users users-cards">
+                {% for user in users %}
+                    {{ component('user', {user: user, showMeta: false, showInfo: false}) }}
+                {% endfor %}
+            </div>
+        {% elseif view is same as 'columns'|trans|lower %}
+            <div class="users users-columns">
+                <ul>
+                    {% for user in users %}
+                        <li>
+                            {% if user.avatar %}
+                                <figure>
+                                    <img width="32" height="32"
+                                         src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+                                         alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
+                                </figure>
+                            {% endif %}
+                            <div>
+                                <a href="{{ path('user_overview', {username: user.username}) }}"
+                                   class="stretched-link">{{ user.username }}</a>
+                                <small>{{ component('date', {date: user.createdAt}) }}</small>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="users table-responsive">
+                <table>
+                    <thead>
+                    <tr>
+                        <td>{{ 'name'|trans }}</td>
+                        <td>{{ 'threads'|trans }}</td>
+                        <td>{{ 'comments'|trans }}</td>
+                        <td>{{ 'posts'|trans }}</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for u in users %}
+                        <tr>
+                            <td>{{ component('user_inline', { user: u, stretchedLink: true, showAvatar: true}) }}</td>
+                            <td>{{ u.entries|length }}</td>
+                            <td>{{ u.entryComments|length }}</td>
+                            <td>{{ u.posts|length + u.postComments|length }}</td>
+                            <td>{{ component('user_follow', {user: u}) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% else %}
+    <aside class="section section--muted">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

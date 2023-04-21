@@ -51,9 +51,9 @@ class PostMagazinesUpdateCommand extends Command
                 break;
             }
 
-            if ($magazines = $this->magazineRepository->findByTag($tag)) {
-                $output->writeln($magazines[0]->name);
-                $this->postManager->changeMagazine($post, $magazines[array_rand($magazines)]);
+            if ($magazine = $this->magazineRepository->findByTag($tag)) {
+                $output->writeln($magazine->name);
+                $this->postManager->changeMagazine($post, $magazine);
                 break;
             }
         }

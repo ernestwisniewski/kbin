@@ -1,12 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'error'|trans }} | {{ parent() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'login'|trans }} 429 - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-error{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    <div class="kbin-login mt-lg-4">
-        {# <div class="kbin-magazine-background"></div> #}
-
-        <h1 class="font-weight-bold">{{ 'error'|trans }} 429</h1>
-        <p class="kbin-magazine-create-lead lead mb-5">{{ 'too_many_requests'|trans }}.</p>
+    <div id="content" class="section section--top section--muted">
+        <p>429 Too Many Requests</p>
     </div>
 {% endblock %}

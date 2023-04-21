@@ -1,27 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'bans'|trans }} | /m/{{ magazine.name }} | {{ parent() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'bans'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-magazine-ban-page">
-        {% include 'magazine/panel/_tabs.html.twig' %}
-        {% include '_layout/_flash.html.twig' %}
-        <div class="kbin-magazine-ban mt-lg-4">
-            <div class="row">
+{% block mainClass %}page-magazine-panel page-magazine-bans{% endblock %}
 
-                <div class="col-lg-6 mb-3">
-                    {% include 'user/_sidebar.html.twig' %}
-                </div>
-                <div class="col-lg-6 mb-3">
-                    {% include 'magazine/panel/_form_ban.html.twig' %}
-                </div>
-            </div>
-        </div>
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+    <h1 hidden>{{ 'ban'|trans }}</h1>
+    <section class="section">
+        {{ component('user_box', {user: user}) }}
+    </section>
+    <section class="section ban-add">
+        <div class="container">
+            {{ form_start(form) }}
+            <div>
+                {{ form_label(form.reason, 'reason') }}
+                {{ form_widget(form.reason) }}
+            </div>
+            <div>
+                {{ form_label(form.expiredAt, 'expired_at') }}
+                {{ form_widget(form.expiredAt) }}
+            </div>
+            <div class="actions">
+                {{ form_row(form.submit, { 'label': 'ban', attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
 {% endblock %}

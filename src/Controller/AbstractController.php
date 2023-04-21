@@ -38,13 +38,13 @@ abstract class AbstractController extends BaseAbstractController
         }
     }
 
-    protected function redirectToRefererOrHome(Request $request): Response
+    protected function redirectToRefererOrHome(Request $request, ?string $element = null): Response
     {
         if (!$request->headers->has('Referer')) {
-            return $this->redirectToRoute('front');
+            return $this->redirectToRoute('front'.($element ? '#'.$element : ''));
         }
 
-        return $this->redirect($request->headers->get('Referer'));
+        return $this->redirect($request->headers->get('Referer').($element ? '#'.$element : ''));
     }
 
     protected function getJsonSuccessResponse(): JsonResponse
@@ -52,6 +52,7 @@ abstract class AbstractController extends BaseAbstractController
         return new JsonResponse(
             [
                 'success' => true,
+                'html' => '<div class="alert alert__info">Reported</div>',
             ]
         );
     }

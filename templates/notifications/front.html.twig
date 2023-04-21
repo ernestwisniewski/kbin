@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% use 'notifications/_blocks.html.twig' %}
+
+{%- block title -%}
+    {{- 'notifications'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-notifications{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'notifications'|trans }}</h1>
+
+    <div class="pills">
+        <menu>
+            <form action="{{ path('notifications_read') }}" method="POST" class="me-2">
+                <input type="hidden" name="token" value="{{ csrf_token('read_notifications') }}">
+                <button class="btn btn__primary" type="submit">
+                    {{ 'read_all'|trans }}
+                </button>
+            </form>
+            <form method="post" action="{{ path('notifications_clear') }}"
+                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                <input type="hidden" name="token" value="{{ csrf_token('clear_notifications') }}">
+                <button class="btn btn__secondary" type="submit">
+                    <span>{{ 'purge'|trans }}</span>
+                </button>
+            </form>
+        </menu>
+
+    </div>
+
+    {% for notification in notifications %}
+        <div class="{{ html_classes('section section--small notification', {'opacity-50': notification.status is not same as 'new' }) }}">
+            <div>
+                {%- with {
+                    notification: notification,
+                    showMagazine: false,
+                } only -%}
+                    {{ block(notification.type) }}
+                {%- endwith -%}
+            </div>
+            <span>{{ component('date', {date: notification.createdAt}) }}</span>
+        </div>
+    {% endfor %}
+    {% if(notifications.haveToPaginate is defined and notifications.haveToPaginate) %}
+        {{ pagerfanta(notifications, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not notifications|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+{% endblock %}

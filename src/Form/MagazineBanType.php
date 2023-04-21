@@ -21,12 +21,7 @@ class MagazineBanType extends AbstractType
             ->add(
                 'expiredAt',
                 DateTimeType::class,
-                [
-                    'widget' => 'single_text',
-                    'html5' => false,
-                    'format' => 'yyyy-MM-dd HH:mm',
-                    'placeholder' => 'Select a value',
-                ]
+                ['widget' => 'single_text', 'input' => 'datetime_immutable', 'required' => false]
             )
             ->add('submit', SubmitType::class);
     }

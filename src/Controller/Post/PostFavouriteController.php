@@ -18,15 +18,6 @@ class PostFavouriteController extends AbstractController
     #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     public function __invoke(Magazine $magazine, Post $post, Request $request): Response
     {
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse([
-                'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $post->votes,
-                    'more' => null,
-                ]),
-            ]);
-        }
-
         return $this->render('post/favourites.html.twig', [
             'magazine' => $magazine,
             'post' => $post,

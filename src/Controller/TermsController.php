@@ -18,7 +18,7 @@ class TermsController extends AbstractController
         return $this->render(
             'page/terms.html.twig',
             [
-                'body' => count($site) ? $site[0]->terms : '',
+                'body' => $site[0]->terms ?? '',
             ]
         );
     }

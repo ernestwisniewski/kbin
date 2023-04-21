@@ -18,7 +18,7 @@ class UserBlockController extends AbstractController
     public function magazines(MagazineRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/block_magazines.html.twig',
+            'user/settings/block_magazines.html.twig',
             [
                 'magazines' => $repository->findBlockedMagazines($this->getPageNb($request), $this->getUserOrThrow()),
             ]
@@ -29,7 +29,7 @@ class UserBlockController extends AbstractController
     public function users(UserRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/block_users.html.twig',
+            'user/settings/block_users.html.twig',
             [
                 'users' => $repository->findBlockedUsers($this->getPageNb($request), $this->getUserOrThrow()),
             ]
@@ -40,7 +40,7 @@ class UserBlockController extends AbstractController
     public function domains(DomainRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/block_domains.html.twig',
+            'user/settings/block_domains.html.twig',
             [
                 'domains' => $repository->findBlockedDomains($this->getPageNb($request), $this->getUserOrThrow()),
             ]

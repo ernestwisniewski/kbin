@@ -1,0 +1,61 @@
+// Learn about how this was made:
+// @link https://moderncss.dev/css-only-accessible-dropdown-navigation-menu/
+$transition: 180ms all 120ms ease-out;
+.dropdown {
+  position: relative;
+
+  &__menu {
+    background-color: var(--kbin-section-bg);
+    border: var(--kbin-section-border);
+    box-shadow: var(--kbin-shadow);
+    left: 50%;
+    margin-bottom: 0;
+    margin-top: 0;
+    min-width: 15rem;
+    opacity: 0;
+    padding: .5rem 0;
+    position: absolute;
+    top: calc(100% - 0.25rem);
+    transform: rotateX(-90deg) translateX(-50%);
+    transform-origin: top center;
+    visibility: hidden;
+    z-index: 100;
+
+    li {
+      list-style: none;
+      padding: 0;
+    }
+
+
+    a, button {
+      color: var(--kbin-meta-link-color) !important;
+      font-weight: normal !important;
+      border: 0 !important;
+      display: block !important;
+      padding: .5rem 1rem !important;
+      text-decoration: none;
+      width: 100%;
+      text-align: left;
+      border-radius: 0 !important;
+
+      &:hover {
+        color: var(--kbin-meta-link-hover-color) !important;
+        background: var(--kbin-bg) !important;
+      }
+
+      &.active {
+        font-weight: bold !important;
+      }
+    }
+  }
+
+  &:hover,
+  &:focus-within {
+    .dropdown__menu {
+      transform: rotateX(0) translateX(-50%);
+      visibility: visible;
+      transition: visibility 0s, opacity .2s;
+      opacity: 1;
+    }
+  }
+}

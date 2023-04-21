@@ -1,19 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'appearance'|trans }} | /m/{{ magazine.name }} | {{ parent() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'appearance'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-magazine-edit-page">
-        {% include 'magazine/panel/_tabs.html.twig' %}
-        {% include '_layout/_flash.html.twig' %}
-        <div class="kbin-theme-edit mt-lg-4">
-            {% include 'magazine/panel/_form_theme.html.twig' %}
-        </div>
-    </div>
+{% block mainClass %}page-magazine-panel page-magazine-theme{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+
+    <h1 hidden>{{ 'appearance'|trans }}</h1>
+    <div id="content" class="section theme">
+        <div class="container">
+            {{ form_start(form) }}
+            <div>
+                {{ form_label(form.icon, 'icon') }}
+                {{ form_widget(form.icon) }}
+            </div>
+            <div>
+                {{ form_label(form.customCss, 'CSS') }}
+                {{ form_widget(form.customCss) }}
+            </div>
+            <div>
+                {{ form_label(form.customJs, 'JS') }}
+                {{ form_widget(form.customJs) }}
+            </div>
+            <div class="radios">
+                {{ form_label(form.backgroundImage, 'Background') }}
+                {{ form_widget(form.backgroundImage) }}
+            </div>
+            <div class="actions">
+                {{ form_row(form.submit, { 'label': 'done', attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

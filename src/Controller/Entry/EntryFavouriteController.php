@@ -18,15 +18,6 @@ class EntryFavouriteController extends AbstractController
     #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse([
-                'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $entry->votes,
-                    'more' => null,
-                ]),
-            ]);
-        }
-
         return $this->render('entry/favourites.html.twig', [
             'magazine' => $magazine,
             'entry' => $entry,

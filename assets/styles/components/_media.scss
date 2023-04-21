@@ -1,5 +1,52 @@
-.kbin-media {
-  canvas, img {
-    max-height: 40px !important;
+.media {
+  text-align: left !important;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+
+  .actions {
+    display: flex !important;
+  }
+
+  > div:first-child {
+    background: lightgray;
+    display: none;
+    height: 12.5rem;
+    line-height: 12.5rem;
+    text-align: center;
+    vertical-align: middle;
+    width: 12.5rem;
+  }
+}
+
+.comment-add,
+.post-add,
+.comment-edit,
+.post-edit,
+.page-entry-create {
+  .dropdown__menu {
+    left: 4rem;
+    padding: 1rem 2rem;
+    top: -17.5rem;
+    z-index: 5;
+  }
+
+  .media div {
+    margin-bottom: 1rem;
+  }
+
+  .media {
+    color: var(--kbin-meta-text-color);
+    font-size: .9rem;
+    list-style: none;
+  }
+}
+
+.page-post-front {
+  .post-add {
+    .dropdown__menu {
+      left: 3rem;
+      top: 2.5rem;
+    }
   }
 }

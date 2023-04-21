@@ -8,7 +8,7 @@ use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DTO\PostDto;
 use App\Factory\PostFactory;
 use App\Service\PostManager;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class PostDataPersister implements ContextAwareDataPersisterInterface
 {

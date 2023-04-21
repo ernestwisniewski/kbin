@@ -26,7 +26,6 @@ framework:
         dsn: 'doctrine://default?queue_name=failed'
         serializer: messenger.transport.symfony_serializer
 
-
     routing:
       # Route your messages to the transports
       App\Message\Contracts\AsyncMessageInterface: async

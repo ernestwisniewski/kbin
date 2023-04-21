@@ -226,7 +226,7 @@ class ActivityPubManager
 
         $user->apFollowersUrl = $actor['followers'] ?? null;
         $user->apPreferredUsername = $actor['preferredUsername'] ?? null;
-        $user->apDiscoverable = $actor['discoverable'] ?? null;
+        $user->apDiscoverable = $actor['discoverable'] ?? true;
         $user->apManuallyApprovesFollowers = $actor['manuallyApprovesFollowers'] ?? null;
         $user->apPublicUrl = $actor['url'] ?? $actorUrl;
         $user->apFetchedAt = new \DateTime();
@@ -252,6 +252,7 @@ class ActivityPubManager
                     }
                 }
             } catch (\Exception $e) {
+                return null;
             }
 
             return $image ?? null;
@@ -283,10 +284,10 @@ class ActivityPubManager
 
         if (isset($actor['icon'])) {
             $newImage = $this->handleImages([$actor['icon']]);
-            if ($magazine->cover && $newImage !== $magazine->cover) {
-                $this->bus->dispatch(new DeleteImageMessage($magazine->cover->filePath));
+            if ($magazine->icon && $newImage !== $magazine->icon) {
+                $this->bus->dispatch(new DeleteImageMessage($magazine->icon->filePath));
             }
-            $magazine->cover = $newImage;
+            $magazine->icon = $newImage;
         }
 
         if ($actor['preferredUsername']) {
@@ -295,7 +296,7 @@ class ActivityPubManager
 
         $magazine->apFollowersUrl = $actor['followers'] ?? null;
         $magazine->apPreferredUsername = $actor['preferredUsername'] ?? null;
-        $magazine->apDiscoverable = $actor['discoverable'] ?? null;
+        $magazine->apDiscoverable = $actor['discoverable'] ?? true;
         $magazine->apPublicUrl = $actor['url'] ?? $actorUrl;
         $magazine->apFetchedAt = new \DateTime();
 

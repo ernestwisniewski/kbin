@@ -1,0 +1,22 @@
+.pagination {
+  color: var(--kbin-meta-text-color);
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+
+  a, span {
+    padding: 1rem;
+  }
+
+  a {
+    font-weight: bold;
+  }
+
+  @include media-breakpoint-down(sm) {
+    a, span {
+      padding: 1rem .3rem;
+    }
+  }
+}

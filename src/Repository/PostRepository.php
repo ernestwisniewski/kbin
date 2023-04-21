@@ -24,7 +24,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -180,6 +180,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         $qb->addOrderBy('p.createdAt', 'DESC');
+        $qb->addOrderBy('p.id', 'DESC');
 
         return $qb;
     }
@@ -249,8 +250,10 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->andWhere("JSONB_CONTAINS(p.tags, '\"".$tag."\"') = true")
             ->andWhere('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
+            ->andWhere('m.name != :name')
+            ->join('p.magazine', 'm')
             ->orderBy('p.createdAt', 'DESC')
-            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'name' => $tag])
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

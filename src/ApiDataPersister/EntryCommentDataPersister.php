@@ -8,7 +8,7 @@ use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DTO\EntryCommentDto;
 use App\Factory\EntryCommentFactory;
 use App\Service\EntryCommentManager;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class EntryCommentDataPersister implements ContextAwareDataPersisterInterface
 {

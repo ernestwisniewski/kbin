@@ -7,6 +7,8 @@ resources:
     collectionOperations:
       get:
         method: GET
+        requirements:
+          identifier: '.+'
         normalization_context:
           groups: [ 'magazine:collection:get' ]
       post:
@@ -20,6 +22,7 @@ resources:
     itemOperations:
       get:
         method: GET
+        path: /magazines/{name}
         normalization_context:
           groups: [ 'magazine:item:get' ]
       badges:

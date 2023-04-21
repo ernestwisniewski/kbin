@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Moderator;
 use App\Entity\Post;
@@ -19,6 +19,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Doctrine\Collections\CollectionAdapter;
 use Pagerfanta\Doctrine\Collections\SelectableAdapter;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
@@ -35,20 +36,34 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class MagazineRepository extends ServiceEntityRepository
 {
-    public const PER_PAGE = 25;
+    public const PER_PAGE = 48;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Magazine::class);
     }
 
-    public function findAllPaginated(?int $page): PagerfantaInterface
+    public function findAllPaginated(?int $page, string $sortBy): PagerfantaInterface
     {
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.visibility = :visibility')
-            ->orderBy('m.apId', 'DESC')
-            ->addOrderBy('m.subscriptionsCount', 'DESC')
-            ->setParameter('visibility', Magazine::VISIBILITY_VISIBLE);
+            ->orderBy('CASE WHEN m.apId IS NULL THEN 1 ELSE 0 END', 'DESC');
+
+        if ($sortBy) {
+            switch ($sortBy) {
+                case 'hot':
+                    $qb = $qb->addOrderBy('m.subscriptionsCount', 'DESC');
+                    break;
+                case 'active':
+                    $qb = $qb->addOrderBy('m.lastActive', 'DESC');
+                    break;
+                case 'newest':
+                    $qb = $qb->addOrderBy('m.createdAt', 'DESC');
+                    break;
+            }
+        }
+
+        $qb = $qb->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
 
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -68,21 +83,14 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findSubscribedMagazines(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
-            'SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->subscriptions
             )
         );
 
         try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -93,19 +101,18 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findBlockedMagazines(int $page, User $user): PagerfantaInterface
     {
-        $dql =
-            'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
-            'SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :user)';
-
-        $query = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('user', $user);
-
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $query
+            new CollectionAdapter(
+                $user->blockedMagazines
             )
         );
 
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
@@ -170,29 +177,6 @@ class MagazineRepository extends ServiceEntityRepository
         return $magazine->badges;
     }
 
-    public function findRandom(): ?Magazine
-    {
-        $qb = $this->createQueryBuilder('m')
-            ->select('COUNT(m)')
-            ->where('m.entryCount > 0')
-            ->orWhere('m.postCount > 0');
-
-        $totalRecords = $qb->getQuery()->getSingleScalarResult();
-
-        if ($totalRecords < 1) {
-            return null;
-        }
-
-        $rowToFetch = rand(0, $totalRecords - 1);
-
-        return $qb
-            ->select('m')
-            ->setMaxResults(1)
-            ->setFirstResult($rowToFetch)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
     public function findModeratedMagazines(User $user, ?int $page = 1): PagerfantaInterface
     {
         $dql =
@@ -223,14 +207,14 @@ class MagazineRepository extends ServiceEntityRepository
         // @todo union adapter
         $conn = $this->_em->getConnection();
         $sql = "
-        (SELECT id, created_at, magazine_id, 'entry' AS type FROM entry WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed') 
+        (SELECT id, last_active, magazine_id, 'entry' AS type FROM entry WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed') 
         UNION 
-        (SELECT id, created_at, magazine_id, 'entry_comment' AS type FROM entry_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
+        (SELECT id, last_active, magazine_id, 'entry_comment' AS type FROM entry_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
         UNION 
-        (SELECT id, created_at, magazine_id, 'post' AS type FROM post WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
+        (SELECT id, last_active, magazine_id, 'post' AS type FROM post WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
         UNION 
-        (SELECT id, created_at, magazine_id, 'post_comment' AS type FROM post_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
-        ORDER BY created_at DESC
+        (SELECT id, last_active, magazine_id, 'post_comment' AS type FROM post_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
+        ORDER BY last_active DESC
         ";
         $stmt = $conn->prepare($sql);
         $stmt = $stmt->executeQuery();
@@ -253,22 +237,22 @@ class MagazineRepository extends ServiceEntityRepository
         $result = $pagerfanta->getCurrentPageResults();
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry')]
+            ['id' => $this->getOverviewIds((array)$result, 'entry')]
         );
         $this->_em->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
+            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
         );
         $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
         $this->_em->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
+            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
         );
         $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -279,7 +263,7 @@ class MagazineRepository extends ServiceEntityRepository
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -289,9 +273,9 @@ class MagazineRepository extends ServiceEntityRepository
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
 
-        return array_map(fn ($subject) => $subject['id'], $result);
+        return array_map(fn($subject) => $subject['id'], $result);
     }
 
     public function findAudience(Magazine $magazine): array
@@ -317,22 +301,25 @@ class MagazineRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByTag($tag): array
+    public function findByTag($tag): ?Magazine
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.tags IS NOT NULL')
-            ->andWhere("JSONB_CONTAINS(m.tags, '\"".$tag."\"') = true")
+            ->andWhere('m.name = :tag')
+            ->orWhere("m.tags IS NOT NULL AND JSONB_CONTAINS(m.tags, '\"".$tag."\"') = true")
+            ->orderBy('m.lastActive', 'DESC')
+            ->setMaxResults(1)
+            ->setParameter('tag', $tag)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
     public function findByActivity()
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.postCount > 0')
-            ->andWhere('m.postCommentCount > 0')
+            ->orWhere('m.entryCount > 0')
             ->orderBy('m.postCount', 'DESC')
-            ->setMaxResults(100)
+            ->setMaxResults(50)
             ->getQuery()
             ->getResult();
     }
@@ -345,5 +332,63 @@ class MagazineRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function search(string $magazine, int $page): Pagerfanta
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere(
+                'LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.title) LIKE LOWER(:q) OR LOWER(m.description) LIKE LOWER(:q)'
+            )
+            ->orderBy('m.apId', 'DESC')
+            ->orderBy('m.subscriptionsCount', 'DESC')
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'q' => '%'.$magazine.'%']);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $qb
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    public function findRandom(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            SELECT id FROM magazine
+            WHERE ap_id IS NULL
+            ORDER BY random()
+            LIMIT 5
+            ';
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+        $ids = $stmt->fetchAllAssociative();
+
+        return $this->createQueryBuilder('m')
+            ->where('m.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findRelated(string $magazine): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.entryCount > 0 OR m.postCount > 0')
+            ->andWhere('m.title LIKE :magazine OR m.description LIKE :magazine OR m.name LIKE :magazine')
+            ->setParameter('magazine', "%{$magazine}%")
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
     }
 }

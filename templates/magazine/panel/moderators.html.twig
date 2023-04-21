@@ -1,23 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'moderators'|trans }} | /m/{{ magazine.name }} | {{ parent() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'moderators'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-magazine-moderators-page">
-        {% include 'magazine/panel/_tabs.html.twig' %}
-        {% include '_layout/_flash.html.twig' %}
-        <div class="kbin-magazine-moderators mt-md-4">
-            {% include 'magazine/panel/_moderators_list_table.html.twig' %}
-        </div>
+{% block mainClass %}page-magazine-panel page-magazine-moderators{% endblock %}
 
-        <div class="col-lg-6">
-            {% include 'magazine/panel/_form_moderator.html.twig' %}
-        </div>
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+    <h1 hidden>{{ 'moderators'|trans }}</h1>
+    <div id="content" class="section users users-columns">
+        <ul>
+            {% for moderator in moderators %}
+                <li>
+                    {% if moderator.user.avatar %}
+                        {{ component('user_avatar', {user: moderator.user}) }}
+                    {% endif %}
+                    <div>
+                        <a href="{{ path('user_overview', {username: moderator.user.username}) }}">
+                            {{ moderator.user.username|username(true) }}
+                        </a>
+                        <small>{{ component('date', {date: moderator.createdAt}) }}</small>
+                    </div>
+                    {% if is_granted('edit', magazine) and not moderator.isOwner %}
+                        <div class="actions">
+                            <form method="post"
+                                  action="{{ path('magazine_panel_moderator_purge', {magazine_name: magazine.name, moderator_id: moderator.id}) }}"
+                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">
+                                <button type="submit" class="btn btn__secondary">{{ 'delete'|trans }}</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if(moderators.haveToPaginate is defined and moderators.haveToPaginate) %}
+        {{ pagerfanta(moderators, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not moderators|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+    <div class="section moderator-add">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="row">
+                {{ form_errors(form.user) }}
+            </div>
+            <div>
+                {{ form_label(form.user, 'username') }}
+                {{ form_widget(form.user) }}
+            </div>
+            <div class="actions row">
+                {{ form_row(form.submit, { 'label': 'add_moderator', attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

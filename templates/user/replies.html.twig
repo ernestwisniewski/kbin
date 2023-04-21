@@ -1,27 +1,37 @@
 {% extends 'base.html.twig' %}
-{% from '_layout/_not_found.html.twig' import not_found %}
 
-{%- block title -%}{{- user.username }} - {{ 'replies'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'replies'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-user-comments-page">
-        {% include 'user/_instance_info.twig' %}
-        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
-        {% include 'user/_nav.html.twig' %}
-        <div class="kbin-comments-list kbin-comment-wrapper kbin-post-wrapper">
-            {% if comments|length %}
-                {% include 'post/comment/_list.html.twig' with {withParent: false, nested:false} %}
-            {% else %}
-                {{ not_found() }}
-            {% endif %}
-        </div>
-    </div>
+{% block mainClass %}page-user page-user-replies{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'user/_sidebar.html.twig' %}
-    {{ parent() }}
-    <div class="mb-4">
-        {% include 'user/_moderator_list_card.html.twig' %}
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'replies'|trans }}</h1>
+        <h2 hidden>{{ user.username|username }}</h2>
+    </header>
+    {% include('user/_options.html.twig') %}
+    {% include('user/_federated_info.html.twig') %}
+    <div id="content">
+        <aside class="subjects">
+            {% for subject in results %}
+                {% include 'layout/_subject.html.twig' %}
+            {% endfor %}
+            {% if(pagination.haveToPaginate is defined and pagination.haveToPaginate) %}
+                {{ pagerfanta(pagination, null, {'pageParameter':'[p]'}) }}
+            {% endif %}
+            {% if not results|length %}
+                <aside class="section section--muted">
+                    <p>{{ 'empty'|trans }}</p>
+                </aside>
+            {% endif %}
+        </aside>
     </div>
 {% endblock %}

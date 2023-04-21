@@ -1,15 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'contact'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'contact'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-contact page-settings{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    <div class="kbin-contact-page">
-        <div class="mt-lg-4">
-            <div class="kbin-magazine-background"></div>
-
-            <h1 class="font-weight-bold mb-5">{{ 'contact'|trans }}</h1>
-
-            {% include 'page/_form_contact.html.twig' %}
+    <h1 hidden>{{ 'contact'|trans }}</h1>
+    <div id="content" class="section section--top">
+        <div class="container">
+            {{ form_start(form) }}
+            {{ form_row(form.name, {label: 'firstname'}) }}
+            {{ form_row(form.email, {label: 'email'}) }}
+            {{ form_row(form.message, {label: 'message'}) }}
+            {{ form_row(form.surname, {label: false, attr: {style: 'display:none !important'}}) }}
+            <div class="actions">
+                {{ form_row(form.submit, {label: 'send', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(form) }}
         </div>
     </div>
+    {% if body %}
+        <div class="section">
+            {{ body|raw }}
+        </div>
+    {% endif %}
 {% endblock %}

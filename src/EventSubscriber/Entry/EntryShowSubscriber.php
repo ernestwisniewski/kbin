@@ -11,7 +11,7 @@ use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Tchoulom\ViewCounterBundle\Counter\ViewCounter as Counter;
 
 class EntryShowSubscriber implements EventSubscriberInterface

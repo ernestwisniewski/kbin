@@ -27,11 +27,7 @@ class MagazineBlockController extends AbstractController
         $this->manager->block($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => true,
-                ]
-            );
+            return $this->getJsonResponse($magazine);
         }
 
         return $this->redirectToRefererOrHome($request);
@@ -46,13 +42,26 @@ class MagazineBlockController extends AbstractController
         $this->manager->unblock($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => false,
-                ]
-            );
+            return $this->getJsonResponse($magazine);
         }
 
         return $this->redirectToRefererOrHome($request);
+    }
+
+    private function getJsonResponse(Magazine $magazine): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'magazine_sub',
+                        'attributes' => [
+                            'magazine' => $magazine,
+                        ],
+                    ]
+                ),
+            ]
+        );
     }
 }

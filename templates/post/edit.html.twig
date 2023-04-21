@@ -1,15 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'edit_post'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'edit'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-post-edit{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    {% embed 'post/_single.html.twig' %}
-        {% block before_comments %}
-            <div class="kbin-comment-edit-wrapper mt-4 ps-sm-5">
-                {% include '_layout/_fediverse_edit_info.html.twig' %}
-                {% include 'post/_form.html.twig' %}
-                {% include 'post/_form_delete.html.twig' %}
-            </div>
-        {% endblock %}
-    {% endembed %}
+    {% if magazine is defined and magazine %}
+        <h1 hidden>{{ magazine.title }}</h1>
+        <h2 hidden>{{ get_active_sort_option()|trans }}</h2>
+    {% else %}
+        <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
+    {% endif %}
+    <div id="content">
+        {{ component('post', {
+            post: post,
+            isSingle: true
+        }) }}
+        {% include 'layout/_flash.html.twig' %}
+        <section class="section">
+            {% include 'post/_form_post.html.twig' with {edit: true} %}
+        </section>
+    </div>
 {% endblock %}

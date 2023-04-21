@@ -1,1 +1,28 @@
-{{ this.html|raw }}
+{% if entries|length %}
+    <section{{ attributes.defaults({class: 'entries section'}) }}>
+        <h3>{{ title|trans }}</h3>
+        <div class="container">
+            {% for entry in entries %}
+                <figure>
+                    <div class="row">
+                        {% if entry.image %}
+                            <a href="{{ entry_url(entry) }}" class="stretched-link">
+                                <img src="{{ asset(entry.image.filePath) | imagine_filter('entry_thumb') }}"
+                                     alt="{{ entry.image.alt|default('') }}">
+                            </a>
+                        {% endif %}
+                        <blockquote class="content">
+                            <p>{{ entry.title }}</p>
+                            <div>
+                                <a href="{{ entry_url(entry) }}" class="stretched-link">{{ 'show_more'|trans }}</a>
+                            </div>
+                        </blockquote>
+                    </div>
+                    <figcaption>
+                        {{ component('date', {date: entry.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}
+                    </figcaption>
+                </figure>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}

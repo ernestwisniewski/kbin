@@ -89,7 +89,7 @@ class GithubAuthenticator extends OAuth2Authenticator
         TokenInterface $token,
         string $firewallName
     ): ?Response {
-        $targetUrl = $this->router->generate('user_profile_edit');
+        $targetUrl = $this->router->generate('user_settings_profile');
 
         return new RedirectResponse($targetUrl);
     }

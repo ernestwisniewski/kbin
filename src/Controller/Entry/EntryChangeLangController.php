@@ -22,12 +22,10 @@ class EntryChangeLangController extends AbstractController
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[IsGranted('moderate', subject: 'magazine')]
+    #[IsGranted('moderate', subject: 'entry')]
     public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
     {
-        $this->validateCsrf('change_lang', $request->request->get('token'));
-
-        $entry->lang = 'en' === $request->get('lang') ? $request->get('lang') : null;
+        $entry->lang = $request->get('lang')['lang'];
 
         $this->entityManager->flush();
 

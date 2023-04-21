@@ -1,0 +1,77 @@
+<div class="sidebar-options" data-controller="options">
+    <div class="options options--top">
+        <menu>
+            <li>
+                <a href="#federation"
+                   data-action="options#toggleFederation"
+                   title="{{ 'federation'|trans }}"
+                   aria-label="{{ 'federation'|trans }}">
+                    <i class="fa-solid fa-circle-nodes"></i>
+                </a>
+            </li>
+            <li><a href="#settings"
+                   data-action="options#toggleSettings"
+                   title="{{ 'settings'|trans }}"
+                   aria-label="{{ 'settings'|trans }}">
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+            </li>
+        </menu>
+    </div>
+    <div id="settings" class="section" data-options-target="settings">
+        <h3>{{ 'theme'|trans }}</h3>
+        {% include 'layout/_options_theme.html.twig' %}
+        {% include 'layout/_options_font_size.html.twig' %}
+        {% include 'layout/_options_appearance.html.twig' %}
+    </div>
+    <div id="federation" class="section" data-options-target="federation">
+        <h3>{{ 'federation'|trans }}</h3>
+        <div class="settings-list">
+            <div class="row">
+                <span>{{ 'status'|trans }}:</span>
+                <div>
+                    <a class="link-muted active"
+                       href="#federation">
+                        {{ 'on'|trans }}
+                    </a>
+                    |
+                    <a class="link-muted"
+                       href="#federation">
+                        {{ 'off'|trans }}
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <strong>{{ 'instances'|trans }}:</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if sidebar_top is empty %}
+{% else %}
+    {{ sidebar_top|raw }}
+{% endif %}
+{% if user is defined %}
+    {% include 'user/_info.html.twig' %}
+{% endif %}
+{% if entry is defined and magazine %}
+    {% include 'entry/_info.html.twig' %}
+{% endif %}
+{% if post is defined and magazine %}
+    {% include 'post/_info.html.twig' %}
+{% endif %}
+{% if magazine is defined and magazine %}
+    {{ component('magazine_box', {
+        magazine: magazine,
+        showSectionTitle: true
+    }) }}
+    {% include 'magazine/_moderators_sidebar.html.twig' %}
+{% endif %}
+{{ component('related_magazines', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
+{% if not is_route_name_contains('people') %}
+    {{ component('active_users', {magazine: magazine is defined and magazine ? magazine : null}) }}
+{% endif %}
+{{ component('related_posts', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
+{{ component('related_entries', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}

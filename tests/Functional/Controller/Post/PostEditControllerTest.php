@@ -1,48 +1,37 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Post;
 
 use App\Tests\WebTestCase;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PostEditControllerTest extends WebTestCase
 {
-    public function testCanEditPost(): void
+    public function testAuthorCanEditOwnPost(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $this->createPost('example content');
+        $post = $this->createPost('test post 1');
+        $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
-        $crawler = $client->request('GET', "/m/acme/wpisy");
-        $crawler = $client->click($crawler->filter('.kbin-post-meta')->selectLink('edytuj')->link());
+        $crawler = $client->click($crawler->filter('#main .post')->selectLink('edit')->link());
+
+        $this->assertSelectorExists('#main .post');
+        $this->assertSelectorTextContains('#post_body', 'test post 1');
+//        $this->assertEquals('disabled', $crawler->filter('#post_magazine_autocomplete')->attr('disabled')); @todo
 
         $client->submit(
-            $crawler->filter('form[name=post]')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=post]')->selectButton('Edit post')->form(
                 [
-                    'post[body]' => 'zmieniona treść',
+                    'post[body]' => 'test post 2 body',
                 ]
             )
         );
 
         $client->followRedirect();
 
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.kbin-post-main', 'zmieniona treść');
-    }
-
-    public function testUnauthorizedUserCannotEditPost(): void
-    {
-        $this->expectException(AccessDeniedException::class);
-
-        $client = $this->createClient();
-        $client->catchExceptions(false);
-        $client->loginUser($this->getUserByUsername('JaneDoe'));
-
-        $post = $this->createPost('example content');
-
-        $client->request('GET', "/m/acme/w/{$post->getId()}/-/edytuj");
-
-        $this->assertTrue($client->getResponse()->isServerError());
+        $this->assertSelectorTextContains('#main .post .content', 'test post 2 body');
     }
 }

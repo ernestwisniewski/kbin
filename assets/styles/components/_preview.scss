@@ -1,0 +1,57 @@
+.preview {
+  //display: inline-flex;
+
+  button {
+    margin: 0 .25rem;
+    padding: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .show-preview {
+    background: none;
+    border: 0;
+    color: var(--kbin-meta-text-color);
+    display: inline-flex;
+    margin-top: .2rem;
+    padding-left: 0;
+  }
+
+  video, iframe {
+    max-width: 100%;
+  }
+}
+
+// Credit: Nicolas Gallagher and SUIT CSS.
+.ratio {
+  --aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  width: 100%;
+
+img {
+max-width: 100%;
+}
+
+&::before {
+content: "";
+display: block;
+padding-top: 56.25%;
+}
+
+> * {
+height: 100%;
+left: 0;
+position: absolute;
+top: 0;
+width: 100%;
+}
+}
+
+@each $key, $ratio in $aspect-ratios {
+.ratio-#{$key} {
+aspect-ratio: #{$ratio};
+}
+}

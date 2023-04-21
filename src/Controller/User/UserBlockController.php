@@ -22,11 +22,7 @@ class UserBlockController extends AbstractController
         $manager->block($this->getUserOrThrow(), $blocked);
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => true,
-                ]
-            );
+            return $this->getJsonResponse($blocked);
         }
 
         return $this->redirectToRefererOrHome($request);
@@ -40,13 +36,26 @@ class UserBlockController extends AbstractController
         $manager->unblock($this->getUserOrThrow(), $blocked);
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => false,
-                ]
-            );
+            return $this->getJsonResponse($blocked);
         }
 
         return $this->redirectToRefererOrHome($request);
+    }
+
+    private function getJsonResponse(User $user): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'user_follow',
+                        'attributes' => [
+                            'user' => $user,
+                        ],
+                    ]
+                ),
+            ]
+        );
     }
 }

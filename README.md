@@ -10,13 +10,14 @@ promote a free and open internet.
 This is a very early beta version, and a lot of features are currently broken or in active development, such as
 federation.
 
-Currently, a new frontend is being implemented on develop branch. In the next stage, a similar refactor will go through the backend and the project will be prepared for contribution.
+Currently, a new frontend is being implemented on develop branch. In the next stage, a similar refactor will go through
+the backend and the project will be prepared for contribution.
 
 ![](docs/images/screen1.png)
 
 * [https://kbin.pub](https://kbin.pub) - project website
 * [https://karab.in](https://karab.in) - polish-lang instance
-* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (main branch)
+* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (develop/main branch)
 * [https://lab.kbin.pub](https://lab.kbin.pub) - instance for testing purposes only (develop branch)
 
 ---
@@ -190,6 +191,7 @@ $ docker compose exec php bin/console cache:clear
 * [Kbin REST API Reference](https://docs.kbin.pub)
 * [Kbin ActivityPub Reference](https://docs.kbin.pub#activity-pub)
 * Kbin GraphQL Reference
+* [Fediverse Developer Network](https://fedidevs.org/projects/kbin/)
 
 ## Sponsors and partners
 

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'general'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-settings page-settings-general{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include('user/settings/_options.html.twig') %}
+    <div id="content" class="section">
+        <div class="container">
+            <h1 hidden>{{ 'general'|trans }}</h1>
+            {{ form_start(form) }}
+            <h2>{{ 'appearance'|trans }}</h2>
+            {{ form_row(form.homepage, {label: 'homepage'}) }}
+            {{ form_row(form.featuredMagazines, {label: 'featured_magazines'}) }}
+            {{ form_row(form.hideAdult, {label: 'hide_adult', row_attr: {class: 'checkbox'}}) }}
+            <h2>{{ 'writing'|trans }}</h2>
+            {{ form_row(form.addMentionsEntries, {label: 'add_mentions_entries', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.addMentionsPosts, {label: 'add_mentions_posts', row_attr: {class: 'checkbox'}}) }}
+            <h2>{{ 'privacy'|trans }}</h2>
+            {{ form_row(form.showProfileSubscriptions, {label: 'show_profile_subscriptions', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.showProfileFollowings, {label: 'show_profile_followings', row_attr: {class: 'checkbox'}}) }}
+            <h2>{{ 'notifications'|trans }}</h2>
+            {{ form_row(form.notifyOnNewEntryReply, {label: 'notify_on_new_entry_reply', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewEntryCommentReply, {label: 'notify_on_new_entry_comment_reply', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewPostReply, {label: 'notify_on_new_post_reply', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewPostCommentReply, {label: 'notify_on_new_post_comment_reply', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewEntry, {label: 'notify_on_new_entry', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewPost, {label: 'notify_on_new_posts', row_attr: {class: 'checkbox'}}) }}
+            <div class="row actions">
+                {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <div class="section" style="text-align: center">
+        <form action="{{ path('user_delete_request', {username: app.user.username}) }}" method="POST"
+              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+            <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
+            <button type="submit" class="btn btn__secondary">
+                <i class="fa-solid fa-dumpster"></i> {{ 'delete_account'|trans }}
+            </button>
+        </form>
+    </div>
+{% endblock %}

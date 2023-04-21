@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Exception\InvalidApSignatureException;
 use App\Service\ActivityPubManager;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SignatureValidator
 {

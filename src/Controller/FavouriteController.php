@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Contracts\FavouriteInterface;
 use App\Service\FavouriteManager;
+use App\Service\GenerateHtmlClassService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,26 +14,34 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FavouriteController extends AbstractController
 {
+    public function __construct(private readonly GenerateHtmlClassService $classService)
+    {
+    }
+
     #[IsGranted('ROLE_USER')]
     public function __invoke(FavouriteInterface $subject, Request $request, FavouriteManager $manager): Response
     {
         $this->validateCsrf('favourite', $request->request->get('token'));
 
-        $favourite = $manager->toggle($this->getUserOrThrow(), $subject);
-        $isFavored = false;
+        $manager->toggle($this->getUserOrThrow(), $subject);
 
-        if ($this->getUser()) {
-            $isFavored = $subject->isFavored($this->getUser());
-        }
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'count' => $subject->favouriteCount,
-                    'isFavored' => $isFavored,
+                    'html' => $this->renderView(
+                        'components/_ajax.html.twig',
+                        [
+                            'component' => 'favourite',
+                            'attributes' => [
+                                'subject' => $subject,
+                                'path' => $request->attributes->get('_route'),
+                            ],
+                        ]
+                    ),
                 ]
             );
         }
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->redirectToRefererOrHome($request, ($this->classService)->fromEntity($subject));
     }
 }

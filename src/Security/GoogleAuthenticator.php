@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
@@ -63,6 +64,9 @@ class GoogleAuthenticator extends OAuth2Authenticator
             $session->set('access_token', $accessToken);
         }
 
+        $rememberBadge = new RememberMeBadge();
+        $rememberBadge = $rememberBadge->enable();
+
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client, $slugger) {
                 /** @var GoogleUser $googleUser */
@@ -100,7 +104,10 @@ class GoogleAuthenticator extends OAuth2Authenticator
                 $this->entityManager->flush();
 
                 return $user;
-            })
+            }),
+            [
+                $rememberBadge,
+            ]
         );
     }
 
@@ -132,7 +139,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
         TokenInterface $token,
         string $firewallName
     ): ?Response {
-        $targetUrl = $this->router->generate('user_profile_edit');
+        $targetUrl = $this->router->generate('user_settings_profile');
 
         return new RedirectResponse($targetUrl);
     }

@@ -11,6 +11,8 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	# After the installation, the following block can be deleted
 	if [ ! -f composer.json ]; then
 		CREATION=1
+
+		rm -Rf tmp/
 		composer create-project "symfony/skeleton $SYMFONY_VERSION" tmp --stability="$STABILITY" --prefer-dist --no-progress --no-interaction --no-install
 
 		cd tmp
@@ -25,6 +27,11 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	if [ "$APP_ENV" != 'prod' ]; then
 		composer install --prefer-dist --no-progress --no-interaction
 	fi
+
+  if [ "$APP_ENV" = 'prod' ]; then
+    composer install --prefer-dist --no-dev --optimize-autoloader --no-scripts --no-progress
+    composer clear-cache
+  fi
 
 	if grep -q ^DATABASE_URL= .env; then
 		# After the installation, the following block can be deleted

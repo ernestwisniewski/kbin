@@ -1,0 +1,22 @@
+<div class="pills">
+    <menu>
+        <li>
+            <a href="{{ path('user_settings_magazine_blocks') }}"
+            class="{{ html_classes({'active': is_route_name('user_settings_magazine_blocks')}) }}">
+                {{ 'magazines'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_user_blocks') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_user_blocks')}) }}">
+                {{ 'people'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_domain_blocks') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_domain_blocks')}) }}">
+                {{ 'domains'|trans }}
+            </a>
+        </li>
+    </menu>
+</div>

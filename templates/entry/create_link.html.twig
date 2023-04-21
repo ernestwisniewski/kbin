@@ -1,46 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'add_new_link'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'add_new_link'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-entry-create-page">
-        <div class="kbin-entry-create-link mt-lg-4" data-controller="entry-create">
-            <div class="kbin-magazine-background"></div>
+{% block mainClass %}page-entry-create page-entry-create-link{% endblock %}
 
-            <h1 class="font-weight-bold">{{ 'add_new_link'|trans }}</h1>
-            <p class="kbin-magazine-create-lead lead mb-5">
-                {{ 'add_new_link_desc'|trans }}
-            </p>
-
-            <div class="col-lg-6">
-                {% include 'entry/_form_link.html.twig' %}
-            </div>
-
-            {# Duplicates modal #}
-            <div class="modal fade" id="duplicatesModal" tabindex="-1" aria-labelledby="duplicatesModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="duplicatesModalLabel">{{ 'duplicates'|trans }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" data-entry-create-target="entries">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'add_anyway'|trans }}</button>
-                            <a href="{{ path('front') }}" class="btn btn-primary" tabindex="-1" role="button">{{ 'resigns'|trans }}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% if magazine is defined and magazine %}
-        {% include 'magazine/_sidebar.html.twig' %}
-    {% endif %}
+{% block body %}
+    {% include 'entry/_create_options.html.twig' %}
+    <h1 hidden>{{ 'add_new_link'|trans }}</h1>
+    {% include 'layout/_flash.html.twig' %}
+    <div id="content" class="section">
+        <div class="container" data-controller="entry-link-create">
+            {% include 'entry/_form_link.html.twig' %}
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,33 @@
+{%- set TYPE_GENERAL = constant('App\\Repository\\StatsRepository::TYPE_GENERAL') -%}
+{%- set TYPE_CONTENT = constant('App\\Repository\\StatsRepository::TYPE_CONTENT') -%}
+{%- set TYPE_VIEWS = constant('App\\Repository\\StatsRepository::TYPE_VIEWS') -%}
+{%- set TYPE_VOTES = constant('App\\Repository\\StatsRepository::TYPE_VOTES') -%}
+<aside class="options options--top" id="options">
+    <div></div>
+    <menu class="options__main">
+        <li>
+            <a href="{{ path('admin_dashboard') }}"
+               class="{{ html_classes({'active': is_route_name('admin_dashboard')}) }}">
+                {{ 'dashboard'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_settings') }}"
+               class="{{ html_classes({'active': is_route_name('admin_settings')}) }}">
+                {{ 'settings'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_users') }}"e
+               class="{{ html_classes({'active': is_route_name('admin_users')}) }}">
+                {{ 'users'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_pages', {page: 'about'}) }}"
+               class="{{ html_classes({'active': is_route_name('admin_pages')}) }}">
+                {{ 'pages'|trans|lower }}
+            </a>
+        </li>
+    </menu>
+</aside>

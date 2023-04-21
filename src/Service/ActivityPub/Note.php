@@ -21,6 +21,7 @@ use App\Service\ActivityPubManager;
 use App\Service\EntryCommentManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
+use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Note
@@ -33,7 +34,8 @@ class Note
         private readonly MagazineRepository $magazineRepository,
         private readonly ActivityPubManager $activityPubManager,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MarkdownConverter $markdownConverter
+        private readonly MarkdownConverter $markdownConverter,
+        private readonly SettingsManager $settingsManager,
     ) {
     }
 
@@ -75,6 +77,14 @@ class Note
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
 
+        if (!empty($object['language'])) {
+            $dto->lang = $object['language']['identifier'];
+        } elseif (!empty($object['contentMap'])) {
+            $dto->lang = array_keys($object['contentMap'])[0];
+        } else {
+            $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
+        }
+
         return $this->entryCommentManager->create(
             $dto,
             $actor,
@@ -113,13 +123,13 @@ class Note
     {
         $current = $this->repository->findByObjectId($object['id']);
         if ($current) {
-            return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
+            return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
         }
 
         if (isset($object['inReplyTo']) && $replyTo = $object['inReplyTo']) {
             // Create post or entry comment
             $parent = $this->repository->findByObjectId($replyTo);
-            $parent = $this->entityManager->getRepository($parent['type'])->find((int) $parent['id']);
+            $parent = $this->entityManager->getRepository($parent['type'])->find((int)$parent['id']);
 
             $root = null;
             $fn = null;
@@ -185,6 +195,14 @@ class Note
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
 
+        if (!empty($object['language'])) {
+            $dto->lang = $object['language']['identifier'];
+        } elseif (!empty($object['contentMap'])) {
+            $dto->lang = array_keys($object['contentMap'])[0];
+        } else {
+            $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
+        }
+
         return $this->postManager->create(
             $dto,
             $actor,
@@ -228,6 +246,14 @@ class Note
         $dto->body = $this->markdownConverter->convert($object['content']);
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleDate($dto, $object['published']);
+
+        if (!empty($object['language'])) {
+            $dto->lang = $object['language']['identifier'];
+        } elseif (!empty($object['contentMap'])) {
+            $dto->lang = array_keys($object['contentMap'])[0];
+        } else {
+            $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
+        }
 
         return $this->postCommentManager->create(
             $dto,

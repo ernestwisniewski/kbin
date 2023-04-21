@@ -60,14 +60,12 @@ class EntryCommentNoteFactory
                 $comment->apId
                     ? ($this->client->getActorObject($comment->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                        'ap_user_followers',
-                        ['username' => $comment->user->username],
-                        UrlGeneratorInterface::ABSOLUTE_URL
-                    ),
+                    'ap_user_followers',
+                    ['username' => $comment->user->username],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ],
-            'content' => $this->markdownConverter->convertToHtml(
-                $this->mentionManager->joinMentionsToBody($comment->body ?? '', $comment->mentions ?? []),
-            ),
+            'content' => $this->markdownConverter->convertToHtml($comment->body),
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($comment),
             'tag' => array_merge(
@@ -75,6 +73,10 @@ class EntryCommentNoteFactory
                 $this->mentionsWrapper->build($comment->mentions ?? [], $comment->body)
             ),
             'published' => $comment->createdAt->format(DATE_ATOM),
+        ];
+
+        $note['contentMap'] = [
+            $comment->lang => $note['content'],
         ];
 
         if ($comment->image) {

@@ -1,0 +1,28 @@
+@mixin fade-in($waitTime) {
+  animation: fadein #{$waitTime} linear 1 normal forwards;
+  -webkit-animation: fadein #{$waitTime} linear 1 normal forwards;
+
+  @include media-breakpoint-down(sm) {
+    animation: fadein 0s linear 1 normal forwards;
+    -webkit-animation: fadein 0s linear 1 normal forwards;
+  }
+
+
+  @keyframes fadein {
+    from {
+      opacity: .75;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes fadein {
+    from {
+      opacity: .75;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

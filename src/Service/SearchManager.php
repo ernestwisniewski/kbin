@@ -4,64 +4,42 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Repository\MagazineRepository;
 use App\Repository\SearchRepository;
-use Elastica\Query;
-use Elastica\Query\BoolQuery;
-use Elastica\Query\MultiMatch;
-use Elastica\Query\Terms;
-use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 
 class SearchManager
 {
     public function __construct(
-        private readonly SearchRepository $repo,
-        private readonly RepositoryManagerInterface $manager
+        private readonly SearchRepository $repository,
+        private readonly MagazineRepository $magazineRepository
     ) {
     }
 
     public function findByTagPaginated(string $val, int $page = 1): PagerfantaInterface
     {
-        $boolQuery = new BoolQuery();
-        $tagQuery = new Terms('tags', [$val]);
-        $boolQuery->addMust($tagQuery);
-
-        $query = new Query($boolQuery);
-        $query = $query->addSort([
-            'createdAt' => ['order' => 'desc'],
-        ]);
-
-        return $this->repo->search($query, $page);
+        return new Pagerfanta(new ArrayAdapter([]));
     }
 
     public function findMagazinesPaginated(string $magazine, int $page = 1): PagerfantaInterface
     {
-        $repo = $this->manager->getRepository('magazines');
-
-        $query = new MultiMatch();
-        $query->setQuery(
-            $magazine
-        );
-
-        return $repo->findPaginated($query)
-            ->setCurrentPage($page)
-            ->setMaxPerPage(50);
+        return $this->magazineRepository->search($magazine, $page);
     }
 
     public function findPaginated(string $val, int $page = 1): PagerfantaInterface
     {
-        $query = new MultiMatch();
-        $query->setQuery(
-            $val
-        );
+        return $this->repository->search($val, $page);
+    }
 
-        return $this->repo->search($query, $page);
+    public function findByApId(string $url): array
+    {
+        return $this->repository->findByApId($url);
     }
 
     public function findRelated(string $query): array
     {
-        $repo = $this->manager->getRepository('entries');
-
-        return $repo->find($query, 4);
+        return [];
     }
 }

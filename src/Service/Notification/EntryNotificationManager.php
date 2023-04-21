@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Entry;
 use App\Entity\EntryCreatedNotification;
@@ -17,6 +17,7 @@ use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +40,8 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
+        private readonly ImageManager $imageManager,
+        private readonly GenerateHtmlClassService $classService
     ) {
     }
 
@@ -52,7 +54,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         $this->notifyMagazine(new EntryCreatedNotification($subject->user, $subject));
 
         // Notify mentioned
-        $mentions = $this->mentionManager->clearLocal($this->mentionManager->extract($subject->body));
+        $mentions = MentionManager::clearLocal($this->mentionManager->extract($subject->body));
         foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
             if (!$user->apId) {
                 $notification = new EntryMentionedNotification($user, $subject);
@@ -79,7 +81,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
     private function notifyMagazine(Notification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem(
+            $iri = $this->iriConverter->getIriFromResource(
                 $this->magazineFactory->createDto($notification->entry->magazine)
             );
 
@@ -108,6 +110,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
             [
                 'op' => end($class),
                 'id' => $entry->getId(),
+                'htmlId' => $this->classService->fromEntity($entry),
                 'magazine' => [
                     'name' => $magazine->name,
                 ],
@@ -120,7 +123,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
                     'entry_id' => $entry->getId(),
                     'slug' => $entry->slug,
                 ]),
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+//                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

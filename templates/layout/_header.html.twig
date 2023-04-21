@@ -1,0 +1,153 @@
+<header id="header" class="header">
+    <div class="kbin-container">
+        <div class="sr-nav">
+            <a href="#content">{{ 'go_to_content'|trans }}</a>
+            <a href="#options">{{ 'go_to_filters'|trans }}</a>
+            <a href="{{ path('search') }}">{{ 'go_to_search'|trans }}</a>
+            <a href="#footer">{{ 'go_to_footer'|trans }}</a>
+        </div>
+        <nav class="head-nav">
+            <div class="brand">
+                <a href="/"><small><i class="fa-solid fa-bars"></i></small> {{ kbin_title() }}</a>
+            </div>
+            <menu class="head-nav__menu">
+                {% include 'layout/_header_nav.html.twig' %}
+            </menu>
+        </nav>
+        <menu>
+            <li>
+                <a href="{{ path('search') }}"
+                   class="icon"
+                   aria-label="{{ 'search'|trans }}"
+                   title="{{ 'search'|trans }}">
+                    <i class="fa-solid fa-magnifying-glass"></i> {{ 'search'|trans }}
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="{{ path('entry_create') }}"
+                   class="icon"
+                   aria-label="{{ 'add'|trans }}"
+                   title="{{ 'add'|trans }}">
+                    <i class="fa-solid fa-plus"></i> {{ 'add'|trans }}
+                </a>
+                <ul class="dropdown__menu">
+                    <li>
+                        <a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}"
+                           class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.link'|trans|lower)}) }}">
+                            {{ 'add_new_link'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
+                           class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
+                            {{ 'add_new_article'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}"
+                           class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.photo'|trans|lower)}) }}">
+                            {{ 'add_new_photo'|trans }}
+                        </a>
+                    </li>
+                    <li><a class="{{ html_classes({'active': is_route_name('post_create')}) }}"
+                           href="{{ path('posts_front') }}">{{ 'add_new_post'|trans }}</a></li>
+                    <li><a href="#">{{ 'add_new_video'|trans }}</a></li>
+                    <li><a class="{{ html_classes({'active': is_route_name('magazine_create')}) }}"
+                           href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="{{ path('front_subscribed') }}"
+                   class="icon"
+                   aria-label="{{ 'select_channel'|trans }}"
+                   title="{{ 'select_channel'|trans }}">
+                    <i class="fa-solid fa-list"></i> {{ 'select_channel'|trans }}
+                </a>
+                <ul class="dropdown__menu">
+                    <li>
+                        <a href="{{ path('front_subscribed') }}"
+                           class="{{ html_classes({'active': is_route_name_contains('_subscribed')}) }}">{{ 'subscribed'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('front_moderated') }}"
+                           class="{{ html_classes({'active': is_route_name_contains('_moderated')}) }}">{{ 'moderated'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('front_favourite') }}"
+                           class="{{ html_classes({'active': is_route_name_contains('_favourite')}) }}">{{ 'favourites'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('front') }}"
+                           class="{{ html_classes({'active': is_route_name('front') or is_route_name('posts_front') or is_route_name('people_front')}) }}">{{ 'all'|trans }}</a>
+                    </li>
+                </ul>
+            </li>
+            {% if app.user %}
+                {% if app.user.countNewNotifications %}
+                    <li class="counter">
+                        <a href="{{ path('notifications_front') }}">
+                            <span class="badge secondary-bg">{{ app.user.countNewNotifications }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="dropdown">
+                    <a class="{{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
+                       href="{{ path('user_overview', {username: app.user.username}) }}">{{ app.user.username }}</a>
+                    <ul class="dropdown__menu">
+                        <li>
+                            <a href="{{ path('user_overview', {username: app.user.username}) }}"
+                               class="{{ html_classes({'active': is_route_name_contains('user_overview')}) }}">
+                                {{ 'profile'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('user_settings_general') }}"
+                               class="{{ html_classes({'active': is_route_name_contains('user_settings')}) }}">
+                                {{ 'settings'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('messages_front') }}"
+                               class="{{ html_classes({'active': is_route_name_contains('messages')}) }}">
+                                {{ 'messages'|trans }}
+                                {% if app.user.countNewMessages %}
+                                    <span class="badge danger-bg ms-1">{{ app.user.countNewMessages }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('notifications_front') }}"
+                               class="{{ html_classes({'active': is_route_name_contains('notifications')}) }}">
+                                {{ 'notifications'|trans }}
+                                {% if app.user.countNewNotifications %}
+                                    <span class="badge secondary-bg ms-1">{{ app.user.countNewNotifications }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('admin_dashboard') }}"
+                                   class="{{ html_classes({'active': is_route_name_starts_with('admin')}) }}">
+                                    {{ 'admin_panel'|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li><a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a></li>
+                    </ul>
+                </li>
+                {% if app.user.countNewMessages %}
+                    <li class="counter">
+                        <a href="{{ path('messages_front') }}">
+                            <span class="badge danger-bg">{{ app.user.countNewMessages }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+            {% else %}
+                <li>
+                    <a class="{{ html_classes('login', {'active': is_route_name('app_login')}) }}"
+                       href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
+                </li>
+            {% endif %}
+        </menu>
+    </div>
+</header>

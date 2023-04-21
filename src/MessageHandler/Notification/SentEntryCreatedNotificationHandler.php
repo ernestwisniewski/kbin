@@ -7,10 +7,11 @@ namespace App\MessageHandler\Notification;
 use App\Message\Notification\EntryCreatedNotificationMessage;
 use App\Repository\EntryRepository;
 use App\Service\NotificationManager;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class SentEntryCreatedNotificationHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class SentEntryCreatedNotificationHandler
 {
     public function __construct(
         private readonly EntryRepository $repository,

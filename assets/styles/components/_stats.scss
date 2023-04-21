@@ -1,0 +1,25 @@
+.stats-count {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 2rem;
+
+  @include media-breakpoint-only(xs) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  div {
+    display: table;
+    text-align: center;
+
+    h3 {
+      font-size: .9rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    p {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+  }
+}

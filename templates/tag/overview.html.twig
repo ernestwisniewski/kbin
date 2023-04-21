@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    #{{ tag }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-tag-overview{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'tag/_options.html.twig' %}
+    <div id="content" class="overview subjects comments-tree comments">
+        {% include 'layout/_subject_list.html.twig' with {entryCommentAttributes: {showMagazineName: false}, postCommentAttributes: {withPost: true}} %}
+    </div>
+{% endblock %}

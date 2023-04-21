@@ -82,6 +82,13 @@ class UserVoter extends Voter
 
     private function canEditUsername(User $subject, User $user): bool
     {
-        return $this->canEditProfile($subject, $user) && $user->createdAt > (new \DateTime())->modify('-1 hour');
+        return $this->canEditProfile($subject, $user)
+            && !$user->entries->count()
+            && !$user->entryComments->count()
+            && !$user->posts->count()
+            && !$user->postComments->count()
+            && !$user->subscriptions->count()
+            && !$user->followers->count()
+            && !$user->follows->count();
     }
 }

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'moderate'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ magazine.title }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-post-moderate{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <div id="content">
+        {{ component('post_comment', {
+            comment: comment,
+            isSingle: true,
+            dateAsUrl: false,
+        }) }}
+        {% include 'layout/_flash.html.twig' %}
+        {% include 'post/comment/_moderate_panel.html.twig' %}
+    </div>
+{% endblock %}

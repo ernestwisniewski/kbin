@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\MagazineBlock;
@@ -25,11 +25,12 @@ use App\Service\PostManager;
 use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class DeleteUserHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class DeleteUserHandler
 {
     private ?User $user;
     private int $batchSize = 5;
@@ -209,7 +210,7 @@ class DeleteUserHandler implements MessageHandlerInterface
             foreach ($subjects as $subject) {
                 $retry = true;
 
-                $this->voteManager->vote(VoteInterface::VOTE_NONE, $subject, $this->user);
+                $this->voteManager->vote(VotableInterface::VOTE_NONE, $subject, $this->user);
             }
 
             $this->entityManager->commit();

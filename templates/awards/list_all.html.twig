@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'awards'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-awards{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'awards/_options.html.twig' %}
+    <h1>{{ 'awards'|trans }}</h1>
+    <div id="content" class="section table-responsive">
+        <table>
+            <tbody>
+            {% for type in types %}
+                <tr>
+                    <td><span class="dot" style="background: {{ type.category is same as 'bronze' ? 'brown' : type.category }}"></span> {{ type.name|trans }} <small>({{ type.count }})</small></td>
+                    <td>{{ (type.name~'_desc')|trans }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,13 +1,26 @@
-{% extends 'entry/single.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'favourites'|trans|capitalize -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'favourites'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-comment-favourites{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    <section class="kbin-comment-wrapper mt-4 mb-4">
-        {{ component('entry', { entry: entry }) }}
-        {{ component('entry_comment', { comment: comment, withParent: false, nested: false }) }}
-    </section>
-
-    {{ component('title', {title: 'favourites'|trans|capitalize }) }}
-    {% include '_layout/_favourites_list_grid.html.twig' with { subject: comment } %}
+    {{ component('entry_comment', {
+        comment: comment,
+        showEntryTitle: false,
+        showMagazineName: false
+    }) }}
+    {% include 'layout/_flash.html.twig' %}
+    {% include 'entry/comment/_options_activity.html.twig' %}
+    <div id="content">
+        {% include 'layout/_user_activity_list.html.twig' with {list: favourites} %}
+    </div>
 {% endblock %}

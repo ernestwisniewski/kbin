@@ -43,7 +43,7 @@ final class UserLinkParser extends AbstractLocalLinkParser
         }
 
         return $this->urlGenerator->generate(
-            'user',
+            'user_overview',
             [
                 'username' => $username,
             ],

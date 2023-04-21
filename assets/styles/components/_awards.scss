@@ -1,0 +1,13 @@
+.page-awards {
+  #main .options__main li a {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  #main table tr td:first-of-type {
+    align-items: center;
+    display: flex;
+    gap: .5rem;
+  }
+}

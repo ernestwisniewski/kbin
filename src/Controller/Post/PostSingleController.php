@@ -6,12 +6,16 @@ namespace App\Controller\Post;
 
 use App\Controller\AbstractController;
 use App\Controller\Traits\PrivateContentTrait;
+use App\Controller\User\ThemeSettingsController;
+use App\DTO\PostCommentDto;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
+use App\Form\PostCommentType;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;
+use App\Service\MentionManager;
 use Pagerfanta\PagerfantaInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -28,6 +32,7 @@ class PostSingleController extends AbstractController
     public function __invoke(
         Magazine $magazine,
         Post $post,
+        ?string $sortBy,
         PostCommentRepository $repository,
         EventDispatcherInterface $dispatcher,
         Request $request
@@ -43,9 +48,18 @@ class PostSingleController extends AbstractController
         $this->handlePrivateContent($post);
 
         $criteria = new PostCommentPageView($this->getPageNb($request));
-        $criteria->sortOption = Criteria::SORT_OLD;
+        $criteria->showSortOption($criteria->resolveSort($sortBy));
         $criteria->post = $post;
-        $criteria->perPage = 500;
+        $criteria->onlyParents = true;
+        $criteria->perPage = 25;
+
+        if (ThemeSettingsController::CHAT === $request->cookies->get(
+                ThemeSettingsController::POST_COMMENTS_VIEW
+            )) {
+            $criteria->showSortOption(Criteria::SORT_OLD);
+            $criteria->perPage = 100;
+            $criteria->onlyParents = false;
+        }
 
         $comments = $repository->findByCriteria($criteria);
 
@@ -55,12 +69,18 @@ class PostSingleController extends AbstractController
             return $this->getJsonResponse($magazine, $post, $comments);
         }
 
+        $dto = new PostCommentDto();
+        if ($this->getUser() && $this->getUser()->addMentionsPosts && $post->user !== $this->getUser()) {
+            $dto->body = MentionManager::addHandle([$post->user->username])[0];
+        }
+
         return $this->render(
             'post/single.html.twig',
             [
                 'magazine' => $magazine,
                 'post' => $post,
                 'comments' => $comments,
+                'form' => $this->createForm(PostCommentType::class, $dto)->createView(),
             ]
         );
     }

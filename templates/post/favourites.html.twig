@@ -1,20 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'favourites'|trans|capitalize }} - {{ get_short_desc(post.body) -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'favourites'|trans }} - {{ get_short_sentence(post.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <section class="kbin-post-wrapper mt-4 mb-4">
-        {{ component('post', {post: post}) }}
-    </section>
 
-    {{ component('title', {title: 'favourites'|trans|capitalize }) }}
-    {% include '_layout/_favourites_list_grid.html.twig' with { subject: post } %}
+{% block mainClass %}page-post-favourites{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'post/_sidebar.html.twig' %}
+{% block sidebar_top %}
+{% endblock %}
 
-    {{ parent() }}
-
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    <div id="content">
+        {{ component('post', {
+            post: post,
+            isSingle: true
+        }) }}
+        {% include 'layout/_flash.html.twig' %}
+        {% include 'post/_options_activity.html.twig' %}
+        <div id="content">
+            {% include 'layout/_user_activity_list.html.twig' with {list: favourites} %}
+        </div>
+    </div>
 {% endblock %}

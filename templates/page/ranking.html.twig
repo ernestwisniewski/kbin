@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'ranking'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-ranking{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'ranking'|trans }}</h1>
+    <div id="content" class="section section--muted">
+        <p>{{ 'ranking_disabled'|trans }}</p>
+    </div>
+{% endblock %}

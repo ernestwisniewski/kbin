@@ -7,6 +7,10 @@ namespace App\Cardano;
 use FurqanSiddiqui\BIP39\BIP39;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class CardanoWallet
 {
     public function __construct(private readonly string $cardanoWalletUrl, private readonly HttpClientInterface $client)

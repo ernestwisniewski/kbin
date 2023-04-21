@@ -12,10 +12,11 @@ use App\Service\ActivityPub\Wrapper\CreateWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class CreateHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class CreateHandler
 {
     public function __construct(
         private readonly MessageBusInterface $bus,

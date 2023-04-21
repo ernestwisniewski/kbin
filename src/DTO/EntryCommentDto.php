@@ -10,7 +10,9 @@ use App\Entity\EntryComment;
 use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class EntryCommentDto
 {
@@ -20,10 +22,12 @@ class EntryCommentDto
     public ?EntryComment $parent = null;
     public ?EntryComment $root = null;
     public Image|ImageDto|null $image = null;
+    public ?string $imageUrl = null;
     public ?string $imageAlt = null;
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 5000)]
+    #[Assert\Length(max: 5000)]
     public ?string $body = null;
+    public ?string $lang = null;
+    public bool $isAdult = false;
     public ?int $uv = null;
     public ?int $dv = null;
     public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
@@ -33,6 +37,31 @@ class EntryCommentDto
     public ?\DateTimeImmutable $createdAt = null;
     public ?\DateTime $lastActive = null;
     private ?int $id = null;
+
+    #[Assert\Callback]
+    public function validate(
+        ExecutionContextInterface $context,
+        $payload
+    ) {
+        $image = Request::createFromGlobals()->files->filter('entry_comment');
+
+        if (is_array($image) && isset($image['image'])) {
+            $image = $image['image'];
+        } else {
+            $image = $context->getValue()->image;
+        }
+
+        if (empty($this->body) && empty($image)) {
+            $this->buildViolation($context, 'body');
+        }
+    }
+
+    private function buildViolation(ExecutionContextInterface $context, $path)
+    {
+        $context->buildViolation('This value should not be blank.')
+            ->atPath($path)
+            ->addViolation();
+    }
 
     public function createWithParent(
         Entry $entry,

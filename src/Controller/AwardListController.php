@@ -17,7 +17,7 @@ class AwardListController extends AbstractController
     public function __invoke(?string $category, Request $request): Response
     {
         return $this->render(
-            'award/list_all.html.twig',
+            'awards/list_all.html.twig',
             [
                 'category' => $category,
                 'types' => $this->repository->findBy($category ? ['category' => $category] : [], ['count' => 'DESC']),

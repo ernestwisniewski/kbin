@@ -58,7 +58,10 @@ class PostManager implements ContentManagerInterface
         }
 
         $post = $this->factory->createFromDto($dto, $user);
-        $post->slug = $this->slugger->slug($dto->body);
+
+        $post->lang = $dto->lang;
+        $post->isAdult = $dto->isAdult;
+        $post->slug = $this->slugger->slug($dto->body ?? $dto->magazine->name.' '.$dto->image->altText);
         $post->image = $dto->image;
         if ($post->image && !$post->image->altText) {
             $post->image->altText = $dto->imageAlt;
@@ -71,6 +74,9 @@ class PostManager implements ContentManagerInterface
         $post->user->lastActive = new \DateTime();
         $post->lastActive = $dto->lastActive ?? $post->lastActive;
         $post->createdAt = $dto->createdAt ?? $post->createdAt;
+        if (empty($post->body) && null === $post->image) {
+            throw new \Exception('Post body and image cannot be empty');
+        }
 
         $post->magazine->addPost($post);
 
@@ -87,7 +93,9 @@ class PostManager implements ContentManagerInterface
         Assert::same($post->magazine->getId(), $dto->magazine->getId());
 
         $post->body = $dto->body;
+        $post->lang = $dto->lang;
         $post->isAdult = $dto->isAdult;
+        $post->slug = $this->slugger->slug($dto->body ?? $dto->magazine->name.' '.$dto->image->altText);
         $oldImage = $post->image;
         if ($dto->image) {
             $post->image = $dto->image;
@@ -96,6 +104,9 @@ class PostManager implements ContentManagerInterface
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->visibility = $dto->visibility;
         $post->editedAt = new \DateTimeImmutable('@'.time());
+        if (empty($post->body) && null === $post->image) {
+            throw new \Exception('Post body and image cannot be empty');
+        }
 
         $this->entityManager->flush();
 
@@ -184,7 +195,7 @@ class PostManager implements ContentManagerInterface
 
     public function getSortRoute(string $sortBy): string
     {
-        return strtolower($this->translator->trans('sort.'.$sortBy));
+        return strtolower($this->translator->trans($sortBy));
     }
 
     public function changeMagazine(Post $post, Magazine $magazine): void

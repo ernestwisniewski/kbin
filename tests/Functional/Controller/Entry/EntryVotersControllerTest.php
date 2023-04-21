@@ -1,70 +1,46 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
+use App\Entity\Contracts\VotableInterface;
+use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 
 class EntryVotersControllerTest extends WebTestCase
 {
-    public function testCanSeeSidebarEntryVoters(): void
+    public function testUserCanSeeUpVoters(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('example');
-        $this->createVote(1, $entry, $this->getUserByUsername('user1'));
-        $this->createVote(1, $entry, $this->getUserByUsername('user2'));
-        $this->createVote(1, $entry, $this->getUserByUsername('user3'));
-        $this->createVote(1, $entry, $this->getUserByUsername('user4'));
-        $this->createVote(2, $entry, $this->getUserByUsername('user5'));
-        $this->createVote(2, $entry, $this->getUserByUsername('user6'));
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
+        $manager = $client->getContainer()->get(VoteManager::class);
+        $manager->vote(VotableInterface::VOTE_UP, $entry, $this->getUserByUsername('JaneDoe'));
 
-        $this->assertCount(6, $crawler->filter('.kbin-sidebar .kbin-voters ul li'));
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
+
+        $client->click($crawler->filter('.options-activity')->selectLink('boosts (1)')->link());
+
+        $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }
 
-    public function testCanSeeEntryVotersPage(): void
+    public function testUserCanSeeDownVoters(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('example');
-        $this->createVote(1, $entry, $this->getUserByUsername('user1'));
-        $this->createVote(1, $entry, $this->getUserByUsername('user2'));
-        $this->createVote(1, $entry, $this->getUserByUsername('user3'));
-        $this->createVote(1, $entry, $this->getUserByUsername('user4'));
-        $this->createVote(2, $entry, $this->getUserByUsername('user5'));
-        $this->createVote(2, $entry, $this->getUserByUsername('user6'));
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
+        $manager = $client->getContainer()->get(VoteManager::class);
+        $manager->vote(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
-        $this->assertCount(6, $crawler->filter('.kbin-sidebar .kbin-voters ul li'));
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $crawler = $client->click($crawler->filter('.kbin-sidebar .kbin-voters ul li')->last()->filter('a')->link());
+        $client->click($crawler->filter('.options-activity')->selectLink('reduces (1)')->link());
 
-        $this->assertCount(6, $crawler->filter('.kbin-main .kbin-voters .card'));
-    }
-
-    public function testXmlUserCanSeeEntryVoters(): void
-    {
-        $client = $this->createClient();
-
-        $magazine = $this->getMagazineByName('acme');
-
-        $user  = $this->getUserByUsername('user');
-        $user1 = $this->getUserByUsername('JohnDoe');
-        $user2 = $this->getUserByUsername('JaneDoe');
-
-        $entry = $this->createEntry('entry test', $magazine, $user);
-
-        $this->createVote(1, $entry, $user1);
-        $this->createVote(1, $entry, $user2);
-
-        $id = $entry->getId();
-        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
-        $client->request('GET', "/m/acme/t/$id/-/głosy");
-
-        $this->assertStringContainsString('JaneDoe', $client->getResponse()->getContent());
+        $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');
     }
 }

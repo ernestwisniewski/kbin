@@ -21,7 +21,7 @@ class ReputationRepository extends ServiceEntityRepository
     public const TYPE_POST = 'posts';
     public const TYPE_POST_COMMENT = 'replies';
 
-    public const PER_PAGE = 31;
+    public const PER_PAGE = 48;
 
     public function __construct(ManagerRegistry $registry)
     {

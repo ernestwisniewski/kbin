@@ -1,0 +1,42 @@
+.page-login,
+.page-register,
+.page-reset-password,
+.page-reset-password-email-sent {
+  .container {
+    margin: 0 auto;
+    max-width: 30rem;
+
+    p {
+      margin-bottom: .5rem;
+    }
+
+    a {
+      font-weight: bold;
+    }
+
+    .actions {
+      margin-top: 3rem;
+      display: block;
+    }
+
+    .social {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 3rem;
+
+      a {
+        align-items: center;
+        display: inline-flex;
+        gap: .5rem;
+      }
+    }
+  }
+}
+
+.page-reset-password-email-sent {
+  p:last-of-type {
+    margin-top: 2rem;
+    text-align: right;
+  }
+}

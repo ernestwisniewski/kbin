@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Notification;
 use App\Entity\Post;
@@ -16,6 +16,7 @@ use App\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,7 +39,8 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
+        private readonly ImageManager $imageManager,
+        private readonly GenerateHtmlClassService $classService
     ) {
     }
 
@@ -51,7 +53,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         $this->notifyMagazine(new PostCreatedNotification($subject->user, $subject));
 
         // Notify mentioned
-        $mentions = $this->mentionManager->clearLocal($this->mentionManager->extract($subject->body));
+        $mentions = MentionManager::clearLocal($this->mentionManager->extract($subject->body));
         foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
             $notification = new PostMentionedNotification($user, $subject);
             $this->entityManager->persist($notification);
@@ -76,7 +78,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
     private function notifyMagazine(Notification $notification)
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem(
+            $iri = $this->iriConverter->getIriFromResource(
                 $this->magazineFactory->createDto($notification->post->magazine)
             );
 
@@ -103,6 +105,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
             [
                 'op' => end($class),
                 'id' => $post->getId(),
+                'htmlId' => $this->classService->fromEntity($post),
                 'magazine' => [
                     'name' => $post->magazine->name,
                 ],
@@ -115,7 +118,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
                     'post_id' => $post->getId(),
                     'slug' => $post->slug,
                 ]),
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+//                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }

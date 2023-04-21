@@ -10,7 +10,7 @@ use App\Entity\Magazine;
 class MagazineThemeDto
 {
     public ?Magazine $magazine = null;
-    public ?Image $cover = null;
+    public ?Image $icon = null;
     public ?string $customCss = null;
     public ?string $customJs = null;
     public ?string $primaryColor = null;
@@ -23,8 +23,8 @@ class MagazineThemeDto
         $this->customCss = $magazine->customCss;
     }
 
-    public function create(?Image $cover)
+    public function create(?Image $icon)
     {
-        $this->cover = $cover;
+        $this->icon = $icon;
     }
 }

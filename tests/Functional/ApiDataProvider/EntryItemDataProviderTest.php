@@ -1,11 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\ApiDataProvider;
 
-
 use App\Tests\ApiTestCase;
 use App\Tests\FactoryTrait;
-use DateTimeInterface;
 
 class EntryItemDataProviderTest extends ApiTestCase
 {
@@ -32,54 +32,46 @@ class EntryItemDataProviderTest extends ApiTestCase
 
         $response = $client->request('GET', '/api/entries/'.$entry->getId());
 
-
         $this->assertCount(21, $response->toArray());
 
 //        $this->assertMatchesResourceItemJsonSchema(EntryDto::class); // @todo image
 
         $this->assertJsonEquals([
-            '@context'   => '/api/contexts/entry',
-            '@id'        => '/api/entries/'.$entry->getId(),
-            '@type'      => 'entry',
-            'magazine'   => [
-                '@id'   => '/api/magazines/acme',
+            '@context' => '/api/contexts/entry',
+            '@id' => '/api/entries/'.$entry->getId(),
+            '@type' => 'entry',
+            'magazine' => [
+                '@id' => '/api/magazines/acme',
                 '@type' => 'magazine',
-                'name'  => 'acme',
+                'name' => 'acme',
             ],
-            'user'       => [
-                '@id'      => '/api/users/JohnDoe',
-                '@type'    => 'user',
+            'user' => [
+                '@id' => '/api/users/JohnDoe',
+                '@type' => 'user',
                 'username' => 'JohnDoe',
-                'avatar'   => null,
+                'avatar' => null,
             ],
-            'image'      => [
-                '@id'       => '/api/images/'.$entry->image->getId(),
-                '@type'     => 'image',
-                'filePath'  => $entry->image->filePath,
-                'width'     => 1280,
-                'height'    => 1280
-            ],
-            'domain'     => [
-                '@id'        => '/api/domains/'.$entry->domain->getId(),
-                '@type'      => 'domain',
-                'name'       => 'karab.in',
+            'image' => null,
+            'domain' => [
+                '@id' => '/api/domains/'.$entry->domain->getId(),
+                '@type' => 'domain',
+                'name' => 'karab.in',
                 'entryCount' => 3,
             ],
-            'title'      => 'test1',
-            'url'        => 'https://karab.in/',
-            'body'       => null,
-            'comments'   => 1,
-            'uv'         => 1,
-            'dv'         => 1,
-            'isAdult'    => false,
-            'views'      => 0,
-            'score'      => 0,
+            'title' => 'test1',
+            'url' => 'https://karab.in/',
+            'body' => null,
+            'comments' => 1,
+            'uv' => 1,
+            'dv' => 1,
+            'isAdult' => false,
+            'views' => 0,
+            'score' => 0,
             'visibility' => 'visible',
-            'createdAt'  => $entry->createdAt->format(DateTimeInterface::RFC3339),
-            'lastActive' => $entry->lastActive->format(DateTimeInterface::RFC3339),
-            'id'         => $entry->getId(),
-            'type'       => 'link',
+            'createdAt' => $entry->createdAt->format(\DateTimeInterface::RFC3339),
+            'lastActive' => $entry->lastActive->format(\DateTimeInterface::RFC3339),
+            'id' => $entry->getId(),
+            'type' => 'link',
         ]);
-
     }
 }

@@ -1,30 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'edit_article'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'edit_article'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-entry-edit-page">
-        <div class="kbin-entry-create-article mt-lg-4">
-            <div class="kbin-magazine-background"></div>
+{% block mainClass %}page-entry-create page-entry-edit-article{% endblock %}
 
-            <h1 class="font-weight-bold">{{ 'edit_article'|trans }}</h1>
-            <p class="kbin-magazine-create-lead lead mb-5">
-                {{ 'add_new_article_desc'|trans }}
-            </p>
-
-            {% include 'entry/_form_article.html.twig' %}
-
-            <div class="clearfix mb-4"></div>
-
-            {% include 'entry/_form_delete.html.twig' %}
-        </div>
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% if magazine is defined and magazine %}
-        {% include 'magazine/_sidebar.html.twig' %}
-    {% endif %}
+{% block body %}
+    {{ component('entry', {
+        entry: entry,
+        class: 'section--top'
+    }) }}
+
+    <h1 hidden>{{ 'edit_article'|trans }}</h1>
+    {% include 'layout/_flash.html.twig' %}
+    <div id="content" class="section">
+        <div class="container">
+            {% include 'entry/_form_article.html.twig' with {edit: true} %}
+        </div>
+    </div>
 {% endblock %}

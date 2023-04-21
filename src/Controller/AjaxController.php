@@ -30,11 +30,13 @@ class AjaxController extends AbstractController
     public function fetchTitle(Embed $embed, Request $request): JsonResponse
     {
         $url = json_decode($request->getContent())->url;
+        $embed = $embed->fetch($url);
 
         return new JsonResponse(
             [
-                'title' => $embed->fetch($url)->title,
-                'description' => $embed->fetch($url)->description,
+                'title' => $embed->title,
+                'description' => $embed->description,
+                'image' => $embed->image,
             ]
         );
     }
@@ -56,17 +58,24 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'html' => $embed->fetch($request->get('url'))->html,
+                'html' => '<div class="preview">'.$embed->fetch($request->get('url'))->html.'</div>',
             ]
         );
     }
 
-    public function fetchEntry(Entry $entry): JsonResponse
+    public function fetchEntry(Entry $entry, Request $request): JsonResponse
     {
         return new JsonResponse(
             [
-                'id' => $entry->getId(),
-                'html' => $this->renderView('entry/_entry.html.twig', ['entry' => $entry, 'isAjax' => true]),
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'entry',
+                        'attributes' => [
+                            'entry' => $entry,
+                        ],
+                    ]
+                ),
             ]
         );
     }
@@ -75,15 +84,15 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id' => $comment->getId(),
                 'html' => $this->renderView(
-                    'entry/comment/_comment.html.twig',
+                    'components/_ajax.html.twig',
                     [
-                        'extraClass' => 'kbin-comment',
-                        'withParent' => false,
-                        'comment' => $comment,
-                        'level' => 1,
-                        'nested' => false,
+                        'component' => 'entry_comment',
+                        'attributes' => [
+                            'comment' => $comment,
+                            'showEntryTitle' => false,
+                            'showMagazineName' => false,
+                        ],
                     ]
                 ),
             ]
@@ -94,8 +103,15 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id' => $post->getId(),
-                'html' => $this->renderView('post/_post.html.twig', ['post' => $post]),
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'post',
+                        'attributes' => [
+                            'post' => $post,
+                        ],
+                    ]
+                ),
             ]
         );
     }
@@ -104,15 +120,13 @@ class AjaxController extends AbstractController
     {
         return new JsonResponse(
             [
-                'id' => $comment->getId(),
                 'html' => $this->renderView(
-                    'post/comment/_comment.html.twig',
+                    'components/_ajax.html.twig',
                     [
-                        'extra_classes' => 'kbin-comment',
-                        'with_parent' => false,
-                        'comment' => $comment,
-                        'level' => 1,
-                        'nested' => false,
+                        'component' => 'post_comment',
+                        'attributes' => [
+                            'comment' => $comment,
+                        ],
                     ]
                 ),
             ]
@@ -130,7 +144,10 @@ class AjaxController extends AbstractController
 
         return new JsonResponse(
             [
-                'html' => $this->renderView('post/comment/_list.html.twig', ['comments' => $comments, 'post' => $post]),
+                'html' => $this->renderView(
+                    'post/comment/_preview.html.twig',
+                    ['comments' => $comments, 'post' => $post]
+                ),
             ]
         );
     }
@@ -172,7 +189,8 @@ class AjaxController extends AbstractController
         ]);
 
         return new JsonResponse([
-            'html' => $this->renderView('user/user_popup.html.twig', ['user' => $user, 'form' => $form->createView()]),
+            'html' => $this->renderView('user/_user_popover.html.twig', ['user' => $user, 'form' => $form->createView()]
+            ),
         ]);
     }
 

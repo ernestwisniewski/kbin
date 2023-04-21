@@ -1,0 +1,195 @@
+.magazine {
+  .panel {
+    margin-bottom: 1rem;
+    text-align: center;
+
+    a, button {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  header {
+    h4, h4 a {
+      font-size: 1.2rem;
+      margin-bottom: 0;
+      margin-top: .5rem;
+    }
+
+    text-align: center;
+  }
+
+  figure {
+    text-align: center;
+  }
+
+  &__name {
+    margin-top: 0;
+  }
+
+  &__description,
+  &__rules {
+    ul {
+      padding-left: .5rem;
+    }
+
+    li {
+      list-style: none;
+      margin-bottom: .5rem;
+    }
+  }
+
+  &__subscribe {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+
+    div {
+      align-items: center;
+      background: var(--kbin-button-secondary-bg);
+      border: var(--kbin-button-secondary-border);
+      color: var(--kbin-button-secondary-text-color);
+      display: flex;
+      flex-direction: row;
+      font-size: .9rem;
+      left: 1px;
+      padding: .3rem .5rem;
+      position: relative;
+
+      .rounded-edges & {
+        border-radius: .5rem;
+      }
+
+      i {
+        padding-right: .5rem;
+      }
+    }
+
+    button {
+      height: 100%;
+      padding-bottom: .5rem;
+      padding-top: .5rem;
+    }
+
+    form:last-of-type {
+      position: relative;
+      right: 1px;
+    }
+  }
+}
+
+.magazine-inline {
+  img {
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+}
+
+.magazines-cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .magazine {
+    align-content: center;
+    align-items: center;
+    display: grid;
+    grid-template-rows: auto;
+  }
+}
+
+.magazines-columns,
+.domains-columns {
+  font-size: .9rem;
+
+  ul {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0;
+    padding: 0;
+
+    @include media-breakpoint-down(lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media-breakpoint-down(sm) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  ul figure {
+    margin: 0 .5rem 0 0;
+  }
+
+  ul li {
+    align-items: center;
+    display: flex;
+    list-style: none;
+    position: relative;
+  }
+
+  ul li a {
+    display: block
+  }
+
+  ul li small {
+    color: var(--kbin-meta-text-color);
+    font-size: .85rem;
+  }
+}
+
+td {
+  .magazine__subscribe {
+    margin: 0;
+  }
+}
+
+.page-magazine-panel {
+  .container {
+    margin: 0 auto;
+    max-width: 30rem;
+  }
+
+  .report {
+    div {
+      margin-bottom: .5rem;
+    }
+  }
+
+  .actions {
+    margin-bottom: 0 !important;
+
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  .users-columns,
+  .columns {
+    .actions {
+      margin-left: 1rem;
+
+      .btn {
+        padding: .5rem;
+      }
+    }
+  }
+}
+
+.related-magazines {
+  h3 {
+    margin: 0 0 .5rem !important;
+  }
+
+  ul.meta li:first-child {
+    border-top: 0 !important;
+    margin-top: 0 !important;
+  }
+}

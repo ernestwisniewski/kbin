@@ -8,7 +8,7 @@ use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DTO\EntryDto;
 use App\Factory\EntryFactory;
 use App\Service\EntryManager;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class EntryDataPersister implements ContextAwareDataPersisterInterface
 {

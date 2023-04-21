@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\TagInterface;
 use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Traits\ActivityPubActivityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\EditedAtTrait;
@@ -30,7 +31,7 @@ use Doctrine\ORM\Mapping\OrderBy;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryCommentRepository::class)]
-class EntryComment implements VoteInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
+class EntryComment implements VotableInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use VisibilityTrait;
@@ -55,11 +56,15 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'children')]
     #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?EntryComment $parent = null;
-    #[ManyToOne(targetEntity: EntryComment::class)]
+    #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'nested')]
     #[JoinColumn(nullable: true)]
     public ?EntryComment $root = null;
     #[Column(type: 'text', length: 4500)]
     public ?string $body = null;
+    #[Column(type: 'string', nullable: false)]
+    public string $lang = 'en';
+    #[Column(type: 'boolean', nullable: false)]
+    public ?bool $isAdult = false;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
     #[Column(type: 'datetimetz')]
@@ -73,6 +78,9 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
     #[OneToMany(mappedBy: 'parent', targetEntity: EntryComment::class, orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'ASC'])]
     public Collection $children;
+    #[OneToMany(mappedBy: 'root', targetEntity: EntryComment::class, orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'ASC'])]
+    public Collection $nested;
     #[OneToMany(mappedBy: 'comment', targetEntity: EntryCommentVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $votes;
     #[OneToMany(mappedBy: 'entryComment', targetEntity: EntryCommentReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
@@ -227,5 +235,10 @@ class EntryComment implements VoteInterface, VisibilityInterface, ReportInterfac
 
     public function updateRanking(): void
     {
+    }
+
+    public function getParentSubject(): ?ContentInterface
+    {
+        return $this->entry;
     }
 }

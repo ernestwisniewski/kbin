@@ -1,0 +1,6 @@
+{% if user.apId %}
+    <div class="alert alert__info">
+        <p>{{ 'federated_user_info'|trans }} <a
+                    href="{{ user.apProfileId }}">{{ 'go_to_original_instance'|trans }}</a></p>
+    </div>
+{% endif %}

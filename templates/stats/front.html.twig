@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'stats'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-stats{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'stats/_options.html.twig' %}
+    <h1 hidden>{{ 'stats'|trans }}</h1>
+    {% if route_has_param('statsType', 'general'|trans|lower) or chart is null %}
+        {% include 'stats/_stats_count.html.twig' %}
+    {% else %}
+        <div class="section" id="content">
+            {% include 'stats/_filters.html.twig' %}
+            {{ render_chart(chart) }}
+        </div>
+    {% endif %}
+{% endblock %}

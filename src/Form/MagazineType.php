@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,11 +19,11 @@ class MagazineType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('title')
-            ->add('description', TextareaType::class)
-            ->add('rules', TextareaType::class)
-            ->add('isAdult', CheckboxType::class)
+            ->add('name', TextType::class, ['required' => true])
+            ->add('title', TextType::class, ['required' => true])
+            ->add('description', TextareaType::class, ['required' => false])
+            ->add('rules', TextareaType::class, ['required' => false])
+            ->add('isAdult', CheckboxType::class, ['required' => false])
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber(new DisableFieldsOnMagazineEdit());

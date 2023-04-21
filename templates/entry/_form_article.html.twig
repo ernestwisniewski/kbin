@@ -1,105 +1,58 @@
 {% set hasImage = false %}
-{% if entry is defined and entry is not null and entry.image %}
+{% if edit is not defined %}
+    {% set edit = false %}
+{% elseif entry.image %}
     {% set hasImage = true %}
 {% endif %}
-
-{{ form_start(form, { 'attr': {'data-controller': 'media title-counter editor', 'data-title-counter-max-value': 255, class: 'kbin-media' }}) }}
-<div>
-    <div class="col-lg-6">
-        <div class="input-group-lg mb-3">
-            {{ form_label(form.title, 'title'|trans) }}<sup class="required">*</sup>
-            {{ form_widget(form.title, {'attr': {'data-entry-create-target': 'title', 'data-title-counter-target': 'input' }}) }}
-            <div class="float-end">
-                <small><strong data-title-counter-target="counter">0</strong> / 255</small>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-
-        <div class="input-group-lg mb-3">
-            {{ form_label(form.magazine, 'magazine'|trans) }}<sup class="required">*</sup>
-            {{ form_widget(form.magazine, {'attr': {'placeholder': 'magazine_input_placeholder'|trans }}) }}
-        </div>
-
-        <div class="input-group-lg input-group-tags mb-3">
-            {{ form_label(form.tags, 'tags'|trans) }}
-            {{ form_widget(form.tags) }}
-        </div>
-
-        <div class="input-group-lg mb-3">
-            {{ form_label(form.badges, 'badges'|trans) }}
-            {{ form_widget(form.badges) }}
-        </div>
-    </div>
-
-    <div class="col-lg-12 mb-3">
-        <div class="mb-3 position-relative">
-            {{ form_label(form.body, 'content'|trans) }}<sup class="required">*</sup>
-            {{ form_widget(form.body, {'attr': {'class': 'kbin-editor'}}) }}
-        </div>
-
-        <div class="text-end float-end">
-            <div class="float-start row mb-5">
-                <div class="pt-2 col-auto">
-                    {{ form_widget(form.isOc, {label: 'oc'|trans }) }}
-                </div>
-                <div class="pt-2 col-auto">
-                    {{ form_widget(form.isEng, {label: 'lang'|trans }) }}
-                </div>
-                <div class="pt-2 me-4 col-auto">
-                    {{ form_widget(form.isAdult, {label: '18+'}) }}
-                </div>
-            </div>
-
-            <div class="btn-group">
-                <a class="btn btn-secondary me-1"
-                   href="https://{{ kbin_domain() }}{{ kbin_markdown_howto_url() }}"
-                   data-controller="markdown-popup"
-                   data-action="click->markdown-popup#open"
-                   role="button">
-                    <i class="fas fa-question"></i>
-                </a>
-
-                <button type="button" class="btn btn-secondary me-1 {{ hasImage ? 'd-none' : '' }}" data-bs-toggle="modal"
-                        data-bs-target="#media-modal-entry" data-media-target="modalButton">
-                    <i class="fas fa-camera"></i>
-                </button>
-
-                <button data-action="media#delete"
-                        data-media-target="deleteButton"
-                        data-media-url-param="{{ hasImage ? path('entry_image_delete', {magazine_name: entry.magazine.name, entry_id: entry.id}) : '' }}"
-                        type="button"
-                        class="btn-close me-1 {{ hasImage ? '' : 'd-none' }}"
-                        aria-label="Close"></button>
-
-                {% if hasImage %}
-                    <img data-media-target="thumb" src="{{ asset(entry.image.filePath) | imagine_filter('post_thumb') }}" alt="" class="me-2"/>
-                {% endif %}
-
-                <canvas data-media-target="canvas" class="d-none me-2"></canvas>
-
-                {{ form_widget(form.submit, { 'label': 'done'|trans, 'attr': { 'data-entry-create-target': 'sendButton' }}) }}
-            </div>
-        </div>
-    </div>
+{{ form_start(form, {attr: {class: edit ? 'entry_edit' : 'entry-create'}}) }}
+    {{ form_row(form.title, {label: 'title'}) }}
+    {{ component('editor_toolbar', {id: 'entry_article_body'}) }}
+    {{ form_row(form.body, {label: false, attr: {placeholder: 'body'}}) }}
+    {{ form_row(form.magazine, {label: false}) }}
+    {{ form_row(form.tags, {label: 'tags'}) }}
+    {{ form_row(form.badges, {label: 'badges'}) }}
+<div class="row params">
+    {{ form_row(form.isAdult, {label: 'is_adult', row_attr: {class: 'checkbox'}}) }}
+    {{ form_row(form.isOc, {label: 'oc', row_attr: {class: 'checkbox'}}) }}
 </div>
-
-<div id="media-modal-entry" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Dodaj zdjęcie <strike>lub film</strike></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-media-target="close"></button>
+<div class="row actions">
+    <ul>
+        <li>
+            <button type="button"
+                    class="btn btn__secondary"
+                    aria-label="{{ 'markdown_howto'|trans }}"
+                    title="{{ 'markdown_howto'|trans }}">
+                <i class="fa-solid fa-circle-question"></i>
+            </button>
+        </li>
+        {% if hasImage %}
+            <img width="40"
+                 height="40"
+                 src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                 alt="{{ entry.image.altText }}">
+            <button formaction="{{ path('entry_image_delete', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}"
+                    class="btn-link"
+                    onclick="return confirm('{{ 'are_you_sure'|trans }}');">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        {% endif %}
+        <li class="{{ html_classes('dropdown', {'hidden': hasImage}) }}">
+            <button type="button"
+                    class="btn btn__secondary"
+                    aria-label="{{ 'add_media'|trans }}"
+                    title="{{ 'add_media'|trans }}">
+                <i class="fa-solid fa-photo-film"></i>
+            </button>
+            <div class="dropdown__menu">
+                {% include 'layout/_form_media.html.twig' %}
             </div>
-            <div class="modal-body">
-                <div class="mb-4">
-                    <small>wklej adres</small>
-                    <small class="ms-2 font-weight-bold" data-action="click->media#add">wybierz plik</small>
-                </div>
-                <div class="input-group input-group-lg me-2">
-                    {{ form_widget(form.image, {'attr':{ 'class': 'form-control', 'data-action': 'media#add', 'data-media-target': 'fileInput' }}) }}
-                </div>
-            </div>
-        </div>
-    </div>
+        </li>
+        <li class="select">
+            {{ form_row(form.lang, {label: false}) }}
+        </li>
+        <li>
+            {{ form_row(form.submit, {label: edit ? 'edit_article' : 'add_new_article', attr: {class: 'btn btn__primary'}}) }}
+        </li>
+    </ul>
 </div>
 {{ form_end(form) }}

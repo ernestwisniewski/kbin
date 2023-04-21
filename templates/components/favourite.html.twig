@@ -1,0 +1,11 @@
+<form method="post"
+      action="{{ path(path, {id: subject.id}) }}">
+    <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
+    <button class="{{ html_classes('stretched-link', {'active': app.user and subject.isFavored(app.user) }) }}"
+            type="submit"
+            data-action="subject#favourite">
+        {{ 'favourites'|trans|lower }} <span class="{{ html_classes({'hidden': not subject.favouriteCount}) }}">
+            (<span data-subject-target="favCounter">{{ subject.favouriteCount }}</span>)
+        </span>
+    </button>
+</form>

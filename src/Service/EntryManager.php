@@ -62,14 +62,16 @@ class EntryManager implements ContentManagerInterface
         }
 
         $entry = $this->factory->createFromDto($dto, $user);
-        $entry->slug = $this->slugger->slug($dto->title);
+
         $entry->lang = $dto->lang;
+        $entry->isAdult = $dto->isAdult;
+        $entry->slug = $this->slugger->slug($dto->title);
         $entry->image = $dto->image;
         if ($entry->image && !$entry->image->altText) {
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
@@ -79,6 +81,9 @@ class EntryManager implements ContentManagerInterface
         $entry->user->lastActive = new \DateTime();
         $entry->lastActive = $dto->lastActive ?? $entry->lastActive;
         $entry->createdAt = $dto->createdAt ?? $entry->createdAt;
+        if (empty($entry->body) && null === $entry->image && null === $entry->url) {
+            throw new \Exception('Entry body and image cannot be empty');
+        }
 
         $entry->magazine->addEntry($entry);
 
@@ -132,6 +137,7 @@ class EntryManager implements ContentManagerInterface
         $entry->title = $dto->title;
         $entry->url = $dto->url;
         $entry->body = $dto->body;
+        $entry->lang = $dto->lang;
         $entry->isAdult = $dto->isAdult;
         $entry->slug = $this->slugger->slug($dto->title);
         $entry->visibility = $dto->visibility;
@@ -140,16 +146,18 @@ class EntryManager implements ContentManagerInterface
             $entry->image = $dto->image;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $entry->isOc = $dto->isOc;
         $entry->lang = $dto->lang;
         $entry->editedAt = new \DateTimeImmutable('@'.time());
-
         if ($dto->badges) {
             $this->badgeManager->assign($entry, $dto->badges);
+        }
+        if (empty($entry->body) && null === $entry->image && null === $entry->url) {
+            throw new \Exception('Entry body and image cannot be empty');
         }
 
         $this->entityManager->flush();
@@ -245,7 +253,7 @@ class EntryManager implements ContentManagerInterface
 
     public function getSortRoute(string $sortBy): string
     {
-        return strtolower($this->translator->trans('sort.'.$sortBy));
+        return strtolower($this->translator->trans($sortBy));
     }
 
     public function changeMagazine(Entry $entry, Magazine $magazine): void

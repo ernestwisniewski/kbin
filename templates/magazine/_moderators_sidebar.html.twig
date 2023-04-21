@@ -1,0 +1,23 @@
+<section class="user-list section">
+    <h3>{{ 'moderators'|trans }}</h3>
+    <ul>
+        {% for moderator in magazine.moderators|slice(0, 5) %}
+            <li>
+                {% if moderator.user.avatar %}
+                    <img width="30"
+                         height="30"
+                         src="{{ asset(moderator.user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+                         alt="{{ moderator.user.username ~ ' ' ~ 'avatar'|trans|lower }}">
+                {% endif %}
+                <a href="{{ path('user_overview', {username: moderator.user.username}) }}"
+                   class="stretched-link">{{ moderator.user.username|username }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if magazine.moderators|length > 5 %}
+        <footer>
+            <a href="{{ path('magazine_moderators', {name: magazine.name}) }}"
+               class="stretched-link">{{ 'show_more'|trans|lower }}</a>
+        </footer>
+    {% endif %}
+</section>

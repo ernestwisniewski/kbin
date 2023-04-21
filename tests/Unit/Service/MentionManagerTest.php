@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Unit\Service;
 
@@ -14,7 +16,7 @@ class MentionManagerTest extends WebTestCase
     {
         $this->createClient();
 
-        $manager = static::getContainer()->get(MentionManager::class);
+        $manager = $this->getContainer()->get(MentionManager::class);
         $this->assertEquals($output, $manager->extract($input));
     }
 

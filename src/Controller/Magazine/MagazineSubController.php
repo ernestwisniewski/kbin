@@ -27,12 +27,7 @@ class MagazineSubController extends AbstractController
         $this->manager->subscribe($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount' => $magazine->subscriptionsCount,
-                    'isSubscribed' => true,
-                ]
-            );
+            return $this->getJsonResponse($magazine);
         }
 
         return $this->redirectToRefererOrHome($request);
@@ -47,14 +42,27 @@ class MagazineSubController extends AbstractController
         $this->manager->unsubscribe($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount' => $magazine->subscriptionsCount,
-                    'isSubscribed' => false,
-                ]
-            );
+            return $this->getJsonResponse($magazine);
+
         }
 
         return $this->redirectToRefererOrHome($request);
+    }
+
+    private function getJsonResponse(Magazine $magazine): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'magazine_sub',
+                        'attributes' => [
+                            'magazine' => $magazine,
+                        ],
+                    ]
+                ),
+            ]
+        );
     }
 }

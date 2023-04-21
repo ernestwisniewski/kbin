@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry\Comment;
 
@@ -6,46 +8,32 @@ use App\Tests\WebTestCase;
 
 class EntryCommentEditControllerTest extends WebTestCase
 {
-    public function testCanEditEntryComment(): void
+    public function testAuthorCanEditOwnEntryComment(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $comment = $this->createEntryComment('example comment');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+        $this->createEntryComment('test comment 1', $entry);
 
-        $entryUrl = "/m/acme/t/{$comment->entry->getId()}/-/komentarze";
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $client->request('GET', '/');
-        $crawler = $client->request('GET', $entryUrl);
-        $crawler = $client->click($crawler->filter('.kbin-comment-meta-list-item a')->selectLink('edytuj')->link());
+        $crawler = $client->click($crawler->filter('#main .entry-comment')->selectLink('edit')->link());
+
+        $this->assertSelectorExists('#main .entry-comment');
+
+        $this->assertSelectorTextContains('#main .entry-comment', 'test comment 1');
 
         $client->submit(
-            $crawler->filter('form[name=entry_comment]')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Edit comment')->form(
                 [
-                    'entry_comment[body]' => 'zmieniona treść',
+                    'entry_comment[body]' => 'test comment 2 body',
                 ]
             )
         );
 
         $client->followRedirect();
 
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('blockquote', 'zmieniona treść');
-    }
-
-    public function testXmlCanEditEntryComment(): void
-    {
-        $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('JohnDoe'));
-
-        $comment = $this->createEntryComment('example comment');
-
-        $crawler = $client->request('GET', "/m/acme/t/{$comment->entry->getId()}/-/komentarze");
-
-        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
-
-        $client->click($crawler->filter('blockquote.kbin-comment')->selectLink('edytuj')->link());
-
-        $this->assertStringContainsString('kbin-comment-create-form', $client->getResponse()->getContent());
+        $this->assertSelectorTextContains('#main .entry-comment', 'test comment 2 body');
     }
 }

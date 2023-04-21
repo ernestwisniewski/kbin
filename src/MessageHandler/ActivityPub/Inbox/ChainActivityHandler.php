@@ -11,10 +11,11 @@ use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Note;
 use App\Service\ActivityPub\Page;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class ChainActivityHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class ChainActivityHandler
 {
     public function __construct(
         private readonly ApHttpClient $client,

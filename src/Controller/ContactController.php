@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\DTO\ContactDto;
 use App\Form\ContactType;
+use App\Repository\SiteRepository;
 use App\Service\CloudflareIpResolver;
 use App\Service\ContactManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ContactController extends AbstractController
 {
-    public function __invoke(ContactManager $manager, CloudflareIpResolver $ipResolver, Request $request): Response
+    public function __invoke(SiteRepository $repository, ContactManager $manager, CloudflareIpResolver $ipResolver, Request $request): Response
     {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
@@ -34,8 +35,11 @@ class ContactController extends AbstractController
             return $this->redirectToRefererOrHome($request);
         }
 
+        $site = $repository->findAll();
+
         return $this->render(
             'page/contact.html.twig', [
+                'body' => $site[0]->contact ?? '',
                 'form' => $form->createView(),
             ]
         );

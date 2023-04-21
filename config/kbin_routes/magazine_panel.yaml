@@ -7,19 +7,24 @@ magazine_panel_bans:
 
 magazine_panel_ban:
   controller: App\Controller\Magazine\Panel\MagazineBanController::ban
-  path: /m/{magazine_name}/ban/{user_username}
+  defaults: { username: ~ }
+  path:
+    en: /m/{name}/panel/ban/{username}
+    pl: /m/{name}/panel/ban/{username}
   methods: [ GET, POST ]
 
 magazine_panel_unban:
   controller: App\Controller\Magazine\Panel\MagazineBanController::unban
-  path: /m/{magazine_name}/unban/{user_username}
+  path:
+    en: /m/{name}/panel/unban/{username}
+    pl: /m/{name}/panel/unban/{username}
   methods: [ POST ]
 
-magazine_panel_edit:
+magazine_panel_general:
   controller: App\Controller\Magazine\Panel\MagazineEditController
   path:
-    en: /m/{name}/panel/edit
-    pl: /m/{name}/panel/edytuj
+    en: /m/{name}/panel/general
+    pl: /m/{name}/panel/ogólne
   methods: [ GET, POST ]
 
 magazine_panel_moderators:
@@ -38,7 +43,7 @@ magazine_panel_reports:
   controller: App\Controller\Magazine\Panel\MagazineReportController::reports
   path:
     en: /m/{name}/panel/reports
-    pl: /m/{name}/panel/zgloszenia
+    pl: /m/{name}/panel/zgłoszenia
   methods: [ GET ]
 
 magazine_panel_report_approve:
@@ -70,6 +75,13 @@ magazine_panel_badge_remove:
   path: /m/{magazine_name}/panel/badges/{badge_id}/purge
   methods: [ POST ]
 
+magazine_panel_tags:
+  controller: App\Controller\Magazine\Panel\MagazineTagController
+  path:
+    en: /m/{name}/panel/tags
+    pl: /m/{name}/panel/tagi
+  methods: [ GET, POST ]
+
 magazine_panel_trash:
   controller: App\Controller\Magazine\Panel\MagazineTrashController
   path:
@@ -77,14 +89,7 @@ magazine_panel_trash:
     pl: /m/{name}/panel/kosz
   methods: [ GET ]
 
-magazine_add_tags:
-  controller: App\Controller\Magazine\MagazineAddTagsController
-  path:
-    en: /m/{name}/panel/tags
-    pl: /m/{name}/panel/tagi
-  methods: [ GET, POST ]
-
-magazine_panel_front:
+magazine_panel_stats:
   controller: App\Controller\Magazine\Panel\MagazineStatsController
   defaults: { statsType: content, statsPeriod: ~ }
   path:

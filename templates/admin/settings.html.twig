@@ -1,74 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{ 'settings'|trans }} - {{ 'admin_panel'|trans }}{%- endblock -%}
+{%- block title -%}
+    {{- 'settings'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-settings page-settings{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    <h1 class="mb-5">{{ 'settings'|trans }}</h1>
-
-    <div class="col-lg-6 mb-3">
-        <div class="kbin-magazine-theme-form">
-            <div class="kbin-magazine-background"></div>
+    {% include 'admin/_options.html.twig' %}
+    <div class="section" id="content">
+        <div class="container">
+            <h1 hidden>{{ 'settings'|trans }}</h1>
             {{ form_start(form) }}
-            <div class="mb-5">
-                <h3 class="font-weight-bold">{{ 'general'|trans }}</h3>
-
-                <div class="mb-3">
-                    {{ form_label(form.KBIN_DOMAIN, 'domain'|trans ) }}
-                    {{ form_widget(form.KBIN_DOMAIN) }}
-                </div>
-
-                <div class="mb-3">
-                    {{ form_label(form.KBIN_CONTACT_EMAIL, 'contact_email'|trans ) }}
-                    {{ form_widget(form.KBIN_CONTACT_EMAIL) }}
-                </div>
+            <h2>{{ 'general'|trans }}</h2>
+            {{ form_row(form.KBIN_DOMAIN, {label: 'domain'}) }}
+            {{ form_row(form.KBIN_CONTACT_EMAIL, {label: 'contact_email'}) }}
+            <h2>{{ 'meta'|trans }}</h2>
+            {{ form_row(form.KBIN_META_TITLE, {label: 'title'}) }}
+            {{ form_row(form.KBIN_META_DESCRIPTION, {label: 'description'}) }}
+            {{ form_row(form.KBIN_META_KEYWORDS, {label: 'keywords'}) }}
+            <h2>{{ 'instance'|trans }}</h2>
+            {{ form_row(form.KBIN_TITLE, {label: 'title'}) }}
+            <div class="checkbox">
+                {{ form_label(form.KBIN_REGISTRATIONS_ENABLED, 'registrations_enabled') }}
+                {{ form_widget(form.KBIN_REGISTRATIONS_ENABLED) }}
             </div>
-
-            <div class="mb-5">
-                <h3 class="font-weight-bold">{{ 'meta'|trans }}</h3>
-
-                <div class="mb-3">
-                    {{ form_label(form.KBIN_META_TITLE, 'title'|trans ) }}
-                    {{ form_widget(form.KBIN_META_TITLE) }}
-                </div>
-
-                <div class="mb-3">
-                    {{ form_label(form.KBIN_META_DESCRIPTION, 'description'|trans ) }}
-                    {{ form_widget(form.KBIN_META_DESCRIPTION) }}
-                </div>
-
-                <div class="mb-3">
-                    {{ form_label(form.KBIN_META_KEYWORDS, 'keywords'|trans ) }}
-                    {{ form_widget(form.KBIN_META_KEYWORDS) }}
-                </div>
+            <div class="checkbox">
+                {{ form_label(form.KBIN_FEDERATION_ENABLED, 'federation_enabled') }}
+                {{ form_widget(form.KBIN_FEDERATION_ENABLED) }}
             </div>
-
-            <div class="mb-5">
-                <h3 class="font-weight-bold">{{ 'Site' }}</h3>
-
-                <div class="mb-3">
-                    {{ form_label(form.KBIN_MARKDOWN_HOWTO_URL, 'Markdown howto URL' ) }}
-                    {{ form_widget(form.KBIN_MARKDOWN_HOWTO_URL) }}
-                </div>
-
-                <div class="mb-3">
-                    {{ form_widget(form.KBIN_FEDERATION_ENABLED, {label: 'fediverse'|trans }) }}
-                </div>
-
-                <div class="mb-3">
-                    {{ form_widget(form.KBIN_REGISTRATIONS_ENABLED, {label: 'registrations_enabled'|trans }) }}
-                </div>
-            </div>
-
-            <div class="float-end">
-                <div class="input-group input-group-lg me-2">
-                    {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'kbin-theme-send btn-primary ms-3'} }) }}
-                </div>
+            <div class="row actions">
+                {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>
             {{ form_end(form) }}
         </div>
     </div>
-{% endblock %}
-
-{% block sidebar %}
-    {% include 'admin/_sidebar.html.twig' %}
 {% endblock %}

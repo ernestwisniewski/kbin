@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% use 'modlog/_blocks.html.twig' %}
+
+{%- block title -%}
+    {% if magazine is defined and magazine %}
+        {{- 'mod_log'|trans }} - {{ magazine.title }} - {{ parent() -}}
+    {% else %}
+        {{- 'mod_log'|trans }} - {{ parent() -}}
+    {% endif %}
+{%- endblock -%}
+
+{% block mainClass %}page-modlog{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'mod_log'|trans }}</h1>
+    <div class="alert alert__danger">
+        <p>{{ 'mod_log_alert'|trans }}</p>
+    </div>
+    {% for log in logs %}
+        <div class="section section--small log">
+            <div>
+                {%- with {
+                    log: log,
+                    showMagazine: false,
+                } only -%}
+                    {{ block(log.type) }}
+                {%- endwith -%}
+            </div>
+            <span>{{ component('date', {date: log.createdAt}) }}</span>
+        </div>
+    {% endfor %}
+    {% if(logs.haveToPaginate is defined and logs.haveToPaginate) %}
+        {{ pagerfanta(logs, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not logs|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+{% endblock %}

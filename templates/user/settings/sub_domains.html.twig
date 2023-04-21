@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'subscriptions'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-settings page-settings-sub-magazines{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'user/settings/_options.html.twig' %}
+    {% include 'user/settings/sub_pills.html.twig' %}
+    {% include 'layout/_domain_activity_list.html.twig' with {list: domains, actor: 'domain'} %}
+{% endblock %}

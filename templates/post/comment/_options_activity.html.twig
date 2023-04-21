@@ -1,0 +1,19 @@
+<aside id="activity" class="options options-activity">
+    <div class="options__title">
+        <h2>{{ 'activity'|trans }} ({{ comment.countVotes + comment.favouriteCount }})</h2>
+    </div>
+    <menu class="options__main">
+        <li>
+            <a href="{{ post_comment_voters_url(comment, 'up') }}"
+               class="{{ html_classes({'active': is_route_name('post_comment_voters')}) }}">
+                {{ 'up_votes'|trans|lower }} ({{ comment.countUpVotes }})
+            </a>
+        </li>
+        <li>
+            <a href="{{ post_comment_favourites_url(comment) }}"
+               class="{{ html_classes({'active': is_route_name('post_comment_favourites')}) }}">
+                {{ 'favourites'|trans|lower }} ({{ comment.favouriteCount }})
+            </a>
+        </li>
+    </menu>
+</aside>

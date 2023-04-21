@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\DTO\EntryDto;
-use App\Entity\Magazine;
-use App\Form\Autocomplete\MagazineAutocompleteField;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\DataTransformer\TagTransformer;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
 use App\Form\EventListener\RemoveFieldsOnEntryImageEdit;
 use App\Form\Type\BadgesType;
-use App\Service\SettingsManager;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\Type\LanguageType;
+use App\Form\Type\MagazineAutocompleteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,7 +27,6 @@ class EntryImageType extends AbstractType
 {
     public function __construct(
         private readonly ImageListener $imageListener,
-        private readonly SettingsManager $settingsManager
     ) {
     }
 
@@ -36,7 +34,9 @@ class EntryImageType extends AbstractType
     {
         $builder
             ->add('title', TextareaType::class)
+            ->add('magazine', MagazineAutocompleteType::class)
             ->add('tags', TextType::class, [
+                'required' => false,
                 'autocomplete' => true,
                 'tom_select_options' => [
                     'create' => true,
@@ -48,7 +48,7 @@ class EntryImageType extends AbstractType
                 'badges',
                 BadgesType::class,
                 [
-                    'label' => 'Etykiety',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -59,24 +59,19 @@ class EntryImageType extends AbstractType
                     'mapped' => false,
                 ]
             )
-            ->add('imageAlt', TextareaType::class);
-
-        if ($this->settingsManager->get('KBIN_JS_ENABLED')) {
-            $builder->add('magazine', MagazineAutocompleteField::class);
-        } else {
-            $builder->add(
-                'magazine',
-                EntityType::class,
-                [
-                    'class' => Magazine::class,
-                    'choice_label' => 'name',
-                ]
-            );
-        }
-
-        $builder->add('isAdult', CheckboxType::class)
-            ->add('isEng', CheckboxType::class)
-            ->add('isOc', CheckboxType::class)
+            ->add('imageUrl', UrlType::class, [
+                'required' => false,
+            ])
+            ->add('imageAlt', TextType::class, [
+                'required' => false,
+            ])
+            ->add('isAdult', CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('lang', LanguageType::class)
+            ->add('isOc', CheckboxType::class, [
+                'required' => false,
+            ])
             ->add('submit', SubmitType::class);
 
         $builder->get('tags')->addModelTransformer(

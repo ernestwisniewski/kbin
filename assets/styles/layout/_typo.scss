@@ -1,0 +1,61 @@
+body {
+  background-color: var(--kbin-body-bg);
+  color: var(--kbin-text-color);
+  font-family: var(--kbin-body-font-family);
+  font-size: var(--kbin-body-font-size);
+  font-weight: var(--kbin-body-font-weight);
+  line-height: var(--kbin-body-line-height);
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  text-align: var(--kbin-body-text-align);
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  color: var(--kbin-link-color);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--kbin-link-hover-color);
+  }
+}
+
+p {
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+.content:not(.formatted) {
+  h1, h2, h3, h4, h5 {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+.btn-link {
+  @include kbin-btn-link;
+}

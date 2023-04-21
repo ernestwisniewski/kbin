@@ -9,12 +9,15 @@ use App\DTO\MagazineDto;
 use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
+use App\Entity\MagazineSubscriptionRequest;
 use App\Entity\Moderator;
 use App\Entity\User;
 use App\Event\Magazine\MagazineBanEvent;
 use App\Event\Magazine\MagazineBlockedEvent;
 use App\Event\Magazine\MagazineSubscribedEvent;
 use App\Factory\MagazineFactory;
+use App\Repository\MagazineSubscriptionRepository;
+use App\Repository\MagazineSubscriptionRequestRepository;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -30,7 +33,9 @@ class MagazineManager
         private readonly EventDispatcherInterface $dispatcher,
         private readonly RateLimiterFactory $magazineLimiter,
         private readonly CacheInterface $cache,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly MagazineSubscriptionRequestRepository $requestRepository,
+        private readonly MagazineSubscriptionRepository $subscriptionRepository,
     ) {
     }
 
@@ -59,9 +64,36 @@ class MagazineManager
         return $magazine;
     }
 
-    public function subscribe(Magazine $magazine, User $user): void
+    public function acceptFollow(User $user, Magazine $magazine): void
+    {
+        if ($request = $this->requestRepository->findOneby(['user' => $user, 'magazine' => $magazine])) {
+            $this->entityManager->remove($request);
+        }
+
+        if ($this->subscriptionRepository->findOneBy(['user' => $user, 'magazine' => $magazine])) {
+            return;
+        }
+
+        $this->subscribe($magazine, $user, false);
+    }
+
+    public function subscribe(Magazine $magazine, User $user, $createRequest = true): void
     {
         $user->unblockMagazine($magazine);
+
+//        if ($magazine->apId && $createRequest) {
+//            if ($this->requestRepository->findOneby(['user' => $user, 'magazine' => $magazine])) {
+//                return;
+//            }
+//
+//            $request = new MagazineSubscriptionRequest($user, $magazine);
+//            $this->entityManager->persist($request);
+//            $this->entityManager->flush();
+//
+//            $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
+//
+//            return;
+//        }
 
         $magazine->subscribe($user);
 
@@ -192,7 +224,7 @@ class MagazineManager
     {
         $magazine = $dto->magazine;
 
-        $magazine->cover = $dto->cover ?? $magazine->cover;
+        $magazine->icon = $dto->icon ?? $magazine->icon;
 
         $background = null;
         $customCss = null;
@@ -204,38 +236,7 @@ class MagazineManager
                 'shape2' => 'https://karab.in/build/images/shape2.png',
                 default => null,
             };
-            $background = $background ? "#kbin, .kbin-dark #kbin { background: url($background); height: 100%; }" : null;
-        }
-
-        // Colors
-        if ('#000000' !== $dto->primaryColor || '#000000' !== $dto->primaryDarkerColor) {
-            $customCss = <<<EOL
-                    .bg-primary {
-                      background-color: $dto->primaryColor
-                    }
-                    
-                    .kbin-featured-magazines {
-                      background-color: $dto->primaryColor
-                    }
-                    
-                    .kbin-featured-magazines-list-item a.highlighted {
-                      background-color: $dto->primaryDarkerColor;
-                    }
-                    
-                    .kbin-featured-magazines-list-item a.highlighted:hover,
-                    .kbin-featured-magazines-list-item a:hover {
-                      background-color: $dto->primaryDarkerColor;
-                    }
-                    
-                    .scroll-progress {
-                      background-color: $dto->primaryDarkerColor !important;
-                    }
-                    
-                    .kbin-featured-magazines-list-item--active a:hover {
-                      background-color: #fbfbfb !important;
-                      color: $dto->primaryColor !important;
-                    }
-                EOL;
+            $background = $background ? "#middle { background: url($background); height: 100%; }" : null;
         }
 
         if ($background || $customCss) {

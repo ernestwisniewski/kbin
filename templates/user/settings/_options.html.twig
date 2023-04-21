@@ -1,0 +1,53 @@
+<aside class="{{ html_classes('options options--top') }}" id="options">
+    <div></div>
+    <menu class="options__main">
+        <li>
+            <a href="{{ path('user_settings_general') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_general')}) }}">
+                {{ 'general'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_profile') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_profile')}) }}">
+                {{ 'profile'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_email') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_email')}) }}">
+                {{ 'email'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_password') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_password')}) }}">
+                {{ 'password'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_magazine_blocks') }}"
+               class="{{ html_classes({'active': is_route_name_contains('_blocks')}) }}">
+                {{ 'blocked'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_magazine_subscriptions') }}"
+               class="{{ html_classes({'active': is_route_name_contains('_subscriptions')}) }}">
+                {{ 'subscriptions'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_reports') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_reports')}) }}">
+                {{ 'reports'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('user_settings_stats') }}"
+               class="{{ html_classes({'active': is_route_name('user_settings_stats')}) }}">
+                {{ 'stats'|trans|lower }}
+            </a>
+        </li>
+    </menu>
+</aside>

@@ -1,7 +1,16 @@
 {% extends 'base.html.twig' %}
-{% from '_layout/_not_found.html.twig' import not_found %}
 
-{%- block title -%}{{- user.username }} - {{ 'reputation_points'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'reputation_points'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-user page-user-reputation{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
     {%- set TYPE_ENTRY = constant('App\\Repository\\ReputationRepository::TYPE_ENTRY') -%}
@@ -9,48 +18,62 @@
     {%- set TYPE_POST = constant('App\\Repository\\ReputationRepository::TYPE_POST') -%}
     {%- set TYPE_POST_COMMENT = constant('App\\Repository\\ReputationRepository::TYPE_POST_COMMENT') -%}
 
-    <div class="kbin-user-reputation-page">
-        {% include 'user/_instance_info.twig' %}
-        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
-        {% include 'user/_nav.html.twig' %}
-
-        <h1 class="mt-2 mb-3">{{ 'reputation_points'|trans }}</h1>
-
-        <ul class="nav nav-pills mb-5">
-            <li class="nav-item" role="presentation">
-                <a href="{{ get_reputation_page_path(TYPE_ENTRY, user) }}"
-                   class="btn btn-primary nav-link text-reset {{ is_active_reputation_type(TYPE_ENTRY) ? 'active' : '' }}" tabindex="-1"
-                   role="button"
-                   aria-disabled="true">{{ 'threads'|trans }}</a>
+    <header>
+        <h1 hidden>{{ 'reputation'|trans }}</h1>
+        <h2 hidden>{{ user.username|username }}</h2>
+    </header>
+    {% include('user/_options.html.twig') %}
+    <div class="pills">
+        <menu>
+            <li>
+                <a href="{{ path('user_reputation', {username: user.username, reputationType: TYPE_ENTRY}) }}"
+                   class="{{ html_classes({'active': is_route_name('user_reputation') and route_has_param('reputationType', TYPE_ENTRY)}) }}">
+                    {{ 'threads'|trans }}
+                </a>
             </li>
-            <li class="nav-item" role="presentation">
-                <a href="{{ get_reputation_page_path(TYPE_ENTRY_COMMENT, user) }}"
-                   class="btn btn-primary nav-link text-reset {{ is_active_reputation_type(TYPE_ENTRY_COMMENT) ? 'active' : '' }}" tabindex="-1"
-                   role="button"
-                   aria-disabled="true">{{ 'comments'|trans }}</a>
+            <li>
+                <a href="{{ path('user_reputation', {username: user.username, reputationType: TYPE_ENTRY_COMMENT}) }}"
+                   class="{{ html_classes({'active': is_route_name('user_reputation') and route_has_param('reputationType', TYPE_ENTRY_COMMENT)}) }}">
+                    {{ 'comments'|trans }}
+                </a>
             </li>
-            <li class="nav-item" role="presentation">
-                <a href="{{ get_reputation_page_path(TYPE_POST, user) }}"
-                   class="btn btn-primary nav-link text-reset {{ is_active_reputation_type(TYPE_POST) ? 'active' : '' }}" tabindex="-1"
-                   role="button"
-                   aria-disabled="true">{{ 'posts'|trans }}</a>
+            <li>
+                <a href="{{ path('user_reputation', {username: user.username, reputationType: TYPE_POST}) }}"
+                   class="{{ html_classes({'active': is_route_name('user_reputation') and route_has_param('reputationType', TYPE_POST)}) }}">
+                    {{ 'posts'|trans }}
+                </a>
             </li>
-            <li class="nav-item" role="presentation">
-                <a href="{{ get_reputation_page_path(TYPE_POST_COMMENT, user) }}"
-                   class="btn btn-primary nav-link text-reset {{ is_active_reputation_type(TYPE_POST_COMMENT) ? 'active' : '' }}" tabindex="-1"
-                   role="button"
-                   aria-disabled="true">{{ 'replies'|trans }}</a>
+            <li>
+                <a href="{{ path('user_reputation', {username: user.username, reputationType: TYPE_POST_COMMENT}) }}"
+                   class="{{ html_classes({'active': is_route_name('user_reputation') and route_has_param('reputationType', TYPE_POST_COMMENT)}) }}">
+                    {{ 'replies'|trans }}
+                </a>
             </li>
-        </ul>
-
-        {% include 'user/_reputation_list.html.twig' %}
+        </menu>
     </div>
-{% endblock %}
-
-{% block sidebar %}
-    {% include 'user/_sidebar.html.twig' %}
-    {{ parent() }}
-    <div class="mb-4">
-        {% include 'user/_moderator_list_card.html.twig' %}
+    <div id="content" class="reputation">
+        {% if results|length %}
+            <div class="section section--small">
+                <table>
+                    <tbody>
+                    {% for subject in results %}
+                        <tr>
+                            <td style="text-align: center;"
+                                class="{{ html_classes({'success': subject.points >= 0, 'danger': subject.points < 0}) }}">{{ subject.points }}</td>
+                            <td>{{ subject.day >= date('-2 days') ? subject.day|ago : subject.day|date('Y-m-d') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        {% if(results.haveToPaginate is defined and results.haveToPaginate) %}
+            {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
+        {% if not results|length %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
     </div>
 {% endblock %}

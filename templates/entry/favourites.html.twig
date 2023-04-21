@@ -1,20 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'favourites'|trans|capitalize }} - {{ entry.title -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'favourites'|trans }} - {{ entry.title}} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="mb-4">
-        {{ component('entry', {entry: entry}) }}
-    </div>
+{% block mainClass %}page-entry-favourites{% endblock %}
 
-    {{ component('title', {title: 'favourites'|trans|capitalize }) }}
-    {% include '_layout/_favourites_list_grid.html.twig' with { subject: entry } %}
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'entry/_sidebar.html.twig' %}
+{% block sidebar_top %}
+{% endblock %}
 
-    {{ parent() }}
-
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    <div id="content">
+        {{ component('entry', {
+            entry: entry,
+            isSingle: true,
+            showBody: false
+        }) }}
+        {% include 'layout/_flash.html.twig' %}
+        {% include 'entry/_options_activity.html.twig' %}
+        <div id="content">
+            {% include 'layout/_user_activity_list.html.twig' with {list: favourites} %}
+        </div>
+    </div>
 {% endblock %}

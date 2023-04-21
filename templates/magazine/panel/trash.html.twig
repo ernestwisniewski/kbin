@@ -1,28 +1,33 @@
 {% extends 'base.html.twig' %}
-{% from '_layout/_not_found.html.twig' import not_found %}
 
-{%- block title -%}{{- 'trash'|trans }} | /m/{{ magazine.name }} | {{ parent() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'trash'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-user-front-page kbin-entry-list kbin-comment-wrapper kbin-post-wrapper">
-        {% include 'magazine/panel/_tabs.html.twig' %}
-        {% include '_layout/_flash.html.twig' %}
-        {% if results|length %}
-            {% for subject in results %}
-                {% include '_layout/_subject.html.twig' with {subject: subject, canSeeTrash: true, withParent:false, nested:false} %}
-            {% endfor %}
-        {% else %}
-            {{ not_found() }}
-        {% endif %}
+{% block mainClass %}page-magazine-panel page-magazine-trash{% endblock %}
 
-        {% if(results.haveToPaginate) %}
-            {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
-        {% endif %}
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+
+    <h1 hidden>{{ 'trash'|trans }}</h1>
+    {% if results|length %}
+        {% for subject in results %}
+            {% include 'layout/_subject.html.twig' with {attributes: {canSeeTrash: true, showMagazineName: true, showEntryTitle: true}} %}
+        {% endfor %}
+    {% endif %}
+    {% if(results.haveToPaginate is defined and results.haveToPaginate) %}
+        {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not results|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+
 {% endblock %}

@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\ApiDataProvider;
 
 use App\Tests\ApiTestCase;
 use App\Tests\FactoryTrait;
-use DateTimeInterface;
 
 class PostCollectionDataProviderTest extends ApiTestCase
 {
@@ -33,56 +34,56 @@ class PostCollectionDataProviderTest extends ApiTestCase
 //        $this->assertMatchesResourceCollectionJsonSchema(PostDto::class); // todo image
 
         $this->assertJsonContains([
-            '@context'         => '/api/contexts/post',
-            '@id'              => '/api/posts',
-            '@type'            => 'hydra:Collection',
-            'hydra:member'     => [
+            '@context' => '/api/contexts/post',
+            '@id' => '/api/posts',
+            '@type' => 'hydra:Collection',
+            'hydra:member' => [
                 [
-                    '@id'          => '/api/posts/'.$post->getId(),
-                    '@type'        => 'post',
-                    'magazine'     => [
-                        '@id'   => '/api/magazines/acme',
+                    '@id' => '/api/posts/'.$post->getId(),
+                    '@type' => 'post',
+                    'magazine' => [
+                        '@id' => '/api/magazines/acme',
                         '@type' => 'magazine',
-                        'name'  => 'acme',
+                        'name' => 'acme',
                     ],
-                    'user'         => [
-                        '@id'      => '/api/users/JohnDoe',
-                        '@type'    => 'user',
+                    'user' => [
+                        '@id' => '/api/users/JohnDoe',
+                        '@type' => 'user',
                         'username' => 'JohnDoe',
                     ],
-                    'image'        => null, // @todo
-                    'comments'     => 1,
-                    'uv'           => 2,
-                    'isAdult'      => false,
-                    'score'        => 2,
-                    'visibility'   => 'visible',
-                    'createdAt'    => $post->createdAt->format(DateTimeInterface::RFC3339),
-                    'lastActive'   => $post->lastActive->format(DateTimeInterface::RFC3339),
-                    'id'           => $post->getId(),
+                    'image' => null, // @todo
+                    'comments' => 1,
+                    'uv' => 2,
+                    'isAdult' => false,
+                    'score' => 2,
+                    'visibility' => 'visible',
+                    'createdAt' => $post->createdAt->format(\DateTimeInterface::RFC3339),
+                    'lastActive' => $post->lastActive->format(\DateTimeInterface::RFC3339),
+                    'id' => $post->getId(),
                     'bestComments' => [
                         [
-                            '@id'        => '/api/post_comments/'.$comment->getId(),
-                            '@type'      => 'post_comment',
-                            'user'       => [
-                                '@id'      => '/api/users/JohnDoe',
-                                '@type'    => 'user',
+                            '@id' => '/api/post_comments/'.$comment->getId(),
+                            '@type' => 'post_comment',
+                            'user' => [
+                                '@id' => '/api/users/JohnDoe',
+                                '@type' => 'user',
                                 'username' => 'JohnDoe',
-                                'avatar'   => null,
+                                'avatar' => null,
                             ],
-                            'uv'         => 2,
-                            'createdAt'  => $comment->createdAt->format(DateTimeInterface::RFC3339),
-                            'lastActive' => $comment->lastActive->format(DateTimeInterface::RFC3339),
+                            'uv' => 2,
+                            'createdAt' => $comment->createdAt->format(\DateTimeInterface::RFC3339),
+                            'lastActive' => $comment->lastActive->format(\DateTimeInterface::RFC3339),
                         ],
                     ],
                 ],
             ],
             'hydra:totalItems' => 3,
-            'hydra:view'       => [
-                '@id'         => '/api/posts?page=1',
-                '@type'       => 'hydra:PartialCollectionView',
+            'hydra:view' => [
+                '@id' => '/api/posts?page=1',
+                '@type' => 'hydra:PartialCollectionView',
                 'hydra:first' => '/api/posts?page=1',
-                'hydra:last'  => '/api/posts?page=2',
-                'hydra:next'  => '/api/posts?page=2',
+                'hydra:last' => '/api/posts?page=2',
+                'hydra:next' => '/api/posts?page=2',
             ],
         ]);
     }

@@ -1,22 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- user.username }} - {{ 'comments'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'comments'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-user-comments-page">
-        {% include 'user/_instance_info.twig' %}
-        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
-        {% include 'user/_nav.html.twig' %}
-        <div class="kbin-comment-wrapper">
-            {% include 'entry/comment/_list.html.twig' with {withParent: false, nested:false} %}
-        </div>
-    </div>
+{% block mainClass %}page-user page-user-overview{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'user/_sidebar.html.twig' %}
-    {{ parent() }}
-    <div class="mb-4">
-        {% include 'user/_moderator_list_card.html.twig' %}
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'comments'|trans }}</h1>
+        <h2 hidden>{{ user.username|username }}</h2>
+    </header>
+    {% include('user/_options.html.twig') %}
+    {% include('user/_federated_info.html.twig') %}
+    <div id="content">
+        {% include 'entry/comment/_list.html.twig' with {showNested: false, dateAsUrl: true} %}
     </div>
 {% endblock %}

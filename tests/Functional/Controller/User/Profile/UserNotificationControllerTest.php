@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\User\Profile;
 
@@ -7,59 +9,62 @@ use App\Tests\WebTestCase;
 
 class UserNotificationControllerTest extends WebTestCase
 {
-    public function testUserReceiveNotifications(): void
+    public function testUserReceiveNotificationTest(): void
     {
         $client = $this->createClient();
         $client->loginUser($owner = $this->getUserByUsername('owner'));
 
         $actor = $this->getUserByUsername('actor');
 
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $owner);
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $actor);
+        ($this->getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $owner);
+        ($this->getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $actor);
 
         $this->loadNotificationsFixture();
 
-        $crawler = $client->request('GET', '/profil/notyfikacje');
-        $this->assertCount(2, $crawler->filter('.kbin-notifications .toast-header'));
+        $crawler = $client->request('GET', '/settings/notifications');
+        $this->assertCount(2, $crawler->filter('#main .notification'));
 
         $client->restart();
         $client->loginUser($actor);
 
-        $crawler = $client->request('GET', '/');
-        $crawler = $client->request('GET', '/profil/notyfikacje');
-        $this->assertCount(3, $crawler->filter('.kbin-notifications .toast-header'));
+        $crawler = $client->request('GET', '/settings/notifications');
+        $this->assertCount(3, $crawler->filter('#main .notification'));
 
         $client->restart();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $client->request('GET', '/');
-        $crawler = $client->request('GET', '/profil/notyfikacje');
-        $this->assertCount(2, $crawler->filter('.kbin-notifications .toast-header'));
+        $crawler = $client->request('GET', '/settings/notifications');
+        $this->assertCount(2, $crawler->filter('#main .notification'));
     }
 
-    public function testUserCanReadAllNotifications(): void
+    public function testCanReadAllNotifications(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));
 
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('owner'));
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('actor'));
+        ($this->getContainer()->get(MagazineManager::class))->subscribe(
+            $this->getMagazineByName('acme'),
+            $this->getUserByUsername('owner')
+        );
+        ($this->getContainer()->get(MagazineManager::class))->subscribe(
+            $this->getMagazineByName('acme'),
+            $this->getUserByUsername('actor')
+        );
 
         $this->loadNotificationsFixture();
 
         $client->loginUser($this->getUserByUsername('owner'));
 
-        $client->request('GET', '/profil/notyfikacje');
-        $crawler = $client->request('GET', '/profil/notyfikacje');
+        $crawler = $client->request('GET', '/settings/notifications');
 
-        $this->assertCount(2, $crawler->filter('.table-responsive .toast-header'));
-        $this->assertCount(0, $crawler->filter('.table-responsive .opacity-50 .toast-header'));
+        $this->assertCount(2, $crawler->filter('#main .notification'));
+        $this->assertCount(0, $crawler->filter('#main .notification.opacity-50'));
 
-        $client->submit($crawler->selectButton('odczytaj wszystkie')->form());
+        $client->submit($crawler->selectButton('Read all')->form());
 
         $crawler = $client->followRedirect();
 
-        $this->assertCount(2, $crawler->filter('.kbin-notifications .opacity-50 .toast-header'));
+        $this->assertCount(2, $crawler->filter('#main .notification.opacity-50'));
     }
 
     public function testUserCanDeleteAllNotifications(): void
@@ -67,21 +72,27 @@ class UserNotificationControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));
 
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('owner'));
-        (static::getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('actor'));
+        ($this->getContainer()->get(MagazineManager::class))->subscribe(
+            $this->getMagazineByName('acme'),
+            $this->getUserByUsername('owner')
+        );
+        ($this->getContainer()->get(MagazineManager::class))->subscribe(
+            $this->getMagazineByName('acme'),
+            $this->getUserByUsername('actor')
+        );
 
         $this->loadNotificationsFixture();
 
         $client->loginUser($this->getUserByUsername('owner'));
-        $client->request('GET', '/profil/notyfikacje');
-        $crawler = $client->request('GET', '/profil/notyfikacje');
 
-        $this->assertCount(2, $crawler->filter('.table-responsive .toast-header'));
+        $crawler = $client->request('GET', '/settings/notifications');
 
-        $client->submit($crawler->selectButton('wyczyść')->form());
+        $this->assertCount(2, $crawler->filter('#main .notification'));
+
+        $client->submit($crawler->selectButton('Purge')->form());
 
         $crawler = $client->followRedirect();
 
-        $this->assertCount(0, $crawler->filter('.table-responsive .toast-header'));
+        $this->assertCount(0, $crawler->filter('#main .notification'));
     }
 }

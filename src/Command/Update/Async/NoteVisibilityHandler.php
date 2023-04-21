@@ -7,10 +7,11 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class NoteVisibilityHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class NoteVisibilityHandler
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

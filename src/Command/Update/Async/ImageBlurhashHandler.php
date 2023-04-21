@@ -5,9 +5,10 @@ namespace App\Command\Update\Async;
 use App\Entity\Image;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class ImageBlurhashHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class ImageBlurhashHandler
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

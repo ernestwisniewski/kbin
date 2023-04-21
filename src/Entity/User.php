@@ -47,6 +47,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public const HOMEPAGE_ALL = 'front';
     public const HOMEPAGE_SUB = 'front_subscribed';
     public const HOMEPAGE_MOD = 'front_moderated';
+    public const HOMEPAGE_FAV = 'front_favourite';
+
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $avatar = null;
@@ -61,10 +63,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public array $roles = [];
     #[Column(type: 'integer', nullable: false)]
     public int $followersCount = 0;
-    #[Column(type: 'string', nullable: false, options: ['default' => User::THEME_DARK])]
-    public string $theme = self::THEME_DARK;
-    #[Column(type: 'string', nullable: false, options: ['default' => User::MODE_NORMAL])]
-    public string $mode = self::MODE_NORMAL;
     #[Column(type: 'string', nullable: false, options: ['default' => User::HOMEPAGE_SUB])]
     public string $homepage = self::HOMEPAGE_SUB;
     #[Column(type: 'text', nullable: true)]
@@ -83,22 +81,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public ?string $oauthGoogleId = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $oauthFacebookId = null;
-    #[Column(type: 'array', nullable: true)]
-    public ?array $featuredMagazines = null;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $hideImages = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $hideAdult = true;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $hideUserAvatars = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $hideMagazineAvatars = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $rightPosImages = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $entryPopup = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $postPopup = false;
+    #[Column(type: 'array', nullable: true)]
+    public ?array $featuredMagazines = null;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $showProfileSubscriptions = true;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
@@ -115,6 +101,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public bool $notifyOnNewPostReply = false;
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewPostCommentReply = false;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $addMentionsEntries = false;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    public bool $addMentionsPosts = true;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $isBanned = false;
     #[Column(type: 'boolean', nullable: false)]
@@ -151,31 +141,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $follows;
     #[OneToMany(mappedBy: 'following', targetEntity: UserFollow::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $followers;
     #[OneToMany(mappedBy: 'blocker', targetEntity: UserBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $blocks;
     #[OneToMany(mappedBy: 'blocked', targetEntity: UserBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public ?Collection $blockers;
     #[OneToMany(mappedBy: 'user', targetEntity: MagazineBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $blockedMagazines;
     #[OneToMany(mappedBy: 'user', targetEntity: DomainBlock::class, cascade: [
         'persist',
         'remove',
     ], orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $blockedDomains;
     #[OneToMany(mappedBy: 'reporting', targetEntity: Report::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
@@ -265,7 +261,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -296,7 +292,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $tokens = $this->moderatorTokens->matching($criteria);
 
         // Magazines
-        $magazines = $tokens->map(fn ($token) => $token->magazine);
+        $magazines = $tokens->map(fn($token) => $token->magazine);
         $criteria = Criteria::create()
             ->orderBy(['lastActive' => Criteria::DESC]);
 
@@ -578,7 +574,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     {
         return $this->notifications
             ->matching($this->getNewNotificationsCriteria())
-            ->filter(fn ($notification) => 'message_notification' !== $notification->getType())
+            ->filter(fn($notification) => 'message_notification' !== $notification->getType())
             ->count();
     }
 
@@ -589,7 +585,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
         return $this->notifications
             ->matching($criteria)
-            ->filter(fn ($notification) => 'message_notification' === $notification->getType())
+            ->filter(fn($notification) => 'message_notification' === $notification->getType())
             ->count();
     }
 

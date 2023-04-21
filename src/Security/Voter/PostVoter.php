@@ -17,13 +17,14 @@ class PostVoter extends Voter
     public const PURGE = 'purge';
     public const COMMENT = 'comment';
     public const VOTE = 'vote';
+    public const MODERATE = 'moderate';
 
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof Post
             && \in_array(
                 $attribute,
-                [self::CREATE, self::EDIT, self::DELETE, self::PURGE, self::COMMENT, self::VOTE],
+                [self::CREATE, self::EDIT, self::DELETE, self::PURGE, self::COMMENT, self::VOTE, self::MODERATE],
                 true
             );
     }
@@ -42,6 +43,7 @@ class PostVoter extends Voter
             self::PURGE => $this->canPurge($subject, $user),
             self::COMMENT => $this->canComment($subject, $user),
             self::VOTE => $this->canVote($subject, $user),
+            self::MODERATE => $this->canModerate($subject, $user),
             default => throw new \LogicException(),
         };
     }
@@ -89,5 +91,10 @@ class PostVoter extends Voter
         }
 
         return true;
+    }
+
+    private function canModerate(Post $post, User $user): bool
+    {
+        return $post->magazine->userIsModerator($user);
     }
 }

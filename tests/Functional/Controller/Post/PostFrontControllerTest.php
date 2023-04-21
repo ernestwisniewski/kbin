@@ -1,99 +1,176 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Post;
 
 use App\DTO\ModeratorDto;
+use App\Service\FavouriteManager;
 use App\Service\MagazineManager;
-use App\Service\UserManager;
 use App\Tests\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class PostFrontControllerTest extends WebTestCase
 {
-    public function testUserCanSeeFrontPosts(): void
+    public function testFrontPage(): void
     {
-        $client = $this->createClient();
+        $client = $this->prepareEntries();
 
-        $magazine = $this->getMagazineByName('acme');
+        $client->request('GET', '/microblog');
+        $this->assertSelectorTextContains('h1', 'Hot');
 
-        $user  = $this->getUserByUsername('user');
-        $user1 = $this->getUserByUsername('JohnDoe');
+        $crawler = $client->request('GET', '/microblog/newest');
 
-        $this->createPost('post test', null, $user);
-        $this->createPost('post test2', null, $user1);
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $crawler = $client->request('GET', "/wpisy");
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
 
-        $this->assertCount(2, $crawler->filter('.kbin-post'));
+        $this->assertcount(2, $crawler->filter('.post'));
+
+        foreach ($this->getSortOptions() as $sortOption) {
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
+            $this->assertSelectorTextContains('h1', ucfirst($sortOption));
+        }
     }
 
-
-    public function testUserCanSeeSubscribedMagazinePosts(): void
+    public function testMagazinePage(): void
     {
-        $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
+        $client = $this->prepareEntries();
 
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
+        $client->request('GET', '/m/acme/microblog');
+        $this->assertSelectorTextContains('h2', 'Hot');
 
-        $magazine = $this->getMagazineByName('acme', $user2);
+        $crawler = $client->request('GET', '/m/acme/microblog/newest');
 
-        $magazineManager = static::getContainer()->get(MagazineManager::class);
-        $magazineManager->subscribe($magazine, $user);
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextNotContains('.post header', 'to acme');
 
-        $this->createPost('post test', null, $user);
-        $this->createPost('post test2', null, $user2);
-        $this->createPost('post test3', null, $user3);
+        $this->assertSelectorTextContains('#header .head-title', '/m/acme');
+        $this->assertSelectorTextContains('#sidebar .magazine', 'acme');
 
-        $crawler = $client->request('GET', "/sub/wpisy");
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
 
-        $this->assertCount(3, $crawler->filter('.kbin-post'));
+        $this->assertcount(1, $crawler->filter('.post'));
+
+        foreach ($this->getSortOptions() as $sortOption) {
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
+            $this->assertSelectorTextContains('h1', 'Magazine title');
+            $this->assertSelectorTextContains('h2', ucfirst($sortOption));
+        }
     }
 
-    public function testUserCanSeeSubscribedUserPosts(): void
+    public function testSubPage(): void
     {
-        $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
+        $client = $this->prepareEntries();
 
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
+        $magazineManager = $this->getContainer()->get(MagazineManager::class);
+        $magazineManager->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('Actor'));
 
-        $this->getMagazineByName('acme', $user2);
+        $client->loginUser($this->getUserByUsername('Actor'));
 
-        $userManager = static::getContainer()->get(UserManager::class);
-        $userManager->follow($user, $user3);
+        $client->request('GET', '/sub/microblog');
+        $this->assertSelectorTextContains('h1', 'Hot');
 
-        $this->createPost('post test', null, $user);
-        $this->createPost('post test2', null, $user2);
-        $this->createPost('post test3', null, $user3);
+        $crawler = $client->request('GET', '/sub/microblog/newest');
 
-        $crawler = $client->request('GET', "/sub/wpisy");
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextContains('.post header', 'to acme');
 
-        $this->assertCount(2, $crawler->filter('.kbin-post'));
+        $this->assertSelectorTextContains('#header .head-title', '/sub');
+
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
+
+        $this->assertcount(1, $crawler->filter('.post'));
+
+        foreach ($this->getSortOptions() as $sortOption) {
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
+            $this->assertSelectorTextContains('h1', ucfirst($sortOption));
+        }
     }
 
-    public function testUserCanSeeModeratedPosts(): void
+    public function testModPage(): void
+    {
+        $client = $this->prepareEntries();
+
+        $magazineManager = $client->getContainer()->get(MagazineManager::class);
+        $moderator = new ModeratorDto($this->getMagazineByName('acme'));
+        $moderator->user = $this->getUserByUsername('Actor');
+        $magazineManager->addModerator($moderator);
+
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $client->request('GET', '/mod/microblog');
+        $this->assertSelectorTextContains('h1', 'Hot');
+
+        $crawler = $client->request('GET', '/mod/microblog/newest');
+
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextContains('.post header', 'to acme');
+
+        $this->assertSelectorTextContains('#header .head-title', '/mod');
+
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
+
+        $this->assertcount(1, $crawler->filter('.post'));
+
+        foreach ($this->getSortOptions() as $sortOption) {
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
+            $this->assertSelectorTextContains('h1', ucfirst($sortOption));
+        }
+    }
+
+    public function testFavPage(): void
+    {
+        $client = $this->prepareEntries();
+
+        $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
+        $favouriteManager->toggle($this->getUserByUsername('Actor'), $this->createPost('test post 3'));
+
+        $client->loginUser($this->getUserByUsername('Actor'));
+
+        $client->request('GET', '/fav/microblog');
+        $this->assertSelectorTextContains('h1', 'Hot');
+
+        $crawler = $client->request('GET', '/fav/microblog/newest');
+
+        $this->assertSelectorTextContains('.post header', 'JohnDoe');
+        $this->assertSelectorTextContains('.post header', 'to acme');
+
+        $this->assertSelectorTextContains('#header .head-title', '/fav');
+
+        $this->assertSelectorTextContains('#header .active', 'Microblog');
+
+        $this->assertcount(1, $crawler->filter('.post'));
+
+        foreach ($this->getSortOptions() as $sortOption) {
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
+            $this->assertSelectorTextContains('h1', ucfirst($sortOption));
+        }
+    }
+
+    private function prepareEntries(): KernelBrowser
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
 
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
+        $this->createPost(
+            'test post 1',
+            $this->getMagazineByName('kbin', $this->getUserByUsername('JaneDoe')),
+            $this->getUserByUsername('JaneDoe')
+        );
 
-        $magazine1 = $this->getMagazineByName('acme', $user);
-        $magazine2 = $this->getMagazineByName('acme2', $user2);
-        $magazine3 = $this->getMagazineByName('acme3', $user2);
+        $this->createPost('test post 2');
 
-        $magazineManager    = static::getContainer()->get(MagazineManager::class);
-        $moderatorDto       = new ModeratorDto($magazine2);
-        $moderatorDto->user = $user;
-        $magazineManager->addModerator($moderatorDto);
+        return $client;
+    }
 
-        $this->createPost('post test', $magazine1, $user2);
-        $this->createPost('post test2', $magazine2, $user3);
-        $this->createPost('post test2', $magazine3, $user3);
-
-        $crawler = $client->request('GET', "/mod/wpisy");
-
-        $this->assertCount(2, $crawler->filter('.kbin-post'));
+    private function getSortOptions(): array
+    {
+        return ['top', 'hot', 'newest', 'active', 'commented'];
     }
 }

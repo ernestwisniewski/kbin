@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Unit\Utils;
 
@@ -13,7 +15,7 @@ class SluggerTest extends WebTestCase
     public function testCamelCase(string $input, string $output): void
     {
         $this->createClient();
-        $slugger = static::getContainer()->get(Slugger::class);
+        $slugger = $this->getContainer()->get(Slugger::class);
         $this->assertEquals($output, $slugger->camelCase($input));
     }
 

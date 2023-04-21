@@ -1,0 +1,30 @@
+<section class="section user-info">
+    <h3>{{ user.username|username }}</h3>
+    {% if not is_route_name('user_overview') %}
+        <div class="row">
+            {% if user.avatar %}
+                <figure>
+                    <img width="100" height="100"
+                         src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+                         alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
+                </figure>
+            {% endif %}
+            <h4><a href="{{ path('user_overview', {username:user.username}) }}"
+                   class="stretched-link">{{ user.username|username(false) }}</a></h4>
+            <p class="user__name">{{ user.username|username }}{% if not user.apId %}@{{ kbin_domain() }}{% endif %}</p>
+        </div>
+        {{ component('user_follow', {user: user}) }}
+    {% endif %}
+    <ul class="info">
+        <li>{{ 'joined'|trans }}: {{ component('date', {date: user.createdAt}) }}</li>
+        {%- set TYPE_ENTRY = constant('App\\Repository\\ReputationRepository::TYPE_ENTRY') -%}
+        <li><a href="{{ path('user_reputation', {username: user.username, reputationType: TYPE_ENTRY}) }}"
+               class="stretched-link">{{ 'reputation_points'|trans }}:</a> {{ get_reputation_total(user) }}</li>
+        <li><a href="#" class="stretched-link">{{ 'moderated'|trans }}:</a> 2</li>
+        {% if app.user is not same as user %}
+            <li><a href="{{ path('messages_create', {username: user.username}) }}"
+                   class="stretched-link">{{ 'send_message'|trans }}</a> <i
+                        class="fa-solid fa-envelope"></i></li>
+        {% endif %}
+    </ul>
+</section>

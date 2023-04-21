@@ -1,26 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'add_new_article'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'add_new_article'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-create page-entry-create-article{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    <div class="kbin-entry-create-page">
-        <div class="kbin-entry-create-article mt-lg-4" data-controller="entry-create">
-            <div class="kbin-magazine-background"></div>
-
-            <h1 class="font-weight-bold">{{ 'add_new_article'|trans }}</h1>
-            <p class="kbin-magazine-create-lead lead mb-5">
-                {{ 'add_new_article_desc'|trans }}
-            </p>
-
+    {% include 'entry/_create_options.html.twig' %}
+    <h1 hidden>{{ 'add_new_article'|trans }}</h1>
+    {% include 'layout/_flash.html.twig' %}
+    <div id="content" class="section">
+        <div class="container">
             {% include 'entry/_form_article.html.twig' %}
         </div>
     </div>
-{% endblock %}
-
-{% block sidebar %}
-    {{ parent() }}
-
-    {% if magazine is defined and magazine %}
-        {% include 'magazine/_sidebar.html.twig' %}
-    {% endif %}
 {% endblock %}

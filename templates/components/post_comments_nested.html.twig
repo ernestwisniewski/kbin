@@ -1,0 +1,17 @@
+{% if view is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC') %}
+    {% for reply in comment.nested %}
+        {{ component('post_comment', {
+            comment: reply,
+            showNested:false,
+            level: 3
+        }) }}
+    {% endfor %}
+{% else %}
+    {% for reply in comment.children %}
+        {{ component('post_comment', {
+            comment: reply,
+            showNested:true,
+            level: level + 1
+        }) }}
+    {% endfor %}
+{% endif %}

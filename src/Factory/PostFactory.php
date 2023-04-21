@@ -29,6 +29,7 @@ class PostFactory
         $dto->user = $post->user;
         $dto->image = $post->image;
         $dto->body = $post->body;
+        $dto->lang = $post->lang;
         $dto->isAdult = $post->isAdult;
         $dto->slug = $post->slug;
         $dto->comments = $post->commentCount;

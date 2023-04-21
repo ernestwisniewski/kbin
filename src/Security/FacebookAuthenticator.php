@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
@@ -57,6 +58,9 @@ class FacebookAuthenticator extends OAuth2Authenticator
             $accessToken = $provider->getLongLivedAccessToken($accessToken->getToken());
         } catch (\Exception $e) {
         }
+
+        $rememberBadge = new RememberMeBadge();
+        $rememberBadge = $rememberBadge->enable();
 
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client, $slugger) {
@@ -97,7 +101,10 @@ class FacebookAuthenticator extends OAuth2Authenticator
                 $this->entityManager->flush();
 
                 return $user;
-            })
+            }),
+            [
+                $rememberBadge,
+            ]
         );
     }
 
@@ -126,7 +133,7 @@ class FacebookAuthenticator extends OAuth2Authenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        $targetUrl = $this->router->generate('user_profile_edit');
+        $targetUrl = $this->router->generate('user_settings_profile');
 
         return new RedirectResponse($targetUrl);
     }

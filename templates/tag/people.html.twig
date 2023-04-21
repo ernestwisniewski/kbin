@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    #{{ tag }} - {{ 'people'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-tag-people page-people{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'tag/_options.html.twig' %}
+    <div id="content">
+        <h2>{{ 'people_local'|trans }}</h2>
+        <div class="users users-cards section section--no-bg">
+            {% for user in local %}
+                <div class="section">
+                    {{ component('user_box', {user: user}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {% if not local|length %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+
+        <h2>{{ 'people_federated'|trans }}</h2>
+        <div class="users users-cards section section--no-bg">
+            {% for user in federated %}
+                <div class="section">
+                    {{ component('user_box', {user: user}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {% if not federated|length %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -15,10 +15,11 @@ use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class LikeHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class LikeHandler
 {
     public function __construct(
         private readonly UserRepository $userRepository,
@@ -39,29 +40,29 @@ class LikeHandler implements MessageHandlerInterface
         'actor' => 'string',
         'object' => 'string',
     ])]
- public function __invoke(
+    public function __invoke(
         LikeMessage $message
     ): void {
-     if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
-         return;
-     }
+        if (!$this->settingsManager->get('KBIN_FEDERATION_ENABLED')) {
+            return;
+        }
 
-     $user = $this->userRepository->find($message->userId);
-     $object = $this->entityManager->getRepository($message->objectType)->find($message->objectId);
+        $user = $this->userRepository->find($message->userId);
+        $object = $this->entityManager->getRepository($message->objectType)->find($message->objectId);
 
-     $activity = $this->likeWrapper->build(
-         $this->activityPubManager->getActorProfileId($user),
-         $this->activityFactory->create($object),
-     );
+        $activity = $this->likeWrapper->build(
+            $this->activityPubManager->getActorProfileId($user),
+            $this->activityFactory->create($object),
+        );
 
-     if ($message->removeLike) {
-         $activity = $this->undoWrapper->build($activity);
-     }
+        if ($message->removeLike) {
+            $activity = $this->undoWrapper->build($activity);
+        }
 
-     $this->deliver($this->userRepository->findAudience($user), $activity);
-     $this->deliver($this->userRepository->findAudience($user), $activity);
-     $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
- }
+        $this->deliver($this->userRepository->findAudience($user), $activity);
+        $this->deliver($this->userRepository->findAudience($user), $activity);
+        $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
+    }
 
     private function deliver(array $followers, array $activity)
     {

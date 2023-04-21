@@ -1,18 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    {{- domain.name ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) -}}
+    {{ domain.name }} - {{ parent() -}}
 {%- endblock -%}
 
+{% block mainClass %}page-domain-entry-front{% endblock %}
+
+{% block header_nav %}
+    {% include 'domain/_header_nav.html.twig' %}
+{% endblock %}
+
+{% block sidebar_top %}
+    {{ component('domain', {domain: domain}) }}
+{% endblock %}
+
 {% block body %}
-    <div class="kbin-front-page">
-        {{ component('title', {title: domain.name, url: path('domain_front', {name: domain.name})}) }}
-        {% include 'domain/_nav.html.twig' %}
-        {% include '_layout/_filters.html.twig' %}
+    <header>
+        <h1 hidden>{{ domain.name }}</h1>
+        <h2 hidden>{{ get_active_sort_option()|trans }}</h2>
+    </header>
+    {% include 'entry/_options.html.twig' %}
+    {% if magazine is defined and magazine %}
+        {% if magazine.apId %}
+            <div class="alert alert__info">
+                <p>{{ 'federated_magazine_info'|trans }} <a
+                            href="{{ magazine.apProfileId }}">{{ 'go_to_original_instance'|trans }}</a></p>
+            </div>
+        {% endif %}
+    {% endif %}
+    <div id="content">
         {% include 'entry/_list.html.twig' %}
     </div>
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'domain/_sidebar.html.twig' %}
-{% endblock %}

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\TagInterface;
 use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Traits\ActivityPubActivityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\EditedAtTrait;
@@ -30,7 +31,7 @@ use Doctrine\ORM\Mapping\OrderBy;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostCommentRepository::class)]
-class PostComment implements VoteInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
+class PostComment implements VotableInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use VisibilityTrait;
@@ -52,14 +53,16 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'children')]
     #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?PostComment $parent;
-    #[ManyToOne(targetEntity: PostComment::class)]
+    #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'nested')]
     #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    public ?PostComment $root;
+    public ?PostComment $root = null;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $image = null;
     #[Column(type: 'text', length: 4500)]
     public ?string $body;
+    #[Column(type: 'string', nullable: false)]
+    public string $lang = 'en';
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
     #[Column(type: 'datetimetz')]
@@ -70,11 +73,16 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
     public ?array $tags = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $mentions = null;
+    #[Column(type: 'boolean', nullable: false)]
+    public ?bool $isAdult = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public ?bool $updateMark = false;
     #[OneToMany(mappedBy: 'parent', targetEntity: PostComment::class, orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'ASC'])]
     public Collection $children;
+    #[OneToMany(mappedBy: 'root', targetEntity: PostComment::class, orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'ASC'])]
+    public Collection $nested;
     #[OneToMany(mappedBy: 'comment', targetEntity: PostCommentVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $votes;
     #[OneToMany(mappedBy: 'postComment', targetEntity: PostCommentReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
@@ -219,5 +227,10 @@ class PostComment implements VoteInterface, VisibilityInterface, ReportInterface
 
     public function updateRanking(): void
     {
+    }
+
+    public function getParentSubject(): ?ContentInterface
+    {
+        return $this->post;
     }
 }

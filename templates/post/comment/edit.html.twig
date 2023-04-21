@@ -1,16 +1,25 @@
-{% extends 'post/single.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'edit_post'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'edit_comment'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    {{ parent() }}
+{% block mainClass %}page-post-comment-edit{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block before_comments %}
-    <div class="kbin-comment-edit-wrapper mt-4">
-        <h4 class="font-weight-bold">Edytuj:</h4>
-    </div>
+{% block sidebar_top %}
+{% endblock %}
 
-    {% include 'post/comment/_form.html.twig' %}
-    {% include 'post/comment/_form_delete.html.twig' %}
+{% block body %}
+    {{ component('post_comment', {
+        comment: comment
+    }) }}
+    {% include 'layout/_flash.html.twig' %}
+    <div id="content">
+        <section class="section">
+            {% include 'post/comment/_form_comment.html.twig' with {edit: true} %}
+        </section>
+    </div>
 {% endblock %}

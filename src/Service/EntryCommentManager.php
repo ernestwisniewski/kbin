@@ -49,6 +49,8 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment = $this->factory->createFromDto($dto, $user);
 
+        $comment->lang = $dto->lang;
+        $comment->isAdult = $dto->isAdult;
         $comment->magazine = $dto->entry->magazine;
         $comment->image = $dto->image;
         if ($comment->image && !$comment->image->altText) {
@@ -64,6 +66,9 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->user->lastActive = new \DateTime();
         $comment->lastActive = $dto->lastActive ?? $comment->lastActive;
         $comment->createdAt = $dto->createdAt ?? $comment->createdAt;
+        if (empty($comment->body) && null === $comment->image) {
+            throw new \Exception('Comment body and image cannot be empty');
+        }
 
         $comment->entry->addComment($comment);
 
@@ -80,6 +85,8 @@ class EntryCommentManager implements ContentManagerInterface
         Assert::same($comment->entry->getId(), $dto->entry->getId());
 
         $comment->body = $dto->body;
+        $comment->lang = $dto->lang;
+        $comment->isAdult = $dto->isAdult;
         $oldImage = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;
@@ -90,6 +97,10 @@ class EntryCommentManager implements ContentManagerInterface
             : $dto->mentions;
         $comment->visibility = $dto->visibility;
         $comment->editedAt = new \DateTimeImmutable('@'.time());
+        if (empty($comment->body) && null === $comment->image) {
+            throw new \Exception('Comment body and image cannot be empty');
+        }
+
         $this->entityManager->flush();
 
         if ($oldImage && $comment->image !== $oldImage) {

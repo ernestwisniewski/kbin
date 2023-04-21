@@ -5,6 +5,7 @@ framework:
 
 parameters:
   kbin_domain: '%env(KBIN_DOMAIN)%'
+  kbin_title: '%env(KBIN_TITLE)%'
   kbin_meta_title: '%env(KBIN_META_TITLE)%'
   kbin_meta_description: '%env(KBIN_META_DESCRIPTION)%'
   kbin_meta_keywords: '%env(KBIN_META_KEYWORDS)%'
@@ -14,7 +15,6 @@ parameters:
   kbin_api_items_per_page: '%env(KBIN_API_ITEMS_PER_PAGE)%'
   kbin_js_enabled: '%env(bool:KBIN_JS_ENABLED)%'
   kbin_federation_enabled: '%env(KBIN_FEDERATION_ENABLED)%'
-  kbin_markdown_howto_url: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
   kbin_registrations_enabled: '%env(KBIN_REGISTRATIONS_ENABLED)%'
   kbin_ap_route_condition: 'request.getAcceptableContentTypes() and request.getAcceptableContentTypes()[0] in ["application/activity+json", "application/ld+json"]'
   kbin_storage_url: '%env(KBIN_STORAGE_URL)%'
@@ -28,9 +28,9 @@ parameters:
   router.request_context.host: '%env(KBIN_DOMAIN)%'
   router.request_context.scheme: https
 
-  html5_validation: false
+  html5_validation: true
 
-  front_sort_options: top|hot|active|newest|commented|ważne|gorące|aktywne|najnowsze|komentowane
+  front_sort_options: top|hot|active|newest|oldest|commented|ważne|gorące|aktywne|najnowsze|najstarsze|komentowane
   front_time_options: 6h|12h|1d|1w|1m|1y|all|wszystko|∞
   stats_type: general|content|views|votes|ogólne|treści|głosy|wyświetlenia
 
@@ -48,12 +48,12 @@ parameters:
   env(MONGODB_URL): ''
   env(MONGODB_DB): ''
 
-  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
-  #  elastica_enabled: false
-  elastica_listener:
-    insert: '%elastica_enabled%'
-    update: '%elastica_enabled%'
-    delete: '%elastica_enabled%'
+#  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
+#  #  elastica_enabled: false
+#  elastica_listener:
+#    insert: '%elastica_enabled%'
+#    update: '%elastica_enabled%'
+#    delete: '%elastica_enabled%'
 
   cardano_wallet_url: '%env(CARDANO_WALLET_URL)%'
   cardano_explorer_url: '%env(CARDANO_EXPLORER_URL)%'
@@ -63,7 +63,6 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $elasticaEnabled: '%elastica_enabled%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
       $cardanoWalletUrl: '%cardano_wallet_url%'
@@ -126,13 +125,13 @@ services:
   App\Service\SettingsManager:
     arguments:
       $kbinDomain: '%kbin_domain%'
+      $kbinTitle: '%kbin_title%'
       $kbinMetaTitle: '%kbin_meta_title%'
       $kbinMetaDescription: '%kbin_meta_description%'
       $kbinMetaKeywords: '%kbin_meta_keywords%'
       $kbinDefaultLang: '%kbin_default_lang%'
       $kbinContactEmail: '%kbin_contact_email%'
       $kbinSenderEmail: '%kbin_sender_email%'
-      $kbinMarkdownHowtoUrl: '%env(KBIN_MARKDOWN_HOWTO_URL)%'
       $kbinJsEnabled: '%env(bool:KBIN_JS_ENABLED)%'
       $kbinFederationEnabled: '%env(bool:KBIN_FEDERATION_ENABLED)%'
       $kbinRegistrationsEnabled: '%env(bool:KBIN_REGISTRATIONS_ENABLED)%'
@@ -166,36 +165,6 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.controller, priority: -5 }
 
-  # Elastic
-  App\Search\Elastica\MultiIndex:
-    arguments:
-      $name: 'entries'
-    calls:
-      - [ addIndices, [ [
-          '@fos_elastica.index.magazines',
-          '@fos_elastica.index.entries',
-          '@fos_elastica.index.entry_comments',
-          '@fos_elastica.index.posts',
-          '@fos_elastica.index.post_comments'
-      ] ] ]
-
-  Elastica\SearchableInterface: '@App\Search\Elastica\MultiIndex'
-
-  App\Search\Transformer\ElasticaToModelTransformerCollection:
-    arguments:
-      - {
-        magazines: '@fos_elastica.elastica_to_model_transformer.magazines',
-        entries: '@fos_elastica.elastica_to_model_transformer.entries',
-        entry_comments: '@fos_elastica.elastica_to_model_transformer.entry_comments',
-        posts: '@fos_elastica.elastica_to_model_transformer.posts',
-        post_comments: '@fos_elastica.elastica_to_model_transformer.post_comments'
-      }
-
-  FOS\ElasticaBundle\Transformer\ElasticaToModelTransformerInterface: '@App\Search\Transformer\ElasticaToModelTransformerCollection'
-
-  FOS\ElasticaBundle\Finder\TransformedFinder: ~
-
-  FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@FOS\ElasticaBundle\Finder\TransformedFinder'
 
   # Notifications
   App\EventListener\ContentNotificationPurgeListener:

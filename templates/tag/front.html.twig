@@ -1,23 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {%- block title -%}
-    #{{- tag ~ (is_active_sort_option('sort.hot'|trans|lower, true) ? '' : ' - ' ~ get_active_sort_option()|capitalize) -}}
+    #{{ tag }} - {{ 'threads'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block body %}
-    <div class="kbin-front-page">
-        {{ component('title', {title: tag, url: path('tag_overall', {name: tag|trim('#')})}) }}
-        {% include 'tag/_nav.html.twig' %}
-        {% include '_layout/_filters.html.twig' %}
-        {% include 'entry/_list.html.twig' %}
-    </div>
+
+{% block mainClass %}page-tag-entries{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'tag/_sidebar.html.twig' %}
+{% block sidebar_top %}
+{% endblock %}
 
-    <div class="mb-5">
-        {{ component('related_entries_sidebar', {tag: tag, type: 'magazine'}) }}
-        {{ component('related_posts_sidebar', {tag: tag, type: 'magazine'}) }}
+{% block body %}
+    {% include 'tag/_options.html.twig' %}
+    <div id="content" class="entries">
+        {% include 'entry/_list.html.twig' %}
     </div>
 {% endblock %}

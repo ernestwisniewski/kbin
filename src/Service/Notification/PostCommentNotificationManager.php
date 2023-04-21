@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Notification;
 use App\Entity\PostComment;
@@ -18,6 +18,7 @@ use App\Factory\UserFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
+use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,7 +42,8 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
+        private readonly ImageManager $imageManager,
+        private readonly GenerateHtmlClassService $classService
     ) {
     }
 
@@ -59,7 +61,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     private function sendMentionedNotification(PostComment $subject): array
     {
         $users = [];
-        $mentions = $this->mentionManager->clearLocal($this->mentionManager->extract($subject->body));
+        $mentions = MentionManager::clearLocal($this->mentionManager->extract($subject->body));
 
         foreach ($this->mentionManager->getUsersFromArray($mentions) as $user) {
             if (!$user->apId) {
@@ -108,7 +110,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     private function notifyUser(PostCommentReplyNotification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem($this->userFactory->createDto($notification->user));
+            $iri = $this->iriConverter->getIriFromResource($this->userFactory->createDto($notification->user));
 
             $update = new Update(
                 $iri,
@@ -133,8 +135,14 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
             [
                 'op' => end($class),
                 'id' => $comment->getId(),
-                'subject' => [
+                'htmlId' => $this->classService->fromEntity($comment),
+                'parent' => $comment->parent ? [
+                    'id' => $comment->parent->getId(),
+                    'htmlId' => $this->classService->fromEntity($comment->parent),
+                ] : null,
+                'parentSubject' => [
                     'id' => $comment->post->getId(),
+                    'htmlId' => $this->classService->fromEntity($comment->post),
                 ],
                 'title' => $comment->post->body,
                 'body' => $comment->body,
@@ -145,7 +153,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
                         'post_id' => $comment->post->getId(),
                         'slug' => $comment->post->slug,
                     ]).'#post-comment-'.$comment->getId(),
-                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
+//                'toast' => $this->twig->render('_layout/_toast.html.twig', ['notification' => $notification]),
             ]
         );
     }
@@ -163,7 +171,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
         }
 
         if (count($exclude)) {
-            $usersToNotify = array_filter($usersToNotify, fn ($user) => !in_array($user, $exclude));
+            $usersToNotify = array_filter($usersToNotify, fn($user) => !in_array($user, $exclude));
         }
 
         foreach ($usersToNotify as $subscriber) {
@@ -177,7 +185,7 @@ class PostCommentNotificationManager implements ContentNotificationManagerInterf
     private function notifyMagazine(Notification $notification): void
     {
         try {
-            $iri = $this->iriConverter->getIriFromItem(
+            $iri = $this->iriConverter->getIriFromResource(
                 $this->magazineFactory->createDto($notification->getComment()->magazine)
             );
 

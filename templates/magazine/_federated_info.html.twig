@@ -1,0 +1,6 @@
+{% if magazine.apId %}
+    <div class="alert alert__info">
+        <p>{{ 'federated_magazine_info'|trans }} <a
+                    href="{{ magazine.apProfileId }}">{{ 'go_to_original_instance'|trans }}</a></p>
+    </div>
+{% endif %}

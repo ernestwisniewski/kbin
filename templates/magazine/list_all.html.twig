@@ -1,41 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'topbar.all_magazines'|trans ~ ' - ' ~ kbin_meta_title() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'magazines'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <ul class="nav nav-tabs justify-content-start">
-        <li class="nav-item">
-            <a class="nav-link {{ listView is same as 'cards' ? 'active' : '' }}" aria-current="page" href="{{ path('magazine_list_all', {listView: 'cards'}) }}">
-                <i class="fas fa-grip-vertical text-muted"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ listView is same as 'table' ? 'active' : '' }}"
-               aria-current="page"
-               href="{{ path('magazine_list_all') }}">
-                <i class="fas fa-table text-muted"></i>
-            </a>
-        </li>
-    </ul>
+{% block mainClass %}page-magazines page-settings{% endblock %}
 
-    <div class="kbin-magazines-list-page mt-lg-4">
-        <form method="get" action="{{ path('magazine_list_all') }}">
-            <div class="input-group input-group-lg mb-5 mt-5" style="max-width: 500px;margin:auto;">
-                <input name="q" type="text" class="form-control" value="{{ app.request.get('q') }}">
-                <button class="btn btn-outline-secondary" type="submit">{{ 'search'|trans }}</button>
-            </div>
-        </form>
-
-        <div class="pt-5">
-            {% if listView is same as 'cards' %}
-                {% include'magazine/_list_cards.html.twig' %}
-            {% else %}
-                {% include'magazine/_list_table.html.twig' %}
-            {% endif %}
-        </div>
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'magazines'|trans }}</h1>
+    </header>
+    {% include 'magazine/_options.html.twig' %}
+    <div class="section">
+        <div class="container">
+            <form method="get">
+                <div class="flex" style="align-items: center">
+                    <input value="{{ q }}" type="text" name="q" class="form-control"
+                           placeholder="{{ 'type_search_term'|trans }}">
+                    <button class="btn btn__primary" type="submit" aria-label="{{ 'search'|trans }}">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="content">
+        {% include 'magazine/_list.html.twig' %}
+    </div>
 {% endblock %}

@@ -1,107 +1,73 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\User;
 
-use App\Service\UserManager;
 use App\Tests\WebTestCase;
 
 class UserFollowControllerTest extends WebTestCase
 {
-    public function testCanShowPublicProfile(): void
+    public function testUserCanFollowAndUnfollow(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('testUser'));
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        $entry = $this->getEntryByTitle('treść1');
-        $entry = $this->getEntryByTitle('treść2');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $crawler = $client->request('GET', '/u/JohnDoe');
+        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
 
-        $this->assertCount(2, $crawler->filter('article.kbin-entry'));
-    }
-
-    public function testUserCanFollow(): void
-    {
-        $client  = $this->createClient();
-        $manager = static::getContainer()->get(UserManager::class);
-
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
-
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
-        $user4 = $this->getUserByUsername('PeterParker');
-
-        $magazine  = $this->getMagazineByName('acme', $user2);
-        $magazine2 = $this->getMagazineByName('kuchnia', $user2);
-
-        $this->getEntryByTitle('treść 1', null, null, $magazine, $user2);
-        $this->getEntryByTitle('treść 3', null, null, $magazine, $user3);
-        $this->getEntryByTitle('treść 4', null, null, $magazine2, $user3);
-        $this->getEntryByTitle('treść 5', null, null, $magazine, $user4);
-        $this->getEntryByTitle('treść 6', null, null, $magazine2, $user4);
-        $this->getEntryByTitle('treść 2', null, null, $magazine2, $user2);
-
-        $manager->follow($user3, $user2);
-
-        $crawler = $client->request('GET', '/u/JaneDoe');
-
-        $this->assertSelectorTextContains('.kbin-sub', '1');
-
-        $client->submit(
-            $crawler->filter('.kbin-sub button')->selectButton('obserwuj')->form()
-        );
-
-        $client->followRedirect();
-
-        $this->assertSelectorTextContains('.kbin-sub', '2');
-
-        $crawler = $client->request('GET', '/sub/najnowsze');
-
-        $this->assertCount(2, $crawler->filter('.kbin-entry-title'));
-
-        $crawler = $client->request('GET', '/u/JaneDoe');
-
-        $client->submit(
-            $crawler->filter('.kbin-sub button')->selectButton('obserwujesz')->form()
-        );
-
-        $client->followRedirect();
-
-        $this->assertSelectorTextContains('.kbin-sub', '1');
-    }
-
-    public function testUserCanBlock(): void //@todo
-    {
-        $client  = $this->createClient();
-        $manager = static::getContainer()->get(UserManager::class);
-
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
-
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
-        $user4 = $this->getUserByUsername('PeterParker');
-
-        $magazine  = $this->getMagazineByName('acme', $user2);
-        $magazine2 = $this->getMagazineByName('kuchnia', $user2);
-
-        $this->getEntryByTitle('treść 1', null, null, $magazine, $user2);
-        $this->getEntryByTitle('treść 2', null, null, $magazine2, $user2);
-        $this->getEntryByTitle('treść 3', null, null, $magazine, $user3);
-        $this->getEntryByTitle('treść 4', null, null, $magazine2, $user3);
-        $this->getEntryByTitle('treść 5', null, null, $magazine, $user4);
-        $this->getEntryByTitle('treść 6', null, null, $magazine2, $user4);
-
-        $manager->follow($user, $user2);
-
-        $crawler = $client->request('GET', '/u/JaneDoe');
-
-        $client->submit(
-            $crawler->filter('.kbin-user-block button')->selectButton('')->form()
-        );
-
+        // Follow
+        $client->submit($crawler->filter('#sidebar .entry-info')->selectButton('Follow')->form());
         $crawler = $client->followRedirect();
 
-        $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-user-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-sub', '0');
+        $this->assertSelectorExists('#sidebar form[name=user_follow] .active');
+        $this->assertSelectorTextContains('#sidebar .entry-info', 'Unfollow');
+        $this->assertSelectorTextContains('#sidebar .entry-info', '1');
+
+        // Unfollow
+        $client->submit($crawler->filter('#sidebar .entry-info')->selectButton('Unfollow')->form());
+        $client->followRedirect();
+
+        $this->assertSelectorNotExists('#sidebar form[name=user_follow] .active');
+        $this->assertSelectorTextContains('#sidebar .entry-info', 'Follow');
+        $this->assertSelectorTextContains('#sidebar .entry-info', '0');
+    }
+
+    public function testXmlUserCanFollow(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
+
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar .entry-info')->selectButton('Follow')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Unfollow', $client->getResponse()->getContent());
+    }
+
+    public function testXmlUserCanUnfollow(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
+
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
+
+        // Follow
+        $client->submit($crawler->filter('#sidebar .entry-info')->selectButton('Follow')->form());
+        $crawler = $client->followRedirect();
+
+        //Unfollow
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar .entry-info')->selectButton('Unfollow')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Follow', $client->getResponse()->getContent());
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ArgumentValueResolver;
 
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
@@ -29,7 +29,7 @@ class VotableResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return VoteInterface::class === $argument->getType()
+        return VotableInterface::class === $argument->getType()
             && !$argument->isVariadic()
             && $request->attributes->has('entityClass')
             && \in_array(

@@ -1,0 +1,287 @@
+#sidebar {
+  font-size: .85rem;
+  opacity: .75;
+  padding-bottom: 1rem;
+
+  h3 {
+    border-bottom: var(--kbin-sidebar-header-border);
+    color: var(--kbin-sidebar-header-text-color);
+    font-size: .8rem;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+  }
+
+  figure, blockquote {
+    margin: 0;
+  }
+
+  .sidebar-options {
+    .row {
+      display: flex;
+      justify-content: space-between;
+
+      div {
+        color: var(--kbin-meta-text-color);
+        display: inline-block;
+        margin-bottom: .5rem;
+      }
+    }
+  }
+
+  .options {
+    grid-template-columns: 1fr;
+
+    menu {
+      display: flex;
+
+      li {
+        flex-grow: 1;
+        flex-shrink: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  .section {
+    padding: .5rem .5rem 1rem;
+  }
+
+  .posts,
+  .entries {
+    color: var(--kbin-meta-text-color);
+
+    .container {
+      @include media-breakpoint-down(lg) {
+        max-width: 100%;
+      }
+
+      @include media-breakpoint-only(md) {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    figure {
+      border-bottom: var(--kbin-meta-border);
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .row img {
+        height: 100px;
+        margin-bottom: .5rem;
+        -o-object-fit: cover;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      blockquote {
+        border: 0;
+        padding: 0;
+
+        div {
+          color: var(--kbin-meta-text-color);
+          font-size: .7rem;
+          text-align: right;
+
+          a {
+            color: var(--kbin-meta-text-color);
+          }
+        }
+      }
+
+      figcaption {
+        color: var(--kbin-meta-text-color);
+        text-align: right;
+      }
+    }
+  }
+
+  .entries blockquote {
+    font-weight: bold;
+  }
+
+  .meta, .info {
+    color: var(--kbin-meta-text-color);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      align-items: center;
+      border-bottom: var(--kbin-meta-border);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      min-height: 3rem;
+      padding: .5rem;
+
+      position: relative;
+
+      &:first-child {
+        border-top: var(--kbin-meta-border);
+      }
+
+      span {
+        color: var(--kbin-meta-text-color);
+      }
+
+      a {
+        font-weight: bold;
+        padding: 0;
+      }
+
+    }
+  }
+
+  .user-list {
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul li {
+      align-items: center;
+      border-top: var(--kbin-meta-border);
+      display: flex;
+      list-style: none;
+      position: relative;
+
+      &:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      &:last-child {
+        border-bottom: var(--kbin-meta-border);
+      }
+
+      a {
+        padding: 0 .5rem;
+      }
+
+      img {
+        margin: .5rem 0;
+      }
+    }
+
+    footer {
+      opacity: .75;
+      padding: .5rem 0;
+      position: relative;
+      text-align: center;
+
+      a {
+        color: var(--kbin-meta-text-color);
+      }
+    }
+  }
+
+  .entry-info,
+  .user-info {
+    .row {
+      h4 {
+        font-size: 1rem;
+        margin-bottom: 0;
+        margin-top: .5rem;
+      }
+
+      text-align: center;
+    }
+
+    a {
+      color: var(--kbin-meta-link-color);
+    }
+
+    &_name {
+      margin-top: 0;
+    }
+
+    figure {
+      text-align: center;
+    }
+  }
+
+  .settings {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    align-items: flex-end;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .theme {
+      border: var(--kbin-avatar-border);
+      height: 25px;
+      width: 25px;
+
+      &.light {
+        background: #fafafa;
+      }
+
+      &.dark {
+        background: #1c1c1c;
+      }
+
+      &.solarized-light {
+        background: #fdf6e3;
+      }
+
+      &.solarized-dark {
+        background: #093642;
+      }
+    }
+  }
+
+  .settings-list {
+    color: var(--kbin-meta-text-color);
+
+    strong {
+      margin-top: .5rem;
+      display: block;
+    }
+
+    .row {
+      div a {
+        font-weight: 100 !important;
+      }
+
+      div a.active {
+        font-weight: bold !important;
+      }
+    }
+  }
+
+  #settings, #federation {
+    display: none;
+  }
+
+  #settings:target, #federation:target {
+    display: block;
+  }
+
+  .active-users {
+    > div {
+      display: grid;
+      gap: .2rem;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+    }
+
+    img {
+      border: var(--kbin-avatar-border);
+    }
+  }
+
+  &:hover,
+  &:focus-within {
+    @include fade-in(.5s);
+  }
+}

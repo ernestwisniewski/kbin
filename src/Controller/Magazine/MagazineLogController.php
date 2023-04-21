@@ -15,7 +15,7 @@ class MagazineLogController extends AbstractController
     public function __invoke(Magazine $magazine, MagazineRepository $repository, Request $request): Response
     {
         return $this->render(
-            'magazine/modlog.html.twig',
+            'modlog/magazine.html.twig',
             [
                 'magazine' => $magazine,
                 'logs' => $repository->findModlog($magazine, $this->getPageNb($request)),

@@ -1,74 +1,53 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Magazine\Panel;
 
 use App\Tests\WebTestCase;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MagazineEditControllerTest extends WebTestCase
 {
-    public function testCanEditMagazine(): void
+    public function testModCanSeePanelLink():void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
-
-        $this->getMagazineByName('acme');
-
-        $crawler = $client->request('GET', '/m/acme/panel/edytuj');
-
-        $client->submit(
-            $crawler->filter('form[name=magazine]')->selectButton('Gotowe')->form(
-                [
-                    'magazine[title]' => 'Przepisy kuchenne',
-                ]
-            )
-        );
-
-        $this->assertResponseRedirects('/m/acme');
-
-        $client->followRedirect();
-
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine h3', 'Przepisy kuchenne');
-    }
-
-    public function testCannotEditMagazineName(): void
-    {
-        $client = $this->createClient();
-        $client->catchExceptions(false);
         $client->loginUser($this->getUserByUsername('JohnDoe'));
-
         $this->getMagazineByName('acme');
 
-        $crawler = $client->request('GET', '/m/acme/panel/edytuj');
+        $client->request('GET', '/m/acme');
+        $this->assertSelectorTextContains('#sidebar .magazine', 'Magazine panel');
+    }
 
+    public function testOwnerCanEditMagazine(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
+        $this->getMagazineByName('acme');
+
+        $crawler = $client->request('GET', '/m/acme/panel/general');
+        $this->assertSelectorTextContains('#main .options__main a.active', 'general');
         $client->submit(
-            $crawler->filter('form[name=magazine]')->selectButton('Gotowe')->form(
-                [
-                    'magazine[name]' => 'kuchnia',
-                    'magazine[title]' => 'Przepisy kuchenne',
-                ]
-            )
+            $crawler->filter('#main form[name=magazine]')->selectButton('Done')->form([
+                'magazine[description]' => 'test description edit',
+                'magazine[rules]' => 'test rules edit',
+                'magazine[isAdult]' => true,
+            ])
         );
 
         $client->followRedirect();
-
-        $this->assertSelectorTextContains('.kbin-magazine-header .lead', 'acme');
-        $this->assertSelectorTextNotContains('.kbin-magazine-header .lead', 'kuchnia');
+        $this->assertSelectorTextContains('#sidebar .magazine', 'test description edit');
+        $this->assertSelectorTextContains('#sidebar .magazine', 'test rules edit');
     }
 
-    public function testUnauthorizedUserCannotEditOrPurgeMagazine(): void
+    public function testUnauthorizedUserCannotEditMagazine(): void
     {
-        $this->expectException(AccessDeniedException::class);
-
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('secondUser'));
-        $client->catchExceptions(false);
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
         $this->getMagazineByName('acme');
 
-        $client->request('GET', '/m/acme/panel/edytuj');
+        $client->request('GET', '/m/acme/panel/general');
 
-        $this->assertTrue($client->getResponse()->isForbidden());
+        $this->assertResponseStatusCodeSame(403);
     }
 }

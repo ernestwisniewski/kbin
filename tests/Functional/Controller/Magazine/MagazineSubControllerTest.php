@@ -1,65 +1,70 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Magazine;
 
-use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
 class MagazineSubControllerTest extends WebTestCase
 {
     public function testUserCanSubAndUnsubMagazine(): void
     {
-        $client  = $this->createClient();
-        $manager = static::getContainer()->get(MagazineManager::class);
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
+        $this->getMagazineByName('acme');
 
-        $magazine  = $this->getMagazineByName('acme', $user2);
-        $magazine2 = $this->getMagazineByName('kuchnia', $user2);
-        $magazine3 = $this->getMagazineByName('muzyka', $user2);
-
-        $this->getEntryByTitle('treść 2', null, null, $magazine, $user2);
-        $this->getEntryByTitle('treść 3', null, null, $magazine2, $user3);
-        $this->getEntryByTitle('treść 5', null, null, $magazine3, $user);
-        $this->getEntryByTitle('treść 4', null, null, $magazine3, $user2);
-        $this->getEntryByTitle('treść 4', null, null, $magazine, $user3);
-        $this->getEntryByTitle('treść 1', null, null, $magazine, $user);
-
-        $manager->subscribe($magazine, $user3);
-
-        // subscribe
         $crawler = $client->request('GET', '/m/acme');
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
-
-        $client->submit(
-            $crawler->filter('.kbin-magazine-header .kbin-sub')->selectButton('obserwuj')->form()
-        );
-
+        // Sub magazine
+        $client->submit($crawler->filter('#sidebar .magazine')->selectButton('Subscribe')->form());
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '3');
+        $this->assertSelectorExists('#sidebar form[name=magazine_subscribe] .active');
+        $this->assertSelectorTextContains('#sidebar .magazine', 'Unsubscribe');
+        $this->assertSelectorTextContains('#sidebar .magazine', '2');
 
-        $crawler = $client->request('GET', '/sub/najnowsze');
+        // Unsub magazine
+        $client->submit($crawler->filter('#sidebar .magazine')->selectButton('Unsubscribe')->form());
+        $client->followRedirect();
+        $this->assertSelectorTextContains('#sidebar .magazine', '1');
+    }
 
-        $this->assertCount(3, $crawler->filter('.kbin-entry-title'));
+    public function testXmlUserCanSubMagazine(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        // unsubscribe
+        $this->getMagazineByName('acme');
+
         $crawler = $client->request('GET', '/m/acme');
-        $crawler = $client->click($crawler->filter('.kbin-entry-title a')->link());
 
-        $client->submit(
-            $crawler->filter('.kbin-magazine-header .kbin-sub')->selectButton('obserwuj')->form()
-        );
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar .magazine')->selectButton('Subscribe')->form());
 
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Unsubscribe', $client->getResponse()->getContent());
+    }
+
+    public function testXmlUserCanUnsubMagazine(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
+
+        $this->getMagazineByName('acme');
+
+        $crawler = $client->request('GET', '/m/acme');
+
+        // Sub magazine
+        $client->submit($crawler->filter('#sidebar .magazine')->selectButton('Subscribe')->form());
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
+        // Unsub magazine
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar .magazine')->selectButton('Unsubscribe')->form());
 
-        $crawler = $client->request('GET', '/sub/najnowsze');
-
-        $this->assertCount(2, $crawler->filter('.kbin-entry-title'));
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Subscribe', $client->getResponse()->getContent());
     }
 }

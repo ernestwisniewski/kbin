@@ -1,27 +1,33 @@
 {% extends 'base.html.twig' %}
-{% from '_layout/_not_found.html.twig' import not_found %}
 
-{%- block title -%}{{- get_short_desc(post.body) }} - {{ magazine.title -}}{%- endblock -%}
+{%- block title -%}
+    {{- get_short_sentence(post.body, 80) }} - {{ magazine.title }} - {{ parent() -}}
+{%- endblock -%}
 
-{%- block description -%}{{- magazine.description ? get_short_desc(magazine.description) : '' -}}{%- endblock -%}
+{% block mainClass %}page-post-single{% endblock %}
 
-{% block image %}{{ post.image ? uploaded_asset(post.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    {{ component('title', {title: magazine.title, url: path('front_magazine', {name: magazine.name})}) }}
-    {% include 'magazine/_nav.html.twig' %}
-    {% include 'post/_single.html.twig' %}
-{% endblock %}
-
-{% block sidebar %}
-    {% include 'post/_sidebar.html.twig' %}
-
-    {{ parent() }}
-
-    {% include 'magazine/_sidebar.html.twig' %}
-{% endblock %}
-
-{% block sidebar_bottom %}
-    {{ component('related_posts_sidebar', {tag: magazine.name}) }}
-    {{ component('related_entries_sidebar', {tag: magazine.name}) }}
+    <div id="content">
+        {{ component('post', {
+            post: post,
+            isSingle: true,
+            dateAsUrl: false,
+            class: 'section--top'
+        }) }}
+        {% include 'post/comment/_options.html.twig' %}
+        {% include 'layout/_flash.html.twig' %}
+        <section id="comments">
+            {% include 'post/comment/_list.html.twig' %}
+        </section>
+        <section id="comment-add" class="section">
+            {% include 'post/comment/_form_comment.html.twig' %}
+        </section>
+        {% include 'post/_options_activity.html.twig' %}
+    </div>
 {% endblock %}

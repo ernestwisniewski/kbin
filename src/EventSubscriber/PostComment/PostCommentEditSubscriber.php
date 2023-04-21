@@ -28,7 +28,10 @@ class PostCommentEditSubscriber implements EventSubscriberInterface
 
     public function onPostCommentEdited(PostCommentEditedEvent $event)
     {
-        $this->cache->invalidateTags(['post_'.$event->comment->post->getId()]);
+        $this->cache->invalidateTags([
+            'post_'.$event->comment->post->getId(),
+            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()
+        ]);
 
         $this->bus->dispatch(new PostCommentEditedNotificationMessage($event->comment->getId()));
 

@@ -1,28 +1,25 @@
 {% extends 'base.html.twig' %}
-{% from '_layout/_not_found.html.twig' import not_found %}
 
-{%- block title -%}{{- user.username }} - {{ 'followers'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'followers'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-user-followers-page">
-        {% include 'user/_instance_info.twig' %}
-        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
-        {% include 'user/_nav.html.twig' %}
+{% block mainClass %}page-user page-user-followers{% endblock %}
 
-        {% if users|length %}
-            <div class="mt-4">
-                {% include'user/_list_table.html.twig' %}
-            </div>
-        {% else %}
-            {{ not_found() }}
-        {% endif %}
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'user/_sidebar.html.twig' %}
-    {{ parent() }}
-    <div class="mb-4">
-        {% include 'user/_moderator_list_card.html.twig' %}
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'followers'|trans }}</h1>
+        <h2 hidden>{{ user.username|username }}</h2>
+    </header>
+    {% include('user/_options.html.twig') %}
+    {% include('user/_federated_info.html.twig') %}
+    <div id="content">
+        {% include 'layout/_user_activity_list.html.twig' with {list: users, actor: 'follower'} %}
     </div>
 {% endblock %}

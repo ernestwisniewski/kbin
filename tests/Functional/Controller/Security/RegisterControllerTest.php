@@ -1,7 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Security;
 
+use App\Entity\User;
 use App\Tests\WebTestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -12,24 +15,24 @@ class RegisterControllerTest extends WebTestCase
     {
         $client = $this->createClient();
 
-        $crawler = $this->registerUserAccount($client);
+        $this->registerUserAccount($client);
 
         $this->assertEmailCount(1);
 
         /** @var TemplatedEmail $email */
-        $email = $this->getMailerMessage(0);
+        $email = $this->getMailerMessage();
 
-        $this->assertEmailHeaderSame($email, 'To', 'ernest@karab.in');
+        $this->assertEmailHeaderSame($email, 'To', 'johndoe@kbin.pub');
 
         $verifyLink = $email->getContext()['signedUrl'];
 
-        $crawler = $client->request('GET', $verifyLink);
+        $client->request('GET', $verifyLink);
         $crawler = $client->followRedirect();
 
         $client->submit(
-            $crawler->selectButton('Zaloguj się')->form(
+            $crawler->selectButton('Log in')->form(
                 [
-                    'email'    => 'ernest@karab.in',
+                    'email' => 'JohnDoe',
                     'password' => 'secret',
                 ]
             )
@@ -37,29 +40,24 @@ class RegisterControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextNOTContains('.kbn-login-btn', 'Zaloguj się');
+        $this->assertSelectorTextNotContains('#header', 'Log in');
     }
 
-    private function registerUserAccount(KernelBrowser $client)
+    private function registerUserAccount(KernelBrowser $client): void
     {
-        $crawler = $client->request('GET', '/');
-        $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
-        $crawler = $client->followRedirect();
-        $crawler = $client->click($crawler->filter('.kbin-login')->selectLink('Zarejestruj się.')->link());
+        $crawler = $client->request('GET', '/register');
 
         $client->submit(
-            $crawler->filter('form[name=user_register]')->selectButton('Zarejestruj się')->form(
+            $crawler->filter('form[name=user_register]')->selectButton('Register')->form(
                 [
-                    'user_register[username]'              => 'Ernest',
-                    'user_register[email]'                 => 'ernest@karab.in',
-                    'user_register[plainPassword][first]'  => 'secret',
+                    'user_register[username]' => 'JohnDoe',
+                    'user_register[email]' => 'johndoe@kbin.pub',
+                    'user_register[plainPassword][first]' => 'secret',
                     'user_register[plainPassword][second]' => 'secret',
-                    'user_register[agreeTerms]'            => true,
+                    'user_register[agreeTerms]' => true,
                 ]
             )
         );
-
-        return $crawler;
     }
 
     public function testUserCannotLoginWithoutConfirmation()
@@ -70,20 +68,48 @@ class RegisterControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
 
-        $client->click($crawler->filter('.kbn-login-btn')->selectLink('Zaloguj się')->link());
-        $crawler = $client->followRedirect();
+        $crawler = $client->click($crawler->filter('#header')->selectLink('Log in')->link());
 
         $client->submit(
-            $crawler->selectButton('Zaloguj się')->form(
+            $crawler->selectButton('Log in')->form(
                 [
-                    'email'    => 'ernest@karab.in',
-                    'password' => 'secret',
+                    'email' => 'JohnDoe',
+                    'password' => 'wrong_password',
                 ]
             )
         );
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.alert-danger', 'Twoje konto nie jest aktywne.');
+        $this->assertSelectorTextContains('.alert__danger', 'Your account is not active.');
+    }
+
+    public static function register($active = false): KernelBrowser
+    {
+        $client = self::createClient();
+        $crawler = $client->request('GET', '/register');
+
+        $client->submit(
+            $crawler->filter('form[name=user_register]')->selectButton('Register')->form(
+                [
+                    'user_register[username]' => 'JohnDoe',
+                    'user_register[email]' => 'johndoe@kbin.pub',
+                    'user_register[plainPassword][first]' => 'secret',
+                    'user_register[plainPassword][second]' => 'secret',
+                    'user_register[agreeTerms]' => true,
+                ]
+            )
+        );
+
+        if ($active) {
+            $user = self::getContainer()->get('doctrine')->getRepository(User::class)
+                ->findOneBy(['username' => 'JohnDoe']);
+            $user->isVerified = true;
+
+            self::getContainer()->get('doctrine')->getManager()->flush();
+            self::getContainer()->get('doctrine')->getManager()->refresh($user);
+        }
+
+        return $client;
     }
 }

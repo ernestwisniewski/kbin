@@ -1,0 +1,12 @@
+<li>
+    <a href="{{ path('domain_entries', {name: domain.name}) }}"
+       class="{{ html_classes({'active': is_route_name('domain_entries') }) }}">
+        {{ 'threads'|trans }}
+    </a>
+</li>
+<li>
+    <a href="{{ path('domain_comments', {name: domain.name}) }}"
+       class="{{ html_classes({'active': is_route_name('domain_comments') }) }}">
+        {{ 'comments'|trans }}
+    </a>
+</li>

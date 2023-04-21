@@ -1,0 +1,62 @@
+{% if attributes is not defined %}
+    {% set attributes = {} %}
+{% endif %}
+{% if entryCommentAttributes is not defined %}
+    {% set entryCommentAttributes = {} %}
+{% endif %}
+{% if entryAttributes is not defined %}
+    {% set entryAttributes = {} %}
+{% endif %}
+{% if postAttributes is not defined %}
+    {% set postAttributes = {} %}
+{% endif %}
+{% if postCommentAttributes is not defined %}
+    {% set postCommentAttributes = {} %}
+{% endif %}
+
+{% set prev = null %}
+{% set child = false %}
+{% for subject in results %}
+    {% if subject.parentSubject is not defined and prev and prev.parentSubject is defined and child %}
+        </div>
+        {% set child = false %}
+    {% endif %}
+    {% if subject.parentSubject is defined and loop.index > 1 and subject.parentSubject is same as prev %}
+        <div class="comments comments-tree">
+        {% set child = true %}
+    {% endif %}
+    {% include 'layout/_subject.html.twig' %}
+    {% set prev = subject %}
+{% endfor %}
+{% if pagination is defined and pagination %}
+    {% if(pagination.haveToPaginate is defined and pagination.haveToPaginate) %}
+        {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
+            <div data-controller="infinite-scroll" class="infinite-scroll">
+                {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
+                <div data-infinite-scroll-target="pagination" class="visually-hidden">
+                    {{ pagerfanta(pagination, null, {'pageParameter':'[p]'}) }}
+                </div>
+            </div>
+        {% else %}
+            {{ pagerfanta(pagination, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
+    {% endif %}
+{% else %}
+    {% if(results.haveToPaginate is defined and results.haveToPaginate) %}
+        {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
+            <div data-controller="infinite-scroll" class="infinite-scroll">
+                {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
+                <div data-infinite-scroll-target="pagination" class="visually-hidden">
+                    {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+                </div>
+            </div>
+        {% else %}
+            {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
+    {% endif %}
+{% endif %}
+{% if not results|length %}
+    <aside class="section section--muted">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

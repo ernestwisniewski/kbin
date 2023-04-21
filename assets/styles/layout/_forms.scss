@@ -1,0 +1,233 @@
+.btn {
+  font-size: .85rem;
+  height: 100%;
+  padding: .7rem;
+
+  &__primary {
+    background: var(--kbin-button-primary-bg);;
+    border: var(--kbin-button-primary-border);
+    color: var(--kbin-button-primary-text-color) !important;
+    font-weight: bold;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--kbin-button-primary-hover-bg);
+      color: var(--kbin-button-primary-text-hover-color) !important;
+    }
+
+    a, a:hover {
+      color: var(--kbin-button-primary-text-hover-color) !important;
+    }
+  }
+
+  &__secondary {
+    background: var(--kbin-button-secondary-bg);
+    border: var(--kbin-button-secondary-border);
+    color: var(--kbin-button-secondary-text-color) !important;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--kbin-button-secondary-hover-bg);
+      color: var(--kbin-button-secondary-text-hover-color) !important;
+    }
+  }
+
+  &__secondry {
+    background: var(--kbin-button-secondary-bg);
+    border: var(--kbin-button-secondary-border);
+    color: var(--kbin-button-secondary-text-color) !important;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--kbin-button-secondary-hover-bg);
+      color: var(--kbin-button-secondary-text-hover-color) !important;
+    }
+  }
+}
+
+select {
+  -webkit-appearance: menulist-button;
+}
+
+input,
+textarea {
+  background: var(--kbin-input-bg);
+  border: var(--kbin-input-border);
+  color: var(--kbin-input-text-color);
+  font-family: var(--kbin-body-font-family);
+  font-size: .9rem;
+}
+
+textarea {
+  box-sizing: border-box;
+  height: 5rem;
+  padding: 1rem .5rem;
+  resize: vertical;
+  width: 100%;
+}
+
+label {
+  display: block;
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+  display: block;
+  padding: 1rem .5rem;
+  width: 100%;
+}
+
+form {
+  div {
+    margin-bottom: 1rem;
+
+    ul {
+      color: var(--kbin-danger-color);
+      font-weight: bold;
+      list-style: none;
+      margin: 1rem 0;
+      padding: 0;
+    }
+
+    ul li {
+      padding: 0;
+    }
+  }
+}
+
+.checkbox {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+
+  input[type=checkbox] {
+    margin-right: .5rem;
+  }
+}
+
+.ts-wrapper {
+  div {
+    margin-bottom: 0;
+  }
+
+  &.single .ts-control {
+    background: var(--kbin-meta-bg);
+    box-shadow: none;
+  }
+
+  .clear-button {
+    color: var(--kbin-meta-text-color);
+    font-size: 1.5rem;
+    top: 1.2rem;
+  }
+
+  .ts-control {
+    background: var(--kbin-input-bg) !important;
+    border: var(--kbin-input-border) !important;
+    border-radius: 0;
+    box-shadow: none !important;
+    color: var(--kbin-input-text-color);
+    display: block;
+    padding: 1rem .5rem;
+    width: 100%;
+  }
+
+  &.single.input-active .ts-control input {
+    color: var(--kbin-meta-text-color)
+    //display: none !important;
+  }
+
+  &.single .ts-control, .ts-dropdown.single {
+    border: var(--kbin-input-border);
+  }
+
+  .ts-control > input {
+    width: auto;
+  }
+}
+
+.actions ul {
+  margin: 0;
+}
+
+.actions,
+.actions ul,
+.params {
+  display: flex;
+  gap: .25rem;
+  justify-content: flex-end;
+
+  .btn-link i {
+    bottom: 15px;
+    position: relative;
+  }
+
+  div {
+    margin-bottom: 0;
+  }
+
+  div button {
+    height: 100%;
+  }
+
+  .ts-control {
+    padding: 8px;
+
+    .clear-button {
+      top: .75rem;
+    }
+  }
+
+  .ts-wrapper {
+    &.single .ts-control, .ts-dropdown.single {
+      background: var(--kbin-input-bg) !important;
+      border: var(--kbin-meta-border) !important;
+      box-shadow: none;
+    }
+  }
+}
+
+select {
+  background: var(--kbin-button-secondary-bg);
+  border: var(--kbin-button-secondary-border);
+  color: var(--kbin-button-secondary-text-color) !important;
+  padding: 0.65rem;
+  border-radius: 0;
+}
+
+.actions {
+  @include media-breakpoint-down(sm) {
+    display: block;
+    text-align: right;
+
+    > * {
+      margin-bottom: .5rem !important;
+    }
+  }
+}
+
+.params {
+  color: var(--kbin-meta-text-color);
+  font-size: .813rem;
+  gap: 1rem;
+  margin-bottom: .5rem !important;
+  overflow: visible;
+
+  > div {
+    align-items: center;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
+
+.radios {
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+
+    label {
+      margin-right: 1rem;
+    }
+  }
+}

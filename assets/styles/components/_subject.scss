@@ -1,0 +1,89 @@
+.subjects {
+  .post,
+  .entry {
+    margin-bottom: 0;
+    margin-top: .5rem;
+
+    &:first-child {
+      margin-top: 0
+    }
+  }
+
+  .comment {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  .post-comment {
+    margin-left: 1rem;
+  }
+
+  > :last-child {
+    margin-top: .5rem;
+  }
+}
+
+.subject {
+  .show-preview {
+    cursor: pointer;
+  }
+
+  &:nth-of-type(odd) {
+  }
+
+  .js-container {
+    display: none;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+
+  &.author {
+    border-left: var(--kbin-author-border);
+  }
+
+  &.own {
+    border-left: var(--kbin-own-border);
+  }
+}
+
+.moderate-panel {
+  margin: .5rem 0 !important;
+  position: relative;
+  z-index: 2;
+
+  menu {
+    align-items: center;
+    column-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    justify-content: space-around;
+    list-style: none;
+
+    select {
+      padding: .25rem;
+    }
+
+    .actions form {
+      display: flex;
+    }
+
+    input,
+    select,
+    input[type=checkbox] {
+      border: var(--kbin-meta-border);
+      border-radius: 0 !important;
+      margin-right: .25rem;
+    }
+
+    & > a.active,
+    & > li button.active, {
+      text-decoration: underline;
+    }
+
+    button, input[type='submit'], a {
+      @include kbin-btn-link;
+    }
+  }
+}

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry\Comment;
 
@@ -6,87 +8,80 @@ use App\Tests\WebTestCase;
 
 class EntryCommentCreateControllerTest extends WebTestCase
 {
-    public function testCanCreateEntryComment(): void
+    public function testUserCanCreateEntryComment(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('title');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId().'/-/komentarze');
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
         $client->submit(
-            $crawler->filter('form[name=entry_comment]')->selectButton('Gotowe')->form(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Add comment')->form(
                 [
-                    'entry_comment[body]' => 'example content',
+                    'entry_comment[body]' => 'test comment 1',
                 ]
             )
         );
 
+        $this->assertResponseRedirects('/m/acme/t/'.$entry->getId().'/test-entry-1');
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('blockquote', 'example content');
-        $this->assertSelectorTextContains('.kbin-sidebar .kbin-magazine .kbin-magazine-stats-links', 'Komentarze 1');
-        $this->assertSelectorTextContains('.kbin-entry .kbin-entry-meta', '1 komentarz');
+        $this->assertSelectorTextContains('#main blockquote', 'test comment 1');
     }
 
-    public function testCanCreateNestedComments(): void
+    public function testUserCanReplyEntryComment(): void
     {
         $client = $this->createClient();
-        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $entry = $this->getEntryByTitle('testowy wpis');
-        $user1 = $this->getUserByUsername('JohnDoe');
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
-
-        $comment1 = $this->createEntryComment('komentarz 1', $entry, $user1);
-        $comment2 = $this->createEntryComment('komentarz 2', $entry, $user2, $comment1);
-
-        $crawler = $client->request('GET', '/');
-        $crawler = $client->click(
-            $crawler->filter('.kbin-entry-list .kbin-entry-title')->selectLink('testowy wpis')->link()
+        $comment = $this->createEntryComment(
+            'test comment 1',
+            $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub'),
+            $this->getUserByUsername('JaneDoe')
         );
 
-        $this->assertSelectorTextContains('.kbin-comment--top-level', 'komentarz 1');
-        $this->assertCount(1, $crawler);
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $this->assertSelectorTextContains('.kbin-comment-level--2', 'komentarz 2');
-        $this->assertCount(1, $crawler->filter('.kbin-comment-level--2'));
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
+        $crawler = $client->click($crawler->filter('#entry-comment-'.$comment->getId())->selectLink('reply')->link());
 
-        $this->assertSelectorTextContains('.kbin-comment-wrapper', 'odpowiedz');
-        $crawler = $client->click($crawler->filter('.kbin-comment-level--2')->selectLink('odpowiedz')->link());
+        $this->assertSelectorTextContains('#main blockquote', 'test comment 1');
 
-        $client->submit(
-            $crawler->filter('form[name=entry_comment]')->selectButton('Gotowe')->form(
+        $crawler = $client->submit(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Add comment')->form(
                 [
-                    'entry_comment[body]' => 'komentarz poziomu 3',
+                    'entry_comment[body]' => 'test comment 2',
                 ]
             )
         );
 
-        $this->assertResponseRedirects();
-
+        $this->assertResponseRedirects('/m/acme/t/'.$entry->getId().'/test-entry-1');
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('.kbin-comment-level--3', 'komentarz poziomu 3');
-        $this->assertCount(1, $crawler->filter('.kbin-comment-level--3'));
+        $this->assertEquals(2, $crawler->filter('#main blockquote')->count());
     }
 
-
-    public function testXmlCanReplyEntryComment(): void
+    public function testUserCantCreateInvalidEntryComment(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
 
-        $comment = $this->createEntryComment('example comment');
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $crawler = $client->request('GET', "/m/acme/t/{$comment->entry->getId()}/-/komentarze");
+        $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Add comment')->form(
+                [
+                    'entry_comment[body]' => '',
+                ]
+            )
+        );
 
-        $client->click($crawler->filter('blockquote.kbin-comment')->selectLink('odpowiedz')->link());
-
-        $this->assertStringContainsString('kbin-comment-create-form', $client->getResponse()->getContent());
+        $this->assertSelectorTextContains(
+            '#content',
+            'This value should not be blank.'
+        );
     }
 }

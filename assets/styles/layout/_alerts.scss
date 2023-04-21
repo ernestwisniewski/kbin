@@ -1,0 +1,32 @@
+.alert {
+  margin: .5rem 0;
+  padding: 1rem;
+  position: relative;
+  z-index: 2;
+
+  p {
+    margin: 0;
+  }
+
+  &__info {
+    background: var(--kbin-alert-info-bg);
+    border: var(--kbin-alert-info-border);
+    color: var(--kbin-alert-info-text-color);
+
+    a {
+      color: var(--kbin-alert-info-link-color);
+      font-weight: bold;
+    }
+  }
+
+  &__danger {
+    background: var(--kbin-alert-danger-bg);
+    border: var(--kbin-alert-danger-border);
+    color: var(--kbin-alert-danger-text-color);
+
+    a {
+      color: var(--kbin-alert-danger-link-color);
+      font-weight: bold;
+    }
+  }
+}

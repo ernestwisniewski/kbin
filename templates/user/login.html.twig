@@ -1,61 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'login'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'login'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-login{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    <div class="kbin-user-login-page">
-        <div class="kbin-login mt-lg-4">
-            <div class="kbin-magazine-background"></div>
-
-            <div class="row">
-                <div class="col-lg-6 mb-3">
-                    <h1 class="font-weight-bold mb-5">{{ 'login'|trans }}</h1>
-
-                    <form method="post">
-                        {% if error %}
-                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                        {% endif %}
-
-                        <div class="mb-3">
-                            <label for="inputEmail">{{ 'login_or_email'|trans }}</label>
-                            <div class="input-group input-group-lg">
-                                <input value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
-                                       required autofocus>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="inputPassword">{{ 'password'|trans }}</label>
-                            <div class="input-group input-group-lg">
-                                <input type="password" name="password" id="inputPassword" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                        <div class="checkbox mb-3">
-                            <label>
-                                <input type="checkbox" name="_remember_me"> {{ 'remember_me'|trans }}
-                            </label>
-                        </div>
-
-                        <div class="text-center pt-4">
-                            <button class="btn btn-lg btn-primary" type="submit">
-                                {{ 'login'|trans }}
-                            </button>
-                        </div>
-                    </form>
-
-                    <p class="mt-5">{{ 'dont_have_account'|trans }} <a
-                                class="font-weight-bold"
-                                href="{{ path('app_register') }}">{{ 'register'|trans }}.</a></p>
-                    <p class="mb-5">{{ 'you_cant_login'|trans }} <a
-                                class="font-weight-bold"
-                                href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}.</a></p>
-
-                    {% include 'user/_oauth_social.html.twig' %}
+    <h1>{{ 'login'|trans }}</h1>
+    {% include 'layout/_flash.html.twig' %}
+    <div id="content" class="section">
+        <div class="container">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert__danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <div>
+                    <label for="email">{{ 'login_or_email'|trans }}</label>
+                    <input type="text"
+                           id="email"
+                           name="email"
+                           value="{{ last_username }}"
+                           required>
                 </div>
+                <div>
+                    <label for="password">{{ 'password'|trans }}</label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           required>
+                </div>
+                <div class="checkbox">
+                    <label for="remember">{{ 'remember_me'|trans }}</label>
+                    <input type="checkbox" name="_remember_me" id="remember">
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <div class="float-end">
+                    <button class="btn btn__primary" type="submit">{{ 'login'|trans }}</button>
+                </div>
+            </form>
+
+            <div class="actions">
+                {% if kbin_registrations_enabled() %}
+                <p>{{ 'dont_have_account'|trans }} <a
+                            class="font-weight-bold"
+                            href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>
+                {% endif %}
+                <p>{{ 'you_cant_login'|trans }} <a
+                            class="font-weight-bold"
+                            href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}</a></p>
             </div>
+            {% include 'user/_login_socials.html.twig' %}
         </div>
     </div>
 {% endblock %}

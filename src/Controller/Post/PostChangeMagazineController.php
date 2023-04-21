@@ -24,12 +24,12 @@ class PostChangeMagazineController extends AbstractController
 
     #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
     #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
-    #[IsGranted('moderate', 'magazine')]
+    #[IsGranted('moderate', 'post')]
     public function __invoke(Magazine $magazine, Post $post, Request $request): Response
     {
         $this->validateCsrf('change_magazine', $request->request->get('token'));
 
-        $newMagazine = $this->repository->findOneByName($request->get('new_magazine'));
+        $newMagazine = $this->repository->findOneByName($request->get('change_magazine')['new_magazine']);
 
         $this->manager->changeMagazine($post, $newMagazine);
 

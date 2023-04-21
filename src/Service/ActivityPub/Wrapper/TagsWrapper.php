@@ -17,11 +17,11 @@ class TagsWrapper
         return array_map(fn ($tag) => [
             'type' => 'Hashtag',
             'href' => $this->urlGenerator->generate(
-                'tag_overall',
+                'tag_overview',
                 ['name' => $tag],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
-            'name' => '#'.$tag,
+            'tag' => '#'.$tag,
         ], $tags);
     }
 }

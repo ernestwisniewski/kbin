@@ -11,6 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class CardanoTransactionController extends CardanoController
 {
     public function __invoke(ContentInterface $subject, CardanoManager $manager, Request $request): Response

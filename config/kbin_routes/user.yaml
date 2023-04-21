@@ -1,4 +1,4 @@
-user:
+user_overview:
   controller: App\Controller\User\UserFrontController::front
   path: /u/{username}
   methods: [ GET ]
@@ -52,8 +52,8 @@ user_followers:
     pl: /u/{username}/obserwujący
   methods: [ GET ]
 
-user_follows:
-  controller: App\Controller\User\UserFrontController::follows
+user_following:
+  controller: App\Controller\User\UserFrontController::following
   path:
     en: /u/{username}/following
     pl: /u/{username}/obserwowani
@@ -125,115 +125,133 @@ user_note:
   path: /u/{username}/note
   methods: [ POST ]
 
-user_profile_notifications:
+notifications_front:
   controller: App\Controller\User\Profile\UserNotificationController::notifications
   path:
-    en: /profile/notifications
-    pl: /profil/notyfikacje
+    en: /settings/notifications
+    pl: /ustawienia/notyfikacje
   methods: [ GET ]
 
-user_profile_notifications_read:
+notifications_read:
   controller: App\Controller\User\Profile\UserNotificationController::read
-  path: /profile/notifications/read
+  path: /settings/notifications/read
   methods: [ POST ]
 
-user_profile_reports:
+notifications_clear:
+  controller: App\Controller\User\Profile\UserNotificationController::clear
+  path: /settings/notifications/clear
+  methods: [ POST ]
+
+user_settings_reports:
   controller: App\Controller\User\Profile\UserReportsController
   path:
-    en: /profile/reports
-    pl: /profil/zgłoszenia
+    en: /settings/reports
+    pl: /ustawienia/zgłoszenia
   methods: [ GET ]
 
-user_profile_notifications_clear:
-  controller: App\Controller\User\Profile\UserNotificationController::clear
-  path: /profile/notifications/clear
-  methods: [ POST ]
-
-user_profile_magazine_blocks:
+user_settings_magazine_blocks:
   controller: App\Controller\User\Profile\UserBlockController::magazines
   path:
-    en: /profile/blocklist/magazines
-    pl: /profil/blokady/magazyny
+    en: /settings/blocked/magazines
+    pl: /ustawienia/blokady/magazyny
   methods: [ GET ]
 
-user_profile_domain_blocks:
+user_settings_domain_blocks:
   controller: App\Controller\User\Profile\UserBlockController::domains
   path:
-    en: /profile/blocklist/domains
-    pl: /profil/blokady/domeny
+    en: /settings/blocked/domains
+    pl: /ustawienia/blokady/domeny
   methods: [ GET ]
 
-user_profile_user_blocks:
+user_settings_user_blocks:
   controller: App\Controller\User\Profile\UserBlockController::users
   path:
-    en: /profile/blocklist/people
-    pl: /profil/blokady/ludzie
+    en: /settings/blocked/people
+    pl: /ustawienia/blokady/ludzie
   methods: [ GET ]
 
-user_profile_magazine_subscriptions:
+user_settings_magazine_subscriptions:
   controller: App\Controller\User\Profile\UserSubController::magazines
   path:
-    en: /profile/subscriptions/magazines
-    pl: /profil/subskrypcje/magazyny
+    en: /settings/subscriptions/magazines
+    pl: /ustawienia/subskrypcje/magazyny
   methods: [ GET ]
 
-user_profile_domain_subscriptions:
+user_settings_domain_subscriptions:
   controller: App\Controller\User\Profile\UserSubController::domains
   path:
-    en: /profile/subscriptions/domains
-    pl: /profil/subskrypcje/domeny
+    en: /settings/subscriptions/domains
+    pl: /ustawienia/subskrypcje/domeny
   methods: [ GET ]
 
-user_profile_user_subscriptions:
+user_settings_user_subscriptions:
   controller: App\Controller\User\Profile\UserSubController::users
   path:
-    en: /profile/subscriptions/people
-    pl: /profil/subskrypcje/ludzie
+    en: /settings/subscriptions/people
+    pl: /ustawienia/subskrypcje/ludzie
   methods: [ GET ]
 
-user_profile_tips:
+user_settings_tips:
   controller: App\Controller\User\Profile\UserTipController
   path:
-    en: /profile/ada
-    pl: /profil/ada
+    en: /settings/ada
+    pl: /ustawienia/ada
   methods: [ GET, POST ]
 
-user_profile_settings:
+user_settings_general:
   controller: App\Controller\User\Profile\UserSettingController
   path:
-    en: /profile/settings
-    pl: /profil/ustawienia
+    en: /settings/general
+    pl: /ustawienia/ogólne
   methods: [ GET, POST ]
 
-user_profile_edit:
-  controller: App\Controller\User\UserEditController
+user_settings_profile:
+  controller: App\Controller\User\Profile\UserEditController::general
   path:
-    en: /profile/edit
-    pl: /profil/edytuj
+    en: /settings/profile
+    pl: /ustawienia/profil
   methods: [ GET, POST ]
 
-user_profile_avatar_delete:
+user_settings_email:
+  controller: App\Controller\User\Profile\UserEditController::email
+  path:
+    en: /settings/email
+    pl: /ustawienia/email
+  methods: [ GET, POST ]
+
+user_settings_password:
+  controller: App\Controller\User\Profile\UserEditController::password
+  path:
+    en: /settings/password
+    pl: /ustawienia/hasło
+  methods: [ GET, POST ]
+
+user_settings_avatar_delete:
   controller: App\Controller\User\UserAvatarDeleteController
-  path: /profile/edit/delete_avatar
+  path: /settings/edit/delete_avatar
   methods: [ POST ]
 
-user_profile_cover_delete:
+user_settings_cover_delete:
   controller: App\Controller\User\UserCoverDeleteController
-  path: /profile/edit/delete_cover
+  path: /settings/edit/delete_cover
   methods: [ POST ]
 
-user_profile_toggle_theme:
+user_settings_toggle_theme:
   controller: App\Controller\User\UserThemeController
   path:
-    en: /profile/edit/theme
-    pl: /profil/edytuj/wyglad
+    en: /settings/edit/theme
+    pl: /ustawienia/edytuj/wyglad
   methods: [ GET, POST ]
 
-user_profile_front:
+user_settings_stats:
   controller: App\Controller\User\Profile\UserStatsController
   defaults: { statsType: content, statsPeriod: ~ }
   path:
-    en: /profile/{statsType}/{statsPeriod}
-    pl: /profil/{statsType}/{statsPeriod}
+    en: /settings/{statsType}/{statsPeriod}
+    pl: /ustawienia/{statsType}/{statsPeriod}
   methods: [ GET ]
 
+theme_settings:
+  controller: App\Controller\User\ThemeSettingsController
+  path: /settings/theme/{key}/{value}
+  methods: [ GET ]

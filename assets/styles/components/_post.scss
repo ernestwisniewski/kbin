@@ -1,0 +1,175 @@
+.post-add {
+  .ts-control {
+    min-width: 18rem;
+  }
+
+  .row {
+    flex-wrap: wrap-reverse;
+    margin-bottom: 0;
+
+    @include media-breakpoint-down(sm) {
+      display: block;
+
+      > div {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  div {
+    margin-bottom: 0;
+  }
+}
+
+.post {
+  display: grid;
+  font-size: .9rem;
+  grid-gap: .5rem;
+  grid-template-areas: "avatar header vote"
+                         "avatar body body"
+                         "avatar meta meta"
+                         "avatar footer footer";
+  grid-template-columns: min-content auto min-content;
+  margin: .5rem 0;
+  padding: 1rem .5rem;
+  position: relative;
+  z-index: 2;
+
+  @include media-breakpoint-down(sm) {
+    grid-template-areas: "avatar header vote"
+                         "body body body"
+                         "meta meta meta"
+                         "footer footer footer";
+  }
+
+  &:hover,
+  &:focus-visible {
+    z-index: 3;
+  }
+
+  header {
+    color: var(--kbin-meta-text-color);
+    font-size: .8rem;
+    grid-area: header;
+    margin-bottom: 0;
+    opacity: .75;
+
+    a {
+      color: var(--kbin-meta-link-color);
+      font-weight: bold;
+    }
+  }
+
+  .content {
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  aside {
+    grid-area: vote;
+  }
+
+  div {
+    grid-area: body;
+
+    p {
+      margin-top: 0
+    }
+  }
+
+  figure {
+    grid-area: avatar;
+    margin: 0;
+
+    img {
+      border: var(--kbin-avatar-border);
+    }
+  }
+
+  menu {
+    column-gap: 1rem;
+    display: grid;
+    grid-area: meta;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    list-style: none;
+    opacity: .75;
+    position: relative;
+    z-index: 4;
+
+    & > a.active,
+    & > li button.active, {
+      text-decoration: underline;
+    }
+
+    button,
+    a {
+      font-size: .8rem;
+      @include kbin-btn-link;
+    }
+
+    li:first-child a {
+      padding-left: 0;
+    }
+  }
+
+  .vote {
+    display: flex;
+    gap: .5rem;
+    justify-content: flex-end;
+
+    button {
+      height: 1.2rem;
+      width: 4rem;
+    }
+  }
+
+  footer {
+    color: var(--kbin-meta-text-color);
+    font-weight: 300;
+    grid-area: footer;
+
+    menu, .boosts {
+      font-size: .75rem;
+      opacity: .75;
+    }
+
+    a {
+      @include kbin-btn-link;
+    }
+
+    figure img {
+      margin: .5rem 0;
+      max-width: 100%;
+    }
+
+    button {
+      position: relative;
+    }
+  }
+
+  .loader {
+    height: 20px;
+    position: absolute;
+    width: 20px;
+  }
+
+  &:hover,
+  &:focus-within {
+    header, menu, footer menu, footer .boosts {
+      @include fade-in(.5s);
+    }
+  }
+
+  &--single {
+    border-top: 0;
+    margin-top: 0;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+
+    .entry__body {
+      padding: 0 2rem;
+    }
+  }
+}

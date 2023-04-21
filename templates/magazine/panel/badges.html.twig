@@ -1,28 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'badges'|trans }} | /m/{{ magazine.name }} | {{ parent() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'badges'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    {% from '_layout/_not_found.html.twig' import not_found %}
+{% block mainClass %}page-magazine-panel page-magazine-badges{% endblock %}
 
-    <div class="kbin-magazine-bans-page">
-        {% include 'magazine/panel/_tabs.html.twig' %}
-        {% include '_layout/_flash.html.twig' %}
-        {% if(badges|length) %}
-            <div class="kbin-magazine-bans mt-lg-4">
-                {% include 'magazine/panel/_badges_list_table.html.twig' %}
-            </div>
-        {% else %}
-            {{ not_found() }}
-        {% endif %}
-        <div class="col-lg-6">
-            {% include 'magazine/panel/_form_badge.html.twig' %}
-        </div>
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+    <h1 hidden>{{ 'badges'|trans }}</h1>
+    {% if badges|length %}
+        <div id="content" class="section badges columns">
+            <ul>
+                {% for badge in badges %}
+                    <li>
+                        <div>
+                            {{ badge.name }}
+                        </div>
+                        {% if is_granted('edit', magazine) %}
+                            <div class="actions">
+                                <form method="post"
+                                      action="{{ path('magazine_panel_badge_remove', {'magazine_name': badge.magazine.name, 'badge_id': badge.id} ) }}"
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                    <input type="hidden" name="token" value="{{ csrf_token('badge_remove') }}">
+                                    <button type="submit" class="btn btn__secondary">{{ 'delete'|trans }}</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% if(badges.haveToPaginate is defined and badges.haveToPaginate) %}
+        {{ pagerfanta(badges, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not badges|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+    <div class="section badge-add">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="row">
+                {{ form_errors(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.name, 'name') }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div class="actions">
+                {{ form_row(form.submit, { 'label': 'add_badge', attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

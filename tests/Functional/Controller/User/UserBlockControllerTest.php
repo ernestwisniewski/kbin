@@ -1,53 +1,70 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\User;
 
-use App\Service\UserManager;
 use App\Tests\WebTestCase;
 
 class UserBlockControllerTest extends WebTestCase
 {
-    public function testUserCanBlock(): void //@todo
+    public function testUserCanBlockAndUnblock(): void
     {
-        $client  = $this->createClient();
-        $manager = static::getContainer()->get(UserManager::class);
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
-        $user4 = $this->getUserByUsername('PeterParker');
+        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
 
-        $magazine  = $this->getMagazineByName('acme', $user2);
-        $magazine2 = $this->getMagazineByName('kuchnia', $user2);
-
-        $this->getEntryByTitle('treść 1', null, null, $magazine, $user2);
-        $this->getEntryByTitle('treść 2', null, null, $magazine2, $user2);
-        $this->getEntryByTitle('treść 3', null, null, $magazine, $user3);
-        $this->getEntryByTitle('treść 4', null, null, $magazine2, $user3);
-        $this->getEntryByTitle('treść 5', null, null, $magazine, $user4);
-        $this->getEntryByTitle('treść 6', null, null, $magazine2, $user4);
-
-        $manager->follow($user, $user2);
-
-        $crawler = $client->request('GET', '/u/JaneDoe');
-
-        $client->submit(
-            $crawler->filter('.kbin-user-block button')->selectButton('')->form()
-        );
-
+        // Block
+        $client->submit($crawler->filter('#sidebar form[name=user_block] button')->form());
         $crawler = $client->followRedirect();
 
-        $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-user-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-sub', '0');
+        $this->assertSelectorExists('#sidebar form[name=user_block] .active');
 
-        $client->submit(
-            $crawler->filter('.kbin-user-block button')->selectButton('')->form()
-        );
+        // Unblock
+        $client->submit($crawler->filter('#sidebar form[name=user_block] button')->form());
+        $client->followRedirect();
 
+        $this->assertSelectorNotExists('#sidebar form[name=user_block] .active');
+    }
+
+    public function testXmlUserCanBlock(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
+
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
+
+        // Block
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar form[name=user_block] button')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringContainsString('active', $client->getResponse()->getContent());
+    }
+
+    public function testXmlUserCanUnblock(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
+
+        $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $crawler = $client->request('GET', '/m/acme/t/'.$entry->getId());
+
+        // Block
+        $client->submit($crawler->filter('#sidebar form[name=user_block] button')->form());
         $crawler = $client->followRedirect();
 
-        $this->assertStringContainsString('kbin-block', $crawler->filter('.kbin-user-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-sub', '0');
+        // Unblock
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar form[name=user_block] button')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('active', $client->getResponse()->getContent());
     }
 }

@@ -1,14 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'edit_comment'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'edit_comment'|trans }} - {{ get_short_sentence(comment.body, 80) }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-comment-edit{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    {% embed 'entry/_single.html.twig' %}
-        {% block before_comments %}
-            <div class="kbin-comment-edit-wrapper mt-4 ps-sm-5">
-                {% include 'entry/comment/_form.html.twig' %}
-                {% include 'entry/comment/_form_delete.html.twig' %}
-            </div>
-        {% endblock %}
-    {% endembed %}
+    {{ component('entry_comment', {
+        comment: comment,
+        showEntryTitle: false,
+        showMagazineName: false
+    }) }}
+    {% include 'layout/_flash.html.twig' %}
+    <section id="content" class="section">
+        {% include 'entry/comment/_form_comment.html.twig' with {edit: true} %}
+    </section>
 {% endblock %}

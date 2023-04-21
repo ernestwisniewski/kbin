@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'moderate'|trans }} - {{ entry.title }} - {{ magazine.title }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-entry-moderate{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <div id="content">
+        {{ component('entry', {
+            entry: entry,
+            isSingle: true,
+            showShortSentence: false,
+            showBody:true,
+            moderate:true,
+            class: 'section--top'
+        }) }}
+        {% include 'layout/_flash.html.twig' %}
+        {% include 'entry/_moderate_panel.html.twig' %}
+    </div>
+{% endblock %}

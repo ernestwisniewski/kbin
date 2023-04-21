@@ -1,0 +1,35 @@
+.vote {
+  display: grid;
+  gap: .5rem;
+  grid-template-rows: min-content min-content;
+
+  .active.vote__up button {
+    color: var(--kbin-success-color);
+  }
+
+  .active.vote__down button {
+    color: var(--kbin-danger-color);
+  }
+
+  button {
+    background-color: var(--kbin-vote-bg);
+    border: 0;
+    color: var(--kbin-vote-text-color);
+    cursor: pointer;
+    font-weight: bold;
+    height: 1.9rem;
+    margin: 0;
+    padding: 0;
+    width: 4rem;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--kbin-vote-text-hover-color);
+    }
+
+    span {
+      font-weight: normal;
+    }
+  }
+}
+

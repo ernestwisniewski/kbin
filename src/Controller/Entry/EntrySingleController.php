@@ -6,11 +6,16 @@ namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
 use App\Controller\Traits\PrivateContentTrait;
+use App\Controller\User\ThemeSettingsController;
+use App\DTO\EntryCommentDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Event\Entry\EntryHasBeenSeenEvent;
+use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
+use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
+use App\Service\MentionManager;
 use Pagerfanta\PagerfantaInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -46,6 +51,14 @@ class EntrySingleController extends AbstractController
         $criteria->showSortOption($criteria->resolveSort($sortBy));
         $criteria->entry = $entry;
 
+        if (ThemeSettingsController::CHAT === $request->cookies->get(
+                ThemeSettingsController::ENTRY_COMMENTS_VIEW
+            )) {
+            $criteria->showSortOption(Criteria::SORT_OLD);
+            $criteria->perPage = 100;
+            $criteria->onlyParents = false;
+        }
+
         $comments = $repository->findByCriteria($criteria);
 
         $repository->hydrate(...$comments);
@@ -57,12 +70,26 @@ class EntrySingleController extends AbstractController
             return $this->getJsonResponse($magazine, $entry, $comments);
         }
 
+        $dto = new EntryCommentDto();
+        if ($this->getUser() && $this->getUser()->addMentionsEntries && $entry->user !== $this->getUser()) {
+            $dto->body = MentionManager::addHandle([$entry->user->username])[0];
+        }
+
         return $this->render(
             'entry/single.html.twig',
             [
                 'magazine' => $magazine,
                 'comments' => $comments,
                 'entry' => $entry,
+                'form' => $this->createForm(EntryCommentType::class, $dto, [
+                    'action' => $this->generateUrl(
+                        'entry_comment_create',
+                        [
+                            'magazine_name' => $entry->magazine->name,
+                            'entry_id' => $entry->getId(),
+                        ]
+                    ),
+                ])->createView(),
             ]
         );
     }

@@ -6,13 +6,14 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\DomainInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\RankingInterface;
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Contracts\TagInterface;
 use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Contracts\VoteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\Traits\ActivityPubActivityTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Entity\Traits\EditedAtTrait;
@@ -30,11 +31,12 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryRepository::class)]
-class Entry implements VoteInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
+class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
     use RankingTrait;
@@ -71,8 +73,8 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     public ?string $body = null;
     #[Column(type: 'string', nullable: false)]
     public string $type = self::ENTRY_TYPE_ARTICLE;
-    #[Column(type: 'string', nullable: true)]
-    public ?string $lang = null;
+    #[Column(type: 'string', nullable: false)]
+    public string $lang = 'en';
     #[Column(type: 'boolean', options: ['default' => false])]
     public bool $isOc = false;
     #[Column(type: 'boolean', nullable: false)]
@@ -102,10 +104,12 @@ class Entry implements VoteInterface, CommentInterface, DomainInterface, Visibil
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryComment::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $comments;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $votes;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $reports;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryFavourite::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $favourites;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryCreatedNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $notifications;

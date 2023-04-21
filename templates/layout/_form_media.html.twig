@@ -1,0 +1,24 @@
+<div class="media">
+    <div>
+        <div>
+            <i class="fa-solid fa-image"></i>
+        </div>
+    </div>
+    <div>
+        {% if form.image is defined %}
+            {{ form_row(form.image, {label: 'image'}) }}
+        {% endif %}
+        <div hidden>
+            {{ form_row(form.imageUrl, {label: 'url'}) }}
+        </div>
+        <div class="actions">
+            <button type="button" class="btn btn__secondary" data-action="media#add">
+                <i class="fa-solid fa-upload"></i> {{ 'upload_file'|trans }}
+            </button>
+            <button type="button" class="btn btn__secondary" data-action="media#add">
+                <i class="fa-solid fa-globe"></i> {{ 'from_url'|trans }}
+            </button>
+        </div>
+        {{ form_row(form.imageAlt, {label: 'image_alt'}) }}
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<footer id="footer">
+    <div class="kbin-container">
+        <section>
+            <h5>{{ kbin_domain() }}</h5>
+            <menu>
+                <li><a href="{{ path('about') }}">{{ 'about_instance'|trans }}</a></li>
+                <li><a href="{{ path('magazine_list_all') }}">{{ 'all_magazines'|trans }}</a></li>
+                <li><a href="{{ path('modlog') }}">{{ 'mod_log'|trans }}</a></li>
+                <li><a href="{{ path('stats') }}">{{ 'stats'|trans }}</a></li>
+                <li><a href="{{ path('award_list_all') }}">{{ 'awards'|trans }}</a></li>
+                <li><a href="{{ path('ranking') }}">{{ 'ranking'|trans }}</a></li>
+            </menu>
+        </section>
+        <section>
+            <h5>{{ 'useful'|trans|lower }}</h5>
+            <menu>
+                <li><a href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a></li>
+                <li>
+                    <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}">{{ 'add_new_article'|trans }}</a>
+                </li>
+                <li><a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}">{{ 'add_new_link'|trans }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}">{{ 'add_new_photo'|trans }}</a>
+                </li>
+                <li><a href="{{ path('posts_front') }}">{{ 'add_new_post'|trans }}</a></li>
+                <li><a href="#">{{ 'add_new_video'|trans }}</a></li>
+            </menu>
+        </section>
+        <section>
+            <h5>{{ 'help'|trans|lower }}</h5>
+            <menu>
+                <li><a href="{{ path('page_contact') }}">{{ 'contact'|trans }}</a></li>
+                <li><a href="{{ path('page_faq') }}">{{ 'faq'|trans }}</a></li>
+                <li><a href="{{ path('page_terms') }}">{{ 'terms'|trans }}</a></li>
+                <li><a href="{{ path('page_privacy_policy') }}">{{ 'privacy_policy'|trans }}</a></li>
+            </menu>
+        </section>
+        <section>
+            <h5>© {{ 'now'|date('Y') }} {{ kbin_domain() }}</h5>
+            <div>Powered by <a href="https://kbin.pub">kbin</a></div>
+            <div>
+                <menu>
+                    <li><a href="#"
+                           title="{{ 'change_theme'|trans }}"
+                           aria-label="{{ 'change_theme'|trans }}"><i class="fa-regular fa-lightbulb"></i></a>
+                    </li>
+                    {# @todo create component #}
+                    {% if magazine is defined and magazine %}
+                        {% set args = {'magazine': magazine.name ?? '' } %}
+                    {% elseif user is defined and user %}
+                        {% set args = {'user': user.username ?? '' } %}
+                    {% elseif tag is defined and tag %}
+                        {% set args = {'tag': tag ?? '' } %}
+                    {% elseif domain is defined and domain %}
+                        {% set args = {'domain': domain.name ?? '' } %}
+                    {% else %}
+                        {% set args = {} %}
+                    {% endif %}
+                    <li><a href="{{ path('feed_rss', args) }}"
+                           title="{{ 'rss'|trans }}"
+                           aria-label="{{ 'rss'|trans }}"><i class="fa-solid fa-rss"></i></a>
+                    </li>
+                </menu>
+            </div>
+        </section>
+    </div>
+</footer>
+

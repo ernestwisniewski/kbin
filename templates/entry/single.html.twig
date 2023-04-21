@@ -1,25 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- entry.title }} - {{ magazine.title -}}{%- endblock -%}
+{%- block title -%}
+    {{- entry.title }} - {{ magazine.title }} - {{ parent() -}}
+{%- endblock -%}
 
-{%- block description -%}{{- entry.body ? get_short_desc(entry.body) : get_author_entry_comment(entry) ? get_short_desc(get_author_entry_comment(entry).body) : '' -}}{%- endblock -%}
+{% block mainClass %}page-entry-single{% endblock %}
 
-{% block image %}{{ entry.image ? uploaded_asset(entry.image.filePath) : magazine.cover ? uploaded_asset(magazine.cover.filePath) : '' }}{% endblock %}
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    {{ component('title', {title: magazine.title, url: path('front_magazine', {name: magazine.name})}) }}
-    {% include 'magazine/_nav.html.twig' %}
-    {% include 'entry/_single.html.twig' %}
-{% endblock %}
-
-{% block sidebar %}
-    {% include 'entry/_sidebar.html.twig' %}
-
-    {{ parent() }}
-
-    {% include 'magazine/_sidebar.html.twig' %}
-{% endblock %}
-
-{% block sidebar_bottom %}
-    {{ component('related_posts_sidebar', {tag: magazine.name}) }}
+    <div id="content">
+        {{ component('entry', {
+            entry: entry,
+            isSingle: true,
+            showShortSentence: false,
+            showBody:true
+        }) }}
+        {% include 'layout/_flash.html.twig' %}
+        {% include 'entry/comment/_options.html.twig' %}
+        <div id="comments">
+            {% include 'entry/comment/_list.html.twig' %}
+        </div>
+        <div id="comment-add" class="section">
+            {% include 'entry/comment/_form_comment.html.twig' %}
+        </div>
+        {% include 'entry/_options_activity.html.twig' %}
+    </div>
 {% endblock %}

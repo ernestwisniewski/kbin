@@ -17,7 +17,7 @@ class UserNotificationController extends AbstractController
     public function notifications(NotificationRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/notifications.html.twig',
+            'notifications/front.html.twig',
             [
                 'notifications' => $repository->findByUser($this->getUserOrThrow(), $this->getPageNb($request)),
             ]

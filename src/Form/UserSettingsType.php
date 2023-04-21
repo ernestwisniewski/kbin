@@ -26,81 +26,70 @@ class UserSettingsType extends AbstractType
     {
         $builder
             ->add(
-                'darkTheme',
-                CheckboxType::class
-            )
-            ->add(
-                'turboMode',
-                CheckboxType::class
-            )
-            ->add(
-                'hideImages',
-                CheckboxType::class
-            )
-            ->add(
                 'hideAdult',
-                CheckboxType::class
-            )
-            ->add(
-                'hideUserAvatars',
-                CheckboxType::class
-            )
-            ->add(
-                'hideMagazineAvatars',
-                CheckboxType::class
-            )
-            ->add(
-                'rightPosImages',
-                CheckboxType::class
-            )
-            ->add(
-                'entryPopup',
-                CheckboxType::class
-            )
-            ->add(
-                'postPopup',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add('homepage', ChoiceType::class, [
+                    'autocomplete' => true,
                     'choices' => [
-                        $this->translator->trans('topbar.all') => User::HOMEPAGE_ALL,
-                        $this->translator->trans('topbar.subscriptions') => User::HOMEPAGE_SUB,
-                        $this->translator->trans('topbar.moderated') => User::HOMEPAGE_MOD,
+                        $this->translator->trans('all') => User::HOMEPAGE_ALL,
+                        $this->translator->trans('subscriptions') => User::HOMEPAGE_SUB,
+                        $this->translator->trans('favourites') => User::HOMEPAGE_FAV,
+                        $this->translator->trans('moderated') => User::HOMEPAGE_MOD,
                     ],
                 ]
             )
-            ->add('featuredMagazines', TextareaType::class)
+            ->add('featuredMagazines', TextareaType::class, ['required' => false])
             ->add(
                 'showProfileSubscriptions',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add(
                 'showProfileFollowings',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewEntry',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewEntryReply',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewEntryCommentReply',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewPost',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewPostReply',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add(
                 'notifyOnNewPostCommentReply',
-                CheckboxType::class
+                CheckboxType::class,
+                ['required' => false]
+            )
+            ->add(
+                'addMentionsEntries',
+                CheckboxType::class,
+                ['required' => false]
+            )
+            ->add(
+                'addMentionsPosts',
+                CheckboxType::class,
+                ['required' => false]
             )
             ->add('submit', SubmitType::class);
 

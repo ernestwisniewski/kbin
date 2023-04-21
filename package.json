@@ -1,22 +1,22 @@
 {
   "devDependencies": {
+    "@babel/core": "^7.17.0",
+    "@babel/preset-env": "^7.16.0",
     "@hotwired/stimulus": "^3.0.0",
-    "@hotwired/turbo": "^7.0.1",
-    "@symfony/stimulus-bridge": "^3.0.0",
+    "@symfony/stimulus-bridge": "^3.2.0",
     "@symfony/ux-autocomplete": "file:vendor/symfony/ux-autocomplete/assets",
     "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/assets",
-    "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/assets",
-    "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
-    "@symfony/webpack-encore": "^1.7.0",
-    "bootstrap": "^5.2.2",
+    "@symfony/webpack-encore": "^4.0.0",
     "chart.js": "^3.4.1",
-    "core-js": "^3.0.0",
+    "core-js": "^3.23.0",
     "file-loader": "^6.0.0",
-    "node-sass": "^7.0.1",
-    "regenerator-runtime": "^0.13.2",
-    "sass-loader": "^12.0.0",
+    "regenerator-runtime": "^0.13.9",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.0.0",
     "tom-select": "^2.2.2",
-    "webpack-notifier": "^1.6.0"
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-notifier": "^1.15.0"
   },
   "license": "UNLICENSED",
   "private": true,
@@ -27,23 +27,10 @@
     "build": "encore production --progress"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.2.0",
-    "@popperjs/core": "^2.6.0",
-    "codemirror-spell-checker": "TristanPouliquen/codemirror-spell-checker",
-    "easymde": "^2.18.0",
+    "@fortawesome/fontawesome-free": "^6.3.0",
+    "@github/markdown-toolbar-element": "^2.1.1",
     "glightbox": "^3.2.0",
-    "imagesloaded": "^5.0.0",
-    "js-cookie": "^2.2.1",
-    "masonry-layout": "^4.2.2",
-    "stimulus-animated-number": "^4.0.0",
-    "stimulus-character-counter": "^4.0.0",
-    "stimulus-clipboard": "^3.0.0",
-    "stimulus-read-more": "^3.0.0",
-    "stimulus-reveal-controller": "^4.0.0",
-    "stimulus-scroll-progress": "^4.0.0",
-    "stimulus-timeago": "^4.0.0",
-    "stimulus-use": "^0.50.0-2",
-    "timed-cache": "^2.0.0",
-    "vanillajs-datepicker": "^1.1.2"
+    "stimulus-use": "^0.52.0",
+    "timeago.js": "^4.0.2"
   }
 }

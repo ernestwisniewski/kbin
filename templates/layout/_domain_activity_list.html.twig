@@ -1,0 +1,26 @@
+{% if actor is not defined %}
+    {% set actor = 'magazine' %}
+{% endif %}
+
+{% if list|length %}
+    <div class="section domains domains-columns">
+        <ul>
+            {% for subject in list %}
+                <li>
+                    <div>
+                        <a href="{{ path('domain_entries', {name: attribute(subject, actor).name}) }}"
+                           class="stretched-link">{{ attribute(subject, actor).name }}</a>
+                        <small>{{ component('date', {date: subject.createdAt}) }}</small>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if(list.haveToPaginate is defined and list.haveToPaginate) %}
+        {{ pagerfanta(list, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+{% else %}
+    <aside class="section section--muted">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

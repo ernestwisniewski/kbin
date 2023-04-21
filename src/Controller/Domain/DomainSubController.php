@@ -27,12 +27,7 @@ class DomainSubController extends AbstractController
         $this->manager->subscribe($domain, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount' => $domain->subscriptionsCount,
-                    'isSubscribed' => true,
-                ]
-            );
+            return $this->getJsonResponse($domain);
         }
 
         return $this->redirectToRefererOrHome($request);
@@ -46,14 +41,26 @@ class DomainSubController extends AbstractController
         $this->manager->unsubscribe($domain, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'subCount' => $domain->subscriptionsCount,
-                    'isSubscribed' => false,
-                ]
-            );
+            return $this->getJsonResponse($domain);
         }
 
         return $this->redirectToRefererOrHome($request);
+    }
+
+    private function getJsonResponse(Domain $domain): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'domain_sub',
+                        'attributes' => [
+                            'domain' => $domain,
+                        ],
+                    ]
+                ),
+            ]
+        );
     }
 }

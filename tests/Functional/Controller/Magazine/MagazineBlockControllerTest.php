@@ -1,95 +1,69 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Magazine;
 
-use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
 class MagazineBlockControllerTest extends WebTestCase
 {
-    public function testUserCanBlockAndUnblockMagazine(): void // @todo
+    public function testUserCanBlockAndUnblockMagazine(): void
     {
-        $client  = $this->createClient();
-        $manager = static::getContainer()->get(MagazineManager::class);
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        $user2 = $this->getUserByUsername('JaneDoe');
-        $user3 = $this->getUserByUsername('MaryJane');
-
-        $magazine  = $this->getMagazineByName('acme', $user2);
-        $magazine2 = $this->getMagazineByName('kuchnia', $user2);
-        $magazine3 = $this->getMagazineByName('muzyka', $user2);
-
-        $this->getEntryByTitle('treść 2', null, null, $magazine, $user2);
-        $this->getEntryByTitle('treść 3', null, null, $magazine2, $user3);
-        $this->getEntryByTitle('treść 4', null, null, $magazine3, $user2);
-        $this->getEntryByTitle('treść 4', null, null, $magazine, $user3);
-        $this->getEntryByTitle('treść 5', null, null, $magazine3, $user);
-        $this->getEntryByTitle('treść 1', null, null, $magazine, $user);
-
-        $manager->subscribe($magazine, $user);
+        $this->getMagazineByName('acme');
 
         $crawler = $client->request('GET', '/m/acme');
 
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '2');
-
-        $client->submit(
-            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block ')->selectButton('')->form()
-        );
-
+        // Block magazine
+        $client->submit($crawler->filter('#sidebar form[name=magazine_block] button')->form());
         $crawler = $client->followRedirect();
+        $this->assertSelectorExists('#sidebar form[name=magazine_block] .active');
 
-        $this->assertStringContainsString('kbin-block--active', $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->attr('class'));
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
-
-        $client->submit(
-            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block ')->selectButton('')->form()
-        );
-
-        $crawler = $client->followRedirect();
-
-        $this->assertStringNotContainsString(
-            'kbin-block--active',
-            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->attr('class')
-        );
-        $this->assertSelectorTextContains('.kbin-magazine-header .kbin-sub', '1');
+        // Unblock magazine
+        $client->submit($crawler->filter('#sidebar form[name=magazine_block] button')->form());
+        $client->followRedirect();
+        $this->assertSelectorNotExists('#sidebar form[name=magazine_block] .active');
     }
 
-    public function testXmlUserCanBlockAndUnblockMagazine(): void // @todo
+    public function testXmlUserCanBlockMagazine(): void
     {
         $client = $this->createClient();
-        $client->loginUser($user = $this->getUserByUsername('JohnDoe'));
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        $user2 = $this->getUserByUsername('JaneDoe');
+        $this->getMagazineByName('acme');
 
-        $magazine = $this->getMagazineByName('acme', $user2);
-        $entry    = $this->getEntryByTitle('treść 2', null, null, $magazine, $user2);
+        $crawler = $client->request('GET', '/m/acme');
 
-        $id = $entry->getId();
-        $client->request('GET', "/m/acme/t/$id/-/");
+        $client->submit($crawler->filter('#sidebar form[name=magazine_block] button')->form());
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar form[name=magazine_block] button')->form());
 
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringContainsString('active', $client->getResponse()->getContent());
+    }
+
+    public function testXmlUserCanUnblockMagazine(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
+
+        $this->getMagazineByName('acme');
+
+        $crawler = $client->request('GET', '/m/acme');
+
+        // Block magazine
+        $client->submit($crawler->filter('#sidebar form[name=magazine_block] button')->form());
         $crawler = $client->followRedirect();
 
+        // Unblock magazine
+        $client->submit($crawler->filter('#sidebar form[name=magazine_block] button')->form());
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar form[name=magazine_block] button')->form());
 
-        $client->submit(
-            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->selectButton('')->form()
-        );
-
-        $this->assertStringContainsString('{"isBlocked":true}', $client->getResponse()->getContent());
-
-        $client->setServerParameter('HTTP_X-Requested-With', 'none');
-
-        $client->request('GET', "/m/acme/t/$id/-/");
-
-        $crawler = $client->followRedirect();
-
-        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
-
-        $client->submit(
-            $crawler->filter('.kbin-sidebar .kbin-magazine .kbin-magazine-block')->selectButton('')->form()
-        );
-
-        $this->assertStringContainsString('{"isBlocked":false}', $client->getResponse()->getContent());
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('active', $client->getResponse()->getContent());
     }
 }

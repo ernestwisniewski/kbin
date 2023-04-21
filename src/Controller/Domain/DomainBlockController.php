@@ -27,11 +27,7 @@ class DomainBlockController extends AbstractController
         $this->manager->block($domain, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => true,
-                ]
-            );
+            return $this->getJsonResponse($domain);
         }
 
         return $this->redirectToRefererOrHome($request);
@@ -45,13 +41,26 @@ class DomainBlockController extends AbstractController
         $this->manager->unblock($domain, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'isBlocked' => false,
-                ]
-            );
+            return $this->getJsonResponse($domain);
         }
 
         return $this->redirectToRefererOrHome($request);
+    }
+
+    private function getJsonResponse(Domain $domain): JsonResponse
+    {
+        return new JsonResponse(
+            [
+                'html' => $this->renderView(
+                    'components/_ajax.html.twig',
+                    [
+                        'component' => 'domain_sub',
+                        'attributes' => [
+                            'domain' => $domain,
+                        ],
+                    ]
+                ),
+            ]
+        );
     }
 }

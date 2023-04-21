@@ -1,0 +1,10 @@
+{% if users|length %}
+    <section class="section active-users">
+        <h3>{{ 'active_users'|trans }}</h3>
+        <div>
+            {% for user in users %}
+                {{ component('user_avatar', {user: user, width: 65, height: 65, asLink: true}) }}
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}

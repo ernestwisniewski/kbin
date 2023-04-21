@@ -1,25 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'reports'|trans }} | /m/{{ magazine.name }} | {{ parent() -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'reports'|trans }} - {{ 'magazine_panel'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    {% from '_layout/_not_found.html.twig' import not_found %}
+{% block mainClass %}page-magazine-panel page-magazine-reports{% endblock %}
 
-    <div class="kbin-magazine-bans-page">
-        {% include 'magazine/panel/_tabs.html.twig' %}
-        {% include '_layout/_flash.html.twig' %}
-        {% if(reports|length) %}
-            <div class="kbin-magazine-bans mt-lg-4">
-                {% include 'magazine/panel/_reports_list_table.html.twig' %}
-            </div>
-        {% else %}
-            {{ not_found() }}
-        {% endif %}
-    </div>
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
+{% block sidebar_top %}
+{% endblock %}
 
-    {% include 'magazine/_sidebar.html.twig' %}
+{% block body %}
+    {% include 'magazine/panel/_options.html.twig' %}
+
+    <h1 hidden>{{ 'reports'|trans }}</h1>
+    <div id="content">
+        {% for report in reports %}
+            <div class="{{ html_classes('section section--small report') }}">
+                <div>
+                    <small class="meta">{{ component('user_inline', {user: report.reporting}) }},
+                        {{ component('date', {date: report.createdAt}) }}</small>
+                </div>
+                <div>
+                    <small class="meta">{% include 'layout/_subject_link.html.twig' with {subject: report.subject} -%}</small>
+                </div>
+                <div>
+                    {{ report.reason }}
+                </div>
+                <div class="actions">
+                    <form method="post"
+                          action="{{ path('magazine_panel_report_reject', {'magazine_name': report.subject.magazine.name, 'report_id': report.id}) }}"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('report_decline') }}">
+                        <button type="submit" class="btn btn__secondary">{{ 'reject'|trans }}</button>
+                    </form>
+                    <form method="post"
+                          action="{{ path('magazine_panel_report_approve', {'magazine_name': report.subject.magazine.name, 'report_id': report.id} ) }}"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('report_approve') }}">
+                        <button type="submit" class="btn btn__secondary">{{ 'approve'|trans }}</button>
+                    </form>
+                    <a href="{{ path('magazine_panel_ban', {'name': report.subject.magazine.name, 'username': report.reported.username}) }}"
+                       class="btn btn__secondary">{{ 'ban'|trans }} ({{ report.reported.username|username(true) }})</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% if(reports.haveToPaginate is defined and reports.haveToPaginate) %}
+            {{ pagerfanta(reports, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
+        {% if not reports|length %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+    </div>
 {% endblock %}

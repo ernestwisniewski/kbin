@@ -13,10 +13,11 @@ use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class AnnounceHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class AnnounceHandler
 {
     public function __construct(
         private readonly ActivityPubManager $activityPubManager,

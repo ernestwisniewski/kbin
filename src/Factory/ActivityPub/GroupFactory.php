@@ -67,10 +67,10 @@ class GroupFactory
                 : $magazine->createdAt->format(DATE_ATOM),
         ];
 
-        if ($magazine->cover) {
+        if ($magazine->icon) {
             $group['icon'] = [
                 'type' => 'Image',
-                'url' => $this->imageManager->getUrl($magazine->cover),
+                'url' => $this->imageManager->getUrl($magazine->icon),
             ];
         }
 

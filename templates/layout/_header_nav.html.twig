@@ -1,0 +1,46 @@
+{% if header_nav is empty %}
+    <li>
+        {% include 'layout/_header_bread.html.twig' %}
+    </li>
+    <li>
+        <a href="{{ navbar_threads_url() }}"
+           class="{{ html_classes({'active': not is_route_name_contains('user_') and (is_route_name_starts_with('front') or is_route_name_contains('_entries') or entry is defined and entry)}) }}">
+            {{ 'threads'|trans }} {% if magazine is defined and magazine %}({{ magazine.entryCount }}){% endif %}
+        </a>
+    </li>
+    <li>
+        <a href="{{ navbar_posts_url() }}"
+           class="{{ html_classes({'active': (is_route_name('posts_front') or is_route_name_contains('posts') or post is defined)  and not is_route_name_contains('user') }) }}">
+            {{ 'microblog'|trans }} {% if magazine is defined and magazine %}({{ magazine.postCount }}){% endif %}
+        </a>
+    </li>
+    {#                <li> #}
+    {#                    <a href="#"> #}
+    {#                        {{ 'events'|trans }} #}
+    {#                    </a> #}
+    {#                </li> #}
+    <li>
+        <a href="{{ navbar_people_url() }}"
+           class="{{ html_classes({'active': is_route_name_contains('people') or user is defined and not is_route_name_contains('messages')}) }}">
+            {{ 'people'|trans }}
+        </a>
+    </li>
+    {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is not same as 'true' %}
+        <li>
+            <a href="{{ path('magazine_list_all') }}"
+               class="{{ html_classes({'active': is_route_name('magazine_list_all') }) }}">
+                {{ 'magazines'|trans }}
+            </a>
+        </li>
+    {% endif %}
+    <li class="sidebar-link">
+        <a href="#sidebar">
+            {{ 'sidebar'|trans }}
+        </a>
+    </li>
+{% else %}
+    <li>
+        {% include 'layout/_header_bread.html.twig' %}
+    </li>
+    {{ header_nav|raw }}
+{% endif %}

@@ -1,0 +1,71 @@
+{% set hasImage = false %}
+{% if post is defined and post is not null and post.image %}
+    {% set hasImage = true %}
+{% endif %}
+{% if edit is not defined %}
+    {% set edit = false %}
+{% endif %}
+{% if edit %}
+    {% set title = 'edit_post'|trans %}
+    {% set action = path('post_edit', {magazine_name: post.magazine.name, post_id: post.id}) %}
+{% else %}
+    {% set title = 'add_post'|trans %}
+    {% set action = path('post_create') %}
+{% endif %}
+
+{% if attributes is not defined %}
+    {% set attributes = {} %}
+{% endif %}
+
+<h3 hidden>{{ title }}</h3>
+{{ form_start(form, {action: action, attr: {class: edit ? 'post-edit replace' : 'post-add'}|merge(attributes)}) }}
+<div class="row">
+    {{ component('editor_toolbar', {id: 'post_body'}) }}
+    {{ form_row(form.body, {label: false}) }}
+</div>
+<div class="row params">
+    {{ form_row(form.isAdult, {label:'is_adult'}) }}
+    {{ form_row(form.magazine, {label: false, attr: {placeholder: false}}) }}
+</div>
+<div class="row actions">
+    <ul>
+        <li>
+            <button type="button"
+                    class="btn btn__secondary"
+                    aria-label="{{ 'markdown_howto'|trans }}"
+                    title="{{ 'markdown_howto'|trans }}">
+                <i class="fa-solid fa-circle-question"></i>
+            </button>
+        </li>
+        {% if hasImage %}
+            <img width="40"
+                 height="40"
+                 src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
+                 alt="{{ post.image.altText }}">
+            <button formaction="{{ path('post_image_delete', {magazine_name: post.magazine.name, post_id: post.id}) }}"
+                    class="btn-link"
+                    data-action="subject#removeImage"
+                    onclick="return confirm('{{ 'are_you_sure'|trans }}');">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        {% endif %}
+        <li class="{{ html_classes('dropdown', {'hidden': hasImage}) }}">
+            <button type="button"
+                    class="btn btn__secondary"
+                    aria-label="{{ 'add_media'|trans }}"
+                    title="{{ 'add_media'|trans }}">
+                <i class="fa-solid fa-photo-film"></i>
+            </button>
+            <div class="dropdown__menu">
+                {% include 'layout/_form_media.html.twig' %}
+            </div>
+        </li>
+        <li class="select">
+            {{ form_row(form.lang, {label: false}) }}
+        </li>
+        <li>
+            {{ form_row(form.submit, {label: edit ? 'edit_post' : 'add_post', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}}) }}
+        </li>
+    </ul>
+</div>
+{{ form_end(form) }}

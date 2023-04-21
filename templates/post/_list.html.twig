@@ -1,27 +1,27 @@
-{% from '_layout/_not_found.html.twig' import not_found %}
-
-<div class="kbin-post-list" data-controller="post-list"
-     data-action="notify:PostCreatedNotification@window->post-list#add scroll-top:up@window->post-list#refresh"
-     data-post-list-counter-value="{{is_active_sort_option('sort.active'|trans|lower, false) or is_active_sort_option('sort.newest'|trans|lower, false) ? 'true' : 'false'}}"
-     {% if magazine is defined and magazine %}data-post-list-magazine-name-value="{{ magazine.name }}"{% endif %}>
-    {% if posts|length %}
-        {% for post in posts %}
-            {{ component('post', {post: post, extraClass: 'kbin-post-list-item', showBestComments: true, showMagazine: magazine is not defined, index: loop.index }) }}
-        {% endfor %}
-    {% else %}
-        {{ not_found() }}
-    {% endif %}
-    {% if(posts.haveToPaginate) %}
-        {% set infiniteScroll = app.request.cookies.has('user_option_infinite_scroll') ? app.request.cookies.get('user_option_infinite_scroll') : 'false' %}
-        <div data-controller="infinite-scroll">
-            <div class="text-center my-4" data-infinite-scroll-target="loading" style="display: none">
-                <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
+<div data-controller="subject-list"
+     data-action="notifications:PostCreatedNotification@window->subject-list#addMainSubject notifications:PostCommentCreatedNotification@window->subject-list#addCommentOverview">
+    {% for post in posts %}
+        {{ component('post', {
+            post: post,
+            showMagazineName: magazine is not defined or not magazine,
+            showCommentsPreview: true
+        }) }}
+    {% endfor %}
+    {% if(posts.haveToPaginate is defined and posts.haveToPaginate) %}
+        {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
+            <div data-controller="infinite-scroll" class="infinite-scroll">
+                {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
+                <div data-infinite-scroll-target="pagination" class="visually-hidden">
+                    {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
                 </div>
             </div>
-            <div style="visibility: {{ infiniteScroll is same as 'false' ? 'visible' : 'hidden' }}">
-                {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
-            </div>
-        </div>
+        {% else %}
+            {{ pagerfanta(posts, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
+    {% endif %}
+    {% if not posts|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
     {% endif %}
 </div>

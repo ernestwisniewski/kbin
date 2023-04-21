@@ -7,6 +7,10 @@ namespace App\Controller\Cardano;
 use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class CardanoController extends AbstractController
 {
     protected function send(Response $response): Response

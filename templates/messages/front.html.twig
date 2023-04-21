@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'messages'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-messages{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'messages'|trans }}</h1>
+    {% for thread in threads %}
+        <div class="{{ html_classes('section section--small thread', {'opacity-50': not thread.countNewMessages(app.user) }) }}">
+            <div>
+                {{ (thread.messages|length - 1)|format_number }} {{ 'replies'|trans }}
+                - {{ component('user_inline', {user: thread.otherParticipants(app.user)[0]}) }} - <a
+                        href="{{ path('messages_single', {'id': thread.id}) }}">{{ thread.title }}</a>
+            </div>
+            <span>{{ component('date', {date: thread.updatedAt}) }}</span>
+        </div>
+    {% endfor %}
+    {% if(threads.haveToPaginate is defined and threads.haveToPaginate) %}
+        {{ pagerfanta(threads, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not threads|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+{% endblock %}

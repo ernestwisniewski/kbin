@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Post;
 
 use App\Controller\AbstractController;
-use App\Entity\Magazine;
 use App\Form\PostType;
 use App\Repository\Criteria;
 use App\Service\CloudflareIpResolver;
@@ -24,15 +23,13 @@ class PostCreateController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[IsGranted('create_content', subject: 'magazine')]
-    public function __invoke(Magazine $magazine, Request $request): Response
+    public function __invoke(Request $request): Response
     {
         $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
-            $dto->magazine = $magazine;
             $dto->ip = $this->ipResolver->resolve();
 
             if (!$this->isGranted('create_content', $dto->magazine)) {
@@ -49,12 +46,14 @@ class PostCreateController extends AbstractController
             return $this->redirectToRoute(
                 'magazine_posts',
                 [
-                    'name' => $magazine->name,
+                    'name' => $dto->magazine->name,
                     'sortBy' => $this->manager->getSortRoute(Criteria::SORT_NEW),
                 ]
             );
         }
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->render('post/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

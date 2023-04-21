@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class BestCommentsApiSubscriber implements EventSubscriberInterface
+final class BestCommentsApiSubscriber
 {
     public function __construct(
         private readonly PostRepository $repository,

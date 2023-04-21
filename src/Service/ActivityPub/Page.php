@@ -12,6 +12,7 @@ use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
 use App\Service\EntryManager;
+use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Page
@@ -22,7 +23,8 @@ class Page
         private readonly MagazineRepository $magazineRepository,
         private readonly EntryManager $entryManager,
         private readonly ActivityPubManager $activityPubManager,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SettingsManager $settingsManager,
     ) {
     }
 
@@ -52,6 +54,14 @@ class Page
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleUrl($dto, $object);
         $this->handleDate($dto, $object['published']);
+
+        if (!empty($object['language'])) {
+            $dto->lang = $object['language']['identifier'];
+        }elseif (!empty($object['contentMap'])) {
+            $dto->lang = array_keys($object['contentMap'])[0];
+        } else {
+            $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
+        }
 
         return $this->entryManager->create(
             $dto,

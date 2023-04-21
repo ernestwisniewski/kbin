@@ -21,10 +21,13 @@ abstract class Criteria
     public const SORT_ACTIVE = 'active';
     public const SORT_HOT = 'hot';
     public const SORT_NEW = 'newest';
+    public const SORT_DEFAULT = self::SORT_HOT;
+
     public const SORT_OLD = 'oldest';
     public const SORT_TOP = 'top';
     public const SORT_COMMENTED = 'commented';
 
+    public const TIME_3_HOURS = '3hours';
     public const TIME_6_HOURS = '6hours';
     public const TIME_12_HOURS = '12hours';
     public const TIME_DAY = 'day';
@@ -109,12 +112,14 @@ abstract class Criteria
             'hot' => Criteria::SORT_HOT,
             'active' => Criteria::SORT_ACTIVE,
             'newest' => Criteria::SORT_NEW,
+            'oldest' => Criteria::SORT_OLD,
             'commented' => Criteria::SORT_COMMENTED,
 
             'ważne' => Criteria::SORT_TOP,
             'gorące' => Criteria::SORT_HOT,
             'aktywne' => Criteria::SORT_ACTIVE,
             'najnowsze' => Criteria::SORT_NEW,
+            'najstarsze' => Criteria::SORT_OLD,
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
 
@@ -125,6 +130,7 @@ abstract class Criteria
     {
         // @todo
         $routes = [
+            '3h' => Criteria::TIME_3_HOURS,
             '6h' => Criteria::TIME_6_HOURS,
             '12h' => Criteria::TIME_12_HOURS,
             '1d' => Criteria::TIME_DAY,
@@ -134,6 +140,7 @@ abstract class Criteria
             '∞' => Criteria::TIME_ALL,
             'all' => Criteria::TIME_ALL,
             'wszystko' => Criteria::TIME_ALL,
+            '3g' => Criteria::TIME_3_HOURS,
             '6g' => Criteria::TIME_6_HOURS,
             '12g' => Criteria::TIME_12_HOURS,
             '1t' => Criteria::TIME_WEEK,
@@ -161,8 +168,8 @@ abstract class Criteria
             'artykuł' => Entry::ENTRY_TYPE_ARTICLE,
             'artykuły' => Entry::ENTRY_TYPE_ARTICLE,
             'linki' => Entry::ENTRY_TYPE_LINK,
-            'zdjęcie' => Entry::ENTRY_TYPE_IMAGE,
-            'zdjęcia' => Entry::ENTRY_TYPE_IMAGE,
+            'obraz' => Entry::ENTRY_TYPE_IMAGE,
+            'obrazy' => Entry::ENTRY_TYPE_IMAGE,
         ];
 
         return $routes[$value] ?? null;
@@ -197,6 +204,7 @@ abstract class Criteria
             Criteria::TIME_DAY => $since->modify('-1 day'),
             Criteria::TIME_12_HOURS => $since->modify('-12 hours'),
             Criteria::TIME_6_HOURS => $since->modify('-6 hours'),
+            Criteria::TIME_3_HOURS => $since->modify('-3 hours'),
             default => throw new \LogicException(),
         };
     }

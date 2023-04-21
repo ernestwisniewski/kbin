@@ -9,7 +9,6 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,15 +23,6 @@ class EntryCommentFavouriteController extends AbstractController
         EntryComment $comment,
         Request $request
     ): Response {
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse([
-                'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $comment->votes,
-                    'more' => null,
-                ]),
-            ]);
-        }
-
         return $this->render('entry/comment/favourites.html.twig', [
             'magazine' => $magazine,
             'entry' => $entry,

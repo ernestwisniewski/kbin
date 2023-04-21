@@ -52,8 +52,8 @@ class PostCreateSubscriber implements EventSubscriberInterface
                 break;
             }
 
-            if ($magazines = $this->magazineRepository->findByTag($tag)) {
-                $this->postManager->changeMagazine($post, $magazines[array_rand($magazines)]);
+            if ($magazine = $this->magazineRepository->findByTag($tag)) {
+                $this->postManager->changeMagazine($post, $magazine);
                 break;
             }
         }

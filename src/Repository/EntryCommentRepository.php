@@ -26,7 +26,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @method EntryComment|null find($id, $lockMode = null, $lockVersion = null)
@@ -131,16 +131,16 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
                 ->setParameter('user', $criteria->user);
         }
 
-        if ($criteria->tag) {
-            $qb->andWhere("JSONB_CONTAINS(c.tags, '\"".$criteria->tag."\"') = true");
-        }
-
         $qb->join('c.entry', 'ce');
 
         if ($criteria->domain) {
             $qb->andWhere('ced.name = :domain')
                 ->join('ce.domain', 'ced')
                 ->setParameter('domain', $criteria->domain);
+        }
+
+        if ($criteria->tag) {
+            $qb->andWhere("JSONB_CONTAINS(c.tags, '\"".$criteria->tag."\"') = true");
         }
 
         if ($criteria->subscribed) {
@@ -214,11 +214,15 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
             case Criteria::SORT_NEW:
                 $qb->orderBy('c.createdAt', 'DESC');
                 break;
+            case Criteria::SORT_OLD:
+                $qb->orderBy('c.createdAt', 'ASC');
+                break;
             default:
                 $qb->addOrderBy('c.lastActive', 'DESC');
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
+        $qb->addOrderBy('c.id', 'DESC');
 
         return $qb;
     }

@@ -10,8 +10,7 @@ use App\Validator\Unique;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @Unique({"magazine", "user"}, entityClass="App\Entity\Moderator",
- *     message="Moderator istnieje", errorPath="user")
+ * @Unique({"magazine", "user"}, entityClass="App\Entity\Moderator", errorPath="user")
  */
 class ModeratorDto
 {

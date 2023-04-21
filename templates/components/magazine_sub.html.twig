@@ -1,0 +1,25 @@
+<aside{{ attributes.defaults({class: 'magazine__subscribe', 'data-controller': 'subs'}) }}>
+    <div><i class="fa-solid fa-users"></i> {{ magazine.subscriptionsCount }}</div>
+    <form action="{{ path('magazine_' ~ (is_magazine_subscribed(magazine) ? 'unsubscribe' : 'subscribe'), {name: magazine.name}) }}"
+          name="magazine_subscribe"
+          method="post">
+        <button type="submit"
+                class="{{ html_classes('btn btn__secondary', {'active': is_magazine_subscribed(magazine)}) }}"
+                data-action="subs#send">
+            {{ is_magazine_subscribed(magazine) ? 'unsubscribe'|trans : 'subscribe'|trans }}
+        </button>
+        <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
+    </form>
+    <form action="{{ path('magazine_' ~ (is_magazine_blocked(magazine) ? 'unblock' : 'block'), {name: magazine.name}) }}"
+          name="magazine_block"
+          method="post">
+        <button type="submit"
+                aria-label="{{ 'block_magazine' }}"
+                title="{{ 'block_magazine' }}"
+                class="{{ html_classes('btn btn__secondary', {'active danger': is_magazine_blocked(magazine)}) }}"
+                data-action="subs#send">
+            <i class="fa-solid fa-ban"></i>
+        </button>
+        <input type="hidden" name="token" value="{{ csrf_token('block') }}">
+    </form>
+</aside>

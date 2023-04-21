@@ -1,11 +1,15 @@
-{% set hasCover = this.magazine.cover and (not app.user or not app.user.hideMagazineAvatars) %}
-
-{% if this.prefix and not hasCover %}<small class="text-muted">/m/</small>{% endif %}
-<a class="{{ this.bolded ? 'font-weight-bold' : '' }}" href="{{ path('front_magazine', {'name': this.magazine.name}) }}">
-    {%- if hasCover -%}
-        <img width="{{ this.coverWidth }}" height="{{ this.coverHeight }}" class="rounded-circle me-1 my-1"
-             src="{{ asset(this.magazine.cover.filePath) | imagine_filter('avatar_thumb') }}"
-             alt="{{ this.magazine.title }}"/>
-    {%- endif -%}
-    {{ this.magazine.name }}
+<a href="{{ path('front_magazine', {name: magazine.name}) }}"
+   class="{{ html_classes('magazine-inline', {'stretched-link': stretchedLink }) }}"
+   title="{{ ('@'~magazine.name)|username(true) }}">
+    {% if magazine.icon and showAvatar %}
+        <img width="30" height="30"
+             style="max-width: 30px; max-height: 30px;"
+             src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
+             alt="{{ magazine.name ~ ' avatar' }}">
+    {% endif %}
+    {% if fullName %}
+        {{ magazine.name }}
+    {% else %}
+        {{ ('@'~magazine.name)|username(false) -}}
+    {% endif %}
 </a>

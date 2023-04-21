@@ -1,0 +1,232 @@
+$levels: ('#ac5353', '#71ac53', '#ffa500', '#538eac', '#6253ac', '#ac53ac', '#ac5353', '#2b7070ff', '#b9ab52', '#808080ff');
+$comment-margin-xl: 1rem;
+$comment-margin-lg: .5rem;
+$comment-margin-sm: .3rem;
+
+.comment-add {
+  .row {
+    margin-bottom: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .params {
+      display: block;
+
+      div {
+        margin-bottom: 1rem;
+      }
+
+      > div:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.comment {
+  display: grid;
+  font-size: .9rem;
+  grid-gap: .5rem;
+  grid-template-areas: "avatar header vote"
+                         "avatar body body"
+                         "avatar meta meta"
+                         "avatar footer footer";
+  grid-template-columns: min-content auto min-content;
+  margin: .5rem 0;
+  padding: 1rem .5rem;
+  position: relative;
+  z-index: 2;
+
+  @include media-breakpoint-down(sm) {
+    grid-template-areas: "avatar header vote"
+                         "body body body"
+                         "meta meta meta"
+                         "footer footer footer";
+  }
+
+  &:hover,
+  &:focus-visible {
+    z-index: 3;
+  }
+
+  header {
+    color: var(--kbin-meta-text-color);
+    font-size: .8rem;
+    grid-area: header;
+    margin-bottom: .5rem;
+    opacity: .75;
+
+    a {
+      color: var(--kbin-meta-text-color);
+      font-weight: bold;
+    }
+  }
+
+  .content {
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  aside {
+    grid-area: vote;
+  }
+
+  div {
+    grid-area: body;
+
+    p {
+      margin-top: 0
+    }
+  }
+
+  > figure {
+    grid-area: avatar;
+    margin: 0;
+    width: 40px;
+
+    @include media-breakpoint-up(sm) {
+      img {
+        position: absolute;
+        border: var(--kbin-avatar-border);
+      }
+    }
+  }
+
+
+  menu {
+    column-gap: 1rem;
+    display: grid;
+    grid-area: meta;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    list-style: none;
+    opacity: .75;
+    position: relative;
+    z-index: 4;
+
+    & > a.active,
+    & > li button.active, {
+      text-decoration: underline;
+    }
+
+    button,
+    a {
+      font-size: .8rem;
+      @include kbin-btn-link;
+    }
+
+    li:first-child a {
+      padding-left: 0;
+    }
+  }
+
+  .vote {
+    display: flex;
+    gap: .5rem;
+    justify-content: flex-end;
+
+    button {
+      height: 1.2rem;
+      width: 4rem;
+    }
+  }
+
+  footer {
+    color: var(--kbin-meta-text-color);
+    font-size: .75rem;
+    font-weight: 300;
+    grid-area: footer;
+
+    menu, .boosts {
+      opacity: .75;
+    }
+
+    a {
+      @include kbin-btn-link;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    figure img {
+      margin: .5rem 0;
+      max-width: 100%;
+    }
+  }
+
+  .loader {
+    height: 20px;
+    position: absolute;
+    width: 20px;
+  }
+
+  &:hover,
+  &:focus-within {
+    header, menu, footer menu, footer .boosts {
+      @include fade-in(.5s);
+    }
+  }
+}
+
+.post-comments {
+  blockquote {
+    margin: 0;
+  }
+}
+
+.comments-tree {
+  position: relative;
+
+  blockquote {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  blockquote:last-of-type {
+    margin-bottom: .5rem;
+  }
+
+  .comment {
+    @for $i from 2 to 11 {
+      &-line--#{$i} {
+        border-left: 1px dashed unquote(nth($levels, $i));
+        bottom: 0;
+        height: 100%;
+        left: $comment-margin-lg * ($i - 1);
+        opacity: .4;
+
+        position: absolute;
+        z-index: 1;
+
+        @include media-breakpoint-up(xl) {
+          left: $comment-margin-xl * ($i - 1);
+        }
+
+        @include media-breakpoint-down(sm) {
+          left: $comment-margin-sm * ($i - 1);
+        }
+      }
+    }
+
+    @for $i from 2 to 11 {
+      &-level--#{$i} {
+        border-left: 1px solid unquote(nth($levels, $i));
+        margin-left: $comment-margin-lg * ($i - 1) !important;
+
+        @include media-breakpoint-up(xl) {
+          margin-left: $comment-margin-xl * ($i - 1) !important;
+        }
+
+        @include media-breakpoint-down(sm) {
+          margin-left: $comment-margin-sm * ($i - 1) !important;
+        }
+      }
+    }
+  }
+}
+
+aside.comments {
+  position: relative;
+}

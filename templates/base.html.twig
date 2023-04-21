@@ -1,19 +1,20 @@
-<!doctype html>
-<html lang="{{ app.request.locale }}">
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}"
+      style="font-size: {{ app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'))
+      ? app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'))~'%'
+      : '100%' }}">
 <head>
-    <title>{%- block title -%}{{- kbin_meta_title() -}}{%- endblock -%}</title>
-
-    <meta charset="utf-8">
+    <title>{%- block title -%}{{ kbin_meta_title() }}{%- endblock -%}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="{{ kbin_meta_keywords() }}">
     <meta name="description" content="{% block description %}{{ kbin_meta_description() }}{% endblock %}">
 
-    <meta property="og:url" content="{{ app.request.uri }}"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content="{{ block('title')|trim }}"/>
-    <meta property="og:description" content="{{ block('description')|trim }}"/>
-    <meta property="og:image" content="{% block image %}{{ absolute_url(asset('kbin-og.png')) }}{% endblock %}"/>
+    <meta property="og:url" content="{{ app.request.uri }}">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ block('title')|trim }}">
+    <meta property="og:description" content="{{ block('description')|trim }}">
+    <meta property="og:image" content="{% block image %}{{ absolute_url(asset('og.png')) }}{% endblock %}">
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
@@ -22,118 +23,49 @@
     {% endblock %}
 
     {% block javascripts %}
-        {% if kbin_js_enabled() %}
-            <script>
-                window.KBIN_LOGGED_IN = {{ app.user ? 'true' : 'false' }};
-                window.KBIN_USERNAME = "{{ app.user ? app.user.username : null }}";
-                window.KBIN_LOGIN = "{{ path('app_login') }}";
-                window.MERCURE_PUBLISH_URL = "{{ mercure_public_url }}";
-            </script>
-            {{ encore_entry_script_tags('app') }}
-        {% endif %}
+        {{ encore_entry_script_tags('app') }}
+        <script type="application/json" id="mercure-url">{{ mercure()|raw }}</script>
+        <script>
+            window.KBIN_USER = "{{ app.user ? app.user.username : null }}";
+            window.KBIN_MAGAZINE = "{{ magazine is defined and magazine ? magazine.name : null }}"
+            window.KBIN_ENTRY_ID = "{{ entry is defined and entry ? entry.id : null }}"
+            window.KBIN_POST_ID = "{{ post is defined and post ? post.id : null }}"
+        </script>
     {% endblock %}
-    <style>
-        #kbin {
-            background: url({{ asset('build/images/shape.png') }});
-            height: 100%;
-        }
 
-        {% if magazine is defined and magazine %}
-        {{ magazine.customCss }}
-        {% endif %}
-    </style>
-</head>
-
-{% set theme = app.request.cookies.get('theme') ?? 'kbin-light' %}
-{% if app.user %}
-    {% set theme = app.user.theme is same as 'dark' ? 'kbin-dark' : 'kbin-light' %}
-{% endif %}
-<body class="{{ theme }}">
-{% if magazine is defined and magazine %}
-    <style>
-        {{ magazine.customCss }}
-    </style>
-{% endif %}
-<div data-controller="scroll-progress" class="scroll-progress"></div>
-<div id="kbin"
-     data-controller="kbin notify-counter"
-     data-kbin-url-value="{{ path('user_profile_toggle_theme') }}"
-     data-action="notify:Notification->notify-counter#notification notify:Message->notify-counter#message"
-     data-notify-counter-hidden-class="v-hidden"
-     data-turbo="{% if app.user and app.user.mode is same as 'turbo' %}true{% else %}false{% endif %}">
-    <div class="fixed-top">
-        {% if app.request.cookies.get('user_option_topbar') is same as 'true' %}
-            {% include '_layout/_topbar.html.twig' %}
-        {% endif %}
-        {% include '_layout/_navbar.html.twig' %}
-    </div>
-
-    {% if not app.request.cookies.get('user_option_topbar') is same as 'true' %}
-        {% include '_layout/_main_menu.html.twig' %}
+    {% if magazine is defined and magazine %}
+        <style>
+            {{ magazine.customCss }}
+        </style>
     {% endif %}
-
-    <section class="kbin-container container pt-3 mt-lg-5 pb-lg-5">
-        <div class="mt-5 mt-lg-0">
-            <div class="row">
-                <main class="kbin-main col-lg-9 mb-5">
-                    {% block body %}{% endblock %}
-                </main>
-                <aside class="col-lg-3 kbin-sidebar">
-                    <div class="offcanvas offcanvas-end" id="kbin-sidebar">
-                        <div class="d-block d-lg-none kbin-sidebar--close">
-                            <button type="button" class="btn-close my-4 ms-1" data-bs-toggle="offcanvas"
-                                    data-bs-target="#kbin-sidebar"
-                                    aria-controls="kbin-nav" aria-expanded="false" aria-label="Toggle sidebar"></button>
-                        </div>
-                        <div class="mb-5 mt-5 d-lg-none">
-                        </div>
-                        {% include '_layout/_sidebar_mobile.html.twig' %}
-                        {% block sidebar %}
-                            {% include '_layout/_sidebar.html.twig' %}
-                        {% endblock %}
-                        {% block sidebar_bottom %}
-                        {% endblock %}
-                        {% block ads %}
-                            {% if not is_admin_panel_page() %}
-                                {{ component('ads') }}
-                            {% endif %}
-                        {% endblock %}
-                    </div>
-                </aside>
-            </div>
-        </div>
-    </section>
-
-    {% include '_layout/_footer.html.twig' %}
-
-    <button type="button" class="btn btn-light btn-floating btn-lg" style="display: none" id="btn-back-to-top"
-            data-controller="scroll-top" data-action="scroll-top#up">
-        <i class="fas fa-arrow-up"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light rounded-circle small visually-hidden">
-                <small class="small" id="kbin-activity-counter">0</span>
-                <span class="visually-hidden">unread notifications</span>
-            </span>
-    </button>
-
-    <div class="toast-container position-absolute top-0 end-0 p-3">
+</head>
+<body class="{{ html_classes(app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
+    ? 'theme--'~app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
+    : 'theme--dark', {
+        'rounded-edges': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'true',
+        'topbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true',
+        'fixed-navbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true',
+        'sidebar-left': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::LEFT'),
+        'dynamic-lists': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true',
+    }) }}" data-controller="kbin notifications">
+{% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
+<div id="middle" class="{%- block mainClass -%}page{%- endblock %}">
+    <div class="kbin-container">
+        <main id="main"
+              data-controller="lightbox timeago"
+              class="{{ html_classes({'view-compact': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
+            {% block body %}{% endblock %}
+        </main>
+        <aside id="sidebar">
+            {% block sidebar %}
+                {% include 'layout/_sidebar.html.twig' with {sidebar_top: block('sidebar_top')} %}
+            {% endblock %}
+        </aside>
     </div>
-
-    {#    {% if kbin_js_enabled() and not app.request.cookies.get('cookie-info') %} #}
-    {#        <div class="kbin-cookies" data-controller="cookie-info"> #}
-    {#            <div class="container py-3 text-center"> #}
-    {#                <p>Ta strona korzysta z ciasteczek (cookies), które używane są do obsługi logowania i zapamiętania motywu niezalogowanego #}
-    {#                    użytkownika.</p> #}
-    {#                <button data-action="click->cookie-info#close" type="button" class="btn btn-primary">Rozumiem</button> #}
-    {#            </div> #}
-    {#        </div> #}
-    {#    {% endif %} #}
-
-    <div aria-live="polite" aria-atomic="true" class="position-relative d-none d-lg-block">
-        <div id="kbin-toast-container"
-             class="kbin-toast-container toast-container position-fixed bottom-0 end-0 p-3 d-flex flex-column">
-
-        </div>
-    </div>
+</div>
+{% include 'layout/_footer.html.twig' %}
+{% include 'layout/_topbar.html.twig' %}
+<div id="popover" class="popover js-popover section section--small" role="dialog">
 </div>
 </body>
 </html>

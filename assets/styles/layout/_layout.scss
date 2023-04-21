@@ -1,0 +1,290 @@
+body {
+  background: var(--kbin-bg);
+  position: relative;
+}
+
+.kbin-container {
+  margin: 0 auto;
+  max-width: 1360px;
+}
+
+#middle {
+  background: var(--kbin-bg);
+
+  .kbin-container {
+    display: grid;
+    grid-template-areas: 'main sidebar';
+    grid-template-columns: 3fr 1fr;
+
+    @include media-breakpoint-up(lg) {
+      .sidebar-left & {
+        grid-template-areas: 'sidebar main';
+        grid-template-columns: 1fr 3fr;
+      }
+    }
+
+    @include media-breakpoint-down(lg) {
+      grid-template-areas: 'main main'
+                          'sidebar sidebar';
+      grid-template-columns: 1fr;
+      margin: 0 auto;
+    }
+  }
+
+  //a:focus-visible,
+  //input:focus-visible,
+  //button:focus-visible,
+  //textarea:focus-visible {
+  //  outline-color: darkorange;
+  //}
+
+  #main {
+    grid-area: main;
+    padding: 0 .5rem;
+    position: relative;
+
+    @include media-breakpoint-down(md) {
+      overflow: hidden;
+    }
+  }
+
+  #sidebar {
+    grid-area: sidebar;
+    padding: 0 .5rem;
+  }
+
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+menu {
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  margin: -3px !important;
+  overflow: hidden !important;
+  padding: 3px !important;
+
+  blockquote {
+    border-left: 2px solid var(--kbin-success-color);
+    margin: 0 0 1rem 1rem !important;
+    padding-left: 1rem;
+  }
+}
+
+main {
+  .content {
+    a {
+      color: var(--kbin-section-link-color) !important;
+    }
+  }
+}
+
+.row,
+.content {
+  position: relative;
+  word-break: break-word;
+
+  a {
+    font-size: .85rem;
+  }
+}
+
+hr {
+  border: 1px solid var(--kbin-bg);
+}
+
+.float-end {
+  text-align: right;
+}
+
+table {
+  border-collapse: collapse;
+  font-family: sans-serif;
+  font-size: .9em;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  width: 100%;
+}
+
+table thead tr {
+  font-weight: bold;
+  text-align: left;
+}
+
+table th,
+table td {
+  padding: 1.5rem 1rem;
+  position: relative;
+}
+
+table tbody tr {
+  border-bottom: var(--kbin-section-border);
+}
+
+table tbody tr:nth-of-type(even) {
+  background-color: var(--kbin-bg-nth);
+}
+
+.icon {
+  font-size: 0;
+
+  i {
+    font-size: initial;
+  }
+}
+
+figure {
+  margin: 0;
+}
+
+.rounded-edges {
+  .section,
+  .options,
+  .alert,
+  figure img,
+  input,
+  textarea,
+  select,
+  button,
+  .ts-wrapper .ts-control {
+    border-radius: .5rem !important;
+  }
+
+  .options {
+    button {
+      border-radius: 0;
+    }
+
+    menu {
+      border-radius: 0 0 0 .5rem;
+    }
+  }
+
+  .options--top,
+  .section--top {
+    border-radius: 0 0 .5rem .5rem !important;
+  }
+
+  .dropdown__menu {
+    button {
+      border-radius: 0;
+    }
+  }
+}
+
+.dot {
+  background: var(--kbin-primary-color);
+  border-radius: 50%;
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+}
+
+.opacity-50 {
+  opacity: .5;
+}
+
+.ms-1 {
+  margin-left: .5rem;
+}
+
+.me-1 {
+  margin-right: .5rem;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.z-5 {
+  z-index: 5 !important;
+}
+
+.visually-hidden {
+  visibility: hidden;
+}
+
+.loader {
+  animation: rotation 1s linear infinite;
+  border: 5px solid var(--kbin-meta-text-color);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 28px;
+  text-align: center;
+  width: 28px;
+
+  span {
+    visibility: hidden;
+  }
+}
+
+.danger, .danger i {
+  color: var(--kbin-danger-color);
+}
+
+.danger-bg {
+  background: var(--kbin-danger-color);;
+}
+
+.success,
+.success i {
+  color: var(--kbin-success-color);
+}
+
+.secondary-bg {
+  background: var(--kbin-section-bg);
+  color: var(--kbin-meta-text-color);
+}
+
+.kbin-bg {
+  background: var(--kbin-bg);
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.select div {
+  height: 100%;
+
+  select {
+    height: 100%;
+  }
+}
+
+.flex {
+  display: flex;
+  gap: .25rem;
+}
+
+pre, code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.markdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: .5rem;
+}

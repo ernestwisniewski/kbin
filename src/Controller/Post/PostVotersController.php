@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\UX\TwigComponent\ComponentAttributes;
 
 class PostVotersController extends AbstractController
 {
@@ -20,9 +21,10 @@ class PostVotersController extends AbstractController
     {
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
-                'html' => $this->renderView('_layout/_voters_inline.html.twig', [
-                    'votes' => $post->votes,
-                    'more' => null,
+                'html' => $this->renderView('components/voters_inline.html.twig', [
+                    'voters' => $post->getUpVotes()->map(fn ($vote) => $vote->user->username),
+                    'attributes' => new ComponentAttributes([]),
+                    'count' => 0,
                 ]),
             ]);
         }
@@ -30,7 +32,7 @@ class PostVotersController extends AbstractController
         return $this->render('post/voters.html.twig', [
             'magazine' => $magazine,
             'post' => $post,
-            'votes' => $post->votes,
+            'votes' => $post->getUpVotes(),
         ]);
     }
 }

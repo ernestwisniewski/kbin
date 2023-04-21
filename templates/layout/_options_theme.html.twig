@@ -1,0 +1,26 @@
+<div class="settings">
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'light'}) }}"
+       title="{{ 'light'|trans }} {{ 'theme'|trans }}"
+       aria-label="{{ 'light'|trans }} {{ 'theme'|trans }}"
+       rel="nofollow">
+        <div class="theme light"></div>
+    </a>
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'dark'}) }}"
+       title="{{ 'dark'|trans }} {{ 'theme'|trans }}"
+       aria-label="{{ 'dark'|trans }} {{ 'theme'|trans }}"
+       rel="nofollow">
+        <div class="theme dark"></div>
+    </a>
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'solarized-light'}) }}"
+       title="{{ 'solarized_light'|trans }} {{ 'theme'|trans }}"
+       aria-label="{{ 'solarized_light'|trans }} {{ 'theme'|trans }}"
+       rel="nofollow">
+        <div class="theme solarized-light"></div>
+    </a>
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'solarized-dark'}) }}"
+       title="{{ 'solarized_dark'|trans }} {{ 'theme'|trans }}"
+       aria-label="{{ 'solarized_dark'|trans }} {{ 'theme'|trans }}"
+       rel="nofollow">
+        <div class="theme solarized-dark"></div>
+    </a>
+</div>

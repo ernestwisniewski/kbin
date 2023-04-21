@@ -1,1 +1,9 @@
-{{ this.html|raw }}
+<div{{ attributes.defaults({class: 'comments post-comments comments-tree'}) }}>
+    {% for comment in comments %}
+        {{ component('post_comment', {
+            comment: comment,
+            showNested: false,
+            level: 2
+        }) }}
+    {% endfor %}
+</div>

@@ -16,7 +16,7 @@ class MessageThreadListController extends AbstractController
     public function __invoke(MessageThreadRepository $repository, Request $request): Response
     {
         return $this->render(
-            'user/profile/messages.html.twig',
+            'messages/front.html.twig',
             [
                 'threads' => $repository->findUserMessages($this->getUser(), $this->getPageNb($request)),
             ]

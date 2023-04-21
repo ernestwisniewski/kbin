@@ -22,13 +22,14 @@ class EntryDto
     public User|UserDto|null $user = null;
     public Image|ImageDto|null $image = null;
     public ?string $imageAlt = null;
+    public ?string $imageUrl = null;
     public Domain|DomainDto|null $domain = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 255)]
     public ?string $title = null;
     #[Assert\Url]
     public ?string $url = null;
-    #[Assert\Length(min: 2, max: 35000)]
+    #[Assert\Length(max: 35000)]
     public ?string $body = null;
     public ?string $lang = null;
     public int $comments = 0;
@@ -97,15 +98,5 @@ class EntryDto
         }
 
         return $type;
-    }
-
-    public function setIsEng(string $lang)
-    {
-        $this->lang = $lang ? 'en' : null;
-    }
-
-    public function isEng(): bool
-    {
-        return (bool) $this->lang;
     }
 }

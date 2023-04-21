@@ -1,9 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Command;
 
 use App\DTO\UserDto;
 use App\Repository\UserRepository;
+use App\Service\UserManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -16,10 +19,10 @@ class AdminCommandTest extends KernelTestCase
 
     public function testCreateUser(): void
     {
-        $dto                = (new UserDto())->create('actor', 'contact@example.com');
+        $dto = (new UserDto())->create('actor', 'contact@example.com');
         $dto->plainPassword = 'secret';
 
-        static::getContainer()->get('App\Service\UserManager')
+        $this->getContainer()->get(UserManager::class)
             ->create($dto, false);
 
         $this->assertFalse($this->repository->findOneByUsername('actor')->isAdmin());
@@ -35,7 +38,7 @@ class AdminCommandTest extends KernelTestCase
     {
         $application = new Application(self::bootKernel());
 
-        $this->command    = $application->find('kbin:user:admin');
-        $this->repository = static::getContainer()->get(UserRepository::class);
+        $this->command = $application->find('kbin:user:admin');
+        $this->repository = $this->getContainer()->get(UserRepository::class);
     }
 }

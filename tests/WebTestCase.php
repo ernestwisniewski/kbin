@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests;
 
@@ -16,8 +18,8 @@ abstract class WebTestCase extends BaseWebTestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->users     = new ArrayCollection();
+        $this->users = new ArrayCollection();
         $this->magazines = new ArrayCollection();
-        $this->entries   = new ArrayCollection();
+        $this->entries = new ArrayCollection();
     }
 }

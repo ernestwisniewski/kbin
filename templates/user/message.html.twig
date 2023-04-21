@@ -1,21 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- user.username }} - {{ 'messages'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'send_message'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-user-message-page">
-        <div class="row">
-            <div class="col-lg-6 mb-3">
-                {% include 'user/profile/_form_message.html.twig' %}
-            </div>
-        </div>
-    </div>
+{% block mainClass %}page-user page-user-send-message{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'user/_sidebar.html.twig' %}
-    {{ parent() }}
-    <div class="mb-4">
-        {% include 'user/_moderator_list_card.html.twig' %}
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'message'|trans }}</h1>
+    </header>
+    {% include('user/_options.html.twig') %}
+    <div id="content" class="section">
+        {% include 'messages/_form_create.html.twig' %}
     </div>
 {% endblock %}

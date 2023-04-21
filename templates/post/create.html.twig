@@ -1,16 +1,26 @@
-{% extends 'post/single.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'add_post'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'add_new_post'|trans }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    {{ parent() }}
+{% block mainClass %}page-post-create{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block before_comments %}
-    <div class="kbin-comment-edit-wrapper mt-4 ps-sm-5">
-        <h4 class="font-weight-bold">{{ 'add_new'|trans }}:</h4>
+{% block sidebar_top %}
+{% endblock %}
 
-        {% include 'post/comment/_form.html.twig' %}
-        {% include 'post/comment/_form_delete.html.twig' %}
-    </div>
+{% block body %}
+    {% if magazine is defined and magazine %}
+        <h1 hidden>{{ magazine.title }}</h1>
+        <h2 hidden>{{ get_active_sort_option()|trans }}</h2>
+    {% else %}
+        <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
+    {% endif %}
+    {% include 'layout/_flash.html.twig' %}
+    <section id="content" class="section section--top">
+        {% include 'post/_form_post.html.twig' %}
+    </section>
 {% endblock %}

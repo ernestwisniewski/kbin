@@ -148,32 +148,11 @@
     "egulias/email-validator": {
         "version": "3.1.1"
     },
-    "elasticsearch/elasticsearch": {
-        "version": "v7.13.1"
-    },
     "embed/embed": {
         "version": "dev-master"
     },
-    "ezimuel/guzzlestreams": {
-        "version": "3.0.1"
-    },
-    "ezimuel/ringphp": {
-        "version": "1.1.2"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
-    },
-    "friendsofsymfony/elastica-bundle": {
-        "version": "5.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "5.0",
-            "ref": "46c9cd2c1e07f0fcfd97e96f12b03b2e0845c4cd"
-        },
-        "files": [
-            "config/packages/fos_elastica.yaml"
-        ]
     },
     "friendsofsymfony/jsrouting-bundle": {
         "version": "2.3",
@@ -216,9 +195,6 @@
     },
     "imagine/imagine": {
         "version": "1.2.4"
-    },
-    "jolicode/elastically": {
-        "version": "v1.3.0"
     },
     "justinrainbow/json-schema": {
         "version": "5.2.12"
@@ -337,9 +313,6 @@
     "nucleos/antispam-bundle": {
         "version": "2.2.0"
     },
-    "nyholm/dsn": {
-        "version": "2.0.0"
-    },
     "oneup/flysystem-bundle": {
         "version": "3.0",
         "recipe": {
@@ -351,9 +324,6 @@
     },
     "oscarotero/html-parser": {
         "version": "v0.1.6"
-    },
-    "pagerfanta/pagerfanta": {
-        "version": "v2.7.1"
     },
     "paragonie/constant_time_encoding": {
         "version": "v2.4.0"
@@ -402,12 +372,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "react/promise": {
-        "version": "v2.8.0"
-    },
-    "ruflin/elastica": {
-        "version": "7.1.1"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -546,12 +510,12 @@
         "version": "v5.3.0"
     },
     "symfony/lock": {
-        "version": "5.2",
+        "version": "6.2",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "5.2",
-            "ref": "a1c8800e40ae735206bb14586fdd6c4630a51b8d"
+            "ref": "8e937ff2b4735d110af1770f242c1107fdab4c8e"
         },
         "files": [
             "config/packages/lock.yaml"
@@ -674,9 +638,6 @@
     "symfony/polyfill-php56": {
         "version": "v1.20.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.23.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.23.0"
     },
@@ -776,29 +737,35 @@
             "templates/base.html.twig"
         ]
     },
-    "symfony/ux-autocomplete": {
-        "version": "2.2",
+    "symfony/uid": {
+        "version": "6.2",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "2.2",
-            "ref": "f8fa49e4547904ab278c100564ae1102df774243"
+            "version": "6.2",
+            "ref": "d294ad4add3e15d7eb1bae0221588ca89b38e558"
+        },
+        "files": [
+            "config/packages/uid.yaml"
+        ]
+    },
+    "symfony/ux-autocomplete": {
+        "version": "2.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.6",
+            "ref": "07d9602b7231ba355f484305d6cea58310c01741"
         },
         "files": [
             "config/routes/ux_autocomplete.yaml"
         ]
     },
     "symfony/ux-chartjs": {
-        "version": "v1.3.0"
-    },
-    "symfony/ux-dropzone": {
-        "version": "v1.3.0"
-    },
-    "symfony/ux-turbo": {
-        "version": "v1.3.0"
+        "version": "v2.7.1"
     },
     "symfony/ux-twig-component": {
-        "version": "1.4-dev"
+        "version": "v2.7.1"
     },
     "symfony/validator": {
         "version": "4.3",

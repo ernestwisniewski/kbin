@@ -1,5 +1,5 @@
 post_comment_create:
-  controller: App\Controller\Post\Comment\CommentCreateController
+  controller: App\Controller\Post\Comment\PostCommentCreateController
   defaults: { slug: -, parent_comment_id: null }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{parent_comment_id}
@@ -7,33 +7,53 @@ post_comment_create:
   methods: [ GET, POST ]
 
 post_comment_edit:
-  controller: App\Controller\Post\Comment\CommentEditController
+  controller: App\Controller\Post\Comment\PostCommentEditController
   defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/edit
     pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/edytuj
   methods: [ GET, POST ]
 
+post_comment_moderate:
+  controller: App\Controller\Post\Comment\PostCommentModerateController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/moderate
+    pl: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/moderuj
+  methods: [ GET, POST ]
+
 post_comment_delete:
-  controller: App\Controller\Post\Comment\CommentDeleteController::delete
+  controller: App\Controller\Post\Comment\PostCommentDeleteController::delete
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/delete
   methods: [ POST ]
 
 post_comment_restore:
-  controller: App\Controller\Post\Comment\CommentDeleteController::restore
+  controller: App\Controller\Post\Comment\PostCommentDeleteController::restore
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/restore
   methods: [ POST ]
 
 post_comment_purge:
-  controller: App\Controller\Post\Comment\CommentDeleteController::purge
+  controller: App\Controller\Post\Comment\PostCommentDeleteController::purge
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/purge
   methods: [ POST ]
 
+post_comment_change_lang:
+  controller: App\Controller\Post\Comment\PostCommentChangeLangController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/comments/{comment_id}/change_lang
+  methods: [ POST ]
+
+post_comment_change_adult:
+  controller: App\Controller\Post\Comment\PostCommentChangeAdultController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/comments/{comment_id}/change_adult
+  methods: [ POST ]
+
 post_comment_image_delete:
-  controller: App\Controller\Post\Comment\CommentDeleteImageController
+  controller: App\Controller\Post\Comment\PostCommentDeleteImageController
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/delete_image
   methods: [ POST ]
@@ -74,52 +94,52 @@ post_comment_favourite:
 
 posts_front:
   controller: App\Controller\Post\PostFrontController::front
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
-    en: /posts/{sortBy}/{time}
+    en: /microblog/{sortBy}/{time}
     pl: /wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_subscribed:
   controller: App\Controller\Post\PostFrontController::subscribed
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
-    en: /sub/posts/{sortBy}/{time}
+    en: /sub/microblog/{sortBy}/{time}
     pl: /sub/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_moderated:
   controller: App\Controller\Post\PostFrontController::moderated
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
-    en: /mod/posts/{sortBy}/{time}
+    en: /mod/microblog/{sortBy}/{time}
     pl: /mod/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_favourite:
   controller: App\Controller\Post\PostFrontController::favourite
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
-    en: /fav/posts/{sortBy}/{time}
+    en: /fav/microblog/{sortBy}/{time}
     pl: /fav/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_posts:
   controller: App\Controller\Post\PostFrontController::magazine
-  defaults: { sortBy: ~, time: ~ }
+  defaults: { sortBy: hot, time: ~ }
   path:
-    en: /m/{name}/posts/{sortBy}/{time}
+    en: /m/{name}/microblog/{sortBy}/{time}
     pl: /m/{name}/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 post_voters:
   controller: App\Controller\Post\PostVotersController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/votes
     pl: /m/{magazine_name}/w/{post_id}/{slug}/głosy
@@ -127,24 +147,16 @@ post_voters:
 
 post_favourites:
   controller: App\Controller\Post\PostFavouriteController
-  defaults: { slug: -, sortBy: ~ }
+  defaults: { slug: -, }
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/favourites
     pl: /m/{magazine_name}/w/{post_id}/{slug}/ulubione
   methods: [ GET ]
 
-post_single:
-  controller: App\Controller\Post\PostSingleController
-  defaults: { slug: -, }
-  path:
-    en: /m/{magazine_name}/p/{post_id}/{slug}
-    pl: /m/{magazine_name}/w/{post_id}/{slug}
-  methods: [ GET ]
-
 post_create:
   controller: App\Controller\Post\PostCreateController
-  path: /m/{name}/posts
-  methods: [ POST ]
+  path: /microblog/create
+  methods: [ GET, POST ]
 
 post_edit:
   controller: App\Controller\Post\PostEditController
@@ -152,6 +164,14 @@ post_edit:
   path:
     en: /m/{magazine_name}/p/{post_id}/{slug}/edit
     pl: /m/{magazine_name}/w/{post_id}/{slug}/edytuj
+  methods: [ GET, POST ]
+
+post_moderate:
+  controller: App\Controller\Post\PostModerateController
+  defaults: { slug: -, }
+  path:
+    en: /m/{magazine_name}/p/{post_id}/{slug}/moderate
+    pl: /m/{magazine_name}/w/{post_id}/{slug}/moderuj
   methods: [ GET, POST ]
 
 post_delete:
@@ -184,17 +204,23 @@ post_change_magazine:
   path: /m/{magazine_name}/p/{post_id}/{slug}/change_magazine
   methods: [ POST ]
 
+post_change_lang:
+  controller: App\Controller\Post\PostChangeLangController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/change_lang
+  methods: [ POST ]
+
 post_change_adult:
   controller: App\Controller\Post\PostChangeAdultController
   defaults: { slug: - }
   path: /m/{magazine_name}/p/{post_id}/{slug}/change_adult
   methods: [ POST ]
 
-post:
-  controller: App\Controller\Post\PostFrontController::front
-  defaults: { slug: -, sortBy: ~ }
+post_single:
+  controller: App\Controller\Post\PostSingleController
+  defaults: { slug: -, sortBy: hot }
   path:
-    en: /m/{magazine_name}/t/{post_id}/{slug}/{sortBy}
+    en: /m/{magazine_name}/p/{post_id}/{slug}/{sortBy}
     pl: /m/{magazine_name}/w/{post_id}/{slug}/{sortBy}
   methods: [ GET ]
 

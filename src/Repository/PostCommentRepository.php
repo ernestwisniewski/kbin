@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\PostCommentPageView;
 use App\Repository\Contract\TagRepositoryInterface;
@@ -20,7 +21,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @method PostComment|null find($id, $lockMode = null, $lockVersion = null)
@@ -118,17 +119,39 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
                 ->setParameter('user', $criteria->user);
         }
 
+        $user = $this->security->getUser();
+        if ($user && !$criteria->moderated) {
+            $qb->andWhere(
+                'c.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
+            );
+
+            $qb->setParameter('blocker', $user);
+        }
+
+        if ($criteria->onlyParents) {
+            $qb->andWhere('c.parent IS NULL');
+        }
+
         switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
+            case Criteria::SORT_TOP:
                 $qb->orderBy('c.upVotes', 'DESC');
+                break;
+            case Criteria::SORT_ACTIVE:
+                $qb->orderBy('c.lastActive', 'DESC');
+                break;
+            case Criteria::SORT_NEW:
+                $qb->orderBy('c.createdAt', 'DESC');
                 break;
             case Criteria::SORT_OLD:
                 $qb->orderBy('c.createdAt', 'ASC');
                 break;
             default:
+                $qb->addOrderBy('c.lastActive', 'DESC');
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
+        $qb->addOrderBy('c.id', 'DESC');
     }
 
     public function hydrate(PostComment ...$comment): void

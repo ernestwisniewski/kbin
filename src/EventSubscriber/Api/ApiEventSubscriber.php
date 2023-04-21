@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class ApiEventSubscriber implements EventSubscriberInterface
+final class ApiEventSubscriber
 {
     public function __construct(
         private readonly MagazineFactory $magazineFactory,
@@ -134,6 +134,6 @@ final class ApiEventSubscriber implements EventSubscriberInterface
     private function magazine(MagazineDto $dto): void
     {
         $dto->user = $this->userFactory->createDto($dto->user);
-        $dto->cover = $dto->cover ? $this->imageFactory->createDto($dto->cover) : null;
+        $dto->icon = $dto->icon ? $this->imageFactory->createDto($dto->icon) : null;
     }
 }

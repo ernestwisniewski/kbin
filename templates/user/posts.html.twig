@@ -1,22 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- user.username }} - {{ 'posts'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'posts'|trans }} - {{ user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
 
-{% block body %}
-    <div class="kbin-user-posts-page kbin-posts-page">
-        {% include 'user/_instance_info.twig' %}
-        {{ component('title', {title: user.apPreferredUsername ?? user.username, url: path('user', {username: user.username})}) }}
-        {% include 'user/_nav.html.twig' %}
-        <div class="kbin-post-wrapper kbin-comment-wrapper">
-            {% include 'post/_list.html.twig' with {'show_best_comments': true, 'hide_username': true} %}
-        </div>
-    </div>
+{% block mainClass %}page-user page-user-posts{% endblock %}
+
+{% block header_nav %}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'user/_sidebar.html.twig' %}
-    {{ parent() }}
-    <div class="mb-4">
-        {% include 'user/_moderator_list_card.html.twig' %}
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'posts'|trans }}</h1>
+        <h2 hidden>{{ user.username|username }}</h2>
+    </header>
+    {% include('user/_options.html.twig') %}
+    {% include('user/_federated_info.html.twig') %}
+    <div id="content" class="overview subjects comments-tree comments">
+        {% include 'post/_list.html.twig' %}
     </div>
 {% endblock %}

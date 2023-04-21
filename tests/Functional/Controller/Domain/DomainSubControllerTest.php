@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Domain;
 
@@ -6,75 +8,85 @@ use App\Tests\WebTestCase;
 
 class DomainSubControllerTest extends WebTestCase
 {
-    use DomainFixturesTrait;
-
-    public function testDomainSubAndUnsubController(): void
+    public function testUserCanSubAndUnsubDomain(): void
     {
-        $client = static::createClient();
+        $client = $this->createClient();
 
-        $client->loginUser($this->getUserByUsername('testUser'));
-
-        $this->createEntryFixtures();
-
-        $crawler = $client->request('GET', '/d/karab.in');
-
-        // subscribe
-        $client->submit(
-            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('obserwuj')->form()
+        $this->createEntry(
+            'test entry 1',
+            $this->getMagazineByName('acme'),
+            $this->getUserByUsername('JohnDoe'),
+            'http://kbin.pub/instances'
         );
 
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
+
+        $crawler = $client->request('GET', '/d/kbin.pub');
+
+        // Subscribe
+        $client->submit($crawler->filter('#sidebar .domain')->selectButton('Subscribe')->form());
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorExists('#sidebar form[name=domain_subscribe] .active');
+        $this->assertSelectorTextContains('#sidebar .domain', 'Unsubscribe');
+        $this->assertSelectorTextContains('#sidebar .domain', '1');
+
+        // Unsubscribe
+        $client->submit($crawler->filter('#sidebar .domain')->selectButton('Unsubscribe')->form());
         $client->followRedirect();
 
-        $this->assertSelectorExists('.kbin-sub--active');
-
-        $crawler = $client->request('GET', '/sub');
-
-        $this->assertEquals(2, $crawler->filter('.kbin-entry-title-domain')->count());
-
-        $crawler = $client->request('GET', '/d/karab.in');
-
-        // usubscribe
-        $client->submit(
-            $crawler->filter('.kbin-domains .kbin-sub')->selectButton('obserwuj')->form()
-        );
-
-        $client->followRedirect();
-
-        $this->assertSelectorNotExists('.kbin-sub--active');
-
-        $crawler = $client->request('GET', '/sub');
-
-        $this->assertEquals(0, $crawler->filter('.kbin-entry-title-domain')->count());
+        $this->assertSelectorNotExists('#sidebar form[name=domain_subscribe] .active');
+        $this->assertSelectorTextContains('#sidebar .domain', 'Subscribe');
+        $this->assertSelectorTextContains('#sidebar .domain', '0');
     }
 
-    public function testXmlDomainSubAndUnsubController(): void
+    public function testXmlUserCanSubDomain(): void
     {
-        $client = static::createClient();
+        $client = $this->createClient();
 
-        $client->loginUser($this->getUserByUsername('testUser'));
-
-        $this->createEntryFixtures();
-
-        // subscribe
-        $crawler = $client->request('GET', '/d/karab.in');
-
-        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
-
-        $client->submit(
-            $crawler->filter('.kbin-domain-subscribe')->selectButton('obserwuj')->form()
+        $this->createEntry(
+            'test entry 1',
+            $this->getMagazineByName('acme'),
+            $this->getUserByUsername('JohnDoe'),
+            'http://kbin.pub/instances'
         );
 
-        $this->assertStringContainsString('{"subCount":1,"isSubscribed":true}', $client->getResponse()->getContent());
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
 
-        // unsubscribe
-        $crawler = $client->request('GET', '/d/karab.in');
+        $crawler = $client->request('GET', '/d/kbin.pub');
 
+        // Subscribe
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar .domain')->selectButton('Subscribe')->form());
 
-        $client->submit(
-            $crawler->filter('.kbin-domain-subscribe')->selectButton('obserwuj')->form()
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Unsubscribe', $client->getResponse()->getContent());
+    }
+
+    public function testXmlUserCanUnsubDomain(): void
+    {
+        $client = $this->createClient();
+
+        $this->createEntry(
+            'test entry 1',
+            $this->getMagazineByName('acme'),
+            $this->getUserByUsername('JohnDoe'),
+            'http://kbin.pub/instances'
         );
 
-        $this->assertStringContainsString('{"subCount":0,"isSubscribed":false}', $client->getResponse()->getContent());
+        $client->loginUser($this->getUserByUsername('JaneDoe'));
+
+        $crawler = $client->request('GET', '/d/kbin.pub');
+
+        // Subscribe
+        $client->submit($crawler->filter('#sidebar .domain')->selectButton('Subscribe')->form());
+        $crawler = $client->followRedirect();
+
+        // Unsubscribe
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->submit($crawler->filter('#sidebar .domain')->selectButton('Unsubscribe')->form());
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Subscribe', $client->getResponse()->getContent());
     }
 }

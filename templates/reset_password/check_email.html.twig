@@ -1,12 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{%- block title -%}{{- 'reset_password'|trans -}}{%- endblock -%}
+{%- block title -%}
+    {{- 'reset_password'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-reset-password-email-sent{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
 
 {% block body %}
-    <h1 class="font-weight-bold mb-5">{{ 'reset_password'|trans }}</h1>
-
-    <p>
-        {{ 'reset_check_email_desc'|trans }} {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
-    </p>
-    <p>{{ 'reset_check_email_desc2'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'try_again'|trans }}</a>.</p>
+    <h1>{{ 'check_email'|trans }}</h1>
+    <div id="content" class="section">
+        <div class="container">
+            <p>{{ 'reset_check_email_desc'|trans({'%expire%': resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle')}) }}</p>
+            <p>{{ 'reset_check_email_desc2'|trans }}</p>
+            <p><a class="btn btn__secondary" href="{{ path('app_forgot_password_request') }}">{{ 'try_again'|trans }}</a></p>
+        </div>
+    </div>
 {% endblock %}

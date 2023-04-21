@@ -1,1 +1,7 @@
-{{ this.html|raw }}
+<menu>
+    {% for mag in magazines %}
+        <li class="{{ html_classes({'active': magazine and magazine.name is same as mag}) }}">
+            <a class="stretched-link" href="{{ path('front_magazine', {name: mag}) }}">{{ mag }}</a>
+        </li>
+    {% endfor %}
+</menu>
