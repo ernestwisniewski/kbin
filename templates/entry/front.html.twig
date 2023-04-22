@@ -16,6 +16,22 @@
     {%- endif -%}
 {%- endblock -%}
 
+{% block description %}
+    {%- if magazine is defined and magazine -%}
+        {{- magazine.description ? get_short_sentence(magazine.description) : '' -}}
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{% endblock %}
+
+{% block image %}
+    {%- if magazine is defined and magazine and magazine.icon -%}
+        {{- uploaded_asset(magazine.icon.filePath) -}}
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{% endblock %}
+
 {% block mainClass %}page-entry-front{% endblock %}
 
 {% block header_nav %}

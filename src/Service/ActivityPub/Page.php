@@ -55,6 +55,10 @@ class Page
         $this->handleUrl($dto, $object);
         $this->handleDate($dto, $object['published']);
 
+        if (isset($object['sensitive']) && true === $object['sensitive']) {
+            $dto->isAdult = true;
+        }
+
         if (!empty($object['language'])) {
             $dto->lang = $object['language']['identifier'];
         }elseif (!empty($object['contentMap'])) {

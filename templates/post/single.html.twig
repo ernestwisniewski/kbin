@@ -4,6 +4,18 @@
     {{- get_short_sentence(post.body, 80) }} - {{ magazine.title }} - {{ parent() -}}
 {%- endblock -%}
 
+{% block description %}{% endblock %}
+
+{% block image %}
+    {%- if post.image -%}
+        {{- uploaded_asset(post.image.filePath) -}}
+    {%- elseif post.magazine.icon -%}
+        {{- uploaded_asset(post.magazine.icon.filePath) -}}
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{% endblock %}
+
 {% block mainClass %}page-post-single{% endblock %}
 
 {% block header_nav %}

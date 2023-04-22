@@ -4,6 +4,20 @@
     {{- entry.title }} - {{ magazine.title }} - {{ parent() -}}
 {%- endblock -%}
 
+{% block description %}
+    {{- entry.body ? get_short_sentence(entry.body) : '' -}}
+{% endblock %}
+
+{% block image %}
+    {%- if entry.image -%}
+        {{- uploaded_asset(entry.image.filePath) -}}
+    {%- elseif entry.magazine.icon -%}
+        {{- uploaded_asset(entry.magazine.icon.filePath) -}}
+    {%- else -%}
+        {{- parent() -}}
+    {%- endif -%}
+{% endblock %}
+
 {% block mainClass %}page-entry-single{% endblock %}
 
 {% block header_nav %}
