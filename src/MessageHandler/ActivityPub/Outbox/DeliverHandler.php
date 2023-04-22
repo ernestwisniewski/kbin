@@ -53,8 +53,6 @@ class DeliverHandler
                     $this->entityManager->flush();
                 }
             }
-
-            throw $e;
         }
     }
 }

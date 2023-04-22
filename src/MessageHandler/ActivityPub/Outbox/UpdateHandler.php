@@ -59,8 +59,7 @@ class UpdateHandler
         foreach ($followers as $follower) {
             if (is_string($follower)) {
                 $this->bus->dispatch(new DeliverMessage($follower, $activity));
-
-                return;
+                continue;
             }
 
             $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
