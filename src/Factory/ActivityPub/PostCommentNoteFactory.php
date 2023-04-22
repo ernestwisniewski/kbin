@@ -94,10 +94,10 @@ class PostCommentNoteFactory
             }
         }
 
-        $note['cc'] = array_values(
+        $note['to'] = array_values(
             array_unique(
                 array_merge(
-                    $note['cc'],
+                    $note['to'],
                     $mentions,
                     $this->activityPubManager->createCcFromBody($comment->body),
                     [$this->getReplyToAuthor($comment)],

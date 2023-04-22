@@ -44,7 +44,8 @@ class DeliverHandler
         }
 
         try {
-            $this->client->post($this->client->getInboxUrl($message->apProfileId), $actor, $message->payload);
+            dump($this->client->getInboxUrl($message->apProfileId));
+//            $this->client->post($this->client->getInboxUrl($message->apProfileId), $actor, $message->payload);
         } catch (\Exception $e) {
             if (!$e->getCode() || 404 === $e->getCode() || 410 === $e->getCode()) {
                 $user = $this->userRepository->findOneByApProfileId($message->apProfileId);
