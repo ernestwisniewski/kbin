@@ -162,7 +162,7 @@ class ApHttpClient
         $headers['Signature'] = $signatureHeader;
         $headers['User-Agent'] = 'kbinBot v0.1 - https://kbin.pub';
         $headers['Accept'] = 'application/activity+json, application/json';
-        $headers['Content-Type'] = 'application/json';
+        $headers['Content-Type'] = 'application/activity+json';
 
         return $headers;
     }
