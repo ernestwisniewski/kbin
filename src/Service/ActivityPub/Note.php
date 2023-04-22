@@ -169,10 +169,10 @@ class Note
     ): ActivityPubActivityInterface {
         $dto = new PostDto();
         $dto->magazine = $this->magazineRepository->findByApGroupProfileId(
-            $object['to']
+            array_merge($object['to'], $object['cc'])
         ) ?? $this->magazineRepository->findOneByName(
             'random'
-        ); // @todo magazine by tags
+        );
         $dto->apId = $object['id'];
 
         if (isset($object['attachment'])) {

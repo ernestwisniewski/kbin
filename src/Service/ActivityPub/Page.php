@@ -32,15 +32,15 @@ class Page
     {
         $current = $this->repository->findByObjectId($object['id']);
         if ($current) {
-            return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
+            return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
         }
 
         $dto = new EntryDto();
         $dto->magazine = $this->magazineRepository->findByApGroupProfileId(
-            $object['to']
+            array_merge($object['to'], $object['cc'])
         ) ?? $this->magazineRepository->findOneByName(
             'random'
-        ); // @todo magazine by tags
+        );
         $dto->title = $object['name'];
         $dto->apId = $object['id'];
 
@@ -61,7 +61,7 @@ class Page
 
         if (!empty($object['language'])) {
             $dto->lang = $object['language']['identifier'];
-        }elseif (!empty($object['contentMap'])) {
+        } elseif (!empty($object['contentMap'])) {
             $dto->lang = array_keys($object['contentMap'])[0];
         } else {
             $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
@@ -103,7 +103,7 @@ class Page
             if (is_array($attachment)) {
                 $link = array_filter(
                     $attachment,
-                    fn ($val) => in_array($val['type'], ['Link'])
+                    fn($val) => in_array($val['type'], ['Link'])
                 );
 
                 $dto->url = $link[0]['href'];
