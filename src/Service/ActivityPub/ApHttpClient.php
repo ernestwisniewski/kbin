@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
+use App\Entity\Magazine;
 use App\Entity\User;
 use App\Exception\InvalidApPostException;
+use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
@@ -27,6 +29,7 @@ class ApHttpClient
     public function __construct(
         private readonly HttpClientInterface $client,
         private readonly PersonFactory $personFactory,
+        private readonly GroupFactory $groupFactory,
         private readonly LoggerInterface $logger,
         private readonly CacheInterface $cache,
     ) {
@@ -100,7 +103,7 @@ class ApHttpClient
         return $resp ? json_decode($resp, true) : null;
     }
 
-    public function post(string $url, User $user, ?array $body = null): void
+    public function post(string $url, User|Magazine $actor, ?array $body = null): void
     {
         $cache = new FilesystemAdapter(); // @todo redis
 
@@ -114,7 +117,7 @@ class ApHttpClient
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, self::headersToCurlArray($this->getHeaders($url, $user, $body)));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, self::headersToCurlArray($this->getHeaders($url, $actor, $body)));
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, self::TIMEOUT);
@@ -123,7 +126,7 @@ class ApHttpClient
 
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if (!str_starts_with((string) $code, '2')) {
+        if (!str_starts_with((string)$code, '2')) {
             throw new InvalidApPostException("Post fail: {$url}, ".json_encode($body));
         }
 
@@ -141,15 +144,19 @@ class ApHttpClient
         }, array_keys($headers), $headers);
     }
 
-    private function getHeaders(string $url, User $user, ?array $body = null): array
+    private function getHeaders(string $url, User|Magazine $actor, ?array $body = null): array
     {
         $headers = self::headersToSign($url, $body ? self::digest($body) : null);
         $stringToSign = self::headersToSigningString($headers);
         $signedHeaders = implode(' ', array_map('strtolower', array_keys($headers)));
-        $key = openssl_pkey_get_private($user->privateKey);
+        $key = openssl_pkey_get_private($actor->privateKey);
         openssl_sign($stringToSign, $signature, $key, OPENSSL_ALGO_SHA256);
         $signature = base64_encode($signature);
-        $keyId = $this->personFactory->getActivityPubId($user).'#main-key';
+
+        $keyId = $actor instanceof User
+            ? $this->personFactory->getActivityPubId($actor).'#main-key'
+            : $this->groupFactory->getActivityPubId($actor).'#main-key';
+
         $signatureHeader = 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"';
         unset($headers['(request-target)']);
         $headers['Signature'] = $signatureHeader;
@@ -167,22 +174,22 @@ class ApHttpClient
         'Accept' => 'string',
         'Digest' => 'string',
     ])]
- protected static function headersToSign(string $url, ?string $digest = null): array
- {
-     $date = new \DateTime('UTC');
+    protected static function headersToSign(string $url, ?string $digest = null): array
+    {
+        $date = new \DateTime('UTC');
 
-     $headers = [
-         '(request-target)' => 'post '.parse_url($url, PHP_URL_PATH),
-         'Date' => $date->format('D, d M Y H:i:s \G\M\T'),
-         'Host' => parse_url($url, PHP_URL_HOST),
-     ];
+        $headers = [
+            '(request-target)' => 'post '.parse_url($url, PHP_URL_PATH),
+            'Date' => $date->format('D, d M Y H:i:s \G\M\T'),
+            'Host' => parse_url($url, PHP_URL_HOST),
+        ];
 
-     if ($digest) {
-         $headers['Digest'] = 'SHA-256='.$digest;
-     }
+        if ($digest) {
+            $headers['Digest'] = 'SHA-256='.$digest;
+        }
 
-     return $headers;
- }
+        return $headers;
+    }
 
     private static function digest(array $body): string
     {

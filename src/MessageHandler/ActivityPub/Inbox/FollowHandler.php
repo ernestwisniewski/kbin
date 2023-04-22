@@ -36,10 +36,8 @@ class FollowHandler
 
             $this->handleFollow($object, $actor);
 
-            // @todo group follow accept
-            if ($object instanceof User) {
-                $this->accept($message->payload, $object);
-            }
+            // @todo manually Accept
+            $this->accept($message->payload, $object);
 
             return;
         }
@@ -88,7 +86,7 @@ class FollowHandler
     ])]
     private function accept(
         array $payload,
-        User $object
+        User|Magazine $object
     ): void {
         $accept = $this->acceptWrapper->build(
             $payload['object'],
