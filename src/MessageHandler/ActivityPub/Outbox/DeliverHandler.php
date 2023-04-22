@@ -48,9 +48,10 @@ class DeliverHandler
         } catch (\Exception $e) {
             if (!$e->getCode() || 404 === $e->getCode() || 410 === $e->getCode()) {
                 $user = $this->userRepository->findOneByApProfileId($message->apProfileId);
-                $user->apDeletedAt = new \DateTime();
-
-                $this->entityManager->flush();
+                if($user) {
+                    $user->apDeletedAt = new \DateTime();
+                    $this->entityManager->flush();
+                }
             }
 
             throw $e;
