@@ -35,6 +35,10 @@ class Page
             return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
         }
 
+        if (is_string($object['to'])) {
+            $object['to'] = [$object['to']];
+        }
+
         $dto = new EntryDto();
         $dto->magazine = $this->magazineRepository->findByApGroupProfileId(
             array_merge($object['to'], $object['cc'])

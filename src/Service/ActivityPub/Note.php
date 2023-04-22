@@ -161,6 +161,10 @@ class Note
             return $this->$fn($object, $parent, $root);
         }
 
+        if (is_string($object['to'])) {
+            $object['to'] = [$object['to']];
+        }
+
         return $this->createPost($object);
     }
 
