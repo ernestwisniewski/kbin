@@ -56,6 +56,7 @@ RUN set -eux; \
 		opcache \
         gd \
         sysvsem \
+        redis \
     ;
 
 ###> recipes ###

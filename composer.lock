@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "195c4f8750469b794ce83fa2e5d4c0ae",
+    "content-hash": "3516a758cde1755ac4240aba57c0d645",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10661,6 +10661,73 @@
                 }
             ],
             "time": "2023-02-24T10:42:00+00:00"
+        },
+        {
+            "name": "symfony/redis-messenger",
+            "version": "v6.2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/redis-messenger.git",
+                "reference": "c08eb56f9ecefb10162d4b84d51ccbacdda7cca7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/redis-messenger/zipball/c08eb56f9ecefb10162d4b84d51ccbacdda7cca7",
+                "reference": "c08eb56f9ecefb10162d4b84d51ccbacdda7cca7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-redis": "*",
+                "php": ">=8.1",
+                "symfony/messenger": "^6.1"
+            },
+            "require-dev": {
+                "symfony/property-access": "^5.4|^6.0",
+                "symfony/serializer": "^5.4|^6.0"
+            },
+            "type": "symfony-messenger-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Messenger\\Bridge\\Redis\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Redis extension Messenger Bridge",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/redis-messenger/tree/v6.2.8"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-03-10T10:06:03+00:00"
         },
         {
             "name": "symfony/routing",
