@@ -265,7 +265,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         $qb = $this->createQueryBuilder('p');
 
         return $qb->where('m.name LIKE :name OR m.title LIKE :title')
-            ->andWhere('m.IsAdult = false')
+            ->andWhere('m.isAdult = false')
             ->andWhere('p.visibility = :visibility')
             ->andWhere('p.isAdult = false')
             ->join('p.magazine', 'm')
