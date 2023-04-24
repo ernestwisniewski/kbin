@@ -95,6 +95,6 @@ class PostVoter extends Voter
 
     private function canModerate(Post $post, User $user): bool
     {
-        return $post->magazine->userIsModerator($user);
+        return $post->magazine->userIsModerator($user) || $user->isAdmin();
     }
 }

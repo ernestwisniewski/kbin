@@ -251,6 +251,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->andWhere('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
             ->andWhere('m.name != :name')
+            ->andWhere('m.isAdult = false')
             ->join('p.magazine', 'm')
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'name' => $tag])
@@ -264,6 +265,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         $qb = $this->createQueryBuilder('p');
 
         return $qb->where('m.name LIKE :name OR m.title LIKE :title')
+            ->andWhere('m.IsAdult = false')
             ->andWhere('p.visibility = :visibility')
             ->andWhere('p.isAdult = false')
             ->join('p.magazine', 'm')

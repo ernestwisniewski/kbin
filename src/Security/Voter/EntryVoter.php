@@ -95,6 +95,6 @@ class EntryVoter extends Voter
 
     private function canModerate(Entry $entry, User $user): bool
     {
-        return $entry->magazine->userIsModerator($user);
+        return $entry->magazine->userIsModerator($user) || $user->isAdmin();
     }
 }

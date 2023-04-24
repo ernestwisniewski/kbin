@@ -26,8 +26,8 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Entry|null find($id, $lockMode = null, $lockVersion = null)
@@ -289,7 +289,10 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         return $qb
             ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
+            ->andWhere('e.isAdult = false')
             ->andWhere('e.visibility = :visibility')
+            ->andWhere('m.isAdult = false')
+            ->join('e.magazine', 'm')
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
@@ -302,6 +305,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         $qb = $this->createQueryBuilder('e');
 
         return $qb->where('m.name LIKE :name OR m.title LIKE :title')
+            ->andWhere('m.isAdult = false')
             ->andWhere('e.isAdult = false')
             ->andWhere('e.visibility = :visibility')
             ->join('e.magazine', 'm')

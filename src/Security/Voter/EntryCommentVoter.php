@@ -90,6 +90,6 @@ class EntryCommentVoter extends Voter
 
     private function canModerate(EntryComment $comment, User $user): bool
     {
-        return $comment->magazine->userIsModerator($user);
+        return $comment->magazine->userIsModerator($user) || $user->isAdmin();
     }
 }
