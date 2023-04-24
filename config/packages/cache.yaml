@@ -9,7 +9,7 @@ framework:
 
         # Redis
         app: cache.adapter.redis_tag_aware
-        default_redis_provider: redis://redis
+        default_redis_provider:  redis://${REDIS_PASSWORD}@redis
 
         # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
 #        app: cache.tagaware.filesystem

@@ -67,6 +67,8 @@ services:
       - redis-data:/data
     depends_on:
       - php
+      - messenger_ap
+      - messenger_kbin
 
 ###> doctrine/doctrine-bundle ###
   database:
