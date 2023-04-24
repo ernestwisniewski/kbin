@@ -6,7 +6,7 @@ namespace App\Message\ActivityPub\Inbox;
 
 use App\Message\Contracts\AsyncMessageInterface;
 
-class AnnounceMessage implements AsyncMessageInterface
+class AnnounceMessage
 {
     public function __construct(public array $payload)
     {

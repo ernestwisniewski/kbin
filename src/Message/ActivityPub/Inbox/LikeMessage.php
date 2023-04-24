@@ -6,7 +6,7 @@ namespace App\Message\ActivityPub\Inbox;
 
 use App\Message\Contracts\AsyncApMessageInterface;
 
-class LikeMessage implements AsyncApMessageInterface
+class LikeMessage
 {
     public function __construct(public array $payload)
     {
