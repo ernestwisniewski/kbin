@@ -30,7 +30,7 @@ class Image
     public ?int $height;
     #[Column(type: 'string', nullable: true)]
     public ?string $blurhash = null;
-    #[Column(type: 'string', nullable: true)]
+    #[Column(type: 'text', nullable: true)]
     public ?string $altText = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $sourceUrl = null;
