@@ -11,6 +11,7 @@ export default class extends Controller {
     static targets = ['loader', 'more', 'container', 'commentsCounter', 'favCounter']
     static values = {
         loading: Boolean,
+        isExpandedValue: Boolean
     };
     static sendBtnLabel = null;
 
@@ -38,6 +39,8 @@ export default class extends Controller {
         if (this.element.classList.contains('show-preview')) {
             useIntersection(this)
         }
+
+        this.checkHeight();
     }
 
     async getForm(event) {
@@ -354,5 +357,53 @@ export default class extends Controller {
         });
 
         this.previewInit = true;
+    }
+
+    checkHeight() {
+        this.isExpandedValue = false;
+        const elem = this.element.querySelector('.content');
+        elem.style.maxHeight = '25rem'
+
+        if (elem.scrollHeight - 30 > elem.clientHeight
+            || elem.scrollWidth > elem.clientWidth) {
+
+            this.moreBtn = this.createMoreBtn(elem);
+            this.more();
+        } else {
+            elem.style.maxHeight = null;
+        }
+    }
+
+    createMoreBtn(elem) {
+        let moreBtn = document.createElement('div')
+        moreBtn.innerHTML = '<i class="fa-solid fa-angles-down"></i>';
+        moreBtn.classList.add('more');
+
+        elem.parentNode.insertBefore(moreBtn, elem.nextSibling);
+
+        return moreBtn;
+    }
+
+    more() {
+        this.moreBtn.addEventListener('click', e => {
+            if (e.target.previousSibling.style.maxHeight) {
+                e.target.previousSibling.setAttribute('style', 'margin-bottom: 2rem !important');
+                e.target.previousSibling.style.maxHeight = null;
+                e.target.innerHTML = '<i class="fa-solid fa-angles-up"></i>';
+                this.isExpandedValue = true;
+            } else {
+                e.target.previousSibling.style.maxHeight = '25rem';
+                e.target.previousSibling.style.marginBottom = null;
+                e.target.innerHTML = '<i class="fa-solid fa-angles-down"></i>';
+                e.target.previousSibling.scrollIntoView();
+                this.isExpandedValue = false;
+            }
+        })
+    }
+
+    expand() {
+        if (!this.isExpandedValue) {
+            this.moreBtn.click();
+        }
     }
 }

@@ -24,6 +24,20 @@
 }
 
 .subject {
+  .more {
+    background: var(--kbin-bg);
+    bottom: -15px;
+    cursor: pointer;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+
+    i {
+      padding: .35rem;
+      pointer-events: none;
+    }
+  }
+
   .show-preview {
     cursor: pointer;
   }
