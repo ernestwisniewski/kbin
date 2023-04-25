@@ -105,4 +105,10 @@ export default class extends Controller {
                 .connect();
         }
     }
+
+    increaseCounter() {
+        this.application
+            .getControllerForElementAndIdentifier(document.getElementById('scroll-top'), 'scroll-top')
+            .increaseCounter();
+    }
 }

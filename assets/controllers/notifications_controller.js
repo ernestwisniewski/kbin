@@ -26,21 +26,18 @@ export default class extends Controller {
         let cb = function (e) {
             let data = JSON.parse(e.data);
 
-            if (data.op.includes('Notification') && !self.element.classList.contains('dynamic-lists')) {
-                return;
-            }
-
             self.dispatch(data.op, {detail: data});
 
             self.dispatch('Notification', {detail: data});
+
+            // if (data.op.includes('Create')) {
+            //     self.dispatch('CreatedNotification', {detail: data});
+            // }
 
             // if (data.op === 'EntryCreatedNotification' || data.op === 'PostCreatedNotification') {
             //     self.dispatch('MainSubjectCreatedNotification', {detail: data});
             // }
             //
-            // if (data.op.includes('CommentCreatedNotification')) {
-            //     self.dispatch('CommentCreatedNotification', {detail: data});
-            // }
         }
 
         window.es = Subscribe(topics, cb);

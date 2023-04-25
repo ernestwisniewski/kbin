@@ -7,7 +7,7 @@
 {% endif %}
 <section class="comments entry-comments comments-tree"
          data-controller="subject-list"
-         data-action="notifications:EntryCommentCreatedNotification@window->subject-list#addComment">
+         data-action="{{- app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true' ? 'notifications:EntryCommentCreatedNotification@window->subject-list#addComment' : 'notifications:EntryCommentCreatedNotification@window->subject-list#increaseCounter' -}}">
     {% for comment in comments %}
         {{ component('entry_comment', {
             comment: comment,

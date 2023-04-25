@@ -1,5 +1,5 @@
 <div data-controller="subject-list"
-     data-action="notifications:EntryCreatedNotification@window->subject-list#addMainSubject">
+     data-action="{{- app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true' ? 'notifications:EntryCreatedNotification@window->subject-list#addMainSubject' : 'notifications:EntryCreatedNotification@window->subject-list#increaseCounter' -}}">
     {% for entry in entries %}
         {{ component('entry', {
             entry: entry,

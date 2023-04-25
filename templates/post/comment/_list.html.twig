@@ -8,9 +8,11 @@
 {% if level is not defined %}
     {% set level = 1 %}
 {% endif %}
+{% set autoAction = is_route_name('post_single') ? 'notifications:PostCommentCreatedNotification@window->subject-list#addComment' : 'notifications:PostCommentCreatedNotification@window->subject-list#addCommentOverview' %}
+{% set manualAction = is_route_name('post_single') ? 'notifications:PostCommentCreatedNotification@scroll-top#increaseCounter' : 'notifications:PostCommentCreatedNotification@window->scroll_top#increaseCounter' %}
 <div class="comments post-comments comments-tree"
      data-controller="subject-list"
-     data-action="{{ is_route_name('post_single') ? 'notifications:PostCommentCreatedNotification@window->subject-list#addComment' : 'notifications:PostCommentCreatedNotification@window->subject-list#addCommentOverview' }}">
+     data-action="{{- app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true' ? autoAction : manualAction -}}">
     {% for comment in comments %}
         {{ component('post_comment', {
             comment: comment,

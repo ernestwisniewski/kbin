@@ -14,7 +14,7 @@
                 id="entry-comment-{{ comment.id }}"
                 data-controller="comment subject"
                 data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}"
-                data-action="notifications:Notification@window->subject#notification">
+                data-action="{{- app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true' ? 'notifications:Notification@window->subject#notification' : '' -}}">
             <header>
                 {% if comment.isAdult %}<span class="badge danger">+18</span>{% endif %}
                 {{ component('user_inline', {user: comment.user, showAvatar: false}) }},

@@ -1,5 +1,5 @@
 <div data-controller="subject-list"
-     data-action="notifications:PostCreatedNotification@window->subject-list#addMainSubject notifications:PostCommentCreatedNotification@window->subject-list#addCommentOverview">
+     data-action="{{- app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true' ? 'notifications:PostCreatedNotification@window->subject-list#addMainSubject notifications:PostCommentCreatedNotification@window->subject-list#addCommentOverview' : 'notifications:PostCreatedNotification@window->subject-list#increaseCounter' -}}">
     {% for post in posts %}
         {{ component('post', {
             post: post,

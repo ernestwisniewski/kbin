@@ -288,3 +288,17 @@ pre, code {
   gap: 1rem;
   padding: .5rem;
 }
+
+#scroll-top {
+  background-color: var(--kbin-section-bg);
+  border-radius: 5px;
+  bottom: 20px;
+  cursor: pointer;
+  //display: none;
+  font-size: 18px;
+  outline: none;
+  padding: 15px 20px;
+  position: fixed;
+  right: 30px;
+  z-index: 99;
+}
