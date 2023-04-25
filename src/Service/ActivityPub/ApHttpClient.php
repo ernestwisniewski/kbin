@@ -24,7 +24,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApHttpClient
 {
-    public const TIMEOUT = 4;
+    public const TIMEOUT = 5;
 
     public function __construct(
         private readonly HttpClientInterface $client,
