@@ -57,6 +57,7 @@ RUN set -eux; \
         gd \
         sysvsem \
         redis \
+        amqp \
     ;
 
 ###> recipes ###

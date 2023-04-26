@@ -27,6 +27,9 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${REDIS_PASSWORD:-!ChangeThisRedisPass!}
+    depends_on:
+      - redis
+      - rabbitmq
 
   caddy:
     build:
@@ -65,29 +68,22 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD:-!ChangeThisRedisPass!} --maxmemory-policy volatile-ttl
     volumes:
       - redis-data:/data
-    depends_on:
-      - php
-      - messenger_ap
-      - messenger_kbin
 
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-13}-alpine
+  rabbitmq:
+    image: rabbitmq:3.11.13-management-alpine
+    container_name: 'rabbitmq'
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
-      POSTGRES_USER: ${POSTGRES_USER:-symfony}
-    volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-kbin}
     ports:
-      - "5433:5432"
-###< doctrine/doctrine-bundle ###
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - rabbitmq_net
 
-# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
   messenger_kbin:
     build:
       context: .
@@ -137,6 +133,25 @@ services:
     restart: always
     depends_on:
       - php
+
+  ###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+    ports:
+      - "5433:5432"
+###< doctrine/doctrine-bundle ###
+
+# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
+###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
 
 volumes:
@@ -146,5 +161,6 @@ volumes:
   db-data:
   redis-data:
 
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+networks:
+  rabbitmq_net:
+    driver: bridge
