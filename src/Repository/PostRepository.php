@@ -285,6 +285,8 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         return $qb
             ->where('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
+            ->andWhere('m.isAdult = false')
+            ->join('p.magazine', 'm')
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)

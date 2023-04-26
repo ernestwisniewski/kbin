@@ -325,6 +325,8 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         return $qb
             ->where('e.isAdult = false')
             ->andWhere('e.visibility = :visibility')
+            ->andWhere('m.isAdult = false')
+            ->join('e.magazine', 'm')
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
