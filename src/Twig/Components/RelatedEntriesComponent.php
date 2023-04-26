@@ -68,6 +68,8 @@ final class RelatedEntriesComponent
                     default => $this->repository->findLast($this->limit + 150),
                 };
 
+                $entries = array_filter($entries, fn(Entry $e) => !$e->isAdult && !$e->magazine->isAdult);
+
                 if (count($entries) > $this->limit) {
                     shuffle($entries); // randomize the order
                     $entries = array_slice($entries, 0, $this->limit);

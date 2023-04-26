@@ -42,8 +42,13 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         $this->security = $security;
     }
 
-    public function findByCriteria(PostCommentPageView $criteria): PagerfantaInterface
+    public function findByCriteria(PostCommentPageView $criteria)
     {
+//        return $this->createQueryBuilder('pc')
+//            ->orderBy('pc.createdAt', 'DESC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult();
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
                 $this->getCommentQueryBuilder($criteria)

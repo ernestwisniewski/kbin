@@ -10,6 +10,7 @@ use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SearchManager;
+use App\Service\SubjectOverviewManager;
 use App\Utils\RegPatterns;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,8 @@ class SearchController extends AbstractController
         private readonly SearchManager $manager,
         private readonly ActivityPubManager $activityPubManager,
         private readonly MessageBusInterface $bus,
-        private readonly ApHttpClient $apHttpClient
+        private readonly ApHttpClient $apHttpClient,
+        private readonly SubjectOverviewManager $overviewManager
     ) {
     }
 
@@ -78,7 +80,9 @@ class SearchController extends AbstractController
             'search/front.html.twig',
             [
                 'objects' => $objects,
-                'results' => $this->manager->findPaginated($query, $this->getPageNb($request)),
+                'results' => $this->overviewManager->buildList(
+                    $this->manager->findPaginated($query, $this->getPageNb($request))
+                ),
                 'q' => $request->query->get('q'),
             ]
         );

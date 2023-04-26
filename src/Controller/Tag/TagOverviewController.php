@@ -27,6 +27,7 @@ class TagOverviewController extends AbstractController
             $this->tagManager->transliterate(strtolower($name))
         );
 
+//        dd($activity->getCurrentPageResults());
         return $this->render(
             'tag/overview.html.twig',
             [

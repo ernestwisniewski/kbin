@@ -68,6 +68,8 @@ final class RelatedPostsComponent
                     default => $this->repository->findLast($this->limit + 150),
                 };
 
+                $posts = array_filter($posts, fn(Post $p) => !$p->isAdult && !$p->magazine->isAdult);
+
                 if (count($posts) > $this->limit) {
                     shuffle($posts); // randomize the order
                     $posts = array_slice($posts, 0, $this->limit);

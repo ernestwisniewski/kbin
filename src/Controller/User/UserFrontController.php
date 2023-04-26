@@ -99,6 +99,7 @@ class UserFrontController extends AbstractController
     {
         $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->sortOption = Criteria::SORT_NEW;
+        $criteria->onlyParents = false;
         $criteria->user = $user;
 
         $comments = $repository->findByCriteria($criteria);
