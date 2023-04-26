@@ -27,8 +27,15 @@ user_posts:
 user_replies:
   controller: App\Controller\User\UserFrontController::replies
   path:
-    en: /u/{username}/odpowiedzi
-    pl: /u/{username}/replies
+    en: /u/{username}/replies
+    pl: /u/{username}/odpowiedzi
+  methods: [ GET ]
+
+user_boosts:
+  controller: App\Controller\User\UserFrontController::boosts
+  path:
+    en: /u/{username}/podbicia
+    pl: /u/{username}/boosts
   methods: [ GET ]
 
 user_moderated:

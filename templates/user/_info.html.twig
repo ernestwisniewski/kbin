@@ -20,7 +20,9 @@
         {%- set TYPE_ENTRY = constant('App\\Repository\\ReputationRepository::TYPE_ENTRY') -%}
         <li><a href="{{ path('user_reputation', {username: user.username, reputationType: TYPE_ENTRY}) }}"
                class="stretched-link">{{ 'reputation_points'|trans }}:</a> {{ get_reputation_total(user) }}</li>
-        <li><a href="#" class="stretched-link">{{ 'moderated'|trans }}:</a> 2</li>
+        <li><a href="{{ path('user_moderated', {username: user.username}) }}"
+               class="stretched-link">{{ 'moderated'|trans }}:</a> {{ count_user_moderated(user) }}
+        </li>
         {% if app.user is not same as user %}
             <li><a href="{{ path('messages_create', {username: user.username}) }}"
                    class="stretched-link">{{ 'send_message'|trans }}</a> <i

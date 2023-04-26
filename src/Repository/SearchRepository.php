@@ -6,8 +6,11 @@ namespace App\Repository;
 
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\Magazine;
+use App\Entity\Moderator;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
@@ -21,6 +24,79 @@ class SearchRepository
 
     public function __construct(private EntityManagerInterface $entityManager)
     {
+    }
+
+
+    public function countModerated(User $user): int
+    {
+        $dql =
+            'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
+            'SELECT IDENTITY(md.magazine) FROM '.Moderator::class.' md WHERE md.user = :user) ORDER BY m.apId DESC, m.lastActive DESC';
+
+        return count(
+            $this->entityManager->createQuery($dql)
+                ->setParameter('user', $user)
+                ->getResult()
+        );
+    }
+
+    public function countBoosts(User $user): int
+    {
+        // @todo union adapter
+        $conn = $this->entityManager->getConnection();
+        $sql = "
+        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = {$user->getId()}) 
+        UNION 
+        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = {$user->getId()})
+        UNION 
+        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = {$user->getId()})
+        UNION 
+        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = {$user->getId()})
+        ORDER BY created_at DESC
+        ";
+
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+
+        return $stmt->rowCount();
+    }
+
+    public function findBoosts(int $page, User $user): PagerfantaInterface
+    {
+        // @todo union adapter
+        $conn = $this->entityManager->getConnection();
+        $sql = "
+        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = {$user->getId()}) 
+        UNION 
+        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = {$user->getId()})
+        UNION 
+        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = {$user->getId()})
+        UNION 
+        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = {$user->getId()})
+        ORDER BY created_at DESC
+        ";
+
+        $stmt = $conn->prepare($sql);
+        $stmt = $stmt->executeQuery();
+        $stmt->rowCount();
+        $pagerfanta = new Pagerfanta(
+            new ArrayAdapter(
+                $stmt->fetchAllAssociative()
+            )
+        );
+
+        $countAll = $pagerfanta->count();
+
+        try {
+            $pagerfanta->setMaxPerPage(20000);
+            $pagerfanta->setCurrentPage(1);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        $result = $pagerfanta->getCurrentPageResults();
+
+        return $this->buildResult($result, $page, $countAll);
     }
 
     public function search($query, int $page = 1): PagerfantaInterface
@@ -57,41 +133,7 @@ class SearchRepository
 
         $result = $pagerfanta->getCurrentPageResults();
 
-        $entries = $this->entityManager->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry')]
-        );
-        $this->entityManager->getRepository(Entry::class)->hydrate(...$entries);
-        $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
-        );
-        $this->entityManager->getRepository(EntryComment::class)->hydrate(...$entryComments);
-        $post = $this->entityManager->getRepository(Post::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'post')]
-        );
-        $this->entityManager->getRepository(Post::class)->hydrate(...$post);
-        $postComment = $this->entityManager->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
-        );
-        $this->entityManager->getRepository(PostComment::class)->hydrate(...$postComment);
-
-        $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
-
-        $pagerfanta = new Pagerfanta(
-            new ArrayAdapter(
-                $result
-            )
-        );
-
-        try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
-            $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil($countAll / self::PER_PAGE)) : 1);
-        } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
-        }
-
-        return $pagerfanta;
+        return $this->buildResult($result, $page, $countAll);
     }
 
     public function findByApId($url): array
@@ -158,5 +200,44 @@ class SearchRepository
         $result = array_filter($result, fn($subject) => $subject['type'] === $type);
 
         return array_map(fn($subject) => $subject['id'], $result);
+    }
+
+    private function buildResult(array $result, $page, $countAll)
+    {
+        $entries = $this->entityManager->getRepository(Entry::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'entry')]
+        );
+        $this->entityManager->getRepository(Entry::class)->hydrate(...$entries);
+        $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+        );
+        $this->entityManager->getRepository(EntryComment::class)->hydrate(...$entryComments);
+        $post = $this->entityManager->getRepository(Post::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'post')]
+        );
+        $this->entityManager->getRepository(Post::class)->hydrate(...$post);
+        $postComment = $this->entityManager->getRepository(PostComment::class)->findBy(
+            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+        );
+        $this->entityManager->getRepository(PostComment::class)->hydrate(...$postComment);
+
+        $result = array_merge($entries, $entryComments, $post, $postComment);
+        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+
+        $pagerfanta = new Pagerfanta(
+            new ArrayAdapter(
+                $result
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil($countAll / self::PER_PAGE)) : 1);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
     }
 }

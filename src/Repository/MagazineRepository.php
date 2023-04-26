@@ -181,7 +181,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $dql =
             'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
-            'SELECT IDENTITY(md.magazine) FROM '.Moderator::class.' md WHERE md.user = :user) ORDER BY m.lastActive DESC';
+            'SELECT IDENTITY(md.magazine) FROM '.Moderator::class.' md WHERE md.user = :user) ORDER BY m.apId DESC, m.lastActive DESC';
 
         $query = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user);

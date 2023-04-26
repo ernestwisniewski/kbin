@@ -16,6 +16,7 @@ use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
+use App\Repository\SearchRepository;
 use App\Repository\UserRepository;
 use App\Service\SubjectOverviewManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -147,6 +148,7 @@ class UserFrontController extends AbstractController
         return $this->render(
             'user/moderated.html.twig',
             [
+                'view' => 'list',
                 'user' => $user,
                 'magazines' => $repository->findModeratedMagazines($user, (int)$request->get('p', 1)),
             ]
@@ -194,6 +196,20 @@ class UserFrontController extends AbstractController
             [
                 'user' => $user,
                 'users' => $manager->findFollowing($this->getPageNb($request), $user),
+            ]
+        );
+    }
+
+    public function boosts(User $user, Request $request, SearchRepository $repository)
+    {
+        $activity = $repository->findBoosts($this->getPageNb($request), $user);
+
+        return $this->render(
+            'user/overview.html.twig',
+            [
+                'user' => $user,
+                'results' => $this->overviewManager->buildList($activity),
+                'pagination' => $activity,
             ]
         );
     }

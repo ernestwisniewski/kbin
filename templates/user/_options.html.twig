@@ -32,6 +32,12 @@
             </a>
         </li>
         <li>
+            <a href="{{ path('user_boosts', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user_boosts')}) }}">
+                {{ 'boosts'|trans|lower }} ({{ count_user_boosts(user) }})
+            </a>
+        </li>
+        <li>
             <a href="{{ path('user_following', {username: user.username}) }}"
                class="{{ html_classes({'active': is_route_name('user_following'), 'opacity-50': not user.getShowProfileFollowings}) }}">
                 {{ 'following'|trans|lower }} ({{ user.follows|length }})
