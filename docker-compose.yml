@@ -27,6 +27,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${REDIS_PASSWORD:-!ChangeThisRedisPass!}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
+      RABBITMQ_USER: ${RABBITMQ_USER:-kbin}
     depends_on:
       - redis
       - rabbitmq
@@ -71,18 +73,12 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.11.13-management-alpine
-    container_name: 'rabbitmq'
     environment:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-kbin}
     ports:
       - 5672:5672
       - 15672:15672
-    volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-    networks:
-      - rabbitmq_net
 
   messenger_kbin:
     build:
@@ -97,6 +93,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${REDIS_PASSWORD:-!ChangeThisRedisPass!}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
+      RABBITMQ_USER: ${RABBITMQ_USER:-kbin}
     volumes:
       - ./:/srv/app
       - php_socket:/var/run/php
@@ -122,6 +120,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${REDIS_PASSWORD:-!ChangeThisRedisPass!}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
+      RABBITMQ_USER: ${RABBITMQ_USER:-kbin}
     volumes:
       - ./:/srv/app
       - php_socket:/var/run/php
@@ -160,7 +160,3 @@ volumes:
   caddy_config:
   db-data:
   redis-data:
-
-networks:
-  rabbitmq_net:
-    driver: bridge
