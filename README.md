@@ -193,7 +193,7 @@ $ docker compose exec php bin/console cache:clear
 * Kbin GraphQL Reference
 * [Fediverse Developer Network](https://fedidevs.org/projects/kbin/)
 
-## Sponsors and partners
+## Support us
 
 ###
 
