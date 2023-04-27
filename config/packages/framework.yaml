@@ -5,7 +5,7 @@ framework:
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
-        handler_id: null
+        handler_id: '%env(REDIS_DNS)%'
         cookie_secure: auto
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
