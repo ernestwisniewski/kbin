@@ -290,6 +290,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $this->createQueryBuilder('u')
             ->where('u.apId IS NOT NULL')
             ->andWhere('u.apDomain IS NULL')
+            ->andWhere('u.apDeletedAt IS NULL')
             ->setMaxResults(1000)
             ->getQuery()
             ->getResult();
