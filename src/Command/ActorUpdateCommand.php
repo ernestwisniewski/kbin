@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Message\ActivityPub\UpdateActorMessage;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,8 +20,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 )]
 class ActorUpdateCommand extends Command
 {
-    public function __construct(private readonly UserRepository $repository, private readonly MessageBusInterface $bus)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserRepository $repository,
+        private readonly MessageBusInterface $bus
+    ) {
         parent::__construct();
     }
 
@@ -36,11 +40,13 @@ class ActorUpdateCommand extends Command
         $userArg = $input->getArgument('user');
 
         if ($input->getOption('all')) {
-            foreach ($this->repository->findAllRemote() as $u) {
+            foreach ($this->repository->findRemoteForUpdate() as $u) {
                 $this->bus->dispatch(new UpdateActorMessage($u->apProfileId));
+                $io->info($u->username);
+                $this->entityManager->flush();
             }
         } elseif ($userArg) {
-            $io->note(sprintf('You passed an user: %s', $userArg));
+            $this->bus->dispatch(new UpdateActorMessage($userArg));
         }
 
         $io->success('Done.');

@@ -46,9 +46,9 @@ class DeliverHandler
         try {
             $this->client->post($this->client->getInboxUrl($message->apProfileId), $actor, $message->payload);
         } catch (\Exception $e) {
-            if (!$e->getCode() || 404 === $e->getCode() || 410 === $e->getCode()) {
+            if (410 === $e->getCode()) {
                 $user = $this->userRepository->findOneByApProfileId($message->apProfileId);
-                if($user) {
+                if ($user) {
                     $user->apDeletedAt = new \DateTime();
                     $this->entityManager->flush();
                 }

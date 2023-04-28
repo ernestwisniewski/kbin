@@ -285,6 +285,16 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getResult();
     }
 
+    public function findRemoteForUpdate(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.apId IS NOT NULL')
+            ->andWhere('u.apDomain IS NULL')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findWithAbout(string $group = self::USERS_ALL): array
     {
         $qb = $this->createQueryBuilder('u')

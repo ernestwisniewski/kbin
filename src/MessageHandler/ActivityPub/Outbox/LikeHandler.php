@@ -60,7 +60,6 @@ class LikeHandler
         }
 
         $this->deliver($this->userRepository->findAudience($user), $activity);
-        $this->deliver($this->userRepository->findAudience($user), $activity);
         $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
     }
 
