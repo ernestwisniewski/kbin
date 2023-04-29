@@ -6,11 +6,9 @@ namespace App\MessageHandler\ActivityPub\Outbox;
 
 use App\Entity\User;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
-use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -20,8 +18,6 @@ class DeliverHandler
         private readonly ApHttpClient $client,
         private readonly ActivityPubManager $manager,
         private readonly SettingsManager $settingsManager,
-        private readonly UserRepository $userRepository,
-        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -43,6 +39,6 @@ class DeliverHandler
             return;
         }
 
-        $this->client->post($message->apInboxUrl, $actor, $message->payload);
+        $this->client->post($this->client->getInboxUrl($message->apInboxUrl), $actor, $message->payload);
     }
 }
