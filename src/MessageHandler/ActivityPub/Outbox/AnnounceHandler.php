@@ -62,6 +62,7 @@ class AnnounceHandler
         $this->deliver($this->userRepository->findAudience($user), $activity);
         $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $user), $activity);
         $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
+        $this->deliver([$object->user->apInboxUrl], $activity);
     }
 
     private function deliver(array $followers, array $activity): void

@@ -42,23 +42,23 @@ class ApHttpClient
 
     public function getActivityObject(string $url, bool $decoded = true): array|string|null
     {
-
         $resp = $this->cache->get('ap_'.hash('sha256', $url), function (ItemInterface $item) use ($url) {
             $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
 
-            try {
-                $client = new CurlHttpClient();
-                $r = $client->request('GET', $url, [
-                    'timeout' => self::TIMEOUT,
-                    'headers' => $this->getInstanceHeaders($url),
-                ])->getContent();
-            } catch (\Exception $e) {
-                throw $e;
+
+            $client = new CurlHttpClient();
+            $r = $client->request('GET', $url, [
+                'timeout' => self::TIMEOUT,
+                'headers' => $this->getInstanceHeaders($url),
+            ]);
+
+            if (!str_starts_with((string)$r->getStatusCode(), '2')) {
+                throw new InvalidApPostException("Post fail: {$url}, ".$r->getContent(false));
             }
 
             $item->expiresAt(new \DateTime('+1 hour'));
 
-            return $r;
+            return $r->getContent();
         });
 
         if (!$resp) {
@@ -107,7 +107,8 @@ class ApHttpClient
                         $magazine->apTimeoutAt = new \DateTime();
                         $this->magazineRepository->save($user, true);
                     }
-                    throw $e;
+
+                    throw new InvalidApPostException("Get fail: {$apProfileId}, ".$r->getContent(false));
                 }
 
                 $item->expiresAt(new \DateTime('+1 hour'));
@@ -138,7 +139,7 @@ class ApHttpClient
         ]);
 
         if (!str_starts_with((string)$req->getStatusCode(), '2')) {
-            throw new InvalidApPostException("Post fail: {$url}, ".json_encode($body));
+            throw new InvalidApPostException("Post fail: {$url}, ".$req->getContent(false).' '.json_encode($body));
         }
 
         // build cache

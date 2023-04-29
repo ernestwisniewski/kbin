@@ -61,6 +61,7 @@ class LikeHandler
 
         $this->deliver($this->userRepository->findAudience($user), $activity);
         $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
+        $this->deliver([$object->user->apInboxUrl], $activity);
     }
 
     private function deliver(array $followers, array $activity): void
@@ -73,7 +74,7 @@ class LikeHandler
                 $this->bus->dispatch(new DeliverMessage($follower, $activity));
                 continue;
             }
-            if($follower->apInboxUrl) {
+            if ($follower->apInboxUrl) {
                 $this->bus->dispatch(new DeliverMessage($follower->apInboxUrl, $activity));
             }
         }
