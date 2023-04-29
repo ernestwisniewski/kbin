@@ -136,7 +136,7 @@ class ApHttpClient
         $client = new CurlHttpClient();
         $req = $client->request('POST', $url, [
             'timeout' => self::TIMEOUT,
-            'body' => $body,
+            'body' => json_encode($body),
             'headers' => $this->getHeaders($url, $actor, $body),
         ]);
 
