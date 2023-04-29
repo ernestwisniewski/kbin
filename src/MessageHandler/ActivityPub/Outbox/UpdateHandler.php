@@ -47,7 +47,7 @@ class UpdateHandler
             \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL
         );
         $activity['type'] = 'Update';
-        $activity['object']['updated'] = $entity->editedAt;
+        $activity['object']['updated'] = $entity->editedAt->format(DATE_ATOM);
 
         $this->deliver($this->userRepository->findAudience($entity->user), $activity);
         $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $entity->user), $activity);

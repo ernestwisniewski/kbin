@@ -22,6 +22,10 @@ class Site
     public ?string $about = null;
     #[Column(type: 'text', nullable: true)]
     public ?string $contact = null;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $privateKey = null;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $publicKey = null;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]

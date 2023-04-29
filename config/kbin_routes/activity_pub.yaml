@@ -18,6 +18,21 @@ ap_node_info_v2:
   path: '/nodeinfo/2.0'
   methods: [ GET ]
 
+ap_instance:
+  controller: App\Controller\ActivityPub\InstanceController
+  path: '/i/actor'
+  methods: [ GET ]
+
+ap_instance_inbox:
+  controller: App\Controller\ActivityPub\SharedInboxController
+  path: /i/inbox
+  methods: [ POST ]
+
+ap_instance_outbox:
+  controller: App\Controller\ActivityPub\InstanceOutboxController
+  path: /i/inbox
+  methods: [ POST ]
+
 ap_shared_inbox:
   controller: App\Controller\ActivityPub\SharedInboxController
   path: /f/inbox

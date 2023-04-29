@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use ApiPlatform\Api\UrlGeneratorInterface;
 use App\DTO\MagazineBanDto;
 use App\DTO\MagazineDto;
 use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
-use App\Entity\MagazineSubscriptionRequest;
 use App\Entity\Moderator;
 use App\Entity\User;
 use App\Event\Magazine\MagazineBanEvent;
@@ -36,6 +36,7 @@ class MagazineManager
         private readonly EntityManagerInterface $entityManager,
         private readonly MagazineSubscriptionRequestRepository $requestRepository,
         private readonly MagazineSubscriptionRepository $subscriptionRepository,
+        private readonly UrlGeneratorInterface $urlGenerator
     ) {
     }
 
@@ -54,6 +55,11 @@ class MagazineManager
 
         if (!$dto->apId) {
             $magazine = KeysGenerator::generate($magazine);
+            $magazine->apProfileId = $this->urlGenerator->generate(
+                'ap_magazine',
+                ['name' => $magazine->name],
+                UrlGeneratorInterface::ABS_URL
+            );
         }
 
         $this->entityManager->persist($magazine);

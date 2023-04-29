@@ -19,10 +19,10 @@ parameters:
   kbin_ap_route_condition: 'request.getAcceptableContentTypes() and request.getAcceptableContentTypes()[0] in ["application/activity+json", "application/ld+json"]'
   kbin_storage_url: '%env(KBIN_STORAGE_URL)%'
 
-  amazon.s3.key:     '%env(S3_KEY)%'
-  amazon.s3.secret:  '%env(S3_SECRET)%'
-  amazon.s3.bucket:  '%env(S3_BUCKET)%'
-  amazon.s3.region:  '%env(S3_REGION)%'
+  amazon.s3.key: '%env(S3_KEY)%'
+  amazon.s3.secret: '%env(S3_SECRET)%'
+  amazon.s3.bucket: '%env(S3_BUCKET)%'
+  amazon.s3.region: '%env(S3_REGION)%'
   amazon.s3.version: '%env(S3_VERSION)%'
 
   router.request_context.host: '%env(KBIN_DOMAIN)%'
@@ -48,12 +48,12 @@ parameters:
   env(MONGODB_URL): ''
   env(MONGODB_DB): ''
 
-#  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
-#  #  elastica_enabled: false
-#  elastica_listener:
-#    insert: '%elastica_enabled%'
-#    update: '%elastica_enabled%'
-#    delete: '%elastica_enabled%'
+  #  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
+  #  #  elastica_enabled: false
+  #  elastica_listener:
+  #    insert: '%elastica_enabled%'
+  #    update: '%elastica_enabled%'
+  #    delete: '%elastica_enabled%'
 
   cardano_wallet_url: '%env(CARDANO_WALLET_URL)%'
   cardano_explorer_url: '%env(CARDANO_EXPLORER_URL)%'
@@ -63,6 +63,7 @@ services:
     autowire: true
     autoconfigure: true
     bind:
+      $kbinDomain: '%kbin_domain%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
       $cardanoWalletUrl: '%cardano_wallet_url%'
@@ -75,29 +76,28 @@ services:
   kbin.s3_client:
     class: Aws\S3\S3Client
     arguments:
-      -
-        version: '%amazon.s3.version%'
+      - version: '%amazon.s3.version%'
         region: '%amazon.s3.region%'
         credentials:
           key: '%amazon.s3.key%'
           secret: '%amazon.s3.secret%'
-        proxies: ['https://media.karab.in']
+        proxies: [ 'https://media.karab.in' ]
 
-#  kbin.imagine.cache.resolver.amazon_s3:
-#    class: Liip\ImagineBundle\Imagine\Cache\Resolver\AwsS3Resolver
-#    arguments:
-#      - "@kbin.s3_client"
-#      - '%amazon.s3.bucket%'
-#      - 'private'
-#
-#  kbin.imagine.psr_cache.resolver.amazon_s3.cache:
-#    class: Liip\ImagineBundle\Imagine\Cache\Resolver\PsrCacheResolver
-#    arguments:
-#      - "@cache.app"
-#      - "@kbin.imagine.cache.resolver.amazon_s3"
-#      - { prefix: "amazon_s3" }
-#    tags:
-#      - { name: "liip_imagine.cache.resolver", resolver: "cached_s3_client" }
+  #  kbin.imagine.cache.resolver.amazon_s3:
+  #    class: Liip\ImagineBundle\Imagine\Cache\Resolver\AwsS3Resolver
+  #    arguments:
+  #      - "@kbin.s3_client"
+  #      - '%amazon.s3.bucket%'
+  #      - 'private'
+  #
+  #  kbin.imagine.psr_cache.resolver.amazon_s3.cache:
+  #    class: Liip\ImagineBundle\Imagine\Cache\Resolver\PsrCacheResolver
+  #    arguments:
+  #      - "@cache.app"
+  #      - "@kbin.imagine.cache.resolver.amazon_s3"
+  #      - { prefix: "amazon_s3" }
+  #    tags:
+  #      - { name: "liip_imagine.cache.resolver", resolver: "cached_s3_client" }
 
   _instanceof:
     League\CommonMark\Inline\Parser\InlineParserInterface:
@@ -124,7 +124,6 @@ services:
   # Instance settings
   App\Service\SettingsManager:
     arguments:
-      $kbinDomain: '%kbin_domain%'
       $kbinTitle: '%kbin_title%'
       $kbinMetaTitle: '%kbin_meta_title%'
       $kbinMetaDescription: '%kbin_meta_description%'

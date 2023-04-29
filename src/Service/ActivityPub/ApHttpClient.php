@@ -10,6 +10,7 @@ use App\Exception\InvalidApPostException;
 use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
 use App\Repository\MagazineRepository;
+use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
@@ -28,12 +29,14 @@ class ApHttpClient
     public const TIMEOUT = 5;
 
     public function __construct(
+        private readonly string $kbinDomain,
         private readonly PersonFactory $personFactory,
         private readonly GroupFactory $groupFactory,
         private readonly LoggerInterface $logger,
         private readonly CacheInterface $cache,
         private readonly UserRepository $userRepository,
-        private readonly MagazineRepository $magazineRepository
+        private readonly MagazineRepository $magazineRepository,
+        private readonly SiteRepository $siteRepository,
     ) {
     }
 
@@ -47,10 +50,7 @@ class ApHttpClient
                 $client = new CurlHttpClient();
                 $r = $client->request('GET', $url, [
                     'timeout' => self::TIMEOUT,
-                    'headers' => [
-                        'Accept' => 'application/activity+json,application/ld+json,application/json',
-                        'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
-                    ],
+                    'headers' => $this->getInstanceHeaders($url),
                 ])->getContent();
             } catch (\Exception $e) {
                 throw $e;
@@ -86,12 +86,9 @@ class ApHttpClient
                     $client = new CurlHttpClient();
                     $r = $client->request('GET', $apProfileId, [
                         'timeout' => self::TIMEOUT,
-                        'headers' => [
-                            'Accept' => 'application/activity+json,application/ld+json,application/json',
-                            'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
-                        ],
+                        'headers' => $this->getInstanceHeaders($apProfileId),
                     ]);
-                    if ($r->getStatusCode() === 404 || $r->getStatusCode() === 410) {
+                    if (str_starts_with((string)$r->getStatusCode(), '4')) {
                         if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
                             $user->apDeletedAt = new \DateTime();
                             $this->userRepository->save($user, true);
@@ -181,8 +178,24 @@ class ApHttpClient
         return $headers;
     }
 
-    private function getInstanceHeaders()
+    private function getInstanceHeaders(string $url, ?array $body = null)
     {
+        $keyId = 'https://'.$this->kbinDomain.'/i/actor#main-key';
+        $privateKey = $this->getInstancePrivateKey();
+        $headers = self::headersToSign($url, $body ? self::digest($body) : null);
+        $stringToSign = self::headersToSigningString($headers);
+        $signedHeaders = implode(' ', array_map('strtolower', array_keys($headers)));
+        $key = openssl_pkey_get_private($privateKey);
+        openssl_sign($stringToSign, $signature, $key, OPENSSL_ALGO_SHA256);
+        $signature = base64_encode($signature);
+        $signatureHeader = 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"';
+        unset($headers['(request-target)']);
+        $headers['Signature'] = $signatureHeader;
+        $headers['User-Agent'] = 'kbinBot v0.1 - https://kbin.pub';
+        $headers['Content-Type'] = 'application/activity+json';
+        $headers['Accept'] = 'application/activity+json,application/ld+json,application/json';
+
+        return $headers;
     }
 
     #[ArrayShape([
@@ -222,5 +235,23 @@ class ApHttpClient
                 return strtolower($k).': '.$v;
             }, array_keys($headers), $headers)
         );
+    }
+
+    private function getInstancePrivateKey(): string
+    {
+        return $this->cache->get(('instance_private_key'), function (ItemInterface $item) {
+            $item->expiresAt(new \DateTime('+1 day'));
+
+            return $this->siteRepository->findAll()[0]->privateKey;
+        });
+    }
+
+    public function getInstancePublicKey(): string
+    {
+        return $this->cache->get(('instance_private_key'), function (ItemInterface $item) {
+            $item->expiresAt(new \DateTime('+1 day'));
+
+            return $this->siteRepository->findAll()[0]->publicKey;
+        });
     }
 }
