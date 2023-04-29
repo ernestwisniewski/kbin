@@ -39,6 +39,10 @@ class CreateHandler
 
         $activity = $this->createWrapper->build($entity);
 
+        dd($this->userRepository->findAudience($entity->user),
+            $this->activityPubManager->createInboxesFromCC($activity, $entity->user),
+            $this->magazineRepository->findAudience($entity->magazine)
+        );
         $this->deliver($this->userRepository->findAudience($entity->user), $activity);
         $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $entity->user), $activity);
         $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
@@ -47,11 +51,13 @@ class CreateHandler
     private function deliver(array $followers, array $activity): void
     {
         foreach ($followers as $follower) {
+            if (!$follower) {
+                continue;
+            }
             if (is_string($follower)) {
                 $this->bus->dispatch(new DeliverMessage($follower, $activity));
                 continue;
             }
-
             if ($follower->apInboxUrl) {
                 $this->bus->dispatch(new DeliverMessage($follower->apInboxUrl, $activity));
             }

@@ -66,11 +66,13 @@ class LikeHandler
     private function deliver(array $followers, array $activity): void
     {
         foreach ($followers as $follower) {
+            if (!$follower) {
+                continue;
+            }
             if (is_string($follower)) {
                 $this->bus->dispatch(new DeliverMessage($follower, $activity));
                 continue;
             }
-
             if($follower->apInboxUrl) {
                 $this->bus->dispatch(new DeliverMessage($follower->apInboxUrl, $activity));
             }
