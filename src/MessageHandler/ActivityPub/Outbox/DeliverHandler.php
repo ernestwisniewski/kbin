@@ -27,7 +27,6 @@ class DeliverHandler
             return;
         }
 
-        dump($message);
         $actor = $this->manager->findActorOrCreate(
             $message->payload['object']['attributedTo'] ?? $message->payload['actor']
         );
