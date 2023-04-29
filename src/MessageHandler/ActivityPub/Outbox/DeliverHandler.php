@@ -27,6 +27,7 @@ class DeliverHandler
             return;
         }
 
+        dump($message);
         $actor = $this->manager->findActorOrCreate(
             $message->payload['object']['attributedTo'] ?? $message->payload['actor']
         );
@@ -39,6 +40,6 @@ class DeliverHandler
             return;
         }
 
-        $this->client->post($this->client->getInboxUrl($message->apInboxUrl), $actor, $message->payload);
+        $this->client->post($message->apInboxUrl, $actor, $message->payload);
     }
 }

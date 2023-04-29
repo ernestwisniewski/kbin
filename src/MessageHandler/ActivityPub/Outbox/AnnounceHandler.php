@@ -60,11 +60,11 @@ class AnnounceHandler
         }
 
         $this->deliver($this->userRepository->findAudience($user), $activity);
-        $this->deliver($this->activityPubManager->createCcFromObject($activity, $user), $activity);
+        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $user), $activity);
         $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
     }
 
-    private function deliver(array $followers, array $activity)
+    private function deliver(array $followers, array $activity): void
     {
         foreach ($followers as $follower) {
             if (is_string($follower)) {
@@ -72,7 +72,9 @@ class AnnounceHandler
                 continue;
             }
 
-            $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
+            if ($follower->apInboxUrl) {
+                $this->bus->dispatch(new DeliverMessage($follower->apInboxUrl, $activity));
+            }
         }
     }
 }

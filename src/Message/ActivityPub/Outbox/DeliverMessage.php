@@ -8,7 +8,7 @@ use App\Message\Contracts\AsyncApMessageInterface;
 
 class DeliverMessage implements AsyncApMessageInterface
 {
-    public function __construct(public string $apProfileId, public array $payload)
+    public function __construct(public string $apInboxUrl, public array $payload)
     {
     }
 }

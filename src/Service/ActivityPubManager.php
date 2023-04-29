@@ -310,6 +310,8 @@ class ActivityPubManager
         $magazine->apPreferredUsername = $actor['preferredUsername'] ?? null;
         $magazine->apDiscoverable = $actor['discoverable'] ?? true;
         $magazine->apPublicUrl = $actor['url'] ?? $actorUrl;
+        $magazine->apDeletedAt = null;
+        $magazine->apTimeoutAt = null;
         $magazine->apFetchedAt = new \DateTime();
 
         $this->entityManager->flush();
@@ -317,26 +319,31 @@ class ActivityPubManager
         return $magazine;
     }
 
-    public function createCcFromObject(array $activity, User $user): array
+    public function createInboxesFromCC(array $activity, User $user): array
     {
-        if (isset($activity['cc']) && isset($activity['to'])) {
-            $followersUrl = $this->urlGenerator->generate(
-                'ap_user_followers',
-                ['username' => $user->username],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
+        $followersUrl = $this->urlGenerator->generate(
+            'ap_user_followers',
+            ['username' => $user->username],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
 
-            return array_unique(
-                array_filter(
-                    array_merge(
-                        is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
-                        is_array($activity['to']) ? $activity['to'] : [$activity['to']]
-                    ), fn($val) => !in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl])
-                )
-            );
+        $arr = array_unique(
+            array_filter(
+                array_merge(
+                    is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
+                    is_array($activity['to']) ? $activity['to'] : [$activity['to']]
+                ), fn($val) => !in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl, []])
+            )
+        );
+
+        $users = [];
+        foreach ($arr as $url) {
+            if ($user = $this->findActorOrCreate($url)) {
+                $users[] = $user;
+            }
         }
 
-        return [];
+        return array_map(fn($user) => $user->apInboxUrl, $users);
     }
 
     public function handleVideos(array $attachment): ?VideoDto

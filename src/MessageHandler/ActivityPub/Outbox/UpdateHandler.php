@@ -50,19 +50,23 @@ class UpdateHandler
         $activity['object']['updated'] = $entity->editedAt;
 
         $this->deliver($this->userRepository->findAudience($entity->user), $activity);
-        $this->deliver($this->activityPubManager->createCcFromObject($activity, $entity->user), $activity);
+        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $entity->user), $activity);
         $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
     }
 
-    private function deliver(array $followers, array $activity)
+    private function deliver(array $followers, array $activity): void
     {
         foreach ($followers as $follower) {
+            if (!$follower) {
+                continue;
+            }
             if (is_string($follower)) {
                 $this->bus->dispatch(new DeliverMessage($follower, $activity));
                 continue;
             }
-
-            $this->bus->dispatch(new DeliverMessage($follower->apProfileId, $activity));
+            if ($follower->apInboxUrl) {
+                $this->bus->dispatch(new DeliverMessage($follower->apInboxUrl, $activity));
+            }
         }
     }
 }

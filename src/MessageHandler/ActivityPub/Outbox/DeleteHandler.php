@@ -41,7 +41,7 @@ class DeleteHandler
         $activity = $this->deleteWrapper->build($entity, Uuid::v4()->toRfc4122());
 
         $this->deliver($this->userRepository->findAudience($entity->user), $activity);
-        $this->deliver($this->activityPubManager->createCcFromObject($activity, $entity->user), $activity);
+        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $entity->user), $activity);
         $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
     }
 

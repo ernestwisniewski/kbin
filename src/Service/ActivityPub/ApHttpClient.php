@@ -9,12 +9,13 @@ use App\Entity\User;
 use App\Exception\InvalidApPostException;
 use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
+use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /*
  * source:
@@ -27,22 +28,24 @@ class ApHttpClient
     public const TIMEOUT = 5;
 
     public function __construct(
-        private readonly HttpClientInterface $client,
         private readonly PersonFactory $personFactory,
         private readonly GroupFactory $groupFactory,
         private readonly LoggerInterface $logger,
         private readonly CacheInterface $cache,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository
     ) {
     }
 
     public function getActivityObject(string $url, bool $decoded = true): array|string|null
     {
+
         $resp = $this->cache->get('ap_'.hash('sha256', $url), function (ItemInterface $item) use ($url) {
             $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
 
             try {
-                $r = $this->client->request('GET', $url, [
+                $client = new CurlHttpClient();
+                $r = $client->request('GET', $url, [
                     'timeout' => self::TIMEOUT,
                     'headers' => [
                         'Accept' => 'application/activity+json,application/ld+json,application/json',
@@ -80,17 +83,21 @@ class ApHttpClient
                 $this->logger->info("ApHttpClient:getActorObject:url: {$apProfileId}");
 
                 try {
-                    $r = $this->client->request('GET', $apProfileId, [
+                    $client = new CurlHttpClient();
+                    $r = $client->request('GET', $apProfileId, [
                         'timeout' => self::TIMEOUT,
                         'headers' => [
                             'Accept' => 'application/activity+json,application/ld+json,application/json',
                             'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
                         ],
                     ]);
-
                     if ($r->getStatusCode() === 404 || $r->getStatusCode() === 410) {
                         if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
                             $user->apDeletedAt = new \DateTime();
+                            $this->userRepository->save($user, true);
+                        }
+                        if ($magazine = $this->magazineRepository->findOneByApProfileId($apProfileId)) {
+                            $magazine->apDeletedAt = new \DateTime();
                             $this->userRepository->save($user, true);
                         }
                     }
@@ -98,6 +105,10 @@ class ApHttpClient
                     if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
                         $user->apTimeoutAt = new \DateTime();
                         $this->userRepository->save($user, true);
+                    }
+                    if ($magazine = $this->magazineRepository->findOneByApProfileId($apProfileId)) {
+                        $magazine->apTimeoutAt = new \DateTime();
+                        $this->magazineRepository->save($user, true);
                     }
                     throw $e;
                 }
@@ -122,25 +133,21 @@ class ApHttpClient
         $this->logger->info("ApHttpClient:post:url: {$url}");
         $this->logger->info('ApHttpClient:post:body '.json_encode($body ?? []));
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, self::headersToCurlArray($this->getHeaders($url, $actor, $body)));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, self::TIMEOUT);
-        curl_exec($ch);
-        curl_close($ch);
+        $client = new CurlHttpClient();
+        $req = $client->request('POST', $url, [
+            'timeout' => self::TIMEOUT,
+            'body' => $body,
+            'headers' => $this->getHeaders($url, $actor, $body),
+        ]);
 
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if (!str_starts_with((string)$code, '2')) {
+        if (!str_starts_with((string)$req->getStatusCode(), '2')) {
             throw new InvalidApPostException("Post fail: {$url}, ".json_encode($body));
         }
 
         // build cache
         $item = $this->cache->getItem($cacheKey);
         $item->set(true);
-        $item->expiresAt(new \DateTime('+1 hour'));
+        $item->expiresAt(new \DateTime('+45 minutes'));
         $this->cache->save($item);
     }
 
@@ -172,6 +179,10 @@ class ApHttpClient
         $headers['Content-Type'] = 'application/activity+json';
 
         return $headers;
+    }
+
+    private function getInstanceHeaders()
+    {
     }
 
     #[ArrayShape([

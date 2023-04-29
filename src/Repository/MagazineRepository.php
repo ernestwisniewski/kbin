@@ -43,6 +43,15 @@ class MagazineRepository extends ServiceEntityRepository
         parent::__construct($registry, Magazine::class);
     }
 
+    public function save(Magazine $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function findAllPaginated(?int $page, string $sortBy): PagerfantaInterface
     {
         $qb = $this->createQueryBuilder('m')
@@ -281,15 +290,16 @@ class MagazineRepository extends ServiceEntityRepository
     public function findAudience(Magazine $magazine): array
     {
         $dql =
-            'SELECT u FROM '.User::class.' u WHERE u IN ('.
+            'SELECT COUNT(u.id), u.apInboxUrl FROM '.User::class.' u WHERE u IN ('.
             'SELECT IDENTITY(ms.user) FROM '.MagazineSubscription::class.' ms WHERE ms.magazine = :magazine)'.
-            'AND u.apId IS NOT NULL';
+            'AND u.apId IS NOT NULL AND u.isBanned = false AND u.apTimeoutAt IS NULL '.
+            'GROUP BY u.apInboxUrl';
 
         $res = $this->getEntityManager()->createQuery($dql)
             ->setParameter('magazine', $magazine)
             ->getResult();
 
-        return $res;
+        return array_map(fn($item) => $item['apInboxUrl'], $res);
     }
 
     public function findWithoutKeys(): array
@@ -388,6 +398,18 @@ class MagazineRepository extends ServiceEntityRepository
             ->andWhere('m.title LIKE :magazine OR m.description LIKE :magazine OR m.name LIKE :magazine')
             ->setParameter('magazine', "%{$magazine}%")
             ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findRemoteForUpdate(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.apId IS NOT NULL')
+            ->andWhere('m.apDomain IS NULL')
+            ->andWhere('m.apDeletedAt IS NULL')
+            ->andWhere('m.apTimeoutAt IS NULL')
+            ->setMaxResults(1000)
             ->getQuery()
             ->getResult();
     }
