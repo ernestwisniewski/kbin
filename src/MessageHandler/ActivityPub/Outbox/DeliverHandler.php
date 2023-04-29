@@ -43,16 +43,6 @@ class DeliverHandler
             return;
         }
 
-        try {
-            $this->client->post($this->client->getInboxUrl($message->apProfileId), $actor, $message->payload);
-        } catch (\Exception $e) {
-            if (410 === $e->getCode() || 400 === $e->getCode()) {
-                $user = $this->userRepository->findOneByApProfileId($message->apProfileId);
-                if ($user) {
-                    $user->apDeletedAt = new \DateTime();
-                    $this->entityManager->flush();
-                }
-            }
-        }
+        $this->client->post($message->apInboxUrl, $actor, $message->payload);
     }
 }

@@ -131,7 +131,10 @@ class ActivityPubManager
                 $user = $this->createUser($actorUrl);
             } else {
                 if (!$user->apFetchedAt || $user->apFetchedAt->modify('+1 hour') < (new \DateTime())) {
-                    $this->bus->dispatch(new UpdateActorMessage($user->apProfileId));
+                    try {
+                        $this->bus->dispatch(new UpdateActorMessage($user->apProfileId));
+                    } catch (\Exception $e) {
+                    }
                 }
             }
 
@@ -146,7 +149,10 @@ class ActivityPubManager
                 $magazine = $this->createMagazine($actorUrl);
             } else {
                 if (!$magazine->apFetchedAt || $magazine->apFetchedAt->modify('+1 hour') < (new \DateTime())) {
-                    $this->bus->dispatch(new UpdateActorMessage($magazine->apProfileId));
+                    try {
+                        $this->bus->dispatch(new UpdateActorMessage($magazine->apProfileId));
+                    } catch (\Exception $e) {
+                    }
                 }
             }
 
@@ -232,6 +238,7 @@ class ActivityPubManager
         $user->apManuallyApprovesFollowers = $actor['manuallyApprovesFollowers'] ?? false;
         $user->apPublicUrl = $actor['url'] ?? $actorUrl;
         $user->apDeletedAt = null;
+        $user->apTimeoutAt = null;
         $user->apFetchedAt = new \DateTime();
 
         $this->entityManager->flush();

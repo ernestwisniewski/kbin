@@ -9,9 +9,9 @@ use App\Entity\User;
 use App\Exception\InvalidApPostException;
 use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
+use App\Repository\UserRepository;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -32,6 +32,7 @@ class ApHttpClient
         private readonly GroupFactory $groupFactory,
         private readonly LoggerInterface $logger,
         private readonly CacheInterface $cache,
+        private readonly UserRepository $userRepository
     ) {
     }
 
@@ -49,12 +50,10 @@ class ApHttpClient
                     ],
                 ])->getContent();
             } catch (\Exception $e) {
-                $item->expiresAfter(30);
-
-                return null;
+                throw $e;
             }
 
-            $item->expiresAfter(600);
+            $item->expiresAt(new \DateTime('+1 hour'));
 
             return $r;
         });
@@ -87,16 +86,25 @@ class ApHttpClient
                             'Accept' => 'application/activity+json,application/ld+json,application/json',
                             'User-Agent' => 'kbinBot v0.1 - https://kbin.pub',
                         ],
-                    ])->getContent();
-                } catch (\Exception $e) {
-                    $item->expiresAfter(30);
+                    ]);
 
+                    if ($r->getStatusCode() === 404 || $r->getStatusCode() === 410) {
+                        if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
+                            $user->apDeletedAt = new \DateTime();
+                            $this->userRepository->save($user, true);
+                        }
+                    }
+                } catch (\Exception $e) {
+                    if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
+                        $user->apTimeoutAt = new \DateTime();
+                        $this->userRepository->save($user, true);
+                    }
                     throw $e;
                 }
 
-                $item->expiresAfter(600);
+                $item->expiresAt(new \DateTime('+1 hour'));
 
-                return $r;
+                return $r->getContent();
             }
         );
 
@@ -105,10 +113,9 @@ class ApHttpClient
 
     public function post(string $url, User|Magazine $actor, ?array $body = null): void
     {
-        $cache = new FilesystemAdapter(); // @todo redis
-
         $cacheKey = 'ap_'.hash('sha256', $url.':'.$body['id']);
-        if ($cache->hasItem($cacheKey)) {
+
+        if ($this->cache->hasItem($cacheKey)) {
             return;
         }
 
@@ -131,10 +138,10 @@ class ApHttpClient
         }
 
         // build cache
-        $item = $cache->getItem($cacheKey);
+        $item = $this->cache->getItem($cacheKey);
         $item->set(true);
-        $item->expiresAt(new \DateTime('+1 day'));
-        $cache->save($item);
+        $item->expiresAt(new \DateTime('+1 hour'));
+        $this->cache->save($item);
     }
 
     private static function headersToCurlArray($headers): array

@@ -10,7 +10,7 @@ framework:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         retry_strategy:
           max_retries: 1
-          delay: 30000
+          delay: 60000
           multiplier: 2
           max_delay: 0
         serializer: messenger.transport.symfony_serializer
@@ -18,7 +18,7 @@ framework:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         retry_strategy:
           max_retries: 1
-          delay: 30000
+          delay: 65000
           multiplier: 2
           max_delay: 0
         serializer: messenger.transport.symfony_serializer

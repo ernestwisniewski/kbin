@@ -46,6 +46,15 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         parent::__construct($registry, User::class);
     }
 
+    public function save(User $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function loadUserByUsername(string $username): ?User
     {
         return $this->loadUserByIdentifier($username);
@@ -194,7 +203,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $dql =
             'SELECT u FROM '.User::class.' u WHERE u IN ('.
             'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user)'.
-            'AND u.apId IS NOT NULL AND u.isBanned = false AND u.apDeletedAt IS NULL';
+            'AND u.apId IS NOT NULL AND u.isBanned = false AND u.apDeletedAt IS NULL AND u.apTimeoutAt IS NULL';
 
         $res = $this->getEntityManager()->createQuery($dql)
             ->setParameter('user', $user)
@@ -291,6 +300,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->where('u.apId IS NOT NULL')
             ->andWhere('u.apDomain IS NULL')
             ->andWhere('u.apDeletedAt IS NULL')
+            ->andWhere('u.apTimeoutAt IS NULL')
             ->setMaxResults(1000)
             ->getQuery()
             ->getResult();
@@ -376,6 +386,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $qb->andWhere($qb->expr()->in('u.id', $user))
             ->andWhere('u.isBanned = false')
             ->andWhere('u.apDeletedAt IS NULL')
+            ->andWhere('u.apTimeoutAt IS NULL')
             ->andWhere('u.about IS NOT NULL')
             ->andWhere('u.avatar IS NOT NULL');
 
@@ -418,6 +429,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->andWhere('u.lastActive >= :lastActive')
                 ->andWhere('u.isBanned = false')
                 ->andWhere('u.apDeletedAt IS NULL')
+                ->andWhere('u.apTimeoutAt IS NULL')
                 ->andWhere('u.avatar IS NOT NULL')
                 ->join('u.avatar', 'a')
                 ->orderBy('u.lastActive', 'DESC')
@@ -430,5 +442,14 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         shuffle($results);
 
         return array_slice($results, 0, 12);
+    }
+
+    public function findByProfileIds(array $arr): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.apProfileId IN (:arr)')
+            ->setParameter('arr', $arr)
+            ->getQuery()
+            ->getResult();
     }
 }
