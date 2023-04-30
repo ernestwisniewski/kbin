@@ -80,8 +80,6 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
-    networks:
-      - rabbitmq_net
 
   messenger_kbin:
     build:
@@ -136,6 +134,7 @@ services:
     restart: always
     depends_on:
       - php
+      - rabbitmq
 
   ###> doctrine/doctrine-bundle ###
   database:
@@ -163,7 +162,3 @@ volumes:
   caddy_config:
   db-data:
   rabbitmq-data:
-
-networks:
-  rabbitmq_net:
-    driver: bridge
