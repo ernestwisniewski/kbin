@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'reset_password'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-reset-password{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'reset_password'|trans }}</h1>
+    <div id="content" class="section">
+        <div class="container">
+            {{ form_start(form) }}
+            {% for flash_error in app.flashes() %}
+                <div class="alert alert__danger">{{ flash_error }}</div>
+            {% endfor %}
+            {{ form_row(form.plainPassword) }}
+
+            <div class="float-end">
+                <button class="btn btn__primary" type="submit">{{ 'reset_password'|trans }}</button>
+            </div>
+            {{ form_end(form) }}
+
+            <div class="actions">
+                <p>{{ 'already_have_account'|trans }} <a
+                            class="font-weight-bold"
+                            href="{{ path('app_login') }}">{{ 'login'|trans }}</a></p>
+                {% if kbin_registrations_enabled() %}
+                    <p>{{ 'dont_have_account'|trans }} <a
+                                class="font-weight-bold"
+                                href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>
+                {% endif %}
+            </div>
+            {% include 'user/_login_socials.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

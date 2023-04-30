@@ -83,7 +83,7 @@ class ResetPasswordController extends AbstractController
             ->from(new Address($this->settingsManager->get('KBIN_SENDER_EMAIL'), $this->settingsManager->get('KBIN_DOMAIN')))
             ->to($user->getEmail())
             ->subject($translator->trans('reset_password'))
-            ->htmlTemplate('reset_password/email.html.twig')
+            ->htmlTemplate('_email/reset_pass_confirm.html.twig')
             ->context([
                 'resetToken' => $resetToken,
             ]);
@@ -171,7 +171,7 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('reset_password/reset.html.twig', [
-            'resetForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }
