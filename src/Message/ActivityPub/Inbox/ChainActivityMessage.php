@@ -6,7 +6,7 @@ namespace App\Message\ActivityPub\Inbox;
 
 use App\Message\Contracts\AsyncApMessageInterface;
 
-class ChainActivityMessage
+class ChainActivityMessage implements AsyncApMessageInterface
 {
     public function __construct(
         public array $chain,
