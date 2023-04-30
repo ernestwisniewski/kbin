@@ -48,6 +48,7 @@ class ApHttpClient
 
             $client = new CurlHttpClient();
             $r = $client->request('GET', $url, [
+                'max_duration' => self::TIMEOUT,
                 'timeout' => self::TIMEOUT,
                 'headers' => $this->getInstanceHeaders($url),
             ]);
@@ -85,6 +86,7 @@ class ApHttpClient
                 try {
                     $client = new CurlHttpClient();
                     $r = $client->request('GET', $apProfileId, [
+                        'max_duration' => self::TIMEOUT,
                         'timeout' => self::TIMEOUT,
                         'headers' => $this->getInstanceHeaders($apProfileId),
                     ]);
@@ -133,6 +135,7 @@ class ApHttpClient
 
         $client = new CurlHttpClient();
         $req = $client->request('POST', $url, [
+            'max_duration' => self::TIMEOUT,
             'timeout' => self::TIMEOUT,
             'body' => json_encode($body),
             'headers' => $this->getHeaders($url, $actor, $body),

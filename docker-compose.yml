@@ -70,7 +70,7 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD:-!ChangeThisRedisPass!} --maxmemory-policy volatile-ttl
 
   rabbitmq:
-    image: rabbitmq:3.11.13-management-alpine
+    image: rabbitmq:3-management
     restart: always
     environment:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}

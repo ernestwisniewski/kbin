@@ -92,6 +92,8 @@ class ImageManager
                 'GET',
                 $url,
                 [
+                    'timeout' => 5,
+                    'max_duration' => 5,
                     'headers' => [
                         'Accept' => implode(', ', self::IMAGE_MIMETYPES),
                     ],
