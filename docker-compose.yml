@@ -68,17 +68,20 @@ services:
     image: redis:7.0.11-alpine
     restart: always
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD:-!ChangeThisRedisPass!} --maxmemory-policy volatile-ttl
-    volumes:
-      - redis-data:/data
 
   rabbitmq:
     image: rabbitmq:3.11.13-management-alpine
+    restart: always
     environment:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-kbin}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - rabbitmq_net
 
   messenger_kbin:
     build:
@@ -159,4 +162,8 @@ volumes:
   caddy_data:
   caddy_config:
   db-data:
-  redis-data:
+  rabbitmq-data:
+
+networks:
+  rabbitmq_net:
+    driver: bridge
