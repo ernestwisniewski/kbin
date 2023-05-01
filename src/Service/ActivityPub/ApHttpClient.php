@@ -54,7 +54,7 @@ class ApHttpClient
             ]);
 
             if (!str_starts_with((string)$r->getStatusCode(), '2')) {
-                throw new InvalidApPostException("Post fail: {$url}, ".$r->getContent(false));
+                throw new InvalidApPostException("Get fail: {$url}, ".$r->getContent(false));
             }
 
             $item->expiresAt(new \DateTime('+1 hour'));
@@ -196,8 +196,8 @@ class ApHttpClient
         unset($headers['(request-target)']);
         $headers['Signature'] = $signatureHeader;
         $headers['User-Agent'] = 'kbinBot v0.1 - https://kbin.pub';
+        $headers['Accept'] = 'application/activity+json, application/json';
         $headers['Content-Type'] = 'application/activity+json';
-        $headers['Accept'] = 'application/activity+json,application/ld+json,application/json';
 
         return $headers;
     }
