@@ -9,6 +9,16 @@
 
 log
 
+@static {
+    path_regexp \.(ico|css|js|gif|jpg|webp|jpeg|png|svg|woff)$
+}
+header @static Cache-Control max-age=259200
+
+handle_path /media/cache/resolve* {
+    header Cache-Control "public" max-age=259200
+    try_files {uri} {uri}/ /index.php?{query_string}
+}
+
 route {
     root * /srv/app/public
     mercure {
@@ -30,5 +40,4 @@ route {
     php_fastcgi unix//var/run/php/php-fpm.sock
     encode zstd gzip
     file_server
-    header /media/* Cache-Control max-age=5184000
 }
