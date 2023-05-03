@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity(repositoryClass: MagazineSubscriptionRepository::class)]
 #[Table]
 #[UniqueConstraint(name: 'magazine_subsription_idx', columns: ['user_id', 'magazine_id'])]
-#[Cache('NONSTRICT_READ_WRITE')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class MagazineSubscription
 {
     use CreatedAtTrait {

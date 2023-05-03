@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[AssociationOverrides([
     new AssociationOverride(name: 'user', inversedBy: 'postCommentVotes'),
 ])]
-#[Cache('NONSTRICT_READ_WRITE')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class PostCommentVote extends Vote
 {
     #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'votes')]

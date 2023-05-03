@@ -22,6 +22,7 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -32,6 +33,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostRepository::class)]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Post implements VotableInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
@@ -145,7 +147,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         $comments = $this->handlePrivateComments($comments, $user);
         $comments = new ArrayCollection($comments->slice(0, 2));
 
-        if (!count(array_filter($comments->toArray(), fn ($comment) => $comment->countUpVotes() > 0))) {
+        if (!count(array_filter($comments->toArray(), fn($comment) => $comment->countUpVotes() > 0))) {
             return $this->getLastComments();
         }
 

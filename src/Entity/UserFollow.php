@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity]
 #[Table]
 #[UniqueConstraint(name: 'user_follows_idx', columns: ['follower_id', 'following_id'])]
-#[Cache('NONSTRICT_READ_WRITE')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class UserFollow
 {
     use CreatedAtTrait {

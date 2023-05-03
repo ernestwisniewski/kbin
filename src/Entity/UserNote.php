@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity(repositoryClass: UserNoteRepository::class)]
 #[Table]
 #[UniqueConstraint(name: 'user_noted_idx', columns: ['user_id', 'target_id'])]
-#[Cache('NONSTRICT_READ_WRITE')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class UserNote
 {
     use CreatedAtTrait {

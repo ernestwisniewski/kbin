@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\CommentInterface;
-use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\DomainInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\RankingInterface;
@@ -24,6 +23,7 @@ use App\Repository\EntryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -36,6 +36,7 @@ use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryRepository::class)]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
@@ -380,7 +381,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     {
         $amount = $this->adaAmount / 1000000;
 
-        return $amount > 0 ? (string) $amount : '';
+        return $amount > 0 ? (string)$amount : '';
     }
 
     public function isAdult(): bool

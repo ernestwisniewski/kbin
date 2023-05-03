@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity]
 #[Table]
 #[UniqueConstraint(name: 'user_block_idx', columns: ['blocker_id', 'blocked_id'])]
-#[Cache('NONSTRICT_READ_WRITE')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class UserBlock
 {
     use CreatedAtTrait {
