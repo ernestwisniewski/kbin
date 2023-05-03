@@ -252,7 +252,7 @@ class ApHttpClient
 
     public function getInstancePublicKey(): string
     {
-        return $this->cache->get(('instance_private_key'), function (ItemInterface $item) {
+        return $this->cache->get(('instance_public_key'), function (ItemInterface $item) {
             $item->expiresAt(new \DateTime('+1 day'));
 
             return $this->siteRepository->findAll()[0]->publicKey;
