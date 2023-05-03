@@ -176,7 +176,7 @@ class ApHttpClient
         unset($headers['(request-target)']);
         $headers['Signature'] = $signatureHeader;
         $headers['User-Agent'] = 'kbinBot v0.1 - https://kbin.pub';
-        $headers['Accept'] = 'application/activity+json, application/json';
+        $headers['Accept'] = 'application/activity+json, application/ld+json';
         $headers['Content-Type'] = 'application/activity+json';
 
         return $headers;
@@ -196,7 +196,7 @@ class ApHttpClient
         unset($headers['(request-target)']);
         $headers['Signature'] = $signatureHeader;
         $headers['User-Agent'] = 'kbinBot v0.1 - https://kbin.pub';
-        $headers['Accept'] = 'application/activity+json, application/json';
+        $headers['Accept'] = 'application/activity+json, application/ld+json';
         $headers['Content-Type'] = 'application/activity+json';
 
         return $headers;
