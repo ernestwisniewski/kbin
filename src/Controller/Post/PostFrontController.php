@@ -22,7 +22,7 @@ class PostFrontController extends AbstractController
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
             ->setTime($criteria->resolveTime($time));
 
         $posts = $repository->findByCriteria($criteria);
@@ -54,7 +54,7 @@ class PostFrontController extends AbstractController
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
             ->setTime($criteria->resolveTime($time));
         $criteria->subscribed = true;
 
@@ -87,7 +87,7 @@ class PostFrontController extends AbstractController
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
             ->setTime($criteria->resolveTime($time));
         $criteria->moderated = true;
 
@@ -120,7 +120,7 @@ class PostFrontController extends AbstractController
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
             ->setTime($criteria->resolveTime($time));
         $criteria->favourite = true;
 
@@ -157,7 +157,7 @@ class PostFrontController extends AbstractController
     ): Response {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
             ->setTime($criteria->resolveTime($time));
         $criteria->magazine = $magazine;
 
