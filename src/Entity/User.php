@@ -65,8 +65,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public array $roles = [];
     #[Column(type: 'integer', nullable: false)]
     public int $followersCount = 0;
-    #[Column(type: 'string', nullable: false, options: ['default' => User::HOMEPAGE_SUB])]
-    public string $homepage = self::HOMEPAGE_SUB;
+    #[Column(type: 'string', nullable: false, options: ['default' => User::HOMEPAGE_ALL])]
+    public string $homepage = self::HOMEPAGE_ALL;
     #[Column(type: 'text', nullable: true)]
     public ?string $about = null;
     #[Column(type: 'datetimetz')]

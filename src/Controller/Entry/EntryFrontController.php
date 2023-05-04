@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
+use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
@@ -25,7 +26,7 @@ class EntryFrontController extends AbstractController
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
+            ->setFederation($request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) === 'false' ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
 
@@ -58,7 +59,7 @@ class EntryFrontController extends AbstractController
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
+            ->setFederation($request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) === 'false' ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->subscribed = true;
@@ -92,7 +93,7 @@ class EntryFrontController extends AbstractController
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
+            ->setFederation($request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) === 'false' ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->moderated = true;
@@ -126,7 +127,7 @@ class EntryFrontController extends AbstractController
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
+            ->setFederation($request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) === 'false' ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->favourite = true;
@@ -164,7 +165,7 @@ class EntryFrontController extends AbstractController
     ): Response {
         $criteria = (new EntryPageView($this->getPageNb($request)));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
+            ->setFederation($request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) === 'false' ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->magazine = $magazine;

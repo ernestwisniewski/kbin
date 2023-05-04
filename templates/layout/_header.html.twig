@@ -8,7 +8,9 @@
         </div>
         <nav class="head-nav">
             <div class="brand">
-                <a href="/"><small><i class="fa-solid fa-bars"></i></small> {{ kbin_title() }}</a>
+                <a href="{{ app.user ? path(app.user.homepage) : '/' }}">
+                    <small><i class="fa-solid fa-bars"></i></small> {{ kbin_title() }}
+                </a>
             </div>
             <menu class="head-nav__menu">
                 {% include 'layout/_header_nav.html.twig' %}
