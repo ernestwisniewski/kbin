@@ -102,7 +102,7 @@ export default class extends ApplicationController {
     }
 
     handleDefaultTheme() {
-        if (this.checkCookie('kbin_theme')) {
+        if (!document.querySelector('body').classList.contains('theme--default')) {
             return;
         }
 
@@ -115,17 +115,5 @@ export default class extends ApplicationController {
 
         document.querySelector('body').classList.remove('theme--default');
         document.querySelector('body').classList.add(`theme--${preferredTheme}`);
-    }
-
-    checkCookie(name) {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.indexOf(`${name}=`) === 0) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
