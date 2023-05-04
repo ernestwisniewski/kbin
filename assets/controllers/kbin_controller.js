@@ -113,7 +113,7 @@ export default class extends ApplicationController {
         const expireDate = new Date(expireTime).toUTCString();
         document.cookie = `kbin_theme=${preferredTheme}; expires=${expireDate}; path=/`;
 
-        document.querySelector('body').classList.remove('theme--dark');
+        document.querySelector('body').classList.remove('theme--default');
         document.querySelector('body').classList.add(`theme--${preferredTheme}`);
     }
 

@@ -41,7 +41,7 @@
 </head>
 <body class="{{ html_classes(app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
     ? 'theme--'~app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
-    : 'theme--dark', {
+    : 'theme--default', {
         'rounded-edges': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'true',
         'topbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true',
         'fixed-navbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true',
