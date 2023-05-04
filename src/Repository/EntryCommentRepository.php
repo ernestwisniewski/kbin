@@ -110,6 +110,10 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
     {
         $user = $this->security->getUser();
 
+        if ($criteria->federation === Criteria::AP_LOCAL) {
+            $qb->andWhere('c.apId IS NULL');
+        }
+
         if ($criteria->entry) {
             $qb->andWhere('c.entry = :entry')
                 ->setParameter('entry', $criteria->entry);

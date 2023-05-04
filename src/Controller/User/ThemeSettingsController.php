@@ -28,6 +28,7 @@ class ThemeSettingsController extends AbstractController
     public const KBIN_GENERAL_FIXED_NAVBAR = 'kbin_general_fixed_navbar';
     public const KBIN_GENERAL_SIDEBAR_POSITION = 'kbin_general_sidebar_position';
     public const KBIN_GENERAL_DYNAMIC_LISTS = 'kbin_general_dynamic_lists';
+    public const KBIN_FEDERATION_ENABLED = 'kbin_federation_enabled';
 
     public const CLASSIC = 'classic';
     public const CHAT = 'chat';
@@ -60,6 +61,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_ENTRIES_SHOW_PREVIEW,
         self::KBIN_POSTS_SHOW_PREVIEW,
         self::KBIN_GENERAL_DYNAMIC_LISTS,
+        self::KBIN_FEDERATION_ENABLED,
     ];
 
     public const VALUES = [

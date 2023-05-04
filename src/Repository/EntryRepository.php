@@ -122,6 +122,10 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     {
         $user = $this->security->getUser();
 
+        if($criteria->federation === Criteria::AP_LOCAL) {
+            $qb->andWhere('e.apId IS NULL');
+        }
+
         if ($criteria->magazine) {
             $qb->andWhere('e.magazine = :magazine')
                 ->setParameter('magazine', $criteria->magazine);

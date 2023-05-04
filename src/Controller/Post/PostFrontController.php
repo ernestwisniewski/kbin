@@ -9,6 +9,7 @@ use App\DTO\PostDto;
 use App\Entity\Magazine;
 use App\Form\PostType;
 use App\PageView\PostPageView;
+use App\Repository\Criteria;
 use App\Repository\PostRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +22,7 @@ class PostFrontController extends AbstractController
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time));
 
         $posts = $repository->findByCriteria($criteria);
@@ -52,6 +54,7 @@ class PostFrontController extends AbstractController
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time));
         $criteria->subscribed = true;
 
@@ -84,6 +87,7 @@ class PostFrontController extends AbstractController
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time));
         $criteria->moderated = true;
 
@@ -116,6 +120,7 @@ class PostFrontController extends AbstractController
     {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time));
         $criteria->favourite = true;
 
@@ -152,6 +157,7 @@ class PostFrontController extends AbstractController
     ): Response {
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time));
         $criteria->magazine = $magazine;
 

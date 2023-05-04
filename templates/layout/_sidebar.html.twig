@@ -30,14 +30,14 @@
             <div class="row">
                 <span>{{ 'status'|trans }}:</span>
                 <div>
-                    <a class="link-muted active"
-                       href="#federation">
+                    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FEDERATION_ENABLED'), value: 'true'}) }}"
+                       class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FEDERATION_ENABLED')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FEDERATION_ENABLED')) is same as 'true'}) }}">
                         {{ 'on'|trans }}
                     </a>
                     |
-                    <a class="link-muted"
-                       href="#federation">
-                        {{ 'off'|trans }}
+                    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FEDERATION_ENABLED'), value: 'false'}) }}"
+                       class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FEDERATION_ENABLED')) is same as 'false'}) }}">
+                    {{ 'off'|trans }}
                     </a>
                 </div>
             </div>

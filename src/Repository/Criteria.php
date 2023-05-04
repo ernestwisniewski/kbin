@@ -36,6 +36,10 @@ abstract class Criteria
     public const TIME_YEAR = 'year';
     public const TIME_ALL = '∞';
 
+    public const AP_ALL = 'all';
+    public const AP_LOCAL = 'local';
+    public const AP_FEDERATED = 'federated';
+
     public const FRONT_PAGE_OPTIONS = [
         self::FRONT_FEATURED,
         self::FRONT_SUBSCRIBED,
@@ -63,6 +67,7 @@ abstract class Criteria
     public string $sortOption = EntryRepository::SORT_DEFAULT;
     public string $time = EntryRepository::TIME_DEFAULT;
     public string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+    public string $federation = self::AP_ALL;
     public bool $subscribed = false;
     public ?string $tag = null;
     public ?string $domain = null;
@@ -70,6 +75,13 @@ abstract class Criteria
     public function __construct(int $page)
     {
         $this->page = $page;
+    }
+
+    public function setFederation($feed): self
+    {
+        $this->federation = $feed;
+
+        return $this;
     }
 
     public function setType(?string $type): self

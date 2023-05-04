@@ -25,6 +25,7 @@ class EntryFrontController extends AbstractController
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
 
@@ -57,6 +58,7 @@ class EntryFrontController extends AbstractController
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->subscribed = true;
@@ -90,6 +92,7 @@ class EntryFrontController extends AbstractController
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->moderated = true;
@@ -123,6 +126,7 @@ class EntryFrontController extends AbstractController
     {
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->favourite = true;
@@ -160,6 +164,7 @@ class EntryFrontController extends AbstractController
     ): Response {
         $criteria = (new EntryPageView($this->getPageNb($request)));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_LOCAL))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->magazine = $magazine;

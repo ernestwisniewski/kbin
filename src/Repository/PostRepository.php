@@ -23,8 +23,8 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -105,6 +105,10 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
     private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
     {
         $user = $this->security->getUser();
+
+        if ($criteria->federation === Criteria::AP_LOCAL) {
+            $qb->andWhere('p.apId IS NULL');
+        }
 
         if ($criteria->magazine) {
             $qb->andWhere('p.magazine = :magazine')
