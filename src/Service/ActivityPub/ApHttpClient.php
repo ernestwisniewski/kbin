@@ -26,7 +26,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class ApHttpClient
 {
-    public const TIMEOUT = 3;
+    public const TIMEOUT = 5;
 
     public function __construct(
         private readonly string $kbinDomain,
