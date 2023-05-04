@@ -25,7 +25,7 @@ class EntryCommentFrontController extends AbstractController
         $params = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy ?? Criteria::SORT_DEFAULT))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
             ->setTime($criteria->resolveTime($time));
 
         if ($magazine) {
@@ -49,7 +49,7 @@ class EntryCommentFrontController extends AbstractController
         $params = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
             ->setTime($criteria->resolveTime($time));
         $criteria->subscribed = true;
 
@@ -70,7 +70,7 @@ class EntryCommentFrontController extends AbstractController
         $params = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
             ->setTime($criteria->resolveTime($time));
         $criteria->moderated = true;
 
@@ -91,7 +91,7 @@ class EntryCommentFrontController extends AbstractController
         $params = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
-            ->setFederation($request->cookies->get('kbin_federation', Criteria::APP_ALL))
+            ->setFederation($request->cookies->get('kbin_federation', Criteria::AP_ALL))
             ->setTime($criteria->resolveTime($time));
         $criteria->favourite = true;
 
