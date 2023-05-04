@@ -14,6 +14,7 @@ export default class extends ApplicationController {
         useDebounce(this, {wait: 800})
         this.handleAndroidDropdowns();
         this.handleOptionsBarScroll();
+        this.handleDefaultTheme();
     }
 
     handleAndroidDropdowns() {
@@ -61,12 +62,70 @@ export default class extends ApplicationController {
     }
 
     handleOptionsBarScroll() {
-        const containers = document.querySelectorAll('.options__main');
-        containers.forEach((container) => {
-            container.addEventListener("wheel", (event) => {
-                event.preventDefault();
-                container.scrollLeft += event.deltaY;
+        // const containers = document.querySelectorAll('.options__main');
+        // containers.forEach((container) => {
+        //     container.addEventListener("wheel", (event) => {
+        //         event.preventDefault();
+        //         container.scrollLeft += event.deltaY;
+        //     });
+        // });
+
+        const container = document.getElementById('options');
+        const containerWidth = container.clientWidth;
+
+        const area = container.querySelector('.options__main');
+        const areaWidth = area.scrollWidth;
+
+        if (areaWidth > containerWidth) {
+            container.insertAdjacentHTML('beforeend', '<menu class="scroll"><li class="scroll-left me-1"><i class="fa-solid fa-circle-left"></i></li><li class="scroll-right"><i class="fa-solid fa-circle-right"></i></li></menu>');
+
+            const scrollLeft = container.querySelector('.scroll-left');
+            const scrollRight = container.querySelector('.scroll-right');
+            const scrollBtnContainer = container.querySelector('.scroll');
+            const scrollArea = container.querySelector('.options__main');
+
+            container.style.position = 'relative';
+            scrollBtnContainer.style.position = 'absolute';
+            scrollBtnContainer.style.right = '0';
+            scrollBtnContainer.style.bottom = '-10px';
+
+            scrollLeft.style.cursor = 'pointer';
+            scrollRight.style.cursor = 'pointer';
+
+            scrollRight.addEventListener('click', () => {
+                scrollArea.scrollLeft += 100;
             });
-        });
+            scrollLeft.addEventListener('click', () => {
+                scrollArea.scrollLeft -= 100;
+            });
+        }
+    }
+
+    handleDefaultTheme() {
+        if (this.checkCookie('kbin_theme')) {
+            return;
+        }
+
+        let preferredTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+        const now = new Date();
+        const expireTime = now.getTime() + 60 * 60 * 1000;
+        const expireDate = new Date(expireTime).toUTCString();
+        document.cookie = `kbin_theme=${preferredTheme}; expires=${expireDate}; path=/`;
+
+        document.querySelector('body').classList.remove('theme--dark');
+        document.querySelector('body').classList.add(`theme--${preferredTheme}`);
+    }
+
+    checkCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.indexOf(`${name}=`) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
