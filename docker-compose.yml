@@ -82,6 +82,7 @@ services:
       - 15672:15672
 
   messenger_kbin:
+    user: "82:82"
     build:
       context: .
       target: symfony_messenger
@@ -109,6 +110,7 @@ services:
       - php
 
   messenger_ap:
+    user: "82:82"
     build:
       context: .
       target: symfony_messenger
