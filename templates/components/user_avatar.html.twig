@@ -5,9 +5,10 @@
         {% endif %}
         <img width="{{ width }}" height="{{ height }}"
              style="max-width: {{ width }}px; max-height: {{ height }}px;"
-             src="{{ user.avatar ? (asset(user.avatar.filePath) | imagine_filter('avatar_thumb')) : '' }}"
+             src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
         {% if asLink %}
     </a>
     {% endif %}
 </figure>
+87

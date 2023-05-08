@@ -31,7 +31,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
     new UniqueConstraint(name: 'user_email_idx', columns: ['email']),
     new UniqueConstraint(name: 'user_username_idx', columns: ['username']),
 ])]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface, ActivityPubActorInterface
 {
     use ActivityPubActorTrait;
