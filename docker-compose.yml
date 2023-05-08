@@ -71,6 +71,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management
+    hostname: kbin-rabbitmq
     restart: always
     environment:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
