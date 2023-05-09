@@ -30,6 +30,11 @@ class Page
 
     public function create(array $object): ActivityPubActivityInterface
     {
+        $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
+        if ($actor->isBanned) {
+            throw new \Exception('User is banned.');
+        }
+
         $current = $this->repository->findByObjectId($object['id']);
         if ($current) {
             return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
@@ -51,8 +56,6 @@ class Page
         if (isset($object['attachment']) || isset($object['image'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
         }
-
-        $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
 
         $dto->body = !empty($object['content']) ? $this->markdownConverter->convert($object['content']) : null;
         $dto->visibility = $this->getVisibility($object, $actor);

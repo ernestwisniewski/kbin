@@ -179,6 +179,11 @@ class Note
         );
         $dto->apId = $object['id'];
 
+        $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
+        if ($actor->isBanned) {
+            throw new \Exception('User is banned.');
+        }
+
         if (isset($object['attachment'])) {
             $dto->image = $this->activityPubManager->handleImages($object['attachment']);
 
@@ -196,8 +201,6 @@ class Note
                 }
             }
         }
-
-        $actor = $this->activityPubManager->findActorOrCreate($object['attributedTo']);
 
         $dto->body = $this->markdownConverter->convert($object['content']);
         $dto->visibility = $this->getVisibility($object, $actor);
