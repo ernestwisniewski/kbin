@@ -30,7 +30,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @method Magazine|null find($id, $lockMode = null, $lockVersion = null)
  * @method Magazine|null findOneBy(array $criteria, array $orderBy = null)
- * @method Magazine|null findOneByName(string $name, array $orderBy = null)
  * @method Magazine[]    findAll()
  * @method Magazine[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -50,6 +49,17 @@ class MagazineRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findOneByName(string $name): ?Magazine
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere('LOWER(m.name) = LOWER(:name)')
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function findAllPaginated(?int $page, string $sortBy): PagerfantaInterface
