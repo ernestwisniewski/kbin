@@ -18,6 +18,8 @@
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
+    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -30,6 +32,13 @@
             window.KBIN_MAGAZINE = "{{ magazine is defined and magazine ? magazine.name : null }}"
             window.KBIN_ENTRY_ID = "{{ entry is defined and entry ? entry.id : null }}"
             window.KBIN_POST_ID = "{{ post is defined and post ? post.id : null }}"
+        </script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register(
+                    '/sw.js'
+                );
+            }
         </script>
     {% endblock %}
 
