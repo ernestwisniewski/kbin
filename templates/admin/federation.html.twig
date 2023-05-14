@@ -17,7 +17,7 @@
     <div class="section" id="content">
         <div class="container">
             {{ form_start(form) }}
-            {{ form_row(form.instances) }}
+            {{ form_row(form.instances, {label: 'banned_instances'}) }}
             <div class="actions">
                 {{ form_row(form.submit, { 'label': 'save'|trans, attr: {class: 'btn btn__primary'} }) }}
             </div>
