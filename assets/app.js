@@ -1,16 +1,10 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
-// any CSS you import will output into a single css file (app.css in this case)
+import {Application} from '@hotwired/stimulus'
+import TextareaAutogrow from 'stimulus-textarea-autogrow'
 import './styles/app.scss';
-
 import './utils/popover';
-
 // start the Stimulus application
 import './bootstrap';
-
 import '@github/markdown-toolbar-element'
+
+const application = Application.start()
+application.register('textarea-autogrow', TextareaAutogrow)

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'federation'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-users{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+    <div class="section" id="content">
+        test
+    </div>
+{% endblock %}

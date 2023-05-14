@@ -52,6 +52,7 @@ class SettingsManager
                     'KBIN_REGISTRATIONS_ENABLED',
                     FILTER_VALIDATE_BOOLEAN
                 ) ?? $this->kbinRegistrationsEnabled,
+                $this->find($results, 'KBIN_BANNED_INSTANCES') ?? [],
             );
         }
     }

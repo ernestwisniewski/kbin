@@ -29,5 +29,11 @@
                 {{ 'pages'|trans|lower }}
             </a>
         </li>
+        <li>
+            <a href="{{ path('admin_federation') }}"
+               class="{{ html_classes({'active': is_route_name('admin_federation')}) }}">
+                {{ 'federation'|trans|lower }}
+            </a>
+        </li>
     </menu>
 </aside>

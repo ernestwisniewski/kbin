@@ -25,8 +25,8 @@
         <div class="container">
             <h1 hidden>{{ 'profile'|trans }}</h1>
             {{ form_start(form) }}
-            {{ component('editor_toolbar', {id: 'user_about'}) }}
-            {{ form_row(form.about, {label: false, attr: {placeholder: 'about', 'data-entry-link-create-target': 'user_about'}}) }}
+            {{ component('editor_toolbar', {id: 'user_basic_about'}) }}
+            {{ form_row(form.about, {label: false, attr: {placeholder: 'about', 'data-controller': 'textarea-autogrow', 'data-entry-link-create-target': 'user_about'}}) }}
             {{ form_row(form.username, {label: 'username'}) }}
             {{ form_row(form.avatar, {label: 'avatar'}) }}
             {{ form_row(form.cover, {label: 'cover'}) }}

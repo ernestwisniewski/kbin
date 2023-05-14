@@ -17,6 +17,13 @@ admin_settings:
     pl: /admin/ustawienia
   methods: [ GET, POST ]
 
+admin_federation:
+  controller: App\Controller\Admin\AdminFederationController
+  path:
+    en: /admin/federation
+    pl: /admin/federacja
+  methods: [ GET, POST ]
+
 admin_pages:
   controller: App\Controller\Admin\AdminPagesController
   path: /admin/pages/{page}

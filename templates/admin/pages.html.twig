@@ -54,7 +54,7 @@
             {% if route_has_param('page', 'terms') or route_has_param('page', 'privacyPolicy') %}
                 {{ component('editor_toolbar', {id: 'admin_pages'}) }}
             {% endif %}
-            {{ form_row(form.body, {label: false, attr: {placeholder: 'body', 'data-entry-link-create-target': 'admin_pages'}}) }}
+            {{ form_row(form.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'textarea-autogrow', 'data-entry-link-create-target': 'admin_pages'}}) }}
             <div class="row actions">
                 {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>

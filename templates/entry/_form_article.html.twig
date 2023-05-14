@@ -7,7 +7,7 @@
 {{ form_start(form, {attr: {class: edit ? 'entry_edit' : 'entry-create'}}) }}
     {{ form_row(form.title, {label: 'title'}) }}
     {{ component('editor_toolbar', {id: 'entry_article_body'}) }}
-    {{ form_row(form.body, {label: false, attr: {placeholder: 'body'}}) }}
+    {{ form_row(form.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'textarea-autogrow'}}) }}
     {{ form_row(form.magazine, {label: false}) }}
     {{ form_row(form.tags, {label: 'tags'}) }}
     {{ form_row(form.badges, {label: 'badges'}) }}
