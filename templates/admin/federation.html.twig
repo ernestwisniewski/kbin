@@ -4,7 +4,7 @@
     {{- 'federation'|trans }} - {{ parent() -}}
 {%- endblock -%}
 
-{% block mainClass %}page-admin-users{% endblock %}
+{% block mainClass %}page-admin-federation{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -15,6 +15,13 @@
 {% block body %}
     {% include 'admin/_options.html.twig' %}
     <div class="section" id="content">
-        test
+        <div class="container">
+            {{ form_start(form) }}
+            {{ form_row(form.instances) }}
+            <div class="actions">
+                {{ form_row(form.submit, { 'label': 'save'|trans, attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

@@ -1,0 +1,265 @@
+show_profile_subscriptions: Tijdschriftabonnementen tonen
+notify_on_new_entry_comment_reply: Meldingen tonen bij reacties op een van mijn gespreksreacties
+notify_on_new_posts: Meldingen tonen bij nieuwe berichten in een tijdschriftabonnement
+solarized_light: Gepolariseerd licht
+show_magazines_icons: Tijdschriftpictogrammen tonen
+removed_post_by: heeft een bericht verwijderd van
+flash_register_success: Je account is geregistreerd. Er is een e-mail met een bevestigingslink
+  gestuurd.
+type.article: Artikel
+type.photo: Foto
+type.video: Video
+type.smart_contract: Slim contract
+type.magazine: Tijdschrift
+thread: Gesprek
+microblog: Microblog
+people: Personen
+events: Evenementen
+magazine: Tijdschrift
+magazines: Tijdschriften
+search: Zoeken
+add: Toevoegen
+login: Inloggen
+top: Beste
+hot: Populair
+active: Actief
+newest: Nieuwste
+oldest: Oudste
+commented: Gereageerd
+change_view: Andere weergave
+filter_by_time: Filteren op tijdstip
+filter_by_type: Filteren op type
+favourites: Favorieten
+favourite: Favoriet
+more: Meer
+avatar: Profielfoto
+added: Toegevoegd
+views: Weergaven
+no_comments: Geen reacties
+created_at: Aangemaakt
+owner: Eigenaar
+subscribers: Abonnees
+online: Online
+comments: Reacties
+posts: Berichten
+moderators: Moderators
+mod_log: Moderatielogboek
+add_comment: Reactie plaatsen
+add_post: Bericht plaatsen
+add_media: Media plaatsen
+enter_your_comment: Voer een reactie in
+enter_your_post: Voer een bericht in
+activity: Activiteit
+cover: Omslag
+related_posts: Verwante berichten
+random_posts: Willekeurige berichten
+federated_user_info: Het profiel van deze server is mogelijk onvolledig.
+go_to_original_instance: Bekijk meer op de oorspronkelijke instantie.
+empty: Leeg
+subscribe: Abonneren
+down_votes: Omlaagstemmen
+up_votes: Omhoogstemmen
+follow: Volgen
+unfollow: Ontvolgen
+login_or_email: Gebruikersnaam of e-mailadres
+password: Wachtwoord
+remember_me: Inloggegevens onthouden
+dont_have_account: Heb je nog geen account?
+already_have_account: Heb je al een account?
+register: Registreren
+reset_password: Wachtwoord herstellen
+show_more: Meer tonen
+to: aan
+in: in
+username: Gebruikersnaam
+email: E-mailadres
+terms: Algemene voorwaarden
+privacy_policy: Privacybeleid
+about_instance: Over
+all_magazines: Alle tijdschriften
+stats: Statistieken
+fediverse: Fediverse
+awards: Bekroningen
+ranking: Klassement
+create_new_magazine: Tijdschrift samenstellen
+add_new_article: Artikel toevoegen
+add_new_link: Link toevoegen
+add_new_photo: Foto toevoegen
+add_new_post: Bericht toevoegen
+add_new_video: Video toevoegen
+contact: Contact
+faq: Veelgestelde vragen
+rss: Rss
+change_theme: Thema wijzigen
+useful: Nuttig
+help: Hulp
+check_email: Controleer je postvak in
+reset_check_email_desc2: Als je geen e-mail hebt ontvangen, controleer dan je spammap.
+try_again: Opnieuw proberen
+up_vote: Omhoog stemmen
+down_vote: Omlaag stemmen
+email_confirm_header: Hallo! Bevestig je e-mailadres.
+email_confirm_content: 'Als je je account wilt activeren, klik dan op onderstaande
+  link:'
+email_verify: E-mailadres bevestigen
+email_confirm_expire: De link is 1 uur geldig.
+email_confirm_title: Bevestig je e-mailadres.
+select_magazine: Kies een tijdschrift
+add_new: Toevoegen
+url: Url
+title: Titel
+body: Inhoud
+badges: Emblemen
+eng: ENG
+oc: OI
+image: Afbeelding
+name: Naam
+description: Omschrijving
+rules: Regels
+domain: Domeinnaam
+followers: Aantal volgers
+following: Aantal gevolgden
+subscriptions: Aantal abonnementen
+overview: Overzicht
+cards: Kaarten
+columns: Kolommen
+user: Gebruiker
+joined: Lid
+moderated: Met moderatie
+people_local: Lokaal
+people_federated: Verspreidt
+reputation_points: Aantal reputatiepunten
+related_tags: Verwante labels
+go_to_content: Ga naar inhoud
+go_to_filters: Ga naar filters
+go_to_footer: Ga naar voettekst
+subscribed: Geabonneerd
+all: Alles
+logout: Uitloggen
+classic_view: Klassieke weergave
+compact_view: Compacte weergave
+chat_view: Gespreksweergave
+tree_view: Boomweergave
+cards_view: Kaartenweergave
+3h: 3u
+6h: 6u
+12h: 12u
+1d: 1d
+1w: 1w
+1m: 1m
+1y: 1j
+links: Links
+articles: Artikelen
+photos: Foto's
+report: Melden
+share: Delen
+copy_url: Url kopiëren
+copy_url_to_fediverse: Url kopiëren naar fediverse
+share_on_fediverse: Delen op fediverse
+edit: Bewerken
+moderate: Modereren
+reason: Reden
+edit_link: Link bewerken
+edit_article: Artikel bewerken
+edit_photo: Foto bewerken
+delete: Verwijderen
+edit_post: Bericht bewerken
+show_profile_followings: Gevolgde gebruikers tonen
+notify_on_new_entry_reply: Meldingen tonen bij reacties in een van mijn gesprekken
+notify_on_new_post_reply: Meldingen tonen bij reacties op een van berichten
+notify_on_new_post_comment_reply: Meldingen tonen bij reacties op een van mijn berichtreacties
+notify_on_new_entry: Meldingen tonen bij nieuwe gesprekken in een tijdschriftabonnement
+save: Opslaan
+about: Over
+old_email: Oud e-mailadres
+new_email: Nieuw e-mailadres
+new_email_repeat: E-mailadres bevestigen
+current_password: Huidig wachtwoord
+new_password: Nieuw wachtwoord
+settings: Instellingen
+general: Algemeen
+profile: Profiel
+blocked: Geblokkeerd
+new_password_repeat: Nieuw wachtwoord bevestigen
+notifications: Meldingen
+messages: Berichten
+appearance: Vormgeving
+change_email: E-mailadres wijzigen
+homepage: Voorpagina
+hide_adult: Inhoud voor volwassenen verbergen
+featured_magazines: Uitgelichte tijdschriften
+privacy: Privacy
+change_password: Wachtwoord wijzigen
+expand: Uitklappen
+collapse: Inklappen
+domains: Domeinnamen
+error: Foutmelding
+votes: Stemmen
+theme: Thema
+dark: Donker
+light: Licht
+font_size: Tekstgrootte
+solarized_dark: Gepolariseerd donker
+size: Grootte
+show_users_avatars: Profielfoto's tonen
+yes: Ja
+no: Nee
+show_thumbnails: Miniaturen tonen
+rounded_edges: Afgeronde hoeken
+removed_thread_by: heeft een gesprek verwijderd van
+restored_thread_by: heeft een gesprek hersteld van
+removed_comment_by: heeft een reactie verwijderd van
+restored_comment_by: heeft een reactie hersteld van
+restored_post_by: heeft een bericht hersteld van
+he_banned: Verbannen
+he_unbanned: Toelaten
+read_all: Alles als gelezen markeren
+show_all: Alles tonen
+ranking_disabled: Klassement is uitgeschakeld
+flash_thread_new_success: Het gesprek is aangemaakt en zichtbaar voor andere gebruikers.
+flash_thread_edit_success: Het gesprek is bewerkt.
+bronze_article_desc: Dit artikel is 5 keer omhoog gestemd
+bronze_photo_desc: Deze foto is 5 keer omhoog gestemd
+bronze_comment_desc: Deze reactie is 5 keer omhoog gestemd
+flash_thread_delete_success: Het gesprek is verwijderd.
+flash_thread_pin_success: Het gesprek is vastgemaakt.
+flash_thread_unpin_success: Het gesprek is losgemaakt.
+silver_article_desc: Dit artikel is 10 keer omhoog gestemd
+silver_photo_desc: Deze foto is 10 keer omhoog gestemd
+silver_post_desc: Dit bericht is 10 keer omhoog gestemd
+gold_article_desc: Dit artikel is 15 keer omhoog gestemd
+gold_link_desc: Dit bericht is 15 keer omhoog gestemd
+gold_photo_desc: Deze foto is 15 keer omhoog gestemd
+gold_comment_desc: Deze reactie is 15 keer omhoog gestemd
+type.link: Link
+threads: Gesprekken
+select_channel: Kies een kanaal
+comments_count: '{0}reacties|{1}reactie|]1,Inf[ reacties'
+replies: Antwoorden
+markdown_howto: Hoe werkt het bewerkveld?
+federated_magazine_info: Het tijdschrift van deze server is mogelijk onvolledig.
+unsubscribe: Deabonneren
+reply: Beantwoorden
+you_cant_login: Lukt het niet om in te loggen?
+repeat_password: Wachtwoord herhalen
+agree_terms: Ik ga akkoord met de %terms_link_start%algemene voorwaarden%terms_link_end%
+  and %policy_link_start%Privacy Policy%policy_link_end%
+reset_check_email_desc: 'Als er een account bestaat dat overeenkomt met je e-mailadres,
+  dan is er nu een e-mail verstuurd met een link om je wachtwoord te herstellen. Let
+  op: de link vervalt over %expire%.'
+boosts: Omhoogstemmen
+bronze_link_desc: Dit bericht is 5 keer omhoog gestemd
+bronze_post_desc: Dit bericht is 5 keer omhoog gestemd
+silver_link_desc: Dit bericht is 10 keer omhoog gestemd
+silver_comment_desc: Deze reactie is 10 keer omhoog gestemd
+gold_post_desc: Dit bericht is 15 keer omhoog gestemd
+tags: Labels
+is_adult: +18/NSFW
+image_alt: Afbeeldingslabel
+ratio: Verhouding
+go_to_search: Ga naar zoeken
+table_view: Tabelweergave
+videos: Video's
+are_you_sure: Weet je het zeker?
+edit_comment: Reactie bewerken
+reports: Gemelde berichten

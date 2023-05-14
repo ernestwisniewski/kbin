@@ -57,12 +57,12 @@ class SettingsManager
         }
     }
 
-    private function find(array $results, string $name, ?int $filter = null): string|bool|null
+    private function find(array $results, string $name, ?int $filter = null)
     {
-        $res = array_values(array_filter($results, fn ($s) => $s->name === $name));
+        $res = array_values(array_filter($results, fn($s) => $s->name === $name));
 
         if (count($res)) {
-            $res = $res[0]->value;
+            $res = $res[0]->value ?? $res[0]->json;
 
             if ($filter) {
                 $res = filter_var($res, $filter);
@@ -92,7 +92,11 @@ class SettingsManager
                 $s = new Settings($name, $value);
             }
 
-            $s->value = $value;
+            if (is_array($value)) {
+                $s->json = $value;
+            } else {
+                $s->value = $value;
+            }
 
             $this->entityManager->persist($s);
         }
@@ -101,16 +105,23 @@ class SettingsManager
     }
 
     #[Pure]
- public function isLocalUrl(string $url): bool
- {
-     return parse_url($url, PHP_URL_HOST) === $this->get('KBIN_DOMAIN');
- }
+    public function isLocalUrl(string $url): bool
+    {
+        return parse_url($url, PHP_URL_HOST) === $this->get('KBIN_DOMAIN');
+    }
 
     public function get(string $name)
     {
         return self::$dto->{$name};
     }
-    
+
+    public function set(string $name, $value): void
+    {
+        self::$dto->{$name} = $value;
+
+        $this->save(self::$dto);
+    }
+
     public static function getValue(string $name): string
     {
         return self::$dto->{$name};

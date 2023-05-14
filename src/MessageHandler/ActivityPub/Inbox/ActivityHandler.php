@@ -14,6 +14,7 @@ use App\Message\ActivityPub\Inbox\LikeMessage;
 use App\Message\ActivityPub\Inbox\UpdateMessage;
 use App\Service\ActivityPub\SignatureValidator;
 use App\Service\ActivityPubManager;
+use App\Service\SettingsManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -23,6 +24,7 @@ class ActivityHandler
 {
     public function __construct(
         private readonly SignatureValidator $signatureValidator,
+        private readonly SettingsManager $settingsManager,
         private readonly MessageBusInterface $bus,
         private readonly ActivityPubManager $manager,
         private readonly LoggerInterface $logger
@@ -44,8 +46,14 @@ class ActivityHandler
 
         try {
             if (isset($payload['actor']) || isset($payload['attributedTo'])) {
+                if (!$this->verifyInstanceDomain($payload['actor'] ?? $payload['attributedTo'])) {
+                    return;
+                }
                 $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
             } else {
+                if (!$this->verifyInstanceDomain($payload['id'])) {
+                    return;
+                }
                 $user = $this->manager->findActorOrCreate($payload['id']);
             }
         } catch (\Exception $e) {
@@ -142,5 +150,17 @@ class ActivityHandler
         if ('Follow' === $type) {
             $this->bus->dispatch(new FollowMessage($payload));
         }
+    }
+
+    private function verifyInstanceDomain(string $id): bool
+    {
+        if (in_array(
+            str_replace('www.', '', parse_url($id, PHP_URL_HOST)),
+            $this->settingsManager->get('KBIN_BANNED_INSTANCES') ?? []
+        )) {
+            return false;
+        }
+
+        return true;
     }
 }
