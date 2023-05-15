@@ -1,4 +1,4 @@
 about:
   controller: App\Controller\AboutController
-  path: /about
+  path: /ocb
   methods: [ GET ]

@@ -263,3 +263,203 @@ videos: Video's
 are_you_sure: Weet je het zeker?
 edit_comment: Reactie bewerken
 reports: Gemelde berichten
+banned_instances: Verbannen instanties
+gold_entry_month: Gesprek van de maand
+deleted: Verwijderd door de auteur
+gold_post_month_desc: Het beste bericht van de maand
+sticky_navbar: Bovenbalk meeschuiven
+mod_log_alert: In het moderatielogboek vind je inhoud die drastisch genoeg was om
+  verwijderd te worden. Wees je bewust van je acties.
+upload_file: Bestand uploaden
+created: Toegekend op
+add_ban: Verbanning toekennen
+change_language: Taal wijzigen
+admin_panel: Beheerderspaneel
+type_search_term: Voer een zoekopdracht in
+add_mentions_entries: Vermeldingslabels toekennen aan items
+related_entries: Verwante gesprekken
+delete_account_request_send: Je verwijderverzoek is verstuurd.
+flash_magazine_new_success: Het tijdschrift is aangemaakt. Je kunt inhoud toevoegen
+  of het beheerpaneel openen.
+flash_magazine_edit_success: Het tijdschrift is bewerkt.
+too_many_requests: Het limiet is bereikt - probeer het later opnieuw.
+set_magazines_bar: Tijdschriftenbalk
+set_magazines_bar_desc: Voeg tijdschriftnamen toe achter de komma
+set_magazines_bar_empty_desc: Als het veld blanco is, dan worden actieve tijdschriften
+  op de balk getoond.
+gold: Goud
+silver: Zilver
+bronze: Brons
+bronze_autobiographer: Autobiograaf
+bronze_autobiographer_desc: Voor het volledig invullen van je profiel
+bronze_personality: Bronzen persoonlijkheid
+bronze_personality_desc: 20 volgers
+bronze_commentator: Bronzen reageerder
+bronze_commentator_desc: 10 goede reacties
+bronze_scout_desc: 10 goede links
+bronze_scout: Bronzen padvinder
+bronze_redactor: Bronzen redacteur
+bronze_redactor_desc: 10 goede artikelen
+bronze_poster: Bronzen berichtgever
+bronze_poster_desc: 10 goede berichten
+bronze_link: Goede link
+bronze_article: Bronzen artikel
+bronze_photo: Goede foto
+bronze_comment: Goede reactie
+bronze_post: Goed bericht
+bronze_ranking: Nummer 3
+bronze_ranking_desc: 3e plaats in het klassement
+bronze_popular_entry: Populair gesprek
+bronze_popular_entry_desc: Het gesprek is 1000 keer bekeken
+bronze_magazine: Beroemd tijdschrift
+bronze_magazine_desc: 20 volgers hebben een tijdschrift samengesteld
+silver_personality: Zilveren persoonlijkheid
+silver_personality_desc: 50 volgers
+silver_commentator: Zilveren reageerder
+silver_commentator_desc: 10 zeer goede reacties
+silver_scout: Zilveren padvinder
+silver_scout_desc: 10 zeer goede links
+silver_redactor: Zilveren redacteur
+silver_redactor_desc: 10 zeer goede artikelen
+silver_poster: Zilveren berichtgever
+silver_poster_desc: 10 zeer goede berichten
+silver_link: Zeer goede link
+silver_article: Zilveren artikel
+silver_photo: Zeer goede foto
+silver_comment: Zeer goede reactie
+silver_post: Zeer goed bericht
+silver_ranking: Nummer 2
+silver_ranking_desc: 2e plaats in het klassement
+silver_popular_entry: Populair gesprek
+silver_popular_entry_desc: Het gesprek is 5000 keer bekeken
+silver_magazine: Populair tijdschrift
+silver_magazine_desc: 50 volgers hebben een tijdschrift samengesteld
+silver_entry_week: Gesprek van de week
+silver_entry_week_desc: Het beste gesprek van de week
+silver_comment_week: Reactie van de week
+silver_comment_week_desc: De beste reactie van de week
+silver_post_week: Bericht van de week
+silver_post_week_desc: Het beste bericht van de week
+gold_personality: Gouden persoonlijkheid
+gold_personality_desc: 100 volgers
+gold_commentator: Gouden reageerder
+gold_commentator_desc: 10 geweldige reacties
+gold_scout: Gouden padvinder
+gold_scout_desc: 10 geweldige links
+gold_redactor: Gouden redacteur
+gold_redactor_desc: 10 geweldige artikelen
+gold_poster: Gouden berichtgever
+gold_poster_desc: 10 geweldige berichten
+gold_link: Geweldige link
+gold_article: Gouden artikel
+gold_photo: Geweldige foto
+gold_comment: Geweldige reactie
+gold_post: Geweldig bericht
+gold_ranking: Nummer 1
+gold_ranking_desc: 1e plaats in het klassement
+gold_popular_entry: Populair gesprek
+gold_popular_entry_desc: Het gesprek is 10.000 keer bekeken
+gold_magazine: Populair tijdschrift
+gold_magazine_desc: 100 volgers hebben een tijdschrift samengesteld
+gold_entry_month_desc: Het beste gesprek van de maand
+gold_comment_month: Reactie van de maand
+gold_comment_month_desc: De beste reactie van de maand
+gold_post_month: Bericht van de maand
+mod_remove_your_thread: Een moderator heeft je gesprek verwijderd
+added_new_thread: Gesprek toegevoegd
+edited_thread: Gesprek bewerkt
+added_new_comment: Reactie geplaatst
+edited_comment: Reactie bewerkt
+replied_to_your_comment: Heeft je reactie beantwoord
+mod_deleted_your_comment: Een moderator heeft je reactie verwijderd
+added_new_post: Bericht geplaatst
+edited_post: Bericht bewerkt
+mod_remove_your_post: Een moderator heeft je bericht verwijderd
+added_new_reply: Reactie geplaatst
+wrote_message: Bericht geschreven
+banned: Heeft je verbannen
+removed: Verwijderd door een moderator
+mentioned_you: Heeft je vermeld
+comment: Reactie
+post: Bericht
+purge: Vernietigen
+send_message: Bericht versturen
+message: Bericht
+infinite_scroll: Oneindig scrollen
+show_top_bar: Bovenbalk tonen
+subject_reported: Er is melding gemaakt van de inhoud.
+sidebar_position: Zijbalklocatie
+left: Linkerkant
+right: Rechterkant
+federation: Verspreiding
+status: Status
+on: Aan
+off: Uit
+instances: Instanties
+from_url: Van url
+magazine_panel: Tijdschriftpaneel
+reject: Afwijzen
+approve: Goedkeuren
+ban: Verbannen
+filters: Filters
+approved: Goedgekeurd
+rejected: Afgewezen
+add_moderator: Moderator toevoegen
+add_badge: Embleem toekennen
+bans: Verbanningen
+expires: Vervalt op
+perm: Permanent
+expired_at: Vervallen op
+ban_expired: De verbanperiode is afgelopen
+trash: Prullenbak
+icon: Pictogram
+done: Klaar
+pin: Vastmaken
+unpin: Losmaken
+change_magazine: Tijdschrift wijzigen
+change: Wijzigen
+pinned: Vastgemaakt
+preview: Voorvertoning
+article: Artikel
+reputation: Reputatie
+note: Opmerking
+writing: Schrijven
+users: Gebruikers
+content: Inhoud
+week: Week
+weeks: Weken
+month: Maand
+months: Maanden
+year: Jaar
+federated: Verspreid
+local: Lokaal
+dashboard: Overzichtspaneel
+contact_email: Contactadres
+meta: Meta
+instance: Instantie
+pages: Pagina's
+FAQ: Veelgestelde vragen
+inactive: Inactief
+federation_enabled: Verspreiding is ingeschakeld
+registrations_enabled: Registraties zijn ingeschakeld
+registration_disabled: Registraties zijn uitgeschakeld
+restore: Herstellen
+add_mentions_posts: Vermeldingslabels toekennen aan berichten
+Password is invalid: Het wachtwoord is ongeldig.
+Your account is not active: Je account is inactief.
+Your account has been banned: Je account is verbannen.
+firstname: Voornaam
+send: Versturen
+active_users: Actieve personen
+random_entries: Willekeurige gesprekken
+delete_account: Account verwijderen
+purge_account: Account vernietigen
+ban_account: Account verbannen
+unban_account: Account toelaten
+related_magazines: Verwante tijdschriften
+random_magazines: Willekeurige tijdschriften
+magazine_panel_tags_info: Alleen als je inhoud van het fediverse op basis van labels
+  in dit tijdschrift wilt tonen
+sidebar: Zijbalk
+auto_preview: Media automatisch voorvertonen
+dynamic_lists: Dynamische lijsten

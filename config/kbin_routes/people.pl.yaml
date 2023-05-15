@@ -1,4 +1,4 @@
 people_front:
   controller: App\Controller\People\PeopleFrontController
-  path: /people
+  path: /ludzie
   methods: [ GET ]

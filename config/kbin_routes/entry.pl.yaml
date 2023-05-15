@@ -1,13 +1,13 @@
 entry_comment_create:
   controller: App\Controller\Entry\Comment\EntryCommentCreateController
   defaults: { slug: -, parent_comment_id: null }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{parent_comment_id}
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{parent_comment_id}
   methods: [ GET, POST ]
 
 entry_comment_edit:
   controller: App\Controller\Entry\Comment\EntryCommentEditController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/edit
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/edytuj
   methods: [ GET, POST ]
 
 entry_comment_delete:
@@ -50,53 +50,53 @@ entry_comment_voters:
   controller: App\Controller\Entry\Comment\EntryCommentVotersController
   defaults: { slug: -, }
   requirements: { type: 'up|down' }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/votes/{type}
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/votes/{type}
   methods: [ GET ]
 
 entry_comment_favourites:
   controller: App\Controller\Entry\Comment\EntryCommentFavouriteController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/favourites
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/ulubione
   methods: [ GET ]
 
 entry_comment_moderate:
   controller: App\Controller\Entry\Comment\EntryCommentModerateController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/comment/{comment_id}/moderate
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarz/{comment_id}/moderuj
   methods: [ GET ]
 
 entry_comments_front:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::front
   defaults: { sortBy: hot, time: ~ }
-  path: /comments/{sortBy}/{time}
+  path: /komentarze/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_subscribed:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::subscribed
   defaults: { sortBy: hot, time: ~ }
-  path: /sub/comments/{sortBy}/{time}
+  path: /sub/komentarze/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_moderated:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::moderated
   defaults: { sortBy: hot, time: ~ }
-  path: /mod/comments/{sortBy}/{time}
+  path: /mod/komentarze/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 entry_comments_favourite:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::favourite
   defaults: { sortBy: hot, time: ~ }
-  path: /fav/comments/{sortBy}/{time}
+  path: /fav/komentarze/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_entry_comments:
   controller: App\Controller\Entry\Comment\EntryCommentFrontController::front
   defaults: { sortBy: hot, time: ~ }
-  path: /m/{name}/comments/{sortBy}/{time}
+  path: /m/{name}/komentarze/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
@@ -121,25 +121,25 @@ entry_comment_favourite:
 entry_create:
   controller: App\Controller\Entry\EntryCreateController
   defaults: { type: link }
-  path: /new/{type}
+  path: /nowy/{type}
   methods: [ GET, POST ]
 
 magazine_entry_create:
   controller: App\Controller\Entry\EntryCreateController
   defaults: { type: link }
-  path: /m/{name}/new/{type}
+  path: /m/{name}/nowy/{type}
   methods: [ GET, POST ]
 
 entry_edit:
   controller: App\Controller\Entry\EntryEditController
   defaults: { slug: -, sortBy: hot }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/edit
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/edytuj
   methods: [ GET, POST ]
 
 entry_moderate:
   controller: App\Controller\Entry\EntryModerateController
   defaults: { slug: -, sortBy: hot }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/moderate
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/moderuj
   methods: [ GET ]
 
 entry_delete:
@@ -195,19 +195,19 @@ entry_voters:
   controller: App\Controller\Entry\EntryVotersController
   defaults: { slug: -, sortBy: hot }
   requirements: { type: 'up|down' }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/votes/{type}
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/głosy/{type}
   methods: [ GET ]
 
 entry_fav:
   controller: App\Controller\Entry\EntryFavouriteController
   defaults: { slug: -, sortBy: hot }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/favourites
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/ulubione
   methods: [ GET ]
 
 entry_tips:
   controller: App\Controller\Entry\EntryTipController
   defaults: { slug: -, sortBy: hot }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/tips
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/tipy
   methods: [ GET ]
 
 entry_single:
@@ -219,7 +219,7 @@ entry_single:
 entry_single_comments:
   controller: App\Controller\Entry\EntrySingleController
   defaults: { slug: -, sortBy: hot }
-  path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{sortBy}
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/komentarze/{sortBy}
   methods: [ GET ]
 
 entry_vote:

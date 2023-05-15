@@ -5,17 +5,17 @@ admin_dashboard:
 
 admin_users:
   controller: App\Controller\Admin\AdminUserController
-  path: /admin/users
+  path: /admin/użytkownicy
   methods: [ GET ]
 
 admin_settings:
   controller: App\Controller\Admin\AdminSettingsController
-  path: /admin/settings
+  path: /admin/ustawienia
   methods: [ GET, POST ]
 
 admin_federation:
   controller: App\Controller\Admin\AdminFederationController
-  path: /admin/federation
+  path: /admin/federacja
   methods: [ GET, POST ]
 
 admin_pages:

@@ -1,6 +1,6 @@
 page_contact:
   controller: App\Controller\ContactController
-  path: /contact
+  path: /kontakt
   methods: [ GET, POST ]
 
 page_faq:
@@ -10,24 +10,24 @@ page_faq:
 
 page_privacy_policy:
   controller: App\Controller\PrivacyPolicyController
-  path: /privacy-policy
+  path: /polityka-prywatnosci
   methods: [ GET ]
 
 page_terms:
   controller: App\Controller\TermsController
-  path: /terms
+  path: /regulamin
   methods: [ GET ]
 
 award_list_all:
   controller: App\Controller\AwardListController
   defaults: { category: ~ }
-  path: /awards/{category}
+  path: /odznaczenia/{category}
   methods: [ GET ]
 
 stats:
   controller: App\Controller\StatsController
   defaults: { statsType: ~, statsPeriod: ~ }
-  path: /stats/{statsType}/{statsPeriod}
+  path: /statystyki/{statsType}/{statsPeriod}
   methods: [ GET ]
 
 ranking:

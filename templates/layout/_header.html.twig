@@ -1,3 +1,4 @@
+{% set lang = app.request.locale %}
 <header id="header" class="header">
     <div class="kbin-container">
         <div class="sr-nav">
@@ -35,20 +36,20 @@
                 <ul class="dropdown__menu">
                     {% if magazine is defined and magazine %}
                         <li>
-                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'type.link'|trans|lower}) }}"
+                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: lang is same as 'pl' ? 'type.link'|trans|lower : 'link'}) }}"
                                class="{{ html_classes({'active': is_route_name('magazine_entry_create') and route_has_param('type', 'type.link'|trans|lower)}) }}">
                                 {{ 'add_new_link'|trans }}
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'type.article'|trans|lower}) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
+                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: lang is same as 'pl' ? 'type.article'|trans|lower : 'article'}) }}"
+                               class="{{ html_classes({'active': is_route_name('magazine_entry_create') and route_has_param('type', lang is same as 'pl' ? 'type.article'|trans|lower : 'article')}) }}">
                                 {{ 'add_new_article'|trans }}
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'type.photo'|trans|lower}) }}"
-                               class="{{ html_classes({'active': is_route_name('magazine_entry_create') and route_has_param('type', 'type.photo'|trans|lower)}) }}">
+                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: lang is same as 'pl' ? 'type.photo'|trans|lower : 'photo'}) }}"
+                               class="{{ html_classes({'active': is_route_name('magazine_entry_create') and route_has_param('type', lang is same as 'pl' ? 'type.photo'|trans|lower : 'photo')}) }}">
                                 {{ 'add_new_photo'|trans }}
                             </a>
                         </li>
@@ -59,20 +60,20 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.link'|trans|lower)}) }}">
+                            <a href="{{ path('entry_create', {type: lang is same as 'pl' ? 'type.link'|trans|lower : 'link'}) }}"
+                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', lang is same as 'pl' ? 'type.link'|trans|lower : 'link')}) }}">
                                 {{ 'add_new_link'|trans }}
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
+                            <a href="{{ path('entry_create', {type: lang is same as 'pl' ? 'type.article'|trans|lower : 'article'}) }}"
+                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', lang is same as 'pl' ? 'type.article'|trans|lower : 'article')}) }}">
                                 {{ 'add_new_article'|trans }}
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}"
-                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.photo'|trans|lower)}) }}">
+                            <a href="{{ path('entry_create', {type: lang is same as 'pl' ? 'type.photo'|trans|lower : 'photo'}) }}"
+                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', lang is same as 'pl' ? 'type.photo'|trans|lower : 'photo')}) }}">
                                 {{ 'add_new_photo'|trans }}
                             </a>
                         </li>

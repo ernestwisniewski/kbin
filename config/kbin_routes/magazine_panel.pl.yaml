@@ -1,6 +1,6 @@
 magazine_panel_bans:
   controller: App\Controller\Magazine\Panel\MagazineBanController::bans
-  path: /m/{name}/panel/bans
+  path: /m/{name}/panel/bany
   methods: [ GET, POST ]
 
 magazine_panel_ban:
@@ -16,12 +16,12 @@ magazine_panel_unban:
 
 magazine_panel_general:
   controller: App\Controller\Magazine\Panel\MagazineEditController
-  path: /m/{name}/panel/general
+  path: /m/{name}/panel/ogólne
   methods: [ GET, POST ]
 
 magazine_panel_moderators:
   controller: App\Controller\Magazine\Panel\MagazineModeratorController::moderators
-  path: /m/{name}/panel/moderators
+  path: /m/{name}/panel/moderatorzy
   methods: [ GET, POST ]
 
 magazine_panel_moderator_purge:
@@ -31,7 +31,7 @@ magazine_panel_moderator_purge:
 
 magazine_panel_reports:
   controller: App\Controller\Magazine\Panel\MagazineReportController::reports
-  path: /m/{name}/panel/reports
+  path: /m/{name}/panel/zgłoszenia
   methods: [ GET ]
 
 magazine_panel_report_approve:
@@ -46,12 +46,12 @@ magazine_panel_report_reject:
 
 magazine_panel_theme:
   controller: App\Controller\Magazine\Panel\MagazineThemeController
-  path: /m/{name}/panel/appearance
+  path: /m/{name}/panel/wygląd
   methods: [ GET, POST ]
 
 magazine_panel_badges:
   controller: App\Controller\Magazine\Panel\MagazineBadgeController::badges
-  path: /m/{name}/panel/badges
+  path: /m/{name}/panel/etykiety
   methods: [ GET, POST ]
 
 magazine_panel_badge_remove:
@@ -61,16 +61,16 @@ magazine_panel_badge_remove:
 
 magazine_panel_tags:
   controller: App\Controller\Magazine\Panel\MagazineTagController
-  path: /m/{name}/panel/tags
+  path: /m/{name}/panel/tagi
   methods: [ GET, POST ]
 
 magazine_panel_trash:
   controller: App\Controller\Magazine\Panel\MagazineTrashController
-  path: /m/{name}/panel/trash
+  path: /m/{name}/panel/kosz
   methods: [ GET ]
 
 magazine_panel_stats:
   controller: App\Controller\Magazine\Panel\MagazineStatsController
   defaults: { statsType: content, statsPeriod: ~ }
-  path: /m/{name}/panel/stats/{statsType}/{statsPeriod}
+  path: /m/{name}/panel/statystyki/{statsType}/{statsPeriod}
   methods: [ GET ]

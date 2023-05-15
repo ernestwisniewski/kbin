@@ -1,33 +1,34 @@
+{% set lang = app.request.locale %}
 <aside class="options" id="options">
     <div></div>
     <menu class="options__main">
         <li>
-            <a href="{{ options_url('sortBy', 'top'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'top'|trans|lower)}) }}">
+            <a href="{{ options_url('sortBy', lang is same as 'pl' ? 'top'|trans|lower : 'top') }}"
+               class="{{ html_classes({'active': route_has_param('sortBy', lang is same as 'pl' ? 'top'|trans|lower : 'top')}) }}">
                 {{ 'top'|trans|lower }}
             </a>
         </li>
         <li>
-            <a href="{{ options_url('sortBy', 'hot'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'hot'|trans|lower) or route_has_param('sortBy', 'hot'|lower)}) }}">
+            <a href="{{ options_url('sortBy', lang is same as 'pl' ? 'hot'|trans|lower : 'hot') }}"
+               class="{{ html_classes({'active': route_has_param('sortBy', lang is same as 'pl' ? 'hot'|trans|lower : 'hot')}) }}">
                 {{ 'hot'|trans|lower }}
             </a>
         </li>
         <li>
-            <a href="{{ options_url('sortBy', 'newest'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'newest'|trans|lower)}) }}">
+            <a href="{{ options_url('sortBy', lang is same as 'pl' ? 'newest'|trans|lower : 'newest') }}"
+               class="{{ html_classes({'active': route_has_param('sortBy', lang is same as 'pl' ? 'newest'|trans|lower : 'newest')}) }}">
                 {{ 'newest'|trans|lower }}
             </a>
         </li>
         <li>
-            <a href="{{ options_url('sortBy', 'active'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'active'|trans|lower)}) }}">
+            <a href="{{ options_url('sortBy', lang is same as 'pl' ? 'active'|trans|lower : 'active') }}"
+               class="{{ html_classes({'active': route_has_param('sortBy', lang is same as 'pl' ? 'active'|trans|lower : 'active')}) }}">
                 {{ 'active'|trans|lower }}
             </a>
         </li>
         <li>
-            <a href="{{ options_url('sortBy', 'commented'|trans|lower) }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'commented'|trans|lower)}) }}">
+            <a href="{{ options_url('sortBy', lang is same as 'pl' ? 'commented'|trans|lower : 'commented') }}"
+               class="{{ html_classes({'active': route_has_param('sortBy', lang is same as 'pl' ? 'commented'|trans|lower : 'commented')}) }}">
                 {{ 'commented'|trans|lower }}
             </a>
         </li>
@@ -45,44 +46,45 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ options_url('time', '3h'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '3h'|trans|lower)}) }}">
+                    <a href="{{ options_url('time', lang is same as 'pl' ? '3h'|trans|lower : '3h') }}"
+                       class="{{ html_classes({'active': route_has_param('time', lang is same as 'pl' ? '3h'|trans|lower : '3h')}) }}">
                         {{ '3h'|trans|lower }}
-                    </a></li>
+                    </a>
+                </li>
                 <li>
-                    <a href="{{ options_url('time', '6h'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '6h'|trans|lower)}) }}">
+                    <a href="{{ options_url('time', lang is same as 'pl' ? '6h'|trans|lower : '6h') }}"
+                       class="{{ html_classes({'active': route_has_param('time', lang is same as 'pl' ? '6h'|trans|lower : '6h')}) }}">
                         {{ '6h'|trans|lower }}
                     </a>
                 </li>
                 <li>
-                    <a href="{{ options_url('time', '12h'|trans|lower) }}"
-                       class="{{ html_classes({'active': route_has_param('time', '12h'|trans|lower)}) }}">
+                    <a href="{{ options_url('time', lang is same as 'pl' ? '12h'|trans|lower : '12h') }}"
+                       class="{{ html_classes({'active': route_has_param('time', lang is same as 'pl' ? '12h'|trans|lower : '12h')}) }}">
                         {{ '12h'|trans|lower }}
                     </a>
                 </li>
                 {% if get_active_sort_option() is not same as 'hot'|trans|lower %}
                     <li>
-                        <a href="{{ options_url('time', '1d'|trans|lower) }}"
-                           class="{{ html_classes({'active': route_has_param('time', '1d'|trans|lower)}) }}">
+                        <a href="{{ options_url('time', lang is same as 'pl' ? '1d'|trans|lower : '1d') }}"
+                           class="{{ html_classes({'active': route_has_param('time', lang is same as 'pl' ? '1d'|trans|lower : '1d')}) }}">
                             {{ '1d'|trans|lower }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ options_url('time', '1w'|trans|lower) }}"
-                           class="{{ html_classes({'active': route_has_param('time', '1w'|trans|lower)}) }}">
+                        <a href="{{ options_url('time', lang is same as 'pl' ? '1w'|trans|lower : '1w') }}"
+                           class="{{ html_classes({'active': route_has_param('time', lang is same as 'pl' ? '1w'|trans|lower : '1w')}) }}">
                             {{ '1w'|trans|lower }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ options_url('time', '1m'|trans|lower) }}"
-                           class="{{ html_classes({'active': route_has_param('time', '1m'|trans|lower)}) }}">
+                        <a href="{{ options_url('time', lang is same as 'pl' ? '1m'|trans|lower : '1m') }}"
+                           class="{{ html_classes({'active': route_has_param('time', lang is same as 'pl' ? '1m'|trans|lower : '1m')}) }}">
                             {{ '1m'|trans|lower }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ options_url('time', '1y'|trans|lower) }}"
-                           class="{{ html_classes({'active': route_has_param('time', '1y'|trans|lower)}) }}">
+                        <a href="{{ options_url('time', lang is same as 'pl' ? '1y'|trans|lower : '1y') }}"
+                           class="{{ html_classes({'active': route_has_param('time', lang is same as 'pl' ? '1y'|trans|lower : '1y')}) }}">
                             {{ '1y'|trans|lower }}
                         </a>
                     </li>

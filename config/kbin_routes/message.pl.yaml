@@ -1,14 +1,14 @@
 messages_front:
   controller: App\Controller\Message\MessageThreadListController
-  path: /profile/messages
+  path: /profil/wiadomości
   methods: [ GET ]
 
 messages_single:
   controller: App\Controller\Message\MessageThreadController
-  path: /profile/messages/{id}
+  path: /profil/wiadomości/{id}
   methods: [ GET, POST ]
 
 messages_create:
   controller: App\Controller\Message\MessageCreateThreadController
-  path: /u/{username}/message
+  path: /u/{username}/wiadomość
   methods: [ GET, POST ]

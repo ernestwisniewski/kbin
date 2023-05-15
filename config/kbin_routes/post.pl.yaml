@@ -1,19 +1,19 @@
 post_comment_create:
   controller: App\Controller\Post\Comment\PostCommentCreateController
   defaults: { slug: -, parent_comment_id: null }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{parent_comment_id}
+  path: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{parent_comment_id}
   methods: [ GET, POST ]
 
 post_comment_edit:
   controller: App\Controller\Post\Comment\PostCommentEditController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/edit
+  path: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/edytuj
   methods: [ GET, POST ]
 
 post_comment_moderate:
   controller: App\Controller\Post\Comment\PostCommentModerateController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/moderate
+  path: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/moderuj
   methods: [ GET, POST ]
 
 post_comment_delete:
@@ -55,13 +55,13 @@ post_comment_image_delete:
 post_comment_voters:
   controller: App\Controller\Post\Comment\PostCommentVotersController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/votes
+  path: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/głosy
   methods: [ GET ]
 
 post_comment_favourites:
   controller: App\Controller\Post\Comment\PostCommentFavouriteController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/favourites
+  path: /m/{magazine_name}/w/{post_id}/{slug}/odpowiedź/{comment_id}/ulubione
   methods: [ GET ]
 
 post_comment_vote:
@@ -85,48 +85,48 @@ post_comment_favourite:
 posts_front:
   controller: App\Controller\Post\PostFrontController::front
   defaults: { sortBy: hot, time: ~ }
-  path: /microblog/{sortBy}/{time}
+  path: /wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_subscribed:
   controller: App\Controller\Post\PostFrontController::subscribed
   defaults: { sortBy: hot, time: ~ }
-  path: /sub/microblog/{sortBy}/{time}
+  path: /sub/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_moderated:
   controller: App\Controller\Post\PostFrontController::moderated
   defaults: { sortBy: hot, time: ~ }
-  path: /mod/microblog/{sortBy}/{time}
+  path: /mod/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 posts_favourite:
   controller: App\Controller\Post\PostFrontController::favourite
   defaults: { sortBy: hot, time: ~ }
-  path: /fav/microblog/{sortBy}/{time}
+  path: /fav/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 magazine_posts:
   controller: App\Controller\Post\PostFrontController::magazine
   defaults: { sortBy: hot, time: ~ }
-  path: /m/{name}/microblog/{sortBy}/{time}
+  path: /m/{name}/wpisy/{sortBy}/{time}
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 post_voters:
   controller: App\Controller\Post\PostVotersController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/votes
+  path: /m/{magazine_name}/w/{post_id}/{slug}/głosy
   methods: [ GET ]
 
 post_favourites:
   controller: App\Controller\Post\PostFavouriteController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/favourites
+  path: /m/{magazine_name}/w/{post_id}/{slug}/ulubione
   methods: [ GET ]
 
 post_create:
@@ -137,13 +137,13 @@ post_create:
 post_edit:
   controller: App\Controller\Post\PostEditController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/edit
+  path: /m/{magazine_name}/w/{post_id}/{slug}/edytuj
   methods: [ GET, POST ]
 
 post_moderate:
   controller: App\Controller\Post\PostModerateController
   defaults: { slug: -, }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/moderate
+  path: /m/{magazine_name}/w/{post_id}/{slug}/moderuj
   methods: [ GET, POST ]
 
 post_delete:
@@ -191,7 +191,7 @@ post_change_adult:
 post_single:
   controller: App\Controller\Post\PostSingleController
   defaults: { slug: -, sortBy: hot }
-  path: /m/{magazine_name}/p/{post_id}/{slug}/{sortBy}
+  path: /m/{magazine_name}/w/{post_id}/{slug}/{sortBy}
   methods: [ GET ]
 
 post_vote:

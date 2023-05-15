@@ -1,3 +1,5 @@
+
+
 user_overview:
   controller: App\Controller\User\UserFrontController::front
   path: /u/{username}
@@ -5,12 +7,12 @@ user_overview:
 
 user_entries:
   controller: App\Controller\User\UserFrontController::entries
-  path: /u/{username}/threads
+  path: /u/{username}/treści
   methods: [ GET ]
 
 user_comments:
   controller: App\Controller\User\UserFrontController::comments
-  path: /u/{username}/comments
+  path: /u/{username}/komentarze
   methods: [ GET ]
 
 user_posts:
@@ -20,32 +22,32 @@ user_posts:
 
 user_replies:
   controller: App\Controller\User\UserFrontController::replies
-  path: /u/{username}/replies
+  path: /u/{username}/odpowiedzi
   methods: [ GET ]
 
 user_boosts:
   controller: App\Controller\User\UserFrontController::boosts
-  path: /u/{username}/podbicia
+  path: /u/{username}/boosts
   methods: [ GET ]
 
 user_moderated:
   controller: App\Controller\User\UserFrontController::moderated
-  path: /u/{username}/moderated
+  path: /u/{username}/moderowane
   methods: [ GET ]
 
 user_subscriptions:
   controller: App\Controller\User\UserFrontController::subscriptions
-  path: /u/{username}/subscriptions
+  path: /u/{username}/subskrypcje
   methods: [ GET ]
 
 user_followers:
   controller: App\Controller\User\UserFrontController::followers
-  path: /u/{username}/followers
+  path: /u/{username}/obserwujący
   methods: [ GET ]
 
 user_following:
   controller: App\Controller\User\UserFrontController::following
-  path: /u/{username}/following
+  path: /u/{username}/obserwowani
   methods: [ GET ]
 
 user_follow:
@@ -56,13 +58,13 @@ user_follow:
 user_awards:
   controller: App\Controller\User\UserAwardController
   defaults: { category: ~ }
-  path: /u/{username}/awards/{awardsCategory}
+  path: /u/{username}/odznaczenia/{awardsCategory}
   methods: [ GET ]
 
 user_reputation:
   controller: App\Controller\User\UserReputationController
   defaults: { reputationType: ~ }
-  path: /u/{username}/reputation/{reputationType}
+  path: /u/{username}/reputacja/{reputationType}
   methods: [ GET ]
 
 user_unfollow:
@@ -112,7 +114,7 @@ user_note:
 
 notifications_front:
   controller: App\Controller\User\Profile\UserNotificationController::notifications
-  path: /settings/notifications
+  path: /ustawienia/notyfikacje
   methods: [ GET ]
 
 notifications_read:
@@ -127,62 +129,62 @@ notifications_clear:
 
 user_settings_reports:
   controller: App\Controller\User\Profile\UserReportsController
-  path: /settings/reports
+  path: /ustawienia/zgłoszenia
   methods: [ GET ]
 
 user_settings_magazine_blocks:
   controller: App\Controller\User\Profile\UserBlockController::magazines
-  path: /settings/blocked/magazines
+  path: /ustawienia/blokady/magazyny
   methods: [ GET ]
 
 user_settings_domain_blocks:
   controller: App\Controller\User\Profile\UserBlockController::domains
-  path: /settings/blocked/domains
+  path: /ustawienia/blokady/domeny
   methods: [ GET ]
 
 user_settings_user_blocks:
   controller: App\Controller\User\Profile\UserBlockController::users
-  path: /settings/blocked/people
+  path: /ustawienia/blokady/ludzie
   methods: [ GET ]
 
 user_settings_magazine_subscriptions:
   controller: App\Controller\User\Profile\UserSubController::magazines
-  path: /settings/subscriptions/magazines
+  path: /ustawienia/subskrypcje/magazyny
   methods: [ GET ]
 
 user_settings_domain_subscriptions:
   controller: App\Controller\User\Profile\UserSubController::domains
-  path: /settings/subscriptions/domains
+  path: /ustawienia/subskrypcje/domeny
   methods: [ GET ]
 
 user_settings_user_subscriptions:
   controller: App\Controller\User\Profile\UserSubController::users
-  path: /settings/subscriptions/people
+  path: /ustawienia/subskrypcje/ludzie
   methods: [ GET ]
 
 user_settings_tips:
   controller: App\Controller\User\Profile\UserTipController
-  path: /settings/ada
+  path: /ustawienia/ada
   methods: [ GET, POST ]
 
 user_settings_general:
   controller: App\Controller\User\Profile\UserSettingController
-  path: /settings/general
+  path: /ustawienia/ogólne
   methods: [ GET, POST ]
 
 user_settings_profile:
   controller: App\Controller\User\Profile\UserEditController::general
-  path: /settings/profile
+  path: /ustawienia/profil
   methods: [ GET, POST ]
 
 user_settings_email:
   controller: App\Controller\User\Profile\UserEditController::email
-  path: /settings/email
+  path: /ustawienia/email
   methods: [ GET, POST ]
 
 user_settings_password:
   controller: App\Controller\User\Profile\UserEditController::password
-  path: /settings/password
+  path: /ustawienia/hasło
   methods: [ GET, POST ]
 
 user_settings_avatar_delete:
@@ -197,13 +199,13 @@ user_settings_cover_delete:
 
 user_settings_toggle_theme:
   controller: App\Controller\User\UserThemeController
-  path: /settings/edit/theme
+  path: /ustawienia/edytuj/wyglad
   methods: [ GET, POST ]
 
 user_settings_stats:
   controller: App\Controller\User\Profile\UserStatsController
   defaults: { statsType: content, statsPeriod: ~ }
-  path: /settings/{statsType}/{statsPeriod}
+  path: /ustawienia/{statsType}/{statsPeriod}
   methods: [ GET ]
 
 theme_settings:

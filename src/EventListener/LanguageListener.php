@@ -23,9 +23,8 @@ class LanguageListener
         }
 
         $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-        $acceptLang = ['pl'];
-        $locale = in_array($lang, $acceptLang) ? $lang : $this->lang;
 
-        $request->setLocale($locale);
+        $request->setLocale($lang);
+        $request->setDefaultLocale($lang);
     }
 }

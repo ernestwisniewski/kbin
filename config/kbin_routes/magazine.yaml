@@ -1,8 +1,6 @@
 magazine_create:
   controller: App\Controller\Magazine\MagazineCreateController
-  path:
-    en: /newMagazine
-    pl: /nowyMagazyn
+  path: /newMagazine
   methods: [ GET, POST ]
 
 magazine_delete:
@@ -18,16 +16,12 @@ magazine_purge:
 magazine_list_all:
   controller: App\Controller\Magazine\MagazineListController
   defaults: { sortBy: hot, view: table }
-  path:
-    en: /magazines/{sortBy}/{view}
-    pl: /magazyny/{sortBy}/{view}
+  path: /magazines/{sortBy}/{view}
   methods: [ GET ]
 
 magazine_moderators:
   controller: App\Controller\Magazine\MagazineModController
-  path:
-    en: /m/{name}/moderators
-    pl: /m/{name}/moderatorzy
+  path: /m/{name}/moderators
   methods: [ GET ]
 
 magazine_modlog:
@@ -38,16 +32,12 @@ magazine_modlog:
 magazine_awards:
   controller: App\Controller\Magazine\MagazineAwardController
   defaults: { category: ~ }
-  path:
-    en: /m/{name}/awards/{category}
-    pl: /m/{name}/odznaczenia/{category}
+  path: /m/{name}/awards/{category}
   methods: [ GET ]
 
 magazine_people:
   controller: App\Controller\Magazine\MagazinePeopleFrontController
-  path:
-    en: /m/{name}/people
-    pl: /m/{name}/ludzie
+  path: /m/{name}/people
   methods: [ GET ]
 
 magazine_subscribe:

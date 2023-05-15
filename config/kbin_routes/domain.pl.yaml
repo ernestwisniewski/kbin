@@ -8,7 +8,7 @@ domain_entries:
 domain_comments:
   controller: App\Controller\Domain\DomainCommentFrontController
   defaults: { sortBy: hot, time: ~ }
-  path: /d/{name}/comments/{sortBy}/{time}
+  path: /d/{name}/komentarze/{sortBy}/{time}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
