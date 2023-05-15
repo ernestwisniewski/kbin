@@ -64,5 +64,31 @@
   "categories": [
     "social",
     "microblogging"
+  ],
+  "shortcuts": [
+    {
+      "name": "Open Microblog",
+      "short_name": "Microblog",
+      "description": "Open the Microblog section",
+      "url": "/microblog"
+    },
+    {
+      "name": "Open Magazines",
+      "short_name": "Magazines",
+      "description": "Open the Magazines list",
+      "url": "/magazines"
+    },
+    {
+      "name": "Open People",
+      "short_name": "People",
+      "description": "Open the People list",
+      "url": "/people"
+    },
+    {
+      "name": "Open Settings",
+      "short_name": "Settings",
+      "description": "Open the Settings page",
+      "url": "/settings"
+    }
   ]
 }
