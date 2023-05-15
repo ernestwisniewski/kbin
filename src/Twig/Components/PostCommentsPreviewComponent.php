@@ -4,6 +4,7 @@ namespace App\Twig\Components;
 
 use App\Entity\Post;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -19,6 +20,7 @@ final class PostCommentsPreviewComponent
         private readonly Environment $twig,
         private readonly Security $security,
         private readonly CacheInterface $cache,
+        private readonly RequestStack $requestStack
     ) {
     }
 
@@ -28,7 +30,7 @@ final class PostCommentsPreviewComponent
         $userId = $this->security->getUser()?->getId();
 
         return $this->cache->get(
-            "post_comment_preview_{$postId}_{$userId}",
+            "post_comment_preview_{$postId}_{$userId}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($postId, $userId, $attributes) {
                 $item->expiresAfter(3600);
                 $item->tag(['post_comments_user_'.$userId]);

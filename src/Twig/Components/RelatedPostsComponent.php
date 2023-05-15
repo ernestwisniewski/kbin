@@ -5,6 +5,7 @@ namespace App\Twig\Components;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use App\Twig\Runtime\UserExtensionRuntime;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -29,7 +30,8 @@ final class RelatedPostsComponent
     public function __construct(
         private readonly PostRepository $repository,
         private readonly CacheInterface $cache,
-        private readonly Environment $twig
+        private readonly Environment $twig,
+        private readonly RequestStack $requestStack
     ) {
     }
 
@@ -55,7 +57,7 @@ final class RelatedPostsComponent
         $magazine = str_replace('@', '', $this->magazine);
 
         return $this->cache->get(
-            "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}",
+            "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
                 $item->expiresAfter(60);
 

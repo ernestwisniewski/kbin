@@ -10,7 +10,7 @@
         </li>
         <li>
             <a href="{{ options_url('sortBy', lang is same as 'pl' ? 'hot'|trans|lower : 'hot') }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', lang is same as 'pl' ? 'hot'|trans|lower : 'hot')}) }}">
+               class="{{ html_classes({'active': route_has_param('sortBy', 'hot') or route_has_param('sortBy', 'hot'|lower|trans)}) }}">
                 {{ 'hot'|trans|lower }}
             </a>
         </li>
@@ -41,13 +41,13 @@
             <ul class="dropdown__menu">
                 <li>
                     <a class="{{ html_classes({'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}"
-                            href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}">
+                       href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}">
                         {{ 'classic_view'|trans|lower }}
                     </a>
                 </li>
                 <li>
                     <a class="{{ html_classes({'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}"
-                            href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
+                       href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
                         {{ 'compact_view'|trans|lower }}
                     </a>
                 </li>
