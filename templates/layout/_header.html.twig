@@ -33,26 +33,55 @@
                     <i class="fa-solid fa-plus"></i> {{ 'add'|trans }}
                 </a>
                 <ul class="dropdown__menu">
-                    <li>
-                        <a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}"
-                           class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.link'|trans|lower)}) }}">
-                            {{ 'add_new_link'|trans }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
-                           class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
-                            {{ 'add_new_article'|trans }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}"
-                           class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.photo'|trans|lower)}) }}">
-                            {{ 'add_new_photo'|trans }}
-                        </a>
-                    </li>
-                    <li><a class="{{ html_classes({'active': is_route_name('post_create')}) }}"
-                           href="{{ path('posts_front') }}">{{ 'add_new_post'|trans }}</a></li>
+                    {% if magazine is defined and magazine %}
+                        <li>
+                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'type.link'|trans|lower}) }}"
+                               class="{{ html_classes({'active': is_route_name('magazine_entry_create') and route_has_param('type', 'type.link'|trans|lower)}) }}">
+                                {{ 'add_new_link'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'type.article'|trans|lower}) }}"
+                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
+                                {{ 'add_new_article'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'type.photo'|trans|lower}) }}"
+                               class="{{ html_classes({'active': is_route_name('magazine_entry_create') and route_has_param('type', 'type.photo'|trans|lower)}) }}">
+                                {{ 'add_new_photo'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="{{ html_classes({'active': is_route_name('post_create')}) }}"
+                               href="{{ path('magazine_posts', {name: magazine.name}) }}">{{ 'add_new_post'|trans }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path('entry_create', {type: 'type.link'|trans|lower}) }}"
+                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.link'|trans|lower)}) }}">
+                                {{ 'add_new_link'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('entry_create', {type: 'type.article'|trans|lower}) }}"
+                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.article'|trans|lower)}) }}">
+                                {{ 'add_new_article'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('entry_create', {type: 'type.photo'|trans|lower}) }}"
+                               class="{{ html_classes({'active': is_route_name('entry_create') and route_has_param('type', 'type.photo'|trans|lower)}) }}">
+                                {{ 'add_new_photo'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="{{ html_classes({'active': is_route_name('post_create')}) }}"
+                               href="{{ path('posts_front') }}">{{ 'add_new_post'|trans }}
+                            </a>
+                        </li>
+                    {% endif %}
                     <li><a href="#">{{ 'add_new_video'|trans }}</a></li>
                     <li><a class="{{ html_classes({'active': is_route_name('magazine_create')}) }}"
                            href="{{ path('magazine_create') }}">{{ 'create_new_magazine'|trans }}</a></li>
