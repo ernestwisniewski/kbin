@@ -15,7 +15,7 @@ user_comments:
 
 user_posts:
   controller: App\Controller\User\UserFrontController::posts
-  path: /u/{username}/wpisy
+  path: /u/{username}/posts
   methods: [ GET ]
 
 user_replies:
@@ -25,7 +25,7 @@ user_replies:
 
 user_boosts:
   controller: App\Controller\User\UserFrontController::boosts
-  path: /u/{username}/podbicia
+  path: /u/{username}/boosts
   methods: [ GET ]
 
 user_moderated:

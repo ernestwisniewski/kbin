@@ -1,5 +1,0 @@
-search:
-  controller: App\Controller\SearchController
-  defaults: { val: ~, }
-  path: /szukaj
-  methods: [GET]

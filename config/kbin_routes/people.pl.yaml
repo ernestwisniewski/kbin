@@ -1,4 +1,0 @@
-people_front:
-  controller: App\Controller\People\PeopleFrontController
-  path: /ludzie
-  methods: [ GET ]
