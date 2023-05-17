@@ -13,12 +13,11 @@ federation.
 Currently, a new frontend is being implemented on develop branch. In the next stage, a similar refactor will go through
 the backend and the project will be prepared for contribution.
 
-![](docs/images/screen1.png)
+![](docs/images/kbin.png)
 
 * [https://kbin.pub](https://kbin.pub) - project website
 * [https://karab.in](https://karab.in) - polish-lang instance
-* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (develop/main branch)
-* [https://lab.kbin.pub](https://lab.kbin.pub) - instance for testing purposes only (develop branch)
+* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (develop branch)
 
 ---
 
@@ -193,23 +192,29 @@ $ docker compose exec php bin/console cache:clear
 * Kbin GraphQL Reference
 * [Fediverse Developer Network](https://fedidevs.org/projects/kbin/)
 
+
+## Languages
+
+* English
+* Polish
+* Dutch ([Vistaus](https://github.com/Vistaus))
 ## Support us
 
 ###
 
-[<img src="docs/images/partners/entrust.png" alt="NGI Zero Entrust" style="width:450px;">](https://nlnet.nl/project/Kbin/)
+[<img src="docs/images/partners/entrust.png" alt="NGI Zero Entrust">](https://nlnet.nl/project/Kbin/)
 
 ###
 
-[<img src="docs/images/partners/browserstack.svg" alt="BrowserStack" style="width:350px;">](https://www.browserstack.com/open-source)
+[<img src="docs/images/partners/browserstack.png" alt="BrowserStack">](https://www.browserstack.com/open-source)
 
 ###
 
-[<img src="docs/images/partners/blackfire-io.png" alt="blackfire.io" style="width:350px;">](https://www.blackfire.io)
+[<img src="docs/images/partners/blackfire-io.png" alt="blackfire.io">](https://www.blackfire.io)
 
 ###
 
-[<img src="docs/images/partners/jb_beam.png" alt="JetBrains" style="width:150px;">](https://jb.gg/OpenSourceSupport)
+[<img src="docs/images/partners/jb_beam.png" alt="JetBrains">](https://jb.gg/OpenSourceSupport)
 
 ## Contributing
 
