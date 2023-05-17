@@ -1,0 +1,122 @@
+.theme--kbin {
+  .ts-dropdown {
+    background: var(--kbin-input-bg);
+    border-color: #373737;
+    color: var(--kbin-meta-text-color);
+
+    .active {
+      background: var(--kbin-options-bg);
+      color: var(--kbin-meta-text-color);
+    }
+  }
+
+  --kbin-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --kbin-body-font-size: 1rem;
+  --kbin-body-font-weight: 400;
+  --kbin-body-line-height: 1.5;
+  --kbin-body-text-align: left;
+  --kbin-body-bg: #2B2D31;
+
+  --kbin-bg: #2B2D31;
+  --kbin-bg-nth: #34363b;
+
+  --kbin-text-color: #DBDEE2;
+  --kbin-link-color: #F2F3F6;
+  --kbin-link-hover-color: #e5e7ea;
+  --kbin-outline: #ff8c00 solid 4px;
+
+  --kbin-primary-color: #3c3c3c;
+  --kbin-text-muted-color: #95a6a6;
+
+  --kbin-success-color: #0f5132;
+  --kbin-danger-color: #dc2f3f;
+
+  // section
+  --kbin-section-bg: #313338;
+  --kbin-section-text-color: var(--kbin-text-color);
+  --kbin-section-title-link-color: var(--kbin-link-color);
+  --kbin-section-link-color: #97a7ce;
+  --kbin-section-link-hover-color: #fff;
+  --kbin-section-border: 1px solid #24262A;
+  --kbin-author-border: 1px dashed var(--kbin-danger-color);
+  --kbin-own-border: 1px dashed var(--kbin-success-color);
+
+  // meta
+  --kbin-meta-bg: none;
+  --kbin-meta-text-color: #DBDEE2;
+  --kbin-meta-link-color: var(--kbin-link-color);
+  --kbin-meta-link-hover-color: var(--kbin-link-hover-color);
+  --kbin-meta-border: 1px dashed #4d5052;
+  --kbin-avatar-border: 3px solid #373737;
+
+  // options
+  --kbin-options-bg: #313338;
+  --kbin-options-text-color: #95a5a6;
+  --kbin-options-link-color: var(--kbin-link-color);
+  --kbin-options-link-hover-color: var(--kbin-link-hover-color);
+  --kbin-options-border: 1px solid #24262A;
+  --kbin-options-link-hover-border: 3px solid #e1e5ec;
+
+  // forms
+  --kbin-input-bg: #2C2D31;
+  --kbin-input-text-color: var(--kbin-text-color);
+  --kbin-input-border: 1px solid #373737;
+
+  // buttons
+  --kbin-button-primary-bg: #6166EF;
+  --kbin-button-primary-hover-bg: #5257d5;
+  --kbin-button-primary-text-color: #fff;
+  --kbin-button-primary-text-hover-color: #fff;
+  --kbin-button-primary-border: 1px solid transparent;
+
+  --kbin-button-secondary-bg: #2f3033;
+  --kbin-button-secondary-hover-bg: #26272a;
+  --kbin-button-secondary-text-color: var(--kbin-meta-text-color);
+  --kbin-button-secondary-text-hover-color: var(--kbin-text-color);
+  --kbin-button-secondary-border: 1px dashed #4d5052;
+
+  // header
+  --kbin-header-bg: #1E1F22;
+  --kbin-header-text-color: #fff;
+  --kbin-header-link-color: #fff;
+  --kbin-header-link-hover-color: #e8e8e8;
+  --kbin-header-link-active-bg: var(--kbin-options-bg);
+  --kbin-header-border: 1px solid #1E1F22;
+  --kbin-header-hover-border: 3px solid #fff;
+
+  // topbar
+  --kbin-topbar-bg: var(--kbin-section-bg);
+  --kbin-topbar-active-bg: #fff;
+  --kbin-topbar-active-link-color: #000;
+  --kbin-topbar-hover-bg: #282828;
+  --kbin-topbar-border: 1px solid #4d5052;
+
+  //sidebar
+  --kbin-sidebar-header-text-color: #909ea2;
+  --kbin-sidebar-header-border: 1px solid #4a4a4a;
+
+  //vote
+  --kbin-vote-bg: #2B2D31;
+  --kbin-vote-text-color: #B6BAC2;
+  --kbin-vote-text-hover-color: #fafafa;
+
+  // alerts
+  --kbin-alert-info-bg: #fff3cd;
+  --kbin-alert-info-border: 1px solid #ffe69c;
+  --kbin-alert-info-text-color: #997404;
+  --kbin-alert-info-link-color: #997404;
+
+  --kbin-alert-danger-bg: #f8d7da;
+  --kbin-alert-danger-border: 1px solid #f5c2c7;
+  --kbin-alert-danger-text-color: var(--kbin-danger-color);
+  --kbin-alert-danger-link-color: var(--kbin-danger-color);
+
+  //entry
+  --kbin-entry-link-visited-color: #8e939b;
+
+  // footer
+  --kbin-footer-bg: #1E1F22;
+  --kbin-footer-text-color: #fff;
+  --kbin-footer-link-color: #fff;
+  --kbin-footer-link-hover-color: var(--kbin-header-link-hover-color);
+}

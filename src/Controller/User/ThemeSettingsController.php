@@ -36,6 +36,7 @@ class ThemeSettingsController extends AbstractController
     public const COMPACT = 'compact';
     public const LIGHT = 'light';
     public const DARK = 'dark';
+    public const KBIN = 'kbin';
     public const SOLARIZED_LIGHT = 'solarized-light';
     public const SOLARIZED_DARK = 'solarized-dark';
     public const TRUE = 'true';
@@ -71,6 +72,7 @@ class ThemeSettingsController extends AbstractController
         self::COMPACT,
         self::LIGHT,
         self::DARK,
+        self::KBIN,
         self::SOLARIZED_LIGHT,
         self::SOLARIZED_DARK,
         self::TRUE,

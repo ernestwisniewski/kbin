@@ -1,4 +1,10 @@
 <div class="settings">
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'kbin'}) }}"
+       title="{{ 'kbin' }} {{ 'theme'|trans }}"
+       aria-label="{{ 'kbin' }} {{ 'theme'|trans }}"
+       rel="nofollow">
+        <div class="theme kbin"></div>
+    </a>
     <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'), value: 'light'}) }}"
        title="{{ 'light'|trans }} {{ 'theme'|trans }}"
        aria-label="{{ 'light'|trans }} {{ 'theme'|trans }}"
