@@ -103,6 +103,7 @@
 
   .sr-nav {
     grid-area: sr-nav;
+    z-index: 100;
 
     a {
       background-color: white;
