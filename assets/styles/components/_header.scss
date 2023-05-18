@@ -191,6 +191,7 @@
 @include media-breakpoint-down(lg) {
   .head-nav {
     position: relative;
+    top: 5px;
 
     .brand {
       padding-bottom: .438rem;
