@@ -63,7 +63,7 @@ class DeleteUserHandler
 
         $retry =
             $this->removeMeta()
-//            || $this->removeNotifications()
+            || $this->removeNotifications()
             || $this->removeMagazineSubscriptions()
             || $this->removeMagazineBlocks()
             || $this->removeUserFollows()
@@ -93,6 +93,7 @@ class DeleteUserHandler
 
         $this->user->username = '!deleted'.$this->user->getId();
         $this->user->email = '!deleted'.$this->user->getId().'@kbin.del';
+        $this->user->about = null;
 
         return false;
     }
@@ -196,6 +197,7 @@ class DeleteUserHandler
             ->from($subjectClass, 'c')
             ->join('c.votes', 'cv')
             ->where('cv.user = :user')
+            ->andWhere('cv.choice != 0')
             ->orderBy('c.id', 'DESC')
             ->setParameter('user', $this->user)
             ->setMaxResults($this->batchSize)
@@ -204,20 +206,20 @@ class DeleteUserHandler
 
         $retry = false;
 
-        $this->entityManager->beginTransaction();
+        foreach ($subjects as $subject) {
+            $retry = true;
+            $this->voteManager->vote(VotableInterface::VOTE_NONE, $subject, $this->user);
+        }
 
-        try {
-            foreach ($subjects as $subject) {
-                $retry = true;
+        if (false === $retry) {
+            $em = $this->entityManager;
+            $query = $em->createQuery(
+                'DELETE FROM '.$subjectClass.'Vote'.' v WHERE v.user = :user OR v.author = :user'
+            );
+            $query->setParameter('user', $this->user);
+            $query->execute();
 
-                $this->voteManager->vote(VotableInterface::VOTE_NONE, $subject, $this->user);
-            }
-
-            $this->entityManager->commit();
-        } catch (\Throwable $e) {
-            $this->entityManager->rollback();
-
-            throw $e;
+            return false;
         }
 
         return $retry;
@@ -243,22 +245,13 @@ class DeleteUserHandler
 
         $retry = false;
 
-        $this->entityManager->beginTransaction();
-
-        try {
-            foreach ($comments as $comment) {
-                $retry = true;
-                if ('delete' === $this->op) {
-                    $this->entryCommentManager->{$this->op}($this->user, $comment);
-                } else {
-                    $this->entryCommentManager->{$this->op}($comment);
-                }
+        foreach ($comments as $comment) {
+            $retry = true;
+            if ('delete' === $this->op) {
+                $this->entryCommentManager->{$this->op}($this->user, $comment);
+            } else {
+                $this->entryCommentManager->{$this->op}($comment);
             }
-
-            $this->entityManager->commit();
-        } catch (\Exception $e) {
-            $this->entityManager->rollback();
-            throw $e;
         }
 
         return $retry;
@@ -284,22 +277,13 @@ class DeleteUserHandler
 
         $retry = false;
 
-        $this->entityManager->beginTransaction();
-
-        try {
-            foreach ($entries as $entry) {
-                $retry = true;
-                if ('delete' === $this->op) {
-                    $this->entryManager->{$this->op}($this->user, $entry);
-                } else {
-                    $this->entryManager->{$this->op}($entry);
-                }
+        foreach ($entries as $entry) {
+            $retry = true;
+            if ('delete' === $this->op) {
+                $this->entryManager->{$this->op}($this->user, $entry);
+            } else {
+                $this->entryManager->{$this->op}($entry);
             }
-
-            $this->entityManager->commit();
-        } catch (\Exception $e) {
-            $this->entityManager->rollback();
-            throw $e;
         }
 
         return $retry;
@@ -325,22 +309,13 @@ class DeleteUserHandler
 
         $retry = false;
 
-        $this->entityManager->beginTransaction();
-
-        try {
-            foreach ($comments as $comment) {
-                $retry = true;
-                if ('delete' === $this->op) {
-                    $this->postCommentManager->{$this->op}($this->user, $comment);
-                } else {
-                    $this->postCommentManager->{$this->op}($comment);
-                }
+        foreach ($comments as $comment) {
+            $retry = true;
+            if ('delete' === $this->op) {
+                $this->postCommentManager->{$this->op}($this->user, $comment);
+            } else {
+                $this->postCommentManager->{$this->op}($comment);
             }
-
-            $this->entityManager->commit();
-        } catch (\Exception $e) {
-            $this->entityManager->rollback();
-            throw $e;
         }
 
         return $retry;
@@ -366,22 +341,13 @@ class DeleteUserHandler
 
         $retry = false;
 
-        $this->entityManager->beginTransaction();
-
-        try {
-            foreach ($posts as $post) {
-                $retry = true;
-                if ('delete' === $this->op) {
-                    $this->postManager->{$this->op}($this->user, $post);
-                } else {
-                    $this->postManager->{$this->op}($post);
-                }
+        foreach ($posts as $post) {
+            $retry = true;
+            if ('delete' === $this->op) {
+                $this->postManager->{$this->op}($this->user, $post);
+            } else {
+                $this->postManager->{$this->op}($post);
             }
-
-            $this->entityManager->commit();
-        } catch (\Exception $e) {
-            $this->entityManager->rollback();
-            throw $e;
         }
 
         return $retry;
@@ -418,26 +384,11 @@ class DeleteUserHandler
 
     private function removeNotifications(): bool
     {
-        $notifications = $this->entityManager
-            ->getRepository(Notification::class)
-            ->findBy(
-                [
-                    'user' => $this->user,
-                ],
-                ['createdAt' => 'DESC'],
-                $this->batchSize
-            );
+        $em = $this->entityManager;
+        $query = $em->createQuery('DELETE FROM '.Notification::class.' n WHERE n.user = :userId');
+        $query->setParameter('userId', 4);
+        $query->execute();
 
-        $retry = false;
-
-        foreach ($notifications as $notification) {
-            $retry = true;
-
-            $this->entityManager->remove($notification);
-        }
-
-        $this->entityManager->flush();
-
-        return $retry;
+        return false;
     }
 }

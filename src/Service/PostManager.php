@@ -147,7 +147,7 @@ class PostManager implements ContentManagerInterface
             $this->postCommentManager->purge($comment);
         }
 
-        $post->magazine->removePost($post);
+//        $post->magazine->removePost($post);
 
         $this->entityManager->remove($post);
         $this->entityManager->flush();

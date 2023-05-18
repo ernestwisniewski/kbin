@@ -199,7 +199,7 @@ class EntryManager implements ContentManagerInterface
             $this->entryCommentManager->purge($comment);
         }
 
-        $entry->magazine->removeEntry($entry);
+//        $entry->magazine->removeEntry($entry);
 
         $this->entityManager->remove($entry);
         $this->entityManager->flush();
