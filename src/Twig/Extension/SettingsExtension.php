@@ -19,7 +19,8 @@ final class SettingsExtension extends AbstractExtension
             new TwigFunction('kbin_meta_description', [SettingsExtensionRuntime::class, 'kbinDescription']),
             new TwigFunction('kbin_meta_keywords', [SettingsExtensionRuntime::class, 'kbinKeywords']),
             new TwigFunction('kbin_default_lang', [SettingsExtensionRuntime::class, 'kbinDefaultLang']),
-            new TwigFunction('kbin_registrations_enabled', [SettingsExtensionRuntime::class, 'kbinregistrationsEnabled']),
+            new TwigFunction('kbin_registrations_enabled', [SettingsExtensionRuntime::class, 'kbinRegistrationsEnabled']),
+            new TwigFunction('kbin_header_logo', [SettingsExtensionRuntime::class, 'kbinHeaderLogo']),
         ];
     }
 }

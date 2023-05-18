@@ -140,6 +140,12 @@
     text-decoration: none;
     font-weight: 400;
 
+    img {
+      left: 3px;
+      position: relative;
+      top: 4px
+    }
+
     small {
       display: none;
       font-size: .9rem;
@@ -151,6 +157,10 @@
         display: flex;
         gap: .5rem;
         justify-content: center;
+      }
+
+      img {
+        top: 0px
       }
 
       small {

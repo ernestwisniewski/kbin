@@ -119,4 +119,17 @@
   --kbin-footer-text-color: #fff;
   --kbin-footer-link-color: #fff;
   --kbin-footer-link-hover-color: var(--kbin-header-link-hover-color);
+
+  .section--top,
+  .options--top {
+    border-top: var(--kbin-options-border) !important;
+    margin-top: 1rem !important;
+  }
+
+  &.rounded-edges {
+    .options--top,
+    .section--top {
+      border-radius: .5rem !important;
+    }
+  }
 }

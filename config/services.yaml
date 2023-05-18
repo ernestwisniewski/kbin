@@ -134,6 +134,7 @@ services:
       $kbinJsEnabled: '%env(bool:KBIN_JS_ENABLED)%'
       $kbinFederationEnabled: '%env(bool:KBIN_FEDERATION_ENABLED)%'
       $kbinRegistrationsEnabled: '%env(bool:KBIN_REGISTRATIONS_ENABLED)%'
+      $kbinHeaderLogo: '%env(bool:KBIN_HEADER_LOGO)%'
 
   # Markdown
   App\Markdown\CommonMark\ExternalImagesRenderer:

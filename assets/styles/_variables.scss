@@ -31,7 +31,7 @@ $aspect-ratios: (
   --kbin-link-hover-color: #275878;
   --kbin-outline: #ff8c00 solid 4px;
 
-  --kbin-primary-color: #367FB5;
+  --kbin-primary-color: #61366b;
   --kbin-text-muted-color: #95a6a6;
 
   --kbin-success-color: #0f5132;
@@ -69,11 +69,11 @@ $aspect-ratios: (
   --kbin-input-border: 1px solid #e5eaec;
 
   // buttons
-  --kbin-button-primary-bg: var(--kbin-primary-color);
-  --kbin-button-primary-hover-bg: #2e71a2ff;
+  --kbin-button-primary-bg: #4e3a8c;
+  --kbin-button-primary-hover-bg: #3f2e77;
   --kbin-button-primary-text-color: #fff;
   --kbin-button-primary-text-hover-color: #fff;
-  --kbin-button-primary-border: 1px solid #2e71a2ff;
+  --kbin-button-primary-border: 1px solid #3f2e77;
 
   --kbin-button-secondary-bg: #fff;
   --kbin-button-secondary-hover-bg: #f5f5f5;
@@ -82,21 +82,21 @@ $aspect-ratios: (
   --kbin-button-secondary-border: 1px dashed #e5eaec;
 
   // header
-  --kbin-header-bg: var(--kbin-primary-color);
+  --kbin-header-bg: #110045;
   --kbin-header-text-color: #fff;
   --kbin-header-link-color: #fff;
   --kbin-header-link-hover-color: #e8e8e8;
-  --kbin-header-link-active-bg: #3171a0;
+  --kbin-header-link-active-bg: #0a0026;
   --kbin-header-border: 1px solid #e5eaec;
   --kbin-header-hover-border: 3px solid #fff;
 
   // topbar
-  --kbin-topbar-bg: var(--kbin-header-link-active-bg);
-  --kbin-topbar-active-bg: #205277;
+  --kbin-topbar-bg: #0a0026;
+  --kbin-topbar-active-bg: #150a37;
   --kbin-topbar-link-color: #fff;
   --kbin-topbar-active-link-color: #fff;
-  --kbin-topbar-hover-bg: var(--kbin-primary-color);
-  --kbin-topbar-border: 1px solid #478ec3;
+  --kbin-topbar-hover-bg: #150a37;
+  --kbin-topbar-border: 1px solid  #150a37;
 
   //sidebar
   --kbin-sidebar-header-text-color: #909ea2;
@@ -122,7 +122,7 @@ $aspect-ratios: (
   --kbin-entry-link-visited-color: #7e8f99;
 
   // footer
-  --kbin-footer-bg: var(--kbin-primary-color);
+  --kbin-footer-bg: #110045;
   --kbin-footer-text-color: #fff;
   --kbin-footer-link-color: #fff;
   --kbin-footer-link-hover-color: var(--kbin-header-link-hover-color);
