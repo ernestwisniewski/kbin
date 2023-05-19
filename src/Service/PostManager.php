@@ -78,7 +78,7 @@ class PostManager implements ContentManagerInterface
             throw new \Exception('Post body and image cannot be empty');
         }
 
-        $post->magazine->addPost($post);
+//        $post->magazine->addPost($post);
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();
