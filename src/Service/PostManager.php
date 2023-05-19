@@ -78,8 +78,6 @@ class PostManager implements ContentManagerInterface
             throw new \Exception('Post body and image cannot be empty');
         }
 
-//        $post->magazine->addPost($post);
-
         $this->entityManager->persist($post);
         $this->entityManager->flush();
 
@@ -146,8 +144,6 @@ class PostManager implements ContentManagerInterface
         foreach ($post->comments->matching($sort) as $comment) {
             $this->postCommentManager->purge($comment);
         }
-
-//        $post->magazine->removePost($post);
 
         $this->entityManager->remove($post);
         $this->entityManager->flush();

@@ -9,6 +9,7 @@ use App\Event\Post\PostCreatedEvent;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\Notification\PostCreatedNotificationMessage;
 use App\Repository\MagazineRepository;
+use App\Repository\PostRepository;
 use App\Service\PostManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -18,6 +19,7 @@ class PostCreateSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly MessageBusInterface $bus,
         private readonly MagazineRepository $magazineRepository,
+        private readonly PostRepository $postRepository,
         private readonly PostManager $postManager
     ) {
     }
@@ -31,6 +33,8 @@ class PostCreateSubscriber implements EventSubscriberInterface
 
     public function onPostCreated(PostCreatedEvent $event): void
     {
+        $event->post->magazine->postCount = $this->postRepository->countPostsByMagazine($event->post->magazine);
+
         if (!$event->post->apId) {
             $this->bus->dispatch(new CreateMessage($event->post->getId(), get_class($event->post)));
         } else {

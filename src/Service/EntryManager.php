@@ -85,8 +85,6 @@ class EntryManager implements ContentManagerInterface
             throw new \Exception('Entry body and image cannot be empty');
         }
 
-        $entry->magazine->addEntry($entry);
-
         $entry = $this->setType($dto, $entry);
 
         if ($dto->badges) {
@@ -198,8 +196,6 @@ class EntryManager implements ContentManagerInterface
         foreach ($entry->comments->matching($sort) as $comment) {
             $this->entryCommentManager->purge($comment);
         }
-
-//        $entry->magazine->removeEntry($entry);
 
         $this->entityManager->remove($entry);
         $this->entityManager->flush();

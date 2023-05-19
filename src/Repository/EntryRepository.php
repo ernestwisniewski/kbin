@@ -122,7 +122,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     {
         $user = $this->security->getUser();
 
-        if($criteria->federation === Criteria::AP_LOCAL) {
+        if ($criteria->federation === Criteria::AP_LOCAL) {
             $qb->andWhere('e.apId IS NULL');
         }
 
@@ -261,6 +261,20 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
                 ->getQuery()
                 ->getResult();
         }
+    }
+
+    public function countEntriesByMagazine(Magazine $magazine): int
+    {
+        return intval(
+            $this->createQueryBuilder('e')
+                ->select('count(e.id)')
+                ->where('e.magazine = :magazine')
+                ->andWhere('e.visibility = :visibility')
+                ->setParameter('magazine', $magazine)
+                ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
+                ->getQuery()
+                ->getSingleScalarResult()
+        );
     }
 
     public function countEntryCommentsByMagazine(Magazine $magazine): int

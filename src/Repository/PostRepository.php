@@ -222,7 +222,21 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
     }
 
-    public function countPostCommentsByMagazine(?Magazine $magazine)
+    public function countPostsByMagazine(Magazine $magazine)
+    {
+        return intval(
+            $this->createQueryBuilder('p')
+                ->select('count(p.id)')
+                ->where('p.magazine = :magazine')
+                ->andWhere('p.visibility = :visibility')
+                ->setParameter('magazine', $magazine)
+                ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
+                ->getQuery()
+                ->getSingleScalarResult()
+        );
+    }
+
+    public function countPostCommentsByMagazine(Magazine $magazine)
     {
         return intval(
             $this->createQueryBuilder('p')
