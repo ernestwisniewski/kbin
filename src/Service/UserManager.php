@@ -21,6 +21,7 @@ use App\Security\EmailVerifier;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -28,7 +29,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 
 class UserManager
 {
@@ -267,6 +267,10 @@ class UserManager
 
     public function detachAvatar(User $user): void
     {
+        if (!$user->avatar) {
+            return;
+        }
+
         $image = $user->avatar->filePath;
 
         $user->avatar = null;
@@ -279,6 +283,10 @@ class UserManager
 
     public function detachCover(User $user): void
     {
+        if (!$user->cover) {
+            return;
+        }
+
         $image = $user->cover->filePath;
 
         $user->cover = null;

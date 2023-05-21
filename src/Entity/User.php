@@ -110,6 +110,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public bool $isBanned = false;
     #[Column(type: 'boolean', nullable: false)]
     public bool $isVerified = false;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $isDeleted = false;
     #[OneToMany(mappedBy: 'user', targetEntity: Moderator::class)]
     public Collection $moderatorTokens;
     #[OneToMany(mappedBy: 'user', targetEntity: Entry::class)]
@@ -618,7 +620,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function isAccountDeleted(): bool
     {
-        return isset($this->id) && $this->username === "!deleted{$this->id}";
+        return $this->isDeleted;
     }
 
     public function getUserIdentifier(): string

@@ -91,8 +91,12 @@ class DeleteUserHandler
             return false;
         }
 
-        $this->user->username = '!deleted'.$this->user->getId();
-        $this->user->email = '!deleted'.$this->user->getId().'@kbin.del';
+//        $this->user->username = '!deleted'.$this->user->getId();
+//        $this->user->email = '!deleted'.$this->user->getId().'@kbin.del';
+
+        $this->userManager->detachAvatar($this->user);
+        $this->userManager->detachCover($this->user);
+        $this->user->isDeleted = true;
         $this->user->about = null;
 
         return false;
