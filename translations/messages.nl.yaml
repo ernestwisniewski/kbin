@@ -68,7 +68,7 @@ dont_have_account: Heb je nog geen account?
 already_have_account: Heb je al een account?
 register: Registreren
 reset_password: Wachtwoord herstellen
-show_more: Meer tonen
+show_more: Meer informatie
 to: aan
 in: in
 username: Gebruikersnaam
@@ -463,3 +463,6 @@ magazine_panel_tags_info: Alleen als je inhoud van het fediverse op basis van la
 sidebar: Zijbalk
 auto_preview: Media automatisch voorvertonen
 dynamic_lists: Dynamische lijsten
+kbin_intro_title: Verken het fediverse
+kbin_intro_desc: het is een gedecentraliseerd platform voor het verzamelen van inhoud
+  en microbloggen dat opereert binnen het Fediverse-netwerk.

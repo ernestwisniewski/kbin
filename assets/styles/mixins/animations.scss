@@ -1,4 +1,4 @@
-@mixin fade-in($waitTime) {
+@mixin fade-in($waitTime, $from) {
   animation: fadein #{$waitTime} linear 1 normal forwards;
   -webkit-animation: fadein #{$waitTime} linear 1 normal forwards;
 
@@ -10,7 +10,7 @@
 
   @keyframes fadein {
     from {
-      opacity: .75;
+      opacity: $from;
     }
     to {
       opacity: 1;
@@ -19,7 +19,7 @@
 
   @-webkit-keyframes fadein {
     from {
-      opacity: .75;
+      opacity: $from;
     }
     to {
       opacity: 1;

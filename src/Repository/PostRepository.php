@@ -57,6 +57,9 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
+            if (!$criteria->magazine) {
+                $pagerfanta->setMaxNbPages(5000);
+            }
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -183,7 +186,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             default:
         }
 
-        $qb->addOrderBy('p.createdAt', 'DESC');
+        $qb->addOrderBy('p.createdAt', $criteria->sortOption === Criteria::SORT_OLD ? 'ASC' : 'DESC');
         $qb->addOrderBy('p.id', 'DESC');
 
         return $qb;

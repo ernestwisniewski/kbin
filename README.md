@@ -192,12 +192,16 @@ $ docker compose exec php bin/console cache:clear
 * Kbin GraphQL Reference
 * [Fediverse Developer Network](https://fedidevs.org/projects/kbin/)
 
-
 ## Languages
 
 * English
 * Polish
 * Dutch ([Vistaus](https://github.com/Vistaus))
+
+## Credits
+
+* [grumpyDev](https://karab.in/u/grumpyDev): Logotype, icons, kbin-theme 
+
 ## Support us
 
 ###

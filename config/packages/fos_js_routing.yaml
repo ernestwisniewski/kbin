@@ -8,4 +8,5 @@ fos_js_routing:
     'ajax_fetch_user_popup',
     'ajax_fetch_title',
     'ajax_fetch_embed',
+    'ajax_fetch_duplicates'
   ]

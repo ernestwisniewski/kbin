@@ -61,6 +61,9 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
+            if (!$criteria->magazine) {
+                $pagerfanta->setMaxNbPages(50000);
+            }
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -218,7 +221,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             default:
         }
 
-        $qb->addOrderBy('e.createdAt', 'DESC');
+        $qb->addOrderBy('e.createdAt', $criteria->sortOption === Criteria::SORT_OLD ? 'ASC' : 'DESC');
         $qb->addOrderBy('e.id', 'DESC');
 
         return $qb;

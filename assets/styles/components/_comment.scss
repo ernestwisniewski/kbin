@@ -165,7 +165,7 @@ $comment-margin-sm: .3rem;
   &:hover,
   &:focus-within {
     header, menu, footer menu, footer .boosts {
-      @include fade-in(.5s);
+      @include fade-in(.5s, .75);
     }
   }
 }

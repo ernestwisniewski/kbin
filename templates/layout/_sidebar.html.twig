@@ -37,7 +37,7 @@
                     |
                     <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FEDERATION_ENABLED'), value: 'false'}) }}"
                        class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FEDERATION_ENABLED')) is same as 'false'}) }}">
-                    {{ 'off'|trans }}
+                        {{ 'off'|trans }}
                     </a>
                 </div>
             </div>
@@ -47,6 +47,19 @@
             </div>
         </div>
     </div>
+    {% if not app.user and (is_route_name_contains('front') or is_route_name('magazine_list_all')) %}
+        <div class="section intro">
+            <div class="container">
+                <h3>{{ 'kbin_intro_title'|trans }}</h3>
+                <p>{{ kbin_title() }} {{ 'kbin_intro_desc'|trans }}</p>
+            </div>
+
+            <div>
+                <a href="{{ path('entry_create') }}" class="btn btn-link btn__primary" type="submit">{{ 'add_new_link'|trans }}</a>
+                <a href="{{ path('magazine_create') }}" class="btn btn-link btn__secondary" type="submit">{{ 'create_new_magazine'|trans }}</a>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 {% if sidebar_top is empty %}

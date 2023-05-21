@@ -247,7 +247,7 @@
   &:focus-within {
     menu,
     .entry__meta {
-      @include fade-in(.5s);
+      @include fade-in(.5s, .75);
     }
   }
 

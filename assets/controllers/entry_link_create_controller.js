@@ -29,20 +29,10 @@ export default class extends ApplicationController {
         try {
             this.loadingValue = true;
 
-            if (this.titleTarget.value && confirm('Are you sure you want to fetch the title and description? This will overwrite the current values.') === false) {
-                return;
-            }
-
-            const url = router().generate('ajax_fetch_title');
-            let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': event.target.value})});
-
-            response = await ok(response);
-            response = await response.json();
+            await this.fetchDuplicates(event);
+            await this.fetchTitleAndDescription(event);
 
             this.loadingValue = false;
-
-            this.titleTarget.value = response.title;
-            this.descriptionTarget.value = response.description;
         } catch (e) {
             this.loadingValue = false;
         } finally {
@@ -52,5 +42,30 @@ export default class extends ApplicationController {
     loadingValueChanged(val) {
         this.titleTarget.disabled = val;
         this.descriptionTarget.disabled = val;
+    }
+
+    async fetchTitleAndDescription(event) {
+        if (this.titleTarget.value && confirm('Are you sure you want to fetch the title and description? This will overwrite the current values.') === false) {
+            return;
+        }
+
+        const url = router().generate('ajax_fetch_title');
+        let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': event.target.value})});
+
+        response = await ok(response);
+        response = await response.json();
+
+        this.titleTarget.value = response.title;
+        this.descriptionTarget.value = response.description;
+    }
+
+    async fetchDuplicates(event) {
+        // const url = router().generate('ajax_fetch_duplicates');
+        // let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': event.target.value})});
+
+        // response = await ok(response);
+        // response = await response.json();
+        //
+        // console.log(response);
     }
 }

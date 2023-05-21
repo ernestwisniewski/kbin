@@ -1,6 +1,6 @@
 #sidebar {
   font-size: .85rem;
-  opacity: .75;
+  opacity: 1;
   padding-bottom: 1rem;
 
   h3 {
@@ -170,7 +170,7 @@
     }
 
     footer {
-      opacity: .75;
+      opacity: .85;
       padding: .5rem 0;
       position: relative;
       text-align: center;
@@ -284,8 +284,47 @@
     }
   }
 
-  &:hover,
-  &:focus-within {
-    @include fade-in(.5s);
+  //&:hover,
+  //&:focus-within {
+  //  @include fade-in(.5s, .85);
+  //}
+
+  .intro {
+    .container {
+
+      .rounded-edges &{
+        border-radius: .5rem .5rem 0 0;
+      }
+
+      background: url('/assets/images/intro-bg.jpg') no-repeat center 20%;
+      color: #ffffff !important;
+      font-size: .85rem;
+      margin: -.5rem;
+      padding: 1rem;
+
+      h3 {
+        border: 0;
+        color: white;
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 1rem 0 1rem 0;
+        text-transform: none;
+      }
+    }
+
+    .btn:first-of-type {
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      .rounded-edges &{
+        border-radius: .5rem;
+      }
+
+      display: block;
+      text-align: center;
+      width: 100% !important;
+    }
   }
 }
