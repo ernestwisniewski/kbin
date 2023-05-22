@@ -3,6 +3,10 @@ body {
   position: relative;
 }
 
+#logo path {
+  fill: red
+}
+
 .kbin-container {
   margin: 0 auto;
   max-width: 1360px;
@@ -10,6 +14,7 @@ body {
 
 #middle {
   background: var(--kbin-bg);
+  padding-bottom: 3rem;
 
   .kbin-container {
     display: grid;

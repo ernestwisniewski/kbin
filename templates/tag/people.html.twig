@@ -17,7 +17,7 @@
     {% include 'tag/_options.html.twig' %}
     <div id="content">
         <h2>{{ 'people_local'|trans }}</h2>
-        <div class="users users-cards section section--no-bg">
+        <div class="users users-cards section section--no-bg section--no-border">
             {% for user in local %}
                 <div class="section">
                     {{ component('user_box', {user: user}) }}
@@ -31,7 +31,7 @@
         {% endif %}
 
         <h2>{{ 'people_federated'|trans }}</h2>
-        <div class="users users-cards section section--no-bg">
+        <div class="users users-cards section section--no-bg section--no-border">
             {% for user in federated %}
                 <div class="section">
                     {{ component('user_box', {user: user}) }}

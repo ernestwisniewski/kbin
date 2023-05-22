@@ -12,21 +12,17 @@ export default class extends ApplicationController {
 
     connect() {
         useDebounce(this, {wait: 800})
-        this.handleAndroidDropdowns();
+        this.handleDropdowns();
         this.handleOptionsBarScroll();
         this.handleDefaultTheme();
     }
 
-    handleAndroidDropdowns() {
-        const ua = navigator.userAgent.toLowerCase();
-        const isAndroid = ua.indexOf("android") > -1;
-        if (isAndroid) {
-            this.element.querySelectorAll('.dropdown > a').forEach((dropdown) => {
-                dropdown.addEventListener('click', (event) => {
-                    event.preventDefault();
-                });
+    handleDropdowns() {
+        this.element.querySelectorAll('.dropdown > a').forEach((dropdown) => {
+            dropdown.addEventListener('click', (event) => {
+                event.preventDefault();
             });
-        }
+        });
     }
 
     async mention(event) {

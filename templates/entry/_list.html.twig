@@ -22,5 +22,12 @@
         <aside class="section section--muted">
             <p>{{ 'empty'|trans }}</p>
         </aside>
+        {% if magazine is defined and magazine.postCount > 0 %}
+            <aside class="section section--muted">
+                <i class="fa-solid fa-comments text-muted"></i>
+                <a class="btn " href="{{ path('magazine_posts', {name: magazine.name}) }}">
+                    {{ 'microblog'|trans }} ({{ magazine.postCount + magazine.postCommentCount }})</a>
+            </aside>
+        {% endif %}
     {% endif %}
 </div>

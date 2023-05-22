@@ -6,6 +6,12 @@
   position: relative;
   z-index: 10;
 
+  #logo {
+    height: 1.7rem;
+    position: relative;
+    top: 3px;
+  }
+
   menu .dropdown__menu {
     left: -3.75rem;
     opacity: 1;
@@ -136,20 +142,18 @@
   .brand {
     align-self: center;
     font-size: 1.5rem;
-    grid-area: brand;
-    margin-right: 2rem;
-    text-decoration: none;
     font-weight: 400;
-
-    img {
-      left: 3px;
-      position: relative;
-      top: 4px
-    }
+    grid-area: brand;
+    margin-right: 1rem;
+    text-decoration: none;
+    display: flex;
 
     small {
       display: none;
       font-size: .9rem;
+      margin-right: .5rem;
+      position: relative;
+      top: 3px;
     }
 
     @include media-breakpoint-down(lg) {
@@ -158,10 +162,16 @@
         display: flex;
         gap: .5rem;
         justify-content: center;
+        position: relative;
+        top: -3px;
+
+        span {
+          top: -5px;
+        }
       }
 
-      img {
-        top: 0px
+      #logo {
+        height: 2rem;
       }
 
       small {
@@ -194,7 +204,7 @@
     position: relative;
     top: 5px;
 
-    .brand {
+    #logo {
       padding-bottom: .438rem;
     }
 

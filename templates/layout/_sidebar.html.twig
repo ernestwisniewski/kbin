@@ -55,8 +55,10 @@
             </div>
 
             <div>
-                <a href="{{ path('entry_create') }}" class="btn btn-link btn__primary" type="submit">{{ 'add_new_link'|trans }}</a>
-                <a href="{{ path('magazine_create') }}" class="btn btn-link btn__secondary" type="submit">{{ 'create_new_magazine'|trans }}</a>
+                <a href="{{ path('entry_create') }}" class="btn btn-link btn__primary"
+                   type="submit">{{ 'add_new_link'|trans }}</a>
+                <a href="{{ path('magazine_create') }}" class="btn btn-link btn__secondary"
+                   type="submit">{{ 'create_new_magazine'|trans }}</a>
             </div>
         </div>
     {% endif %}
@@ -88,3 +90,10 @@
 {% endif %}
 {{ component('related_posts', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
 {{ component('related_entries', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
+<div class="section section--no-bg kbin-promo">
+    <img src="{{ asset('kbin-promo.svg') }}" alt="Clone repo">
+    <div>
+        <h4>Create your own instance</h4>
+        <p><a href="https://kbin.pub" class="stretched-link">Clone repo</a> and develop fediverse</p>
+    </div>
+</div>

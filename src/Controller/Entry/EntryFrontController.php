@@ -217,6 +217,11 @@ class EntryFrontController extends AbstractController
         return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_NEW));
     }
 
+    private function oldest(EntryPageView $criteria): PagerfantaInterface
+    {
+        return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_OLD));
+    }
+
     private function commented(EntryPageView $criteria): PagerfantaInterface
     {
         return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));

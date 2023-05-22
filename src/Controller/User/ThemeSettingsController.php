@@ -92,6 +92,10 @@ class ThemeSettingsController extends AbstractController
             $response->headers->setCookie(new Cookie($key, $value, strtotime('+1 year')));
         }
 
+//        if (self::KBIN_THEME === $key && self::KBIN === $value) {
+//            $response->headers->setCookie(new Cookie(self::KBIN_GENERAL_ROUNDED_EDGES, 'true', strtotime('+1 year')));
+//        }
+
         return new \Symfony\Component\HttpFoundation\RedirectResponse(
             ($request->headers->get('referer') ?? '/').'#settings',
             302,

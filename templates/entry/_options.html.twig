@@ -36,7 +36,7 @@
         <li class="dropdown">
             <button aria-label="{{ 'change_view'|trans }}"
                     title="{{ 'change_view'|trans }}"><i
-                        class="fa-solid fa-layer-group"></i> {{ 'change_view'|trans }}</button>
+                        class="fa-solid fa-table-list"></i> {{ 'change_view'|trans }}</button>
             <ul class="dropdown__menu">
                 <li>
                     <a class="{{ html_classes({'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}"
@@ -57,7 +57,7 @@
         <li class="dropdown">
             <button aria-label="{{ 'filter_by_time'|trans }}"
                     title="{{ 'filter_by_time'|trans }}"><i
-                        class="fa-solid fa-clock-rotate-left"></i> {{ 'filter_by_time'|trans }}</button>
+                        class="fa-solid fa-arrow-up-wide-short"></i> {{ 'filter_by_time'|trans }}</button>
             <ul class="dropdown__menu">
                 <li>
                     <a href="{{ options_url('time', '∞') }}"
@@ -112,7 +112,7 @@
             <button
                     aria-label="{{ 'filter_by_type'|trans }}"
                     title="{{ 'filter_by_type'|trans }}"><i
-                        class="fa-solid fa-photo-film"></i> {{ 'filter_by_type'|trans }}</button>
+                        class="fa-solid fa-filter"></i> {{ 'filter_by_type'|trans }}</button>
             <ul class="dropdown__menu">
                 <li>
                     <a href="{{ options_url('type', 'all') }}"

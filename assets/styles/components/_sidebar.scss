@@ -291,16 +291,16 @@
 
   .intro {
     .container {
-
-      .rounded-edges &{
-        border-radius: .5rem .5rem 0 0;
-      }
-
-      background: url('/assets/images/intro-bg.jpg') no-repeat center 20%;
+      background: url('/assets/images/intro-bg.png') no-repeat center 20%;
+      background-size: cover;
       color: #ffffff !important;
       font-size: .85rem;
       margin: -.5rem;
       padding: 1rem;
+
+      .rounded-edges & {
+        border-radius: .5rem .5rem 0 0;
+      }
 
       h3 {
         border: 0;
@@ -318,13 +318,36 @@
     }
 
     .btn {
-      .rounded-edges &{
+      .rounded-edges & {
         border-radius: .5rem;
       }
 
       display: block;
       text-align: center;
       width: 100% !important;
+    }
+  }
+
+  .kbin-promo {
+    padding:1rem;
+    display: flex;
+    gap: 1rem;
+    position: relative;
+
+    h4 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    p {
+      font-size: .8rem;
+      margin: 0;
+    }
+
+    a {
+      //font-weight: bold;
+      color: var(--kbin-text-color);
     }
   }
 }

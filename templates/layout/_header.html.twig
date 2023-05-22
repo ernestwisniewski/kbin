@@ -8,11 +8,13 @@
         </div>
         <nav class="head-nav">
             <div class="brand">
+                <small><i class="fa-solid fa-bars"></i></small>
                 <a href="{{ app.user ? path(app.user.homepage) : '/' }}">
-                    <small><i class="fa-solid fa-bars"></i></small>
                     {% if kbin_header_logo() %}
-                        <img src="{{ asset('logo.png') }}" height="25" alt="Logo">
-                    {% endif %} {{ kbin_title() }}
+                        <img id="logo" src="{{ asset('kbin_logo.svg') }}" alt="{{ kbin_title() }}">
+                    {% else %}
+                        <span>{{ kbin_title() }}</span>
+                    {% endif %}
                 </a>
             </div>
             <menu class="head-nav__menu">
