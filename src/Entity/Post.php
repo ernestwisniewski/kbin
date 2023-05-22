@@ -30,9 +30,15 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Index;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostRepository::class)]
+#[Index(columns: ['visibility', 'is_adult'], name: 'post_visibility_adult_idx')]
+#[Index(columns: ['visibility'], name: 'post_visibility_idx')]
+#[Index(columns: ['is_adult'], name: 'post_adult_idx')]
+#[Index(columns: ['ranking'], name: 'post_ranking_idx')]
+#[Index(columns: ['created_at'], name: 'post_created_at_idx')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Post implements VotableInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {

@@ -23,6 +23,7 @@ use App\Repository\EntryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -36,6 +37,11 @@ use Tchoulom\ViewCounterBundle\Model\ViewCountable;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryRepository::class)]
+#[Index(columns: ['visibility', 'is_adult'], name: 'entry_visibility_adult_idx')]
+#[Index(columns: ['visibility'], name: 'entry_visibility_idx')]
+#[Index(columns: ['is_adult'], name: 'entry_adult_idx')]
+#[Index(columns: ['ranking'], name: 'entry_ranking_idx')]
+#[Index(columns: ['created_at'], name: 'entry_created_at_idx')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
 {

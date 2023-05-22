@@ -17,15 +17,17 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
-use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
 #[Entity(repositoryClass: MagazineRepository::class)]
-#[Table]
+#[Index(columns: ['visibility', 'is_adult'], name: 'magazine_visibility_adult_idx')]
+#[Index(columns: ['visibility'], name: 'magazine_visibility_idx')]
+#[Index(columns: ['is_adult'], name: 'magazine_adult_idx')]
 #[UniqueConstraint(name: 'magazine_name_idx', columns: ['name'])]
 class Magazine implements VisibilityInterface, ActivityPubActorInterface
 {
