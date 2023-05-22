@@ -463,6 +463,8 @@ magazine_panel_tags_info: Alleen als je inhoud van het fediverse op basis van la
 sidebar: Zijbalk
 auto_preview: Media automatisch voorvertonen
 dynamic_lists: Dynamische lijsten
-kbin_intro_title: Verken het Fediverse
+kbin_intro_title: Verken het fediverse
 kbin_intro_desc: het is een gedecentraliseerd platform voor het verzamelen van inhoud
-  en microbloggen dat opereert binnen het Fediverse-netwerk.
+  en microbloggen dat opereert binnen het fediversenetwerk.
+kbin_promo_title: Zet je eigen instantie op
+kbin_promo_desc: '%link_start%Kloon de repo%link_end% en ontwikkel het fediverse'

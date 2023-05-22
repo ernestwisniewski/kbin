@@ -466,3 +466,5 @@ banned_instances: Banned instances
 kbin_intro_title: Explore Fediverse
 kbin_intro_desc: it's a decentralized platform for content aggregation and microblogging
   that operates within the Fediverse network.
+kbin_promo_title: Create your own instance
+kbin_promo_desc: '%link_start%Clone repo%link_end% and develop fediverse'

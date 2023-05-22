@@ -91,9 +91,12 @@
 {{ component('related_posts', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
 {{ component('related_entries', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
 <div class="section section--no-bg kbin-promo">
-    <img src="{{ asset('kbin-promo.svg') }}" alt="Clone repo">
+    <img height="47" src="{{ asset('kbin-promo.svg') }}" alt="Clone repo">
     <div>
-        <h4>Create your own instance</h4>
-        <p><a href="https://kbin.pub" class="stretched-link">Clone repo</a> and develop fediverse</p>
+        <h4>{{ 'kbin_promo_title'|trans }}</h4>
+        <p>{{ 'kbin_promo_desc'|trans({
+                '%link_start%': '<a href="https://kbin.pub" class="stretched-link">',
+                '%link_end%': '</a>'
+            })|raw }}</p>
     </div>
 </div>

@@ -468,3 +468,5 @@ banned_instances: Zbanowane instancje
 kbin_intro_title: Zanurkuj w Fediwersum
 kbin_intro_desc: to zdecentralizowana platforma służąca do agregowania treści i mikroblogowania,
   działająca w sieci Fediverse.
+kbin_promo_title: Utwórz własną instancję
+kbin_promo_desc: '%link_start%Sklonuj repo%link_end% i rozwijaj fediverse'
