@@ -52,7 +52,8 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
-                $this->getEntryQueryBuilder($criteria)
+                $this->getEntryQueryBuilder($criteria),
+                false
             )
         );
 

@@ -51,7 +51,8 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
 //            ->getResult();
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
-                $this->getCommentQueryBuilder($criteria)
+                $this->getCommentQueryBuilder($criteria),
+                false
             )
         );
 

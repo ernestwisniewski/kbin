@@ -50,7 +50,8 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
-                $this->getEntryQueryBuilder($criteria)
+                $this->getEntryQueryBuilder($criteria),
+                false
             )
         );
 

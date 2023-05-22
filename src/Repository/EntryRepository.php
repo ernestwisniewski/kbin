@@ -54,7 +54,8 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     {
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
-                $this->getEntryQueryBuilder($criteria)
+                $this->getEntryQueryBuilder($criteria),
+                false
             )
         );
 
