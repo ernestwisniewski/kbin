@@ -470,3 +470,5 @@ kbin_intro_desc: to zdecentralizowana platforma służąca do agregowania treśc
   działająca w sieci Fediverse.
 kbin_promo_title: Utwórz własną instancję
 kbin_promo_desc: '%link_start%Sklonuj repo%link_end% i rozwijaj fediverse'
+captcha_enabled: Captcha włączona
+header_logo: Header logo

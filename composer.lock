@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36b83a521d80d87d9d0d0bbbfb51aa9c",
+    "content-hash": "196b27106b1ef94c278cb19c1f2855d9",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2556,58 +2556,6 @@
             "time": "2021-08-10T12:39:57+00:00"
         },
         {
-            "name": "google/recaptcha",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/google/recaptcha.git",
-                "reference": "d59a801e98a4e9174814a6d71bbc268dff1202df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/google/recaptcha/zipball/d59a801e98a4e9174814a6d71bbc268dff1202df",
-                "reference": "d59a801e98a4e9174814a6d71bbc268dff1202df",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.14",
-                "php-coveralls/php-coveralls": "^2.5",
-                "phpunit/phpunit": "^10"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "ReCaptcha\\": "src/ReCaptcha"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Client library for reCAPTCHA, a free service that protects websites from spam and abuse.",
-            "homepage": "https://www.google.com/recaptcha/",
-            "keywords": [
-                "Abuse",
-                "captcha",
-                "recaptcha",
-                "spam"
-            ],
-            "support": {
-                "forum": "https://groups.google.com/forum/#!forum/recaptcha",
-                "issues": "https://github.com/google/recaptcha/issues",
-                "source": "https://github.com/google/recaptcha"
-            },
-            "time": "2023-02-18T17:41:46+00:00"
-        },
-        {
             "name": "gumlet/php-image-resize",
             "version": "2.0.3",
             "source": {
@@ -3052,87 +3000,6 @@
                 "source": "https://github.com/php-imagine/Imagine/tree/1.3.4"
             },
             "time": "2023-04-17T15:21:07+00:00"
-        },
-        {
-            "name": "karser/karser-recaptcha3-bundle",
-            "version": "v0.1.23",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/karser/KarserRecaptcha3Bundle.git",
-                "reference": "50c35dc7fe78cd197f3be081912ef978e5f8e992"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/karser/KarserRecaptcha3Bundle/zipball/50c35dc7fe78cd197f3be081912ef978e5f8e992",
-                "reference": "50c35dc7fe78cd197f3be081912ef978e5f8e992",
-                "shasum": ""
-            },
-            "require": {
-                "google/recaptcha": "^1.2",
-                "php": ">=7.1",
-                "symfony/expression-language": "^3.4|^4.0|^5.0|^6.0",
-                "symfony/form": "^3.4|^4.0|^5.0|^6.0",
-                "symfony/framework-bundle": "^3.4.26|^4.2.7|^5.0|^6.0",
-                "symfony/twig-bundle": "^3.4|^4.0|^5.0|^6.0",
-                "symfony/validator": "^3.4|^4.0|^5.0|^6.0",
-                "symfony/yaml": "^3.4|^4.0|^5.0|^6.0",
-                "twig/twig": "^2.9|^3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7|^8|^9"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Karser\\Recaptcha3Bundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dmitrii Poddubnyi",
-                    "homepage": "https://github.com/karser"
-                }
-            ],
-            "description": "Google ReCAPTCHA v3 for Symfony",
-            "homepage": "http://github.com/karser/KarserRecaptcha3Bundle",
-            "keywords": [
-                "Forms",
-                "Google ReCaptcha",
-                "GoogleReCaptcha",
-                "Symfony Google ReCaptcha",
-                "anti-bot",
-                "anti-bots",
-                "anti-spam",
-                "captcha",
-                "contact",
-                "google",
-                "google recaptcha v3",
-                "no-captcha",
-                "recaptcha",
-                "recaptcha v3",
-                "recaptcha v3 symfony",
-                "security",
-                "spam",
-                "symfony",
-                "symfony google recaptcha v3",
-                "symfony recaptcha",
-                "symfony recaptcha v3",
-                "validation"
-            ],
-            "support": {
-                "issues": "https://github.com/karser/KarserRecaptcha3Bundle/issues",
-                "source": "https://github.com/karser/KarserRecaptcha3Bundle/tree/v0.1.23"
-            },
-            "time": "2022-08-30T21:24:44+00:00"
         },
         {
             "name": "knplabs/knp-time-bundle",
@@ -4585,6 +4452,69 @@
             "time": "2022-12-01T13:19:59+00:00"
         },
         {
+            "name": "meteo-concept/hcaptcha-bundle",
+            "version": "v3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Meteo-Concept/hcaptcha-bundle.git",
+                "reference": "79f63edcaaabae9d15500e91eff55cd0576e7d07"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Meteo-Concept/hcaptcha-bundle/zipball/79f63edcaaabae9d15500e91eff55cd0576e7d07",
+                "reference": "79f63edcaaabae9d15500e91eff55cd0576e7d07",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0",
+                "psr/http-client": "^1.0",
+                "psr/http-client-implementation": "^1.0",
+                "psr/http-factory-implementation": "^1.0",
+                "psr/http-message": "^1.0",
+                "symfony/config": "~5.4|~6.0",
+                "symfony/form": "~5.4|~6.0",
+                "symfony/twig-bridge": "~5.4|~6.0",
+                "symfony/validator": "~5.4|~6.0"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "^4.3",
+                "nyholm/psr7": "^1.3",
+                "nyholm/symfony-bundle-test": "1.x-dev",
+                "php-http/mock-client": "^1.5",
+                "symfony/browser-kit": "^5.3|^6.0",
+                "symfony/css-selector": "^5.3|^6.0",
+                "symfony/framework-bundle": "^5.3|^6.0",
+                "symfony/panther": "^1.1|^2.0",
+                "symfony/phpunit-bridge": "^5.3|^6.0",
+                "symfony/twig-bundle": "^5.3|^6.0"
+            },
+            "suggest": {
+                "symfony/http-client": "A Symfony component that implements PSR-18 HTTP client interface"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "MeteoConcept\\HCaptchaBundle\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Laurent Georget",
+                    "email": "laurent.georget@meteo-concept.fr"
+                }
+            ],
+            "description": "A Symfony bundle to use hCaptcha in forms",
+            "support": {
+                "issues": "https://github.com/Meteo-Concept/hcaptcha-bundle/issues",
+                "source": "https://github.com/Meteo-Concept/hcaptcha-bundle/tree/v3.3.0"
+            },
+            "time": "2022-08-02T14:22:04+00:00"
+        },
+        {
             "name": "ml/iri",
             "version": "1.1.4",
             "target-dir": "ML/IRI",
@@ -5105,6 +5035,84 @@
                 }
             ],
             "time": "2021-12-20T15:27:39+00:00"
+        },
+        {
+            "name": "nyholm/psr7",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nyholm/psr7.git",
+                "reference": "3cb4d163b58589e47b35103e8e5e6a6a475b47be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/3cb4d163b58589e47b35103e8e5e6a6a475b47be",
+                "reference": "3cb4d163b58589e47b35103e8e5e6a6a475b47be",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "php-http/message-factory-implementation": "1.0",
+                "psr/http-factory-implementation": "1.0",
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "http-interop/http-factory-tests": "^0.9",
+                "php-http/message-factory": "^1.0",
+                "php-http/psr7-integration-tests": "^1.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
+                "symfony/error-handler": "^4.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nyholm\\Psr7\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                },
+                {
+                    "name": "Martijn van der Ven",
+                    "email": "martijn@vanderven.se"
+                }
+            ],
+            "description": "A fast PHP7 implementation of PSR-7",
+            "homepage": "https://tnyholm.se",
+            "keywords": [
+                "psr-17",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/Nyholm/psr7/issues",
+                "source": "https://github.com/Nyholm/psr7/tree/1.8.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Zegnat",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-05-02T11:26:24+00:00"
         },
         {
             "name": "oneup/flysystem-bundle",

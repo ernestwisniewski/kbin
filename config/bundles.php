@@ -25,7 +25,6 @@ return [
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
     Tchoulom\ViewCounterBundle\TchoulomViewCounterBundle::class => ['all' => true],
-    Karser\Recaptcha3Bundle\KarserRecaptcha3Bundle::class => ['all' => true],
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     Debril\RssAtomBundle\DebrilRssAtomBundle::class => ['all' => true],
     KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle::class => ['all' => true],
@@ -33,4 +32,5 @@ return [
     Symfony\UX\Chartjs\ChartjsBundle::class => ['all' => true],
     Symfony\UX\TwigComponent\TwigComponentBundle::class => ['all' => true],
     Symfony\UX\Autocomplete\AutocompleteBundle::class => ['all' => true],
+    MeteoConcept\HCaptchaBundle\MeteoConceptHCaptchaBundle::class => ['all' => true],
 ];

@@ -172,15 +172,6 @@
     "gmostafa/php-graphql-client": {
         "version": "v1.13"
     },
-    "google/recaptcha": {
-        "version": "1.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.1",
-            "ref": "d087df3e087f50da3955f2def05079380da5894b"
-        }
-    },
     "gumlet/php-image-resize": {
         "version": "2.0.1"
     },
@@ -198,15 +189,6 @@
     },
     "justinrainbow/json-schema": {
         "version": "5.2.12"
-    },
-    "karser/karser-recaptcha3-bundle": {
-        "version": "0.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "0.1",
-            "ref": "d1ac708f630e31e2ff442c05715486b5f7bafb0e"
-        }
     },
     "knplabs/knp-time-bundle": {
         "version": "v1.16.1"
@@ -280,6 +262,18 @@
             "ref": "5a5bdc2d0e2533ed6935d5ae562f2b318a8fc1ee"
         }
     },
+    "meteo-concept/hcaptcha-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "e94efaa6cd60c87dc9cc6de56b333a1754187d1e"
+        },
+        "files": [
+            "config/packages/meteo_concept_h_captcha.yaml"
+        ]
+    },
     "ml/iri": {
         "version": "1.1.4"
     },
@@ -312,6 +306,18 @@
     },
     "nucleos/antispam-bundle": {
         "version": "2.2.0"
+    },
+    "nyholm/psr7": {
+        "version": "1.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "4a8c0345442dcca1d8a2c65633dcf0285dd5a5a2"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
     },
     "oneup/flysystem-bundle": {
         "version": "3.0",

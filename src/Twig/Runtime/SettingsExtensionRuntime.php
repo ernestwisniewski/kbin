@@ -58,4 +58,9 @@ class SettingsExtensionRuntime implements RuntimeExtensionInterface
     {
         return $this->settings->get('KBIN_HEADER_LOGO');
     }
+
+    public function kbinCaptchaEnabled(): bool
+    {
+        return $this->settings->get('KBIN_CAPTCHA_ENABLED');
+    }
 }

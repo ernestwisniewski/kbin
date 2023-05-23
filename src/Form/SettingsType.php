@@ -23,7 +23,9 @@ class SettingsType extends AbstractType
             ->add('KBIN_META_TITLE')
             ->add('KBIN_META_DESCRIPTION')
             ->add('KBIN_META_KEYWORDS')
+            ->add('KBIN_HEADER_LOGO', CheckboxType::class, ['required' => false])
             ->add('KBIN_REGISTRATIONS_ENABLED', CheckboxType::class, ['required' => false])
+            ->add('KBIN_CAPTCHA_ENABLED', CheckboxType::class, ['required' => false])
             ->add('KBIN_FEDERATION_ENABLED', CheckboxType::class, ['required' => false])
             ->add('submit', SubmitType::class);
     }

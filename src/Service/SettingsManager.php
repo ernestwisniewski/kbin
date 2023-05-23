@@ -29,6 +29,7 @@ class SettingsManager
         private readonly bool $kbinFederationEnabled,
         private readonly bool $kbinRegistrationsEnabled,
         private readonly bool $kbinHeaderLogo,
+        private readonly bool $kbinCaptchaEnabled,
     ) {
         if (!self::$dto) {
             $results = $this->repository->findAll();
@@ -55,6 +56,7 @@ class SettingsManager
                 ) ?? $this->kbinRegistrationsEnabled,
                 $this->find($results, 'KBIN_BANNED_INSTANCES') ?? [],
                 $this->find($results, 'KBIN_HEADER_LOGO', FILTER_VALIDATE_BOOLEAN) ?? $this->kbinHeaderLogo,
+                $this->find($results, 'KBIN_CAPTCHA_ENABLED', FILTER_VALIDATE_BOOLEAN) ?? $this->kbinCaptchaEnabled,
             );
         }
     }

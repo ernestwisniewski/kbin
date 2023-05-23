@@ -28,8 +28,16 @@
             <h2>{{ 'instance'|trans }}</h2>
             {{ form_row(form.KBIN_TITLE, {label: 'title'}) }}
             <div class="checkbox">
+                {{ form_label(form.KBIN_HEADER_LOGO, 'header_logo') }}
+                {{ form_widget(form.KBIN_HEADER_LOGO) }}
+            </div>
+            <div class="checkbox">
                 {{ form_label(form.KBIN_REGISTRATIONS_ENABLED, 'registrations_enabled') }}
                 {{ form_widget(form.KBIN_REGISTRATIONS_ENABLED) }}
+            </div>
+            <div class="checkbox">
+                {{ form_label(form.KBIN_CAPTCHA_ENABLED, 'captcha_enabled') }}
+                {{ form_widget(form.KBIN_CAPTCHA_ENABLED) }}
             </div>
             <div class="checkbox">
                 {{ form_label(form.KBIN_FEDERATION_ENABLED, 'federation_enabled') }}

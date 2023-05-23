@@ -25,6 +25,9 @@ parameters:
   amazon.s3.region: '%env(S3_REGION)%'
   amazon.s3.version: '%env(S3_VERSION)%'
 
+  hcaptcha_site_key: '%env(resolve:HCAPTCHA_SITE_KEY)%'
+  hcaptcha_secret: '%env(resolve:HCAPTCHA_SECRET)%'
+
   router.request_context.host: '%env(KBIN_DOMAIN)%'
   router.request_context.scheme: https
 
@@ -135,6 +138,7 @@ services:
       $kbinFederationEnabled: '%env(bool:KBIN_FEDERATION_ENABLED)%'
       $kbinRegistrationsEnabled: '%env(bool:KBIN_REGISTRATIONS_ENABLED)%'
       $kbinHeaderLogo: '%env(bool:KBIN_HEADER_LOGO)%'
+      $kbinCaptchaEnabled: '%env(bool:KBIN_CAPTCHA_ENABLED)%'
 
   # Markdown
   App\Markdown\CommonMark\ExternalImagesRenderer:

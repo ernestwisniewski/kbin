@@ -30,6 +30,11 @@
                 {{ form_row(form.plainPassword, {
                     label: 'password'
                 }) }}
+                {% if kbin_captcha_enabled() %}
+                    {{ form_row(form.captcha, {
+                        label: false
+                    }) }}
+                {% endif %}
                 {{ form_row(form.agreeTerms, {
                     translation_domain: false,
                     label: 'agree_terms'|trans({

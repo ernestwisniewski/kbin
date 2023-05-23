@@ -19,7 +19,8 @@ class SettingsDto
         public bool $KBIN_FEDERATION_ENABLED,
         public bool $KBIN_REGISTRATIONS_ENABLED,
         public array $KBIN_BANNED_INSTANCES,
-        public bool $KBIN_HEADER_LOGO
+        public bool $KBIN_HEADER_LOGO,
+        public bool $KBIN_CAPTCHA_ENABLED
     ) {
     }
 }

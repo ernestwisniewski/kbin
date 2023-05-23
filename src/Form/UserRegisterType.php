@@ -6,8 +6,10 @@ namespace App\Form;
 
 use App\DTO\UserDto;
 use App\Form\EventListener\AddFieldsOnUserEdit;
+use App\Form\EventListener\CaptchaListener;
 use App\Form\EventListener\DisableFieldsOnUserEdit;
 use App\Form\EventListener\ImageListener;
+use MeteoConcept\HCaptchaBundle\Form\HCaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -23,6 +25,7 @@ class UserRegisterType extends AbstractType
         private readonly ImageListener $imageListener,
         private readonly AddFieldsOnUserEdit $addAvatarFieldOnUserEdit,
         private readonly DisableFieldsOnUserEdit $disableUsernameFieldOnUserEdit,
+        private readonly CaptchaListener $captchaListener,
     ) {
     }
 
@@ -51,6 +54,7 @@ class UserRegisterType extends AbstractType
             ->add('submit', SubmitType::class);
 
         $builder->addEventSubscriber($this->disableUsernameFieldOnUserEdit);
+        $builder->addEventSubscriber($this->captchaListener);
         $builder->addEventSubscriber($this->addAvatarFieldOnUserEdit);
         $builder->addEventSubscriber($this->imageListener->setFieldName('avatar'));
     }
