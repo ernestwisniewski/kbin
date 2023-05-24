@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
-#[Entity]
+#[Entity(repositoryClass: 'App\Repository\MagazineBlockRepository')]
 #[Table]
 #[UniqueConstraint(name: 'magazine_block_idx', columns: ['user_id', 'magazine_id'])]
 class MagazineBlock

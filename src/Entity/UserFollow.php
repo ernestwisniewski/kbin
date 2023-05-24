@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
-#[Entity]
+#[Entity(repositoryClass: 'App\Repository\UserFollowRepository')]
 #[Table]
 #[UniqueConstraint(name: 'user_follows_idx', columns: ['follower_id', 'following_id'])]
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]

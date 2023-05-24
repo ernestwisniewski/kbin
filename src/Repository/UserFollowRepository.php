@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Settings;
+use App\Entity\User;
 use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,5 +23,19 @@ class UserFollowRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UserFollow::class);
+    }
+
+    public function findUserFollowIds(User $user): array
+    {
+        return array_column(
+            $this->createQueryBuilder('uf')
+                ->select('ufu.id')
+                ->join('uf.following', 'ufu')
+                ->where('uf.follower = :user')
+                ->setParameter('user', $user)
+                ->getQuery()
+                ->getResult(),
+            'id'
+        );
     }
 }

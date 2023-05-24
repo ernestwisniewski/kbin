@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
-#[Entity]
+#[Entity(repositoryClass: 'App\Repository\UserBlockRepository')]
 #[Table]
 #[UniqueConstraint(name: 'user_block_idx', columns: ['blocker_id', 'blocked_id'])]
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]

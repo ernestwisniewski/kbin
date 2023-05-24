@@ -51,6 +51,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
                 $this->getEntryQueryBuilder($criteria),
+                false,
                 false
             )
         );
@@ -80,11 +81,17 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->andWhere('m.visibility = :m_visibility');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
-            $qb->orWhere(
-                'p.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND p.visibility = :pVisibility)'
-            )
-                ->setParameter('pUser', $user)
-                ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
+            $followings = $this->getEntityManager()->getRepository(UserFollow::class)->findUserFollowIds($user);
+            if (count($followings)) {
+                $qb->orWhere(
+                    'p.user IN (:pUser) AND p.visibility = :pVisibility'
+                )
+                    ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE)
+                    ->setParameter(
+                        'pUser',
+                        $followings
+                    );
+            }
         }
 
         $qb->setParameter('p_visibility', $criteria->visibility)
@@ -154,15 +161,27 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
-            $qb->andWhere(
-                'p.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
-            );
-            $qb->setParameter('blocker', $user);
+            $blockers = $this->getEntityManager()->getRepository(UserBlock::class)->findUserBlocksIds($user);
+            if (count($blockers)) {
+                $qb->andWhere(
+                    'p.user NOT IN (:blocker)'
+                );
+                $qb->setParameter(
+                    'blocker',
+                    $blockers
+                );
+            }
 
-            $qb->andWhere(
-                'p.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
-            );
-            $qb->setParameter('magazineBlocker', $user);
+            $magazineBlockers = $this->getEntityManager()->getRepository(MagazineBlock::class)->findMagazineBlocksIds($user);
+            if (count($magazineBlockers)) {
+                $qb->andWhere(
+                    'p.magazine NOT IN (:magazineBlocker)'
+                );
+                $qb->setParameter(
+                    'magazineBlocker',
+                    $magazineBlockers
+                );
+            }
         }
 
         if (!$user || $user->hideAdult) {

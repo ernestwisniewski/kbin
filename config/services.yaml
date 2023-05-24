@@ -184,13 +184,3 @@ services:
   debril.rss_atom.provider:
     class: App\Feed\Provider
     arguments: [ '@App\Service\FeedManager' ]
-
-  # Cache
-  cache.tagaware.filesystem:
-    public: true
-    class: Symfony\Component\Cache\Adapter\FilesystemTagAwareAdapter
-    parent: cache.adapter.filesystem
-    tags:
-      - name: cache.pool
-        clearer: cache.app_clearer
-        namespace: cache.app
