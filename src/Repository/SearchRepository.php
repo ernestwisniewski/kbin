@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
@@ -104,13 +105,13 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT id, created_at, 'entry' AS type FROM entry WHERE body ILIKE '%".$query."%' OR title ILIKE '%".$query."%') 
+        (SELECT id, created_at, visibility, 'entry' AS type FROM entry WHERE body ILIKE '%".$query."%' OR title ILIKE '%".$query."%' AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."') 
         UNION 
-        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE body ILIKE '%".$query."%')
+        (SELECT id, created_at, visibility, 'entry_comment' AS type FROM entry_comment WHERE body ILIKE '%".$query."%' AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
         UNION 
-        (SELECT id, created_at, 'post' AS type FROM post WHERE body ILIKE '%".$query."%')
+        (SELECT id, created_at, visibility, 'post' AS type FROM post WHERE body ILIKE '%".$query."%' AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
         UNION 
-        (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE body ILIKE '%".$query."%')
+        (SELECT id, created_at, visibility, 'post_comment' AS type FROM post_comment WHERE body ILIKE '%".$query."%' AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
         ORDER BY created_at DESC
         ";
         $stmt = $conn->prepare($sql);
