@@ -214,11 +214,10 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
             if (!$criteria->domain) {
                 $qb->andWhere(
-                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :blocker)'
+                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :domainBlocker)'
                 );
+                $qb->setParameter('domainBlocker', $user);
             }
-
-            $qb->setParameter('blocker', $user);
         }
 
         if (!$user || $user->hideAdult) {
