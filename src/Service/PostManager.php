@@ -215,10 +215,10 @@ class PostManager implements ContentManagerInterface
         }
 
         $oldMagazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($oldMagazine);
-        $oldMagazine->updatePostCounts();
+        $oldMagazine->postCount = $this->postRepository->countPostsByMagazine($oldMagazine);
 
         $magazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($magazine);
-        $post->magazine->updatePostCounts();
+        $magazine->postCount = $this->postRepository->countPostsByMagazine($magazine);
 
         $this->entityManager->flush();
 

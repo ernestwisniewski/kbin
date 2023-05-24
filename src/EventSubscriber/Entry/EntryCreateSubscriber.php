@@ -10,6 +10,7 @@ use App\Message\EntryEmbedMessage;
 use App\Message\Notification\EntryCreatedNotificationMessage;
 use App\Repository\EntryRepository;
 use App\Service\DomainManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -18,7 +19,8 @@ class EntryCreateSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly MessageBusInterface $bus,
         private readonly DomainManager $manager,
-        private readonly EntryRepository $entryRepository
+        private readonly EntryRepository $entryRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -32,6 +34,8 @@ class EntryCreateSubscriber implements EventSubscriberInterface
     public function onEntryCreated(EntryCreatedEvent $event): void
     {
         $event->entry->magazine->entryCount = $this->entryRepository->countEntriesByMagazine($event->entry->magazine);
+
+        $this->entityManager->flush();
 
         $this->manager->extract($event->entry);
         $this->bus->dispatch(new EntryEmbedMessage($event->entry->getId()));

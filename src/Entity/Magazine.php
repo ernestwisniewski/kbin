@@ -243,11 +243,11 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
 
     public function removePost(Post $post): self
     {
-//        if ($this->posts->removeElement($post)) {
-//            if ($post->magazine === $this) {
-//                $post->magazine = null;
-//            }
-//        }
+        if ($this->posts->removeElement($post)) {
+            if ($post->magazine === $this) {
+                $post->magazine = null;
+            }
+        }
         $this->updatePostCounts();
 
         return $this;

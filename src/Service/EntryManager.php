@@ -272,11 +272,13 @@ class EntryManager implements ContentManagerInterface
             return;
         }
 
-        $oldMagazine->postCommentCount = $this->entryRepository->countEntryCommentsByMagazine($oldMagazine);
-        $oldMagazine->updateEntryCounts();
+        $oldMagazine->entryCommentCount = $this->entryRepository->countEntryCommentsByMagazine($oldMagazine);
+        $oldMagazine->entryCount = $this->entryRepository->countEntriesByMagazine($oldMagazine);
 
-        $magazine->postCommentCount = $this->entryRepository->countEntryCommentsByMagazine($magazine);
-        $entry->magazine->updateEntryCounts();
+        $magazine->entryCommentCount = $this->entryRepository->countEntryCommentsByMagazine($magazine);
+        $magazine->entryCount = $this->entryRepository->countEntriesByMagazine($magazine);
+
+        $this->entityManager->flush();
 
         $this->cache->invalidateTags(['entry_'.$entry->getId()]);
     }
