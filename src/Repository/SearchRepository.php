@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SearchRepository
 {
-    public const PER_PAGE = 50;
+    public const PER_PAGE = 25;
 
     public function __construct(private EntityManagerInterface $entityManager)
     {
@@ -89,7 +89,7 @@ class SearchRepository
         $countAll = $pagerfanta->count();
 
         try {
-            $pagerfanta->setMaxPerPage(20000);
+            $pagerfanta->setMaxPerPage(2000);
             $pagerfanta->setCurrentPage(1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -105,13 +105,13 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT id, created_at, visibility, 'entry' AS type FROM entry WHERE body ILIKE '%".$query."%' OR title ILIKE '%".$query."%' AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."') 
-        UNION 
-        (SELECT id, created_at, visibility, 'entry_comment' AS type FROM entry_comment WHERE body ILIKE '%".$query."%' AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
-        UNION 
-        (SELECT id, created_at, visibility, 'post' AS type FROM post WHERE body ILIKE '%".$query."%' AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
-        UNION 
-        (SELECT id, created_at, visibility, 'post_comment' AS type FROM post_comment WHERE body ILIKE '%".$query."%' AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        (SELECT id, created_at, visibility, 'entry' AS type FROM entry WHERE body_ts @@ plainto_tsquery('".$query."') = true OR title_ts @@ plainto_tsquery('".$query."') = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        UNION
+        (SELECT id, created_at, visibility, 'entry_comment' AS type FROM entry_comment WHERE body_ts @@ plainto_tsquery('".$query."') = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        UNION
+        (SELECT id, created_at, visibility, 'post' AS type FROM post WHERE body_ts @@ plainto_tsquery('".$query."') = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        UNION
+        (SELECT id, created_at, visibility, 'post_comment' AS type FROM post_comment WHERE body_ts @@ plainto_tsquery('".$query."') = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
         ORDER BY created_at DESC
         ";
         $stmt = $conn->prepare($sql);
