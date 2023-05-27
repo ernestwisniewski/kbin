@@ -31,14 +31,12 @@
                     <small hidden class="badge">{{ comment.lang }}</small>
                 {% endif %}
             </header>
-            {% if comment.user.avatar %}
-                {{ component('user_avatar', {
-                    user: comment.user,
-                    width: 40,
-                    height: 40,
-                    asLink: true
-                }) }}
-            {% endif %}
+            {{ component('user_avatar', {
+                user: comment.user,
+                width: 40,
+                height: 40,
+                asLink: true
+            }) }}
             <div class="content">
                 {% if comment.visibility in ['visible', 'private'] or (comment.visibility is same as 'trashed' and this.canSeeTrashed) %}
                     {{ comment.body|markdown|raw }}

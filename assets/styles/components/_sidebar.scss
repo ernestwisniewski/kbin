@@ -331,7 +331,7 @@
   .kbin-promo {
     display: flex;
     gap: 1rem;
-    padding:1rem;
+    padding: 1rem;
     position: relative;
 
     h4 {
@@ -348,6 +348,68 @@
     a {
       //font-weight: bold;
       color: var(--kbin-text-color);
+    }
+  }
+
+  .mobile-close,
+  .mobile-nav {
+    display: none;
+  }
+}
+
+#sidebar.open {
+  @include media-breakpoint-down(lg) {
+    background: var(--kbin-bg);
+    position: absolute;
+    z-index: 98;
+
+    .mobile-close {
+      display: flex;
+      font-size: 1.5rem;
+      justify-content: space-between;
+
+      button {
+        height: auto;
+      }
+    }
+
+    .mobile-nav {
+      display: block;
+
+      li {
+        font-size: 1.1rem;
+        list-style: none;
+        position: relative;
+        padding: .85rem 0;
+      }
+
+      a {
+        color: var(--kbin-meta-link-color);
+
+        &::after {
+          bottom: 0;
+          content: '';
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          z-index: 1;
+        }
+      }
+
+      a.active {
+        font-weight: bold;
+      }
+
+      .head-title {
+        border-bottom: 1px solid var(--kbin-options-text-color);
+        font-weight: bold;
+        padding-bottom: .5rem;
+      }
+
+      .head-title span {
+        display: none;
+      }
     }
   }
 }

@@ -112,4 +112,23 @@ export default class extends ApplicationController {
         document.querySelector('body').classList.remove('theme--default');
         document.querySelector('body').classList.add(`theme--${preferredTheme}`);
     }
+
+    openNav(e) {
+        e.preventDefault();
+        if (window.screen.width >= 992) {
+            window.location = e.target.closest('a').href;
+            return;
+        }
+
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar.classList.contains('open')) {
+            window.location = e.target.closest('a').href;
+        }
+
+        sidebar.classList.add('open');
+    }
+
+    closeNav(e) {
+        document.getElementById('sidebar').classList.remove('open');
+    }
 }

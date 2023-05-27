@@ -20,7 +20,7 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
-    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+    <link rel="manifest" href="{{ asset('manifest.json') }}"/>
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
@@ -68,7 +68,7 @@
         </main>
         <aside id="sidebar">
             {% block sidebar %}
-                {% include 'layout/_sidebar.html.twig' with {sidebar_top: block('sidebar_top')} %}
+                {% include 'layout/_sidebar.html.twig' with {sidebar_top: block('sidebar_top'), header_nav: block('header_nav')} %}
             {% endblock %}
         </aside>
     </div>

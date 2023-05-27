@@ -155,6 +155,7 @@ figure {
   .section,
   .options,
   .alert,
+  .btn,
   figure img,
   input,
   textarea,
@@ -310,4 +311,17 @@ pre, code {
 
 .js-container {
   margin-bottom: .5rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.no-avatar {
+  display: none;
+
+  @include media-breakpoint-down(sm) {
+    background: var(--kbin-bg);
+    display: block;
+  }
 }

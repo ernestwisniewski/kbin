@@ -8,8 +8,8 @@
         </div>
         <nav class="head-nav">
             <div class="brand">
-                <small><i class="fa-solid fa-bars"></i></small>
-                <a href="{{ app.user ? path(app.user.homepage) : '/' }}">
+                <small data-action="kbin#openNav"><i class="fa-solid fa-bars"></i></small>
+                <a href="{{ app.user ? path(app.user.homepage) : '/' }}" data-action="kbin#openNav">
                     {% if kbin_header_logo() %}
                         <img id="logo" src="{{ asset('kbin_logo.svg') }}" alt="{{ kbin_title() }}">
                     {% else %}

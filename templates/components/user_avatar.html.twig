@@ -3,10 +3,14 @@
     <a data-action="mouseover->kbin#mention" data-kbin-username-param="{{ mention_url(user.username) }}"
        href="{{ path('user_overview', {username: user.username}) }}">
         {% endif %}
-        <img width="{{ width }}" height="{{ height }}"
-             style="max-width: {{ width }}px; max-height: {{ height }}px;"
-             src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
-             alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
+        {% if user.avatar %}
+            <img width="{{ width }}" height="{{ height }}"
+                 style="max-width: {{ width }}px; max-height: {{ height }}px;"
+                 src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
+                 alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
+        {% else %}
+            <div class="no-avatar" style="width: {{ width }}px; height: {{ height }}px;"></div>
+        {% endif %}
         {% if asLink %}
     </a>
     {% endif %}

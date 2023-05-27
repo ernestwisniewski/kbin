@@ -32,14 +32,12 @@
                     <small class="badge kbin-bg">{{ post.lang }}</small>
                 {% endif %}
             </header>
-            {% if post.user.avatar %}
-                {{ component('user_avatar', {
-                    user: post.user,
-                    width: 40,
-                    height: 40,
-                    asLink: true
-                }) }}
-            {% endif %}
+            {{ component('user_avatar', {
+                user: post.user,
+                width: 40,
+                height: 40,
+                asLink: true
+            }) }}
             <div class="content">
                 {% if post.visibility in ['visible', 'private'] or (post.visibility is same as 'trashed' and this.canSeeTrashed) %}
                     {{ post.body|markdown|raw }}

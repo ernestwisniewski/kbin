@@ -1,4 +1,8 @@
 <div class="sidebar-options" data-controller="options">
+    <div class="section options--top mobile-close">
+        <button data-action="kbin#closeNav" class="btn btn__secondary"><i class="fa-solid fa-close"></i></button>
+        <a href="/" class="btn btn__secondary"><i class="fa-solid fa-home"></i></a>
+    </div>
     <div class="options options--top">
         <menu>
             <li>
@@ -46,6 +50,11 @@
                 <strong>{{ 'instances'|trans }}:</strong>
             </div>
         </div>
+    </div>
+    <div class="section mobile-nav">
+        <menu>
+            {% include 'layout/_header_nav.html.twig' with {header_nav: header_nav} %}
+        </menu>
     </div>
     {% if not app.user and (is_route_name_contains('front') or is_route_name('magazine_list_all')) %}
         <div class="section intro">
