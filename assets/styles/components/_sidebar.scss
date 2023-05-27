@@ -355,6 +355,10 @@
     display: none;
   }
 
+  .mobile-nav {
+    display: none;
+  }
+
   @include media-breakpoint-down(lg) {
     .mobile-nav {
       display: block;
