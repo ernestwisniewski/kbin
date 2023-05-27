@@ -37,20 +37,20 @@
                 {{ 'boosts'|trans|lower }} ({{ count_user_boosts(user) }})
             </a>
         </li>
-        <li>
-            <a href="{{ path('user_following', {username: user.username}) }}"
-               class="{{ html_classes({'active': is_route_name('user_following'), 'opacity-50': not user.getShowProfileFollowings}) }}">
-                {{ 'following'|trans|lower }} ({{ user.follows|length }})
-            </a>
-        </li>
         {% if user.getShowProfileFollowings or app.user is same as user %}
             <li>
-                <a href="{{ path('user_followers', {username: user.username}) }}"
-                   class="{{ html_classes({'active': is_route_name('user_followers'), 'opacity-50': not user.getShowProfileFollowings}) }}">
-                    {{ 'followers'|trans|lower }} ({{ user.followers|length }})
+                <a href="{{ path('user_following', {username: user.username}) }}"
+                   class="{{ html_classes({'active': is_route_name('user_following'), 'opacity-50': not user.getShowProfileFollowings}) }}">
+                    {{ 'following'|trans|lower }} ({{ user.follows|length }})
                 </a>
             </li>
         {% endif %}
+        <li>
+            <a href="{{ path('user_followers', {username: user.username}) }}"
+               class="{{ html_classes({'active': is_route_name('user_followers')}) }}">
+                {{ 'followers'|trans|lower }} ({{ user.followers|length }})
+            </a>
+        </li>
         {% if user.getShowProfileSubscriptions or app.user is same as user %}
             <li>
                 <a href="{{ path('user_subscriptions', {username: user.username}) }}"

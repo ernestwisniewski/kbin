@@ -6,10 +6,10 @@
             <a href="{{ path('search') }}">{{ 'go_to_search'|trans }}</a>
             <a href="#footer">{{ 'go_to_footer'|trans }}</a>
         </div>
-        <nav class="head-nav">
+        <nav class="head-nav"  data-action="click->kbin#toggleNav">
             <div class="brand">
-                <small data-action="kbin#openNav"><i class="fa-solid fa-bars"></i></small>
-                <a href="{{ app.user ? path(app.user.homepage) : '/' }}" data-action="kbin#openNav">
+                <div><i class="fa-solid fa-bars"></i></div>
+                <a href="{{ app.user ? path(app.user.homepage) : '/' }}">
                     {% if kbin_header_logo() %}
                         <img id="logo" src="{{ asset('kbin_logo.svg') }}" alt="{{ kbin_title() }}">
                     {% else %}

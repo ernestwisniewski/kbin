@@ -148,7 +148,7 @@
     text-decoration: none;
     display: flex;
 
-    small {
+    div {
       display: none;
       font-size: .9rem;
       margin-right: .5rem;
@@ -174,8 +174,8 @@
         height: 2rem;
       }
 
-      small {
-        display: inline;
+      div {
+        display: inline-block;
       }
     }
   }

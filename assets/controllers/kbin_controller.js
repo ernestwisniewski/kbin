@@ -113,7 +113,7 @@ export default class extends ApplicationController {
         document.querySelector('body').classList.add(`theme--${preferredTheme}`);
     }
 
-    openNav(e) {
+    toggleNav(e) {
         e.preventDefault();
         if (window.screen.width >= 992) {
             window.location = e.target.closest('a').href;
@@ -121,11 +121,11 @@ export default class extends ApplicationController {
         }
 
         const sidebar = document.getElementById('sidebar');
-        if (sidebar.classList.contains('open')) {
+        if (sidebar.classList.contains('open') && e.target.closest('a')) {
             window.location = e.target.closest('a').href;
         }
 
-        sidebar.classList.add('open');
+        sidebar.classList.toggle('open');
     }
 
     closeNav(e) {
