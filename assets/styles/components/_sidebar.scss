@@ -404,7 +404,13 @@
 #sidebar.open {
   @include media-breakpoint-down(lg) {
     background: var(--kbin-bg);
-    position: absolute;
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    padding-bottom: 100px!important;
+    position: fixed;
+    top: 50px;
+    width: 100%;
     z-index: 98;
 
     .mobile-close {
