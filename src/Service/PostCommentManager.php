@@ -15,6 +15,7 @@ use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentEditedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Event\PostComment\PostCommentRestoredEvent;
+use App\Exception\UserBannedException;
 use App\Factory\PostCommentFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
@@ -48,6 +49,10 @@ class PostCommentManager implements ContentManagerInterface
         }
 
         $comment = $this->factory->createFromDto($dto, $user);
+
+        if ($comment->magazine->isBanned($user)) {
+            throw new UserBannedException();
+        }
 
         $comment->magazine = $dto->post->magazine;
         $comment->lang = $dto->lang;

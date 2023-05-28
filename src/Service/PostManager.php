@@ -15,6 +15,7 @@ use App\Event\Post\PostCreatedEvent;
 use App\Event\Post\PostDeletedEvent;
 use App\Event\Post\PostEditedEvent;
 use App\Event\Post\PostRestoredEvent;
+use App\Exception\UserBannedException;
 use App\Factory\PostFactory;
 use App\Message\DeleteImageMessage;
 use App\Repository\PostRepository;
@@ -58,6 +59,10 @@ class PostManager implements ContentManagerInterface
         }
 
         $post = $this->factory->createFromDto($dto, $user);
+
+        if ($post->magazine->isBanned($user)) {
+            throw new UserBannedException();
+        }
 
         $post->lang = $dto->lang;
         $post->isAdult = $dto->isAdult;

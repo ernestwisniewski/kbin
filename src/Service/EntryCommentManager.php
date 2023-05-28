@@ -15,6 +15,7 @@ use App\Event\EntryComment\EntryCommentDeletedEvent;
 use App\Event\EntryComment\EntryCommentEditedEvent;
 use App\Event\EntryComment\EntryCommentPurgedEvent;
 use App\Event\EntryComment\EntryCommentRestoredEvent;
+use App\Exception\UserBannedException;
 use App\Factory\EntryCommentFactory;
 use App\Message\DeleteImageMessage;
 use App\Service\Contracts\ContentManagerInterface;
@@ -48,6 +49,10 @@ class EntryCommentManager implements ContentManagerInterface
         }
 
         $comment = $this->factory->createFromDto($dto, $user);
+
+        if ($comment->magazine->isBanned($user)) {
+            throw new UserBannedException();
+        }
 
         $comment->lang = $dto->lang;
         $comment->isAdult = $dto->isAdult;

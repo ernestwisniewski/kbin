@@ -16,6 +16,7 @@ use App\Event\Entry\EntryDeletedEvent;
 use App\Event\Entry\EntryEditedEvent;
 use App\Event\Entry\EntryPinEvent;
 use App\Event\Entry\EntryRestoredEvent;
+use App\Exception\UserBannedException;
 use App\Factory\EntryFactory;
 use App\Message\DeleteImageMessage;
 use App\Repository\EntryRepository;
@@ -62,6 +63,10 @@ class EntryManager implements ContentManagerInterface
         }
 
         $entry = $this->factory->createFromDto($dto, $user);
+
+        if ($entry->magazine->isBanned($user)) {
+            throw new UserBannedException();
+        }
 
         $entry->lang = $dto->lang;
         $entry->isAdult = $dto->isAdult;
