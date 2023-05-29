@@ -56,15 +56,22 @@ export default class extends Controller {
         const div = document.createElement('div');
         div.innerHTML = response.html;
 
-        const elements = div.getElementsByClassName('subject');
-
-        for (const element of [...elements]) {
-            if (null === document.getElementById(element.id)) {
+        const elements = div.querySelectorAll(`[data-controller='subject-list'] > *`);
+        for (let i = 0; i < elements.length; i++) {
+            const element = elements[i];
+            if (element.id && null === document.getElementById(element.id)) {
                 this.element.before(element);
+
+                if (elements[i + 1] && elements[i + 1].classList.contains('post-comments')) {
+                    this.element.before(elements[i + 1]);
+                }
             }
         }
 
-        this.element.after(div.querySelector(`[data-controller='infinite-scroll']`));
+        const scroll = div.querySelector(`[data-controller='infinite-scroll']`);
+        if (scroll) {
+            this.element.after(div.querySelector(`[data-controller='infinite-scroll']`));
+        }
 
         this.element.remove();
 
