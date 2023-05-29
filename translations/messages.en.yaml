@@ -470,3 +470,6 @@ kbin_promo_title: Create your own instance
 kbin_promo_desc: '%link_start%Clone repo%link_end% and develop fediverse'
 captcha_enabled: Captcha enabled
 header_logo: Header logo
+browsing_one_thread: You are only browsing one thread in the discussion! All comments
+  are available on the post page.
+return: Return

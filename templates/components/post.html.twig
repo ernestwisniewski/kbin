@@ -69,7 +69,7 @@
                                href="{{ path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, slug: post.slug|length ? post.slug : '-'}) }}"
                                data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
                         </li>
-                        {% if post.commentCount > 2 and not is_route_name('post_single', true) %}
+                        {% if not is_route_name('post_single', true) and ((not showCommentsPreview and post.commentCount > 0) or post.commentCount > 2) %}
                             <li data-post-target="expand">
                                 <a class="stretched-link"
                                    href="#{{ get_url_fragment(post) }}"

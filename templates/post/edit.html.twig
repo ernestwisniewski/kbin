@@ -25,6 +25,10 @@
             isSingle: true
         }) }}
         {% include 'layout/_flash.html.twig' %}
+        <div class="alert alert__info">
+            <p>{{ 'browsing_one_thread'|trans }}</p>
+            <p><a href="{{ post_url(post) }}"><i class="fa-solid fa-arrow-left"></i> {{ 'return'|trans }}</a></p>
+        </div>
         <section class="section">
             {% include 'post/_form_post.html.twig' with {edit: true} %}
         </section>

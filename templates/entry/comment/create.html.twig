@@ -19,6 +19,10 @@
         showShortSentence: false,
         showBody:false
     }) }}
+    <div class="alert alert__info">
+        <p>{{ 'browsing_one_thread'|trans }}</p>
+        <p><a href="{{ entry_url(entry) }}"><i class="fa-solid fa-arrow-left"></i> {{ 'return'|trans }}</a></p>
+    </div>
     {% if parent is defined and parent %}
         {{ component('entry_comment', {
             comment: parent,

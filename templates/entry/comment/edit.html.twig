@@ -19,6 +19,10 @@
         showMagazineName: false
     }) }}
     {% include 'layout/_flash.html.twig' %}
+    <div class="alert alert__info">
+        <p>{{ 'browsing_one_thread'|trans }}</p>
+        <p><a href="{{ entry_url(comment.entry) }}"><i class="fa-solid fa-arrow-left"></i> {{ 'return'|trans }}</a></p>
+    </div>
     <section id="content" class="section">
         {% include 'entry/comment/_form_comment.html.twig' with {edit: true} %}
     </section>

@@ -18,6 +18,10 @@
         isSingle: true,
         showMagazineName: false
     }) }}
+    <div class="alert alert__info">
+        <p>{{ 'browsing_one_thread'|trans }}</p>
+        <p><a href="{{ post_url(post) }}"><i class="fa-solid fa-arrow-left"></i> {{ 'return'|trans }}</a></p>
+    </div>
     {% if parent is defined and parent %}
         {{ component('post_comment', {
             comment: parent,

@@ -472,3 +472,6 @@ kbin_promo_title: Utwórz własną instancję
 kbin_promo_desc: '%link_start%Sklonuj repo%link_end% i rozwijaj fediverse'
 captcha_enabled: Captcha włączona
 header_logo: Header logo
+return: Wróć
+browsing_one_thread: Przeglądasz tylko jeden wątek w dyskusji! Wszystkie Komentarze
+  dostępne są na stronie posta.

@@ -468,3 +468,8 @@ kbin_intro_desc: het is een gedecentraliseerd platform voor het verzamelen van i
   en microbloggen dat opereert binnen het fediversenetwerk.
 kbin_promo_title: Zet je eigen instantie op
 kbin_promo_desc: '%link_start%Kloon de repo%link_end% en ontwikkel het fediverse'
+captcha_enabled: Captcha ingeschakeld
+header_logo: Koplogo
+browsing_one_thread: Je bekijkt slechts één draad in de discussie! Alle reacties zijn
+  beschikbaar op de pagina van het bericht.
+return: Terug
