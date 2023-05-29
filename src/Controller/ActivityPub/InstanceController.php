@@ -18,7 +18,6 @@ class InstanceController
             return $instanceFactory->create();
         });
 
-
         return new JsonResponse($instance, 200, [
             'Content-Type' => 'application/activity+json',
         ]);

@@ -22,8 +22,8 @@ class InstanceFactory
         $actor = 'https://'.$this->kbinDomain.'/i/actor';
 
         return [
-            '@context' => ActivityPubActivityInterface::PUBLIC_URL,
-            'id' => $actor.'#main-key',
+            '@context' => 'https://www.w3.org/ns/activitystreams',
+            'id' => $actor,
             'type' => 'Application',
             'inbox' => $this->urlGenerator->generate('ap_instance_inbox', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'outbox' => $this->urlGenerator->generate('ap_instance_outbox', [], UrlGeneratorInterface::ABSOLUTE_URL),
