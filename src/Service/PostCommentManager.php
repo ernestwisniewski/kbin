@@ -50,7 +50,7 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment = $this->factory->createFromDto($dto, $user);
 
-        if ($comment->magazine->isBanned($user)) {
+        if ($dto->post->magazine->isBanned($user)) {
             throw new UserBannedException();
         }
 

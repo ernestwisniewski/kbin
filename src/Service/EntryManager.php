@@ -64,7 +64,7 @@ class EntryManager implements ContentManagerInterface
 
         $entry = $this->factory->createFromDto($dto, $user);
 
-        if ($entry->magazine->isBanned($user)) {
+        if ($dto->magazine->isBanned($user)) {
             throw new UserBannedException();
         }
 
