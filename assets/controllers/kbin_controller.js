@@ -115,14 +115,14 @@ export default class extends ApplicationController {
 
     toggleNav(e) {
         e.preventDefault();
-        if (window.screen.width >= 992) {
+        if (window.screen.width >= 992 && e.target.closest('a')) {
             window.location = e.target.closest('a').href;
             return;
         }
 
         const sidebar = document.getElementById('sidebar');
         if (sidebar.classList.contains('open') && e.target.closest('a')) {
-            window.location = e.target.closest('a').href;
+            // window.location = e.target.closest('a').href;
         }
 
         sidebar.classList.toggle('open');
