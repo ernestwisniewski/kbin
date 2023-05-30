@@ -1,8 +1,3 @@
-{% if showCommentsPreview and post.commentCount %}
-    {% set class = 'mb-0' %}
-{% else %}
-    {% set class = '' %}
-{% endif %}
 {% if not app.user or (app.user and not app.user.isBlocked(post.user)) %}
     {% if post.visibility is same as 'private' and (not app.user or not app.user.isFollower(post.user)) %}
         <div class="section section--small"
@@ -11,7 +6,7 @@
         </div>
     {% else %}
         <blockquote{{ attributes.defaults({
-            class: html_classes('section post subject ' ~ class,{
+            class: html_classes('section post subject ', {
                 'own': app.user and post.isAuthor(app.user),
                 'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}

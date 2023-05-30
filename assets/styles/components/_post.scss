@@ -173,3 +173,13 @@
     }
   }
 }
+
+.post-comments {
+  margin-top: -.5rem;
+}
+
+.page-post-single {
+  .post-comments {
+    margin-top: 0;
+  }
+}
