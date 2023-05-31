@@ -41,6 +41,7 @@ export default class extends Controller {
                 if (preview.children.length && preview.children[0].classList.contains('comments')) {
                     const container = preview.children[0];
                     const parentDiv = container.parentNode;
+                    container.classList.add('post-comments');
 
                     while (container.firstChild) {
                         parentDiv.insertBefore(container.firstChild, container);

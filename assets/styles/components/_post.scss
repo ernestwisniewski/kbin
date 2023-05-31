@@ -30,7 +30,7 @@
                          "avatar meta meta"
                          "avatar footer footer";
   grid-template-columns: min-content auto min-content;
-  margin: .5rem 0;
+  margin: 0;
   padding: 1rem .5rem;
   position: relative;
   z-index: 2;
@@ -175,7 +175,7 @@
 }
 
 .post-comments {
-  margin-top: -.5rem;
+  position: relative;
 }
 
 .page-post-single {
