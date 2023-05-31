@@ -180,7 +180,6 @@ $comment-margin-sm: .3rem;
   position: relative;
 
   blockquote {
-    margin-bottom: 0;
     margin-top: 0;
   }
 
@@ -229,4 +228,8 @@ $comment-margin-sm: .3rem;
 
 aside.comments {
   position: relative;
+}
+
+.entry-comment {
+  margin-bottom: 0;
 }
