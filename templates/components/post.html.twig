@@ -184,7 +184,7 @@
             </footer>
         </blockquote>
     {% endif %}
-    {% if(showCommentsPreview) %}
+    {% if(showCommentsPreview and post.commentCount) %}
         {{ component('post_comments_preview', {post: post, 'data-post-target': 'preview'}) }}
     {% endif %}
 {% endif %}
