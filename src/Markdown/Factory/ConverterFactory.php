@@ -12,6 +12,10 @@ class ConverterFactory
 {
     public function createConverter(EnvironmentInterface $environment): MarkdownConverterInterface
     {
-        return new CommonMarkConverter([], $environment);
+        return new CommonMarkConverter([
+            'renderer' => [
+                'soft_break' => "<br>\r\n",
+            ],
+        ], $environment);
     }
 }
