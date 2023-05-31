@@ -19,6 +19,6 @@ class TagTransformer implements DataTransformerInterface
             return null;
         }
 
-        return explode(',', $value);
+        return explode(',', strtolower($value));
     }
 }
