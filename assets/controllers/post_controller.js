@@ -34,9 +34,20 @@ export default class extends Controller {
             this.collapseComments(new Event('click'));
 
             const preview = this.element.nextElementSibling;
+            preview.style.display = 'block';
 
             if (true === preview.classList.contains('comments')) {
                 preview.innerHTML = response.html;
+                if (preview.children.length && preview.children[0].classList.contains('comments')) {
+                    const container = preview.children[0];
+                    const parentDiv = container.parentNode;
+
+                    while (container.firstChild) {
+                        parentDiv.insertBefore(container.firstChild, container);
+                    }
+
+                    parentDiv.removeChild(container);
+                }
             } else {
                 while (this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('post-comment')) {
                     this.element.nextElementSibling.remove();
@@ -75,6 +86,7 @@ export default class extends Controller {
 
         this.expandTarget.style.display = 'block';
         this.collapseTarget.style.display = 'none';
+        preview.style.display = 'none';
     }
 
     async expandVoters(event) {
