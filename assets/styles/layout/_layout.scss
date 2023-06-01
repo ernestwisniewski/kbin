@@ -318,10 +318,6 @@ pre, code {
 }
 
 .no-avatar {
-  display: none;
-
-  @include media-breakpoint-down(sm) {
-    background: var(--kbin-bg);
-    display: block;
-  }
+  background: var(--kbin-bg);
+  display: block;
 }
