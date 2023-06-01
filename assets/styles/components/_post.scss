@@ -186,6 +186,24 @@
   }
 }
 
+.page-entry-single {
+  .comments {
+    margin-top: 0;
+  }
+}
+
+.page-user-replies {
+  .post {
+    margin-bottom: 0;
+  }
+}
+
+.page-user-overview {
+  .entry-comments {
+    margin-top: .5rem;
+  }
+}
+
 .overview.comments {
   margin: .5rem 0;
 }
