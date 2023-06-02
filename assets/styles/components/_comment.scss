@@ -183,10 +183,6 @@ $comment-margin-sm: .3rem;
     margin-top: 0;
   }
 
-  blockquote:last-of-type {
-    margin-bottom: .5rem;
-  }
-
   .comment {
     @for $i from 2 to 11 {
       &-line--#{$i} {

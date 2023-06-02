@@ -46,7 +46,7 @@ class UsernameConverter implements ParamConverterInterface
             }
         }
 
-        if (!$user) {
+        if (!$user instanceof User) {
             throw new NotFoundHttpException();
         }
 

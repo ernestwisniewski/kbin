@@ -1,4 +1,4 @@
-<div{{ attributes.defaults({class: 'comments post-comments comments-tree'}) }}>
+<div{{ attributes.defaults({class: 'comments post-comments post-comments-preview comments-tree'}) }}>
     {% for comment in comments %}
         {{ component('post_comment', {
             comment: comment,

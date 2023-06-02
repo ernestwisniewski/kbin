@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Markdown\CommonMark;
 
 use App\Message\ActivityPub\CreateActorMessage;
+use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\SettingsManager;
 use App\Utils\RegPatterns;
@@ -16,7 +17,8 @@ final class UserLinkParser extends AbstractLocalLinkParser
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly SettingsManager $settingsManager,
-        private readonly UserRepository $repository,
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository,
         private readonly MessageBusInterface $bus
     ) {
     }
@@ -28,24 +30,34 @@ final class UserLinkParser extends AbstractLocalLinkParser
 
     public function getUrl(string $suffix): string
     {
+        $user = null;
         $handle = $this->getName($suffix);
         $username = ltrim($handle, '@');
 
         if (2 == substr_count($handle, '@')) {
-            $user = $this->repository->findOneByUsername($suffix);
+            $user = $this->userRepository->findOneByUsername($suffix);
             if ($user && $user->apPublicUrl) {
                 return $user->apPublicUrl;
             }
 
             $this->bus->dispatch(new CreateActorMessage($suffix));
+        }
 
-            $username = $handle;
+        if (!$user && $this->magazineRepository->findOneByName($username)) {
+
+            return $this->urlGenerator->generate(
+                'front_magazine',
+                [
+                    'name' => $username,
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
         }
 
         return $this->urlGenerator->generate(
             'user_overview',
             [
-                'username' => $username,
+                'username' => $handle,
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

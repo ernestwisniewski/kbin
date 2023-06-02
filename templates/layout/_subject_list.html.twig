@@ -22,7 +22,7 @@
         {% set child = false %}
     {% endif %}
     {% if subject.parentSubject is defined and loop.index > 1 and subject.parentSubject is same as prev %}
-        <div class="comments comments-tree">
+        <div class="{{ html_classes('comments comments-tree', {'post-comments post-comments-preview': subject.parentSubject is post}) }}">
         {% set child = true %}
     {% endif %}
     {% include 'layout/_subject.html.twig' %}
