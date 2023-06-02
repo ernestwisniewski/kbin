@@ -39,7 +39,7 @@ yarn-error.log
 ###< liip/imagine-bundle ###
 
 .env
-/public/media/
+/public/media/*
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem

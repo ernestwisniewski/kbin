@@ -68,6 +68,8 @@ services:
     image: redis:7.0.11-alpine
     restart: always
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD:-!ChangeThisRedisPass!} --maxmemory-policy volatile-ttl
+    volumes:
+      - redis-data:/data
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -165,3 +167,4 @@ volumes:
   caddy_config:
   db-data:
   rabbitmq-data:
+  redis-data:
