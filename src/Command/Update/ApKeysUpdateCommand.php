@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command\Update;
 
 use App\Entity\Contracts\ActivityPubActorInterface;
+use App\Entity\Site;
 use App\Repository\MagazineRepository;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
@@ -35,6 +36,13 @@ class ApKeysUpdateCommand extends Command
     {
         $this->generate($this->userRepository->findWithoutKeys());
         $this->generate($this->magazineRepository->findWithoutKeys());
+
+        $site = $this->siteRepository->findAll();
+        if (empty($site)) {
+            $site = new Site();
+            $this->entityManager->persist($site);
+            $this->entityManager->flush();
+        }
 
         $site = $this->siteRepository->findAll()[0];
         $privateKey = RSA::createKey(4096);
