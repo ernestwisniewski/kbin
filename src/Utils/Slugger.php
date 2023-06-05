@@ -22,7 +22,7 @@ class Slugger
 
     public function slug(string $val): string
     {
-        return (new AsciiSlugger())->slug($this->getWords($val), '-', 'pl')->toString();
+        return substr((new AsciiSlugger())->slug($this->getWords($val), '-', 'en')->toString(), 0, 255);
     }
 
     private function getWords(string $sentence, int $count = 10): string

@@ -25,6 +25,7 @@ class LanguageType extends AbstractType
         'fr' => 'french',
         'de' => 'german',
         'gr' => 'greek',
+        'he' => 'hebrew',
         'hu' => 'hungarian',
         'it' => 'italian',
         'jp' => 'japanese',

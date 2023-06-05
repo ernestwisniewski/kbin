@@ -91,7 +91,7 @@ services:
       target: symfony_messenger
     command: 'sh -c "php bin/console messenger:consume async --time-limit=3600"'
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-symfony}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-14}&charset=${POSTGRES_CHARSET:-utf8}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-kbin}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-kbin}?serverVersion=${POSTGRES_VERSION:-14}&charset=${POSTGRES_CHARSET:-utf8}
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-app.localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}

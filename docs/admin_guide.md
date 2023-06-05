@@ -82,7 +82,7 @@ $ sudo usermod -aG docker $USER
 #### Run containers
 
 ```bash
-$ compose build --pull --no-cache # build fresh images
+$ docker compose build --pull --no-cache # build fresh images
 $ docker compose up # the logs will be displayed in the current shell
 $ docker compose down --remove-orphans # stop the Docker containers.
 ```
@@ -121,7 +121,7 @@ $ docker compose exec php bin/console kbin:user:admin username
 ```bash
 docker compose exec php bin/console kbin:ap:keys:update
 ```
-Next, log in and create a repository named "random" to which unclassified content from the fediverse will flow.
+Next, log in and create a magazine named "random" to which unclassified content from the fediverse will flow.
 
 #### Admin panel
 
