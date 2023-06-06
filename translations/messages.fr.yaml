@@ -1,0 +1,189 @@
+type.article: Article
+type.photo: Photo
+type.video: Vidéo
+thread: Fil
+threads: Fils
+microblog: Microblogue
+events: Événements
+magazine: Magazine
+magazines: Magazines
+search: Recherche
+add: Ajouter
+people: Personnes
+login: Se connecter
+top: Haut
+active: Actif
+favourites: Favoris
+favourite: Favori
+more: Suite
+type.magazine: Magazine
+newest: Plus neufs
+oldest: Plus anciens
+commented: Commentés
+filter_by_time: Filtrer par temps
+filter_by_type: Filtrer par type
+comments_count: '{0}commentaires|{1}commentaire|]1,Inf[ commentaires'
+added: Ajouté
+views: Vues
+no_comments: Aucuns commentaires
+created_at: Créé
+owner: Propriétaire
+subscribers: Abonné(e)s
+online: En ligne
+posts: Messages
+replies: Réponses
+moderators: Modérateurs/trices
+mod_log: Journal de modération
+add_comment: Ajouter un commentaire
+add_post: Ajouter un message
+markdown_howto: Comment fonctionne l'éditeur ?
+enter_your_comment: Entrez votre commentaire
+enter_your_post: Entrez votre message
+activity: Activité
+related_posts: Messages reliés
+type.link: Lien
+select_channel: Sélectionnez une chaîne
+avatar: Avatar
+comments: Commentaires
+random_posts: Messages aléatoires
+change_view: Changer la vue
+add_media: Ajouter média
+up_votes: Partages
+down_votes: Réductions
+cover: Couverture
+federated_magazine_info: Les magazines provenant d'un serveur fédéré peuvent être
+  incomplets.
+federated_user_info: Les profils provenant d'un serveur fédéré peuvent être incomplets.
+go_to_original_instance: Parcourez davantage sur l'instance d'origine.
+empty: Vide
+subscribe: S'abonner
+unsubscribe: Se désabonner
+follow: Suivre
+unfollow: Ne plus suivre
+reply: Répondre
+login_or_email: Nom d'utilisateur ou e-mail
+password: Mot de passe
+remember_me: Rester connecté(e)
+dont_have_account: Vous n'avez pas de compte ?
+you_cant_login: Vous ne pouvez pas vous connecter ?
+already_have_account: Vous avez déjà un compte ?
+register: S’inscrire
+reset_password: Réinitialiser le mot de passe
+to: à
+username: Nom d’utilisateur
+email: Email
+repeat_password: Répéter le mot de passe
+terms: Conditions d'utilisation du service
+about_instance: À propos
+all_magazines: Tous les magazines
+stats: Statistiques
+fediverse: Fédivers
+awards: Prix
+ranking: Classement
+create_new_magazine: Créer un nouveau magazine
+add_new_link: Ajouter un nouveau lien
+add_new_photo: Ajouter une nouvelle photo
+add_new_post: Ajouter un nouveau message
+add_new_video: Ajouter une nouvelle vidéo
+contact: Contact
+faq: FAQ
+rss: RSS
+change_theme: Changer le thème
+useful: Utile
+help: Aide
+try_again: Essayez à nouveau
+up_vote: Partager
+down_vote: Réduire
+email_verify: Confirmer l’adresse email
+email_confirm_expire: Le lien expirera dans 1 heure.
+email_confirm_title: Confirmez votre addresse email.
+select_magazine: Sélectionnez un magazine
+add_new: Ajouter nouveau
+url: URL
+title: Titre
+body: Corps
+tags: Étiquettes
+badges: Badges
+is_adult: +18 / NSFW
+email_confirm_content: 'Pour activer votre compte, veuillez cliquer le lien ci-dessous
+  :'
+oc: CO
+image_alt: Texte alternatif de l'image
+name: Nom
+description: Description
+rules: Règles
+domain: Domaine
+followers: Suiveurs/ses
+following: Suivis
+overview: Aperçu
+cards: Cartes
+columns: Colonnes
+user: Utilisateur
+moderated: Modéré(e)
+people_local: Local
+people_federated: Fédéré
+reputation_points: Points de réputation
+related_tags: Étiquettes reliées
+all: Tous
+logout: Se déconnecter
+compact_view: Vue compacte
+3h: 3h
+6h: 6h
+12h: 12h
+1d: 1j
+1w: 1sem
+1m: 1m
+1y: 1an
+links: Liens
+articles: Articles
+photos: Photos
+report: Signaler
+share: Partager
+copy_url: Copier URL
+ratio: Ratio
+go_to_content: Vers le contenu
+go_to_filters: Vers les filtres
+go_to_footer: Vers le pied de page
+classic_view: Vue classique
+chat_view: Vue de discussion
+tree_view: Vue en arbre
+table_view: Vue en table
+cards_view: Vue en cartes
+moderate: Modérer
+reason: Motif
+copy_url_to_fediverse: Copier URL vers le Fédivers
+share_on_fediverse: Partager sur le Fédivers
+edit_link: Modifier le lien
+edit_photo: Modifier la photo
+delete: Supprimer
+edit_post: Modifier le message
+edit_comment: Modifier le commentaire
+settings: Réglages
+general: Général
+profile: Profil
+blocked: Bloqué(e)
+reports: Signalizations
+notifications: Notifications
+appearance: Apparence
+homepage: Page d'accueil
+hide_adult: Masquer le contenu réservé aux adultes
+featured_magazines: Magazines en vedette
+privacy: Confidentialité
+show_more: Voir plus
+add_new_article: Ajouter un nouvel article
+check_email: Vérifiez votre email
+eng: ENG
+subscribed: Abonné(e)
+videos: Vidéos
+are_you_sure: Êtes-vous sûr(e) ?
+reset_check_email_desc2: Si vous ne recevez pas d'email, veuillez vérifier votre dossier
+  spam.
+messages: Messages directs
+in: en
+email_confirm_header: Salut ! Confirmez votre addresse email.
+image: Image
+edit: Modifier
+go_to_search: Vers la recherche
+privacy_policy: Politique de confidentialité
+subscriptions: Abonnements
+edit_article: Modifier l'article

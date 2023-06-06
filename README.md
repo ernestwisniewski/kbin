@@ -10,14 +10,11 @@ promote a free and open internet.
 This is a very early beta version, and a lot of features are currently broken or in active development, such as
 federation.
 
-Currently, a new frontend is being implemented on develop branch. In the next stage, a similar refactor will go through
-the backend and the project will be prepared for contribution.
-
 ![](docs/images/kbin.png)
 
 * [https://kbin.pub](https://kbin.pub) - project website
 * [https://karab.in](https://karab.in) - polish-lang instance
-* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (develop branch)
+* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (develop branch / might be temporarily unavailable)
 
 ---
 

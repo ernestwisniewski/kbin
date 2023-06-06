@@ -1,0 +1,480 @@
+type.article: Articolo
+type.photo: Foto
+type.video: Video
+type.smart_contract: Smart contract
+type.magazine: Magazine
+thread: Thread
+people: Persone
+events: Eventi
+magazine: Magazine
+magazines: Magazine
+search: Cerca
+add: Aggiungi
+select_channel: Seleziona un canale
+threads: Tread
+hot: Popolari
+active: Attivi
+newest: Più recenti
+oldest: Più vecchi
+commented: Più commentati
+change_view: Cambia vista
+comments_count: '{0}commenti|{1}commento|]1,Inf[ commenti'
+favourite: Preferito
+more: Altro
+avatar: Avatar
+added: Aggiunto
+up_votes: Boost
+down_votes: Voto negativo
+created_at: Creato
+owner: Proprietario
+online: Online
+comments: Commenti
+posts: Post
+replies: Risposte
+markdown_howto: Come si usa l'editor?
+moderators: Moderatori
+add_comment: Aggiungi commento
+add_post: Aggiungi post
+add_media: Aggiungi media
+enter_your_comment: Inserisci il tuo commento
+enter_your_post: Inserisci il tuo post
+activity: Attività
+cover: Copertina
+related_posts: Post correlati
+random_posts: Post a caso
+go_to_original_instance: Sfoglia più contenuti sull'istanza originale.
+empty: Vuoto
+subscribe: Iscriviti
+unsubscribe: Annulla iscrizione
+follow: Segui
+reply: Rispondi
+login_or_email: Accedi con il nome utente o l'e-mail
+dont_have_account: Non hai ancora un account?
+already_have_account: Hai già un account?
+password: Password
+remember_me: Ricordami
+reset_password: Reimposta password
+show_more: Mostra di più
+email_confirm_content: 'Per attivare il tuo account clicca sul link sottostante:'
+reset_check_email_desc2: Se non vedi alcuna e-mail, controlla nella cartella della
+  posta indesiderata.
+email_confirm_expire: Tra un'ora il collegamento non sarà più attivo.
+email_confirm_header: Ciao! Conferma il tuo indirizzo e-mail.
+subscriptions: Iscrizioni
+subscribed: Iscritto
+notify_on_new_posts: Avvisami sui nuovi post nel magazine sottoscritto
+notify_on_new_post_comment_reply: Avvisami in caso di risposte ai commenti dei miei
+  post
+notify_on_new_entry_reply: Avvisami in caso di commenti in una delle mie conversazioni
+notify_on_new_post_reply: Avvisami in caso di risposte ai miei post
+show_profile_subscriptions: Mostra le iscrizioni al magazine
+flash_thread_new_success: Il thread è stato creato correttamente ed è ora visibile
+  agli altri utenti.
+set_magazines_bar_desc: aggiungi il nome dei magazine dopo la virgola
+bronze_autobiographer_desc: Per aver completato tutti i campi del profilo
+bronze_link_desc: Il post è stato potenziato 5 volte
+bronze_article_desc: L'articolo è stato potenziato 5 volte
+bronze_photo_desc: La foto è stata potenziata 5 volte
+bronze_comment_desc: Il commento è stato potenziato 5 volte
+bronze_post_desc: Il post è stato potenziato 5 volte
+flash_thread_delete_success: Il thread è stato correttamente eliminato.
+flash_thread_unpin_success: Il thread non risulta più in evidenza.
+flash_magazine_edit_success: Il magazine è stato modificato correttamente.
+too_many_requests: Limite superato, riprova più tardi.
+bronze_ranking_desc: 3° posto in classifica
+silver_article_desc: L'articolo è stato potenziato 10 volte
+silver_comment_desc: Il commento è stato potenziato 10 volte
+silver_post_desc: Il post è stato potenziato 10 volte
+silver_entry_week_desc: Il miglior thread della settimana
+silver_comment_week_desc: Il miglior commento della settimana
+silver_ranking_desc: 2° posto in classifica
+gold_link_desc: Il post è stato potenziato 15 volte
+gold_article_desc: L'articolo è stato condiviso 15 volte
+gold_photo_desc: La foto è stata potenziata 15 volte
+gold_comment_desc: Il commento è stato potenziato 15 volte
+gold_entry_month_desc: Il miglior thread del mese
+gold_comment_month_desc: Il miglior commento del mese
+gold_post_month_desc: Il miglior post del mese
+gold_ranking_desc: 1° posto in classifica
+mod_remove_your_thread: Un moderatore ha rimosso il tuo thread
+add_mentions_posts: Aggiungi un tag di menzione degli utenti nei post
+Your account is not active: Il tuo account non è attivo.
+Your account has been banned: Il tuo account è stato sospeso.
+magazine_panel_tags_info: Da inserire solo se si desidera che i contenuti del fediverso
+  vengano aggiunti a questo magazine in base ai tag
+browsing_one_thread: Stai visualizzando solo uno dei thread nella discussione! Nella
+  pagina del post specifico potrai trovare tutti commenti.
+kbin_intro_desc: è una piattaforma decentralizzata per l'aggregazione di contenuti
+  e il microblogging che opera all'interno della rete del Fediverso.
+delete_account_request_send: La tua richiesta di eliminare l'account è stata inviata.
+kbin_promo_desc: '%link_start%Clona il repository%link_end% e sviluppa il fediverso'
+type.link: Link
+login: Accedi
+register: Iscriviti
+flash_register_success: "Il tuo account è stato registrato. Controlla la tua casella\
+  \ di posta: abbiamo inviato un'e-mail con un link di attivazione."
+microblog: Microblog
+top: Migliori
+filter_by_time: Filtra per data
+type_search_term: Digita un termine di ricerca
+favourites: Preferiti
+unfollow: Non seguire
+you_cant_login: Non riesci ad accedere?
+reset_check_email_desc: Se al tuo indirizzo di posta elettronica corrisponde un account
+  esistente, hai appena ricevuto un'e-mail con un link da utilizzare per reimpostare
+  la tua password. Tra %expire% il link non sarà più attivo.
+flash_magazine_new_success: Il magazine è stato creato correttamente. Ora puoi aggiungere
+  nuovi contenuti o esplorare il pannello di amministrazione dei magazine.
+mod_log: Registro di moderazione
+mod_log_alert: Nel Registro di moderazione potresti trovare contenuti disturbanti
+  rimossi dai moderatori. Sii consapevole di ciò che stai per fare.
+set_magazines_bar_empty_desc: se il campo è vuoto, nella barra vengono visualizzati
+  i magazine attivi.
+federated_magazine_info: 'Il magazine è su un server federato: alcuni contenuti potrebbero
+  non risultare visibili.'
+federated_user_info: 'Il profilo appartiene a un server federato: alcuni contenuti
+  potrebbero non risultare visibili.'
+notify_on_new_entry: Avvisami sulle nuove discussioni nel magazine sottoscritto
+agree_terms: Acconsenti ai %terms_link_start%Termini e condizioni%terms_link_end%
+  e all'%policy_link_start%Informativa sulla privacy%policy_link_end%
+notify_on_new_entry_comment_reply: Avvisami in caso di risposte ai commenti dei miei
+  thread
+silver_link_desc: Il post è stato potenziato 10 volte
+silver_photo_desc: La foto è stata potenziata 10 volte
+gold_post_desc: Il post è stato potenziato 15 volte
+flash_thread_edit_success: Il thread è stato modificato correttamente.
+flash_thread_pin_success: Il thread è stato fissato correttamente in evidenza.
+silver_post_week_desc: Il miglior post della settimana
+mod_deleted_your_comment: Un moderatore ha cancellato il tuo commento
+mod_remove_your_post: Un moderatore ha rimosso il tuo post
+add_mentions_entries: Aggiungi un tag di menzione degli utenti nei contenuti
+email_confirm_title: Conferma il tuo indirizzo e-mail.
+copy_url_to_fediverse: Copia l'url univoco nel fediverso
+views: Visualizzazioni
+no_comments: Non ci sono commenti
+subscribers: Iscritti
+filter_by_type: Filtra per tipo
+to: a
+in: in
+username: Nome utente
+email: Email
+repeat_password: Ripeti la password
+terms: Termini di servizio
+privacy_policy: Politica della privacy
+about_instance: A proposito
+all_magazines: Tutti i magazine
+stats: Statistiche
+fediverse: Fediverso
+awards: Riconoscimenti
+ranking: Graduatoria
+create_new_magazine: Crea un nuovo magazine
+add_new_article: Aggiungi un articolo
+add_new_link: Aggiungi un nuovo link
+add_new_photo: Aggiungi una nuova foto
+add_new_post: Aggiungi un nuovo post
+add_new_video: Aggiungi un nuovo video
+contact: Contatti
+faq: FAQ
+rss: RSS
+change_theme: Cambia tema
+useful: Utile
+help: Aiuto
+try_again: Riprova
+down_vote: Riduci
+email_verify: Conferma l’indirizzo email
+select_magazine: Seleziona un magazine
+add_new: Aggiungi nuovo
+url: URL
+title: Titolo
+tags: Etichette
+badges: Distintivi
+is_adult: +18 / NSFW
+eng: ENG
+oc: OC
+image: Immagine
+image_alt: Testo alternativo per l’immagine
+name: Nome
+description: Descrizione
+rules: Regole
+domain: Dominio
+followers: Seguaci
+following: Seguiti
+overview: Panoramica
+cards: Carte
+columns: Colonne
+user: Utente
+moderated: Moderato
+ratio: Rapporto
+people_local: Locale
+people_federated: Federato
+reputation_points: Punti reputazione
+related_tags: Etichette correlate
+go_to_content: Vai al contenuto
+go_to_search: Vai alla ricerca
+go_to_footer: Vai a piè di pagina
+all: Tutto
+logout: Esci
+classic_view: Vista classica
+compact_view: Vista compatta
+chat_view: Vista chat
+tree_view: Vista ad albero
+cards_view: Vista a schede
+3h: 3 ore
+6h: 6 ore
+12h: 12 ore
+1d: 1 giorno
+1w: 1 settimana
+1m: 1 mese
+1y: 1 anno
+links: Collegamenti
+articles: Articoli
+photos: Foto
+report: Rapporti
+share: Condividi
+copy_url: Copia l’URL
+share_on_fediverse: Condividi sul Fediverso
+edit: Modifica
+are_you_sure: Confermi?
+reason: Motivo
+edit_article: Modifica articolo
+edit_photo: Modifica foto
+delete: Cancella
+edit_post: Modifica il post
+edit_comment: Modifica il commento
+settings: Preferenze
+general: Generale
+profile: Profilo
+blocked: Bloccati
+reports: Rapporti
+messages: Messaggi
+appearance: Aspetto
+homepage: Homepage
+hide_adult: Nascondi contenuto per adulti
+privacy: Privacy
+show_profile_followings: Mostra gli utenti seguaci
+save: Salva
+about: A proposito
+old_email: Vecchia email
+new_email: Nuova email
+new_email_repeat: Conferma nuova email
+current_password: Password attuale
+new_password: Nuova password
+new_password_repeat: Conferma la nuova password
+change_email: Modifica email
+change_password: Modifica password
+expand: Espandi
+collapse: Riduci
+domains: Domini
+error: Errore
+votes: Voti
+dark: Scuro
+light: Chiaro
+solarized_light: Chiaro solarizzato
+solarized_dark: Scuro solarizzato
+font_size: Dimensione carattere
+size: Dimensione
+boosts: Boost
+yes: Si
+no: No
+show_magazines_icons: Mostra le icone dei magazine
+show_thumbnails: Mostra le miniature
+rounded_edges: Angoli arrotondati
+removed_thread_by: ha rimosso un thread di
+restored_thread_by: ha ripristinato un thread di
+restored_comment_by: ha ripristinato un commento di
+removed_post_by: ha rimosso un post di
+restored_post_by: ha ripristinato un post di
+read_all: Leggi tutto
+show_all: Mostra tutto
+ranking_disabled: La graduatoria è disattivata
+gold: Oro
+silver: Argento
+bronze: Bronzo
+bronze_personality_desc: 20 seguaci
+bronze_commentator_desc: 10 commenti buoni
+bronze_scout_desc: 10 collegamenti buoni
+bronze_redactor_desc: 10 articoli buoni
+bronze_poster_desc: 10 post buoni
+bronze_link: Collegamento buono
+bronze_photo: Buona foto
+bronze_comment: Buon commento
+bronze_post: Buon post
+bronze_ranking: Numero 3
+bronze_popular_entry: Thread popolare
+bronze_popular_entry_desc: Thread visitato 1000 volte
+bronze_magazine: Magazine popolare
+Password is invalid: La password non è valida.
+check_email: Controlla la tua email
+joined: Iscritto
+go_to_filters: Vai ai filtri
+table_view: Vista a tabella
+videos: Video
+edit_link: Modifica collegamento
+notifications: Notifiche
+theme: Tema
+show_users_avatars: Mostra gli avatar degli utenti
+removed_comment_by: ha rimosso un commento di
+body: Contenuto
+up_vote: Boost
+moderate: Moderare
+featured_magazines: Magazine in primo piano
+he_banned: sospendi
+he_unbanned: rimuovi sospensione
+set_magazines_bar: Barra dei magazine
+bronze_autobiographer: Bio
+bronze_personality: Personalità medaglia di bronzo
+bronze_commentator: Commento medaglia di bronzo
+bronze_scout: Scout medaglia di bronzo
+bronze_redactor: Redattore medaglia di bronzo
+bronze_poster: Poster medaglia di bronzo
+bronze_article: Articolo medaglia di bronzo
+silver_personality: Personalità medaglia d'argento
+silver_personality_desc: 50 follower
+bronze_magazine_desc: 20 follower hanno creato un magazine
+silver_commentator: Commentatore medaglia d'argento
+silver_commentator_desc: 10 ottimi commenti
+silver_scout: Scout medaglia d'argento
+silver_scout_desc: 10 ottimi link
+silver_redactor: Redattore medaglia d'argento
+silver_redactor_desc: 10 ottimi articoli
+silver_poster: Poster medaglia d'argento
+silver_poster_desc: 10 ottimi post
+silver_link: Link ottimi
+silver_article: Articolo medaglia d'argento
+silver_photo: Foto ottima
+silver_comment: Commento ottimo
+silver_post: Post ottimo
+silver_ranking: Numero 2
+silver_popular_entry: Thread popolari
+silver_popular_entry_desc: Thread visitato 5000 volte
+silver_magazine: Magazine popolare
+silver_magazine_desc: 50 follower hanno creato questo magazine
+silver_entry_week: Thread della settimana
+silver_comment_week: Commento della settimana
+silver_post_week: Post della settimana
+gold_personality: Personalità medaglia d'oro
+gold_personality_desc: 100 follower
+gold_commentator: Commentatore medaglia d'oro
+gold_commentator_desc: 10 commenti eccellenti
+gold_scout: Scout medaglia d'oro
+gold_scout_desc: 10 link eccellenti
+gold_redactor: Redattore medaglia d'oro
+gold_redactor_desc: 10 articoli eccellenti
+gold_poster: Poster medaglia d'oro
+gold_poster_desc: 10 post eccellenti
+gold_link: Link eccellente
+gold_article: Articolo medaglia d'oro
+gold_photo: Foto eccellente
+gold_comment: Commento eccellente
+gold_post: Post eccellente
+gold_ranking: Numero 1
+gold_popular_entry: Thread popolare
+gold_popular_entry_desc: Thread visitato 10000 volte
+gold_magazine: Magazine popolare
+gold_magazine_desc: 100 follower hanno creato questo magazine
+gold_entry_month: Thread del mese
+gold_comment_month: Commento del mese
+gold_post_month: Post del mese
+added_new_thread: Ha aggiunto un nuovo thread
+edited_thread: Ha modificato un thread
+added_new_comment: Ha aggiunto un nuovo commento
+edited_comment: Ha modificato un commento
+replied_to_your_comment: Ha risposto al tuo commento
+added_new_post: Ha aggiunto un nuovo post
+wrote_message: Ha scritto un messaggio
+edited_post: Ha modificato un post
+banned: Ti ha sospeso
+removed: Rimosso da un moderatore
+deleted: Cancellato dall'autore
+mentioned_you: Ti ha menzionato
+comment: Commento
+post: Post
+ban_expired: Sospensione scaduta
+purge: Rimuovi
+send_message: Invia messaggio
+message: Messaggio
+infinite_scroll: Scroll infinito
+sticky_navbar: Barra di navigazione a scomparsa
+subject_reported: Il contenuto è stato segnalato.
+sidebar_position: Posizione della barra laterale
+left: Sinistra
+right: Destra
+federation: Federazione
+on: On
+off: Off
+instances: Istanze
+upload_file: Carica file
+from_url: Da url
+magazine_panel: Pannello magazine
+reject: Rifiuta
+ban: Sospendi
+filters: Filtri
+approved: Approvato
+add_moderator: Aggiungi modratore
+add_badge: Aggiungi distintivo
+bans: Sospensioni
+created: Creato
+expires: Scade
+perm: Permanente
+expired_at: Scaduto il
+add_ban: Aggiungi sospensione
+trash: Cestino
+icon: Icona
+done: Fatto
+pin: Fissa
+change: Modifica
+change_magazine: Modifica magazine
+change_language: Modifica lingua
+pinned: Fissato
+preview: Anteprima
+article: Articolo
+reputation: Reputazione
+note: Nota
+users: Utenti
+content: Contenuto
+week: Settimana
+weeks: Settimane
+month: Mese
+months: Mesi
+year: Anno
+federated: Federato
+local: Locale
+dashboard: Pannello di controllo
+contact_email: E-mail di contatto
+meta: Meta
+instance: Istanza
+pages: Pagine
+FAQ: FAQ
+inactive: Inattivo
+federation_enabled: Federazione abilitata
+registrations_enabled: Iscrizioni abilitate
+registration_disabled: Iscrizioni disabilitate
+restore: Ripristina
+firstname: Nome
+send: Invia
+active_users: Utenti attivi
+related_entries: Thread correlati
+delete_account: Elimina account
+purge_account: Rimuovi account
+ban_account: Sospendi account
+random_entries: Thread scelti a caso
+sidebar: Barra laterale
+unban_account: Rimuovi sospensione all'account
+related_magazines: Magazine correlati
+random_magazines: Magazine scelti a caso
+auto_preview: Anteprima automatica media
+dynamic_lists: Elenco dinamico
+banned_instances: Istanze sospese
+kbin_intro_title: Esplora il Fediverso
+kbin_promo_title: Crea la tua istanza
+captcha_enabled: Captcha abilitato
+header_logo: Logo di intestazione
+return: Indietro
+added_new_reply: Ha aggiunto una nuova risposta
+show_top_bar: Mostra la barra superiore
+status: Status
+approve: Approva
+rejected: Respinto
+unpin: Non fissare
+writing: Scrivere
+admin_panel: Pannello di amministrazione

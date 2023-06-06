@@ -28,7 +28,7 @@ class LanguageType extends AbstractType
         'he' => 'hebrew',
         'hu' => 'hungarian',
         'it' => 'italian',
-        'jp' => 'japanese',
+        'ja' => 'japanese',
         'pl' => 'polish',
         'pt' => 'portuguese',
         'es' => 'spanish',

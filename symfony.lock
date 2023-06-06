@@ -16,9 +16,6 @@
     "babdev/pagerfanta-bundle": {
         "version": "v2.10.1"
     },
-    "composer/ca-bundle": {
-        "version": "1.2.10"
-    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
@@ -148,9 +145,6 @@
     "egulias/email-validator": {
         "version": "3.1.1"
     },
-    "embed/embed": {
-        "version": "dev-master"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -274,12 +268,6 @@
             "config/packages/meteo_concept_h_captcha.yaml"
         ]
     },
-    "ml/iri": {
-        "version": "1.1.4"
-    },
-    "ml/json-ld": {
-        "version": "1.2.0"
-    },
     "monolog/monolog": {
         "version": "2.3.1"
     },
@@ -327,9 +315,6 @@
             "version": "3.0",
             "ref": "e6c6440b279273a468e1f570b0fc1d4ff54ad69e"
         }
-    },
-    "oscarotero/html-parser": {
-        "version": "v0.1.6"
     },
     "paragonie/constant_time_encoding": {
         "version": "v2.4.0"
@@ -704,6 +689,15 @@
     },
     "symfony/service-contracts": {
         "version": "v2.4.0"
+    },
+    "symfony/stimulus-bundle": {
+        "version": "2.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.8",
+            "ref": "9e33a8a3794b603fb4be6c04ee5ecab901ce549e"
+        }
     },
     "symfony/stopwatch": {
         "version": "v5.3.0"

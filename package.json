@@ -4,6 +4,7 @@
     "@babel/preset-env": "^7.16.0",
     "@hotwired/stimulus": "^3.0.0",
     "@symfony/stimulus-bridge": "^3.2.0",
+    "@symfony/stimulus-bundle": "file:vendor/symfony/stimulus-bundle/assets",
     "@symfony/ux-autocomplete": "file:vendor/symfony/ux-autocomplete/assets",
     "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/assets",
     "@symfony/webpack-encore": "^4.0.0",
