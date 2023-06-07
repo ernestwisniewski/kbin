@@ -13,6 +13,7 @@ federation.
 ![](docs/images/kbin.png)
 
 * [https://kbin.pub](https://kbin.pub) - project website
+* [https://kbin.social](https://kbin.social) - main instance
 * [https://karab.in](https://karab.in) - polish-lang instance
 * [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (develop branch / might be temporarily unavailable)
 
