@@ -5,34 +5,39 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Contracts\FavouriteInterface;
-use App\Service\FavouriteManager;
+use App\Entity\Contracts\VotableInterface;
 use App\Service\GenerateHtmlClassService;
+use App\Service\VoteManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FavouriteController extends AbstractController
+class BoostController extends AbstractController
 {
-    public function __construct(private readonly GenerateHtmlClassService $classService)
-    {
+    public function __construct(
+        private readonly GenerateHtmlClassService $classService,
+        private readonly VoteManager $manager
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
-    public function __invoke(FavouriteInterface $subject, Request $request, FavouriteManager $manager): Response
+    public function __invoke(VotableInterface $subject, Request $request): Response
     {
-        $this->validateCsrf('favourite', $request->request->get('token'));
+        $this->validateCsrf('boost', $request->request->get('token'));
 
-        $manager->toggle($this->getUserOrThrow(), $subject);
+        $this->manager->vote(VotableInterface::VOTE_UP, $subject, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
-                    'html' => $this->renderView('components/_ajax.html.twig', [
-                            'component' => 'vote',
+                    'html' => $this->renderView(
+                        'components/_ajax.html.twig',
+                        [
+                            'component' => 'boost',
                             'attributes' => [
                                 'subject' => $subject,
-                                'showDownvote' => str_contains(get_class($subject), 'Entry'),
+                                'path' => $request->attributes->get('_route'),
                             ],
                         ]
                     ),

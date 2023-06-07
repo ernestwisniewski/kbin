@@ -4,8 +4,8 @@
 {% if app.user %}
     {%- set user_choice = is_granted('ROLE_USER') ? subject.userChoice(app.user) : null -%}
 
-    {% set upUrl = path(formDest, {id: subject.id, choice: VOTE_UP}) %}
-    {% set downUrl = path(formDest, {id: subject.id, choice: VOTE_DOWN}) %}
+    {% set upUrl = path(formDest~'_favourite', {id: subject.id, choice: VOTE_UP}) %}
+    {% set downUrl = path(formDest~'_vote', {id: subject.id, choice: VOTE_DOWN}) %}
 
     {% if(user_choice is same as(VOTE_UP)) %}
         {% set choice = VOTE_UP %}
@@ -16,23 +16,23 @@
     {% endif %}
 {% else %}
     {% set choice = VOTE_NONE %}
-    {% set upUrl = path(formDest, {id: subject.id, choice: VOTE_NONE}) %}
-    {% set downUrl = path(formDest, {id: subject.id, choice: VOTE_NONE}) %}
+    {% set upUrl = path(formDest~'_favourite', {id: subject.id, choice: VOTE_NONE}) %}
+    {% set downUrl = path(formDest~'_vote', {id: subject.id, choice: VOTE_NONE}) %}
 {% endif %}
 <aside{{ attributes.defaults({class: 'vote'}) }}>
     <form method="post"
           action="{{ upUrl }}"
           class="{{ html_classes('vote__up',{
-              'active': choice is same as(VOTE_UP),
+              'active': app.user and subject.isFavored(app.user),
           }) }}">
         <button type="submit"
-                title="{{ 'up_vote'|trans }}"
-                aria-label="{{ 'up_vote'|trans }}"
+                title="{{ 'favourite'|trans }}"
+                aria-label="{{ 'favourite'|trans }}"
                 data-action="subject#vote"
                 {{ html_classes({'disabled': app.user and subject.isAuthor(app.user)}) }}>
-            {{ subject.countUpvotes }} <span><i class="fa-solid fa-arrow-up"></i></span>
+            {{ subject.favouriteCount }} <span><i class="fa-solid fa-arrow-up"></i></span>
         </button>
-        <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
+        <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
     </form>
     {% if showDownvote %}
         <form method="post"

@@ -66,7 +66,7 @@
                                data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
                         </li>
                         <li>
-                            {{ component('favourite', {subject: comment, path: 'entry_comment_favourite'}) }}
+                            {{ component('boost', {subject: comment}) }}
                         </li>
                         <li class="dropdown">
                             <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>

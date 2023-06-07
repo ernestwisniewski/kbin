@@ -114,4 +114,24 @@ class VoteManager
 
         return $vote;
     }
+
+    public function removeVote(VotableInterface $votable, User $user): ?Vote
+    {
+        // @todo save activity pub object id
+        $vote = $votable->getUserVote($user);
+
+        if (!$vote) {
+            return null;
+        }
+
+        $vote->choice = VotableInterface::VOTE_NONE;
+
+        $votable->updateVoteCounts();
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new VoteEvent($votable, $vote, false));
+
+        return $vote;
+    }
 }

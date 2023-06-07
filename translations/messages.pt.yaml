@@ -1,0 +1,311 @@
+type.link: Ligação
+type.article: Artigo
+type.photo: Foto
+type.video: Video
+type.magazine: Magazine
+thread: Tópico
+threads: Tópicos
+microblog: Microblog
+people: Pessoas
+events: Eventos
+magazine: Magazine
+magazines: Magazines
+search: Procura
+add: Adicionar
+select_channel: Selecionar um canal
+login: Log in
+top: Topo
+hot: Quente
+newest: Novo
+oldest: Antigo
+commented: Comentado
+change_view: Alterar vista
+filter_by_time: Filtrar por tempo
+filter_by_type: Filtrar por tipo
+favourites: Favoritos
+favourite: Favorito
+more: Mais
+avatar: Avatar
+added: Adicionado
+views: Visualisações
+up_votes: Upvoto
+down_votes: Downvoto
+no_comments: Sem comentários
+created_at: Criado
+owner: Dono
+subscribers: Subscritores
+online: Online
+comments: Comentários
+posts: Postagens
+moderators: Moderadores
+mod_log: Log de Moderação
+add_comment: Adicionar comentário
+add_post: Adicionar postagem
+add_media: Adicionar media
+enter_your_comment: Introduza o seu comentário
+enter_your_post: Introduza a sua postagem
+activity: Atividade
+cover: Capa
+related_posts: Postagens relacionadas
+random_posts: Postagens aleatórias
+federated_user_info: O perfil do servidor federado pode estar incompleto.
+go_to_original_instance: Navega mais na instância federada.
+empty: Vazio
+subscribe: Subscrever
+unsubscribe: Cancelar subscrição
+follow: Seguir
+unfollow: Deixar de seguir
+reply: Resposta
+login_or_email: Login ou email
+password: Password
+dont_have_account: Não tem uma conta?
+you_cant_login: Não consegue fazer login?
+already_have_account: Já tem uma conta?
+register: Registar
+reset_password: Redefinir password
+show_more: Mostrar mais
+to: para
+in: em
+email: Email
+repeat_password: Repetir password
+terms: Termos do serviço
+privacy_policy: Política de Privacidade
+about_instance: Sobre
+all_magazines: Todas as magazines
+stats: Estatísticas
+fediverse: Fediverse
+awards: Prémios
+ranking: Ranking
+create_new_magazine: Criar uma nova magazine
+add_new_article: Adicionar um novo artigo
+add_new_link: Adicionar um novo link
+add_new_photo: Adicionar uma nova foto
+add_new_post: Adicionar uma nova postagem
+add_new_video: Adicionar um novo video
+contact: Contato
+faq: FAQ
+rss: RSS
+change_theme: Alterar tema
+useful: Útil
+help: Ajuda
+reset_check_email_desc2: Se não receber um email, verifique a pasta de spam.
+try_again: Tente de novo
+up_vote: Upvoto
+down_vote: Downvoto
+email_confirm_header: Olá! Confirme o seu endereço de email.
+email_confirm_content: 'Se quer ativar a sua conta clique no link seguinte:'
+email_verify: Confirme endereço de email
+email_confirm_title: Confirme o seu endereço de email.
+select_magazine: Selecione uma magazine
+go_to_search: Ir para a procura
+go_to_footer: Ir para o rodapé
+subscribed: Subscrito
+all: Tudo
+logout: Terminar sessão
+classic_view: Vista clássica
+compact_view: Vista compacta
+chat_view: Vista de chat
+tree_view: Vista de árvore
+cards_view: Vista de cartão
+3h: 3h
+6h: 6h
+1d: 1d
+1m: 1m
+links: Links
+articles: Artigos
+1w: 1s
+photos: Fotos
+videos: Videos
+report: Reportar
+share: Partilhar
+copy_url_to_fediverse: Copiar url para o Fediverso
+share_on_fediverse: Partilhar no Fediverso
+edit: Editar
+are_you_sure: Tem a certeza?
+moderate: Moderar
+reason: Motivo
+edit_link: Editar link
+edit_article: Editar artigo
+delete: Apagar
+edit_post: Editar postagem
+edit_comment: Editar comentário
+settings: Definições
+general: Geral
+profile: Perfil
+blocked: Bloqueado
+reports: Relatórios
+notifications: Notificações
+messages: Mensagens
+homepage: Página principal
+hide_adult: Esconder conteúdo adulto
+featured_magazines: Magazines em destaque
+privacy: Privacidade
+show_profile_followings: Mostrar utilizadores seguidos
+notify_on_new_entry_reply: Notificar-me de comentários nos meus tópicos
+notify_on_new_post_reply: Notificar-me de respostas às minhas postagens
+notify_on_new_post_comment_reply: Notificar-me de respostas aos meus comentários em
+  postagens
+notify_on_new_entry: Notificar-me de novos tópicos em magazines subscritos
+save: Guardar
+about: Sobre
+old_email: Email antigo
+new_email: Novo email
+new_email_repeat: Confirmar o novo email
+current_password: Password atual
+new_password: Nova password
+new_password_repeat: Confirmar nova password
+change_email: Alterar email
+change_password: Alterar password
+expand: Expandir
+collapse: Colapsar
+domains: Domínios
+error: Erro
+votes: Votos
+dark: Escuro
+light: Claro
+solarized_light: Claro solarizado
+solarized_dark: Escuro solarizado
+font_size: Tamanho da letra
+size: Tamanho
+boosts: Upvotos
+yes: Sim
+no: Não
+show_magazines_icons: Mostrar os ícones das magazines
+show_thumbnails: Mostrar miniaturas
+rounded_edges: Cantos redondos
+removed_thread_by: removeu tópico por
+removed_comment_by: removeu tópico por
+restored_comment_by: restaurou comentário por
+removed_post_by: removeu a postagem por
+restored_post_by: restaurou postagem por
+he_banned: banir
+he_unbanned: desbanir
+read_all: Ler tudo
+show_all: Mostrar tudo
+gold_popular_entry: Tópico popular
+gold_popular_entry_desc: Tópico visitado 10000 vezes
+gold_magazine: Magazine popular
+gold_magazine_desc: Magazine com 100 seguidores
+gold_entry_month_desc: O melhor tópico do mês
+gold_comment_month: Comentário do mês
+gold_comment_month_desc: O melhor comentário do mês
+gold_post_month: Postagem do mês
+gold_post_month_desc: A melhor postagem do mês
+added_new_thread: Adicionado um novo tópico
+edited_thread: Editado um tópico
+mod_remove_your_thread: Um moderador removeu o seu tópico
+added_new_comment: Adicionado um novo comentário
+edited_comment: Editado um comentário
+replied_to_your_comment: Respondeu ao seu comentário
+mod_deleted_your_comment: Um moderador apagou o seu comentário
+added_new_post: Adicionado uma nova postagem
+mod_remove_your_post: Um moderador removeu a sua postagem
+added_new_reply: Adicionada uma nova resposta
+wrote_message: Escreva uma mensagem
+banned: Baniu-o
+removed: Removido por um moderador
+mentioned_you: Mencionou-o
+comment: Comentário
+post: Postagem
+ban_expired: O ban expirou
+purge: Limpar
+send_message: Enviar mensagem
+message: Mensagem
+infinite_scroll: Scroll infinito
+show_top_bar: Mostrar barra do topo
+subject_reported: O conteúdo foi reportado.
+sidebar_position: Posição da barra lateral
+left: Esquerda
+right: Direita
+federation: Federação
+status: Estado
+on: Ligado
+instances: Instâncias
+upload_file: Carregar ficheiro
+from_url: Do url
+magazine_panel: Painel da magazine
+reject: Rejeitar
+approve: Aprovar
+ban: Banir
+filters: Filtros
+approved: Aprovado
+add_moderator: Adicionar moderador
+add_badge: Adicionar distintivo
+bans: Expulsões
+created: Criado
+expires: Expira
+perm: Perm
+expired_at: Expirou em
+add_ban: Adicionar expulsão
+trash: Lixo
+icon: Ícone
+pin: Fixar
+unpin: Desafixar
+change_magazine: Alterar magazine
+change_language: Alterar idioma
+change: Alterar
+pinned: Fixado
+preview: Previsualizar
+article: Artigo
+reputation: Reputação
+note: Nota
+users: Utilizadores
+content: Conteúdo
+week: Semana
+weeks: Semanas
+month: Mês
+months: Meses
+year: Ano
+federated: Federado
+local: Local
+dashboard: Painel
+contact_email: Email de contato
+meta: Meta
+instance: Instância
+pages: Páginas
+FAQ: FAQ
+type_search_term: Introduza termo de pesquisa
+federation_enabled: Federação ativada
+registrations_enabled: Registos ativados
+registration_disabled: Registos desativados
+restore: Restaurar
+type.smart_contract: Contrato inteligente
+active: Ativo
+agree_terms: Consentimento dos %terms_link_start%Termos e Condições%terms_link_end%
+  e %policy_link_start%Política de Privacidade%policy_link_end%
+check_email: Verifique o seu email
+comments_count: '{0}comentários|{1}comentário|]1,Inf[ comentários'
+reset_check_email_desc: Se uma conta com o seu email existir, então um email será
+  enviado com um link para redefinir a sua password. Este link irá expirar em %expire%.
+replies: Respostas
+markdown_howto: Como funciona o editor?
+email_confirm_expire: O link irá expirar numa hora.
+federated_magazine_info: A magazine do servidor federado pode estar incompleta.
+remember_me: Lembrar-me
+username: Username
+table_view: Vista de tabela
+gold_entry_month: Tópico do mês
+edited_post: Editada uma postagem
+12h: 12h
+gold_ranking_desc: 1º lugar no ranking
+deleted: Apagado pelo autor
+1y: 1a
+mod_log_alert: No Modlog pode encontrar conteúdo removido drasticamente por moderadores.
+  Por favor saiba o que está a fazer.
+sticky_navbar: Barra de navegação fixa
+copy_url: Copiar url
+off: Desligado
+edit_photo: Editar foto
+rejected: Rejeitado
+appearance: Aparência
+done: Feito
+show_profile_subscriptions: Mostrar subscrições de magazines
+writing: Escrita
+notify_on_new_entry_comment_reply: Notificar-me de respostas ao meus comentários em
+  tópicos
+admin_panel: Painel de administração
+notify_on_new_posts: Notificar-me de novas postagens numa magazine subscrita
+theme: Tema
+show_users_avatars: Mostrar os avatars dos utilizadores
+restored_thread_by: restaurou tópico por
+ranking_disabled: Ranking está desativado

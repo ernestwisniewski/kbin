@@ -1,5 +1,5 @@
 <form method="post"
-      action="{{ path(path, {id: subject.id}) }}">
+      action="{{ path(formDest~'_favourite', {id: subject.id}) }}">
     <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
     <button class="{{ html_classes('stretched-link', {'active': app.user and subject.isFavored(app.user) }) }}"
             type="submit"

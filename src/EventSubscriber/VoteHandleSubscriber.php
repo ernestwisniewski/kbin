@@ -11,6 +11,7 @@ use App\Event\VoteEvent;
 use App\Message\ActivityPub\Outbox\AnnounceMessage;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\CacheService;
+use App\Service\FavouriteManager;
 use Doctrine\Common\Util\ClassUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,7 +23,8 @@ class VoteHandleSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly MessageBusInterface $bus,
         private readonly CacheService $cacheService,
-        private readonly CacheInterface $cache
+        private readonly CacheInterface $cache,
+        private readonly FavouriteManager $favouriteManager,
     ) {
     }
 
@@ -36,6 +38,10 @@ class VoteHandleSubscriber implements EventSubscriberInterface
 
     public function onVote(VoteEvent $event): void
     {
+        if (VotableInterface::VOTE_DOWN === $event->vote->choice) {
+            $this->favouriteManager->toggle($event->vote->user, $event->votable, FavouriteManager::TYPE_UNLIKE);
+        }
+
         $this->clearCache($event->votable);
 
         $this->bus->dispatch(
@@ -45,7 +51,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
             )
         );
 
-        if (!$event->vote->user->apId && 1 === $event->vote->choice && !$event->votedAgain) {
+        if (!$event->vote->user->apId && VotableInterface::VOTE_UP === $event->vote->choice && !$event->votedAgain) {
             $this->bus->dispatch(
                 new AnnounceMessage(
                     $event->vote->user->getId(),

@@ -1,0 +1,13 @@
+{%- set VOTE_UP = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_UP') -%}
+{%- set user_choice = is_granted('ROLE_USER') ? subject.userChoice(app.user) : null -%}
+<form method="post"
+      action="{{ path(formDest~'_boost', {id: subject.id}) }}">
+    <input type="hidden" name="token" value="{{ csrf_token('boost') }}">
+    <button class="{{ html_classes('stretched-link', {'active': app.user and user_choice is same as(VOTE_UP) }) }}"
+            type="submit"
+            data-action="subject#favourite">
+        {{ 'up_vote'|trans|lower }} <span class="{{ html_classes({'hidden': not subject.countUpvotes}) }}">
+            (<span data-subject-target="favCounter">{{ subject.countUpvotes }}</span>)
+        </span>
+    </button>
+</form>

@@ -69,6 +69,7 @@ federation.
 * English
 * Polish
 * Dutch ([Vistaus](https://github.com/Vistaus))
+* Japanese ([@dannekrose@brioco.social](https://brioco.social/@dannekrose))
 
 ## Credits
 

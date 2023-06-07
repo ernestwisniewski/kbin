@@ -81,9 +81,8 @@
                             </li>
                         {% endif %}
                         <li>
-                            {{ component('favourite', {
-                                subject: post,
-                                path: 'post_favourite'
+                            {{ component('boost', {
+                                subject: post
                             }) }}
                         </li>
                         <li class="dropdown">

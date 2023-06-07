@@ -15,17 +15,16 @@ final class VoteComponent
 {
     public VotableInterface $subject;
     public string $formDest;
-
     public bool $showDownvote = true;
 
     #[PostMount]
     public function postMount(array $attr): array
     {
         $this->formDest = match (true) {
-            $this->subject instanceof Entry => 'entry_vote',
-            $this->subject instanceof EntryComment => 'entry_comment_vote',
-            $this->subject instanceof Post => 'post_vote',
-            $this->subject instanceof PostComment => 'post_comment_vote',
+            $this->subject instanceof Entry => 'entry',
+            $this->subject instanceof EntryComment => 'entry_comment',
+            $this->subject instanceof Post => 'post',
+            $this->subject instanceof PostComment => 'post_comment',
             default => throw new \LogicException(),
         };
 

@@ -118,6 +118,12 @@ entry_comment_favourite:
   path: /ecf/{id}
   methods: [ POST ]
 
+entry_comment_boost:
+  controller: App\Controller\BoostController
+  defaults: { entityClass: App\Entity\EntryComment }
+  path: /ecb/{id}
+  methods: [ POST ]
+
 entry_create:
   controller: App\Controller\Entry\EntryCreateController
   defaults: { type: link }
@@ -238,6 +244,12 @@ entry_favourite:
   controller: App\Controller\FavouriteController
   defaults: { entityClass: App\Entity\Entry }
   path: /ef/{id}
+  methods: [ POST ]
+
+entry_boost:
+  controller: App\Controller\BoostController
+  defaults: { entityClass: App\Entity\Entry }
+  path: /eb/{id}
   methods: [ POST ]
 
 entry_cti:

@@ -7,7 +7,7 @@ type.magazine: 雑誌
 thread: スレッド
 threads: スレッド
 microblog: ミニブログ
-people: ユーザ
+people: ユーザー
 events: イベント
 magazine: 雑誌
 magazines: 雑誌
@@ -16,11 +16,11 @@ add: 追加
 select_channel: チャンネルを選択する
 login: ログイン
 top: トップ
-hot: 熱中
-active: 活発な
-newest: 新更新
-oldest: 古い更新順
-commented: コメントありの順
+hot: ホット
+active: 活発順
+newest: 最新
+oldest: 最古
+commented: コメント順
 change_view: 表示変更
 filter_by_time: 時間でフィルター
 filter_by_type: 投稿の種類でフィルター
@@ -48,7 +48,7 @@ add_media: メディアを添付する
 markdown_howto: エディターの使え方は？
 enter_your_post: 投稿を入力してください
 activity: アクティビティ
-cover: カバー映像
+cover: プロフィールのバナー
 related_posts: 関連投稿
 random_posts: ランダムの投稿
 federated_user_info: 連合のサーバーのプロフィールの全データが受信されていない可能性があります。
@@ -65,7 +65,7 @@ you_cant_login: ログインできない？
 already_have_account: すでにアカウントを持っていますか？
 register: 新規登録する
 show_more: もっと表示する
-to: 当て
+to: 雑誌
 in: 中に
 username: ユーザー名
 email: メールアドレス
@@ -158,7 +158,7 @@ delete: 削除する
 edit_post: 投稿を編集する
 settings: 設定
 profile: プロフィール
-blocked: ブロックされた
+blocked: ブロック
 reports: 通報
 notifications: 通知
 messages: メッセージ
@@ -174,7 +174,7 @@ create_new_magazine: 新しい雑誌を作成する
 federated_magazine_info: 連合のサーバーの雑誌から受信されていない投稿の可能性があります。
 add_new_photo: 画像をアップする
 image_alt: 画像の代替テキスト
-moderated: モデレーターである雑誌数
+moderated: モデレーターである雑誌
 check_email: メールをチェックしてください
 unfollow: アンフォローする
 reset_check_email_desc: あなたのメールアドレスで登録されたアカウントがありましたら、そのメールアドレスにパスワードのリセットのリンクを送信しました。そのリンクの有効期限は
@@ -191,8 +191,8 @@ general: 一般
 hide_adult: R-18・NSFWを非表示する
 featured_magazines: おすすめ雑誌
 privacy: プライバシー
-show_profile_subscriptions: 雑誌の購読を見る
-show_profile_followings: フォローしているユーザーを見る
+show_profile_subscriptions: 雑誌の購読を表示する
+show_profile_followings: フォローしているユーザーを表示する
 notify_on_new_post_reply: 自分の投稿のリプライを通知する
 notify_on_new_entry_reply: 自分のスレッドのコメントを通知する
 notify_on_new_entry_comment_reply: 自分のスレッドのコメントのリプライを通知する
@@ -255,7 +255,7 @@ restored_thread_by: はこのアカウントが作成したスレッドを復旧
 removed_post_by: はこのアカウントが作成した投稿を削除しました：
 flash_thread_unpin_success: スレッドの固定を外しました。
 flash_magazine_new_success: 雑誌の作成ができました。新しいコンテンツを追加でき、また雑誌管理パネルを見られます。
-bronze_personality: ブロンズ帯人気者
+bronze_personality: ブロンズ人気者
 bronze_personality_desc: ２０人のフォロワー達成
 bronze_commentator: ブロンズ帯コメント者
 bronze_scout: ブロンズ帯斥候
@@ -415,10 +415,10 @@ writing: 著作
 users: ユーザー
 content: コンテンツ
 weeks: 週間
-week: 週間
-month: 月間
+week: １週間
+month: 1ヶ月間
 months: 月間
-year: 年間
+year: 1年間
 local: ローカル
 admin_panel: 管理パネル
 dashboard: ダッシュボード
@@ -449,7 +449,7 @@ sidebar: サイドバー
 auto_preview: メディアを自動表示
 dynamic_lists: ダイナミックリスト
 banned_instances: バンされたインスタンス
-kbin_intro_title: フェディバースをブラウズする
+kbin_intro_title: フェディバースに参加しましょう
 kbin_promo_title: 自分のインスタンスを立つ
 kbin_promo_desc: '%link_start% リポジトリをクローンして %link_end% フェディバースを広げましょう'
 captcha_enabled: Captchaは有効
@@ -461,5 +461,5 @@ add_mentions_entries: タグを自動的に追加する
 Your account has been banned: あなたのアカウントはバンされました。
 unban_account: アカウントのバンを解除する
 magazine_panel_tags_info: この雑誌に連合しているサーバーから受信したコンテンツを自動的に追加したい場合、関連のタグを入力してください
-kbin_intro_desc: フェディバースに連合している分散型のコンテンツ収取とミニブログができるソフトです。
+kbin_intro_desc: はフェディバースに連合している分散型のコンテンツ収取とミニブログができるソフトです。
 browsing_one_thread: この議論に一つだけのスレッドを見ています！投稿ページですべてのコメントを見られます。

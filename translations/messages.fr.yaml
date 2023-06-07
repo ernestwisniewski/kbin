@@ -179,7 +179,7 @@ are_you_sure: Êtes-vous sûr(e) ?
 reset_check_email_desc2: Si vous ne recevez pas d'email, veuillez vérifier votre dossier
   spam.
 messages: Messages directs
-in: en
+in: dans
 email_confirm_header: Salut ! Confirmez votre addresse email.
 image: Image
 edit: Modifier
@@ -187,3 +187,250 @@ go_to_search: Vers la recherche
 privacy_policy: Politique de confidentialité
 subscriptions: Abonnements
 edit_article: Modifier l'article
+type.smart_contract: Contrat intelligent
+hot: Dernière minute
+agree_terms: Consentir aux %terms_link_start%conditions d'utilisation%terms_link_end%
+  et à la %policy_link_start%politique de confidentialité%policy_link_end%
+reset_check_email_desc: Si un compte correspondant à votre adresse email existe, un
+  email vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser
+  votre mot de passe. Ce lien expirera dans %expire%.
+joined: Inscrit(e)
+show_profile_subscriptions: Voir les abonnements aux magazines
+show_profile_followings: Voir les utilisateurs suivants
+notify_on_new_entry_reply: Avertissez-moi des commentaires dans mes fils
+notify_on_new_entry_comment_reply: Avertissez-moi des réponses à mes commentaires
+  dans les fils
+notify_on_new_post_reply: Avertissez-moi des réponses à mes messages
+notify_on_new_post_comment_reply: Avertissez-moi des réponses à mes commentaires dans
+  les messages
+notify_on_new_entry: Avertissez-moi des nouveaux fils dans les magazines abonnés
+notify_on_new_posts: Avertissez-moi des nouveaux messages dans les magazines abonnés
+save: Enregistrer
+about: À propos
+old_email: Ancien email
+new_email: Nouvel email
+new_email_repeat: Confirmer le nouvel email
+current_password: Mot de passe actuel
+new_password: Nouveau mot de passe
+new_password_repeat: Confirmer le nouveau mot de passe
+change_email: Changer l'email
+change_password: Changer le mot de passe
+expand: Élargir
+collapse: Plier
+domains: Domaines
+error: Erreur
+votes: Votes
+theme: Thème
+dark: Sombre
+light: Clair
+font_size: Taille de police
+size: Taille
+he_unbanned: débloquer
+boosts: Partages
+yes: Oui
+no: Non
+show_thumbnails: Afficher les vignettes
+show_users_avatars: Afficher les avatars des utilisateurs
+ban_expired: L'interdiction a expiré
+ban: Bannir
+firstname: Prénom
+bans: Interdictions
+add_ban: Ajouter une interdiction
+return: Retour
+header_logo: Logo d'entête
+captcha_enabled: Captcha activé
+kbin_promo_title: Créer votre propre instance
+kbin_intro_title: Explorer le Fédivers
+dynamic_lists: Listes dynamiques
+auto_preview: Aperçu automatique des médias
+sidebar: Barre latérale
+random_magazines: Magazines aléatoires
+related_magazines: Magazines reliés
+delete_account_request_send: Votre demande de supprimer le compte a été soumise.
+unban_account: Débloquer le compte
+delete_account: Supprimer le compte
+related_entries: Fils reliés
+random_entries: Fils aléatoires
+active_users: Personnes actives
+banned_instances: Instances bannis
+ban_account: Bannir le compte
+send: Envoyer
+he_banned: banni
+Your account has been banned: Votre compte a été banni.
+banned: Vous a banni
+show_magazines_icons: Afficher les icônes des magazines
+solarized_light: Clair solarisé
+solarized_dark: Sombre solarisé
+rounded_edges: Bords arrondis
+removed_thread_by: a enlevé un fil par
+restored_thread_by: a rétabli un fil par
+removed_comment_by: a enlevé un commentaire par
+restored_comment_by: a rétabli un commentaire par
+removed_post_by: a enlevé un message par
+restored_post_by: a rétabli un message par
+read_all: Lire tou(te)s
+show_all: Afficher tout
+ranking_disabled: Le classement est inactif
+flash_register_success: Votre compte a été enregistré. Vérifiez votre email, nous
+  avons envoyé un message avec un lien d'activation.
+flash_thread_new_success: Le fil a été créé correctement et est maintenant visible
+  aux autres usagers.
+flash_thread_edit_success: Le fil a été modifié correctement.
+flash_thread_delete_success: Le fil a été supprimé correctement.
+flash_thread_pin_success: Le fil a été fixé correctement.
+flash_thread_unpin_success: Le fil a été défixé correctement.
+flash_magazine_edit_success: Le magazine a été modifié correctement.
+too_many_requests: Limite dépassée, veuillez réessayer plus tard.
+set_magazines_bar: Barre des magazines
+gold: Or
+silver: Argent
+bronze: Bronze
+bronze_autobiographer: Autobiographe
+bronze_personality: Personnalité bronze
+bronze_personality_desc: 20 suiveurs
+bronze_autobiographer_desc: Pour avoir complété tous les champs du profil
+bronze_commentator: Commentateur/trice bronze
+bronze_commentator_desc: 10 bons commentaires
+bronze_scout: Scout(e) bronze
+bronze_scout_desc: 10 bons liens
+bronze_redactor_desc: 10 bons articles
+set_magazines_bar_desc: ajoutez les noms de magazines après la virgule
+bronze_poster_desc: 10 bons messages
+bronze_link: Bon lien
+bronze_link_desc: Le message a été partagé 5 fois
+bronze_article: Article bronze
+bronze_photo: Bonne photo
+bronze_photo_desc: La photo a été partagée 5 fois
+bronze_comment: Bon commentaire
+bronze_comment_desc: Le commentaire a été partagé 5 fois
+bronze_post: Bon message
+bronze_post_desc: Le message a été partagé 5 fois
+bronze_ranking: Numéro 3
+bronze_ranking_desc: Troisième rang du classement
+bronze_popular_entry: Fil populaire
+silver_personality: Personnalité argent
+silver_personality_desc: 50 suiveurs
+silver_commentator: Commentateur/trice argent
+silver_scout: Scout(e) argent
+silver_scout_desc: 10 très bons liens
+silver_redactor_desc: 10 très bons articles
+silver_poster: Messager argent
+silver_poster_desc: 10 très bons messages
+silver_link: Très bon lien
+silver_article: Article argent
+silver_article_desc: L'article a été partagé 10 fois
+silver_photo: Très bonne photo
+silver_photo_desc: La photo a été partagée 10 fois
+silver_comment: Très bon commentaire
+silver_post: Très bon message
+silver_post_desc: Le message a été partagé 10 fois
+silver_ranking: Numéro 2
+silver_ranking_desc: Deuxième rang du classement
+silver_popular_entry: Fil populaire
+silver_popular_entry_desc: Fil visité 5000 fois
+silver_magazine: Magazine populaire
+silver_entry_week: Fil de la semaine
+silver_comment_week: Commentaire de la semaine
+silver_comment_week_desc: Meilleur commentaire de la semaine
+silver_post_week: Message de la semaine
+silver_post_week_desc: Meilleur message de la semaine
+gold_personality: Personnalité or
+gold_personality_desc: 100 suiveurs
+gold_commentator_desc: 10 commentaires excellents
+gold_scout: Scout(e) or
+gold_scout_desc: 10 liens excellents
+silver_redactor: Rédacteur/trice argent
+gold_redactor: Rédacteur/trice or
+gold_redactor_desc: 10 articles excellents
+gold_poster: Messager or
+gold_link: Lien excellent
+gold_link_desc: Le message a été partagé 15 fois
+gold_article: Article or
+gold_article_desc: L'article a été partagé 15 fois
+gold_photo: Photo excellente
+gold_comment: Commentaire excellent
+gold_comment_desc: Le commentaire a été partagé 15 fois
+bronze_magazine_desc: 20 suiveurs ont créé un magazine
+silver_magazine_desc: 50 suiveurs ont créé un magazine
+gold_post: Message excellent
+gold_ranking: Numéro 1
+gold_ranking_desc: Premier rang du classement
+gold_popular_entry: Fil populaire
+gold_popular_entry_desc: Fil visité 10000 fois
+gold_magazine: Magazine populaire
+gold_entry_month_desc: Meilleur fil du mois
+gold_comment_month: Commentaire du mois
+gold_comment_month_desc: Meilleur commentaire du mois
+gold_post_month: Message du mois
+gold_post_month_desc: Meilleur message du mois
+gold_magazine_desc: 100 suiveurs ont créé un magazine
+edited_thread: Fil modifié
+added_new_thread: a ajouté un nouveau fil
+added_new_comment: A ajouté un nouveau commentaire
+edited_comment: A modifié un commentaire
+replied_to_your_comment: A répondu à un commentaire
+mod_deleted_your_comment: Un(e) modérateur/trice a supprimé votre commentaire
+mod_remove_your_thread: Un(e) modérateur/trice a retiré votre fil
+added_new_post: A ajouté un nouveau message
+edited_post: A modifié un message
+mod_remove_your_post: Un(e) modérateur/trice a retiré votre message
+added_new_reply: A ajouté une nouvelle réponse
+removed: Retiré par un(e) modérateur/trice
+deleted: Supprimé par l'auteur
+mentioned_you: vous a mentionné
+comment: Commentaire
+post: Message
+purge: Purge
+message: Message direct
+infinite_scroll: Défilement infini
+show_top_bar: Afficher la barre supérieure
+sticky_navbar: Barre de navigation collante
+subject_reported: Le contenu a été signalé.
+left: Gauche
+right: Droite
+federation: Fédération
+status: Statut
+on: Actif
+off: Inactif
+instances: Instances
+upload_file: Téléverser un fichier
+from_url: Depuis l'URL
+magazine_panel: Panneau de magazine
+reject: Refuser
+approve: Approuver
+filters: Filtres
+approved: Approuvé
+rejected: Rejeté
+add_moderator: Ajouter un(e) modérateur/trice
+add_badge: Ajouter un badge
+created: Créé
+expires: Expire
+perm: Perm
+expired_at: Expiré le
+trash: Corbeille
+icon: Icône
+done: Terminé
+pin: Épingle
+bronze_redactor: Rédacteur/trice bronze
+bronze_poster: Messager bronze
+flash_magazine_new_success: Le magazine a été créé correctement. Vous pouvez désormais
+  ajouter du nouveau contenu ou explorer le panneau d'administration du magazine.
+bronze_article_desc: L'article a été partagé 5 fois
+bronze_popular_entry_desc: Fil visité 1000 fois
+bronze_magazine: Magazine fameux
+silver_commentator_desc: 10 très bons commentaires
+silver_link_desc: Le lien a été partagé 10 fois
+silver_comment_desc: Le commentaire a été partagé 10 fois
+silver_entry_week_desc: Meilleur fil de la semaine
+gold_commentator: Commentateur/trice or
+gold_poster_desc: 10 messages excellents
+gold_photo_desc: La photo a été partagée 15 fois
+gold_entry_month: Fil du mois
+set_magazines_bar_empty_desc: si le champ est vide, les magazines actifs seront affichés
+  sur la barre.
+wrote_message: A écrit un message
+send_message: Envoyer un message
+gold_post_desc: Le message a été partagé 15 fois
+sidebar_position: Position de la barre latérale
+mod_log_alert: Dans le journal de modération vous pourriez trouver du contenu choquant
+  enlevé par les modérateurs. Assurez-vous de savoir ce que vous faites.

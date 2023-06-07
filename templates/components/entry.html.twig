@@ -103,7 +103,6 @@
             {% if entry.visibility in ['visible', 'private'] %}
                 {{ component('vote', {
                     subject: entry,
-                    formDest: 'entry_vote'
                 }) }}
             {% endif %}
             <footer>
@@ -137,9 +136,8 @@
                             </a>
                         </li>
                         <li>
-                            {{ component('favourite', {
-                                subject: entry,
-                                path: 'entry_favourite'
+                            {{ component('boost', {
+                                subject: entry
                             }) }}
                         </li>
                         <li class="dropdown">

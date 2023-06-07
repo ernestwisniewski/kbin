@@ -11,6 +11,8 @@ use App\Event\FavouriteEvent;
 use App\Message\ActivityPub\Outbox\LikeMessage;
 use App\Message\Notification\FavouriteNotificationMessage;
 use App\Service\CacheService;
+use App\Service\FavouriteManager;
+use App\Service\VoteManager;
 use Doctrine\Common\Util\ClassUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,7 +24,8 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly MessageBusInterface $bus,
         private readonly CacheInterface $cache,
-        private readonly CacheService $cacheService
+        private readonly CacheService $cacheService,
+        private readonly VoteManager $voteManager
     ) {
     }
 
@@ -37,6 +40,10 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
     public function onFavourite(FavouriteEvent $event): void
     {
         $subject = $event->subject;
+
+        if (FavouriteManager::TYPE_UNLIKE && $subject->isFavored($event->user)) {
+            $this->voteManager->removeVote($subject, $event->user);
+        }
 
         $this->bus->dispatch(
             new FavouriteNotificationMessage(

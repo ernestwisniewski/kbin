@@ -82,6 +82,12 @@ post_comment_favourite:
   path: /pcf/{id}
   methods: [ POST ]
 
+post_comment_boost:
+  controller: App\Controller\BoostController
+  defaults: { entityClass: App\Entity\PostComment }
+  path: /pcb/{id}
+  methods: [ POST ]
+
 posts_front:
   controller: App\Controller\Post\PostFrontController::front
   defaults: { sortBy: hot, time: ~ }
@@ -210,4 +216,10 @@ post_favourite:
   controller: App\Controller\FavouriteController
   defaults: { entityClass: App\Entity\Post }
   path: /pf/{id}
+  methods: [ POST ]
+
+post_boost:
+  controller: App\Controller\BoostController
+  defaults: { entityClass: App\Entity\Post }
+  path: /pb/{id}
   methods: [ POST ]

@@ -1,1 +1,37 @@
-{}
+type.link: Enlace
+type.article: Artículo
+type.photo: Fotografía
+type.video: Vídeo
+type.smart_contract: Contrato inteligente
+type.magazine: Magazin
+thread: Hilo
+threads: Hilos
+microblog: Microblog
+people: Gente
+events: Eventos
+magazine: Magazin
+magazines: Magazines
+search: Búsqueda
+add: Agregar
+select_channel: Elegir un canal
+login: Entrar
+top: Mejores
+hot: Popular
+active: Activo
+newest: Más recientes
+oldest: Más antiguos
+commented: Comentado
+change_view: Cambiar vista
+filter_by_time: Ordenar por tiempo
+filter_by_type: Ordenar por tipo
+comments_count: '{0}comentarios|{1}comentario|]1,Inf[ comentarios'
+favourites: Favoritos
+favourite: Favorito
+more: Otros
+avatar: Avatar
+added: Agregado
+general: General
+views: Visualizaciones
+created_at: Creado
+owner: Propietaria/o
+subscribers: Suscriptores/as

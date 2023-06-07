@@ -70,9 +70,8 @@
                                data-action="subject#getForm">{{ 'reply'|trans|lower }}</a>
                         </li>
                         <li>
-                            {{ component('favourite', {
-                                subject: comment,
-                                path: 'post_comment_favourite'
+                            {{ component('boost', {
+                                subject: comment
                             }) }}
                         </li>
                         <li class="dropdown">
