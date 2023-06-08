@@ -35,3 +35,83 @@ views: Visualizaciones
 created_at: Creado
 owner: Propietaria/o
 subscribers: Suscriptores/as
+down_votes: Voto negativo
+no_comments: Sin comentarios
+online: Online
+comments: Comentarios
+posts: Publicaciones
+replies: Respuestas
+moderators: Moderadores/as
+mod_log: Registro de moderación
+add_comment: Insertar un comentario
+add_post: Añadir una publicación
+add_media: Agregar contenido multimedia
+markdown_howto: Cómo se utiliza el editor?
+enter_your_comment: Introduce tu comentario
+enter_your_post: Intruduce tu publicación
+activity: Actividad
+cover: Portada
+related_posts: Entradas relacionadas
+random_posts: Publicaciones al azar
+federated_magazine_info: El magazin del servidor federado puede estar incompleto.
+federated_user_info: El perfil en el servidor federado puede estar incompleto.
+go_to_original_instance: Explorar más contenido en la instancia original.
+empty: Vacío
+subscribe: Subscribirse
+unsubscribe: Cancelar subscripción
+follow: Seguir
+unfollow: Dejar de seguir
+reply: Responder
+login_or_email: Login o correo electrónico
+password: Contraseña
+remember_me: Recordar mi sesión
+dont_have_account: No tienes una cuenta?
+you_cant_login: No puedes acceder?
+register: Registrarse
+reset_password: Reinicializar la contraseña
+show_more: Mostrar más
+to: a
+in: en
+username: Nombre del usuario
+email: Email
+repeat_password: Repetir la contraseña
+terms: Condiciones de uso
+privacy_policy: Política de privacidad
+about_instance: A propósito
+all_magazines: Todos los magazines
+stats: Estadísticas
+fediverse: Fediverso
+awards: Premios
+ranking: Ránking
+create_new_magazine: Crear un nuevo magazin
+add_new_article: Agregar un nuevo artículo
+add_new_link: Añadir un nuevo enlace
+add_new_photo: Añadir una nueva fotografía
+add_new_post: Añadir nueva publicación
+add_new_video: Añadir nuevo vídeo
+contact: Contacto
+faq: Preguntas frecuentes
+rss: RSS
+change_theme: Cambiar tema
+useful: Util
+help: Ayuda
+check_email: Verifica tu e-mail
+reset_check_email_desc: Si existe una cuenta que coincida con su correo electrónico,
+  se acaba de enviar un correo electrónico que contiene un enlace que puede usar para
+  restablecer su contraseña. Este enlace expirará en %expire%.
+reset_check_email_desc2: Si no has recibido un e-mail, por favor verifica tu carpeta
+  de spam.
+try_again: Intenta de nuevo
+email_confirm_header: Hola! Confirma du dirección e-mail.
+email_confirm_content: 'Si deseas activar tu cuenta, haz clic en el enlace que se
+  encuentra a continuación:'
+email_verify: Confirma la dirección e-mail
+email_confirm_expire: El enlace expira en una hora.
+select_magazine: Selecciona un magazin
+add_new: Agrega nuevo
+url: URL
+title: Título
+already_have_account: Tienes una cuenta?
+agree_terms: Consentimiento para %terms_link_start%Terms and Conditions%terms_link_end%
+  and %policy_link_start%Privacy Policy%policy_link_end%
+email_confirm_title: Confirma tu dirección e-mail.

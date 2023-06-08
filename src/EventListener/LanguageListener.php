@@ -16,6 +16,12 @@ class LanguageListener
     {
         $request = $event->getRequest();
 
+        if ($request->cookies->has('kbin_lang')) {
+            $request->setLocale($request->cookies->get('kbin_lang'));
+
+            return;
+        }
+
         if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $request->setLocale($this->lang);
 

@@ -1,1 +1,154 @@
-{"name":"","short_name":"","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{
+    "id": "/",
+    "scope": "/",
+    "start_url": "/",
+    "name": "/kbin",
+    "short_name": "/kbin",
+    "description": "/kbin Progressive Web App",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color":"#1E1F22",
+    "theme_color":"#1E1F22",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "display_override": [
+        "window-controls-overlay"
+    ],
+    "icons":[
+        {
+            "purpose":"any",
+            "src":"assets/icons/icon-48x48.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"48x48",
+            "type":"image/png"},
+        {
+            "purpose":"maskable",
+            "src":"assets/icons/icon-48x48.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"48x48",
+            "type":"image/png"},
+        {
+            "purpose":"any",
+            "src":"assets/icons/icon-72x72.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"72x72",
+            "type":"image/png"},
+        {
+            "purpose":"maskable",
+            "src":"assets/icons/icon-72x72.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"72x72",
+            "type":"image/png"},
+        {
+            "purpose":"any",
+            "src":"assets/icons/icon-96x96.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"96x96",
+            "type":"image/png"},
+        {
+            "purpose":"maskable",
+            "src":"assets/icons/icon-96x96.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"96x96",
+            "type":"image/png"},
+        {
+            "purpose":"any",
+            "src":"assets/icons/icon-144x144.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"144x144",
+            "type":"image/png"},
+        {
+            "purpose":"maskable",
+            "src":"assets/icons/icon-144x144.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"144x144",
+            "type":"image/png"},
+        {
+            "purpose":"any",
+            "src":"assets/icons/icon-192x192.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"192x192",
+            "type":"image/png"},
+        {
+            "purpose":"maskable",
+            "src":"assets/icons/icon-192x192.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"192x192",
+            "type":"image/png"},
+        {
+            "purpose":"any",
+            "src":"assets/icons/icon-256x256.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"256x256",
+            "type":"image/png"},
+        {
+            "purpose":"maskable",
+            "src":"assets/icons/icon-256x256.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"256x256",
+            "type":"image/png"},
+        {
+            "purpose":"any",
+            "src":"assets/icons/icon-384x384.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"384x384",
+            "type":"image/png"},
+        {
+            "purpose":"maskable",
+            "src":"assets/icons/icon-384x384.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"384x384",
+            "type":"image/png"},
+        {
+            "purpose":"any",
+            "src":"assets/icons/icon-512x512.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"512x512",
+            "type":"image/png"},
+        {
+            "purpose":"maskable",
+            "src":"assets/icons/icon-512x512.png?v=a1b1aa69784e84b93da65e9757bc4658",
+            "sizes":"512x512",
+            "type":"image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "assets/screenshots/screen.png",
+            "sizes": "1600x869",
+            "type": "image/png"
+        }
+    ],
+    "features": [
+        "fediverse",
+        "ActivityPub",
+        "simple"
+    ],
+    "categories": [
+        "social",
+        "microblogging"
+    ],
+    "shortcuts":[
+        {
+            "name":"Open Microblog",
+            "short_name":"Microblog",
+            "description":"Open the Microblog section",
+            "url":"/microblog",
+            "icons":[
+                {
+                    "src":"assets/icons/kbin-shortcut-microblog.png",
+                    "sizes":"96x96"
+                }
+            ]
+        },
+        {
+            "name":"Open Magazines",
+            "short_name":"Magazines",
+            "description":"Open the Magazines list",
+            "url":"/magazines",
+            "icons":[
+                {
+                    "src":"assets/icons/kbin-shortcut-magazines.png",
+                    "sizes":"96x96"
+                }
+            ]
+        },
+        {
+            "name":"Open People",
+            "short_name":"People",
+            "description":"Open the People list",
+            "url":"/people",
+            "icons":[
+                {
+                    "src":"assets/icons/kbin-shortcut-people.png",
+                    "sizes":"96x96"
+                }
+            ]
+        }
+    ]
+}

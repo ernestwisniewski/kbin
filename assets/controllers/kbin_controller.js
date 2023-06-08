@@ -131,4 +131,8 @@ export default class extends ApplicationController {
     closeNav(e) {
         document.getElementById('sidebar').classList.remove('open');
     }
+
+    changeLang(event) {
+        window.location.href = '/settings/theme/kbin_lang/' + event.target.value;
+    }
 }

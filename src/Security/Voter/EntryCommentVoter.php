@@ -77,9 +77,9 @@ class EntryCommentVoter extends Voter
 
     private function canVote(EntryComment $comment, User $user): bool
     {
-        if ($comment->user === $user) {
-            return false;
-        }
+//        if ($comment->user === $user) {
+//            return false;
+//        }
 
         if ($comment->entry->magazine->isBanned($user)) {
             return false;

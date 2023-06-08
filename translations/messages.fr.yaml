@@ -434,3 +434,34 @@ gold_post_desc: Le message a été partagé 15 fois
 sidebar_position: Position de la barre latérale
 mod_log_alert: Dans le journal de modération vous pourriez trouver du contenu choquant
   enlevé par les modérateurs. Assurez-vous de savoir ce que vous faites.
+unpin: Détacher
+change_magazine: Changer de magazine
+change_language: Changer de langue
+change: Changer
+pinned: Épinglé
+preview: Aperçu
+article: Article
+reputation: Réputation
+note: Note
+writing: Écriture
+users: Utilisateurs/trices
+content: Contenu
+week: Semaine
+weeks: Semaines
+month: Mois
+months: Mois
+year: Année
+federated: Fédéré
+local: Local
+admin_panel: Panneau admin
+dashboard: À la une
+contact_email: Email de contact
+meta: Méta
+instance: Instance
+pages: Pages
+FAQ: FAQ
+type_search_term: Tapez le terme de recherche
+federation_enabled: Fédération active
+registrations_enabled: Enregistrements ouverts
+registration_disabled: Enregistrements fermés
+restore: Restaurer

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ThemeSettingsController extends AbstractController
 {
+    public const KBIN_LANG = 'kbin_lang';
     public const ENTRIES_VIEW = 'entries_view';
     public const ENTRY_COMMENTS_VIEW = 'entry_comments_view';
     public const POST_COMMENTS_VIEW = 'post_comments_view';
@@ -63,6 +64,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_POSTS_SHOW_PREVIEW,
         self::KBIN_GENERAL_DYNAMIC_LISTS,
         self::KBIN_FEDERATION_ENABLED,
+        self::KBIN_LANG,
     ];
 
     public const VALUES = [
@@ -95,6 +97,10 @@ class ThemeSettingsController extends AbstractController
 //        if (self::KBIN_THEME === $key && self::KBIN === $value) {
 //            $response->headers->setCookie(new Cookie(self::KBIN_GENERAL_ROUNDED_EDGES, 'true', strtotime('+1 year')));
 //        }
+
+        if (self::KBIN_LANG === $key) {
+            $response->headers->setCookie(new Cookie(self::KBIN_LANG, $value, strtotime('+1 year')));
+        }
 
         return new \Symfony\Component\HttpFoundation\RedirectResponse(
             ($request->headers->get('referer') ?? '/').'#settings',

@@ -73,9 +73,9 @@ class PostCommentVoter extends Voter
 
     private function canVote(PostComment $comment, User $user): bool
     {
-        if ($comment->user === $user) {
-            return false;
-        }
+//        if ($comment->user === $user) {
+//            return false;
+//        }
 
         if ($comment->post->magazine->isBanned($user)) {
             return false;

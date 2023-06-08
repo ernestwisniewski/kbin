@@ -55,6 +55,17 @@
 
     h5 {
       font-size: 1rem;
+      margin-top: 4rem;
+    }
+  }
+
+  .lang-switch {
+    margin-top: 1rem;
+
+    select {
+      background: var(--kbin-footer-bg);
+      color: var(--kbin-footer-text-color) !important;
     }
   }
 }
+

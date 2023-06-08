@@ -309,3 +309,34 @@ theme: Tema
 show_users_avatars: Mostrar os avatars dos utilizadores
 restored_thread_by: restaurou tópico por
 ranking_disabled: Ranking está desativado
+add_new: Adicionar novo
+url: URL
+title: Título
+body: Corpo
+tags: Etiquetas
+badges: Distintivos
+is_adult: +18 / NSFW
+eng: ENG
+oc: OC
+image: Imagem
+image_alt: Texto alternativo da imagem
+name: Nome
+description: Descrição
+rules: Regras
+domain: Domínio
+followers: Seguidores
+following: A seguir
+subscriptions: Subscrições
+overview: Visão geral
+cards: Cartões
+columns: Colunas
+user: Utilizador
+joined: Aderiu
+moderated: Moderado
+ratio: Rácio
+people_local: Local
+people_federated: Federado
+reputation_points: Pontos de reputação
+related_tags: Etiquetas relacionadas
+go_to_content: Ir para o conteúdo
+go_to_filters: Ir para os filtros
