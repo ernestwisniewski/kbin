@@ -6,7 +6,7 @@ import it from 'timeago.js/lib/lang/it';
 import ja from 'timeago.js/lib/lang/ja';
 import nl from 'timeago.js/lib/lang/nl';
 import pl from 'timeago.js/lib/lang/pl';
-import pt from 'timeago.js/lib/lang/pt_br';
+import pt from 'timeago.js/lib/lang/pt_BR';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
