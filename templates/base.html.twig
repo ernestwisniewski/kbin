@@ -28,7 +28,10 @@
 
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
-        <script type="application/json" id="mercure-url">{{ mercure()|raw }}</script>
+{#        <script type="application/json" id="mercure-url">{{ mercure()|raw }}</script>#}
+        <script type="application/json" id="mercure-url">
+            {{- 'https://' ~ kbin_domain() ~ '/.well-known/mercure' }}
+        </script>
         <script>
             window.KBIN_USER = "{{ app.user ? app.user.username : null }}";
             window.KBIN_MAGAZINE = "{{ magazine is defined and magazine ? magazine.name : null }}"

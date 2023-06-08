@@ -165,7 +165,7 @@ $ yarn build
 $ docker compose down && docker compose up
 ```
 
-Open [https://app.localhost](https://app.localhost) in your favorite web browser and accept the auto-generated TLS certificate
+Open [https://kbin.localhost](https://kbin.localhost) in your favorite web browser and accept the auto-generated TLS certificate
 
 #### Production
 
@@ -212,7 +212,7 @@ $ docker exec -it container_id pg_dump -U kbin kbin > dump.sql
 $ docker compose exec -T database psql -U kbin kbin < dump.sql
 ```
 
-#### S3 Images storage
+#### S3 Images storage (optional)
 
 .env
 
