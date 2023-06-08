@@ -30,7 +30,7 @@
                 aria-label="{{ 'favourite'|trans }}"
                 data-action="subject#vote"
                 {{ html_classes({'disabled': app.user and subject.isAuthor(app.user)}) }}>
-            {{ subject.favouriteCount }} <span><i class="fa-solid fa-arrow-up"></i></span>
+            <span data-subject-target="favCounter">{{ subject.favouriteCount }}</span> <span><i class="fa-solid fa-arrow-up"></i></span>
         </button>
         <input type="hidden" name="token" value="{{ csrf_token('favourite') }}">
     </form>
@@ -45,7 +45,7 @@
                     aria-label="{{ 'down_vote'|trans }}"
                     data-action="subject#vote"
                     {{ html_classes('vote__up', {'disabled': app.user and subject.isAuthor(app.user)}) }}>
-                {{ subject.countDownvotes }} <span><i class="fa-solid fa-arrow-down"></i></span>
+                <span data-subject-target="downvoteCounter">{{ subject.countDownvotes }}</span> <span><i class="fa-solid fa-arrow-down"></i></span>
             </button>
             <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
         </form>

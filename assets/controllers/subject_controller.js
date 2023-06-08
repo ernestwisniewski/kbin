@@ -8,7 +8,7 @@ import GLightbox from 'glightbox';
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static previewInit = false;
-    static targets = ['loader', 'more', 'container', 'commentsCounter', 'favCounter']
+    static targets = ['loader', 'more', 'container', 'commentsCounter', 'favCounter', 'upvoteCounter', 'downvoteCounter']
     static values = {
         loading: Boolean,
         isExpandedValue: Boolean
@@ -299,18 +299,21 @@ export default class extends Controller {
     }
 
     updateVotes(data) {
-        const upButton = this.element.querySelector('.vote__up button');
-        upButton.replaceChild(document.createTextNode(data.detail.up + ' '), upButton.firstChild);
+        this.upvoteCounterTarget.innerText = `(${data.detail.up})`;
 
-        const downButton = this.element.querySelector('.vote__down button');
-        if (downButton) {
-            downButton.replaceChild(document.createTextNode(data.detail.down + ' '), downButton.firstChild);
+        if(data.detail.up > 0) {
+            this.upvoteCounterTarget.classList.remove('hidden');
+        } else {
+            this.upvoteCounterTarget.classList.add('hidden');
+        }
+
+        if (this.hasDownvoteCounterTarget) {
+            this.downvoteCounterTarget.innerText = data.detail.down;
         }
     }
 
     updateFavourites(data) {
         if (this.hasFavCounterTarget) {
-            this.favCounterTarget.parentElement.classList.remove('hidden');
             this.favCounterTarget.innerText = data.detail.count;
         }
     }

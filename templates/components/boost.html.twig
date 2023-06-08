@@ -6,8 +6,7 @@
     <button class="{{ html_classes('stretched-link', {'active': app.user and user_choice is same as(VOTE_UP) }) }}"
             type="submit"
             data-action="subject#favourite">
-        {{ 'up_vote'|trans|lower }} <span class="{{ html_classes({'hidden': not subject.countUpvotes}) }}">
-            (<span data-subject-target="favCounter">{{ subject.countUpvotes }}</span>)
-        </span>
+        {{ 'up_vote'|trans|lower }} <span class="{{ html_classes({'hidden': not subject.countUpvotes}) }}"
+                                          data-subject-target="upvoteCounter">({{ subject.countUpvotes }})</span>
     </button>
 </form>
