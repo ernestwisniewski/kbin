@@ -8,7 +8,7 @@ services:
       args:
         SYMFONY_VERSION: ${SYMFONY_VERSION:-}
         STABILITY: ${STABILITY:-stable}
-    restart: unless-stopped
+    restart: always
     volumes:
       - ./:/srv/app
       - php_socket:/var/run/php
@@ -43,7 +43,7 @@ services:
       SERVER_NAME: ${SERVER_NAME:-kbin.localhost, caddy:80}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
-    restart: unless-stopped
+    restart: always
     volumes:
       - php_socket:/var/run/php
       - caddy_data:/data
@@ -107,7 +107,7 @@ services:
       timeout: 3s
       retries: 3
       start_period: 30s
-    restart: unless-stopped
+    restart: always
     depends_on:
       - php
 
@@ -135,7 +135,7 @@ services:
       timeout: 3s
       retries: 3
       start_period: 30s
-    restart: unless-stopped
+    restart: always
     depends_on:
       - php
       - rabbitmq
