@@ -19,6 +19,7 @@ use App\Service\Contracts\ContentNotificationManagerInterface;
 use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
+use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -40,7 +41,8 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
         private readonly ImageManager $imageManager,
-        private readonly GenerateHtmlClassService $classService
+        private readonly GenerateHtmlClassService $classService,
+        private readonly SettingsManager $settingsManager
     ) {
     }
 
@@ -65,7 +67,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
             [] // @todo user followers
         );
 
-        $subscribers = array_filter($subscribers, fn ($s) => !in_array($s->username, $mentions ?? []));
+        $subscribers = array_filter($subscribers, fn($s) => !in_array($s->username, $mentions ?? []));
 
         foreach ($subscribers as $subscriber) {
             $notify = new PostCreatedNotification($subscriber, $subject);
@@ -77,6 +79,10 @@ class PostNotificationManager implements ContentNotificationManagerInterface
 
     private function notifyMagazine(Notification $notification)
     {
+        if (false === $this->settingsManager->get('KBIN_MERCURE_ENABLED')) {
+            return;
+        }
+
         try {
             $iri = $this->iriConverter->getIriFromResource(
                 $this->magazineFactory->createDto($notification->post->magazine)

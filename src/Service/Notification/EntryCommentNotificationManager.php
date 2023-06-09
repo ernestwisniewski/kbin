@@ -21,6 +21,7 @@ use App\Service\Contracts\ContentNotificationManagerInterface;
 use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
+use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -43,7 +44,8 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
         private readonly ImageManager $imageManager,
-        private readonly GenerateHtmlClassService $classService
+        private readonly GenerateHtmlClassService $classService,
+        private readonly SettingsManager $settingsManager
     ) {
     }
 
@@ -109,6 +111,10 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
 
     private function notifyUser(EntryCommentReplyNotification $notification): void
     {
+        if (false === $this->settingsManager->get('KBIN_MERCURE_ENABLED')) {
+            return;
+        }
+
         try {
             $iri = $this->iriConverter->getIriFromResource($this->userFactory->createDto($notification->user));
 
@@ -184,6 +190,10 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
 
     private function notifyMagazine(Notification $notification): void
     {
+        if (false === $this->settingsManager->get('KBIN_MERCURE_ENABLED')) {
+            return;
+        }
+
         try {
             $iri = $this->iriConverter->getIriFromResource(
                 $this->magazineFactory->createDto($notification->getComment()->magazine)

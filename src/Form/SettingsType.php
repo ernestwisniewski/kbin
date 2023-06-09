@@ -27,6 +27,7 @@ class SettingsType extends AbstractType
             ->add('KBIN_REGISTRATIONS_ENABLED', CheckboxType::class, ['required' => false])
             ->add('KBIN_CAPTCHA_ENABLED', CheckboxType::class, ['required' => false])
             ->add('KBIN_FEDERATION_ENABLED', CheckboxType::class, ['required' => false])
+            ->add('KBIN_MERCURE_ENABLED', CheckboxType::class, ['required' => false])
             ->add('submit', SubmitType::class);
     }
 

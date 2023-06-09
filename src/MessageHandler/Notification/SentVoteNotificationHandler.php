@@ -9,6 +9,7 @@ use App\Entity\Contracts\VotableInterface;
 use App\Factory\MagazineFactory;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\GenerateHtmlClassService;
+use App\Service\SettingsManager;
 use App\Service\VotableRepositoryResolver;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -23,6 +24,7 @@ class SentVoteNotificationHandler
         private readonly VotableRepositoryResolver $resolver,
         private readonly HubInterface $publisher,
         private readonly GenerateHtmlClassService $classService,
+        private readonly SettingsManager $settingsManager
     ) {
     }
 
@@ -34,6 +36,10 @@ class SentVoteNotificationHandler
 
     private function notifyMagazine(VotableInterface $votable): void
     {
+        if (false === $this->settingsManager->get('KBIN_MERCURE_ENABLED')) {
+            return;
+        }
+
         try {
             $iri = $this->iriConverter->getIriFromResource($this->magazineFactory->createDto($votable->magazine));
 

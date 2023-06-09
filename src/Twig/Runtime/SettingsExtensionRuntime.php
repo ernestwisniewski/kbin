@@ -63,4 +63,9 @@ class SettingsExtensionRuntime implements RuntimeExtensionInterface
     {
         return $this->settings->get('KBIN_CAPTCHA_ENABLED');
     }
+
+    public function kbinMercureEnabled(): bool
+    {
+        return $this->settings->get('KBIN_MERCURE_ENABLED');
+    }
 }
