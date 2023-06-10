@@ -82,6 +82,13 @@ The VPS is running Debian 11. Redis is used for caching, so it is recommended to
 $ apt-get update && apt-get upgrade
 ```
 
+#### Prerequisites
+```bash
+$ sudo apt install redis-server postgresql postgresql-contrib php-cli unzip
+$ curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+$ sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+```
+
 #### Firewall
 
 ```bash
@@ -173,6 +180,19 @@ location ~ \.php$ {
     return 404;
 }
 
+```
+
+#### Configuration
+
+```bash
+# Create new user (without email verification)
+$ php bin/console kbin:user:create username email@exmple.com password
+# Grant administrator privileges
+$ php bin/console kbin:user:admin username
+```
+
+```bash
+$ php bin/console kbin:ap:keys:update
 ```
 
 #### Debugging
