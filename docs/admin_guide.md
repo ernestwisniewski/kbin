@@ -74,6 +74,8 @@ If you would like to support the project, you can register using the following [
 
 The VPS is running Debian 11. Redis is used for caching, so it is recommended to have at least 2 CPUs (>2.6 GHz) and 4GB of RAM. Filesystem cache can be used too, but it causes significant performance issues under high traffic.
 
+### Install on Bare Metal / VPS
+
 #### System update
 
 ```bash
@@ -98,6 +100,7 @@ $ cd ~
 #### Front tools
 
 ```bash
+$ sudo apt-get install php8.x-amqp php8.x-pgsql
 $ curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 $ curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
 $ sudo apt-get install -y nodejs
@@ -106,7 +109,6 @@ $ sudo apt-get update && sudo apt-get install yarn
 
 ```
 
-
 #### Clone repo
 
 ```bash
@@ -114,16 +116,76 @@ $ sudo apt-get install git
 $ git clone https://codeberg.org/Kbin/kbin-core.git kbin
 $ cd kbin
 $ mkdir public/media
-$ sudo chown 82:82 public/media
-$ sudo chown 82:82 var
+(un-needed chowns?)
+- $ sudo chown 82:82 public/media
+- $ sudo chown 82:82 var
 $ cp .env.example .env
 $ vi .env # esc + !q + enter to exit
 or 
 $ nano .env
 ```
 
-
 Make sure you have substituted all the passwords and configured the basic services.
+
+#### Composer Install
+```bash
+$ composer install
+$ composer clear-cache
+$ yarn install
+$ yarn build
+```
+
+#### Run Database creation
+```bash
+$ php bin/console doctrine:database:create
+$ php bin/console doctrine:migrations:migrate
+```
+
+#### Nginx considerations
+Ensure you restart as you make changes to the config files
+
+```conf
+root /home/user/kbin/public;
+
+location / {
+    # try to serve file directly, fallback to index.php
+    try_files $uri /index.php$is_args$args;
+}
+
+location ~ ^/index\.php(/|$) {
+  	default_type application/x-httpd-php;
+	fastcgi_pass unix:/var/php-fpm/php-fpm.sock;
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    include fastcgi_params;
+
+    fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+    # Prevents URIs that include the front controller. This will 404:
+    # http://domain.tld/index.php/some-path
+    # Remove the internal directive to allow URIs like this
+    internal;
+}
+
+# return 404 for all other php files not matching the front controller
+# this prevents access to other php files you don't want to be accessible.
+location ~ \.php$ {
+    return 404;
+}
+
+```
+
+#### Debugging
+Test postgresql connections if using a remote server, same with redis. Ensure no firewall blocking is enabled for the remote ip. Assets showing a 403 most times is a invalid nginx config from my experience.
+
+The original command for the composer install left me with loading issues 500 error, using just the base command however loads with no problems.
+
+```bash
+composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+vs.
+composer install
+```
+---
 
 ### Install with Docker
 
