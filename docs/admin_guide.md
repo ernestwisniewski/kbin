@@ -74,19 +74,19 @@ If you would like to support the project, you can register using the following [
 
 The VPS is running Debian 11. Redis is used for caching, so it is recommended to have at least 2 CPUs (>2.6 GHz) and 4GB of RAM. Filesystem cache can be used too, but it causes significant performance issues under high traffic.
 
-### Install on Bare Metal / VPS
+---
 
-#### System update
+### Install on Bare Metal / VPS
+ubuntu 22.04 used for steps here
+
+#### System update / Prerequisites
 
 ```bash
 $ apt-get update && apt-get upgrade
-```
-
-#### Prerequisites
-```bash
-$ sudo apt install redis-server postgresql postgresql-contrib php-cli unzip
+$ add-apt-repository ppa:ondrej/php
+$ apt-get install git redis-server postgresql postgresql-contrib nginx php8.2-common php8.2-fpm php8.2-cli php8.2-amqp php8.2-pgsql php8.2-gd php8.2-curl php8.2-simplexml php8.2-dom php8.2-xml php8.2-redis php8.2-intl unzip
 $ curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
-$ sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+$ php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
 ```
 
 #### Firewall
@@ -95,91 +95,136 @@ $ sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=compo
 // todo 
 ```
 
+#### Front tools
+
+```bash
+$ curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+$ curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
+$ echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+$ apt-get update && apt-get install nodejs yarn
+
+```
+
 #### Create user
 
 ```bash
 $ adduser kbin
 $ usermod -aG sudo kbin
-$ su kbin
-$ cd ~
+$ usermod -aG www-data kbin
+$ su - kbin
 ```
 
-#### Front tools
+#### Create path
 
 ```bash
-$ sudo apt-get install php8.x-amqp php8.x-pgsql
-$ curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
-$ curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
-$ sudo apt-get install -y nodejs
-$ echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-$ sudo apt-get update && sudo apt-get install yarn
-
+$ cd /var/www
+$ sudo mkdir kbin
+$ sudo chown kbin:www-data kbin
 ```
 
 #### Clone repo
 
 ```bash
-$ sudo apt-get install git
 $ git clone https://codeberg.org/Kbin/kbin-core.git kbin
 $ cd kbin
 $ mkdir public/media
-(un-needed chowns?)
-- $ sudo chown 82:82 public/media
-- $ sudo chown 82:82 var
+
 $ cp .env.example .env
 $ vi .env # esc + !q + enter to exit
 or 
 $ nano .env
 ```
 
-Make sure you have substituted all the passwords and configured the basic services.
+#### Service Configuration
 
-#### Composer Install
+Composer:
+
 ```bash
 $ composer install
 $ composer clear-cache
-$ yarn install
-$ yarn build
+
+$ sudo chown kbin:www-data public/media
+$ sudo chown kbin:www-data var
 ```
 
-#### Run Database creation
+Redis:
+
 ```bash
+$ openssl rand 60 | openssl base64 -A
+$ OaYOuq6J9HhxMV0sGCeZbaGecphCl4GBfVkCOPkNjkQE1FX9DKpGSCJcDb8UV+AuFKA8tR1PgjGequn1
+$ sudo nano /etc/redis/redis.conf
+
+ctrl + w -> # requirepass foobared
+Remove the #, change foobared too new password
+
+ctrl + w -> supervised no
+Change to systemd, considering Ubuntu
+
+$ sudo systemctl restart redis.service
+```
+
+.env: Change the redis host to localhost or proper IP
+
+```conf
+REDIS_DNS=redis://${REDIS_PASSWORD}@localhost
+```
+
+Postgresql:
+
+```bash
+$ sudo -u postgres createuser --createdb --createrole --pwprompt kbin
+
 $ php bin/console doctrine:database:create
 $ php bin/console doctrine:migrations:migrate
 ```
 
-#### Nginx considerations
-Ensure you restart as you make changes to the config files
+Yarn:
+```bash
+$ yarn install
+$ yarn build
+```
 
-```conf
-root /home/user/kbin/public;
+Make sure you have substituted all the passwords and configured the basic services.
 
-location / {
-    # try to serve file directly, fallback to index.php
-    try_files $uri /index.php$is_args$args;
+
+#### Nginx
+```bash
+$ sudo nano /etc/ngnix/sites-available/kbin.conf
+$ sudo ln -s /etc/nginx/sites-available/kbin.conf /etc/nginx/sites-enabled/
+```
+
+```kbin.conf
+server {
+    server_name domain.tld www.domain.tld;
+    root /var/www/kbin/public;
+
+    location / {
+        # try to serve file directly, fallback to app.php
+        try_files $uri /index.php$is_args$args;
+    }
+    location ~ ^/index\.php(/|$) {
+        default_type application/x-httpd-php;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        
+        # Prevents URIs that include the front controller. This will 404:
+        # http://domain.tld/index.php/some-path
+        # Remove the internal directive to allow URIs like this
+        internal;
+    }
+
+   # return 404 for all other php files not matching the front controller
+   # this prevents access to other php files you don't want to be accessible.
+   location ~ \.php$ {
+     return 404;
+   }
+
+   error_log /var/log/nginx/kbin_error.log;
+   access_log /var/log/nginx/kbin_access.log;
 }
-
-location ~ ^/index\.php(/|$) {
-  	default_type application/x-httpd-php;
-	fastcgi_pass unix:/var/php-fpm/php-fpm.sock;
-    fastcgi_split_path_info ^(.+\.php)(/.*)$;
-    include fastcgi_params;
-
-    fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-    fastcgi_param DOCUMENT_ROOT $realpath_root;
-
-    # Prevents URIs that include the front controller. This will 404:
-    # http://domain.tld/index.php/some-path
-    # Remove the internal directive to allow URIs like this
-    internal;
-}
-
-# return 404 for all other php files not matching the front controller
-# this prevents access to other php files you don't want to be accessible.
-location ~ \.php$ {
-    return 404;
-}
-
 ```
 
 #### Configuration
@@ -196,9 +241,11 @@ $ php bin/console kbin:ap:keys:update
 ```
 
 #### Debugging
-Test postgresql connections if using a remote server, same with redis. Ensure no firewall blocking is enabled for the remote ip. Assets showing a 403 most times is a invalid nginx config from my experience.
+Test postgresql connections if using a remote server, same with redis. Ensure no firewall blocking is enabled for the remote ip. 
 
-The original command for the composer install left me with loading issues 500 error, using just the base command however loads with no problems.
+Assets showing a 403 most times is a invalid nginx config from my experience.
+
+The original command for the composer install left me with loading issues 500 error, using just the base command however loads with no problems. It looks like the --no-dev causes the issue here. Noticed the "dev" setting in the .env sets the developer bottom bar on/off.
 
 ```bash
 composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
