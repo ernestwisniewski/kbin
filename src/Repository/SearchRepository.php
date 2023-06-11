@@ -46,13 +46,13 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId) 
+        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId AND choice = 1) 
         UNION 
-        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = :userId)
+        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId)
+        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userId)
+        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userId AND choice = 1)
         ORDER BY created_at DESC
         ";
 
@@ -68,13 +68,13 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId) 
+        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId AND choice = 1) 
         UNION 
-        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = :userId)
+        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId)
+        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userId)
+        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userI AND choice = 1d)
         ORDER BY created_at DESC
         ";
 
