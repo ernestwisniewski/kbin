@@ -54,6 +54,9 @@ class EntryFrontControllerTest extends WebTestCase
         $client->request('GET', '/m/acme');
         $this->assertSelectorTextContains('h2', 'Hot');
 
+        $client->request('GET', '/m/ACME');
+        $this->assertSelectorTextContains('h2', 'Hot');
+
         $crawler = $client->request('GET', '/m/acme/newest');
 
         $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
