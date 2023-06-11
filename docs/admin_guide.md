@@ -360,7 +360,17 @@ $ docker exec -it container_id pg_dump -U kbin kbin > dump.sql
 $ docker compose exec -T database psql -U kbin kbin < dump.sql
 ```
 
-#### S3 Images storage (optional)
+### Install without Docker
+
+References:
+
+- [https://symfony.com/doc/current/setup.html](https://symfony.com/doc/current/setup.html)
+- [https://symfony.com/doc/current/deployment.html](https://symfony.com/doc/current/deployment.html)
+- [https://symfony.com/doc/current/setup/web_server_configuration.html](https://symfony.com/doc/current/setup/web_server_configuration.html)
+- [https://symfony.com/doc/current/messenger.html#deploying-to-production](https://symfony.com/doc/current/messenger.html#deploying-to-production)
+- [https://codingstories.net/how-to/how-to-install-and-use-mercure/](https://codingstories.net/how-to/how-to-install-and-use-mercure/)
+
+### S3 Images storage (optional)
 
 .env
 
@@ -396,13 +406,3 @@ oneup_flysystem:
 ```yaml
 // todo thumbnails
 ```
-
-### Install without Docker
-
-References:
-
-- [https://symfony.com/doc/current/setup.html](https://symfony.com/doc/current/setup.html)
-- [https://symfony.com/doc/current/deployment.html](https://symfony.com/doc/current/deployment.html)
-- [https://symfony.com/doc/current/setup/web_server_configuration.html](https://symfony.com/doc/current/setup/web_server_configuration.html)
-- [https://symfony.com/doc/current/messenger.html#deploying-to-production](https://symfony.com/doc/current/messenger.html#deploying-to-production)
-- [https://codingstories.net/how-to/how-to-install-and-use-mercure/](https://codingstories.net/how-to/how-to-install-and-use-mercure/)
