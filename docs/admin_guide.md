@@ -1,55 +1,75 @@
 # Kbin
 
-Kbin is a decentralized content aggregator and microblogging platform running on the Fediverse network. It can communicate with many other ActivityPub services, including Mastodon, Lemmy, Pleroma, Peertube.
+Kbin is a decentralized content aggregator and microblogging platform running on the Fediverse network. It can
+communicate with many other ActivityPub services, including Mastodon, Lemmy, Pleroma, Peertube.
 
 The initiative aims to promote a free and open internet.
 
 ## Introduction
 
-The platform is divided into thematic categories called magazines. By default, any user can create their own magazine and automatically become its owner. Then they receive a number of administrative tools that will help them personalize and moderate the magazine, including appointing moderators from among other users.
+The platform is divided into thematic categories called magazines. By default, any user can create their own magazine
+and automatically become its owner. Then they receive a number of administrative tools that will help them personalize
+and moderate the magazine, including appointing moderators from among other users.
 
-Content from the Fediverse is also cataloged based on groups or tags. A registered user can follow magazines, other users or domains and create his own personalized homepage. There is also the option to block unwanted topics.
+Content from the Fediverse is also cataloged based on groups or tags. A registered user can follow magazines, other
+users or domains and create his own personalized homepage. There is also the option to block unwanted topics.
 
-Content can be posted on the main page - external links and more relevant articles or on microblog section - aggregating short posts. All content can be additionally categorized and labeled. Great possibilities to search for interesting topics and people easily is something that distinguishes Kbin.
+Content can be posted on the main page - external links and more relevant articles or on microblog section - aggregating
+short posts. All content can be additionally categorized and labeled. Great possibilities to search for interesting
+topics and people easily is something that distinguishes Kbin.
 
-Platform is equally suitable for a small personal instance for friends and family, a school or university community, company platform or a general instance with thousands of active users.
+Platform is equally suitable for a small personal instance for friends and family, a school or university community,
+company platform or a general instance with thousands of active users.
 
 ## User guide
 
 ### Customization
 
-Everyone has the ability to customize the appearance to suit your preferences. In the sidebar, you'll find an options button that allows you to adjust a variety of settings, including the ability to choose from four different templates, enable automatic refreshing of posts and comments, activate infinite scroll, and enable automatic media previews.
+Everyone has the ability to customize the appearance to suit your preferences. In the sidebar, you'll find an options
+button that allows you to adjust a variety of settings, including the ability to choose from four different templates,
+enable automatic refreshing of posts and comments, activate infinite scroll, and enable automatic media previews.
 
-By using these options, you can completely transform the appearance of the platform to fit your personal style. Whether you prefer a minimalist design or a more colorful and lively look, you can easily make the changes that will make your experience on platform more enjoyable.
+By using these options, you can completely transform the appearance of the platform to fit your personal style. Whether
+you prefer a minimalist design or a more colorful and lively look, you can easily make the changes that will make your
+experience on platform more enjoyable.
 
-So don't be afraid to experiment with the various options available in the sidebar. You might be surprised at just how much you can change the appearance of the platform to suit your preferences.
+So don't be afraid to experiment with the various options available in the sidebar. You might be surprised at just how
+much you can change the appearance of the platform to suit your preferences.
 
 (pic1)
 
 ### Register account
 
-The process of registering for a user account on a platform usually involves providing a username (which will also serve as your identifier in the fediverse), password, and email address to receive an activation link.
+The process of registering for a user account on a platform usually involves providing a username (which will also serve
+as your identifier in the fediverse), password, and email address to receive an activation link.
 
-Another option is to create an account through social media platforms such as Google, Facebook, or Github. In this case, you can use your social media login credentials to sign up, but you will need to visit your user panel and set up your username before you can take any actions on the platform. However, **you will have only up to an hour after registration** to set up your default username before this option expires (Settings > Profile).
+Another option is to create an account through social media platforms such as Google, Facebook, or Github. In this case,
+you can use your social media login credentials to sign up, but you will need to visit your user panel and set up your
+username before you can take any actions on the platform. However, **you will have only up to an hour after registration
+** to set up your default username before this option expires (Settings > Profile).
 
 (pic2)
 
 ### User settings
 
-You are now ready to start using /kbin to connect with others. After registering, you will be directed to your account settings where you can personalize even more settings to make your experience on our platform even better.
+You are now ready to start using /kbin to connect with others. After registering, you will be directed to your account
+settings where you can personalize even more settings to make your experience on our platform even better.
 
 You can access your account settings at any time by clicking on your username located in the header.
 
 (pic3)
 
-We've included a wide range of options that will allow you to customize your experience. Take your time to check all the options.
+We've included a wide range of options that will allow you to customize your experience. Take your time to check all the
+options.
 
+* **General:** In this section, you can set your preferred home page (all, subscribed, moderated, favorites), hide adult
+  content, set user tagging options, adjust privacy settings, and configure notification settings.
 
-* **General:** In this section, you can set your preferred home page (all, subscribed, moderated, favorites), hide adult content, set user tagging options, adjust privacy settings, and configure notification settings.
+* **Profile:** Here, you can write a few words about yourself (which will be visible in the "People" section), add an
+  avatar and cover image.
 
-* **Profile:** Here, you can write a few words about yourself (which will be visible in the "People" section), add an avatar and cover image.
-
-* **Email:** In this section, you can change your email address. After changing to a new email, you will receive an activation link.
+* **Email:** In this section, you can change your email address. After changing to a new email, you will receive an
+  activation link.
 
 * **Password:** In this section, you can change your account password.
 
@@ -65,18 +85,22 @@ We've included a wide range of options that will allow you to customize your exp
 
 ### Fediverse
 
-
 ## Admin guide
 
-Below is a step-by-step description of the process for creating your own instance from the moment a new VPS is created.  This is a preliminary outline that will help you launch an instance for your own needs. Please note that kbin is still in the early stages of development and is currently intended for smaller instances.
+Below is a step-by-step description of the process for creating your own instance from the moment a new VPS is created.
+This is a preliminary outline that will help you launch an instance for your own needs. Please note that kbin is still
+in the early stages of development and is currently intended for smaller instances.
 
-If you would like to support the project, you can register using the following [affiliate link](https://hetzner.cloud/?ref=8tSPCw0qqIwl).
+If you would like to support the project, you can register using the
+following [affiliate link](https://hetzner.cloud/?ref=8tSPCw0qqIwl).
 
-The VPS is running Debian 11. Redis is used for caching, so it is recommended to have at least 2 CPUs (>2.6 GHz) and 4GB of RAM. Filesystem cache can be used too, but it causes significant performance issues under high traffic.
+The VPS is running Debian 11. Redis is used for caching, so it is recommended to have at least 2 CPUs (>2.6 GHz) and 4GB
+of RAM. Filesystem cache can be used too, but it causes significant performance issues under high traffic.
 
 ---
 
 ### Install on Bare Metal / VPS
+
 ubuntu 22.04 used for steps here
 
 #### System update / Prerequisites
@@ -179,6 +203,7 @@ $ php bin/console doctrine:migrations:migrate
 ```
 
 Yarn:
+
 ```bash
 $ yarn install
 $ yarn build
@@ -186,8 +211,8 @@ $ yarn build
 
 Make sure you have substituted all the passwords and configured the basic services.
 
-
 #### Nginx
+
 ```bash
 $ sudo nano /etc/ngnix/sites-available/kbin.conf
 $ sudo ln -s /etc/nginx/sites-available/kbin.conf /etc/nginx/sites-enabled/
@@ -204,7 +229,7 @@ server {
     }
     location ~ ^/index\.php(/|$) {
         default_type application/x-httpd-php;
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
@@ -227,6 +252,77 @@ server {
 }
 ```
 
+#### Let’s Encrypt SSL/TLS
+
+```bash
+$ sudo apt-get install certbot
+$ sudo apt-get install python3-certbot-nginx
+$ sudo certbot --nginx -d domain.tld -d www.domain.tld
+$ crontab -e
+```
+
+```
+0 12 * * * /usr/bin/certbot renew --quiet
+```
+
+Save and close the file.
+
+#### Queues
+
+##### Install RabbitMQ (optional)
+
+// @todo
+
+```bash
+nano .env
+```
+
+```
+MESSENGER_TRANSPORT_DSN=doctrine://default
+
+or
+
+RABBITMQ_PASSWORD=!ChangeThisRabbitPass!
+MESSENGER_TRANSPORT_DSN=amqp://kbin:${RABBITMQ_PASSWORD}@localhost:5672/%2f/messages
+```
+
+##### Setup supervisor
+
+```bash
+sudo apt-get install supervisor
+sudo nano /etc/supervisor/conf.d/messenger-worker.conf
+```
+
+```
+[program:messenger-kbin]
+command=php /var/www/kbin/bin/console messenger:consume async --time-limit=3600
+user=ubuntu
+numprocs=2
+startsecs=0
+autostart=true
+autorestart=true
+startretries=10
+process_name=%(program_name)s_%(process_num)02d
+
+[program:messenger-ap]
+command=php /var/www/kbin/bin/console messenger:consume async_ap --time-limit=3600
+user=ubuntu
+numprocs=2
+startsecs=0
+autostart=true
+autorestart=true
+startretries=10
+process_name=%(program_name)s_%(process_num)02d
+```
+
+Save and close the file.
+
+```bash
+$ sudo supervisorctl reread
+$ sudo supervisorctl update
+$ sudo supervisorctl start all
+```
+
 #### Configuration
 
 ```bash
@@ -240,18 +336,25 @@ $ php bin/console kbin:user:admin username
 $ php bin/console kbin:ap:keys:update
 ```
 
+
+
 #### Debugging
-Test postgresql connections if using a remote server, same with redis. Ensure no firewall blocking is enabled for the remote ip. 
+
+Test postgresql connections if using a remote server, same with redis. Ensure no firewall blocking is enabled for the
+remote ip.
 
 Assets showing a 403 most times is a invalid nginx config from my experience.
 
-The original command for the composer install left me with loading issues 500 error, using just the base command however loads with no problems. It looks like the --no-dev causes the issue here. Noticed the "dev" setting in the .env sets the developer bottom bar on/off.
+The original command for the composer install left me with loading issues 500 error, using just the base command however
+loads with no problems. It looks like the --no-dev causes the issue here. Noticed the "dev" setting in the .env sets the
+developer bottom bar on/off.
 
 ```bash
 composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 vs.
 composer install
 ```
+
 ---
 
 ### Install with Docker
@@ -294,7 +397,8 @@ $ yarn build
 $ docker compose down && docker compose up
 ```
 
-Open [https://kbin.localhost](https://kbin.localhost) in your favorite web browser and accept the auto-generated TLS certificate
+Open [https://kbin.localhost](https://kbin.localhost) in your favorite web browser and accept the auto-generated TLS
+certificate
 
 #### Production
 
@@ -304,7 +408,9 @@ $ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 
 [https://github.com/dunglas/symfony-docker/blob/main/docs/production.md](https://github.com/dunglas/symfony-docker/blob/main/docs/production.md)
 
-If you want to deploy your app on a cluster of machines, you can use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), which is compatible with the provided Compose files.
+If you want to deploy your app on a cluster of machines, you can
+use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), which is compatible with the provided Compose
+files.
 
 #### Configuration
 
@@ -358,20 +464,20 @@ config/packages/oneup_flysystem.yaml
 
 ```yaml
 oneup_flysystem:
-    adapters:
-        default_adapter:
-            local:
-                location: "%kernel.project_dir%/public/media"
+  adapters:
+    default_adapter:
+      local:
+        location: "%kernel.project_dir%/public/media"
 
-        kbin.s3_adapter:
-            awss3v3:
-                client: kbin.s3_client
-                bucket: '%amazon.s3.bucket%'
+    kbin.s3_adapter:
+      awss3v3:
+        client: kbin.s3_client
+        bucket: '%amazon.s3.bucket%'
 
-    filesystems:
-        public_uploads_filesystem:
-            adapter: kbin.s3_adapter
-            alias: League\Flysystem\Filesystem
+  filesystems:
+    public_uploads_filesystem:
+      adapter: kbin.s3_adapter
+      alias: League\Flysystem\Filesystem
 ```
 
 ```yaml
