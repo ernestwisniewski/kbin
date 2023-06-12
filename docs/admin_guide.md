@@ -249,8 +249,6 @@ $ php bin/console kbin:user:admin username
 $ php bin/console kbin:ap:keys:update
 ```
 
-
-
 #### Debugging
 
 Test postgresql connections if using a remote server, same with redis. Ensure no firewall blocking is enabled for the
@@ -271,6 +269,56 @@ composer install
 ---
 
 ### Install with Docker
+
+#### System update
+
+```bash
+$ apt-get update && apt-get upgrade
+```
+
+#### Firewall
+
+```bash
+// todo 
+```
+
+#### Create user
+
+```bash
+$ adduser kbin
+$ usermod -aG sudo kbin
+$ su kbin
+$ cd ~
+```
+
+#### Front tools
+
+```bash
+$ curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+$ curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
+$ sudo apt-get install -y nodejs
+$ echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+$ sudo apt-get update && sudo apt-get install yarn
+
+```
+
+
+#### Clone repo
+
+```bash
+$ sudo apt-get install git
+$ git clone https://codeberg.org/Kbin/kbin-core.git kbin
+$ cd kbin
+$ mkdir public/media
+$ sudo chown 82:82 public/media
+$ sudo chown 82:82 var
+$ cp .env.example .env
+$ vi .env # esc + !q + enter to exit
+or 
+$ nano .env
+```
+
+Make sure you have substituted all the passwords and configured the basic services.
 
 The Dockerfile is based on [symfony-docker](https://github.com/dunglas/symfony-docker).
 
@@ -310,8 +358,7 @@ $ yarn build
 $ docker compose down && docker compose up
 ```
 
-Open [https://kbin.localhost](https://kbin.localhost) in your favorite web browser and accept the auto-generated TLS
-certificate
+Open [https://app.localhost](https://app.localhost) in your favorite web browser and accept the auto-generated TLS certificate
 
 #### Production
 
@@ -321,9 +368,7 @@ $ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 
 [https://github.com/dunglas/symfony-docker/blob/main/docs/production.md](https://github.com/dunglas/symfony-docker/blob/main/docs/production.md)
 
-If you want to deploy your app on a cluster of machines, you can
-use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), which is compatible with the provided Compose
-files.
+If you want to deploy your app on a cluster of machines, you can use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), which is compatible with the provided Compose files.
 
 #### Configuration
 
@@ -406,3 +451,5 @@ oneup_flysystem:
 ```yaml
 // todo thumbnails
 ```
+
+https://symfony.com/bundles/LiipImagineBundle/current/optimizations/resolve-cache-images-in-background.html#symfony-messenger
