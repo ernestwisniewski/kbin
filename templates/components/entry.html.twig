@@ -119,11 +119,12 @@
                             </li>
                         {% endif %}
                         {% if entry.hasEmbed %}
+                            {% set image = entry.image ? uploaded_asset(entry.image.filePath) : '' %}
                             <li>
                                 <button class="show-preview"
                                         data-action="preview#show"
                                         aria-label="{{ 'preview'|trans }}"
-                                        data-preview-url-param="{{ entry.url and entry.image ?? uploaded_asset(entry.image.filePath) }}"
+                                        data-preview-url-param="{{ entry.url ?? image }}"
                                         data-preview-ratio-param="{{ entry.domain and entry.domain.shouldRatio ? true : false }}">
                                     <i class="fa-solid fa-photo-film"></i>
                                 </button>
