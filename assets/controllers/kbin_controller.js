@@ -114,11 +114,14 @@ export default class extends ApplicationController {
     }
 
     toggleNav(e) {
-        e.preventDefault();
+        // TODO: find a better way to differentiate if we're hitting the sidebar toggle
         if (window.screen.width >= 992 && e.target.closest('a')) {
-            window.location = e.target.closest('a').href;
+            // The user wants to go home, allow the event to go through as normal
             return;
         }
+        
+        // The user is trying to open the sidebar, prevent navigation
+        e.preventDefault();
 
         const sidebar = document.getElementById('sidebar');
         if (sidebar.classList.contains('open') && e.target.closest('a')) {
