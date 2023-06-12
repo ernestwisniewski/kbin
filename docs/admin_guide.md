@@ -65,6 +65,7 @@ $ sudo chown kbin:www-data kbin
 $ git clone https://codeberg.org/Kbin/kbin-core.git kbin
 $ cd kbin
 $ mkdir public/media
+$ sudo chmod 777 public/media
 
 $ cp .env.example .env
 $ vi .env # esc + !q + enter to exit
@@ -153,7 +154,7 @@ Make sure you have substituted all the passwords and configured the basic servic
 #### Nginx
 
 ```bash
-$ sudo nano /etc/ngnix/sites-available/kbin.conf
+$ sudo nano /etc/nginx/sites-available/kbin.conf
 $ sudo ln -s /etc/nginx/sites-available/kbin.conf /etc/nginx/sites-enabled/
 ```
 
