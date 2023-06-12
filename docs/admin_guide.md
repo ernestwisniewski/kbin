@@ -1,3 +1,17 @@
+## Admin guide
+
+Below is a step-by-step description of the process for creating your own instance from the moment a new VPS is created.		
+This is a preliminary outline that will help you launch an instance for your own needs. Please note that kbin is still		
+in the early stages of development and is currently intended for smaller instances.
+
+If you would like to support the project, you can register using the		
+following [affiliate link](https://hetzner.cloud/?ref=8tSPCw0qqIwl).
+
+The VPS is running Debian 11. Redis is used for caching, so it is recommended to have at least 2 CPUs (>2.6 GHz) and 4GB		
+of RAM. Filesystem cache can be used too, but it causes significant performance issues under high traffic.
+
+---		
+
 ### Install on Bare Metal / VPS
 
 ubuntu 22.04 used for steps here
