@@ -180,6 +180,18 @@ server {
         # Remove the internal directive to allow URIs like this
         internal;
     }
+    # bypass thumbs cache image files
+    location ~ ^/media/cache/resolve {
+      expires 1M;
+      access_log off;
+      add_header Cache-Control "public";
+      try_files $uri $uri/ /index.php?$query_string;
+    }
+    location ~* .(js|webp|jpg|jpeg|gif|png|css|tgz|gz|rar|bz2|doc|pdf|ppt|tar|wav|bmp|rtf|swf|ico|flv|txt|woff|woff2|svg)$ {
+        expires 30d;
+        add_header Pragma "public";
+        add_header Cache-Control "public";
+    }
 
    # return 404 for all other php files not matching the front controller
    # this prevents access to other php files you don't want to be accessible.
