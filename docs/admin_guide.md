@@ -1,17 +1,3 @@
-## Admin guide
-
-Below is a step-by-step description of the process for creating your own instance from the moment a new VPS is created.
-This is a preliminary outline that will help you launch an instance for your own needs. Please note that kbin is still
-in the early stages of development and is currently intended for smaller instances.
-
-If you would like to support the project, you can register using the
-following [affiliate link](https://hetzner.cloud/?ref=8tSPCw0qqIwl).
-
-The VPS is running Debian 11. Redis is used for caching, so it is recommended to have at least 2 CPUs (>2.6 GHz) and 4GB
-of RAM. Filesystem cache can be used too, but it causes significant performance issues under high traffic.
-
----
-
 ### Install on Bare Metal / VPS
 
 ubuntu 22.04 used for steps here
@@ -74,14 +60,38 @@ $ nano .env
 
 #### Service Configuration
 
+PHP:
+
+```bash
+$nano sudo nano /etc/php/8.2/fpm/php.ini
+```
+
+```
+upload_max_filesize = 8M
+post_max_size = 8M
+memory_limit = 512M
+```
+
 Composer:
 
 ```bash
-$ composer install
+# developer mode
+$ composer install 
+# prod mode:
+$ composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+
 $ composer clear-cache
 
 $ sudo chown kbin:www-data public/media
-$ sudo chown kbin:www-data var
+$ sudo chmod 777 public/media
+
+# https://symfony.com/doc/current/setup/file_permissions.html
+# if the following commands don't work, try adding `-n` option to `setfacl`
+$ HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
+# set permissions for future files and folders
+$ sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
+# set permissions on the existing files and folders
+$ sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
 ```
 
 Redis:
@@ -159,7 +169,9 @@ server {
    location ~ \.php$ {
      return 404;
    }
-
+   
+   client_max_body_size 10M;
+	
    error_log /var/log/nginx/kbin_error.log;
    access_log /var/log/nginx/kbin_access.log;
 }
@@ -236,6 +248,10 @@ $ sudo supervisorctl update
 $ sudo supervisorctl start all
 ```
 
+#### Install mercurejs
+
+// @todo https://mercure.rocks/
+
 #### Configuration
 
 ```bash
@@ -249,76 +265,16 @@ $ php bin/console kbin:user:admin username
 $ php bin/console kbin:ap:keys:update
 ```
 
+
+
 #### Debugging
 
 Test postgresql connections if using a remote server, same with redis. Ensure no firewall blocking is enabled for the
 remote ip.
 
-Assets showing a 403 most times is a invalid nginx config from my experience.
-
-The original command for the composer install left me with loading issues 500 error, using just the base command however
-loads with no problems. It looks like the --no-dev causes the issue here. Noticed the "dev" setting in the .env sets the
-developer bottom bar on/off.
-
-```bash
-composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
-vs.
-composer install
-```
-
 ---
 
 ### Install with Docker
-
-#### System update
-
-```bash
-$ apt-get update && apt-get upgrade
-```
-
-#### Firewall
-
-```bash
-// todo 
-```
-
-#### Create user
-
-```bash
-$ adduser kbin
-$ usermod -aG sudo kbin
-$ su kbin
-$ cd ~
-```
-
-#### Front tools
-
-```bash
-$ curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
-$ curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
-$ sudo apt-get install -y nodejs
-$ echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-$ sudo apt-get update && sudo apt-get install yarn
-
-```
-
-
-#### Clone repo
-
-```bash
-$ sudo apt-get install git
-$ git clone https://codeberg.org/Kbin/kbin-core.git kbin
-$ cd kbin
-$ mkdir public/media
-$ sudo chown 82:82 public/media
-$ sudo chown 82:82 var
-$ cp .env.example .env
-$ vi .env # esc + !q + enter to exit
-or 
-$ nano .env
-```
-
-Make sure you have substituted all the passwords and configured the basic services.
 
 The Dockerfile is based on [symfony-docker](https://github.com/dunglas/symfony-docker).
 
@@ -358,7 +314,8 @@ $ yarn build
 $ docker compose down && docker compose up
 ```
 
-Open [https://app.localhost](https://app.localhost) in your favorite web browser and accept the auto-generated TLS certificate
+Open [https://kbin.localhost](https://kbin.localhost) in your favorite web browser and accept the auto-generated TLS
+certificate
 
 #### Production
 
@@ -368,7 +325,9 @@ $ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 
 [https://github.com/dunglas/symfony-docker/blob/main/docs/production.md](https://github.com/dunglas/symfony-docker/blob/main/docs/production.md)
 
-If you want to deploy your app on a cluster of machines, you can use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), which is compatible with the provided Compose files.
+If you want to deploy your app on a cluster of machines, you can
+use [Docker Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), which is compatible with the provided Compose
+files.
 
 #### Configuration
 
@@ -452,4 +411,6 @@ oneup_flysystem:
 // todo thumbnails
 ```
 
-https://symfony.com/bundles/LiipImagineBundle/current/optimizations/resolve-cache-images-in-background.html#symfony-messenger
+### Performence
+
+[https://symfony.com/bundles/LiipImagineBundle/current/optimizations/resolve-cache-images-in-background.html#symfony-messenger](https://symfony.com/bundles/LiipImagineBundle/current/optimizations/resolve-cache-images-in-background.html#symfony-messenger)
