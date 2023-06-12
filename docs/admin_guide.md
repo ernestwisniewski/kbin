@@ -7,7 +7,7 @@ in the early stages of development and is currently intended for smaller instanc
 If you would like to support the project, you can register using the		
 following [affiliate link](https://hetzner.cloud/?ref=8tSPCw0qqIwl).
 
-The VPS is running Debian 11. Redis is used for caching, so it is recommended to have at least 2 CPUs (>2.6 GHz) and 4GB		
+The VPS is running Debian 11 / Ubuntu 22.04. Redis is used for caching, so it is recommended to have at least 2 CPUs (>2.6 GHz) and 4GB		
 of RAM. Filesystem cache can be used too, but it causes significant performance issues under high traffic.
 
 ---		
@@ -92,6 +92,7 @@ Composer:
 # developer mode
 $ composer install 
 # prod mode:
+$ composer dump-env prod
 $ composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
 $ composer clear-cache
@@ -378,6 +379,8 @@ $ docker exec -it container_id pg_dump -U kbin kbin > dump.sql
 $ docker compose exec -T database psql -U kbin kbin < dump.sql
 ```
 
+---
+
 ### Install without Docker
 
 References:
@@ -387,6 +390,8 @@ References:
 - [https://symfony.com/doc/current/setup/web_server_configuration.html](https://symfony.com/doc/current/setup/web_server_configuration.html)
 - [https://symfony.com/doc/current/messenger.html#deploying-to-production](https://symfony.com/doc/current/messenger.html#deploying-to-production)
 - [https://codingstories.net/how-to/how-to-install-and-use-mercure/](https://codingstories.net/how-to/how-to-install-and-use-mercure/)
+
+---
 
 ### S3 Images storage (optional)
 
@@ -424,6 +429,7 @@ oneup_flysystem:
 ```yaml
 // todo thumbnails
 ```
+---
 
 ### Performence
 
