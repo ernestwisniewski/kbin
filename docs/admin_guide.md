@@ -90,10 +90,11 @@ Composer:
 
 ```bash
 # developer mode
-$ composer install 
+$ composer install
 # prod mode:
 $ composer dump-env prod
 $ composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+$ APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
 
 $ composer clear-cache
 
