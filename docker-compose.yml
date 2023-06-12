@@ -11,6 +11,7 @@ services:
     restart: always
     volumes:
       - php_socket:/var/run/php
+      - ./:/srv/app
     healthcheck:
       interval: 10s
       timeout: 3s
@@ -98,6 +99,7 @@ services:
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
       RABBITMQ_USER: ${RABBITMQ_USER:-kbin}
     volumes:
+      - ./:/srv/app
       - php_socket:/var/run/php
     healthcheck:
       interval: 20s
@@ -125,6 +127,7 @@ services:
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-!ChangeThisRabbitPass!}
       RABBITMQ_USER: ${RABBITMQ_USER:-kbin}
     volumes:
+      - ./:/srv/app
       - php_socket:/var/run/php
     healthcheck:
       interval: 20s
