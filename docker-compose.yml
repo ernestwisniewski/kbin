@@ -40,7 +40,6 @@ services:
       target: app_caddy
     networks:
       - internal
-      - frontend
     depends_on:
       - php
     environment:
