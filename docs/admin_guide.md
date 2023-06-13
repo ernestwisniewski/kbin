@@ -73,6 +73,8 @@ or
 $ nano .env
 ```
 
+Make sure you have substituted all the passwords and configured the basic services in .env file.
+
 #### Service Configuration
 
 PHP:
@@ -304,6 +306,56 @@ remote ip.
 ---
 
 ### Install with Docker
+
+#### System update
+
+```bash
+$ apt-get update && apt-get upgrade
+```
+
+#### Firewall
+
+```bash
+// todo 
+```
+
+#### Create user
+
+```bash
+$ adduser kbin
+$ usermod -aG sudo kbin
+$ su kbin
+$ cd ~
+```
+
+#### Front tools
+
+```bash
+$ curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+$ curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
+$ sudo apt-get install -y nodejs
+$ echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+$ sudo apt-get update && sudo apt-get install yarn
+
+```
+
+
+#### Clone repo
+
+```bash
+$ sudo apt-get install git
+$ git clone https://codeberg.org/Kbin/kbin-core.git kbin
+$ cd kbin
+$ mkdir public/media
+$ sudo chown 82:82 public/media
+$ sudo chown 82:82 var
+$ cp .env.example .env
+$ vi .env # esc + !q + enter to exit
+or 
+$ nano .env
+```
+
+Make sure you have substituted all the passwords and configured the basic services in .env file.
 
 The Dockerfile is based on [symfony-docker](https://github.com/dunglas/symfony-docker).
 
