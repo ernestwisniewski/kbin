@@ -210,8 +210,10 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
 
         switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
-            case Criteria::SORT_TOP:
                 $qb->orderBy('c.upVotes', 'DESC');
+                break;
+            case Criteria::SORT_TOP:
+                $qb->orderBy('c.favouriteCount - c.downVotes', 'DESC');
                 break;
             case Criteria::SORT_ACTIVE:
                 $qb->orderBy('c.lastActive', 'DESC');
