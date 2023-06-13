@@ -2,7 +2,7 @@ type.link: Link
 type.article: Article
 type.photo: Photo
 type.video: Video
-type.smart_contract: Smart contract
+type.smart_contract: 'Smart contract'
 type.magazine: Magazine
 thread: Thread
 threads: Threads
@@ -13,17 +13,17 @@ magazine: Magazine
 magazines: Magazines
 search: Search
 add: Add
-select_channel: Select a channel
-login: Log in
+select_channel: 'Select a channel'
+login: 'Log in'
 top: Top
 hot: Hot
 active: Active
 newest: Newest
 oldest: Oldest
 commented: Commented
-change_view: Change view
-filter_by_time: Filter by time
-filter_by_type: Filter by type
+change_view: 'Change view'
+filter_by_time: 'Filter by time'
+filter_by_type: 'Filter by type'
 comments_count: '{0}comments|{1}comment|]1,Inf[ comments'
 favourites: Favourites
 favourite: Favourite
@@ -33,7 +33,7 @@ added: Added
 views: Views
 up_votes: Boosts
 down_votes: Reduces
-no_comments: No comments
+no_comments: 'No comments'
 created_at: Created
 owner: Owner
 subscribers: Subscribers
@@ -42,87 +42,84 @@ comments: Comments
 posts: Posts
 replies: Replies
 moderators: Moderators
-mod_log: Moderation log
-add_comment: Add comment
-add_post: Add post
-add_media: Add media
-markdown_howto: How does the editor work?
-enter_your_comment: Enter your comment
-enter_your_post: Enter your post
+mod_log: 'Moderation log'
+add_comment: 'Add comment'
+add_post: 'Add post'
+add_media: 'Add media'
+markdown_howto: 'How does the editor work?'
+enter_your_comment: 'Enter your comment'
+enter_your_post: 'Enter your post'
 activity: Activity
 cover: Cover
-related_posts: Related posts
-random_posts: Random posts
-federated_magazine_info: The magazine from the federated server may be incomplete.
-federated_user_info: The profile from the federated server may be incomplete.
-go_to_original_instance: Browse more on the original instance.
+related_posts: 'Related posts'
+random_posts: 'Random posts'
+federated_magazine_info: 'The magazine from the federated server may be incomplete.'
+federated_user_info: 'The profile from the federated server may be incomplete.'
+go_to_original_instance: 'Browse more on the original instance.'
 empty: Empty
 subscribe: Subscribe
 unsubscribe: Unsubscribe
 follow: Follow
 unfollow: Unfollow
 reply: Reply
-login_or_email: Login or email
+login_or_email: 'Login or email'
 password: Password
-remember_me: Remember me
-dont_have_account: Don't have an account?
-you_cant_login: You can't login?
-already_have_account: Already have an account?
+remember_me: 'Remember me'
+dont_have_account: "Don't have an account?"
+you_cant_login: "You can't login?"
+already_have_account: 'Already have an account?'
 register: Register
-reset_password: Reset password
-show_more: Show more
+reset_password: 'Reset password'
+show_more: 'Show more'
 to: to
 in: in
 username: Username
 email: Email
-repeat_password: Repeat password
-agree_terms: Consent to %terms_link_start%Terms and Conditions%terms_link_end% and
-  %policy_link_start%Privacy Policy%policy_link_end%
-terms: Terms of service
-privacy_policy: Privacy policy
+repeat_password: 'Repeat password'
+agree_terms: 'Consent to %terms_link_start%Terms and Conditions%terms_link_end% and %policy_link_start%Privacy Policy%policy_link_end%'
+terms: 'Terms of service'
+privacy_policy: 'Privacy policy'
 about_instance: About
-all_magazines: All magazines
+all_magazines: 'All magazines'
 stats: Statistics
 fediverse: Fediverse
 awards: Awards
 ranking: Ranking
-create_new_magazine: Create new magazine
-add_new_article: Add new article
-add_new_link: Add new link
-add_new_photo: Add new photo
-add_new_post: Add new post
-add_new_video: Add new video
+create_new_magazine: 'Create new magazine'
+add_new_article: 'Add new article'
+add_new_link: 'Add new link'
+add_new_photo: 'Add new photo'
+add_new_post: 'Add new post'
+add_new_video: 'Add new video'
 contact: Contact
 faq: FAQ
 rss: RSS
-change_theme: Change theme
+change_theme: 'Change theme'
 useful: Useful
 help: Help
-check_email: Check your email
-reset_check_email_desc: If an account matching your email exists, then an email was
-  just sent that contains a link that you can use to reset your password. This link
-  will expire in %expire%.
-reset_check_email_desc2: If you don't receive an email please check your spam folder.
-try_again: Try again
+check_email: 'Check your email'
+reset_check_email_desc: 'If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password. This link will expire in %expire%.'
+reset_check_email_desc2: "If you don't receive an email please check your spam folder."
+try_again: 'Try again'
 up_vote: Boost
 down_vote: Reduce
-email_confirm_header: Hello! Confirm your email address.
+email_confirm_header: 'Hello! Confirm your email address.'
 email_confirm_content: 'If you want to activate your account click on the link below:'
-email_verify: Confirm email address
-email_confirm_expire: The link will expire in 1 hour.
-email_confirm_title: Confirm your email address.
-select_magazine: Select a magazine
-add_new: Add new
+email_verify: 'Confirm email address'
+email_confirm_expire: 'The link will expire in 1 hour.'
+email_confirm_title: 'Confirm your email address.'
+select_magazine: 'Select a magazine'
+add_new: 'Add new'
 url: URL
 title: Title
 body: Body
 tags: Tags
 badges: Badges
-is_adult: +18 / NSFW
+is_adult: '+18 / NSFW'
 eng: ENG
 oc: OC
 image: Image
-image_alt: Image alternative text
+image_alt: 'Image alternative text'
 name: Name
 description: Description
 rules: Rules
@@ -139,21 +136,21 @@ moderated: Moderated
 ratio: Ratio
 people_local: Local
 people_federated: Federated
-reputation_points: Reputation points
-related_tags: Related tags
-go_to_content: Go to content
-go_to_filters: Go to filters
-go_to_search: Go to search
-go_to_footer: Go to footer
+reputation_points: 'Reputation points'
+related_tags: 'Related tags'
+go_to_content: 'Go to content'
+go_to_filters: 'Go to filters'
+go_to_search: 'Go to search'
+go_to_footer: 'Go to footer'
 subscribed: Subscribed
 all: All
-logout: Log out
-classic_view: Classic view
-compact_view: Compact view
-chat_view: Chat view
-tree_view: Tree view
-table_view: Table view
-cards_view: Cards view
+logout: 'Log out'
+classic_view: 'Classic view'
+compact_view: 'Compact view'
+chat_view: 'Chat view'
+tree_view: 'Tree view'
+table_view: 'Table view'
+cards_view: 'Cards view'
 3h: 3h
 6h: 6h
 12h: 12h
@@ -167,19 +164,19 @@ photos: Photos
 videos: Videos
 report: Report
 share: Share
-copy_url: Copy url
-copy_url_to_fediverse: Copy url to Fediverse
-share_on_fediverse: Share on Fediverse
+copy_url: 'Copy url'
+copy_url_to_fediverse: 'Copy url to Fediverse'
+share_on_fediverse: 'Share on Fediverse'
 edit: Edit
-are_you_sure: Are you sure?
+are_you_sure: 'Are you sure?'
 moderate: Moderate
 reason: Reason
-edit_link: Edit link
-edit_article: Edit article
-edit_photo: Edit photo
+edit_link: 'Edit link'
+edit_article: 'Edit article'
+edit_photo: 'Edit photo'
 delete: Delete
-edit_post: Edit post
-edit_comment: Edit comment
+edit_post: 'Edit post'
+edit_comment: 'Edit comment'
 settings: Settings
 general: General
 profile: Profile
@@ -189,27 +186,27 @@ notifications: Notifications
 messages: Messages
 appearance: Appearance
 homepage: Homepage
-hide_adult: Hide adult content
-featured_magazines: Featured magazines
+hide_adult: 'Hide adult content'
+featured_magazines: 'Featured magazines'
 privacy: Privacy
-show_profile_subscriptions: Show magazine subscriptions
-show_profile_followings: Show following users
-notify_on_new_entry_reply: Notify me of comments in my threads
-notify_on_new_entry_comment_reply: Notify me of replies to my threads comments
-notify_on_new_post_reply: Notify me of replies in my posts
-notify_on_new_post_comment_reply: Notify me of replies to my posts comments
-notify_on_new_entry: Notify me of new threads in a subscribed magazine
-notify_on_new_posts: Notify me of new posts in a subscribed magazine
+show_profile_subscriptions: 'Show magazine subscriptions'
+show_profile_followings: 'Show following users'
+notify_on_new_entry_reply: 'Notify me of comments in my threads'
+notify_on_new_entry_comment_reply: 'Notify me of replies to my threads comments'
+notify_on_new_post_reply: 'Notify me of replies in my posts'
+notify_on_new_post_comment_reply: 'Notify me of replies to my posts comments'
+notify_on_new_entry: 'Notify me of new threads in a subscribed magazine'
+notify_on_new_posts: 'Notify me of new posts in a subscribed magazine'
 save: Save
 about: About
-old_email: Old email
-new_email: New email
-new_email_repeat: Confirm new email
-current_password: Current password
-new_password: New password
-new_password_repeat: Confirm new password
-change_email: Change email
-change_password: Change password
+old_email: 'Old email'
+new_email: 'New email'
+new_email_repeat: 'Confirm new email'
+current_password: 'Current password'
+new_password: 'New password'
+new_password_repeat: 'Confirm new password'
+change_email: 'Change email'
+change_password: 'Change password'
 expand: Expand
 collapse: Collapse
 domains: Domains
@@ -218,199 +215,194 @@ votes: Votes
 theme: Theme
 dark: Dark
 light: Light
-solarized_light: Solarized light
-solarized_dark: Solarized dark
-font_size: Font size
+solarized_light: 'Solarized light'
+solarized_dark: 'Solarized dark'
+font_size: 'Font size'
 size: Size
 boosts: Boosts
 show_users_avatars: 'Show users’ avatars'
-yes: Yes
-no: No
+'yes': 'Yes'
+'no': 'No'
 show_magazines_icons: 'Show magazines’ icons'
-show_thumbnails: Show thumbnails
-rounded_edges: Rounded edges
-removed_thread_by: has removed thread by
-restored_thread_by: has restored thread by
-removed_comment_by: has removed comment by
-restored_comment_by: has restored comment by
-removed_post_by: has removed post by
-restored_post_by: has restored post by
+show_thumbnails: 'Show thumbnails'
+rounded_edges: 'Rounded edges'
+removed_thread_by: 'has removed thread by'
+restored_thread_by: 'has restored thread by'
+removed_comment_by: 'has removed comment by'
+restored_comment_by: 'has restored comment by'
+removed_post_by: 'has removed post by'
+restored_post_by: 'has restored post by'
 he_banned: ban
 he_unbanned: unban
-read_all: Read all
-show_all: Show all
-ranking_disabled: Ranking is disabled
-flash_register_success: Your account has been registered. Check your email, we have
-  sent an email with an activation link.
-flash_thread_new_success: The thread has been created correctly and is now visible
-  to other users.
-flash_thread_edit_success: The thread has been correctly edited.
-flash_thread_delete_success: The thread has been correctly deleted.
-flash_thread_pin_success: The thread has been correctly pinned.
-flash_thread_unpin_success: The thread has been correctly unpinned.
-flash_magazine_new_success: The magazine has been created correctly. You can now add
-  new content or explore the magazines administration panel.
-flash_magazine_edit_success: The magazine has been correctly edited.
-too_many_requests: Limit exceeded, please try again later.
-set_magazines_bar: Magazines bar
-set_magazines_bar_desc: add the magazine names after the comma
-set_magazines_bar_empty_desc: if the field is empty, active magazines are displayed
-  on the bar.
+read_all: 'Read all'
+show_all: 'Show all'
+ranking_disabled: 'Ranking is disabled'
+flash_register_success: 'Your account has been registered. Check your email, we have sent an email with an activation link.'
+flash_thread_new_success: 'The thread has been created correctly and is now visible to other users.'
+flash_thread_edit_success: 'The thread has been correctly edited.'
+flash_thread_delete_success: 'The thread has been correctly deleted.'
+flash_thread_pin_success: 'The thread has been correctly pinned.'
+flash_thread_unpin_success: 'The thread has been correctly unpinned.'
+flash_magazine_new_success: 'The magazine has been created correctly. You can now add new content or explore the magazines administration panel.'
+flash_magazine_edit_success: 'The magazine has been correctly edited.'
+too_many_requests: 'Limit exceeded, please try again later.'
+set_magazines_bar: 'Magazines bar'
+set_magazines_bar_desc: 'add the magazine names after the comma'
+set_magazines_bar_empty_desc: 'if the field is empty, active magazines are displayed on the bar.'
 gold: Gold
 silver: Silver
 bronze: Bronze
 bronze_autobiographer: Autobiographer
-bronze_autobiographer_desc: For completing all fields in the profile
-bronze_personality: Bronze personality
-bronze_personality_desc: 20 followers
-bronze_commentator: Bronze commentator
-bronze_commentator_desc: 10 good comments
-bronze_scout: Bronze scout
-bronze_scout_desc: 10 good links
-bronze_redactor: Bronze redactor
-bronze_redactor_desc: 10 good articles
-bronze_poster: Bronze poster
-bronze_poster_desc: 10 good posts
-bronze_link: Good link
-bronze_link_desc: The post has been boosted 5 times
-bronze_article: Bronze article
-bronze_article_desc: The article has been boosted 5 times
-bronze_photo: Good photo
-bronze_photo_desc: The photo has been boosted 5 times
-bronze_comment: Good comment
-bronze_comment_desc: The comment has been boosted 5 times
-bronze_post: Good post
-bronze_post_desc: The post has been boosted 5 times
-bronze_ranking: Number 3
-bronze_ranking_desc: 3rd place in the ranking
-bronze_popular_entry: Popular Thread
-bronze_popular_entry_desc: Thread visited 1000 times
-bronze_magazine: Famous magazine
-bronze_magazine_desc: 20 followers created magazine
-silver_personality: Silver personality
-silver_personality_desc: 50 followers
-silver_commentator: Silver commentator
-silver_commentator_desc: 10 very good comments
-silver_scout: Silver scout
-silver_scout_desc: 10 very good links
-silver_redactor: Silver redactor
-silver_redactor_desc: 10 very good articles
-silver_poster: Silver poster
-silver_poster_desc: 10 very good posts
-silver_link: Very good link
-silver_link_desc: The post has been boosted 10 times
-silver_article: Silver article
-silver_article_desc: The article has been boosted 10 times
-silver_photo: Very good photo
-silver_photo_desc: The photo has been boosted 10 times
-silver_comment: Very good comment
-silver_comment_desc: The comment has been boosted 10 times
-silver_post: Very good post
-silver_post_desc: The post has been boosted 10 times
-silver_ranking: Number 2
-silver_ranking_desc: 2nd place in the ranking
-silver_popular_entry: Popular Thread
-silver_popular_entry_desc: Thread visited 5000 times
-silver_magazine: Popular magazine
-silver_magazine_desc: 50 followers created magazine
-silver_entry_week: Thread of the week
-silver_entry_week_desc: The best thread of the week
-silver_comment_week: Comment of the week
-silver_comment_week_desc: The best comment of the week
-silver_post_week: Post of the week
-silver_post_week_desc: The best post of the week
-gold_personality: Gold personality
-gold_personality_desc: 100 followers
-gold_commentator: Gold commentator
-gold_commentator_desc: 10 excellent comments
-gold_scout: Gold scout
-gold_scout_desc: 10 excellent links
-gold_redactor: Gold redactor
-gold_redactor_desc: 10 excellent articles
-gold_poster: Gold poster
-gold_poster_desc: 10 excellent posts
-gold_link: Excellent link
-gold_link_desc: The post has been boosted 15 times
-gold_article: Gold article
-gold_article_desc: The article has been boosted 15 times
-gold_photo: Excellent photo
-gold_photo_desc: The photo has been boosted 15 times
-gold_comment: Excellent comment
-gold_comment_desc: The comment has been boosted 15 times
-gold_post: Excellent post
-gold_post_desc: The post has been boosted 15 times
-gold_ranking: Number 1
-gold_ranking_desc: 1st place in the ranking
-gold_popular_entry: Popular Thread
-gold_popular_entry_desc: Thread visited 10000 times
-gold_magazine: Popular magazine
-gold_magazine_desc: 100 followers created magazine
-gold_entry_month: Thread of the month
-gold_entry_month_desc: The best thread of the month
-gold_comment_month: Comment of the month
-gold_comment_month_desc: The best comment of the month
-gold_post_month: Post of the month
-gold_post_month_desc: The best post of the month
-mod_log_alert: In Modlog you may find drastic content removed by moderators. Make
-  sure you know what you are doing.
-added_new_thread: Added a new thread
-edited_thread: Edited a thread
-mod_remove_your_thread: A moderator removed your thread
-added_new_comment: Added a new comment
-edited_comment: Edited a comment
-replied_to_your_comment: Replied to your comment
-mod_deleted_your_comment: A moderator deleted your comment
-added_new_post: Added a new post
-edited_post: Adited a post
-mod_remove_your_post: A moderator removed your post
-added_new_reply: Added a new reply
-wrote_message: Wrote a message
-banned: Banned you
-removed: Removed by mod
-deleted: Deleted by author
-mentioned_you: Mentioned you
+bronze_autobiographer_desc: 'For completing all fields in the profile'
+bronze_personality: 'Bronze personality'
+bronze_personality_desc: '20 followers'
+bronze_commentator: 'Bronze commentator'
+bronze_commentator_desc: '10 good comments'
+bronze_scout: 'Bronze scout'
+bronze_scout_desc: '10 good links'
+bronze_redactor: 'Bronze redactor'
+bronze_redactor_desc: '10 good articles'
+bronze_poster: 'Bronze poster'
+bronze_poster_desc: '10 good posts'
+bronze_link: 'Good link'
+bronze_link_desc: 'The post has been boosted 5 times'
+bronze_article: 'Bronze article'
+bronze_article_desc: 'The article has been boosted 5 times'
+bronze_photo: 'Good photo'
+bronze_photo_desc: 'The photo has been boosted 5 times'
+bronze_comment: 'Good comment'
+bronze_comment_desc: 'The comment has been boosted 5 times'
+bronze_post: 'Good post'
+bronze_post_desc: 'The post has been boosted 5 times'
+bronze_ranking: 'Number 3'
+bronze_ranking_desc: '3rd place in the ranking'
+bronze_popular_entry: 'Popular Thread'
+bronze_popular_entry_desc: 'Thread visited 1000 times'
+bronze_magazine: 'Famous magazine'
+bronze_magazine_desc: '20 followers created magazine'
+silver_personality: 'Silver personality'
+silver_personality_desc: '50 followers'
+silver_commentator: 'Silver commentator'
+silver_commentator_desc: '10 very good comments'
+silver_scout: 'Silver scout'
+silver_scout_desc: '10 very good links'
+silver_redactor: 'Silver redactor'
+silver_redactor_desc: '10 very good articles'
+silver_poster: 'Silver poster'
+silver_poster_desc: '10 very good posts'
+silver_link: 'Very good link'
+silver_link_desc: 'The post has been boosted 10 times'
+silver_article: 'Silver article'
+silver_article_desc: 'The article has been boosted 10 times'
+silver_photo: 'Very good photo'
+silver_photo_desc: 'The photo has been boosted 10 times'
+silver_comment: 'Very good comment'
+silver_comment_desc: 'The comment has been boosted 10 times'
+silver_post: 'Very good post'
+silver_post_desc: 'The post has been boosted 10 times'
+silver_ranking: 'Number 2'
+silver_ranking_desc: '2nd place in the ranking'
+silver_popular_entry: 'Popular Thread'
+silver_popular_entry_desc: 'Thread visited 5000 times'
+silver_magazine: 'Popular magazine'
+silver_magazine_desc: '50 followers created magazine'
+silver_entry_week: 'Thread of the week'
+silver_entry_week_desc: 'The best thread of the week'
+silver_comment_week: 'Comment of the week'
+silver_comment_week_desc: 'The best comment of the week'
+silver_post_week: 'Post of the week'
+silver_post_week_desc: 'The best post of the week'
+gold_personality: 'Gold personality'
+gold_personality_desc: '100 followers'
+gold_commentator: 'Gold commentator'
+gold_commentator_desc: '10 excellent comments'
+gold_scout: 'Gold scout'
+gold_scout_desc: '10 excellent links'
+gold_redactor: 'Gold redactor'
+gold_redactor_desc: '10 excellent articles'
+gold_poster: 'Gold poster'
+gold_poster_desc: '10 excellent posts'
+gold_link: 'Excellent link'
+gold_link_desc: 'The post has been boosted 15 times'
+gold_article: 'Gold article'
+gold_article_desc: 'The article has been boosted 15 times'
+gold_photo: 'Excellent photo'
+gold_photo_desc: 'The photo has been boosted 15 times'
+gold_comment: 'Excellent comment'
+gold_comment_desc: 'The comment has been boosted 15 times'
+gold_post: 'Excellent post'
+gold_post_desc: 'The post has been boosted 15 times'
+gold_ranking: 'Number 1'
+gold_ranking_desc: '1st place in the ranking'
+gold_popular_entry: 'Popular Thread'
+gold_popular_entry_desc: 'Thread visited 10000 times'
+gold_magazine: 'Popular magazine'
+gold_magazine_desc: '100 followers created magazine'
+gold_entry_month: 'Thread of the month'
+gold_entry_month_desc: 'The best thread of the month'
+gold_comment_month: 'Comment of the month'
+gold_comment_month_desc: 'The best comment of the month'
+gold_post_month: 'Post of the month'
+gold_post_month_desc: 'The best post of the month'
+mod_log_alert: 'In Modlog you may find drastic content removed by moderators. Make sure you know what you are doing.'
+added_new_thread: 'Added a new thread'
+edited_thread: 'Edited a thread'
+mod_remove_your_thread: 'A moderator removed your thread'
+added_new_comment: 'Added a new comment'
+edited_comment: 'Edited a comment'
+replied_to_your_comment: 'Replied to your comment'
+mod_deleted_your_comment: 'A moderator deleted your comment'
+added_new_post: 'Added a new post'
+edited_post: 'Adited a post'
+mod_remove_your_post: 'A moderator removed your post'
+added_new_reply: 'Added a new reply'
+wrote_message: 'Wrote a message'
+banned: 'Banned you'
+removed: 'Removed by mod'
+deleted: 'Deleted by author'
+mentioned_you: 'Mentioned you'
 comment: Comment
 post: Post
-ban_expired: Ban expired
+ban_expired: 'Ban expired'
 purge: Purge
-send_message: Send message
+send_message: 'Send message'
 message: Message
-infinite_scroll: Infinite scroll
-show_top_bar: Show top bar
-sticky_navbar: Sticky navbar
-subject_reported: Content has been reported.
-sidebar_position: Sidebar position
+infinite_scroll: 'Infinite scroll'
+show_top_bar: 'Show top bar'
+sticky_navbar: 'Sticky navbar'
+subject_reported: 'Content has been reported.'
+sidebar_position: 'Sidebar position'
 left: Left
 right: Right
 federation: Federation
 status: Status
-on: On
-off: Off
+'on': 'On'
+'off': 'Off'
 instances: Instances
-upload_file: Upload file
-from_url: From url
-magazine_panel: Magazine panel
+upload_file: 'Upload file'
+from_url: 'From url'
+magazine_panel: 'Magazine panel'
 reject: Reject
 approve: Approve
 ban: Ban
 filters: Filters
 approved: Approved
 rejected: Rejected
-add_moderator: Add moderator
-add_badge: Add badge
+add_moderator: 'Add moderator'
+add_badge: 'Add badge'
 bans: Bans
 created: Created
 expires: Expires
 perm: Perm
-expired_at: Expired at
-add_ban: Add ban
+expired_at: 'Expired at'
+add_ban: 'Add ban'
 trash: Trash
 icon: Icon
 done: Done
 pin: Pin
 unpin: Unpin
-change_magazine: Change magazine
-change_language: Change language
+change_magazine: 'Change magazine'
+change_language: 'Change language'
 change: Change
 pinned: Pinned
 preview: Preview
@@ -427,50 +419,48 @@ months: Months
 year: Year
 federated: Federated
 local: Local
-admin_panel: Admin panel
+admin_panel: 'Admin panel'
 dashboard: Dashboard
-contact_email: Contact email
+contact_email: 'Contact email'
 meta: Meta
 instance: Instance
 pages: Pages
 FAQ: FAQ
 inactive: Innactive
-type_search_term: Type search term
-federation_enabled: Federation enabled
-registrations_enabled: Registrations enabled
-registration_disabled: Registration disabled
+type_search_term: 'Type search term'
+federation_enabled: 'Federation enabled'
+registrations_enabled: 'Registrations enabled'
+registration_disabled: 'Registration disabled'
 restore: Restore
-add_mentions_entries: Add mention tags in entries
-add_mentions_posts: Add mention tags in posts
-Password is invalid: Password is invalid.
-Your account is not active: Your account is not active.
-Your account has been banned: Your account has been banned.
+add_mentions_entries: 'Add mention tags in entries'
+add_mentions_posts: 'Add mention tags in posts'
+'Password is invalid': 'Password is invalid.'
+'Your account is not active': 'Your account is not active.'
+'Your account has been banned': 'Your account has been banned.'
 firstname: Firstname
 send: Send
-active_users: Active people
-random_entries: Random threads
-related_entries: Related threads
-delete_account: Delete account
-purge_account: Purge account
-ban_account: Ban account
-unban_account: Unban account
-delete_account_request_send: Your request to delete the account has been submitted.
-related_magazines: Related magazines
-random_magazines: Random magazines
-magazine_panel_tags_info: Provide only if you want content from the fediverse to be
-  included in this magazine based on tags
+active_users: 'Active people'
+random_entries: 'Random threads'
+related_entries: 'Related threads'
+delete_account: 'Delete account'
+purge_account: 'Purge account'
+ban_account: 'Ban account'
+unban_account: 'Unban account'
+delete_account_request_send: 'Your request to delete the account has been submitted.'
+related_magazines: 'Related magazines'
+random_magazines: 'Random magazines'
+magazine_panel_tags_info: 'Provide only if you want content from the fediverse to be included in this magazine based on tags'
 sidebar: Sidebar
-auto_preview: Auto media preview
-dynamic_lists: Dynamic lists
-banned_instances: Banned instances
-kbin_intro_title: Explore Fediverse
-kbin_intro_desc: it's a decentralized platform for content aggregation and microblogging
-  that operates within the Fediverse network.
-kbin_promo_title: Create your own instance
+auto_preview: 'Auto media preview'
+dynamic_lists: 'Dynamic lists'
+banned_instances: 'Banned instances'
+kbin_intro_title: 'Explore Fediverse'
+kbin_intro_desc: "it's a decentralized platform for content aggregation and microblogging that operates within the Fediverse network."
+kbin_promo_title: 'Create your own instance'
 kbin_promo_desc: '%link_start%Clone repo%link_end% and develop fediverse'
-captcha_enabled: Captcha enabled
-header_logo: Header logo
-browsing_one_thread: You are only browsing one thread in the discussion! All comments
-  are available on the post page.
+captcha_enabled: 'Captcha enabled'
+header_logo: 'Header logo'
+browsing_one_thread: 'You are only browsing one thread in the discussion! All comments are available on the post page.'
 return: Return
 boost: Boost
+report_issue: 'Report issue'
