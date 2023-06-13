@@ -41,6 +41,7 @@ export default class extends Controller {
         }
 
         this.checkHeight();
+        this.handleAdultThumbs()
     }
 
     async getForm(event) {
@@ -407,6 +408,18 @@ export default class extends Controller {
     expand() {
         if (!this.isExpandedValue) {
             this.moreBtn.click();
+        }
+    }
+
+    handleAdultThumbs() {
+        // @todo temporary fix
+        const adultBadge = this.element.querySelector('.danger');
+        if (adultBadge && adultBadge.textContent === '+18') {
+            const image = this.element.querySelector('img');
+            image.style.filter = 'blur(8px)';
+            image.addEventListener('click', () => {
+                image.style.filter = 'none';
+            });
         }
     }
 }
