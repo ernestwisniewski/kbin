@@ -42,4 +42,4 @@ $ docker compose build # build the image
 $ docker compose up -d # create and start the containers
 ```
 
-Then, you shoud be able to access the new instance via `http://localhost:9000`.
+Then, you shoud be able to access the new instance via `http://localhost:9001`.
