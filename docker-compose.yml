@@ -8,9 +8,10 @@ services:
       args:
         SYMFONY_VERSION: ${SYMFONY_VERSION:-}
         STABILITY: ${STABILITY:-stable}
+    networks:
+      - internal
     restart: always
     volumes:
-      - php_socket:/var/run/php
       - ./:/srv/app
     healthcheck:
       interval: 10s
@@ -37,6 +38,9 @@ services:
     build:
       context: .
       target: app_caddy
+    networks:
+      - internal
+      - frontend
     depends_on:
       - php
     environment:
@@ -45,7 +49,6 @@ services:
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
     restart: always
     volumes:
-      - php_socket:/var/run/php
       - caddy_data:/data
       - caddy_config:/config
       - ./:/srv/app:ro
@@ -65,6 +68,8 @@ services:
 
   redis:
     image: redis:7.0.11-alpine
+    networks:
+      - internal
     restart: always
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD:-!ChangeThisRedisPass!} --maxmemory-policy volatile-ttl
     volumes:
@@ -72,6 +77,8 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management
+    networks:
+      - internal
     hostname: kbin-rabbitmq
     restart: always
     environment:
@@ -79,15 +86,14 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-kbin}
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
 
   messenger_kbin:
     user: "82:82"
     build:
       context: .
       target: symfony_messenger
+    networks:
+      - internal
     command: 'sh -c "php bin/console messenger:consume async --time-limit=3600"'
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-kbin}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-kbin}?serverVersion=${POSTGRES_VERSION:-13}&charset=${POSTGRES_CHARSET:-utf8}
@@ -101,7 +107,6 @@ services:
       RABBITMQ_USER: ${RABBITMQ_USER:-kbin}
     volumes:
       - ./:/srv/app
-      - php_socket:/var/run/php
     healthcheck:
       interval: 20s
       timeout: 3s
@@ -116,6 +121,8 @@ services:
     build:
       context: .
       target: symfony_messenger
+    networks:
+      - internal
     command: 'sh -c "php bin/console messenger:consume async_ap --time-limit=3600"'
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-kbin}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-kbin}?serverVersion=${POSTGRES_VERSION:-13}&charset=${POSTGRES_CHARSET:-utf8}
@@ -129,7 +136,6 @@ services:
       RABBITMQ_USER: ${RABBITMQ_USER:-kbin}
     volumes:
       - ./:/srv/app
-      - php_socket:/var/run/php
     healthcheck:
       interval: 20s
       timeout: 3s
@@ -143,6 +149,8 @@ services:
   ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-13}-alpine
+    networks:
+      - internal
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-kbin}
       # You should definitely change the password in production
@@ -152,8 +160,6 @@ services:
       - db-data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
-    ports:
-      - "5433:5432"
 ###< doctrine/doctrine-bundle ###
 
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
@@ -161,9 +167,11 @@ services:
 ###< symfony/mercure-bundle ###
 
 volumes:
-  php_socket:
   caddy_data:
   caddy_config:
   db-data:
   rabbitmq-data:
   redis-data:
+
+networks:
+  internal:
