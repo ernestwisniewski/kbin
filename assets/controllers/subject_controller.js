@@ -417,8 +417,11 @@ export default class extends Controller {
         if (adultBadge && adultBadge.textContent === '+18') {
             const image = this.element.querySelector('img');
             image.style.filter = 'blur(8px)';
-            image.addEventListener('click', () => {
+            image.addEventListener('mouseenter', () => {
                 image.style.filter = 'none';
+            });
+            image.addEventListener('mouseleave', () => {
+                image.style.filter = 'blur(8px)';
             });
         }
     }
