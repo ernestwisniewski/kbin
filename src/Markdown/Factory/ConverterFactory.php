@@ -16,6 +16,8 @@ class ConverterFactory
             'renderer' => [
                 'soft_break' => "<br>\r\n",
             ],
+            'html_input' => 'escape',
+            'allow_unsafe_links' => false,
         ], $environment);
     }
 }
