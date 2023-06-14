@@ -5,8 +5,8 @@
                        "vote meta image"
                        "vote footer image"
                        "body body body";
-  grid-template-columns: min-content auto min-content;
-  padding: 1rem .5rem;
+  grid-template-columns: min-content 1fr;
+  padding: 0.75rem;
   position: relative;
   z-index: 2;
 
@@ -16,7 +16,7 @@
                        "vote meta"
                        "vote footer"
                        "body body";
-    grid-template-columns: min-content auto;
+    grid-template-columns: min-content 1fr;
   }
 
   @include media-breakpoint-down(lg) {
@@ -26,7 +26,7 @@
                        "vote meta meta"
                        "vote footer footer"
                        "body body body";
-    grid-template-columns: min-content auto auto;
+    grid-template-columns: min-content 1fr;
 
     header {
       margin-top: .5rem;
@@ -44,7 +44,7 @@
                        "meta meta"
                        "footer footer"
                        "body body";
-    grid-template-columns: min-content auto;
+    grid-template-columns: min-content 1fr;
 
     &.no-image {
       grid-template-areas: "vote title"
@@ -52,7 +52,7 @@
                        "meta meta"
                        "footer footer"
                        "body body";
-      grid-template-columns: min-content auto;
+      grid-template-columns: min-content 1fr;
 
       .vote {
         margin-bottom: 1rem;
@@ -66,7 +66,7 @@
                        "meta meta"
                        "footer footer"
                        "body body";
-      grid-template-columns: min-content auto;
+      grid-template-columns: min-content 1fr;
 
       .vote {
         text-align: right;
@@ -83,7 +83,7 @@
                        "meta meta"
                        "footer footer"
                        "body body";
-      grid-template-columns: auto min-content;
+      grid-template-columns: min-content 1fr;
     }
   }
 
@@ -93,7 +93,7 @@
                        "vote meta image"
                        "vote footer image"
                        "body body body" !important;
-      grid-template-columns: min-content auto min-content;
+      grid-template-columns: min-content 1fr;
 
       figure {
         img {
@@ -136,13 +136,26 @@
     grid-area: image;
     margin: 0 0 0 1rem;
 
+    @include media-breakpoint-down(lg) {
+      margin: 0;
+    }
+
     @include media-breakpoint-down(sm) {
-      margin: 0 .5rem 0 0;
+      margin: 0 .5rem 0 .25rem;
+      
+      .view-compact & {
+        margin-left: 0rem;
+      }
     }
 
     img {
       -o-object-fit: none;
       object-fit: none;
+    }
+
+    a {
+      display: inline-block;
+      height: 100%;
     }
   }
 
@@ -153,7 +166,7 @@
   }
 
   header {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
     grid-area: title;
@@ -204,10 +217,12 @@
 
   &__meta {
     grid-area: meta;
+    align-self: flex-end;
   }
 
   footer {
     grid-area: footer;
+    align-self: flex-end;
 
     menu {
       column-gap: 1rem;
@@ -217,8 +232,12 @@
       list-style: none;
       opacity: .75;
 
+      & > li {
+        line-height: 1rem;
+      }
+
       & > a.active,
-      & > li button.active, {
+      & > li button.active {
         text-decoration: underline;
       }
 

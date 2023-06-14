@@ -98,8 +98,12 @@
     position: relative;
     z-index: 4;
 
+    & > li {
+      line-height: 1rem;
+    }
+
     & > a.active,
-    & > li button.active, {
+    & > li button.active {
       text-decoration: underline;
     }
 
