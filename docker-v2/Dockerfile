@@ -1,19 +1,18 @@
 FROM php:8.2-fpm-bullseye as base
 
-# Install php and required extensions
+# Install php extensions, by docker-php-extension-installer
 RUN curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o - | \
     sh -s amqp pgsql gd curl simplexml dom xml redis intl pdo_pgsql
-##
 ## Remark: pdo_pgsql is added.
 
-# Install some basic stuffs
+# Install system prerequisites
 RUN apt-get update && apt-get install -y git unzip nginx
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 RUN php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-# Install yarn
+# Install nodejs and yarn
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null
 RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
@@ -53,12 +52,12 @@ USER $DEFAULT_USER
 WORKDIR $KBIN_HOME
 
 # Clone repo
-RUN git clone https://codeberg.org/Kbin/kbin-core.git $KBIN_HOME
-RUN mkdir public/media
-RUN chmod 777 public/media
-RUN cp .env.example .env
+RUN git clone https://codeberg.org/Kbin/kbin-core.git $KBIN_HOME && \
+    mkdir public/media && \
+    chmod 777 public/media && \
+    cp .env.example .env
 
-# Composer: Install packages and build
+# Composer: Install packages
 # developer mode:
 RUN composer install && \
     composer clear-cache
