@@ -4,11 +4,11 @@
   grid-template-rows: min-content min-content;
 
   .active.vote__up button {
-    color: var(--kbin-success-color);
+    color: var(--kbin-upvoted-color);
   }
 
   .active.vote__down button {
-    color: var(--kbin-danger-color);
+    color: var(--kbin-downvoted-color);
   }
 
   button {
