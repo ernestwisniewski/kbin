@@ -9,6 +9,7 @@ RUN curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases
 RUN apt-get update && apt-get install -y git unzip nginx
 
 # **Environment variables**
+ARG MODE=dev
 ENV KBIN_HOME=/var/www/kbin \
     DEFAULT_USER=kbin
 
@@ -36,6 +37,9 @@ RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr
 RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && apt-get install -y nodejs yarn
 
+# Swithc user
+USER $DEFAULT_USER
+
 # Clone repo
 RUN git clone https://codeberg.org/Kbin/kbin-core.git $KBIN_HOME && \
     mkdir public/media && \
@@ -43,17 +47,21 @@ RUN git clone https://codeberg.org/Kbin/kbin-core.git $KBIN_HOME && \
     cp .env.example .env
 
 # Composer: Install packages
-# developer mode:
-RUN composer install && \
-    composer clear-cache
-# prod mode:
-#RUN composer dump-env prod && \
-#    composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress && \
-#    APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear && \
-#    composer clear-cache
-##
-## TODO: Change to use prod mode. However, not sure why using the commands of
-##       prod mode causes error during building the docker image.
+RUN if [ "$MODE" = "dev" ]; then \
+        echo "Composer: development mode" && \
+        composer install && \
+        composer clear-cache; \
+    elif [ "$MODE" = "prod" ]; then \
+        echo "Composer: production mode" && \
+        composer dump-env prod && \
+        composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress && \
+        APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear && \
+        composer clear-cache; \
+    else \
+        echo "Unknown mode: $MODE" && \
+        return 1; \
+    fi
+## TODO: The commands of prod mode causes error during building the docker image.
 ##       Still under investigating.
 
 # Yarn: Install, Build, Clean
@@ -69,10 +77,18 @@ RUN rm .env
 FROM base as runner
 
 # PHP configuration
-RUN sed -e "s/upload_max_filesize = [0-9]*M/upload_max_filesize = 8M/p" \
+RUN if [ "$MODE" = "dev" ]; then \
+        PHP_MODE="development"; \
+    elif [ "$MODE" = "prod" ]; then \
+        PHP_MODE="production"; \
+    else \
+        echo "Unknown mode: $MODE" && \
+        return 1; \
+    fi && \
+    sed -e "s/upload_max_filesize = [0-9]*M/upload_max_filesize = 8M/p" \
     -e "s/post_max_size = [0-9]*M/post_max_size = 8M/p" \
     -e "s/memory_limit = [0-9]*M/memory_limit = 512M/p" \
-    "$PHP_INI_DIR/php.ini-production" > "$PHP_INI_DIR/php.ini"
+    "$PHP_INI_DIR/php.ini-$PHP_MODE" > "$PHP_INI_DIR/php.ini"
 RUN echo "chdir = $KBIN_HOME" >> /usr/local/etc/php-fpm.d/www.conf
 
 # Nginx configuration
