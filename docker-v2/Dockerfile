@@ -22,6 +22,21 @@ RUN mkdir -p $KBIN_HOME && \
     chown $USER:$GROUP $KBIN_HOME
 WORKDIR $KBIN_HOME
 
+# PHP configuration (need to this before setting up composer)
+RUN if [ "$MODE" = "dev" ]; then \
+        PHP_MODE="development"; \
+    elif [ "$MODE" = "prod" ]; then \
+        PHP_MODE="production"; \
+    else \
+        echo "Unknown mode: $MODE" && \
+        return 1; \
+    fi && \
+    sed -e "s/upload_max_filesize = [0-9]*M/upload_max_filesize = 8M/p" \
+    -e "s/post_max_size = [0-9]*M/post_max_size = 8M/p" \
+    -e "s/memory_limit = [0-9]*M/memory_limit = 512M/p" \
+    "$PHP_INI_DIR/php.ini-$PHP_MODE" > "$PHP_INI_DIR/php.ini"
+RUN echo "chdir = $KBIN_HOME" >> /usr/local/etc/php-fpm.d/www.conf
+
 ####################
 
 FROM base as builder
@@ -52,8 +67,9 @@ RUN if [ "$MODE" = "dev" ]; then \
         composer clear-cache; \
     elif [ "$MODE" = "prod" ]; then \
         echo "Composer: production mode" && \
+        composer require symfony/flex && \
         composer dump-env prod && \
-        composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress && \
+        composer install --no-dev --optimize-autoloader && \
         APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear && \
         composer clear-cache; \
     else \
@@ -74,21 +90,6 @@ RUN rm .env
 ####################
 
 FROM base as runner
-
-# PHP configuration
-RUN if [ "$MODE" = "dev" ]; then \
-        PHP_MODE="development"; \
-    elif [ "$MODE" = "prod" ]; then \
-        PHP_MODE="production"; \
-    else \
-        echo "Unknown mode: $MODE" && \
-        return 1; \
-    fi && \
-    sed -e "s/upload_max_filesize = [0-9]*M/upload_max_filesize = 8M/p" \
-    -e "s/post_max_size = [0-9]*M/post_max_size = 8M/p" \
-    -e "s/memory_limit = [0-9]*M/memory_limit = 512M/p" \
-    "$PHP_INI_DIR/php.ini-$PHP_MODE" > "$PHP_INI_DIR/php.ini"
-RUN echo "chdir = $KBIN_HOME" >> /usr/local/etc/php-fpm.d/www.conf
 
 # Nginx configuration
 COPY kbin.conf /etc/nginx/sites-available/kbin.conf
