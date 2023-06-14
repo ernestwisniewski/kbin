@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./redis:/data
-    command: redis-server --requirepass "$${REDIS_PASSWORD}"
+    command: /bin/sh -c "redis-server --requirepass $${REDIS_PASSWORD}"
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
 
