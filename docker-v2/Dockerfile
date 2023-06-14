@@ -11,16 +11,15 @@ RUN apt-get update && apt-get install -y git unzip nginx
 # **Environment variables**
 ARG MODE=dev
 ENV KBIN_HOME=/var/www/kbin \
-    DEFAULT_USER=kbin
+    USER=kbin \
+    GROUP=www-data
 
 # Create user
-RUN addgroup --gid 1000 kbin && \
-    adduser --uid 1000 -gid 1000 --disabled-password --gecos "" $DEFAULT_USER && \
-    usermod -aG www-data $DEFAULT_USER
+RUN adduser --uid 1000 -gid 33 --disabled-password --gecos "" $USER
 
 # Create path
 RUN mkdir -p $KBIN_HOME && \
-    chown $DEFAULT_USER:$DEFAULT_USER $KBIN_HOME
+    chown $USER:$GROUP $KBIN_HOME
 WORKDIR $KBIN_HOME
 
 ####################
@@ -38,7 +37,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com
 RUN apt-get update && apt-get install -y nodejs yarn
 
 # Swithc user
-USER $DEFAULT_USER
+USER $USER
 
 # Clone repo
 RUN git clone https://codeberg.org/Kbin/kbin-core.git $KBIN_HOME && \
@@ -94,11 +93,11 @@ RUN echo "chdir = $KBIN_HOME" >> /usr/local/etc/php-fpm.d/www.conf
 # Nginx configuration
 COPY kbin.conf /etc/nginx/sites-available/kbin.conf
 RUN ln -s /etc/nginx/sites-available/kbin.conf /etc/nginx/sites-enabled/
-RUN mkdir -p /var/cache/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/cache/nginx && \
-    mkdir -p /var/lib/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/lib/nginx && \
-    mkdir -p /var/log/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/log/nginx
+RUN mkdir -p /var/cache/nginx && chown -R $USER:$GROUP /var/cache/nginx && \
+    mkdir -p /var/lib/nginx && chown -R $USER:$GROUP /var/lib/nginx && \
+    mkdir -p /var/log/nginx && chown -R $USER:$GROUP /var/log/nginx
 RUN touch /var/run/nginx.pid && \
-    chown -R $DEFAULT_USER:$DEFAULT_USER /var/run/nginx.pid
+    chown -R $USER:$GROUP /var/run/nginx.pid
 
 # Set file permissions for symfony
 # https://symfony.com/doc/current/setup/file_permissions.html
@@ -113,8 +112,8 @@ RUN touch /var/run/nginx.pid && \
 ##         Not sure if it is safe to remove these commands.
 
 # Switch user
-USER $DEFAULT_USER
+USER $USER
 
-COPY --from=builder --chown=$DEFAULT_USER:$DEFAULT_USER $KBIN_HOME $KBIN_HOME
-COPY --chown=$DEFAULT_USER:$DEFAULT_USER --chmod=755 entry-point.sh ./
+COPY --from=builder --chown=$USER:$GROUP $KBIN_HOME $KBIN_HOME
+COPY --chown=$USER:$GROUP --chmod=755 entry-point.sh ./
 ENTRYPOINT ["./entry-point.sh"]

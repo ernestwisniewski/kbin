@@ -14,9 +14,12 @@ $ git clone https://codeberg.org/Kbin/kbin-core.git
 $ cd kbin-core/docker-v2
 $ cp ../.env.example .env
 $ mkdir media
-$ chown www-data:www-data media
-# If you don't have this user in your machine, use the following instead.
-# sudo chown 33:33 media
+$ chown kbin:www-data media
+# In the containers, the default user "kbin" has uid 1000,
+# and the default group "www-data" has gid 33.
+# If you don't have them on the host or they have different id,
+# use the following command instead.
+$ sudo chown 1000:33 media
 ```
 
 ### Configure `.env`
@@ -35,11 +38,18 @@ $ chown www-data:www-data media
     DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?serverVersion=${POSTGRES_VERSION}&charset=utf8"
     ```
 
-### Create and start the containers
+### Build image and create containers
 
 ```bash
 $ docker compose build # build the image
+# The image will be built in development mode, by default.
+# Append "--build-arg MODE=prod" to build in production mode.
+
 $ docker compose up -d # create and start the containers
 ```
 
 Then, you shoud be able to access the new instance via `http://localhost:9001`.
+
+### Add auxiliary containers to `docker-compose.yml`
+
+Add any auxiliary container as you want. For example, add a nginx container as reverse proxy to provide HTTPS encryption.
