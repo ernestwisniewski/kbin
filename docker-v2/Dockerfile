@@ -6,16 +6,6 @@ RUN curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases
 ##
 ## Remark: pdo_pgsql is added.
 
-# PHP Configuration
-RUN sed -e "s/upload_max_filesize = [0-9]*M/upload_max_filesize = 8M/p" \
-    -e "s/post_max_size = [0-9]*M/post_max_size = 8M/p" \
-    -e "s/memory_limit = [0-9]*M/memory_limit = 512M/p" \
-    "$PHP_INI_DIR/php.ini-production" > "$PHP_INI_DIR/php.ini"
-
-# **Environment variables**
-ENV KBIN_HOME=/var/www/kbin \
-    DEFAULT_USER=kbin
-
 # Install some basic stuffs
 RUN apt-get update && apt-get install -y git unzip nginx
 
@@ -29,22 +19,34 @@ RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr
 RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && apt-get install -y nodejs yarn
 
+# **Environment variables**
+ENV KBIN_HOME=/var/www/kbin \
+    DEFAULT_USER=kbin
+
 # Create user
-RUN adduser --disabled-password --gecos "" $DEFAULT_USER && \
+RUN addgroup --gid 1000 kbin && \
+    adduser --uid 1000 -gid 1000 --disabled-password --gecos "" $DEFAULT_USER && \
     usermod -aG www-data $DEFAULT_USER
 
 # Create path
 RUN mkdir -p $KBIN_HOME && \
-    chown kbin:kbin $KBIN_HOME
+    chown $DEFAULT_USER:$DEFAULT_USER $KBIN_HOME
 
-# Nginx
+# PHP configuration
+RUN sed -e "s/upload_max_filesize = [0-9]*M/upload_max_filesize = 8M/p" \
+    -e "s/post_max_size = [0-9]*M/post_max_size = 8M/p" \
+    -e "s/memory_limit = [0-9]*M/memory_limit = 512M/p" \
+    "$PHP_INI_DIR/php.ini-production" > "$PHP_INI_DIR/php.ini"
+RUN echo "chdir = $KBIN_HOME" >> /usr/local/etc/php-fpm.d/www.conf
+
+# Nginx configuration
 COPY kbin.conf /etc/nginx/sites-available/kbin.conf
 RUN ln -s /etc/nginx/sites-available/kbin.conf /etc/nginx/sites-enabled/
-RUN mkdir -p /var/cache/nginx && chown -R kbin:kbin /var/cache/nginx && \
-    mkdir -p /var/lib/nginx && chown -R kbin:kbin /var/lib/nginx && \
-    mkdir -p /var/log/nginx && chown -R kbin:kbin /var/log/nginx
+RUN mkdir -p /var/cache/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/cache/nginx && \
+    mkdir -p /var/lib/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/lib/nginx && \
+    mkdir -p /var/log/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/log/nginx
 RUN touch /var/run/nginx.pid && \
-    chown -R kbin:kbin /var/run/nginx.pid
+    chown -R $DEFAULT_USER:$DEFAULT_USER /var/run/nginx.pid
 
 # Switch user
 USER $DEFAULT_USER
