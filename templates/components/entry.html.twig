@@ -61,11 +61,11 @@
                 {% endif %}
             </header>
             {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
-                <div class="content short-desc">
-                    {% if entry.body and showShortSentence %}
+                {% if entry.body and showShortSentence %}
+                    <div class="content short-desc">
                         <p>{{ get_short_sentence(entry.body) }}</p>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
                 {% if entry.body and showBody %}
                     <div class="entry__body">
                         <div class="content formatted">
