@@ -19,7 +19,7 @@
                     {% if isSingle %}
                         <h1>
                             {% if entry.isAdult %}<small class="badge danger">+18</small>{% endif %}
-                            {% if entry.isOc %}<small class="badge success">OC</small>{% endif %}
+                            {% if entry.isOc %}<small class="badge kbin-bg">OC</small>{% endif %}
                             {% if entry.url %}
                                 <a rel="{{ get_rel(entry.url) }}"
                                    href="{{ entry.url }}">{{ entry.title }}</a>
