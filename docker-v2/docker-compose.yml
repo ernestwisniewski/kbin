@@ -33,8 +33,7 @@ services:
       - POSTGRES_DB=kbin
       - POSTGRES_USER=kbin
 
-  # Reverse proxy in front of the kbin container
-  #
+  # Reverse proxy in front of the kbin container (Optional)
   # nginx:
   #  image: nginx
   #  ports:
