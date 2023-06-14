@@ -8,16 +8,6 @@ RUN curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases
 # Install system prerequisites
 RUN apt-get update && apt-get install -y git unzip nginx
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
-RUN php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
-
-# Install nodejs and yarn
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null
-RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -y nodejs yarn
-
 # **Environment variables**
 ENV KBIN_HOME=/var/www/kbin \
     DEFAULT_USER=kbin
@@ -30,26 +20,21 @@ RUN addgroup --gid 1000 kbin && \
 # Create path
 RUN mkdir -p $KBIN_HOME && \
     chown $DEFAULT_USER:$DEFAULT_USER $KBIN_HOME
-
-# PHP configuration
-RUN sed -e "s/upload_max_filesize = [0-9]*M/upload_max_filesize = 8M/p" \
-    -e "s/post_max_size = [0-9]*M/post_max_size = 8M/p" \
-    -e "s/memory_limit = [0-9]*M/memory_limit = 512M/p" \
-    "$PHP_INI_DIR/php.ini-production" > "$PHP_INI_DIR/php.ini"
-RUN echo "chdir = $KBIN_HOME" >> /usr/local/etc/php-fpm.d/www.conf
-
-# Nginx configuration
-COPY kbin.conf /etc/nginx/sites-available/kbin.conf
-RUN ln -s /etc/nginx/sites-available/kbin.conf /etc/nginx/sites-enabled/
-RUN mkdir -p /var/cache/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/cache/nginx && \
-    mkdir -p /var/lib/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/lib/nginx && \
-    mkdir -p /var/log/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/log/nginx
-RUN touch /var/run/nginx.pid && \
-    chown -R $DEFAULT_USER:$DEFAULT_USER /var/run/nginx.pid
-
-# Switch user
-USER $DEFAULT_USER
 WORKDIR $KBIN_HOME
+
+####################
+
+FROM base as builder
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+RUN php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+# Install nodejs and yarn
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null
+RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y nodejs yarn
 
 # Clone repo
 RUN git clone https://codeberg.org/Kbin/kbin-core.git $KBIN_HOME && \
@@ -71,6 +56,34 @@ RUN composer install && \
 ##       prod mode causes error during building the docker image.
 ##       Still under investigating.
 
+# Yarn: Install, Build, Clean
+RUN yarn install && \
+    yarn build && \
+    yarn cache clean && \
+    rm -rf node_modules
+
+RUN rm .env
+
+####################
+
+FROM base as runner
+
+# PHP configuration
+RUN sed -e "s/upload_max_filesize = [0-9]*M/upload_max_filesize = 8M/p" \
+    -e "s/post_max_size = [0-9]*M/post_max_size = 8M/p" \
+    -e "s/memory_limit = [0-9]*M/memory_limit = 512M/p" \
+    "$PHP_INI_DIR/php.ini-production" > "$PHP_INI_DIR/php.ini"
+RUN echo "chdir = $KBIN_HOME" >> /usr/local/etc/php-fpm.d/www.conf
+
+# Nginx configuration
+COPY kbin.conf /etc/nginx/sites-available/kbin.conf
+RUN ln -s /etc/nginx/sites-available/kbin.conf /etc/nginx/sites-enabled/
+RUN mkdir -p /var/cache/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/cache/nginx && \
+    mkdir -p /var/lib/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/lib/nginx && \
+    mkdir -p /var/log/nginx && chown -R $DEFAULT_USER:$DEFAULT_USER /var/log/nginx
+RUN touch /var/run/nginx.pid && \
+    chown -R $DEFAULT_USER:$DEFAULT_USER /var/run/nginx.pid
+
 # Set file permissions for symfony
 # https://symfony.com/doc/current/setup/file_permissions.html
 # if the following commands don't work, try adding `-n` option to `setfacl`
@@ -83,12 +96,9 @@ RUN composer install && \
 ## Remark: The php docker image doesn't have `setfacl` by default.
 ##         Not sure if it is safe to remove these commands.
 
-# Yarn: Install packages and build
-RUN yarn install && \
-    yarn build && \
-    yarn cache clean
+# Switch user
+USER $DEFAULT_USER
 
-RUN rm .env
-
+COPY --from=builder --chown=$DEFAULT_USER:$DEFAULT_USER $KBIN_HOME $KBIN_HOME
 COPY --chown=$DEFAULT_USER:$DEFAULT_USER --chmod=755 entry-point.sh ./
 ENTRYPOINT ["./entry-point.sh"]
