@@ -103,6 +103,10 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             $attr['target'] = '_blank';
         }
 
+        if (str_starts_with($url, 'javascript:')) {
+            $url = '';
+        }
+
         return new HtmlElement(
             'a',
             ['href' => $url] + $attr,
