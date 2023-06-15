@@ -45,8 +45,8 @@ $ chown kbin:www-data media
 
 ```bash
 $ docker compose build # build the image
-# The image will be built in development mode, by default.
-# Append "--build-arg MODE=prod" to build in production mode.
+# The image will be built in production mode, by default.
+# Append "--build-arg MODE=dev" to build in development mode.
 
 $ docker compose up -d # create and start the containers
 # The kbin container may restart by itself for several times,
