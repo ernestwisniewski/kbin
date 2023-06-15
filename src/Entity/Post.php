@@ -38,7 +38,10 @@ use Webmozart\Assert\Assert;
 #[Index(columns: ['visibility'], name: 'post_visibility_idx')]
 #[Index(columns: ['is_adult'], name: 'post_adult_idx')]
 #[Index(columns: ['ranking'], name: 'post_ranking_idx')]
+#[Index(columns: ['score'], name: 'post_score_idx')]
+#[Index(columns: ['comment_count'], name: 'post_comment_count_idx')]
 #[Index(columns: ['created_at'], name: 'post_created_at_idx')]
+#[Index(columns: ['last_active'], name: 'post_last_active_at_idx')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Post implements VotableInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {

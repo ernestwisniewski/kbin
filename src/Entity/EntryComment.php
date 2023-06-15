@@ -25,6 +25,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -33,6 +34,9 @@ use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryCommentRepository::class)]
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]
+#[Index(columns: ['up_votes'], name: 'entry_comment_up_votes_idx')]
+#[Index(columns: ['last_active'], name: 'entry_comment_last_active_at_idx')]
+#[Index(columns: ['created_at'], name: 'entry_comment_created_at_idx')]
 class EntryComment implements VotableInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
