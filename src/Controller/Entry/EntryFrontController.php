@@ -7,6 +7,7 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
+use App\Entity\User;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
@@ -20,6 +21,17 @@ class EntryFrontController extends AbstractController
 {
     public function __construct(private readonly EntryRepository $repository)
     {
+    }
+
+    public function root(?string $sortBy, ?string $time, ?string $type, Request $request): Response
+    {
+        $user = $this->getUser();
+
+        if ($user && $user.homepage == User::HOMEPAGE_SUB) {
+            return $this->subscribed($sortBy, $time, $type, $request);
+        }
+
+        return $this->front($sortBy, $time, $type, $request);
     }
 
     public function front(?string $sortBy, ?string $time, ?string $type, Request $request): Response
