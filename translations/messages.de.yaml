@@ -24,7 +24,7 @@ commented: kommentiert
 change_view: Ansicht wechseln
 filter_by_time: Filter nach Zeit
 filter_by_type: Filter nach Typ
-comments_count: '{0}Kommentare|{1}Kommentar|]1,Inf[ Kommentare'
+comments_count: '{0} Kommentare|{1} Kommentar|]1,Inf[ Kommentare'
 favourites: Favoriten
 favourite: favorisieren
 more: mehr
@@ -87,11 +87,11 @@ fediverse: Fediverse
 awards: Auszeichnungen
 ranking: Rangliste
 create_new_magazine: Erstelle ein neues Magazin
-add_new_article: Füge einen neuen Artikel hinzu
-add_new_link: Füge einen neuen Link hinzu
-add_new_photo: Füge ein neues Foto hinzu
-add_new_post: Füge einen neuen Beitrag hinzu
-add_new_video: Füge ein neues Video hinzu
+add_new_article: Neuen Artikel posten
+add_new_link: Neuen Link posten
+add_new_photo: Neues Foto posten
+add_new_post: Neuen Beitrag posten
+add_new_video: Neues Video posten
 contact: Kontakt
 faq: FAQ
 rss: RSS
@@ -101,7 +101,7 @@ help: Hilfe
 check_email: Überprüfe deine E-Mails
 reset_check_email_desc: Wenn ein Konto mit deiner E-Mail-Adresse existiert, bekommst du eine E-Mail, 
   welche einen Link enthält, mit dem du dein Passwort zurücksetzen kannst. Dieser Link läuft in %expire% ab.
-reset_check_email_desc2: Wenn du keine E-Mail erhalten hast, überprüfe bitte deinen Spam Ordner.
+reset_check_email_desc2: Wenn du keine E-Mail erhalten hast, überprüfe bitte deinen Spam-Ordner.
 try_again: Versuche es erneut
 up_vote: Boost
 down_vote: Reduce
@@ -121,7 +121,7 @@ is_adult: +18 / NSFW
 eng: ENG
 oc: OC
 image: Bild
-image_alt: Bild Beschreibung (Alt-Text)
+image_alt: Bildbeschreibung (Alt-Text)
 name: Name
 description: Beschreibung
 rules: Regeln
