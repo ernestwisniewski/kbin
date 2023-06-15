@@ -9,8 +9,9 @@ services:
     ports:
       - 9001:9001
     volumes:
-      - ./.env:/var/www/kbin/.env
       - ./media:/var/www/kbin/public/media
+    env_file:
+      - .env
     depends_on:
       - redis
       - db
@@ -33,7 +34,7 @@ services:
       - POSTGRES_DB=kbin
       - POSTGRES_USER=kbin
 
-  # Reverse proxy in front of the kbin container (Optional)
+  # Add your favorite reverse proxy (e.g nginx) to forward incoming traffic to http://kbin:9001
   # nginx:
   #  image: nginx
   #  ports:

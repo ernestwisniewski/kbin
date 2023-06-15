@@ -9,13 +9,15 @@ RUN curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases
 RUN apt-get update && apt-get install -y git unzip nginx
 
 # **Environment variables**
-ARG MODE=dev
+ARG MODE=prod \
+    UID=1000 \
+    GID=33
 ENV KBIN_HOME=/var/www/kbin \
     USER=kbin \
     GROUP=www-data
 
 # Create user
-RUN adduser --uid 1000 -gid 33 --disabled-password --gecos "" $USER
+RUN adduser --uid $UID -gid $GID -disabled-password --gecos "" $USER
 
 # Create path
 RUN mkdir -p $KBIN_HOME && \
@@ -76,16 +78,12 @@ RUN if [ "$MODE" = "dev" ]; then \
         echo "Unknown mode: $MODE" && \
         return 1; \
     fi
-## TODO: The commands of prod mode causes error during building the docker image.
-##       Still under investigating.
 
 # Yarn: Install, Build, Clean
 RUN yarn install && \
     yarn build && \
     yarn cache clean && \
     rm -rf node_modules
-
-RUN rm .env
 
 ####################
 
@@ -100,21 +98,9 @@ RUN mkdir -p /var/cache/nginx && chown -R $USER:$GROUP /var/cache/nginx && \
 RUN touch /var/run/nginx.pid && \
     chown -R $USER:$GROUP /var/run/nginx.pid
 
-# Set file permissions for symfony
-# https://symfony.com/doc/current/setup/file_permissions.html
-# if the following commands don't work, try adding `-n` option to `setfacl`
-#RUN HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
-# set permissions for future files and folders
-#RUN setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
-# set permissions on the existing files and folders
-#RUN setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
-##
-## Remark: The php docker image doesn't have `setfacl` by default.
-##         Not sure if it is safe to remove these commands.
-
 # Switch user
 USER $USER
 
 COPY --from=builder --chown=$USER:$GROUP $KBIN_HOME $KBIN_HOME
-COPY --chown=$USER:$GROUP --chmod=755 entry-point.sh ./
-ENTRYPOINT ["./entry-point.sh"]
+COPY --chown=$USER:$GROUP --chmod=755 docker-entrypoint.sh ./
+ENTRYPOINT ["./docker-entrypoint.sh"]

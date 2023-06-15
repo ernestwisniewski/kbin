@@ -1,31 +1,34 @@
-# Docker deployment guide
+# Docker deployment guide (alternative approach)
 
 ## Requirement
 
-1. Docker engine
-2. Docker compose plugin
+1. Docker Engine
+2. Docker Compose V2
 
-## Installation instruction
+    > If you are using Compose V1, replace `docker compose` with `docker-compose` in those commmands below.
+
+## Installation
 
 ### Clone repository
 
 ```bash
 $ git clone https://codeberg.org/Kbin/kbin-core.git
-$ cd kbin-core/docker-v2
-$ cp ../.env.example .env
+$ cd kbin-core/docker/v2
+$ cp ../../.env.example .env
+$ cp docker-compose.prod.yml docker-compose.override.yml
 $ mkdir media
 $ chown kbin:www-data media
 # In the containers, the default user "kbin" has uid 1000,
 # and the default group "www-data" has gid 33.
 # If you don't have them on the host or they have different id,
 # use the following command instead.
-$ sudo chown 1000:33 media
+# $ sudo chown 1000:33 media
 ```
 
 ### Configure `.env`
 
-1. Make sure `REDIS_PASSWORD` has same value in `.env` and `docker-compose.override.yml`.
-2. Make sure `POSTGRES_PASSWORD` has same value in `.env` and `docker-compose.override.yml`.
+1. Place your redis password to the variable `REDIS_PASSWORD` in both `.env` and `docker-compose.override.yml`.
+2. Place your postgres password to the variable `POSTGRES_PASSWORD` in both `.env` and `docker-compose.override.yml`.
 3. Change the following line
 
     ```env
@@ -46,6 +49,8 @@ $ docker compose build # build the image
 # Append "--build-arg MODE=prod" to build in production mode.
 
 $ docker compose up -d # create and start the containers
+# The kbin container may restart by itself for several times,
+# until others containers are ready.
 ```
 
 Then, you shoud be able to access the new instance via `http://localhost:9001`.
