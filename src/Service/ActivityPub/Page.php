@@ -104,7 +104,7 @@ class Page
 
     private function handleUrl(EntryDto $dto, ?array $object): void
     {
-        $attachment = $object['attachment'];
+        $attachment = array_key_exists('attachment', $object) ? $object['attachment'] : null;
 
         try {
             if (is_array($attachment)) {
