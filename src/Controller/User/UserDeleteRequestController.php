@@ -6,7 +6,7 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Service\CloudflareIpResolver;
+use App\Service\IpResolver;
 use App\Service\SettingsManager;
 use App\Service\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -24,7 +24,7 @@ class UserDeleteRequestController extends AbstractController
         private readonly SettingsManager $settings,
         private readonly MailerInterface $mailer,
         private readonly RateLimiterFactory $contactLimiter,
-        private readonly CloudflareIpResolver $ipResolver
+        private readonly IpResolver $ipResolver
     ) {
     }
 

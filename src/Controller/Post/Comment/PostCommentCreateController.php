@@ -12,7 +12,7 @@ use App\Entity\PostComment;
 use App\Form\PostCommentType;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
-use App\Service\CloudflareIpResolver;
+use App\Service\IpResolver;
 use App\Service\MentionManager;
 use App\Service\PostCommentManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -29,7 +29,7 @@ class PostCommentCreateController extends AbstractController
     public function __construct(
         private readonly PostCommentManager $manager,
         private readonly PostCommentRepository $repository,
-        private readonly CloudflareIpResolver $ipResolver,
+        private readonly IpResolver $ipResolver,
         private readonly MentionManager $mentionManager
     ) {
     }

@@ -8,7 +8,7 @@ use App\DTO\UserDto;
 use App\Entity\Image;
 use App\Entity\User;
 use App\Repository\ImageRepository;
-use App\Service\CloudflareIpResolver;
+use App\Service\IpResolver;
 use App\Service\ImageManager;
 use App\Service\UserManager;
 use App\Utils\Slugger;
@@ -36,7 +36,7 @@ class FacebookAuthenticator extends OAuth2Authenticator
         private readonly UserManager $userManager,
         private readonly ImageManager $imageManager,
         private readonly ImageRepository $imageRepository,
-        private readonly CloudflareIpResolver $ipResolver,
+        private readonly IpResolver $ipResolver,
         private readonly Slugger $slugger
     ) {
     }
