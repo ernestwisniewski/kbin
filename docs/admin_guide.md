@@ -90,28 +90,34 @@ memory_limit = 512M
 ```
 
 Composer:
+1. Install files
+    * Developer mode:
+      ```bash
+      composer install
+      ```
+    * Production mode:
+      ```bash
+      composer dump-env prod
+      composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+      ```
+2. Clear cache (necessary every time the DB is updated, especially relevant in dev environments. Change env to dev when working in developer mode)
+    ```bash
+    APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
+    composer clear-cache
+    ```
+3. Set up filesystem permissions for media:
+    ```bash
+    sudo chown kbin:www-data public/media
+    sudo chmod 777 public/media
 
-```bash
-# developer mode
-$ composer install
-# prod mode:
-$ composer dump-env prod
-$ composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
-$ APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
-
-$ composer clear-cache
-
-$ sudo chown kbin:www-data public/media
-$ sudo chmod 777 public/media
-
-# https://symfony.com/doc/current/setup/file_permissions.html
-# if the following commands don't work, try adding `-n` option to `setfacl`
-$ HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
-# set permissions for future files and folders
-$ sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
-# set permissions on the existing files and folders
-$ sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
-```
+    # https://symfony.com/doc/current/setup/file_permissions.html
+    # if the following commands don't work, try adding `-n` option to `setfacl`
+    HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
+    # set permissions for future files and folders
+    sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
+    # set permissions on the existing files and folders
+    sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
+    ```
 
 Redis:
 
