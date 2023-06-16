@@ -4,7 +4,7 @@
                        "vote shortDesc image"
                        "vote meta image"
                        "vote footer image"
-                       "body body body";
+                       "vote body body";
   grid-template-columns: min-content 1fr;
   padding: 0.75rem;
   position: relative;
@@ -15,7 +15,7 @@
                        "vote shortDesc"
                        "vote meta"
                        "vote footer"
-                       "body body";
+                       "vote body";
     grid-template-columns: min-content 1fr;
   }
 
@@ -78,7 +78,7 @@
       grid-template-areas: "vote title image "
                        "vote meta image"
                        "vote footer image"
-                       "body body body" !important;
+                       "body body" !important;
       grid-template-columns: min-content 1fr;
 
       .vote {
@@ -259,8 +259,6 @@
     padding: 1.25rem;
 
     .entry__body {
-      padding: 0 2rem;
-
       @include media-breakpoint-down(sm) {
         padding: 0;
       }
