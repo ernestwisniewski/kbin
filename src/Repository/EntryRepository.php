@@ -70,8 +70,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             throw new NotFoundHttpException();
         }
 
-//        $this->hydrate(...$pagerfanta->getCurrentPageResults());
-
         return $pagerfanta;
     }
 
