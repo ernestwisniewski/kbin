@@ -29,7 +29,8 @@ $ chown kbin:www-data media
 
 1. Place your redis password to the variable `REDIS_PASSWORD` in both `.env` and `docker-compose.override.yml`.
 2. Place your postgres password to the variable `POSTGRES_PASSWORD` in both `.env` and `docker-compose.override.yml`.
-3. Change the following line
+3. Place your rabbitmq password to the variable `RABBITMQ_PASSWORD` in both `.env` and `docker-compose.override.yml`.
+4. Change the following line
 
     ```env
     DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:5432/${POSTGRES_DB}?serverVersion=${POSTGRES_VERSION}&charset=utf8"

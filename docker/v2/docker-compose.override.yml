@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  redis:
+    environment:
+      - REDIS_PASSWORD=!ChangeThisRedisPass!
+
+  db:
+    environment:
+      - POSTGRES_PASSWORD=!ChangeThisPostgresPass!
+
+  rabbitmq:
+    environment:
+      - RABBITMQ_PASSWORD=!ChangeThisRabbitPass!
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}

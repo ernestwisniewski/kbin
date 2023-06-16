@@ -6,7 +6,7 @@ RUN curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases
 ## Remark: pdo_pgsql is added.
 
 # Install system prerequisites
-RUN apt-get update && apt-get install -y git unzip nginx
+RUN apt-get update && apt-get install -y git unzip nginx supervisor
 
 # **Environment variables**
 ARG MODE=prod \
@@ -95,8 +95,12 @@ RUN ln -s /etc/nginx/sites-available/kbin.conf /etc/nginx/sites-enabled/
 RUN mkdir -p /var/cache/nginx && chown -R $USER:$GROUP /var/cache/nginx && \
     mkdir -p /var/lib/nginx && chown -R $USER:$GROUP /var/lib/nginx && \
     mkdir -p /var/log/nginx && chown -R $USER:$GROUP /var/log/nginx
-RUN touch /var/run/nginx.pid && \
-    chown -R $USER:$GROUP /var/run/nginx.pid
+RUN touch /var/run/nginx.pid && chown -R $USER:$GROUP /var/run/nginx.pid
+
+# Supervisor configuration
+COPY messenger-worker.conf /etc/supervisor/conf.d/messenger-worker.conf
+RUN mkdir -p /var/log/supervisor && chown -R $USER:$GROUP /var/log/supervisor && \
+    chown $USER:$GROUP /var/run
 
 # Switch user
 USER $USER

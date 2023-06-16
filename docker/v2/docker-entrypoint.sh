@@ -6,6 +6,9 @@ if [ -z "$@" ]; then
     php bin/console doctrine:migrations:migrate --no-interaction
     [ $? -ne 0 ] && exit
 
+    # Start supervisor which handles the messenger workers
+    supervisord
+
     # Start php-fpm (at the background)
     php-fpm -D
 
