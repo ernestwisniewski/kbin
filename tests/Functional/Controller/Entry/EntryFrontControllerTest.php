@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class EntryFrontControllerTest extends WebTestCase
 {
-    public function testFrontPage(): void
+    public function testRootPage(): void
     {
         $client = $this->prepareEntries();
 
@@ -35,7 +35,7 @@ class EntryFrontControllerTest extends WebTestCase
         }
     }
 
-    public function testXmlFrontPage(): void
+    public function testXmlRootPage(): void
     {
         $client = $this->createClient();
 
@@ -43,6 +43,57 @@ class EntryFrontControllerTest extends WebTestCase
 
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
         $client->request('GET', '/');
+
+        $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
+    }
+
+    public function testXmlRootPageIsFrontPage(): void
+    {
+        $client = $this->createClient();
+
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->request('GET', '/');
+
+        $root_content = $client->getResponse()->getContent();
+
+        $client->request('GET', '/all');
+
+        $this->assertStringContainsString($root_content, $client->getResponse()->getContent());
+    }
+
+    public function testFrontPage(): void
+    {
+        $client = $this->prepareEntries();
+
+        $client->request('GET', '/all');
+        $this->assertSelectorTextContains('h1', 'Hot');
+
+        $crawler = $client->request('GET', '/all/newest');
+
+        $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');
+        $this->assertSelectorTextContains('.entry__meta', 'to acme');
+
+        $this->assertSelectorTextContains('#header .active', 'Threads');
+
+        $this->assertcount(2, $crawler->filter('.entry'));
+
+        foreach ($this->getSortOptions() as $sortOption) {
+            $crawler = $client->click($crawler->filter('.options__main')->selectLink($sortOption)->link());
+            $this->assertSelectorTextContains('.options__main', $sortOption);
+            $this->assertSelectorTextContains('h1', ucfirst($sortOption));
+        }
+    }
+
+    public function testXmlFrontPage(): void
+    {
+        $client = $this->createClient();
+
+        $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
+
+        $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
+        $client->request('GET', '/all');
 
         $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
     }
