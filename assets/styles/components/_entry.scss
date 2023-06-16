@@ -19,24 +19,6 @@
     grid-template-columns: min-content 1fr;
   }
 
-  @include media-breakpoint-down(lg) {
-    grid-template-areas: "vote image image"
-                       "vote title title"
-                       "vote shortDesc shortDesc"
-                       "vote meta meta"
-                       "vote footer footer"
-                       "body body body";
-    grid-template-columns: min-content 1fr;
-
-    header {
-      margin-top: .5rem;
-    }
-
-    figure img {
-      max-height: 70px;
-    }
-  }
-
   @include media-breakpoint-down(sm) {
     grid-template-areas: "vote image"
                        "title title"
@@ -66,10 +48,14 @@
                        "meta meta"
                        "footer footer"
                        "body body";
-      grid-template-columns: min-content 1fr;
+      grid-template-columns: 1fr min-content;
+
+      figure {
+        justify-self: left;
+      }
 
       .vote {
-        text-align: right;
+        justify-content: right;
       }
 
       .short-desc {
@@ -83,7 +69,7 @@
                        "meta meta"
                        "footer footer"
                        "body body";
-      grid-template-columns: min-content 1fr;
+      grid-template-columns: 1fr min-content;
     }
   }
 
@@ -94,13 +80,6 @@
                        "vote footer image"
                        "body body body" !important;
       grid-template-columns: min-content 1fr;
-
-      figure {
-        img {
-          max-height: 100px;
-          max-width: 120px;
-        }
-      }
 
       .vote {
         margin-right: 1rem !important;
@@ -121,9 +100,10 @@
   .vote {
     grid-area: vote;
     margin-right: 1rem;
+    margin-bottom: 1rem;
 
     @include media-breakpoint-down(sm) {
-      margin-right: .5rem;
+      margin-right: .75rem;
 
       .view-compact & {
         margin-right: 0;
@@ -135,27 +115,30 @@
   figure {
     grid-area: image;
     margin: 0 0 0 1rem;
+    width: 220px;
+    height: 145px;
+    justify-self: right;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      -o-object-fit: cover;
+    }
 
     @include media-breakpoint-down(lg) {
-      margin: 0;
+      width: 190px;
+      height: 100px;
     }
 
     @include media-breakpoint-down(sm) {
-      margin: 0 .5rem 0 .25rem;
+      margin: 0 0 0 .25rem;
+      height: 70px;
+      width: 100%;
       
       .view-compact & {
         margin-left: 0rem;
       }
-    }
-
-    img {
-      -o-object-fit: none;
-      object-fit: none;
-    }
-
-    a {
-      display: inline-block;
-      height: 100%;
     }
   }
 
@@ -273,12 +256,17 @@
   &--single {
     border-top: 0;
     margin-top: 0;
-    padding: 1.5rem;
+    padding: 1.25rem;
 
     .entry__body {
       padding: 0 2rem;
+
       @include media-breakpoint-down(sm) {
         padding: 0;
+      }
+
+      .content *:last-child {
+        margin-bottom: 0;
       }
     }
   }
@@ -288,6 +276,9 @@
   }
 
   .badge {
+    display: inline-block;
+    position: relative;
+    top: -2px;
     padding: .25rem;
   }
 }
