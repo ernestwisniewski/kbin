@@ -34,8 +34,8 @@ federation.
 
 [https://symfony.com/doc/6.1/reference/requirements.html](https://symfony.com/doc/6.1/reference/requirements.html)
 
-* PHP version: 8.1 or higher
-* GD or Imagemagick php extension
+* PHP version: 8.2 or higher
+* GD or Imagemagick PHP extension
 * NGINX / Apache / Caddy
 * PostgreSQL
 * Redis (optional)
