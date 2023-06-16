@@ -69,7 +69,7 @@ $ docker compose up -d # create and start the containers
 # until others containers are ready.
 ```
 
-Then, you shoud be able to access the new instance via `http://localhost:9001`.
+Then, you shoud be able to access the new instance via `http://localhost:9001`. You can also access RabbitMQ management UI via `http://localhost:15672`.
 
 ### Add auxiliary containers to `docker-compose.yml`
 
