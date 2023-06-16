@@ -16,6 +16,7 @@ services:
       - redis
       - db
       - rabbitmq
+      - mercure
 
   redis:
     image: redis
@@ -35,23 +36,14 @@ services:
       - POSTGRES_DB=kbin
       - POSTGRES_USER=kbin
 
-  # Add your favorite reverse proxy (e.g nginx) to forward incoming traffic to http://kbin:9001
-  # nginx:
-  #  image: nginx
-  #  ports:
-  #    - 443:443
-  #  volumes:
-  #    - ./nginx.conf:/etc/nginx/nginx.conf
-
   rabbitmq:
     image: rabbitmq:3-management
-    restart: always
+    restart: unless-stopped
     environment:
-      RABBITMQ_DEFAULT_USER: kbin
+      - RABBITMQ_DEFAULT_USER=kbin
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq
     ports:
-      #- 5672:5672
       - 15672:15672
 
   mercure:
@@ -62,3 +54,12 @@ services:
       - MERCURE_PUBLISHER_JWT_KEY=${MERCURE_JWT_SECRET}
       - MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_JWT_SECRET}
       - USE_FORWARDED_HEADERS=1
+
+  # Add your favorite reverse proxy (e.g nginx) which accept incoming HTTPS
+  # traffic and forward to http://kbin:9001
+  # nginx:
+  #  image: nginx
+  #  ports:
+  #    - 443:443
+  #  volumes:
+  #    - ./nginx.conf:/etc/nginx/nginx.conf
