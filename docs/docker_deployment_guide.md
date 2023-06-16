@@ -30,7 +30,8 @@ $ chown kbin:www-data media
 1. Place your redis password to the variable `REDIS_PASSWORD` in both `.env` and `docker-compose.override.yml`.
 2. Place your postgres password to the variable `POSTGRES_PASSWORD` in both `.env` and `docker-compose.override.yml`.
 3. Place your rabbitmq password to the variable `RABBITMQ_PASSWORD` in both `.env` and `docker-compose.override.yml`.
-4. Change the following line
+4. Place your mercure password to the variable `MERCURE_JWT_PASSWORD` in both `.env` and `docker-compose.override.yml`.
+5. In `.env`, change the following line
 
     ```env
     DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:5432/${POSTGRES_DB}?serverVersion=${POSTGRES_VERSION}&charset=utf8"
@@ -40,6 +41,20 @@ $ chown kbin:www-data media
 
     ```env
     DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?serverVersion=${POSTGRES_VERSION}&charset=utf8"
+    ```
+
+6. In `.env`, change the following two lines
+
+    ```env
+    MERCURE_URL=https://example.com/.well-known/mercure
+    MERCURE_PUBLIC_URL=https://example.com/.well-known/mercure
+    ```
+
+    to
+
+    ```env
+    MERCURE_URL=http://mercure/.well-known/mercure
+    MERCURE_PUBLIC_URL=https://${SERVER_NAME}/.well-known/mercure
     ```
 
 ### Build image and create containers
