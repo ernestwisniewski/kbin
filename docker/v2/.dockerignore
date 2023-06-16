@@ -1,0 +1,4 @@
+media/*
+redis/*
+postgres/*
+rabbitmq/*
