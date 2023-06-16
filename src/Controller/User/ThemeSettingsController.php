@@ -40,6 +40,7 @@ class ThemeSettingsController extends AbstractController
     public const KBIN = 'kbin';
     public const SOLARIZED_LIGHT = 'solarized-light';
     public const SOLARIZED_DARK = 'solarized-dark';
+    public const TOKYO_NIGHT = 'tokyo-night';
     public const TRUE = 'true';
     public const FALSE = 'false';
     public const LEFT = 'left';
@@ -77,6 +78,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN,
         self::SOLARIZED_LIGHT,
         self::SOLARIZED_DARK,
+        self::TOKYO_NIGHT,
         self::TRUE,
         self::FALSE,
         self::LEFT,
