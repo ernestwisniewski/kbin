@@ -31,7 +31,7 @@ services:
     image: postgres:13-bullseye
     restart: unless-stopped
     volumes:
-      - ./postgres:/var/lib/postgresql
+      - ./postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=kbin
       - POSTGRES_USER=kbin
