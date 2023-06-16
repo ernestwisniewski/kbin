@@ -27,10 +27,10 @@ $ chown kbin:www-data media
 
 ### Configure `.env`
 
-1. Place your redis password to the variable `REDIS_PASSWORD` in both `.env` and `docker-compose.override.yml`.
-2. Place your postgres password to the variable `POSTGRES_PASSWORD` in both `.env` and `docker-compose.override.yml`.
-3. Place your rabbitmq password to the variable `RABBITMQ_PASSWORD` in both `.env` and `docker-compose.override.yml`.
-4. Place your mercure password to the variable `MERCURE_JWT_PASSWORD` in both `.env` and `docker-compose.override.yml`.
+1. Place your Redis password to the variable `REDIS_PASSWORD` in both `.env` and `docker-compose.override.yml`.
+2. Place your PostgreSQL password to the variable `POSTGRES_PASSWORD` in both `.env` and `docker-compose.override.yml`.
+3. Place your RabbitMQ password to the variable `RABBITMQ_PASSWORD` in both `.env` and `docker-compose.override.yml`.
+4. Place your Mercure password to the variable `MERCURE_JWT_PASSWORD` in both `.env` and `docker-compose.override.yml`.
 5. In `.env`, change the following line
 
     ```env
