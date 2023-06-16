@@ -9,3 +9,11 @@ services:
     environment:
       - POSTGRES_PASSWORD=!ChangeThisPostgresPass!
 
+  rabbitmq:
+    environment:
+      - RABBITMQ_PASSWORD=!ChangeThisRabbitPass!
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+
+  mercure:
+    environment:
+      - MERCURE_JWT_SECRET=!ChangeThisMercureHubJWTSecretKey!
