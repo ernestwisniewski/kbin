@@ -5,7 +5,6 @@ namespace App\Twig\Components;
 use App\Entity\Entry;
 use App\Repository\EntryRepository;
 use App\Twig\Runtime\UserExtensionRuntime;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -30,6 +29,7 @@ final class RelatedEntriesComponent
 
     public function __construct(
         private readonly EntryRepository $repository,
+        private readonly CacheInterface $cache,
         private readonly Environment $twig,
         private readonly RequestStack $requestStack
     ) {
@@ -56,9 +56,7 @@ final class RelatedEntriesComponent
         $entryId = $this->entry?->getId();
         $magazine = str_replace('@', '', $this->magazine);
 
-        $cache = new FilesystemAdapter();
-
-        return $cache->get(
+        return $this->cache->get(
             "related_entries_{$magazine}_{$this->tag}_{$entryId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
                 $item->expiresAfter(60);

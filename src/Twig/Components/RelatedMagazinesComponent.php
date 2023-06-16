@@ -3,7 +3,6 @@
 namespace App\Twig\Components;
 
 use App\Repository\MagazineRepository;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -27,6 +26,7 @@ final class RelatedMagazinesComponent
 
     public function __construct(
         private readonly MagazineRepository $repository,
+        private readonly CacheInterface $cache,
         private readonly Environment $twig,
         private readonly RequestStack $requestStack
     ) {
@@ -52,9 +52,7 @@ final class RelatedMagazinesComponent
     {
         $magazine = str_replace('@', '', $this->magazine);
 
-        $cache = new FilesystemAdapter();
-
-        return $cache->get(
+        return $this->cache->get(
             "related_magazines_{$magazine}_{$this->tag}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes, $magazine) {
                 $item->expiresAfter(60);

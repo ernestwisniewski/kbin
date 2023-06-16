@@ -6,7 +6,7 @@ use App\Entity\Contracts\VotableInterface;
 use App\Service\CacheService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
@@ -20,15 +20,14 @@ final class VotersInlineComponent
 
     public function __construct(
         private readonly Environment $twig,
+        private readonly CacheInterface $cache,
         private readonly CacheService $cacheService,
     ) {
     }
 
     public function getHtml(ComponentAttributes $attributes): string
     {
-        $cache = new FilesystemAdapter();
-
-        return $cache->get(
+        return $this->cache->get(
             $this->cacheService->getVotersCacheKey($this->subject),
             function (ItemInterface $item) use ($attributes) {
                 $item->expiresAfter(3600);
