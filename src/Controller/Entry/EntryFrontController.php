@@ -27,11 +27,20 @@ class EntryFrontController extends AbstractController
     {
         $user = $this->getUser();
 
-        if ($user && $user.homepage == User::HOMEPAGE_SUB) {
-            return $this->subscribed($sortBy, $time, $type, $request);
+        if (!$user) {
+            return $this->front($sortBy, $time, $type, $request);
         }
 
-        return $this->front($sortBy, $time, $type, $request);
+        switch($user.homepage) {
+            case User::HOMEPAGE_SUB:
+                return $this->subscribed($sortBy, $time, $type, $request);
+            case User::HOMEPAGE_MOD:
+                return $this->moderated($sortBy, $time, $type, $request);
+            case User::HOMEPAGE_FAV:
+                return $this->favorite($sortBy, $time, $type, $request);
+            default:
+                return $this->front($sortBy, $time, $type, $request);
+        }
     }
 
     public function front(?string $sortBy, ?string $time, ?string $type, Request $request): Response
