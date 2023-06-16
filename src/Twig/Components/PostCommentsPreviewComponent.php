@@ -4,8 +4,8 @@ namespace App\Twig\Components;
 
 use App\Entity\Post;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Cache\Adapter\FilesystemTagAwareAdapter;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
@@ -19,7 +19,6 @@ final class PostCommentsPreviewComponent
     public function __construct(
         private readonly Environment $twig,
         private readonly Security $security,
-        private readonly CacheInterface $cache,
         private readonly RequestStack $requestStack
     ) {
     }
@@ -29,7 +28,9 @@ final class PostCommentsPreviewComponent
         $postId = $this->post->getId();
         $userId = $this->security->getUser()?->getId();
 
-        return $this->cache->get(
+        $cache = new FilesystemTagAwareAdapter();
+
+        return $cache->get(
             "post_comment_preview_{$postId}_{$userId}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($postId, $userId, $attributes) {
                 $item->expiresAfter(3600);
