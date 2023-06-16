@@ -3,3 +3,5 @@ media/*
 redis/*
 postgres/*
 rabbitmq/*
+mercure_config/*
+mercure_data/*

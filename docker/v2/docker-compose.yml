@@ -51,9 +51,15 @@ services:
     restart: unless-stopped
     environment:
       - SERVER_NAME=:80
+      - MERCURE_TRANSPORT_URL=bolt:///data/mercure.db
       - MERCURE_PUBLISHER_JWT_KEY=${MERCURE_JWT_SECRET}
       - MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_JWT_SECRET}
-      - USE_FORWARDED_HEADERS=1
+      - MERCURE_EXTRA_DIRECTIVES= |-
+          anonymous
+          subscriptions
+    volumes:
+      - ./mercure_config:/config
+      - ./mercure_data:/data
 
   # Add your favorite reverse proxy (e.g nginx) which accept incoming HTTPS
   # traffic and forward to http://kbin:9001
