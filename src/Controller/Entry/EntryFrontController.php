@@ -31,16 +31,14 @@ class EntryFrontController extends AbstractController
             return $this->front($sortBy, $time, $type, $request);
         }
 
-        switch($user.homepage) {
-            case User::HOMEPAGE_SUB:
-                return $this->subscribed($sortBy, $time, $type, $request);
-            case User::HOMEPAGE_MOD:
-                return $this->moderated($sortBy, $time, $type, $request);
-            case User::HOMEPAGE_FAV:
-                return $this->favorite($sortBy, $time, $type, $request);
-            default:
-                return $this->front($sortBy, $time, $type, $request);
-        }
+        $front = match ($user->homepage) {
+            User::HOMEPAGE_SUB => 'subscribed',
+            User::HOMEPAGE_MOD => 'moderated',
+            User::HOMEPAGE_FAV => 'favourite',
+            default => 'front',
+        };
+
+        return $this->$front($sortBy, $time, $type, $request);
     }
 
     public function front(?string $sortBy, ?string $time, ?string $type, Request $request): Response
