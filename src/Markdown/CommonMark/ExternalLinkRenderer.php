@@ -9,19 +9,16 @@ use App\Service\ImageManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
 use App\Utils\Embed;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Link;
-use League\CommonMark\Inline\Element\Text;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\Util\HtmlElement;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
+use League\CommonMark\Node\Inline\Text;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\RegexHelper;
 
-final class ExternalLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class ExternalLinkRenderer implements NodeRendererInterface
 {
-    private ConfigurationInterface $config;
-
     public function __construct(
         private readonly Embed $embed,
         private readonly EmbedRepository $embedRepository,
@@ -29,26 +26,30 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
     ) {
     }
 
+    /**
+     * @param Link $node
+     * @param ChildNodeRendererInterface $childRenderer
+     * @return HtmlElement
+     */
     public function render(
-        AbstractInline $inline,
-        ElementRendererInterface $htmlRenderer
+        Node $node,
+        ChildNodeRendererInterface $childRenderer
     ): HtmlElement {
-        if (!$inline instanceof Link) {
-            throw new \InvalidArgumentException(sprintf('Incompatible inline type: %s', \get_class($inline)));
-        }
+        Link::assertInstanceOf($node);
 
-        $url = $title = $inline->getUrl();
+        $url = $title = $node->getUrl();
 
-        if ($inline->firstChild() instanceof Text) {
-            $title = $htmlRenderer->renderInline($inline->firstChild());
+        if ($node->firstChild() instanceof Text) {
+            $title = $childRenderer->renderNodes([$node->firstChild()]);
         }
 
         $embed = false;
         try {
-            if (filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($title, '@') && !str_starts_with(
-                    $title,
-                    '#'
-                )) {
+            if (
+                filter_var($url, FILTER_VALIDATE_URL) 
+                    && !str_starts_with($title, '@') 
+                    && !str_starts_with($title, '#')
+            ) {
                 if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
                     $embed = $entity->hasEmbed;
                 } else {
@@ -76,21 +77,21 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             return EmbedElement::buildEmbed($url, $title);
         }
 
-        $htmlTitle = $inline->data['title'] ?? '';
+        $htmlTitle = $node->data['title'] ?? '';
         $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer'];
 
         foreach (['@', '!', '#'] as $tag) {
             if (str_starts_with($title, $tag)) {
                 $attr = match ($tag) {
                     '@' => [
-                        'class' => 'mention u-url',
-                        'title' => substr_count($htmlTitle, '@') === 1 ? $htmlTitle.'@'.$this->settingsManager->get(
-                                'KBIN_DOMAIN'
-                            ) : $htmlTitle,
-                        'data-action' => 'mouseover->kbin#mention',
-                        'data-kbin-username-param' => isset($inline->data['title']) ? MentionManager::getRoute(
-                            [$inline->data['title']]
-                        )[0] : '',
+                        'class'                    => 'mention u-url',
+                        'title'                    => substr_count($htmlTitle, '@') === 1 
+                            ? $htmlTitle . '@' . $this->settingsManager->get('KBIN_DOMAIN')
+                            : $htmlTitle,
+                        'data-action'              => 'mouseover->kbin#mention',
+                        'data-kbin-username-param' => isset($node->data['title']) 
+                            ? MentionManager::getRoute([$node->data['title']])[0] 
+                            : '',
                     ],
                     '#' => ['class' => 'hashtag tag', 'rel' => 'tag'],
                     default => [],
@@ -103,8 +104,12 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             $attr['target'] = '_blank';
         }
 
-        if (str_starts_with($url, 'javascript:')) {
-            $url = '';
+        if (RegexHelper::isLinkPotentiallyUnsafe($url)) {
+            return new HtmlElement(
+                'span',
+                [],
+                $title
+            );
         }
 
         return new HtmlElement(
@@ -112,11 +117,5 @@ final class ExternalLinkRenderer implements InlineRendererInterface, Configurati
             ['href' => $url] + $attr,
             $title
         );
-    }
-
-    public function setConfiguration(
-        ConfigurationInterface $configuration
-    ): void {
-        $this->config = $configuration;
     }
 }

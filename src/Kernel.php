@@ -15,11 +15,6 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    protected function build(ContainerBuilder $container)
-    {
-        $container->addCompilerPass(new AddMarkdownExtensionsPass());
-    }
-
     protected function configureContainer(ContainerConfigurator $container): void
     {
         $container->import('../config/{packages}/*.yaml');
