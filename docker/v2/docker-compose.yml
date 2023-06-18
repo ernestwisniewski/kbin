@@ -19,7 +19,7 @@ services:
       - mercure
 
   redis:
-    image: redis
+    image: redis:alpine
     restart: unless-stopped
     volumes:
       - ./redis:/data
@@ -28,7 +28,7 @@ services:
       test: ['CMD', 'redis-cli', 'ping']
 
   db:
-    image: postgres:13-bullseye
+    image: postgres:13-alpine
     restart: unless-stopped
     volumes:
       - ./postgres:/var/lib/postgresql/data

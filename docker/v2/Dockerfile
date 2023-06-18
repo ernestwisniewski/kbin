@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-bullseye as base
+FROM php:8.2-fpm-alpine as base
 
 # Install php extensions, by docker-php-extension-installer
 RUN curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o - | \
@@ -6,18 +6,17 @@ RUN curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases
 ## Remark: pdo_pgsql is added.
 
 # Install system prerequisites
-RUN apt-get update && apt-get install -y git unzip nginx supervisor
+RUN apk update && apk add git unzip nginx supervisor
 
 # **Environment variables**
 ARG MODE=prod \
-    UID=1000 \
-    GID=33
+    UID=1000
 ENV KBIN_HOME=/var/www/kbin \
     USER=kbin \
     GROUP=www-data
 
 # Create user
-RUN adduser --uid $UID -gid $GID -disabled-password --gecos "" $USER
+RUN adduser -u $UID -G $GROUP -D -g "" $USER
 
 # Create path
 RUN mkdir -p $KBIN_HOME && \
@@ -51,7 +50,6 @@ RUN php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null
 RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -y nodejs yarn
 
 # Swithc user
 USER $USER
