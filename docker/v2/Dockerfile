@@ -43,8 +43,7 @@ RUN echo "chdir = $KBIN_HOME" >> /usr/local/etc/php-fpm.d/www.conf
 FROM base as builder
 
 # Install composer
-RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
-RUN php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install nodejs and yarn
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
