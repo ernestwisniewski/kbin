@@ -18,13 +18,16 @@ services:
     League\CommonMark\Extension\Autolink\UrlAutolinkParser:
         arguments:
             $allowedProtocols: "%commonmark.allowed_schemes%"
+    League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension: ~
 
     League\CommonMark\Environment\EnvironmentBuilderInterface:
-        factory: [League\CommonMark\Environment\Environment, createCommonMarkEnvironment]
+        class: League\CommonMark\Environment\Environment
         arguments: 
             $config: ['%commonmark.configuration%']
         calls:
             - addInlineParser:
                 - '@League\CommonMark\Extension\Autolink\UrlAutolinkParser'
+            - addExtension:
+                - '@League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension'
             - addExtension:
                 - '@App\Markdown\MarkdownExtension'
