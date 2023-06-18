@@ -30,7 +30,6 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User|null findOneByUsername(string $value)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -260,6 +259,15 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function findOneByUsername(string $username): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->Where('LOWER(u.username) = LOWER(:username)')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function findByUsernames(array $users): array
