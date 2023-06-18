@@ -321,3 +321,7 @@ pre, code {
   background: var(--kbin-bg);
   display: block;
 }
+
+:target {
+  scroll-margin-top: 8rem;
+}
