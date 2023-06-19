@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Markdown\CommonMark\Node\MentionLink;
+use App\Markdown\CommonMark\Node\TagLink;
 use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
-use App\Service\MentionManager;
 use App\Service\SettingsManager;
 use App\Utils\Embed;
 use League\CommonMark\Util\HtmlElement;
@@ -77,27 +78,24 @@ final class ExternalLinkRenderer implements NodeRendererInterface
             return EmbedElement::buildEmbed($url, $title);
         }
 
-        $htmlTitle = $node->data['title'] ?? '';
         $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer'];
 
-        foreach (['@', '!', '#'] as $tag) {
-            if (str_starts_with($title, $tag)) {
-                $attr = match ($tag) {
-                    '@' => [
-                        'class'                    => 'mention u-url',
-                        'title'                    => substr_count($htmlTitle, '@') === 1 
-                            ? $htmlTitle . '@' . $this->settingsManager->get('KBIN_DOMAIN')
-                            : $htmlTitle,
-                        'data-action'              => 'mouseover->kbin#mention',
-                        'data-kbin-username-param' => isset($node->data['title']) 
-                            ? MentionManager::getRoute([$node->data['title']])[0] 
-                            : '',
-                    ],
-                    '#' => ['class' => 'hashtag tag', 'rel' => 'tag'],
-                    default => [],
-                };
-            }
-        }
+        $attr = match ($node::class) {
+            TagLink::class => [
+                'class' => 'hashtag tag', 
+                'rel'  =>  'tag',
+            ],
+            MentionLink::class => [
+                'class'                    => 'mention u-url',
+                'title'                    => $node->data['title'],
+                'data-action'              => 'mouseover->kbin#mention',
+                'data-kbin-username-param' => $node->data['kbinUsername'],
+            ],
+            default => [
+                'class' => 'kbin-media-link', 
+                'rel'   => 'nofollow noopener noreferrer',
+            ],
+        };
 
         if (false !== filter_var($url, FILTER_VALIDATE_URL) && !$this->settingsManager->isLocalUrl($url)) {
             $attr['rel'] = 'noopener noreferrer nofollow';
