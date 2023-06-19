@@ -22,7 +22,6 @@ class MagazineNameConverter implements ParamConverterInterface
     {
         $magazineName = $request->attributes->get('magazine_name') ?? $request->attributes->get('name');
 
-        // @todo case-insensitive
         if (!$magazine = $this->repository->findOneByName($magazineName)) {
             throw new NotFoundHttpException();
         }
@@ -31,17 +30,17 @@ class MagazineNameConverter implements ParamConverterInterface
     }
 
     #[Pure]
- public function supports(ParamConverter $configuration): bool
- {
-     if (null === $configuration->getClass()) {
-         return false;
-     }
+    public function supports(ParamConverter $configuration): bool
+    {
+        if (null === $configuration->getClass()) {
+            return false;
+        }
 
-     if (Magazine::class !== $configuration->getClass()) {
-         return false;
-     }
+        if (Magazine::class !== $configuration->getClass()) {
+            return false;
+        }
 
-     // @todo test coverage
-     return false;
- }
+        // @todo test coverage
+        return true;
+    }
 }
