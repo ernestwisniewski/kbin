@@ -27,15 +27,11 @@ final class ExternalLinkRenderer implements NodeRendererInterface
     ) {
     }
 
-    /**
-     * @param Link $node
-     * @param ChildNodeRendererInterface $childRenderer
-     * @return HtmlElement
-     */
     public function render(
         Node $node,
         ChildNodeRendererInterface $childRenderer
     ): HtmlElement {
+        /** @var Link $node */
         Link::assertInstanceOf($node);
 
         $url = $title = $node->getUrl();
@@ -85,12 +81,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
                 'class' => 'hashtag tag', 
                 'rel'  =>  'tag',
             ],
-            MentionLink::class => [
-                'class'                    => 'mention u-url',
-                'title'                    => $node->data['title'],
-                'data-action'              => 'mouseover->kbin#mention',
-                'data-kbin-username-param' => $node->data['kbinUsername'],
-            ],
+            MentionLink::class => $this->generateMentionLinkData($node),
             default => [
                 'class' => 'kbin-media-link', 
                 'rel'   => 'nofollow noopener noreferrer',
@@ -115,5 +106,34 @@ final class ExternalLinkRenderer implements NodeRendererInterface
             ['href' => $url] + $attr,
             $title
         );
+    }
+
+    /**
+     * @param MentionLink $link
+     * @return array {
+     *     class: string,
+     *     title: string,
+     *     ?data-action: string,
+     *     ?data-kbin-username-param: string,
+     * }
+     */
+    private function generateMentionLinkData(MentionLink $link): array
+    {
+        $data = [
+            'class' => 'mention u-url',
+            'title' => $link->getTitle(),
+        ];
+
+        if ($link->getType() === MentionType::Magazine || $link->getType() === MentionType::RemoteMagazine) {
+            $data['class'] = $data['class'] . ' mention--magazine';
+        }
+
+        if ($link->getType() === MentionType::User || $link->getType() === MentionType::RemoteUser) {
+            $data['class']                    = $data['class'] . ' mention--user';
+            $data['data-action']              = 'mouseover->kbin#mention';
+            $data['data-kbin-username-param'] = $link->getKbinUsername();
+        }
+
+        return $data;    
     }
 }

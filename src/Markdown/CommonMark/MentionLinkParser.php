@@ -42,29 +42,37 @@ class MentionLinkParser implements InlineParserInterface
         $username = $matches['0'];
         $domain   = $matches['1'] ?? $this->settingsManager->get('KBIN_DOMAIN');
 
-        $fullUsername = '@' . $username . '@' . $domain;
+        $fullUsername = $username . '@' . $domain;
 
         [$type, $data] = $this->resolveType($username, $domain);
 
         if ($data instanceof User && $data->apPublicUrl) {
-            $ctx->getContainer()->appendChild($this->generateLink($data->apPublicUrl, '@' . $username, $data->getUsername(), $data->getUsername()));
+            $ctx->getContainer()->appendChild(
+                $this->generateLink(
+                    $data->apPublicUrl, 
+                    '@' . $username, 
+                    $data->getUsername(), 
+                    $data->getUsername(), 
+                    MentionType::RemoteUser
+                )
+            );
             return true;
         }
         
         [$url, $value, $title, $kbinUsername] = match ($type) {
-            MentionType::RemoteUser => [$this->resolveUrl(MentionType::User, $fullUsername), '@' . $username, $fullUsername, $fullUsername],
-            MentionType::RemoteMagazine => [$this->resolveUrl(MentionType::RemoteMagazine, $username), '@' . $username, $fullUsername, $username],
-            MentionType::Magazine => [$this->resolveUrl(MentionType::Magazine, $username), '@' . $username, $fullUsername, $username],
-            MentionType::User => [$this->resolveUrl(MentionType::User, $username), '@' . $username, $fullUsername, $username],
+            MentionType::RemoteUser => [$this->resolveUrl(MentionType::User, '@' . $fullUsername), '@' . $username, '@' . $fullUsername, '@' . $fullUsername],
+            MentionType::RemoteMagazine => [$this->resolveUrl(MentionType::RemoteMagazine, $fullUsername), '@' . $username, '@' . $fullUsername, $fullUsername],
+            MentionType::Magazine => [$this->resolveUrl(MentionType::Magazine, $username), '@' . $username, '@' . $fullUsername, $username],
+            MentionType::User => [$this->resolveUrl(MentionType::User, $username), '@' . $username, '@' . $fullUsername, $username],
         };
         
-        $ctx->getContainer()->appendChild($this->generateLink($url, $value, $title, $kbinUsername));
+        $ctx->getContainer()->appendChild($this->generateLink($url, $value, $title, $kbinUsername, $type));
         return true;
     }
 
-    private function generateLink(string $url, string $value, string $title, string $kbinUsername): MentionLink 
+    private function generateLink(string $url, string $value, string $title, string $kbinUsername, MentionType $type): MentionLink 
     {
-        return new MentionLink($url, $value, $title, $kbinUsername);
+        return new MentionLink($url, $value, $title, $kbinUsername, $type);
     }
 
     private function isRemoteMention(?string $domain): bool
@@ -106,13 +114,13 @@ class MentionLinkParser implements InlineParserInterface
 
     private function resolveUrl(MentionType $type, string $slug): string 
     {
-        [$route, $param, $type] = match($type) {
-            MentionType::Magazine => ['front_magazine', 'name', UrlGeneratorInterface::ABSOLUTE_PATH],
-            MentionType::RemoteMagazine => ['front_magazine', 'name', UrlGeneratorInterface::ABSOLUTE_URL],
-            MentionType::RemoteUser => ['user_overview', 'username', UrlGeneratorInterface::ABSOLUTE_URL],
-            MentionType::User => ['user_overview', 'username', UrlGeneratorInterface::ABSOLUTE_PATH],
+        [$route, $param] = match($type) {
+            MentionType::Magazine => ['front_magazine', 'name'],
+            MentionType::RemoteMagazine => ['front_magazine', 'name'],
+            MentionType::RemoteUser => ['user_overview', 'username'],
+            MentionType::User => ['user_overview', 'username'],
         };
 
-        return $this->urlGenerator->generate($route,  [$param => $slug], $type);
+        return $this->urlGenerator->generate($route, [$param => $slug], UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 }
