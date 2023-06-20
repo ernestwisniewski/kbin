@@ -1,6 +1,10 @@
 version: "3.9"
 
 services:
+  www:
+    environment:
+      - MERCURE_JWT_SECRET=!ChangeThisMercureHubJWTSecretKey!
+
   redis:
     environment:
       - REDIS_PASSWORD=!ChangeThisRedisPass!
@@ -14,6 +18,3 @@ services:
       - RABBITMQ_PASSWORD=!ChangeThisRabbitPass!
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
 
-  mercure:
-    environment:
-      - MERCURE_JWT_SECRET=!ChangeThisMercureHubJWTSecretKey!

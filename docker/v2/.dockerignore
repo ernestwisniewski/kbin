@@ -1,7 +1,7 @@
 docker-compose.override.yml
+caddy_config/*
+caddy_data/*
 media/*
 redis/*
 postgres/*
 rabbitmq/*
-mercure_config/*
-mercure_data/*
