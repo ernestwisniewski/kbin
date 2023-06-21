@@ -176,6 +176,10 @@ class EntryManager implements ContentManagerInterface
 
     public function delete(User $user, Entry $entry): void
     {
+        if ($user->apId) {
+            return;
+        }
+
         if ($entry->isAuthor($user) && $entry->comments->isEmpty()) {
             $this->purge($entry);
 
