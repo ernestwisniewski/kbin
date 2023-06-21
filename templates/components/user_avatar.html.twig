@@ -1,6 +1,6 @@
 <figure{{ attributes }}>
     {% if asLink %}
-    <a data-action="mouseover->kbin#mention" data-kbin-username-param="{{ mention_url(user.username) }}"
+    <a data-action="mouseover->mentions#user_popup" data-mentions-username-param="{{ mention_url(user.username) }}"
        href="{{ path('user_overview', {username: user.username}) }}">
         {% endif %}
         {% if user.avatar %}

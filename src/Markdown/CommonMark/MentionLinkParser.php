@@ -88,7 +88,7 @@ class MentionLinkParser implements InlineParserInterface
         $isRemote = $this->isRemoteMention($domain);
 
         if ($isRemote) {
-            $user = $this->userRepository->findOneByUsername($username . '@' . $domain);
+            $user = $this->userRepository->findOneByUsername('@' . $username . '@' . $domain);
             // we're aware of this account, link to it directly
             if ($user && $user->apPublicUrl) {
                 return [MentionType::RemoteUser, $user];

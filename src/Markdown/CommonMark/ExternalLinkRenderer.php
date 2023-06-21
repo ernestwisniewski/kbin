@@ -120,18 +120,19 @@ final class ExternalLinkRenderer implements NodeRendererInterface
     private function generateMentionLinkData(MentionLink $link): array
     {
         $data = [
-            'class' => 'mention u-url',
-            'title' => $link->getTitle(),
+            'class'                        => 'mention u-url',
+            'title'                        => $link->getTitle(),
+            'data-mentions-username-param' => $link->getKbinUsername(),
         ];
 
         if ($link->getType() === MentionType::Magazine || $link->getType() === MentionType::RemoteMagazine) {
-            $data['class'] = $data['class'] . ' mention--magazine';
+            $data['class']       = $data['class'] . ' mention--magazine';
+            $data['data-action'] = 'click->mentions#navigate_magazine';
         }
 
         if ($link->getType() === MentionType::User || $link->getType() === MentionType::RemoteUser) {
-            $data['class']                    = $data['class'] . ' mention--user';
-            $data['data-action']              = 'mouseover->kbin#mention';
-            $data['data-kbin-username-param'] = $link->getKbinUsername();
+            $data['class']       = $data['class'] . ' mention--user';
+            $data['data-action'] = 'mouseover->mentions#user_popup click->mentions#navigate_user';
         }
 
         return $data;    
