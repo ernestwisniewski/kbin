@@ -119,6 +119,10 @@ class EntryCommentManager implements ContentManagerInterface
 
     public function delete(User $user, EntryComment $comment): void
     {
+        if ($user->apId) {
+            return;
+        }
+
         if ($comment->isAuthor($user) && $comment->children->isEmpty()) {
             $this->purge($comment);
 

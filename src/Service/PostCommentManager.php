@@ -119,6 +119,10 @@ class PostCommentManager implements ContentManagerInterface
 
     public function delete(User $user, PostComment $comment): void
     {
+        if ($user->apId) {
+            return;
+        }
+
         if ($comment->isAuthor($user) && $comment->children->isEmpty()) {
             $this->purge($comment);
 
