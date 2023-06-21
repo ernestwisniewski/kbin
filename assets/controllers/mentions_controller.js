@@ -3,6 +3,7 @@ import {useDebounce} from 'stimulus-use';
 import router from "../utils/routing";
 import {fetch, ok} from "../utils/http";
 
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static debounces = ['user_popup']
 
