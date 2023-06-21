@@ -54,7 +54,7 @@ class MentionLinkParser implements InlineParserInterface
                     '@' . $username, 
                     '@' . $data->apId, 
                     '@' . $data->apId, 
-                    MentionType::RemoteUser
+                    MentionType::RemoteUser,
                 )
             );
             return true;
@@ -67,7 +67,7 @@ class MentionLinkParser implements InlineParserInterface
                     '@' . $username, 
                     '@' . $data->apId, 
                     $data->apId, 
-                    MentionType::RemoteMagazine
+                    MentionType::RemoteMagazine,
                 )
             );
             return true;

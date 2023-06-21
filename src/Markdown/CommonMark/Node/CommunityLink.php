@@ -6,6 +6,6 @@ namespace App\Markdown\CommonMark\Node;
 
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 
-class MagazineLink extends Link
+class CommunityLink extends MentionLink
 {
 }

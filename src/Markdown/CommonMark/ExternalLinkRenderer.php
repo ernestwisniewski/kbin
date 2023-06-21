@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Markdown\CommonMark\Node\CommunityLink;
 use App\Markdown\CommonMark\Node\MentionLink;
 use App\Markdown\CommonMark\Node\TagLink;
 use App\Repository\EmbedRepository;
@@ -74,14 +75,14 @@ final class ExternalLinkRenderer implements NodeRendererInterface
             return EmbedElement::buildEmbed($url, $title);
         }
 
-        $attr = ['class' => 'kbin-media-link', 'rel' => 'nofollow noopener noreferrer'];
-
         $attr = match ($node::class) {
+            CommunityLink::class => $this->generateCommunityLinkData($node),
+            MentionLink::class => $this->generateMentionLinkData($node),
+            SearchLink::class => [],
             TagLink::class => [
                 'class' => 'hashtag tag', 
                 'rel'  =>  'tag',
             ],
-            MentionLink::class => $this->generateMentionLinkData($node),
             default => [
                 'class' => 'kbin-media-link', 
                 'rel'   => 'nofollow noopener noreferrer',
@@ -114,7 +115,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
      *     class: string,
      *     title: string,
      *     ?data-action: string,
-     *     ?data-kbin-username-param: string,
+     *     ?data-mentions-username-param: string,
      * }
      */
     private function generateMentionLinkData(MentionLink $link): array
@@ -134,6 +135,27 @@ final class ExternalLinkRenderer implements NodeRendererInterface
             $data['class']       = $data['class'] . 'u-url mention--user';
             $data['data-action'] = 'mouseover->mentions#user_popup mentions#navigate_user';
         }
+
+        return $data;    
+    }
+
+    /**
+     * @param CommunityLink $link
+     * @return array{
+     *     class: string,
+     *     title: string,
+     *     ?data-action: string,
+     *     ?data-mentions-username-param: string,
+     * }
+     */
+    private function generateCommunityLinkData(CommunityLink $link): array
+    {
+        $data = [
+            'class'                        => 'mention  mention--magazine',
+            'title'                        => $link->getTitle(),
+            'data-mentions-username-param' => $link->getKbinUsername(),
+            'data-action'                  => 'mentions#navigate_magazine',
+        ];
 
         return $data;    
     }

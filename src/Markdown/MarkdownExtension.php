@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Markdown;
 
+use App\Markdown\CommonMark\CommunityLinkParser;
 use App\Markdown\CommonMark\ExternalImagesRenderer;
 use App\Markdown\CommonMark\ExternalLinkRenderer;
 use App\Markdown\CommonMark\MentionLinkParser;
@@ -17,6 +18,7 @@ use League\Config\ConfigurationBuilderInterface;
 final class MarkdownExtension implements ConfigurableExtensionInterface
 {
     public function __construct(
+        private readonly CommunityLinkParser $communityLinkParser,
         private readonly MentionLinkParser $mentionLinkParser,
         private readonly TagLinkParser $tagLinkParser,
         private readonly ExternalLinkRenderer $linkRenderer,
@@ -30,6 +32,7 @@ final class MarkdownExtension implements ConfigurableExtensionInterface
 
     public function register(EnvironmentBuilderInterface $environment): void
     {
+        $environment->addInlineParser($this->communityLinkParser);
         $environment->addInlineParser($this->mentionLinkParser);
         $environment->addInlineParser($this->tagLinkParser);
         
