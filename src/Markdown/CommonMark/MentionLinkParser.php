@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Entity\Magazine;
 use App\Entity\User;
 use App\Markdown\CommonMark\Node\MentionLink;
 use App\Message\ActivityPub\CreateActorMessage;
@@ -51,9 +52,22 @@ class MentionLinkParser implements InlineParserInterface
                 $this->generateLink(
                     $data->apPublicUrl, 
                     '@' . $username, 
-                    $data->getUsername(), 
-                    $data->getUsername(), 
+                    '@' . $data->apId, 
+                    '@' . $data->apId, 
                     MentionType::RemoteUser
+                )
+            );
+            return true;
+        }
+
+        if ($data instanceof Magazine && $data->apPublicUrl) {
+            $ctx->getContainer()->appendChild(
+                $this->generateLink(
+                    $data->apPublicUrl, 
+                    '@' . $username, 
+                    '@' . $data->apId, 
+                    $data->apId, 
+                    MentionType::RemoteMagazine
                 )
             );
             return true;
@@ -81,7 +95,7 @@ class MentionLinkParser implements InlineParserInterface
     }
     
     /**
-     * @return array{type: MentionType, data: ?User}
+     * @return array{type: MentionType, data: User|Magazine|null}
      */
     private function resolveType(string $username, ?string $domain): array
     {
@@ -100,13 +114,13 @@ class MentionLinkParser implements InlineParserInterface
 
         if (
             !isset($user) 
-                && $this->magazineRepository->findOneByName(
+                && $magazine = $this->magazineRepository->findOneByName(
                     $isRemote 
                         ? $username . '@' . $domain 
                         : $username
             )
         ) {
-            return [$isRemote ? MentionType::RemoteMagazine : MentionType::Magazine, null];
+            return $isRemote ? [MentionType::RemoteMagazine, $magazine] : [MentionType::Magazine, null];
         }
 
         return [$isRemote ? MentionType::RemoteUser : MentionType::User, null];
