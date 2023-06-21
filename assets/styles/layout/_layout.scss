@@ -190,6 +190,11 @@ figure {
       border-radius: 0;
     }
   }
+
+  .magazine__subscribe,
+  .user__follow {
+    gap: 0.25rem
+  }
 }
 
 .dot {
