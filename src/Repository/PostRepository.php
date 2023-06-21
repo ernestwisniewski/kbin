@@ -66,8 +66,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             throw new NotFoundHttpException();
         }
 
-        $this->hydrate(...$pagerfanta->getCurrentPageResults());
-
         return $pagerfanta;
     }
 

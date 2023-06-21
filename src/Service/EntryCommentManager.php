@@ -55,7 +55,7 @@ class EntryCommentManager implements ContentManagerInterface
         }
 
         $comment->lang = $dto->lang;
-        $comment->isAdult = $dto->isAdult;
+        $comment->isAdult = $comment->magazine->isAdult ?? $dto->isAdult;
         $comment->magazine = $dto->entry->magazine;
         $comment->image = $dto->image;
         if ($comment->image && !$comment->image->altText) {
@@ -91,7 +91,7 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment->body = $dto->body;
         $comment->lang = $dto->lang;
-        $comment->isAdult = $dto->isAdult;
+        $comment->isAdult = $comment->magazine->isAdult ?? $dto->isAdult;
         $oldImage = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;

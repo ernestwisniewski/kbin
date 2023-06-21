@@ -56,7 +56,7 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment->magazine = $dto->post->magazine;
         $comment->lang = $dto->lang;
-        $comment->isAdult = $dto->isAdult;
+        $comment->isAdult = $comment->magazine->isAdult ?? $dto->isAdult;
         $comment->image = $dto->image;
         if ($comment->image && !$comment->image->altText) {
             $comment->image->altText = $dto->imageAlt;
@@ -91,7 +91,7 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment->body = $dto->body;
         $comment->lang = $dto->lang;
-        $comment->isAdult = $dto->isAdult;
+        $comment->isAdult = $comment->magazine->isAdult ?? $dto->isAdult;
         $oldImage = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;

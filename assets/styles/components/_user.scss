@@ -51,6 +51,7 @@
 .page-user-overview {
   .section--top {
     padding: 0;
+    overflow: clip;
   }
 }
 
@@ -206,6 +207,7 @@
   .users-cards {
     .section {
       padding: 0;
+      overflow: clip;
     }
   }
 

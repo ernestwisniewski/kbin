@@ -87,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[Column(type: 'array', nullable: true)]
     public ?array $featuredMagazines = null;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
-    public bool $showProfileSubscriptions = true;
+    public bool $showProfileSubscriptions = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $showProfileFollowings = true;
     #[Column(type: 'boolean', nullable: false)]

@@ -7,14 +7,14 @@ namespace App\Controller;
 use App\DTO\ContactDto;
 use App\Form\ContactType;
 use App\Repository\SiteRepository;
-use App\Service\CloudflareIpResolver;
+use App\Service\IpResolver;
 use App\Service\ContactManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ContactController extends AbstractController
 {
-    public function __invoke(SiteRepository $repository, ContactManager $manager, CloudflareIpResolver $ipResolver, Request $request): Response
+    public function __invoke(SiteRepository $repository, ContactManager $manager, IpResolver $ipResolver, Request $request): Response
     {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);

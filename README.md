@@ -3,9 +3,11 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/maintainability)](https://codeclimate.com/github/ernestwisniewski/kbin/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/test_coverage)](https://codeclimate.com/github/ernestwisniewski/kbin/test_coverage)
 
-Kbin is a modular, decentralized content aggregator and microblogging platform running on the Fediverse network. It can
+/kbin is a modular, decentralized content aggregator and microblogging platform running on the Fediverse network. It can
 communicate with many other ActivityPub services, including Mastodon, Lemmy, Pleroma, Peertube. The initiative aims to
 promote a free and open internet.
+
+The inspiration came from platforms like [Postmill](https://postmill.xyz/), [Strimoid](https://github.com/Strimoid/Strimoid), and [Pixelfed](https://pixelfed.org/).
 
 This is a very early beta version, and a lot of features are currently broken or in active development, such as
 federation.
@@ -14,19 +16,14 @@ federation.
 
 * [https://kbin.pub](https://kbin.pub) - project website
 * [https://kbin.social](https://kbin.social) - main instance
-* [https://karab.in](https://karab.in) - polish-lang instance
-* [https://dev.karab.in](https://dev.karab.in) - instance for testing purposes only (develop branch / might be temporarily unavailable)
+* [List of instances](https://fedidb.org/software/kbin)
 
+## Contributing
+
+* [Official repository on Codeberg](https://codeberg.org/Kbin/kbin-core)
+* [Translations](https://translate.codeberg.org/projects/kbin/)
+* [#kbin:matrix.org](https://app.element.io/)
 ---
-
-### Apps
-
-* [kbin-mobile](https://codeberg.org/Kbin/kbin-mobile) (Flutter / Dart) (currently transferred)
-
-### Libraries
-
-* [kbin-js-client](https://codeberg.org/Kbin/kbin-js-client) (TypeScript) (currently transferred)
-* [kbin-dart-client](https://codeberg.org/Kbin/kbin-dart-client) (Dart) (currently transferred)
 
 ## Getting Started
 
@@ -92,11 +89,6 @@ federation.
 ###
 
 [<img src="docs/images/partners/jb_beam.png" alt="JetBrains">](https://jb.gg/OpenSourceSupport)
-
-## Contributing
-
-* [Official repository](https://codeberg.org/Kbin/kbin-core)
-* [Translations](https://translate.codeberg.org/projects/kbin/) (currently transferred)
 
 ## License
 

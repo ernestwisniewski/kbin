@@ -7,7 +7,7 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Form\PostType;
 use App\Repository\Criteria;
-use App\Service\CloudflareIpResolver;
+use App\Service\IpResolver;
 use App\Service\PostManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ class PostCreateController extends AbstractController
 {
     public function __construct(
         private readonly PostManager $manager,
-        private readonly CloudflareIpResolver $ipResolver
+        private readonly IpResolver $ipResolver
     ) {
     }
 

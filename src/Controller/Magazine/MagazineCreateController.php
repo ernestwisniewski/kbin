@@ -6,7 +6,7 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Form\MagazineType;
-use App\Service\CloudflareIpResolver;
+use App\Service\IpResolver;
 use App\Service\MagazineManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ class MagazineCreateController extends AbstractController
 {
     public function __construct(
         private readonly MagazineManager $manager,
-        private readonly CloudflareIpResolver $ipResolver
+        private readonly IpResolver $ipResolver
     ) {
     }
 

@@ -69,7 +69,7 @@ class EntryManager implements ContentManagerInterface
         }
 
         $entry->lang = $dto->lang;
-        $entry->isAdult = $dto->isAdult;
+        $entry->isAdult = $entry->magazine->isAdult ?? $dto->isAdult;
         $entry->slug = $this->slugger->slug($dto->title);
         $entry->image = $dto->image;
         if ($entry->image && !$entry->image->altText) {
@@ -141,7 +141,7 @@ class EntryManager implements ContentManagerInterface
         $entry->url = $dto->url;
         $entry->body = $dto->body;
         $entry->lang = $dto->lang;
-        $entry->isAdult = $dto->isAdult;
+        $entry->isAdult = $entry->magazine->isAdult ?? $dto->isAdult;
         $entry->slug = $this->slugger->slug($dto->title);
         $entry->visibility = $dto->visibility;
         $oldImage = $entry->image;

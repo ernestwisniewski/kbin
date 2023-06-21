@@ -41,7 +41,10 @@ use Webmozart\Assert\Assert;
 #[Index(columns: ['visibility'], name: 'entry_visibility_idx')]
 #[Index(columns: ['is_adult'], name: 'entry_adult_idx')]
 #[Index(columns: ['ranking'], name: 'entry_ranking_idx')]
+#[Index(columns: ['score'], name: 'entry_score_idx')]
+#[Index(columns: ['comment_count'], name: 'entry_comment_count_idx')]
 #[Index(columns: ['created_at'], name: 'entry_created_at_idx')]
+#[Index(columns: ['last_active'], name: 'entry_last_active_at_idx')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
 {

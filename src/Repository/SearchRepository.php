@@ -46,17 +46,18 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = {$user->getId()}) 
+        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId AND choice = 1) 
         UNION 
-        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = {$user->getId()})
+        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = {$user->getId()})
+        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = {$user->getId()})
+        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userId AND choice = 1)
         ORDER BY created_at DESC
         ";
 
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('userId', $user->getId());
         $stmt = $stmt->executeQuery();
 
         return $stmt->rowCount();
@@ -67,17 +68,18 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = {$user->getId()}) 
+        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId AND choice = 1) 
         UNION 
-        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = {$user->getId()})
+        (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = {$user->getId()})
+        (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = {$user->getId()})
+        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userI AND choice = 1d)
         ORDER BY created_at DESC
         ";
 
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('userId', $user->getId());
         $stmt = $stmt->executeQuery();
         $stmt->rowCount();
         $pagerfanta = new Pagerfanta(
@@ -105,16 +107,18 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT id, created_at, visibility, 'entry' AS type FROM entry WHERE body_ts @@ plainto_tsquery('".$query."') = true OR title_ts @@ plainto_tsquery('".$query."') = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        (SELECT id, created_at, visibility, 'entry' AS type FROM entry WHERE body_ts @@ plainto_tsquery( :query ) = true OR title_ts @@ plainto_tsquery( :query ) = true AND visibility = :visibility)
         UNION
-        (SELECT id, created_at, visibility, 'entry_comment' AS type FROM entry_comment WHERE body_ts @@ plainto_tsquery('".$query."') = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        (SELECT id, created_at, visibility, 'entry_comment' AS type FROM entry_comment WHERE body_ts @@ plainto_tsquery( :query ) = true AND visibility = :visibility)
         UNION
-        (SELECT id, created_at, visibility, 'post' AS type FROM post WHERE body_ts @@ plainto_tsquery('".$query."') = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        (SELECT id, created_at, visibility, 'post' AS type FROM post WHERE body_ts @@ plainto_tsquery( :query ) = true AND visibility = :visibility)
         UNION
-        (SELECT id, created_at, visibility, 'post_comment' AS type FROM post_comment WHERE body_ts @@ plainto_tsquery('".$query."') = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        (SELECT id, created_at, visibility, 'post_comment' AS type FROM post_comment WHERE body_ts @@ plainto_tsquery( :query ) = true AND visibility = :visibility)
         ORDER BY created_at DESC
         ";
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('query', $query);
+        $stmt->bindValue('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
         $stmt = $stmt->executeQuery();
 
         $pagerfanta = new Pagerfanta(
@@ -142,16 +146,17 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT id, created_at, 'entry' AS type FROM entry WHERE ap_id ILIKE '%".$url."%') 
+        (SELECT id, created_at, 'entry' AS type FROM entry WHERE ap_id ILIKE :url) 
         UNION 
-        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE ap_id ILIKE '%".$url."%')
+        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE ap_id ILIKE :url)
         UNION 
-        (SELECT id, created_at, 'post' AS type FROM post WHERE ap_id ILIKE '%".$url."%')
+        (SELECT id, created_at, 'post' AS type FROM post WHERE ap_id ILIKE :url)
         UNION 
-        (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE ap_id ILIKE '%".$url."%')
+        (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE ap_id ILIKE :url)
         ORDER BY created_at DESC
         ";
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('url', "%".$url."%");
         $stmt = $stmt->executeQuery();
 
         $pagerfanta = new Pagerfanta(
@@ -208,19 +213,15 @@ class SearchRepository
         $entries = $this->entityManager->getRepository(Entry::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'entry')]
         );
-        $this->entityManager->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
         );
-        $this->entityManager->getRepository(EntryComment::class)->hydrate(...$entryComments);
         $post = $this->entityManager->getRepository(Post::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'post')]
         );
-        $this->entityManager->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->entityManager->getRepository(PostComment::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
         );
-        $this->entityManager->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
         uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);

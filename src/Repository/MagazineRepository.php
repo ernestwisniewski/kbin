@@ -51,7 +51,7 @@ class MagazineRepository extends ServiceEntityRepository
         }
     }
 
-    public function findOneByName(string $name): ?Magazine
+    public function findOneByName(?string $name): ?Magazine
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.visibility = :visibility')

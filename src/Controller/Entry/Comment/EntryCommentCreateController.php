@@ -11,7 +11,7 @@ use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
-use App\Service\CloudflareIpResolver;
+use App\Service\IpResolver;
 use App\Service\EntryCommentManager;
 use App\Service\MentionManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -29,7 +29,7 @@ class EntryCommentCreateController extends AbstractController
     public function __construct(
         private readonly EntryCommentManager $manager,
         private readonly RequestStack $requestStack,
-        private readonly CloudflareIpResolver $ipResolver
+        private readonly IpResolver $ipResolver
     ) {
     }
 

@@ -9,7 +9,7 @@ use App\DTO\EntryDto;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
-use App\Service\CloudflareIpResolver;
+use App\Service\IpResolver;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -27,7 +27,7 @@ class EntryCreateController extends AbstractController
         private readonly EntryManager $manager,
         private readonly EntryCommentManager $commentManager,
         private readonly ValidatorInterface $validator,
-        private readonly CloudflareIpResolver $ipResolver
+        private readonly IpResolver $ipResolver
     ) {
     }
 

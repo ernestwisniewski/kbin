@@ -30,7 +30,6 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User|null findOneByUsername(string $value)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -123,17 +122,13 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $entries = $this->_em->getRepository(Entry::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'entry')]
         );
-        $this->_em->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
         );
-        $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
         $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
-        $this->_em->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
         );
-        $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
         uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
@@ -264,6 +259,15 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function findOneByUsername(string $username): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->Where('LOWER(u.username) = LOWER(:username)')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function findByUsernames(array $users): array

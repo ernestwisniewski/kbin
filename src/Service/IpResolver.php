@@ -6,7 +6,7 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class CloudflareIpResolver
+class IpResolver
 {
     public function __construct(private readonly RequestStack $requestStack)
     {
@@ -17,6 +17,10 @@ class CloudflareIpResolver
         $request = $this->requestStack->getCurrentRequest();
         if (null === $request) {
             return null;
+        }
+
+        if ($fastly = $request->server->get('HTTP_FASTLY_CLIENT_IP')) {
+            return $fastly;
         }
 
         return $request->server->get('HTTP_CF_CONNECTING_IP') ?? $request->getClientIp();
