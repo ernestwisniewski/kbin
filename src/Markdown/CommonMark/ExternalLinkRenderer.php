@@ -110,7 +110,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
 
     /**
      * @param MentionLink $link
-     * @return array {
+     * @return array{
      *     class: string,
      *     title: string,
      *     ?data-action: string,
@@ -120,19 +120,19 @@ final class ExternalLinkRenderer implements NodeRendererInterface
     private function generateMentionLinkData(MentionLink $link): array
     {
         $data = [
-            'class'                        => 'mention u-url',
+            'class'                        => 'mention',
             'title'                        => $link->getTitle(),
             'data-mentions-username-param' => $link->getKbinUsername(),
         ];
 
         if ($link->getType() === MentionType::Magazine || $link->getType() === MentionType::RemoteMagazine) {
             $data['class']       = $data['class'] . ' mention--magazine';
-            $data['data-action'] = 'click->mentions#navigate_magazine';
+            $data['data-action'] = 'mentions#navigate_magazine';
         }
 
         if ($link->getType() === MentionType::User || $link->getType() === MentionType::RemoteUser) {
-            $data['class']       = $data['class'] . ' mention--user';
-            $data['data-action'] = 'mouseover->mentions#user_popup click->mentions#navigate_user';
+            $data['class']       = $data['class'] . 'u-url mention--user';
+            $data['data-action'] = 'mouseover->mentions#user_popup mentions#navigate_user';
         }
 
         return $data;    
