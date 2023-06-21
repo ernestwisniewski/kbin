@@ -97,8 +97,6 @@ COPY --from=builder-yarn --chown=$USER:$GROUP --link $KBIN_HOME/public $KBIN_HOM
 
 COPY --link docker/v2/caddy/Caddyfile /etc/caddy/Caddyfile
 COPY --chmod=755 --link docker/v2/docker-entrypoint ./
-COPY --chmod=755 --link docker/v2/docker-healthcheck ./
-HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["./docker-healthcheck"]
 
 RUN mkdir -p public/media && \
     chmod 777 public/media

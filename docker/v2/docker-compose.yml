@@ -6,6 +6,8 @@ services:
     image: kbin
     restart: unless-stopped
     command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
     ports:
       - 80:80
     volumes:
@@ -24,10 +26,10 @@ services:
     image: kbin
     restart: unless-stopped
     command: php-fpm
+    healthcheck:
+      test: ["CMD-SHELL", "REQUEST_METHOD=GET SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping cgi-fcgi -bind -connect localhost:9000 || exit 1"]
     volumes:
       - ./storage/media:/var/www/kbin/public/media
-    environment:
-      - PHP_FASTCGI_HOST=php:9000
     env_file:
       - .env
     depends_on:
@@ -40,8 +42,8 @@ services:
     image: kbin
     restart: unless-stopped
     command: bin/console messenger:consume async --time-limit=3600
-    environment:
-      - PHP_FASTCGI_HOST=php:9000
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep 'messenger[:]consume' || exit 1"]
     env_file:
       - .env
     depends_on:
@@ -54,8 +56,8 @@ services:
     image: kbin
     restart: unless-stopped
     command: bin/console messenger:consume async_ap --time-limit=3600
-    environment:
-      - PHP_FASTCGI_HOST=php:9000
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep 'messenger[:]consume' || exit 1"]
     env_file:
       - .env
     depends_on:
