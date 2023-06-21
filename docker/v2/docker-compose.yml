@@ -14,8 +14,8 @@ services:
       - ./storage/caddy_config:/config
       - ./storage/caddy_data:/data
     environment:
-      - SERVER_NAME=:80  # determine where the web server binds
-      - PHP_FASTCGI_HOST=php:9000  # forward to php container via this url
+      - SERVER_NAME=:80  # the addresss that the web server binds
+      - PHP_FASTCGI_HOST=php:9000  # caddy forward traffic to this host via fastcgi
       - MERCURE_PUBLISHER_JWT_KEY=$MERCURE_JWT_SECRET
       - MERCURE_SUBSCRIBER_JWT_KEY=$MERCURE_JWT_SECRET
     depends_on:
