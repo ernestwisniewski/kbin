@@ -74,7 +74,7 @@ class SearchRepository
         UNION 
         (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId AND choice = 1)
         UNION 
-        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userI AND choice = 1d)
+        (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userId AND choice = 1)
         ORDER BY created_at DESC
         ";
 
