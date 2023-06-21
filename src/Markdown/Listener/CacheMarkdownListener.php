@@ -28,10 +28,10 @@ final class CacheMarkdownListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            // ConvertMarkdown::class => [
-            //     ['preConvertMarkdown', 64],
-            //     ['postConvertMarkdown', -64],
-            // ],
+            ConvertMarkdown::class => [
+                ['preConvertMarkdown', 64],
+                ['postConvertMarkdown', -64],
+            ],
         ];
     }
 
