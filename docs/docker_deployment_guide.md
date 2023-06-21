@@ -9,22 +9,22 @@
 
 ## Installation
 
-### Clone repository
+### Preparation
 
 ```bash
+# Clone repository
 $ git clone https://codeberg.org/Kbin/kbin-core.git
-$ cd kbin-core/docker/v2
+$ cd kbin-core
+
+# Build image
+$ docker build -t kbin -f docker/v2/Dockerfile .
+
+# Create config files and storage directories
+$ cd docker/v2
 $ cp ../../.env.example .env
 $ cp docker-compose.prod.yml docker-compose.override.yml
-$ mkdir media caddy_config caddy_data
-$ sudo chown 1000:82 media
-$ chown kbin:www-data media caddy_config caddy_data
-```
-
-### Build the image
-
-```bash
-$ docker build -t kbin .
+$ mkdir -p storage/media storage/caddy_condig storage/caddy_data
+$ sudo chown 1000:82 storage/media storage/caddy_condig storage/caddy_data
 ```
 
 ### Configure `.env`

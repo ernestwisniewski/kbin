@@ -18,6 +18,8 @@
 **/Dockerfile
 **/Thumbs.db
 .github/
+docker/v2/docker-compose.override.yml
+docker/v2/storage/
 docs/
 public/bundles/
 tests/

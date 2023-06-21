@@ -24,71 +24,86 @@ RUN mkdir -p $KBIN_HOME && \
     chown -R $USER:$GROUP $KBIN_HOME
 WORKDIR $KBIN_HOME
 
+# PHP configuration (Requires these configuration before "composer install" )
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY --link docker/v2/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
+COPY --link docker/v2/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/app.prod.or.dev.ini
+COPY --link docker/v2/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/app.ini-production
+COPY --link docker/v2/php/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/app.ini-development
+COPY --link docker/v2/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+RUN chown -R $USER:$GROUP $PHP_INI_DIR
+RUN chown -R $USER:$GROUP /usr/local/etc/php-fpm.d
+
 ####################
 
-# Build Caddy with the Mercure and Vulcain modules
 FROM caddy:2.7-builder-alpine AS builder-caddy
 
+# Build Caddy with the Mercure and Vulcain modules
 RUN xcaddy build v2.6.4 \
 	--with github.com/dunglas/mercure/caddy \
 	--with github.com/dunglas/vulcain/caddy
 
 ####################
 
-FROM base as builder-1
-
-# Clone repository
-RUN apk update && apk add git
-RUN git clone https://codeberg.org/Kbin/kbin-core.git $KBIN_HOME
-RUN mkdir -p public/media && \
-    chmod 777 public/media && \
-    cp .env.example .env
-
-# PHP configuration (need to this before setting up composer)
-RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY --link php/conf.d/app.ini $PHP_INI_DIR/conf.d/
-COPY --link php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/app.prod.or.dev.ini
-COPY --link php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/app.ini-production
-COPY --link php/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/app.ini-development
-COPY --link php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+FROM base as builder-composer
 
 # Composer: install package
+COPY --link ../../composer.* $KBIN_HOME
+COPY --link ../../symfony.lock $KBIN_HOME
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress && \
-    composer dump-autoload --classmap-authoritative --no-dev && \
-    composer run-script --no-dev post-install-cmd && \
+RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+
+# Copy repository
+COPY --link ../../ $KBIN_HOME
+RUN cp .env.example .env
+
+# Dump-autoload and run post-install script
+RUN composer dump-autoload --classmap-authoritative --no-dev
+RUN composer run-script --no-dev post-install-cmd && \
     chmod +x bin/console && sync
 
 ####################
 
-FROM node:alpine as builder-2
+FROM node:alpine as builder-yarn
 
+# Setup environment
 ENV KBIN_HOME=/var/www/kbin
+RUN mkdir -p $KBIN_HOME
+WORKDIR $KBIN_HOME
 
-# Copy project
-COPY --from=builder-1 $KBIN_HOME $KBIN_HOME
+# Copy required files
+COPY --link ../../package.json $KBIN_HOME
+COPY --link ../../package-lock.json $KBIN_HOME
+COPY --link ../../yarn.lock $KBIN_HOME
+COPY --from=builder-composer $KBIN_HOME/vendor $KBIN_HOME/vendor
 
 # Yarn: install package
-RUN cd $KBIN_HOME && \
-    yarn install && \
-    yarn build && \
-    rm -rf node_modules
+RUN yarn install --lock-frozen
+
+# Yarn: build
+COPY --link ../../ $KBIN_HOME
+RUN yarn build --mode production
 
 ####################
 
 FROM base as runner
 
-COPY --from=builder-caddy --link /usr/bin/caddy /usr/sbin/caddy
-COPY --link caddy/Caddyfile /etc/caddy/Caddyfile
-COPY --from=builder-1 --link $PHP_INI_DIR $PHP_INI_DIR
-RUN chown -R $USER:$GROUP $PHP_INI_DIR
-COPY --from=builder-1 --link /usr/local/etc/php-fpm.d /usr/local/etc/php-fpm.d
-RUN chown -R $USER:$GROUP /usr/local/etc/php-fpm.d
-COPY --from=builder-2 --chown=$USER:$GROUP --link $KBIN_HOME $KBIN_HOME
+COPY --link ../../ $KBIN_HOME
+RUN cp .env.example .env
 
-COPY --chown=$USER:$GROUP --chmod=755 --link docker-entrypoint ./
-COPY --chown=$USER:$GROUP --chmod=755 --link docker-healthcheck ./
+COPY --from=builder-caddy --link /usr/bin/caddy /usr/sbin/caddy
+COPY --from=builder-composer --chown=$USER:$GROUP --link $KBIN_HOME/vendor $KBIN_HOME/vendor
+COPY --from=builder-yarn --chown=$USER:$GROUP --link $KBIN_HOME/public $KBIN_HOME/public
+
+COPY --link docker/v2/caddy/Caddyfile /etc/caddy/Caddyfile
+COPY --chmod=755 --link docker/v2/docker-entrypoint ./
+COPY --chmod=755 --link docker/v2/docker-healthcheck ./
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["./docker-healthcheck"]
+
+RUN mkdir -p public/media && \
+    chmod 777 public/media
+
+RUN chown -R $USER:$GROUP $KBIN_HOME
 
 # Switch user
 USER $USER:$GROUP

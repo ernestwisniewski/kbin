@@ -9,8 +9,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./caddy_config:/config
-      - ./caddy_data:/data
+      - ./storage/caddy_config:/config
+      - ./storage/caddy_data:/data
     environment:
       - SERVER_NAME=:80  # determine where the web server binds
       - PHP_FASTCGI_HOST=php:9000  # forward to php container via this url
@@ -25,7 +25,7 @@ services:
     restart: unless-stopped
     command: php-fpm
     volumes:
-      - ./media:/var/www/kbin/public/media
+      - ./storage/media:/var/www/kbin/public/media
     environment:
       - PHP_FASTCGI_HOST=php:9000
     env_file:
@@ -68,7 +68,7 @@ services:
     restart: unless-stopped
     command: /bin/sh -c "redis-server --requirepass $${REDIS_PASSWORD}"
     volumes:
-      - ./redis:/data
+      - ./storage/redis:/data
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
 
@@ -76,7 +76,7 @@ services:
     image: postgres:13-alpine
     restart: unless-stopped
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./storage/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=kbin
       - POSTGRES_USER=kbin
@@ -87,7 +87,7 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=kbin
     volumes:
-      - ./rabbitmq:/var/lib/rabbitmq
+      - ./storage/rabbitmq:/var/lib/rabbitmq
     ports:
       - 15672:15672
 
