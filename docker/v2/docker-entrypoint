@@ -13,18 +13,14 @@ if [ "$1" == "php-fpm" ] || [ "$1" == "php" ] || [ "$1" == "bin/console" ]; then
 
         # dump out a config php file if an environment file is found and we are in production
         if [ "$APP_ENV" == "prod" ]; then
-            rm "$PHP_INI_DIR/php.ini"
             cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-            rm "$PHP_INI_DIR/conf.d/app.prod.or.dev.ini"
             cp "$PHP_INI_DIR/conf.d/app.ini-production" "$PHP_INI_DIR/conf.d/app.prod.or.dev.ini"
             composer dump-env prod
         fi
 
         # install development dependencies if they don't exist
         if [ "$APP_ENV" == "dev" ]; then
-            rm "$PHP_INI_DIR/php.ini"
             cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-            rm "$PHP_INI_DIR/conf.d/app.prod.or.dev.ini"
             cp "$PHP_INI_DIR/conf.d/app.ini-development" "$PHP_INI_DIR/conf.d/app.prod.or.dev.ini"
             composer install --prefer-dist --no-scripts --no-progress
         fi
