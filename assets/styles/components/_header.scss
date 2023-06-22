@@ -45,7 +45,16 @@
     .user-avatar{
       border-radius: 50%;
       margin-left: 0.5em;
+      width: 18px;
+      height: 18px;
     }
+
+    @include media-breakpoint-down(sm) {   
+      .user-name{
+        display: none;
+      }
+    }
+
   }
 
   .counter a {
