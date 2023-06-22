@@ -23,20 +23,6 @@
         </nav>
         <menu>
            
-
-            <li>
-                <a href="http://google.com.au"
-                   class="icon"
-                   aria-label="{{ 'google'|trans }}"
-                   title="Google">
-                    Hello
-                </a>
-            </li>
-
-            <li>
-                {{ component('user_inline', {user: app.user}) }}
-            </li>
-        
             <li class="dropdown">
                 <a href="{{ path('entry_create') }}"
                    class="icon"
@@ -134,8 +120,12 @@
                     </li>
                 {% endif %}
                 <li class="dropdown">
-                    <a class="{{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
-                       href="{{ path('user_overview', {username: app.user.username}) }}">{{ app.user.username }}</a>
+                    <a class="{{ html_classes('login', {'active': is_route_name_contains('settings')}) }} {{ app.user ? 'logged-in' : 'logged-out' }}"
+                       href="{{ path('user_overview', {username: app.user.username}) }}">{{ app.user.username }}
+                        {% if app.user %}
+                            {{ component('user_image_component', {user: app.user}) }}
+                        {% endif %}
+                    </a>
                     <ul class="dropdown__menu">
                         <li>
                             <a href="{{ path('user_overview', {username: app.user.username}) }}"

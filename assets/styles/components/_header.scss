@@ -40,6 +40,14 @@
     padding-bottom: .6rem;
   }
 
+  .login.logged-in{
+    display: flex;
+    .user-avatar{
+      border-radius: 50%;
+      margin-left: 0.5em;
+    }
+  }
+
   .counter a {
     padding-left: .1rem;
     padding-right: .1rem;
