@@ -43,12 +43,12 @@
   .login.has-avatar{
     display: flex;
     align-items: center;
-    
+
     .user-avatar{
       border-radius: 50%;
       margin-left: 0.5em;
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
     }
 
     @include media-breakpoint-down(sm) {   
