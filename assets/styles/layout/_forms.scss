@@ -232,12 +232,12 @@ select {
   }
 }
 
-#image-preview-container {
-  display: flex;
+.image-preview-container {
+  display: flex !important;
   justify-content: center;
   align-items: center;
   position: relative;
-  background: black;
+  background: black !important;
 
   img {
     display: none;
@@ -245,7 +245,7 @@ select {
     max-height: 100%;
   }
 
-  button {
+  .image-preview-clear {
     position: absolute;
     top: 0;
     right: 0;
@@ -255,5 +255,6 @@ select {
     text-align: center;
     color: black !important;
     font-weight: bold !important;
+    display: none !important;
   }
 }
