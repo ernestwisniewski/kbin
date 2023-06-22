@@ -22,7 +22,14 @@
             </menu>
         </nav>
         <menu>
-           
+            <li>
+                <a href="{{ path('search') }}"
+                   class="icon"
+                   aria-label="{{ 'search'|trans }}"
+                   title="{{ 'search'|trans }}">
+                    <i class="fa-solid fa-magnifying-glass"></i> {{ 'search'|trans }}
+                </a>
+            </li>
             <li class="dropdown">
                 <a href="{{ path('entry_create') }}"
                    class="icon"
