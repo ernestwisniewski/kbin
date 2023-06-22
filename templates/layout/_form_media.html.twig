@@ -1,12 +1,10 @@
 <div class="media">
-    <div>
-        <div>
-            <i class="fa-solid fa-image"></i>
-        </div>
+    <div id="image-preview-container">
+        <img id="image-preview" src="#">
     </div>
     <div>
         {% if form.image is defined %}
-            {{ form_row(form.image, {label: 'image'}) }}
+            {{ form_row(form.image, {label: 'image', attr: {class: 'image-input'}}) }}
         {% endif %}
         <div hidden>
             {{ form_row(form.imageUrl, {label: 'url'}) }}
@@ -22,3 +20,39 @@
         {{ form_row(form.imageAlt, {label: 'image_alt'}) }}
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.querySelector('.image-input');
+        const preview = document.querySelector('#image-preview');
+        
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            
+            reader.readAsDataURL(file);
+        });
+
+        const clearButton = document.createElement('button');
+        clearButton.textContent = 'x';
+        clearButton.type = 'button';
+        clearButton.addEventListener('click', function() {
+            input.value = '';
+            preview.src = '#';
+            preview.style.display = 'none';
+            clearButton.style.display = 'none';
+        });
+        
+        const imageContainer = document.getElementById('image-preview-container');
+        imageContainer.appendChild(clearButton);
+        
+        input.addEventListener('input', function() {
+            clearButton.style.display = input.value ? 'inline-block' : 'none';
+        });
+    });
+</script>
