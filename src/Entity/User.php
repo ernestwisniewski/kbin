@@ -96,15 +96,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewEntry = false;
     #[Column(type: 'boolean', nullable: false)]
-    public bool $notifyOnNewEntryReply = false;
+    public bool $notifyOnNewEntryReply = true;
     #[Column(type: 'boolean', nullable: false)]
-    public bool $notifyOnNewEntryCommentReply = false;
+    public bool $notifyOnNewEntryCommentReply = true;
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewPost = false;
     #[Column(type: 'boolean', nullable: false)]
-    public bool $notifyOnNewPostReply = false;
+    public bool $notifyOnNewPostReply = true;
     #[Column(type: 'boolean', nullable: false)]
-    public bool $notifyOnNewPostCommentReply = false;
+    public bool $notifyOnNewPostCommentReply = true;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $addMentionsEntries = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
