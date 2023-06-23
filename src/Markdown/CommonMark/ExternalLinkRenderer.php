@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Markdown\CommonMark\Node\ActorSearchLink;
 use App\Markdown\CommonMark\Node\CommunityLink;
 use App\Markdown\CommonMark\Node\MentionLink;
 use App\Markdown\CommonMark\Node\TagLink;
@@ -41,44 +42,19 @@ final class ExternalLinkRenderer implements NodeRendererInterface
             $title = $childRenderer->renderNodes([$node->firstChild()]);
         }
 
-        $embed = false;
-        try {
-            if (
-                filter_var($url, FILTER_VALIDATE_URL) 
-                    && !str_starts_with($title, '@') 
-                    && !str_starts_with($title, '#')
-            ) {
-                if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
-                    $embed = $entity->hasEmbed;
-                } else {
-                    try {
-                        $embed = $this->embed->fetch($url)->html;
-                        if ($embed) {
-                            $entity = new \App\Entity\Embed($url, (bool)$embed);
-                            $this->embedRepository->add($entity);
-                        }
-                    } catch (\Exception $e) {
-                        $embed = false;
-                    }
-
-                    if (!$embed) {
-                        $entity = new \App\Entity\Embed($url, $embed = false);
-                        $this->embedRepository->add($entity);
-                    }
-                }
-            }
-        } catch (\Exception $e) {
-            $embed = null;
-        }
-
-        if (ImageManager::isImageUrl($url) || $embed) {
+        if (
+            ! $this->isMentionType($node)
+                && (ImageManager::isImageUrl($url) 
+                    || $this->isEmbed($url, $title)
+                )
+        ) {
             return EmbedElement::buildEmbed($url, $title);
         }
 
         $attr = match ($node::class) {
             CommunityLink::class => $this->generateCommunityLinkData($node),
             MentionLink::class => $this->generateMentionLinkData($node),
-            SearchLink::class => [],
+            ActorSearchLink::class => [],
             TagLink::class => [
                 'class' => 'hashtag tag', 
                 'rel'  =>  'tag',
@@ -114,8 +90,8 @@ final class ExternalLinkRenderer implements NodeRendererInterface
      * @return array{
      *     class: string,
      *     title: string,
-     *     ?data-action: string,
-     *     ?data-mentions-username-param: string,
+     *     data-action: string,
+     *     data-mentions-username-param: string,
      * }
      */
     private function generateMentionLinkData(MentionLink $link): array
@@ -144,8 +120,8 @@ final class ExternalLinkRenderer implements NodeRendererInterface
      * @return array{
      *     class: string,
      *     title: string,
-     *     ?data-action: string,
-     *     ?data-mentions-username-param: string,
+     *     data-action: string,
+     *     data-mentions-username-param: string,
      * }
      */
     private function generateCommunityLinkData(CommunityLink $link): array
@@ -158,5 +134,60 @@ final class ExternalLinkRenderer implements NodeRendererInterface
         ];
 
         return $data;    
+    }
+
+    private function isEmbed(string $url, string $title): bool
+    {
+        $embed = false;
+
+        try {
+            if (
+                filter_var($url, FILTER_VALIDATE_URL) 
+                    && !str_starts_with($title, '@') 
+                    && !str_starts_with($title, '#')
+            ) {
+                if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
+                    $embed = $entity->hasEmbed;
+                } else {
+                    try {
+                        $embed = $this->embed->fetch($url)->html;
+
+                        if ($embed) {
+                            $entity = new \App\Entity\Embed($url, (bool)$embed);
+                            $this->embedRepository->add($entity);
+                        }
+                    } catch (\Exception $e) {
+                        $embed = false;
+                    }
+
+                    if (!$embed) {
+                        $entity = new \App\Entity\Embed($url, $embed = false);
+                        $this->embedRepository->add($entity);
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            $embed = false;
+        }
+
+        return $embed;
+    }
+
+    private function isMentionType(Link $link): bool 
+    {
+        $types = [
+            ActorSearchLink::class,
+            CommunityLink::class,
+            MentionLink::class,
+            TagLink::class,
+        ];
+
+        foreach ($types as $type) {
+            if ($link instanceof $type) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
