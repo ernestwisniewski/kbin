@@ -22,7 +22,7 @@ federation.
 
 * [Official repository on Codeberg](https://codeberg.org/Kbin/kbin-core)
 * [Translations](https://translate.codeberg.org/projects/kbin/)
-* [#kbin:matrix.org](https://app.element.io/)
+* [#kbin-space:matrix.org](https://matrix.to/#/#kbin-space:matrix.org)
 ---
 
 ## Getting Started
