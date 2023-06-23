@@ -6,6 +6,7 @@ namespace App\Markdown\CommonMark;
 
 use App\Markdown\CommonMark\Node\ActorSearchLink;
 use App\Markdown\CommonMark\Node\CommunityLink;
+use App\Markdown\CommonMark\Node\UnresolvableLink;
 use App\Repository\MagazineRepository;
 use App\Service\SettingsManager;
 use League\CommonMark\Node\Inline\Text;
@@ -67,7 +68,7 @@ class CommunityLinkParser implements InlineParserInterface
         }
 
         // unable to resolve a local '!' link so don't even try.
-        $ctx->getContainer()->appendChild(new Text('!' . $handle));
+        $ctx->getContainer()->appendChild(new UnresolvableLink('!' . $handle));
         return true;
     }
 

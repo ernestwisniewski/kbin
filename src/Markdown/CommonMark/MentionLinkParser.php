@@ -7,6 +7,7 @@ namespace App\Markdown\CommonMark;
 use App\Entity\Magazine;
 use App\Entity\User;
 use App\Markdown\CommonMark\Node\MentionLink;
+use App\Markdown\CommonMark\Node\UnresolvableLink;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\SettingsManager;
@@ -90,7 +91,7 @@ class MentionLinkParser implements InlineParserInterface
     private function generateNode(string $url, string $value, string $title, string $kbinUsername, MentionType $type): Node
     {
         if ($type === MentionType::Unresolvable) {
-            return new Text($value);
+            return new UnresolvableLink($value);
         }
 
         return new MentionLink($url, $value, $title, $kbinUsername, $type);
