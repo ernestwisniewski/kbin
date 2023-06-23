@@ -39,6 +39,9 @@ class ImageRepository extends ServiceEntityRepository
         $sha256 = hash_file('sha256', $source, true);
 
         if ($image = $this->findOneBySha256($sha256)) {
+            if (file_exists($source)) {
+                unlink($source);
+            }
             return $image;
         }
 
@@ -56,6 +59,10 @@ class ImageRepository extends ServiceEntityRepository
             $this->imageManager->store($source, $filePath);
         } catch (\Exception $e) {
             return null;
+        } finally {
+            if (file_exists($source)) {
+                unlink($source);
+            }
         }
 
         return $image;
