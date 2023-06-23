@@ -143,8 +143,6 @@ final class ExternalLinkRenderer implements NodeRendererInterface
         try {
             if (
                 filter_var($url, FILTER_VALIDATE_URL) 
-                    && !str_starts_with($title, '@') 
-                    && !str_starts_with($title, '#')
             ) {
                 if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
                     $embed = $entity->hasEmbed;
