@@ -2,7 +2,9 @@ version: "3.9"
 
 services:
   www:
-    build: .
+    build:
+      context: ../../
+      dockerfile: docker/v2/Dockerfile
     image: kbin
     restart: unless-stopped
     command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
@@ -22,7 +24,9 @@ services:
       - php
 
   php:
-    build: .
+    build:
+      context: ../../
+      dockerfile: docker/v2/Dockerfile
     image: kbin
     restart: unless-stopped
     command: php-fpm
@@ -38,7 +42,9 @@ services:
       - rabbitmq
 
   messenger:
-    build: .
+    build:
+      context: ../../
+      dockerfile: docker/v2/Dockerfile
     image: kbin
     restart: unless-stopped
     command: bin/console messenger:consume async --time-limit=3600
@@ -52,7 +58,9 @@ services:
       - rabbitmq
 
   messenger_ap:
-    build: .
+    build:
+      context: ../../
+      dockerfile: docker/v2/Dockerfile
     image: kbin
     restart: unless-stopped
     command: bin/console messenger:consume async_ap --time-limit=3600
@@ -84,7 +92,7 @@ services:
       - POSTGRES_USER=kbin
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3-management-alpine
     restart: unless-stopped
     environment:
       - RABBITMQ_DEFAULT_USER=kbin
